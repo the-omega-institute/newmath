@@ -35,6 +35,7 @@ import BEDC.Derived.AdjunctionUp.TriangleZeroHeaded
 import BEDC.Derived.AffineSpaceUp
 import BEDC.Derived.AffineVarUp
 import BEDC.Derived.AlgClosureUp
+import BEDC.Derived.AlgClosureUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
@@ -555,6 +556,7 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedBoundaryExactness
 import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedTermBoundaryDependency
 import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
+import BEDC.Derived.BishopIntervalCompactUp.TasteGate
 import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BitVectorUp
@@ -2292,6 +2294,7 @@ import BEDC.Derived.DyadicCoverUp.RealEnvelopeCoverageExactness
 import BEDC.Derived.DyadicCoverUp.RefinementWitnessExhaustion
 import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
 import BEDC.Derived.DyadicEmbeddingUp
+import BEDC.Derived.DyadicFloorUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
@@ -3170,6 +3173,7 @@ import BEDC.Derived.LocatedIntervalUp.ClassifierStability
 import BEDC.Derived.LocatedIntervalUp.PublicConsumerRoute
 import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
 import BEDC.Derived.LocatedIntervalUp.StdBridge
+import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
@@ -3849,6 +3853,7 @@ import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveVarUp
+import BEDC.Derived.ProjectiveVarUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
 import BEDC.Derived.ProofPatternClassifierUp.TasteGate
 import BEDC.Derived.ProofTermErasureAuditRouteUp
@@ -4881,6 +4886,7 @@ import BEDC.Derived.UnaryContMonoidUp.KernelCategoryConsumerBoundary
 import BEDC.Derived.UnaryContMonoidUp.TasteGate
 import BEDC.Derived.UnaryContinuationCategoryUp.TasteGate
 import BEDC.Derived.UnaryContinuationEndofunctorUp
+import BEDC.Derived.UnaryContinuationEndofunctorUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.UnaryDirectionNormalizerUp.TasteGate
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp

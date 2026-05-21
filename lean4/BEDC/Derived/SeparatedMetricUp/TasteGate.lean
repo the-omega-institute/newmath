@@ -10,140 +10,73 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive SeparatedMetricUp : Type where
-  | mk :
-      (metric distance separation limitLeft limitRight equivalence transport continuation
-        provenance name : BHist) ->
-        SeparatedMetricUp
+  | mk (metric distance separation limit0 limit1 equivalence transport replay provenance
+      name : BHist) : SeparatedMetricUp
+  deriving DecidableEq
 
-def separatedMetricEncodeBHist : BHist -> RawEvent
+def separatedMetricEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: separatedMetricEncodeBHist h
   | BHist.e1 h => BMark.b1 :: separatedMetricEncodeBHist h
 
-def separatedMetricDecodeBHist : RawEvent -> BHist
+def separatedMetricDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (separatedMetricDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (separatedMetricDecodeBHist tail)
 
-private theorem separatedMetricDecode_encode_bhist :
-    forall h : BHist, separatedMetricDecodeBHist (separatedMetricEncodeBHist h) = h := by
+private theorem separatedMetric_decode_encode_bhist :
+    ∀ h : BHist, separatedMetricDecodeBHist (separatedMetricEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
-def separatedMetricToEventFlow : SeparatedMetricUp -> EventFlow
+def separatedMetricFields : SeparatedMetricUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | SeparatedMetricUp.mk metric distance separation limitLeft limitRight equivalence
-      transport continuation provenance name =>
-      [BMark.b1 :: BMark.b0 :: BMark.b0 :: BMark.b0 :: [],
-        separatedMetricEncodeBHist metric,
-        separatedMetricEncodeBHist distance,
-        separatedMetricEncodeBHist separation,
-        separatedMetricEncodeBHist limitLeft,
-        separatedMetricEncodeBHist limitRight,
-        separatedMetricEncodeBHist equivalence,
-        separatedMetricEncodeBHist transport,
-        separatedMetricEncodeBHist continuation,
-        separatedMetricEncodeBHist provenance,
-        separatedMetricEncodeBHist name]
+  | SeparatedMetricUp.mk metric distance separation limit0 limit1 equivalence transport
+      replay provenance name =>
+      [metric, distance, separation, limit0, limit1, equivalence, transport, replay,
+        provenance, name]
 
-def separatedMetricReadRows : EventFlow -> Option SeparatedMetricUp
+def separatedMetricToEventFlow : SeparatedMetricUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | metric :: rest1 =>
-      match rest1 with
-      | distance :: rest2 =>
-          match rest2 with
-          | separation :: rest3 =>
-              match rest3 with
-              | limitLeft :: rest4 =>
-                  match rest4 with
-                  | limitRight :: rest5 =>
-                      match rest5 with
-                      | equivalence :: rest6 =>
-                          match rest6 with
-                          | transport :: rest7 =>
-                              match rest7 with
-                              | continuation :: rest8 =>
-                                  match rest8 with
-                                  | provenance :: rest9 =>
-                                      match rest9 with
-                                      | name :: rest10 =>
-                                          match rest10 with
-                                          | [] =>
-                                              some
-                                                (SeparatedMetricUp.mk
-                                                  (separatedMetricDecodeBHist metric)
-                                                  (separatedMetricDecodeBHist distance)
-                                                  (separatedMetricDecodeBHist separation)
-                                                  (separatedMetricDecodeBHist limitLeft)
-                                                  (separatedMetricDecodeBHist limitRight)
-                                                  (separatedMetricDecodeBHist equivalence)
-                                                  (separatedMetricDecodeBHist transport)
-                                                  (separatedMetricDecodeBHist continuation)
-                                                  (separatedMetricDecodeBHist provenance)
-                                                  (separatedMetricDecodeBHist name))
-                                          | _ :: _ => none
-                                      | [] => none
-                                  | [] => none
-                              | [] => none
-                          | [] => none
-                      | [] => none
-                  | [] => none
-              | [] => none
-          | [] => none
-      | [] => none
-  | [] => none
+  | x => (separatedMetricFields x).map separatedMetricEncodeBHist
 
-def separatedMetricFromEventFlow : EventFlow -> Option SeparatedMetricUp
+def separatedMetricFromEventFlow : EventFlow → Option SeparatedMetricUp
   -- BEDC touchpoint anchor: BHist BMark
-  | _tag :: rows => separatedMetricReadRows rows
-  | [] => none
+  | metric :: distance :: separation :: limit0 :: limit1 :: equivalence :: transport ::
+      replay :: provenance :: name :: [] =>
+      some
+        (SeparatedMetricUp.mk
+          (separatedMetricDecodeBHist metric)
+          (separatedMetricDecodeBHist distance)
+          (separatedMetricDecodeBHist separation)
+          (separatedMetricDecodeBHist limit0)
+          (separatedMetricDecodeBHist limit1)
+          (separatedMetricDecodeBHist equivalence)
+          (separatedMetricDecodeBHist transport)
+          (separatedMetricDecodeBHist replay)
+          (separatedMetricDecodeBHist provenance)
+          (separatedMetricDecodeBHist name))
+  | _ => none
 
 private theorem separatedMetric_round_trip :
-    forall x : SeparatedMetricUp,
+    ∀ x : SeparatedMetricUp,
       separatedMetricFromEventFlow (separatedMetricToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk metric distance separation limitLeft limitRight equivalence transport continuation
-      provenance name =>
-      change
-        some
-          (SeparatedMetricUp.mk
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist metric))
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist distance))
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist separation))
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist limitLeft))
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist limitRight))
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist equivalence))
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist transport))
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist continuation))
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist provenance))
-            (separatedMetricDecodeBHist (separatedMetricEncodeBHist name))) =
-          some
-            (SeparatedMetricUp.mk metric distance separation limitLeft limitRight
-              equivalence transport continuation provenance name)
-      rw [separatedMetricDecode_encode_bhist metric,
-        separatedMetricDecode_encode_bhist distance,
-        separatedMetricDecode_encode_bhist separation,
-        separatedMetricDecode_encode_bhist limitLeft,
-        separatedMetricDecode_encode_bhist limitRight,
-        separatedMetricDecode_encode_bhist equivalence,
-        separatedMetricDecode_encode_bhist transport,
-        separatedMetricDecode_encode_bhist continuation,
-        separatedMetricDecode_encode_bhist provenance,
-        separatedMetricDecode_encode_bhist name]
+  | mk metric distance separation limit0 limit1 equivalence transport replay provenance name =>
+      simp only [separatedMetricToEventFlow, separatedMetricFields,
+        separatedMetricFromEventFlow, List.map_cons, List.map_nil,
+        separatedMetric_decode_encode_bhist]
 
 private theorem separatedMetricToEventFlow_injective {x y : SeparatedMetricUp} :
-    separatedMetricToEventFlow x = separatedMetricToEventFlow y -> x = y := by
+    separatedMetricToEventFlow x = separatedMetricToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -153,6 +86,38 @@ private theorem separatedMetricToEventFlow_injective {x y : SeparatedMetricUp} :
   exact Option.some.inj
     (Eq.trans (separatedMetric_round_trip x).symm
       (Eq.trans hread (separatedMetric_round_trip y)))
+
+private theorem separatedMetric_field_faithful :
+    ∀ x y : SeparatedMetricUp, separatedMetricFields x = separatedMetricFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk metric₁ distance₁ separation₁ limit0₁ limit1₁ equivalence₁ transport₁ replay₁
+      provenance₁ name₁ =>
+      cases y with
+      | mk metric₂ distance₂ separation₂ limit0₂ limit1₂ equivalence₂ transport₂ replay₂
+          provenance₂ name₂ =>
+          injection hfields with hmetric tail0
+          injection tail0 with hdistance tail1
+          injection tail1 with hseparation tail2
+          injection tail2 with hlimit0 tail3
+          injection tail3 with hlimit1 tail4
+          injection tail4 with hequivalence tail5
+          injection tail5 with htransport tail6
+          injection tail6 with hreplay tail7
+          injection tail7 with hprovenance tail8
+          injection tail8 with hname _
+          subst hmetric
+          subst hdistance
+          subst hseparation
+          subst hlimit0
+          subst hlimit1
+          subst hequivalence
+          subst htransport
+          subst hreplay
+          subst hprovenance
+          subst hname
+          rfl
 
 instance separatedMetricBHistCarrier : BHistCarrier SeparatedMetricUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -169,23 +134,35 @@ instance separatedMetricChapterTasteGate : ChapterTasteGate SeparatedMetricUp wh
     intro x y hxy heq
     exact hxy (separatedMetricToEventFlow_injective heq)
 
-theorem SeparatedMetricTasteGate_single_carrier_alignment :
-    (forall h : BHist, separatedMetricDecodeBHist (separatedMetricEncodeBHist h) = h) /\
-      (forall x : SeparatedMetricUp,
-        separatedMetricFromEventFlow (separatedMetricToEventFlow x) = some x) /\
-      (forall {x y : SeparatedMetricUp},
-        separatedMetricToEventFlow x = separatedMetricToEventFlow y -> x = y) /\
-      separatedMetricEncodeBHist BHist.Empty = ([] : List BMark) := by
+instance separatedMetricFieldFaithful : FieldFaithful SeparatedMetricUp where
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact separatedMetricDecode_encode_bhist
-  · constructor
-    · intro x
-      change separatedMetricFromEventFlow (separatedMetricToEventFlow x) = some x
-      exact separatedMetric_round_trip x
-    · constructor
-      · intro x y heq
-        exact separatedMetricToEventFlow_injective heq
-      · rfl
+  fields := separatedMetricFields
+  field_faithful := separatedMetric_field_faithful
+
+instance separatedMetricNontrivial : Nontrivial SeparatedMetricUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨SeparatedMetricUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      SeparatedMetricUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate SeparatedMetricUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  separatedMetricChapterTasteGate
+
+theorem SeparatedMetricTasteGate_carrier_alignment
+    (metric distance separation limit0 limit1 equivalence transport replay provenance
+      name : BHist) :
+    separatedMetricFields
+        (SeparatedMetricUp.mk metric distance separation limit0 limit1 equivalence transport
+          replay provenance name) =
+      [metric, distance, separation, limit0, limit1, equivalence, transport, replay,
+        provenance, name] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  rfl
 
 end BEDC.Derived.SeparatedMetricUp
