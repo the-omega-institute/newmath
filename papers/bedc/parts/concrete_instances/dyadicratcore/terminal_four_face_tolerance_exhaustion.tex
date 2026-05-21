@@ -102,6 +102,26 @@ With all non-dyadic faces fixed, use \autoref{thm:dyadicratcore-terminal-four-fa
 Finally apply the non-export clauses in the exhaustion, projection, and initiality results. Quotient rational equality, quotient stream equality, selected limits, countable choice, metric completeness, bridge rows, aggregate formalstatus rows, and ambient $\RealUp$ completeness are not visible tolerance coordinates for the terminal route or for its accepted cofinal refinements.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore terminal tolerance common-refinement confluence]
+\label{thm:dyadicratcore-terminal-tolerance-common-refinement-confluence}
+Let $P$ be an accepted L10 terminal route whose visible faces are $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face over the same displayed
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+support. Let $R$ and $S$ be accepted cofinal refinements of $P$ preserving the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ classifier and readback row, the local $\RealUp$ seal row, the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, and the public terminal status of the route. Suppose $R$ and $S$ admit a common finite $\DyadicRatCoreUp$ scale-window refinement $T$ preserving those same finite-window, classifier, readback, seal, history, sameness, continuity, package, and NameCert rows. Then the public tolerance reads of $R$ and $S$ agree exactly on the same $\DyadicRatCoreUp$ tolerance ledger of $P$.
+
+The confluence statement exports no quotient rational equality, quotient stream equality, selected limit, countable-choice row, metric-completeness row, bridge row, aggregate formalstatus row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-terminal-tolerance-cofinal-refinement-finality} first to $R$ and then to $S$. Both accepted cofinal refinements preserve the displayed StreamName, RegSeqRat, Real, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so each public tolerance read factors through the $\DyadicRatCoreUp$ tolerance ledger already carried by $P$.
+
+Now use the common finite scale-window refinement. By \autoref{thm:dyadicratcore-common-scale-terminal-refinement-directed-normal-form}, the two refinement routes through $R$ and $S$ have one consumer-readable finite normal form whose endpoint transport, denominator replay, distance and radius rows, $\hsame$, displayed $\Cont$, $\Pkg$, and local DyadicRatCore naming rows are the common rows read by $T$.
+
+It remains to identify the public reads with the same ledger coordinate. Apply \autoref{thm:dyadicratcore-terminal-four-face-tolerance-projection}; once the StreamName finite window, the RegSeqRat classifier and readback row, the local Real seal row, and the displayed support rows agree, agreement of public tolerance reads is exactly agreement of the $\DyadicRatCoreUp$ tolerance ledger rows.
+
+Finally apply \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion} and \autoref{thm:dyadicratcore-terminal-tolerance-pullback-initiality}. Exhaustion leaves no fifth tolerance source outside the four visible faces and support rows, while pullback initiality prevents a second terminal factorization over those same faces. Hence the common refinement proves confluence on the finite DyadicRatCore ledger and not through quotient rational equality, quotient stream equality, selected limits, countable choice, metric completeness, bridge rows, aggregate formalstatus rows, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore terminal tolerance facewise support minimality]
 \label{thm:dyadicratcore-terminal-tolerance-facewise-support-minimality}
 Let $P$ be an accepted L10 terminal route whose visible faces are $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face over the same displayed
