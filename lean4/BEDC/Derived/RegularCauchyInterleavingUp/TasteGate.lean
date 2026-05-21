@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegularCauchyInterleavingUp
+namespace BEDC.Derived.RegularCauchyInterleavingUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,240 +10,94 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RegularCauchyInterleavingUp : Type where
-  | mk :
-      (A B SA SB sigma M EA EB E H C P N : BHist) →
-        RegularCauchyInterleavingUp
+  | mk (A B SA SB sigma M EA EB E H C P N : BHist) : RegularCauchyInterleavingUp
   deriving DecidableEq
 
-def RegularCauchyInterleavingTasteGate_single_carrier_alignment_fields :
-    RegularCauchyInterleavingUp → List BHist
+def regularCauchyInterleavingEncodeBHist : BHist → RawEvent :=
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyInterleavingUp.mk A B SA SB sigma M EA EB E H C P N =>
-      [A, B, SA, SB, sigma, M, EA, EB, E, H, C, P, N]
-
-def RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist :
-    BHist → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
+  fun
   | BHist.Empty => []
-  | BHist.e0 h =>
-      BMark.b0 ::
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist h
-  | BHist.e1 h =>
-      BMark.b1 ::
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: regularCauchyInterleavingEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: regularCauchyInterleavingEncodeBHist h
 
-def RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist :
-    RawEvent → BHist
+def regularCauchyInterleavingDecodeBHist : RawEvent → BHist :=
   -- BEDC touchpoint anchor: BHist BMark
+  fun
   | [] => BHist.Empty
-  | BMark.b0 :: tail =>
-      BHist.e0
-        (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist tail)
-  | BMark.b1 :: tail =>
-      BHist.e1
-        (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (regularCauchyInterleavingDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (regularCauchyInterleavingDecodeBHist tail)
 
-private theorem RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist :
+private theorem regularCauchyInterleaving_decode_encode :
     ∀ h : BHist,
-      RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist h) = h := by
+      regularCauchyInterleavingDecodeBHist
+          (regularCauchyInterleavingEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
-def RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow :
-    RegularCauchyInterleavingUp → EventFlow
+def regularCauchyInterleavingFields :
+    RegularCauchyInterleavingUp → List BHist :=
   -- BEDC touchpoint anchor: BHist BMark
+  fun
   | RegularCauchyInterleavingUp.mk A B SA SB sigma M EA EB E H C P N =>
-      [[BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist A,
-        [BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist B,
-        [BMark.b1, BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist SA,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist SB,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist sigma,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist M,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist EA,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist EB,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist E,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist N]
+      [A, B, SA, SB, sigma, M, EA, EB, E, H, C, P, N]
 
-def RegularCauchyInterleavingTasteGate_single_carrier_alignment_fromEventFlow :
-    EventFlow → Option RegularCauchyInterleavingUp
+def regularCauchyInterleavingToEventFlow :
+    RegularCauchyInterleavingUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tag0 :: rest0 =>
-      match rest0 with
-      | [] => none
-      | A :: rest1 =>
-          match rest1 with
-          | [] => none
-          | _tag1 :: rest2 =>
-              match rest2 with
-              | [] => none
-              | B :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | _tag2 :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | SA :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | _tag3 :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | SB :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | _tag4 :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | sigma :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | _tag5 :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | M :: rest11 =>
-                                                  match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | EA :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | EB :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
-                                                                      | E :: rest17 =>
-                                                                          match rest17 with
-                                                                          | [] => none
-                                                                          | _tag9 ::
-                                                                              rest18 =>
-                                                                              match
-                                                                                rest18
-                                                                              with
-                                                                              | [] =>
-                                                                                  none
-                                                                              | H ::
-                                                                                  rest19 =>
-                                                                                  match
-                                                                                    rest19
-                                                                                  with
-                                                                                  | [] =>
-                                                                                      none
-                                                                                  | _tag10 ::
-                                                                                      rest20 =>
-                                                                                      match
-                                                                                        rest20
-                                                                                      with
-                                                                                      | [] =>
-                                                                                          none
-                                                                                      | C ::
-                                                                                          rest21 =>
-                                                                                          match
-                                                                                            rest21
-                                                                                          with
-                                                                                          | [] =>
-                                                                                              none
-                                                                                          | _tag11 ::
-                                                                                              rest22 =>
-                                                                                              match
-                                                                                                rest22
-                                                                                              with
-                                                                                              | [] =>
-                                                                                                  none
-                                                                                              | P ::
-                                                                                                  rest23 =>
-                                                                                                  match
-                                                                                                    rest23
-                                                                                                  with
-                                                                                                  | [] =>
-                                                                                                      none
-                                                                                                  | _tag12 ::
-                                                                                                      rest24 =>
-                                                                                                      match
-                                                                                                        rest24
-                                                                                                      with
-                                                                                                      | [] =>
-                                                                                                          none
-                                                                                                      | N ::
-                                                                                                          rest25 =>
-                                                                                                          match
-                                                                                                            rest25
-                                                                                                          with
-                                                                                                          | [] =>
-                                                                                                              some
-                                                                                                                (RegularCauchyInterleavingUp.mk
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    A)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    B)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    SA)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    SB)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    sigma)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    M)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    EA)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    EB)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    E)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    H)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    C)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    P)
-                                                                                                                  (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-                                                                                                                    N))
-                                                                                                          | _ ::
-                                                                                                              _ =>
-                                                                                                              none
+  fun
+  | RegularCauchyInterleavingUp.mk A B SA SB sigma M EA EB E H C P N =>
+      [regularCauchyInterleavingEncodeBHist A,
+        regularCauchyInterleavingEncodeBHist B,
+        regularCauchyInterleavingEncodeBHist SA,
+        regularCauchyInterleavingEncodeBHist SB,
+        regularCauchyInterleavingEncodeBHist sigma,
+        regularCauchyInterleavingEncodeBHist M,
+        regularCauchyInterleavingEncodeBHist EA,
+        regularCauchyInterleavingEncodeBHist EB,
+        regularCauchyInterleavingEncodeBHist E,
+        regularCauchyInterleavingEncodeBHist H,
+        regularCauchyInterleavingEncodeBHist C,
+        regularCauchyInterleavingEncodeBHist P,
+        regularCauchyInterleavingEncodeBHist N]
 
-private theorem RegularCauchyInterleavingTasteGate_single_carrier_alignment_round_trip :
+private def regularCauchyInterleavingEventAt : Nat → EventFlow → RawEvent :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyInterleavingEventAt index rest
+
+def regularCauchyInterleavingFromEventFlow :
+    EventFlow → Option RegularCauchyInterleavingUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (RegularCauchyInterleavingUp.mk
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 0 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 1 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 2 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 3 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 4 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 5 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 6 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 7 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 8 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 9 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 10 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 11 ef))
+        (regularCauchyInterleavingDecodeBHist (regularCauchyInterleavingEventAt 12 ef)))
+
+private theorem regularCauchyInterleaving_round_trip :
     ∀ x : RegularCauchyInterleavingUp,
-      RegularCauchyInterleavingTasteGate_single_carrier_alignment_fromEventFlow
-        (RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow x) =
-          some x := by
+      regularCauchyInterleavingFromEventFlow
+          (regularCauchyInterleavingToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -251,68 +105,111 @@ private theorem RegularCauchyInterleavingTasteGate_single_carrier_alignment_roun
       change
         some
           (RegularCauchyInterleavingUp.mk
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist A))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist B))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist SA))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist SB))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist sigma))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist M))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist EA))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist EB))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist E))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist H))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist C))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist P))
-            (RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist N))) =
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist A))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist B))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist SA))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist SB))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist sigma))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist M))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist EA))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist EB))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist E))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist H))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist C))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist P))
+            (regularCauchyInterleavingDecodeBHist
+              (regularCauchyInterleavingEncodeBHist N))) =
           some (RegularCauchyInterleavingUp.mk A B SA SB sigma M EA EB E H C P N)
-      rw [RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist A,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist B,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist SA,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist SB,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist sigma,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist M,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist EA,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist EB,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist E,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist H,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist C,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist P,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decode_encode_bhist N]
+      rw [regularCauchyInterleaving_decode_encode A,
+        regularCauchyInterleaving_decode_encode B,
+        regularCauchyInterleaving_decode_encode SA,
+        regularCauchyInterleaving_decode_encode SB,
+        regularCauchyInterleaving_decode_encode sigma,
+        regularCauchyInterleaving_decode_encode M,
+        regularCauchyInterleaving_decode_encode EA,
+        regularCauchyInterleaving_decode_encode EB,
+        regularCauchyInterleaving_decode_encode E,
+        regularCauchyInterleaving_decode_encode H,
+        regularCauchyInterleaving_decode_encode C,
+        regularCauchyInterleaving_decode_encode P,
+        regularCauchyInterleaving_decode_encode N]
 
-private theorem RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem regularCauchyInterleavingToEventFlow_injective
     {x y : RegularCauchyInterleavingUp} :
-    RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow x =
-      RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow y → x = y := by
+    regularCauchyInterleavingToEventFlow x =
+        regularCauchyInterleavingToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      RegularCauchyInterleavingTasteGate_single_carrier_alignment_fromEventFlow
-          (RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow x) =
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_fromEventFlow
-          (RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow y) :=
-    congrArg RegularCauchyInterleavingTasteGate_single_carrier_alignment_fromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (RegularCauchyInterleavingTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (RegularCauchyInterleavingTasteGate_single_carrier_alignment_round_trip y)))
+  intro hxy
+  have hsome : some x = some y := by
+    calc
+      some x =
+          regularCauchyInterleavingFromEventFlow
+            (regularCauchyInterleavingToEventFlow x) :=
+        (regularCauchyInterleaving_round_trip x).symm
+      _ =
+          regularCauchyInterleavingFromEventFlow
+            (regularCauchyInterleavingToEventFlow y) :=
+        congrArg regularCauchyInterleavingFromEventFlow hxy
+      _ = some y := regularCauchyInterleaving_round_trip y
+  exact Option.some.inj hsome
+
+private theorem regularCauchyInterleaving_field_faithful :
+    ∀ x y : RegularCauchyInterleavingUp,
+      regularCauchyInterleavingFields x =
+          regularCauchyInterleavingFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk A1 B1 SA1 SB1 sigma1 M1 EA1 EB1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk A2 B2 SA2 SB2 sigma2 M2 EA2 EB2 E2 H2 C2 P2 N2 =>
+          injection hfields with hA tail0
+          injection tail0 with hB tail1
+          injection tail1 with hSA tail2
+          injection tail2 with hSB tail3
+          injection tail3 with hsigma tail4
+          injection tail4 with hM tail5
+          injection tail5 with hEA tail6
+          injection tail6 with hEB tail7
+          injection tail7 with hE tail8
+          injection tail8 with hH tail9
+          injection tail9 with hC tail10
+          injection tail10 with hP tail11
+          injection tail11 with hN _
+          subst hA
+          subst hB
+          subst hSA
+          subst hSB
+          subst hsigma
+          subst hM
+          subst hEA
+          subst hEB
+          subst hE
+          subst hH
+          subst hC
+          subst hP
+          subst hN
+          rfl
 
 instance regularCauchyInterleavingBHistCarrier :
     BHistCarrier RegularCauchyInterleavingUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow
-  fromEventFlow := RegularCauchyInterleavingTasteGate_single_carrier_alignment_fromEventFlow
+  toEventFlow := regularCauchyInterleavingToEventFlow
+  fromEventFlow := regularCauchyInterleavingFromEventFlow
 
 instance regularCauchyInterleavingChapterTasteGate :
     ChapterTasteGate RegularCauchyInterleavingUp where
@@ -320,82 +217,58 @@ instance regularCauchyInterleavingChapterTasteGate :
   round_trip := by
     intro x
     change
-      RegularCauchyInterleavingTasteGate_single_carrier_alignment_fromEventFlow
-        (RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow x) =
-          some x
-    exact RegularCauchyInterleavingTasteGate_single_carrier_alignment_round_trip x
+      regularCauchyInterleavingFromEventFlow
+          (regularCauchyInterleavingToEventFlow x) =
+        some x
+    exact regularCauchyInterleaving_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (RegularCauchyInterleavingTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (regularCauchyInterleavingToEventFlow_injective heq)
 
 instance regularCauchyInterleavingFieldFaithful :
     FieldFaithful RegularCauchyInterleavingUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := RegularCauchyInterleavingTasteGate_single_carrier_alignment_fields
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk A₁ B₁ SA₁ SB₁ sigma₁ M₁ EA₁ EB₁ E₁ H₁ C₁ P₁ N₁ =>
-        cases y with
-        | mk A₂ B₂ SA₂ SB₂ sigma₂ M₂ EA₂ EB₂ E₂ H₂ C₂ P₂ N₂ =>
-            injection h with hA t1
-            injection t1 with hB t2
-            injection t2 with hSA t3
-            injection t3 with hSB t4
-            injection t4 with hsigma t5
-            injection t5 with hM t6
-            injection t6 with hEA t7
-            injection t7 with hEB t8
-            injection t8 with hE t9
-            injection t9 with hH t10
-            injection t10 with hC t11
-            injection t11 with hP t12
-            injection t12 with hN _
-            subst hA
-            subst hB
-            subst hSA
-            subst hSB
-            subst hsigma
-            subst hM
-            subst hEA
-            subst hEB
-            subst hE
-            subst hH
-            subst hC
-            subst hP
-            subst hN
-            rfl
+  fields := regularCauchyInterleavingFields
+  field_faithful := regularCauchyInterleaving_field_faithful
 
 instance regularCauchyInterleavingNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial RegularCauchyInterleavingUp where
+    Nontrivial RegularCauchyInterleavingUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨RegularCauchyInterleavingUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      RegularCauchyInterleavingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      RegularCauchyInterleavingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
+        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
 
-theorem RegularCauchyInterleavingTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate RegularCauchyInterleavingUp) ∧
-      (∀ A B SA SB sigma M EA EB E H C P N : BHist,
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_fields
-          (RegularCauchyInterleavingUp.mk A B SA SB sigma M EA EB E H C P N) =
-            [A, B, SA, SB, sigma, M, EA, EB, E, H, C, P, N]) ∧
-        RegularCauchyInterleavingTasteGate_single_carrier_alignment_decodeBHist
-          (RegularCauchyInterleavingTasteGate_single_carrier_alignment_encodeBHist
-            BHist.Empty) = BHist.Empty := by
+def taste_gate : ChapterTasteGate RegularCauchyInterleavingUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact ⟨regularCauchyInterleavingChapterTasteGate⟩
-  · constructor
-    · intro A B SA SB sigma M EA EB E H C P N
-      rfl
-    · rfl
+  regularCauchyInterleavingChapterTasteGate
 
-end BEDC.Derived.RegularCauchyInterleavingUp
+theorem RegularCauchyInterleavingTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyInterleavingDecodeBHist
+          (regularCauchyInterleavingEncodeBHist h) =
+        h) ∧
+      (∀ x : RegularCauchyInterleavingUp,
+        regularCauchyInterleavingFromEventFlow
+            (regularCauchyInterleavingToEventFlow x) =
+          some x) ∧
+      (∀ x y : RegularCauchyInterleavingUp,
+        regularCauchyInterleavingToEventFlow x =
+            regularCauchyInterleavingToEventFlow y →
+          x = y) ∧
+      regularCauchyInterleavingEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨regularCauchyInterleaving_decode_encode,
+      regularCauchyInterleaving_round_trip,
+      fun _ _ hxy => regularCauchyInterleavingToEventFlow_injective hxy,
+      rfl⟩
+
+end BEDC.Derived.RegularCauchyInterleavingUp.TasteGate
