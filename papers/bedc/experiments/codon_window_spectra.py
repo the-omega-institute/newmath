@@ -20,6 +20,21 @@ MODULES = {
 }
 WRR_CUBE = ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG")
 CORE_HOTSPOT = WRR_CUBE + ("ATA",)
+ACTIVE_CORE = ("TAA", "TAG", "TGA", "AAA", "AGA", "AGG", "ATA")
+FINEST_MODULE_PARTITION = (
+    ("TAA", "TAG"),
+    ("TGA",),
+    ("AAA",),
+    ("AGA", "AGG"),
+    ("ATA",),
+)
+MODULE_NAMES = {
+    ("TAA", "TAG"): "StopArm",
+    ("TGA",): "UGA",
+    ("AAA",): "AAA",
+    ("AGA", "AGG"): "AGR",
+    ("ATA",): "AUA",
+}
 TRANSFER_SQUARE = ("TGA", "TGG", "AGA", "AGG")
 ARG_MAIN_BOX = ("CGT", "CGC", "CGA", "CGG")
 ARG_SATELLITE = ("AGA", "AGG")
@@ -58,6 +73,11 @@ LABEL_NAMES = {
     "Asn N": "N",
     "Thr": "T",
     "Thr T": "T",
+}
+AMBIGUOUS_LABELS = {
+    frozenset(("*", "W")): "*|W",
+    frozenset(("Q", "*")): "Q|*",
+    frozenset(("E", "*")): "E|*",
 }
 
 
@@ -108,7 +128,8 @@ def parse_tables(text: str) -> dict[int, dict[str, str]]:
 def normalize_difference_label(label: str) -> str:
     label = " ".join(label.split())
     if " or " in label:
-        return "|".join(normalize_difference_label(part) for part in label.split(" or "))
+        parts = tuple(normalize_difference_label(part) for part in label.split(" or "))
+        return AMBIGUOUS_LABELS.get(frozenset(parts), "|".join(parts))
     return LABEL_NAMES.get(label, label)
 
 
@@ -319,6 +340,125 @@ def state_components(tables: dict[int, dict[str, str]], codons: tuple[str, ...])
     }
 
 
+def set_partitions(items: tuple[str, ...]) -> list[tuple[tuple[str, ...], ...]]:
+    if not items:
+        return [()]
+    first, *rest_items = items
+    rest = set_partitions(tuple(rest_items))
+    partitions: list[tuple[tuple[str, ...], ...]] = []
+    for partition in rest:
+        partitions.append(((first,),) + partition)
+        for index in range(len(partition)):
+            merged = tuple(sorted((first,) + partition[index], key=items.index))
+            blocks = list(partition)
+            blocks[index] = merged
+            blocks.sort(key=lambda block: items.index(block[0]))
+            partitions.append(tuple(blocks))
+    unique: dict[tuple[tuple[str, ...], ...], None] = {}
+    for partition in partitions:
+        normalized = tuple(sorted(partition, key=lambda block: items.index(block[0])))
+        unique[normalized] = None
+    return list(unique)
+
+
+def module_distance(left: tuple[str, ...], right: tuple[str, ...], partition: tuple[tuple[int, ...], ...]) -> tuple[int, int | None]:
+    changed: list[int] = []
+    for index, block in enumerate(partition):
+        if any(left[position] != right[position] for position in block):
+            changed.append(index)
+    if len(changed) == 1:
+        return 1, changed[0]
+    return len(changed), None
+
+
+def graph_from_partition(nodes: list[tuple[str, ...]], partition: tuple[tuple[int, ...], ...]) -> tuple[dict[int, set[int]], collections.Counter[int]]:
+    adjacency: dict[int, set[int]] = {index: set() for index in range(len(nodes))}
+    edge_labels: collections.Counter[int] = collections.Counter()
+    for left, right in itertools.combinations(range(len(nodes)), 2):
+        distance, block = module_distance(nodes[left], nodes[right], partition)
+        if distance == 1 and block is not None:
+            adjacency[left].add(right)
+            adjacency[right].add(left)
+            edge_labels[block] += 1
+    return adjacency, edge_labels
+
+
+def connected_components(adjacency: dict[int, set[int]]) -> list[list[int]]:
+    seen: set[int] = set()
+    components: list[list[int]] = []
+    for index in adjacency:
+        if index in seen:
+            continue
+        stack = [index]
+        seen.add(index)
+        component: list[int] = []
+        while stack:
+            item = stack.pop()
+            component.append(item)
+            for neighbor in adjacency[item]:
+                if neighbor not in seen:
+                    seen.add(neighbor)
+                    stack.append(neighbor)
+        components.append(sorted(component))
+    return components
+
+
+def graph_distances(adjacency: dict[int, set[int]], source: int) -> dict[int, int]:
+    distances = {source: 0}
+    queue = collections.deque([source])
+    while queue:
+        item = queue.popleft()
+        for neighbor in sorted(adjacency[item]):
+            if neighbor in distances:
+                continue
+            distances[neighbor] = distances[item] + 1
+            queue.append(neighbor)
+    return distances
+
+
+def active_module_partition_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
+    states: dict[tuple[str, ...], list[int]] = collections.defaultdict(list)
+    for table_id, table in sorted(tables.items()):
+        states[tuple(table[codon] for codon in ACTIVE_CORE)].append(table_id)
+    nodes = list(states)
+    active_index = {codon: index for index, codon in enumerate(ACTIVE_CORE)}
+    partitions = set_partitions(ACTIVE_CORE)
+    connected: list[tuple[tuple[str, ...], ...]] = []
+    for partition in partitions:
+        indexed = tuple(tuple(active_index[codon] for codon in block) for block in partition)
+        adjacency, _edge_labels = graph_from_partition(nodes, indexed)
+        if len(connected_components(adjacency)) == 1:
+            connected.append(partition)
+    max_blocks = max(len(partition) for partition in connected)
+    finest = [partition for partition in connected if len(partition) == max_blocks]
+    finest_partition = finest[0]
+    indexed_finest = tuple(tuple(active_index[codon] for codon in block) for block in finest_partition)
+    adjacency, edge_labels = graph_from_partition(nodes, indexed_finest)
+    standard_state = tuple(tables[1][codon] for codon in ACTIVE_CORE)
+    standard_index = nodes.index(standard_state)
+    source_distances = graph_distances(adjacency, standard_index)
+    distance_distribution = collections.Counter(source_distances.values())
+    diameter = 0
+    for index in range(len(nodes)):
+        distances = graph_distances(adjacency, index)
+        diameter = max(diameter, max(distances.values()))
+    return {
+        "active_codons": ACTIVE_CORE,
+        "bell_count": len(partitions),
+        "connected_partition_count": len(connected),
+        "finest_partition_count": len(finest),
+        "finest_partition": finest_partition,
+        "module_edge_count": sum(edge_labels.values()),
+        "module_edge_counts": {
+            MODULE_NAMES[finest_partition[index]]: edge_labels[index]
+            for index in range(len(finest_partition))
+        },
+        "standard_degree": len(adjacency[standard_index]),
+        "standard_distance_distribution": dict(sorted(distance_distribution.items())),
+        "diameter": diameter,
+    }
+
+
 def reassignment_spectrum(tables: dict[int, dict[str, str]], cubes: list[dict[str, object]]) -> dict[str, object]:
     standard = tables[1]
     module_counts: collections.Counter[str] = collections.Counter()
@@ -457,6 +597,7 @@ def build_summary() -> dict[str, object]:
         },
         "reassignment": reassignment_spectrum(tables, cubes),
         "partial_aware_core": state_components(partial_tables, CORE_HOTSPOT),
+        "active_module_partitions": active_module_partition_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -522,6 +663,35 @@ def assert_expected(summary: dict[str, object]) -> None:
         [[5], [21], [9], [14]],
         [[24], [33]],
     ]
+    assert summary["active_module_partitions"]["bell_count"] == 877
+    assert summary["active_module_partitions"]["connected_partition_count"] == 52
+    assert summary["active_module_partitions"]["finest_partition_count"] == 1
+    assert summary["active_module_partitions"]["finest_partition"] == (
+        ("TAA", "TAG"),
+        ("TGA",),
+        ("AAA",),
+        ("AGA", "AGG"),
+        ("ATA",),
+    )
+    assert summary["active_module_partitions"]["module_edge_count"] == 42
+    assert summary["active_module_partitions"]["module_edge_counts"] == {
+        "StopArm": 25,
+        "UGA": 7,
+        "AAA": 1,
+        "AGR": 7,
+        "AUA": 2,
+    }
+    assert summary["active_module_partitions"]["standard_degree"] == 9
+    assert summary["active_module_partitions"]["standard_distance_distribution"] == {
+        0: 1,
+        1: 9,
+        2: 4,
+        3: 5,
+        4: 1,
+        5: 1,
+        6: 1,
+    }
+    assert summary["active_module_partitions"]["diameter"] == 9
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),

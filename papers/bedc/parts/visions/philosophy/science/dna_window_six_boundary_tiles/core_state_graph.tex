@@ -158,6 +158,146 @@ satellite pair, leaf, and deeper point are the supports in
 \autoref{thm:philosophy-wrr-invariant-anchors}.
 \end{proof}
 
+\begin{definition}[Active core support partition]
+\label{def:philosophy-active-core-support-partition}
+The active core support is obtained from
+$\mathcal H_{\mathrm{core}}$ by removing the two invariant anchors
+$\mathrm{UGG}$ and $\mathrm{AAG}$:
+$$
+  \mathcal A_{\mathrm{core}}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},
+    \mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA}\}.
+$$
+A support partition of $\mathcal A_{\mathrm{core}}$ is a set partition
+of these seven coordinates. Given such a partition, two observed
+partial-aware core states are module-adjacent when their active
+coordinates differ inside exactly one block of the partition.
+\end{definition}
+
+\begin{theorem}[Unique finest connected support partition]
+\label{thm:philosophy-unique-finest-connected-support-partition}
+Among all $877$ set partitions of $\mathcal A_{\mathrm{core}}$, exactly
+$52$ make the observed partial-aware core state graph connected. Among
+the connected partitions, the unique finest one is
+$$
+\begin{gathered}
+  \{\mathrm{UAA},\mathrm{UAG}\},\quad
+  \{\mathrm{UGA}\},\quad
+  \{\mathrm{AAA}\},\\
+  \{\mathrm{AGA},\mathrm{AGG}\},\quad
+  \{\mathrm{AUA}\}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+There are $B_{7}=877$ set partitions of the seven active coordinates.
+For each partition, compress each observed state to its blockwise
+coordinates and add an edge when two states differ in exactly one block.
+The finite enumeration gives $52$ connected partitions. The maximum
+number of blocks among connected partitions is $5$, and the only
+connected partition with $5$ blocks is the displayed one.
+\end{proof}
+
+\begin{corollary}[Stop arm and AGR satellite are forced blocks]
+\label{cor:philosophy-stoparm-agr-forced-blocks}
+The two non-singleton blocks in the unique finest connected partition
+are precisely the stop arm $\{\mathrm{UAA},\mathrm{UAG}\}$ and the AGR
+satellite pair $\{\mathrm{AGA},\mathrm{AGG}\}$.
+\end{corollary}
+\begin{proof}
+This is the non-singleton part of
+\autoref{thm:philosophy-unique-finest-connected-support-partition}.
+\end{proof}
+
+\begin{theorem}[Finest module graph edge spectrum]
+\label{thm:philosophy-finest-module-graph-edge-spectrum}
+For the unique finest connected support partition, the module graph on
+the $22$ observed partial-aware core states is connected and has $42$
+edges. The edge labels are distributed as follows:
+$$
+\begin{array}{c|c}
+  \text{module} & \text{edge count}\\
+\hline
+  \{\mathrm{UAA},\mathrm{UAG}\} & 25\\
+  \{\mathrm{UGA}\} & 7\\
+  \{\mathrm{AAA}\} & 1\\
+  \{\mathrm{AGA},\mathrm{AGG}\} & 7\\
+  \{\mathrm{AUA}\} & 2.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Use the partition of
+\autoref{thm:philosophy-unique-finest-connected-support-partition}.
+For every pair of observed states, count the blocks on which their
+active coordinates differ. Add an edge exactly when this count is one,
+and label the edge by that block. The resulting graph is connected and
+the finite edge count gives the displayed spectrum.
+\end{proof}
+
+\begin{corollary}[Two centrality readings]
+\label{cor:philosophy-two-centrality-readings}
+The core comparison separates two centrality notions. The codon
+$\mathrm{UGA}$ is the principal reassignment hub by occurrence count,
+while the stop arm $\{\mathrm{UAA},\mathrm{UAG}\}$ is the largest
+horizontal connector in the finest module graph.
+\end{corollary}
+\begin{proof}
+The codon-level hub property is
+\autoref{cor:philosophy-core-reassignment-preorder}. The module edge
+maximum is the $25$-edge stop-arm row of
+\autoref{thm:philosophy-finest-module-graph-edge-spectrum}.
+\end{proof}
+
+\begin{theorem}[Standard-state module graph distances]
+\label{thm:philosophy-standard-state-module-graph-distances}
+In the finest module graph, the standard core state has degree $9$.
+The shortest-path distance distribution from the standard state is
+$$
+\begin{array}{c|c}
+  \text{distance} & \text{state count}\\
+\hline
+  0 & 1\\
+  1 & 9\\
+  2 & 4\\
+  3 & 5\\
+  4 & 1\\
+  5 & 1\\
+  6 & 1.
+\end{array}
+$$
+The diameter of the finest module graph is $9$.
+\end{theorem}
+\begin{proof}
+Run breadth-first search in the connected module graph of
+\autoref{thm:philosophy-finest-module-graph-edge-spectrum}, using the
+standard partial-aware state as the source. The degree and distance
+distribution are the displayed values. A breadth-first search from each
+vertex gives maximum shortest-path length $9$.
+\end{proof}
+
+\begin{theorem}[Unique finest generator system]
+\label{thm:philosophy-unique-finest-generator-system}
+Under the single condition that the observed partial-aware core states
+be connected by one-block module adjacency, the unique finest generator
+support system is
+$$
+  \{\mathrm{UAA},\mathrm{UAG}\},\quad
+  \{\mathrm{UGA}\},\quad
+  \{\mathrm{AAA}\},\quad
+  \{\mathrm{AGA},\mathrm{AGG}\},\quad
+  \{\mathrm{AUA}\}.
+$$
+\end{theorem}
+\begin{proof}
+By
+\autoref{thm:philosophy-unique-finest-connected-support-partition}, this
+is the unique connected support partition with the maximum number of
+blocks. Assigning one schematic generator to each block gives the stated
+support system, and uniqueness follows from uniqueness of the partition.
+\end{proof}
+
 \begin{theorem}[Core state graph cannot-claim boundary]
 \label{thm:philosophy-core-state-graph-cannot-claim-boundary}
 The strict core state graph and module generators do not license any
