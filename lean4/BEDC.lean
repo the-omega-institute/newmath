@@ -1694,6 +1694,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceBudgetReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RHSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
@@ -4015,6 +4016,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.KernelTruthRoute
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10SourceReadiness
+import BEDC.Derived.RealityConstrainedTruthCertUp.L10TerminalReadbackDeterminacy
 import BEDC.Derived.RealityConstrainedTruthCertUp.LedgerExactness
 import BEDC.Derived.RealityConstrainedTruthCertUp.LedgerFailureLocalNameObligation
 import BEDC.Derived.RealityConstrainedTruthCertUp.MethodologyLedgerHandoff
@@ -4064,6 +4066,7 @@ import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegSeqRatUp.CommonTailWindow
+import BEDC.Derived.RegSeqRatUp.FiniteRequestSourceSection
 import BEDC.Derived.RegSeqRatUp.RealSealFiniteWindowSaturation
 import BEDC.Derived.RegSeqRatUp.RealSealRouteExclusionPackage
 import BEDC.Derived.RegSeqRatUp.RealTerminalFourFaceExactness
@@ -4157,6 +4160,7 @@ import BEDC.Derived.RegularCauchySumUp.TailSelectorCompatibility
 import BEDC.Derived.RegularCauchySumUp.ZeroSourceIdentityBoundary
 import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
+import BEDC.Derived.RegularCauchyTailCertificateUp.SelectorCoverage
 import BEDC.Derived.RegularCauchyTailCertificateUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFiberUp
 import BEDC.Derived.RegularCauchyTailFiberUp.CompletionHandoffScope
@@ -4405,6 +4409,7 @@ import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.StableNegationBoundaryUp
+import BEDC.Derived.StableNegationBoundaryUp.CertificateTruthNonEscape
 import BEDC.Derived.StableNegationBoundaryUp.TasteGate
 import BEDC.Derived.StackUp
 import BEDC.Derived.StackUp.SchemeSiteTransport
@@ -4836,6 +4841,7 @@ import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.CompactMetricThresholdFactorization
 import BEDC.Derived.UniformModulusUp.PointwiseMetricConsumerUnblock
+import BEDC.Derived.UniformModulusUp.PrecisionConsumerNonescape
 import BEDC.Derived.UniformModulusUp.RootClassifierRow
 import BEDC.Derived.UniformModulusUp.RootCompactContinuousThreshold
 import BEDC.Derived.UniformModulusUp.RootPublicRows
