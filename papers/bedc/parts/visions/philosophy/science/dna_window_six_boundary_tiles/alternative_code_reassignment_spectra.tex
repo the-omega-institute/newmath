@@ -1,0 +1,220 @@
+\begin{definition}[Alternative-code reassignment spectrum]
+\label{def:philosophy-alternative-code-reassignment-spectrum}
+Let $E_{1}:Q_{6}\to C_{1}$ be the standard genetic-code classifier and
+let $E_{t}:Q_{6}\to C_{t}$ be another curated genetic-code table on the
+same codon carrier. The reassignment set is
+$$
+  \Delta_{t}:=\{c\in Q_{6}:E_{t}(c)\neq E_{1}(c)\}.
+$$
+For a family of tables, the reassignment spectrum is the finite multiset
+of all codon rows in all $\Delta_{t}$, grouped by local codon module.
+\end{definition}
+
+\begin{definition}[Four reassignment modules]
+\label{def:philosophy-four-reassignment-modules}
+The comparison ledger uses four local modules:
+$$
+\begin{aligned}
+  M_{\mathrm{Stop/Trp}}
+    &=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\},\\
+  M_{\mathrm{Ile/Met}}
+    &=\{\mathrm{AUU},\mathrm{AUC},\mathrm{AUA},\mathrm{AUG}\},\\
+  M_{\mathrm{Phe/Leu}}
+    &=\{\mathrm{UUU},\mathrm{UUC},\mathrm{UUA},\mathrm{UUG},
+      \mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\},\\
+  M_{\mathrm{AGA/AGG}}
+    &=\{\mathrm{AGA},\mathrm{AGG}\}.
+\end{aligned}
+$$
+The first two are the complete global $3+1$ control tiles of
+\autoref{thm:philosophy-complete-global-fiber-tiles-standard-code};
+the third is the unique Phe/Leu $6+2$ cube of
+\autoref{cor:philosophy-phe-leu-unique-six-two-cube}; the fourth is a
+two-codon Arg-side pair that becomes visible in comparative tables.
+\end{definition}
+
+\begin{theorem}[Alternative-code reassignment concentration]
+\label{thm:philosophy-alternative-code-reassignment-concentration}
+Across the curated non-standard genetic-code tables compared with the
+standard table, the reassignment spectrum has $65$ codon rows. Grouped
+by the modules of \autoref{def:philosophy-four-reassignment-modules},
+the counts are
+$$
+\begin{array}{c|r|r}
+  \text{module} & \text{reassignment rows} & \text{tables involved}\\
+\hline
+  M_{\mathrm{Stop/Trp}} & 33 & 22\\
+  M_{\mathrm{AGA/AGG}} & 16 & 8\\
+  M_{\mathrm{Phe/Leu}} & 7 & 4\\
+  M_{\mathrm{Ile/Met}} & 5 & 5\\
+  \text{other codons} & 4 & 4.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each non-standard table, compare all $64$ codon assignments with
+the standard classifier and record exactly those codons whose label
+changes. Classifying the resulting $65$ rows by
+\autoref{def:philosophy-four-reassignment-modules} gives the displayed
+finite table. The enumeration is bridge-side data over curated
+genetic-code tables; it is not a BEDC derivation of those biological
+assignments.
+\end{proof}
+
+\begin{corollary}[Stop/Trp is the main deformation face]
+\label{cor:philosophy-stop-trp-main-deformation-face}
+The Stop/Trp tile contains only four codons, but it accounts for
+$33$ of the $65$ reassignment rows. Thus it is the dominant local
+deformation face in the comparative spectrum.
+\end{corollary}
+\begin{proof}
+This is the first row of
+\autoref{thm:philosophy-alternative-code-reassignment-concentration}.
+\end{proof}
+
+\begin{theorem}[Stop/Trp $11$ corner is invariant across the comparison]
+\label{thm:philosophy-stop-trp-eleven-corner-invariant}
+In the Stop/Trp tile, all observed reassignments occur in the
+$X_{2}$ side:
+$$
+\begin{array}{c|c|c|r}
+  \text{local corner} & \text{codon} & \text{standard label}
+    & \text{reassignment rows}\\
+\hline
+  00 & \mathrm{UAA} & \mathrm{Stop} & 8\\
+  01 & \mathrm{UAG} & \mathrm{Stop} & 10\\
+  10 & \mathrm{UGA} & \mathrm{Stop} & 15\\
+  11 & \mathrm{UGG} & \mathrm{Trp} & 0.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Restrict the reassignment spectrum to the four codons
+$\mathrm{UAA}$, $\mathrm{UAG}$, $\mathrm{UGA}$, and $\mathrm{UGG}$.
+The finite count gives the displayed rows. In particular, the local
+$11$ corner $\mathrm{UGG}$ remains assigned to $\mathrm{Trp}$ throughout
+the comparison.
+\end{proof}
+
+\begin{corollary}[The Stop/Trp $11$ corner is continuation, not absence]
+\label{cor:philosophy-stop-trp-eleven-continuation-not-absence}
+The comparative spectrum strengthens the reserved-corner reading of
+\autoref{thm:philosophy-reserved-corner-interpretation}: inside the
+Stop/Trp tile, $11$ is a stable continuation corner, while the
+$X_{2}$ side carries the observed stop-boundary deformations.
+\end{corollary}
+\begin{proof}
+The standard-code interpretation of $\mathrm{UGG}$ is continuation by
+\autoref{cor:philosophy-ugg-continuation-corner}. Its reassignment count
+is zero by
+\autoref{thm:philosophy-stop-trp-eleven-corner-invariant}.
+\end{proof}
+
+\begin{theorem}[Coupled $10$-to-$11$ control-tile reassignment]
+\label{thm:philosophy-coupled-ten-to-eleven-control-tile-reassignment}
+The only observed Ile/Met tile reassignment is
+$$
+  \mathrm{AUA}:\mathrm{Ile}\to\mathrm{Met}.
+$$
+It occurs in exactly the tables
+$$
+  2,\quad 3,\quad 5,\quad 13,\quad 21.
+$$
+Each of these tables also has
+$$
+  \mathrm{UGA}:\mathrm{Stop}\to\mathrm{Trp}.
+$$
+In local coordinates, both changes have the form
+$$
+  10\ \text{joins the class containing}\ 11.
+$$
+\end{theorem}
+\begin{proof}
+In the Ile/Met tile, $\mathrm{AUA}=\mathrm{AU}+10$ and
+$\mathrm{AUG}=\mathrm{AU}+11$. In the Stop/Trp tile,
+$\mathrm{UGA}=\mathrm{U}+\mathrm{RR}+10$ and
+$\mathrm{UGG}=\mathrm{U}+\mathrm{RR}+11$. The finite comparison of
+non-standard tables shows that the AUA-to-Met row occurs exactly in the
+displayed five table identifiers, and each of those identifiers also
+contains the UGA-to-Trp row. The local coordinate action is therefore
+the same in both complete control tiles.
+\end{proof}
+
+\begin{corollary}[Dual control tiles are coupled in observed variation]
+\label{cor:philosophy-dual-control-tiles-coupled-variation}
+The Ile/Met and Stop/Trp complete control tiles are not merely parallel
+standard-code structures. In the comparative spectrum, the observed
+Ile/Met deformation is always accompanied by the corresponding
+Stop/Trp $10$-to-$11$ deformation.
+\end{corollary}
+\begin{proof}
+This is the inclusion of table identifiers established in
+\autoref{thm:philosophy-coupled-ten-to-eleven-control-tile-reassignment}.
+\end{proof}
+
+\begin{theorem}[Alternative-code edge smoothness remains local]
+\label{thm:philosophy-alternative-code-edge-smoothness-remains-local}
+Across the standard table together with the curated non-standard
+genetic-code tables, the total number of same-class Hamming edges lies
+between $47$ and $52$. The distribution is
+$$
+\begin{array}{c|rrrrrr}
+  \text{same-class edge count} & 47 & 48 & 49 & 50 & 51 & 52\\
+\hline
+  \text{table count} & 2 & 1 & 4 & 9 & 4 & 7.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each table, enumerate the same $192$ Hamming edges used in
+\autoref{thm:philosophy-standard-code-q-one-edge-spectrum} and count
+same-class endpoints. The displayed distribution is the finite count
+over the comparison family.
+\end{proof}
+
+\begin{corollary}[Alternative codes are local deformations]
+\label{cor:philosophy-alternative-codes-local-deformations}
+The comparative tables preserve the broad Hamming-local smoothness
+profile of the standard code while moving a small number of codon
+assignments, concentrated in the Stop/Trp tile, the Ile/Met tile, the
+Phe/Leu cube, and the AGA/AGG pair.
+\end{corollary}
+\begin{proof}
+The edge-count range is narrow by
+\autoref{thm:philosophy-alternative-code-edge-smoothness-remains-local},
+and the reassignment rows are concentrated by
+\autoref{thm:philosophy-alternative-code-reassignment-concentration}.
+\end{proof}
+
+\begin{theorem}[Comparative tile-dynamics cannot-claim boundary]
+\label{thm:philosophy-comparative-tile-dynamics-cannot-claim-boundary}
+The comparative reassignment spectrum does not license any claim that
+alternative genetic codes are forced by BEDC, that the observed
+curated tables exhaust all possible biological translation systems, that
+codon identity alone determines ribosome dynamics, that reassignment
+frequency is a mechanistic cause, or that the AGA/AGG pair has already
+been reduced to a complete local control-tile certificate.
+\end{theorem}
+\begin{proof}
+The spectrum is a finite bridge-side comparison of curated external
+tables. It records where assignment rows differ from the standard
+classifier. It does not supply biochemical mechanism, evolutionary
+necessity, exhaustive biological coverage, or a checked BEDC certificate
+for the AGA/AGG pair.
+\end{proof}
+
+\begin{corollary}[Allowed comparative tile-dynamics claim]
+\label{cor:philosophy-comparative-tile-dynamics-allowed-claim}
+Under the two-axis codon bridge, comparative genetic-code variation is
+strongly concentrated in local modules already visible in the standard
+codon-cube spectra. The Stop/Trp tile is the main deformation face; its
+$11$ corner remains a stable continuation corner; and the observed
+Ile/Met deformation is coupled to the corresponding Stop/Trp
+$10$-to-$11$ deformation.
+\end{corollary}
+\begin{proof}
+Combine
+\autoref{thm:philosophy-alternative-code-reassignment-concentration},
+\autoref{thm:philosophy-stop-trp-eleven-corner-invariant}, and
+\autoref{thm:philosophy-coupled-ten-to-eleven-control-tile-reassignment}.
+\end{proof}
