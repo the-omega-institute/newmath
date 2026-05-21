@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchyModulusSelectorUp$}
+\label{ch:concrete-instances-realcauchymodulusselector-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RealCauchyModulusSelectorUp$ packet records the finite selection surface by which a displayed modulus schedule for a regular rational Cauchy name chooses the threshold, stream window, tolerance ledger, readback row, and seal route consumed by a downstream $\RealUp$ reader. It sits over the explicit Real Cauchy modulus packet of \autoref{ch:concrete-instances-realcauchymodulus-namecert}, the generic modulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet makes the selector row visible as finite BEDC data before any consumer treats a selected threshold as part of a Real-facing read.
+
+\begin{definition}[Real Cauchy modulus selector carrier]
+\label{def:real-cauchy-modulus-selector-carrier}
+A $\RealCauchyModulusSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,S,D,Q,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the accepted $\RealCauchyModulusUp$ row whose precision-indexed schedule is being inspected;
+\item $S$ is the $\StreamNameUp$ finite-window row named by the selected threshold;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row read at the selected window;
+\item $Q$ is the $\RegSeqRatUp$ regular rational readback row attached to that tolerance and window;
+\item $E$ is the terminal $\RealUp$ seal route reached only after $M,S,D,Q$ have been consumed;
+\item $R$ is the selector row choosing the displayed threshold, finite window, dyadic tolerance, regular readback, and seal route from the modulus schedule in $M$;
+\item $H$ records componentwise $\hsame$ transport for the modulus row, selected window, dyadic tolerance, regular readback, Real seal, selector row, continuation row, provenance row, and local naming row;
+\item $C$ records displayed $\Cont$ replay from a precision request through $R$ and then through $M,S,D,Q,E,H,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\RealCauchyModulusUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealCauchyModulusSelectorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Real completeness, quotient stream equality, host real equality, countable choice, trichotomy, selected limits outside the displayed row $R$, open-cover compactness, or an unbounded stream read.
+\end{definition}
+
+\begin{theorem}[Real Cauchy modulus selector NameCert obligations]
+\label{thm:real-cauchy-modulus-selector-namecert-obligations}
+For an accepted $\RealCauchyModulusSelectorUp$ carrier $T=(M,S,D,Q,E,R,H,C,P,N)$, the local $\NameCert_{\RealCauchyModulusSelectorUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed Real Cauchy modulus row, finite stream window, dyadic tolerance ledger, regular rational readback, Real seal, selector row, transports, replay route, provenance, and local naming row;
+\item selector exactness, requiring $R$ to choose only the threshold, window, tolerance, readback, and seal route already displayed by $M,S,D,Q,E$;
+\item modulus compatibility, requiring every selected threshold to be read from the accepted $\RealCauchyModulusUp$ row and therefore from the upstream $\CauchyModulusUp$ schedule;
+\item finite-window stability, requiring the rows $S,D,Q,E$ to remain attached to the selector row $R$ under componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$;
+\item provenance exhaustion, requiring $P$ and $N$ to name only the displayed route and to export no Real completeness theorem, quotient stream equality, countable-choice selector, trichotomy, host real equality, selected limit outside $R$, open-cover compactness, or unbounded stream read.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-cauchy-modulus-selector-carrier}. The tuple displays the modulus row, selected finite window, dyadic tolerance ledger, regular rational readback, Real seal, selector row, transport, replay, provenance, and local name.
+
+Selector exactness is forced by the position of $R$ in the tuple. A precision request reaches $R$ as a row selecting from the displayed modulus route, and the selected data are precisely the threshold, window, tolerance, readback, and seal rows already exposed as $M,S,D,Q,E$.
+
+Modulus compatibility follows by reading $M$ as the accepted $\RealCauchyModulusUp$ row. Since the upstream Real Cauchy modulus packet is itself over the $\CauchyModulusUp$ schedule, the selector cannot draw a threshold from an independent stream or from an ambient host principle.
+
+Stability is the role of $H$ and $C$. Componentwise $\hsame$ transport preserves the selected rows, while continuation replay repeats the same finite route from the precision request through the selector and then through $M,S,D,Q,E$.
+
+Finally, $P$ and $N$ package and name only the displayed rows. The carrier contains no coordinate for Real completeness, quotient stream equality, countable choice, trichotomy, host real equality, selected limits outside $R$, open-cover compactness, or unbounded stream reads, so the local NameCert surface cannot export any such data.
+\end{proof}
+
+\begin{theorem}[Real Cauchy modulus selector finite-window soundness]
+\label{thm:real-cauchy-modulus-selector-finite-window-soundness}
+Let $T=(M,S,D,Q,E,R,H,C,P,N)$ be an accepted $\RealCauchyModulusSelectorUp$ packet. For every finite unary precision request, the selector row $R$ produces a finite Real-facing route
+$$
+R\longmapsto M\longmapsto S\longmapsto D\longmapsto Q\longmapsto E\longmapsto(H,C,P,N)
+$$
+whose selected threshold, window, tolerance, readback, and seal row are all displayed in the carrier. The route cannot be replaced by Real completeness, quotient stream equality, countable choice, trichotomy, host real equality, a selected limit outside $R$, open-cover compactness, or an unbounded stream read.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite unary precision request. In the zero stage, project the accepted carrier and read the selector row $R$. The selector exposes a displayed threshold in the modulus row $M$, the corresponding finite StreamName window $S$, the dyadic tolerance row $D$, the regular rational readback $Q$, and the terminal seal row $E$.
+
+For the successor stage, assume the preceding precision request has been handled by the displayed route. The next request asks $R$ for the next threshold in the same finite modulus schedule. The route may enlarge the selected window in $S$ and refine the tolerance row in $D$, but it still reaches the regular readback row $Q$ and terminal seal row $E$ through the same carrier coordinates.
+
+Transport and replay close the induction step. The componentwise row $H$ preserves the selected coordinates, while $C$ replays the selector route from the precision request through $R,M,S,D,Q,E$ and then through $P,N$.
+
+The exclusion clauses follow by inspecting the carrier. Since none of Real completeness, quotient stream equality, countable choice, trichotomy, host real equality, selected limits outside $R$, open-cover compactness, or unbounded stream reads appears as a coordinate of $T$, no induction stage can substitute such a principle for the finite selector route.
+\end{proof}
+
+\closureat{RealCauchyModulusSelectorUp}{seedStr}
+
+\begin{closurestatus}{\RealCauchyModulusSelectorUp}
+  \constructivestory{A $\RealCauchyModulusSelectorUp$ packet is generated from an accepted $\RealCauchyModulusUp$ modulus row, a selected $\StreamNameUp$ finite window, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, a selector row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-modulus-selector-carrier}, \autoref{thm:real-cauchy-modulus-selector-namecert-obligations}, and \autoref{thm:real-cauchy-modulus-selector-finite-window-soundness} seed the finite selector route from Real Cauchy modulus schedules to Real-facing seal reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, countable choice, trichotomy, host real equality, selected limits outside the displayed selector row, open-cover compactness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector exactness, modulus compatibility, finite-window stability, finite unary precision induction, Real seal factorization, and provenance exhaustion for BEDC.Derived.RealCauchyModulusSelectorUp.}
+\end{closurestatus}
