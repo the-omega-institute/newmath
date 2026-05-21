@@ -471,3 +471,45 @@ Aggregate $\formalstatus$ rows, bridge rows, quotient streams, selected
 limits, choice principles, metric-completeness data, and ambient $\RealUp$
 completeness remain outside the refined terminal finite-cover threshold.
 \end{proof}
+
+\begin{theorem}[Real L10 refinement-support descent noescape]
+\label{thm:real-l10-refinement-support-descent-noescape}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read. Let
+$\mathcal V$ be a finite certified refinement of a finite certified cover
+$\mathcal U$ of $T$. Suppose the refinement preserves the displayed
+$\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$
+finite-window schedule, the $\RegSeqRatUp$ regularity and classifier rows,
+the local $\RealUp$ seal rows, and the shared $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows.
+
+Then descent from $\mathcal V$ to $\mathcal U$ preserves exactly this support
+surface. It introduces no aggregate $\formalstatus$ row, bridge row, quotient
+stream, selected limit, choice row, metric-completeness datum, or ambient
+$\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-l10-terminal-finite-cover-refinement-invariance}. The
+terminal threshold witnessed on the refined cover is equivalent to the
+terminal threshold witnessed on the original cover, and the equivalence is
+already restricted to the objectwise dyadic, StreamName, RegSeqRat, local
+Real, and shared BEDC support rows.
+
+The descent keeps the three lower faces fixed. Apply
+\autoref{thm:streamname-common-refinement-terminal-subcover-exactness} for the
+finite-window schedule, apply
+\autoref{thm:regseqrat-common-tail-terminal-four-face-cocycle-uniqueness} for
+the RegSeqRat tail, and apply
+\autoref{thm:dyadicratcore-l10-exit-ledger-source-determinacy} for the dyadic
+endpoint and radius ledger. These certificates leave the descended packet on
+the same displayed $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$
+faces as the refined packet.
+
+It remains to exclude substitute support. Apply
+\autoref{thm:real-l10-terminal-finite-cover-face-minimality} to prevent any
+hidden row from standing in for a displayed face, and apply
+\autoref{thm:real-l10-finite-cover-threshold-cocycle-uniqueness} to identify
+the descended and refined terminal packets on their common support. Hence the
+descent preserves precisely the listed surface and cannot create a
+route-level credential outside it.
+\end{proof}
