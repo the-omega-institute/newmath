@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegularLocatedCauchyRealUp
+namespace BEDC.Derived.RegularLocatedCauchyRealUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -27,7 +27,8 @@ def regularLocatedCauchyRealDecodeBHist : RawEvent → BHist
 
 private theorem regularLocatedCauchyReal_decode_encode :
     ∀ h : BHist,
-      regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealEncodeBHist h) =
+      regularLocatedCauchyRealDecodeBHist
+          (regularLocatedCauchyRealEncodeBHist h) =
         h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -36,89 +37,45 @@ private theorem regularLocatedCauchyReal_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private theorem RegularLocatedCauchyRealTasteGate_single_carrier_alignment_mk_congr
-    {S S' Q Q' D D' M M' L L' E E' H H' C C' P P' N N' : BHist}
-    (hS : S = S') (hQ : Q = Q') (hD : D = D') (hM : M = M')
-    (hL : L = L') (hE : E = E') (hH : H = H') (hC : C = C')
-    (hP : P = P') (hN : N = N') :
-    RegularLocatedCauchyRealUp.mk S Q D M L E H C P N =
-      RegularLocatedCauchyRealUp.mk S' Q' D' M' L' E' H' C' P' N' := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hS
-  cases hQ
-  cases hD
-  cases hM
-  cases hL
-  cases hE
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
-
 def regularLocatedCauchyRealFields :
     RegularLocatedCauchyRealUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularLocatedCauchyRealUp.mk S Q D M L E H C P N =>
-      [S, Q, D, M, L, E, H, C, P, N]
+  | RegularLocatedCauchyRealUp.mk S Q D M L E H C P N => [S, Q, D, M, L, E, H, C, P, N]
 
 def regularLocatedCauchyRealToEventFlow :
-    RegularLocatedCauchyRealUp → EventFlow :=
+    RegularLocatedCauchyRealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (regularLocatedCauchyRealFields x).map regularLocatedCauchyRealEncodeBHist
+  | x =>
+      List.map regularLocatedCauchyRealEncodeBHist
+        (regularLocatedCauchyRealFields x)
 
-def regularLocatedCauchyRealFromEventFlow :
-    EventFlow → Option RegularLocatedCauchyRealUp
+private def regularLocatedCauchyRealRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | S :: restS =>
-      match restS with
-      | Q :: restQ =>
-          match restQ with
-          | D :: restD =>
-              match restD with
-              | M :: restM =>
-                  match restM with
-                  | L :: restL =>
-                      match restL with
-                      | E :: restE =>
-                          match restE with
-                          | H :: restH =>
-                              match restH with
-                              | C :: restC =>
-                                  match restC with
-                                  | P :: restP =>
-                                      match restP with
-                                      | N :: restN =>
-                                          match restN with
-                                          | [] =>
-                                              some
-                                                (RegularLocatedCauchyRealUp.mk
-                                                  (regularLocatedCauchyRealDecodeBHist S)
-                                                  (regularLocatedCauchyRealDecodeBHist Q)
-                                                  (regularLocatedCauchyRealDecodeBHist D)
-                                                  (regularLocatedCauchyRealDecodeBHist M)
-                                                  (regularLocatedCauchyRealDecodeBHist L)
-                                                  (regularLocatedCauchyRealDecodeBHist E)
-                                                  (regularLocatedCauchyRealDecodeBHist H)
-                                                  (regularLocatedCauchyRealDecodeBHist C)
-                                                  (regularLocatedCauchyRealDecodeBHist P)
-                                                  (regularLocatedCauchyRealDecodeBHist N))
-                                          | _ :: _ => none
-                                      | [] => none
-                                  | [] => none
-                              | [] => none
-                          | [] => none
-                      | [] => none
-                  | [] => none
-              | [] => none
-          | [] => none
-      | [] => none
-  | [] => none
+  | 0, [] => []
+  | 0, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularLocatedCauchyRealRawAt index rest
+
+def regularLocatedCauchyRealFromEventFlow
+    (flow : EventFlow) : Option RegularLocatedCauchyRealUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (RegularLocatedCauchyRealUp.mk
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 0 flow))
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 1 flow))
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 2 flow))
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 3 flow))
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 4 flow))
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 5 flow))
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 6 flow))
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 7 flow))
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 8 flow))
+      (regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealRawAt 9 flow)))
 
 private theorem regularLocatedCauchyReal_round_trip :
     ∀ x : RegularLocatedCauchyRealUp,
-      regularLocatedCauchyRealFromEventFlow (regularLocatedCauchyRealToEventFlow x) =
+      regularLocatedCauchyRealFromEventFlow
+          (regularLocatedCauchyRealToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -126,41 +83,38 @@ private theorem regularLocatedCauchyReal_round_trip :
   | mk S Q D M L E H C P N =>
       change
         some
-            (RegularLocatedCauchyRealUp.mk
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist S))
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist Q))
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist D))
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist M))
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist L))
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist E))
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist H))
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist C))
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist P))
-              (regularLocatedCauchyRealDecodeBHist
-                (regularLocatedCauchyRealEncodeBHist N))) =
+          (RegularLocatedCauchyRealUp.mk
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist S))
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist Q))
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist D))
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist M))
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist L))
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist E))
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist H))
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist C))
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist P))
+            (regularLocatedCauchyRealDecodeBHist
+              (regularLocatedCauchyRealEncodeBHist N))) =
           some (RegularLocatedCauchyRealUp.mk S Q D M L E H C P N)
-      exact
-        congrArg some
-          (RegularLocatedCauchyRealTasteGate_single_carrier_alignment_mk_congr
-            (regularLocatedCauchyReal_decode_encode S)
-            (regularLocatedCauchyReal_decode_encode Q)
-            (regularLocatedCauchyReal_decode_encode D)
-            (regularLocatedCauchyReal_decode_encode M)
-            (regularLocatedCauchyReal_decode_encode L)
-            (regularLocatedCauchyReal_decode_encode E)
-            (regularLocatedCauchyReal_decode_encode H)
-            (regularLocatedCauchyReal_decode_encode C)
-            (regularLocatedCauchyReal_decode_encode P)
-            (regularLocatedCauchyReal_decode_encode N))
+      rw [regularLocatedCauchyReal_decode_encode S,
+        regularLocatedCauchyReal_decode_encode Q,
+        regularLocatedCauchyReal_decode_encode D,
+        regularLocatedCauchyReal_decode_encode M,
+        regularLocatedCauchyReal_decode_encode L,
+        regularLocatedCauchyReal_decode_encode E,
+        regularLocatedCauchyReal_decode_encode H,
+        regularLocatedCauchyReal_decode_encode C,
+        regularLocatedCauchyReal_decode_encode P,
+        regularLocatedCauchyReal_decode_encode N]
 
 private theorem regularLocatedCauchyRealToEventFlow_injective
     {x y : RegularLocatedCauchyRealUp} :
@@ -168,19 +122,16 @@ private theorem regularLocatedCauchyRealToEventFlow_injective
         regularLocatedCauchyRealToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          regularLocatedCauchyRealFromEventFlow
-            (regularLocatedCauchyRealToEventFlow x) :=
-        (regularLocatedCauchyReal_round_trip x).symm
-      _ =
-          regularLocatedCauchyRealFromEventFlow
-            (regularLocatedCauchyRealToEventFlow y) :=
-        congrArg regularLocatedCauchyRealFromEventFlow hxy
-      _ = some y := regularLocatedCauchyReal_round_trip y
-  exact Option.some.inj optionEq
+  intro heq
+  have hread :
+      regularLocatedCauchyRealFromEventFlow
+          (regularLocatedCauchyRealToEventFlow x) =
+        regularLocatedCauchyRealFromEventFlow
+          (regularLocatedCauchyRealToEventFlow y) :=
+    congrArg regularLocatedCauchyRealFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (regularLocatedCauchyReal_round_trip x).symm
+      (Eq.trans hread (regularLocatedCauchyReal_round_trip y)))
 
 instance regularLocatedCauchyRealBHistCarrier :
     BHistCarrier RegularLocatedCauchyRealUp where
@@ -194,7 +145,8 @@ instance regularLocatedCauchyRealChapterTasteGate :
   round_trip := by
     intro x
     change
-      regularLocatedCauchyRealFromEventFlow (regularLocatedCauchyRealToEventFlow x) =
+      regularLocatedCauchyRealFromEventFlow
+          (regularLocatedCauchyRealToEventFlow x) =
         some x
     exact regularLocatedCauchyReal_round_trip x
   layer_separation := by
@@ -207,22 +159,25 @@ def taste_gate : ChapterTasteGate RegularLocatedCauchyRealUp :=
 
 theorem RegularLocatedCauchyRealTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      regularLocatedCauchyRealDecodeBHist (regularLocatedCauchyRealEncodeBHist h) =
+      regularLocatedCauchyRealDecodeBHist
+          (regularLocatedCauchyRealEncodeBHist h) =
         h) ∧
       (∀ x : RegularLocatedCauchyRealUp,
         regularLocatedCauchyRealFromEventFlow
             (regularLocatedCauchyRealToEventFlow x) =
           some x) ∧
-      (∀ x y : RegularLocatedCauchyRealUp,
-        regularLocatedCauchyRealToEventFlow x =
-            regularLocatedCauchyRealToEventFlow y →
-          x = y) ∧
-      regularLocatedCauchyRealEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : RegularLocatedCauchyRealUp,
+          regularLocatedCauchyRealToEventFlow x =
+              regularLocatedCauchyRealToEventFlow y →
+            x = y) ∧
+          regularLocatedCauchyRealEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨regularLocatedCauchyReal_decode_encode,
       regularLocatedCauchyReal_round_trip,
-      (fun _ _ heq => regularLocatedCauchyRealToEventFlow_injective heq),
+      by
+        intro x y heq
+        exact regularLocatedCauchyRealToEventFlow_injective heq,
       rfl⟩
 
-end BEDC.Derived.RegularLocatedCauchyRealUp
+end BEDC.Derived.RegularLocatedCauchyRealUp.TasteGate

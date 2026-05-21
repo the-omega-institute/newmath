@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DecimalEndpointNormalizationUp
+namespace BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -27,7 +27,8 @@ def decimalEndpointNormalizationDecodeBHist : RawEvent → BHist
 
 private theorem decimalEndpointNormalization_decode_encode :
     ∀ h : BHist,
-      decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationEncodeBHist h) =
+      decimalEndpointNormalizationDecodeBHist
+          (decimalEndpointNormalizationEncodeBHist h) =
         h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -36,28 +37,6 @@ private theorem decimalEndpointNormalization_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private theorem DecimalEndpointNormalizationTasteGate_single_carrier_alignment_mk_congr
-    {D D' E E' L L' A A' W W' Q Q' R R' S S' H H' C C' P P' N N' : BHist}
-    (hD : D = D') (hE : E = E') (hL : L = L') (hA : A = A')
-    (hW : W = W') (hQ : Q = Q') (hR : R = R') (hS : S = S')
-    (hH : H = H') (hC : C = C') (hP : P = P') (hN : N = N') :
-    DecimalEndpointNormalizationUp.mk D E L A W Q R S H C P N =
-      DecimalEndpointNormalizationUp.mk D' E' L' A' W' Q' R' S' H' C' P' N' := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hD
-  cases hE
-  cases hL
-  cases hA
-  cases hW
-  cases hQ
-  cases hR
-  cases hS
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
-
 def decimalEndpointNormalizationFields :
     DecimalEndpointNormalizationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -65,70 +44,41 @@ def decimalEndpointNormalizationFields :
       [D, E, L, A, W, Q, R, S, H, C, P, N]
 
 def decimalEndpointNormalizationToEventFlow :
-    DecimalEndpointNormalizationUp → EventFlow :=
+    DecimalEndpointNormalizationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (decimalEndpointNormalizationFields x).map decimalEndpointNormalizationEncodeBHist
+  | x =>
+      List.map decimalEndpointNormalizationEncodeBHist
+        (decimalEndpointNormalizationFields x)
 
-def decimalEndpointNormalizationFromEventFlow :
-    EventFlow → Option DecimalEndpointNormalizationUp
+private def decimalEndpointNormalizationRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | D :: restD =>
-      match restD with
-      | E :: restE =>
-          match restE with
-          | L :: restL =>
-              match restL with
-              | A :: restA =>
-                  match restA with
-                  | W :: restW =>
-                      match restW with
-                      | Q :: restQ =>
-                          match restQ with
-                          | R :: restR =>
-                              match restR with
-                              | S :: restS =>
-                                  match restS with
-                                  | H :: restH =>
-                                      match restH with
-                                      | C :: restC =>
-                                          match restC with
-                                          | P :: restP =>
-                                              match restP with
-                                              | N :: restN =>
-                                                  match restN with
-                                                  | [] =>
-                                                      some
-                                                        (DecimalEndpointNormalizationUp.mk
-                                                          (decimalEndpointNormalizationDecodeBHist D)
-                                                          (decimalEndpointNormalizationDecodeBHist E)
-                                                          (decimalEndpointNormalizationDecodeBHist L)
-                                                          (decimalEndpointNormalizationDecodeBHist A)
-                                                          (decimalEndpointNormalizationDecodeBHist W)
-                                                          (decimalEndpointNormalizationDecodeBHist Q)
-                                                          (decimalEndpointNormalizationDecodeBHist R)
-                                                          (decimalEndpointNormalizationDecodeBHist S)
-                                                          (decimalEndpointNormalizationDecodeBHist H)
-                                                          (decimalEndpointNormalizationDecodeBHist C)
-                                                          (decimalEndpointNormalizationDecodeBHist P)
-                                                          (decimalEndpointNormalizationDecodeBHist N))
-                                                  | _ :: _ => none
-                                              | [] => none
-                                          | [] => none
-                                      | [] => none
-                                  | [] => none
-                              | [] => none
-                          | [] => none
-                      | [] => none
-                  | [] => none
-              | [] => none
-          | [] => none
-      | [] => none
-  | [] => none
+  | 0, [] => []
+  | 0, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => decimalEndpointNormalizationRawAt index rest
+
+def decimalEndpointNormalizationFromEventFlow
+    (flow : EventFlow) : Option DecimalEndpointNormalizationUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (DecimalEndpointNormalizationUp.mk
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 0 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 1 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 2 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 3 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 4 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 5 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 6 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 7 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 8 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 9 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 10 flow))
+      (decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationRawAt 11 flow)))
 
 private theorem decimalEndpointNormalization_round_trip :
     ∀ x : DecimalEndpointNormalizationUp,
-      decimalEndpointNormalizationFromEventFlow (decimalEndpointNormalizationToEventFlow x) =
+      decimalEndpointNormalizationFromEventFlow
+          (decimalEndpointNormalizationToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -136,47 +86,44 @@ private theorem decimalEndpointNormalization_round_trip :
   | mk D E L A W Q R S H C P N =>
       change
         some
-            (DecimalEndpointNormalizationUp.mk
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist D))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist E))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist L))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist A))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist W))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist Q))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist R))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist S))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist H))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist C))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist P))
-              (decimalEndpointNormalizationDecodeBHist
-                (decimalEndpointNormalizationEncodeBHist N))) =
+          (DecimalEndpointNormalizationUp.mk
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist D))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist E))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist L))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist A))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist W))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist Q))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist R))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist S))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist H))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist C))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist P))
+            (decimalEndpointNormalizationDecodeBHist
+              (decimalEndpointNormalizationEncodeBHist N))) =
           some (DecimalEndpointNormalizationUp.mk D E L A W Q R S H C P N)
-      exact
-        congrArg some
-          (DecimalEndpointNormalizationTasteGate_single_carrier_alignment_mk_congr
-            (decimalEndpointNormalization_decode_encode D)
-            (decimalEndpointNormalization_decode_encode E)
-            (decimalEndpointNormalization_decode_encode L)
-            (decimalEndpointNormalization_decode_encode A)
-            (decimalEndpointNormalization_decode_encode W)
-            (decimalEndpointNormalization_decode_encode Q)
-            (decimalEndpointNormalization_decode_encode R)
-            (decimalEndpointNormalization_decode_encode S)
-            (decimalEndpointNormalization_decode_encode H)
-            (decimalEndpointNormalization_decode_encode C)
-            (decimalEndpointNormalization_decode_encode P)
-            (decimalEndpointNormalization_decode_encode N))
+      rw [decimalEndpointNormalization_decode_encode D,
+        decimalEndpointNormalization_decode_encode E,
+        decimalEndpointNormalization_decode_encode L,
+        decimalEndpointNormalization_decode_encode A,
+        decimalEndpointNormalization_decode_encode W,
+        decimalEndpointNormalization_decode_encode Q,
+        decimalEndpointNormalization_decode_encode R,
+        decimalEndpointNormalization_decode_encode S,
+        decimalEndpointNormalization_decode_encode H,
+        decimalEndpointNormalization_decode_encode C,
+        decimalEndpointNormalization_decode_encode P,
+        decimalEndpointNormalization_decode_encode N]
 
 private theorem decimalEndpointNormalizationToEventFlow_injective
     {x y : DecimalEndpointNormalizationUp} :
@@ -184,19 +131,16 @@ private theorem decimalEndpointNormalizationToEventFlow_injective
         decimalEndpointNormalizationToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          decimalEndpointNormalizationFromEventFlow
-            (decimalEndpointNormalizationToEventFlow x) :=
-        (decimalEndpointNormalization_round_trip x).symm
-      _ =
-          decimalEndpointNormalizationFromEventFlow
-            (decimalEndpointNormalizationToEventFlow y) :=
-        congrArg decimalEndpointNormalizationFromEventFlow hxy
-      _ = some y := decimalEndpointNormalization_round_trip y
-  exact Option.some.inj optionEq
+  intro heq
+  have hread :
+      decimalEndpointNormalizationFromEventFlow
+          (decimalEndpointNormalizationToEventFlow x) =
+        decimalEndpointNormalizationFromEventFlow
+          (decimalEndpointNormalizationToEventFlow y) :=
+    congrArg decimalEndpointNormalizationFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (decimalEndpointNormalization_round_trip x).symm
+      (Eq.trans hread (decimalEndpointNormalization_round_trip y)))
 
 instance decimalEndpointNormalizationBHistCarrier :
     BHistCarrier DecimalEndpointNormalizationUp where
@@ -210,7 +154,8 @@ instance decimalEndpointNormalizationChapterTasteGate :
   round_trip := by
     intro x
     change
-      decimalEndpointNormalizationFromEventFlow (decimalEndpointNormalizationToEventFlow x) =
+      decimalEndpointNormalizationFromEventFlow
+          (decimalEndpointNormalizationToEventFlow x) =
         some x
     exact decimalEndpointNormalization_round_trip x
   layer_separation := by
@@ -223,22 +168,25 @@ def taste_gate : ChapterTasteGate DecimalEndpointNormalizationUp :=
 
 theorem DecimalEndpointNormalizationTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      decimalEndpointNormalizationDecodeBHist (decimalEndpointNormalizationEncodeBHist h) =
+      decimalEndpointNormalizationDecodeBHist
+          (decimalEndpointNormalizationEncodeBHist h) =
         h) ∧
       (∀ x : DecimalEndpointNormalizationUp,
         decimalEndpointNormalizationFromEventFlow
             (decimalEndpointNormalizationToEventFlow x) =
           some x) ∧
-      (∀ x y : DecimalEndpointNormalizationUp,
-        decimalEndpointNormalizationToEventFlow x =
-            decimalEndpointNormalizationToEventFlow y →
-          x = y) ∧
-      decimalEndpointNormalizationEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : DecimalEndpointNormalizationUp,
+          decimalEndpointNormalizationToEventFlow x =
+              decimalEndpointNormalizationToEventFlow y →
+            x = y) ∧
+          decimalEndpointNormalizationEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨decimalEndpointNormalization_decode_encode,
       decimalEndpointNormalization_round_trip,
-      (fun _ _ heq => decimalEndpointNormalizationToEventFlow_injective heq),
+      by
+        intro x y heq
+        exact decimalEndpointNormalizationToEventFlow_injective heq,
       rfl⟩
 
-end BEDC.Derived.DecimalEndpointNormalizationUp
+end BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
