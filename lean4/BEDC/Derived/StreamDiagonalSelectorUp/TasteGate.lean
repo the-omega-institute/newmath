@@ -49,47 +49,27 @@ def streamDiagonalSelectorToEventFlow : StreamDiagonalSelectorUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (streamDiagonalSelectorFields x).map streamDiagonalSelectorEncodeBHist
 
-def streamDiagonalSelectorFromEventFlow : EventFlow → Option StreamDiagonalSelectorUp
+private def StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | schedule :: selector :: window :: readback :: dyadicLedger :: diagonalPacket :: routes ::
-      provenance :: nameCert :: [] =>
-      some
-        (StreamDiagonalSelectorUp.mk
-          (streamDiagonalSelectorDecodeBHist schedule)
-          (streamDiagonalSelectorDecodeBHist selector)
-          (streamDiagonalSelectorDecodeBHist window)
-          (streamDiagonalSelectorDecodeBHist readback)
-          (streamDiagonalSelectorDecodeBHist dyadicLedger)
-          (streamDiagonalSelectorDecodeBHist diagonalPacket)
-          (streamDiagonalSelectorDecodeBHist routes)
-          (streamDiagonalSelectorDecodeBHist provenance)
-          (streamDiagonalSelectorDecodeBHist nameCert))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault index rest
 
-private theorem streamDiagonalSelector_mk_congr
-    {schedule schedule' selector selector' window window' readback readback'
-      dyadicLedger dyadicLedger' diagonalPacket diagonalPacket' routes routes'
-      provenance provenance' nameCert nameCert' : BHist}
-    (hschedule : schedule' = schedule) (hselector : selector' = selector)
-    (hwindow : window' = window) (hreadback : readback' = readback)
-    (hdyadicLedger : dyadicLedger' = dyadicLedger)
-    (hdiagonalPacket : diagonalPacket' = diagonalPacket) (hroutes : routes' = routes)
-    (hprovenance : provenance' = provenance) (hnameCert : nameCert' = nameCert) :
-    StreamDiagonalSelectorUp.mk schedule' selector' window' readback' dyadicLedger'
-        diagonalPacket' routes' provenance' nameCert' =
-      StreamDiagonalSelectorUp.mk schedule selector window readback dyadicLedger diagonalPacket
-        routes provenance nameCert := by
+def streamDiagonalSelectorFromEventFlow
+    (ef : EventFlow) : Option StreamDiagonalSelectorUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  cases hschedule
-  cases hselector
-  cases hwindow
-  cases hreadback
-  cases hdyadicLedger
-  cases hdiagonalPacket
-  cases hroutes
-  cases hprovenance
-  cases hnameCert
-  rfl
+  some
+    (StreamDiagonalSelectorUp.mk
+      (streamDiagonalSelectorDecodeBHist (StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault 0 ef))
+      (streamDiagonalSelectorDecodeBHist (StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
+      (streamDiagonalSelectorDecodeBHist (StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault 2 ef))
+      (streamDiagonalSelectorDecodeBHist (StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
+      (streamDiagonalSelectorDecodeBHist (StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault 4 ef))
+      (streamDiagonalSelectorDecodeBHist (StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
+      (streamDiagonalSelectorDecodeBHist (StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault 6 ef))
+      (streamDiagonalSelectorDecodeBHist (StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
+      (streamDiagonalSelectorDecodeBHist (StreamDiagonalSelectorTasteGate_single_carrier_alignment_eventAtDefault 8 ef)))
 
 private theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip
     (x : StreamDiagonalSelectorUp) :
@@ -97,19 +77,39 @@ private theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_t
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk schedule selector window readback dyadicLedger diagonalPacket routes provenance nameCert =>
-      exact
-        congrArg some
-          (streamDiagonalSelector_mk_congr
-            (StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode schedule)
-            (StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode selector)
-            (StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode window)
-            (StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode readback)
-            (StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode dyadicLedger)
-            (StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode
-              diagonalPacket)
-            (StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode routes)
-            (StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode provenance)
-            (StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode nameCert))
+      change
+        some
+          (StreamDiagonalSelectorUp.mk
+            (streamDiagonalSelectorDecodeBHist
+              (streamDiagonalSelectorEncodeBHist schedule))
+            (streamDiagonalSelectorDecodeBHist
+              (streamDiagonalSelectorEncodeBHist selector))
+            (streamDiagonalSelectorDecodeBHist
+              (streamDiagonalSelectorEncodeBHist window))
+            (streamDiagonalSelectorDecodeBHist
+              (streamDiagonalSelectorEncodeBHist readback))
+            (streamDiagonalSelectorDecodeBHist
+              (streamDiagonalSelectorEncodeBHist dyadicLedger))
+            (streamDiagonalSelectorDecodeBHist
+              (streamDiagonalSelectorEncodeBHist diagonalPacket))
+            (streamDiagonalSelectorDecodeBHist
+              (streamDiagonalSelectorEncodeBHist routes))
+            (streamDiagonalSelectorDecodeBHist
+              (streamDiagonalSelectorEncodeBHist provenance))
+            (streamDiagonalSelectorDecodeBHist
+              (streamDiagonalSelectorEncodeBHist nameCert))) =
+          some
+            (StreamDiagonalSelectorUp.mk schedule selector window readback dyadicLedger
+              diagonalPacket routes provenance nameCert)
+      rw [StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode schedule,
+        StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode selector,
+        StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode window,
+        StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode readback,
+        StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode dyadicLedger,
+        StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode diagonalPacket,
+        StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode routes,
+        StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode provenance,
+        StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode nameCert]
 
 private theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : StreamDiagonalSelectorUp} :
