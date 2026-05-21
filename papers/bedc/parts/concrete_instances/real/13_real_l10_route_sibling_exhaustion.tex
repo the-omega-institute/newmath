@@ -449,3 +449,48 @@ selected limits, choice selectors, metric or ambient completeness data,
 aggregate formalstatus rows, and bridge rows outside the accepted normal
 form.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal route support bicriterion]
+\label{thm:real-l10-terminal-route-support-bicriterion}
+Let $\mathcal{U}$ be a finite Real-facing terminal cover at the current Phase
+Real and Completion public route. Then $\mathcal{U}$ presents that public
+route if and only if every member of $\mathcal{U}$, and every overlap between
+two members of $\mathcal{U}$, factors through exactly
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, local $\RealUp$, and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by
+those four faces. Equivalently, two such terminal covers have the same public
+route read precisely when their $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and local $\RealUp$ faces agree and their displayed support
+rows agree.
+
+No quotient stream, selected limit, countable-choice selector,
+metric-completeness datum, aggregate formalstatus row, bridge row, or ambient
+$\RealUp$ completeness witness is part of either side of the criterion.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume that $\mathcal{U}$ presents the public
+Phase Real and Completion route. Apply
+\autoref{thm:real-l10-terminal-cover-support-normal-form} to put the finite
+terminal cover in support normal form. Then apply
+\autoref{thm:real-l10-four-face-public-pullback-criterion} to identify the
+public route read with equality of the four displayed object faces and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For the reverse direction, assume that every member and overlap factors
+through exactly the four listed faces and the displayed support rows. Apply
+\autoref{thm:real-l10-route-cover-phase-exit-exactness} to package these
+finite rows as Real L10 route-cover data at the Phase Real and Completion
+exit. Then apply
+\autoref{thm:real-l10-route-cover-phase-exit-converse} to recover the
+accepted terminal presentations on the same public route.
+
+The equivalence of public route reads is the same argument with two covers in
+parallel: the normal-form theorem reduces each cover to the four faces and
+support rows, and the four-face public pullback criterion compares exactly
+those data. The exclusions are preserved because each cited theorem keeps the
+route finite and terminal: route-cover exactness and converse introduce only
+accepted Real L10 rows, the normal form admits only the four displayed faces,
+and the public pullback criterion refuses quotient streams, selected limits,
+countable choice, metric or ambient completeness data, aggregate formalstatus
+rows, and bridge rows.
+\end{proof}
