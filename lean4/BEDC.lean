@@ -3389,6 +3389,8 @@ import BEDC.Derived.MetricUp.RealAlgOrderPositiveRadiusBudgetInterface
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveRadiusDistanceBoundary
 import BEDC.Derived.MetricUp.RealDistancePublicLawPackage
 import BEDC.Derived.MetricUp.RightE1ResultShape
+import BEDC.Derived.MetricUp.SOneEquationDistanceFactorization
+import BEDC.Derived.MetricUp.SOneEquationDistanceSymmetry
 import BEDC.Derived.MetricUp.StdBridge
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.MetricUp.Triangle
