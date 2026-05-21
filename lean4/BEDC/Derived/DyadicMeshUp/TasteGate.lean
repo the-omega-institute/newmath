@@ -13,6 +13,7 @@ inductive DyadicMeshUp : Type where
   | mk :
       (level cellIndex interval enclosure handoff consumer provenance nameCert : BHist) →
         DyadicMeshUp
+  deriving DecidableEq
 
 def dyadicMeshEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -149,6 +150,23 @@ instance dyadicMeshChapterTasteGate : ChapterTasteGate DyadicMeshUp where
 def taste_gate : ChapterTasteGate DyadicMeshUp :=
   -- BEDC touchpoint anchor: BHist BMark
   dyadicMeshChapterTasteGate
+
+theorem DyadicMeshTasteGate_single_carrier_alignment :
+    (∀ h : BHist, dyadicMeshDecodeBHist (dyadicMeshEncodeBHist h) = h) ∧
+      (∀ x : DyadicMeshUp,
+        dyadicMeshFromEventFlow (dyadicMeshToEventFlow x) = some x) ∧
+        (∀ x y : DyadicMeshUp,
+          dyadicMeshToEventFlow x = dyadicMeshToEventFlow y → x = y) ∧
+          dyadicMeshEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact dyadicMesh_decode_encode
+  · constructor
+    · exact dyadicMesh_round_trip
+    · constructor
+      · intro x y heq
+        exact dyadicMeshToEventFlow_injective heq
+      · rfl
 
 theorem dyadicMeshTasteGate_single_carrier_alignment :
     (∀ x : DyadicMeshUp, dyadicMeshFromEventFlow (dyadicMeshToEventFlow x) = some x) ∧

@@ -409,4 +409,95 @@ theorem FiniteLebesgueNumberCompactContinuousTriad [AskSetup] [PackageSetup]
     ⟨compactUnary, continuousUnary, uniformUnary, radiusMeshCompact,
       compactRouteContinuous, continuousNameUniform, provenancePkg, uniformPkg⟩
 
+theorem FiniteLebesgueNumberRootRadiusWindowObligationSurface [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow radiusRead windowRead
+      rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont cover radius radiusRead ->
+        Cont window radius windowRead ->
+          Cont route nameRow rootRead ->
+            PkgSig bundle rootRead pkg ->
+              UnaryHistory cover /\ UnaryHistory window /\ UnaryHistory radius /\
+                UnaryHistory mesh /\ UnaryHistory radiusRead /\ UnaryHistory windowRead /\
+                  UnaryHistory rootRead /\ Cont cover window radius /\
+                    Cont cover radius radiusRead /\ Cont window radius windowRead /\
+                      Cont route nameRow rootRead /\ PkgSig bundle provenance pkg /\
+                        PkgSig bundle rootRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier coverRadiusRead windowRadiusRead routeNameRoot rootPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed coverUnary radiusUnary coverRadiusRead
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowUnary radiusUnary windowRadiusRead
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameRoot
+  exact
+    ⟨coverUnary, windowUnary, radiusUnary, meshUnary, radiusReadUnary, windowReadUnary,
+      rootReadUnary, coverWindowRadius, coverRadiusRead, windowRadiusRead, routeNameRoot,
+      provenancePkg, rootPkg⟩
+
+theorem FiniteLebesgueNumberCompactUniformSelectorHandoff [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactNetRead uniformRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont radius mesh compactNetRead ->
+        Cont compactNetRead nameRow uniformRead ->
+          PkgSig bundle uniformRead pkg ->
+            UnaryHistory cover ∧ UnaryHistory window ∧ UnaryHistory radius ∧
+              UnaryHistory mesh ∧ UnaryHistory compactNetRead ∧ UnaryHistory uniformRead ∧
+                Cont cover window radius ∧ Cont radius mesh compactNetRead ∧
+                  Cont compactNetRead nameRow uniformRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle uniformRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier radiusMeshCompact compactNameUniform uniformPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, nameRowUnary, coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have compactNetUnary : UnaryHistory compactNetRead :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshCompact
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed compactNetUnary nameRowUnary compactNameUniform
+  exact
+    ⟨coverUnary, windowUnary, radiusUnary, meshUnary, compactNetUnary, uniformUnary,
+      coverWindowRadius, radiusMeshCompact, compactNameUniform, provenancePkg, uniformPkg⟩
+
+theorem FiniteLebesgueNumberOpenPhaseRootUnblockRadiusCoverage [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow rootRead phaseRead
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont route nameRow rootRead ->
+        Cont rootRead radius phaseRead ->
+          Cont phaseRead mesh consumerRead ->
+            PkgSig bundle consumerRead pkg ->
+              UnaryHistory cover ∧ UnaryHistory window ∧ UnaryHistory radius ∧
+                UnaryHistory mesh ∧ UnaryHistory rootRead ∧ UnaryHistory phaseRead ∧
+                  UnaryHistory consumerRead ∧ Cont cover window radius ∧
+                    Cont route nameRow rootRead ∧ Cont rootRead radius phaseRead ∧
+                      Cont phaseRead mesh consumerRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier routeNameRoot rootRadiusPhase phaseMeshConsumer consumerPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameRoot
+  have phaseUnary : UnaryHistory phaseRead :=
+    unary_cont_closed rootUnary radiusUnary rootRadiusPhase
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed phaseUnary meshUnary phaseMeshConsumer
+  exact
+    ⟨coverUnary, windowUnary, radiusUnary, meshUnary, rootUnary, phaseUnary, consumerUnary,
+      coverWindowRadius, routeNameRoot, rootRadiusPhase, phaseMeshConsumer, provenancePkg,
+      consumerPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
