@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import collections
+import functools
 import fractions
 import http.client
 import itertools
@@ -99,6 +100,8 @@ AMBIGUOUS_LABELS = {
 
 
 def fetch_ncbi_page() -> str:
+    if NCBI_GENETIC_CODES_CACHE.exists():
+        return NCBI_GENETIC_CODES_CACHE.read_text(encoding="utf-8", errors="replace")
     request = urllib.request.Request(
         NCBI_GENETIC_CODES_URL,
         headers={"User-Agent": "BEDC-codon-window-spectra", "Accept-Encoding": "identity"},
@@ -1203,6 +1206,7 @@ def edge_isoperimetric_max_edges(dimension: int, size: int) -> int:
     return recur(dimension, size)
 
 
+@functools.lru_cache(maxsize=None)
 def median_codon(left: str, middle: str, right: str) -> str:
     return codon_from_bits(
         "".join(
@@ -1234,6 +1238,169 @@ def median_closure(codons: set[str]) -> tuple[set[str], list[dict[str, object]]]
             }
         )
     return closed, stages
+
+
+BIT_COORDINATES = ("s1", "f1", "s2", "f2", "s3", "f3")
+
+
+def cube_automorphisms() -> tuple[tuple[tuple[int, ...], tuple[int, ...]], ...]:
+    return tuple(
+        (permutation, flips)
+        for permutation in itertools.permutations(range(6))
+        for flips in itertools.product((0, 1), repeat=6)
+    )
+
+
+def apply_cube_automorphism(
+    codon: str,
+    permutation: tuple[int, ...],
+    flips: tuple[int, ...],
+) -> str:
+    word = bits(codon)
+    return codon_from_bits(
+        "".join(str(int(word[permutation[index]]) ^ flips[index]) for index in range(6))
+    )
+
+
+def automorphism_name(permutation: tuple[int, ...], flips: tuple[int, ...]) -> str:
+    identity = tuple(range(6))
+    if permutation == identity and all(flip == 0 for flip in flips):
+        return "id"
+    if permutation == (3, 1, 2, 0, 4, 5) and all(flip == 0 for flip in flips):
+        return "swap(s1,f2)"
+    moved = [
+        f"{BIT_COORDINATES[index]}<-{BIT_COORDINATES[source]}"
+        for index, source in enumerate(permutation)
+        if index != source
+    ]
+    flipped = [
+        f"flip({BIT_COORDINATES[index]})"
+        for index, flip in enumerate(flips)
+        if flip
+    ]
+    return ";".join(moved + flipped)
+
+
+def stabilizer_of_set(
+    codons: set[str],
+    automorphisms: tuple[tuple[tuple[int, ...], tuple[int, ...]], ...],
+) -> tuple[tuple[tuple[int, ...], tuple[int, ...]], ...]:
+    return tuple(
+        (permutation, flips)
+        for permutation, flips in automorphisms
+        if {
+            apply_cube_automorphism(codon, permutation, flips)
+            for codon in codons
+        }
+        == codons
+    )
+
+
+def stabilizer_of_weight(
+    weights: dict[str, int],
+    automorphisms: tuple[tuple[tuple[int, ...], tuple[int, ...]], ...],
+) -> tuple[tuple[tuple[int, ...], tuple[int, ...]], ...]:
+    codons = tuple(sorted(weights))
+    return tuple(
+        (permutation, flips)
+        for permutation, flips in automorphisms
+        if all(
+            weights[apply_cube_automorphism(codon, permutation, flips)] == weights[codon]
+            for codon in codons
+        )
+    )
+
+
+def automorphism_orbits(
+    codons: set[str],
+    automorphisms: tuple[tuple[tuple[int, ...], tuple[int, ...]], ...],
+) -> tuple[tuple[str, ...], ...]:
+    remaining = set(codons)
+    orbits: list[tuple[str, ...]] = []
+    while remaining:
+        seed = min(remaining)
+        orbit = {
+            apply_cube_automorphism(seed, permutation, flips)
+            for permutation, flips in automorphisms
+        } & codons
+        orbit_tuple = tuple(sorted(orbit))
+        orbits.append(orbit_tuple)
+        remaining -= orbit
+    orbits.sort(key=lambda orbit: (-len(orbit), orbit))
+    return tuple(orbits)
+
+
+def automorphism_permutation_vector(
+    permutation: tuple[int, ...],
+    flips: tuple[int, ...],
+    codons: tuple[str, ...],
+    codon_index: dict[str, int],
+) -> tuple[int, ...]:
+    bit_codes = tuple(int(bits(codon), 2) for codon in codons)
+    index_by_bit_code = {code: index for index, code in enumerate(bit_codes)}
+    return tuple(
+        index_by_bit_code[
+            sum(
+                (((code >> (5 - permutation[index])) & 1) ^ flips[index]) << (5 - index)
+                for index in range(6)
+            )
+        ]
+        for code in bit_codes
+    )
+
+
+def set_stabilizer_indices(
+    codon_indices: frozenset[int],
+    automorphism_vectors: tuple[tuple[int, ...], ...],
+) -> tuple[int, ...]:
+    return tuple(
+        index
+        for index, vector in enumerate(automorphism_vectors)
+        if frozenset(vector[codon_index] for codon_index in codon_indices) == codon_indices
+    )
+
+
+def weight_stabilizer_indices(
+    weights: tuple[int, ...],
+    automorphism_vectors: tuple[tuple[int, ...], ...],
+) -> tuple[int, ...]:
+    return tuple(
+        index
+        for index, vector in enumerate(automorphism_vectors)
+        if all(weights[vector[codon_index]] == weights[codon_index] for codon_index in range(len(weights)))
+    )
+
+
+def indexed_orbits(
+    codon_indices: frozenset[int],
+    stabilizer_indices: tuple[int, ...],
+    automorphism_vectors: tuple[tuple[int, ...], ...],
+    codons: tuple[str, ...],
+) -> tuple[tuple[str, ...], ...]:
+    remaining = set(codon_indices)
+    orbits: list[tuple[str, ...]] = []
+    while remaining:
+        seed = min(remaining)
+        orbit_indices = {
+            automorphism_vectors[automorphism_index][seed]
+            for automorphism_index in stabilizer_indices
+        } & set(codon_indices)
+        orbit_indices.add(seed)
+        orbit = tuple(sorted(codons[index] for index in orbit_indices))
+        orbits.append(orbit)
+        remaining -= orbit_indices
+    orbits.sort(key=lambda orbit: (-len(orbit), orbit))
+    return tuple(orbits)
+
+
+def median_index(left: int, middle: int, right: int) -> int:
+    value = 0
+    for bit_index in range(6):
+        mask = 1 << bit_index
+        ones = int(bool(left & mask)) + int(bool(middle & mask)) + int(bool(right & mask))
+        if ones >= 2:
+            value |= mask
+    return value
 
 
 def interval_closure(codons: set[str]) -> tuple[set[str], list[dict[str, object]]]:
@@ -2117,18 +2284,24 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     random_leakage_output_sum = 0
     random_closed_exceed = 0
     random_leakage_output_leq = 0
+    indexed_median_triples = {
+        (left, middle, right): median_index(left, middle, right)
+        for left, middle, right in itertools.combinations(range(64), 3)
+    }
     for _trial in range(leakage_random_trials):
-        sample = set(leakage_random.sample(all_codon_tuple, len(support)))
-        sample_tuple = tuple(sorted(sample))
-        sample_outputs = [
-            median_codon(*triple)
-            for triple in itertools.combinations(sample_tuple, 3)
-        ]
-        sample_closed = sum(1 for output in sample_outputs if output in sample)
+        sample_indices = sorted(leakage_random.sample(range(64), len(support)))
+        sample_index_set = set(sample_indices)
+        sample_outputs = []
+        sample_closed = 0
+        for triple in itertools.combinations(sample_indices, 3):
+            output = indexed_median_triples[triple]
+            sample_outputs.append(output)
+            if output in sample_index_set:
+                sample_closed += 1
         sample_output_set = set(sample_outputs)
-        sample_leakage_outputs = sample_output_set - sample
+        sample_leakage_outputs = sample_output_set - sample_index_set
         random_closed_sum += sample_closed
-        random_one_step_size_sum += len(sample | sample_output_set)
+        random_one_step_size_sum += len(sample_index_set | sample_output_set)
         random_leakage_output_sum += len(sample_leakage_outputs)
         if sample_closed >= closed_triple_count:
             random_closed_exceed += 1
@@ -2236,6 +2409,43 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         if q2_percolating_seeds:
             minimal_q2_percolating_seed_size = size
             break
+
+    automorphisms = cube_automorphisms()
+    symmetry_codons = tuple(all_codons())
+    symmetry_codon_index = {codon: index for index, codon in enumerate(symmetry_codons)}
+    automorphism_vectors = tuple(
+        automorphism_permutation_vector(permutation, flips, symmetry_codons, symmetry_codon_index)
+        for permutation, flips in automorphisms
+    )
+    support_indices = frozenset(symmetry_codon_index[codon] for codon in support)
+    anchor_indices = frozenset(symmetry_codon_index[codon] for codon in anchor_closure)
+    stage_one_indices = frozenset(symmetry_codon_index[codon] for codon in median_stage_one)
+    median_indices = frozenset(symmetry_codon_index[codon] for codon in median_set)
+    support_stabilizer_indices = set_stabilizer_indices(support_indices, automorphism_vectors)
+    anchor_stabilizer_indices = set_stabilizer_indices(anchor_indices, automorphism_vectors)
+    stage_one_stabilizer_indices = set_stabilizer_indices(stage_one_indices, automorphism_vectors)
+    median_stabilizer_indices = set_stabilizer_indices(median_indices, automorphism_vectors)
+    weights_for_symmetry = tuple(codon_weight(codon) for codon in symmetry_codons)
+    weight_stabilizer_indices_tuple = weight_stabilizer_indices(weights_for_symmetry, automorphism_vectors)
+    tau = ((3, 1, 2, 0, 4, 5), (0, 0, 0, 0, 0, 0))
+    tau_index = automorphisms.index(tau)
+    tau_orbits = {
+        "support": indexed_orbits(support_indices, (0, tau_index), automorphism_vectors, symmetry_codons),
+        "anchor_closure": indexed_orbits(anchor_indices, (0, tau_index), automorphism_vectors, symmetry_codons),
+        "stage_one": indexed_orbits(stage_one_indices, (0, tau_index), automorphism_vectors, symmetry_codons),
+    }
+    median_formula_stabilizer = [
+        index
+        for index in median_stabilizer_indices
+        for permutation, flips in (automorphisms[index],)
+        if set(permutation[index] for index in (0, 2, 3)) == {0, 2, 3}
+        and permutation[1] == 1
+        and permutation[4] == 4
+        and permutation[5] == 5
+        and all(flips[index] == 0 for index in (0, 1, 2, 3, 4))
+    ]
+    median_orbits = indexed_orbits(median_indices, median_stabilizer_indices, automorphism_vectors, symmetry_codons)
+    acg_orbit = tuple(orbit for orbit in median_orbits if "ACG" in orbit)[0]
 
     return {
         "support": tuple(sorted(support)),
@@ -2496,6 +2706,55 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "q2_single_deletion_all_percolate": all(row["percolates"] for row in q2_deletion_rows),
             "minimal_q2_percolating_seed_size": minimal_q2_percolating_seed_size,
             "minimal_q2_percolating_seed_count": len(q2_percolating_seeds),
+        },
+        "symmetry_restoration": {
+            "automorphism_group_size": len(automorphisms),
+            "weight_stabilizer_size": len(weight_stabilizer_indices_tuple),
+            "weight_stabilizer_names": [
+                automorphism_name(*automorphisms[index])
+                for index in weight_stabilizer_indices_tuple
+            ],
+            "support_stabilizer_size": len(support_stabilizer_indices),
+            "support_stabilizer_names": [
+                automorphism_name(*automorphisms[index])
+                for index in support_stabilizer_indices
+            ],
+            "anchor_stabilizer_size": len(anchor_stabilizer_indices),
+            "anchor_stabilizer_names": [
+                automorphism_name(*automorphisms[index])
+                for index in anchor_stabilizer_indices
+            ],
+            "stage_one_stabilizer_size": len(stage_one_stabilizer_indices),
+            "stage_one_stabilizer_names": [
+                automorphism_name(*automorphisms[index])
+                for index in stage_one_stabilizer_indices
+            ],
+            "median_stabilizer_size": len(median_stabilizer_indices),
+            "median_stabilizer_names": [
+                automorphism_name(*automorphisms[index])
+                for index in median_stabilizer_indices
+            ],
+            "median_stabilizer_is_s3_times_c2": len(median_stabilizer_indices) == 12
+            and len(median_formula_stabilizer) == 12,
+            "tau_generator": "swap(s1,f2)",
+            "tau_orbits": tau_orbits,
+            "median_orbits": median_orbits,
+            "acg_orbit": acg_orbit,
+            "acg_orbit_missing_from_stage_one": tuple(sorted(set(acg_orbit) - median_stage_one)),
+            "stage_one_is_median_without_acg": median_stage_one == median_set - {"ACG"},
+            "symmetry_chain": [
+                {"object": "weight", "stabilizer_size": len(weight_stabilizer_indices_tuple), "group": "trivial"},
+                {"object": "support", "stabilizer_size": len(support_stabilizer_indices), "group": "C2"},
+                {"object": "anchor_closure", "stabilizer_size": len(anchor_stabilizer_indices), "group": "C2"},
+                {"object": "median_stage_one", "stabilizer_size": len(stage_one_stabilizer_indices), "group": "C2"},
+                {"object": "median_closure", "stabilizer_size": len(median_stabilizer_indices), "group": "S3 x C2"},
+            ],
+            "tau_weight_violation": {
+                "left": "TGA",
+                "right": apply_cube_automorphism("TGA", *tau),
+                "left_weight": weights_for_symmetry[symmetry_codon_index["TGA"]],
+                "right_weight": weights_for_symmetry[symmetry_codon_index[apply_cube_automorphism("TGA", *tau)]],
+            },
         },
     }
 
@@ -3812,6 +4071,58 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert all(row["closure_size"] == 64 and row["percolates"] for row in robustness["q2_single_deletion_rows"])
     assert robustness["minimal_q2_percolating_seed_size"] == 7
     assert robustness["minimal_q2_percolating_seed_count"] == 484
+    symmetry = summary["support_compression"]["symmetry_restoration"]
+    assert symmetry["automorphism_group_size"] == 46080
+    assert symmetry["weight_stabilizer_size"] == 1
+    assert symmetry["weight_stabilizer_names"] == ["id"]
+    assert symmetry["support_stabilizer_size"] == 2
+    assert symmetry["support_stabilizer_names"] == ["id", "swap(s1,f2)"]
+    assert symmetry["anchor_stabilizer_size"] == 2
+    assert symmetry["anchor_stabilizer_names"] == ["id", "swap(s1,f2)"]
+    assert symmetry["stage_one_stabilizer_size"] == 2
+    assert symmetry["stage_one_stabilizer_names"] == ["id", "swap(s1,f2)"]
+    assert symmetry["median_stabilizer_size"] == 12
+    assert symmetry["median_stabilizer_is_s3_times_c2"] is True
+    assert symmetry["tau_orbits"] == {
+        "support": (
+            ("AAA", "TGA"), ("ATA", "TCA"), ("AGA",), ("AGG",), ("CTA",),
+            ("CTC",), ("CTG",), ("CTT",), ("TAA",), ("TAG",), ("TTA",),
+        ),
+        "anchor_closure": (
+            ("AAA", "TGA"), ("AAG", "TGG"), ("ATA", "TCA"), ("ACA",),
+            ("AGA",), ("AGG",), ("CTA",), ("CTC",), ("CTG",), ("CTT",),
+            ("TAA",), ("TAG",), ("TTA",),
+        ),
+        "stage_one": (
+            ("AAA", "TGA"), ("AAG", "TGG"), ("ATA", "TCA"), ("ATG", "TCG"),
+            ("ACA",), ("AGA",), ("AGG",), ("CTA",), ("CTC",), ("CTG",),
+            ("CTT",), ("TAA",), ("TAG",), ("TTA",), ("TTG",),
+        ),
+    }
+    assert symmetry["median_orbits"] == (
+        ("AAA", "AAG", "ACA", "ACG", "TGA", "TGG"),
+        ("ATA", "ATG", "TAA", "TAG", "TCA", "TCG"),
+        ("AGA", "AGG"),
+        ("CTA", "CTG"),
+        ("CTC", "CTT"),
+        ("TTA", "TTG"),
+    )
+    assert symmetry["acg_orbit"] == ("AAA", "AAG", "ACA", "ACG", "TGA", "TGG")
+    assert symmetry["acg_orbit_missing_from_stage_one"] == ("ACG",)
+    assert symmetry["stage_one_is_median_without_acg"] is True
+    assert symmetry["symmetry_chain"] == [
+        {"object": "weight", "stabilizer_size": 1, "group": "trivial"},
+        {"object": "support", "stabilizer_size": 2, "group": "C2"},
+        {"object": "anchor_closure", "stabilizer_size": 2, "group": "C2"},
+        {"object": "median_stage_one", "stabilizer_size": 2, "group": "C2"},
+        {"object": "median_closure", "stabilizer_size": 12, "group": "S3 x C2"},
+    ]
+    assert symmetry["tau_weight_violation"] == {
+        "left": "TGA",
+        "right": "AAA",
+        "left_weight": 15,
+        "right_weight": 3,
+    }
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
