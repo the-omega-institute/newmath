@@ -1598,6 +1598,142 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     envelope_motifs = ("WRR", "CUN", "WYA")
     envelope_sets = {motif: set(expand_iupac_motif(motif)) for motif in envelope_motifs}
     envelope_union = set().union(*envelope_sets.values())
+
+    graph_edges = tuple(
+        (left, right)
+        for left, right, _direction in hamming_edges()
+        if left in support and right in support
+    )
+    graph_adjacency: dict[str, set[str]] = {codon: set() for codon in support}
+    for left, right in graph_edges:
+        graph_adjacency[left].add(right)
+        graph_adjacency[right].add(left)
+
+    def graph_components(adjacency: dict[str, set[str]]) -> list[tuple[str, ...]]:
+        seen: set[str] = set()
+        components: list[tuple[str, ...]] = []
+        for node in sorted(adjacency):
+            if node in seen:
+                continue
+            stack = [node]
+            seen.add(node)
+            component: list[str] = []
+            while stack:
+                item = stack.pop()
+                component.append(item)
+                for neighbor in sorted(adjacency[item], reverse=True):
+                    if neighbor not in seen:
+                        seen.add(neighbor)
+                        stack.append(neighbor)
+            components.append(tuple(sorted(component)))
+        components.sort(key=lambda component: (-len(component), component))
+        return components
+
+    graph_components_list = graph_components(graph_adjacency)
+
+    q2_squares = [
+        {
+            **block,
+            "name": subcube_name(block["vertices"]),
+            "weight": block_weight(block),
+        }
+        for block in all_internal_subcubes
+        if block["dimension"] == 2
+    ]
+    q2_squares.sort(key=lambda block: block["name"])
+
+    wna = set(expand_iupac_motif("WNA"))
+    punctured_wna = wna - {"ACA"}
+    cun = set(expand_iupac_motif("CUN"))
+    leaves = {"TAG", "AGG"}
+    skeleton_union = punctured_wna | cun | leaves
+
+    def edges_inside(vertices: set[str]) -> tuple[tuple[str, str], ...]:
+        return tuple((left, right) for left, right in graph_edges if left in vertices and right in vertices)
+
+    punctured_edges = edges_inside(punctured_wna)
+    cun_edges = edges_inside(cun)
+    bridge_edges = tuple(
+        (left, right)
+        for left, right in graph_edges
+        if (left, right) not in punctured_edges and (left, right) not in cun_edges
+    )
+
+    def without_vertex_components(removed: str) -> list[tuple[str, ...]]:
+        adjacency = {
+            node: {neighbor for neighbor in neighbors if neighbor != removed}
+            for node, neighbors in graph_adjacency.items()
+            if node != removed
+        }
+        return graph_components(adjacency)
+
+    articulation_rows = [
+        {
+            "codon": codon,
+            "components_after_removal": without_vertex_components(codon),
+        }
+        for codon in sorted(support)
+        if len(without_vertex_components(codon)) > 1
+    ]
+
+    def biconnected_components() -> list[tuple[str, ...]]:
+        discovery: dict[str, int] = {}
+        low: dict[str, int] = {}
+        parent: dict[str, str | None] = {}
+        edge_stack: list[tuple[str, str]] = []
+        components: list[tuple[str, ...]] = []
+        tick = 0
+
+        def dfs(node: str) -> None:
+            nonlocal tick
+            discovery[node] = tick
+            low[node] = tick
+            tick += 1
+            for neighbor in sorted(graph_adjacency[node]):
+                if neighbor not in discovery:
+                    parent[neighbor] = node
+                    edge_stack.append((node, neighbor))
+                    dfs(neighbor)
+                    low[node] = min(low[node], low[neighbor])
+                    if low[neighbor] >= discovery[node]:
+                        vertices: set[str] = set()
+                        while edge_stack:
+                            edge = edge_stack.pop()
+                            vertices.update(edge)
+                            if edge == (node, neighbor):
+                                break
+                        components.append(tuple(sorted(vertices)))
+                elif parent.get(node) != neighbor and discovery[neighbor] < discovery[node]:
+                    low[node] = min(low[node], discovery[neighbor])
+                    edge_stack.append((node, neighbor))
+
+        for node in sorted(graph_adjacency):
+            if node not in discovery:
+                parent[node] = None
+                dfs(node)
+                if edge_stack:
+                    vertices = set()
+                    while edge_stack:
+                        vertices.update(edge_stack.pop())
+                    components.append(tuple(sorted(vertices)))
+        components.sort(key=lambda component: (-len(component), component))
+        return components
+
+    biconnected = biconnected_components()
+    random_trials = 100000
+    random_seed = 20260522
+    random_generator = random.Random(random_seed)
+    all_edges = tuple((left, right) for left, right, _direction in hamming_edges())
+    all_codon_tuple = tuple(all_codons())
+    exceed_count = 0
+    edge_sum = 0
+    for _trial in range(random_trials):
+        sample = set(random_generator.sample(all_codon_tuple, len(support)))
+        edge_count = sum(1 for left, right in all_edges if left in sample and right in sample)
+        edge_sum += edge_count
+        if edge_count >= len(graph_edges):
+            exceed_count += 1
+
     return {
         "support": tuple(sorted(support)),
         "support_size": len(support),
@@ -1638,6 +1774,44 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "envelope_union": tuple(sorted(envelope_union)),
         "envelope_false_positives": tuple(sorted(envelope_union - support)),
         "envelope_covers_support": support <= envelope_union,
+        "skeleton": {
+            "node_count": len(support),
+            "edge_count": len(graph_edges),
+            "component_count": len(graph_components_list),
+            "component_sizes": [len(component) for component in graph_components_list],
+            "cyclomatic_number": len(graph_edges) - len(support) + len(graph_components_list),
+            "edges": graph_edges,
+            "q2_squares": [
+                {
+                    "name": block["name"],
+                    "vertices": block["vertices"],
+                    "weight": block["weight"],
+                }
+                for block in q2_squares
+            ],
+            "wna": tuple(expand_iupac_motif("WNA")),
+            "punctured_wna": tuple(codon for codon in expand_iupac_motif("WNA") if codon != "ACA"),
+            "punctured_wna_missing": "ACA",
+            "skeleton_formula_matches_support": skeleton_union == support,
+            "punctured_wna_edges": punctured_edges,
+            "cun_edges": cun_edges,
+            "bridge_edges": bridge_edges,
+            "leaf_codons": tuple(sorted(codon for codon, neighbors in graph_adjacency.items() if len(neighbors) == 1)),
+            "degrees": dict(sorted((codon, len(neighbors)) for codon, neighbors in graph_adjacency.items())),
+            "articulation_codons": tuple(row["codon"] for row in articulation_rows),
+            "articulation_rows": articulation_rows,
+            "biconnected_components": biconnected,
+            "largest_biconnected_component": biconnected[0],
+            "largest_biconnected_component_weight": sum(codon_weight(codon) for codon in biconnected[0]),
+            "random_compactness": {
+                "trials": random_trials,
+                "seed": random_seed,
+                "expected_edge_count": len(all_edges) * len(support) * (len(support) - 1) / (64 * 63),
+                "random_mean_edge_count": edge_sum / random_trials,
+                "exceed_count": exceed_count,
+                "p_value": exceed_count / random_trials,
+            },
+        },
     }
 
 
@@ -2612,6 +2786,75 @@ def assert_expected(summary: dict[str, object]) -> None:
     }
     assert summary["support_compression"]["envelope_covers_support"] is True
     assert summary["support_compression"]["envelope_false_positives"] == ("AAG", "ACA", "TGG")
+    skeleton = summary["support_compression"]["skeleton"]
+    assert skeleton["node_count"] == 13
+    assert skeleton["edge_count"] == 16
+    assert skeleton["component_count"] == 1
+    assert skeleton["component_sizes"] == [13]
+    assert skeleton["cyclomatic_number"] == 4
+    assert skeleton["edges"] == (
+        ("TTA", "ATA"),
+        ("TAA", "AAA"),
+        ("TGA", "AGA"),
+        ("TTA", "CTA"),
+        ("TTA", "TAA"),
+        ("TCA", "TGA"),
+        ("ATA", "AAA"),
+        ("TTA", "TCA"),
+        ("TAA", "TGA"),
+        ("AAA", "AGA"),
+        ("CTT", "CTA"),
+        ("CTC", "CTG"),
+        ("TAA", "TAG"),
+        ("CTT", "CTC"),
+        ("CTA", "CTG"),
+        ("AGA", "AGG"),
+    )
+    assert skeleton["q2_squares"] == [
+        {"name": "CUN", "vertices": ("CTT", "CTC", "CTA", "CTG"), "weight": 6},
+        {"name": "UNA", "vertices": ("TTA", "TCA", "TAA", "TGA"), "weight": 25},
+        {"name": "WRA", "vertices": ("TAA", "TGA", "AAA", "AGA"), "weight": 34},
+        {"name": "WWA", "vertices": ("TTA", "TAA", "ATA", "AAA"), "weight": 17},
+    ]
+    assert skeleton["wna"] == ("TTA", "TCA", "TAA", "TGA", "ATA", "ACA", "AAA", "AGA")
+    assert skeleton["punctured_wna"] == ("TTA", "TCA", "TAA", "TGA", "ATA", "AAA", "AGA")
+    assert skeleton["punctured_wna_missing"] == "ACA"
+    assert skeleton["skeleton_formula_matches_support"] is True
+    assert skeleton["punctured_wna_edges"] == (
+        ("TTA", "ATA"),
+        ("TAA", "AAA"),
+        ("TGA", "AGA"),
+        ("TTA", "TAA"),
+        ("TCA", "TGA"),
+        ("ATA", "AAA"),
+        ("TTA", "TCA"),
+        ("TAA", "TGA"),
+        ("AAA", "AGA"),
+    )
+    assert skeleton["cun_edges"] == (
+        ("CTT", "CTA"),
+        ("CTC", "CTG"),
+        ("CTT", "CTC"),
+        ("CTA", "CTG"),
+    )
+    assert skeleton["bridge_edges"] == (("TTA", "CTA"), ("TAA", "TAG"), ("AGA", "AGG"))
+    assert skeleton["leaf_codons"] == ("AGG", "TAG")
+    assert skeleton["articulation_codons"] == ("AGA", "CTA", "TAA", "TTA")
+    assert skeleton["biconnected_components"] == [
+        ("AAA", "AGA", "ATA", "TAA", "TCA", "TGA", "TTA"),
+        ("CTA", "CTC", "CTG", "CTT"),
+        ("AGA", "AGG"),
+        ("CTA", "TTA"),
+        ("TAA", "TAG"),
+    ]
+    assert skeleton["largest_biconnected_component"] == ("AAA", "AGA", "ATA", "TAA", "TCA", "TGA", "TTA")
+    assert skeleton["largest_biconnected_component_weight"] == 41
+    assert round(skeleton["random_compactness"]["expected_edge_count"], 6) == 7.428571
+    assert round(skeleton["random_compactness"]["random_mean_edge_count"], 5) == 7.43122
+    assert skeleton["random_compactness"]["trials"] == 100000
+    assert skeleton["random_compactness"]["seed"] == 20260522
+    assert skeleton["random_compactness"]["exceed_count"] == 19
+    assert skeleton["random_compactness"]["p_value"] == 0.00019
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
