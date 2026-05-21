@@ -274,6 +274,28 @@ It remains to prove minimality. The StreamName singleton finite-window handoff i
 Finally apply \autoref{thm:real-l10-route-face-deletion-obstruction}. Deleting any indispensable construction face or support row from the four-face packet fails to present the same accepted exit certificate. Therefore deleting any one of the three machine touchpoints fails to present the same accepted machine-facing route, and the three touchpoints form the minimal sufficient basis for admissibility.
 \end{proof}
 
+\begin{theorem}[Real L10 finite bundle induction]
+\label{thm:real-l10-finite-bundle-induction}
+Let $S$ be an accepted current-phase terminal $\RealUp$ seal section over the ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+Let $\mathcal B$ be a finite $\mathsf{ProbeBundle}$ of certified unary observations for $S$. Assume that the rows of $\mathcal B$ expose exactly the DyadicRatCore endpoint and tolerance ledger, the StreamName finite-window schedule, the RegSeqRat classifier, regularity, and transport rows, the local Real seal row, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Then induction over the rows of $\mathcal B$ determines a unique terminal four-face audit packet for $S$, and that packet is precisely the packet consumed by the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff of \autoref{thm:real-four-face-machine-touchpoint-minimality}. The induced packet contains no quotient stream equality, selected limit, host real equality, countable-choice row, metric-completeness datum, aggregate formalstatus row, aggregate bridge row, standard bridge row, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the empty prefix of $\mathcal B$. The visible support is the fixed ordered route of \autoref{thm:real-l10-four-face-route-order-uniqueness}, so the prefix has no alternative route on which to place a hidden quotient, selected-limit, host-equality, choice, completeness, status, or bridge coordinate.
+
+For the induction step, add one certified unary observation while preserving the same visible support rows. Apply \autoref{thm:real-l10-four-face-classifier-coherence}: the new observation must read the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet as the earlier rows, and its RegSeqRat classifier, regularity, and transport data cannot split away from the DyadicRatCore ledger, StreamName schedule, or local Real seal.
+
+It remains to rule out a step that changes the terminal packet by deleting or replacing a face. Use \autoref{thm:real-l10-route-face-deletion-obstruction}. Any such change loses one of the four displayed construction faces or supplies the missing row from an off-table coordinate, which contradicts the hypothesis that $\mathcal B$ exposes exactly the displayed ledger, schedule, classifier, regularity, transport, seal, and shared support rows.
+
+After the finite induction closes, identify the resulting packet with the machine-facing route. Apply \autoref{thm:streamname-real-completion-exit-lean-route-boundary} and \autoref{thm:dyadicratcore-l10-exit-lean-touchpoint-completeness}. These boundary theorems place the induced four-face packet on exactly the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff.
+
+Finally invoke \autoref{thm:real-four-face-machine-touchpoint-minimality}. Since those three touchpoints are the minimal basis for the accepted route, the packet determined by the finite bundle is the unique terminal four-face audit packet consumed by them, and the excluded quotient-stream, selected-limit, host-equality, choice, metric-completeness, aggregate-status, aggregate-bridge, standard-bridge, and $\RealUp$ completeness coordinates remain outside the accepted current-phase surface.
+\end{proof}
+
 \begin{theorem}[Real L10 machine-audit locality]
 \label{thm:real-l10-machine-audit-locality}
 Let $S$ be an accepted current-phase terminal $\RealUp$ seal section on
