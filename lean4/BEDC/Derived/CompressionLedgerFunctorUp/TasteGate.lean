@@ -330,4 +330,36 @@ theorem CompressionLedgerFunctorCarrier_namecert_obligations
   }
   exact ⟨alphaUnary, betaUnary, compositeUnary, rfl, nameCert⟩
 
+theorem CompressionLedgerFunctorCarrier_composition_law
+    {A K E R O M L Q J H C P N alphaLedger betaLedger compositeLedger
+      routedComposite : BHist} :
+    compressionLedgerFunctorFields (CompressionLedgerFunctorUp.mk A K E R O M L Q J H C P N) =
+        [A, K, E, R, O, M, L, Q, J, H, C, P, N] →
+      Cont M L alphaLedger →
+        Cont alphaLedger Q betaLedger →
+          Cont betaLedger J compositeLedger →
+            Cont compositeLedger P routedComposite →
+              UnaryHistory M →
+                UnaryHistory L →
+                  UnaryHistory Q →
+                    UnaryHistory J →
+                      UnaryHistory P →
+                        UnaryHistory alphaLedger ∧
+                          UnaryHistory betaLedger ∧
+                            UnaryHistory compositeLedger ∧
+                              UnaryHistory routedComposite ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro _fields mlAlpha alphaQBeta betaJComposite compositePRouted
+    mUnary lUnary qUnary jUnary pUnary
+  have alphaUnary : UnaryHistory alphaLedger :=
+    unary_cont_closed mUnary lUnary mlAlpha
+  have betaUnary : UnaryHistory betaLedger :=
+    unary_cont_closed alphaUnary qUnary alphaQBeta
+  have compositeUnary : UnaryHistory compositeLedger :=
+    unary_cont_closed betaUnary jUnary betaJComposite
+  exact
+    ⟨alphaUnary, betaUnary, compositeUnary,
+      unary_cont_closed compositeUnary pUnary compositePRouted,
+      hsame_refl N⟩
+
 end BEDC.Derived.CompressionLedgerFunctorUp
