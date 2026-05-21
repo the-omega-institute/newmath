@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\RealAbsUp$}
+\label{ch:concrete-instances-real-abs-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealAbsUp$ packet records absolute value for displayed regular real names by finite readback rows rather than by a host real operation. It reads the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the dyadic absolute-value windows of \autoref{ch:concrete-instances-dyadicabsolutevalue-namecert}, and the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet also uses the apartness and order surface supplied by $\RealAlgOrderUp$, while withholding host trichotomy, quotient reals, selected limits, and completeness principles.
+
+\begin{definition}[Real absolute-value carrier]
+\label{def:real-abs-carrier}
+A $\RealAbsUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,A,D,S,G,V,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $R$ is the displayed $\RealUp$ seal whose regular real name is being inspected.
+\item $A$ is the $\RealAlgOrderUp$ apartness and order row used only as a displayed comparison surface for the real-name read.
+\item $D$ is the $\DyadicAbsoluteValueUp$ window row attached to the dyadic observations opened from $R$.
+\item $S$ is the $\StreamNameUp$ observation window through which finite requests to the real name are scheduled.
+\item $G$ is the $\RegSeqRatUp$ handoff row that supplies regular rational readback before the real seal is exported.
+\item $V$ is the finite nonnegative absolute-value ledger recording the endpoint and tolerance data available to downstream consumers.
+\item $H$ stores componentwise $\hsame$ transport for the real seal, order row, dyadic window, observation window, handoff, ledger, provenance, and local name.
+\item $C$ stores the displayed $\Cont$ routes from $R$ through $S$ and $G$ into $D$, and from $D$ into the nonnegative ledger $V$.
+\item $P$ records $\Pkg$ provenance over $\RealAbsUp$, $\RealUp$, $\RealAlgOrderUp$, $\DyadicAbsoluteValueUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealAbsUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for host trichotomy, quotient real equality, a selected limit, an external absolute-value operation, or a completeness witness.
+\end{definition}
+
+\begin{theorem}[Real absolute-value NameCert obligations]
+\label{thm:real-abs-namecert-obligations}
+For every accepted $\RealAbsUp$ carrier $K=(R,A,D,S,G,V,H,C,P,N)$, the local $\NameCert_{\RealAbsUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the displayed real seal, apartness and order row, dyadic absolute-value window, observation window, regular rational handoff, nonnegative ledger, transport, continuation, provenance, and local naming rows;
+\item classifier and transport stability, requiring accepted reads to move componentwise through the stored $\hsame$ rows and to replay through the displayed $\Cont$ routes;
+\item dyadic-window handoff, requiring every absolute-value observation to pass from the $\RealUp$ seal through the $\StreamNameUp$ and $\RegSeqRatUp$ rows into the $\DyadicAbsoluteValueUp$ window row;
+\item nonnegative real-seal export, requiring the output ledger $V$ to expose only a nonnegative $\RealUp$-facing seal read from the displayed dyadic windows and regular handoff;
+\item non-escape from trichotomy and completeness, excluding host order trichotomy, quotient real equality, selected limits, external absolute-value operations, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these five finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-abs-carrier}. The only available absolute-value data are the real seal $R$, the order row $A$, the dyadic window $D$, the observation window $S$, the regular handoff $G$, the nonnegative ledger $V$, and the structural rows $H,C,P,N$.
+
+Classifier and transport stability are read from $H$ and replayed through $C$. A transported carrier therefore keeps the same displayed route from the real seal through finite observation and regular rational readback into the dyadic absolute-value window.
+
+The dyadic-window handoff uses \autoref{ch:concrete-instances-dyadicabsolutevalue-namecert} as the only absolute-value window source. The output ledger $V$ exports the nonnegative real-facing seal after that handoff, so the packet never opens a separate host absolute-value, trichotomy, quotient, selected-limit, or completeness coordinate.
+\end{proof}
+
+\begin{closurestatus}{\RealAbsUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-abs-carrier} and \autoref{thm:real-abs-namecert-obligations} seed the finite real absolute-value surface over displayed $\RealUp$, $\RealAlgOrderUp$, $\DyadicAbsoluteValueUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host trichotomy, quotient real equality, selected limits, external absolute-value operations, or ambient completeness.}
+  \upgradepath{Obligation closure requires formal carrier admission, classifier and transport stability, dyadic-window handoff, nonnegative real-seal export, and non-escape from trichotomy and completeness for the same finite packet.}
+  \constructivestory{A $\RealAbsUp$ packet is generated from a displayed Real seal, RealAlgOrder apartness and order row, DyadicAbsoluteValue window row, StreamName observation window, RegSeqRat handoff, nonnegative absolute-value ledger, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+\end{closurestatus}
