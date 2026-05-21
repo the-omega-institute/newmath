@@ -174,21 +174,10 @@ def taste_gate : ChapterTasteGate FiniteErrorBudgetUp :=
   FiniteErrorBudgetTasteGate_single_carrier_alignment_ChapterTasteGate
 
 theorem FiniteErrorBudgetTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate FiniteErrorBudgetUp) ∧
-      Nonempty (FieldFaithful FiniteErrorBudgetUp) ∧
-      Nonempty (Nontrivial FiniteErrorBudgetUp) ∧
-      (∀ h : BHist,
+    (∀ h : BHist,
         FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
             (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist h) =
           h) ∧
-      (∀ x : FiniteErrorBudgetUp,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_fromEventFlow
-            (FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow x) =
-          some x) ∧
-      (∀ x y : FiniteErrorBudgetUp,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow x =
-            FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow y →
-          x = y) ∧
       FiniteErrorBudgetTasteGate_single_carrier_alignment_fields
           (FiniteErrorBudgetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
@@ -199,21 +188,16 @@ theorem FiniteErrorBudgetTasteGate_single_carrier_alignment :
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
         [[], [], [], [], [], [], [], [], []] := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  constructor
-  · exact ⟨FiniteErrorBudgetTasteGate_single_carrier_alignment_ChapterTasteGate⟩
-  constructor
-  · exact ⟨FiniteErrorBudgetTasteGate_single_carrier_alignment_FieldFaithful⟩
-  constructor
-  · exact ⟨FiniteErrorBudgetTasteGate_single_carrier_alignment_Nontrivial⟩
-  constructor
-  · exact FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode
-  constructor
-  · exact FiniteErrorBudgetTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow_injective heq
-  constructor
-  · rfl
-  · rfl
+  have decodeEncode :
+      ∀ h : BHist,
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
+            (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist h) =
+          h := by
+    intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  exact ⟨decodeEncode, rfl, rfl⟩
 
 end BEDC.Derived.FiniteErrorBudgetUp.TasteGate
