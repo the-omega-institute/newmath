@@ -505,6 +505,7 @@ import BEDC.Derived.BHistHendecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp.TasteGate
 import BEDC.Derived.BHistHeptaSequenceNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
+import BEDC.Derived.BHistHexaSequenceNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaSequenceNameCertUp
@@ -3360,6 +3361,7 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedCenterTriangleComposit
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedModulusDomain
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SourceTargetLock
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SourceTargetTwoTriangleRoute
+import BEDC.Derived.MetricTriangleUniformEstimateUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp.TwoPointTargetBoundary
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusBoundaryExactness
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExactPackage
@@ -4164,6 +4166,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.NameCertObligationExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.OpenFitRefusalSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.PhysicalFitNonescape
 import BEDC.Derived.RealityConstrainedTruthCertUp.PublicExportBoundary
+import BEDC.Derived.RealityConstrainedTruthCertUp.RootReadinessPacket
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootTasteGateReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.SiblingDependency
 import BEDC.Derived.RealityConstrainedTruthCertUp.SourceSignatureClassifierObligation
