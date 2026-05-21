@@ -1,0 +1,102 @@
+import BEDC.Derived.FiniteLebesgueNumberUp.Core
+
+namespace BEDC.Derived.FiniteLebesgueNumberUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem FiniteLebesgueNumberSelectedTailRadiusAdmission [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow tailAdmission streamTail
+      regularTail toleranceTail realTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont window radius tailAdmission →
+        Cont tailAdmission mesh streamTail →
+          Cont streamTail route regularTail →
+            Cont regularTail transport toleranceTail →
+              Cont toleranceTail nameRow realTail →
+                PkgSig bundle realTail pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row realTail ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row tailAdmission ∨ hsame row streamTail ∨
+                          hsame row regularTail ∨ hsame row toleranceTail ∨
+                            hsame row realTail)
+                      (fun row : BHist =>
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle realTail pkg ∧
+                          hsame row realTail)
+                      hsame ∧
+                    UnaryHistory tailAdmission ∧ UnaryHistory streamTail ∧
+                      UnaryHistory regularTail ∧ UnaryHistory toleranceTail ∧
+                        UnaryHistory realTail ∧ Cont window radius tailAdmission ∧
+                          Cont tailAdmission mesh streamTail ∧
+                            Cont streamTail route regularTail ∧
+                              Cont regularTail transport toleranceTail ∧
+                                Cont toleranceTail nameRow realTail ∧
+                                  PkgSig bundle provenance pkg ∧
+                                    PkgSig bundle realTail pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg SemanticNameCert hsame
+  intro carrier windowRadiusTail tailMeshStream streamRouteRegular regularTransportTolerance
+    toleranceNameReal realPkg
+  obtain ⟨_coverUnary, windowUnary, radiusUnary, meshUnary, transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailAdmission :=
+    unary_cont_closed windowUnary radiusUnary windowRadiusTail
+  have streamUnary : UnaryHistory streamTail :=
+    unary_cont_closed tailUnary meshUnary tailMeshStream
+  have regularUnary : UnaryHistory regularTail :=
+    unary_cont_closed streamUnary routeUnary streamRouteRegular
+  have toleranceUnary : UnaryHistory toleranceTail :=
+    unary_cont_closed regularUnary transportUnary regularTransportTolerance
+  have realUnary : UnaryHistory realTail :=
+    unary_cont_closed toleranceUnary nameRowUnary toleranceNameReal
+  have sourceReal :
+      (fun row : BHist => hsame row realTail ∧ UnaryHistory row) realTail := by
+    exact ⟨hsame_refl realTail, realUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row realTail ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row tailAdmission ∨ hsame row streamTail ∨ hsame row regularTail ∨
+            hsame row toleranceTail ∨ hsame row realTail)
+        (fun row : BHist =>
+          PkgSig bundle provenance pkg ∧ PkgSig bundle realTail pkg ∧ hsame row realTail)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro realTail sourceReal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+      ledger_sound := by
+        intro _row source
+        exact ⟨provenancePkg, realPkg, source.left⟩
+    }
+  exact
+    ⟨cert, tailUnary, streamUnary, regularUnary, toleranceUnary, realUnary,
+      windowRadiusTail, tailMeshStream, streamRouteRegular, regularTransportTolerance,
+      toleranceNameReal, provenancePkg, realPkg⟩
+
+end BEDC.Derived.FiniteLebesgueNumberUp

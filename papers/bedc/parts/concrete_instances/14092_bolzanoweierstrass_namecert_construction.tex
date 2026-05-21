@@ -59,6 +59,22 @@ Now use the regular-subsequence route of \autoref{ch:concrete-instances-regular-
 The row $Q$ reads the extracted windows as a $\RegSeqRatUp$ surface. Transport and replay through $H$ and $C$, followed by $P$ and $N$, preserve that same route, leaving no coordinate for quotient streams, host compactness, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass finite interval-tree induction]
+\label{thm:bolzano-weierstrass-finite-interval-tree-induction}
+Let $B=(S,K,R,Q,E,H,C,P,N)$ be an accepted $\BolzanoWeierstrassUp$ carrier. For every inspected unary depth of the closed-bounded interval net, the displayed finite dyadic refinement tree in $K$ determines, by induction on that tree, a retained cell, a nonempty finite sequence-window row from $S$, and a monotone-cofinal reindexing row in $R$. The retained cells refine through the same $\ClosedBoundedIntervalNetUp$ and $\ClosedBoundedIntervalUniformModulusUp$ rows, and the extracted finite windows are exactly the $\RegSeqRatUp$ readback consumed by $Q$.
+\end{theorem}
+\begin{proof}
+For depth $0$, read the root bounded interval from $S$ and the root net row from $K$. The boundedness ledger supplies a nonempty inspected sequence-window row in $S$, and the identity unary index row is monotone and cofinal on the displayed root window.
+
+For the induction step, assume the retained cell and window have been displayed at depth $d$. The dyadic mesh row in $K$ splits that cell into its finite children at depth $d+1$, and the packet ledger witnesses that at least one child retains a nonempty finite sequence-window row from $S$.
+
+Choose that retained child only by the displayed finite branch witness. Componentwise transport through $H$ carries the previous route to the child cell, while displayed replay through $C$ records the same containment and radius facts in the $\ClosedBoundedIntervalNetUp$ and $\ClosedBoundedIntervalUniformModulusUp$ rows.
+
+The reindexing row in $R$ appends the retained-window index and records monotonicity and cofinality in the unary ledger. Reading the selected windows through $Q$ gives precisely the regular rational schedule consumed as $\RegSeqRatUp$, so the subsequence route is derived from finite interval refinement rather than from an external selector.
+
+No open-cover compactness, arbitrary subsequence choice, quotient stream, or host completeness row is used. The induction uses only the finite tree displayed by $K$, the inspected windows in $S$, the monotone-cofinal ledger in $R$, and the readback route in $Q$.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass Real cluster seal]
 \label{thm:bolzano-weierstrass-real-cluster-seal}
 Every $\RealUp$ cluster read from an accepted $\BolzanoWeierstrassUp$ carrier factors through
@@ -84,7 +100,7 @@ The transport and continuation rows preserve the same finite route. Since the ca
 \begin{closurestatus}{\BolzanoWeierstrassUp}
   \constructivestory{A $\BolzanoWeierstrassUp$ packet is generated from a bounded RealUp sequence surface, finite closed bounded interval nets, interval-modulus compatibility, a monotone-cofinal regular Cauchy subsequence extraction row, RegSeqRat readback, a RealUp cluster seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bolzano-weierstrass-carrier}, \autoref{thm:bolzano-weierstrass-namecert-obligations}, \autoref{thm:bolzano-weierstrass-regular-subsequence-route}, and \autoref{thm:bolzano-weierstrass-real-cluster-seal} bind the bounded-sequence subsequence compactness route through finite interval nets and regular Cauchy readback.}
+  \scopeclosed{\autoref{def:bolzano-weierstrass-carrier}, \autoref{thm:bolzano-weierstrass-namecert-obligations}, \autoref{thm:bolzano-weierstrass-regular-subsequence-route}, \autoref{thm:bolzano-weierstrass-finite-interval-tree-induction}, and \autoref{thm:bolzano-weierstrass-real-cluster-seal} bind the bounded-sequence subsequence compactness route through finite interval nets and regular Cauchy readback.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, host completeness, quotient equality of streams, least cluster selection, or arbitrary subsequence choice.}
