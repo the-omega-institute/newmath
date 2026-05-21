@@ -904,7 +904,6 @@ import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
-import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.CauchyModulusMeetUp.StdBridge
 import BEDC.Derived.CauchyModulusRefinementUp
@@ -4233,6 +4232,7 @@ import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.StreamNameRegSeqRatRealE
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TailWindowRefusal
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp
+import BEDC.Derived.RegularCauchyNameUp.StdBridge
 import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
