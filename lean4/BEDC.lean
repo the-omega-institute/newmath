@@ -2497,6 +2497,7 @@ import BEDC.Derived.FilterUp
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteErrorBudgetUp
+import BEDC.Derived.FiniteErrorBudgetUp.StdBridge
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteKernelCategoryUp.Carrier
 import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
@@ -4956,7 +4957,9 @@ import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformModulusUp
+import BEDC.Derived.UniformModulusUp.CompactContinuousHandoff
 import BEDC.Derived.UniformModulusUp.CompactMetricThresholdFactorization
+import BEDC.Derived.UniformModulusUp.ContinuousMapModulusLock
 import BEDC.Derived.UniformModulusUp.PointwiseMetricConsumerUnblock
 import BEDC.Derived.UniformModulusUp.PrecisionConsumerNonescape
 import BEDC.Derived.UniformModulusUp.RootClassifierRow
