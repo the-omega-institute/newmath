@@ -2572,6 +2572,7 @@ import BEDC.Derived.FinitePrefixMachineUp.TasteGate
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.RouteConsumerExactness
 import BEDC.Derived.FiniteRealSectionUp.TasteGate
+import BEDC.Derived.FiniteRealSectionUp.WindowReadbackDeterminacy
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
 import BEDC.Derived.FiniteRefutationBoundaryUp.TasteGate
@@ -3128,6 +3129,7 @@ import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.ClassifierStability
 import BEDC.Derived.LocatedIntervalUp.PublicConsumerRoute
 import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
+import BEDC.Derived.LocatedIntervalUp.StdBridge
 import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
