@@ -44,9 +44,9 @@ def FiniteErrorBudgetTasteGate_single_carrier_alignment_fields :
   | FiniteErrorBudgetUp.mk n eps b d t r e p cert => [n, eps, b, d, t, r, e, p, cert]
 
 def FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow :
-    FiniteErrorBudgetUp → EventFlow :=
+    FiniteErrorBudgetUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
+  | x =>
     (FiniteErrorBudgetTasteGate_single_carrier_alignment_fields x).map
       FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist
 
