@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import research_candidate_lane
+import burden_candidate_miner
 
 
 BIG_FILE = "papers/bedc/parts/concrete_instances/08_option_namecert_construction.tex"
@@ -106,9 +107,53 @@ def test_line_cap_overflow_is_not_recovered_from_inbox() -> None:
     assert not research_candidate_lane._soft_recoverable_reject(rec)
 
 
+def test_burden_candidate_is_ready_and_appendable() -> None:
+    files = {
+        SMALL_FILE: {"file": SMALL_FILE, "line_count": 120, "hub_like": False},
+    }
+    candidate = {
+        "title": "Option strict obstruction corollary",
+        "claim": (
+            "Using \\autoref{thm:option-boundary} and \\autoref{def:option-carrier}, "
+            "prove a strict local obstruction lemma for Option: the displayed "
+            "failure row blocks only the named converse route and cannot be "
+            "read as a global impossibility or hidden host theorem."
+        ),
+        "local_inputs": [SMALL_FILE],
+        "source": burden_candidate_miner.SOURCE,
+        "fit_score": 9,
+        "novelty": 8,
+        "landing_kind": "existing_chapter_lemma",
+        "tastegate_mode": "existing_chapter",
+        "axiom_budget": "B0_finite_witness",
+        "strength_level": "B0_finite_witness",
+        "budget_reason": "The target is a finite local implication over already displayed BEDC rows.",
+        "existence_mode": "none",
+        "witness_extractor": "",
+        "cut_rank": "1",
+        "elimination_plan": (
+            "List the displayed route rows cited by thm:option-boundary and "
+            "reject unlisted coordinates."
+        ),
+        "equality_kind": "none",
+        "interpretation_kind": "interpretation",
+        "resource_trace": "Primary support is thm:option-boundary in the selected file.",
+        "dependency_trace": "Depends on the selected body file and its cited BEDC labels only.",
+        "rate_modulus_surface": "",
+        "oracle_mode": "proof_search",
+    }
+    packet = research_candidate_lane._packet(
+        candidate,
+        source=burden_candidate_miner.SOURCE,
+        files=files,
+    )
+    assert packet["status"] == "ready", packet
+
+
 if __name__ == "__main__":
     test_near_line_cap_candidate_reroutes_to_smaller_landing()
     test_low_score_candidate_is_warning_not_blocked()
     test_structural_row_echo_is_not_ready()
     test_line_cap_overflow_is_not_recovered_from_inbox()
+    test_burden_candidate_is_ready_and_appendable()
     print("test_research_candidate_lane: ok")

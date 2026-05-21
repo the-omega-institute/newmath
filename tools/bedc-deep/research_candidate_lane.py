@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any
 
 import board_archive
+import burden_candidate_miner
 import candidate_substance
 import candidate_inbox
 import logic_packet_gate
@@ -392,6 +393,7 @@ def collect_candidates(limit: int) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
     source_limit = max(limit * 4, 40)
 
+    candidates.extend(burden_candidate_miner.generate_candidates(limit=source_limit))
     gap_candidates = paper_gap_scanner.generate_candidates(limit=source_limit)
     candidates.extend(gap_candidates)
     for cand in candidates:

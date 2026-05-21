@@ -91,6 +91,7 @@ LOGIC_PACKET_FIELDS = (
 )
 DETERMINISTIC_FALLBACK_SOURCES = {
     "plain_math_review",
+    "research_lane:burden_candidate_miner",
     "research_lane:paper_gap_scanner",
     "research_lane:candidate_inbox",
 }
@@ -110,6 +111,7 @@ DIRECT_CODEX_SOURCES = {
     "codex",
     "plain_math_review",
     "paper_review",
+    "research_lane:burden_candidate_miner",
     "research_lane:paper_gap_scanner",
     "research_lane:candidate_inbox",
 }

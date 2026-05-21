@@ -85,6 +85,28 @@ def test_deterministic_fallback_accepts_research_lane_gap_scanner() -> None:
     assert rejected == [], rejected
 
 
+def test_deterministic_fallback_accepts_burden_miner() -> None:
+    accepted, rejected = board_spawn._deterministic_fallback_judge(
+        [
+            _candidate(
+                source="research_lane:burden_candidate_miner",
+                title="Polynomial strict obstruction corollary",
+                claim=(
+                    "Using \\autoref{thm:polynomial-boundary}, prove a "
+                    "strict local obstruction lemma for Polynomial: the "
+                    "displayed failure row blocks only the named converse "
+                    "route and cannot be read as a global impossibility."
+                ),
+                oracle_mode="proof_search",
+            )
+        ],
+        fit_threshold=7,
+        novelty_threshold=6,
+    )
+    assert len(accepted) == 1, (accepted, rejected)
+    assert rejected == [], rejected
+
+
 def test_deterministic_fallback_rejects_raw_gap_scanner_source() -> None:
     accepted, rejected = board_spawn._deterministic_fallback_judge(
         [_candidate(source="paper_gap_scanner")],
@@ -250,6 +272,27 @@ def test_direct_codex_admission_accepts_research_packet_without_judge() -> None:
     assert "Local BOARD admission" in accepted[0]["rationale"]
 
 
+def test_direct_codex_admission_accepts_burden_miner_without_judge() -> None:
+    accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
+        [
+            _candidate(
+                source="research_lane:burden_candidate_miner",
+                title="Polynomial determinacy corollary",
+                claim=(
+                    "Using \\autoref{thm:polynomial-exactness}, prove a "
+                    "determinacy corollary for Polynomial: once the cited "
+                    "local rows are fixed, accepted consumers pick the same "
+                    "finite exactness decision."
+                ),
+                oracle_mode="proof_search",
+            )
+        ]
+    )
+    assert len(accepted) == 1, (accepted, stopped, needs_judge)
+    assert stopped == [], stopped
+    assert needs_judge == [], needs_judge
+
+
 def test_direct_codex_admission_rejects_anti_parameter_echo() -> None:
     accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
         [
@@ -322,6 +365,7 @@ if __name__ == "__main__":
     test_deterministic_fallback_rejects_external_signal()
     test_deterministic_fallback_rejects_new_chapter()
     test_deterministic_fallback_accepts_research_lane_gap_scanner()
+    test_deterministic_fallback_accepts_burden_miner()
     test_deterministic_fallback_rejects_raw_gap_scanner_source()
     test_deterministic_fallback_rejects_anti_parameter_echo()
     test_deterministic_fallback_allows_low_score_local_packet()
@@ -331,6 +375,7 @@ if __name__ == "__main__":
     test_legacy_board_surface_template_without_burden_is_not_executable()
     test_board_surface_target_with_real_burden_remains_executable()
     test_direct_codex_admission_accepts_research_packet_without_judge()
+    test_direct_codex_admission_accepts_burden_miner_without_judge()
     test_direct_codex_admission_rejects_anti_parameter_echo()
     test_direct_codex_admission_keeps_oracle_for_judge()
     test_direct_codex_admission_keeps_structural_miner_for_judge()
