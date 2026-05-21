@@ -1975,6 +1975,7 @@ import BEDC.Derived.DedekindUp
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DenseUniformEmbeddingUp
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.DependentCodomainClosurePreservationUp
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Ledger
