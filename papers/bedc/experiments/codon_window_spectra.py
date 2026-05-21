@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import collections
+import fractions
 import http.client
 import itertools
 import json
@@ -217,6 +218,38 @@ def q1_spectrum(table: dict[str, str]) -> tuple[list[int], list[int]]:
         same_by_direction.append(same)
         diff_by_direction.append(diff)
     return same_by_direction, diff_by_direction
+
+
+def q1_random_baseline(table: dict[str, str]) -> dict[str, object]:
+    sizes = collections.Counter(table.values())
+    same_pairs = sum(size * (size - 1) // 2 for size in sizes.values())
+    total_pairs = 64 * 63 // 2
+    probability = fractions.Fraction(same_pairs, total_pairs)
+    expected_edges = probability * 192
+    observed_edges = sum(q1_spectrum(table)[0])
+    ratio = fractions.Fraction(observed_edges, 1) / expected_edges
+    histogram = collections.Counter(sizes.values())
+    return {
+        "degeneracy_histogram": dict(sorted(histogram.items())),
+        "same_pair_count": same_pairs,
+        "total_codon_pairs": total_pairs,
+        "same_edge_probability": {
+            "numerator": probability.numerator,
+            "denominator": probability.denominator,
+            "decimal": float(probability),
+        },
+        "expected_same_edges": {
+            "numerator": expected_edges.numerator,
+            "denominator": expected_edges.denominator,
+            "decimal": float(expected_edges),
+        },
+        "observed_same_edges": observed_edges,
+        "observed_to_expected_ratio": {
+            "numerator": ratio.numerator,
+            "denominator": ratio.denominator,
+            "decimal": float(ratio),
+        },
+    }
 
 
 def q2_faces(table: dict[str, str]) -> tuple[collections.Counter[str], dict[str, collections.Counter[str]], list[dict[str, object]]]:
@@ -872,6 +905,7 @@ def build_summary() -> dict[str, object]:
     return {
         "table_ids": sorted(tables),
         "q1_standard": {"same_by_direction": q1_same, "diff_by_direction": q1_diff, "same_total": sum(q1_same)},
+        "q1_random_baseline": q1_random_baseline(standard),
         "q2_standard": {
             "total": dict(q2_total),
             "geometry": {key: dict(value) for key, value in q2_geometry.items()},
@@ -896,6 +930,15 @@ def build_summary() -> dict[str, object]:
 def assert_expected(summary: dict[str, object]) -> None:
     assert summary["q1_standard"]["same_by_direction"] == [0, 2, 0, 1, 17, 30]
     assert summary["q1_standard"]["same_total"] == 50
+    assert summary["q1_random_baseline"]["degeneracy_histogram"] == {1: 2, 2: 9, 3: 2, 4: 5, 6: 3}
+    assert summary["q1_random_baseline"]["same_pair_count"] == 90
+    assert summary["q1_random_baseline"]["total_codon_pairs"] == 2016
+    assert summary["q1_random_baseline"]["same_edge_probability"]["numerator"] == 5
+    assert summary["q1_random_baseline"]["same_edge_probability"]["denominator"] == 112
+    assert summary["q1_random_baseline"]["expected_same_edges"]["numerator"] == 60
+    assert summary["q1_random_baseline"]["expected_same_edges"]["denominator"] == 7
+    assert summary["q1_random_baseline"]["observed_to_expected_ratio"]["numerator"] == 35
+    assert summary["q1_random_baseline"]["observed_to_expected_ratio"]["denominator"] == 6
     assert summary["q2_standard"]["total"] == {
         "4": 9,
         "3+1": 4,
