@@ -30,6 +30,7 @@ The carrier has no coordinate for an independent RealUp equality, quotient strea
 \label{thm:rat-classifier-transport-seal-namecert-obligations}
 For every accepted $\RatClassifierTransportSealUp$ carrier $R=(Q,S,W,D,A,H,C,P,N)$, the local $\NameCert_{\RatClassifierTransportSealUp}$ surface consists exactly of carrier admission, RatUp source-classifier exposure through $Q$, constant StreamName classifier exposure through $S$, RegSeqRat finite-window seal exposure through $W$, DyadicRatCore ledger exposure through $D$, RealUp classifier handoff through $A$, componentwise $\hsame$ transport through $H$, displayed route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RatClassifierTransportSealUp.RatClassifierTransportSealCarrier\_namecert\_obligations}
 \begin{proof}
 Project the finite carrier of \autoref{def:rat-classifier-transport-seal-carrier}. Each obligation row is one coordinate of $R$, so the local NameCert read can inspect only $Q,S,W,D,A,H,C,P,N$.
 
@@ -55,6 +56,7 @@ Therefore every public window read begins at $Q$ and is exhausted by the remaini
 \label{thm:rat-classifier-transport-seal-classifier-handoff-determinacy}
 Let $R=(Q,S,W,D,A,H,C,P,N)$ and $R'=(Q',S',W',D',A',H',C',P',N')$ be accepted $\RatClassifierTransportSealUp$ carriers. Suppose the RatUp source-classifier rows $Q,Q'$, the constant $\StreamNameUp$ rows $S,S'$, the $\RegSeqRatUp$ finite-window seals $W,W'$, the $\DyadicRatCoreUp$ ledgers $D,D'$, the componentwise transport rows $H,H'$, the continuation route rows $C,C'$, the package provenance rows $P,P'$, and the local naming rows $N,N'$ agree under the displayed $\hsame$ and $\Cont$ transport from the RatUp source route. Then the $\RealUp$ classifier handoff rows $A$ and $A'$ cannot diverge: every public $\RealUp$ classifier read factors through the same visible route $Q,S,W,D,H,C,P,N$, transported to $Q',S',W',D',H',C',P',N'$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RatClassifierTransportSealUp.RatClassifierTransportSealCarrier\_classifier\_handoff\_determinacy}
 \begin{proof}
 Project both accepted carriers through \autoref{def:rat-classifier-transport-seal-carrier}. Their public coordinates are exactly the displayed rows, with $A$ and $A'$ reached only after the RatUp, StreamName, RegSeqRat, and DyadicRatCore rows have been replayed.
 
