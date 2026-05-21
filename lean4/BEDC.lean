@@ -2998,6 +2998,7 @@ import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.HomologyUp.StdBridge
 import BEDC.Derived.HomotopyUp
+import BEDC.Derived.HomotopyUp.TasteGate
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.HostDelegationSocketUp
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
@@ -4735,7 +4736,6 @@ import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryDiagonalWindowRouteUp
 import BEDC.Derived.StationaryDiagonalWindowUp.TasteGate
-import BEDC.Derived.StationaryDyadicStreamUp
 import BEDC.Derived.StationaryPartitionDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StationaryRationalCauchyUp.TasteGate
