@@ -3426,6 +3426,7 @@ import BEDC.Derived.MetricUp.RealDistancePublicLawPackage
 import BEDC.Derived.MetricUp.RightE1ResultShape
 import BEDC.Derived.MetricUp.SOneEquationDistanceFactorization
 import BEDC.Derived.MetricUp.SOneEquationDistanceSymmetry
+import BEDC.Derived.MetricUp.SOnePositiveBoundaryEquivalence
 import BEDC.Derived.MetricUp.StdBridge
 import BEDC.Derived.MetricUp.TasteGate
 import BEDC.Derived.MetricUp.Transport
