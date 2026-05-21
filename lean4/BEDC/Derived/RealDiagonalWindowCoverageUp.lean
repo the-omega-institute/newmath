@@ -43,4 +43,49 @@ theorem RealDiagonalWindowCoverageCarrier_realup_handoff [AskSetup] [PackageSetu
       packet.right.right.right.right.right.right.right.right.right.right.left,
       nameCertCont, pkgSig⟩
 
+theorem RealDiagonalWindowCoverageCarrier_carrier_admission [AskSetup] [PackageSetup]
+    {q w r d e transport route provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealDiagonalWindowCoverageCarrier q w r d e transport route provenance nameCert
+        bundle pkg →
+      UnaryHistory q ∧ UnaryHistory w ∧ UnaryHistory r ∧ UnaryHistory d ∧
+        UnaryHistory e ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+          UnaryHistory provenance ∧ UnaryHistory nameCert ∧ Cont q w transport ∧
+            Cont w r route ∧ Cont r d provenance ∧ Cont d e nameCert ∧
+              PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro packet
+  cases packet with
+  | intro unaryQ rest =>
+      cases rest with
+      | intro unaryW rest =>
+          cases rest with
+          | intro unaryR rest =>
+              cases rest with
+              | intro unaryD rest =>
+                  cases rest with
+                  | intro unaryE rest =>
+                      cases rest with
+                      | intro unaryTransport rest =>
+                          cases rest with
+                          | intro unaryRoute rest =>
+                              cases rest with
+                              | intro unaryProvenance rest =>
+                                  cases rest with
+                                  | intro qToW rest =>
+                                      cases rest with
+                                      | intro wToR rest =>
+                                          cases rest with
+                                          | intro rToD rest =>
+                                              cases rest with
+                                              | intro dToE pkgSig =>
+                                                  have unaryNameCert :
+                                                      UnaryHistory nameCert :=
+                                                    unary_cont_closed unaryD unaryE dToE
+                                                  exact
+                                                    ⟨unaryQ, unaryW, unaryR, unaryD, unaryE,
+                                                      unaryTransport, unaryRoute,
+                                                      unaryProvenance, unaryNameCert, qToW,
+                                                      wToR, rToD, dToE, pkgSig⟩
+
 end BEDC.Derived.RealDiagonalWindowCoverageUp

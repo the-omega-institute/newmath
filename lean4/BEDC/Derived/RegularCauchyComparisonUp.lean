@@ -284,6 +284,47 @@ theorem RegularCauchyComparisonCarrier_common_window_stability [AskSetup] [Packa
     ⟨windowUnary, sharedLeftUnary, sharedRightUnary, observationReadUnary, toleranceReadUnary,
       sameShared, ledgerSame, provenancePkg⟩
 
+theorem RegularCauchyComparisonCarrier_window_intersection_coverage
+    [AskSetup] [PackageSetup]
+    {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
+      nameCert leftRead rightRead observationRead toleranceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      Cont leftName window leftRead ->
+        Cont rightName window rightRead ->
+          hsame leftRead rightRead ->
+            Cont leftRead observations observationRead ->
+              Cont observationRead tolerance toleranceRead ->
+                Cont ledger sealRow sealRead ->
+                  PkgSig bundle sealRead pkg ->
+                    UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                      UnaryHistory observationRead ∧ UnaryHistory toleranceRead ∧
+                        UnaryHistory sealRead ∧ hsame leftRead rightRead ∧
+                          hsame ledger (append observations tolerance) ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame UnaryHistory
+  intro carrier leftWindowRead rightWindowRead sameReads observationReadRow toleranceReadRow
+    ledgerSealRead sealReadPkg
+  obtain ⟨leftUnary, rightUnary, windowUnary, observationsUnary, toleranceUnary, ledgerUnary,
+    sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+    _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    _observationsToleranceLedger, _ledgerSealProvenance, ledgerSame, provenancePkg⟩ :=
+      carrier
+  have leftReadUnary : UnaryHistory leftRead :=
+    unary_cont_closed leftUnary windowUnary leftWindowRead
+  have rightReadUnary : UnaryHistory rightRead :=
+    unary_cont_closed rightUnary windowUnary rightWindowRead
+  have observationReadUnary : UnaryHistory observationRead :=
+    unary_cont_closed leftReadUnary observationsUnary observationReadRow
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed observationReadUnary toleranceUnary toleranceReadRow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed ledgerUnary sealUnary ledgerSealRead
+  exact
+    ⟨leftReadUnary, rightReadUnary, observationReadUnary, toleranceReadUnary, sealReadUnary,
+      sameReads, ledgerSame, provenancePkg, sealReadPkg⟩
+
 theorem RegularCauchyComparisonCarrier_seal_uniqueness_boundary [AskSetup] [PackageSetup]
     {leftName rightName leftName' rightName' window observations tolerance ledger sealRow
       sealRow' sameRows routes provenance nameCert : BHist}
