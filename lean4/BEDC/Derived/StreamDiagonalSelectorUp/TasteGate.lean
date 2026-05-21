@@ -51,20 +51,31 @@ def streamDiagonalSelectorToEventFlow : StreamDiagonalSelectorUp → EventFlow
 
 def streamDiagonalSelectorFromEventFlow : EventFlow → Option StreamDiagonalSelectorUp
   -- BEDC touchpoint anchor: BHist BMark
-  | schedule :: selector :: window :: readback :: dyadicLedger :: diagonalPacket :: routes ::
-      provenance :: nameCert :: [] =>
-      some
-        (StreamDiagonalSelectorUp.mk
-          (streamDiagonalSelectorDecodeBHist schedule)
-          (streamDiagonalSelectorDecodeBHist selector)
-          (streamDiagonalSelectorDecodeBHist window)
-          (streamDiagonalSelectorDecodeBHist readback)
-          (streamDiagonalSelectorDecodeBHist dyadicLedger)
-          (streamDiagonalSelectorDecodeBHist diagonalPacket)
-          (streamDiagonalSelectorDecodeBHist routes)
-          (streamDiagonalSelectorDecodeBHist provenance)
-          (streamDiagonalSelectorDecodeBHist nameCert))
-  | _ => none
+  | flow =>
+      let rec rawAt : Nat → EventFlow → RawEvent
+        | Nat.zero, [] => []
+        | Nat.zero, head :: _ => head
+        | Nat.succ _, [] => []
+        | Nat.succ n, _ :: rest => rawAt n rest
+      let rec lengthEq : Nat → EventFlow → Bool
+        | Nat.zero, [] => true
+        | Nat.zero, _ :: _ => false
+        | Nat.succ _, [] => false
+        | Nat.succ n, _ :: rest => lengthEq n rest
+      match lengthEq 9 flow with
+      | true =>
+          some
+            (StreamDiagonalSelectorUp.mk
+              (streamDiagonalSelectorDecodeBHist (rawAt 0 flow))
+              (streamDiagonalSelectorDecodeBHist (rawAt 1 flow))
+              (streamDiagonalSelectorDecodeBHist (rawAt 2 flow))
+              (streamDiagonalSelectorDecodeBHist (rawAt 3 flow))
+              (streamDiagonalSelectorDecodeBHist (rawAt 4 flow))
+              (streamDiagonalSelectorDecodeBHist (rawAt 5 flow))
+              (streamDiagonalSelectorDecodeBHist (rawAt 6 flow))
+              (streamDiagonalSelectorDecodeBHist (rawAt 7 flow))
+              (streamDiagonalSelectorDecodeBHist (rawAt 8 flow)))
+      | false => none
 
 private theorem streamDiagonalSelector_mk_congr
     {schedule schedule' selector selector' window window' readback readback'
@@ -97,6 +108,25 @@ private theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_t
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk schedule selector window readback dyadicLedger diagonalPacket routes provenance nameCert =>
+      change
+        some
+            (StreamDiagonalSelectorUp.mk
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist schedule))
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist selector))
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist window))
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist readback))
+              (streamDiagonalSelectorDecodeBHist
+                (streamDiagonalSelectorEncodeBHist dyadicLedger))
+              (streamDiagonalSelectorDecodeBHist
+                (streamDiagonalSelectorEncodeBHist diagonalPacket))
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist routes))
+              (streamDiagonalSelectorDecodeBHist
+                (streamDiagonalSelectorEncodeBHist provenance))
+              (streamDiagonalSelectorDecodeBHist
+                (streamDiagonalSelectorEncodeBHist nameCert))) =
+          some
+            (StreamDiagonalSelectorUp.mk schedule selector window readback dyadicLedger
+              diagonalPacket routes provenance nameCert)
       exact
         congrArg some
           (streamDiagonalSelector_mk_congr
