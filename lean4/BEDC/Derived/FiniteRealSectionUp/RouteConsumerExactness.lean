@@ -80,4 +80,28 @@ theorem FiniteRealSection_route_consumer_exactness [AskSetup] [PackageSetup]
   }
   exact ⟨rfl, terminalUnary, cert⟩
 
+theorem FiniteRealSection_obligation_surface [AskSetup] [PackageSetup]
+    {q W R D E H C P N qW qWR qWRD qWRDE terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory q → UnaryHistory W → UnaryHistory R → UnaryHistory D →
+      UnaryHistory E → UnaryHistory H → UnaryHistory C → UnaryHistory P →
+        UnaryHistory N → Cont q W qW → Cont qW R qWR → Cont qWR D qWRD →
+          Cont qWRD E qWRDE → Cont qWRDE N terminal → PkgSig bundle terminal pkg →
+            FieldFaithful.fields (FiniteRealSectionUp.mk q W R D E H C P N) =
+                [q, W, R, D, E, H, C, P, N] ∧
+              UnaryHistory terminal ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row terminal ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row qW ∨ hsame row qWR ∨ hsame row qWRD ∨
+                      hsame row qWRDE ∨ hsame row terminal)
+                  (fun row : BHist => hsame row terminal ∧ PkgSig bundle terminal pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig SemanticNameCert hsame Cont
+  intro unaryQ unaryW unaryR unaryD unaryE _unaryH _unaryC _unaryP unaryN
+    requestWindow windowReadback readbackTolerance toleranceSeal sealTerminal terminalPkg
+  exact
+    FiniteRealSection_route_consumer_exactness unaryQ unaryW unaryR unaryD unaryE unaryN
+      requestWindow windowReadback readbackTolerance toleranceSeal sealTerminal terminalPkg
+
 end BEDC.Derived.FiniteRealSectionUp
