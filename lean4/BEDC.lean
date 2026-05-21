@@ -434,7 +434,9 @@ import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.AxisAddUp.TasteGate
 import BEDC.Derived.AxisBoundaryLimitRefusalUp.Nonescape
 import BEDC.Derived.AxisBoundaryLimitRefusalUp.TasteGate
+import BEDC.Derived.AxisCarryConfluenceUp
 import BEDC.Derived.AxisCarryDiamondRouteUp.Nonescape
+import BEDC.Derived.AxisCarryDiamondRouteUp.RouteConfluence
 import BEDC.Derived.AxisCarryDiamondRouteUp.TasteGate
 import BEDC.Derived.AxisCarryRefusalLedgerUp
 import BEDC.Derived.AxisCarryRefusalLedgerUp.TasteGate
@@ -1460,6 +1462,7 @@ import BEDC.Derived.ConsciousObserverStateUp.PresentRoutePackage
 import BEDC.Derived.ConsciousObserverStateUp.PublicExport
 import BEDC.Derived.ConsciousObserverStateUp.RoutePackageExactness
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
+import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ContactUp
@@ -1899,6 +1902,7 @@ import BEDC.Derived.DiagonalCofinalTailUp.StationarySealUniqueness
 import BEDC.Derived.DiagonalCofinalTailUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp.TasteGateFlowRecognition
 import BEDC.Derived.DiagonalCofinalTailUp.TasteGateHiddenInputRefusal
+import BEDC.Derived.DiagonalCofinalTailUp.TerminalSealFactorization
 import BEDC.Derived.DiagonalCofinalTailUp.WindowExhaustion
 import BEDC.Derived.DiagonalCofinalTailUp.WindowProjectionExactness
 import BEDC.Derived.DiagonalConvergenceBoundUp
@@ -3278,11 +3282,13 @@ import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
+import BEDC.Derived.MetacicConfluenceAuditWitnessUp.ConditionalBoundary
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
+import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CenterBoundContinuation
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CenterReuseDeterminacy
