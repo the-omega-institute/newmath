@@ -144,12 +144,85 @@ completeness theorem, or $\RealUp$ completeness theorem available for the
 handoff.
 \end{proof}
 
+\begin{theorem}[BaireCategory complete-metric thread extraction]
+\label{thm:baire-category-complete-metric-thread-extraction}
+Let $Q=(B,M,D,O,R,T,H,C,P,N)$ be an accepted $\BaireCategoryUp$ carrier. The
+finite dense-open schedule in $D$, the open ledger $O$, and the refinement row
+$R$ determine a displayed nested-ball Cauchy thread $T$. Every terminal
+$\RegSeqRatUp/\RealUp$ read from the packet factors through the
+$\CompleteMetricUp$ limit-witness route in $M$, the $\BaireSpaceUp$ prefix
+packet $B$, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier along \autoref{def:baire-category-carrier}. The rows
+$B,M,D,O,R,T,H,C,P,N$ are the only available coordinates, so the extraction
+must be assembled from the displayed schedule, ledger, refinement data, thread,
+transport, replay, provenance, and local naming row.
+
+Apply \autoref{thm:baire-category-finite-meet-density-handoff} to the finite
+schedule $D$. At each listed dense-open row, the current predecessor ball is
+already present in $O$, and the handoff supplies a successor subball admitted by
+the dense-open witness for that row.
+
+Read the positive-radius comparison, nested inclusion, and metric-distance
+witnesses from $R$. These rows give the center and radius data for the next
+displayed ball and certify that it sits inside the predecessor ball and inside
+the next dense-open row.
+
+Assembling these finitely many center and radius rows gives the thread $T$.
+The componentwise $\hsame$ data in $H$ and displayed $\Cont$ replay in $C$ keep
+the thread stable under the accepted packet identifications, while $P$ and $N$
+record that the same data are the named $\BaireCategoryUp$ surface.
+
+Finally, consume $M$ only through this thread. The complete-metric row supplies
+the displayed limit-witness route for the nested centers and radii, and the
+terminal read is then handed through the recorded $\RegSeqRatUp$ and $\RealUp$
+rows. No terminal real-name read bypasses $T$ or appeals to an ambient
+completeness theorem.
+\end{proof}
+
+\begin{theorem}[BaireCategory countable-choice refusal]
+\label{thm:baire-category-countable-choice-refusal}
+Let $Q=(B,M,D,O,R,T,H,C,P,N)$ be an accepted $\BaireCategoryUp$ carrier. Any
+$\BaireCategoryUp$ consumer that asks for a countable selector, a host
+intersection, an open-cover compactness proof, an ambient completeness theorem,
+or a $\RealUp$ completeness row lies outside the carrier surface. Accepted
+reads are exhausted by $B,M,D,O,R,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The carrier inventory in \autoref{def:baire-category-carrier} lists the entire
+accepted surface. Its coordinates are the prefix packet, complete-metric row,
+finite dense-open schedule, open ledger, refinement row, Cauchy thread,
+transport row, replay row, provenance row, and local naming row.
+
+The ledger non-escape clause in
+\autoref{thm:baire-category-namecert-obligations} rules out extra exported
+coordinates for countable selectors, host intersections, open-cover compactness,
+ambient completeness, and completeness of $\RealUp$. Thus a consumer requesting
+one of those objects has left the named packet.
+
+The finite meet density handoff,
+\autoref{thm:baire-category-finite-meet-density-handoff}, explains the only
+accepted dense-open route: displayed finite rows are refined into nested balls
+and then handed to the thread. The extraction theorem
+\autoref{thm:baire-category-complete-metric-thread-extraction} identifies that
+thread as the sole complete-metric path to the terminal
+$\RegSeqRatUp/\RealUp$ read.
+
+Combining the inventory, non-escape clause, finite handoff, and thread
+extraction leaves no remaining carrier coordinate through which a countable
+choice principle or host-level completeness theorem could be read. Therefore
+the accepted reads are exactly the displayed rows
+$B,M,D,O,R,T,H,C,P,N$.
+\end{proof}
+
 \begin{closurestatus}{\BaireCategoryUp}
   \constructivestory{A $\BaireCategoryUp$ packet is generated from a $\BaireSpaceUp$ prefix packet, $\CompleteMetricUp$ row, finite dense-open schedule, open-row ledger, refinement row, Cauchy thread, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:baire-category-carrier}, \autoref{thm:baire-category-namecert-obligations}, and \autoref{thm:baire-category-finite-meet-density-handoff} seed the finite complete-metric dense-open intersection packet.}
+  \scopeclosed{\autoref{def:baire-category-carrier}, \autoref{thm:baire-category-namecert-obligations}, \autoref{thm:baire-category-finite-meet-density-handoff}, \autoref{thm:baire-category-complete-metric-thread-extraction}, and \autoref{thm:baire-category-countable-choice-refusal} seed the finite complete-metric dense-open intersection packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close the full classical Baire category theorem as a host theorem, countable choice, host set intersections, open-cover compactness, ambient completeness, or completeness of $\RealUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, dense-open classifier exposure, refinement stability, Cauchy-thread exactness, finite meet density handoff, and ledger non-escape for the same packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense-open classifier exposure, refinement stability, Cauchy-thread extraction, finite meet density handoff, and ledger non-escape for the same packet.}
 \end{closurestatus}
