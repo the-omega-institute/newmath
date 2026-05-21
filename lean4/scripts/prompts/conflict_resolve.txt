@@ -31,11 +31,11 @@ If the deletion appears semantically wrong (e.g. the declaration is referenced e
 
 ## Lineage / option narrowing rule (CRITICAL)
 
-If a conflict touches a `\origin{...}` line or a `VALID_ORIGINS`/option-set in source code, **and one side has fewer valid choices** than the other (e.g. BASE has `{"human", "ai"}` while ours has `{"human", "ai", "ai-composite"}`), **always prefer the side with FEWER choices**. Same for `\origin{ai-composite}` → `\origin{ai}` conversions in `.tex` chapters: keep the narrowed lineage from BASE, drop the older broader lineage from ours.
+If a conflict touches a `\origin{{...}}` line or a `VALID_ORIGINS`/option-set in source code, **and one side has fewer valid choices** than the other (e.g. BASE has `{{"human", "ai"}}` while ours has `{{"human", "ai", "ai-composite"}}`), **always prefer the side with FEWER choices**. Same for `\origin{{ai-composite}}` → `\origin{{ai}}` conversions in `.tex` chapters: keep the narrowed lineage from BASE, drop the older broader lineage from ours.
 
 Rationale: lineage / option narrowing is a deliberate simplification (e.g. removing `ai-composite` as a distinct category because it adds no information). "Keep both" or "ours wins" re-introduces the deprecated option and the next round will re-trip the same lineage check.
 
-Detection: any conflict containing `ai-composite`, `mislabeled_composite`, or a `\origin{...}` chapter-header line where the two sides differ on lineage value — trust BASE.
+Detection: any conflict containing `ai-composite`, `mislabeled_composite`, or a `\origin{{...}}` chapter-header line where the two sides differ on lineage value — trust BASE.
 
 ## Completion
 6. After resolving, run: git add <file> for each resolved file

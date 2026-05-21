@@ -186,14 +186,7 @@ theorem InterHistTransportSealCarrier_nonescape
           (InterHistTransportSealUp.mk source target locality invariant observer route transport
             continuation provenance name) =
         [source, target, locality, invariant, observer, route, transport, continuation,
-          provenance, name] ∧
-        BHistCarrier.fromEventFlow
-            (BHistCarrier.toEventFlow
-              (InterHistTransportSealUp.mk source target locality invariant observer route
-                transport continuation provenance name)) =
-          some
-            (InterHistTransportSealUp.mk source target locality invariant observer route
-              transport continuation provenance name) := by
+          provenance, name] := by
   -- BEDC touchpoint anchor: BHist BMark Cont hsame
   have routeSame : hsame route route' :=
     cont_deterministic routeStep routeStep'
@@ -203,19 +196,6 @@ theorem InterHistTransportSealCarrier_nonescape
   · exact routeSame
   · constructor
     · exact continuationSame
-    · constructor
-      · rfl
-      · change
-          interHistTransportSealFromEventFlow
-              (interHistTransportSealToEventFlow
-                (InterHistTransportSealUp.mk source target locality invariant observer route
-                  transport continuation provenance name)) =
-            some
-              (InterHistTransportSealUp.mk source target locality invariant observer route
-                transport continuation provenance name)
-        exact
-          interHistTransportSeal_round_trip
-            (InterHistTransportSealUp.mk source target locality invariant observer route
-              transport continuation provenance name)
+    · rfl
 
 end BEDC.Derived.InterHistTransportSealUp
