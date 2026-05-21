@@ -1106,6 +1106,7 @@ import BEDC.Derived.CausalCommitmentUp.ObservedRegularityNonchoice
 import BEDC.Derived.CausalCommitmentUp.ObserverLocalityHandoff
 import BEDC.Derived.CausalCommitmentUp.ObserverRowFactorization
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
+import BEDC.Derived.CausalContinuitySocketUp.RecordPredictionSeparation
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalInterventionUp
 import BEDC.Derived.CellularAutomatonUp.TasteGate
@@ -1694,6 +1695,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceBudgetReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RHSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
@@ -3970,6 +3972,7 @@ import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
 import BEDC.Derived.RealityConstrainedExplanationUp.NameCert
 import BEDC.Derived.RealityConstrainedExplanationUp.TasteGate
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.BridgeBoundary
+import BEDC.Derived.RealityConstrainedFailureSurfaceUp.ContinuationScope
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.ContinuationScopeCarrier
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
@@ -4015,6 +4018,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.KernelTruthRoute
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10SourceReadiness
+import BEDC.Derived.RealityConstrainedTruthCertUp.L10TerminalReadbackDeterminacy
 import BEDC.Derived.RealityConstrainedTruthCertUp.LedgerExactness
 import BEDC.Derived.RealityConstrainedTruthCertUp.LedgerFailureLocalNameObligation
 import BEDC.Derived.RealityConstrainedTruthCertUp.MethodologyLedgerHandoff
@@ -4064,6 +4068,7 @@ import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegSeqRatUp.CommonTailWindow
+import BEDC.Derived.RegSeqRatUp.FiniteRequestSourceSection
 import BEDC.Derived.RegSeqRatUp.RealSealFiniteWindowSaturation
 import BEDC.Derived.RegSeqRatUp.RealSealRouteExclusionPackage
 import BEDC.Derived.RegSeqRatUp.RealTerminalFourFaceExactness
@@ -4836,6 +4841,7 @@ import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.CompactMetricThresholdFactorization
 import BEDC.Derived.UniformModulusUp.PointwiseMetricConsumerUnblock
+import BEDC.Derived.UniformModulusUp.PrecisionConsumerNonescape
 import BEDC.Derived.UniformModulusUp.RootClassifierRow
 import BEDC.Derived.UniformModulusUp.RootCompactContinuousThreshold
 import BEDC.Derived.UniformModulusUp.RootPublicRows
