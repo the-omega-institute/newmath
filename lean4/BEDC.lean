@@ -1722,6 +1722,7 @@ import BEDC.Derived.CookFrontierWitnessUp.TasteGate
 import BEDC.Derived.CoreRegistryIndexUp.RowSurfaceSemanticCertificate
 import BEDC.Derived.CoreRegistryIndexUp.TasteGate
 import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
+import BEDC.Derived.CountableDenseSubsetUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CriticalLineWitnessUp
@@ -2606,6 +2607,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumers
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusReadback
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
+import BEDC.Derived.FiniteLebesgueNumberUp.RealPhaseSourceExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.RootRoutes
 import BEDC.Derived.FiniteLebesgueNumberUp.SelectedTailBridgeLedger
 import BEDC.Derived.FiniteLebesgueNumberUp.TailRadiusAdmission
