@@ -583,6 +583,16 @@ def detect_preamble_duplicate_commands() -> list[dict[str, object]]:
 def _get_commit_changed_files() -> set[str] | None:
     """Return files changed by HEAD relative to its first parent."""
     try:
+        dirty = subprocess.run(
+            ["git", "diff", "--name-only", "HEAD"],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        if dirty.returncode == 0:
+            dirty_files = {ln.strip() for ln in dirty.stdout.splitlines() if ln.strip()}
+            if dirty_files:
+                return dirty_files
         r = subprocess.run(
             ["git", "diff", "--name-only", "HEAD~1..HEAD"],
             cwd=REPO_ROOT,
@@ -774,6 +784,41 @@ def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
                 "kind": kind,
             })
     return sorted(missing, key=lambda item: str(item["file"]))
+
+
+def detect_paper_chapter_origin_tags() -> list[dict[str, object]]:
+    if not PAPER_PARTS_ROOT.is_dir():
+        return []
+
+    violations: list[dict[str, object]] = []
+    for path in sorted(PAPER_PARTS_ROOT.rglob("*.tex")):
+        if not path.is_file():
+            continue
+        text = read_text(path)
+        chapter = CONCRETE_CHAPTER_RE.search(text)
+        if not chapter:
+            continue
+        surface_text = CLOSURESTATUS_BLOCK_RE.sub("", text)
+        origins = [
+            match.group(1).strip()
+            for match in TOP_LEVEL_ORIGIN_RE.finditer(surface_text)
+        ]
+        kind = ""
+        if not origins:
+            kind = "missing-origin"
+        elif len(origins) != 1:
+            kind = "duplicate-origin"
+        elif origins[0] not in VALID_ORIGINS:
+            kind = "invalid-origin"
+        if not kind:
+            continue
+        line = text.count("\n", 0, chapter.start()) + 1
+        violations.append({
+            "file": str(path.relative_to(REPO_ROOT)),
+            "line": line,
+            "kind": kind,
+        })
+    return violations
 
 
 def changed_concrete_instance_tex_paths() -> set[Path] | None:
@@ -1010,6 +1055,7 @@ def audit_payload() -> dict[str, object]:
     preamble_duplicate_commands = detect_preamble_duplicate_commands()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
     concrete_missing_origin = detect_concrete_instance_missing_origin()
+    paper_chapter_origin_tags = detect_paper_chapter_origin_tags()
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     closurestatus_diagnostics: list[str] = []
     for block in closurestatus_blocks:
@@ -1035,6 +1081,7 @@ def audit_payload() -> dict[str, object]:
     _attach_violation_split(payload, "preamble_duplicate_commands", preamble_duplicate_commands, changed_files)
     _attach_violation_split(payload, "concrete_number_collisions", concrete_number_collisions, changed_files)
     _attach_violation_split(payload, "concrete_missing_origin", concrete_missing_origin, changed_files)
+    _attach_violation_split(payload, "paper_chapter_origin_tags", paper_chapter_origin_tags, changed_files)
     closurestatus_diagnostic_items = [
         {"path": str(item).split(":", 1)[0], "message": item}
         for item in closurestatus_diagnostics
@@ -1209,6 +1256,14 @@ def cmd_audit(args: argparse.Namespace) -> int:
             )
             for item in payload["concrete_missing_origin"][:50]:
                 print(f"  {item['file']}: {item['kind']}")
+        if payload["paper_chapter_origin_tags"]:
+            print(
+                "[bedc-ci] paper_chapter_origin_tags: "
+                f"{payload['paper_chapter_origin_tags_new_count']} new (BLOCKING), "
+                f"{payload['paper_chapter_origin_tags_legacy_count']} legacy (warning)"
+            )
+            for item in payload["paper_chapter_origin_tags"][:50]:
+                print(f"  {item['file']}:{item['line']}: {item['kind']}")
         if payload["closurestatus_diagnostics"]:
             print(
                 "[bedc-ci] closurestatus block diagnostics: "
@@ -1249,6 +1304,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["preamble_duplicate_commands_new_count"]
         + payload["concrete_number_collisions_new_count"]
         + payload["concrete_missing_origin_new_count"]
+        + payload["paper_chapter_origin_tags_new_count"]
         + payload["closurestatus_diagnostics_new_count"]
         + payload["orphan_concrete_subdirs_new_count"]
     )
