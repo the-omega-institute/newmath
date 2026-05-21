@@ -2557,7 +2557,9 @@ import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteKernelCategoryUp.Carrier
 import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
 import BEDC.Derived.FiniteLebesgueNumberUp
+import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadius
+import BEDC.Derived.FiniteLebesgueNumberUp.RadiusClassifierStability
 import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
