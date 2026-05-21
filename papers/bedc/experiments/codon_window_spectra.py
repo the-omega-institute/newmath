@@ -6,12 +6,16 @@ import fractions
 import http.client
 import itertools
 import json
+import pathlib
 import random
 import re
+import time
+import urllib.error
 import urllib.request
 
 
 NCBI_GENETIC_CODES_URL = "https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?chapter=tgencodes"
+NCBI_GENETIC_CODES_CACHE = pathlib.Path(__file__).with_name("cache") / "ncbi_genetic_codes.html"
 BASE_BITS = {"T": "00", "C": "01", "A": "10", "G": "11"}
 BASES = "TCAG"
 MODULES = {
@@ -99,11 +103,27 @@ def fetch_ncbi_page() -> str:
         NCBI_GENETIC_CODES_URL,
         headers={"User-Agent": "BEDC-codon-window-spectra", "Accept-Encoding": "identity"},
     )
-    try:
-        data = urllib.request.urlopen(request, timeout=30).read()
-    except http.client.IncompleteRead as exc:
-        data = exc.partial
-    return data.decode("utf-8", "replace")
+    last_error: Exception | None = None
+    for attempt in range(5):
+        try:
+            data = urllib.request.urlopen(request, timeout=30).read()
+            break
+        except http.client.IncompleteRead as exc:
+            data = exc.partial
+            break
+        except (http.client.RemoteDisconnected, TimeoutError, urllib.error.URLError) as exc:
+            last_error = exc
+            if attempt == 4:
+                if NCBI_GENETIC_CODES_CACHE.exists():
+                    return NCBI_GENETIC_CODES_CACHE.read_text(encoding="utf-8", errors="replace")
+                raise
+            time.sleep(1 + attempt)
+    else:
+        raise RuntimeError("unreachable NCBI fetch state") from last_error
+    text = data.decode("utf-8", "replace")
+    NCBI_GENETIC_CODES_CACHE.parent.mkdir(parents=True, exist_ok=True)
+    NCBI_GENETIC_CODES_CACHE.write_text(text, encoding="utf-8")
+    return text
 
 
 def parse_tables(text: str) -> dict[int, dict[str, str]]:
@@ -1183,6 +1203,71 @@ def edge_isoperimetric_max_edges(dimension: int, size: int) -> int:
     return recur(dimension, size)
 
 
+def median_codon(left: str, middle: str, right: str) -> str:
+    return codon_from_bits(
+        "".join(
+            "1" if (int(a) + int(b) + int(c)) >= 2 else "0"
+            for a, b, c in zip(bits(left), bits(middle), bits(right))
+        )
+    )
+
+
+def median_closure(codons: set[str]) -> tuple[set[str], list[dict[str, object]]]:
+    closed = set(codons)
+    stages: list[dict[str, object]] = []
+    stage_index = 0
+    while True:
+        additions = {
+            median_codon(left, middle, right)
+            for left, middle, right in itertools.combinations_with_replacement(sorted(closed), 3)
+        } - closed
+        if not additions:
+            break
+        stage_index += 1
+        closed |= additions
+        stages.append(
+            {
+                "stage": stage_index,
+                "added_count": len(additions),
+                "added": tuple(sorted(additions)),
+                "total_size": len(closed),
+            }
+        )
+    return closed, stages
+
+
+def interval_closure(codons: set[str]) -> tuple[set[str], list[dict[str, object]]]:
+    closed = set(codons)
+    stages: list[dict[str, object]] = []
+    stage_index = 0
+    while True:
+        additions: set[str] = set()
+        for left, right in itertools.combinations(sorted(closed), 2):
+            left_bits = bits(left)
+            right_bits = bits(right)
+            free = [index for index, (a, b) in enumerate(zip(left_bits, right_bits)) if a != b]
+            base = list(left_bits)
+            for values in itertools.product("01", repeat=len(free)):
+                candidate = base.copy()
+                for index, value in zip(free, values):
+                    candidate[index] = value
+                additions.add(codon_from_bits("".join(candidate)))
+        additions -= closed
+        if not additions:
+            break
+        stage_index += 1
+        closed |= additions
+        stages.append(
+            {
+                "stage": stage_index,
+                "added_count": len(additions),
+                "added": tuple(sorted(additions)),
+                "total_size": len(closed),
+            }
+        )
+    return closed, stages
+
+
 def reassignment_mass_geometry_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
     standard = tables[1]
     codon_counts: collections.Counter[str] = collections.Counter()
@@ -1653,6 +1738,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             tuple(expand_iupac_motif("AGR")): "AGR",
             tuple(expand_iupac_motif("UAR")): "UAR",
             tuple(expand_iupac_motif("YUA")): "YUA",
+            tuple(expand_iupac_motif("WNR")): "WNR",
+            tuple(expand_iupac_motif("YUR")): "YUR",
+            tuple(expand_iupac_motif("WYG")): "WYG",
             tuple(("TAG",)): "UAG",
             tuple(("TCA",)): "UCA",
             tuple(("ATA", "AAA")): "AWA",
@@ -1955,6 +2043,28 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         codon: sum(1 for left, right in closure_edges if codon in (left, right))
         for codon in sorted(anchor_closure)
     }
+    median_set, median_stages = median_closure(support)
+    convex_set, convex_stages = interval_closure(support)
+    wnr_set = set(expand_iupac_motif("WNR"))
+    yur_set = set(expand_iupac_motif("YUR"))
+    wyg_set = set(expand_iupac_motif("WYG"))
+    median_formula_union = wnr_set | cun
+    median_complex = cubical_complex_summary(median_set)
+    maximal_median_cells: list[dict[str, object]] = []
+    median_cells = [
+        cell
+        for cells in median_complex["cells_by_dimension"].values()
+        for cell in cells
+    ]
+    for cell in median_cells:
+        cell_vertices = set(cell["vertices"])
+        if not any(
+            cell_vertices < set(other["vertices"])
+            for other in median_cells
+        ):
+            maximal_median_cells.append(cell)
+    maximal_median_cells.sort(key=lambda cell: (-len(cell["free_bits"]), cell["vertices"]))
+    median_boundary_edges = 6 * len(median_set) - 2 * median_complex["f_vector"][1]
 
     return {
         "support": tuple(sorted(support)),
@@ -2093,6 +2203,42 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                     ),
                 },
             },
+        },
+        "median_closure": {
+            "median_closure": tuple(sorted(median_set)),
+            "median_closure_size": len(median_set),
+            "median_stages": median_stages,
+            "formula_motifs": {
+                "WNR": tuple(expand_iupac_motif("WNR")),
+                "CUN": tuple(expand_iupac_motif("CUN")),
+            },
+            "formula_matches_median": median_formula_union == median_set,
+            "added_over_support": tuple(sorted(median_set - support)),
+            "added_over_anchor_closure": tuple(sorted(median_set - anchor_closure)),
+            "wyg": tuple(expand_iupac_motif("WYG")),
+            "added_over_anchor_closure_is_wyg": median_set - anchor_closure == wyg_set,
+            "closure_chain_sizes": {
+                "support": len(support),
+                "anchor_closure": len(anchor_closure),
+                "median_closure": len(median_set),
+                "convex_hull": len(convex_set),
+            },
+            "convex_hull_size": len(convex_set),
+            "convex_hull_is_q6": len(convex_set) == 64,
+            "convex_stages": convex_stages,
+            "complex": median_complex,
+            "maximal_cells": [
+                {
+                    "name": subcube_name(tuple(cell["vertices"])),
+                    "dimension": len(cell["free_bits"]),
+                    "vertices": tuple(cell["vertices"]),
+                }
+                for cell in maximal_median_cells
+            ],
+            "yur": tuple(expand_iupac_motif("YUR")),
+            "yur_inter_wnr": tuple(sorted(yur_set & wnr_set)),
+            "yur_inter_cun": tuple(sorted(yur_set & cun)),
+            "boundary_edge_count": median_boundary_edges,
         },
     }
 
@@ -3205,6 +3351,54 @@ def assert_expected(summary: dict[str, object]) -> None:
         "TAG": {"active_degree": 1, "closure_degree": 3, "closure_neighbors": ("AAG", "TAA", "TGG")},
         "AGG": {"active_degree": 1, "closure_degree": 3, "closure_neighbors": ("AAG", "AGA", "TGG")},
     }
+    median = summary["support_compression"]["median_closure"]
+    assert median["median_closure_size"] == 20
+    assert median["median_closure"] == (
+        "AAA", "AAG", "ACA", "ACG", "AGA", "AGG", "ATA", "ATG",
+        "CTA", "CTC", "CTG", "CTT", "TAA", "TAG", "TCA", "TCG",
+        "TGA", "TGG", "TTA", "TTG",
+    )
+    assert median["formula_motifs"] == {
+        "WNR": (
+            "TTA", "TTG", "TCA", "TCG", "TAA", "TAG", "TGA", "TGG",
+            "ATA", "ATG", "ACA", "ACG", "AAA", "AAG", "AGA", "AGG",
+        ),
+        "CUN": ("CTT", "CTC", "CTA", "CTG"),
+    }
+    assert median["formula_matches_median"] is True
+    assert median["added_over_support"] == ("AAG", "ACA", "ACG", "ATG", "TCG", "TGG", "TTG")
+    assert median["added_over_anchor_closure"] == ("ACG", "ATG", "TCG", "TTG")
+    assert median["wyg"] == ("TTG", "TCG", "ATG", "ACG")
+    assert median["added_over_anchor_closure_is_wyg"] is True
+    assert median["closure_chain_sizes"] == {
+        "support": 13,
+        "anchor_closure": 16,
+        "median_closure": 20,
+        "convex_hull": 64,
+    }
+    assert median["convex_hull_size"] == 64
+    assert median["convex_hull_is_q6"] is True
+    assert median["complex"]["f_vector"] == (20, 38, 26, 8, 1, 0, 0)
+    assert median["complex"]["max_dimension"] == 4
+    assert median["complex"]["euler_characteristic"] == 1
+    assert median["complex"]["boundary_ranks"] == {1: 19, 2: 19, 3: 7, 4: 1, 5: 0, 6: 0}
+    assert median["complex"]["betti"] == (1, 0, 0, 0, 0)
+    assert median["maximal_cells"] == [
+        {
+            "name": "WNR",
+            "dimension": 4,
+            "vertices": (
+                "TTA", "TTG", "TCA", "TCG", "TAA", "TAG", "TGA", "TGG",
+                "ATA", "ATG", "ACA", "ACG", "AAA", "AAG", "AGA", "AGG",
+            ),
+        },
+        {"name": "CUN", "dimension": 2, "vertices": ("CTT", "CTC", "CTA", "CTG")},
+        {"name": "YUR", "dimension": 2, "vertices": ("TTA", "TTG", "CTA", "CTG")},
+    ]
+    assert median["yur"] == ("TTA", "TTG", "CTA", "CTG")
+    assert median["yur_inter_wnr"] == ("TTA", "TTG")
+    assert median["yur_inter_cun"] == ("CTA", "CTG")
+    assert median["boundary_edge_count"] == 44
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),

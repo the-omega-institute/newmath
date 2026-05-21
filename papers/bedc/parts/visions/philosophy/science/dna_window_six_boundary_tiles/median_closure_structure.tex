@@ -1,0 +1,204 @@
+\begin{definition}[Median closure]
+\label{def:philosophy-median-closure}
+For three vertices $x,y,z\in Q_{6}$, let $m(x,y,z)$ be their
+coordinatewise majority vertex. The median closure $\operatorname{Med}(S)$
+of $S\subset Q_{6}$ is the least subset of $Q_{6}$ containing $S$ and
+closed under $m$.
+\end{definition}
+
+\begin{theorem}[Median closure of the reassigned support]
+\label{thm:philosophy-reassignment-median-closure}
+The median closure of the reassigned support is
+$$
+  \operatorname{Med}(\mathcal{R})
+  =
+  \mathrm{WNR}\cup\mathrm{CUN}.
+$$
+Equivalently,
+$$
+  \operatorname{Med}(\mathcal{R})
+  =
+  \{\mathrm{U},\mathrm{A}\}\times
+  \{\mathrm{U},\mathrm{C},\mathrm{A},\mathrm{G}\}\times
+  \{\mathrm{A},\mathrm{G}\}
+  \ \cup\
+  \mathrm{CUN}.
+$$
+It has $20$ codons.
+\end{theorem}
+\begin{proof}
+Iterate coordinatewise majority over triples of codons until no new
+codon appears. The resulting set has the $20$ codons
+$$
+\begin{gathered}
+  \mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},
+  \mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
+  \mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},
+  \mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
+  \mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}.
+\end{gathered}
+$$
+This is exactly $\mathrm{WNR}\cup\mathrm{CUN}$. The displayed union is
+itself median-closed and contains $\mathcal{R}$, so it is the least such
+set.
+\end{proof}
+
+\begin{corollary}[Median inactive corners]
+\label{cor:philosophy-median-inactive-corners}
+The median closure adds seven inactive codons to $\mathcal{R}$:
+$$
+  \operatorname{Med}(\mathcal{R})\setminus\mathcal{R}
+  =
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AUG},
+    \mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}.
+$$
+Relative to the inactive-anchor closure, the additional median codons
+are
+$$
+  \operatorname{Med}(\mathcal{R})\setminus\overline{\mathcal{R}}
+  =
+  \{\mathrm{UUG},\mathrm{UCG},\mathrm{AUG},\mathrm{ACG}\}
+  =
+  \mathrm{WYG}.
+$$
+\end{corollary}
+\begin{proof}
+Subtract the support and the inactive-anchor closure from the explicit
+median closure in
+\autoref{thm:philosophy-reassignment-median-closure}.
+\end{proof}
+
+\begin{theorem}[Closure chain]
+\label{thm:philosophy-reassignment-closure-chain}
+The closure hierarchy is
+$$
+  \mathcal{R}
+  \subset
+  \overline{\mathcal{R}}
+  \subset
+  \operatorname{Med}(\mathcal{R})
+  \subset
+  \operatorname{Conv}(\mathcal{R})
+  =
+  Q_{6},
+$$
+with sizes
+$$
+  13,\qquad 16,\qquad 20,\qquad 64.
+$$
+\end{theorem}
+\begin{proof}
+The first two sizes are
+\autoref{def:philosophy-inactive-anchor-closure}; the median size is
+\autoref{thm:philosophy-reassignment-median-closure}. Iterating
+hypercube intervals over pairs of vertices of $\mathcal{R}$ produces
+all $64$ vertices of $Q_{6}$, so the geodesic convex hull is the whole
+cube.
+\end{proof}
+
+\begin{theorem}[Median closure f-vector]
+\label{thm:philosophy-median-closure-f-vector}
+The cubical complex $K(\operatorname{Med}(\mathcal{R}))$ has
+$$
+  f=(20,38,26,8,1,0,\ldots).
+$$
+Thus it has $20$ vertices, $38$ edges, $26$ square faces, $8$ cubes,
+and one $4$-cube. The unique $4$-cube is $\mathrm{WNR}$.
+\end{theorem}
+\begin{proof}
+Enumerate every axis-aligned subcube of $Q_{6}$ whose vertices lie in
+$\operatorname{Med}(\mathcal{R})$. The retained cells have the displayed
+counts. The only retained $4$-cube is the $16$-vertex motif
+$\mathrm{WNR}$.
+\end{proof}
+
+\begin{theorem}[Maximal cells of the median closure]
+\label{thm:philosophy-median-closure-maximal-cells}
+The maximal cubical cells of $K(\operatorname{Med}(\mathcal{R}))$ are
+$$
+  \mathrm{WNR}\quad(Q_{4}),\qquad
+  \mathrm{CUN}\quad(Q_{2}),\qquad
+  \mathrm{YUR}\quad(Q_{2}).
+$$
+Here
+$$
+  \mathrm{YUR}
+  =
+  \{\mathrm{UUA},\mathrm{UUG},\mathrm{CUA},\mathrm{CUG}\}.
+$$
+\end{theorem}
+\begin{proof}
+After enumerating all internal subcubes of the median closure, delete
+every subcube properly contained in another retained subcube. The three
+remaining maximal cells are exactly $\mathrm{WNR}$, $\mathrm{CUN}$, and
+$\mathrm{YUR}$.
+\end{proof}
+
+\begin{corollary}[Median bridge face]
+\label{cor:philosophy-median-bridge-face}
+The square $\mathrm{YUR}$ bridges the main $Q_{4}$ cell and the CUN
+module:
+$$
+  \mathrm{YUR}\cap\mathrm{WNR}
+  =
+  \{\mathrm{UUA},\mathrm{UUG}\},
+  \qquad
+  \mathrm{YUR}\cap\mathrm{CUN}
+  =
+  \{\mathrm{CUA},\mathrm{CUG}\}.
+$$
+\end{corollary}
+\begin{proof}
+Intersect the explicit vertex sets in
+\autoref{thm:philosophy-median-closure-maximal-cells}.
+\end{proof}
+
+\begin{theorem}[Median closure homology]
+\label{thm:philosophy-median-closure-homology}
+Over $\mathbb{F}_{2}$, the cubical homology of
+$K(\operatorname{Med}(\mathcal{R}))$ has Betti vector
+$$
+  \beta=(1,0,0,0,0).
+$$
+\end{theorem}
+\begin{proof}
+The cellular boundary ranks are
+$$
+  \operatorname{rank}\partial_{1}=19,\qquad
+  \operatorname{rank}\partial_{2}=19,\qquad
+  \operatorname{rank}\partial_{3}=7,\qquad
+  \operatorname{rank}\partial_{4}=1.
+$$
+Together with the f-vector
+$(20,38,26,8,1)$, these ranks give
+$$
+\begin{aligned}
+  \beta_{0}&=20-19=1,\\
+  \beta_{1}&=38-19-19=0,\\
+  \beta_{2}&=26-19-7=0,\\
+  \beta_{3}&=8-7-1=0,\\
+  \beta_{4}&=1-1=0.
+\end{aligned}
+$$
+\end{proof}
+
+\begin{theorem}[Median-closure structure]
+\label{thm:philosophy-median-closure-structure}
+The natural median-stabilized envelope of the reassigned support is
+$$
+  \operatorname{Med}(\mathcal{R})=\mathrm{WNR}\cup\mathrm{CUN}.
+$$
+It extends the inactive-anchor closure by the square
+$\mathrm{WYG}$, merges the two inactive-anchor cubes into the main
+$Q_{4}$ cell $\mathrm{WNR}$, and remains cubically connected with no
+higher homology.
+\end{theorem}
+\begin{proof}
+The formula is \autoref{thm:philosophy-reassignment-median-closure}.
+The additional codons are
+\autoref{cor:philosophy-median-inactive-corners}. The cubical and
+homological statements are
+\autoref{thm:philosophy-median-closure-f-vector},
+\autoref{thm:philosophy-median-closure-maximal-cells}, and
+\autoref{thm:philosophy-median-closure-homology}.
+\end{proof}
