@@ -3443,6 +3443,7 @@ import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
+import BEDC.Derived.MetricSubspaceUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CenterBoundContinuation
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CenterReuseDeterminacy
@@ -3903,6 +3904,7 @@ import BEDC.Derived.PolynomialUp.RawMulDistributivity
 import BEDC.Derived.PolynomialUp.StdBridge
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PontryaginDualityUp
+import BEDC.Derived.PositiveRealUp.TasteGate
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.PredictiveDescentUp.StabilityScope
 import BEDC.Derived.PredictiveDescentUp.TasteGate
@@ -4733,6 +4735,7 @@ import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryDiagonalWindowRouteUp
 import BEDC.Derived.StationaryDiagonalWindowUp.TasteGate
+import BEDC.Derived.StationaryDyadicStreamUp
 import BEDC.Derived.StationaryPartitionDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StationaryRationalCauchyUp.TasteGate
