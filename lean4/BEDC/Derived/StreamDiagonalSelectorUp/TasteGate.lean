@@ -217,56 +217,12 @@ theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
       streamDiagonalSelectorEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · intro h
-    induction h with
-    | Empty =>
-        rfl
-    | e0 h ih =>
-        exact congrArg BHist.e0 ih
-    | e1 h ih =>
-        exact congrArg BHist.e1 ih
+  · exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode
   constructor
-  · intro x
-    cases x with
-    | mk schedule selector window readback dyadicLedger diagonalPacket routes provenance
-        nameCert =>
-        change
-          some
-            (StreamDiagonalSelectorUp.mk
-              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist schedule))
-              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist selector))
-              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist window))
-              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist readback))
-              (streamDiagonalSelectorDecodeBHist
-                (streamDiagonalSelectorEncodeBHist dyadicLedger))
-              (streamDiagonalSelectorDecodeBHist
-                (streamDiagonalSelectorEncodeBHist diagonalPacket))
-              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist routes))
-              (streamDiagonalSelectorDecodeBHist
-                (streamDiagonalSelectorEncodeBHist provenance))
-              (streamDiagonalSelectorDecodeBHist
-                (streamDiagonalSelectorEncodeBHist nameCert))) =
-            some
-              (StreamDiagonalSelectorUp.mk schedule selector window readback dyadicLedger
-                diagonalPacket routes provenance nameCert)
-        rw [StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode schedule,
-          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode selector,
-          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode window,
-          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode readback,
-          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode dyadicLedger,
-          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode diagonalPacket,
-          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode routes,
-          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode provenance,
-          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode nameCert]
+  · exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip
   constructor
-  · intro x y heq
-    have hread :
-        streamDiagonalSelectorFromEventFlow (streamDiagonalSelectorToEventFlow x) =
-          streamDiagonalSelectorFromEventFlow (streamDiagonalSelectorToEventFlow y) :=
-      congrArg streamDiagonalSelectorFromEventFlow heq
-    exact Option.some.inj
-      (Eq.trans (StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip x).symm
-        (Eq.trans hread (StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip y)))
+  · intro x y
+    exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_toEventFlow_injective
   constructor
   · rfl
   · rfl
