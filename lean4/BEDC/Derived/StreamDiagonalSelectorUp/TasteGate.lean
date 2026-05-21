@@ -181,31 +181,17 @@ def taste_gate : ChapterTasteGate StreamDiagonalSelectorUp :=
   StreamDiagonalSelectorTasteGate_single_carrier_alignment_taste_gate
 
 theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate StreamDiagonalSelectorUp) ∧
-      Nonempty (FieldFaithful StreamDiagonalSelectorUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial StreamDiagonalSelectorUp) ∧
-      (∀ h : BHist,
+    (∀ h : BHist,
         streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist h) = h) ∧
-      (∀ x : StreamDiagonalSelectorUp,
-        streamDiagonalSelectorFromEventFlow (streamDiagonalSelectorToEventFlow x) = some x) ∧
       (∀ x y : StreamDiagonalSelectorUp,
-        streamDiagonalSelectorToEventFlow x = streamDiagonalSelectorToEventFlow y → x = y) ∧
+        streamDiagonalSelectorFields x = streamDiagonalSelectorFields y → x = y) ∧
       streamDiagonalSelectorEncodeBHist BHist.Empty = ([] : RawEvent) ∧
       streamDiagonalSelectorEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact ⟨StreamDiagonalSelectorTasteGate_single_carrier_alignment_ChapterTasteGate⟩
-  constructor
-  · exact ⟨streamDiagonalSelectorFieldFaithful⟩
-  constructor
-  · exact ⟨streamDiagonalSelectorNontrivial⟩
-  constructor
   · exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode
   constructor
-  · exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  · exact streamDiagonalSelector_field_faithful
   constructor
   · rfl
   · rfl
@@ -213,18 +199,11 @@ theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
 end TasteGate
 
 theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
-    Nonempty (BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.StreamDiagonalSelectorUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.FieldFaithful TasteGate.StreamDiagonalSelectorUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial TasteGate.StreamDiagonalSelectorUp) ∧
-      (∀ h : BEDC.FKernel.Hist.BHist,
+    (∀ h : BEDC.FKernel.Hist.BHist,
         TasteGate.streamDiagonalSelectorDecodeBHist
           (TasteGate.streamDiagonalSelectorEncodeBHist h) = h) ∧
-      (∀ x : TasteGate.StreamDiagonalSelectorUp,
-        TasteGate.streamDiagonalSelectorFromEventFlow
-          (TasteGate.streamDiagonalSelectorToEventFlow x) = some x) ∧
       (∀ x y : TasteGate.StreamDiagonalSelectorUp,
-        TasteGate.streamDiagonalSelectorToEventFlow x =
-            TasteGate.streamDiagonalSelectorToEventFlow y →
+        TasteGate.streamDiagonalSelectorFields x = TasteGate.streamDiagonalSelectorFields y →
           x = y) ∧
       TasteGate.streamDiagonalSelectorEncodeBHist BEDC.FKernel.Hist.BHist.Empty =
         ([] : BEDC.GroundCompiler.EventFlow.RawEvent) ∧

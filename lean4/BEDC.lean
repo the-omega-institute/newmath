@@ -3446,6 +3446,7 @@ import BEDC.Derived.MetricUp.BHistDistanceNameCertObligations
 import BEDC.Derived.MetricUp.BallBudget
 import BEDC.Derived.MetricUp.BoundaryExactness
 import BEDC.Derived.MetricUp.CertificateObligations
+import BEDC.Derived.MetricUp.ClassifierSpecification
 import BEDC.Derived.MetricUp.CompositeEndpointCollapse
 import BEDC.Derived.MetricUp.ContDepthAdd
 import BEDC.Derived.MetricUp.DepthClassifier
