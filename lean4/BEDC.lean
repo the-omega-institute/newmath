@@ -721,6 +721,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealReadbackCompletenes
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSelectorFactorization
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
+import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
 import BEDC.Derived.BoundedUniversalTraceUp.Carrier
@@ -835,6 +836,7 @@ import BEDC.Derived.CauchyCompletionFunctorUp.SelectorBudgetDeterminacy
 import BEDC.Derived.CauchyCompletionFunctorUp.TailBudgetCoherenceFactorization
 import BEDC.Derived.CauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.CauchyCompletionMonadUp
+import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
 import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
@@ -1232,6 +1234,7 @@ import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.TasteGate
 import BEDC.Derived.ClaimRegistryLayerUp
 import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClassFieldUp
+import BEDC.Derived.ClassifierBoundaryUp
 import BEDC.Derived.ClassifierMorphismUp.Packet
 import BEDC.Derived.ClassifierMorphismUp.TasteGate
 import BEDC.Derived.ClassifierTypingUp
@@ -2356,6 +2359,7 @@ import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.EigenUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EmpiricalRegularityPersistenceUp.TasteGate
+import BEDC.Derived.EmptyBoundaryStepUp
 import BEDC.Derived.EmptyFableLedgerUp.TasteGate
 import BEDC.Derived.EmptyFableMachineUp.Ledger
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
@@ -2403,6 +2407,7 @@ import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FastConvergentSeriesUp.Classifier
 import BEDC.Derived.FastConvergentSeriesUp.TasteGate
 import BEDC.Derived.FastSeriesProductUp
+import BEDC.Derived.FastSeriesProductUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FibonacciCubeUp
@@ -3738,6 +3743,7 @@ import BEDC.Derived.OptionUp.VisiblePayloadWitnesses
 import BEDC.Derived.OptionUp.VisibleReadback
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.OptionalStoppingUp
+import BEDC.Derived.OptionalStoppingUp.TasteGate
 import BEDC.Derived.OracleAugmentedSubstrateUp.TasteGate
 import BEDC.Derived.OracleResponseLedgerUp.TasteGate
 import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
@@ -4648,6 +4654,7 @@ import BEDC.Derived.StationaryWindowNaturalityUp.TasteGate
 import BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
 import BEDC.Derived.StatusDowngradeUp.TasteGate
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
+import BEDC.Derived.SternBrocotApproximationUp.TasteGate
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.TasteGate
 import BEDC.Derived.StoppingTimeUp
@@ -5075,6 +5082,7 @@ import BEDC.Derived.UniformModulusUp.ContinuousMapModulusLock
 import BEDC.Derived.UniformModulusUp.FiniteNetCenterCoverage
 import BEDC.Derived.UniformModulusUp.PointwiseMetricConsumerUnblock
 import BEDC.Derived.UniformModulusUp.PrecisionConsumerNonescape
+import BEDC.Derived.UniformModulusUp.RatPositiveFoldFloor
 import BEDC.Derived.UniformModulusUp.RootClassifierRow
 import BEDC.Derived.UniformModulusUp.RootCompactContinuousThreshold
 import BEDC.Derived.UniformModulusUp.RootPublicRows
