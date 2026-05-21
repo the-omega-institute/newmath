@@ -1,11 +1,18 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AxiomPurityGateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -204,5 +211,39 @@ theorem AxiomPurityGateTasteGate_single_carrier_alignment :
       axiomPurityGate_round_trip,
       (fun _ _ heq => axiomPurityGateToEventFlow_injective heq),
       rfl⟩
+
+theorem AxiomPurityGateNameCert_obligations [AskSetup] [PackageSetup]
+    {T D F R L S H C P N reportRead refusalRead replacementRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont T D reportRead →
+      Cont D F refusalRead →
+        Cont R L replacementRead →
+          PkgSig bundle reportRead pkg →
+            List.Mem (axiomPurityGateEncodeBHist T)
+                (axiomPurityGateToEventFlow (AxiomPurityGateUp.mk T D F R L S H C P N)) ∧
+              List.Mem (axiomPurityGateEncodeBHist D)
+                (axiomPurityGateToEventFlow (AxiomPurityGateUp.mk T D F R L S H C P N)) ∧
+              List.Mem (axiomPurityGateEncodeBHist F)
+                (axiomPurityGateToEventFlow (AxiomPurityGateUp.mk T D F R L S H C P N)) ∧
+              Cont T D reportRead ∧
+              Cont D F refusalRead ∧
+              Cont R L replacementRead ∧
+              PkgSig bundle reportRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Cont PkgSig ProbeBundle Pkg
+  intro reportRoute refusalRoute replacementRoute pkgRoute
+  constructor
+  · unfold axiomPurityGateToEventFlow
+    exact List.Mem.tail _ (List.Mem.head _)
+  · constructor
+    · unfold axiomPurityGateToEventFlow
+      exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))
+    · constructor
+      · unfold axiomPurityGateToEventFlow
+        exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))
+      · exact ⟨reportRoute, refusalRoute, replacementRoute, pkgRoute⟩
 
 end BEDC.Derived.AxiomPurityGateUp
