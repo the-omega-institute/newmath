@@ -66,3 +66,26 @@ It remains to check that the chosen bracketing has not introduced extra data. Ap
 
 Finally apply \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}. The terminal row is therefore the finite support consumed by the StreamName finite-window face, the RegSeqRat regularity face, and the Real seal face. The exclusion clauses are inherited from the pairwise refinement and uniqueness theorems, so no quotient carrier, quotient stream equality, selected endpoint, choice row, metric-completeness row, bridge row, or ambient Real-completeness coordinate enters the directed finite meet.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore directed common-scale normal form]
+\label{thm:dyadicratcore-common-scale-terminal-refinement-directed-normal-form}
+Let $\mathcal{F}$ be a finite family of accepted $\DyadicRatCoreUp$ tolerance windows whose signed mantissa rows are read from one displayed $\IntUp$ ledger and whose denominator rows are presented by finite positive-unary exponent histories. For every iterated common-scale refinement route through $\mathcal{F}$, there is one consumer-readable normal form $N_{\mathcal{F}}$ with the following rows:
+\begin{enumerate}
+\item each member of $\mathcal{F}$ maps to $N_{\mathcal{F}}$ by endpoint transport, denominator replay, distance and radius replay, $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert_{\DyadicRatCoreUp}$ rows;
+\item every $\StreamNameUp$ finite-window face, $\RegSeqRatUp$ regularity face, and $\RealUp$ seal read from $\mathcal{F}$ factors through $N_{\mathcal{F}}$;
+\item two constructions of $N_{\mathcal{F}}$ from different parenthesizations or refinement routes agree on the terminal tolerance row and on the four-face exit certificate over
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+\end{enumerate}
+The normal form exports no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness data.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement-directed-system} to the finite family $\mathcal{F}$. It supplies an accepted terminal window $T_{\mathcal{F}}$ whose visible rows are exactly the transported endpoint comparisons, denominator histories, distance and radius rows, $\hsame$, displayed $\Cont$, $\Pkg$, local DyadicRatCore naming rows, and terminal four-face exit support. Define $N_{\mathcal{F}}$ to be this displayed terminal packet together with those rows.
+
+Next compare two iterated refinement routes through the same family. The directed-system theorem gives a terminal packet for each route, and \autoref{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness} identifies the two packets because their signed mantissa ledger, exponent histories, denominator ledger, endpoint comparisons, support rows, and downstream four-face rows are the same finite data. Thus parenthesization and route choices cannot change the terminal tolerance row.
+
+It remains to justify the consumer-readable factorization. The terminal four-face certificate of the directed system is the route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Applying \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion} reads the StreamName finite-window face, the RegSeqRat regularity face, and the Real seal from that same terminal support, so each downstream consumer factors through $N_{\mathcal{F}}$ instead of through a separate pairwise refinement argument.
+
+Finally, the exclusion clause follows from the same three inputs. The directed-system construction uses only finite accepted DyadicRatCore windows and positive-unary histories; uniqueness adds no hidden carrier; and terminal four-face exhaustion lists exactly the visible downstream support. Hence quotient rational carriers, quotient stream equality, selected Real endpoints, countable-choice rows, metric-completeness rows, bridge rows, and ambient Real-completeness data have no coordinate in $N_{\mathcal{F}}$.
+\end{proof}
