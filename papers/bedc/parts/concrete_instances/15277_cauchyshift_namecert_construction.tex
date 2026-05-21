@@ -82,10 +82,28 @@ Replay the continuation row $C$. The request first reads the shifted schedule $T
 After those rows have been consumed, the dyadic tolerance row $D$ and regularity row $R$ provide the finite readback accepted by the Real seal. The transport, provenance, and local naming rows record the same dependency order, so the packet exports no direct route through quotient streams, selected limits, countable-choice tail selection, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyShift reindexing selector handoff]
+\label{thm:cauchy-shift-reindexing-selector-handoff}
+Let $K=(S,T,k,M,D,R,A,H,C,P,N)$ be an accepted $\CauchyShiftUp$ carrier. Any $\RealUp$-facing read of $K$ that is also consumed by a $\CauchyReindexingUp$ route or by a $\RealCauchyModulusSelectorUp$ route factors through the ordered handoff
+$$
+S,k,M,D \longmapsto T \longmapsto R \longmapsto \RegularCauchyModulusRealizationUp \longmapsto \RealCauchyModulusSelectorUp \longmapsto A
+$$
+with the structural rows $H,C,P,N$ preserving that order. Thus the shifted name may be reindexed, realized as a regular Cauchy modulus surface, selected by the Real Cauchy modulus selector, and then sealed at $A$, but it exports no quotient stream, selected limit, countable-choice tail selector, host real equality, detached modulus selector, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-shift-regularity-transport}. Every shifted regularity read first consumes the source schedule, finite shift length, Cauchy modulus row, and dyadic tolerance row before it can read the shifted schedule $T$ and the regular rational row $R$.
+
+The downstream reindexing side is the route recorded in \autoref{ch:concrete-instances-cauchy-reindexing-namecert}. A consumer that asks for a $\CauchyReindexingUp$ read therefore receives only the displayed regular readback produced by the shift packet; it does not obtain a second stream coordinate or an independent equality of streams.
+
+The modulus-selection side is the route recorded in \autoref{ch:concrete-instances-regular-cauchy-modulus-realization-namecert} and \autoref{ch:concrete-instances-realcauchymodulusselector-namecert}. The regular Cauchy modulus realization reads the finite $M,S,D,R$-style window as a displayed regular surface, and the Real Cauchy modulus selector then chooses only the threshold, finite window, tolerance, readback, and seal rows already displayed by that route.
+
+Finally apply \autoref{thm:cauchy-shift-real-seal-boundary}. The seal row $A$ remains downstream of the shifted route and of the structural rows $H,C,P,N$. Since neither this carrier nor the cited sibling routes contain quotient streams, selected limits, countable-choice tail selectors, host real equality, detached modulus selectors, or ambient $\RealUp$ completeness, the composite handoff cannot export any of those principles.
+\end{proof}
+
 \begin{closurestatus}{\CauchyShiftUp}
   \constructivestory{A $\CauchyShiftUp$ packet is generated from a source StreamName schedule, a shifted StreamName schedule, a finite unary shift length, a CauchyModulus tail row, a DyadicRatCore tolerance row, a RegSeqRat readback row, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-shift-carrier-surface}, \autoref{thm:cauchy-shift-namecert-obligations}, \autoref{thm:cauchy-shift-regularity-transport}, and \autoref{thm:cauchy-shift-real-seal-boundary} seed the finite tail-shift route from regular Cauchy names to the downstream $\RealUp$ seal.}
+  \scopeclosed{\autoref{def:cauchy-shift-carrier-surface}, \autoref{thm:cauchy-shift-namecert-obligations}, \autoref{thm:cauchy-shift-regularity-transport}, \autoref{thm:cauchy-shift-real-seal-boundary}, and \autoref{thm:cauchy-shift-reindexing-selector-handoff} seed the finite tail-shift route from regular Cauchy names through reindexing, regular modulus realization, selector handoff, and the downstream $\RealUp$ seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable-choice tail selectors, host real equality, ambient $\RealUp$ completeness, or Lean verification.}
