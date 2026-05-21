@@ -208,11 +208,11 @@ def taste_gate : ChapterTasteGate StreamDiagonalSelectorUp :=
 
 theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist h) = h) ∧
+        streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist h) = h) ∧
       (∀ x : StreamDiagonalSelectorUp,
         streamDiagonalSelectorFromEventFlow (streamDiagonalSelectorToEventFlow x) = some x) ∧
       (∀ x y : StreamDiagonalSelectorUp,
-        streamDiagonalSelectorToEventFlow x = streamDiagonalSelectorToEventFlow y → x = y) ∧
+        streamDiagonalSelectorFields x = streamDiagonalSelectorFields y → x = y) ∧
       streamDiagonalSelectorEncodeBHist BHist.Empty = ([] : RawEvent) ∧
       streamDiagonalSelectorEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -221,8 +221,7 @@ theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
   constructor
   · exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip
   constructor
-  · intro x y
-    exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_toEventFlow_injective
+  · exact streamDiagonalSelector_field_faithful
   constructor
   · rfl
   · rfl
@@ -231,14 +230,13 @@ end TasteGate
 
 theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
     (∀ h : BEDC.FKernel.Hist.BHist,
-      TasteGate.streamDiagonalSelectorDecodeBHist
-        (TasteGate.streamDiagonalSelectorEncodeBHist h) = h) ∧
+        TasteGate.streamDiagonalSelectorDecodeBHist
+          (TasteGate.streamDiagonalSelectorEncodeBHist h) = h) ∧
       (∀ x : TasteGate.StreamDiagonalSelectorUp,
         TasteGate.streamDiagonalSelectorFromEventFlow
           (TasteGate.streamDiagonalSelectorToEventFlow x) = some x) ∧
       (∀ x y : TasteGate.StreamDiagonalSelectorUp,
-        TasteGate.streamDiagonalSelectorToEventFlow x =
-            TasteGate.streamDiagonalSelectorToEventFlow y →
+        TasteGate.streamDiagonalSelectorFields x = TasteGate.streamDiagonalSelectorFields y →
           x = y) ∧
       TasteGate.streamDiagonalSelectorEncodeBHist BEDC.FKernel.Hist.BHist.Empty =
         ([] : BEDC.GroundCompiler.EventFlow.RawEvent) ∧
