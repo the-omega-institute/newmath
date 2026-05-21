@@ -4877,6 +4877,7 @@ import BEDC.Derived.UnaryContMonoidUp.KernelCategoryConsumerBoundary
 import BEDC.Derived.UnaryContMonoidUp.TasteGate
 import BEDC.Derived.UnaryContinuationCategoryUp.TasteGate
 import BEDC.Derived.UnaryContinuationEndofunctorUp
+import BEDC.Derived.UnaryContinuationEndofunctorUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.UnaryDirectionNormalizerUp.TasteGate
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp
