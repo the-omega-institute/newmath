@@ -361,6 +361,27 @@ theorem MatrixSingletonAddFold_reverse_carrier_readback {xs : List BHist} :
     Iff.mpr MatrixSingletonAddFold_carrier_iff (reverseCarrier carrier)
   exact And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier))
 
+theorem MatrixSingletonAddFold_double_reverse_readback {xs : List BHist} :
+    MatrixSingletonAddFoldSpineCarrier xs ->
+      MatrixSingletonCarrier (MatrixSingletonAddFold xs.reverse.reverse) ∧
+        MatrixSingletonClassifier (MatrixSingletonAddFold xs.reverse.reverse)
+          (MatrixSingletonAddFold xs) := by
+  -- BEDC touchpoint anchor: BHist hsame MatrixSingletonClassifier
+  intro carrier
+  have firstReadback := MatrixSingletonAddFold_reverse_carrier_readback carrier
+  have reverseSpine : MatrixSingletonAddFoldSpineCarrier xs.reverse :=
+    Iff.mp MatrixSingletonAddFold_carrier_iff firstReadback.left
+  have secondReadback := MatrixSingletonAddFold_reverse_carrier_readback reverseSpine
+  have originalCarrier : MatrixSingletonCarrier (MatrixSingletonAddFold xs) :=
+    Iff.mpr MatrixSingletonAddFold_carrier_iff carrier
+  have classifier :
+      MatrixSingletonClassifier (MatrixSingletonAddFold xs.reverse.reverse)
+        (MatrixSingletonAddFold xs) :=
+    And.intro secondReadback.left
+      (And.intro originalCarrier
+        (hsame_trans (hsame_symm secondReadback.right) (hsame_symm firstReadback.right)))
+  exact And.intro secondReadback.left classifier
+
 theorem MatrixSingletonAddFold_append_continuation_classifier
     {xs ys : List BHist} {r : BHist} :
     MatrixSingletonAddFoldSpineCarrier xs ->
