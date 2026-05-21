@@ -121,6 +121,36 @@ theorem DiagonalCofinalTailCarrier_common_window_refinement [AskSetup] [PackageS
     unary_cont_closed cUnary rUnary rightRoute
   exact ⟨leftUnary, rightUnary, leftRoute, rightRoute, pPkg, leftPkg, rightPkg⟩
 
+theorem DiagonalCofinalTailCarrier_obligation_closure_package [AskSetup] [PackageSetup]
+    {q s g d r w h c p n consumer windowRead leftRead rightRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg →
+      Cont w r consumer →
+        Cont c r windowRead →
+          Cont c r leftRead →
+            Cont c r rightRead →
+              PkgSig bundle consumer pkg →
+                PkgSig bundle windowRead pkg →
+                  PkgSig bundle leftRead pkg →
+                    PkgSig bundle rightRead pkg →
+                      UnaryHistory consumer ∧ UnaryHistory windowRead ∧
+                        UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                          PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier consumerRoute windowRoute leftRoute rightRoute _consumerPkg _windowPkg
+    _leftPkg _rightPkg
+  obtain ⟨_qUnary, _sUnary, _gUnary, _dUnary, rUnary, wUnary, _hUnary, cUnary,
+    _pUnary, _nUnary, _qsRoute, _gdRoute, _whRoute, pPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed wUnary rUnary consumerRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed cUnary rUnary windowRoute
+  have leftUnary : UnaryHistory leftRead :=
+    unary_cont_closed cUnary rUnary leftRoute
+  have rightUnary : UnaryHistory rightRead :=
+    unary_cont_closed cUnary rUnary rightRoute
+  exact ⟨consumerUnary, windowUnary, leftUnary, rightUnary, pPkg⟩
+
 theorem DiagonalCofinalTailCarrier_route_composition [AskSetup] [PackageSetup]
     {q s g d r w h c p n sealRead finalRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -233,6 +263,27 @@ theorem DiagonalCofinalTailCarrier_consumer_exhaustion [AskSetup] [PackageSetup]
     ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, hUnary, cUnary, pUnary,
       nUnary, consumerUnary, qsRoute, gdRoute, whRoute, consumerRoute, pPkg,
       consumerPkg⟩
+
+theorem DiagonalCofinalTailCarrier_public_export [AskSetup] [PackageSetup]
+    {q s g d r w h c p n publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg →
+      Cont c r publicRead →
+        PkgSig bundle publicRead pkg →
+          UnaryHistory q ∧ UnaryHistory s ∧ UnaryHistory g ∧ UnaryHistory d ∧
+            UnaryHistory r ∧ UnaryHistory w ∧ UnaryHistory h ∧ UnaryHistory c ∧
+              UnaryHistory p ∧ UnaryHistory n ∧ UnaryHistory publicRead ∧
+                Cont q s g ∧ Cont g d r ∧ Cont w h c ∧ Cont c r publicRead ∧
+                  PkgSig bundle p pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier publicRoute publicPkg
+  obtain ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, hUnary, cUnary, pUnary,
+    nUnary, qsRoute, gdRoute, whRoute, pPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed cUnary rUnary publicRoute
+  exact
+    ⟨qUnary, sUnary, gUnary, dUnary, rUnary, wUnary, hUnary, cUnary, pUnary,
+      nUnary, publicUnary, qsRoute, gdRoute, whRoute, publicRoute, pPkg, publicPkg⟩
 
 theorem DiagonalCofinalTailCarrier_exact_boundary_terminal_route [AskSetup] [PackageSetup]
     {q s g d r w h c p n completionFace realFace boundaryRead : BHist}
