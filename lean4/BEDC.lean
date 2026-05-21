@@ -2240,6 +2240,7 @@ import BEDC.Derived.DyadicTailRadiusComparisonUp.TasteGate
 import BEDC.Derived.DyadicTailRadiusLedgerUp
 import BEDC.Derived.DyadicTailRadiusLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
+import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
 import BEDC.Derived.DyadicWindowSealUp.TasteGate
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
@@ -3954,6 +3955,7 @@ import BEDC.Derived.RealWindowBudgetUp.RealSealReadbackTotality
 import BEDC.Derived.RealWindowBudgetUp.RegSeqSelectorExactness
 import BEDC.Derived.RealWindowBudgetUp.SelectorDisclosureScope
 import BEDC.Derived.RealWindowBudgetUp.SelectorPullback
+import BEDC.Derived.RealWindowBudgetUp.SelectorPullbackExactness
 import BEDC.Derived.RealWindowBudgetUp.StreamNameRegSeqRatFactorization
 import BEDC.Derived.RealWindowBudgetUp.TasteGate
 import BEDC.Derived.RealWindowBudgetUp.TerminalPullbackCoherence
@@ -3968,6 +3970,7 @@ import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
 import BEDC.Derived.RealityConstrainedExplanationUp.NameCert
 import BEDC.Derived.RealityConstrainedExplanationUp.TasteGate
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.BridgeBoundary
+import BEDC.Derived.RealityConstrainedFailureSurfaceUp.ContinuationScopeCarrier
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.KernelCarrier
@@ -4006,6 +4009,7 @@ import BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 import BEDC.Derived.RealityConstrainedTruthCertUp.CarrierAdmission
 import BEDC.Derived.RealityConstrainedTruthCertUp.CarrierTransport
 import BEDC.Derived.RealityConstrainedTruthCertUp.ClassifierObligationSurface
+import BEDC.Derived.RealityConstrainedTruthCertUp.ExportDefeatExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.FailureReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.KernelTruthRoute
@@ -4013,6 +4017,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10SourceReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.LedgerExactness
 import BEDC.Derived.RealityConstrainedTruthCertUp.LedgerFailureLocalNameObligation
+import BEDC.Derived.RealityConstrainedTruthCertUp.MethodologyLedgerHandoff
 import BEDC.Derived.RealityConstrainedTruthCertUp.NameCertObligationExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.OpenFitRefusalSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.PhysicalFitNonescape
@@ -4506,6 +4511,8 @@ import BEDC.Derived.TailBudgetCoherenceUp
 import BEDC.Derived.TailBudgetCoherenceUp.RealRouteScope
 import BEDC.Derived.TailBudgetCoherenceUp.RealSealWindowStability
 import BEDC.Derived.TailBudgetCoherenceUp.StdBridge
+import BEDC.Derived.TailBudgetCoherenceUp.SynchronizerComparison
+import BEDC.Derived.TailBudgetCoherenceUp.TasteGate
 import BEDC.Derived.TailBudgetCoherenceUp.ThresholdBudgetExposure
 import BEDC.Derived.TailBudgetCoherenceUp.WindowReadbackExactness
 import BEDC.Derived.TailCauchyRouterUp.TasteGate
