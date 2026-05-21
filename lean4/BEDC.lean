@@ -1074,6 +1074,7 @@ import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
 import BEDC.Derived.CauchyNetUp.TasteGate
+import BEDC.Derived.CauchyNullEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyProductUp
@@ -4449,6 +4450,7 @@ import BEDC.Derived.RegularCauchyWitnessSelectorUp.NameCertSurface
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate
 import BEDC.Derived.RegularCauchyZeroUp.TasteGate
 import BEDC.Derived.RegularLanguageUp
+import BEDC.Derived.RegularLanguageUp.TasteGate
 import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularLimitUniquenessUp.DyadicWindowSeparationPullback
 import BEDC.Derived.RegularLimitUniquenessUp.ScopedHandoff
