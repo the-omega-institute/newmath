@@ -1705,6 +1705,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowExactness
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationPackage
 import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
+import BEDC.Derived.CriticalLineWitnessUp.ObligationLedgerExactnessRow
 import BEDC.Derived.CriticalLineWitnessUp.ObligationModulusDisciplineRow
 import BEDC.Derived.CriticalLineWitnessUp.P11961RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
@@ -1797,6 +1798,7 @@ import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TerminalWindowFactorization
+import BEDC.Derived.CriticalLineWitnessUp.TerminalZeroSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.VisibleSourceReadbackLock
 import BEDC.Derived.CriticalLineWitnessUp.VisibleSourceTriad
@@ -4040,6 +4042,7 @@ import BEDC.Derived.RealityConstrainedExplanationUp.TasteGate
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.BridgeBoundary
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.ContinuationScope
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.ContinuationScopeCarrier
+import BEDC.Derived.RealityConstrainedFailureSurfaceUp.DomainExportRefusal
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.KernelCarrier
@@ -4080,6 +4083,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.CarrierTransport
 import BEDC.Derived.RealityConstrainedTruthCertUp.ClassifierObligationSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.ExportDefeatExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.FailureReadiness
+import BEDC.Derived.RealityConstrainedTruthCertUp.FailureRouting
 import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.KernelTruthRoute
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
