@@ -614,3 +614,27 @@ Minimality identifies the contradiction. By \autoref{thm:real-l10-exit-certifica
 
 Finally apply \autoref{thm:real-l10-finite-request-sheaf-exactness}. A finite cover determines the global Real L10 certificate only when every cover member displays all four face rows and all five support rows, with overlap agreement on those rows. Since one member lacks a required support row, the exactness criterion fails on that member. The listed completion, choice, status, bridge, and $\RealUp$ completeness data are outside the finite certificate surface identified above, so they provide no repair coordinate.
 \end{proof}
+
+\begin{theorem}[Real L10 finite-cover face removal obstruction]
+\label{thm:real-l10-finite-cover-face-removal-obstruction}
+Let $\{J_a\}_{a \in A}$ be a finite cover of a finite request family for Phase $\RealUp$ and Completion packets over
+$$
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad \RegSeqRatUp,\qquad \RealUp .
+$$
+For each $a \in A$, let $\mathcal C_a$ be a local Real L10 presentation on $J_a$ whose intended certificate is the finite-request sheaf certificate of \autoref{thm:real-l10-finite-request-sheaf-exactness}. If one local presentation omits any one of the four face rows
+$$
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad \RegSeqRatUp,\qquad \RealUp,
+$$
+then the finite cover cannot determine the same objectwise Real L10 exit certificate.
+
+The obstruction is a face-row obstruction, not a support-row obstruction in disguise. It cannot be repaired by quotient streams, selected limits, countable choice, metric-completeness data, aggregate status rows, aggregate bridge rows, standard bridge rows, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Choose a cover member $J_a$ whose local presentation omits one of the four displayed face rows. By \autoref{thm:real-l10-finite-request-sheaf-exactness}, a finite cover determines the global Real L10 certificate only when every cover member displays all four face rows and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, with overlap agreement on those rows.
+
+The missing face is indispensable. Apply \autoref{thm:real-l10-exit-certificate-face-minimality}. Deleting the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or local $\RealUp$ row removes one object of the four-face certificate, so the obstructed local member cannot be a restriction of the same objectwise Real L10 exit certificate.
+
+The StreamName and RegSeqRat boundary clauses give the same obstruction on the two middle faces. Apply \autoref{thm:streamname-open-phase-four-face-minimality} to the $\StreamNameUp$ open-phase row, and apply \autoref{thm:regseqrat-real-terminal-four-face-exactness} to the $\RegSeqRatUp$ and local $\RealUp$ terminal rows. These results keep the finite-window, common-tail, and terminal-seal data attached to the displayed object faces rather than to an external completion coordinate.
+
+Finally return to the finite cover. Since one cover member lacks a required face row, the exactness criterion of \autoref{thm:real-l10-finite-request-sheaf-exactness} fails before any global certificate can be glued. Quotient streams, selected limits, countable-choice selectors, metric-completeness data, aggregate status rows, aggregate bridge rows, standard bridge rows, and ambient $\RealUp$ completeness are not rows of the finite Real L10 certificate surface, so they provide no replacement for the deleted face.
+\end{proof}
