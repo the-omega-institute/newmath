@@ -50,6 +50,36 @@ theorem ContinuationTraceNormalFormCarrier_namecert_obligations [AskSetup] [Pack
     ⟨replayUnary, endpointUnary, traceRouteReplay, replayNormalEndpoint, provenancePkg,
       endpointPkg⟩
 
+theorem ContinuationTraceNormalFormCarrier_dependency_readback_obligation [AskSetup]
+    [PackageSetup]
+    {source trace terminal terminalRead normal transport route provenance cert replay
+      terminalReplay typedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationTraceNormalFormCarrier source trace terminal terminalRead normal transport route
+        provenance cert bundle pkg →
+      Cont trace route replay →
+        Cont replay terminalRead terminalReplay →
+          Cont terminalReplay normal typedRead →
+            PkgSig bundle typedRead pkg →
+              UnaryHistory replay ∧ UnaryHistory terminalReplay ∧ UnaryHistory typedRead ∧
+                Cont trace route replay ∧ Cont replay terminalRead terminalReplay ∧
+                  Cont terminalReplay normal typedRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle typedRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier traceRouteReplay replayTerminalRead terminalReplayNormal typedReadPkg
+  obtain ⟨_sourceUnary, traceUnary, _terminalUnary, terminalReadUnary, normalUnary,
+    _transportUnary, routeUnary, _provenanceUnary, _certUnary, _sourceTraceTerminal,
+    _terminalReadRoute, provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed traceUnary routeUnary traceRouteReplay
+  have terminalReplayUnary : UnaryHistory terminalReplay :=
+    unary_cont_closed replayUnary terminalReadUnary replayTerminalRead
+  have typedReadUnary : UnaryHistory typedRead :=
+    unary_cont_closed terminalReplayUnary normalUnary terminalReplayNormal
+  exact
+    ⟨replayUnary, terminalReplayUnary, typedReadUnary, traceRouteReplay, replayTerminalRead,
+      terminalReplayNormal, provenancePkg, typedReadPkg⟩
+
 theorem ContinuationTraceNormalFormUp_StdBridge [AskSetup] [PackageSetup]
     {source trace terminal terminalRead normal transport route provenance cert replay endpoint :
       BHist}
@@ -150,5 +180,37 @@ theorem ContinuationTraceNormalFormCarrier_terminal_readback_lock [AskSetup] [Pa
     ⟨sourceUnary, traceUnary, terminalUnary, terminalReadUnary, normalUnary, transportUnary,
       routeUnary, provenanceUnary, certUnary, publicUnary, sourceTraceTerminal,
       terminalReadRoute, traceRoutePublic, provenancePkg, publicPkg⟩
+
+theorem ContinuationTraceNormalFormCarrier_terminal_result_determinacy [AskSetup]
+    [PackageSetup]
+    {source trace terminal terminalRead normal transport route provenance cert replay endpoint
+      endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationTraceNormalFormCarrier source trace terminal terminalRead normal transport route
+        provenance cert bundle pkg →
+      Cont trace route replay →
+        Cont replay normal endpoint →
+          Cont endpoint transport endpointRead →
+            PkgSig bundle endpointRead pkg →
+              UnaryHistory replay ∧ UnaryHistory endpoint ∧ UnaryHistory endpointRead ∧
+                hsame endpointRead (append endpoint transport) ∧
+                  hsame endpoint (append replay normal) ∧ Cont trace route replay ∧
+                    Cont replay normal endpoint ∧ Cont endpoint transport endpointRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier traceRouteReplay replayNormalEndpoint endpointTransportEndpointRead endpointReadPkg
+  obtain ⟨_sourceUnary, traceUnary, _terminalUnary, _terminalReadUnary, normalUnary,
+    transportUnary, routeUnary, _provenanceUnary, _certUnary, _sourceTraceTerminal,
+    _terminalReadRoute, provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed traceUnary routeUnary traceRouteReplay
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed replayUnary normalUnary replayNormalEndpoint
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportEndpointRead
+  exact
+    ⟨replayUnary, endpointUnary, endpointReadUnary, endpointTransportEndpointRead,
+      replayNormalEndpoint, traceRouteReplay, replayNormalEndpoint, endpointTransportEndpointRead,
+      provenancePkg, endpointReadPkg⟩
 
 end BEDC.Derived.ContinuationTraceNormalFormUp

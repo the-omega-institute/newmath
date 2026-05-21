@@ -422,6 +422,93 @@ Next apply \autoref{thm:phase-real-completion-exit-current-local-status-witness}
 Finally use \autoref{thm:phase-real-completion-exit-boundary-face-nonsubstitution}. Since the phase gate is objectwise and status-token-local, a nearby zero-source packet has no coordinate that can stand in for a missing dyadic, stream, regular-rational, real, or exact-boundary face, and it cannot turn its terminal route into the audit-clean record required by the phase-exit roadmap gate.
 \end{proof}
 
+\begin{definition}[Phase real-completion exit cover-overlap compatibility]
+\label{def:phase-real-completion-exit-cover-overlap-compatibility}
+Let $\{E_i\}_{i \in I}$ be a finite family of accepted $\PhaseRealCompletionExitUp$ packets with
+$$
+E_i=(D_i,S_i,Q_i,R_i,B_i,H_i,C_i,P_i,N_i)
+$$
+on each cover member. The family is cover-overlap compatible when every common finite refinement of two cover members identifies the displayed row restrictions of the four roadmap faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+identifies the same-route $\RealCompletionExactBoundaryUp$ witness, and identifies the support rows $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$ carried by $H_i,C_i,P_i,N_i$.
+
+The compatibility datum has no coordinate for quotient streams, selected limits, countable-choice witnesses, metric-completeness data, aggregate formalstatus rows, aggregate bridge tokens, standard bridge rows, or ambient $\RealUp$ completeness claims.
+\end{definition}
+
+\begin{theorem}[Phase real-completion exit cover-overlap no-confusion]
+\label{thm:phase-real-completion-exit-cover-overlap-no-confusion}
+Let $\{E_i\}_{i \in I}$ and $\{F_j\}_{j \in J}$ be cover-overlap compatible finite families of accepted $\PhaseRealCompletionExitUp$ packets for the same public Phase Real and Completion consumer, where
+$$
+E_i=(D_i,S_i,Q_i,R_i,B_i,H_i,C_i,P_i,N_i)
+$$
+and
+$$
+F_j=(D'_j,S'_j,Q'_j,R'_j,B'_j,H'_j,C'_j,P'_j,N'_j).
+$$
+After passing to a common finite overlap refinement, the two families determine the same public phase-exit gate read if and only if they display the same overlap restrictions of the four roadmap faces, the same-route $\RealCompletionExactBoundaryUp$ witness, and the support rows $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$.
+
+The common gate read recovers exactly those displayed rows. It recovers no quotient stream, selected limit, countable-choice row, metric-completeness datum, aggregate formalstatus row, aggregate bridge token, standard bridge row, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the two finite families determine the same public phase-exit gate read. Apply \autoref{thm:phase-real-completion-exit-component-status-extraction} to the common read. It extracts exactly the four roadmap faces, the same-route $\RealCompletionExactBoundaryUp$ witness, and the displayed support rows $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$.
+
+Restrict the extracted rows to every common finite overlap refinement. Since both families are cover-overlap compatible in the sense of \autoref{def:phase-real-completion-exit-cover-overlap-compatibility}, the restrictions on the $E$ side and the $F$ side are the same displayed rows. Apply \autoref{thm:phase-real-completion-exit-all-support-rows-necessary} to rule out an omitted support coordinate, so equality of the public gate read forces agreement on every listed overlap row.
+
+For the reverse direction, assume the common refinement displays the same four roadmap face restrictions, the same-route boundary witness, and the same support rows. Apply \autoref{thm:real-four-face-terminal-cover-overlap-compatibility} to identify the terminal four-face $\RealUp$ surface determined by the dyadic, stream, regular-rational, and real rows.
+
+Next apply \autoref{thm:regseqrat-finite-cover-overlap-no-confusion}. The regular-rational audit-threshold read has no second source once the four visible faces and support rows agree on the overlap refinement. With \autoref{thm:phase-real-completion-exit-component-status-extraction}, the two phase-exit packets therefore expose the same public gate read.
+
+All cited comparisons are finite-row comparisons. By \autoref{thm:phase-real-completion-exit-all-support-rows-necessary}, the only support rows available to the public gate are $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$. Thus no quotient stream, selected limit, countable-choice row, metric-completeness datum, aggregate formalstatus row, aggregate bridge token, standard bridge row, or ambient $\RealUp$ completeness claim can be recovered from the overlap comparison.
+\end{proof}
+
+\begin{theorem}[Phase real-completion exit finite-cover gate gluing]
+\label{thm:phase-real-completion-exit-finite-cover-gate-gluing}
+Let $\{E_i\}_{i \in I}$ be a finite cover of compatible accepted $\PhaseRealCompletionExitUp$ packets, with
+$$
+E_i=(D_i,S_i,Q_i,R_i,B_i,H_i,C_i,P_i,N_i)
+$$
+on each cover member. Suppose the family is cover-overlap compatible in the sense of \autoref{def:phase-real-completion-exit-cover-overlap-compatibility}. Then the cover glues to one accepted packet whose public read is the same Phase Real and Completion gate if and only if every $E_i$ displays the same four roadmap local status records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, supplies the same-route $\RealCompletionExactBoundaryUp$ witness, and agrees on all overlap restrictions of the support rows $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$.
+
+The glued packet has exactly those four roadmap status records, the same-route boundary witness, and those support rows as its public Phase Real and Completion gate read. It exports no quotient stream, selected limit, countable-choice row, metric-completeness datum, aggregate formalstatus row, aggregate bridge token, standard bridge row, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the forward direction, restrict the glued public packet to each finite cover member. Apply \autoref{def:phase-real-completion-exit-cover-overlap-compatibility} to read those restrictions through the required common finite refinements, and apply \autoref{thm:phase-real-completion-exit-cover-overlap-no-confusion} to compare them as one public phase-exit gate read.
+
+Now apply \autoref{thm:phase-real-completion-exit-current-local-status-witness} to read the common gate as the four local status records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with $\RealCompletionExactBoundaryUp$ only as the same-route boundary witness. Apply \autoref{thm:phase-real-completion-exit-component-status-extraction} on each restriction. It identifies the data visible on every $E_i$ as exactly the four roadmap records, the same boundary witness, and the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$ support rows. Since the restrictions come from one glued public read, the cover members agree on those rows over every overlap.
+
+For the reverse direction, assume the finite cover displays the same four local records, the same-route $\RealCompletionExactBoundaryUp$ witness, and overlap agreement on the listed support rows. The compatibility hypothesis gives the common finite refinement rows of \autoref{def:phase-real-completion-exit-cover-overlap-compatibility}, and \autoref{thm:phase-real-completion-exit-cover-overlap-no-confusion} identifies the public phase-exit gate read determined by those rows.
+
+Apply \autoref{thm:regseqrat-audit-threshold-finite-cover-gluing} to glue the regular-rational and real-facing audit-threshold sections over the shared finite four-face surface.
+
+Next apply \autoref{thm:regseqrat-four-face-status-cofinal-descent}. This makes the glued read independent of the chosen finite refinement and keeps the status records attached to the same dyadic, stream, regular-rational, and real faces. Apply \autoref{thm:real-l10-finite-request-sheaf-exactness} to identify the resulting finite Real L10 cover certificate with one objectwise Phase Real and Completion exit certificate.
+
+Finally repack the certificate as a $\PhaseRealCompletionExitUp$ packet by \autoref{thm:phase-real-completion-exit-current-local-status-witness} and read it back by \autoref{thm:phase-real-completion-exit-component-status-extraction}. The public gate is therefore the same gate precisely when the cover members display the same four roadmap records, same-route boundary witness, and support rows.
+
+All constructions named above use only finite cover rows and their overlap restrictions. The refused quotient stream, selected limit, countable-choice row, metric-completeness datum, aggregate formalstatus row, aggregate bridge token, standard bridge row, and ambient $\RealUp$ completeness claim have no carrier coordinate in the displayed packet, so none is exported by the gluing.
+\end{proof}
+
+\begin{theorem}[Phase real-completion exit RegSeqRat common-tail pullback]
+\label{thm:phase-real-completion-exit-regseqrat-common-tail-pullback}
+Let $E=(D,S,Q,R,B,H,C,P,N)$ be an accepted $\PhaseRealCompletionExitUp$ packet. Suppose a RegSeqRat common-tail triple-overlap cocycle is displayed on the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows as $S,D,Q,R$, with the same support rows $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ used by $H,C,P,N$. Then that common-tail cocycle pulls back to the same-route $\RealCompletionExactBoundaryUp$ face $B$ of $E$.
+
+Conversely, if the boundary face $B$ of an accepted $\PhaseRealCompletionExitUp$ packet is supplied over such a RegSeqRat common-tail cocycle, then restricting the packet to the displayed four face rows recovers the RegSeqRat common-tail descent surface. In both directions the construction exports no quotient stream, selected limit, countable-choice row, metric-completeness datum, aggregate formalstatus row, aggregate bridge token, standard bridge row, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the pullback direction, first read the RegSeqRat input by \autoref{thm:regseqrat-common-tail-triple-overlap-cocycle}. The triple-overlap surface is exactly the common finite surface on the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Apply \autoref{thm:regseqrat-common-tail-cocycle-descent}. The pairwise common-tail rows descend to one displayed four-face boundary over the same stream, dyadic, regular-rational, and real records. Since these rows are identified with $S,D,Q,R$ and the support rows $H,C,P,N$ of $E$, \autoref{thm:phase-real-completion-exit-finite-cover-gate-gluing} glues the finite cover into the objectwise Phase Real and Completion gate on the same displayed packet.
+
+Now apply \autoref{thm:phase-real-completion-exit-component-status-extraction}. The public read of the glued packet exposes the same-route $\RealCompletionExactBoundaryUp$ witness as the boundary coordinate $B$, rather than as an added completion carrier. Thus the common-tail cocycle pulls back to the boundary face already present in $E$.
+
+For the converse direction, start with an accepted phase-exit packet whose boundary face $B$ is supplied over the displayed common-tail cocycle. The finite-cover gluing theorem reads that boundary through the same four local status records and the same support rows, while the component-status extraction theorem prevents any row from being absorbed into a route-level token.
+
+Restricting to the $S,D,Q,R$ faces therefore leaves exactly the RegSeqRat common-tail triple-overlap data. Applying \autoref{thm:regseqrat-common-tail-cocycle-descent} to those restricted rows recovers the common-tail descent surface, with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+All steps are objectwise over the displayed finite rows. Quotient streams, selected limits, countable choice, metric-completeness data, aggregate formalstatus rows, aggregate bridge tokens, standard bridge rows, and ambient $\RealUp$ completeness have no coordinate in $E$ or in the RegSeqRat common-tail descent boundary, so the pullback and the restriction cannot export them.
+\end{proof}
+
 \falsifiablePrediction{If a consumer fuses the dyadic, stream, regular, and real face reports into a single bridge token or completeness token, the $\PhaseRealCompletionExitUp$ packet is refuted.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real, realcompletionexactboundary: no single sibling is bijective to the phase product because the packet binds dyadic arithmetic, finite stream observation, regular rational handoff, real sealing, exact boundary, transport, replay, provenance, and local naming in one displayed exit carrier.}
