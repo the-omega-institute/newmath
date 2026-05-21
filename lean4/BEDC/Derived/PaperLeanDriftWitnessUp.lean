@@ -62,4 +62,28 @@ theorem PaperLeanDriftWitness_resolution_ledger_kernel_scope [AskSetup] [Package
     ⟨mUnary, aUnary, lUnary, iUnary, rUnary, hUnary, verdictUnary, markerNameLedger,
       ledgerInventoryVerdict, verdictRoute, namePkg, verdictPkg⟩
 
+theorem PaperLeanDriftWitness_verdict_determinism [AskSetup] [PackageSetup]
+    {M A L I R H C P N verdictRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PaperLeanDriftWitnessCarrier M A L I R H C P N bundle pkg →
+      Cont R H verdictRead →
+        Cont verdictRead C auditRead →
+          PkgSig bundle auditRead pkg →
+            UnaryHistory M ∧ UnaryHistory A ∧ UnaryHistory L ∧ UnaryHistory I ∧
+              UnaryHistory R ∧ UnaryHistory verdictRead ∧ UnaryHistory auditRead ∧
+                Cont L I R ∧ Cont R H verdictRead ∧ Cont verdictRead C auditRead ∧
+                  PkgSig bundle N pkg ∧ PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier verdictRoute auditRoute auditPkg
+  obtain ⟨mUnary, aUnary, lUnary, iUnary, rUnary, hUnary, cUnary, _pUnary, _nUnary,
+    _markerNameLedger, ledgerInventoryVerdict, _verdictTransportConsumer, namePkg⟩ :=
+    carrier
+  have verdictUnary : UnaryHistory verdictRead :=
+    unary_cont_closed rUnary hUnary verdictRoute
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed verdictUnary cUnary auditRoute
+  exact
+    ⟨mUnary, aUnary, lUnary, iUnary, rUnary, verdictUnary, auditUnary,
+      ledgerInventoryVerdict, verdictRoute, auditRoute, namePkg, auditPkg⟩
+
 end BEDC.Derived.PaperLeanDriftWitnessUp

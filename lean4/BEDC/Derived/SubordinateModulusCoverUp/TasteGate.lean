@@ -274,4 +274,59 @@ theorem SubordinateModulusCoverCarrierObligation {x : SubordinateModulusCoverUp}
               coverage comparisons transport routes provenance nameCert),
           rfl⟩
 
+theorem SubordinateModulusCoverUniformHandoff
+    {tolerance bundle centers radii precision pointwise coverage comparisons transport routes
+      provenance nameCert : BHist} :
+    subordinateModulusCoverFromEventFlow
+        (subordinateModulusCoverToEventFlow
+          (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise coverage
+            comparisons transport routes provenance nameCert)) =
+        some
+          (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise coverage
+            comparisons transport routes provenance nameCert) ∧
+      List.Mem (subordinateModulusCoverEncodeBHist bundle)
+        (subordinateModulusCoverToEventFlow
+          (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise coverage
+            comparisons transport routes provenance nameCert)) ∧
+        List.Mem (subordinateModulusCoverEncodeBHist centers)
+          (subordinateModulusCoverToEventFlow
+            (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise coverage
+              comparisons transport routes provenance nameCert)) ∧
+          List.Mem (subordinateModulusCoverEncodeBHist radii)
+            (subordinateModulusCoverToEventFlow
+              (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise
+                coverage comparisons transport routes provenance nameCert)) ∧
+            subordinateModulusCoverEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact
+      subordinateModulusCover_round_trip
+        (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise coverage
+          comparisons transport routes provenance nameCert)
+  · constructor
+    · simp only [subordinateModulusCoverToEventFlow]
+      exact
+        List.Mem.tail _ <|
+          List.Mem.tail _ <|
+            List.Mem.tail _ (List.Mem.head _)
+    · constructor
+      · simp only [subordinateModulusCoverToEventFlow]
+        exact
+          List.Mem.tail _ <|
+            List.Mem.tail _ <|
+              List.Mem.tail _ <|
+                List.Mem.tail _ <|
+                  List.Mem.tail _ (List.Mem.head _)
+      · constructor
+        · simp only [subordinateModulusCoverToEventFlow]
+          exact
+            List.Mem.tail _ <|
+              List.Mem.tail _ <|
+                List.Mem.tail _ <|
+                  List.Mem.tail _ <|
+                    List.Mem.tail _ <|
+                      List.Mem.tail _ <|
+                        List.Mem.tail _ (List.Mem.head _)
+        · rfl
+
 end BEDC.Derived.SubordinateModulusCoverUp
