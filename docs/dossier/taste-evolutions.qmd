@@ -20,21 +20,20 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-21T16:52:28Z
+> 最后刷新: 2026-05-21T17:53:09Z
 
-**Daemon 状态**: monitor (monitor cycle 3, adjust_since_research 3, round_counter 4963, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 4, adjust_since_research 3, round_counter 5132, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (64 条 finding):
-- isolated_theorem: 44 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+**待处理 queue** (71 条 finding):
+- isolated_theorem: 51 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - low_entropy_template: 20 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 204 次
+- TASTE ALERT category=isolated_theorem: 197 次
 - TASTE ALERT category=mislabeled_composite: 45 次
-- TASTE ALERT category=low_entropy_template: 24 次
+- TASTE ALERT category=low_entropy_template: 23 次
 - TASTE ALERT category=research_non_negative_criterion: 4 次
 - TASTE ALERT category=cycle_exception: 1 次
-- TASTE ALERT category=missing_origin: 1 次
 - TASTE ALERT category=rule_evolution_failed: 1 次
 - TASTE ALERT category=sync_failed: 1 次
 
@@ -127,6 +126,18 @@ Ship: commit `d25a5c4ebdd190317541c4de6cc9b39c24a22857`. Detector/gate: recorded
 - 2026-05-20T10:57:59Z: 用 META_PROMPT_RESEARCH (commit `048a4b867156ddd04025b77358d8f4b01c2d25ec`). 探索方向: 自决 corpus 扫描。报告 0 个候选; codex 没给出达到 evidence 门槛的新 negative pattern。 没有写入 queue。
 
 - 2026-05-21T04:11:33Z: 用 META_PROMPT_RESEARCH (commit `9e55faef2d6fb394a7b63c92b3763efd8e8c4b95`). 探索方向: 自决 corpus 扫描。报告 0 个候选; codex 没给出达到 evidence 门槛的新 negative pattern。 没有写入 queue。
+
+## V3 — Per-finding resolution (2026-05-22)
+
+Daemon evolved from "quality dashboard" to "per-finding resolver":
+- Each cycle picks top-1 HUMAN_REVIEW_ONLY pending finding
+- Dispatches codex inspect+decide+implement (1 of 4 actions)
+- Goes through full gate stack (lake build / audit / phase_d_lint / axiom-purity)
+- Rate-limited: max 24 resolutions/day, per-finding 24h cooldown
+- Failures revert to leave_with_rationale, no BASE pollution
+
+Implements user request "AI 能看出来哪些没意义" -- moves from rule abstraction
+to case-by-case judgment.
 
 ## 注解
 
