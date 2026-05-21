@@ -42,6 +42,8 @@ MODULE_SYMBOLS = {
     "AGR": "R",
     "AUA": "I",
 }
+LATENT_SS = (("*", "*"), ("W",), ("K",), ("S", "S"), ("I",))
+LATENT_PARTIAL = (("*", "*"), ("*|W",), ("K",), ("R", "R"), ("I",))
 TRANSFER_SQUARE = ("TGA", "TGG", "AGA", "AGG")
 ARG_MAIN_BOX = ("CGT", "CGC", "CGA", "CGG")
 ARG_SATELLITE = ("AGA", "AGG")
@@ -599,6 +601,100 @@ def module_value_grammar_summary(tables: dict[int, dict[str, str]]) -> dict[str,
     }
 
 
+def module_value_adjacency(states: list[tuple[tuple[str, ...], ...]]) -> dict[int, set[int]]:
+    adjacency: dict[int, set[int]] = {index: set() for index in range(len(states))}
+    for left, right in itertools.combinations(range(len(states)), 2):
+        if sum(a != b for a, b in zip(states[left], states[right])) == 1:
+            adjacency[left].add(right)
+            adjacency[right].add(left)
+    return adjacency
+
+
+def graph_diameter(adjacency: dict[int, set[int]]) -> int:
+    diameter = 0
+    for index in adjacency:
+        distances = graph_distances(adjacency, index)
+        diameter = max(diameter, max(distances.values()))
+    return diameter
+
+
+def target_monotone_reachable(
+    standard: tuple[tuple[str, ...], ...],
+    target: tuple[tuple[str, ...], ...],
+    allowed: set[tuple[tuple[str, ...], ...]],
+) -> bool:
+    if standard == target:
+        return True
+    queue = collections.deque([standard])
+    seen = {standard}
+    while queue:
+        state = queue.popleft()
+        for index, value in enumerate(state):
+            if value == target[index]:
+                continue
+            if value != standard[index]:
+                continue
+            candidate = list(state)
+            candidate[index] = target[index]
+            candidate_tuple = tuple(candidate)
+            if candidate_tuple not in allowed or candidate_tuple in seen:
+                continue
+            if candidate_tuple == target:
+                return True
+            seen.add(candidate_tuple)
+            queue.append(candidate_tuple)
+    return False
+
+
+def latent_completion_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
+    state_tables: dict[tuple[tuple[str, ...], ...], list[int]] = collections.defaultdict(list)
+    for table_id, table in sorted(tables.items()):
+        state_tables[module_state(table)].append(table_id)
+    observed_states = list(state_tables)
+    observed = set(observed_states)
+    standard = module_state(tables[1])
+    exceptions = [
+        state
+        for state in observed_states
+        if not target_monotone_reachable(standard, state, observed)
+    ]
+
+    def graph_stats(states: list[tuple[tuple[str, ...], ...]]) -> dict[str, int]:
+        adjacency = module_value_adjacency(states)
+        standard_index = states.index(standard)
+        standard_distances = graph_distances(adjacency, standard_index)
+        observed_indices = [states.index(state) for state in observed_states]
+        return {
+            "nodes": len(states),
+            "edges": sum(len(neighbors) for neighbors in adjacency.values()) // 2,
+            "diameter": graph_diameter(adjacency),
+            "max_standard_to_observed_distance": max(standard_distances[index] for index in observed_indices),
+        }
+
+    with_ss = observed_states + [LATENT_SS]
+    with_both = observed_states + [LATENT_SS, LATENT_PARTIAL]
+    completed = set(with_both)
+    completed_exceptions = [
+        state
+        for state in observed_states
+        if not target_monotone_reachable(standard, state, completed)
+    ]
+    return {
+        "observed_exception_count": len(exceptions),
+        "observed_exception_tables": [state_tables[state] for state in exceptions],
+        "latent_states": {
+            "L_SS": "/".join(module_value_key(value) for value in LATENT_SS),
+            "L_partial": "/".join(module_value_key(value) for value in LATENT_PARTIAL),
+        },
+        "completed_exception_count": len(completed_exceptions),
+        "graph_stats": {
+            "observed": graph_stats(observed_states),
+            "with_L_SS": graph_stats(with_ss),
+            "with_both": graph_stats(with_both),
+        },
+    }
+
+
 def reassignment_spectrum(tables: dict[int, dict[str, str]], cubes: list[dict[str, object]]) -> dict[str, object]:
     standard = tables[1]
     module_counts: collections.Counter[str] = collections.Counter()
@@ -740,6 +836,7 @@ def build_summary() -> dict[str, object]:
         "active_module_partitions": active_module_partition_summary(partial_tables),
         "module_activation_grammar": module_activation_summary(partial_tables),
         "module_value_grammar": module_value_grammar_summary(partial_tables),
+        "latent_completion": latent_completion_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -878,6 +975,33 @@ def assert_expected(summary: dict[str, object]) -> None:
         "N_N_implies_U_W_and_R_SS": True,
         "R_stop_or_gly_implies_I_M_S_standard_N_K": True,
         "R_SK_implies_I_I_N_K_U_W": True,
+    }
+    assert summary["latent_completion"]["observed_exception_count"] == 3
+    assert summary["latent_completion"]["observed_exception_tables"] == [[9], [14], [28]]
+    assert summary["latent_completion"]["latent_states"] == {
+        "L_SS": "(*,*)/W/K/(S,S)/I",
+        "L_partial": "(*,*)/*|W/K/(R,R)/I",
+    }
+    assert summary["latent_completion"]["completed_exception_count"] == 0
+    assert summary["latent_completion"]["graph_stats"] == {
+        "observed": {
+            "nodes": 22,
+            "edges": 42,
+            "diameter": 9,
+            "max_standard_to_observed_distance": 6,
+        },
+        "with_L_SS": {
+            "nodes": 23,
+            "edges": 46,
+            "diameter": 7,
+            "max_standard_to_observed_distance": 4,
+        },
+        "with_both": {
+            "nodes": 24,
+            "edges": 52,
+            "diameter": 5,
+            "max_standard_to_observed_distance": 4,
+        },
     }
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
