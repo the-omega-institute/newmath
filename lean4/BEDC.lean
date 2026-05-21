@@ -5019,6 +5019,7 @@ import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.CompactContinuousHandoff
 import BEDC.Derived.UniformModulusUp.CompactMetricThresholdFactorization
 import BEDC.Derived.UniformModulusUp.ContinuousMapModulusLock
+import BEDC.Derived.UniformModulusUp.FiniteNetCenterCoverage
 import BEDC.Derived.UniformModulusUp.PointwiseMetricConsumerUnblock
 import BEDC.Derived.UniformModulusUp.PrecisionConsumerNonescape
 import BEDC.Derived.UniformModulusUp.RootClassifierRow
