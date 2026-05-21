@@ -4735,6 +4735,7 @@ import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryDiagonalWindowRouteUp
 import BEDC.Derived.StationaryDiagonalWindowUp.TasteGate
+import BEDC.Derived.StationaryDyadicStreamUp
 import BEDC.Derived.StationaryPartitionDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StationaryRationalCauchyUp.TasteGate
