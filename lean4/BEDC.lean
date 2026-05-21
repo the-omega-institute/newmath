@@ -2950,6 +2950,7 @@ import BEDC.Derived.InterHistTransportSealUp.NameCertObligations
 import BEDC.Derived.InterHistTransportSealUp.Nonescape
 import BEDC.Derived.InterHistTransportSealUp.TasteGate
 import BEDC.Derived.InterInscriptionCoherenceUp.TasteGate
+import BEDC.Derived.IntermediateValueUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.IntervalUp
@@ -3373,6 +3374,7 @@ import BEDC.Derived.MetricUp.RealAlgOrderApartnessDistanceScope
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessNameCertRoute
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessPositiveReflection
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessSymmetricSeparation
+import BEDC.Derived.MetricUp.RealAlgOrderApartnessTriangleBudget
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveDistancePublicCorrespondence
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveRadiusBudgetInterface
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveRadiusDistanceBoundary
@@ -4988,6 +4990,7 @@ import BEDC.Derived.UniformModulusUp.RootClassifierRow
 import BEDC.Derived.UniformModulusUp.RootCompactContinuousThreshold
 import BEDC.Derived.UniformModulusUp.RootPublicRows
 import BEDC.Derived.UniformModulusUp.StdBridge
+import BEDC.Derived.UniformModulusUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
 import BEDC.Derived.UnitDiskUp
@@ -5006,6 +5009,7 @@ import BEDC.Derived.UseProcessLimitUp.TasteGate
 import BEDC.Derived.UseRuleLedgerUp.TasteGate
 import BEDC.Derived.ValidatedNumericsUp
 import BEDC.Derived.ValidatedNumericsUp.FiniteWindowSealContainment
+import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
