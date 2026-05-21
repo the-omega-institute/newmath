@@ -6,6 +6,7 @@ import fractions
 import http.client
 import itertools
 import json
+import random
 import re
 import urllib.request
 
@@ -1342,6 +1343,128 @@ def weighted_deformation_spine_summary(tables: dict[int, dict[str, str]]) -> dic
     }
 
 
+def max_subcube_mass_from_weights(weights_by_codon: dict[str, int], dimension: int) -> int:
+    max_mass = -1
+    for free in itertools.combinations(range(6), dimension):
+        fixed_count = 6 - dimension
+        for values in itertools.product("01", repeat=fixed_count):
+            vertices = subcube_vertices(free, values)
+            mass = sum(weights_by_codon.get(codon, 0) for codon in vertices)
+            max_mass = max(max_mass, mass)
+    return max_mass
+
+
+def subcube_index_sets(codons: list[str], dimension: int) -> list[tuple[int, ...]]:
+    codon_index = {codon: index for index, codon in enumerate(codons)}
+    index_sets: list[tuple[int, ...]] = []
+    for free in itertools.combinations(range(6), dimension):
+        fixed_count = 6 - dimension
+        for values in itertools.product("01", repeat=fixed_count):
+            vertices = subcube_vertices(free, values)
+            index_sets.append(tuple(codon_index[codon] for codon in vertices))
+    return index_sets
+
+
+def max_subcube_mass_from_vector(weights: list[int], index_sets: list[tuple[int, ...]]) -> int:
+    return max(sum(weights[index] for index in index_set) for index_set in index_sets)
+
+
+def reassignment_spectral_compression_summary(
+    tables: dict[int, dict[str, str]],
+    *,
+    monte_carlo_trials: int = 100000,
+    seed: int = 20260521,
+) -> dict[str, object]:
+    standard = tables[1]
+    weights: dict[str, int] = {codon: 0 for codon in all_codons()}
+    for table_id, table in sorted(tables.items()):
+        if table_id == 1:
+            continue
+        for codon in all_codons():
+            if table[codon] != standard[codon]:
+                weights[codon] += 1
+
+    coefficients: dict[tuple[int, ...], float] = {}
+    for size in range(7):
+        for subset in itertools.combinations(range(6), size):
+            total = 0
+            for codon, weight in weights.items():
+                parity = sum(int(bits(codon)[index]) for index in subset) % 2
+                total += weight * (-1 if parity else 1)
+            coefficients[subset] = total / 64
+
+    nontrivial = [
+        {
+            "bits": subset,
+            "coefficient": coefficients[subset],
+            "abs_coefficient": abs(coefficients[subset]),
+        }
+        for subset in coefficients
+        if subset
+    ]
+    nontrivial.sort(key=lambda item: (-item["abs_coefficient"], item["bits"]))
+
+    degree_energy: dict[int, float] = collections.defaultdict(float)
+    for subset, coefficient in coefficients.items():
+        if not subset:
+            continue
+        degree_energy[len(subset)] += coefficient * coefficient
+    nonmean_energy = sum(degree_energy.values())
+    degree_energy_share = {
+        degree: degree_energy[degree] / nonmean_energy
+        for degree in sorted(degree_energy)
+    }
+    cumulative_energy_share: dict[int, float] = {}
+    running = 0.0
+    for degree in sorted(degree_energy):
+        running += degree_energy_share[degree]
+        cumulative_energy_share[degree] = running
+
+    observed_max = {
+        dimension: max_subcube_mass_from_weights(weights, dimension)
+        for dimension in (2, 3, 4, 5)
+    }
+    codons = all_codons()
+    weight_multiset = [weights[codon] for codon in codons]
+    subcube_indices = {
+        dimension: subcube_index_sets(codons, dimension)
+        for dimension in observed_max
+    }
+    rng = random.Random(seed)
+    exceed_counts = {dimension: 0 for dimension in observed_max}
+    max_sums = {dimension: 0 for dimension in observed_max}
+    for _trial in range(monte_carlo_trials):
+        shuffled = weight_multiset.copy()
+        rng.shuffle(shuffled)
+        for dimension, observed in observed_max.items():
+            max_mass = max_subcube_mass_from_vector(shuffled, subcube_indices[dimension])
+            max_sums[dimension] += max_mass
+            if max_mass >= observed:
+                exceed_counts[dimension] += 1
+    monte_carlo = {
+        dimension: {
+            "observed_max_mass": observed_max[dimension],
+            "random_mean_max_mass": max_sums[dimension] / monte_carlo_trials,
+            "exceed_count": exceed_counts[dimension],
+            "p_value": exceed_counts[dimension] / monte_carlo_trials,
+        }
+        for dimension in sorted(observed_max)
+    }
+
+    return {
+        "total_weight": sum(weights.values()),
+        "mean_coefficient": coefficients[()],
+        "top_nontrivial_coefficients": nontrivial[:7],
+        "degree_energy_share": degree_energy_share,
+        "cumulative_energy_share": cumulative_energy_share,
+        "monte_carlo": {
+            "trials": monte_carlo_trials,
+            "seed": seed,
+            "subcube_maxima": monte_carlo,
+        },
+    }
+
+
 def module_value_adjacency(states: list[tuple[tuple[str, ...], ...]]) -> dict[int, set[int]]:
     adjacency: dict[int, set[int]] = {index: set() for index in range(len(states))}
     for left, right in itertools.combinations(range(len(states)), 2):
@@ -1644,6 +1767,7 @@ def build_summary() -> dict[str, object]:
         "reassignment_concentration": reassignment_concentration_summary(partial_tables),
         "reassignment_mass_geometry": reassignment_mass_geometry_summary(partial_tables),
         "weighted_deformation_spine": weighted_deformation_spine_summary(partial_tables),
+        "reassignment_spectral_compression": reassignment_spectral_compression_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -2190,6 +2314,46 @@ def assert_expected(summary: dict[str, object]) -> None:
             "mass": 7,
         },
     ]
+    assert summary["reassignment_spectral_compression"]["total_weight"] == 65
+    assert summary["reassignment_spectral_compression"]["mean_coefficient"] == 65 / 64
+    assert summary["reassignment_spectral_compression"]["top_nontrivial_coefficients"] == [
+        {"bits": (4,), "coefficient": -0.953125, "abs_coefficient": 0.953125},
+        {"bits": (1, 4), "coefficient": -0.890625, "abs_coefficient": 0.890625},
+        {"bits": (1,), "coefficient": 0.828125, "abs_coefficient": 0.828125},
+        {"bits": (1, 2), "coefficient": -0.796875, "abs_coefficient": 0.796875},
+        {"bits": (1, 2, 4), "coefficient": 0.734375, "abs_coefficient": 0.734375},
+        {"bits": (2, 4), "coefficient": 0.671875, "abs_coefficient": 0.671875},
+        {"bits": (2,), "coefficient": -0.609375, "abs_coefficient": 0.609375},
+    ]
+    assert {
+        degree: round(share, 3)
+        for degree, share in summary["reassignment_spectral_compression"]["degree_energy_share"].items()
+    } == {
+        1: 0.275,
+        2: 0.320,
+        3: 0.194,
+        4: 0.137,
+        5: 0.065,
+        6: 0.009,
+    }
+    assert round(summary["reassignment_spectral_compression"]["cumulative_energy_share"][3], 3) == 0.789
+    assert round(summary["reassignment_spectral_compression"]["cumulative_energy_share"][4], 3) == 0.926
+    assert summary["reassignment_spectral_compression"]["monte_carlo"]["trials"] == 100000
+    assert summary["reassignment_spectral_compression"]["monte_carlo"]["seed"] == 20260521
+    assert {
+        dimension: {
+            "observed_max_mass": row["observed_max_mass"],
+            "exceed_count": row["exceed_count"],
+            "random_mean_max_mass": round(row["random_mean_max_mass"], 2),
+            "p_value": round(row["p_value"], 5),
+        }
+        for dimension, row in summary["reassignment_spectral_compression"]["monte_carlo"]["subcube_maxima"].items()
+    } == {
+        2: {"observed_max_mass": 34, "exceed_count": 1415, "random_mean_max_mass": 24.97, "p_value": 0.01415},
+        3: {"observed_max_mass": 52, "exceed_count": 20, "random_mean_max_mass": 31.46, "p_value": 0.00020},
+        4: {"observed_max_mass": 59, "exceed_count": 53, "random_mean_max_mass": 39.82, "p_value": 0.00053},
+        5: {"observed_max_mass": 63, "exceed_count": 1003, "random_mean_max_mass": 50.94, "p_value": 0.01003},
+    }
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
