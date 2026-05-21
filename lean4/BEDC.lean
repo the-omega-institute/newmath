@@ -2584,6 +2584,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.RootRoutes
 import BEDC.Derived.FiniteLebesgueNumberUp.TailRadiusAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.TailRadiusTransport
+import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadiness
 import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
@@ -4342,6 +4343,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyFamilyUp
+import BEDC.Derived.RegularCauchyFamilyUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingUp
