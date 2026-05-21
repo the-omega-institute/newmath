@@ -244,3 +244,22 @@ theorem DiagonalIndexCofinalityTasteGate_single_carrier_alignment :
       ⟨diagonalIndexCofinalityNontrivial⟩, rfl, rfl⟩
 
 end BEDC.Derived.DiagonalIndexCofinalityUp
+
+namespace BEDC.Derived.DiagonalIndexCofinalityUp.TasteGate
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.Meta.TasteGate
+open BEDC.Derived.DiagonalIndexCofinalityUp
+
+theorem DiagonalIndexCofinalityTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate DiagonalIndexCofinalityUp) ∧
+      Nonempty (FieldFaithful DiagonalIndexCofinalityUp) ∧
+        Nonempty (Nontrivial DiagonalIndexCofinalityUp) ∧
+          DiagonalIndexCofinalityTasteGate_single_carrier_alignment_encodeBHist BHist.Empty =
+              [] ∧
+            DiagonalIndexCofinalityTasteGate_single_carrier_alignment_encodeBHist
+              (BHist.e0 BHist.Empty) = [BMark.b0] :=
+  BEDC.Derived.DiagonalIndexCofinalityUp.DiagonalIndexCofinalityTasteGate_single_carrier_alignment
+
+end BEDC.Derived.DiagonalIndexCofinalityUp.TasteGate
