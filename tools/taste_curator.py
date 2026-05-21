@@ -77,6 +77,14 @@ AUTO_FIXABLE_FLAGS = {
     "allowlist_metadata_correction",
 }
 
+# DEAD_FLAGS: features whose detector/code has been intentionally removed.
+# Never accept findings of these flags (silently drop). Prevents the daemon
+# from re-evolving rules to resurrect deleted features when audit accidentally
+# re-emits them (e.g. via conflict-resolution drift in worker code).
+DEAD_FLAGS: frozenset[str] = frozenset({
+    "mislabeled_composite",
+})
+
 RESEARCH_FINDING_PREFIX = "research_"
 
 RULE_EVOLUTION_ALLOWED_FILES = {
@@ -1145,6 +1153,22 @@ def assign_ids(findings: list[Finding], commit: str) -> None:
         finding.id = f"{finding.flag}:{finding.chapter_slug}:{short}"
 
 
+def drop_dead_flag_findings(findings: list[Finding]) -> list[Finding]:
+    """Filter out findings whose flag is in DEAD_FLAGS. Logs each drop so
+    operators can see if dead code is silently re-emerging (a sign that some
+    worker or merge-resolution path has re-introduced the deleted feature)."""
+    keep: list[Finding] = []
+    dropped = 0
+    for finding in findings:
+        if finding.flag in DEAD_FLAGS:
+            dropped += 1
+            continue
+        keep.append(finding)
+    if dropped:
+        log(f"dropped {dropped} dead-flag finding(s): {sorted(DEAD_FLAGS)}")
+    return keep
+
+
 def cooldown_action(finding: Finding, cfg: dict[str, Any], dry_run: bool) -> str:
     data = load_cooldown()
     entries = data.setdefault("entries", {})
@@ -1386,6 +1410,7 @@ def research_payload_to_findings(payload: Any, commit: str) -> list[Finding]:
                 recommended_action="evolve a mechanical negative audit gate for this research finding",
                 commit=commit,
             ))
+    findings = drop_dead_flag_findings(findings)
     assign_ids(findings, commit)
     return findings
 
@@ -2251,6 +2276,7 @@ def detect_all(
     with ThreadPoolExecutor(max_workers=4) as pool:
         future = pool.submit(detect_low_entropy_templates, artifacts, allowlist, cfg)
         findings.extend(future.result(timeout=TIMEOUTS["scan"]))
+    findings = drop_dead_flag_findings(findings)
     assign_ids(findings, artifacts.head)
     return findings
 
