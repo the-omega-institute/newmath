@@ -337,6 +337,68 @@ theorem CauchyCompletionMonadPacket_schedule_composition_boundary [AskSetup] [Pa
     ⟨targetPacket, composedScheduleUnary, composedObservationsUnary, composedSealUnary,
       composedRouteUnary, composedSealPkg⟩
 
+theorem CauchyCompletionMonadPacket_bind_associativity_ledger [AskSetup] [PackageSetup]
+    {sourceFamily windows observations schedule diagonal sealRow transport route nameRow
+      sourceFamily' windows' observations' schedule' diagonal' sealRow' transport' route'
+      nameRow' composedSchedule composedObservations composedSeal composedRoute finalSchedule
+      finalObservations finalSeal finalRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMonadPacket sourceFamily windows observations schedule diagonal sealRow
+        transport route nameRow bundle pkg →
+      CauchyCompletionMonadPacket sourceFamily' windows' observations' schedule' diagonal'
+          sealRow' transport' route' nameRow' bundle pkg →
+        Cont schedule schedule' composedSchedule →
+          Cont composedSchedule windows' composedObservations →
+            Cont composedObservations diagonal' composedSeal →
+              Cont composedSeal transport' composedRoute →
+                Cont composedRoute nameRow' composedSeal →
+                  PkgSig bundle composedSeal pkg →
+                    Cont composedSchedule schedule finalSchedule →
+                      Cont finalSchedule windows' finalObservations →
+                        Cont finalObservations diagonal' finalSeal →
+                          Cont finalSeal transport' finalRoute →
+                            PkgSig bundle finalSeal pkg →
+                              UnaryHistory composedSchedule ∧
+                                UnaryHistory composedObservations ∧ UnaryHistory composedSeal ∧
+                                  UnaryHistory composedRoute ∧ UnaryHistory finalSchedule ∧
+                                    UnaryHistory finalObservations ∧ UnaryHistory finalSeal ∧
+                                      UnaryHistory finalRoute ∧ PkgSig bundle composedSeal pkg ∧
+                                        PkgSig bundle finalSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro leftPacket rightPacket scheduleSchedule'ComposedSchedule
+    composedScheduleWindows'ComposedObservations composedObservationsDiagonal'ComposedSeal
+    composedSealTransport'ComposedRoute _composedRouteNameRow'ComposedSeal composedSealPkg
+    composedScheduleScheduleFinalSchedule finalScheduleWindows'FinalObservations
+    finalObservationsDiagonal'FinalSeal finalSealTransport'FinalRoute finalSealPkg
+  obtain ⟨_sourceFamilyUnary, _windowsUnary, scheduleUnary, _diagonalUnary, _transportUnary,
+    _nameRowUnary, _scheduleWindowsObservations, _observationsDiagonalSealRow,
+    _sealRowTransportRoute, _routeNameRowSealRow, _sealRowPkg⟩ := leftPacket
+  obtain ⟨_sourceFamily'Unary, windows'Unary, schedule'Unary, diagonal'Unary, transport'Unary,
+    _nameRow'Unary, _schedule'Windows'Observations', _observations'Diagonal'SealRow',
+    _sealRow'Transport'Route', _route'NameRow'SealRow', _sealRowPkg'⟩ := rightPacket
+  have composedScheduleUnary : UnaryHistory composedSchedule :=
+    unary_cont_closed scheduleUnary schedule'Unary scheduleSchedule'ComposedSchedule
+  have composedObservationsUnary : UnaryHistory composedObservations :=
+    unary_cont_closed composedScheduleUnary windows'Unary
+      composedScheduleWindows'ComposedObservations
+  have composedSealUnary : UnaryHistory composedSeal :=
+    unary_cont_closed composedObservationsUnary diagonal'Unary
+      composedObservationsDiagonal'ComposedSeal
+  have composedRouteUnary : UnaryHistory composedRoute :=
+    unary_cont_closed composedSealUnary transport'Unary composedSealTransport'ComposedRoute
+  have finalScheduleUnary : UnaryHistory finalSchedule :=
+    unary_cont_closed composedScheduleUnary scheduleUnary composedScheduleScheduleFinalSchedule
+  have finalObservationsUnary : UnaryHistory finalObservations :=
+    unary_cont_closed finalScheduleUnary windows'Unary finalScheduleWindows'FinalObservations
+  have finalSealUnary : UnaryHistory finalSeal :=
+    unary_cont_closed finalObservationsUnary diagonal'Unary finalObservationsDiagonal'FinalSeal
+  have finalRouteUnary : UnaryHistory finalRoute :=
+    unary_cont_closed finalSealUnary transport'Unary finalSealTransport'FinalRoute
+  exact
+    ⟨composedScheduleUnary, composedObservationsUnary, composedSealUnary, composedRouteUnary,
+      finalScheduleUnary, finalObservationsUnary, finalSealUnary, finalRouteUnary,
+      composedSealPkg, finalSealPkg⟩
+
 theorem CauchyCompletionMonadPacket_unit_boundary [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     PkgSig bundle BHist.Empty pkg ->
