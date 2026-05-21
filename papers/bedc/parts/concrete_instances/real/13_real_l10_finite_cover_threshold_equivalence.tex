@@ -156,6 +156,52 @@ metric-completeness, and $\RealUp$ completeness data attached only to the
 source faces, so the pullback coherence gives no route-level strengthening.
 \end{proof}
 
+\begin{theorem}[Real L10 terminal cover coordinate exhaustion]
+\label{thm:real-l10-terminal-cover-coordinate-exhaustion}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read over the public
+$\StreamNameUp$--$\RegSeqRatUp$ route. A finite certified cover witnesses the
+current Phase Real and Completion threshold for $T$ if and only if every cover
+member and every certified overlap exposes exactly the displayed
+$\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$
+finite-window schedule, the $\RegSeqRatUp$ regularity and classifier rows, the
+local $\RealUp$ seal rows, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ support rows.
+
+No aggregate $\formalstatus$, aggregate bridge row, quotient stream, selected
+limit, countable-choice row, metric-completeness datum, or $\RealUp$
+completeness coordinate can stand in for any one of these exposed coordinates.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with a finite certified cover witnessing the
+terminal threshold for $T$. Apply
+\autoref{thm:real-l10-terminal-pullback-coherence} to identify the terminal
+read with the four-face Phase Real and Completion packet through the displayed
+StreamName, DyadicRatCore, RegSeqRat, local Real, and shared support rows.
+
+Apply
+\autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. The threshold is
+objectwise, so each cover member must present the dyadic endpoint and radius,
+finite-window schedule, regularity and classifier rows, local seal rows, and
+the common $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-gluing}; the certified
+overlaps are precisely the rows along which those objectwise faces glue.
+
+For the reverse direction, suppose every member and overlap exposes exactly
+those coordinates. Apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-gluing} to assemble the
+memberwise four-face packets over the shared support, and then apply
+\autoref{thm:real-l10-finite-cover-exit-threshold-descent} to read the glued
+packet back as the terminal finite-window threshold for $T$.
+
+It remains to show that no route-level coordinate can replace a displayed
+face. Apply \autoref{thm:real-l10-face-status-noncollapse} and
+\autoref{thm:real-l10-face-leantarget-noncollapse}. These keep aggregate
+status, bridge, quotient-stream, selected-limit, countable-choice,
+metric-completeness, and $\RealUp$ completeness rows outside the finite cover
+support, so the witness is exhausted by the listed coordinates and by no
+stronger route credential.
+\end{proof}
+
 \begin{theorem}[Real L10 terminal finite-cover threshold equivalence]
 \label{thm:real-l10-terminal-finite-cover-threshold-equivalence}
 Let $T$ be an accepted terminal finite-window $\RealUp$ read over the public
@@ -212,6 +258,56 @@ row, quotient stream equality, selected limit, choice principle,
 metric-completeness datum, or ambient $\RealUp$ completeness coordinate.
 \end{proof}
 
+\begin{theorem}[Real L10 finite-cover terminal support exhaustion]
+\label{thm:real-l10-finite-cover-terminal-support-exhaustion}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read over the public
+$\StreamNameUp$--$\RegSeqRatUp$ route. A finite certified cover witnesses the
+current Phase Real and Completion threshold for $T$ if and only if its members
+and certified overlaps expose exactly the $\DyadicRatCoreUp$ endpoint and
+radius ledger, the $\StreamNameUp$ finite-window schedule, the
+$\RegSeqRatUp$ regularity and classifier rows, the local $\RealUp$ seal rows,
+and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Deleting any one of those displayed rows prevents the altered cover from
+witnessing the same terminal threshold. No aggregate $\formalstatus$ row,
+bridge row, quotient stream, selected limit, countable-choice datum,
+metric-completeness datum, or $\RealUp$ completeness row replaces the deleted
+coordinate.
+\end{theorem}
+\begin{proof}
+For the equivalence of the support inventory with the terminal threshold,
+combine \autoref{thm:real-l10-terminal-cover-coordinate-exhaustion} with
+\autoref{thm:real-l10-terminal-finite-cover-threshold-equivalence}. The first
+result identifies the exact member and overlap coordinates of an accepted
+terminal cover, while the second reads those coordinates as the current Phase
+Real and Completion finite-cover threshold for $T$.
+
+Now delete one displayed row. If the deleted row lies on the
+$\RegSeqRatUp$ audit-threshold side, apply
+\autoref{thm:regseqrat-audit-threshold-support-removal-descent}; the altered
+cover cannot descend to the same glued audit-threshold read. If the deleted row
+is one of the shared cover-support rows along the public route, apply
+\autoref{thm:streamname-finite-cover-support-removal-global-obstruction}; the
+cover-descent terminal support packet cannot present the same
+$\RealUp$ seal-visible source.
+
+It remains to keep the dyadic endpoint and radius ledger from being hidden in a
+different terminal readback. Apply
+\autoref{thm:dyadicratcore-terminal-tolerance-finite-support-readback}. The
+public tolerance read is determined by the finite $\DyadicRatCoreUp$ ledger,
+the StreamName window, the RegSeqRat rows, the local Real seal, and the same
+shared support rows, so deleting any one of those rows removes a coordinate
+used by the terminal threshold.
+
+Finally use the noncollapse clauses cited in
+\autoref{thm:real-l10-terminal-cover-coordinate-exhaustion} and
+\autoref{thm:real-l10-terminal-finite-cover-threshold-equivalence}. They keep
+aggregate status, bridge data, quotient streams, selected limits, choice,
+metric-completeness, and ambient $\RealUp$ completeness outside the objectwise
+finite-cover support. Hence none of those rows can replace the deleted
+coordinate, and the original finite certified cover is support-exhaustive.
+\end{proof}
+
 \begin{theorem}[Real L10 terminal finite-cover face minimality]
 \label{thm:real-l10-terminal-finite-cover-face-minimality}
 Let $T$ be an accepted terminal finite-window $\RealUp$ read satisfying the
@@ -265,4 +361,155 @@ metric-completeness, and ambient completeness data outside the objectwise face
 inventory, so none of those rows can compensate for a missing
 $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, local $\RealUp$, or shared
 support row.
+\end{proof}
+
+\begin{theorem}[Real L10 finite-cover threshold cocycle uniqueness]
+\label{thm:real-l10-finite-cover-threshold-cocycle-uniqueness}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read. Let
+$\mathcal U$ and $\mathcal V$ be two finite certified covers of $T$, each
+satisfying the terminal finite-cover threshold equivalence. Suppose that, on
+every common refinement of $\mathcal U$ and $\mathcal V$, the two covers agree
+on the displayed $\DyadicRatCoreUp$ endpoint and radius ledger, the
+$\StreamNameUp$ finite-window schedule, the $\RegSeqRatUp$ regularity and
+classifier rows, the local $\RealUp$ seal rows, and the shared $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Then the four-face exit packet glued from $\mathcal U$ and the four-face exit
+packet glued from $\mathcal V$ are the same terminal common-refinement packet.
+This uniqueness statement is only about the displayed finite-cover threshold
+surface. It does not identify aggregate $\formalstatus$ rows, bridge rows,
+quotient streams, selected limits, countable-choice data,
+metric-completeness data, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-l10-terminal-finite-cover-threshold-equivalence} to both
+covers. Each cover is therefore a finite certified presentation whose glued
+packet and descended packet are the terminal four-face exit over the displayed
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$
+faces with the same support rows.
+
+Next pass to any common refinement. Apply
+\autoref{thm:streamname-terminal-fusion-finite-cover-cocycle-exactness} to the
+finite-window schedule and
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal} to the
+RegSeqRat request sections and local Real seal rows. The refinement exposes a
+single terminal four-face packet on the common StreamName, RegSeqRat, dyadic,
+and Real boundary.
+
+The dyadic ledger cannot split into two sources on that refinement. Apply
+\autoref{thm:dyadicratcore-l10-exit-ledger-source-determinacy}; the common
+endpoint and radius rows determine the same BEDC-visible dyadic source ledger
+and hence the same dyadic face of the exit packet.
+
+Finally apply \autoref{thm:real-l10-terminal-pullback-coherence} and
+\autoref{thm:real-l10-terminal-finite-cover-face-minimality}. Pullback
+coherence identifies the common four-face packet with the accepted terminal
+read $T$, and face minimality prevents any alternative support row from
+standing in for a displayed face. Thus the two glued packets coincide as the
+same terminal common-refinement packet, while aggregate status, bridge,
+quotient-stream, selected-limit, choice, metric-completeness, and ambient
+completeness coordinates remain outside the construction.
+\end{proof}
+
+\begin{theorem}[Real L10 terminal finite-cover refinement invariance]
+\label{thm:real-l10-terminal-finite-cover-refinement-invariance}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read. Let
+$\mathcal V$ be a finite certified refinement of a finite certified cover
+$\mathcal U$ of $T$. Suppose that every refinement cell preserves the displayed
+$\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$
+finite-window schedule, the $\RegSeqRatUp$ regularity and classifier rows, the
+local $\RealUp$ seal rows, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ support rows.
+
+Then $\mathcal U$ witnesses the current Phase Real and Completion terminal
+finite-cover threshold for $T$ if and only if $\mathcal V$ witnesses that same
+threshold. The equivalence is an objectwise four-face statement: it does not
+assert equality of aggregate $\formalstatus$ rows, bridge rows, quotient
+streams, selected limits, choice data, metric-completeness data, or ambient
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Assume first that $\mathcal U$ witnesses the terminal finite-cover threshold.
+Apply \autoref{thm:real-l10-terminal-finite-cover-threshold-equivalence} to
+$\mathcal U$. The cover therefore presents the terminal four-face exit packet
+over the displayed dyadic, StreamName, RegSeqRat, and local Real faces with
+the shared support rows.
+
+Transport this packet across the certified refinement. Apply
+\autoref{thm:streamname-common-refinement-terminal-subcover-exactness} to keep
+the finite-window schedule exact on the terminal subcover, and apply
+\autoref{thm:regseqrat-common-tail-terminal-four-face-cocycle-uniqueness} to
+keep the RegSeqRat classifier, readback, and cocycle rows on the common tail.
+The dyadic endpoint and radius ledger is fixed by
+\autoref{thm:dyadicratcore-l10-exit-ledger-source-determinacy}.
+
+Now apply \autoref{thm:real-l10-finite-cover-exit-threshold-gluing}. Each cell
+of $\mathcal V$ carries the same displayed faces and the same $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows as its parent cell in
+$\mathcal U$, so the refined cells glue to the same terminal exit packet.
+Then \autoref{thm:real-l10-terminal-finite-cover-threshold-equivalence} reads
+the glued refined packet as a witness for $\mathcal V$.
+
+For the reverse direction, assume that $\mathcal V$ witnesses the threshold.
+Apply \autoref{thm:real-l10-finite-cover-exit-threshold-descent} along the
+certified refinement map from $\mathcal V$ to $\mathcal U$. The preservation
+hypotheses make the descended packet carry exactly the displayed dyadic,
+StreamName, RegSeqRat, local Real, and shared support rows of $\mathcal U$.
+
+Finally apply
+\autoref{thm:real-l10-terminal-finite-cover-face-minimality} and
+\autoref{thm:real-l10-finite-cover-threshold-cocycle-uniqueness}. Face
+minimality prevents the refinement from hiding or replacing any displayed
+face, and cocycle uniqueness identifies the refined and descended packets on
+their common terminal support. Thus
+\autoref{thm:real-l10-terminal-finite-cover-threshold-equivalence} certifies
+$\mathcal U$ exactly when it certifies $\mathcal V$.
+
+The construction never promotes route-level data into an objectwise face.
+Aggregate $\formalstatus$ rows, bridge rows, quotient streams, selected
+limits, choice principles, metric-completeness data, and ambient $\RealUp$
+completeness remain outside the refined terminal finite-cover threshold.
+\end{proof}
+
+\begin{theorem}[Real L10 refinement-support descent noescape]
+\label{thm:real-l10-refinement-support-descent-noescape}
+Let $T$ be an accepted terminal finite-window $\RealUp$ read. Let
+$\mathcal V$ be a finite certified refinement of a finite certified cover
+$\mathcal U$ of $T$. Suppose the refinement preserves the displayed
+$\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$
+finite-window schedule, the $\RegSeqRatUp$ regularity and classifier rows,
+the local $\RealUp$ seal rows, and the shared $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows.
+
+Then descent from $\mathcal V$ to $\mathcal U$ preserves exactly this support
+surface. It introduces no aggregate $\formalstatus$ row, bridge row, quotient
+stream, selected limit, choice row, metric-completeness datum, or ambient
+$\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-l10-terminal-finite-cover-refinement-invariance}. The
+terminal threshold witnessed on the refined cover is equivalent to the
+terminal threshold witnessed on the original cover, and the equivalence is
+already restricted to the objectwise dyadic, StreamName, RegSeqRat, local
+Real, and shared BEDC support rows.
+
+The descent keeps the three lower faces fixed. Apply
+\autoref{thm:streamname-common-refinement-terminal-subcover-exactness} for the
+finite-window schedule, apply
+\autoref{thm:regseqrat-common-tail-terminal-four-face-cocycle-uniqueness} for
+the RegSeqRat tail, and apply
+\autoref{thm:dyadicratcore-l10-exit-ledger-source-determinacy} for the dyadic
+endpoint and radius ledger. These certificates leave the descended packet on
+the same displayed $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$
+faces as the refined packet.
+
+It remains to exclude substitute support. Apply
+\autoref{thm:real-l10-terminal-finite-cover-face-minimality} to prevent any
+hidden row from standing in for a displayed face, and apply
+\autoref{thm:real-l10-finite-cover-threshold-cocycle-uniqueness} to identify
+the descended and refined terminal packets on their common support. Hence the
+descent preserves precisely the listed surface and cannot create a
+route-level credential outside it.
 \end{proof}

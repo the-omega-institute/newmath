@@ -653,8 +653,7 @@ def detect_ai_chapter_missing_falsifiable_prediction(
 def detect_ai_chapter_missing_independence_witness(
     *, worktree: Path, base_sha: str
 ) -> list[str]:
-    """First-proposal `\\origin{ai}` chapters claiming structural
-    atomicity (NOT `\\origin{ai-composite}`) MUST include one
+    """First-proposal `\\origin{ai}` chapters MUST include one
     `\\independenceWitness{...}` row naming 3-5 nearest siblings.
     First-proposal = chapter file did NOT exist at base_sha. Maintenance
     edits exempt (same fix as FALSIFIABLE / FIELDFAITHFUL gates)."""
@@ -677,11 +676,8 @@ def detect_ai_chapter_missing_independence_witness(
             text = path.read_text(encoding="utf-8", errors="ignore")
         except OSError:
             continue
-        # Only enforce on bare \origin{ai}, not the composite variant.
         if not _ORIGIN_AI_RE.search(text):
             continue
-        if re.search(r"\\origin\{ai-composite\}", text):
-            continue  # composite chapters opt out
         # First-proposal detection.
         try:
             base_text = _git(["show", f"{base_sha}:{rel}"], cwd=worktree)
@@ -694,9 +690,7 @@ def detect_ai_chapter_missing_independence_witness(
                 f"{rel}: AI MISSING INDEPENDENCE — `\\origin{{ai}}` "
                 f"chapter has no `\\independenceWitness{{...}}` row. "
                 f"Name 3-5 nearest sibling chapter slugs and explain "
-                f"why the carrier is not bijective to any of them. "
-                f"Compositional chapters should use `\\origin{{ai-composite}}` "
-                f"instead to opt out of this gate."
+                f"why the carrier is not bijective to any of them."
             )
     return violations
 

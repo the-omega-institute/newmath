@@ -1,0 +1,94 @@
+\section{StreamName finite-section reindex gluing}
+\label{sec:streamname-finite-section-reindex-gluing}
+
+\begin{theorem}[StreamName finite-section reindex gluing]
+\label{thm:streamname-finite-section-reindex-gluing}
+Let $Q$ and $Q'$ be accepted current Phase Real and Completion finite request
+sections of a $\StreamNameUp$ packet. Suppose that a certified
+$\StreamNameUp$ finite-window reindex route transports the finite window of
+$Q$ to the finite window of $Q'$, and suppose that after this transport the two
+sections agree on the $\DyadicRatCoreUp$ endpoint-radius ledger, the
+$\RegSeqRatUp$ readback and regularity rows, the $\RealUp$ seal boundary, and
+the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support
+rows. Then $Q$ and $Q'$ determine the same terminal four-face route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and the same public
+carrier and classifier verdict at that route.
+
+The glued route remains finite and displayed. It contains no quotient stream,
+selected limit, host equality, countable-choice row, metric-completeness row,
+ambient $\RealUp$ completeness row, aggregate status row, or standard bridge
+row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-window-reindex-determinacy}. The certified
+finite-window reindex route, together with the transported $\BHist$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows and the $\hsame$ compatibility, identifies the two
+finite observation sections after transport.
+
+Next use \autoref{thm:streamname-reindex-terminal-coverage}. The transported
+finite observation section reaches exactly the four terminal faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, with the same
+DyadicRatCore ledger, RegSeqRat readback, RealUp seal boundary, and displayed
+support rows.
+
+Now apply \autoref{thm:streamname-finite-section-pullback-exactness} to $Q$
+and to $Q'$. Pullback exactness reads both accepted request sections through
+the same four-face finite route once the endpoint-radius ledger, regularity
+rows, readback rows, seal boundary, and displayed support rows have been
+transported to agreement.
+
+Finally apply
+\autoref{thm:streamname-finite-section-classifier-determinacy}. The common
+four-face route leaves no second public carrier surface or classifier surface
+on which the verdict could vary. The exclusion clauses follow from the same
+finite support: the construction never exports a quotient stream, selected
+limit, host equality, countable-choice row, metric-completeness row, ambient
+Real completeness row, aggregate status row, or standard bridge row.
+\end{proof}
+
+\begin{theorem}[StreamName finite-section reindex cocycle]
+\label{thm:streamname-finite-section-reindex-cocycle}
+Let $Q_0$, $Q_1$, and $Q_2$ be accepted current Phase Real and Completion
+finite request sections of a $\StreamNameUp$ packet. Suppose that certified
+$\StreamNameUp$ finite-window reindex routes transport the finite window of
+$Q_0$ to the finite window of $Q_1$ and the finite window of $Q_1$ to the
+finite window of $Q_2$. Suppose also that the two transported sections agree
+on the same $\DyadicRatCoreUp$ endpoint-radius ledger, the $\RegSeqRatUp$
+readback and regularity rows, the $\RealUp$ seal boundary, and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then the
+direct composite route from $Q_0$ to $Q_2$ determines the same terminal
+four-face route $\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and the
+same public carrier and classifier verdict as the two-step route through
+$Q_1$.
+
+The cocycle comparison remains finite and displayed. It contains no quotient
+stream, selected limit, host equality, countable-choice row,
+metric-completeness row, ambient $\RealUp$ completeness row, aggregate status
+row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-section-reindex-gluing} to the
+overlap from $Q_0$ to $Q_1$ and again to the overlap from $Q_1$ to $Q_2$. The
+shared endpoint-radius ledger, readback rows, regularity rows, seal boundary,
+and displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows give
+the two adjacent finite gluing identifications.
+
+Next use \autoref{thm:streamname-public-reindexing-associative-law}. The
+certified two-step finite-window route and the direct composite route from
+$Q_0$ to $Q_2$ present the same public reindexing data, so the intermediate
+section $Q_1$ cannot contribute a second terminal presentation.
+
+Now apply \autoref{thm:streamname-reindex-terminal-coverage}. Both the
+two-step route and the direct composite route reach exactly the same four
+terminal faces $\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, with no
+extra face and with the same displayed support rows.
+
+Finally apply
+\autoref{thm:streamname-finite-section-classifier-determinacy}. Since the
+terminal four-face route is common, the public carrier and classifier verdict
+read from the composite route agrees with the verdict read from the two-step
+route. The non-escape exclusions are inherited from the finite displayed
+routes used in the two gluing steps: no quotient stream, selected limit, host
+equality, countable choice, metric completeness, ambient Real completeness,
+aggregate status row, or standard bridge row is introduced.
+\end{proof}

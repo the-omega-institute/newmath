@@ -90,4 +90,32 @@ theorem KernelSourceChannelLedgerPacket_audit_boundary [AskSetup] [PackageSetup]
     ⟨generatedUnary, stampUnary, acceptedUnary, queryUnary, refusalUnary, auditUnary,
       generatedStampAccepted, queryRefusalSeparation, acceptedQueryAudit, namePkg, auditPkg⟩
 
+theorem KernelSourceChannelLedgerPacket_query_refusal_stability [AskSetup] [PackageSetup]
+    {generated stamp accepted ancestry query refusal trace route separation transport replay
+      provenance name query' refusal' separation' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelSourceChannelLedgerPacket generated stamp accepted ancestry query refusal trace route
+        separation transport replay provenance name bundle pkg ->
+      hsame query query' ->
+        hsame refusal refusal' ->
+          Cont query' refusal' separation' ->
+            UnaryHistory query' ∧ UnaryHistory refusal' ∧ UnaryHistory separation' ∧
+              Cont query' refusal' separation' ∧ Cont generated stamp accepted ∧
+                PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg PkgSig
+  intro packet sameQuery sameRefusal queryRefusalSeparation'
+  obtain ⟨_generatedUnary, _stampUnary, _acceptedUnary, _ancestryUnary, queryUnary,
+    refusalUnary, _traceUnary, _routeUnary, _separationUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _nameUnary, generatedStampAccepted, _queryRefusalSeparation,
+    _traceRouteTransport, _transportReplayProvenance, namePkg⟩ := packet
+  have queryUnary' : UnaryHistory query' :=
+    unary_transport queryUnary sameQuery
+  have refusalUnary' : UnaryHistory refusal' :=
+    unary_transport refusalUnary sameRefusal
+  have separationUnary' : UnaryHistory separation' :=
+    unary_cont_closed queryUnary' refusalUnary' queryRefusalSeparation'
+  exact
+    ⟨queryUnary', refusalUnary', separationUnary', queryRefusalSeparation',
+      generatedStampAccepted, namePkg⟩
+
 end BEDC.Derived.KernelSourceChannelLedgerUp

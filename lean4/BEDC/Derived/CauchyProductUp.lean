@@ -207,4 +207,71 @@ theorem CauchyProductPacket_root_budget_nonescape [AskSetup] [PackageSetup]
       budgetSealUnary, windowTransport, productRoute, classifierRoute, classifierBudget,
       budgetSealRoute, namePkg, budgetSealPkg⟩
 
+theorem CauchyProductPacket_root_window_regseqrat_seal_route [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name regseqSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont classifier routes regseqSeal ->
+        PkgSig bundle regseqSeal pkg ->
+          UnaryHistory windowA ∧ UnaryHistory windowB ∧ UnaryHistory observationA ∧
+            UnaryHistory observationB ∧ UnaryHistory product ∧ UnaryHistory classifier ∧
+              UnaryHistory regseqSeal ∧ Cont windowA windowB transport ∧
+                Cont observationA observationB product ∧ Cont product ledger classifier ∧
+                  Cont classifier routes regseqSeal ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle regseqSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet classifierRoutesSeal regseqSealPkg
+  obtain ⟨_sourceAUnary, _sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, observationAUnary, observationBUnary, routesUnary, ledgerUnary,
+    windowTransport, productRoute, classifierRoute, namePkg⟩ := packet
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed observationAUnary observationBUnary productRoute
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed productUnary ledgerUnary classifierRoute
+  have regseqSealUnary : UnaryHistory regseqSeal :=
+    unary_cont_closed classifierUnary routesUnary classifierRoutesSeal
+  exact
+    ⟨windowAUnary, windowBUnary, observationAUnary, observationBUnary, productUnary,
+      classifierUnary, regseqSealUnary, windowTransport, productRoute, classifierRoute,
+      classifierRoutesSeal, namePkg, regseqSealPkg⟩
+
+theorem CauchyProductPacket_budget_product_consumer_boundary [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name budgetClassifier budgetSeal consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont classifier routes budgetClassifier ->
+        Cont budgetClassifier ledger budgetSeal ->
+          Cont budgetSeal routes consumerRead ->
+            PkgSig bundle consumerRead pkg ->
+              UnaryHistory product ∧ UnaryHistory classifier ∧ UnaryHistory budgetClassifier ∧
+                UnaryHistory budgetSeal ∧ UnaryHistory consumerRead ∧
+                  Cont observationA observationB product ∧ Cont product ledger classifier ∧
+                    Cont classifier routes budgetClassifier ∧
+                      Cont budgetClassifier ledger budgetSeal ∧
+                        Cont budgetSeal routes consumerRead ∧ PkgSig bundle name pkg ∧
+                          PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet classifierBudget budgetSealRoute sealConsumerRead consumerReadPkg
+  obtain ⟨_sourceAUnary, _sourceBUnary, _windowAUnary, _windowBUnary, _radiusAUnary,
+    _radiusBUnary, observationAUnary, observationBUnary, routesUnary, ledgerUnary,
+    _windowTransport, productRoute, classifierRoute, namePkg⟩ := packet
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed observationAUnary observationBUnary productRoute
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed productUnary ledgerUnary classifierRoute
+  have budgetClassifierUnary : UnaryHistory budgetClassifier :=
+    unary_cont_closed classifierUnary routesUnary classifierBudget
+  have budgetSealUnary : UnaryHistory budgetSeal :=
+    unary_cont_closed budgetClassifierUnary ledgerUnary budgetSealRoute
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed budgetSealUnary routesUnary sealConsumerRead
+  exact
+    ⟨productUnary, classifierUnary, budgetClassifierUnary, budgetSealUnary, consumerReadUnary,
+      productRoute, classifierRoute, classifierBudget, budgetSealRoute, sealConsumerRead, namePkg,
+      consumerReadPkg⟩
+
 end BEDC.Derived.CauchyProductUp

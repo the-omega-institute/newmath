@@ -293,6 +293,26 @@ instance tailBudgetCoherenceChapterTasteGate : ChapterTasteGate TailBudgetCohere
     intro x y hxy heq
     exact hxy (TailBudgetCoherenceTasteGate_single_carrier_alignment_injective heq)
 
+instance tailBudgetCoherenceFieldFaithful : FieldFaithful TailBudgetCoherenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | TailBudgetCoherenceUp.mk tailMeet observationBudget selectorBudget agreementSeal limitSeal
+        window readback dyadicTolerance transport route provenance nameCert =>
+        [tailMeet, observationBudget, selectorBudget, agreementSeal, limitSeal, window,
+          readback, dyadicTolerance, transport, route, provenance, nameCert]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk tailMeet₁ observationBudget₁ selectorBudget₁ agreementSeal₁ limitSeal₁ window₁
+        readback₁ dyadicTolerance₁ transport₁ route₁ provenance₁ nameCert₁ =>
+        cases y with
+        | mk tailMeet₂ observationBudget₂ selectorBudget₂ agreementSeal₂ limitSeal₂ window₂
+            readback₂ dyadicTolerance₂ transport₂ route₂ provenance₂ nameCert₂ =>
+            simp only [] at h
+            cases h
+            rfl
+
 theorem TailBudgetCoherenceTasteGate_single_carrier_alignment :
     Nonempty (BHistCarrier TailBudgetCoherenceUp) ∧
       Nonempty (ChapterTasteGate TailBudgetCoherenceUp) ∧
@@ -370,5 +390,39 @@ theorem TailBudgetCoherenceCarrier_namecert_obligations [AskSetup] [PackageSetup
       intro _row sourceRow
       exact sourceRow
   }
+
+theorem TailBudgetCoherenceCarrier_sibling_scope_lock [AskSetup] [PackageSetup]
+    {meet observationBudget selectorBudget agreementSeal limitSeal window readback dyadic
+      transport routes provenance localCert endpoint siblingRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailBudgetCoherenceCarrier meet observationBudget selectorBudget agreementSeal limitSeal
+        window readback dyadic transport routes provenance localCert endpoint bundle pkg ->
+      Cont endpoint provenance siblingRead ->
+        PkgSig bundle siblingRead pkg ->
+          UnaryHistory meet ∧ UnaryHistory observationBudget ∧ UnaryHistory selectorBudget ∧
+            UnaryHistory agreementSeal ∧ UnaryHistory limitSeal ∧ UnaryHistory window ∧
+              UnaryHistory readback ∧ UnaryHistory dyadic ∧ UnaryHistory siblingRead ∧
+                Cont meet observationBudget window ∧ Cont meet selectorBudget dyadic ∧
+                  Cont window dyadic readback ∧ Cont readback agreementSeal limitSeal ∧
+                    Cont endpoint provenance siblingRead ∧
+                      hsame endpoint (append provenance localCert) ∧
+                        PkgSig bundle endpoint pkg ∧ PkgSig bundle siblingRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory hsame
+  intro carrier endpointProvenanceSibling siblingReadPkg
+  rcases carrier with
+    ⟨meetUnary, observationBudgetUnary, selectorBudgetUnary, agreementSealUnary,
+      limitSealUnary, windowUnary, readbackUnary, dyadicUnary, _transportUnary,
+      _routesUnary, provenanceUnary, _localCertUnary, endpointUnary,
+      meetObservationWindow, meetSelectorDyadic, windowDyadicReadback,
+      readbackAgreementLimit, _limitTransportRoutes, _routesProvenanceLocalCert,
+      _provenanceLocalCertEndpoint, endpointAppend, endpointPkg⟩
+  have siblingReadUnary : UnaryHistory siblingRead :=
+    unary_cont_closed endpointUnary provenanceUnary endpointProvenanceSibling
+  exact
+    ⟨meetUnary, observationBudgetUnary, selectorBudgetUnary, agreementSealUnary,
+      limitSealUnary, windowUnary, readbackUnary, dyadicUnary, siblingReadUnary,
+      meetObservationWindow, meetSelectorDyadic, windowDyadicReadback,
+      readbackAgreementLimit, endpointProvenanceSibling, endpointAppend, endpointPkg,
+      siblingReadPkg⟩
 
 end BEDC.Derived.TailBudgetCoherenceUp

@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -94,5 +96,73 @@ theorem HaltingObstructionSelfReferenceRouteDeterminacy [AskSetup] [PackageSetup
   exact
     ⟨selfReadUnary, endpointUnary, certInputTrace, inputTraceRead, readSelfEndpoint,
       traceSelfRoute, provenancePkg, endpointPkg⟩
+
+theorem HaltingObstructionNamecertObligations [AskSetup] [PackageSetup]
+    {cert input trace self policy transport route provenance name replay endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingObstructionCarrier cert input trace self policy transport route provenance name
+        bundle pkg →
+      Cont trace self replay →
+        Cont replay policy endpoint →
+          PkgSig bundle endpoint pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+                (fun row : BHist => hsame row endpoint)
+                (fun row : BHist => hsame row endpoint ∧ PkgSig bundle endpoint pkg)
+                hsame ∧
+              UnaryHistory cert ∧ UnaryHistory input ∧ UnaryHistory trace ∧
+                UnaryHistory self ∧ UnaryHistory policy ∧ UnaryHistory transport ∧
+                  UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+                    UnaryHistory replay ∧ UnaryHistory endpoint ∧
+                      Cont cert input trace ∧ Cont trace self route ∧
+                        Cont route policy name ∧ Cont trace self replay ∧
+                          Cont replay policy endpoint ∧ PkgSig bundle provenance pkg ∧
+                            PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier traceSelfReplay replayPolicyEndpoint endpointPkg
+  obtain ⟨certUnary, inputUnary, traceUnary, selfUnary, policyUnary, transportUnary,
+    routeUnary, provenanceUnary, nameUnary, certInputTrace, traceSelfRoute,
+    routePolicyName, provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed traceUnary selfUnary traceSelfReplay
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed replayUnary policyUnary replayPolicyEndpoint
+  have sourceAtEndpoint : hsame endpoint endpoint ∧ UnaryHistory endpoint :=
+    ⟨hsame_refl endpoint, endpointUnary⟩
+  have certSurface :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle endpoint pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint sourceAtEndpoint
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, endpointPkg⟩
+  }
+  exact
+    ⟨certSurface, certUnary, inputUnary, traceUnary, selfUnary, policyUnary, transportUnary,
+      routeUnary, provenanceUnary, nameUnary, replayUnary, endpointUnary, certInputTrace,
+      traceSelfRoute, routePolicyName, traceSelfReplay, replayPolicyEndpoint, provenancePkg,
+      endpointPkg⟩
 
 end BEDC.Derived.HaltingObstructionUp

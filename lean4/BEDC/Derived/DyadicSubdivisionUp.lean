@@ -446,11 +446,63 @@ theorem DyadicSubdivisionSource_standard_bridge_certificate [AskSetup] [PackageS
       enclosureUnary,
       standardUnary,
       parentLevelCells,
-      cellsMeshValidated,
+        cellsMeshValidated,
+        meshValidatedEnclosure,
+        enclosureProvenanceStandard,
+        namePkg,
+        enclosurePkg,
+        standardPkg⟩
+
+theorem DyadicSubdivisionSource_public_finite_enclosure_export [AskSetup] [PackageSetup]
+    {parent level cells mesh validated provenance name enclosureRead realRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSubdivisionSource parent level cells mesh validated provenance name bundle pkg ->
+      Cont mesh validated enclosureRead ->
+        Cont enclosureRead provenance realRead ->
+          Cont realRead name publicRead ->
+            PkgSig bundle enclosureRead pkg ->
+              PkgSig bundle realRead pkg ->
+                PkgSig bundle publicRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        DyadicSubdivisionSource parent level cells mesh validated provenance name
+                          bundle pkg ∧ hsame row validated)
+                      (fun row : BHist =>
+                        DyadicSubdivisionSource parent level cells mesh validated provenance name
+                          bundle pkg ∧ hsame row validated)
+                      (fun row : BHist =>
+                        DyadicSubdivisionSource parent level cells mesh validated provenance name
+                          bundle pkg ∧ hsame row validated)
+                      hsame ∧
+                    UnaryHistory enclosureRead ∧ UnaryHistory realRead ∧
+                      UnaryHistory publicRead ∧ Cont mesh validated enclosureRead ∧
+                        Cont enclosureRead provenance realRead ∧ Cont realRead name publicRead ∧
+                          PkgSig bundle enclosureRead pkg ∧ PkgSig bundle realRead pkg ∧
+                            PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro source meshValidatedEnclosure enclosureProvenanceReal realNamePublic
+    enclosurePkg realPkg publicPkg
+  have certSurface :=
+    DyadicSubdivisionSource_namecert_obligations source
+  obtain ⟨_parentUnary, _levelUnary, _cellsUnary, meshUnary, validatedUnary, provenanceUnary,
+    nameUnary, _parentLevelCells, _cellsMeshValidated, _validatedProvenanceName,
+    _provenancePkg, _namePkg⟩ := source
+  have enclosureUnary : UnaryHistory enclosureRead :=
+    unary_cont_closed meshUnary validatedUnary meshValidatedEnclosure
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed enclosureUnary provenanceUnary enclosureProvenanceReal
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed realUnary nameUnary realNamePublic
+  exact
+    ⟨certSurface,
+      enclosureUnary,
+      realUnary,
+      publicUnary,
       meshValidatedEnclosure,
-      enclosureProvenanceStandard,
-      namePkg,
+      enclosureProvenanceReal,
+      realNamePublic,
       enclosurePkg,
-      standardPkg⟩
+      realPkg,
+      publicPkg⟩
 
 end BEDC.Derived.DyadicSubdivisionUp

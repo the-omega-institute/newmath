@@ -219,6 +219,7 @@ The seal boundary is controlled by \autoref{thm:regular-cauchy-interleaving-real
 
 Finally apply the public Real seal export, \autoref{thm:regular-cauchy-interleaving-public-real-seal-export}. A bridge readback that begins from that public export can only read back the rows exported there, so it factors through $A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N$ and cannot access quotient equality, selected host limits, ambient completeness, or an unlisted schedule.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingUp.RegularCauchyInterleavingPacket\_bridge\_readback\_scope}
 
 \begin{theorem}[Regular Cauchy interleaving finite-tail consumer boundary]
 \label{thm:regular-cauchy-interleaving-finite-tail-consumer-boundary}
@@ -238,6 +239,7 @@ The finite-tail handoff therefore has no coordinate for quotient reals, host lim
 \label{thm:regular-cauchy-interleaving-window-seal-symmetry}
 For an accepted $\RegularCauchyInterleavingUp$ packet $I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)$, the two parity branches preserve the same public $\RealUp$ seal surface. The even branch through $A,S_A$ and the odd branch through $B,S_B$ are distinguished only by selector parity and the selected component of the combined modulus ledger; after selector transport, schedule-window coverage, and real-seal non-escape, both branches expose the same interleaved seal row $E$ and no additional public seal coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingUp.RegularCauchyInterleavingPacket\_window\_seal\_symmetry}
 \begin{proof}
 Use selector parity exactness to split any consumer read into the even branch and the odd branch. The even branch selects the $A,S_A$ side and the first ledger component, while the odd branch selects the $B,S_B$ side and the second ledger component.
 

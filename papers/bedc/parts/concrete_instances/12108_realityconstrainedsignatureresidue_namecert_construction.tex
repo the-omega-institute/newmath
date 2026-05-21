@@ -527,6 +527,94 @@ Apply consumer adequacy refusal and methodology provenance nonescape, \autoref{t
 Finally use fit readback, \autoref{thm:reality-constrained-signature-residue-fit-readback}. A positive sibling claim may be cited only through the displayed route, so unrecorded evidence cannot leave the packet as if it were part of the local $\NameCert_{\RealityConstrainedSignatureResidueUp}$ surface.
 \end{proof}
 
+\begin{theorem}[Reality-constrained signature residue source exactness]
+\label{thm:reality-constrained-signature-residue-source-exactness}
+Let $Z=(M,S,G,R,W,H,C,P,N)$ be an accepted
+$\RealityConstrainedSignatureResidueUp$ packet. Suppose a public residue read
+of $Z$ exposes the methodology-ledger, open-fit, signature-fit, and
+relational-objectivity sibling rows together with the displayed $\BHist$ carrier,
+the local $\hsame$ transport row, the $\Cont$ replay row, the $\Pkg$ provenance
+row, and the local $\NameCert_{\RealityConstrainedSignatureResidueUp}$ support.
+Then its source surface is exactly the source surface of
+$\RealityConstrainedSignatureResidueUp$: no off-ledger physical-signature row,
+objectivity row, fit row, or detached adequacy witness can enter the packet.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission and classifier exactness,
+\autoref{thm:reality-constrained-signature-residue-carrier-admission} and
+\autoref{thm:reality-constrained-signature-residue-classifier-exactness}. They
+identify the admitted carrier and the accepted classifier with preservation of
+the rows $M,S,G,R,W,H,C,P,N$ under the local residue route.
+
+Next use the NameCert ledger and gap-row exhaustion,
+\autoref{thm:reality-constrained-signature-residue-namecert-ledger} and
+\autoref{thm:reality-constrained-signature-residue-gap-row-exhaustion}. The
+ledger has no extra entry for adequacy, physical-fit resolution, objectivity
+completion, or detached mathematical agreement, while the public read must
+display $G,R,W$ before it reaches the local name.
+
+Finally combine sibling-route exactness with fit readback. The methodology-ledger,
+open-fit, signature-fit, and relational-objectivity siblings can be cited only
+through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$
+rows. Since those rows already exhaust the route, no off-ledger physical-signature,
+objectivity, or fit source can be added to the residue packet.
+\end{proof}
+
+\begin{theorem}[Reality-constrained signature residue transport closure]
+\label{thm:reality-constrained-signature-residue-transport-closure}
+Let $Z=(M,S,G,R,W,H,C,P,N)$ be an accepted
+$\RealityConstrainedSignatureResidueUp$ packet, and let $Z'$ be obtained by an
+$\hsame$-compatible transport that preserves the methodology-ledger, open-fit,
+signature-fit, and relational-objectivity sibling rows on the displayed residue
+route. Then $Z'$ again satisfies carrier admission, classifier exactness, the
+$\NameCert_{\RealityConstrainedSignatureResidueUp}$ ledger, and gap-row
+exhaustion for the same residue packet.
+\end{theorem}
+\begin{proof}
+Start with witness replay stability. The $\hsame$ row transports only the
+displayed residue route, and the $\Cont$ row replays the same continuation
+surface through $M,S,G,R,W,H,C,P,N$.
+
+Carrier admission is preserved because the transported packet still exposes the
+same finite $\BHist$ rows. Classifier exactness is preserved because the
+classifier compares exactly those rows and the assumed transport keeps the four
+sibling rows on the route.
+
+The ledger and exhaustion claims then follow from the source-exactness theorem
+and the existing NameCert ledger and gap-row exhaustion theorems. Since transport
+does not add a carrier coordinate, it cannot create a new physical-signature,
+objectivity, fit, adequacy, or detached mathematical-agreement row.
+\end{proof}
+
+\begin{theorem}[Reality-constrained signature residue Lean-facing unblock surface]
+\label{thm:reality-constrained-signature-residue-lean-unblock-surface}
+The local theorem surface consisting of carrier admission, classifier exactness,
+the $\NameCert_{\RealityConstrainedSignatureResidueUp}$ ledger, gap-row
+exhaustion, source exactness, and transport closure is sufficient as the
+Lean-facing root-unblock handoff for
+$\RealityConstrainedSignatureResidueUp$. It presents the carrier, classifier,
+ledger, gap, source, and transport obligations without adding any off-route
+physical-signature, objectivity, fit, adequacy, or detached mathematical
+classifier premise.
+\end{theorem}
+\begin{proof}
+Read the first four rows from carrier admission, classifier exactness, NameCert
+ledger, and gap-row exhaustion. These theorems give the admitted $\BHist$
+carrier, the exact accepted classifier, the exhausted local ledger, and the
+mandatory gap-residue-witness route.
+
+Source exactness supplies the boundary condition for the handoff. It says that
+the methodology-ledger, open-fit, signature-fit, and relational-objectivity
+sibling rows enter only through the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and local $\NameCert$ support.
+
+Transport closure supplies the stability condition. Any $\hsame$-compatible
+transport preserving those sibling rows preserves the four earlier obligations.
+Thus the six named results form a compact local surface for downstream Lean
+work on the chapter without importing an off-ledger source or an unrecorded
+adequacy premise.
+\end{proof}
+
 \begin{closurestatus}{\RealityConstrainedSignatureResidueUp}
   \constructivestory{The reality-constrained signature residue is generated from a $BHist$ ledger that records methodology rows, physical-signature rows, gap rows, residue rows, witness routes, and explicit separation from mathematical agreement alone. The carrier first reads the residue row under the named constraint, then uses $hsame$ to keep that residue stable across equivalent histories. $\Cont$ extensions replay witness and methodology rows only when the same residue carrier remains visible. The chapter develops this packet through non-escape, scope lock, sibling-route exactness, adequacy refusal, methodology totality, carrier admission, classifier exactness, gap-row exhaustion, physical separation, and witness replay, all without converting the residue into host reality.}
   \theoryclosure{\obligationClosure}

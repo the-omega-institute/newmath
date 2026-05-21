@@ -33,3 +33,17 @@ Now apply totality of the open-phase ledger. Theorem~\ref{thm:metacic-critical-p
 
 Finally use nonescape to close the factorization. Theorem~\ref{thm:metacic-critical-path-open-phase-source-nonescape} prevents any outside completion principle from being exported, and Theorem~\ref{thm:metacic-critical-path-open-phase-source-closure} identifies every admitted source read with one of the packet rows or one of the four displayed face rows. Therefore the consumer factors through the ledger and receives no fifth source row.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path four-face socket separation]
+\label{thm:metacic-critical-path-four-face-socket-separation}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, Phase Real root-unblock admission separates the four object records from the discharge socket. The route requires separate face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$; the discharge socket $D$ cannot replace any one of those records. Conversely, displaying all four face records supplies no value for $D$ and does not promote the route to closed subject reduction or full consistency.
+\end{theorem}
+\begin{proof}
+First use Theorem~\ref{thm:metacic-critical-path-phase-real-root-unblock-admission}. It identifies admission with the packet rows $S,N,O,U,D,H,C,P,L$ together with the four objectwise face records at the local threshold, and it explicitly refuses an aggregate MetaCIC credential as a replacement for any face.
+
+Now remove or substitute one face record. Theorem~\ref{thm:metacic-critical-path-four-face-deficiency-refusal} blocks the route whenever a required $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ face is missing or supplied only by an aggregate route credential. Since $D$ is one packet coordinate rather than a face-local carrier, classifier, status, target, or bridge row, the same refusal prevents the discharge socket from serving as any one of the four records.
+
+It remains to separate the reverse direction. Definition~\ref{def:metacic-critical-path-open-phase-source-ledger} and Theorems~\ref{thm:metacic-critical-path-open-phase-source-closure} and~\ref{thm:metacic-critical-path-open-phase-source-nonescape} keep every admitted source read inside the displayed packet rows and four face rows, with no export path to a further discharge witness.
+
+Finally apply Theorem~\ref{thm:metacic-critical-path-phase-real-root-unblock-soundness}. That theorem excludes closed subject reduction and full consistency from every admitted Phase Real root-unblock route. Hence the four face records and the discharge socket are distinct obligations, and neither side fills or promotes the other.
+\end{proof}

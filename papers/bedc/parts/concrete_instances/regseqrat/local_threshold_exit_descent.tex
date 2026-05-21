@@ -178,6 +178,42 @@ The same obstruction excludes replacements. The factorization theorem has no coo
 For sufficiency, assume the four local status records and the RegSeqRat four-face exit-threshold equivalence on the same finite source $\mathcal R$. Apply \autoref{thm:regseqrat-four-face-audit-threshold-factorization} in the reverse direction. The supplied local status rows give exactly the status side of the factorization, and the supplied exit-threshold equivalence gives the threshold side. Hence $\mathcal R$ satisfies the current Phase $\RealUp$ and Completion audit-threshold read.
 \end{proof}
 
+\begin{theorem}[RegSeqRat audit-threshold status pullback square]
+\label{thm:regseqrat-audit-threshold-status-pullback-square}
+Let $\mathcal R$ be a finite $\RegSeqRatUp$ terminal source record whose visible faces are
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and whose support rows are only
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Read from the four faces the local $\mathsf{closurestatus}$, $\mathsf{formalstatus}$, $\mathsf{leantarget}$, and $\mathsf{bridgestatus}$ rows. Then the square
+$$
+\begin{array}{ccc}
+\mathsf{FaceStatus}(\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp)
+& \longrightarrow &
+\mathsf{RealL10TerminalPullback} \\
+\downarrow & & \downarrow \\
+\mathsf{RegSeqRatFourFaceExitThreshold}
+& \longrightarrow &
+\mathsf{BEDCVisibleStatusInterface}(\mathcal R)
+\end{array}
+$$
+commutes: reading the four local status records and then applying the $\RealUp$ L10 terminal pullback gives the same BEDC-visible status interface as first applying the RegSeqRat four-face exit-threshold equivalence and then reading the face records objectwise.
+
+The commutative square is exactly objectwise over the four displayed faces. It excludes quotient streams, selected limits, host real equality, countable choice, metric-completeness rows, aggregate $\formalstatus$ rows, aggregate bridge rows, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-four-face-audit-threshold-factorization}. The audit read on $\mathcal R$ is identified with the RegSeqRat four-face exit-threshold equivalence together with the local status records on $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Next use \autoref{thm:regseqrat-audit-threshold-face-status-minimality}. The only status records available to the audit threshold are the four local $\mathsf{closurestatus}$, $\mathsf{formalstatus}$, $\mathsf{leantarget}$, and $\mathsf{bridgestatus}$ rows, so the upper-left corner of the displayed square has no aggregate status or bridge coordinate.
+
+The vertical attachment is objectwise. By \autoref{thm:regseqrat-common-tail-face-status-objectwise-pullback}, each RegSeqRat common-tail status row remains attached to its own face chapter. By \autoref{thm:streamname-four-face-audit-clean-threshold-readback}, the StreamName audit-clean threshold is read back from the same four visible faces rather than from a route-level row.
+
+Finally apply \autoref{thm:real-l10-current-phase-exit-audit-pullback} and \autoref{thm:real-l10-terminal-pullback-uniqueness}. Both paths in the square pass through the same four-face terminal packet, so the resulting BEDC-visible status interface on $\mathcal R$ is unique. Since none of the cited pullbacks supplies quotient streams, selected limits, host real equality, countable choice, metric-completeness rows, aggregate $\formalstatus$ rows, aggregate bridge rows, or ambient $\RealUp$ completeness, those coordinates are outside the square.
+\end{proof}
+
 \begin{theorem}[RegSeqRat audit-threshold determinacy]
 \label{thm:regseqrat-audit-threshold-determinacy}
 Let $\mathcal R_0$ and $\mathcal R_1$ be finite $\RegSeqRatUp$ terminal source records. Suppose both records expose the same four visible face rows
@@ -200,6 +236,32 @@ Next apply \autoref{thm:regseqrat-four-face-exit-threshold-equivalence} to both 
 It remains to rule out a hidden route-level distinction between the two accepted reads. The StreamName threshold readback \autoref{thm:streamname-four-face-audit-clean-threshold-readback} reads the audit-clean threshold from the visible four faces, \autoref{thm:real-l10-current-phase-exit-audit-pullback} pulls the current Phase Real and Completion audit back to the local face records, and \autoref{thm:dyadicratcore-l10-exit-namecert-interface} identifies the shared $\NameCert$ interface over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 
 Thus every coordinate used by either accepted audit read is already fixed by the common four visible faces and common support rows. None of the cited components supplies quotient streams, selected limits, host real equality, countable choice, metric-completeness data, aggregate verification status, aggregate bridge data, or ambient $\RealUp$ completeness. Those absent coordinates cannot distinguish $\mathcal R_0$ from $\mathcal R_1$, so the two reads determine the same BEDC-visible terminal source record.
+\end{proof}
+
+\begin{theorem}[RegSeqRat audit-threshold finite-refinement invariance]
+\label{thm:regseqrat-audit-threshold-finite-refinement-invariance}
+Let $\{\mathcal R_i\}_{i \in I}$ be a finite family of $\RegSeqRatUp$ terminal source records whose displayed faces are
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Suppose a finite cover refinement replaces this family by $\{\mathcal R'_j\}_{j \in J}$ and preserves, on every refined member, the four displayed face rows together with the shared
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+rows. If the original family carries the current Phase $\RealUp$ and Completion audit-threshold coordinate objectwise, then the refined family carries the same coordinate objectwise. Conversely, any refined family with these preserved rows determines the same coordinate on the original finite family.
+
+The invariant coordinate is only the four-face audit-threshold read of the displayed RegSeqRat terminal source. The comparison excludes quotient streams, selected limits, countable choice, metric-completeness rows, aggregate $\formalstatus$ rows, aggregate bridge rows, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First compare the common-tail part of the two presentations. Apply \autoref{thm:regseqrat-common-tail-atlas-refinement-invariance}. It identifies the RegSeqRat classifier, common-tail atlas, and overlap rows read from the original finite family with the rows read from the refined family, because the refinement preserves the displayed $\RegSeqRatUp$ face and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next compare the dyadic and Real exit data. The DyadicRatCore finite-cover theorem, \autoref{thm:dyadicratcore-l10-exit-ledger-finite-cover-refinement-invariance}, keeps the endpoint, radius, distance, regularity, and ledger rows fixed under the same finite cover comparison. The Real functoriality theorem, \autoref{thm:real-l10-exit-certificate-refinement-functoriality}, transports the local $\RealUp$ exit certificate across the support-row-preserving finite refinement.
+
+Now apply the status pullback square \autoref{thm:regseqrat-audit-threshold-status-pullback-square}. Since the StreamName, DyadicRatCore, RegSeqRat, and local Real rows agree after the preceding comparisons, both routes through the square read the same BEDC-visible status interface and the same Phase $\RealUp$ and Completion audit-threshold coordinate.
+
+Finally use \autoref{thm:regseqrat-audit-threshold-determinacy}. Any two objectwise audit reads obtained from the original family and from the refined family expose the same four face rows and the same displayed support rows, so they determine one BEDC-visible terminal source record. The reverse direction is the same argument applied to the common finite refinement that maps back to the original finite cover.
+
+Every cited comparison is facewise and support-row preserving. None supplies quotient streams, selected limits, countable choice, metric-completeness rows, aggregate $\formalstatus$ rows, aggregate bridge rows, or ambient $\RealUp$ completeness, so no excluded coordinate can alter the invariant audit-threshold read.
 \end{proof}
 
 \begin{theorem}[RegSeqRat four-face audit source uniqueness]

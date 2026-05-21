@@ -42,3 +42,46 @@ Now apply \autoref{thm:streamname-lattice-meet-terminal-factorization} to that u
 
 The pullback therefore repacks the existing terminal rows; it does not add a hidden route. The exclusions remain stable under the return along the lattice-meet route because the Real-facing seal coordinate is already fixed by the accepted readback and the finite source boundary.
 \end{proof}
+
+\begin{theorem}[StreamName lattice-meet Real-seal support determinacy]
+\label{thm:streamname-lattice-meet-real-seal-support-determinacy}
+Let two accepted $\StreamNameUp$ finite-window lattice-meet packets be consumed
+by the same $\RegSeqRatUp$ readback and by the same finite $\RealUp$ seal
+handoff. If they agree on the displayed finite-window classifier, the
+$\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ membership rows,
+$\mathsf{UnaryHistory}$ observation rows, the $\DyadicRatCoreUp$ ledger, the
+$\RegSeqRatUp$ readback surface, componentwise $\hsame$ transports, displayed
+$\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows, then they
+determine the same finite $\RealUp$ seal support packet.
+
+No quotient stream equality, host sequence equality, selected limit, ambient
+$\RealUp$ completeness row, metric-completeness row, or second $\RealUp$ source
+can change that support packet once those common lattice-meet rows are fixed.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-lattice-meet-terminal-factorization}. The accepted
+readback and finite seal handoff factor through the displayed finite surface:
+classifier, bundle, membership, unary observation, dyadic ledger, readback,
+transport, continuation, provenance, and local naming rows.
+
+Next apply
+\autoref{thm:streamname-lattice-meet-terminal-source-uniqueness}. Since the two
+packets agree on precisely those source rows, every terminal consumer names the
+same displayed source surface. Thus the finite $\RealUp$ seal handoff has no
+second source from which to rebuild a different support packet.
+
+Now apply
+\autoref{thm:streamname-lattice-meet-terminal-pullback-nonescape}. Pulling the
+seal read back along the lattice-meet route only repacks the already displayed
+rows and cannot introduce quotient stream equality, host sequence equality,
+selected limits, ambient completeness, metric-completeness, or another
+Real-facing source coordinate.
+
+Finally use the Real seal handoff from the StreamName common-refinement route,
+namely \autoref{thm:streamname-tail-window-cover-common-refinement} together
+with \autoref{thm:streamname-real-seal-factorization-boundary}. The common
+finite pullback is the only consumer surface available to the finite
+$\RealUp$ seal, so agreement on the lattice-meet rows determines the same seal
+support packet.
+\end{proof}

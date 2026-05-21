@@ -96,3 +96,45 @@ comparison supplies no private threshold, quotient stream, selected limit, host
 real equality, or independent inverse-budget route, so every displayed pullback
 remains the read of the single packet $S$.
 \end{proof}
+
+\begin{theorem}[StreamName shared-tail terminal face noncollapse]
+\label{thm:streamname-shared-tail-budget-terminal-face-noncollapse}
+Every shared-tail packet accepted by the $\StreamNameUp$ route reports its
+terminal L10 read as four separate local faces: the $\DyadicRatCoreUp$
+tolerance ledger, the $\StreamNameUp$ finite window, the $\RegSeqRatUp$
+readback and classifier row, and the $\RealUp$ finite-window seal. The packet
+transports those faces only by the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+The terminal read cannot be collapsed into quotient stream equality, host real
+equality, a selected limit, countable choice, ambient completeness, route-level
+$\mathsf{formalstatus}$, or an aggregate bridge row. None of these substitutes
+is a local face of the accepted shared-tail packet.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:streamname-real-regseq-shared-tail-budget-route}. It places the
+accepted windows on the common StreamName route through the dyadic tail-radius
+ledger, the shared threshold, the $\RegSeqRatUp$ readback boundary, and the
+$\RealUp$ finite-window seal boundary.
+
+Next apply \autoref{thm:streamname-shared-tail-window-pullback-exactness}. Any
+seal read or readback pulled from the shared windows must read the single
+displayed packet through its threshold, dyadic ledger, paired windows, paired
+readbacks, and seal rows. Hence the terminal read is already local to the
+displayed packet.
+
+Use \autoref{thm:regseqrat-tail-budget-exit-status-product} to identify the
+same endpoint as the product of the four local status faces:
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The only
+shared transport permitted in that product is the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Finally apply \autoref{thm:real-open-phase-objectwise-status-readback} together
+with the two-axis discipline of
+\autoref{ch:closure-and-verification-discipline}. Closure rows, verification
+rows, and bridge rows are read objectwise on the corresponding face; they do
+not combine into a route-level witness and cannot replace a missing terminal
+face. The excluded quotient, host-equality, selected-limit, choice, and
+completeness data are therefore outside the accepted shared-tail terminal read.
+\end{proof}

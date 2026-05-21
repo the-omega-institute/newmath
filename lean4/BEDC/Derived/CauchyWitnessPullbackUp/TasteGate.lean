@@ -472,4 +472,60 @@ theorem CauchyWitnessPullbackUp_StdBridge [AskSetup] [PackageSetup]
       exact ⟨sourceRow.left, terminalPkg⟩
   }
 
+theorem CauchyWitnessPullbackCarrier_recovered_ledger_determinacy
+    [AskSetup] [PackageSetup]
+    {gluedSeal classifier realSeal ledger tail synchronizer stream regular dyadic agreement
+      transport continuation provenance localName ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont gluedSeal classifier realSeal →
+      Cont realSeal agreement ledger →
+        Cont ledger tail synchronizer →
+          Cont ledger agreement ledgerRead →
+            PkgSig bundle ledgerRead pkg →
+              SemanticNameCert
+                (fun row : BHist =>
+                  hsame row ledgerRead ∧
+                    ∃ packet : TasteGate.CauchyWitnessPullbackUp,
+                      packet = TasteGate.CauchyWitnessPullbackUp.mk gluedSeal classifier
+                        realSeal ledger tail synchronizer stream regular dyadic agreement
+                        transport continuation provenance localName)
+                (fun row : BHist =>
+                  Cont gluedSeal classifier realSeal ∧ Cont realSeal agreement ledger ∧
+                    Cont ledger tail synchronizer ∧ Cont ledger agreement ledgerRead ∧
+                      hsame row ledgerRead)
+                (fun row : BHist => hsame row ledgerRead ∧ PkgSig bundle ledgerRead pkg)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame SemanticNameCert
+  intro gluedReal realLedger ledgerSynchronizer ledgerReadRoute ledgerPkg
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro ledgerRead
+          ⟨hsame_refl ledgerRead,
+            Exists.intro
+              (TasteGate.CauchyWitnessPullbackUp.mk gluedSeal classifier realSeal ledger tail
+                synchronizer stream regular dyadic agreement transport continuation provenance
+                localName)
+              rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨gluedReal, realLedger, ledgerSynchronizer, ledgerReadRoute, sourceRow.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, ledgerPkg⟩
+  }
+
 end BEDC.Derived.CauchyWitnessPullbackUp

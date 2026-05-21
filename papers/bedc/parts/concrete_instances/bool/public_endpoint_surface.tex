@@ -300,3 +300,36 @@ The certificate rows are fixed by \autoref{lem:bool-public-endpoint-forgetful-pr
 
 Finally, the negative part follows from the same row exhaustion. \autoref{thm:bool-public-surface-no-hidden-leakage} excludes host propositions, decidable predicates, eliminators, and truth-table completeness from the public surface, while \autoref{lem:bool-public-endpoint-bridge-cut-elimination-boundary} rejects unlisted source, result, termination, continuation, payload, and option-packaging coordinates. The chapter displays no $\mathsf{Rule110}$, cellular, binary, or $\mathsf{FKernel}$ substrate row inside the Bool public endpoint constructors. Therefore any later consumer using one of those substrate names must provide its own target-side rows and relate them to the Bool packet by bisimulation, row embedding, or substrate mirror. The BEDC-local Bool boundary supplies no definitional equality from the public endpoint constructors to such a substrate.
 \end{proof}
+
+\begin{theorem}[Bool finite-data exit route]
+\label{thm:bool-finite-data-exit-route}
+The public $\BoolUp$ finite-data route consists exactly of the two endpoint
+constructor rows of \autoref{def:bool-public-endpoint-constructors}, the
+constructor case readback of
+\autoref{thm:bool-public-constructor-case-readback}, the no-hidden-leakage
+boundary of \autoref{thm:bool-public-surface-no-hidden-leakage}, and the
+semantic certificate scope of \autoref{cor:bool-certificate-scope}. Any
+$\OptionUp$ absent/present tag read, $\ProdUp$ sibling-lattice read, or
+$\ListUp$ finite-data sibling route that consumes $\BoolUp$ passes through
+those rows and receives no host proposition, eliminator, decidable predicate,
+or truth-table completeness.
+\end{theorem}
+\begin{proof}
+The two constructor rows are the public endpoints displayed in
+\autoref{def:bool-public-endpoint-constructors}. The case readback theorem
+then says that every public endpoint read is one of those rows, with agreement
+measured by $\msame$ rather than by an external Boolean predicate.
+
+The no-hidden-leakage theorem removes the extra host-logic surfaces from the
+public exit, while \autoref{cor:bool-certificate-scope} identifies the checked
+core and semantic certificate roles that remain available to downstream finite
+data consumers.
+
+The consumer list is exactly the existing finite-data route through
+\autoref{thm:bool-option-constructor-disjointness-route},
+\autoref{thm:prod-finite-data-sibling-lattice}, and
+\autoref{thm:list-finite-data-sibling-route}. These routes use the same
+endpoint rows as absent/present tags, product sibling coordinates, and list
+finite-data siblings; none adds a primitive Boolean object or a host
+truth-table principle.
+\end{proof}

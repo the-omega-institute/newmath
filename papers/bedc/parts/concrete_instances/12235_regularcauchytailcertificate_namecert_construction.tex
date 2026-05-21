@@ -1,6 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\RegularCauchyTailCertificateUp$}
 \label{ch:concrete-instances-regular-cauchy-tail-certificate-namecert}
-\origin{ai-composite}
+\origin{ai}
 
 The $\RegularCauchyTailCertificateUp$ packet realizes the shared tail-window witness used by the Real-and-Completion route of \autoref{ch:visions-real-completeness}. It sits between the regular Cauchy data of \autoref{sec:real-completeness-regular-cauchy} and the Real-facing seal consumers, and it reuses the finite dyadic rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the schedule rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal naming seal of \autoref{ch:concrete-instances-real-namecert}. The chapter is composite: it assembles already named Real and Completion rows into one reusable tail certificate rather than claiming a new atomic carrier.
 
@@ -37,6 +37,7 @@ For the carrier of \autoref{def:regular-cauchy-tail-certificate-carrier}, the lo
 \item non-escape for quotient streams, host sequence equality, selected limits, choice rows, standard-bridge rows, and ambient Real-completion principles.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailCertificateUp.RegularCauchyTailCertificateNameCertObligations}
 \begin{proof}
 Carrier exposure is projection from \autoref{def:regular-cauchy-tail-certificate-carrier}. The displayed tuple lists the regular Cauchy source, shared window, readback, dyadic ledger, Real seal, transport, continuation, provenance, and local naming rows.
 
@@ -55,6 +56,7 @@ T=(X,W,R,D,E,H,C,P,N),
 $$
 then every consumer route first reads the regular Cauchy source $X$ and the $\StreamNameUp$ window $W$, then the $\RegSeqRatUp$ readback $R$ and $\DyadicRatCoreUp$ ledger $D$, and only then reaches $E$ through $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailCertificateUp.RegularCauchyTailCertificateSelectorCoverage}
 \begin{proof}
 Project the carrier $T$. The shared tail-window coordinate is $W$, and the source row $X$ is the only regular Cauchy row from which that window is read.
 
@@ -118,6 +120,7 @@ Use selector coverage, non-escape, and the vision handoff from \autoref{thm:regu
 
 Finally apply the obligation closure package of \autoref{thm:regular-cauchy-tail-certificate-obligation-closure-package}. Since that package already lists the accepted rows and excludes quotient streams, host sequence equality, selected limits, choice rows, standard bridges, ambient completeness principles, and metric-completeness coordinates, the scoped closure is exactly the primitive BEDC route displayed above.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailCertificateUp.RegularCauchyTailCertificate\_primitive\_scope\_lock}
 
 \closureat{RegularCauchyTailCertificateUp}{scopedStr}
 
@@ -125,9 +128,10 @@ Finally apply the obligation closure package of \autoref{thm:regular-cauchy-tail
   \constructivestory{A $\RegularCauchyTailCertificateUp$ packet is generated from a regular Cauchy source row, a shared StreamName tail-window row, a RegSeqRat readback row, a DyadicRatCore tolerance ledger, a RealUp seal row, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
   \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{thm:regular-cauchy-tail-certificate-primitive-scope-lock} binds the carrier, five NameCert obligation rows, selector coverage, dyadic readback exactness, Real-seal factorization, non-escape boundary, vision handoff, and TasteGate instance \texttt{BEDC.Derived.RegularCauchyTailCertificateUp.taste\_gate} to the finite primitive route for Real and Completion consumers.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.RegularCauchyTailCertificateUp.taste\_gate}
   \bridgestatus{none}
-  \origin{ai-composite}
-  \notclaimed{This chapter does not close quotient streams, host sequence equality, selected limits, choice rows, standard-bridge rows, ambient Real completeness, Lean verification, or a public standard bridge.}
-  \upgradepath{A stronger grade requires Lean verification of the primitive route and any later public or standard bridge demanded by downstream Real and Completion consumers.}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient streams, host sequence equality, selected limits, choice rows, standard-bridge rows, ambient Real completeness, theorem-level Lean proof, audit-clean verification, or a public standard bridge.}
+  \upgradepath{A stronger grade requires theorem-level Lean proof, audit-clean verification of the primitive route, and any later public or standard bridge demanded by downstream Real and Completion consumers.}
 \end{closurestatus}

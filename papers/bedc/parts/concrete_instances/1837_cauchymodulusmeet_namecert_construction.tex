@@ -286,6 +286,7 @@ S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N
 $$
 of a $\CauchyModulusMeetUp$ packet supply the selected-window route consumed by $\RealDiagonalWindowCoverageUp$. The selected-window consumer receives only the shared bound, the two source stream/modulus rows, the displayed dyadic tolerance ledger, componentwise transport, continuation routes, package provenance, and local naming row.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetPacket\_diagonal\_window\_consumer\_handoff}
 \begin{proof}
 Begin with carrier admission and the NameCert obligation surface. These fix the finite packet over the two stream rows, two source modulus rows, shared meet row, transport, continuation, provenance, and naming coordinates.
 
@@ -410,6 +411,7 @@ S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
 $$
 The certificate exports no quotient stream, selected limit, host real equality, ambient completeness row, or bridge-checking oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetUp\_StdBridge}
 \begin{proof}
 First read the public export surface. By \autoref{thm:cauchy-modulus-meet-public-export-surface}, the available packet consists precisely of the two source names, two source modulus rows, the shared modulus row, transport rows, continuation routes, package provenance, and local name.
 
@@ -583,6 +585,26 @@ $$
 S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
 $$
 The exclusions follow because each cited route is a ledger-read theorem over displayed BEDC rows and none exposes quotient streams, selected limits, host equality, ambient completeness, or an external tail selector.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet finite-chain threshold induction]
+\label{thm:cauchy-modulus-meet-finite-chain-threshold-induction}
+Let $M_0,\ldots,M_n$ be a finite chain of accepted $\CauchyModulusMeetUp$ packets such that each adjacent pair shares the displayed source stream row and source modulus row needed to compose the next meet packet. Write the visible rows of the chain as
+$$
+S_0,\ldots,S_n,\mu_0,\ldots,\mu_n,\mu_{01},\mu_{12},\ldots,\mu_{n-1,n},H,C,P,N
+$$
+with the iterated meet row obtained by repeatedly applying the displayed shared-threshold meet. Then every $\UniformCauchyCriterionUp$, $\RegularCauchyTailMeetUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of the chain factors through a single iterated shared-threshold surface assembled from the rows $S_i$, the modulus rows $\mu_i$, the iterated meet row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ rows of the accepted packets.
+
+The factorization is only a finite BEDC ledger read. It exports no quotient stream, no selected limit, no host real equality, no hidden tail oracle, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+The base case is the binary packet. \autoref{thm:cauchy-modulus-meet-binary-meet-projection-lock} fixes the two source rows, two source modulus rows, shared meet row, transports, continuations, provenance, and local name, while \autoref{thm:cauchy-modulus-meet-joint-consumer-exactness} confines the $\RegSeqRatUp$ and $\RealUp$ consumer routes to that same packet.
+
+For the induction step, assume the initial segment already reads through its iterated shared-threshold surface. Compose that surface with the next accepted meet packet along the adjacent shared source row and shared modulus row. \autoref{thm:cauchy-modulus-meet-modulus-meet-associativity} identifies the parenthesized readbacks as the same finite exported surface, so the next packet extends the row list without introducing a second threshold coordinate.
+
+Now route the finite-family consumers. \autoref{thm:cauchy-modulus-meet-root-unblock-export} exposes the accepted meet packets as the root-unblock surface for $\RegularCauchyTailMeetUp$, $\RegSeqRatUp$, and $\RealUp$, and \autoref{thm:cauchy-modulus-meet-uniform-family-tail-threshold-factorization} puts $\UniformCauchyCriterionUp$ and $\RegularCauchyTailMeetUp$ threshold reads on the same displayed meet row.
+
+Finally apply mature non-escape at each accepted packet and at the iterated surface. \autoref{thm:cauchy-modulus-meet-mature-nonescape} rules out quotient streams, selected limits, host real equality, hidden analytic routes, bridge-checking oracles, and ambient completeness, so the finite chain supplies only the displayed shared-threshold ledger requested by the downstream consumers.
 \end{proof}
 
 \begin{theorem}[CauchyModulusMeet regular-comparison window handoff]

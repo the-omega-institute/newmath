@@ -115,3 +115,59 @@ finite packet. Since the packet has no coordinate for quotient streams,
 selected host limits, ambient completeness theorems, or hidden endpoint
 equalities, none of those objects can be read from the accepted source route.
 \end{proof}
+
+\begin{theorem}[Real L10 source-lattice four-face equivalence]
+\label{thm:real-l10-source-lattice-four-face-equivalence}
+For a Phase Real and Completion $\RealUp$ source read, acceptance by the
+current source lattice is equivalent to exposing exactly the four local faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with their shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support. In this equivalence the $\DyadicRatCoreUp$ face is the
+dyadic tolerance ledger, the $\StreamNameUp$ face is the finite-window
+schedule, the $\RegSeqRatUp$ face is the regular-rational readback row, and
+the local $\RealUp$ face is the seal row reached after those sibling faces.
+
+Both directions exclude quotient streams, selected limits, countable choice,
+metric completeness, aggregate formal status, bridge rows, and ambient
+$\RealUp$ completeness as source-surface data.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with an accepted Phase Real and Completion
+$\RealUp$ source read. The source-lattice theorem
+\autoref{thm:real-streamname-regseqrat-source-lattice} places the read on the
+StreamName finite-window schedule, the RegSeqRat readback row, and the
+DyadicRatCore tolerance ledger before the local Real seal is public.
+
+Next apply terminal budget stability,
+\autoref{thm:real-streamname-regseqrat-terminal-budget-stability}. It says
+that changing the finite observation request changes only displayed finite
+rows, so no additional source carrier or classifier can appear at the
+seal-facing boundary. The dyadic source exhaustion theorem
+\autoref{thm:real-streamname-regseqrat-dyadic-source-exhaustion} then
+identifies the accepted read with exactly the four faces and shared
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support named in the
+statement.
+
+For the reverse direction, assume exactly those four local faces and shared
+support are exposed. Apply
+\autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}
+to read the dyadic scale-window ledger as the same four-face pullback through
+$\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ seal. Then apply
+\autoref{thm:regseqrat-four-face-exit-consumer-normal-form} to put the
+regular-rational exit consumer in the corresponding four-face normal form.
+
+The local source-lattice route
+\autoref{thm:real-streamname-regseqrat-source-lattice} repacks that pullback
+and normal-form data as the accepted Real source read. Since the four exposed
+faces provide all displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ coordinates, the reconstructed read has the same source surface as
+the accepted Phase Real and Completion lattice.
+
+The exclusion clause follows in both directions from the cited non-escape
+statements. None of the four-face pullback, the RegSeqRat normal form, or the
+local Real source-lattice route contains a coordinate for quotient streams,
+selected limits, countable choice, metric completeness, aggregate formal
+status, bridge rows, or ambient $\RealUp$ completeness.
+\end{proof}

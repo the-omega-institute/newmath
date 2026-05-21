@@ -141,6 +141,32 @@ theorem WeierstrassMTestCarrier_real_seal_factorization [AskSetup] [PackageSetup
     ⟨regseqUnary, realSealUnary, sealReadUnary, regseqRealSealTransport, regseqRealSealRead,
       sameSealRead, routePkg, namePkg⟩
 
+theorem WeierstrassMTestCarrier_tail_majorant_ledger [AskSetup] [PackageSetup]
+    {family majorant domination tail regseq realSeal transport route provenance name
+      tailRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WeierstrassMTestCarrier family majorant domination tail regseq realSeal transport route
+        provenance name bundle pkg ->
+      Cont domination tail tailRead ->
+        UnaryHistory family ∧ UnaryHistory majorant ∧ UnaryHistory domination ∧
+          UnaryHistory tail ∧ UnaryHistory tailRead ∧ Cont family majorant domination ∧
+            Cont domination tail regseq ∧ Cont domination tail tailRead ∧
+              hsame regseq tailRead ∧ PkgSig bundle route pkg ∧ PkgSig bundle name pkg := by
+  intro carrier dominationTailRead
+  obtain ⟨familyUnary, majorantUnary, dominationUnary, tailUnary, _regseqUnary,
+    _realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    familyMajorantDomination, dominationTailRegseq, _regseqRealSealTransport,
+    _transportRouteProvenance, routePkg, namePkg⟩ := carrier
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed dominationUnary tailUnary dominationTailRead
+  have sameTailRead : hsame regseq tailRead :=
+    cont_respects_hsame (hsame_refl domination) (hsame_refl tail) dominationTailRegseq
+      dominationTailRead
+  exact
+    ⟨familyUnary, majorantUnary, dominationUnary, tailUnary, tailReadUnary,
+      familyMajorantDomination, dominationTailRegseq, dominationTailRead, sameTailRead,
+      routePkg, namePkg⟩
+
 theorem WeierstrassMTestCarrier_uniform_tail_budget_scope [AskSetup] [PackageSetup]
     {family majorant domination tail regseq realSeal transport route provenance name
       handoff : BHist}
@@ -225,5 +251,27 @@ theorem WeierstrassMTestCarrier_uniform_cauchy_handoff [AskSetup] [PackageSetup]
   exact
     ⟨handoffUnary, sealReadUnary, tailRegseqRoute, regseqRealSealReadRow, sameSealRead,
       routePkg, namePkg⟩
+
+theorem WeierstrassMTestCarrier_real_seal_boundary [AskSetup] [PackageSetup]
+    {family majorant domination tail regseq realSeal transport route provenance name
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WeierstrassMTestCarrier family majorant domination tail regseq realSeal transport route
+        provenance name bundle pkg ->
+      Cont regseq realSeal sealRead ->
+        PkgSig bundle sealRead pkg ->
+          UnaryHistory regseq ∧ UnaryHistory realSeal ∧ UnaryHistory sealRead ∧
+            Cont regseq realSeal sealRead ∧ PkgSig bundle name pkg ∧
+              PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier regseqRealSealRead sealReadPkg
+  obtain ⟨_familyUnary, _majorantUnary, _dominationUnary, _tailUnary, regseqUnary,
+    realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _familyMajorantDomination, _dominationTailRegseq, _regseqRealSealTransport,
+    _transportRouteProvenance, _routePkg, namePkg⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqUnary realSealUnary regseqRealSealRead
+  exact
+    ⟨regseqUnary, realSealUnary, sealReadUnary, regseqRealSealRead, namePkg, sealReadPkg⟩
 
 end BEDC.Derived.WeierstrassMTestUp

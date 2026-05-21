@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CrossHistCausalConeUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -328,5 +330,15 @@ theorem CrossHistCausalConeTasteGate_single_carrier_alignment :
             exact Or.inl rfl
         | b1 =>
             exact Or.inr rfl
+
+theorem CrossHistCausalConeUp_zero_rate_exclusion
+    (x : CrossHistCausalConeUp) {A B K W M S H C P N affectedRead : BHist}
+    (hx : x = CrossHistCausalConeUp.mk A B K W BHist.Empty M S H C P N)
+    (hroute : Cont W (BHist.e0 BHist.Empty) affectedRead)
+    (hsameRoute : hsame affectedRead W) : False := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  cases hx
+  cases hroute
+  exact hsame_extension_self_absurd.left W hsameRoute
 
 end BEDC.Derived.CrossHistCausalConeUp

@@ -546,23 +546,43 @@ theorem RegularCauchySumCarrier_classifier_stability [AskSetup] [PackageSetup]
   have localCertUnary' : UnaryHistory localCert' :=
     unary_transport localCertUnary sameLocalCert
   exact
-      ⟨⟨leftSourceUnary',
-      rightSourceUnary',
-      leftWindowUnary',
-      rightWindowUnary',
-      leftEndpointUnary',
-      rightEndpointUnary',
-      budgetUnary',
-      transportsUnary',
-      routesUnary',
-      provenanceUnary',
-      localCertUnary',
-      leftRoute,
-      rightRoute,
-      sumRoute,
-      readbackRoute,
-      provenanceRoute,
-      provenancePkg⟩,
-      sameProvenance⟩
+      ⟨⟨leftSourceUnary', rightSourceUnary', leftWindowUnary', rightWindowUnary',
+        leftEndpointUnary', rightEndpointUnary', budgetUnary', transportsUnary', routesUnary',
+        provenanceUnary', localCertUnary', leftRoute, rightRoute, sumRoute, readbackRoute,
+        provenanceRoute, provenancePkg⟩,
+        sameProvenance⟩
+
+theorem RegularCauchySumCarrier_bridged_public_route [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert bridgeSource publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg ->
+      Cont leftSource rightSource bridgeSource -> Cont readback routes publicRead ->
+        PkgSig bundle bridgeSource pkg -> PkgSig bundle publicRead pkg ->
+          UnaryHistory leftSource ∧ UnaryHistory rightSource ∧ UnaryHistory bridgeSource ∧
+            UnaryHistory readback ∧ UnaryHistory publicRead ∧
+              Cont leftSource rightSource bridgeSource ∧
+                Cont leftEndpoint rightEndpoint sumEndpoint ∧ Cont sumEndpoint budget readback ∧
+                  Cont readback routes publicRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle bridgeSource pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier bridgeRoute publicRoute bridgePkg publicPkg
+  obtain ⟨leftSourceUnary, rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, _transportsUnary, routesUnary,
+    _provenanceUnary, _localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute,
+    readbackRoute, _provenanceRoute, provenancePkg⟩ := carrier
+  have bridgeSourceUnary : UnaryHistory bridgeSource :=
+    unary_cont_closed leftSourceUnary rightSourceUnary bridgeRoute
+  have sumEndpointUnary : UnaryHistory sumEndpoint :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary sumEndpointRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed sumEndpointUnary budgetUnary readbackRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed readbackUnary routesUnary publicRoute
+  exact
+    ⟨leftSourceUnary, rightSourceUnary, bridgeSourceUnary, readbackUnary, publicReadUnary,
+      bridgeRoute, sumEndpointRoute, readbackRoute, publicRoute, provenancePkg, bridgePkg,
+      publicPkg⟩
 
 end BEDC.Derived.RegularCauchySumUp

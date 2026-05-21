@@ -203,4 +203,12 @@ instance dyadicToleranceTriangleLedgerNontrivial :
         intro h
         cases h⟩
 
+theorem DyadicToleranceTriangleLedger_window_endpoint_separation
+    (Dn Im In Em En M Q T H C P N : BHist) :
+    DyadicToleranceTriangleLedgerUp.mk (BHist.e0 BHist.Empty) Dn Im In Em En M Q T H C P N ≠
+      DyadicToleranceTriangleLedgerUp.mk (BHist.e1 BHist.Empty) Dn Im In Em En M Q T H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  cases h
+
 end BEDC.Derived.DyadicToleranceTriangleLedgerUp

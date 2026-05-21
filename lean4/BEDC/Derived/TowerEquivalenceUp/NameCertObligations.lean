@@ -85,4 +85,35 @@ theorem TowerEquivalence_ledger_descent_stability
     cont_respects_hsame sameLedger sameDescent ledgerRoute ledgerRoute'
   exact ⟨rfl, rfl, routeUnary', sameRoute⟩
 
+theorem TowerEquivalenceCarrier_endpoint_refusal
+    {R L D B H endpoint ledgerRoute descentRoute transportRoute : BHist} :
+    UnaryHistory R ->
+      UnaryHistory L ->
+        UnaryHistory D ->
+          UnaryHistory B ->
+            UnaryHistory H ->
+              Cont R L endpoint ->
+                Cont endpoint D ledgerRoute ->
+                  Cont ledgerRoute B descentRoute ->
+                    Cont descentRoute H transportRoute ->
+                      UnaryHistory endpoint ∧ UnaryHistory ledgerRoute ∧
+                        UnaryHistory descentRoute ∧ UnaryHistory transportRoute ∧
+                          Cont R L endpoint ∧ Cont endpoint D ledgerRoute ∧
+                            Cont ledgerRoute B descentRoute ∧
+                              Cont descentRoute H transportRoute := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro unaryR unaryL unaryD unaryB unaryH endpointRoute ledgerRouteRow descentRouteRow
+    transportRouteRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed unaryR unaryL endpointRoute
+  have ledgerRouteUnary : UnaryHistory ledgerRoute :=
+    unary_cont_closed endpointUnary unaryD ledgerRouteRow
+  have descentRouteUnary : UnaryHistory descentRoute :=
+    unary_cont_closed ledgerRouteUnary unaryB descentRouteRow
+  have transportRouteUnary : UnaryHistory transportRoute :=
+    unary_cont_closed descentRouteUnary unaryH transportRouteRow
+  exact
+    ⟨endpointUnary, ledgerRouteUnary, descentRouteUnary, transportRouteUnary, endpointRoute,
+      ledgerRouteRow, descentRouteRow, transportRouteRow⟩
+
 end BEDC.Derived.TowerEquivalenceUp

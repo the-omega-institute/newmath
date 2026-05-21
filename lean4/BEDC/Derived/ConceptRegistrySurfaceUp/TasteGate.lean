@@ -1,11 +1,19 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ConceptRegistrySurfaceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -198,5 +206,122 @@ theorem ConceptRegistrySurfaceTasteGate_single_carrier_alignment :
       ⟨conceptRegistrySurfaceFieldFaithful⟩,
       ⟨conceptRegistrySurfaceNontrivial⟩,
       rfl⟩
+
+theorem ConceptRegistrySurface_forbidden_reading_refusal_certificate [AskSetup] [PackageSetup]
+    {C T G R S F U H P N refusedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle F pkg ->
+      PkgSig bundle N pkg ->
+        hsame refusedRead F ->
+          conceptRegistrySurfaceFields (ConceptRegistrySurfaceUp.mk C T G R S F U H P N) =
+              [C, T, G, R, S, F, U, H, P, N] ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row refusedRead ∨ hsame row F ∨ hsame row N)
+              (fun row : BHist => hsame row refusedRead ∨ hsame row F ∨ hsame row N)
+              (fun row : BHist =>
+                (hsame row F ∧ PkgSig bundle F pkg) ∨
+                  (hsame row N ∧ PkgSig bundle N pkg))
+              hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame
+  intro pkgF pkgN refusedSame
+  have sourceRefused :
+      (fun row : BHist => hsame row refusedRead ∨ hsame row F ∨ hsame row N)
+        refusedRead := by
+    exact Or.inl (hsame_refl refusedRead)
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row refusedRead ∨ hsame row F ∨ hsame row N)
+        (fun row : BHist => hsame row refusedRead ∨ hsame row F ∨ hsame row N)
+        (fun row : BHist =>
+          (hsame row F ∧ PkgSig bundle F pkg) ∨
+            (hsame row N ∧ PkgSig bundle N pkg))
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro refusedRead sourceRefused
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | inl rowRefused =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) rowRefused)
+        | inr tail =>
+            cases tail with
+            | inl rowF =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) rowF))
+            | inr rowN =>
+                exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) rowN))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      cases source with
+      | inl rowRefused =>
+          exact Or.inl ⟨hsame_trans rowRefused refusedSame, pkgF⟩
+      | inr tail =>
+          cases tail with
+          | inl rowF =>
+              exact Or.inl ⟨rowF, pkgF⟩
+          | inr rowN =>
+              exact Or.inr ⟨rowN, pkgN⟩
+  }
+  exact ⟨rfl, cert⟩
+
+theorem ConceptRegistrySurface_export_exactness_certificate [AskSetup] [PackageSetup]
+    {C T G R S F U H P N localRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle P pkg →
+      hsame localRead N →
+        conceptRegistrySurfaceFields (ConceptRegistrySurfaceUp.mk C T G R S F U H P N) =
+            [C, T, G, R, S, F, U, H, P, N] ∧
+          SemanticNameCert
+            (fun row : BHist => hsame row N)
+            (fun row : BHist =>
+              hsame row C ∨ hsame row T ∨ hsame row G ∨ hsame row R ∨ hsame row S ∨
+                hsame row F ∨ hsame row U ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+            (fun row : BHist => hsame row localRead ∧ PkgSig bundle P pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame
+  intro pkgP localReadSameName
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row N)
+        (fun row : BHist =>
+          hsame row C ∨ hsame row T ∨ hsame row G ∨ hsame row R ∨ hsame row S ∨
+            hsame row F ∨ hsame row U ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+        (fun row : BHist => hsame row localRead ∧ PkgSig bundle P pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N (hsame_refl N)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨hsame_trans source (hsame_symm localReadSameName), pkgP⟩
+  }
+  exact ⟨rfl, cert⟩
 
 end BEDC.Derived.ConceptRegistrySurfaceUp

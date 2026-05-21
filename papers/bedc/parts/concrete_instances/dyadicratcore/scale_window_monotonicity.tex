@@ -37,6 +37,34 @@ Now apply \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. The te
 Therefore the whole finite widening chain is cofinal in the displayed dyadic comparison route, and the exclusion clauses from the cited theorems remove host rational order, quotient equality, completed Real endpoints, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore finite widening-chain induction]
+\label{thm:dyadicratcore-finite-widening-chain-induction}
+Let $I$ be a BEDC-visible invariant on accepted $\DyadicRatCoreUp$ scale-window packets. Suppose $I$ holds for an initial accepted packet, and suppose one displayed positive-unary exponent-window widening preserves $I$ whenever the widening is witnessed only by the scale transport, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows of \autoref{def:dyadicratcore-scale-window-packet}. Then $I$ holds for the terminal packet of any finite positive-unary widening chain starting at the initial packet.
+
+The induction surface imports no host rational order, quotient equality, hidden denominator selector, selected $\RealUp$ endpoint, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Proceed by finite induction on the displayed widening chain. The empty chain has the initial packet as its terminal packet, so the base assumption gives $I$ directly.
+
+For the step, write the chain as a shorter displayed widening chain followed by one positive-unary exponent-window widening. The induction hypothesis gives $I$ on the intermediate accepted packet. Apply scale-window monotonicity, \autoref{thm:dyadicratcore-scale-window-monotonicity}, to the last displayed widening; its output supplies exactly the transported scale row, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows required by the one-step preservation hypothesis.
+
+The one-step preservation hypothesis therefore transfers $I$ from the intermediate packet to the terminal packet. Repeating this finite argument reaches the terminal packet of the original chain, and the exclusion clause is inherited from the accepted packet rows and from scale-window monotonicity.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore successor scale-window nesting]
+\label{thm:dyadicratcore-successor-scale-window-nesting}
+Let $P$ be an accepted $\DyadicRatCoreUp$ scale-window packet, and let $P^{+}$ be obtained from $P$ by one displayed positive-unary successor widening of the exponent window. Then $P$ nests inside $P^{+}$ as the same finite dyadic source surface: the signed mantissa row, denominator ledger, common-exponent comparison row, distance and radius rows, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ support of $P$ are carried into the corresponding rows of $P^{+}$.
+
+This one-successor nesting imports no host rational order, quotient equality, hidden denominator selector, selected $\RealUp$ endpoint, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Apply scale-window monotonicity, \autoref{thm:dyadicratcore-scale-window-monotonicity}, to the displayed successor widening. It gives the transported dyadic comparison row and identifies the allowed support as displayed scale transport, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ data.
+
+View the successor widening as the one-step finite chain. The finite widening-chain induction theorem, \autoref{thm:dyadicratcore-finite-widening-chain-induction}, then specializes its preservation surface to the invariant saying that the original signed mantissa, denominator ledger, comparison row, distance and radius rows, and displayed support rows remain visible inside the terminal packet.
+
+Finally use RegSeqRat bridge handoff exactness, \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. The widened packet is still the public DyadicRatCore envelope consumed by $\RegSeqRatUp$ and exposed to $\StreamNameUp$, so the nesting is a finite packet inclusion rather than a passage through host rational order, quotient equality, hidden denominator selectors, selected $\RealUp$ endpoints, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore scale-window terminal fusion]
 \label{thm:dyadicratcore-scale-window-terminal-fusion}
 If two finite chains of positive-unary exponent-window widenings of a $\DyadicRatCoreUp$ scale-window packet have a common terminal exponent, then they fuse into the same terminal DyadicRatCore comparison packet for $\StreamNameUp$ and $\RegSeqRatUp$ consumers. The fused packet is reached only through the displayed scale transports, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows of \autoref{def:dyadicratcore-scale-window-packet}.
@@ -69,4 +97,38 @@ For the $\RegSeqRatUp$ face, use \autoref{thm:dyadicratcore-regseqrat-bridge-han
 For the $\RealUp$ face, apply the dependency route \autoref{thm:real-dyadic-streamname-regseqrat-dependency-route}. The Real seal-visible read factors through the displayed $\StreamNameUp$ and $\RegSeqRatUp$ consumer faces, so it inherits the same terminal DyadicRatCore packet rather than adding a separate dyadic source.
 
 The exclusion clauses in the scale-window packet, terminal fusion, bridge handoff, and dependency route remove quotient stream equality, selected limits, host rational order, hidden denominator selectors, and ambient completeness. Hence every accepted consumer read over the terminal scale-window packet exposes the same dyadic face.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore RegSeqRat radius-window normal form]
+\label{thm:dyadicratcore-regseqrat-radius-window-normal-form}
+Let an accepted $\RegSeqRatUp$ readback expose its dyadic face through a finite positive-unary widening chain of a $\DyadicRatCoreUp$ scale-window packet. Then, on BEDC-visible rows, that readback is equivalent to the normal form consisting of the terminal $\DyadicRatCoreUp$ scale-window packet together with the $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ readback face, the local $\RealUp$ seal face, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+The normal form contains no quotient rational, quotient stream equality, selected limit, countable-choice selector, metric-completeness row, host rational order, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply finite widening-chain induction, \autoref{thm:dyadicratcore-finite-widening-chain-induction}. Use as invariant the assertion that the accepted readback is presented by the visible signed mantissa, exponent window, denominator ledger, common-exponent comparison, distance and radius rows, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows of the current scale-window packet.
+
+Next apply terminal fusion, \autoref{thm:dyadicratcore-scale-window-terminal-fusion}. Any two finite routes to the same terminal positive-unary exponent therefore present one terminal $\DyadicRatCoreUp$ comparison packet, so the readback cannot retain a route-dependent dyadic face.
+
+Now use consumer face determinacy, \autoref{thm:dyadicratcore-scale-window-consumer-face-determinacy}. The terminal packet determines the $\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ readback face, and the local $\RealUp$ seal face from the same displayed dyadic rows.
+
+Finally apply the RegSeqRat terminal radius-window boundary, \autoref{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary}. It forces the accepted terminal readback through the finite radius window attached to the public DyadicRatCore envelope. Combining this boundary with the previous steps gives exactly the stated terminal packet plus the three consumer faces and shared support rows.
+
+The exclusion clauses in the induction surface, terminal fusion, consumer determinacy, and terminal radius-window boundary remove quotient rationals, quotient stream equality, selected limits, countable-choice selectors, metric-completeness rows, host rational order, and ambient Real completeness coordinates. Thus the accepted $\RegSeqRatUp$ readback has precisely the displayed BEDC-visible normal form.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore directed radius-refinement L10 request support]
+\label{thm:dyadicratcore-directed-radius-refinement-l10-request-support}
+Let an accepted $\StreamNameUp$ finite-window request, an accepted $\RegSeqRatUp$ readback request, or an accepted $\RealUp$ seal request present its dyadic face through a directed finite family of $\DyadicRatCoreUp$ positive-unary radius-window refinements. Then every such request has one common terminal $\DyadicRatCoreUp$ scale-window support packet. That packet consists only of the signed mantissa row, exponent window, denominator ledger, common-exponent comparison, distance and radius rows, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows.
+
+The support packet excludes quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness rows, host rational order, and ambient $\RealUp$ completeness. Thus the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ finite request routes cannot split into separate dyadic radius ledgers once their faces are presented by the same directed finite $\DyadicRatCoreUp$ refinement family.
+\end{theorem}
+\begin{proof}
+Apply scale-window cofinality, \autoref{thm:dyadicratcore-scale-window-cofinality}, to each branch of the directed finite refinement family. Every branch reaches its visible terminal dyadic comparison route through displayed scale transports, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ data.
+
+For two branches with the displayed common terminal window, use terminal fusion, \autoref{thm:dyadicratcore-scale-window-terminal-fusion}. Directedness supplies the finite comparison point, and fusion identifies the terminal signed mantissa row, exponent window, denominator ledger, common-exponent comparison, distance and radius rows, and displayed support rows as one $\DyadicRatCoreUp$ scale-window packet.
+
+Next apply consumer face determinacy, \autoref{thm:dyadicratcore-scale-window-consumer-face-determinacy}. The accepted $\StreamNameUp$ finite-window request, $\RegSeqRatUp$ readback request, and $\RealUp$ seal request read the same terminal dyadic face from that packet, so none of the three consumers carries an independent dyadic support route.
+
+Finally use the RegSeqRat radius-window normal form, \autoref{thm:dyadicratcore-regseqrat-radius-window-normal-form}. It repacks the $\RegSeqRatUp$ readback and local $\RealUp$ seal face into the terminal $\DyadicRatCoreUp$ packet together with the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The exclusion clauses from the cited results remove quotient rational equality, quotient stream equality, selected limits, countable choice, metric-completeness rows, host rational order, and ambient $\RealUp$ completeness, leaving exactly the common terminal support packet stated above.
 \end{proof}

@@ -351,6 +351,16 @@ theorem CauchySequenceSpaceCarrier_regular_family_exhaustion [AskSetup] [Package
     ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary, handoffUnary,
       sealUnary, familyRoute, toleranceRoute, completionRoute, routeToHandoff, handoffToSeal,
       routePkg⟩
+theorem CauchySequenceSpaceCarrier_regseqrat_streamname_real_seal_factorization [AskSetup] [PackageSetup]
+    {family schedule window tolerance completion transport route name handoff sealRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceSpaceCarrier family schedule window tolerance completion transport route name bundle pkg -> Cont route name handoff -> Cont handoff completion sealRead ->
+      UnaryHistory family ∧ UnaryHistory schedule ∧ UnaryHistory window ∧ UnaryHistory tolerance ∧ UnaryHistory completion ∧ UnaryHistory handoff ∧ UnaryHistory sealRead ∧ Cont family schedule window ∧ Cont window tolerance completion ∧ Cont route name handoff ∧ Cont handoff completion sealRead ∧ PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier routeNameHandoff handoffCompletionSeal
+  obtain ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary, _transportUnary, routeUnary, nameUnary, familyScheduleWindow, windowToleranceCompletion, _completionTransportRoute, routePkg, _namePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff := unary_cont_closed routeUnary nameUnary routeNameHandoff
+  have sealReadUnary : UnaryHistory sealRead := unary_cont_closed handoffUnary completionUnary handoffCompletionSeal
+  exact ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary, handoffUnary, sealReadUnary, familyScheduleWindow, windowToleranceCompletion, routeNameHandoff, handoffCompletionSeal, routePkg⟩
 
 theorem CauchySequenceSpaceCarrier_limit_seal_factorization [AskSetup] [PackageSetup]
     {family schedule window tolerance completion transport route name handoff «seal» : BHist}
@@ -550,5 +560,38 @@ theorem CauchySequenceSpaceCarrier_public_real_observation_consumer [AskSetup]
   have observationUnary : UnaryHistory observation :=
     unary_cont_closed inventoryUnary completionUnary inventoryToObservation
   exact ⟨cert, observationUnary, inventoryToObservation, routePkg, namePkg⟩
+
+theorem CauchySequenceSpaceCarrier_public_nonescape [AskSetup] [PackageSetup]
+    {family schedule window tolerance completion transport route name handoff sealRow inventory
+      zHandoff zSeal zInventory : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceSpaceCarrier family schedule window tolerance completion transport route name
+        bundle pkg ->
+      Cont route name handoff ->
+        Cont handoff completion sealRow ->
+          Cont sealRow route inventory ->
+            (hsame handoff (BHist.e0 zHandoff) -> False) ∧
+              (hsame sealRow (BHist.e0 zSeal) -> False) ∧
+                (hsame inventory (BHist.e0 zInventory) -> False) ∧
+                  PkgSig bundle route pkg ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier routeToHandoff handoffToSeal sealToInventory
+  obtain ⟨_familyUnary, _scheduleUnary, _windowUnary, _toleranceUnary, completionUnary,
+    _transportUnary, routeUnary, nameUnary, _familyRoute, _toleranceRoute, _completionRoute,
+    routePkg, namePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed routeUnary nameUnary routeToHandoff
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed handoffUnary completionUnary handoffToSeal
+  have inventoryUnary : UnaryHistory inventory :=
+    unary_cont_closed sealUnary routeUnary sealToInventory
+  exact
+    ⟨fun sameHandoff =>
+        unary_no_zero_extension (unary_transport handoffUnary sameHandoff),
+      fun sameSeal =>
+        unary_no_zero_extension (unary_transport sealUnary sameSeal),
+      fun sameInventory =>
+        unary_no_zero_extension (unary_transport inventoryUnary sameInventory),
+      routePkg, namePkg⟩
 
 end BEDC.Derived.CauchySequenceSpaceUp

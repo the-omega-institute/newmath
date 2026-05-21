@@ -157,6 +157,48 @@ For three requests, use \autoref{thm:regseqrat-shared-window-triple-overlap-cocy
 Finally apply \autoref{thm:regseqrat-real-seal-selector-nonescape}. Since the selector surface has no row for quotient streams, host real equality, selected limits, completion points, choice data, ambient completeness rows, or second seals, the correspondence cannot be enlarged by any of those objects.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite four-face current-phase exit coverage]
+\label{thm:regseqrat-finite-four-face-current-phase-exit-coverage}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $C$ be a finite current-phase RegSeqRat consumer reading $P$ through the Phase Real and Completion exit surface. The consumer is accepted by that exit surface if and only if it displays the same four visible faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+over one finite $\BHist$ surface, with the same componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ rows as the shared-window selector surface of \autoref{def:regseqrat-shared-window-selector-surface}.
+
+Equivalently, the current-phase exit test is exactly the finite four-face coverage test that reads the dyadic common-scale ledger, the public StreamName common refinement, the RegSeqRat selector/readback surface, and the terminal Real finite-cover face as one BEDC-visible boundary. It does not accept or compare quotient streams, selected limits, host real equality, countable choice, metric-completeness data, aggregate formalstatus rows, bridge rows, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with an accepted current-phase consumer. Apply \autoref{thm:streamname-common-refinement-public-exactness} to read its StreamName schedule as a public finite common refinement, with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows preserved.
+
+Next apply \autoref{thm:regseqrat-dyadic-triangle-selector-equivalence}. This identifies the dyadic common-scale triangle ledger, the RegSeqRat shared-window selector surface, and the terminal Real seal read as three presentations of the same finite four-face boundary. Finally use \autoref{thm:real-l10-finite-cover-face-pasting-equivalence} to paste the terminal $\RealUp$ finite-cover face onto that boundary without adding any completion datum.
+
+For the reverse direction, assume the consumer displays exactly those four faces over the same finite rows. The StreamName common-refinement theorem supplies the public refinement face, the RegSeqRat dyadic-triangle equivalence supplies the selector/readback face, and the Real finite-cover pasting theorem supplies the terminal finite-cover face. These three certificates repack the displayed rows as the Phase Real and Completion exit surface.
+
+The exclusions are part of the same packaging. None of the three cited surfaces has a row for quotient streams, selected limits, host real equality, countable choice, metric-completeness data, aggregate formalstatus rows, bridge rows, or ambient $\RealUp$ completeness. Therefore acceptance by the current-phase exit surface is exactly acceptance of the four displayed finite faces and no stronger comparison.
+\end{proof}
+
+\begin{theorem}[RegSeqRat selector-composition visible boundary]
+\label{thm:regseqrat-selector-composition-visible-boundary}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$, $T$, and $U$ be accepted finite requests to $P$ whose pairwise faces display the shared-window selector surface of \autoref{def:regseqrat-shared-window-selector-surface}. The route that first reads the $S \to T$ selector and then reads the $T \to U$ selector determines the same terminal $\RealUp$ seal boundary as the direct $S \to U$ selector if and only if the two-step and direct presentations agree on exactly the displayed $\DyadicRatCoreUp$ common-scale rows, $\StreamNameUp$ schedule rows, $\RegSeqRatUp$ classifier and tail-budget rows, terminal $\RealUp$ seal row, componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The comparison is only a comparison of the BEDC-visible terminal boundary over the ordered handoff
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+It has no coordinate for quotient streams, host real equality, selected limits, completion points, choice data, ambient completeness, or any second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:regseqrat-shared-window-triple-overlap-cocycle}. The two-step read through $S \to T$ and $T \to U$ and the direct read through $S \to U$ are restrictions of one triple-overlap selector surface, so their visible StreamName, DyadicRatCore, RegSeqRat, terminal Real, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows are the same rows.
+
+Next use \autoref{thm:regseqrat-dyadic-triangle-selector-equivalence}. It identifies the common-scale dyadic triangle ledger with the RegSeqRat selector surface and the terminal $\RealUp$ seal read on the same ordered four-face route. Thus agreement of the displayed rows is exactly agreement of the terminal visible boundary for the two-step and direct selector presentations.
+
+For the reverse direction, suppose the terminal $\RealUp$ seal boundary exposed by the two-step route agrees with the boundary exposed by the direct $S \to U$ route. Apply \autoref{thm:regseqrat-shared-window-terminal-pullback-equivalence} to recover the shared-window selector surface from the terminal boundary on each compared route.
+
+The recovered selector surfaces have the same displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, terminal $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Applying \autoref{thm:regseqrat-shared-window-triple-overlap-cocycle} repacks those rows as one triple-overlap surface, and \autoref{thm:regseqrat-dyadic-triangle-selector-equivalence} presents the same data as the dyadic triangle ledger.
+
+Finally, \autoref{thm:regseqrat-real-seal-selector-nonescape} excludes quotient streams, host real equality, selected limits, completion points, choice data, ambient completeness rows, and second seal coordinates from both routes. Hence no hidden coordinate can separate the two-step selector read from the direct selector read once the displayed terminal boundary agrees.
+\end{proof}
+
 \begin{theorem}[RegSeqRat Real seal selector non-escape]
 \label{thm:regseqrat-real-seal-selector-nonescape}
 A $\RealUp$ seal consumer of the RegSeqRat shared-window selector surface receives only the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and distance rows, $\RegSeqRatUp$ classifier and tail-budget rows, componentwise $\hsame$ rows, displayed $\Cont$ replay rows, $\Pkg$ provenance, local $\NameCert$ provenance, and the terminal $\RealUp$ seal row. The consumer receives no quotient stream, host real equality, selected limit, hidden selector, detached completeness row, or second $\RealUp$ seal.

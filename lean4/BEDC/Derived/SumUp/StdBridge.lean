@@ -33,4 +33,12 @@ theorem SumUp_concrete_to_schema {Left Right : BHist → Prop}
       · intro r r' classifier
         exact SumHistoryClassifier_right_hsame_inversion classifier
 
+theorem SumUp_StdBridge {Left Right : BHist → Prop}
+    {LeftEq RightEq : BHist → BHist → Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq) :
+    SemanticNameCert (SumHistoryCarrier Left Right) (SumHistoryCarrier Left Right)
+      (SumHistoryCarrier Left Right) (SumHistoryClassifier Left Right LeftEq RightEq) := by
+  -- BEDC touchpoint anchor: BHist hsame NameCert SemanticNameCert
+  exact sum_history_semantic_name_certificate leftCert rightCert
+
 end BEDC.Derived.SumUp

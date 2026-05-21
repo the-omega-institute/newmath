@@ -99,3 +99,231 @@ completion-point, completeness, choice, or seal-coordinate channel from
 entering the route. Therefore the two certified cofinal requests determine the
 same $\RealUp$ seal-visible source section and nothing beyond that section.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-selector cofinal refinement monotonicity]
+\label{thm:regseqrat-tail-selector-cofinal-refinement-monotonicity}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, let $S$ be a public finite
+request served by a certified cofinal RegSeqRat tail selector, and let $S'$ be
+a certified cofinal refinement of $S$. Suppose $S'$ preserves the displayed
+$\StreamNameUp$ window rows, the $\DyadicRatCoreUp$ endpoint, radius, and
+finite dyadic-distance ledgers, the $\RegSeqRatUp$ classifier and regularity
+rows, the componentwise $\hsame$ rows, the displayed $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RegSeqRatUp}$ rows of
+$S$. Then $S$ and $S'$ determine the same $\RealUp$ seal-visible source
+section.
+
+Conversely, any certified cofinal refinement of $S$ that determines the same
+$\RealUp$ seal-visible source section must preserve exactly those displayed
+rows. The monotonicity claim is only for the finite L10
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route. It does
+not expose quotient streams, selected limits, choice data, metric-completeness
+rows, aggregate status rows, bridge rows, second seal coordinates, or ambient
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-tail-selector-window-seal-lock}. Both $S$ and $S'$ are
+forced through the selected finite $\StreamNameUp$ window, the dyadic radius
+ledger, the RegSeqRat tail-budget handoff, and the local Real seal row. Since
+$S'$ is a certified cofinal refinement preserving the displayed rows of $S$,
+the refinement cannot change the locked window-seal route.
+
+Next use
+\autoref{thm:regseqrat-tail-selector-cofinal-request-determinacy}. Regard $S$
+and $S'$ as the two certified cofinal requests in that theorem. The preserved
+schedule, dyadic endpoint, radius, distance, classifier, regularity, $\hsame$,
+$\Cont$, package, and local naming rows identify their seal-visible request
+surfaces, so the two requests determine the same $\RealUp$ source section.
+
+Read that source section through
+\autoref{thm:regseqrat-finite-request-source-section}. This identifies the
+section with exactly the displayed rows named in the statement, not with a
+quotient stream, selected limit, choice datum, metric-completeness row,
+aggregate status row, bridge row, or ambient completion claim.
+
+For the converse, suppose a certified cofinal refinement determines the same
+$\RealUp$ seal-visible source section. The finite-request source-section
+description forces equality on each displayed row of the section. Finally
+apply \autoref{thm:regseqrat-tail-budget-terminal-real-seal}: the terminal seal
+has no additional channel through which a changed endpoint, radius, distance,
+classifier, regularity, $\hsame$, $\Cont$, package, or local NameCert row could
+be hidden. Hence same-section cofinal refinements are precisely the refinements
+that preserve those displayed rows.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-selector bundle induction Real seal]
+\label{thm:regseqrat-tail-selector-bundle-induction-real-seal}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, let
+$\mathcal P:\mathsf{ProbeBundle}$ be a finite bundle of certified unary
+observations, and suppose one certified cofinal RegSeqRat tail selector serves
+every bundled observation row equipped with its $\mathsf{UnaryHistory}$ and
+$\mathsf{InBundle}$ witnesses. Let $\mathcal F$ be a finite family of
+$\RealUp$ seal requests over $P$ whose members preserve the displayed
+$\StreamNameUp$ window rows, the $\DyadicRatCoreUp$ endpoint, radius, and
+finite dyadic-distance ledgers, the RegSeqRat classifier and regularity rows,
+the componentwise $\hsame$ rows, the displayed $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RegSeqRatUp}$ rows.
+Then the entire family factors through one BEDC-visible $\RealUp$ seal source
+section.
+
+The factorization is exactly the finite source section assembled from the
+bundle rows, the shared tail selector, the common dyadic scale-window ledger,
+the RegSeqRat classifier and regularity data, componentwise $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows. It exports no quotient
+stream, host real equality, selected limit, completion point, countable-choice
+selector, metric-completeness datum, aggregate status row, bridge row, second
+seal coordinate, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First collect the finite observations. Apply
+\autoref{thm:streamname-tail-compatible-window-cofinal-bundle-lock} to the
+shared tail-selector route and the finite $\mathsf{ProbeBundle}$, and then use
+\autoref{thm:streamname-tail-compatible-window-cofinal-exhaustion}. These
+results place every bundled seal request on one displayed StreamName packet
+whose rows are the unary observation certificates, the bundle-membership
+witnesses, the shared finite-window budget, pointwise RegSeqRat handoff rows,
+and the support rows $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.
+
+Next attach the dyadic face to that packet. Apply
+\autoref{thm:dyadicratcore-common-scale-window-triangle-ledger} to the finite
+dyadic faces and, equivalently at the terminal boundary, use
+\autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}.
+The common window supplies the endpoint, radius, distance, scale, transport,
+continuation, package, and local DyadicRatCore naming rows consumed by the
+StreamName and RegSeqRat faces.
+
+Now run induction over the finite family $\mathcal F$. The empty family is
+served by the collected bundle packet itself. For the step adjoining one seal
+request, apply \autoref{thm:regseqrat-tail-selector-window-seal-lock} to place
+the new request on the selected StreamName window, dyadic ledger, tail-budget
+handoff, and local Real seal row. Then compare it with the already collected
+family through
+\autoref{thm:regseqrat-tail-selector-cofinal-request-determinacy}; the
+preserved schedule, dyadic, classifier, regularity, support, provenance, and
+local naming rows force the same seal-visible source section.
+
+Finally apply \autoref{thm:regseqrat-tail-budget-terminal-real-seal} and
+\autoref{thm:regseqrat-real-seal-handoff}. The terminal tail-budget result
+keeps the finite family on the single regular-rational source route, and the
+Real handoff identifies that route with the public $\RealUp$ seal source
+surface. Since none of the cited packets contains rows for quotient streams,
+host real equality, selected limits, completion points, countable choice,
+metric completeness, aggregate status, bridge data, or ambient $\RealUp$
+completeness, the family factors through exactly one BEDC-visible seal source
+section.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-selector finite-cover gluing]
+\label{thm:regseqrat-tail-selector-finite-cover-gluing}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal U$ be a finite
+certified cover of $\RealUp$ seal requests over $P$. Suppose every member of
+$\mathcal U$ is served by a certified cofinal RegSeqRat tail selector, and
+suppose every overlap in the cover preserves the displayed $\StreamNameUp$
+window rows, the $\DyadicRatCoreUp$ endpoint, radius, and finite
+dyadic-distance ledgers, the $\RegSeqRatUp$ regularity and classifier rows,
+the componentwise $\hsame$ rows, the displayed $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RegSeqRatUp}$ rows.
+Then the finite cover glues through one BEDC-visible $\RealUp$ seal source
+section.
+
+The glued section is only the finite
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ seal route
+displayed by those requests. It does not identify quotient streams, host real
+equality, selected limits, completion points, countable-choice selectors,
+metric-completeness rows, aggregate status rows, bridge rows, second seal
+coordinates, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First treat the finite cover as a finite family of seal requests over the
+accepted packet $P$. Apply
+\autoref{thm:regseqrat-tail-selector-bundle-induction-real-seal} to collect
+the cover members into one seal-visible source section whose rows are the
+displayed StreamName windows, dyadic endpoint, radius, and distance ledgers,
+RegSeqRat classifier and regularity rows, componentwise $\hsame$, displayed
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert_{\RegSeqRatUp}$ data.
+
+Next check agreement on overlaps. For two cover members, use
+\autoref{thm:regseqrat-tail-selector-cofinal-request-determinacy}. The overlap
+hypotheses identify exactly the displayed schedule, dyadic, classifier,
+regularity, support, provenance, and local naming rows, so the two members
+determine the same $\RealUp$ seal-visible source section on their common
+subrequest.
+
+Certified refinements do not change the glued section. Apply
+\autoref{thm:regseqrat-tail-selector-cofinal-refinement-monotonicity} whenever
+an overlap is represented by a smaller cofinal tail-selector request. The
+refinement keeps the same displayed rows, and the converse direction in that
+theorem rules out a hidden change in endpoint, radius, classifier, support,
+package, or local naming data.
+
+Now attach the dyadic face uniformly across the cover. Use
+\autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}
+to read the common scale-window endpoint, radius, distance, transport,
+continuation, package, and local naming rows as one four-face dyadic pullback
+ledger. This is the dyadic component consumed by the RegSeqRat tail-selector
+route on every cover member.
+
+Finally pass from the glued regular-rational section to the Real seal route.
+Apply \autoref{thm:regseqrat-real-seal-handoff} together with
+\autoref{thm:regseqrat-tail-budget-terminal-real-seal}. These results keep the
+glued cover on the finite Real seal source surface and leave no BEDC-visible
+row for quotient streams, host real equality, selected limits, completion
+points, countable choice, metric completeness, aggregate status, bridge data,
+a second seal coordinate, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-selector diagonal cover source coherence]
+\label{thm:regseqrat-tail-selector-diagonal-cover-source-coherence}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal U$ be a finite
+certified cover of $\RealUp$ seal requests over $P$. Suppose every member of
+$\mathcal U$ is served by a certified cofinal RegSeqRat tail selector. Suppose
+also that every pairwise overlap preserves the displayed $\StreamNameUp$
+window rows, the $\DyadicRatCoreUp$ endpoint, radius, and finite
+dyadic-distance ledgers, the RegSeqRat classifier and regularity rows, the
+componentwise $\hsame$ rows, the displayed $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RegSeqRatUp}$ rows.
+Then all cover members determine one diagonal BEDC-visible $\RealUp$ seal
+source section.
+
+The diagonal source section is the single finite
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ source section
+seen simultaneously by every cover member and every overlap. It contains no
+quotient stream, selected limit, host real equality, countable-choice row,
+metric-completeness row, aggregate status row, bridge row, second seal
+coordinate, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+First glue the finite cover at the visible seal surface. Apply
+\autoref{thm:regseqrat-tail-selector-finite-cover-gluing}. This produces one
+BEDC-visible $\RealUp$ seal source section whose displayed rows are exactly
+the StreamName windows, dyadic endpoint, radius, and distance ledgers,
+RegSeqRat classifier and regularity rows, componentwise $\hsame$, displayed
+$\Cont$, $\mathsf{Pkg}$ provenance, and local
+$\NameCert_{\RegSeqRatUp}$ rows carried by the cover.
+
+Next make the gluing independent of the chosen cover member. For each member,
+apply \autoref{thm:regseqrat-tail-selector-cofinal-request-determinacy}. The
+overlap hypotheses identify the same schedule, dyadic ledger, classifier,
+regularity, support, provenance, and local naming rows, so the section read
+from that member is the section read from the glued cover.
+
+Now compare different cofinal tail selectors that serve the same overlap.
+Apply \autoref{thm:regseqrat-tail-selector-cofinal-refinement-monotonicity}.
+Refining a request may shrink the finite tail window, but it preserves the
+displayed rows that feed the seal source section. Hence all refinements still
+read the same diagonal section.
+
+The remaining coherence is the common finite window. Use
+\autoref{thm:streamname-tail-compatible-window-cofinal-bundle-lock} to lock
+the cofinal StreamName windows across the cover, and use
+\autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}
+to read the endpoint, radius, distance, transport, continuation, package, and
+local naming rows through the same four-face dyadic pullback.
+
+These two locks leave only the displayed finite source section. Since the
+cited packets export no quotient streams, selected limits, host real equality,
+countable choice, metric completeness, aggregate status, bridge data, second
+seal coordinate, or ambient $\RealUp$ completeness, no extra BEDC-visible row
+can separate one cover member from another. The cover members therefore
+determine one diagonal $\RealUp$ seal source section.
+\end{proof}

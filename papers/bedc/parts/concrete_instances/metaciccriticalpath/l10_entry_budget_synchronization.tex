@@ -65,3 +65,81 @@ The frontier removes every substitute. Theorem~\ref{thm:metacic-critical-path-re
 
 Finally apply the diamond. Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} recovers exactly the four projections from an accepted public entry. If two owners were identified, or if an aggregate route-status token replaced one owner, one of those projections would no longer recover its named source row. Such an entry therefore lacks the required four-coordinate factorization and is not an accepted finite route.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 prefix dependency induction]
+\label{thm:metacic-critical-path-l10-prefix-dependency-induction}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+any Phase Real or Completion route admitted by Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} has four finite route prefixes: the $\DyadicRatCoreUp$ budget prefix, the $\StreamNameUp$ schedule prefix, the $\RegSeqRatUp$ readback prefix, and the $\RealUp$ seal prefix. These prefixes occur in that source order, each factors through the displayed packet rows of Theorems~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization}, \ref{thm:metacic-critical-path-real-completion-frontier-filter}, \ref{thm:metacic-critical-path-phase-real-dependency-diamond}, and~\ref{thm:metacic-critical-path-four-source-owner-noncollapse}, and each preserves the obstruction, discharge, host, continuation, package, and ledger rows $O,D,H,C,P,L$. No prefix may be replaced by quotient stream equality, selected host limits, host equality, trichotomy, open-cover compactness, closed subject reduction, full consistency, or completed-real data.
+\end{theorem}
+\begin{proof}
+Begin with the entry requirement. Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization} admits a Phase Real route only after the packet displays the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows through finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+The frontier supplies the exclusion step. Theorem~\ref{thm:metacic-critical-path-real-completion-frontier-filter} says that Completion-facing claims survive only when backed by those displayed rows, so the forbidden substitutes have no route coordinate to occupy.
+
+The diamond gives the constructive prefix split. Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} recovers the four projections from an accepted entry, hence the route can be read as the ordered finite prefix chain from budget to schedule to readback to seal.
+
+Finally keep the owners and packet rows fixed. Theorem~\ref{thm:metacic-critical-path-four-source-owner-noncollapse} prevents any two source owners from collapsing and rules out aggregate route-status replacements. Therefore each prefix remains attached to its own source row while carrying forward the common obstruction, discharge, host, continuation, package, and ledger rows $O,D,H,C,P,L$.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path RealCompleteness exact-boundary gate]
+\label{thm:metacic-critical-path-realcompleteness-exact-boundary-gate}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+any Phase Real and Completion route admitted by the dependency diamond of Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} and then consumed as a $\RealCompletenessUp$ exact-boundary handoff factors through the four displayed faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and then through the accepted $\RealCompletionExactBoundaryUp$ packet of Theorem~\ref{thm:real-completion-exact-boundary-four-face-exactness}. The gate exports no quotient stream equality, selected host limit, host equality, trichotomy, open-cover compactness, closed subject reduction, full consistency, metric completeness, aggregate bridge token, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read the MetaCIC side. Theorems~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization}, \ref{thm:metacic-critical-path-real-completion-frontier-filter}, and \ref{thm:metacic-critical-path-phase-real-dependency-diamond} force any admitted Phase Real and Completion route to display the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows before it can be consumed downstream.
+
+The prefix and owner constraints keep this route finite. Theorems~\ref{thm:metacic-critical-path-four-source-owner-noncollapse} and~\ref{thm:metacic-critical-path-l10-prefix-dependency-induction} prevent the four owners from collapsing, preserve the packet rows $O,D,H,C,P,L$, and rule out substitutions by quotient streams, selected host limits, host equality, trichotomy, open-cover compactness, subject reduction, consistency, or completed-real data.
+
+Now pass to the RealCompleteness handoff. Theorem~\ref{thm:real-completeness-exact-boundary-handoff} says that an exact-boundary consumer for $\RealCompletenessUp$ must be read through an accepted $\RealCompletionExactBoundaryUp$ packet, and Theorem~\ref{thm:real-completeness-exact-boundary-finite-induction} reduces every finite consumer extension to the same boundary route.
+
+Finally apply the four-face exactness theorem. Theorem~\ref{thm:real-completion-exact-boundary-four-face-exactness} identifies the boundary faces as exactly the dyadic, stream, regular-sequence, and Real faces exported by the accepted packet. Hence the downstream handoff is a repacking of the same four finite faces rather than a new completion object, and the excluded quotient, host, compactness, consistency, metric-completeness, bridge, and $\RealUp$ completeness principles have no exported coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path exact-boundary prefix determinacy]
+\label{thm:metacic-critical-path-exact-boundary-prefix-determinacy}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+suppose that a Phase Real and Completion route is admitted by the dependency diamond of Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} and is then consumed by $\RealCompletionExactBoundaryUp$ through the RealCompleteness exact-boundary gate of Theorem~\ref{thm:metacic-critical-path-realcompleteness-exact-boundary-gate}. Then the ordered four prefixes of Theorem~\ref{thm:metacic-critical-path-l10-prefix-dependency-induction} determine the same exact-boundary handoff as Theorem~\ref{thm:real-completion-exact-boundary-four-face-exactness}: the $\DyadicRatCoreUp$ budget prefix, the $\StreamNameUp$ schedule prefix, the $\RegSeqRatUp$ readback prefix, and the $\RealUp$ seal prefix, all carried by the common $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the two accepted packets.
+
+Consequently every accepted downstream handoff is this four-prefix finite boundary. It is not determined by quotient stream equality, selected host limits, host equality, trichotomy, open-cover compactness, closed subject reduction, full consistency, metric completeness, aggregate bridge tokens, ambient $\RealUp$ completeness, or any hidden completion coordinate.
+\end{theorem}
+\begin{proof}
+Begin on the MetaCIC side. Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization} exposes the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows through finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance attached to $K$.
+
+The frontier and diamond then force the same ordered source list. Theorems~\ref{thm:metacic-critical-path-real-completion-frontier-filter} and~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} admit only routes backed by those four displayed rows, while Theorem~\ref{thm:metacic-critical-path-four-source-owner-noncollapse} prevents owner collapse or replacement by an aggregate route-status token.
+
+Use prefix induction to read the route constructively. Theorem~\ref{thm:metacic-critical-path-l10-prefix-dependency-induction} orders the prefixes as dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal, and keeps $O,D,H,C,P,L$ attached to the same packet rows throughout the route.
+
+Now pass through the RealCompleteness exact-boundary handoff. Theorems~\ref{thm:real-completeness-exact-boundary-handoff} and~\ref{thm:real-completeness-exact-boundary-finite-induction} reduce every accepted exact-boundary consumer to the matched four faces, with only the displayed $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The exact boundary exports exactly the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces, followed by the structural rows of the accepted packet. Thus the MetaCIC route and the Real-completion boundary name the same finite four-prefix handoff, and no quotient, host, compactness, consistency, metric-completeness, bridge, ambient-completeness, or hidden completion coordinate remains available.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 four-face source discipline]
+\label{thm:metacic-critical-path-l10-four-face-source-discipline}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+any Phase Real and Completion consumer entering through $K$ must preserve four distinct local source obligations. The $\DyadicRatCoreUp$ face supplies only the finite dyadic observation budget, the $\StreamNameUp$ face supplies only the finite source schedule, the $\RegSeqRatUp$ face supplies only the regular-rational readback route, and the $\RealUp$ face supplies only the terminal seal handoff.
+
+The MetaCIC packet coordinates the order, refusal boundary, owner noncollapse, and exact-boundary handoff for those four faces. It does not discharge any face's carrier, classifier, stability row, local closurestatus, formalstatus, leantarget, or bridge row. In particular, no quotient stream equality, selected host limit, host equality, trichotomy, open-cover compactness, countable choice, closed subject reduction, full consistency, metric completeness, aggregate bridge token, or $\RealUp$ completeness claim can replace one of the four local source obligations.
+\end{theorem}
+\begin{proof}
+Begin with the synchronized entry route. Theorem~\ref{thm:metacic-critical-path-l10-entry-budget-synchronization} displays the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows before Phase Real entry, while Theorem~\ref{thm:metacic-critical-path-phase-real-dependency-diamond} recovers exactly those four projections from an accepted public entry.
+
+Use prefix induction and the exact-boundary determinacy result to keep the route ordered. Theorem~\ref{thm:metacic-critical-path-l10-prefix-dependency-induction} reads the consumer path as the ordered prefix chain from dyadic budget to schedule to readback to seal. Theorem~\ref{thm:metacic-critical-path-exact-boundary-prefix-determinacy} then identifies the downstream exact-boundary handoff with the same four prefixes, so the MetaCIC packet contributes coordination of the route rather than a fifth source face.
+
+Now read the objectwise status surface. Theorems~\ref{thm:metacic-critical-path-l10-status-bridge-obligation}, \ref{thm:metacic-critical-path-phase-real-status-product-readiness}, and~\ref{thm:metacic-critical-path-l10-face-leantarget-locality} force closurestatus, formalstatus, leantarget, and bridge rows to remain local to $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Theorems~\ref{thm:real-l10-face-status-noncollapse} and~\ref{thm:real-l10-face-leantarget-noncollapse} exclude any fused status or target row.
+
+It remains to exclude substitutes for the local source obligations. Theorems~\ref{thm:metacic-critical-path-phase-real-exit-refusal-boundary}, \ref{thm:metacic-critical-path-four-face-deficiency-refusal}, and~\ref{thm:metacic-critical-path-phase-real-audit-clean-floor} rule out quotient stream equality, selected host limits, host equality, trichotomy, open-cover compactness, countable choice, and aggregate route credentials as replacements for a missing face. The exact-boundary gate and the four-object exit certificate additionally refuse closed subject reduction, full consistency, metric completeness, aggregate bridge tokens, and $\RealUp$ completeness as exported coordinates. Therefore the MetaCIC packet can coordinate the L10 route, but each of the four faces remains a separate local source obligation with its own carrier, classifier, stability, status, target, and bridge audit rows.
+\end{proof}

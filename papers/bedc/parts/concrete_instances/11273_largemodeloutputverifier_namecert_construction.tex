@@ -48,6 +48,7 @@ It does not compare model meanings outside the displayed verification packet.
 \label{thm:large-model-output-verifier-namecert-obligations}
 For the carrier of \autoref{def:large-model-output-verifier-carrier}, the local $\NameCert_{\LargeModelOutputVerifierUp}$ surface consists exactly of six obligation rows: carrier admission for $V=(H,A,M,T,I,Q,C,F,R,K,P,N)$; sibling exposure through $H,A,M,T,I$; verifier and proof-check exposure through $Q,C$; refusal and route exactness through $F,R$; replay and provenance exactness through $K,P$; and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LargeModelOutputVerifierUp.LargeModelOutputVerifierNameCertObligations}
 \begin{proof}
 Project the carrier of \autoref{def:large-model-output-verifier-carrier}. The admitted packet displays the five sibling rows $H,A,M,T,I$ together with verifier, proof-check, refusal, route, replay, provenance, and local-name rows.
 
@@ -62,6 +63,7 @@ Finally $K$, $P$, and $N$ replay the same displayed rows as continuation, packag
 \label{thm:large-model-output-verifier-public-acceptance-boundary}
 Every public export from an accepted $\LargeModelOutputVerifierUp$ packet must pass through the verifier row $Q$ and proof-check row $C$ after the sibling rows $H,A,M,T,I$ and before the route row $R$. A route that exports the output without $Q$ and $C$ is not a $\LargeModelOutputVerifierUp$ acceptance route.
 \end{theorem}
+\leanchecked{BEDC.Derived.LargeModelOutputVerifierUp.LargeModelOutputVerifierUp\_StdBridge}
 \begin{proof}
 Use the NameCert obligations of \autoref{thm:large-model-output-verifier-namecert-obligations}. They require sibling exposure, verifier exposure, proof-check exposure, refusal exposure, route exactness, replay, provenance, and local naming before a public output is exported.
 

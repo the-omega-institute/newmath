@@ -2,7 +2,9 @@
 \label{ch:concrete-instances-auditsystem-namecert}
 \origin{ai}
 
-The $\AuditSystemUp$ packet realizes the total audit theory of \autoref{subsec:philosophy-total-audit} as a finite NameCert surface. It sits beside the kernel-acceptance audit witness of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, and the failure-certificate packet of \autoref{ch:concrete-instances-failurecertificate-namecert}. Those siblings expose kernel acceptance, positive claim registration, and typed refusal separately; this packet binds admissible claims, positive certificates, failure certificates, cannot-claim rows, export grades, and ledger closure in one finite audit carrier.
+The $\AuditSystemUp$ packet realizes the total audit theory of \autoref{subsec:philosophy-total-audit} as a finite NameCert surface. It sits beside the kernel-acceptance audit witness of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, and the failure-certificate packet of \autoref{ch:concrete-instances-failurecertificate-namecert}. As a composite over those sibling audit surfaces, the packet bundles their acceptance, registry, and refusal rows into one finite audit carrier. Those siblings expose kernel acceptance, positive claim registration, and typed refusal separately; this packet binds admissible claims, positive certificates, failure certificates, cannot-claim rows, export grades, and ledger closure in one finite audit carrier.
+
+As a composite over $\KernelAcceptanceAuditWitnessUp$, $\ClaimRegistryLayerUp$, $\FailureCertificateUp$, and $\RegistryExportConsistencyGateUp$, the packet records the joint audit surface rather than a primitive carrier discovery.
 
 \begin{definition}[Audit system carrier]
 \label{def:audit-system-carrier}

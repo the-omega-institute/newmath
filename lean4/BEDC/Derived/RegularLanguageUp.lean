@@ -102,6 +102,37 @@ theorem RegularLanguageAutomatonPacket_run_prefix_restriction [AskSetup] [Packag
   exact
     ⟨prefUnary, prefRunUnary, prefEndpointUnary, sameRun, sameEndpoint, pkgSig⟩
 
+theorem RegularLanguageAutomatonPacket_empty_word_acceptance_exactness [AskSetup]
+    [PackageSetup]
+    {alphabet states start accept transition endpoint transport routes provenance startRun
+      startEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition BHist.Empty startRun
+        endpoint transport routes provenance bundle pkg ->
+      Cont start BHist.Empty startRun ->
+        Cont startRun transition startEndpoint ->
+          PkgSig bundle provenance pkg ->
+            UnaryHistory start ∧ UnaryHistory startRun ∧ UnaryHistory startEndpoint ∧
+              hsame start startRun ∧ hsame endpoint startEndpoint ∧
+                Cont start BHist.Empty startRun ∧ Cont startRun transition startEndpoint ∧
+                  PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro packet startEmptyRun startTransitionEndpoint provenancePkg
+  obtain ⟨_alphabetUnary, _statesUnary, startUnary, _acceptUnary, transitionUnary,
+    _emptyUnary, _startRunUnary, _endpointUnary, _transportUnary, _routesUnary,
+    _provenanceUnary, storedStartRun, storedEndpoint, _routesRow, _pkgSig⟩ := packet
+  have startRunUnary : UnaryHistory startRun :=
+    unary_cont_closed startUnary unary_empty startEmptyRun
+  have startEndpointUnary : UnaryHistory startEndpoint :=
+    unary_cont_closed startRunUnary transitionUnary startTransitionEndpoint
+  have sameStart : hsame start startRun :=
+    cont_deterministic (cont_right_unit start) startEmptyRun
+  have sameEndpoint : hsame endpoint startEndpoint :=
+    cont_deterministic storedEndpoint startTransitionEndpoint
+  exact
+    ⟨startUnary, startRunUnary, startEndpointUnary, sameStart, sameEndpoint, startEmptyRun,
+      startTransitionEndpoint, provenancePkg⟩
+
 theorem RegularLanguageAutomatonPacket_classified_word_transport [AskSetup] [PackageSetup]
     {alphabet states start accept transition word run endpoint transport routes provenance run'
       transition' endpoint' : BHist}
@@ -346,5 +377,41 @@ theorem RegularLanguageAutomatonPacket_scoped_kernel_dependency_envelope
       obtain ⟨_sameEnvelope, _rowUnary, rowSig⟩ := sourceRow
       exact ⟨rowSig, provenanceUnary, routesUnary⟩
   }
+
+theorem RegularLanguageAutomatonPacket_prefix_bridge_consumer_boundary [AskSetup]
+    [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance pref
+      prefRun prefEndpoint boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      hsame word pref ->
+        Cont start pref prefRun ->
+          Cont prefRun transition prefEndpoint ->
+            Cont prefEndpoint transport boundary ->
+              PkgSig bundle boundary pkg ->
+                UnaryHistory pref ∧ UnaryHistory prefRun ∧ UnaryHistory prefEndpoint ∧
+                  UnaryHistory boundary ∧ hsame run prefRun ∧ hsame endpoint prefEndpoint ∧
+                    Cont prefEndpoint transport boundary ∧ PkgSig bundle boundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro packet sameWord prefRunRow prefEndpointRow boundaryRow boundarySig
+  obtain ⟨_alphabetUnary, _statesUnary, startUnary, _acceptUnary, transitionUnary,
+    wordUnary, _runUnary, _endpointUnary, transportUnary, _routesUnary, _provenanceUnary,
+    runRow, endpointRow, _routesRow, _pkgSig⟩ := packet
+  have prefUnary : UnaryHistory pref :=
+    unary_transport wordUnary sameWord
+  have prefRunUnary : UnaryHistory prefRun :=
+    unary_cont_closed startUnary prefUnary prefRunRow
+  have prefEndpointUnary : UnaryHistory prefEndpoint :=
+    unary_cont_closed prefRunUnary transitionUnary prefEndpointRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed prefEndpointUnary transportUnary boundaryRow
+  have sameRun : hsame run prefRun :=
+    cont_respects_hsame (hsame_refl start) sameWord runRow prefRunRow
+  have sameEndpoint : hsame endpoint prefEndpoint :=
+    cont_respects_hsame sameRun (hsame_refl transition) endpointRow prefEndpointRow
+  exact
+    ⟨prefUnary, prefRunUnary, prefEndpointUnary, boundaryUnary, sameRun, sameEndpoint,
+      boundaryRow, boundarySig⟩
 
 end BEDC.Derived.RegularLanguageUp

@@ -108,6 +108,55 @@ quotient, host, choice, completeness, metric-completion, or $\StdBridge$
 coordinates is exported.
 \end{proof}
 
+\begin{theorem}[RealCompleteness finite diagonal induction]
+\label{thm:real-realcompleteness-finite-diagonal-induction}
+Let $S$ be an accepted $\RealUp$ seal consumed by a Phase Real and Completion
+interface read, and let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be the accepted $\RealCompletenessUp$ diagonal packet that supplies the read.
+Finite induction over the displayed packet extracts, in order, the
+$\DyadicRatCoreUp$ tolerance face $D$, the $\StreamNameUp$ finite-window face
+$W$, the $\RegSeqRatUp$ readback face $Q$, and the terminal $\RealUp$ seal face
+$S$. At every induction stage the only transport and support rows are
+$\BHist$, componentwise $\hsame$, $\Cont$ replay, $\Pkg$ provenance, and the
+local $\NameCert$ rows carried by $D,W,Q,S,H,C,P,N$.
+
+Consequently the diagonal induction exports no quotient stream, selected host
+limit, countable choice, ambient completeness, metric-completeness, aggregate
+formalstatus, aggregate bridge, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+For the base case, read the displayed seal row from
+\autoref{thm:real-realcompleteness-exit-route}. That theorem identifies the
+accepted consumer endpoint with the diagonal packet
+$R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)$ and keeps all exported coordinates inside the
+finite route named by the packet.
+
+For the induction step, peel one displayed packet coordinate at a time. The
+first projection exposes the dyadic tolerance face $D$; the next exposes the
+StreamName finite-window face $W$; the next exposes the RegSeqRat readback face
+$Q$; the terminal projection exposes the local Real seal face $S$. Each peel
+preserves the route already extracted because the only transport data available
+are the componentwise $\hsame$ rows, the $\Cont$ replay rows, the $\Pkg$
+provenance rows, and the local $\NameCert$ support rows.
+
+The extracted route is then exhausted by
+\autoref{thm:real-completeness-l10-exit-interface-exhaustion}. It identifies the
+same consumer read with exactly the four L10 boundary faces
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and it rules
+out every coordinate not carried by the finite packet.
+
+Finally invoke \autoref{thm:real-streamname-regseqrat-dyadic-audit-route}. It
+orders the extracted faces as the dyadic ledger, the finite-window StreamName
+rows, the regular-rational readback rows, and the terminal Real seal. Since no
+other row appears in either the induction or the exhaustion theorem, quotient
+streams, selected host limits, countable choice, ambient completeness,
+metric-completeness, aggregate formalstatus, aggregate bridge, and $\RealUp$
+completeness remain unavailable.
+\end{proof}
+
 \begin{theorem}[Real L10 four-face audit-clean handoff]
 \label{thm:real-l10-four-face-audit-clean-handoff}
 Let $S$ be an accepted $\RealUp$ seal consumed by a Phase Real and Completion L10 exit packet. The packet is a valid audit-clean handoff only when the $\DyadicRatCoreUp$ arithmetic face, the $\StreamNameUp$ countable-name face, the $\RegSeqRatUp$ regular-Cauchy face, and the local $\RealUp$ seal face are each read through their own closurestatus and formalstatus records. The paper-closure grade of one face never promotes the Lean-verification grade of another face, and a Lean audit token never promotes a paper-closure grade.
@@ -210,6 +259,49 @@ The source order is fixed by \autoref{thm:real-streamname-regseqrat-dyadic-audit
 Finally apply \autoref{thm:real-l10-four-face-exit-criterion}. It gives the exact acceptance criterion for this ordered packet: the packet is admissible exactly when the four faces appear with their local records and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
 
 The off-table coordinates are excluded by the same criterion together with the exit interface exhaustion. Quotient streams, host real equality, selected limits, countable choice, completeness, metric-completion, and $\StdBridge$ rows are not among the certificate rows, so none can be read from the Phase Real and Completion endpoint.
+\end{proof}
+
+\begin{theorem}[Real L10 four-object phase exit no-collapse]
+\label{thm:real-l10-four-object-phase-exit-no-bridge-collapse}
+The four-object L10 phase-exit certificate over
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+cannot be reread as a bridge-axis row, an aggregate formalstatus row, a selected-limit operation, a quotient construction, or a completeness theorem for $\RealUp$.
+
+It remains exactly the finite BEDC exit certificate whose data are the dyadic tolerance ledger, the finite-window StreamName rows, the RegSeqRat readback rows, the local Real seal row, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-completeness-l10-exit-interface-exhaustion}. It exhausts the L10 exit interface by the four displayed boundary faces and the stated BEDC support rows, so no fifth carrier or bridge-axis coordinate is available inside the endpoint read.
+
+Next apply \autoref{thm:real-l10-four-face-audit-clean-handoff}. The handoff keeps the closurestatus and formalstatus records face-local: the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows each supply their own audit coordinate, and no aggregate formalstatus row can replace that componentwise route.
+
+The route order is fixed by \autoref{thm:real-streamname-regseqrat-dyadic-audit-route}. Hence a selected-limit operation or quotient construction cannot be inserted between the dyadic ledger, finite-window name rows, regular-rational readback rows, and the local Real seal without leaving the certified source route.
+
+Finally use \autoref{thm:real-l10-four-face-exit-criterion}. It accepts precisely the ordered four-face packet with the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The excluded completeness consequences are then exactly those named in \autoref{thm:real-up-no-completeness-from-seal}, so the certificate does not collapse into $\RealUp$ completeness or any standard bridge reading.
+\end{proof}
+
+\begin{theorem}[Real L10 terminal route pullback square]
+\label{thm:real-l10-terminal-route-pullback-square}
+An accepted Phase Real and Completion endpoint read of a $\RealUp$ seal is the pullback square whose four boundary maps are the $\DyadicRatCoreUp$ terminal tolerance exhaustion, the $\StreamNameUp$ terminal pullback factorization, the $\RegSeqRatUp$ finite-cover audit-threshold gluing, and the local $\RealUp$ seal route:
+$$
+\begin{gathered}
+\DyadicRatCoreUp \to \StreamNameUp,\\
+\DyadicRatCoreUp \to \RegSeqRatUp,\\
+\StreamNameUp \to \RealUp,\\
+\RegSeqRatUp \to \RealUp.
+\end{gathered}
+$$
+The square is determined only by the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows carried by those four faces. No quotient stream, selected limit, countable-choice row, metric-completion datum, aggregate formalstatus row, bridge row, or $\RealUp$ completeness theorem can fill a missing face of the square.
+\end{theorem}
+\begin{proof}
+First read the dyadic boundary through \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}. Its terminal tolerance exhaustion supplies the finite dyadic ledger and exposes the same $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$ faces with only the shared support rows.
+
+Next apply \autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization} and \autoref{thm:regseqrat-audit-threshold-finite-cover-gluing}. The StreamName factorization identifies the upstream terminal route through the StreamName, RegSeqRat, DyadicRatCore, and Real faces, while the RegSeqRat gluing reads compatible finite-cover audit-threshold data as one terminal section over those faces.
+
+The local endpoint is fixed by \autoref{thm:real-l10-four-face-exit-criterion}. It accepts exactly the ordered four-face packet and its visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, so the three upstream maps and the local Real seal route form one pullback square rather than four unrelated claims.
+
+Finally use \autoref{thm:real-l10-four-object-phase-exit-no-bridge-collapse}. It excludes bridge-axis rows, aggregate formalstatus rows, selected limits, quotient constructions, and completeness theorems from the certificate. Therefore none of the excluded rows can replace a missing boundary map or supply an additional face of the square.
 \end{proof}
 
 \begin{theorem}[RealUp seal handoff has no completeness consequence]

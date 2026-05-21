@@ -134,6 +134,7 @@ The lock contains no quotient stream, host sequence equality, selected limit,
 ambient Real completeness, metric-completeness datum, countable-choice row, or
 standard bridge row.
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.StreamNameFiniteSectionRealRegSeqDyadicLock}
 \begin{proof}
 First use \autoref{thm:streamname-finite-section-pullback-exactness}. The
 accepted section $Q$ is already pulled back to the $\StreamNameUp$ finite
@@ -156,6 +157,92 @@ through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 The excluded quotient, host-equality, limit-selection, completeness,
 countable-choice, and bridge coordinates therefore have no row from which a
 consumer could read them.
+\end{proof}
+
+\begin{theorem}[StreamName finite-section terminal coverage]
+\label{thm:streamname-finite-section-surjects-real-regseq-dyadic-lock}
+Every displayed terminal four-face lock for the current L10 Phase Real and
+Completion $\StreamNameUp$ packet is realized by an accepted finite request
+section. More explicitly, suppose the displayed lock consists of a
+$\StreamNameUp$ finite window, a $\DyadicRatCoreUp$ ledger, a $\RegSeqRatUp$
+readback, a $\RealUp$ seal boundary, and the support rows $\BHist$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Then there is an
+accepted finite request section $Q$ whose exposed terminal route is exactly
+that lock, and every Real-facing or completion-facing consumer reads $Q$
+through those rows.
+
+The realized section contains no quotient stream, host sequence equality,
+selected limit, ambient Real completeness, metric-completeness datum,
+countable-choice row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-real-completion-four-object-terminal-pullback}. The
+displayed four faces and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows form the terminal pullback surface consumed by the Real and
+completion endpoints.
+
+Next use \autoref{thm:streamname-finite-section-pullback-exactness} to read
+that terminal surface as a finite request-section surface of the same packet.
+The exactness clause supplies the accepted finite section $Q$ whose exposed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces are
+the displayed lock.
+
+Apply \autoref{thm:streamname-finite-section-classifier-determinacy} to this
+section. Determinacy makes the carrier and classifier verdicts of $Q$ unique
+at the displayed terminal route, so no consumer can choose a different finite
+section with the same four faces but a different public verdict.
+
+Finally use
+\autoref{thm:streamname-regseqrat-dyadic-real-obligation-handoff}. The handoff
+routes all carrier, classifier, stability, ledger, and non-escape obligations
+through the same support rows. Thus quotient streams, host sequence equality,
+selected limits, ambient completeness, metric-completeness data,
+countable-choice rows, and bridge rows remain outside the realized finite
+section.
+\end{proof}
+
+\begin{theorem}[StreamName terminal face iff]
+\label{thm:streamname-terminal-face-iff}
+Let $Q$ and $Q'$ be accepted finite request sections of the current L10 Phase
+Real and Completion $\StreamNameUp$ packet. The public finite-section carrier
+verdicts and classifier verdicts of $Q$ and $Q'$ agree if and only if $Q$ and
+$Q'$ expose the same terminal four-face route consisting of the
+$\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ ledger, the
+$\RegSeqRatUp$ readback, the $\RealUp$ seal, and the displayed $\BHist$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+
+This criterion contains no quotient stream, host sequence equality, selected
+limit, ambient $\RealUp$ completeness, metric-completeness datum,
+countable-choice row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume that the public carrier and classifier
+verdicts of $Q$ and $Q'$ agree. Apply
+\autoref{thm:streamname-finite-section-classifier-determinacy} to read both
+verdicts at the terminal finite route determined by the visible faces.
+
+Next apply \autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}.
+The agreed verdicts cannot be reread through any Real-facing or
+completion-facing coordinate outside the $\StreamNameUp$ finite window,
+$\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, and the
+displayed support rows.
+
+Now use \autoref{thm:streamname-real-completion-four-object-terminal-pullback}.
+It recovers the common four-face terminal pullback from the agreed verdicts and
+the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For the reverse direction, assume that $Q$ and $Q'$ expose the same terminal
+four-face route with the displayed support rows. By
+\autoref{thm:streamname-finite-section-pullback-exactness}, each section is
+pulled back to exactly that visible route.
+
+Finally apply \autoref{thm:streamname-open-phase-four-face-terminality}. The
+two pullbacks have no second terminal face on which the carrier or classifier
+could vary, so their public finite-section carrier verdicts and classifier
+verdicts agree. The excluded quotient, host-equality, limit-selection,
+completeness, choice, metric-completion, and bridge coordinates are not part of
+the route in either direction.
 \end{proof}
 
 \begin{theorem}[StreamName four-face terminal completeness]
@@ -583,4 +670,114 @@ four-face classifier surface, not a comparison of quotient streams or host
 sequences. The lock also excludes selected limits, ambient Real completeness,
 metric-completeness data, countable-choice rows, and standard bridge rows from
 the common-refinement uniqueness claim.
+\end{proof}
+
+\begin{theorem}[StreamName finite-section cover descent normal form]
+\label{thm:streamname-finite-section-cover-descent-normal-form}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase Real and
+Completion $\StreamNameUp$ request sections. Suppose that a public
+cover-descent surface restricts to these sections, and that each restriction
+and each accepted overlap displays the same $\StreamNameUp$ finite-window row,
+the same $\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row,
+the same $\RealUp$ seal boundary, the displayed $\BHist$, and the
+componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then the
+surface is equivalent, as a public cover-descent reflection surface, to the
+canonical normal form consisting exactly of the finite family rows, the
+accepted overlap compatibility rows, the common-refinement classifier surface,
+the four-face consumer route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, and the nonescape
+exclusions for quotient stream equality, host sequence equality, selected
+limits, ambient Real completeness, metric-completeness data, countable choice,
+and standard bridge rows.
+
+Conversely, any such finite family rows together with accepted overlap
+compatibility rows, the common-refinement classifier surface, the four-face
+consumer route, and the same nonescape exclusions construct a public
+cover-descent reflection surface with those restrictions.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite cover. In the empty and singleton cases the
+normal form is the displayed restriction row itself, with no hidden consumer
+route beyond the StreamName finite window, DyadicRatCore ledger, RegSeqRat
+readback, and RealUp seal boundary.
+
+For the induction step, separate the last accepted section from the already
+glued subcover. Apply
+\autoref{thm:streamname-finite-section-descent-gluing} to paste the subcover
+surface and the last section along their accepted overlaps. The induction
+hypothesis identifies the subcover surface with its finite family rows,
+overlap rows, four-face route, and nonescape exclusions, so the glued surface
+has no additional support row available.
+
+Next apply \autoref{thm:streamname-finite-section-restriction-exactness} to
+the glued surface and to every finite subfamily obtained during the induction.
+Each restriction reads the same finite-window, ledger, readback, seal
+boundary, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; hence the
+public surface is determined by the displayed cover data and not by a chosen
+enumeration of the family.
+
+Now use
+\autoref{thm:streamname-finite-section-cover-descent-classifier-reflection} to
+package the glued data as a cover-descent classifier reflection surface. Apply
+\autoref{thm:streamname-finite-cover-common-refinement-classifier-uniqueness}
+to compare any two presentations through their finite common refinement. The
+comparison identifies the common-refinement classifier surface as the unique
+classifier component of the normal form.
+
+Finally apply
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}. The lock
+keeps every Real-facing and completion-facing consumer on the four visible
+faces, so quotient stream equality, host sequence equality, selected limits,
+ambient Real completeness, metric-completeness data, countable-choice rows,
+and standard bridge rows cannot enter the public reflection surface.
+
+For the converse direction, start with the finite family rows and accepted
+overlap compatibility rows. The same descent-gluing theorem constructs the
+public surface, classifier reflection supplies the classifier row, and
+common-refinement uniqueness makes the construction independent of the finite
+presentation. The lock then supplies exactly the stated nonescape exclusions,
+which is the required public cover-descent reflection surface.
+\end{proof}
+
+\begin{theorem}[StreamName finite-section cover-descent support minimality]
+\label{thm:streamname-finite-section-cover-descent-support-minimality}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase Real and
+Completion $\StreamNameUp$ request sections satisfying the overlap hypotheses
+of
+\autoref{thm:streamname-finite-section-cover-descent-normal-form}. Then the
+canonical cover-descent normal form is accepted exactly on the four visible
+faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$,
+together with the displayed $\BHist$, componentwise $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows.
+
+Deleting any one visible face or any one displayed support row prevents the
+same carrier verdict and the same classifier verdict from being presented to
+Real-facing or completion-facing consumers. No quotient stream equality, host
+sequence equality, selected limits, ambient $\RealUp$ completeness,
+metric-completeness data, countable-choice row, standard bridge row, aggregate
+formalstatus row, or bridge row can replace the deleted coordinate.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-finite-section-cover-descent-normal-form}. The
+cover-descent surface reduces to the finite family rows, the accepted overlap
+compatibility rows, the common-refinement classifier surface, and the
+four-face consumer route through $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$.
+
+On that normal form, apply
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}. Its
+terminal support packet is accepted exactly on the four visible faces and the
+displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows, and deletion of any one of these coordinates loses the same
+Real-facing or completion-facing carrier and classifier verdicts.
+
+It remains to exclude substitute coordinates. Use
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock} on the same
+normal-form route. The lock keeps every consumer read on the finite StreamName
+window, DyadicRatCore ledger, RegSeqRat readback, and Real seal boundary, so
+quotient stream equality, host sequence equality, selected limits, ambient
+$\RealUp$ completeness, metric-completeness data, countable-choice rows,
+standard bridge rows, aggregate formalstatus rows, and bridge rows cannot
+restore the deleted face or support row.
 \end{proof}

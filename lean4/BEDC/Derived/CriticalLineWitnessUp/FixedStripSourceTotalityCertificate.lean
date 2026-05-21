@@ -75,4 +75,73 @@ theorem CriticalLineWitnessCarrier_fixed_strip_source_totality_certificate
     ⟨cert, unaryZ, unaryS, routeClosure.left, routeClosure.right.right.left, sourceUnary,
       ledgerUnary, sameH, routeQ, routeC, routeN, sourceRoute, ledgerRoute⟩
 
+theorem CriticalLineWitnessCarrier_fixed_strip_source_refusal_cover
+    {Z S M R Q H C P N sourceRead budgetRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont (append Z S) Q sourceRead ->
+        Cont sourceRead N budgetRead ->
+          SemanticNameCert
+              (fun row : BHist => hsame row budgetRead ∧ UnaryHistory row)
+              (fun row : BHist => hsame row budgetRead)
+              (fun row : BHist => hsame row budgetRead ∧ Cont sourceRead N budgetRead)
+              hsame ∧
+            UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+              UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory N ∧
+                UnaryHistory sourceRead ∧ UnaryHistory budgetRead ∧
+                  hsame H (append Z S) ∧ Cont M R Q ∧ Cont Q H C ∧ Cont C P N ∧
+                    Cont (append Z S) Q sourceRead ∧ Cont sourceRead N budgetRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet sourceRoute budgetRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have sourceBaseUnary : UnaryHistory (append Z S) :=
+    unary_cont_closed unaryZ unaryS (cont_intro rfl)
+  have unaryH : UnaryHistory H :=
+    unary_transport sourceBaseUnary (hsame_symm sameH)
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryQ unaryH routeC
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryC unaryP routeN
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed sourceBaseUnary unaryQ sourceRoute
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed sourceUnary unaryN budgetRoute
+  have sourceAtBudget : hsame budgetRead budgetRead ∧ UnaryHistory budgetRead :=
+    ⟨hsame_refl budgetRead, budgetUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row budgetRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row budgetRead)
+          (fun row : BHist => hsame row budgetRead ∧ Cont sourceRead N budgetRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro budgetRead sourceAtBudget
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, budgetRoute⟩
+  }
+  exact
+    ⟨cert, unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryH, unaryN, sourceUnary,
+      budgetUnary, sameH, routeQ, routeC, routeN, sourceRoute, budgetRoute⟩
+
 end BEDC.Derived.CriticalLineWitnessUp

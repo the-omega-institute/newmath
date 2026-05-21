@@ -416,6 +416,30 @@ theorem CriticalStripZetaZeroWitnessPacket_rh_premise_exhaustion [AskSetup] [Pac
     ⟨cert, premiseReadUnary, lineReadUnary, premiseSameTransport, lineReadSameRoute,
       stripZeroTransport, lineBoundaryRoute, endpointPkg⟩
 
+theorem CriticalStripZetaZeroWitnessPacket_rh_input_ledger [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint rhRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg →
+      Cont line boundary rhRead →
+        PkgSig bundle rhRead pkg →
+          UnaryHistory strip ∧ UnaryHistory zero ∧ UnaryHistory line ∧
+            UnaryHistory boundary ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+              UnaryHistory provenance ∧ UnaryHistory name ∧ UnaryHistory rhRead ∧
+                Cont line boundary rhRead ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle rhRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet rhRoute rhPkg
+  obtain ⟨stripUnary, zeroUnary, lineUnary, boundaryUnary, transportUnary, routeUnary,
+    provenanceUnary, nameUnary, _endpointUnary, _stripZeroTransport, _lineBoundaryRoute,
+    _transportRouteEndpoint, _endpointProvenanceName, _endpointSameTransportRoute,
+    endpointPkg⟩ := packet
+  have rhUnary : UnaryHistory rhRead :=
+    unary_cont_closed lineUnary boundaryUnary rhRoute
+  exact
+    ⟨stripUnary, zeroUnary, lineUnary, boundaryUnary, transportUnary, routeUnary,
+      provenanceUnary, nameUnary, rhUnary, rhRoute, endpointPkg, rhPkg⟩
+
 theorem CriticalStripZetaZeroWitnessPacket_zero_row_admission [AskSetup] [PackageSetup]
     {strip zero line boundary transport route provenance name endpoint zeroRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -486,5 +510,67 @@ theorem CriticalStripZetaZeroWitnessPacket_shared_source_binding [AskSetup] [Pac
   exact
     ⟨stripUnary, zeroUnary, routeUnary, sourceUnary, sourceRoute, stripRoute, zeroRoute,
       provenancePkg, sourcePkg⟩
+
+theorem CriticalStripZetaZeroWitnessPacket_premise_consumer_separation
+    [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint premiseRead lineRead
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      Cont strip zero premiseRead ->
+        Cont line boundary lineRead ->
+          Cont premiseRead lineRead consumerRead ->
+            PkgSig bundle consumerRead pkg ->
+              UnaryHistory strip ∧ UnaryHistory zero ∧ UnaryHistory line ∧
+                UnaryHistory boundary ∧ UnaryHistory premiseRead ∧ UnaryHistory lineRead ∧
+                  UnaryHistory consumerRead ∧ hsame premiseRead transport ∧
+                    hsame lineRead route ∧ Cont strip zero premiseRead ∧
+                      Cont line boundary lineRead ∧ Cont premiseRead lineRead consumerRead ∧
+                        PkgSig bundle endpoint pkg ∧ PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet premiseRoute lineRoute consumerRoute consumerPkg
+  obtain ⟨stripUnary, zeroUnary, lineUnary, boundaryUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, stripZeroTransport, lineBoundaryRoute,
+    _transportRouteEndpoint, _endpointProvenanceName, _endpointSameTransportRoute,
+    endpointPkg⟩ := packet
+  have premiseReadUnary : UnaryHistory premiseRead :=
+    unary_cont_closed stripUnary zeroUnary premiseRoute
+  have lineReadUnary : UnaryHistory lineRead :=
+    unary_cont_closed lineUnary boundaryUnary lineRoute
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed premiseReadUnary lineReadUnary consumerRoute
+  have premiseSameTransport : hsame premiseRead transport :=
+    cont_deterministic premiseRoute stripZeroTransport
+  have lineReadSameRoute : hsame lineRead route :=
+    cont_deterministic lineRoute lineBoundaryRoute
+  exact
+    ⟨stripUnary, zeroUnary, lineUnary, boundaryUnary, premiseReadUnary, lineReadUnary,
+      consumerReadUnary, premiseSameTransport, lineReadSameRoute, premiseRoute, lineRoute,
+      consumerRoute, endpointPkg, consumerPkg⟩
+
+theorem CriticalStripZetaZeroWitnessPacket_line_route_determinacy
+    [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint lineRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      Cont line boundary lineRead ->
+        PkgSig bundle lineRead pkg ->
+          hsame lineRead route ∧ UnaryHistory lineRead ∧ Cont line boundary route ∧
+            Cont line boundary lineRead ∧ PkgSig bundle endpoint pkg ∧
+              PkgSig bundle lineRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro packet lineRoute linePkg
+  obtain ⟨_stripUnary, _zeroUnary, lineUnary, boundaryUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, _stripZeroTransport, lineBoundaryRoute,
+    _transportRouteEndpoint, _endpointProvenanceName, _endpointSameTransportRoute,
+    endpointPkg⟩ := packet
+  have lineReadSameRoute : hsame lineRead route :=
+    cont_deterministic lineRoute lineBoundaryRoute
+  have lineReadUnary : UnaryHistory lineRead :=
+    unary_cont_closed lineUnary boundaryUnary lineRoute
+  exact
+    ⟨lineReadSameRoute, lineReadUnary, lineBoundaryRoute, lineRoute, endpointPkg, linePkg⟩
 
 end BEDC.Derived.CriticalStripZetaZeroWitnessUp

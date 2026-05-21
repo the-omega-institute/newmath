@@ -4,6 +4,8 @@
 
 The \MetacicNormalizationConfluenceBridgeUp{} packet binds the normalization audit route of \autoref{ch:concrete-instances-metacicnormalizationaudit-namecert} to the confluence audit route of \autoref{ch:concrete-instances-metacic-confluence-audit-namecert}, then records how the subject-reduction discharge ledger of \autoref{ch:concrete-instances-subjectreductiondischargeledger-namecert} and the closed-consistency assembly of \autoref{ch:concrete-instances-closed-consistency-assembly-namecert} may read the shared closed typed term boundary. It is a finite bridge packet for audit correspondence, not an unconditional closed subject-reduction theorem.
 
+The packet is composite over the normalization-audit, confluence-audit, subject-reduction discharge-ledger, and closed-consistency assembly rows. Its bridge row records the correspondence among those sibling packets rather than presenting an atomic carrier discovery.
+
 \begin{definition}[MetaCIC normalization-confluence bridge carrier]
 \label{def:metacic-normalization-confluence-bridge-carrier}
 A \MetacicNormalizationConfluenceBridgeUp{} carrier is a finite $\BHist$ packet
@@ -50,12 +52,49 @@ Because the bridge has no further coordinate, every accepted read is exhausted b
 \label{thm:metacic-normalization-confluence-bridge-route-boundary}
 Any accepted bridge packet whose normalization and confluence rows agree on the closed typed term through $T,H,C,P,L$ has no route to an unconditional closed subject-reduction theorem. The packet may hand the displayed discharge-ledger row $D$ to the closed-consistency assembly row $A$, but every such handoff remains inside $N,Q,D,A,T,H,C,P,L$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.MetacicNormalizationConfluenceBridgeRouteBoundary}
 \begin{proof}
 Read the agreement first through $T$. It compares the normalization and confluence routes only as displayed closed typed term rows; it does not add a preservation theorem.
 
 Next route the preservation side through $D$. The discharge ledger contains the four named preservation-obligation rows, so a consumer may cite those rows but cannot erase their boundary and obtain closed subject reduction for arbitrary closed proofs.
 
 Finally pass to $A$. The closed-consistency assembly can read the normal false-proof exclusion and the subject-reduction boundary, but it receives them as finite sibling rows under $H,C,P,L$. Thus the bridge remains a route-correspondence certificate rather than an unconditional theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization-confluence bridge transport obligations]
+\label{thm:metacic-normalization-confluence-bridge-transport-obligations}
+For an accepted \MetacicNormalizationConfluenceBridgeUp{} carrier $B=(N,Q,D,A,T,H,C,P,L)$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ transport preserve the separate bridge rows $N,Q,D,A,T$. The transported read may replay the normalization audit row $N$, the confluence audit row $Q$, the discharge-ledger row $D$, the closed-consistency assembly row $A$, and the typed-term correspondence row $T$, but it cannot collapse those rows into a subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier into its nine displayed coordinates. The transport row $H$ is componentwise, so it acts on $N,Q,D,A,T$ as separate row data rather than as a quotient over the sibling packets.
+
+The displayed $\Cont$ row $C$ replays the same bridge route after transport, while $\Pkg$ records the provenance of the four sibling packets. The local $\NameCert$ row $L$ names the transported certificate surface and does not add a new proof coordinate.
+
+Thus transport preserves exactly the rows already present in $B$. Since no coordinate of $B$ is an unconditional subject-reduction theorem, preserving the packet cannot manufacture one.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization-confluence bridge route exactness]
+\label{thm:metacic-normalization-confluence-bridge-route-exactness}
+Every accepted \MetacicNormalizationConfluenceBridgeUp{} bridge read is exhausted by $N,Q,D,A,T,H,C,P,L$. In particular, the read has no hidden typed-term selector, no quotient reduction equality, no host evaluator, no unconditional confluence theorem, no closed subject-reduction theorem, and no extra route outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Read the bridge through the carrier definition. Its displayed rows are exactly $N,Q,D,A,T,H,C,P,L$, with $T$ as the only row comparing the closed typed term routes and $H,C,P,L$ as structural transport, replay, provenance, and local naming rows.
+
+Any accepted route must therefore factor through one of those coordinates. The carrier definition exports no further selector and no equality quotient over reduction routes, so there is no place for a hidden typed-term selector or host evaluator to enter.
+
+The same exhaustion excludes unconditional metatheorems. Confluence is read only through $Q$, and preservation is read only through $D$ and the boundary row visible to $A$; neither read becomes a closed theorem detached from the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization-confluence bridge discharge boundary]
+\label{thm:metacic-normalization-confluence-bridge-discharge-boundary}
+Within an accepted \MetacicNormalizationConfluenceBridgeUp{} carrier, row $D$ can be handed to row $A$ only as the displayed subject-reduction discharge-ledger boundary. The handoff preserves the named discharge rows consumed by closed consistency, but it does not assert an unconditional closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+The discharge side of the bridge is the row $D$. It carries the named preservation-obligation rows from the subject-reduction discharge ledger and remains distinct from the closed-consistency assembly row $A$.
+
+The assembly row may consume $D$ only through the displayed bridge route. This gives $A$ access to the ledger boundary that it cites, together with the normal false-proof exclusion already internal to the assembly packet.
+
+Because the bridge has no additional preservation coordinate, the handoff cannot erase the ledger boundary. The result is a routed discharge boundary for the assembly consumer, not an unconditional closed subject-reduction theorem.
 \end{proof}
 
 \begin{theorem}[MetaCIC normalization-confluence bridge TasteGate surface]
@@ -69,17 +108,32 @@ The carrier has four sibling packet rows and five structural rows. A TasteGate t
 Field faithfulness is forced by the same packet shape. Preserving $N,Q,D,A,T,H,C,P,L$ separately is exactly what prevents the bridge from rereading a normalization or confluence agreement as a subject-reduction theorem or as closed consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization-confluence bridge obligation closure package]
+\label{thm:metacic-normalization-confluence-bridge-obligation-closure-package}
+The displayed rows $N,Q,D,A,T,H,C,P,L$, together with the local $\NameCert$ obligations, the route-boundary theorem, the TasteGate marker, the falsifiable prediction, and the independence witness below, form the complete $\obligationClosure$ package for \MetacicNormalizationConfluenceBridgeUp{}.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:metacic-normalization-confluence-bridge-carrier}. It fixes the only admissible packet shape $B=(N,Q,D,A,T,H,C,P,L)$ and states that no hidden evaluator, quotient equality, typed-term selector, global confluence theorem, unconditional subject-reduction theorem, or detached consistency proof is exported.
+
+Apply \autoref{thm:metacic-normalization-confluence-bridge-namecert-obligations}. The seven obligation rows cover carrier admission, the normalization-audit row, the confluence-audit row, the discharge-ledger row, the closed-consistency assembly row, closed typed term route correspondence, and the replay/provenance/local-name rows.
+
+Apply \autoref{thm:metacic-normalization-confluence-bridge-route-boundary} and \autoref{thm:metacic-normalization-confluence-bridge-tastegate-surface}. The route theorem keeps every preservation or consistency handoff inside $N,Q,D,A,T,H,C,P,L$, while the TasteGate theorem records that Lean supplies the nontrivial and field-faithful surface needed to keep those rows distinct.
+
+The falsifiable prediction states the observable route failure for unconditional closed subject reduction, and the independence witness records why the four sibling packets do not already contain the simultaneous bridge classifier. Hence the chapter closes precisely the obligation package for this bridge. It does not claim global normalization, global confluence, global subject reduction, or closed consistency.
+\end{proof}
+
 \falsifiablePrediction{Any accepted bridge packet whose normalization and confluence rows agree on the closed typed term has no route to an unconditional closed subject-reduction theorem.}
 \independenceWitness{metacicnormalizationaudit, metacic-confluence-audit, subjectreductiondischargeledger, closed-consistency-assembly: the bridge has a simultaneous four-row carrier and route-correspondence classifier absent from each sibling alone.}
 
 \begin{closurestatus}{\MetacicNormalizationConfluenceBridgeUp}
   \constructivestory{The MetaCIC normalization-confluence bridge is generated from a $BHist$ packet that records a normalization row, a confluence row, and the bridge route joining them to the local certificate surface. The carrier does not assert global metatheory; it reads only the named normalization and confluence evidence and transports that evidence along $hsame$ when the representing history changes. $\Cont$ supplies the route boundary: later uses of the bridge must extend the same packet rather than appeal to an external proof of adequacy. The TasteGate surface is then the visible bridge between these rows and the admitted NameCert obligation.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{This chapter binds the MetaCIC normalization-confluence bridge carrier, NameCert obligations, route-boundary theorem, and TasteGate-surface theorem.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.MetacicNormalizationConfluenceBridgeTasteGate\_single\_carrier\_alignment}
+  \leanchecked{BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim full MetaCIC normalization, global confluence, or kernel soundness outside the displayed bridge packet.}
-  \upgradepath{Reaching obligationClosure requires formal bridge rows and checked transport of normalization and confluence evidence along the route boundary.}
+  \upgradepath{Reaching scopedClosure requires checked transport scope for normalization and confluence evidence along the route boundary.}
 \end{closurestatus}

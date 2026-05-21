@@ -1,0 +1,103 @@
+\begin{theorem}[MetaCIC critical-path confluence-decidability handoff exhaustion]
+\label{thm:metacic-critical-path-confluence-decidability-handoff-exhaustion}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+every confluence-facing or decidability-facing downstream read of $U$ factors through the displayed rows $O,D,H,C,P,L$ together with the finite packet rows $S,N,U$. The handoff exports no arbitrary Church--Rosser theorem, no global beta-conversion decision procedure, no closed subject reduction, and no full closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the socket theorem. By \autoref{thm:metacic-critical-path-confluence-decidability-socket}, every confluence-facing or decidability-facing use of the handoff row is mediated by the obstruction, discharge socket, transport, route, provenance, and local naming rows $O,D,H,C,P,L$.
+
+Next exhaust the packet route. The handoff exhaustion theorem \autoref{thm:metacic-critical-path-handoff-exhaustion} says that the finite route has only the rows $S,N,O,U,D,H,C,P,L$ and contains no coordinate for closed subject reduction, full closed consistency, global beta-conversion decidability, or quotient term equality.
+
+The local socket boundary supplies the negative side. Apply \autoref{thm:metacic-critical-path-discharge-socket-locality} to keep $D$ local to $H,C,P,L$ and separate from any hidden discharge, then apply \autoref{thm:metacic-critical-path-normalization-obstruction-route-coverage} to keep the obstruction row visible along normalization-to-normal-form reads.
+
+Therefore a downstream read of $U$ has only the displayed finite data available: $O,D,H,C,P,L$ for the socket-mediated handoff and $S,N,U$ for the remaining packet coordinates. Since no further theorem-export coordinate is present, the four excluded metatheoretic claims remain outside the handoff.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path candidate-mediated SN boundary]
+\label{thm:metacic-critical-path-candidate-mediated-sn-boundary}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+any candidate-mediated strong-normalization-facing read of the handoff row factors through the displayed packet rows $S,N,O,U,D,H,C,P,L$ together with the four Phase Real faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ recorded by Definition~\ref{def:metacic-critical-path-open-phase-source-ledger}. The read exports no arbitrary strong-normalization theorem, no Church--Rosser theorem, no beta-conversion decision procedure, no quotient term equality, no host real equality, no selected limit, and no $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First apply the confluence-decidability handoff exhaustion theorem, Theorem~\ref{thm:metacic-critical-path-confluence-decidability-handoff-exhaustion}. It bounds every confluence-facing or decidability-facing use of the handoff row by the mediated rows $O,D,H,C,P,L$ and the remaining packet coordinates $S,N,U$.
+
+Next attach the current Phase Real source surface. The open-phase source closure theorem, Theorem~\ref{thm:metacic-critical-path-open-phase-source-closure}, says that admitted source reads factor through the displayed packet rows and one of the four rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$. The open-phase consumer totality theorem, Theorem~\ref{thm:metacic-critical-path-open-phase-consumer-totality}, says that current Phase Real and Completion consumers receive the ledger as their whole source surface.
+
+Finally use the nonescape side of the ledger. Theorem~\ref{thm:metacic-critical-path-phase-real-root-unblock-soundness} and Theorem~\ref{thm:metacic-critical-path-open-phase-source-nonescape} exclude quotient real data, host equality, selected limits, countable choice, trichotomy, open-cover compactness, $\RealUp$ completeness, closed subject reduction, and full consistency from the admitted route. Since a candidate-mediated strong-normalization-facing read has no additional coordinate beyond the same packet rows and four ledger faces, the listed SN, Church--Rosser, beta-conversion, quotient, host-equality, selected-limit, and completeness claims remain outside the handoff.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-mediated SN four-face audit precondition]
+\label{thm:metacic-critical-path-candidate-sn-four-face-audit-precondition}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+any candidate-mediated strong-normalization-facing read that is also consumed as current Phase $\RealUp$ and Completion evidence must first expose the four local face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Each face must carry its own scoped-closure row and its own audit-clean verification row, and the shared support may use only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. The candidate-mediated SN row supplies no aggregate formalstatus, no aggregate leantarget, no aggregate bridge row, no quotient stream equality, no selected limit, no countable-choice row, no metric-completeness datum, and no $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with the SN-facing route. The candidate-mediated boundary theorem, Theorem~\ref{thm:metacic-critical-path-candidate-mediated-sn-boundary}, sends every such read through the finite packet rows $S,N,O,U,D,H,C,P,L$ and the four Phase Real faces listed in Definition~\ref{def:metacic-critical-path-open-phase-source-ledger}.
+
+Next read those faces as the source surface for current Phase Real and Completion consumption. Definition~\ref{def:metacic-critical-path-open-phase-source-ledger}, Theorem~\ref{thm:metacic-critical-path-open-phase-source-closure}, and Theorem~\ref{thm:metacic-critical-path-open-phase-consumer-totality} restrict the consumer to the displayed packet rows and the four local faces; no fifth source row or hidden discharge coordinate is introduced.
+
+Now apply the current exit threshold. Theorem~\ref{thm:real-l10-current-phase-exit-local-threshold} identifies the consumed evidence with the objectwise product of the four local threshold records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face, supported only by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Finally use the StreamName audit readback. Theorem~\ref{thm:streamname-four-face-audit-clean-threshold-readback} reads the same threshold through face-local audit rows rather than through a route-level credential. Therefore a candidate-mediated SN read that is consumed by the current Phase Real and Completion surface must display the four separate scoped-closure and audit-clean rows, and the aggregate status, leantarget, bridge, quotient, choice, metric-completeness, selected-limit, and $\RealUp$ completeness data remain outside the route.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate route discharge refusal]
+\label{thm:metacic-critical-path-candidate-route-discharge-refusal}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+any candidate-mediated strong-normalization-facing read that satisfies the four-face audit precondition still treats $D$ only as the displayed discharge socket coordinate. The route supplies no witness that fills $D$, no closed subject-reduction theorem, and no full closed-consistency theorem.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated boundary. Theorem~\ref{thm:metacic-critical-path-candidate-mediated-sn-boundary} keeps the SN-facing read on the finite packet rows $S,N,O,U,D,H,C,P,L$ and the four local Phase Real faces.
+
+Next impose the audit precondition. Theorem~\ref{thm:metacic-critical-path-candidate-sn-four-face-audit-precondition} says that consumption as current Phase $\RealUp$ and Completion evidence exposes only the four separate scoped-closure and audit-clean face rows, supported by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. It does not add an aggregate discharge credential.
+
+Now apply the handoff exhaustion and root-unblock boundaries. Theorem~\ref{thm:metacic-critical-path-confluence-decidability-handoff-exhaustion} leaves closed subject reduction and full closed consistency outside the confluence-decidability route, while Theorem~\ref{thm:metacic-critical-path-phase-real-root-unblock-soundness} gives the same exclusion for the current Phase Real root-unblock route.
+
+Therefore the candidate-mediated SN route can guide the local handoff and audit read, but it cannot turn the socket coordinate $D$ into a discharged witness or export the closed subject-reduction and full-consistency theorems.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate SN socket nonescape]
+\label{thm:metacic-critical-path-candidate-sn-socket-nonescape}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+every downstream consumer using the candidate-mediated strong-normalization route receives only the socket-aware finite route over $S,N,O,U,D,H,C,P,L$ together with the four local face rows for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The coordinate $D$ remains a separate discharge socket and is not absorbed into the four-face route, the consumer surface, closed subject reduction, or full closed consistency.
+\end{theorem}
+\begin{proof}
+First separate the socket from the faces. Theorem~\ref{thm:metacic-critical-path-four-face-socket-separation} keeps the four Phase Real face records and the discharge socket as distinct obligations; neither side fills or promotes the other.
+
+Next use source nonescape. Theorem~\ref{thm:metacic-critical-path-open-phase-source-nonescape} prevents admitted Phase Real and Completion reads from bypassing the displayed packet and face rows through quotient real data, host equality, selected limits, countable choice, trichotomy, open-cover compactness, or $\RealUp$ completeness.
+
+Finally apply the discharge refusal theorem, Theorem~\ref{thm:metacic-critical-path-candidate-route-discharge-refusal}. It prevents the candidate-mediated SN route from filling $D$ or exporting closed subject reduction and full closed consistency. Hence every downstream consumer receives exactly the finite socket-aware route and the four local face rows, with $D$ still recorded as its own socket coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate SN finite socket normal form]
+\label{thm:metacic-critical-path-candidate-sn-finite-socket-normal-form}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+a candidate-mediated strong-normalization-facing read is consumable by the current Phase $\RealUp$ and Completion surface exactly when it displays the finite socket-aware rows $S,N,O,U,D,H,C,P,L$ together with the four local face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with support only from $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. This normal form exports no arbitrary strong-normalization theorem, no Church--Rosser theorem, no beta-conversion decidability, no quotient term equality, no host equality, no selected limit, no countable choice, no closed subject reduction, no full consistency theorem, no metric-completeness datum, and no $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with the candidate-mediated SN boundary, Theorem~\ref{thm:metacic-critical-path-candidate-mediated-sn-boundary}. It places every candidate-mediated read on the finite packet rows $S,N,O,U,D,H,C,P,L$ and the four local Phase Real faces.
+
+Next impose the four-face audit precondition, Theorem~\ref{thm:metacic-critical-path-candidate-sn-four-face-audit-precondition}. The current Phase $\RealUp$ and Completion consumer can read those faces only through separate local scoped-closure and audit records, carried by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The current exit threshold, Theorem~\ref{thm:real-l10-current-phase-exit-local-threshold}, identifies this as the objectwise four-face threshold surface rather than as an aggregate metatheoretic credential.
+
+The negative coordinates are then exhausted by the socket and source boundaries. The discharge refusal theorem, Theorem~\ref{thm:metacic-critical-path-candidate-route-discharge-refusal}, keeps $D$ as a socket coordinate and refuses closed subject reduction and full consistency. The socket nonescape theorem, Theorem~\ref{thm:metacic-critical-path-candidate-sn-socket-nonescape}, keeps downstream consumers on the same finite route, while the open-phase source closure and nonescape theorems, Theorems~\ref{thm:metacic-critical-path-open-phase-source-closure} and~\ref{thm:metacic-critical-path-open-phase-source-nonescape}, exclude off-packet quotient, host-equality, selected-limit, choice, metric-completeness, and $\RealUp$ completeness data.
+
+For the reverse direction, suppose the displayed finite socket-aware rows and four local face records are present with only the stated BEDC support. The open-phase consumer totality theorem, Theorem~\ref{thm:metacic-critical-path-open-phase-consumer-totality}, admits exactly this finite ledger as the current consumer surface, and Theorem~\ref{thm:real-l10-current-phase-exit-local-threshold} reads the four faces as the local threshold certificate. Since the cited refusal and nonescape theorems leave no hidden socket discharge or off-route coordinate, this displayed data is sufficient for current Phase $\RealUp$ and Completion consumption of the candidate-mediated read.
+\end{proof}

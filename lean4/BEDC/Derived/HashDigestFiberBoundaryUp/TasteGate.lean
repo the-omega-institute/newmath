@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HashDigestFiberBoundaryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -218,5 +220,48 @@ theorem HashDigestFiberBoundaryTasteGate_single_carrier_alignment :
       · intro x y heq
         exact hashDigestFiberBoundaryToEventFlow_injective heq
       · rfl
+
+theorem HashDigestFiberBoundary_nonescape (Bdry : HashDigestFiberBoundaryUp) :
+    ∃ D E F G R H C P N : BHist,
+      Bdry = HashDigestFiberBoundaryUp.mk D E F G R H C P N ∧
+        SemanticNameCert
+          (fun row : BHist =>
+            hsame row D ∨ hsame row E ∨ hsame row F ∨ hsame row G ∨ hsame row R ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row E ∨ hsame row F ∨ hsame row G ∨ hsame row R ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row E ∨ hsame row F ∨ hsame row G ∨ hsame row R ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame NameCert
+  cases Bdry with
+  | mk D E F G R H C P N =>
+      refine ⟨D, E, F, G, R, H, C, P, N, rfl, ?_⟩
+      exact {
+        core := {
+          carrier_inhabited := ⟨D, Or.inl (hsame_refl D)⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other sameRows source
+            cases sameRows
+            exact source
+        }
+        pattern_sound := by
+          intro _row source
+          exact source
+        ledger_sound := by
+          intro _row source
+          exact source
+      }
 
 end BEDC.Derived.HashDigestFiberBoundaryUp

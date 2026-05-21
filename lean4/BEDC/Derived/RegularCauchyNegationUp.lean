@@ -138,4 +138,33 @@ theorem RegularCauchyNegationCarrier_public_seal_export [AskSetup] [PackageSetup
     ⟨cert, sealUnary, nameUnary, boundaryUnary, sealProvenanceName, nameRouteBoundary, namePkg,
       boundaryPkg⟩
 
+theorem RegularCauchyNegationCarrier_bridge_readback_scope [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name
+      bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg ->
+      Cont name route bridgeRead ->
+        PkgSig bundle bridgeRead pkg ->
+          UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory classifier ∧ UnaryHistory flipped ∧ UnaryHistory sealRow ∧
+              UnaryHistory bridgeRead ∧ Cont source window dyadic ∧
+                Cont dyadic classifier flipped ∧ Cont flipped sealRow transportRow ∧
+                  Cont transportRow route provenance ∧ Cont sealRow provenance name ∧
+                    Cont name route bridgeRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier nameRouteBridge bridgePkg
+  obtain ⟨sourceUnary, windowUnary, dyadicUnary, classifierUnary, flippedUnary,
+    sealUnary, _transportUnary, routeUnary, _provenanceUnary, nameUnary,
+    sourceWindowDyadic, dyadicClassifierFlipped, flippedSealTransport,
+    transportRouteProvenance, sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed nameUnary routeUnary nameRouteBridge
+  exact
+    ⟨sourceUnary, windowUnary, dyadicUnary, classifierUnary, flippedUnary, sealUnary,
+      bridgeUnary, sourceWindowDyadic, dyadicClassifierFlipped, flippedSealTransport,
+      transportRouteProvenance, sealProvenanceName, nameRouteBridge, provenancePkg,
+      bridgePkg⟩
+
 end BEDC.Derived.RegularCauchyNegationUp

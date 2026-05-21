@@ -1,11 +1,16 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObserverSupportLatticeUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -206,5 +211,85 @@ theorem ObserverSupportLatticeTasteGate_single_carrier_alignment :
   exact ⟨observerSupportLattice_decode_encode_bhist, observerSupportLattice_round_trip,
     fun _ _ heq => observerSupportLatticeToEventFlow_injective heq,
     ⟨observerSupportLatticeChapterTasteGate⟩, observerSupportLattice_field_faithful, rfl⟩
+
+theorem ObserverSupportLatticeCarrier_namecert_obligations
+    {F S C B R H Q P N frameSupport supportCell budgetRoute replayRead : BHist} :
+    Cont F S frameSupport ->
+      Cont frameSupport C supportCell ->
+        Cont supportCell B budgetRoute ->
+          Cont budgetRoute R replayRead ->
+            UnaryHistory F ->
+              UnaryHistory S ->
+                UnaryHistory C ->
+                  UnaryHistory B ->
+                    UnaryHistory R ->
+                      UnaryHistory frameSupport ∧ UnaryHistory supportCell ∧
+                        UnaryHistory budgetRoute ∧ UnaryHistory replayRead ∧
+                        observerSupportLatticeFields
+                            (ObserverSupportLatticeUp.mk F S C B R H Q P N) =
+                          [F, S, C, B, R, H, Q, P, N] ∧
+                        SemanticNameCert
+                          (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row replayRead ∧ Cont F S frameSupport ∧
+                              Cont frameSupport C supportCell ∧
+                                Cont supportCell B budgetRoute ∧ Cont budgetRoute R replayRead)
+                          (fun row : BHist =>
+                            hsame row replayRead ∧
+                              observerSupportLatticeFields
+                                  (ObserverSupportLatticeUp.mk F S C B R H Q P N) =
+                                [F, S, C, B, R, H, Q, P, N])
+                          hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont SemanticNameCert hsame
+  intro fsFrame frameCSupport supportBBudget budgetRReplay fUnary sUnary cUnary bUnary rUnary
+  have frameUnary : UnaryHistory frameSupport :=
+    unary_cont_closed fUnary sUnary fsFrame
+  have supportUnary : UnaryHistory supportCell :=
+    unary_cont_closed frameUnary cUnary frameCSupport
+  have budgetUnary : UnaryHistory budgetRoute :=
+    unary_cont_closed supportUnary bUnary supportBBudget
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed budgetUnary rUnary budgetRReplay
+  have nameCert :
+      SemanticNameCert
+        (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row replayRead ∧ Cont F S frameSupport ∧
+            Cont frameSupport C supportCell ∧ Cont supportCell B budgetRoute ∧
+              Cont budgetRoute R replayRead)
+        (fun row : BHist =>
+          hsame row replayRead ∧
+            observerSupportLatticeFields (ObserverSupportLatticeUp.mk F S C B R H Q P N) =
+              [F, S, C, B, R, H, Q, P, N])
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro replayRead (And.intro (hsame_refl replayRead) replayUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact
+          And.intro
+            (hsame_trans (hsame_symm sameRows) source.left)
+            (unary_transport source.right sameRows)
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        And.intro source.left
+          (And.intro fsFrame
+            (And.intro frameCSupport (And.intro supportBBudget budgetRReplay)))
+    ledger_sound := by
+      intro _row source
+      exact And.intro source.left rfl
+  }
+  exact ⟨frameUnary, supportUnary, budgetUnary, replayUnary, rfl, nameCert⟩
 
 end BEDC.Derived.ObserverSupportLatticeUp

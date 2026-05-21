@@ -268,7 +268,10 @@ theorem ModelPredictiveControlPacket_finite_rollout_bridge_boundary
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
   intro packet prefixUnary stateDynamicsPrefix prefixRolloutPrefix prefixPkg ledger
     exportedRoute consumerRoute _exportedPkg consumerPkg
-  have prefixPacketData :=
+  have prefixPacketData :
+      ModelPredictiveControlPacket state input prefixHorizon dynamics cost prefixRollout
+          prefixProvenance nameRow bundle pkg ∧
+        UnaryHistory prefixRollout ∧ UnaryHistory prefixProvenance :=
     ModelPredictiveControlPacket_finite_horizon_prefix_restriction
       packet prefixUnary stateDynamicsPrefix prefixRolloutPrefix prefixPkg
   have prefixPacket :
@@ -297,5 +300,95 @@ theorem ModelPredictiveControlPacket_finite_rollout_bridge_boundary
   exact
     ⟨prefixPacketOut, constraintWindowUnary, terminalUnary, exportedUnary, consumerUnary,
       terminalPkg, consumerPkg⟩
+
+theorem ModelPredictiveControlPacket_scoped_kernel_support
+    [AskSetup] [PackageSetup]
+    {state input horizon dynamics cost rollout provenance nameRow prefixHorizon prefixRollout
+      prefixProvenance constraintWindow terminal exportedControl consumer scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelPredictiveControlPacket state input horizon dynamics cost rollout provenance nameRow
+        bundle pkg ->
+      UnaryHistory prefixHorizon ->
+        Cont state dynamics prefixRollout ->
+          Cont prefixRollout prefixHorizon prefixProvenance ->
+            PkgSig bundle prefixProvenance pkg ->
+              ModelPredictiveControlConstraintLedger state input prefixHorizon dynamics cost
+                  prefixRollout prefixProvenance nameRow constraintWindow terminal bundle pkg ->
+                Cont prefixRollout prefixProvenance exportedControl ->
+                  Cont exportedControl nameRow consumer ->
+                    Cont consumer terminal scopedRead ->
+                      PkgSig bundle exportedControl pkg ->
+                        PkgSig bundle consumer pkg ->
+                          PkgSig bundle scopedRead pkg ->
+                            SemanticNameCert
+                                (fun row : BHist =>
+                                  hsame row scopedRead ∧ UnaryHistory row ∧
+                                    PkgSig bundle row pkg)
+                                (fun row : BHist =>
+                                  hsame row scopedRead ∧ UnaryHistory row ∧
+                                    PkgSig bundle row pkg)
+                                (fun row : BHist =>
+                                  hsame row scopedRead ∧ UnaryHistory row ∧
+                                    PkgSig bundle row pkg)
+                                hsame ∧
+                              ModelPredictiveControlPacket state input prefixHorizon dynamics cost
+                                  prefixRollout prefixProvenance nameRow bundle pkg ∧
+                                UnaryHistory constraintWindow ∧ UnaryHistory terminal ∧
+                                  UnaryHistory exportedControl ∧ UnaryHistory consumer ∧
+                                    UnaryHistory scopedRead ∧ PkgSig bundle terminal pkg ∧
+                                      PkgSig bundle consumer pkg ∧
+                                        PkgSig bundle scopedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro packet prefixUnary stateDynamicsPrefix prefixRolloutPrefix prefixPkg ledger
+    exportedRoute consumerRoute scopedRoute _exportedPkg consumerPkg scopedPkg
+  have bridgeBoundary :=
+    ModelPredictiveControlPacket_finite_rollout_bridge_boundary
+      packet prefixUnary stateDynamicsPrefix prefixRolloutPrefix prefixPkg ledger
+      exportedRoute consumerRoute _exportedPkg consumerPkg
+  obtain ⟨prefixPacket, constraintWindowUnary, terminalUnary, exportedUnary, consumerUnary,
+    terminalPkg, _consumerPkg⟩ := bridgeBoundary
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed consumerUnary terminalUnary scopedRoute
+  have certSurface :
+      SemanticNameCert
+        (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+        (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+        (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro scopedRead ⟨hsame_refl scopedRead, scopedUnary, scopedPkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    ⟨certSurface,
+      prefixPacket,
+      constraintWindowUnary,
+      terminalUnary,
+      exportedUnary,
+      consumerUnary,
+      scopedUnary,
+      terminalPkg,
+      consumerPkg,
+      scopedPkg⟩
 
 end BEDC.Derived.ModelPredictiveControlUp

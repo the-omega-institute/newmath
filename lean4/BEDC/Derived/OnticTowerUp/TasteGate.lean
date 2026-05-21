@@ -173,4 +173,14 @@ theorem OnticTowerTasteGate_single_carrier_alignment :
           cases h⟩
   · rfl
 
+theorem OnticTower_stage_refinement {O A S R B L H C P N : BHist} :
+    onticTowerFields (OnticTowerUp.mk O A S R B L H C P N) =
+        [O, A, S, R, B, L, H, C, P, N] ∧
+      onticTowerToEventFlow (OnticTowerUp.mk O A S R B L H C P N) =
+        List.map onticTowerEncodeBHist [O, A, S, R, B, L, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · rfl
+
 end BEDC.Derived.OnticTowerUp

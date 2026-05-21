@@ -80,4 +80,31 @@ theorem RegularCauchyIntervalSelectorCarrier_nesting_extraction
     ⟨unaryD, unaryS, unaryR, unaryJ, unarySeal, selectedRoute, nestingRoute, sealPkg,
       cert⟩
 
+theorem RegularCauchyIntervalSelectorCarrier_real_seal_handoff
+    [AskSetup] [PackageSetup]
+    {D S R J E H C P N sealRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyIntervalSelectorCarrier D S R J E H C P N →
+      Cont D S R →
+        Cont R J sealRead →
+          Cont sealRead E publicRead →
+            PkgSig bundle publicRead pkg →
+              UnaryHistory D ∧ UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory J ∧
+                UnaryHistory sealRead ∧ UnaryHistory publicRead ∧ Cont D S R ∧
+                  Cont R J sealRead ∧ Cont sealRead E publicRead ∧
+                    PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier selectedRoute nestingRoute sealRoute publicPkg
+  obtain ⟨unaryD, unaryS, unaryJ, unaryE, _unaryH, _unaryC, _carrierRoute,
+    _sealCarrierRoute, _sameNameSeal⟩ := carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryD unaryS selectedRoute
+  have unarySeal : UnaryHistory sealRead :=
+    unary_cont_closed unaryR unaryJ nestingRoute
+  have unaryPublic : UnaryHistory publicRead :=
+    unary_cont_closed unarySeal unaryE sealRoute
+  exact
+    ⟨unaryD, unaryS, unaryR, unaryJ, unarySeal, unaryPublic, selectedRoute, nestingRoute,
+      sealRoute, publicPkg⟩
+
 end BEDC.Derived.RegularCauchyIntervalSelectorUp

@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\BeliefUp$}
 \label{ch:concrete-instances-belief-namecert}
+\origin{ai}
 
 The $\BeliefUp$ interface is an AI-proposed BEDC chapter. Its carrier
 sketch and dependency anchors come from the proposal at
@@ -9,13 +10,27 @@ the closurestatus block. Its dependency rows are the finite index spine of
 \autoref{ch:concrete-instances-seq-namecert}, and the probability certificate
 surface of \autoref{ch:concrete-instances-probspace-namecert}.
 
+\falsifiablePrediction{If a public $\BeliefUp$ consumer deletes the prior row,
+observation row, update trace, probability row, or evidence ledger, then it
+cannot reconstruct the public belief consumer surface of
+\autoref{thm:belief-public-namecert-surface}.}
+\independenceWitness{Nearest siblings: nat, seq, probspace, modeltheory,
+hypothesis-test. The carrier is not bijective to any of them because it binds
+five simultaneous rows: a finite index spine, an observation row, an update
+trace, a probability certificate, and an evidence ledger; each named sibling
+supplies at most a proper projection of that packet rather than the whole
+observation-update ledger.}
+
 \section{Carrier definition}
 \label{sec:belief-carrier}
 
 A finite $\BeliefUp$ packet is the observation-update carrier suggested by
 \texttt{BEDC.Derived.BeliefUp.taste\_gate}; the Lean touchpoint fixes the
 chapter name and TasteGate carrier, while the paper surface below records the
-certificate obligations without marking them as checked.
+certificate obligations without marking them as checked. On the Lean side, any
+future AI-origin upgrade that relies on non-vacuity must keep the existing
+\texttt{FieldFaithful} instance and add a \texttt{Nontrivial BeliefUp}
+instance.
 \leanchecked{BEDC.Derived.BeliefUp.taste\_gate}
 
 \begin{definition}[Belief observation-update carrier]

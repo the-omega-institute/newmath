@@ -102,3 +102,47 @@ StreamName, bundle, observation, transport, ledger, seal, provenance, and
 endpoint rows, with no host index equality, Classical datum, or standard-bridge
 datum outside the displayed route.
 \end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat-Real terminal nonescape boundary]
+\label{thm:streamname-regseqrat-real-finite-route-terminal-nonescape}
+Let $T$ be any terminal consumer of a finite-window $\RealUp$ seal whose public
+route factors through the displayed $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows, the $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ rows, the $\mathsf{UnaryHistory}$ observations, the
+$\hsame$ transports, the finite $\Cont$ ledger, the
+$\mathsf{DyadicRatCore}$ tolerance ledger, the accepted $\RegSeqRat$ pointwise
+seal rows, the shared $\Pkg$ provenance, and the $\RealUp$ endpoint seal row.
+Then the terminal read of $T$ is confined to that finite-name boundary.
+
+In particular, $T$ has no access through this route to quotient
+representatives, selected limits, host index equality, Classical data,
+standard-bridge data, ambient completeness, metric-completeness rows, or any
+off-route completion witness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-real-finite-window-route-factorization}. It
+forces the terminal $\RealUp$ read to pass through exactly the displayed
+StreamName carrier and classifier rows, bundle rows, unary observations,
+$\hsame$ transports, finite continuation ledger, dyadic tolerance ledger,
+accepted $\RegSeqRat$ pointwise seal rows, shared provenance, and endpoint seal
+row.
+
+Next use
+\autoref{thm:streamname-regseqrat-finite-window-cover-refinement-exhaustion}.
+Every certified finite refinement of the route has the same exhausted
+$\RegSeqRat$ consumer surface and the same endpoint boundary, so the terminal
+consumer cannot obtain a second route by changing the public window cover.
+
+Now invoke \autoref{thm:streamname-regseqrat-uniform-finite-window-seal}. The
+accepted rational seal rows are read uniformly over the finite public windows,
+which keeps the tolerance ledger and the pointwise seal packet inside the same
+finite-name surface.
+
+Finally apply \autoref{thm:streamname-realup-seal-boundary}. The endpoint
+$\RealUp$ boundary is fixed by those accepted finite rows and not by a quotient
+representative, a selected limit, host index equality, Classical data,
+standard-bridge data, ambient completeness, metric-completeness rows, or any
+off-route completion witness. Hence the terminal consumer remains inside the
+finite StreamName--$\RegSeqRat$--$\RealUp$ seal boundary.
+\end{proof}

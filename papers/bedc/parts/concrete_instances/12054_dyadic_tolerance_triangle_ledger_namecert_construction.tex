@@ -25,7 +25,6 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for a missing endpoint leg, a missing middle modulus leg, quotient stream equality, host real equality, selected limits, or ambient completeness.
 \end{definition}
-\leandef{BEDC.Derived.DyadicToleranceTriangleLedgerUp.taste\_gate}
 
 \begin{definition}[Dyadic tolerance triangle ledger classifier]
 \label{def:dyadic-tolerance-triangle-ledger-classifier}
@@ -36,6 +35,7 @@ Two accepted $\DyadicToleranceTriangleLedgerUp$ carriers classify as the same le
 \label{thm:dyadic-tolerance-triangle-ledger-obligations}
 For every accepted $\DyadicToleranceTriangleLedgerUp$ carrier $L=(D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N)$, the local $\NameCert_{\DyadicToleranceTriangleLedgerUp}$ surface consists exactly of carrier exposure, classifier transport, endpoint-leg coverage for $E_m,E_n$, middle-leg coverage for $M$, dyadic tolerance addition through $Q$, consumed $\RegularCauchyTriangleBoundUp$ compatibility through $T$, Real-facing continuation through $C$, package provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicToleranceTriangleLedgerUp.DyadicToleranceTriangleLedger\_window\_endpoint\_separation}
 \begin{proof}
 Carrier exposure is projection from \autoref{def:dyadic-tolerance-triangle-ledger-carrier}. The displayed rows name the two diagonal windows, the two intermediate windows, the two endpoint legs, the middle leg, the dyadic ledger, the consumed triangle-bound packet, and the support rows.
 
@@ -74,21 +74,73 @@ Next apply the obligation theorem. It requires the dyadic output bound to be rea
 Finally use non-escape. Since no selected limit, quotient stream, host real equality, detached completion witness, or ambient completeness row can be exported, the Real-facing consumer receives exactly the displayed finite handoff.
 \end{proof}
 
+\begin{theorem}[Dyadic tolerance triangle ledger middle-leg coverage]
+\label{thm:dyadic-tolerance-triangle-ledger-middle-leg-coverage}
+For every accepted $\DyadicToleranceTriangleLedgerUp$ carrier $L=(D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N)$, the row $M$ is the only admissible middle Cauchy-modulus leg. Any accepted consumer of $L$ that reaches from $I_m$ to $I_n$ must read $M$ through the displayed $\Cont$ route and cannot replace it by an endpoint regularity row, a quotient stream equality, a selected limit, a detached completion witness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:dyadic-tolerance-triangle-ledger-carrier}. Among the displayed rows, only $M$ is assigned to the leg $I_m \longrightarrow I_n$; the rows $E_m$ and $E_n$ are bound to the two endpoint legs, and no extra coordinate records a second middle modulus.
+
+Use the classifier of \autoref{def:dyadic-tolerance-triangle-ledger-classifier}. Componentwise $\hsame$ transport keeps the middle leg as the $M$ coordinate, so a transported packet cannot silently exchange $M$ for an endpoint row or for an external real-completion witness.
+
+Finally apply non-escape from \autoref{thm:dyadic-tolerance-triangle-ledger-nonescape}. The excluded host, quotient, limit-selection, detached-completion, and ambient-completeness objects have no coordinate in the packet, hence no accepted middle-leg consumer can read them in place of $M$.
+\end{proof}
+
+\begin{theorem}[Dyadic tolerance triangle ledger tolerance addition]
+\label{thm:dyadic-tolerance-triangle-ledger-tolerance-addition}
+For every accepted $\DyadicToleranceTriangleLedgerUp$ carrier $L=(D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N)$, the row $Q$ is the only dyadic tolerance-addition ledger combining the two endpoint tolerances and the middle tolerance. The packet exposes no second dyadic output row and no route that can compute the displayed output bound outside $\DyadicRatCoreUp$.
+\end{theorem}
+\begin{proof}
+The carrier assigns exactly one row to dyadic tolerance addition, namely $Q$. The endpoint tolerances are supplied by $E_m$ and $E_n$, the middle tolerance is supplied by $M$, and the displayed output bound is part of the same $\DyadicRatCoreUp$ ledger row.
+
+Classifier transport preserves $Q$ as the dyadic ledger coordinate. Thus a consumer that transports the accepted packet must transport the endpoint tolerances, the middle tolerance, and the output bound together rather than recomputing one of them through a detached route.
+
+The non-escape theorem blocks the remaining shortcuts. Since the packet has no coordinate for host real equality, quotient streams, selected limits, detached completion witnesses, or ambient completeness, the only accepted tolerance-addition read is the $Q$ row.
+\end{proof}
+
+\begin{theorem}[Dyadic tolerance triangle ledger triangle-bound compatibility]
+\label{thm:dyadic-tolerance-triangle-ledger-triangle-bound-compatibility}
+For every accepted $\DyadicToleranceTriangleLedgerUp$ carrier $L=(D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N)$, the consumed row $T$ uses the same three legs $E_m,E_n,M$ as the $\RegularCauchyTriangleBoundUp$ packet. It may package the three-leg estimate for the Real-facing handoff, but it cannot introduce a fourth leg, omit the middle leg, or identify endpoint and middle evidence by host equality.
+\end{theorem}
+\begin{proof}
+The carrier binds $T$ as the consumed $\RegularCauchyTriangleBoundUp$ row and lists exactly three leg rows beside it: $E_m$, $E_n$, and $M$. These are the two endpoint regularity reads and the middle Cauchy-modulus read used by the diagonal-regularity triangle.
+
+The obligation theorem forces compatibility through the same displayed rows. It does not expose an independent triangle-bound coordinate that could ignore $M$ or introduce a fourth leg.
+
+The window handoff theorem then sends $D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N$ to the Real-facing consumer as one finite packet. Because non-escape forbids host equality and quotient-stream replacement, $T$ remains compatible with the same three concrete legs.
+\end{proof}
+
+\begin{theorem}[Dyadic tolerance triangle ledger tastegate obligation closure]
+\label{thm:dyadic-tolerance-triangle-ledger-tastegate-obligation-closure}
+The $\DyadicToleranceTriangleLedgerUp$ packet is obligation-closed for its displayed L10 ledger surface. The carrier, classifier, nonescape theorem, window handoff, falsifiable prediction, independence witness, Lean \texttt{ChapterTasteGate}, $\mathsf{Nontrivial}\ \DyadicToleranceTriangleLedgerUp$, and $\mathsf{FieldFaithful}\ \DyadicToleranceTriangleLedgerUp$ evidence jointly bind the rows $D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N$ as the local $\NameCert_{\DyadicToleranceTriangleLedgerUp}$ obligation surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicToleranceTriangleLedgerUp.taste\_gate}
+\begin{proof}
+Carrier and classifier exposure are supplied by \autoref{def:dyadic-tolerance-triangle-ledger-carrier} and \autoref{def:dyadic-tolerance-triangle-ledger-classifier}. The aggregate obligation theorem names the endpoint, middle, dyadic-addition, triangle-bound, Real-continuation, package, and local-name clauses.
+
+The three separated compatibility theorems above isolate the middle leg $M$, the dyadic addition row $Q$, and the consumed triangle-bound row $T$. Together with endpoint separation, they make the finite ledger surface checkable row by row.
+
+Nonescape and window handoff then bind the consumer behavior: no quotient stream, selected limit, host equality, detached completion witness, or ambient-completeness row can replace the displayed finite packet.
+
+Finally the falsifiable prediction and independence witness record the negative tests, while the checked Lean \texttt{ChapterTasteGate} supplies the formal gate together with its $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ evidence. These ingredients exhaust the stated obligation surface without claiming a public Real-completion seal.
+\end{proof}
+
 \falsifiablePrediction{A diagonal-regularity consumer that omits one of the two endpoint legs or the middle Cauchy-modulus leg refutes the packet.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real, regular-cauchy-triangle-bound: none is bijective to $\DyadicToleranceTriangleLedgerUp$, because the dyadic core lacks stream windows, the stream-name surface lacks rational tolerance addition, the regular-rational surface lacks the middle Cauchy-modulus leg, the Real surface is downstream of the seal, and the regular-cauchy triangle-bound packet does not isolate the dyadic tolerance ledger as its own classifier and Real-window handoff.}
 
 Lean \texttt{TasteGate.lean} for $\DyadicToleranceTriangleLedgerUp$ must provide explicit $\mathsf{Nontrivial}\ \DyadicToleranceTriangleLedgerUp$ and $\mathsf{FieldFaithful}\ \DyadicToleranceTriangleLedgerUp$ instances for $D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N$.
 
-\closureat{DyadicToleranceTriangleLedgerUp}{seedStr}
+\closureat{DyadicToleranceTriangleLedgerUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicToleranceTriangleLedgerUp}
   \constructivestory{A $\DyadicToleranceTriangleLedgerUp$ packet is generated from four stream windows, two endpoint regularity reads, one middle Cauchy-modulus read, a dyadic tolerance-addition ledger, a consumed RegularCauchyTriangleBound row, componentwise hsame transport, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-tolerance-triangle-ledger-carrier}, \autoref{def:dyadic-tolerance-triangle-ledger-classifier}, \autoref{thm:dyadic-tolerance-triangle-ledger-obligations}, \autoref{thm:dyadic-tolerance-triangle-ledger-nonescape}, and \autoref{thm:dyadic-tolerance-triangle-ledger-window-handoff} bind the finite dyadic ledger surface for the diagonal-regularity triangle.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:dyadic-tolerance-triangle-ledger-carrier}, \autoref{def:dyadic-tolerance-triangle-ledger-classifier}, \autoref{thm:dyadic-tolerance-triangle-ledger-obligations}, \autoref{thm:dyadic-tolerance-triangle-ledger-nonescape}, \autoref{thm:dyadic-tolerance-triangle-ledger-window-handoff}, \autoref{thm:dyadic-tolerance-triangle-ledger-middle-leg-coverage}, \autoref{thm:dyadic-tolerance-triangle-ledger-tolerance-addition}, \autoref{thm:dyadic-tolerance-triangle-ledger-triangle-bound-compatibility}, and \autoref{thm:dyadic-tolerance-triangle-ledger-tastegate-obligation-closure} bind the finite dyadic ledger surface for the diagonal-regularity triangle.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DyadicToleranceTriangleLedgerUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Lean verification, bridge checking, the full Real-completeness theorem, quotient stream equality, selected limits, host real equality, detached completion witnesses, or ambient completeness.}
-  \upgradepath{Obligation closure requires checked carrier exposure, classifier transport, endpoint-leg coverage, middle-leg coverage, dyadic tolerance addition, triangle-bound compatibility, and Real-window handoff for the displayed packet.}
+  \notclaimed{This chapter does not close bridge checking, scoped downstream Real-completion closure, the full Real-completeness theorem, quotient stream equality, selected limits, host real equality, detached completion witnesses, or ambient completeness.}
+  \upgradepath{Scoped closure requires downstream diagonal-regularity consumers to reuse the same endpoint rows, middle row, dyadic tolerance row, triangle-bound row, and Real-window handoff without adding nonlocal witnesses.}
 \end{closurestatus}

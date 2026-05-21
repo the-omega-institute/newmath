@@ -11,6 +11,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.RatUp
 
 theorem StreamNameOpenPhaseFourFaceExitReadback [AskSetup] [PackageSetup]
     {window dyadic regseq real support exit terminal readback : BHist}
@@ -84,5 +85,27 @@ theorem StreamNameOpenPhaseFourFaceExitReadback [AskSetup] [PackageSetup]
   exact
     ⟨cert, supportUnary, exitUnary, terminalUnary, readbackUnary, windowDyadicSupport,
       regseqRealExit, supportExitTerminal, terminalSupportReadback, terminalPkg, readbackPkg⟩
+
+theorem RatStreamNameFiniteWindowClassifier_open_phase_four_face_exit_readback
+    {s t : BHist -> BHist} {bundle : ProbeBundle BHist} {window readback sealRow : BHist} :
+    RatStreamNameFiniteWindowClassifier s t bundle ->
+      InBundle window bundle ->
+        UnaryHistory window ->
+          Cont (s window) (t window) readback ->
+            hsame readback sealRow ->
+              RatHistoryClassifier (s window) (t window) ∧ UnaryHistory readback ∧
+                hsame readback sealRow := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle InBundle Cont hsame RatHistoryClassifier
+  intro classified windowMember windowUnary readbackRoute sealSame
+  have selectedClassifier : RatHistoryClassifier (s window) (t window) :=
+    classified window windowMember windowUnary
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed
+      (PositiveUnaryDenominator_unary_and_nonempty
+        (RatHistoryCarrier_iff_positive_denominator.mp selectedClassifier.left)).left
+      (PositiveUnaryDenominator_unary_and_nonempty
+        (RatHistoryCarrier_iff_positive_denominator.mp selectedClassifier.right.left)).left
+      readbackRoute
+  exact ⟨selectedClassifier, readbackUnary, sealSame⟩
 
 end BEDC.Derived.StreamNameUp

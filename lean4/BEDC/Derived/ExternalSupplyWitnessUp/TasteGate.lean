@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ExternalSupplyWitnessUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -161,5 +163,76 @@ theorem ExternalSupplyWitnessTasteGate_single_carrier_alignment :
       externalSupplyWitness_round_trip,
       (fun _ _ heq => externalSupplyWitnessToEventFlow_injective heq),
       rfl⟩
+
+theorem ExternalSupplyWitness_namecert_obligations {S R G L H C P N : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        ∃ packet : ExternalSupplyWitnessUp,
+          packet = ExternalSupplyWitnessUp.mk S R G L H C P N ∧ hsame row N)
+      (fun row : BHist =>
+        externalSupplyWitnessFields (ExternalSupplyWitnessUp.mk S R G L H C P N) =
+            [S, R, G, L, H, C, P, N] ∧
+          hsame row N)
+      (fun row : BHist =>
+        hsame row N ∧ externalSupplyWitnessEncodeBHist BHist.Empty = ([] : List BMark))
+      hsame := by
+  -- BEDC touchpoint anchor: BHist BMark NameCert SemanticNameCert hsame
+  refine
+    { core := ?core
+      pattern_sound := ?pattern_sound
+      ledger_sound := ?ledger_sound }
+  · refine
+      { carrier_inhabited := ?carrier_inhabited
+        equiv_refl := ?equiv_refl
+        equiv_symm := ?equiv_symm
+        equiv_trans := ?equiv_trans
+        carrier_respects_equiv := ?carrier_respects_equiv }
+    · exact
+        Exists.intro N
+          (Exists.intro (ExternalSupplyWitnessUp.mk S R G L H C P N)
+            (And.intro rfl (hsame_refl N)))
+    · intro h _source
+      exact hsame_refl h
+    · intro h k hhk
+      exact hsame_symm hhk
+    · intro h k r hhk hkr
+      exact hsame_trans hhk hkr
+    · intro h k hhk source
+      cases source with
+      | intro packet packetRows =>
+          cases packetRows with
+          | intro packetEq rowName =>
+              exact
+                Exists.intro packet
+                  (And.intro packetEq (hsame_trans (hsame_symm hhk) rowName))
+  · intro row source
+    cases source with
+    | intro _packet packetRows =>
+        cases packetRows with
+        | intro _packetEq rowName =>
+            exact And.intro rfl rowName
+  · intro row source
+    cases source with
+    | intro _packet packetRows =>
+        cases packetRows with
+        | intro _packetEq rowName =>
+            exact And.intro rowName rfl
+
+theorem ExternalSupplyWitness_socket_factorization {S R G L H C P N row mid routed : BHist} :
+    hsame row mid →
+      hsame mid routed →
+        (∃ packet : ExternalSupplyWitnessUp,
+          packet = ExternalSupplyWitnessUp.mk S R G L H C P N ∧ hsame row N) →
+          (externalSupplyWitnessFields (ExternalSupplyWitnessUp.mk S R G L H C P N) =
+              [S, R, G, L, H, C, P, N] ∧ hsame routed N) ∧
+            (hsame routed N ∧
+              externalSupplyWitnessEncodeBHist BHist.Empty = ([] : List BMark)) := by
+  -- BEDC touchpoint anchor: BHist BMark SemanticNameCert hsame
+  intro rowMid midRouted source
+  exact
+    semanticNameCert_classifier_chain_transport
+      (ExternalSupplyWitness_namecert_obligations (S := S) (R := R) (G := G) (L := L)
+        (H := H) (C := C) (P := P) (N := N))
+      rowMid midRouted source
 
 end BEDC.Derived.ExternalSupplyWitnessUp

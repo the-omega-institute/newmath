@@ -218,3 +218,159 @@ windows or of their synchronized union. Hence the endpoint readback remains a
 RegSeqRat-style finite observation read and never appeals to a quotient real,
 completeness principle, or host equality.
 \end{proof}
+
+\begin{theorem}[Real stream prefix probe-union terminal four-face factorization]
+\label{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
+$\mathcal P$ and $\mathcal Q$ be finite certified $\mathsf{ProbeBundle}$
+windows and let $\mathcal U$ be their synchronized union window. Suppose the
+two source windows supply the $\mathsf{RealStreamPrefixClassifier}$ rows and
+finite $\mathsf{RatHistoryClassifier}$ tail rows required by
+\autoref{thm:real-stream-prefix-probe-union-endpoint-readback}. Then every
+endpoint readback selected from $\mathcal U$ factors through exactly one
+terminal four-face packet over
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$.
+
+The packet has precisely the displayed rows
+$$
+\begin{gathered}
+\mathsf{BHist}\text{-indexed finite probe histories},\quad
+\hsame\text{-transport for endpoint tails},\quad
+\Cont\text{-continuity rows},\\
+\Pkg\text{-package rows for the synchronized union window},\quad
+\NameCert\text{-certification rows for the four visible faces}.
+\end{gathered}
+$$
+Its $\StreamNameUp$ face is the synchronized carrier $\mathcal U$, its
+$\DyadicRatCoreUp$ face is the common finite scale window read from the same
+endpoint ledger, its $\RegSeqRatUp$ face is the regular sequence readback, and
+its $\RealUp$ face is the local endpoint seal supplied by the union readback.
+There is no second terminal packet with the same displayed rows.
+
+The factorization does not use quotient-real equality, selected limit values,
+ambient completeness of $\RealUp$, countable choice, or standard bridge data.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-prefix-probe-union-endpoint-readback}. The synchronized
+union window supplies the endpoint $\mathsf{RatHistoryClassifier}$ readback and
+the common e-one tail witnesses, all selected from the finite rows of
+$\mathcal P,\mathcal Q,\mathcal U$.
+
+Next apply \autoref{thm:streamname-synchronized-window-union-carrier} and
+\autoref{thm:streamname-finite-request-section-terminal-coherence}. These two
+results identify the $\StreamNameUp$ carrier row with a terminal finite-request
+section over the same synchronized window; no endpoint outside $\mathcal U$ is
+introduced.
+
+Now apply \autoref{thm:regseqrat-real-terminal-four-face-exactness}. The
+RegSeqRat readback and the local Real endpoint seal are thereby read as two
+faces of a single terminal packet whose support rows are exactly the displayed
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply
+\autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}.
+It supplies the $\DyadicRatCoreUp$ common-scale face and proves that the four
+visible faces form one pullback packet. Terminality gives uniqueness of the
+packet with those rows, while the construction never introduces quotient-real
+equality, selected limits, ambient completeness, countable choice, or standard
+bridge data.
+\end{proof}
+
+\begin{theorem}[Real stream prefix probe-union terminal four-face support minimality]
+\label{thm:real-stream-prefix-probe-union-terminal-four-face-support-minimality}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, finite certified
+probe windows $\mathcal P,\mathcal Q$, and their synchronized union
+$\mathcal U$, every accepted terminal packet produced by
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}
+is support-minimal. Deleting or replacing any one of the four faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, or deleting or replacing
+any displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ support row,
+destroys the accepted probe-union terminal read.
+
+The missing face or support row cannot be supplied by quotient-real equality,
+selected limit values, ambient $\RealUp$ completeness, countable choice,
+metric-completeness rows, aggregate status rows, or standard bridge data. These
+coordinates remain outside the local probe-union packet and do not substitute
+for the finite BEDC support rows used by the terminal read.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}.
+It identifies the accepted probe-union read with a unique terminal packet whose
+visible faces are exactly
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and whose support is the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ row family.
+
+For the finite-window carrier face, apply
+\autoref{thm:streamname-terminal-four-face-support-minimality} to the
+synchronized StreamName window underlying $\mathcal U$. That result rules out
+deletion or replacement of the StreamName face and of the finite probe-history
+rows that certify membership in the accepted window.
+
+For the dyadic request and regular tail faces, apply
+\autoref{thm:regseqrat-tail-budget-support-minimality}. The common finite scale
+window and the RegSeqRat tail-budget rows are read from the same endpoint
+ledger, so removing either face, or any of the $\hsame$, $\Cont$, $\Pkg$, or
+$\NameCert$ rows it consumes, leaves no accepted regular tail read for the
+probe-union endpoint.
+
+Finally apply
+\autoref{thm:real-l10-terminal-four-face-support-minimality-pullback} together
+with \autoref{thm:real-l10-route-face-deletion-obstruction}. These pull the
+Real-side endpoint seal back to the same four-face terminal packet and rule out
+substitution by host-real equality, selected limits, completeness coordinates,
+choice principles, aggregate status rows, or bridge evidence. The two-axis
+roadmap discipline keeps those excluded coordinates separate from the local
+BEDC support rows, so none of them can repair a missing face or row.
+\end{proof}
+
+\begin{theorem}[Real stream prefix probe-union support-row exchange invariance]
+\label{thm:real-stream-prefix-probe-union-support-row-exchange-invariance}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
+$\mathcal P$ and $\mathcal Q$ be finite certified $\mathsf{ProbeBundle}$
+windows, and let $\mathcal U$ be their synchronized union window. Consider any
+two presentations of the terminal packet supplied by
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}.
+Suppose both presentations preserve the same four visible faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and the same displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ projections.
+
+Then exchanging the presentation order of those already-displayed support rows
+does not produce a second terminal packet. The two presentations determine the
+same terminal packet over $\mathcal U$, and for every selected endpoint $j$ they
+determine the same finite endpoint readback
+$\mathsf{RatHistoryClassifier}(x(j),y(j))$ with the same $\hsame$-transported
+common e-one tail witnesses.
+
+This invariance is local to the displayed BEDC support rows. It is not
+witnessed by quotient-real equality, selected limit values, ambient
+$\RealUp$ completeness, countable choice, aggregate status rows, or bridge
+data, and none of those coordinates can distinguish two presentation orders of
+the same terminal probe-union packet.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-prefix-probe-union-endpoint-readback}. Both
+presentations read each selected endpoint from the same synchronized union
+window $\mathcal U$ and the same finite endpoint ledger, so the rational
+endpoint row and the common e-one tail witnesses agree by the displayed
+$\hsame$ transport.
+
+Next apply
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-factorization}.
+The two presentations expose the same four faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and the same
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ projections. Terminality
+therefore identifies them as one terminal packet over the synchronized union
+carrier rather than as two packets distinguished by row order.
+
+Finally apply
+\autoref{thm:real-stream-prefix-probe-union-terminal-four-face-support-minimality}.
+Support minimality says that the accepted terminal read is carried exactly by
+the displayed faces and support rows. Hence quotient-real equality, selected
+limits, ambient completeness, countable choice, aggregate status rows, and
+bridge data cannot replace one of those rows or separate two orderings of the
+same row family. The endpoint readback equality from the first paragraph is
+therefore the endpoint readback of the unique terminal packet.
+\end{proof}

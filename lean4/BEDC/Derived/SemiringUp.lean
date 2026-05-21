@@ -167,6 +167,51 @@ theorem SemiringFiniteSource_semantic_name_certificate [AskSetup] [PackageSetup]
       exact rowSource
   }
 
+theorem SemiringFiniteSource_concrete_history_instance [AskSetup] [PackageSetup]
+    {add mul shared distrib annihil transport routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+        bundle pkg ->
+      UnaryHistory add ∧ UnaryHistory mul ∧ UnaryHistory shared ∧ UnaryHistory distrib ∧
+        UnaryHistory annihil ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
+          UnaryHistory provenance ∧ UnaryHistory name ∧ Cont add mul shared ∧
+            Cont shared distrib transport ∧ Cont annihil transport routes ∧
+              Cont routes provenance name ∧ PkgSig bundle name pkg ∧
+                SemanticNameCert
+                  (fun row : BHist =>
+                    SemiringFiniteSource add mul shared distrib annihil transport routes
+                        provenance name bundle pkg ∧ hsame row name)
+                  (fun row : BHist =>
+                    SemiringFiniteSource add mul shared distrib annihil transport routes
+                        provenance name bundle pkg ∧ hsame row name)
+                  (fun row : BHist =>
+                    SemiringFiniteSource add mul shared distrib annihil transport routes
+                        provenance name bundle pkg ∧ hsame row name)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory
+  intro source
+  have sourceWitness := source
+  obtain ⟨addUnary, mulUnary, sharedUnary, distribUnary, annihilUnary, transportUnary,
+    routesUnary, provenanceUnary, nameUnary, sharedRoute, transportRoute, routesRoute,
+    nameRoute, namePkg⟩ := source
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+              bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+              bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+              bundle pkg ∧ hsame row name)
+        hsame :=
+    SemiringFiniteSource_semantic_name_certificate sourceWitness
+  exact
+    ⟨addUnary, mulUnary, sharedUnary, distribUnary, annihilUnary, transportUnary, routesUnary,
+      provenanceUnary, nameUnary, sharedRoute, transportRoute, routesRoute, nameRoute, namePkg,
+      cert⟩
+
 def SemiringZeroAnnihilationLedger (zero mul left right : BHist) : Prop :=
   UnaryHistory zero ∧ UnaryHistory mul ∧ Cont zero mul left ∧ Cont mul zero right
 
@@ -181,5 +226,64 @@ theorem SemiringZeroAnnihilationLedger_scope {zero mul left right : BHist} :
   have rightUnary : UnaryHistory right :=
     unary_cont_closed mulUnary zeroUnary rightRoute
   exact ⟨leftUnary, rightUnary, leftRoute, rightRoute⟩
+
+theorem SemiringUp_StdBridge [AskSetup] [PackageSetup]
+    {add mul shared distrib annihil transport routes provenance name bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SemiringFiniteSource add mul shared distrib annihil transport routes provenance name bundle
+        pkg ->
+      Cont name provenance bridge ->
+        PkgSig bundle bridge pkg ->
+          SemanticNameCert
+              (fun row : BHist =>
+                SemiringFiniteSource add mul shared distrib annihil transport routes provenance
+                    name bundle pkg ∧ hsame row bridge)
+              (fun row : BHist =>
+                hsame row add ∨ hsame row mul ∨ hsame row shared ∨ hsame row distrib ∨
+                  hsame row annihil ∨ hsame row bridge)
+              (fun row : BHist => hsame row bridge ∧ PkgSig bundle bridge pkg)
+              hsame ∧
+            UnaryHistory bridge ∧ Cont name provenance bridge ∧ PkgSig bundle bridge pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro source nameProvenanceBridge bridgePkg
+  have sourceWitness := source
+  obtain ⟨_addUnary, _mulUnary, _sharedUnary, _distribUnary, _annihilUnary,
+    _transportUnary, _routesUnary, provenanceUnary, nameUnary, _sharedRow, _transportRow,
+    _routesRow, _nameRow, _namePkg⟩ := source
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed nameUnary provenanceUnary nameProvenanceBridge
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+                bundle pkg ∧ hsame row bridge)
+          (fun row : BHist =>
+            hsame row add ∨ hsame row mul ∨ hsame row shared ∨ hsame row distrib ∨
+              hsame row annihil ∨ hsame row bridge)
+          (fun row : BHist => hsame row bridge ∧ PkgSig bundle bridge pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridge (And.intro sourceWitness (hsame_refl bridge))
+      equiv_refl := by
+        intro row _rowSource
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows rowSource
+        exact And.intro rowSource.left (hsame_trans (hsame_symm sameRows) rowSource.right)
+    }
+    pattern_sound := by
+      intro _row rowSource
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rowSource.right))))
+    ledger_sound := by
+      intro _row rowSource
+      exact ⟨rowSource.right, bridgePkg⟩
+  }
+  exact ⟨cert, bridgeUnary, nameProvenanceBridge, bridgePkg⟩
 
 end BEDC.Derived.SemiringUp
