@@ -1,0 +1,47 @@
+\section{StreamName finite-section reindex gluing}
+\label{sec:streamname-finite-section-reindex-gluing}
+
+\begin{theorem}[StreamName finite-section reindex gluing]
+\label{thm:streamname-finite-section-reindex-gluing}
+Let $Q$ and $Q'$ be accepted current Phase Real and Completion finite request
+sections of a $\StreamNameUp$ packet. Suppose that a certified
+$\StreamNameUp$ finite-window reindex route transports the finite window of
+$Q$ to the finite window of $Q'$, and suppose that after this transport the two
+sections agree on the $\DyadicRatCoreUp$ endpoint-radius ledger, the
+$\RegSeqRatUp$ readback and regularity rows, the $\RealUp$ seal boundary, and
+the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support
+rows. Then $Q$ and $Q'$ determine the same terminal four-face route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ and the same public
+carrier and classifier verdict at that route.
+
+The glued route remains finite and displayed. It contains no quotient stream,
+selected limit, host equality, countable-choice row, metric-completeness row,
+ambient $\RealUp$ completeness row, aggregate status row, or standard bridge
+row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-window-reindex-determinacy}. The certified
+finite-window reindex route, together with the transported $\BHist$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows and the $\hsame$ compatibility, identifies the two
+finite observation sections after transport.
+
+Next use \autoref{thm:streamname-reindex-terminal-coverage}. The transported
+finite observation section reaches exactly the four terminal faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, with the same
+DyadicRatCore ledger, RegSeqRat readback, RealUp seal boundary, and displayed
+support rows.
+
+Now apply \autoref{thm:streamname-finite-section-pullback-exactness} to $Q$
+and to $Q'$. Pullback exactness reads both accepted request sections through
+the same four-face finite route once the endpoint-radius ledger, regularity
+rows, readback rows, seal boundary, and displayed support rows have been
+transported to agreement.
+
+Finally apply
+\autoref{thm:streamname-finite-section-classifier-determinacy}. The common
+four-face route leaves no second public carrier surface or classifier surface
+on which the verdict could vary. The exclusion clauses follow from the same
+finite support: the construction never exports a quotient stream, selected
+limit, host equality, countable-choice row, metric-completeness row, ambient
+Real completeness row, aggregate status row, or standard bridge row.
+\end{proof}
