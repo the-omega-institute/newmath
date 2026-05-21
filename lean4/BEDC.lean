@@ -2235,6 +2235,7 @@ import BEDC.Derived.DigestProvenancePacketUp.NoHiddenSourceConsumption
 import BEDC.Derived.DigestProvenancePacketUp.SourceFiberLedgerOrder
 import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
+import BEDC.Derived.DiniTheoremUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.DirichletUnitUp
@@ -2329,6 +2330,7 @@ import BEDC.Derived.DyadicStepFunctionUp
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicTailBoundUp
 import BEDC.Derived.DyadicTailBoundUp.ConsumerRoutes
+import BEDC.Derived.DyadicTailBoundUp.TasteGate
 import BEDC.Derived.DyadicTailBoundUp.ZeroPacket
 import BEDC.Derived.DyadicTailRadiusComparisonUp.TasteGate
 import BEDC.Derived.DyadicTailRadiusLedgerUp
@@ -4377,6 +4379,7 @@ import BEDC.Derived.RelationalFrameAuditUp.TasteGate
 import BEDC.Derived.RelationalObjectivityUp.ObserverFamilySource
 import BEDC.Derived.RelationalObjectivityUp.TasteGate
 import BEDC.Derived.RelationalPhysicsUp
+import BEDC.Derived.RelationalPhysicsUp.TasteGate
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RepresentationRingUp.InducedConsumerBoundary
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
