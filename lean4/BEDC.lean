@@ -2227,6 +2227,7 @@ import BEDC.Derived.DigestProvenancePacketUp.NoHiddenSourceConsumption
 import BEDC.Derived.DigestProvenancePacketUp.SourceFiberLedgerOrder
 import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
+import BEDC.Derived.DiniTheoremUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.DirichletUnitUp
@@ -2834,6 +2835,7 @@ import BEDC.Derived.HaltingDistinctionUp.TraceNormalFormHandoff
 import BEDC.Derived.HaltingFiniteBoundaryUp.TasteGate
 import BEDC.Derived.HaltingObstructionUp
 import BEDC.Derived.HaltingObstructionUp.NameCertObligations
+import BEDC.Derived.HaltingObstructionUp.TasteGate
 import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.HardProblemClosureUp.TasteGate
@@ -4441,6 +4443,7 @@ import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.SemiringUp
 import BEDC.Derived.SeparableExtUp
+import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
