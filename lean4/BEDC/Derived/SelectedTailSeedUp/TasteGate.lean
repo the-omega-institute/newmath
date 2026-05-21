@@ -338,4 +338,20 @@ theorem SelectedTailSeedCarrier_endpoint_exactness_readback_stability
           some (SelectedTailSeedUp.mk Q E A W K S R H C P N)
       exact selectedTailSeed_round_trip (SelectedTailSeedUp.mk Q E A W K S R H C P N)
 
+theorem SelectedTailSeedCarrier_real_window_handoff {Q E A W K S R H C P N : BHist} :
+    BHistCarrier.fromEventFlow
+          (BHistCarrier.toEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+        some (SelectedTailSeedUp.mk Q E A W K S R H C P N) ∧
+      Cont R N (append R N) ∧ hsame (append R N) (append R N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · change
+      selectedTailSeedFromEventFlow
+          (selectedTailSeedToEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+        some (SelectedTailSeedUp.mk Q E A W K S R H C P N)
+    exact selectedTailSeed_round_trip (SelectedTailSeedUp.mk Q E A W K S R H C P N)
+  · constructor
+    · exact cont_intro rfl
+    · exact hsame_refl (append R N)
+
 end BEDC.Derived.SelectedTailSeedUp
