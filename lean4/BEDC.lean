@@ -2373,6 +2373,7 @@ import BEDC.Derived.DyadicSplineUp.TasteGate
 import BEDC.Derived.DyadicStepFunctionUp
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicSubdivisionUp.TasteGate
+import BEDC.Derived.DyadicTailBallUp.TasteGate
 import BEDC.Derived.DyadicTailBoundUp
 import BEDC.Derived.DyadicTailBoundUp.ConsumerRoutes
 import BEDC.Derived.DyadicTailBoundUp.TasteGate
@@ -3278,6 +3279,7 @@ import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
 import BEDC.Derived.LocatedSupremumUp.TasteGate
+import BEDC.Derived.LocatednessModulusUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
@@ -3342,7 +3344,6 @@ import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.MeasureUp.RootDownstreamUnblockPackage
 import BEDC.Derived.MeasureUp.RootPublicObligationBasis
 import BEDC.Derived.MeasureUp.RootPublicSurface
-import BEDC.Derived.MeasureUp.RootRealStreamRegularity
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp.TasteGate
@@ -3552,6 +3553,7 @@ import BEDC.Derived.ModuleUp.KernelExactness
 import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.StdBridge
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
+import BEDC.Derived.ModulusContinuityUp.TasteGate
 import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusOfConvergenceUp
@@ -4143,6 +4145,7 @@ import BEDC.Derived.RealDiagonalCompletionUp.TasteGate
 import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
+import BEDC.Derived.RealEqualityUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessSealUp
 import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
@@ -5240,6 +5243,7 @@ import BEDC.Derived.VerifiedOutputHarnessUp.PublicAuditChain
 import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VonneumannalgebraUp
+import BEDC.Derived.WeierstrassApproximationUp.TasteGate
 import BEDC.Derived.WeierstrassMTestUp
 import BEDC.Derived.WeierstrassMTestUp.MajorantDominationPackage
 import BEDC.Derived.WeierstrassMTestUp.PublicConvergenceExport
