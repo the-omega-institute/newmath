@@ -96,7 +96,22 @@ theorem MetricDistanceWitness_triangle_append_context_closed {p q x y z dxy dyz 
         (And.intro xyz.right.right.left
           (MetricDistanceWitness_triangle_append_closed xy yz xyz)))
   exact
-    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := dyz)
+      (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := dyz)
+      (d := dxyz)).mpr
+      (And.intro pCarrier (And.intro qCarrier central))
+
+theorem MetricspaceVisibleContextTriangleBoundary {p q x y z dxy dyz dxyz : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> Cont x z dxyz ->
+        MetricDistanceWitness (append p x) (append z q) (append (append p dxyz) q) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro pCarrier qCarrier xy yz xzContinuation
+  have central : MetricDistanceWitness x z dxyz :=
+    And.intro xy.left
+      (And.intro yz.right.left
+        (And.intro (unary_cont_closed xy.left yz.right.left xzContinuation) xzContinuation))
+  exact
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := z)
       (d := dxyz)).mpr
       (And.intro pCarrier (And.intro qCarrier central))
 
