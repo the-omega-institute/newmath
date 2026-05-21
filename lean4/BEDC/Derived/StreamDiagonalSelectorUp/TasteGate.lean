@@ -51,20 +51,46 @@ def streamDiagonalSelectorToEventFlow : StreamDiagonalSelectorUp → EventFlow
 
 def streamDiagonalSelectorFromEventFlow : EventFlow → Option StreamDiagonalSelectorUp
   -- BEDC touchpoint anchor: BHist BMark
-  | schedule :: selector :: window :: readback :: dyadicLedger :: diagonalPacket :: routes ::
-      provenance :: nameCert :: [] =>
-      some
-        (StreamDiagonalSelectorUp.mk
-          (streamDiagonalSelectorDecodeBHist schedule)
-          (streamDiagonalSelectorDecodeBHist selector)
-          (streamDiagonalSelectorDecodeBHist window)
-          (streamDiagonalSelectorDecodeBHist readback)
-          (streamDiagonalSelectorDecodeBHist dyadicLedger)
-          (streamDiagonalSelectorDecodeBHist diagonalPacket)
-          (streamDiagonalSelectorDecodeBHist routes)
-          (streamDiagonalSelectorDecodeBHist provenance)
-          (streamDiagonalSelectorDecodeBHist nameCert))
-  | _ => none
+  | [] => none
+  | schedule :: rest0 =>
+      match rest0 with
+      | [] => none
+      | selector :: rest1 =>
+          match rest1 with
+          | [] => none
+          | window :: rest2 =>
+              match rest2 with
+              | [] => none
+              | readback :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | dyadicLedger :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | diagonalPacket :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | routes :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | provenance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | nameCert :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (StreamDiagonalSelectorUp.mk
+                                              (streamDiagonalSelectorDecodeBHist schedule)
+                                              (streamDiagonalSelectorDecodeBHist selector)
+                                              (streamDiagonalSelectorDecodeBHist window)
+                                              (streamDiagonalSelectorDecodeBHist readback)
+                                              (streamDiagonalSelectorDecodeBHist dyadicLedger)
+                                              (streamDiagonalSelectorDecodeBHist diagonalPacket)
+                                              (streamDiagonalSelectorDecodeBHist routes)
+                                              (streamDiagonalSelectorDecodeBHist provenance)
+                                              (streamDiagonalSelectorDecodeBHist nameCert))
+                                      | _ :: _ => none
 
 private theorem streamDiagonalSelector_mk_congr
     {schedule schedule' selector selector' window window' readback readback'
@@ -181,11 +207,8 @@ def taste_gate : ChapterTasteGate StreamDiagonalSelectorUp :=
   StreamDiagonalSelectorTasteGate_single_carrier_alignment_taste_gate
 
 theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate StreamDiagonalSelectorUp) ∧
-      Nonempty (FieldFaithful StreamDiagonalSelectorUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial StreamDiagonalSelectorUp) ∧
-      (∀ h : BHist,
-        streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist h) = h) ∧
+    (∀ h : BHist,
+      streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist h) = h) ∧
       (∀ x : StreamDiagonalSelectorUp,
         streamDiagonalSelectorFromEventFlow (streamDiagonalSelectorToEventFlow x) = some x) ∧
       (∀ x y : StreamDiagonalSelectorUp,
@@ -194,18 +217,56 @@ theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
       streamDiagonalSelectorEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact ⟨StreamDiagonalSelectorTasteGate_single_carrier_alignment_ChapterTasteGate⟩
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
   constructor
-  · exact ⟨streamDiagonalSelectorFieldFaithful⟩
-  constructor
-  · exact ⟨streamDiagonalSelectorNontrivial⟩
-  constructor
-  · exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode
-  constructor
-  · exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip
+  · intro x
+    cases x with
+    | mk schedule selector window readback dyadicLedger diagonalPacket routes provenance
+        nameCert =>
+        change
+          some
+            (StreamDiagonalSelectorUp.mk
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist schedule))
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist selector))
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist window))
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist readback))
+              (streamDiagonalSelectorDecodeBHist
+                (streamDiagonalSelectorEncodeBHist dyadicLedger))
+              (streamDiagonalSelectorDecodeBHist
+                (streamDiagonalSelectorEncodeBHist diagonalPacket))
+              (streamDiagonalSelectorDecodeBHist (streamDiagonalSelectorEncodeBHist routes))
+              (streamDiagonalSelectorDecodeBHist
+                (streamDiagonalSelectorEncodeBHist provenance))
+              (streamDiagonalSelectorDecodeBHist
+                (streamDiagonalSelectorEncodeBHist nameCert))) =
+            some
+              (StreamDiagonalSelectorUp.mk schedule selector window readback dyadicLedger
+                diagonalPacket routes provenance nameCert)
+        rw [StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode schedule,
+          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode selector,
+          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode window,
+          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode readback,
+          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode dyadicLedger,
+          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode diagonalPacket,
+          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode routes,
+          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode provenance,
+          StreamDiagonalSelectorTasteGate_single_carrier_alignment_decode_encode nameCert]
   constructor
   · intro x y heq
-    exact StreamDiagonalSelectorTasteGate_single_carrier_alignment_toEventFlow_injective heq
+    have hread :
+        streamDiagonalSelectorFromEventFlow (streamDiagonalSelectorToEventFlow x) =
+          streamDiagonalSelectorFromEventFlow (streamDiagonalSelectorToEventFlow y) :=
+      congrArg streamDiagonalSelectorFromEventFlow heq
+    exact Option.some.inj
+      (Eq.trans (StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip x).symm
+        (Eq.trans hread (StreamDiagonalSelectorTasteGate_single_carrier_alignment_round_trip y)))
   constructor
   · rfl
   · rfl
@@ -213,12 +274,9 @@ theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
 end TasteGate
 
 theorem StreamDiagonalSelectorTasteGate_single_carrier_alignment :
-    Nonempty (BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.StreamDiagonalSelectorUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.FieldFaithful TasteGate.StreamDiagonalSelectorUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial TasteGate.StreamDiagonalSelectorUp) ∧
-      (∀ h : BEDC.FKernel.Hist.BHist,
-        TasteGate.streamDiagonalSelectorDecodeBHist
-          (TasteGate.streamDiagonalSelectorEncodeBHist h) = h) ∧
+    (∀ h : BEDC.FKernel.Hist.BHist,
+      TasteGate.streamDiagonalSelectorDecodeBHist
+        (TasteGate.streamDiagonalSelectorEncodeBHist h) = h) ∧
       (∀ x : TasteGate.StreamDiagonalSelectorUp,
         TasteGate.streamDiagonalSelectorFromEventFlow
           (TasteGate.streamDiagonalSelectorToEventFlow x) = some x) ∧
