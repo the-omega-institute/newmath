@@ -294,4 +294,46 @@ theorem AllowedProofAuditPacket_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem AllowedProofAuditNonEscape [AskSetup] [PackageSetup]
+    {allowed refused scope witness localRefutation ledger transport continuation provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AllowedProofAuditPacket allowed refused scope witness localRefutation ledger transport
+      continuation provenance localName bundle pkg →
+      ∃ x : AllowedProofAuditUp,
+        x =
+            AllowedProofAuditUp.mk allowed refused scope witness localRefutation ledger transport
+              continuation provenance localName ∧
+          List.Mem witness (allowedProofAuditFields x) ∧
+            List.Mem localRefutation (allowedProofAuditFields x) ∧
+              List.Mem ledger (allowedProofAuditFields x) ∧
+                Cont scope witness transport ∧
+                  Cont localRefutation ledger continuation ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle PkgSig
+  intro packet
+  rcases packet with
+    ⟨_allowedHistory, _refusedHistory, _scopeHistory, _witnessHistory,
+      _localRefutationHistory, _allowedRefusedLedger, scopeWitnessTransport,
+      localRefutationLedgerContinuation, _transportContinuationProvenance,
+      _provenanceLocalName, provenancePkg⟩
+  refine
+    ⟨AllowedProofAuditUp.mk allowed refused scope witness localRefutation ledger transport
+        continuation provenance localName, rfl, ?_, ?_, ?_, scopeWitnessTransport,
+      localRefutationLedgerContinuation, provenancePkg⟩
+  · exact
+      List.Mem.tail _ <|
+        List.Mem.tail _ <|
+          List.Mem.tail _ (List.Mem.head _)
+  · exact
+      List.Mem.tail _ <|
+        List.Mem.tail _ <|
+          List.Mem.tail _ <|
+            List.Mem.tail _ (List.Mem.head _)
+  · exact
+      List.Mem.tail _ <|
+        List.Mem.tail _ <|
+          List.Mem.tail _ <|
+            List.Mem.tail _ <|
+              List.Mem.tail _ (List.Mem.head _)
+
 end BEDC.Derived.AllowedProofAuditUp
