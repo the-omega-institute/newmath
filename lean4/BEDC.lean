@@ -1934,6 +1934,7 @@ import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.NameCertObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
+import BEDC.Derived.DecimalExpansionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
@@ -2432,6 +2433,7 @@ import BEDC.Derived.FieldUp.AffineCompositeInverseReverseCoherence
 import BEDC.Derived.FieldUp.AffineCompositeProductWitnessIndependence
 import BEDC.Derived.FieldUp.AffineEquation
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
+import BEDC.Derived.FieldUp.CanonicalExitActionInversePackage
 import BEDC.Derived.FieldUp.ConcreteExitObject
 import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
 import BEDC.Derived.FieldUp.ConjugationEquation
@@ -3442,6 +3444,7 @@ import BEDC.Derived.MetricUp.RealDistancePublicLawPackage
 import BEDC.Derived.MetricUp.RightE1ResultShape
 import BEDC.Derived.MetricUp.SOneEquationDistanceFactorization
 import BEDC.Derived.MetricUp.SOneEquationDistanceSymmetry
+import BEDC.Derived.MetricUp.SOnePositiveBoundaryEquivalence
 import BEDC.Derived.MetricUp.StdBridge
 import BEDC.Derived.MetricUp.TasteGate
 import BEDC.Derived.MetricUp.Transport

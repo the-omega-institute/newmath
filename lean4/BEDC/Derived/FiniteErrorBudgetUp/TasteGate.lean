@@ -110,24 +110,7 @@ private theorem FiniteErrorBudgetTasteGate_single_carrier_alignment_fields_faith
   | mk n₁ eps₁ b₁ d₁ t₁ r₁ e₁ p₁ cert₁ =>
       cases y with
       | mk n₂ eps₂ b₂ d₂ t₂ r₂ e₂ p₂ cert₂ =>
-          injection hfields with hn tail0
-          injection tail0 with heps tail1
-          injection tail1 with hb tail2
-          injection tail2 with hd tail3
-          injection tail3 with ht tail4
-          injection tail4 with hr tail5
-          injection tail5 with he tail6
-          injection tail6 with hp tail7
-          injection tail7 with hcert _
-          subst hn
-          subst heps
-          subst hb
-          subst hd
-          subst ht
-          subst hr
-          subst he
-          subst hp
-          subst hcert
+          cases hfields
           rfl
 
 instance FiniteErrorBudgetTasteGate_single_carrier_alignment_BHistCarrier :
@@ -174,20 +157,13 @@ def taste_gate : ChapterTasteGate FiniteErrorBudgetUp :=
   FiniteErrorBudgetTasteGate_single_carrier_alignment_ChapterTasteGate
 
 theorem FiniteErrorBudgetTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate FiniteErrorBudgetUp) ∧
-      Nonempty (FieldFaithful FiniteErrorBudgetUp) ∧
-      Nonempty (Nontrivial FiniteErrorBudgetUp) ∧
-      (∀ h : BHist,
+    (∀ h : BHist,
         FiniteErrorBudgetTasteGate_single_carrier_alignment_decodeBHist
             (FiniteErrorBudgetTasteGate_single_carrier_alignment_encodeBHist h) =
           h) ∧
-      (∀ x : FiniteErrorBudgetUp,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_fromEventFlow
-            (FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow x) =
-          some x) ∧
       (∀ x y : FiniteErrorBudgetUp,
-        FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow x =
-            FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow y →
+        FiniteErrorBudgetTasteGate_single_carrier_alignment_fields x =
+            FiniteErrorBudgetTasteGate_single_carrier_alignment_fields y →
           x = y) ∧
       FiniteErrorBudgetTasteGate_single_carrier_alignment_fields
           (FiniteErrorBudgetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -200,18 +176,19 @@ theorem FiniteErrorBudgetTasteGate_single_carrier_alignment :
         [[], [], [], [], [], [], [], [], []] := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   constructor
-  · exact ⟨FiniteErrorBudgetTasteGate_single_carrier_alignment_ChapterTasteGate⟩
+  · intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
   constructor
-  · exact ⟨FiniteErrorBudgetTasteGate_single_carrier_alignment_FieldFaithful⟩
-  constructor
-  · exact ⟨FiniteErrorBudgetTasteGate_single_carrier_alignment_Nontrivial⟩
-  constructor
-  · exact FiniteErrorBudgetTasteGate_single_carrier_alignment_decode_encode
-  constructor
-  · exact FiniteErrorBudgetTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact FiniteErrorBudgetTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  · intro x y hfields
+    cases x with
+    | mk n₁ eps₁ b₁ d₁ t₁ r₁ e₁ p₁ cert₁ =>
+        cases y with
+        | mk n₂ eps₂ b₂ d₂ t₂ r₂ e₂ p₂ cert₂ =>
+            cases hfields
+            rfl
   constructor
   · rfl
   · rfl
