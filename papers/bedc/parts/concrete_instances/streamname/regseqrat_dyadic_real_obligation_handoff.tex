@@ -194,3 +194,21 @@ For the reverse direction, assume every adjacent comparison agrees on the four f
 
 Finally apply face-status readback, \autoref{thm:streamname-l10-ordered-exit-face-status-readback}. Status and bridge reads remain attached to the four object faces at every node and every adjacent refinement, so the finite zigzag creates no aggregate formal-status row, aggregate bridge row, or standard bridge row. Quotient streams, selected limits, countable choice data, metric-completeness data, and ambient $\RealUp$ completeness are likewise absent from the ordered route and therefore cannot become confluence coordinates.
 \end{proof}
+
+\begin{theorem}[StreamName L10 ordered exit zigzag terminality]
+\label{thm:streamname-l10-ordered-exit-zigzag-terminality}
+Let $U_0,\ldots,U_n$ be a finite zigzag of accepted Phase Real and Completion seal-facing reads, each of whose public surfaces follows the ordered route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+Assume that every adjacent edge between $U_i$ and $U_{i+1}$ is witnessed by a support-row-preserving common finite-window refinement, and that every adjacent comparison agrees on the four face rows: the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal row. Then the whole zigzag determines a unique terminal public credential, namely the credential determined exactly by the common StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback row, RealUp seal row, displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. This terminal packet contains no quotient stream, selected limit, countable choice datum, metric-completeness datum, aggregate formal-status row, aggregate bridge row, standard bridge row, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Induct on the finite zigzag. In the empty and one-node cases, terminal coherence, \autoref{thm:streamname-l10-four-face-terminal-coherence}, identifies the only public credential with the displayed four-face packet and its support rows.
+
+For the induction step, split the zigzag as an initial zigzag from $U_0$ to $U_k$ followed by one adjacent edge from $U_k$ to $U_{k+1}$. Apply the induction hypothesis to obtain the unique terminal credential for the initial zigzag. Apply common-refinement naturality, \autoref{thm:streamname-l10-ordered-exit-common-refinement-naturality}, to the final edge, so the final adjacent four-face agreement transports the same credential across the common finite-window refinement.
+
+Next use zigzag confluence, \autoref{thm:streamname-l10-ordered-exit-zigzag-confluence}. It upgrades adjacent agreement on the four face rows to endpoint agreement for the whole finite zigzag, so there is only one candidate terminal public credential compatible with all adjacent refinements.
+
+Finally apply terminal coherence and face-status readback, \autoref{thm:streamname-l10-four-face-terminal-coherence} and \autoref{thm:streamname-l10-ordered-exit-face-status-readback}. Terminal coherence identifies the unique credential with the common StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback row, RealUp seal row, displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. Face-status readback keeps status and bridge data attached to the four object faces, so quotient streams, selected limits, countable choice data, metric-completeness data, aggregate formal-status rows, aggregate bridge rows, standard bridge rows, and ambient $\RealUp$ completeness cannot become extra terminal coordinates.
+\end{proof}
