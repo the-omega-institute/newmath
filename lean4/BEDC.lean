@@ -16,6 +16,7 @@ import BEDC.Derived.ActionCommitmentUp.TasteGate
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AddUp
 import BEDC.Derived.AdeleUp
+import BEDC.Derived.AdjointOperatorUp.TasteGate
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.AdjunctionUp.AlternatingPrefix
@@ -1505,6 +1506,7 @@ import BEDC.Derived.ComputableUp
 import BEDC.Derived.ConceptRegistryObligationUp.TasteGate
 import BEDC.Derived.ConceptRegistrySurfaceUp.TasteGate
 import BEDC.Derived.CondExpUp
+import BEDC.Derived.ConnectedIntervalUp.TasteGate
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.ConsciousObserverStateUp.BridgeRoute
@@ -2337,6 +2339,7 @@ import BEDC.Derived.DyadicFloorUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
+import BEDC.Derived.DyadicMaxUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicMeshUp.EnclosureExport
 import BEDC.Derived.DyadicMeshUp.TasteGate
@@ -3054,6 +3057,7 @@ import BEDC.Derived.InterHistTransportSealUp.NameCertObligations
 import BEDC.Derived.InterHistTransportSealUp.Nonescape
 import BEDC.Derived.InterHistTransportSealUp.TasteGate
 import BEDC.Derived.InterInscriptionCoherenceUp.TasteGate
+import BEDC.Derived.IntermediateValueBisectionUp.TasteGate
 import BEDC.Derived.IntermediateValueUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
@@ -4566,6 +4570,7 @@ import BEDC.Derived.SemigroupUp
 import BEDC.Derived.SemiringUp
 import BEDC.Derived.SemiringUp.TasteGate
 import BEDC.Derived.SeparableExtUp
+import BEDC.Derived.SeparableMetricUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
@@ -4734,6 +4739,7 @@ import BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
 import BEDC.Derived.StatusDowngradeUp.TasteGate
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.SternBrocotApproximationUp.TasteGate
+import BEDC.Derived.StolzCesaroUp.TasteGate
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.TasteGate
 import BEDC.Derived.StoppingTimeUp
