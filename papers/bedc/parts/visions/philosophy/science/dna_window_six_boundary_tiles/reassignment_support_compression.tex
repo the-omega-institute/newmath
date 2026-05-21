@@ -1,0 +1,186 @@
+\begin{definition}[Reassigned support]
+\label{def:philosophy-reassigned-support}
+Let
+$$
+  \mathcal{R}=\{c:\exists t,\ E_{t}(c)\neq E_{1}(c)\}
+$$
+be the support of codons that are reassigned in at least one comparison
+table.
+\end{definition}
+
+\begin{theorem}[Reassigned support]
+\label{thm:philosophy-reassigned-support}
+The reassigned support is the $13$-codon set
+$$
+\begin{gathered}
+  \mathcal{R}=
+  \{\mathrm{UGA},\mathrm{UAG},\mathrm{UAA},\mathrm{AUA},
+    \mathrm{AGA},\mathrm{AGG},\mathrm{AAA},\\
+    \mathrm{CUG},\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},
+    \mathrm{UCA},\mathrm{UUA}\}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+This is the support computed in
+\autoref{thm:philosophy-sparse-reassignment-codon-support}, ignoring
+table multiplicity.
+\end{proof}
+
+\begin{theorem}[Five-motif support formula]
+\label{thm:philosophy-five-motif-support-formula}
+With IUPAC notation
+$$
+  N=\{\mathrm{U},\mathrm{C},\mathrm{A},\mathrm{G}\},
+  \qquad
+  R=\{\mathrm{A},\mathrm{G}\},
+  \qquad
+  W=\{\mathrm{U},\mathrm{A}\},
+$$
+the reassigned support satisfies the exact formula
+$$
+  \mathcal{R}
+  =
+  \mathrm{CUN}\cup\mathrm{AGR}\cup\mathrm{UNA}
+  \cup\mathrm{WWA}\cup\mathrm{UAR}.
+$$
+\end{theorem}
+\begin{proof}
+Expand the five motifs:
+$$
+\begin{aligned}
+  \mathrm{CUN}&=\{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\},\\
+  \mathrm{AGR}&=\{\mathrm{AGA},\mathrm{AGG}\},\\
+  \mathrm{UNA}&=\{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA}\},\\
+  \mathrm{WWA}&=\{\mathrm{UUA},\mathrm{UAA},\mathrm{AUA},\mathrm{AAA}\},\\
+  \mathrm{UAR}&=\{\mathrm{UAA},\mathrm{UAG}\}.
+\end{aligned}
+$$
+Their union is exactly the $13$ codons displayed in
+\autoref{thm:philosophy-reassigned-support}.
+\end{proof}
+
+\begin{corollary}[Support is a union of motifs]
+\label{cor:philosophy-support-union-of-motifs}
+The reassigned support is not merely a list of codons. It is the union
+of five low-dimensional codon motifs:
+$$
+  \mathrm{CUN},\quad \mathrm{AGR},\quad \mathrm{UNA},
+  \quad \mathrm{WWA},\quad \mathrm{UAR}.
+$$
+\end{corollary}
+\begin{proof}
+This is \autoref{thm:philosophy-five-motif-support-formula}.
+\end{proof}
+
+\begin{theorem}[Minimal exact internal-subcube cover]
+\label{thm:philosophy-minimal-exact-internal-subcube-cover}
+Consider all nonempty axis-aligned subcubes $S\subset Q_{6}$ satisfying
+$S\subseteq\mathcal{R}$. Among covers of $\mathcal{R}$ by such internal
+subcubes, the minimum cover size is $5$, and the minimum cover is unique:
+$$
+  \mathrm{CUN},\quad \mathrm{WWA},\quad \mathrm{UNA},
+  \quad \mathrm{AGR},\quad \mathrm{UAR}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate every axis-aligned subcube of $Q_{6}$ and retain only those
+whose vertices lie in $\mathcal{R}$. There are $20$ retained subcubes.
+The maximal retained subcubes include the four square faces
+$\mathrm{CUN}$, $\mathrm{WWA}$, $\mathrm{UNA}$, and
+$\{\mathrm{AAA},\mathrm{AGA},\mathrm{UAA},\mathrm{UGA}\}$, together
+with the internal edges $\mathrm{AGR}$ and $\mathrm{UAR}$ and a smaller
+Leu-side edge. A finite set-cover enumeration over these retained
+subcubes shows that no cover of size less than $5$ exists, and that the
+unique cover of size $5$ is the displayed one.
+\end{proof}
+
+\begin{corollary}[Five motifs are the exact support compression]
+\label{cor:philosophy-five-motifs-exact-support-compression}
+If no false-positive codons are allowed, the reassigned support has a
+unique shortest axis-aligned subcube description: the five motifs
+$\mathrm{CUN}$, $\mathrm{WWA}$, $\mathrm{UNA}$, $\mathrm{AGR}$, and
+$\mathrm{UAR}$.
+\end{corollary}
+\begin{proof}
+This is the uniqueness statement in
+\autoref{thm:philosophy-minimal-exact-internal-subcube-cover}.
+\end{proof}
+
+\begin{theorem}[Envelope versus exact support]
+\label{thm:philosophy-envelope-versus-exact-support}
+The three-module low-dimensional envelope is
+$$
+  \mathrm{WRR}\cup\mathrm{CUN}\cup\mathrm{WYA},
+$$
+where
+$$
+\begin{aligned}
+  \mathrm{WRR}
+    &=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG},
+       \mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG}\},\\
+  \mathrm{CUN}
+    &=\{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\},\\
+  \mathrm{WYA}
+    &=\{\mathrm{UUA},\mathrm{UCA},\mathrm{AUA},\mathrm{ACA}\}.
+\end{aligned}
+$$
+It satisfies
+$$
+  \mathrm{WRR}\cup\mathrm{CUN}\cup\mathrm{WYA}
+  =
+  \mathcal{R}\cup\{\mathrm{UGG},\mathrm{AAG},\mathrm{ACA}\}.
+$$
+\end{theorem}
+\begin{proof}
+Expand the three motifs and compare with
+\autoref{thm:philosophy-reassigned-support}. The only codons in the
+three-module envelope that are not in $\mathcal{R}$ are
+$\mathrm{UGG}$, $\mathrm{AAG}$, and $\mathrm{ACA}$.
+\end{proof}
+
+\begin{corollary}[Three-module envelope and five-motif support]
+\label{cor:philosophy-three-envelope-five-support}
+There are two complementary compressions of the reassigned support:
+$$
+  \mathcal{R}
+  \subset
+  \mathrm{WRR}\cup\mathrm{CUN}\cup\mathrm{WYA}
+$$
+with three false-positive codons, and
+$$
+  \mathcal{R}
+  =
+  \mathrm{CUN}\cup\mathrm{AGR}\cup\mathrm{UNA}
+  \cup\mathrm{WWA}\cup\mathrm{UAR}
+$$
+with no false positives.
+\end{corollary}
+\begin{proof}
+The envelope equality is
+\autoref{thm:philosophy-envelope-versus-exact-support}. The exact
+equality is \autoref{thm:philosophy-five-motif-support-formula}.
+\end{proof}
+
+\begin{theorem}[Support compression statement]
+\label{thm:philosophy-support-compression-statement}
+The comparative reassignment support admits a two-level geometric
+description:
+$$
+\begin{gathered}
+  \text{coarse envelope: }
+  \mathrm{WRR}\cup\mathrm{CUN}\cup\mathrm{WYA},\\
+  \text{exact support: }
+  \mathrm{CUN}\cup\mathrm{AGR}\cup\mathrm{UNA}
+  \cup\mathrm{WWA}\cup\mathrm{UAR}.
+\end{gathered}
+$$
+The first description gives a short three-module envelope with three
+false-positive codons; the second gives the unique minimal exact cover
+by internal axis-aligned subcubes.
+\end{theorem}
+\begin{proof}
+Combine
+\autoref{thm:philosophy-envelope-versus-exact-support} with
+\autoref{thm:philosophy-minimal-exact-internal-subcube-cover}.
+\end{proof}

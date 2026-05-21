@@ -1465,6 +1465,98 @@ def reassignment_spectral_compression_summary(
     }
 
 
+IUPAC_BASES = {
+    "U": {"T"},
+    "C": {"C"},
+    "A": {"A"},
+    "G": {"G"},
+    "N": {"T", "C", "A", "G"},
+    "R": {"A", "G"},
+    "W": {"T", "A"},
+    "Y": {"T", "C"},
+}
+
+
+def expand_iupac_motif(motif: str) -> tuple[str, ...]:
+    choices = [sorted(IUPAC_BASES[symbol], key=BASES.index) for symbol in motif]
+    return tuple("".join(parts) for parts in itertools.product(*choices))
+
+
+def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
+    standard = tables[1]
+    support = {
+        codon
+        for table_id, table in sorted(tables.items())
+        if table_id != 1
+        for codon in all_codons()
+        if table[codon] != standard[codon]
+    }
+    exact_motifs = ("CUN", "AGR", "UNA", "WWA", "UAR")
+    exact_sets = {motif: set(expand_iupac_motif(motif)) for motif in exact_motifs}
+    exact_union = set().union(*exact_sets.values())
+
+    all_internal_subcubes: list[dict[str, object]] = []
+    for dimension in range(1, 7):
+        for free in itertools.combinations(range(6), dimension):
+            for values in itertools.product("01", repeat=6 - dimension):
+                vertices = subcube_vertices(free, values)
+                vertex_set = set(vertices)
+                if vertex_set <= support:
+                    all_internal_subcubes.append(
+                        {
+                            "dimension": dimension,
+                            "fixed_conditions": fixed_conditions(free, values),
+                            "vertices": vertices,
+                        }
+                    )
+    maximal_internal: list[dict[str, object]] = []
+    for candidate in all_internal_subcubes:
+        candidate_set = set(candidate["vertices"])
+        if not any(
+            candidate_set < set(other["vertices"])
+            for other in all_internal_subcubes
+        ):
+            maximal_internal.append(candidate)
+    maximal_internal.sort(key=lambda item: (-item["dimension"], item["vertices"]))
+
+    minimal_exact_covers: list[tuple[dict[str, object], ...]] = []
+    for cover_size in range(1, 8):
+        for blocks in itertools.combinations(maximal_internal, cover_size):
+            covered = set().union(*(set(block["vertices"]) for block in blocks))
+            if covered == support:
+                minimal_exact_covers.append(blocks)
+        if minimal_exact_covers:
+            break
+    envelope_motifs = ("WRR", "CUN", "WYA")
+    envelope_sets = {motif: set(expand_iupac_motif(motif)) for motif in envelope_motifs}
+    envelope_union = set().union(*envelope_sets.values())
+    return {
+        "support": tuple(sorted(support)),
+        "support_size": len(support),
+        "exact_motifs": {
+            motif: tuple(sorted(codons))
+            for motif, codons in exact_sets.items()
+        },
+        "exact_union": tuple(sorted(exact_union)),
+        "exact_formula_matches_support": exact_union == support,
+        "internal_subcube_count": len(all_internal_subcubes),
+        "maximal_internal_subcubes": maximal_internal,
+        "minimal_exact_cover_size": len(minimal_exact_covers[0]),
+        "minimal_exact_cover_count": len(minimal_exact_covers),
+        "minimal_exact_covers": [
+            [tuple(block["vertices"]) for block in cover]
+            for cover in minimal_exact_covers
+        ],
+        "envelope_motifs": {
+            motif: tuple(sorted(codons))
+            for motif, codons in envelope_sets.items()
+        },
+        "envelope_union": tuple(sorted(envelope_union)),
+        "envelope_false_positives": tuple(sorted(envelope_union - support)),
+        "envelope_covers_support": support <= envelope_union,
+    }
+
+
 def module_value_adjacency(states: list[tuple[tuple[str, ...], ...]]) -> dict[int, set[int]]:
     adjacency: dict[int, set[int]] = {index: set() for index in range(len(states))}
     for left, right in itertools.combinations(range(len(states)), 2):
@@ -1768,6 +1860,7 @@ def build_summary() -> dict[str, object]:
         "reassignment_mass_geometry": reassignment_mass_geometry_summary(partial_tables),
         "weighted_deformation_spine": weighted_deformation_spine_summary(partial_tables),
         "reassignment_spectral_compression": reassignment_spectral_compression_summary(partial_tables),
+        "support_compression": support_compression_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -2354,6 +2447,49 @@ def assert_expected(summary: dict[str, object]) -> None:
         4: {"observed_max_mass": 59, "exceed_count": 53, "random_mean_max_mass": 39.82, "p_value": 0.00053},
         5: {"observed_max_mass": 63, "exceed_count": 1003, "random_mean_max_mass": 50.94, "p_value": 0.01003},
     }
+    assert summary["support_compression"]["support_size"] == 13
+    assert summary["support_compression"]["support"] == (
+        "AAA",
+        "AGA",
+        "AGG",
+        "ATA",
+        "CTA",
+        "CTC",
+        "CTG",
+        "CTT",
+        "TAA",
+        "TAG",
+        "TCA",
+        "TGA",
+        "TTA",
+    )
+    assert summary["support_compression"]["exact_motifs"] == {
+        "AGR": ("AGA", "AGG"),
+        "CUN": ("CTA", "CTC", "CTG", "CTT"),
+        "UAR": ("TAA", "TAG"),
+        "UNA": ("TAA", "TCA", "TGA", "TTA"),
+        "WWA": ("AAA", "ATA", "TAA", "TTA"),
+    }
+    assert summary["support_compression"]["exact_formula_matches_support"] is True
+    assert summary["support_compression"]["internal_subcube_count"] == 20
+    assert summary["support_compression"]["minimal_exact_cover_size"] == 5
+    assert summary["support_compression"]["minimal_exact_cover_count"] == 1
+    assert summary["support_compression"]["minimal_exact_covers"] == [
+        [
+            ("CTT", "CTC", "CTA", "CTG"),
+            ("TTA", "TAA", "ATA", "AAA"),
+            ("TTA", "TCA", "TAA", "TGA"),
+            ("AGA", "AGG"),
+            ("TAA", "TAG"),
+        ]
+    ]
+    assert summary["support_compression"]["envelope_motifs"] == {
+        "CUN": ("CTA", "CTC", "CTG", "CTT"),
+        "WRR": ("AAA", "AAG", "AGA", "AGG", "TAA", "TAG", "TGA", "TGG"),
+        "WYA": ("ACA", "ATA", "TCA", "TTA"),
+    }
+    assert summary["support_compression"]["envelope_covers_support"] is True
+    assert summary["support_compression"]["envelope_false_positives"] == ("AAG", "ACA", "TGG")
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
