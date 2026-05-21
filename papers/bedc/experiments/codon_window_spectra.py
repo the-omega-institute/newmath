@@ -1067,6 +1067,122 @@ def fixed_conditions(free_bits: tuple[int, ...], fixed_values: tuple[str, ...]) 
     return tuple(zip(fixed, fixed_values))
 
 
+def gf2_rank(columns: list[int]) -> int:
+    basis: dict[int, int] = {}
+    for column in columns:
+        vector = column
+        while vector:
+            pivot = vector.bit_length() - 1
+            if pivot not in basis:
+                basis[pivot] = vector
+                break
+            vector ^= basis[pivot]
+    return len(basis)
+
+
+def cubical_complex_summary(vertices: set[str]) -> dict[str, object]:
+    cells_by_dim: dict[int, list[dict[str, object]]] = {dimension: [] for dimension in range(7)}
+    cell_keys_by_dim: dict[int, dict[tuple[tuple[int, ...], tuple[str, ...]], int]] = {
+        dimension: {} for dimension in range(7)
+    }
+    for dimension in range(0, 7):
+        for free in itertools.combinations(range(6), dimension):
+            for values in itertools.product("01", repeat=6 - dimension):
+                cell_vertices = subcube_vertices(free, values)
+                if set(cell_vertices) <= vertices:
+                    key = (free, values)
+                    cell_keys_by_dim[dimension][key] = len(cells_by_dim[dimension])
+                    cells_by_dim[dimension].append(
+                        {
+                            "free_bits": free,
+                            "fixed_conditions": fixed_conditions(free, values),
+                            "vertices": cell_vertices,
+                        }
+                    )
+
+    def facet_key(
+        free_bits: tuple[int, ...],
+        fixed_values: tuple[str, ...],
+        fixed_bit: int,
+        fixed_value: str,
+    ) -> tuple[tuple[int, ...], tuple[str, ...]]:
+        old_fixed = [index for index in range(6) if index not in free_bits]
+        word = [""] * 6
+        for index, value in zip(old_fixed, fixed_values):
+            word[index] = value
+        word[fixed_bit] = fixed_value
+        new_free = tuple(index for index in free_bits if index != fixed_bit)
+        new_fixed = [index for index in range(6) if index not in new_free]
+        return new_free, tuple(word[index] for index in new_fixed)
+
+    boundary_ranks: dict[int, int] = {}
+    for dimension in range(1, 7):
+        row_index = cell_keys_by_dim[dimension - 1]
+        columns: list[int] = []
+        for cell in cells_by_dim[dimension]:
+            mask = 0
+            free_bits = cell["free_bits"]
+            fixed_values = tuple(value for _index, value in cell["fixed_conditions"])
+            for bit in free_bits:
+                for value in ("0", "1"):
+                    key = facet_key(free_bits, fixed_values, bit, value)
+                    mask ^= 1 << row_index[key]
+            columns.append(mask)
+        boundary_ranks[dimension] = gf2_rank(columns)
+
+    f_vector = tuple(len(cells_by_dim[dimension]) for dimension in range(7))
+    max_dimension = max((dimension for dimension, cells in cells_by_dim.items() if cells), default=0)
+    betti: list[int] = []
+    for dimension in range(max_dimension + 1):
+        boundary_rank = boundary_ranks.get(dimension, 0)
+        coboundary_rank = boundary_ranks.get(dimension + 1, 0)
+        betti.append(f_vector[dimension] - boundary_rank - coboundary_rank)
+    euler = sum(((-1) ** dimension) * count for dimension, count in enumerate(f_vector))
+    return {
+        "f_vector": f_vector,
+        "max_dimension": max_dimension,
+        "euler_characteristic": euler,
+        "boundary_ranks": dict(sorted(boundary_ranks.items())),
+        "betti": tuple(betti),
+        "cells_by_dimension": {
+            dimension: [
+                {
+                    "free_bits": cell["free_bits"],
+                    "vertices": cell["vertices"],
+                }
+                for cell in cells
+            ]
+            for dimension, cells in cells_by_dim.items()
+            if cells
+        },
+    }
+
+
+def edge_isoperimetric_max_edges(dimension: int, size: int) -> int:
+    memo: dict[tuple[int, int], int] = {}
+
+    def recur(dim: int, count: int) -> int:
+        key = (dim, count)
+        if key in memo:
+            return memo[key]
+        if count <= 1 or dim == 0:
+            memo[key] = 0
+            return 0
+        half = 1 << (dim - 1)
+        lower = max(0, count - half)
+        upper = min(half, count)
+        value = max(
+            recur(dim - 1, split)
+            + recur(dim - 1, count - split)
+            + min(split, count - split)
+            for split in range(lower, upper + 1)
+        )
+        memo[key] = value
+        return value
+
+    return recur(dimension, size)
+
+
 def reassignment_mass_geometry_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
     standard = tables[1]
     codon_counts: collections.Counter[str] = collections.Counter()
@@ -1821,6 +1937,25 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         key=lambda row: (-row["boundary_pressure"], -row["boundary_edges"], row["class"])
     )
 
+    inactive_anchors = set(envelope_union - support)
+    anchor_closure = support | inactive_anchors
+    wna_set = set(expand_iupac_motif("WNA"))
+    wrr_set = set(expand_iupac_motif("WRR"))
+    wra_set = set(expand_iupac_motif("WRA"))
+    closure_formula_union = wna_set | wrr_set | cun
+    active_complex = cubical_complex_summary(support)
+    closure_complex = cubical_complex_summary(anchor_closure)
+    closure_edges = tuple(
+        (left, right)
+        for left, right, _direction in hamming_edges()
+        if left in anchor_closure and right in anchor_closure
+    )
+    closure_boundary_edge_count = 6 * len(anchor_closure) - 2 * len(closure_edges)
+    closure_degrees: dict[str, int] = {
+        codon: sum(1 for left, right in closure_edges if codon in (left, right))
+        for codon in sorted(anchor_closure)
+    }
+
     return {
         "support": tuple(sorted(support)),
         "support_size": len(support),
@@ -1913,6 +2048,51 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "completion_final_size": len(closed),
             "completion_percolates": len(closed) == 64,
             "boundary_class_rows": boundary_class_rows,
+        },
+        "inactive_anchor_closure": {
+            "inactive_anchors": tuple(sorted(inactive_anchors)),
+            "anchor_closure": tuple(sorted(anchor_closure)),
+            "anchor_closure_size": len(anchor_closure),
+            "formula_motifs": {
+                "WNA": tuple(expand_iupac_motif("WNA")),
+                "WRR": tuple(expand_iupac_motif("WRR")),
+                "CUN": tuple(expand_iupac_motif("CUN")),
+            },
+            "formula_matches_closure": closure_formula_union == anchor_closure,
+            "wna_inter_wrr": tuple(codon for codon in expand_iupac_motif("WRA") if codon in wna_set & wrr_set),
+            "wna_inter_wrr_is_wra": wna_set & wrr_set == wra_set,
+            "wra_weight": sum(codon_weight(codon) for codon in wra_set),
+            "active_complex": active_complex,
+            "closure_complex": closure_complex,
+            "closure_edges": closure_edges,
+            "active_boundary_edge_count": len(boundary_edges),
+            "closure_boundary_edge_count": closure_boundary_edge_count,
+            "active_isoperimetric_max_edges": edge_isoperimetric_max_edges(6, len(support)),
+            "closure_isoperimetric_max_edges": edge_isoperimetric_max_edges(6, len(anchor_closure)),
+            "leaf_degree_change": {
+                "TAG": {
+                    "active_degree": len(graph_adjacency["TAG"]),
+                    "closure_degree": closure_degrees["TAG"],
+                    "closure_neighbors": tuple(
+                        sorted(
+                            right if left == "TAG" else left
+                            for left, right in closure_edges
+                            if "TAG" in (left, right)
+                        )
+                    ),
+                },
+                "AGG": {
+                    "active_degree": len(graph_adjacency["AGG"]),
+                    "closure_degree": closure_degrees["AGG"],
+                    "closure_neighbors": tuple(
+                        sorted(
+                            right if left == "AGG" else left
+                            for left, right in closure_edges
+                            if "AGG" in (left, right)
+                        )
+                    ),
+                },
+            },
         },
     }
 
@@ -2995,6 +3175,36 @@ def assert_expected(summary: dict[str, object]) -> None:
         {"class": "R", "boundary_edges": 1, "boundary_pressure": 15, "codons": ("CGA",)},
         {"class": "L", "boundary_edges": 3, "boundary_pressure": 14, "codons": ("TTG",)},
     ]
+    closure = summary["support_compression"]["inactive_anchor_closure"]
+    assert closure["inactive_anchors"] == ("AAG", "ACA", "TGG")
+    assert closure["anchor_closure_size"] == 16
+    assert closure["formula_motifs"] == {
+        "WNA": ("TTA", "TCA", "TAA", "TGA", "ATA", "ACA", "AAA", "AGA"),
+        "WRR": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
+        "CUN": ("CTT", "CTC", "CTA", "CTG"),
+    }
+    assert closure["formula_matches_closure"] is True
+    assert closure["wna_inter_wrr"] == ("TAA", "TGA", "AAA", "AGA")
+    assert closure["wna_inter_wrr_is_wra"] is True
+    assert closure["wra_weight"] == 34
+    assert closure["active_complex"]["f_vector"] == (13, 16, 4, 0, 0, 0, 0)
+    assert closure["active_complex"]["max_dimension"] == 2
+    assert closure["active_complex"]["euler_characteristic"] == 1
+    assert closure["active_complex"]["boundary_ranks"] == {1: 12, 2: 4, 3: 0, 4: 0, 5: 0, 6: 0}
+    assert closure["active_complex"]["betti"] == (1, 0, 0)
+    assert closure["closure_complex"]["f_vector"] == (16, 25, 12, 2, 0, 0, 0)
+    assert closure["closure_complex"]["max_dimension"] == 3
+    assert closure["closure_complex"]["euler_characteristic"] == 1
+    assert closure["closure_complex"]["boundary_ranks"] == {1: 15, 2: 10, 3: 2, 4: 0, 5: 0, 6: 0}
+    assert closure["closure_complex"]["betti"] == (1, 0, 0, 0)
+    assert closure["active_boundary_edge_count"] == 46
+    assert closure["closure_boundary_edge_count"] == 46
+    assert closure["active_isoperimetric_max_edges"] == 22
+    assert closure["closure_isoperimetric_max_edges"] == 32
+    assert closure["leaf_degree_change"] == {
+        "TAG": {"active_degree": 1, "closure_degree": 3, "closure_neighbors": ("AAG", "TAA", "TGG")},
+        "AGG": {"active_degree": 1, "closure_degree": 3, "closure_neighbors": ("AAG", "AGA", "TGG")},
+    }
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
