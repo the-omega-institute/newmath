@@ -210,6 +210,7 @@ import BEDC.Derived.ApproximationTowerResidueUp.Classifier
 import BEDC.Derived.ApproximationTowerResidueUp.HiddenSourceNonescape
 import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationUp
+import BEDC.Derived.ArchimedeanOrderedFieldUp.TasteGate
 import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.ArchimedeanRealUp.PublicOrderConsumer
 import BEDC.Derived.ArzelaAscoliUp
@@ -1064,6 +1065,7 @@ import BEDC.Derived.CauchySealBudgetSynchronizerUp.StdBridge
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.CauchySealInterfaceUp.TasteGate
+import BEDC.Derived.CauchySequenceEquivalenceUp
 import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchySequenceSpaceUp.FiniteSectionPullbackCorrespondence
 import BEDC.Derived.CauchySequenceSpaceUp.KernelScopePacket
@@ -3382,11 +3384,14 @@ import BEDC.Derived.MetricUp.RealAlgOrderApartnessDistanceScope
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessNameCertRoute
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessPositiveReflection
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessSymmetricSeparation
+import BEDC.Derived.MetricUp.RealAlgOrderApartnessTriangleBudget
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveDistancePublicCorrespondence
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveRadiusBudgetInterface
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveRadiusDistanceBoundary
 import BEDC.Derived.MetricUp.RealDistancePublicLawPackage
 import BEDC.Derived.MetricUp.RightE1ResultShape
+import BEDC.Derived.MetricUp.SOneEquationDistanceFactorization
+import BEDC.Derived.MetricUp.SOneEquationDistanceSymmetry
 import BEDC.Derived.MetricUp.StdBridge
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.MetricUp.Triangle
@@ -3913,6 +3918,7 @@ import BEDC.Derived.RatUp.RepresentativeStabilityPackage
 import BEDC.Derived.RatUp.StdBridge
 import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RationalBallUp
+import BEDC.Derived.RationalDensityRealUp.TasteGate
 import BEDC.Derived.RationalIntervalUp
 import BEDC.Derived.RationalIntervalUp.BisectionRefinementNesting
 import BEDC.Derived.RationalIntervalUp.ConsumerCompleteness
@@ -3978,6 +3984,7 @@ import BEDC.Derived.RealCompletionSelectorSealUp.RouteDeterminacy
 import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
 import BEDC.Derived.RealDiagonalCompletionUp
+import BEDC.Derived.RealDiagonalCompletionUp.TasteGate
 import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
@@ -4234,6 +4241,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.SelectorWindowFunctoriality
 import BEDC.Derived.RegularCauchyDiagonalUp.StandardBridgeSource
 import BEDC.Derived.RegularCauchyDiagonalUp.StationaryFamilyExhaustion
 import BEDC.Derived.RegularCauchyDifferenceUp
+import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
