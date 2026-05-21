@@ -207,3 +207,32 @@ theorem ModulusContinuityTasteGate_single_carrier_alignment :
       rfl⟩
 
 end BEDC.Derived.ModulusContinuityUp.TasteGate
+
+namespace BEDC.Derived.ModulusContinuityUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+
+theorem ModulusContinuityTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      TasteGate.modulusContinuityDecodeBHist
+          (TasteGate.modulusContinuityEncodeBHist h) =
+        h) ∧
+      (∀ x : TasteGate.ModulusContinuityUp,
+        TasteGate.modulusContinuityFromEventFlow
+            (TasteGate.modulusContinuityToEventFlow x) =
+          some x) ∧
+        (∀ x y : TasteGate.ModulusContinuityUp,
+          TasteGate.modulusContinuityToEventFlow x =
+              TasteGate.modulusContinuityToEventFlow y →
+            x = y) ∧
+          TasteGate.modulusContinuityEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨TasteGate.ModulusContinuityTasteGate_single_carrier_alignment.2.2.2.1,
+      TasteGate.ModulusContinuityTasteGate_single_carrier_alignment.2.2.2.2.1,
+      TasteGate.ModulusContinuityTasteGate_single_carrier_alignment.2.2.2.2.2.1,
+      TasteGate.ModulusContinuityTasteGate_single_carrier_alignment.2.2.2.2.2.2⟩
+
+end BEDC.Derived.ModulusContinuityUp
