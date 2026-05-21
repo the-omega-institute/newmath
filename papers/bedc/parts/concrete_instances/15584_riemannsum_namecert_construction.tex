@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RiemannSumUp$}
+\label{ch:concrete-instances-riemannsum-namecert}
+\origin{human}
+
+Following Riemann and Darboux, the $\RiemannSumUp$ packet records the finite tagged-sum surface used before a consumer asks for an integral carrier. It sits between the dyadic mesh ledger of \autoref{ch:concrete-instances-dyadicmesh-namecert}, the finite partition surface of \autoref{ch:concrete-instances-partition-namecert}, the stepwise approximation rows of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the Darboux comparison carrier of \autoref{ch:concrete-instances-darbouxintegral-namecert}, and the broader tagged-mesh handoff of \autoref{ch:concrete-instances-riemannintegral-namecert}. The packet names only the finite mesh, tag, value, width, and arithmetic rows of a displayed Riemann sum; it does not assert host integrability, a limiting process, quotient equality of functions, or choice-selected tags outside the packet.
+
+\begin{definition}[Riemann sum carrier]
+\label{def:riemann-sum-carrier}
+A $\RiemannSumUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(M,T,F,W,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the mesh row, read through $\DyadicMeshUp$ and the finite $\PartitionUp$ boundary, naming the ordered cells, endpoints, and adjacency ledger.
+\item $T$ is the tag-containment row, recording one displayed tag for each carried cell together with the dyadic or rational containment witness that places the tag inside that cell.
+\item $F$ is the integrand-read window, exposing exactly the finitely many carried values needed at the displayed tags.
+\item $W$ is the cell-width ledger, recording the width row attached to each mesh cell through the same dyadic or rational endpoint data.
+\item $S$ is the finite sum row, computed from the displayed tag values and cell widths by the carried arithmetic route.
+\item $H$ records componentwise $\hsame$ transport for mesh, tag containment, integrand reads, width rows, sum row, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from mesh cells to tag reads, from tag reads and width rows to summands, and from summands to the finite sum row.
+\item $P$ is the $\Pkg$ provenance over $\RiemannSumUp$, $\DyadicMeshUp$, $\PartitionUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,T,F,W,S,H,C,P,N$. It has no coordinate for a host limit over refinements, a measure-theoretic integral, a quotient function space, a tag-choice principle, or a completed $\RealUp$ value.
+\end{definition}
+
+\begin{theorem}[Riemann sum NameCert obligations]
+\label{thm:riemann-sum-namecert-obligations}
+For every accepted $\RiemannSumUp$ carrier $Q=(M,T,F,W,S,H,C,P,N)$, the local $\NameCert_{\RiemannSumUp}$ surface consists of carrier admission, mesh-tag containment, finite integrand readback, cell-width exposure, finite sum exactness, componentwise transport, continuation replay, provenance, and ledger non-escape. These obligations are discharged entirely by the displayed route
+$$
+M\longmapsto T\longmapsto F,W\longmapsto S
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the finite tuple in \autoref{def:riemann-sum-carrier}. The mesh row $M$ fixes the displayed cell list before any tag or value row is read, and the tag-containment row $T$ attaches one tag witness to each carried cell.
+
+The value and width rows are then read componentwise. The window $F$ exposes only the tag values named by $T$, while $W$ exposes only the widths of the cells named by $M$. No external function equality or hidden refinement family is consulted.
+
+Finite sum exactness is the arithmetic replay from these displayed rows to the row $S$. Since every summand is formed from one carried tag value and one carried width row, the sum is a finite $\BHist$ computation rather than a limiting assertion.
+
+Transport and continuation use $H$ and $C$ to replay the same finite route after componentwise $\hsame$ movement. The provenance row $P$ and local name $N$ source the packet, and the absence of any host-limit, measure, quotient, or tag-choice coordinate gives ledger non-escape.
+\end{proof}
+
+\begin{theorem}[Riemann sum tagged-mesh exactness]
+\label{thm:riemann-sum-tagged-mesh-exactness}
+Every accepted $\RiemannSumUp$ read factors through the displayed mesh row, the tag-containment row, the integrand-read window, the cell-width ledger, and the finite sum row. If two accepted packets agree on those rows under componentwise $\hsame$ transport, then every downstream consumer reads the same finite tagged-sum boundary through $C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:riemann-sum-carrier}. The only route to a summand begins at a cell of $M$, passes through its tag witness in $T$, reads the corresponding value in $F$, and multiplies by the corresponding width in $W$.
+
+Agreement under componentwise $\hsame$ transport identifies those rows cell by cell. Replaying $C$ therefore rebuilds the same summand ledger and the same finite row $S$ on both packets.
+
+The downstream consumer has access only to $S$ together with the replay, provenance, and local name rows. Hence agreement on the displayed tagged-mesh surface determines the public finite-sum boundary, with no extra channel for hidden tags or host function equality.
+\end{proof}
+
+\begin{theorem}[Riemann sum Darboux handoff]
+\label{thm:riemann-sum-darboux-handoff}
+An accepted $\RiemannSumUp$ packet can be handed to a $\DarbouxIntegralUp$ or $\RiemannIntegralUp$ consumer only as the finite tagged-mesh row consisting of $M,T,F,W,S,H,C,P,N$. The handoff supplies the sum side of a Darboux or Riemann comparison, but it does not supply an integral value, a convergence claim over all refinements, a quotient of integrands, or a choice-selected tag family.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:riemann-sum-namecert-obligations}. It exhausts the packet as mesh, tag-containment, value, width, finite-sum, transport, replay, provenance, and local-name data.
+
+A $\DarbouxIntegralUp$ consumer may compare this finite row with upper and lower step-function rows, and a $\RiemannIntegralUp$ consumer may place it inside a larger tagged-mesh integration packet. In both cases the consumer receives the same finite sum row $S$ together with its visible construction route.
+
+The excluded analytic claims are not carrier coordinates. The packet has no row for a completed integral, no family of all refinements, no host quotient of functions, and no choice-selected tag assignment outside $T$. Thus the handoff is exactly the finite tagged-sum side of the integration boundary.
+\end{proof}
+
+\closureat{RiemannSumUp}{seedStr}
+
+\begin{closurestatus}{\RiemannSumUp}
+  \constructivestory{A $\RiemannSumUp$ packet is generated from a finite mesh row, tag-containment row, integrand-read window, cell-width ledger, finite sum row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-sum-carrier}, \autoref{thm:riemann-sum-namecert-obligations}, \autoref{thm:riemann-sum-tagged-mesh-exactness}, and \autoref{thm:riemann-sum-darboux-handoff} seed the finite tagged-sum boundary feeding DarbouxIntegral and RiemannIntegral consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host integrability, convergence over all refinements, measure-theoretic integration, quotient function equality, choice-selected tags, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh-tag containment, finite readback, width exposure, finite sum exactness, tagged-mesh exactness, Darboux handoff, transport, replay, provenance, and ledger non-escape for BEDC.Derived.RiemannSumUp.}
+\end{closurestatus}
