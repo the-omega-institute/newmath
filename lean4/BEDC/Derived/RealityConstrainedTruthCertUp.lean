@@ -84,4 +84,19 @@ theorem RealityConstrainedTruthCertClassifier_stability
       unaryLedger', sourceRoute', towerRoute', invariantRoute', ledgerRoute'⟩,
       sourceRoute', towerRoute', invariantRoute', ledgerRoute'⟩
 
+theorem RealityConstrainedTruthCertNonescape
+    (x : TasteGate.RealityConstrainedTruthCertUp) :
+    exists S Sigma K T U D I L F N ledgerFailure failureRead exportRead : BHist,
+      x = TasteGate.RealityConstrainedTruthCertUp.mk S Sigma K T U D I L F N /\
+        TasteGate.realityConstrainedTruthCertFields x =
+          [S, Sigma, K, T, U, D, I, L, F, N] /\
+          Cont L F ledgerFailure /\ Cont F N failureRead /\
+            Cont ledgerFailure N exportRead := by
+  -- BEDC touchpoint anchor: BHist Cont
+  cases x with
+  | mk S Sigma K T U D I L F N =>
+      exact
+        ⟨S, Sigma, K, T, U, D, I, L, F, N, append L F, append F N,
+          append (append L F) N, rfl, rfl, rfl, rfl, rfl⟩
+
 end BEDC.Derived.RealityConstrainedTruthCertUp
