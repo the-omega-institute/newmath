@@ -1355,6 +1355,7 @@ import BEDC.Derived.CompactCoverShrinkageLedgerUp.UniformModulusHandoff
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.DownstreamConsumptionBridge
+import BEDC.Derived.CompactMetricUp.TasteGate
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
@@ -3448,6 +3449,7 @@ import BEDC.Derived.MetricUp.HsameDeterminism
 import BEDC.Derived.MetricUp.L10SiblingLatticeRoute
 import BEDC.Derived.MetricUp.LeftE1Result
 import BEDC.Derived.MetricUp.LocatedRealDistanceSourceBoundary
+import BEDC.Derived.MetricUp.PatternSpecification
 import BEDC.Derived.MetricUp.PositiveDistanceShape
 import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.MetricUp.PublicConsumers
@@ -4345,6 +4347,7 @@ import BEDC.Derived.RegularCauchyLimitClassifierUp.BudgetSynchronizerRouteAgreem
 import BEDC.Derived.RegularCauchyLimitClassifierUp.FiniteRouteExactness
 import BEDC.Derived.RegularCauchyLimitClassifierUp.SynchronizerFactorization
 import BEDC.Derived.RegularCauchyLimitModulusUp
+import BEDC.Derived.RegularCauchyLimitModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
