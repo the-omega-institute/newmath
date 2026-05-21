@@ -1,4 +1,4 @@
-import BEDC.Derived.FiniteLebesgueNumberUp
+import BEDC.Derived.FiniteLebesgueNumberUp.Core
 import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.FiniteLebesgueNumberUp
