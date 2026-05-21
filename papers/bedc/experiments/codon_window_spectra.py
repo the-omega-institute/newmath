@@ -19,6 +19,7 @@ MODULES = {
     "AGA/AGG": {"AGA", "AGG"},
 }
 WRR_CUBE = ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG")
+CORE_HOTSPOT = WRR_CUBE + ("ATA",)
 TRANSFER_SQUARE = ("TGA", "TGG", "AGA", "AGG")
 ARG_MAIN_BOX = ("CGT", "CGC", "CGA", "CGG")
 ARG_SATELLITE = ("AGA", "AGG")
@@ -245,6 +246,18 @@ def reassignment_spectrum(tables: dict[int, dict[str, str]], cubes: list[dict[st
     wrr_states: collections.Counter[tuple[str, ...]] = collections.Counter(
         tuple(table[codon] for codon in WRR_CUBE) for table in tables.values()
     )
+    core_states: collections.Counter[tuple[str, ...]] = collections.Counter(
+        tuple(table[codon] for codon in CORE_HOTSPOT) for table in tables.values()
+    )
+    delta_sets: dict[str, set[int]] = {
+        codon: {
+            table_id
+            for table_id, table in tables.items()
+            if table_id != 1 and table[codon] != standard[codon]
+        }
+        for codon in all_codons()
+    }
+    core_capture = sum(codon_counts[codon] for codon in set(CORE_HOTSPOT))
     return {
         "total": len(diffs),
         "codon_counts": dict(codon_counts),
@@ -256,7 +269,34 @@ def reassignment_spectrum(tables: dict[int, dict[str, str]], cubes: list[dict[st
             "codon_counts": {codon: codon_counts[codon] for codon in WRR_CUBE},
             "total": sum(codon_counts[codon] for codon in WRR_CUBE),
             "standard_labels": {codon: standard[codon] for codon in WRR_CUBE},
+            "distinct_state_count": len(wrr_states),
+            "standard_state_tables": [
+                table_id
+                for table_id, table in sorted(tables.items())
+                if tuple(table[codon] for codon in WRR_CUBE)
+                == tuple(standard[codon] for codon in WRR_CUBE)
+            ],
             "states": {"/".join(state): count for state, count in sorted(wrr_states.items(), key=lambda item: (-item[1], item[0]))},
+        },
+        "core_hotspot": {
+            "codons": CORE_HOTSPOT,
+            "capture": core_capture,
+            "distinct_state_count": len(core_states),
+            "delta_sets": {codon: sorted(delta_sets[codon]) for codon in CORE_HOTSPOT},
+            "inclusions": {
+                "ATA_subset_TGA": delta_sets["ATA"] <= delta_sets["TGA"],
+                "AGA_subset_TGA": delta_sets["AGA"] <= delta_sets["TGA"],
+                "AGG_subset_TGA": delta_sets["AGG"] <= delta_sets["TGA"],
+                "AAA_subset_TGA_AGA_AGG": delta_sets["AAA"] <= (delta_sets["TGA"] & delta_sets["AGA"] & delta_sets["AGG"]),
+            },
+            "cooccurrence": {
+                "TGA_AGA": len(delta_sets["TGA"] & delta_sets["AGA"]),
+                "TGA_AGG": len(delta_sets["TGA"] & delta_sets["AGG"]),
+                "AGA_AGG": len(delta_sets["AGA"] & delta_sets["AGG"]),
+                "AAA_TGA": len(delta_sets["AAA"] & delta_sets["TGA"]),
+                "AAA_AGA": len(delta_sets["AAA"] & delta_sets["AGA"]),
+                "AAA_AGG": len(delta_sets["AAA"] & delta_sets["AGG"]),
+            },
         },
         "q3_reassignment_scores": [
             {"score": score, "vertices": vertices, "free_bits": free_bits, "standard_pattern": pattern}
@@ -338,6 +378,24 @@ def assert_expected(summary: dict[str, object]) -> None:
         "AGG": 8,
     }
     assert summary["reassignment"]["wrr_cube"]["total"] == 52
+    assert summary["reassignment"]["wrr_cube"]["distinct_state_count"] == 19
+    assert summary["reassignment"]["wrr_cube"]["standard_state_tables"] == [1, 11, 12, 23, 26]
+    assert summary["reassignment"]["core_hotspot"]["capture"] == 57
+    assert summary["reassignment"]["core_hotspot"]["distinct_state_count"] == 21
+    assert summary["reassignment"]["core_hotspot"]["inclusions"] == {
+        "ATA_subset_TGA": True,
+        "AGA_subset_TGA": True,
+        "AGG_subset_TGA": True,
+        "AAA_subset_TGA_AGA_AGG": True,
+    }
+    assert summary["reassignment"]["core_hotspot"]["cooccurrence"] == {
+        "TGA_AGA": 8,
+        "TGA_AGG": 8,
+        "AGA_AGG": 8,
+        "AAA_TGA": 3,
+        "AAA_AGA": 3,
+        "AAA_AGG": 3,
+    }
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
