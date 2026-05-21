@@ -410,4 +410,32 @@ theorem ArchimedeanRealCarrier_dyadic_threshold_totality [AskSetup] [PackageSetu
     unary_cont_closed boundLedgerUnary budgetRequestUnary boundBudgetThreshold
   exact ⟨cert, thresholdUnary, boundBudgetThreshold, thresholdPkg⟩
 
+theorem ArchimedeanRealCarrier_budgeted_bound_window_exhaustion [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert budget threshold : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg →
+      Cont streamWindow dyadicBound budget →
+        Cont budget ratBound threshold →
+          PkgSig bundle threshold pkg →
+            UnaryHistory streamWindow ∧ UnaryHistory dyadicBound ∧ UnaryHistory budget ∧
+              UnaryHistory threshold ∧ hsame ratBound ratBound ∧
+                Cont streamWindow dyadicBound budget ∧ Cont budget ratBound threshold ∧
+                  PkgSig bundle threshold pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier streamDyadicBudget budgetRatThreshold thresholdPkg
+  obtain ⟨_realNameUnary, ratBoundUnary, dyadicBoundUnary, streamWindowUnary,
+    _regseqHandoffUnary, _boundLedgerUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _localCertUnary, _realNameStreamWindowRegseq, _ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, _provenancePkg, _localCertPkg⟩ :=
+    carrier
+  have budgetUnary : UnaryHistory budget :=
+    unary_cont_closed streamWindowUnary dyadicBoundUnary streamDyadicBudget
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed budgetUnary ratBoundUnary budgetRatThreshold
+  exact
+    ⟨streamWindowUnary, dyadicBoundUnary, budgetUnary, thresholdUnary,
+      hsame_refl ratBound, streamDyadicBudget, budgetRatThreshold, thresholdPkg⟩
+
 end BEDC.Derived.ArchimedeanRealUp
