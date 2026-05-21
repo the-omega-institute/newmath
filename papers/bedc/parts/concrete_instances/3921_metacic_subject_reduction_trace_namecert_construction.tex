@@ -82,12 +82,45 @@ Now read $O$ as the checked obstruction row. If a consumer requests the closed t
 Finally, $H,C,G,N$ preserve and package the same frontier. They transport, replay, and name the displayed rows, but they introduce no extra discharge coordinate.
 \end{proof}
 
+\begin{theorem}[MetaCIC subject-reduction trace single-obligation obstruction]
+\label{thm:metacic-subject-reduction-trace-single-obligation-obstruction}
+Let
+$$
+T=(P,B,A,L,I,O,H,C,G,N)
+$$
+be an accepted $\MetaCICSubjectReductionTraceUp$ packet. If any one of $B,A,L,I$ remains only a named obligation row rather than a supplied discharge witness, then a closed subject-reduction request is answered by $O$, and no downstream consumer may read a closed subject-reduction theorem from $P$ alone.
+
+Concretely, the obstruction route applies in each of the following four cases:
+\begin{enumerate}
+\item $B$ is only the named beta-substitution obligation row;
+\item $A$ is only the named application-argument-stability obligation row;
+\item $L$ is only the named lambda-domain obligation row;
+\item $I$ is only the named Pi-domain obligation row.
+\end{enumerate}
+In all four cases, the transport, replay, provenance, and naming rows $H,C,G,N$ preserve the same row inventory and introduce no hidden proof coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:metacic-subject-reduction-trace-carrier}. The packet exposes $P$ as the parameterized subject-reduction theorem row, exposes $B,A,L,I$ as the four discharge-obligation rows, and exposes $O$ as the obstruction row for the closed statement.
+
+Use \autoref{thm:metacic-subject-reduction-trace-discharge-frontier}. It states that a closed subject-reduction theorem is excluded unless all four rows $B,A,L,I$ are supplied as discharge witnesses for $P$.
+
+There are four single-missing cases.
+\begin{enumerate}
+\item If $B$ remains only the beta-substitution obligation row, then the frontier theorem applies because not all four discharge witnesses are supplied.
+\item If $A$ remains only the application-argument-stability obligation row, then the same frontier theorem routes the closed request away from $P$ alone.
+\item If $L$ remains only the lambda-domain obligation row, then the closed theorem is still absent from the packet inventory.
+\item If $I$ remains only the Pi-domain obligation row, then the request is again answered by the obstruction row $O$.
+\end{enumerate}
+
+Finally apply the non-escape boundary of \autoref{thm:metacic-subject-reduction-trace-nonescape}. The rows $H,C,G,N$ transport, replay, package, and name the displayed packet, so they preserve the same row inventory and do not add a hidden coordinate carrying the missing discharge proof.
+\end{proof}
+
 \closureat{MetaCICSubjectReductionTraceUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICSubjectReductionTraceUp}
   \constructivestory{A $\MetaCICSubjectReductionTraceUp$ packet is generated from the parameterized MetaCIC subject-reduction theorem row, four named discharge-obligation rows, a checked obstruction row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-subject-reduction-trace-carrier}, \autoref{thm:metacic-subject-reduction-trace-namecert-obligations}, \autoref{thm:metacic-subject-reduction-trace-nonescape}, and \autoref{thm:metacic-subject-reduction-trace-discharge-frontier} specify the finite subject-reduction trace carrier, obligation surface, consumer non-escape boundary, and discharge frontier.}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-trace-carrier}, \autoref{thm:metacic-subject-reduction-trace-namecert-obligations}, \autoref{thm:metacic-subject-reduction-trace-nonescape}, \autoref{thm:metacic-subject-reduction-trace-discharge-frontier}, and \autoref{thm:metacic-subject-reduction-trace-single-obligation-obstruction} specify the finite subject-reduction trace carrier, obligation surface, consumer non-escape boundary, discharge frontier, and per-row obstruction boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
