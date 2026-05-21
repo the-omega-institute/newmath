@@ -107,6 +107,36 @@ theorem DyadicMeshPacket_public_export_boundary [AskSetup] [PackageSetup]
       intervalEndpointContainment, containmentProvenanceHandoff, provenancePkg, containmentPkg,
       handoffPkg⟩
 
+theorem DyadicMeshPacket_validatednumerics_handoff [AskSetup] [PackageSetup]
+    {level cell interval endpoint radius order transport refinement provenance nameCert containment
+      handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMeshPacket level cell interval endpoint radius order transport refinement provenance
+        nameCert bundle pkg ->
+      Cont interval endpoint containment ->
+        Cont containment provenance handoff ->
+          PkgSig bundle containment pkg ->
+            PkgSig bundle handoff pkg ->
+              UnaryHistory level ∧ UnaryHistory cell ∧ UnaryHistory interval ∧
+                UnaryHistory endpoint ∧ UnaryHistory containment ∧ UnaryHistory handoff ∧
+                  Cont level cell interval ∧ Cont interval endpoint containment ∧
+                    Cont containment provenance handoff ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle containment pkg ∧ PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet intervalEndpointContainment containmentProvenanceHandoff containmentPkg handoffPkg
+  rcases packet with
+    ⟨levelUnary, cellUnary, intervalUnary, endpointUnary, _radiusUnary, _orderUnary,
+      _transportUnary, _refinementUnary, provenanceUnary, _nameCertUnary, levelCellInterval,
+      _intervalEndpointRadius, provenancePkg⟩
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed intervalUnary endpointUnary intervalEndpointContainment
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed containmentUnary provenanceUnary containmentProvenanceHandoff
+  exact
+    ⟨levelUnary, cellUnary, intervalUnary, endpointUnary, containmentUnary, handoffUnary,
+      levelCellInterval, intervalEndpointContainment, containmentProvenanceHandoff,
+      provenancePkg, containmentPkg, handoffPkg⟩
+
 theorem DyadicMeshPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {level cell interval endpoint radius order transport refinement provenance name
       containment : BHist}
