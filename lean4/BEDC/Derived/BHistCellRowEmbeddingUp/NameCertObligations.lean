@@ -188,4 +188,73 @@ theorem BHistCellRowEmbeddingCarrier_namecert_obligations [AskSetup] [PackageSet
       exact ⟨rowUnary sourceRow.right, namePkg⟩
   }
 
+theorem BHistCellRowEmbedding_nonescape [AskSetup] [PackageSetup]
+    {source bitRow width orbitZero readback transports routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BHistCellRowEmbeddingCarrier source bitRow width orbitZero readback transports routes
+        provenance name bundle pkg →
+      UnaryHistory source ∧
+        UnaryHistory bitRow ∧
+          UnaryHistory width ∧
+            UnaryHistory orbitZero ∧
+              UnaryHistory readback ∧
+                UnaryHistory transports ∧
+                  UnaryHistory routes ∧
+                    UnaryHistory provenance ∧
+                      UnaryHistory name ∧
+                        Cont source bitRow width ∧
+                          Cont orbitZero readback routes ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle name pkg ∧
+                                (∀ row : BHist,
+                                  (hsame row source ∨ hsame row bitRow ∨
+                                      hsame row width ∨ hsame row orbitZero ∨
+                                        hsame row readback ∨ hsame row transports ∨
+                                          hsame row routes ∨ hsame row provenance ∨
+                                            hsame row name) →
+                                    UnaryHistory row) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier
+  obtain ⟨sourceUnary, bitRowUnary, widthUnary, orbitZeroUnary, readbackUnary,
+    transportsUnary, routesUnary, provenanceUnary, nameUnary, sourceBitWidth,
+    orbitReadRoutes, provenancePkg, namePkg⟩ := carrier
+  refine
+    ⟨sourceUnary, bitRowUnary, widthUnary, orbitZeroUnary, readbackUnary,
+      transportsUnary, routesUnary, provenanceUnary, nameUnary, sourceBitWidth,
+      orbitReadRoutes, provenancePkg, namePkg, ?_⟩
+  intro row rowMember
+  cases rowMember with
+  | inl sameSource =>
+      exact unary_transport sourceUnary (hsame_symm sameSource)
+  | inr rest =>
+      cases rest with
+      | inl sameBitRow =>
+          exact unary_transport bitRowUnary (hsame_symm sameBitRow)
+      | inr rest =>
+          cases rest with
+          | inl sameWidth =>
+              exact unary_transport widthUnary (hsame_symm sameWidth)
+          | inr rest =>
+              cases rest with
+              | inl sameOrbitZero =>
+                  exact unary_transport orbitZeroUnary (hsame_symm sameOrbitZero)
+              | inr rest =>
+                  cases rest with
+                  | inl sameReadback =>
+                      exact unary_transport readbackUnary (hsame_symm sameReadback)
+                  | inr rest =>
+                      cases rest with
+                      | inl sameTransports =>
+                          exact unary_transport transportsUnary (hsame_symm sameTransports)
+                      | inr rest =>
+                          cases rest with
+                          | inl sameRoutes =>
+                              exact unary_transport routesUnary (hsame_symm sameRoutes)
+                          | inr rest =>
+                              cases rest with
+                              | inl sameProvenance =>
+                                  exact unary_transport provenanceUnary (hsame_symm sameProvenance)
+                              | inr sameName =>
+                                  exact unary_transport nameUnary (hsame_symm sameName)
+
 end BEDC.Derived.BHistCellRowEmbeddingUp
