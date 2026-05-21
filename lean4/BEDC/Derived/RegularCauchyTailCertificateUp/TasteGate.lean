@@ -150,7 +150,7 @@ private theorem regularCauchyTailCertificateToEventFlow_injective
     (Eq.trans (regularCauchyTailCertificate_round_trip x).symm
       (Eq.trans hread (regularCauchyTailCertificate_round_trip y)))
 
-private def regularCauchyTailCertificateFields :
+def regularCauchyTailCertificateFields :
     RegularCauchyTailCertificateUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyTailCertificateUp.mk source window readback dyadic realSeal transports routes

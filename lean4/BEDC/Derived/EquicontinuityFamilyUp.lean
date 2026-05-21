@@ -56,4 +56,29 @@ theorem EquicontinuityFamilyPacket_namecert_obligations [AskSetup] [PackageSetup
       finiteUnary, toleranceUnary, ledgerUnary, finiteRow, toleranceRow, ledgerRow,
       provenancePkg, ledgerPkg⟩
 
+theorem EquicontinuityFamilyPacket_shared_center_coverage [AskSetup] [PackageSetup]
+    {source target family probes equicont image modulus selections transport route provenance
+      nameCert finiteRead familyRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityFamilyPacket source target family probes equicont image modulus selections
+        transport route provenance nameCert bundle pkg ->
+      Cont probes equicont finiteRead ->
+        Cont finiteRead modulus familyRead ->
+          PkgSig bundle familyRead pkg ->
+            UnaryHistory probes ∧ UnaryHistory equicont ∧ UnaryHistory modulus ∧
+              UnaryHistory finiteRead ∧ UnaryHistory familyRead ∧
+                Cont probes equicont finiteRead ∧ Cont finiteRead modulus familyRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle familyRead pkg := by
+  intro packet finiteRow familyRow familyPkg
+  obtain ⟨_sourceUnary, _targetUnary, _familyUnary, probesUnary, equicontUnary, _imageUnary,
+    modulusUnary, _selectionsUnary, _familyLedger, _modulusLedger, _provenanceLedger,
+    provenancePkg⟩ := packet
+  have finiteUnary : UnaryHistory finiteRead :=
+    unary_cont_closed probesUnary equicontUnary finiteRow
+  have familyReadUnary : UnaryHistory familyRead :=
+    unary_cont_closed finiteUnary modulusUnary familyRow
+  exact
+    ⟨probesUnary, equicontUnary, modulusUnary, finiteUnary, familyReadUnary, finiteRow,
+      familyRow, provenancePkg, familyPkg⟩
+
 end BEDC.Derived.EquicontinuityFamilyUp
