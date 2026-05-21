@@ -217,4 +217,35 @@ theorem FiniteLebesgueNumberPhaseRealFourFaceSourceExactness [AskSetup] [Package
     ⟨cert, radiusUnary, phaseUnary, consumerUnary, coverWindowRadius, routeNamePhase,
       phaseTerminalConsumer, consumerPkg⟩
 
+theorem FiniteLebesgueNumberCompactConsumerSourceVerdict [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow auditRead terminalRead
+      compactVerdict : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont route nameRow auditRead ->
+        Cont auditRead terminalRead compactVerdict ->
+          UnaryHistory terminalRead ->
+            PkgSig bundle compactVerdict pkg ->
+              UnaryHistory cover ∧ UnaryHistory radius ∧ UnaryHistory mesh ∧
+                UnaryHistory auditRead ∧ UnaryHistory terminalRead ∧
+                  UnaryHistory compactVerdict ∧ Cont cover window radius ∧
+                    Cont radius mesh route ∧ Cont route nameRow auditRead ∧
+                      Cont auditRead terminalRead compactVerdict ∧
+                        PkgSig bundle provenance pkg ∧
+                          PkgSig bundle compactVerdict pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier routeNameAudit auditTerminalCompact terminalUnary compactPkg
+  obtain ⟨coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, coverWindowRadius, radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameAudit
+  have compactUnary : UnaryHistory compactVerdict :=
+    unary_cont_closed auditUnary terminalUnary auditTerminalCompact
+  exact
+    ⟨coverUnary, radiusUnary, meshUnary, auditUnary, terminalUnary, compactUnary,
+      coverWindowRadius, radiusMeshRoute, routeNameAudit, auditTerminalCompact, provenancePkg,
+      compactPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
