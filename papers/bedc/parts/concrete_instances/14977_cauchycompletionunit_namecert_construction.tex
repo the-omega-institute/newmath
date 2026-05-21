@@ -92,12 +92,62 @@ The continuation row $C$ replays this same route to $E$ and $M$. Transport by $H
 Since every consumer-facing read has passed through $S,D,R,E,M$ over $X$, and since the carrier has no coordinate for the excluded principles, the packet supplies only the finite real-completion boundary stated above.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionUnit constant-window induction]
+\label{thm:cauchy-completion-unit-constant-window-induction}
+Let $U=(X,S,D,R,E,M,H,C,P,N)$ be an accepted $\CauchyCompletionUnitUp$ packet, and let a consumer request a finite source window from the unit route. Before any $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, or $\MetricCompletionUp$ row can be read, every admitted source row is generated either as the stored constant-window $\StreamNameUp$ row or as the already scheduled finite-window $\StreamNameUp$ row recorded in $S$.
+
+Consequently the visible prefix of every consumer read has the form
+$$
+X\longmapsto S
+$$
+before the tolerance ledger, regular readback, real seal, or completion target is available.
+\end{theorem}
+\begin{proof}
+Induct on the finite request window. For the empty window, no source read is exposed, so the only available consumer prefix is the stored packet projection $X,S$.
+
+For the extension step, assume the claim for a finite window $W$. A further request appends one displayed source read. If $S$ is the constant-window row, the same source row $X$ is appended as the next constant stream entry. If $S$ is a scheduled-window row, the next scheduled entry already belongs to the finite row stored in $S$.
+
+In both cases the appended read is still a $\StreamNameUp$ read. The tuple order in \autoref{def:cauchy-completion-unit-carrier} places $D,R,E,M$ after $S$, and the replay row $C$ records the same order. Thus no dyadic ledger, regular readback, real seal, or completion target can be inspected before the finite stream-window generation step has occurred.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionUnit classifier stability]
+\label{thm:cauchy-completion-unit-classifier-stability}
+Let $U=(X,S,D,R,E,M,H,C,P,N)$ and $U'=(X',S',D',R',E',M',H',C',P',N')$ be accepted $\CauchyCompletionUnitUp$ packets. If componentwise $\hsame$ transport identifies the displayed source, stream-window, dyadic ledger, regular readback, real seal, completion target, continuation replay, provenance, and local naming rows, then the classifier of \autoref{def:cauchy-completion-unit-classifier} identifies $U$ and $U'$.
+
+The transport uses only the listed tuple components. It cannot introduce quotient completion equality, selected representatives, countable-choice schedules, open-cover compactness, ambient completeness, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the two accepted packets componentwise. The hypotheses give $\hsame$ transport for $X$ with $X'$, $S$ with $S'$, $D$ with $D'$, $R$ with $R'$, $E$ with $E'$, $M$ with $M'$, and likewise for $H,C,P,N$.
+
+Apply the classifier definition. It asks exactly that source rows agree after displayed transport, stream windows agree as constant-window or scheduled-window reads, dyadic ledgers and regular readbacks agree, and the completion targets consume the same routed unit image under the stored continuation replay.
+
+No further coordinate remains in the carrier. Since quotient completion equality, selected representatives, countable choice, compactness, ambient completeness, and real completeness are explicitly absent from \autoref{def:cauchy-completion-unit-carrier}, componentwise transport has no row from which any of those principles could be generated.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionUnit dense embedding universal route]
+\label{thm:cauchy-completion-unit-dense-embedding-universal-route}
+Every dense-embedding or completion-universal-property consumer of an accepted $\CauchyCompletionUnitUp$ packet factors through the finite unit route
+$$
+X\longmapsto S\longmapsto D\longmapsto R\longmapsto E\longmapsto M .
+$$
+Thus consumers of \autoref{ch:concrete-instances-regular-cauchy-dense-embedding-namecert}, \autoref{ch:concrete-instances-completionembedding-namecert}, and \autoref{ch:concrete-instances-completionuniversalproperty-namecert} can use the unit packet only after the source row has been routed through the stream window, tolerance ledger, regular readback, real seal, and metric-completion target displayed by the packet.
+\end{theorem}
+\begin{proof}
+Start with a consumer asking for a dense-embedding or completion-universal-property handoff. The consumer receives only an accepted $\CauchyCompletionUnitUp$ packet, so its available data are the tuple components listed in \autoref{def:cauchy-completion-unit-carrier}.
+
+The constant-window induction of \autoref{thm:cauchy-completion-unit-constant-window-induction} supplies the first step $X\mapsto S$. The dyadic ledger and regular readback projections then force every tolerance request through $D$ and $R$ before any real-facing or completion-facing row is consumed.
+
+The terminal seal $E$ and completion target $M$ are reached only by the continuation replay $C$. Componentwise transport by $H$ preserves the same route, while $P$ and $N$ record the provenance and local name of the packet being consumed.
+
+Therefore any consumer in the cited dense-embedding, completion-embedding, or universal-property chapters factors through $X,S,D,R,E,M$. Since the packet has no quotient, selected-representative, countable-choice, compactness, ambient-completeness, or $\RealUp$-completeness coordinate, the factorization exports only this finite unit route.
+\end{proof}
+
 \begin{closurestatus}{\CauchyCompletionUnitUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-unit-carrier}, \autoref{def:cauchy-completion-unit-classifier}, \autoref{thm:cauchy-completion-unit-namecert-obligations}, \autoref{thm:cauchy-completion-unit-dense-embedding-handoff}, and \autoref{thm:cauchy-completion-unit-real-completion-consumer-boundary} seed the finite unit-map certificate from source rows into real and metric-completion consumers.}
+  \scopeclosed{\autoref{def:cauchy-completion-unit-carrier}, \autoref{def:cauchy-completion-unit-classifier}, \autoref{thm:cauchy-completion-unit-namecert-obligations}, \autoref{thm:cauchy-completion-unit-dense-embedding-handoff}, \autoref{thm:cauchy-completion-unit-real-completion-consumer-boundary}, \autoref{thm:cauchy-completion-unit-constant-window-induction}, \autoref{thm:cauchy-completion-unit-classifier-stability}, and \autoref{thm:cauchy-completion-unit-dense-embedding-universal-route} seed the finite unit-map certificate from source rows into real and metric-completion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected representatives, countable choice, open-cover compactness, ambient completeness, or completeness of $\RealUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, constant-window generation, tolerance and readback exactness, dense-embedding handoff, consumer-boundary replay, and ledger non-escape for the same packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance and readback exactness, consumer-boundary replay, and ledger non-escape for the same packet.}
   \constructivestory{The construction starts from a displayed source row, generates finite constant or scheduled stream windows, routes tolerance requests through DyadicRatCore and RegSeqRat readback, reaches the Real seal, and hands the same route to MetricCompletion consumers as the unit image.}
 \end{closurestatus}
