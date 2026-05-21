@@ -43,6 +43,10 @@ INSPIRATION_ONLY_TARGET_RE = re.compile(
     r"^papers/bedc/parts/(?:visions|conjectures)/",
     re.IGNORECASE,
 )
+BODY_ENV_RE = re.compile(
+    r"\\begin\{(theorem|lemma|proposition|corollary|definition)\}"
+)
+PROOF_ENV_RE = re.compile(r"\\begin\{proof\}")
 EXTERNAL_PROVENANCE_PATTERNS = [
     re.compile(r"Inspired by Omega Project"),
     re.compile(r"\b[Aa]utomath\b"),
@@ -282,7 +286,7 @@ def _logic_surface_audit(content: str) -> dict:
         r"\\begin\{(theorem|lemma|proposition|corollary)\}",
         text,
     )
-    proof_count = len(re.findall(r"\\begin\{proof\}", text))
+    proof_count = len(PROOF_ENV_RE.findall(text))
     label_count = len(re.findall(r"\\label\{[^}]+\}", text))
 
     if theorem_envs and proof_count == 0:
@@ -341,6 +345,95 @@ def _logic_surface_audit(content: str) -> dict:
             "line_count": len(text.splitlines()),
         },
     }
+
+
+def _body_env_names(content: str) -> list[str]:
+    return BODY_ENV_RE.findall(content or "")
+
+
+def _has_body_env(content: str) -> bool:
+    return bool(_body_env_names(content))
+
+
+def _deterministic_theory_rejections(
+    content: str,
+    *,
+    target_title: str,
+    target_tex_file: str,
+) -> tuple[list[str], list[str]]:
+    """Return local Stage 2 theory-shape rejections before any LLM gate.
+
+    These checks are intentionally narrow: they catch cases the current
+    append-only writeback cannot repair and cases that are almost always
+    template surface generation rather than one minimal BOARD target.
+    """
+    text = content or ""
+    reasons: list[str] = []
+    codes: list[str] = []
+
+    def reject(code: str, reason: str) -> None:
+        codes.append(code)
+        reasons.append(reason)
+
+    envs = _body_env_names(text)
+    if len(envs) > 1:
+        reject(
+            "not_minimal_multiple_surfaces",
+            "Stage 2 accepts one minimal theorem-like or definition-like "
+            f"surface per BOARD target; candidate has {len(envs)} body "
+            f"environments: {', '.join(envs[:8])}.",
+        )
+
+    target = _resolve_target_tex(target_tex_file)
+    if target is not None and _has_body_env(text):
+        try:
+            target_text = target.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            target_text = ""
+        closure_start = target_text.find("\\begin{closurestatus}")
+        endinput_start = target_text.find("\\endinput")
+        closure_is_before_append_point = (
+            closure_start >= 0
+            and (endinput_start < 0 or closure_start < endinput_start)
+        )
+        if closure_is_before_append_point:
+            reject(
+                "append_after_closurestatus",
+                "The selected target file already has a closurestatus block "
+                "before the append point, so append-only Stage 2 would place "
+                "new body content after the chapter status.",
+            )
+
+    title_low = (target_title or "").lower()
+    text_low = text.lower()
+    relation_vocab = (
+        "substrate",
+        "bisimulation",
+        "mirror",
+        "classifier alignment",
+        "forgetful",
+        "source-equivalence",
+    )
+    if any(term in text_low or term in title_low for term in relation_vocab):
+        concrete_cues = (
+            "row map",
+            "displayed row",
+            "displayed coordinate",
+            "carrier row",
+            "receiver",
+            "receiving",
+            "consumer-facing",
+            "\\autoref{",
+        )
+        if not any(cue in text_low for cue in concrete_cues):
+            reject(
+                "template_relation_surface",
+                "Relation vocabulary appears without a concrete receiving "
+                "carrier row map, displayed row, or local reference tying the "
+                "surface to the target object.",
+            )
+
+    return reasons, codes
 
 
 def _resolve_target_tex(suggested: str) -> Optional[Path]:
@@ -448,20 +541,17 @@ def writeback(
     raw_latex_path: Path,
     suggested_target_tex: str,
 ) -> WritebackResult:
-    """Stage 2 writeback with auto-normalize first, claude review second.
+    """Stage 2 writeback with mandatory killo-golden review.
 
-    Pipeline order (per project decision: hygiene fixes itself, doesn't reject):
-      1. Read raw content from raw_latex_path
-      2. Run hygiene_normalize.normalize() — mechanical fixes for `\\(\\)`/
-         `\\mathsf{X}`/QED/sectioning/iteration vocab/`\\ref` etc.
-      3. Write normalized content back to raw_latex_path (so next attempt
-         sees fixed content)
-      4. If hygiene_normalize reported `blocking_issues` (no theorem env,
-         unbalanced begin/end, Chinese chars, etc.), claude reviews. These
-         are the ONLY concerns claude judges now — not hygiene minutiae.
-      5. If no blocking issues: bypass claude review entirely. Atomically
-         append + run `make`. compile failure = automatic reject (rolled
-         back). compile success = accept.
+    Pipeline order:
+      1. Read and extract the candidate LaTeX block.
+      2. Run hygiene_normalize.normalize() for mechanical fixes.
+      3. Apply narrow deterministic theory-shape rejections that append-only
+         Stage 2 cannot repair safely.
+      4. Always run the killo-golden reviewer. If Claude is unavailable or
+         returns non-JSON, run the same prompt through Codex JSON fallback.
+      5. On accept, atomically append and run `make`; compile failure rolls
+         the append back.
     """
     import hygiene_normalize
 
@@ -537,87 +627,135 @@ def writeback(
             logic_audit=logic_audit,
         )
 
-    # ── Step 4: claude review when blocking issues remain ──
+    local_reasons, local_codes = _deterministic_theory_rejections(
+        norm.content,
+        target_title=target_title,
+        target_tex_file=suggested_target_tex,
+    )
+    if local_reasons:
+        return WritebackResult(
+            False,
+            "reject",
+            suggested_target_tex,
+            False,
+            False,
+            local_reasons,
+            rejection_codes=local_codes,
+            logic_audit=logic_audit,
+        )
+
+    # ── Step 4: mandatory killo-golden review ──
     # Blocking issues are things normalize cannot mechanically fix:
     # missing environment, unbalanced begin/end, Chinese chars, dangling
     # autorefs, BEDC-relation-as-function misuses, transport-without-citation.
+    # Even when this list is empty, the independent reviewer still checks
+    # minimality, target locality, and theory load before writeback.
     rejection_reasons: list[str] = []
     all_blocking = list(norm.blocking_issues) + extra_blocking_issues
-    if all_blocking:
-        # Heavy review path: blocking issue exists, ask claude to assess
-        # whether content is salvageable or needs to escalate.
-        template = (PROMPTS_DIR / "killo_golden_writeback.txt").read_text(encoding="utf-8")
-        def _safe(s: str) -> str:
-            return (s or "").replace("{", "{{").replace("}", "}}")
-        prompt = template.format(
-            target_id=_safe(target_id),
-            target_title=_safe(target_title),
-            transcript_dir=_safe(str(transcript_dir)),
-            raw_latex_path=_safe(str(raw_latex_path)),
-            target_tex_file=_safe(suggested_target_tex),
-            repo_root=_safe(str(REPO_ROOT)),
-        )
-        # Append the normalize report so claude knows what's already been
-        # mechanically fixed and only sees the residual issues.
-        prompt += "\n\n## Auto-normalize report (already applied)\n"
+    template = (PROMPTS_DIR / "killo_golden_writeback.txt").read_text(encoding="utf-8")
+
+    def _safe(s: str) -> str:
+        return (s or "").replace("{", "{{").replace("}", "}}")
+
+    prompt = template.format(
+        target_id=_safe(target_id),
+        target_title=_safe(target_title),
+        transcript_dir=_safe(str(transcript_dir)),
+        raw_latex_path=_safe(str(raw_latex_path)),
+        target_tex_file=_safe(suggested_target_tex),
+        repo_root=_safe(str(REPO_ROOT)),
+    )
+    prompt += "\n\n## Auto-normalize report (already applied)\n"
+    if norm.transformations:
         for t in norm.transformations:
             prompt += f"- {t}\n"
-        prompt += "\n## Blocking issues (require your judgement)\n"
+    else:
+        prompt += "- none\n"
+    prompt += "\n## Blocking issues (require your judgement)\n"
+    if all_blocking:
         for b in all_blocking:
             prompt += f"- {b}\n"
-        log_tag = f"writeback_{target_id}"
-        ok, stdout, rc = claude_exec(prompt, log_tag=log_tag)
-        if not ok:
-            fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
-                prompt,
-                log_tag=log_tag,
-                role_note=(
-                    "Claude is unavailable for the BEDC killo-golden writeback "
-                    "gate; run the same hygiene and safety gate as an independent "
-                    "Codex fallback."
-                ),
-            )
-            if not fallback_ok:
-                return WritebackResult(False, "error", "", False, False, [],
-                                        error=(
-                                            f"claude exec rc={rc}: {stdout[:400]}; "
-                                            f"codex fallback: {fallback_error[:400]}"
-                                        ),
-                                        logic_audit=logic_audit)
-            stdout = fallback_stdout
-        else:
-            parsed = _extract_json_object(stdout)
-        if not parsed:
-            fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
-                prompt,
-                log_tag=log_tag,
-                role_note=(
-                    "Claude returned non-JSON for the BEDC killo-golden writeback "
-                    "gate; run the same hygiene and safety gate as an independent "
-                    "Codex fallback."
-                ),
-            )
-            if not fallback_ok:
-                return WritebackResult(False, "error", "", False, False, [],
-                                        error=f"claude output was not JSON; codex fallback: {fallback_error[:400]}",
-                                        logic_audit=logic_audit)
-            stdout = fallback_stdout
-        verdict = str(parsed.get("verdict", "")).lower()
-        rejection_reasons = parsed.get("rejection_reasons") or []
-        if verdict != "accept":
-            return WritebackResult(True, "reject", "", False, False, list(rejection_reasons),
-                                   rejection_codes=["killo_review_reject"],
-                                   logic_audit=logic_audit)
-        # Use claude's content (might have additional cleanup) if present.
-        content = str(parsed.get("content") or norm.content)
-        tex_rel = str(parsed.get("tex_file") or suggested_target_tex)
-        logic_audit = _logic_surface_audit(content)
     else:
-        # Fast path: normalize handled everything, go straight to append+make.
-        # The suggested_target_tex from upstream (codex track or oracle) is
-        # used as the destination. claude is bypassed entirely.
-        content = norm.content
-        tex_rel = suggested_target_tex
+        prompt += "- none\n"
+
+    log_tag = f"writeback_{target_id}"
+    parsed: dict = {}
+    ok, stdout, rc = claude_exec(prompt, log_tag=log_tag)
+    if not ok:
+        fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
+            prompt,
+            log_tag=log_tag,
+            role_note=(
+                "Claude is unavailable for the BEDC killo-golden writeback "
+                "gate; run the same hygiene, minimality, and theory-safety "
+                "gate as an independent Codex fallback."
+            ),
+        )
+        if not fallback_ok:
+            return WritebackResult(False, "error", "", False, False, [],
+                                    error=(
+                                        f"claude exec rc={rc}: {stdout[:400]}; "
+                                        f"codex fallback: {fallback_error[:400]}"
+                                    ),
+                                    logic_audit=logic_audit)
+        stdout = fallback_stdout
+    else:
+        parsed = _extract_json_object(stdout) or {}
+    if not parsed:
+        fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
+            prompt,
+            log_tag=log_tag,
+            role_note=(
+                "Claude returned non-JSON for the BEDC killo-golden writeback "
+                "gate; run the same hygiene, minimality, and theory-safety "
+                "gate as an independent Codex fallback."
+            ),
+        )
+        if not fallback_ok:
+            return WritebackResult(False, "error", "", False, False, [],
+                                    error=f"claude output was not JSON; codex fallback: {fallback_error[:400]}",
+                                    logic_audit=logic_audit)
+        stdout = fallback_stdout
+    verdict = str(parsed.get("verdict", "")).lower()
+    rejection_reasons = parsed.get("rejection_reasons") or []
+    if verdict != "accept":
+        return WritebackResult(True, "reject", "", False, False, list(rejection_reasons),
+                               rejection_codes=["killo_review_reject"],
+                               logic_audit=logic_audit)
+    content = str(parsed.get("content") or norm.content)
+    tex_rel = str(parsed.get("tex_file") or suggested_target_tex)
+    logic_audit = _logic_surface_audit(content)
+    post_external_provenance = _detect_external_provenance(content)
+    if post_external_provenance:
+        return WritebackResult(
+            False,
+            "reject",
+            tex_rel,
+            False,
+            False,
+            [
+                "external provenance leaked into accepted paper body: "
+                + "; ".join(post_external_provenance[:5])
+            ],
+            rejection_codes=["external_provenance_leak"],
+            logic_audit=logic_audit,
+        )
+    post_local_reasons, post_local_codes = _deterministic_theory_rejections(
+        content,
+        target_title=target_title,
+        target_tex_file=tex_rel,
+    )
+    if post_local_reasons:
+        return WritebackResult(
+            False,
+            "reject",
+            tex_rel,
+            False,
+            False,
+            post_local_reasons,
+            rejection_codes=post_local_codes,
+            logic_audit=logic_audit,
+        )
 
     # ── Step 5: atomic append + make verify ──
 

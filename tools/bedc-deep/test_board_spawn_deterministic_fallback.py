@@ -119,6 +119,25 @@ def test_deterministic_fallback_allows_low_score_local_packet() -> None:
     assert rejected == [], rejected
 
 
+def test_direct_codex_admission_accepts_research_packet_without_judge() -> None:
+    accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
+        [_candidate(source="research_lane:paper_gap_scanner")]
+    )
+    assert len(accepted) == 1, (accepted, stopped, needs_judge)
+    assert stopped == [], stopped
+    assert needs_judge == [], needs_judge
+    assert "Local BOARD admission" in accepted[0]["rationale"]
+
+
+def test_direct_codex_admission_keeps_oracle_for_judge() -> None:
+    accepted, stopped, needs_judge = board_spawn._direct_codex_admission(
+        [_candidate(source="oracle")]
+    )
+    assert accepted == [], accepted
+    assert stopped == [], stopped
+    assert len(needs_judge) == 1, needs_judge
+
+
 if __name__ == "__main__":
     test_deterministic_fallback_accepts_local_logic_packet()
     test_deterministic_fallback_rejects_external_signal()
@@ -127,4 +146,6 @@ if __name__ == "__main__":
     test_deterministic_fallback_rejects_raw_gap_scanner_source()
     test_deterministic_fallback_rejects_anti_parameter_echo()
     test_deterministic_fallback_allows_low_score_local_packet()
+    test_direct_codex_admission_accepts_research_packet_without_judge()
+    test_direct_codex_admission_keeps_oracle_for_judge()
     print("test_board_spawn_deterministic_fallback: ok")

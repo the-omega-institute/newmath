@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+"""Focused checks for Stage 2 killo-golden gate routing."""
+
+import importlib.util
+import sys
+import tempfile
+from pathlib import Path
+
+
+MODULE_PATH = Path(__file__).with_name("killo_golden_writeback.py")
+spec = importlib.util.spec_from_file_location("killo_golden_writeback", MODULE_PATH)
+assert spec is not None and spec.loader is not None
+killo_golden_writeback = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = killo_golden_writeback
+spec.loader.exec_module(killo_golden_writeback)
+
+
+def test_multiple_body_envs_rejected_as_not_minimal() -> None:
+    content = r"""
+\begin{lemma}
+\label{lem:alpha}
+Alpha holds.
+\end{lemma}
+
+\begin{proposition}
+\label{prop:beta}
+Beta holds.
+\end{proposition}
+"""
+    reasons, codes = killo_golden_writeback._deterministic_theory_rejections(
+        content,
+        target_title="Alpha beta packet",
+        target_tex_file="papers/bedc/parts/concrete_instances/example.tex",
+    )
+    assert "not_minimal_multiple_surfaces" in codes
+    assert any("one minimal" in reason for reason in reasons)
+
+
+def test_append_after_closurestatus_rejected_for_theorem_like_content() -> None:
+    target = killo_golden_writeback.REPO_ROOT / "papers" / "bedc" / "parts" / "_tmp_stage2_gate_closure.tex"
+    target.write_text(
+        "\\begin{closurestatus}{\\TmpUp}\n\\end{closurestatus}\n",
+        encoding="utf-8",
+    )
+    original_resolve = killo_golden_writeback._resolve_target_tex
+    killo_golden_writeback._resolve_target_tex = lambda _path: target
+    try:
+        reasons, codes = killo_golden_writeback._deterministic_theory_rejections(
+            "\\begin{lemma}\n\\label{lem:tmp}\nTmp.\n\\end{lemma}\n",
+            target_title="Tmp",
+            target_tex_file=str(target.relative_to(killo_golden_writeback.REPO_ROOT)),
+        )
+    finally:
+        killo_golden_writeback._resolve_target_tex = original_resolve
+        target.unlink(missing_ok=True)
+    assert "append_after_closurestatus" in codes
+    assert any("closurestatus" in reason for reason in reasons)
+
+
+def test_writeback_uses_codex_fallback_when_claude_unavailable() -> None:
+    target = killo_golden_writeback.REPO_ROOT / "papers" / "bedc" / "parts" / "_tmp_stage2_gate_fallback.tex"
+    target.write_text("% temporary test target\n", encoding="utf-8")
+    raw = Path(tempfile.gettempdir()) / "stage2_gate_fallback_raw.tex"
+    content = "\\begin{lemma}\n\\label{lem:stage2-gate-fallback}\nFallback holds.\n\\end{lemma}\n"
+    raw.write_text(content, encoding="utf-8")
+
+    calls = {"claude": 0, "codex": 0, "make": 0}
+    original_claude = killo_golden_writeback.claude_exec
+    original_codex = killo_golden_writeback.codex_json_fallback
+    original_make = killo_golden_writeback._make_paper
+    try:
+        def fake_claude(_prompt: str, **_kwargs):
+            calls["claude"] += 1
+            return (False, "quota unavailable", 1)
+
+        def fake_codex(_prompt: str, **_kwargs):
+            calls["codex"] += 1
+            return (
+                True,
+                {
+                    "verdict": "accept",
+                    "tex_file": str(target.relative_to(killo_golden_writeback.REPO_ROOT)),
+                    "content": content,
+                    "rejection_reasons": [],
+                },
+                '{"verdict":"accept"}',
+                "",
+            )
+
+        def fake_make():
+            calls["make"] += 1
+            return (True, "ok")
+
+        killo_golden_writeback.claude_exec = fake_claude
+        killo_golden_writeback.codex_json_fallback = fake_codex
+        killo_golden_writeback._make_paper = fake_make
+
+        result = killo_golden_writeback.writeback(
+            target_id="B-test",
+            target_title="Fallback gate",
+            transcript_dir=Path(tempfile.gettempdir()),
+            raw_latex_path=raw,
+            suggested_target_tex=str(target.relative_to(killo_golden_writeback.REPO_ROOT)),
+        )
+    finally:
+        killo_golden_writeback.claude_exec = original_claude
+        killo_golden_writeback.codex_json_fallback = original_codex
+        killo_golden_writeback._make_paper = original_make
+        target.unlink(missing_ok=True)
+        raw.unlink(missing_ok=True)
+
+    assert result.ok
+    assert result.verdict == "accept"
+    assert calls == {"claude": 1, "codex": 1, "make": 1}
+
+
+if __name__ == "__main__":
+    test_multiple_body_envs_rejected_as_not_minimal()
+    test_append_after_closurestatus_rejected_for_theorem_like_content()
+    test_writeback_uses_codex_fallback_when_claude_unavailable()
+    print("test_killo_writeback_gate: ok")

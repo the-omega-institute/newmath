@@ -521,6 +521,7 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
         window_start = datetime.now(timezone.utc) - timedelta(hours=since_hours)
     by_event: dict[str, int] = {}
     by_rejection_reason: dict[str, int] = {}
+    by_refinement_reason: dict[str, int] = {}
     by_logic_packet_reason: dict[str, int] = {}
     by_current_logic_packet_reason: dict[str, int] = {}
     by_rejection_source: dict[str, int] = {}
@@ -574,6 +575,9 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
                 )
         event = str(rec.get("event") or "unknown")
         by_event[event] = by_event.get(event, 0) + 1
+        if event in {"pre_gate_hold", "held_for_refinement"}:
+            reason = str(rec.get("reason") or "").strip() or "unspecified"
+            by_refinement_reason[reason] = by_refinement_reason.get(reason, 0) + 1
         if event not in {"pre_gate_reject", "rejected"}:
             continue
         reason = str(rec.get("reason") or "").strip()
@@ -656,6 +660,7 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
         "latest_by_source_sampled": _latest_source_payload(latest_by_source_sampled),
         "by_event": dict(sorted(by_event.items())),
         "rejection_reasons": _top(by_rejection_reason),
+        "refinement_reasons": _top(by_refinement_reason),
         "rejection_sources": _top(by_rejection_source),
         "rejection_reasons_by_source": {
             source: _top(counts, n=10)

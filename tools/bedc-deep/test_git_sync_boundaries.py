@@ -2,12 +2,22 @@
 """Static regression checks for BEDC paper-native Git sync boundaries."""
 
 from pathlib import Path
+import importlib.util
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SUPERVISOR = SCRIPT_DIR / "supervisor.py"
 AUTO_DISCOVERY = SCRIPT_DIR / "auto_discovery.py"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
+
+
+def _load_supervisor_module():
+    spec = importlib.util.spec_from_file_location("bedc_deep_supervisor_test", SUPERVISOR)
+    assert spec is not None
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
 
 
 def _text(path: Path) -> str:
@@ -51,14 +61,16 @@ def test_supervisor_keeps_discovery_children_single_sync_entrypoint() -> None:
         assert "cmd.append(\"--no-dev-sync\")" in body, name
 
 
-def test_supervisor_defaults_to_continuous_auto_dev_sync() -> None:
+def test_supervisor_dev_sync_is_opt_in_for_daemon_stability() -> None:
     text = _text(SUPERVISOR)
     assert "DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15" in text
-    assert "dev_sync_enabled = not bool(args.no_dev_sync)" in text
+    assert "DEFAULT_DEV_SYNC_ENABLED = False" in text
+    assert "dev_sync_enabled = bool(args.dev_sync) and not bool(args.no_dev_sync)" in text
     assert "git_sync_dev(" in text
     assert "STARTUP_DEV_SYNC_TIMEOUT_SECONDS" in text
     assert "--no-dev-sync" in text
-    assert "Disable BEDC sync from origin/auto-dev" in text
+    assert "Opt in to BEDC sync from origin/auto-dev" in text
+    assert "--status-once" in text
 
 
 def test_supervisor_defaults_to_paper_native_discovery() -> None:
@@ -67,8 +79,21 @@ def test_supervisor_defaults_to_paper_native_discovery() -> None:
     assert "--allow-lean-adjacent-discovery" in text
     assert "paper-native supervisor defaults forbid" in text
     assert "Lean-adjacent discovery" in text
-    assert "oracle_board_refill" in text
-    assert "paper_review remain enabled" in text
+    assert "paper_review, research_lane" in text
+    assert "bridge/local intake remain enabled" in text
+
+
+def test_supervisor_oracle_candidate_generation_is_opt_in() -> None:
+    text = _text(SUPERVISOR)
+    assert "DEFAULT_ALLOW_ORACLE_CANDIDATE_GENERATION = False" in text
+    assert "--allow-oracle-candidate-generation" in text
+    assert '"allow_oracle_candidate_generation": args.allow_oracle_candidate_generation' in text
+    assert "oracle_candidate_generation={'on' if args.allow_oracle_candidate_generation else 'off'}" in text
+    assert "skipped oracle_board_refill" in text
+    assert "oracle candidate generation is disabled by default" in text
+    assert "Codex, bridge, and deterministic local lanes remain primary" in text
+    assert "trigger_oracle_board_refill()" in text
+    assert "oracle workers still drain explicit escalation tasks" in text
 
 
 def test_supervisor_has_hard_branch_guard() -> None:
@@ -87,8 +112,11 @@ def test_supervisor_refill_can_recover_from_stale_circuit_breaker() -> None:
     end = text.index("\ndef run_loning_watch", start)
     body = text[start:end]
     assert "dispatch_ready_poll_agents" in body
+    assert "project_active_poll_agents" in body
     assert "--ignore-refill-circuit-breaker" in body
+    assert "--allow-queue-without-tabs" in body
     assert "ignoring stale refill circuit breaker" in body
+    assert "allowing queued refill" in body
 
 
 def test_supervisor_keeps_board_state_files_local_only() -> None:
@@ -167,9 +195,51 @@ def test_supervisor_runs_plain_review_research_lane() -> None:
     assert "research_lane_refinement" in text
     assert "deferred oracle_board_refill" in text
     assert "local lanes must drain/refine it before oracle refill" in text
-    assert "candidate_inbox_has_refinement_backlog(inbox_health)" in text
-    assert "and since_research_lane_m < grace_minutes" not in text
+    assert "should_defer_oracle_refill_for_research" in text
+    assert "candidate refinement grace elapsed" in text
     assert "does not write paper text directly" in text
+
+
+def test_oracle_refill_defer_uses_material_backlog_and_grace() -> None:
+    supervisor = _load_supervisor_module()
+    material_health = {
+        "by_event": {"held_for_refinement": 1},
+        "refinement_reasons": [{"reason": "missing_local_inputs", "count": 1}],
+    }
+    non_material_health = {
+        "by_event": {"held_for_refinement": 1},
+        "refinement_reasons": [
+            {
+                "reason": (
+                    "predicted_line_cap_overflow:"
+                    "papers/bedc/parts/concrete_instances/example.tex:833"
+                ),
+                "count": 1,
+            }
+        ],
+    }
+
+    assert supervisor.candidate_inbox_has_refinement_backlog(material_health)
+    assert not supervisor.candidate_inbox_has_refinement_backlog(non_material_health)
+
+    assert supervisor.should_defer_oracle_refill_for_research(
+        research_lane_triggered=False,
+        inbox_health=material_health,
+        since_research_lane_m=5.0,
+        grace_minutes=20.0,
+    ) == (True, "material_refinement_backlog_within_grace")
+    assert supervisor.should_defer_oracle_refill_for_research(
+        research_lane_triggered=False,
+        inbox_health=material_health,
+        since_research_lane_m=25.0,
+        grace_minutes=20.0,
+    ) == (False, "material_refinement_backlog_grace_elapsed")
+    assert supervisor.should_defer_oracle_refill_for_research(
+        research_lane_triggered=False,
+        inbox_health=non_material_health,
+        since_research_lane_m=5.0,
+        grace_minutes=20.0,
+    ) == (False, "no_material_refinement_backlog")
 
 
 def test_board_spawn_has_deterministic_judge_fallback() -> None:
@@ -204,8 +274,9 @@ if __name__ == "__main__":
     test_supervisor_does_not_clear_stop_file()
     test_supervisor_runs_gated_dev_sync_resolver()
     test_supervisor_keeps_discovery_children_single_sync_entrypoint()
-    test_supervisor_defaults_to_continuous_auto_dev_sync()
+    test_supervisor_dev_sync_is_opt_in_for_daemon_stability()
     test_supervisor_defaults_to_paper_native_discovery()
+    test_supervisor_oracle_candidate_generation_is_opt_in()
     test_supervisor_has_hard_branch_guard()
     test_supervisor_refill_can_recover_from_stale_circuit_breaker()
     test_supervisor_keeps_board_state_files_local_only()
@@ -215,6 +286,7 @@ if __name__ == "__main__":
     test_candidate_inbox_holds_refinable_candidates()
     test_research_lane_recovers_held_candidates()
     test_supervisor_runs_plain_review_research_lane()
+    test_oracle_refill_defer_uses_material_backlog_and_grace()
     test_board_spawn_has_deterministic_judge_fallback()
     test_research_lane_retries_soft_candidate_failures()
     test_structural_relation_miner_does_not_embed_source_excerpts()

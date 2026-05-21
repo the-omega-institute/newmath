@@ -113,6 +113,14 @@ DETERMINISTIC_ALLOWED_LANDING = {
     "existing_chapter_obligation",
     "existing_chapter_ledger_row",
 }
+DIRECT_CODEX_SOURCES = {
+    "codex",
+    "plain_math_review",
+    "paper_review",
+    "research_lane:paper_gap_scanner",
+    "research_lane:structural_relation_miner",
+    "research_lane:candidate_inbox",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -661,6 +669,57 @@ def _deterministic_fallback_judge(
     return accepted, rejected
 
 
+def _direct_codex_rejection(candidate: dict) -> str:
+    """Local BOARD admission for pre-screened codex-lane packets."""
+    source = str(candidate.get("source") or "").strip()
+    if source not in DIRECT_CODEX_SOURCES:
+        return f"direct_codex_source_requires_judge:{source or 'unknown'}"
+    landing_kind = str(candidate.get("landing_kind") or "").strip()
+    if landing_kind not in DETERMINISTIC_ALLOWED_LANDING:
+        return f"direct_codex_landing_requires_judge:{landing_kind or 'missing'}"
+    landing_rejection = _post_judge_landing_rejection(candidate)
+    if landing_rejection:
+        return landing_rejection
+    logic_rejection = _logic_packet_rejection(candidate)
+    if logic_rejection:
+        return logic_rejection
+    try:
+        int(candidate.get("fit_score", 0))
+        int(candidate.get("novelty", 0))
+    except (TypeError, ValueError):
+        return "non_int_score"
+    return ""
+
+
+def _direct_codex_admission(candidates: list[dict]) -> tuple[list[dict], list[dict], list[dict]]:
+    accepted: list[dict] = []
+    held_or_rejected: list[dict] = []
+    needs_judge: list[dict] = []
+    for candidate in candidates:
+        reason = _direct_codex_rejection(candidate)
+        if not reason:
+            accepted.append(
+                {
+                    **candidate,
+                    "rationale": (
+                        str(candidate.get("rationale") or "").strip()
+                        + " Local BOARD admission used the deterministic "
+                        "candidate inbox, landing, and logic-packet gates; "
+                        "codex execution and writeback gates remain decisive."
+                    ).strip(),
+                }
+            )
+            continue
+        if (
+            reason.startswith("direct_codex_source_requires_judge:")
+            or reason.startswith("direct_codex_landing_requires_judge:")
+        ):
+            needs_judge.append(candidate)
+            continue
+        held_or_rejected.append({**candidate, "reason": reason})
+    return accepted, held_or_rejected, needs_judge
+
+
 def _rejection_match_keys(candidate: dict) -> list[tuple[str, str]]:
     keys: list[tuple[str, str]] = []
     for field_name in ("candidate_id", "title"):
@@ -769,24 +828,42 @@ def spawn_from_candidates(
         )
         return result
 
-    # Step 2: claude judge (with codex+oracle source signals + paper coverage).
-    print(
-        f"[board_spawn] judging {len(codex_alive)} codex + {len(oracle_alive)} oracle candidates",
-        flush=True,
-    )
-    accepted, rejected, err = _judge_candidates(
-        codex_candidates=codex_alive,
-        oracle_candidates=oracle_alive,
-    )
-    rejected = _hydrate_judge_rejections(rejected, codex_alive + oracle_alive)
+    # Step 2: local admission for pre-screened codex candidates; judge only
+    # packets whose source or landing shape still requires a second pass.
+    direct_accepted, direct_stopped, codex_alive_for_judge = _direct_codex_admission(codex_alive)
+    if direct_accepted:
+        print(
+            f"[board_spawn] direct codex admission accepted={len(direct_accepted)} "
+            f"needs_judge={len(codex_alive_for_judge)}",
+            flush=True,
+        )
+    if not codex_alive_for_judge and not oracle_alive:
+        accepted = direct_accepted
+        rejected = direct_stopped
+        err = ""
+    else:
+        # Step 3: claude judge (with source signals + paper coverage).
+        print(
+            f"[board_spawn] judging {len(codex_alive_for_judge)} codex + {len(oracle_alive)} oracle candidates",
+            flush=True,
+        )
+        accepted, rejected, err = _judge_candidates(
+            codex_candidates=codex_alive_for_judge,
+            oracle_candidates=oracle_alive,
+        )
+        accepted = direct_accepted + accepted
+        rejected = _hydrate_judge_rejections(rejected, codex_alive_for_judge + oracle_alive)
+        rejected = direct_stopped + rejected
     if err:
         error_kind = classify_judge_error(err)
         if error_kind.startswith("board_judge_unavailable"):
             accepted, deterministic_rejected = _deterministic_fallback_judge(
-                codex_alive + oracle_alive,
+                codex_alive_for_judge + oracle_alive,
                 fit_threshold=fit_threshold,
                 novelty_threshold=novelty_threshold,
             )
+            accepted = direct_accepted + accepted
+            deterministic_rejected = direct_stopped + deterministic_rejected
             rejected = deterministic_rejected
             if accepted:
                 print(
