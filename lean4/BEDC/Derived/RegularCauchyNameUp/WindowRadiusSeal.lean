@@ -32,7 +32,7 @@ theorem RegularCauchyNameCarrier_window_radius_seal_scoped_package [AskSetup]
     RegularCauchyNameCarrier_finite_window_readback_exactness carrier
       scheduleObservationWindow windowRadiusReadback readbackPkg
   obtain ⟨_scheduleUnary, _observationUnary, _radiusUnary, _ledgerUnary, _sealUnary,
-    _namecertUnary, _scheduleObservationRadius, _radiusLedgerSeal,
+    _provenanceUnary, _namecertUnary, _scheduleObservationRadius, _radiusLedgerSeal,
     sealProvenanceEndpoint, _endpointPkg⟩ := carrier
   have endpointSame : hsame endpoint endpointRead :=
     cont_deterministic sealProvenanceEndpoint sealProvenanceEndpointRead
