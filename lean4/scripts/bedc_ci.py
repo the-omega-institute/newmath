@@ -72,7 +72,7 @@ CLOSURESTATUS_BLOCK_RE = re.compile(
     re.DOTALL,
 )
 TOP_LEVEL_ORIGIN_RE = re.compile(r"^\s*\\origin\{([^}]*)\}\s*$", re.MULTILINE)
-VALID_ORIGINS = {"human", "ai", "ai-composite"}
+VALID_ORIGINS = {"human", "ai"}
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -580,55 +580,6 @@ def detect_preamble_duplicate_commands() -> list[dict[str, object]]:
     return duplicates
 
 
-def detect_mislabeled_composite_carriers(min_bucket_size: int = 6) -> list[dict[str, object]]:
-    closure_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
-    ai_blocks: dict[str, dict[str, object]] = {}
-    for block in closure_blocks:
-        if block.get("origin") != "ai":
-            continue
-        region = str(block.get("region") or "").strip()
-        if not region:
-            continue
-        ai_blocks.setdefault(f"{region}Up", block)
-
-    records = collect_carrier_records()
-    phase1_map: dict[tuple[int, tuple[str, ...]], list[CarrierRecord]] = {}
-    for record in records:
-        key = (record.arity, tuple(sorted(record.field_types)))
-        phase1_map.setdefault(key, []).append(record)
-
-    violations: list[dict[str, object]] = []
-    for key, members_raw in sorted(phase1_map.items(), key=lambda item: (item[0][0], item[0][1])):
-        if len(members_raw) < min_bucket_size:
-            continue
-        members = sorted(members_raw, key=lambda item: (item.name, item.file))
-        member_names = [member.name for member in members]
-        field_sets = {member.name: set(member.field_names) for member in members}
-        for member in members:
-            block = ai_blocks.get(member.name)
-            if block is None:
-                continue
-            overlaps = [
-                len(field_sets[member.name] & field_sets[other.name])
-                for other in members
-                if other.name != member.name
-            ]
-            violations.append({
-                "carrier_name": member.name,
-                "carrier_file": member.file,
-                "paper_file": block.get("file"),
-                "paper_line": block.get("line"),
-                "origin": "ai",
-                "target_origin": "ai-composite",
-                "bucket_phase": "phase1_buckets",
-                "bucket_member_count": len(members),
-                "bucket_members": member_names[:12],
-                "bucket_arity": key[0],
-                "shared_field_overlap_max": max(overlaps) if overlaps else 0,
-            })
-    return violations
-
-
 def _get_commit_changed_files() -> set[str] | None:
     """Return files changed by HEAD relative to its first parent."""
     try:
@@ -1018,7 +969,7 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
     origin = block.get("origin", "human")
     if origin not in VALID_ORIGINS:
         issues.append(
-            f"{where}: \\origin='{origin}' is not in {sorted(VALID_ORIGINS)}"
+            f"{where}: \\origin='{origin}' is not in {{human, ai}}"
         )
     if origin == "ai":
         body = block.get("raw_body") or ""
@@ -1057,7 +1008,6 @@ def audit_payload() -> dict[str, object]:
     ]
     case_collisions = detect_case_collision_paths()
     preamble_duplicate_commands = detect_preamble_duplicate_commands()
-    mislabeled_composite_carriers = detect_mislabeled_composite_carriers()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
     concrete_missing_origin = detect_concrete_instance_missing_origin()
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
@@ -1083,7 +1033,6 @@ def audit_payload() -> dict[str, object]:
     _attach_violation_split(payload, "missing_marker_targets", missing_marker_targets, changed_files)
     _attach_violation_split(payload, "case_collisions", case_collisions, changed_files)
     _attach_violation_split(payload, "preamble_duplicate_commands", preamble_duplicate_commands, changed_files)
-    _attach_violation_split(payload, "mislabeled_composite_carriers", mislabeled_composite_carriers, changed_files)
     _attach_violation_split(payload, "concrete_number_collisions", concrete_number_collisions, changed_files)
     _attach_violation_split(payload, "concrete_missing_origin", concrete_missing_origin, changed_files)
     closurestatus_diagnostic_items = [
@@ -1242,20 +1191,6 @@ def cmd_audit(args: argparse.Namespace) -> int:
                         f"    {occurrence['file']}:{occurrence['line']} "
                         f"{occurrence['kind']}"
                     )
-        if payload["mislabeled_composite_carriers"]:
-            print(
-                "[bedc-ci] mislabeled composite carriers: "
-                f"{payload['mislabeled_composite_carriers_new_count']} new (BLOCKING), "
-                f"{payload['mislabeled_composite_carriers_legacy_count']} legacy (warning)"
-            )
-            for item in payload["mislabeled_composite_carriers"][:50]:
-                members = ", ".join(item["bucket_members"])
-                print(
-                    f"  {item['carrier_name']}  bucket={item['bucket_member_count']} "
-                    f"overlap={item['shared_field_overlap_max']}  "
-                    f"{item['paper_file']}:{item['paper_line']}"
-                )
-                print(f"    members: {members}")
         if payload["concrete_number_collisions"]:
             print(
                 "[bedc-ci] concrete_instances numbering collisions: "
@@ -1312,7 +1247,6 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + len(payload["duplicate_part_labels"])
         + payload["case_collisions_new_count"]
         + payload["preamble_duplicate_commands_new_count"]
-        + payload["mislabeled_composite_carriers_new_count"]
         + payload["concrete_number_collisions_new_count"]
         + payload["concrete_missing_origin_new_count"]
         + payload["closurestatus_diagnostics_new_count"]
