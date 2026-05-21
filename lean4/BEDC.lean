@@ -5123,6 +5123,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.LedgerBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.NoRhNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.ObligationTriad
+import BEDC.Derived.ZetaContinuationWitnessUp.PackageProvenanceExactness
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleGammaBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleLedgerExactness
 import BEDC.Derived.ZetaContinuationWitnessUp.PoleLedgerRefusalRow
