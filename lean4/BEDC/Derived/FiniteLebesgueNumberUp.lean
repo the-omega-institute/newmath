@@ -322,4 +322,31 @@ theorem FiniteLebesgueNumberStreamRegularWindowOrder [AskSetup] [PackageSetup]
     ⟨windowReadUnary, coverCellUnary, orderedReadUnary, windowRadiusRead, readMeshCell,
       cellRouteOrdered, provenancePkg, orderedPkg⟩
 
+theorem FiniteLebesgueNumberCarrier_total_bounded_handoff [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactRead totalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont radius mesh compactRead ->
+        Cont compactRead route totalRead ->
+          PkgSig bundle totalRead pkg ->
+            UnaryHistory cover ∧ UnaryHistory window ∧ UnaryHistory radius ∧
+              UnaryHistory mesh ∧ UnaryHistory compactRead ∧ UnaryHistory totalRead ∧
+                Cont cover window radius ∧ Cont radius mesh compactRead ∧
+                  Cont compactRead route totalRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle totalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier radiusMeshCompactRead compactRouteTotal totalReadPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameRowUnary, coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshCompactRead
+  have totalReadUnary : UnaryHistory totalRead :=
+    unary_cont_closed compactReadUnary routeUnary compactRouteTotal
+  exact
+    ⟨coverUnary, windowUnary, radiusUnary, meshUnary, compactReadUnary, totalReadUnary,
+      coverWindowRadius, radiusMeshCompactRead, compactRouteTotal, provenancePkg,
+      totalReadPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
