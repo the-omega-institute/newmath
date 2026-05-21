@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\MetricClosedBallUp$}
+\label{ch:concrete-instances-metricclosedball-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges, the $\MetricClosedBallUp$ packet records center-radius closed balls as finite BEDC NameCert rows. It sits beside the open-ball carrier of \autoref{ch:concrete-instances-metricball-namecert}, but its membership row is read through non-strict ordered-real comparison over MetricDistanceWitness, Real/Rat order, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows rather than through an ambient closed subset.
+
+\begin{definition}[MetricClosedBall carrier]
+\label{def:metric-closed-ball-carrier}
+A $\MetricClosedBallUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,d,c,r,\rho,m,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricSpaceUp$ carrier row with its point classifier and metric source data.
+\item $d$ is the $\mathsf{MetricDistanceWitness}$ row read from $X$ and valued in the $\RealUp$ distance surface.
+\item $c$ is the center row, classified as a point of the carrier named by $X$.
+\item $r$ is a $\RatUp$ or $\RealUp$ radius row, according to the chosen radius ledger.
+\item $\rho$ is the radius order ledger for $r$, recording nonnegativity and, when the packet is handed to an open-ball consumer, the separate positive-radius comparison needed by $\MetricBallUp$.
+\item $m$ is the closed-membership and distance-comparison row. For a displayed point $x$, it records the comparison $d(c,x)\leq_{\mathsf R}r$ and names this comparison as the $\mathsf{MetricClosedBall}_d(c,r,\rho)$ membership read.
+\item $H$ records the $\hsame$ transports for the carrier, distance witness, center, radius, radius order ledger, and closed-membership comparison row.
+\item $C$ records the $\Cont$ routes that replay distance evaluation, non-strict radius comparison, closed-membership transport, and boundary handoff to open-ball rows when a strict comparison is separately supplied.
+\item $P$ is the $\Pkg$ provenance over $\MetricClosedBallUp$, $\MetricBallUp$, $\MetricSpaceUp$, $\RealUp$, $\RealAlgOrderUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetricClosedBallUp}$ row.
+\end{enumerate}
+The accepted carrier contains no ambient powerset coordinate, no topology-closure predicate, no quotient equality test on points or radii, no compactness witness, and no generated-open field.
+\end{definition}
+
+\begin{theorem}[MetricClosedBall NameCert obligations]
+\label{thm:metric-closed-ball-namecert-obligations}
+For an accepted packet $Q=(X,d,c,r,\rho,m,H,C,P,N)$, the local $\NameCert_{\MetricClosedBallUp}$ obligation surface consists exactly of carrier admission, classifier transport, radius nonnegativity stability, positive-radius stability for strict-boundary handoff when that handoff is requested, closed-membership transport, boundary comparison with $\MetricBallUp$, and ledger non-escape for the displayed rows $X,d,c,r,\rho,m,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission reads $X$ as the metric carrier and $d$ as the distance witness over that carrier. The center row $c$ and radius row $r$ are admitted only relative to those source rows, while $\rho$ supplies the displayed ordered-real radius ledger.
+
+Classifier transport is supplied by $H$. Transporting the carrier, distance witness, center, radius, and radius ledger moves the comparison data in $m$ to the transported copy without introducing a second point classifier or a second radius equality test.
+
+Closed-membership transport is the non-strict distance-comparison part of the same ledger. The row $m$ names the predicate $d(c,x)\leq_{\mathsf R}r$, while $C$ replays the route from distance evaluation to ordered-real comparison.
+
+Boundary comparison with $\MetricBallUp$ is conditional on a strict comparison row. When an open-ball consumer supplies the positive-radius and strict-membership data required by \autoref{def:metric-ball-carrier}, the route passes through $\MetricBallUp$; otherwise the closed-ball packet exports only its non-strict comparison row.
+
+Ledger non-escape follows by inspecting the carrier. Every exported read is one of $X,d,c,r,\rho,m,H,C,P,N$, so no ambient subset, topology closure, quotient equality test, compactness witness, or generated-open field can be recovered from the packet.
+\end{proof}
+
+\begin{theorem}[MetricClosedBall boundary handoff]
+\label{thm:metric-closed-ball-metricball-boundary-handoff}
+Every open-ball consumer of a center-radius strict comparison passes through $\MetricBallUp$, while every closed-ball consumer of $Q=(X,d,c,r,\rho,m,H,C,P,N)$ can read only the non-strict comparison row $d(c,x)\leq_{\mathsf R}r$ together with its transports and replay routes. The $\MetricClosedBallUp$ packet therefore does not recover ambient subsets, quotient point equality, compactness, or topology closure.
+\end{theorem}
+\begin{proof}
+Start with the accepted closed-ball carrier of \autoref{def:metric-closed-ball-carrier}. Its membership coordinate is $m$, and $m$ records only the non-strict comparison $d(c,x)\leq_{\mathsf R}r$.
+
+If a downstream consumer asks for a strict center-radius ball, the required predicate is not $m$. It is the open comparison row used by \autoref{def:metric-ball-carrier}, so the request factors through the $\MetricBallUp$ packet and its positive-radius ledger.
+
+If the downstream consumer remains closed-ball facing, the only exported comparison is the non-strict row transported by $H$ and replayed by $C$. Package provenance $P$ and the local naming row $N$ identify this as the $\MetricClosedBallUp$ surface, not as a topology closure or compactness object.
+
+Thus the handoff is exact at the boundary: strict consumers use $\MetricBallUp$, and closed consumers receive no coordinate from which to reconstruct an ambient subset, quotient point equality, compactness proof, or generated topology closure.
+\end{proof}
+
+\begin{closurestatus}{\MetricClosedBallUp}
+  \constructivestory{A $\MetricClosedBallUp$ packet is generated from a MetricSpace carrier row, a MetricDistanceWitness row, a center row, a RatUp or RealUp radius row, a nonnegative radius ledger with optional positive-radius handoff data, a closed-membership comparison row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-closed-ball-carrier}, \autoref{thm:metric-closed-ball-namecert-obligations}, and \autoref{thm:metric-closed-ball-metricball-boundary-handoff} bind the finite non-strict center-radius ball seed and its strict-boundary handoff to $\MetricBallUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim compactness, full metric topology, topology closure, quotient equality for metric points or radii, ambient subsets, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification can encode carrier admission, closed-membership transport, radius nonnegativity stability, strict-boundary handoff, and ledger non-escape for BEDC.Derived.MetricClosedBallUp.}
+\end{closurestatus}
