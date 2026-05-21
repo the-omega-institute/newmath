@@ -67,4 +67,31 @@ theorem NullSequenceCarrier_namecert_obligation_surface [AskSetup] [PackageSetup
                       (And.intro sealCont
                         (And.intro provenanceRow (And.intro sameLocalCert pkgRow))))))))))))
 
+theorem NullSequenceCarrier_window_threshold_exactness [AskSetup] [PackageSetup]
+    {difference tolerance window bound sealRow transportRow routes provenance localCert
+      toleranceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NullSequenceCarrier difference tolerance window bound sealRow transportRow routes provenance
+        localCert bundle pkg ->
+      Cont tolerance window toleranceRead ->
+        PkgSig bundle toleranceRead pkg ->
+          UnaryHistory difference ∧ UnaryHistory tolerance ∧ UnaryHistory window ∧
+            UnaryHistory bound ∧ UnaryHistory sealRow ∧ UnaryHistory toleranceRead ∧
+              Cont difference tolerance window ∧ Cont window bound sealRow ∧
+                Cont tolerance window toleranceRead ∧ hsame localCert (append provenance sealRow) ∧
+                  PkgSig bundle localCert pkg ∧ PkgSig bundle toleranceRead pkg := by
+  intro carrier toleranceStep toleranceSig
+  obtain ⟨differenceUnary, toleranceUnary, boundUnary, _transportUnary, _routesUnary,
+    windowRow, sealRowStep, _provenanceStep, sameLocalCert, localCertSig⟩ := carrier
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed differenceUnary toleranceUnary windowRow
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed windowUnary boundUnary sealRowStep
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed toleranceUnary windowUnary toleranceStep
+  exact
+    ⟨differenceUnary, toleranceUnary, windowUnary, boundUnary, sealRowUnary,
+      toleranceReadUnary, windowRow, sealRowStep, toleranceStep, sameLocalCert, localCertSig,
+      toleranceSig⟩
+
 end BEDC.Derived.NullSequenceUp
