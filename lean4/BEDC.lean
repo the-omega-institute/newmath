@@ -2407,6 +2407,7 @@ import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FailureCertificateUp.TasteGate
 import BEDC.Derived.FanTheoremUp
+import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FastCauchyUp.Core
@@ -2582,9 +2583,11 @@ import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhase
+import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRadiusWindowExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealAuditLedgerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadius
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowNoExtraSource
+import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusClassifierStability
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
@@ -4689,6 +4692,7 @@ import BEDC.Derived.SpinGroupUp.StdBridge
 import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SqueezeRealUp
+import BEDC.Derived.SqueezeRealUp.TasteGate
 import BEDC.Derived.StableNegationBoundaryUp
 import BEDC.Derived.StableNegationBoundaryUp.CertificateTruthNonEscape
 import BEDC.Derived.StableNegationBoundaryUp.LedgerExhaustion
