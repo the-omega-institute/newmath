@@ -3383,6 +3383,7 @@ import BEDC.Derived.MetricUp.RealAlgOrderApartnessDistanceScope
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessNameCertRoute
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessPositiveReflection
 import BEDC.Derived.MetricUp.RealAlgOrderApartnessSymmetricSeparation
+import BEDC.Derived.MetricUp.RealAlgOrderApartnessTriangleBudget
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveDistancePublicCorrespondence
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveRadiusBudgetInterface
 import BEDC.Derived.MetricUp.RealAlgOrderPositiveRadiusDistanceBoundary
@@ -3979,6 +3980,7 @@ import BEDC.Derived.RealCompletionSelectorSealUp.RouteDeterminacy
 import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
 import BEDC.Derived.RealDiagonalCompletionUp
+import BEDC.Derived.RealDiagonalCompletionUp.TasteGate
 import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
