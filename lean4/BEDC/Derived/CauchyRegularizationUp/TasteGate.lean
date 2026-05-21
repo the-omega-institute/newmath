@@ -177,4 +177,24 @@ theorem CauchyRegularizationTasteGate_single_carrier_alignment :
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
           rfl⟩
 
+namespace TasteGate
+
+theorem CauchyRegularizationTasteGate_single_carrier_alignment :
+    (∀ h : BHist, cauchyRegularizationDecodeBHist (cauchyRegularizationEncodeBHist h) = h) ∧
+      (∀ x : CauchyRegularizationUp,
+        cauchyRegularizationFromEventFlow (cauchyRegularizationToEventFlow x) = some x) ∧
+        (∀ x y : CauchyRegularizationUp,
+          cauchyRegularizationToEventFlow x = cauchyRegularizationToEventFlow y → x = y) ∧
+          Nonempty (ChapterTasteGate CauchyRegularizationUp) ∧
+            cauchyRegularizationEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨cauchyRegularizationDecode_encode_bhist,
+      cauchyRegularization_round_trip,
+      (fun _ _ heq => cauchyRegularizationToEventFlow_injective heq),
+      ⟨cauchyRegularizationChapterTasteGate⟩,
+      rfl⟩
+
+end TasteGate
+
 end BEDC.Derived.CauchyRegularizationUp
