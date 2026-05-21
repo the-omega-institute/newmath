@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.LocatednessModulusUp
+namespace BEDC.Derived.LocatednessModulusUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -30,9 +31,12 @@ private theorem locatednessModulus_decode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def locatednessModulusFields : LocatednessModulusUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -88,16 +92,11 @@ private theorem locatednessModulus_round_trip :
             (locatednessModulusDecodeBHist (locatednessModulusEncodeBHist P))
             (locatednessModulusDecodeBHist (locatednessModulusEncodeBHist N))) =
           some (LocatednessModulusUp.mk q L I D S R E H C P N)
-      rw [locatednessModulus_decode_encode_bhist q,
-        locatednessModulus_decode_encode_bhist L,
-        locatednessModulus_decode_encode_bhist I,
-        locatednessModulus_decode_encode_bhist D,
-        locatednessModulus_decode_encode_bhist S,
-        locatednessModulus_decode_encode_bhist R,
-        locatednessModulus_decode_encode_bhist E,
-        locatednessModulus_decode_encode_bhist H,
-        locatednessModulus_decode_encode_bhist C,
-        locatednessModulus_decode_encode_bhist P,
+      rw [locatednessModulus_decode_encode_bhist q, locatednessModulus_decode_encode_bhist L,
+        locatednessModulus_decode_encode_bhist I, locatednessModulus_decode_encode_bhist D,
+        locatednessModulus_decode_encode_bhist S, locatednessModulus_decode_encode_bhist R,
+        locatednessModulus_decode_encode_bhist E, locatednessModulus_decode_encode_bhist H,
+        locatednessModulus_decode_encode_bhist C, locatednessModulus_decode_encode_bhist P,
         locatednessModulus_decode_encode_bhist N]
 
 private theorem locatednessModulusToEventFlow_injective {x y : LocatednessModulusUp} :
@@ -112,7 +111,7 @@ private theorem locatednessModulusToEventFlow_injective {x y : LocatednessModulu
     (Eq.trans (locatednessModulus_round_trip x).symm
       (Eq.trans hread (locatednessModulus_round_trip y)))
 
-private theorem locatednessModulus_field_faithful :
+theorem locatednessModulus_field_faithful :
     ∀ x y : LocatednessModulusUp,
       locatednessModulusFields x = locatednessModulusFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -144,24 +143,63 @@ instance locatednessModulusFieldFaithful : FieldFaithful LocatednessModulusUp wh
   fields := locatednessModulusFields
   field_faithful := locatednessModulus_field_faithful
 
+instance locatednessModulusNontrivial : Nontrivial LocatednessModulusUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨LocatednessModulusUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      LocatednessModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate LocatednessModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   locatednessModulusChapterTasteGate
 
 theorem LocatednessModulusTasteGate_single_carrier_alignment :
-    (locatednessModulusDecodeBHist [BMark.b1] = BHist.e1 BHist.Empty) ∧
-      (∀ h : BHist, locatednessModulusDecodeBHist (locatednessModulusEncodeBHist h) = h) ∧
-        (∀ x : LocatednessModulusUp,
-          locatednessModulusFromEventFlow (locatednessModulusToEventFlow x) = some x) ∧
-          (∀ x y : LocatednessModulusUp,
-            locatednessModulusFields x = locatednessModulusFields y → x = y) := by
+    Nonempty (ChapterTasteGate LocatednessModulusUp) ∧
+      Nonempty (FieldFaithful LocatednessModulusUp) ∧
+        Nonempty (Nontrivial LocatednessModulusUp) ∧
+          (∀ h : BHist, locatednessModulusDecodeBHist (locatednessModulusEncodeBHist h) = h) ∧
+            (∀ x : LocatednessModulusUp,
+              locatednessModulusFromEventFlow (locatednessModulusToEventFlow x) = some x) ∧
+              (∀ x y : LocatednessModulusUp,
+                locatednessModulusToEventFlow x = locatednessModulusToEventFlow y → x = y) ∧
+                locatednessModulusEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial ChapterTasteGate
+  exact
+    ⟨⟨locatednessModulusChapterTasteGate⟩, ⟨locatednessModulusFieldFaithful⟩,
+      ⟨locatednessModulusNontrivial⟩, locatednessModulus_decode_encode_bhist,
+      locatednessModulus_round_trip,
+      (fun _ _ heq => locatednessModulusToEventFlow_injective heq), rfl⟩
+
+end BEDC.Derived.LocatednessModulusUp.TasteGate
+
+namespace BEDC.Derived.LocatednessModulusUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+
+theorem LocatednessModulusTasteGate_single_carrier_alignment :
+    (TasteGate.locatednessModulusDecodeBHist [BMark.b1] = BHist.e1 BHist.Empty) ∧
+      (∀ h : BHist,
+        TasteGate.locatednessModulusDecodeBHist
+            (TasteGate.locatednessModulusEncodeBHist h) =
+          h) ∧
+        (∀ x : TasteGate.LocatednessModulusUp,
+          TasteGate.locatednessModulusFromEventFlow
+              (TasteGate.locatednessModulusToEventFlow x) =
+            some x) ∧
+          (∀ x y : TasteGate.LocatednessModulusUp,
+            TasteGate.locatednessModulusFields x =
+                TasteGate.locatednessModulusFields y →
+              x = y) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · rfl
-  · constructor
-    · exact locatednessModulus_decode_encode_bhist
-    · constructor
-      · exact locatednessModulus_round_trip
-      · exact locatednessModulus_field_faithful
+  exact
+    ⟨rfl, TasteGate.LocatednessModulusTasteGate_single_carrier_alignment.2.2.2.1,
+      TasteGate.LocatednessModulusTasteGate_single_carrier_alignment.2.2.2.2.1,
+      TasteGate.locatednessModulus_field_faithful⟩
 
 end BEDC.Derived.LocatednessModulusUp
