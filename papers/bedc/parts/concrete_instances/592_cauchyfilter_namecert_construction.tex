@@ -3,12 +3,12 @@
 \origin{human}
 
 The $\CauchyFilterUp$ interface names the finite filterbase surface used by
-the real-completion boundary. The external mathematical idiom is the
-Kelley--Bourbaki language of filters and directed bases, but the BEDC object
-below keeps only explicit finite rows: base packets over $\mathsf{BHist}$,
-refinement ledgers, Cauchy-modulus rows, and handoff rows for
-$\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealBallUp$, and
-$\RealUp$.
+the real-completion boundary. Following Bishop-style Cauchy completion and
+the Kelley--Bourbaki language of filters and directed bases, the BEDC object
+keeps only explicit finite rows: directed finite-tail dyadic neighbourhood
+evidence over regular Cauchy observations, refinement ledgers, modulus rows,
+and handoff rows for $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RealBallUp$, and $\RealUp$.
 
 \begin{definition}[CauchyFilter finite-filterbase carrier]
 \label{def:cauchyfilter-finite-filterbase-carrier}
@@ -19,17 +19,20 @@ F=(B,R,M,L,P)
 $$
 with the following visible rows:
 \begin{enumerate}
-\item $B$ is a finite list of base packets, each base packet carrying a
-  $\StreamNameUp$ scheduled window and a nonempty finite family of
-  $\DyadicRatCoreUp$ observation rows;
+\item $B$ is a finite list of directed finite-tail neighbourhood packets,
+  each packet carrying a $\StreamNameUp$ scheduled tail window, a
+  $\RegSeqRatUp$ regular Cauchy observation row, and a nonempty finite family
+  of $\DyadicRatCoreUp$ dyadic neighbourhood witnesses;
 \item $R$ is a refinement ledger whose row for two displayed base packets
-  names a third displayed base packet refining both requested packets;
+  names a third displayed tail packet refining both requested packets through
+  a smaller dyadic tolerance window;
 \item $M$ is a $\CauchyModulusUp$ row assigning to each requested precision a
-  finite base packet after which all displayed dyadic observations are within
-  the requested radius;
+  finite tail packet after which all displayed dyadic neighbourhood witnesses
+  around the regular Cauchy observations are within the requested radius;
 \item $L$ is the ledger exposing the base-packet rows, the refinement rows,
-  the modulus rows, the componentwise $\hsame$ comparisons, and the displayed
-  $\Cont$ routes used by refinements and precision reads;
+  the modulus rows, the componentwise $\hsame$ comparisons, the dyadic
+  tolerance inclusions, and the displayed $\Cont$ routes used by refinements
+  and precision reads;
 \item $P$ is the $\Pkg$ provenance row naming the $\RegSeqRatUp$,
   $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealBallUp$, and $\RealUp$ certificate
   boundaries consumed by the packet.
@@ -42,20 +45,21 @@ $\Cont$ data.
 \begin{theorem}[CauchyFilter directed refinement obligation]
 \label{thm:cauchyfilter-directed-refinement-obligation}
 For every accepted $\CauchyFilterUp$ carrier $F=(B,R,M,L,P)$ and every two
-base packets displayed in $B$, the refinement row in $R$ is a displayed
-$\Cont$ and $\hsame$ obligation: it names a finite base packet in the same
-carrier whose observation rows refine both inputs through the continuation
-routes recorded by $L$.
+tail packets displayed in $B$, the refinement row in $R$ is a displayed
+$\Cont$ and $\hsame$ obligation: it names a finite tail packet in the same
+carrier whose dyadic neighbourhood rows refine both inputs through the
+continuation routes recorded by $L$.
 \end{theorem}
 \begin{proof}
 Project the accepted carrier through
 \autoref{def:cauchyfilter-finite-filterbase-carrier}. The row $R$ is stored
-with the base packets it refines, so the two input packets and the refined
-packet are all visible finite $\mathsf{BHist}$ rows.
+with the tail packets it refines, so the two input packets and the refined
+packet are all visible finite $\mathsf{BHist}$ rows over the same regular
+Cauchy observation surface.
 
 Read the continuation routes from $L$. Each route records how the refined
 packet restricts to the requested input packet, and the accompanying $\hsame$
-rows compare the displayed dyadic observations componentwise.
+rows compare the displayed dyadic neighbourhood witnesses componentwise.
 
 Thus directedness is not a global existence assertion. It is exactly the
 finite refinement row already stored in the carrier, together with its
@@ -65,13 +69,13 @@ displayed $\Cont$ and $\hsame$ witnesses.
 \begin{theorem}[CauchyFilter Cauchy modulus obligation]
 \label{thm:cauchyfilter-cauchy-modulus-obligation}
 Let $F=(B,R,M,L,P)$ be an accepted $\CauchyFilterUp$ carrier. The modulus row
-$M$ makes $F$ a constructive Cauchy object: for each displayed precision
-request, $M$ selects a finite base packet, and every later refinement row in
-$R$ carries dyadic observations whose $\DyadicRatCoreUp$ distance ledger is
-bounded by the requested radius.
+$M$ makes $F$ stable under smaller dyadic tail windows: for each displayed
+precision request, $M$ selects a finite tail packet, and every later
+refinement row in $R$ carries regular Cauchy observations whose
+$\DyadicRatCoreUp$ neighbourhood ledger is included in the requested radius.
 \end{theorem}
 \begin{proof}
-Fix a precision request and project the selected row of $M$. It names a base
+Fix a precision request and project the selected row of $M$. It names a tail
 packet in $B$ and records the requested dyadic radius through the
 $\CauchyModulusUp$ boundary.
 
@@ -83,7 +87,7 @@ $\hsame$ comparisons.
 The dyadic distance bound is read from the same finite ledger $L$. Since the
 bound is attached to the selected precision and transported along the displayed
 refinement rows, the carrier supplies a constructive Cauchy witness using only
-its finite base, modulus, and dyadic observation rows.
+its finite tail, modulus, regular observation, and dyadic neighbourhood rows.
 \end{proof}
 
 \begin{theorem}[CauchyFilter NameCert obligation surface]
@@ -94,17 +98,17 @@ finite rows:
 \item carrier: the finite-filterbase carrier of
 \autoref{def:cauchyfilter-finite-filterbase-carrier};
 \item classifier transport: accepted carriers compare by componentwise
-$\hsame$ transport of the base packets, refinement ledgers, modulus rows,
-evidence ledgers, and provenance rows, with reads routed through displayed
-$\Cont$ data;
+$\hsame$ transport of the tail packets, regular observation rows, dyadic
+neighbourhood witnesses, refinement ledgers, modulus rows, evidence ledgers,
+and provenance rows, with reads routed through displayed $\Cont$ data;
 \item directedness: the displayed refinement row of
 \autoref{thm:cauchyfilter-directed-refinement-obligation};
 \item Cauchy modulus: the precision-to-base selection and dyadic-radius
 readback of \autoref{thm:cauchyfilter-cauchy-modulus-obligation};
 \item downstream handoff: $\RealUp$ and $\RegSeqRatUp$ consumers read only the
-base packets, stream schedules, dyadic observations, real-ball bounds,
-refinement rows, modulus rows, ledger rows, and provenance rows of the same
-finite packet.
+tail packets, stream schedules, regular Cauchy observations, dyadic
+neighbourhood witnesses, real-ball bounds, refinement rows, modulus rows,
+ledger rows, and provenance rows of the same finite packet.
 \end{enumerate}
 These five rows form the seed obligation for naming completion-facing Cauchy
 filterbase data over displayed histories.
@@ -112,8 +116,8 @@ filterbase data over displayed histories.
 \begin{proof}
 The carrier row is
 \autoref{def:cauchyfilter-finite-filterbase-carrier}. It supplies the finite
-base packets, refinement ledger, Cauchy-modulus row, evidence ledger, and
-provenance row.
+tail packets, regular observation rows, dyadic neighbourhood witnesses,
+refinement ledger, Cauchy-modulus row, evidence ledger, and provenance row.
 
 Classifier transport is componentwise. Transporting the five carrier
 coordinates through their displayed $\hsame$ rows and following the recorded
@@ -126,9 +130,10 @@ the carrier. The first projection is
 
 For downstream readback, a $\RealUp$ or $\RegSeqRatUp$ consumer can cite only
 the rows named by $P$ and exposed by $L$. Those rows are exactly the base
-packets, stream schedules, dyadic observations, real-ball bounds, refinement
-rows, modulus rows, ledger rows, and provenance rows of the carrier, so the
-surface is exhausted by the five listed obligations.
+packets, stream schedules, regular Cauchy observations, dyadic neighbourhood
+witnesses, real-ball bounds, refinement rows, modulus rows, ledger rows, and
+provenance rows of the carrier, so the surface is exhausted by the five listed
+obligations.
 \end{proof}
 
 \begin{theorem}[CauchyFilter carrier transport obligation]
@@ -147,10 +152,11 @@ Unpack the finite carrier of
 \autoref{def:cauchyfilter-finite-filterbase-carrier}. Acceptance is expressed
 only through the five displayed coordinates $B$, $R$, $M$, $L$, and $P$.
 
-Transport is componentwise. The base packets, refinement ledger, modulus row,
-evidence ledger, and provenance row are compared by the named $\hsame$
-witnesses, while each refinement or precision read follows a displayed
-$\Cont$ route recorded in the ledger.
+Transport is componentwise. The tail packets, regular observation rows, dyadic
+neighbourhood witnesses, refinement ledger, modulus row, evidence ledger, and
+provenance row are compared by the named $\hsame$ witnesses, while each
+refinement or precision read follows a displayed $\Cont$ route recorded in the
+ledger.
 
 Apply \autoref{thm:cauchyfilter-namecert-obligation-surface} to identify the
 classifier row as the transport row of the local $\NameCert$ surface. The
@@ -165,19 +171,19 @@ finite rows and their recorded $\hsame$ and $\Cont$ witnesses.
 \begin{theorem}[CauchyFilter refinement directedness package]
 \label{thm:cauchyfilter-refinement-directedness-package}
 For an accepted $\CauchyFilterUp$ carrier $F=(B,R,M,L,P)$, the directedness
-obligation is the finite package consisting of the two input base packets in
-$B$, the selected third base packet named by the row of $R$, the two displayed
+obligation is the finite package consisting of the two input tail packets in
+$B$, the selected third tail packet named by the row of $R$, the two displayed
 $\Cont$ routes from that selected packet to the inputs, the componentwise
-$\hsame$ witnesses for the transported dyadic observations, and the modulus
-row of $M$ that reads the selected packet at every requested precision.
+$\hsame$ witnesses for the transported dyadic neighbourhood rows, and the
+modulus row of $M$ that reads the selected packet at every requested precision.
 \end{theorem}
 \begin{proof}
-Choose two displayed base packets in $B$. By
+Choose two displayed tail packets in $B$. By
 \autoref{thm:cauchyfilter-directed-refinement-obligation}, the corresponding
-row of $R$ names a third displayed base packet together with the continuation
+row of $R$ names a third displayed tail packet together with the continuation
 routes and componentwise comparison rows needed to refine both inputs.
 
-The selected packet is still a base packet of the same finite carrier, so the
+The selected packet is still a tail packet of the same finite carrier, so the
 modulus row can be read without leaving the displayed surface. Apply
 \autoref{thm:cauchyfilter-cauchy-modulus-obligation} to attach the requested
 precision row and its dyadic-radius ledger to the same refinement package.
@@ -191,8 +197,9 @@ principle. Every component is one of the rows already listed in
 \begin{theorem}[CauchyFilter Real and RegSeqRat handoff non-escape]
 \label{thm:cauchyfilter-real-regseq-handoff-nonescape}
 Every $\RealUp$ or $\RegSeqRatUp$ consumer of an accepted $\CauchyFilterUp$
-carrier $F=(B,R,M,L,P)$ reads only the displayed base packets, the
-$\StreamNameUp$ schedules, the $\DyadicRatCoreUp$ observation rows, the
+carrier $F=(B,R,M,L,P)$ reads only the displayed tail packets, the
+$\StreamNameUp$ schedules, the $\RegSeqRatUp$ regular observation rows, the
+$\DyadicRatCoreUp$ neighbourhood rows, the
 $\RealBallUp$ bounds, the refinement rows, the Cauchy-modulus rows, the ledger
 rows, and the $\Pkg$ provenance rows named by $L$ and $P$. The handoff does
 not read a host filter, a selected limit, a quotient real, or an ambient
@@ -201,9 +208,9 @@ completeness principle.
 \begin{proof}
 Project the downstream handoff row from
 \autoref{thm:cauchyfilter-namecert-obligation-surface}. It lists the rows
-available to $\RealUp$ and $\RegSeqRatUp$ consumers: base packets, stream
-schedules, dyadic observations, real-ball bounds, refinement rows, modulus
-rows, ledger rows, and provenance rows.
+available to $\RealUp$ and $\RegSeqRatUp$ consumers: tail packets, stream
+schedules, regular Cauchy observations, dyadic neighbourhood rows, real-ball
+bounds, refinement rows, modulus rows, ledger rows, and provenance rows.
 
 The carrier definition fixes where these rows live. By
 \autoref{def:cauchyfilter-finite-filterbase-carrier}, the base packets are in
@@ -224,28 +231,29 @@ or ambient completeness.
 \begin{theorem}[CauchyFilter L10 dependency handoff lattice]
 \label{thm:cauchyfilter-l10-dependency-handoff-lattice}
 Every accepted $\CauchyFilterUp$ handoff is a horizontal L10 dependency
-lattice for the real-completion surface. Its base packets are read through
-\autoref{ch:concrete-instances-streamname-namecert}, its dyadic observations
-through \autoref{ch:concrete-instances-dyadicratcore-namecert}, its regular
-readbacks through \autoref{ch:concrete-instances-regseqrat-namecert}, and its
-final seal through \autoref{ch:concrete-instances-real-namecert}. The lattice
-is exhausted by the finite carrier rows, directed refinement rows,
+lattice for the real-completion surface. Its tail packets are read through
+\autoref{ch:concrete-instances-streamname-namecert}, its dyadic neighbourhood
+witnesses through \autoref{ch:concrete-instances-dyadicratcore-namecert}, its
+regular readbacks through \autoref{ch:concrete-instances-regseqrat-namecert},
+and its final seal through \autoref{ch:concrete-instances-real-namecert}. The
+lattice is exhausted by the finite carrier rows, directed refinement rows,
 Cauchy-modulus rows, ledger evidence, and provenance rows of the accepted
 carrier; it contains no host filter, selected limit, quotient real, or ambient
 completeness datum.
 \end{theorem}
 \begin{proof}
 Start with an accepted carrier $F=(B,R,M,L,P)$. The carrier definition
-\autoref{def:cauchyfilter-finite-filterbase-carrier} places every base packet
+\autoref{def:cauchyfilter-finite-filterbase-carrier} places every tail packet
 in the displayed finite row $B$, and each such packet carries its
-$\BHist$ evidence, $\StreamNameUp$ schedule, dyadic observation rows,
-real-ball bounds, ledger reads, and downstream provenance. Hence the
-horizontal base layer of the handoff is read through the StreamName and
-DyadicRatCore concrete-instance chapters cited in the statement.
+$\BHist$ evidence, $\StreamNameUp$ schedule, $\RegSeqRatUp$ regular
+observation row, dyadic neighbourhood rows, real-ball bounds, ledger reads,
+and downstream provenance. Hence the horizontal tail layer of the handoff is
+read through the StreamName and DyadicRatCore concrete-instance chapters cited
+in the statement.
 
 The middle layer is forced by the two obligations of the accepted carrier.
 Apply \autoref{thm:cauchyfilter-directed-refinement-obligation} to read a
-displayed refinement row of $R$ whenever two base packets are compared, and
+displayed refinement row of $R$ whenever two tail packets are compared, and
 apply \autoref{thm:cauchyfilter-cauchy-modulus-obligation} to read the
 displayed precision row of $M$ together with its retained dyadic-radius ledger.
 These rows are still entries of $B$, $R$, $M$, and $L$, so they add refinement
@@ -253,12 +261,12 @@ and Cauchy control without introducing a new completion object.
 
 Finally apply
 \autoref{thm:cauchyfilter-real-regseq-handoff-nonescape}. It identifies the
-regular-sequence and real handoff boundary as exactly the displayed base,
-stream, dyadic, real-ball, refinement, modulus, ledger, and $\Pkg$ provenance
-rows. Therefore the RegSeqRat readback layer and the Real sealing layer are
-the cited sibling concrete-instance dependencies, and the whole L10 handoff is
-closed before any host filter, selected limit, quotient real, or ambient
-completeness principle can be read.
+regular-sequence and real handoff boundary as exactly the displayed tail,
+stream, regular observation, dyadic, real-ball, refinement, modulus, ledger,
+and $\Pkg$ provenance rows. Therefore the RegSeqRat readback layer and the
+Real sealing layer are the cited sibling concrete-instance dependencies, and
+the whole L10 handoff is closed before any host filter, selected limit,
+quotient real, or ambient completeness principle can be read.
 \end{proof}
 
 \begin{theorem}[CauchyFilter uniform-space completion handoff]
@@ -267,8 +275,8 @@ Let $F=(B,R,M,L,P)$ be an accepted $\CauchyFilterUp$ finite-filterbase
 carrier whose provenance row exposes the same finite entourage and
 filterbase surface consumed by $\UniformSpaceUp$. Every $\CompletionUp$ or
 $\RealUp$ read admitted from $F$ factors first through the displayed
-$\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$
-readback rows, $\RealBallUp$ bounds, and the finite $\UniformSpaceUp$
+$\StreamNameUp$ windows, $\DyadicRatCoreUp$ neighbourhood witnesses,
+$\RegSeqRatUp$ readback rows, $\RealBallUp$ bounds, and the finite $\UniformSpaceUp$
 entourage rows before any completion-facing seal is available. Consequently
 the handoff described in \autoref{ch:concrete-instances-uniformspace-namecert}
 and consumed by \autoref{ch:concrete-instances-completion-namecert} and
@@ -278,11 +286,12 @@ quotient stream, host filter, or ambient completeness object.
 \end{theorem}
 \begin{proof}
 Project the carrier $F=(B,R,M,L,P)$. The base row $B$ supplies the displayed
-filterbase packets, $R$ supplies directed refinement, $M$ supplies Cauchy
+tail packets, $R$ supplies directed refinement, $M$ supplies Cauchy
 precision, $L$ supplies ledger reads, and $P$ supplies provenance. By
 \autoref{thm:cauchyfilter-l10-dependency-handoff-lattice}, these rows already
-identify the StreamName windows, DyadicRatCore observations, RegSeqRat
-readback rows, RealBall bounds, ledger evidence, and real-facing provenance.
+identify the StreamName windows, DyadicRatCore neighbourhood witnesses,
+RegSeqRat readback rows, RealBall bounds, ledger evidence, and real-facing
+provenance.
 
 Next route the finite filterbase as uniform entourage data. Apply
 \autoref{thm:uniformspace-cauchy-completion-handoff}: the UniformSpaceUp
@@ -308,11 +317,11 @@ A finite subfilterbase restriction datum for $F$ is a displayed finite sublist
 $B'\subseteq B$ together with two preservation rows:
 \begin{enumerate}
 \item refinement preservation: whenever $b_0$ and $b_1$ are displayed in $B'$
-and the row of $R$ for $(b_0,b_1)$ names a refined base packet $b_2$, the
+and the row of $R$ for $(b_0,b_1)$ names a refined tail packet $b_2$, the
 packet $b_2$ is displayed in $B'$ and the corresponding $\Cont$ and $\hsame$
 witnesses in $L$ are retained in the restricted ledger;
 \item modulus preservation: for every precision request admitted by the
-carrier, the base packet selected by the row $M$ is displayed in $B'$, and the
+carrier, the tail packet selected by the row $M$ is displayed in $B'$, and the
 associated dyadic-radius readback row of $L$ is retained in the restricted
 ledger.
 \end{enumerate}
@@ -322,8 +331,9 @@ F|_{B'}=(B',R|_{B'},M|_{B'},L|_{B'},P),
 $$
 where $R|_{B'}$ keeps exactly the refinement rows whose two inputs lie in
 $B'$, $M|_{B'}$ keeps the same precision-to-base selections, $L|_{B'}$ keeps
-only the ledger rows used by those base, refinement, modulus, $\Cont$, and
-$\hsame$ reads, and $P$ is the unchanged downstream provenance row.
+only the ledger rows used by those tail, regular observation, dyadic
+neighbourhood, refinement, modulus, $\Cont$, and $\hsame$ reads, and $P$ is
+the unchanged downstream provenance row.
 \end{definition}
 
 \begin{theorem}[CauchyFilter finite subfilterbase restriction]
@@ -342,14 +352,15 @@ $F$.
 \end{theorem}
 \begin{proof}
 The carrier rows are finite because $B'$ is a displayed finite sublist of the
-finite base row $B$, while $R|_{B'}$, $M|_{B'}$, and $L|_{B'}$ are obtained by
+finite tail row $B$, while $R|_{B'}$, $M|_{B'}$, and $L|_{B'}$ are obtained by
 retaining displayed rows from the finite ledgers $R$, $M$, and $L$ of
-\autoref{def:cauchyfilter-finite-filterbase-carrier}. Each base packet in
-$B'$ is already a base packet of $B$, hence it carries the same $\BHist$ row,
-$\StreamNameUp$ scheduled window, and nonempty finite family of
-$\DyadicRatCoreUp$ observation rows that it carried in $F$.
+\autoref{def:cauchyfilter-finite-filterbase-carrier}. Each tail packet in
+$B'$ is already a tail packet of $B$, hence it carries the same $\BHist$ row,
+$\StreamNameUp$ scheduled window, $\RegSeqRatUp$ regular observation row, and
+nonempty finite family of $\DyadicRatCoreUp$ neighbourhood rows that it carried
+in $F$.
 
-Directedness is inherited row by row. Take two base packets displayed in
+Directedness is inherited row by row. Take two tail packets displayed in
 $B'$. In the accepted carrier $F$, \autoref{thm:cauchyfilter-directed-refinement-obligation}
 reads the corresponding row of $R$ as a displayed refinement packet together
 with its $\Cont$ routes and componentwise $\hsame$ witnesses. Refinement
@@ -360,7 +371,7 @@ refinement obligation required of the restricted carrier.
 
 The Cauchy modulus row is also inherited without changing the selected bases.
 For a displayed precision request, \autoref{thm:cauchyfilter-cauchy-modulus-obligation}
-reads the row of $M$ in $F$ as a selected base packet together with the dyadic
+reads the row of $M$ in $F$ as a selected tail packet together with the dyadic
 radius ledger controlling every later displayed refinement. Modulus
 preservation says that the selected packet lies in $B'$ and that the associated
 radius readback row remains in $L|_{B'}$. If a later refinement is read inside
@@ -372,11 +383,12 @@ It remains to identify the handoff boundary. The restriction does not replace
 $P$; it only removes base, refinement, modulus, and ledger rows not used by
 $B'$. Hence a downstream $\RealUp$ or $\RegSeqRatUp$ consumer can still read
 exactly the provenance categories listed in
-\autoref{thm:cauchyfilter-namecert-obligation-surface}: base packets, stream
-schedules, dyadic observations, real-ball bounds, refinement rows, modulus
-rows, ledger rows, and the same $\Pkg$ provenance boundary. Since every
-retained row is a displayed row of the accepted carrier and the two preservation
-conditions keep all refinement and modulus rows needed for the CauchyFilter
-obligations, $F|_{B'}$ repacks as an accepted $\CauchyFilterUp$ carrier with
-the same finite downstream handoff boundary.
+\autoref{thm:cauchyfilter-namecert-obligation-surface}: tail packets, stream
+schedules, regular Cauchy observations, dyadic neighbourhood rows, real-ball
+bounds, refinement rows, modulus rows, ledger rows, and the same $\Pkg$
+provenance boundary. Since every retained row is a displayed row of the
+accepted carrier and the two preservation conditions keep all refinement and
+modulus rows needed for the CauchyFilter obligations, $F|_{B'}$ repacks as an
+accepted $\CauchyFilterUp$ carrier with the same finite downstream handoff
+boundary.
 \end{proof}
