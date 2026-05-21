@@ -1268,6 +1268,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerNonescape
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootUnblockObligationPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ShiftBudgetExhaustion
@@ -1894,6 +1895,7 @@ import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.CurvatureUp.SourceEnvelopeExactness
 import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback
+import BEDC.Derived.CurvatureUp.TasteGate
 import BEDC.Derived.CurvatureUp.TensorialSectionTransport
 import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CyclotomicUp
