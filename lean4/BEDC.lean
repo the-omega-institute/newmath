@@ -3203,8 +3203,10 @@ import BEDC.Derived.MeasureUp.RootPublicObligationBasis
 import BEDC.Derived.MeasureUp.RootPublicSurface
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
+import BEDC.Derived.MetaCICBetaAuditUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationAuditUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationUp.TasteGate
+import BEDC.Derived.MetaCICClosureTraceUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
@@ -3306,6 +3308,7 @@ import BEDC.Derived.MetaCICRedexFrontierUp.NameCertObligations
 import BEDC.Derived.MetaCICRedexFrontierUp.Nonescape
 import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
+import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.ConditionalBoundary
@@ -5037,6 +5040,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.RootGammaOperationHandoff
 import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootNamecertObligationSurface
 import BEDC.Derived.ZetaContinuationApplicationUp.RootNonEscape
+import BEDC.Derived.ZetaContinuationApplicationUp.RootObligationReadiness
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
 import BEDC.Derived.ZetaContinuationApplicationUp.RowInventoryCoverage
 import BEDC.Derived.ZetaContinuationApplicationUp.SourceLockTriadSeparation
