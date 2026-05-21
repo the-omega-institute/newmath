@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.34 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.35 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -89,6 +89,8 @@ If `candidate_pool` has fewer than 5 feasible candidates, emit only as many as e
 ## TOP-LEVEL HARD GATE — origin{ai} chapter NameCert template (Stage F + falsifiable + independence)
 
 Every new `\origin{ai}` chapter MUST include the following four rows beyond the standard 5-row NameCert obligation surface. Each row commits the chapter to substantive structural content that would invalidate the chapter if disproved. `\origin{human}` chapters are EXEMPT (their nontriviality is attested by external mathematical record).
+
+Every proposed new `papers/bedc/parts/**/*.tex` chapter file with `\chapter{...}` MUST include exactly one top-level `\origin{human}` or `\origin{ai}` line. If a candidate would create or touch a chapter file with missing, duplicated, or non-`human|ai` origin, reject the candidate.
 
 1. **`\falsifiablePrediction{<one-line>}`** — the chapter commits one BEDC-verifiable consequence. Example: "If `XUp` is atomic, then there exists NO `<X>Up → YUp` morphism preserving NameCert for any current `YUp` with fewer than 5 carrier rows." The prediction must be testable in ≤ N rounds via either direct proof or counter-witness construction; vague philosophical statements ("X is fundamental") are rejected.
 
