@@ -273,3 +273,25 @@ It remains to prove minimality. The StreamName singleton finite-window handoff i
 
 Finally apply \autoref{thm:real-l10-route-face-deletion-obstruction}. Deleting any indispensable construction face or support row from the four-face packet fails to present the same accepted exit certificate. Therefore deleting any one of the three machine touchpoints fails to present the same accepted machine-facing route, and the three touchpoints form the minimal sufficient basis for admissibility.
 \end{proof}
+
+\begin{theorem}[Real L10 machine-audit locality]
+\label{thm:real-l10-machine-audit-locality}
+Let $S$ be an accepted current-phase terminal $\RealUp$ seal section on
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+Assume that the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff read the same four-face certificate named in \autoref{thm:real-four-face-machine-touchpoint-minimality}. Then every audit-facing coordinate of that machine read is exactly one of the four local face records: the local closurestatus, formalstatus, leantarget, and bridgestatus records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ seal face.
+
+Conversely, those four local objectwise audit records together with the three named machine touchpoints present the same machine-audit route for $S$. The route contains no aggregate formalstatus row, route-level leantarget, aggregate bridge row, standard bridge row, quotient stream equality, selected limit, countable-choice row, metric-completeness datum, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+First identify the machine route. Apply \autoref{thm:real-terminal-seal-machine-route-exhaustion} and \autoref{thm:real-four-face-machine-touchpoint-minimality}. The accepted terminal seal has exactly the three machine touchpoints in the statement, and those touchpoints consume one common four-face certificate over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Next read the audit records objectwise. Use \autoref{thm:real-l10-face-leantarget-noncollapse} and \autoref{thm:real-l10-terminal-four-face-status-locality}. These keep closurestatus, formalstatus, leantarget, and bridgestatus attached to the four local faces, so the machine read cannot fuse them into a route-level verification token or replace a local face record by an aggregate bridge credential.
+
+Now separate the gateway inventory from the touchpoint inventory. Apply \autoref{thm:streamname-real-completion-gateway-face-record-noncollapse} and \autoref{thm:streamname-real-completion-gateway-touchpoint-factorization}. The gateway audit records are the four objectwise face records, while the machine-facing route factors through the three named handoff positions. Thus a touchpoint reports its route position only by reading those local records; it does not create an additional audit-facing coordinate.
+
+For the converse direction, start with the four local closurestatus, formalstatus, leantarget, and bridgestatus records together with the three touchpoints. The gateway factorization theorem repacks them as the same four-face machine read, and the terminal seal exhaustion theorem identifies that read with the accepted route for $S$.
+
+Finally close the exclusions. Use \autoref{thm:streamname-open-phase-lean-touchpoint-triad}, \autoref{thm:streamname-real-completion-exit-lean-route-boundary}, and \autoref{thm:dyadicratcore-l10-exit-lean-touchpoint-completeness}. These boundary results exhaust the current machine support by the three named touchpoints and leave no coordinate for aggregate formalstatus, route-level leantarget, aggregate bridge data, standard bridge data, quotient stream equality, selected limits, countable choice, metric completeness, or separate $\RealUp$ completeness.
+\end{proof}
