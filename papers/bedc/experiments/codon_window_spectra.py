@@ -1268,6 +1268,44 @@ def interval_closure(codons: set[str]) -> tuple[set[str], list[dict[str, object]
     return closed, stages
 
 
+def q2_face_vertices() -> tuple[tuple[str, ...], ...]:
+    return tuple(
+        subcube_vertices(free, values)
+        for free in itertools.combinations(range(6), 2)
+        for values in itertools.product("01", repeat=4)
+    )
+
+
+def q2_completion_closure(
+    codons: set[str],
+    faces: tuple[tuple[str, ...], ...] | None = None,
+) -> tuple[set[str], list[dict[str, object]]]:
+    if faces is None:
+        faces = q2_face_vertices()
+    closed = set(codons)
+    stages: list[dict[str, object]] = []
+    stage_index = 0
+    while len(closed) < 64:
+        additions: set[str] = set()
+        for face in faces:
+            if sum(1 for codon in face if codon in closed) >= 3:
+                additions.update(codon for codon in face if codon not in closed)
+        additions -= closed
+        if not additions:
+            break
+        stage_index += 1
+        closed |= additions
+        stages.append(
+            {
+                "stage": stage_index,
+                "added_count": len(additions),
+                "added": tuple(sorted(additions)),
+                "total_size": len(closed),
+            }
+        )
+    return closed, stages
+
+
 def reassignment_mass_geometry_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
     standard = tables[1]
     codon_counts: collections.Counter[str] = collections.Counter()
@@ -1978,32 +2016,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                     }
                 )
 
-    q2_faces = [
-        subcube_vertices(free, values)
-        for free in itertools.combinations(range(6), 2)
-        for values in itertools.product("01", repeat=4)
-    ]
-    completion_stages: list[dict[str, object]] = []
-    closed = set(support)
-    stage_index = 0
-    while len(closed) < 64:
-        additions: set[str] = set()
-        for face in q2_faces:
-            if sum(1 for codon in face if codon in closed) >= 3:
-                additions.update(codon for codon in face if codon not in closed)
-        additions -= closed
-        if not additions:
-            break
-        stage_index += 1
-        closed |= additions
-        completion_stages.append(
-            {
-                "stage": stage_index,
-                "added_count": len(additions),
-                "added": tuple(sorted(additions)),
-                "total_size": len(closed),
-            }
-        )
+    cached_q2_faces = q2_face_vertices()
+    closed, completion_stages = q2_completion_closure(support, cached_q2_faces)
 
     boundary_class: dict[str, dict[str, object]] = {}
     for row in boundary_rows:
@@ -2065,6 +2079,65 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             maximal_median_cells.append(cell)
     maximal_median_cells.sort(key=lambda cell: (-len(cell["free_bits"]), cell["vertices"]))
     median_boundary_edges = 6 * len(median_set) - 2 * median_complex["f_vector"][1]
+    support_tuple = tuple(sorted(support))
+    minimal_median_generators: list[tuple[str, ...]] = []
+    minimal_median_generator_size = 0
+    for size in range(1, len(support_tuple) + 1):
+        for subset in itertools.combinations(support_tuple, size):
+            generated, _stages = median_closure(set(subset))
+            if generated == median_set:
+                minimal_median_generators.append(subset)
+        if minimal_median_generators:
+            minimal_median_generator_size = size
+            break
+    median_forced_generators = tuple(
+        codon
+        for codon in support_tuple
+        if all(codon in generator for generator in minimal_median_generators)
+    )
+
+    deletion_rows: list[dict[str, object]] = []
+    for codon in support_tuple:
+        deletion_closure, _stages = median_closure(support - {codon})
+        deletion_rows.append(
+            {
+                "codon": codon,
+                "closure_size": len(deletion_closure),
+                "preserves_median": deletion_closure == median_set,
+                "lost": tuple(sorted(median_set - deletion_closure)),
+            }
+        )
+    median_essential = tuple(row["codon"] for row in deletion_rows if not row["preserves_median"])
+    median_redundant = tuple(row["codon"] for row in deletion_rows if row["preserves_median"])
+
+    complement_pairs = tuple(
+        (left, right)
+        for left, right in itertools.combinations(support_tuple, 2)
+        if all(a != b for a, b in zip(bits(left), bits(right)))
+    )
+
+    q2_deletion_rows: list[dict[str, object]] = []
+    for codon in support_tuple:
+        deletion_q2, stages = q2_completion_closure(support - {codon}, cached_q2_faces)
+        q2_deletion_rows.append(
+            {
+                "codon": codon,
+                "closure_size": len(deletion_q2),
+                "percolates": len(deletion_q2) == 64,
+                "stage_count": len(stages),
+            }
+        )
+
+    q2_percolating_seeds: list[tuple[str, ...]] = []
+    minimal_q2_percolating_seed_size = 0
+    for size in range(1, len(support_tuple) + 1):
+        for subset in itertools.combinations(support_tuple, size):
+            generated, _stages = q2_completion_closure(set(subset), cached_q2_faces)
+            if len(generated) == 64:
+                q2_percolating_seeds.append(subset)
+        if q2_percolating_seeds:
+            minimal_q2_percolating_seed_size = size
+            break
 
     return {
         "support": tuple(sorted(support)),
@@ -2239,6 +2312,24 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "yur_inter_wnr": tuple(sorted(yur_set & wnr_set)),
             "yur_inter_cun": tuple(sorted(yur_set & cun)),
             "boundary_edge_count": median_boundary_edges,
+        },
+        "generator_robustness": {
+            "minimal_median_generator_size": minimal_median_generator_size,
+            "minimal_median_generator_count": len(minimal_median_generators),
+            "minimal_median_generators": minimal_median_generators,
+            "median_forced_generator_codons": median_forced_generators,
+            "median_generator_choice_codons": tuple(
+                sorted(set().union(*(set(generator) for generator in minimal_median_generators)) - set(median_forced_generators))
+            ),
+            "median_deletion_rows": deletion_rows,
+            "median_essential_codons": median_essential,
+            "median_redundant_codons": median_redundant,
+            "complement_pairs": complement_pairs,
+            "convex_hull_two_point_witnesses": complement_pairs,
+            "q2_single_deletion_rows": q2_deletion_rows,
+            "q2_single_deletion_all_percolate": all(row["percolates"] for row in q2_deletion_rows),
+            "minimal_q2_percolating_seed_size": minimal_q2_percolating_seed_size,
+            "minimal_q2_percolating_seed_count": len(q2_percolating_seeds),
         },
     }
 
@@ -3399,6 +3490,38 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert median["yur_inter_wnr"] == ("TTA", "TTG")
     assert median["yur_inter_cun"] == ("CTA", "CTG")
     assert median["boundary_edge_count"] == 44
+    robustness = summary["support_compression"]["generator_robustness"]
+    assert robustness["minimal_median_generator_size"] == 7
+    assert robustness["minimal_median_generator_count"] == 2
+    assert robustness["minimal_median_generators"] == [
+        ("AGG", "ATA", "CTA", "CTC", "CTT", "TAA", "TCA"),
+        ("AGG", "ATA", "CTC", "CTG", "CTT", "TAA", "TCA"),
+    ]
+    assert robustness["median_forced_generator_codons"] == ("AGG", "ATA", "CTC", "CTT", "TAA", "TCA")
+    assert robustness["median_generator_choice_codons"] == ("CTA", "CTG")
+    assert robustness["median_essential_codons"] == ("AGG", "ATA", "CTC", "CTT", "TCA")
+    assert robustness["median_redundant_codons"] == ("AAA", "AGA", "CTA", "CTG", "TAA", "TAG", "TGA", "TTA")
+    assert robustness["median_deletion_rows"] == [
+        {"codon": "AAA", "closure_size": 20, "preserves_median": True, "lost": ()},
+        {"codon": "AGA", "closure_size": 20, "preserves_median": True, "lost": ()},
+        {"codon": "AGG", "closure_size": 14, "preserves_median": False, "lost": ("AAG", "ACG", "AGG", "ATG", "TCG", "TGG")},
+        {"codon": "ATA", "closure_size": 16, "preserves_median": False, "lost": ("ACA", "ACG", "ATA", "ATG")},
+        {"codon": "CTA", "closure_size": 20, "preserves_median": True, "lost": ()},
+        {"codon": "CTC", "closure_size": 19, "preserves_median": False, "lost": ("CTC",)},
+        {"codon": "CTG", "closure_size": 20, "preserves_median": True, "lost": ()},
+        {"codon": "CTT", "closure_size": 19, "preserves_median": False, "lost": ("CTT",)},
+        {"codon": "TAA", "closure_size": 20, "preserves_median": True, "lost": ()},
+        {"codon": "TAG", "closure_size": 20, "preserves_median": True, "lost": ()},
+        {"codon": "TCA", "closure_size": 16, "preserves_median": False, "lost": ("ACA", "ACG", "TCA", "TCG")},
+        {"codon": "TGA", "closure_size": 20, "preserves_median": True, "lost": ()},
+        {"codon": "TTA", "closure_size": 20, "preserves_median": True, "lost": ()},
+    ]
+    assert robustness["complement_pairs"] == (("AGA", "CTC"), ("AGG", "CTT"))
+    assert robustness["convex_hull_two_point_witnesses"] == (("AGA", "CTC"), ("AGG", "CTT"))
+    assert robustness["q2_single_deletion_all_percolate"] is True
+    assert all(row["closure_size"] == 64 and row["percolates"] for row in robustness["q2_single_deletion_rows"])
+    assert robustness["minimal_q2_percolating_seed_size"] == 7
+    assert robustness["minimal_q2_percolating_seed_count"] == 484
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
