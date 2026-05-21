@@ -422,4 +422,64 @@ theorem ValidatedNumericsPacket_interval_enclosure_obligation [AskSetup] [Packag
       enclosureUnary, precisionModulusObservation, observationIntervalContainment,
       enclosureRoute, namePkg, enclosurePkg⟩
 
+theorem ValidatedNumericsPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name
+      enclosureRead bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg ->
+      Cont interval containment enclosureRead ->
+        Cont containment provenance bridge ->
+          PkgSig bundle enclosureRead pkg ->
+            PkgSig bundle bridge pkg ->
+              SemanticNameCert
+                (fun row : BHist => hsame row bridge ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+                (fun row : BHist =>
+                  UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+                    Cont observation interval containment ∧ Cont containment provenance row)
+                (fun row : BHist =>
+                  PkgSig bundle row pkg ∧ Cont containment provenance bridge)
+                (fun row row' : BHist => PkgSig bundle row pkg ∧ hsame row row') := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro packet enclosureRoute containmentProvenanceBridge _enclosurePkg bridgePkg
+  obtain ⟨intervalUnary, precisionUnary, modulusUnary, _observationUnary, _readbackUnary,
+    _transportUnary, containmentUnary, provenanceUnary, _nameUnary, _precisionModulusObservation,
+    _observationReadbackTransport, observationIntervalContainment, _containmentProvenanceName,
+    _namePkg⟩ := packet
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed containmentUnary provenanceUnary containmentProvenanceBridge
+  have sourceAtBridge :
+      hsame bridge bridge ∧ UnaryHistory bridge ∧ PkgSig bundle bridge pkg :=
+    ⟨hsame_refl bridge, bridgeUnary, bridgePkg⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro bridge sourceAtBridge
+      equiv_refl := by
+        intro row source
+        exact ⟨source.right.right, hsame_refl row⟩
+      equiv_symm := by
+        intro row _other classified
+        cases classified.right
+        exact ⟨classified.left, hsame_refl row⟩
+      equiv_trans := by
+        intro _row _middle _other leftClassified rightClassified
+        exact
+          ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _other classified source
+        cases classified.right
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left
+      exact
+        ⟨intervalUnary, precisionUnary, modulusUnary, observationIntervalContainment,
+          containmentProvenanceBridge⟩
+    ledger_sound := by
+      intro _row source
+      cases source.left
+      exact ⟨source.right.right, containmentProvenanceBridge⟩
+  }
+
 end BEDC.Derived.ValidatedNumericsUp
