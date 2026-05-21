@@ -492,6 +492,7 @@ import BEDC.Derived.BHistDodecaSequenceNameCertUp
 import BEDC.Derived.BHistDodecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaSequenceNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp
+import BEDC.Derived.BHistHendecaTupleNameCertUp.TasteGate
 import BEDC.Derived.BHistHeptaSequenceNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
