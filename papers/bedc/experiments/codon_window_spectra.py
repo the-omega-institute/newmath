@@ -2446,6 +2446,92 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     ]
     median_orbits = indexed_orbits(median_indices, median_stabilizer_indices, automorphism_vectors, symmetry_codons)
     acg_orbit = tuple(orbit for orbit in median_orbits if "ACG" in orbit)[0]
+    quotient_orbits = (
+        tuple(orbit for orbit in median_orbits if set(orbit) == {"AAA", "AAG", "ACA", "ACG", "TGA", "TGG"})[0],
+        tuple(orbit for orbit in median_orbits if set(orbit) == {"ATA", "ATG", "TAA", "TAG", "TCA", "TCG"})[0],
+        tuple(orbit for orbit in median_orbits if set(orbit) == {"AGA", "AGG"})[0],
+        tuple(orbit for orbit in median_orbits if set(orbit) == {"TTA", "TTG"})[0],
+        tuple(orbit for orbit in median_orbits if set(orbit) == {"CTA", "CTG"})[0],
+        tuple(orbit for orbit in median_orbits if set(orbit) == {"CTC", "CTT"})[0],
+    )
+    orbit_names = ("Anchor6", "StopStart6", "AGR", "UUR", "CUR", "CUY")
+    orbit_index = {
+        codon: index
+        for index, orbit in enumerate(quotient_orbits)
+        for codon in orbit
+    }
+    orbit_rows = [
+        {
+            "index": index,
+            "name": orbit_names[index],
+            "codons": orbit,
+            "size": len(orbit),
+            "active_codons": tuple(codon for codon in orbit if codon in support),
+            "inactive_codons": tuple(codon for codon in orbit if codon not in support),
+            "weight": sum(codon_weight(codon) for codon in orbit),
+        }
+        for index, orbit in enumerate(quotient_orbits)
+    ]
+    median_edges = tuple(
+        (left, right)
+        for left, right, _direction in hamming_edges()
+        if left in median_set and right in median_set
+    )
+    orbit_adjacency_matrix = [[0 for _ in quotient_orbits] for _orbit in quotient_orbits]
+    for left, right in median_edges:
+        left_orbit = orbit_index[left]
+        right_orbit = orbit_index[right]
+        if left_orbit == right_orbit:
+            orbit_adjacency_matrix[left_orbit][left_orbit] += 1
+        else:
+            orbit_adjacency_matrix[left_orbit][right_orbit] += 1
+            orbit_adjacency_matrix[right_orbit][left_orbit] += 1
+    orbit_cross_edges = tuple(
+        {
+            "left": orbit_names[left],
+            "right": orbit_names[right],
+            "weight": orbit_adjacency_matrix[left][right],
+        }
+        for left in range(len(quotient_orbits))
+        for right in range(left + 1, len(quotient_orbits))
+        if orbit_adjacency_matrix[left][right]
+    )
+    inactive_layer = median_set - support
+    inactive_edges = tuple(
+        (left, right)
+        for left, right, _direction in hamming_edges()
+        if left in inactive_layer and right in inactive_layer
+    )
+    inactive_complex = cubical_complex_summary(inactive_layer)
+    active_inactive_edges = tuple(
+        (left, right)
+        for left, right, _direction in hamming_edges()
+        if (left in support and right in inactive_layer)
+        or (right in support and left in inactive_layer)
+    )
+    inactive_interface: dict[str, list[str]] = collections.defaultdict(list)
+    active_interface: dict[str, list[str]] = collections.defaultdict(list)
+    for left, right in active_inactive_edges:
+        active, inactive = (left, right) if left in support else (right, left)
+        inactive_interface[inactive].append(active)
+        active_interface[active].append(inactive)
+    inactive_interface_rows = [
+        {
+            "inactive_codon": codon,
+            "active_neighbors": tuple(sorted(neighbors)),
+            "interface_degree": len(neighbors),
+        }
+        for codon, neighbors in sorted(inactive_interface.items())
+    ]
+    active_interface_rows = [
+        {
+            "active_codon": codon,
+            "inactive_neighbors": tuple(sorted(active_interface.get(codon, []))),
+            "interface_degree": len(active_interface.get(codon, [])),
+        }
+        for codon in support_tuple
+    ]
+    active_interface_rows.sort(key=lambda row: (-row["interface_degree"], row["active_codon"]))
 
     return {
         "support": tuple(sorted(support)),
@@ -2754,6 +2840,40 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "right": apply_cube_automorphism("TGA", *tau),
                 "left_weight": weights_for_symmetry[symmetry_codon_index["TGA"]],
                 "right_weight": weights_for_symmetry[symmetry_codon_index[apply_cube_automorphism("TGA", *tau)]],
+            },
+        },
+        "quotient_dynamics": {
+            "orbit_rows": orbit_rows,
+            "orbit_adjacency_matrix": tuple(tuple(row) for row in orbit_adjacency_matrix),
+            "orbit_cross_edges": orbit_cross_edges,
+            "quotient_path": ("AGR", "Anchor6", "StopStart6", "UUR", "CUR", "CUY"),
+            "median_edge_count": len(median_edges),
+            "inactive_layer": tuple(sorted(inactive_layer)),
+            "inactive_layer_formula": {
+                "WYG": tuple(expand_iupac_motif("WYG")),
+                "anchors": ("AAG", "ACA", "TGG"),
+            },
+            "inactive_layer_formula_matches": inactive_layer == (set(expand_iupac_motif("WYG")) | {"AAG", "ACA", "TGG"}),
+            "inactive_edges": inactive_edges,
+            "inactive_complex": inactive_complex,
+            "active_inactive_edge_count": len(active_inactive_edges),
+            "active_inactive_edges": active_inactive_edges,
+            "inactive_interface_rows": inactive_interface_rows,
+            "active_interface_rows": active_interface_rows,
+            "active_interface_gates": tuple(
+                row["active_codon"]
+                for row in active_interface_rows
+                if row["interface_degree"] == active_interface_rows[0]["interface_degree"]
+            ),
+            "acg_local_neighbors": {
+                "inactive_neighbors": tuple(
+                    sorted(
+                        right if left == "ACG" else left
+                        for left, right in inactive_edges
+                        if "ACG" in (left, right)
+                    )
+                ),
+                "active_neighbors": tuple(sorted(inactive_interface["ACG"])),
             },
         },
     }
@@ -4122,6 +4242,87 @@ def assert_expected(summary: dict[str, object]) -> None:
         "right": "AAA",
         "left_weight": 15,
         "right_weight": 3,
+    }
+    quotient = summary["support_compression"]["quotient_dynamics"]
+    assert quotient["orbit_rows"] == [
+        {
+            "index": 0,
+            "name": "Anchor6",
+            "codons": ("AAA", "AAG", "ACA", "ACG", "TGA", "TGG"),
+            "size": 6,
+            "active_codons": ("AAA", "TGA"),
+            "inactive_codons": ("AAG", "ACA", "ACG", "TGG"),
+            "weight": 18,
+        },
+        {
+            "index": 1,
+            "name": "StopStart6",
+            "codons": ("ATA", "ATG", "TAA", "TAG", "TCA", "TCG"),
+            "size": 6,
+            "active_codons": ("ATA", "TAA", "TAG", "TCA"),
+            "inactive_codons": ("ATG", "TCG"),
+            "weight": 24,
+        },
+        {"index": 2, "name": "AGR", "codons": ("AGA", "AGG"), "size": 2, "active_codons": ("AGA", "AGG"), "inactive_codons": (), "weight": 16},
+        {"index": 3, "name": "UUR", "codons": ("TTA", "TTG"), "size": 2, "active_codons": ("TTA",), "inactive_codons": ("TTG",), "weight": 1},
+        {"index": 4, "name": "CUR", "codons": ("CTA", "CTG"), "size": 2, "active_codons": ("CTA", "CTG"), "inactive_codons": (), "weight": 4},
+        {"index": 5, "name": "CUY", "codons": ("CTC", "CTT"), "size": 2, "active_codons": ("CTC", "CTT"), "inactive_codons": (), "weight": 2},
+    ]
+    assert quotient["orbit_adjacency_matrix"] == (
+        (3, 12, 6, 0, 0, 0),
+        (12, 3, 0, 6, 0, 0),
+        (6, 0, 1, 0, 0, 0),
+        (0, 6, 0, 1, 2, 0),
+        (0, 0, 0, 2, 1, 2),
+        (0, 0, 0, 0, 2, 1),
+    )
+    assert quotient["orbit_cross_edges"] == (
+        {"left": "Anchor6", "right": "StopStart6", "weight": 12},
+        {"left": "Anchor6", "right": "AGR", "weight": 6},
+        {"left": "StopStart6", "right": "UUR", "weight": 6},
+        {"left": "UUR", "right": "CUR", "weight": 2},
+        {"left": "CUR", "right": "CUY", "weight": 2},
+    )
+    assert quotient["quotient_path"] == ("AGR", "Anchor6", "StopStart6", "UUR", "CUR", "CUY")
+    assert quotient["median_edge_count"] == 38
+    assert quotient["inactive_layer"] == ("AAG", "ACA", "ACG", "ATG", "TCG", "TGG", "TTG")
+    assert quotient["inactive_layer_formula_matches"] is True
+    assert quotient["inactive_edges"] == (
+        ("TTG", "ATG"),
+        ("TCG", "ACG"),
+        ("TCG", "TGG"),
+        ("ATG", "AAG"),
+        ("TTG", "TCG"),
+        ("ATG", "ACG"),
+        ("ACA", "ACG"),
+    )
+    assert quotient["inactive_complex"]["f_vector"] == (7, 7, 1, 0, 0, 0, 0)
+    assert quotient["inactive_complex"]["betti"] == (1, 0, 0)
+    assert quotient["active_inactive_edge_count"] == 15
+    assert quotient["inactive_interface_rows"] == [
+        {"inactive_codon": "AAG", "active_neighbors": ("AAA", "AGG", "TAG"), "interface_degree": 3},
+        {"inactive_codon": "ACA", "active_neighbors": ("AGA", "ATA", "TCA"), "interface_degree": 3},
+        {"inactive_codon": "ACG", "active_neighbors": ("AGG",), "interface_degree": 1},
+        {"inactive_codon": "ATG", "active_neighbors": ("ATA",), "interface_degree": 1},
+        {"inactive_codon": "TCG", "active_neighbors": ("TCA",), "interface_degree": 1},
+        {"inactive_codon": "TGG", "active_neighbors": ("AGG", "TAG", "TGA"), "interface_degree": 3},
+        {"inactive_codon": "TTG", "active_neighbors": ("CTG", "TAG", "TTA"), "interface_degree": 3},
+    ]
+    assert quotient["active_interface_rows"][:9] == [
+        {"active_codon": "AGG", "inactive_neighbors": ("AAG", "ACG", "TGG"), "interface_degree": 3},
+        {"active_codon": "TAG", "inactive_neighbors": ("AAG", "TGG", "TTG"), "interface_degree": 3},
+        {"active_codon": "ATA", "inactive_neighbors": ("ACA", "ATG"), "interface_degree": 2},
+        {"active_codon": "TCA", "inactive_neighbors": ("ACA", "TCG"), "interface_degree": 2},
+        {"active_codon": "AAA", "inactive_neighbors": ("AAG",), "interface_degree": 1},
+        {"active_codon": "AGA", "inactive_neighbors": ("ACA",), "interface_degree": 1},
+        {"active_codon": "CTG", "inactive_neighbors": ("TTG",), "interface_degree": 1},
+        {"active_codon": "TGA", "inactive_neighbors": ("TGG",), "interface_degree": 1},
+        {"active_codon": "TTA", "inactive_neighbors": ("TTG",), "interface_degree": 1},
+    ]
+    assert quotient["active_interface_gates"] == ("AGG", "TAG")
+    assert quotient["acg_local_neighbors"] == {
+        "inactive_neighbors": ("ACA", "ATG", "TCG"),
+        "active_neighbors": ("AGG",),
     }
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
