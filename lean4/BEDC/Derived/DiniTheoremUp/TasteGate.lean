@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DiniTheoremUp.TasteGate
+namespace BEDC.Derived.DiniTheoremUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,127 +10,174 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive DiniTheoremUp : Type where
-  | mk (X F M W R H C P N : BHist) : DiniTheoremUp
-  deriving DecidableEq
+  | mk :
+      (compact family continuity windows realSeal transport continuation provenance name :
+        BHist) ->
+        DiniTheoremUp
 
-def DiniTheoremTasteGate_single_carrier_alignment_encodeBHist : BHist → RawEvent
+def diniTheoremEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: DiniTheoremTasteGate_single_carrier_alignment_encodeBHist h
-  | BHist.e1 h => BMark.b1 :: DiniTheoremTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: diniTheoremEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: diniTheoremEncodeBHist h
 
-def DiniTheoremTasteGate_single_carrier_alignment_decodeBHist : RawEvent → BHist
+def diniTheoremDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0
-      (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1
-      (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (diniTheoremDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (diniTheoremDecodeBHist tail)
 
-private theorem DiniTheoremTasteGate_single_carrier_alignment_decode_encode :
-    forall h : BHist,
-      DiniTheoremTasteGate_single_carrier_alignment_decodeBHist
-          (DiniTheoremTasteGate_single_carrier_alignment_encodeBHist h) =
-        h := by
+private theorem diniTheoremDecode_encode_bhist :
+    forall h : BHist, diniTheoremDecodeBHist (diniTheoremEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def DiniTheoremTasteGate_single_carrier_alignment_fields :
-    DiniTheoremUp → List BHist
+def diniTheoremToEventFlow : DiniTheoremUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | DiniTheoremUp.mk X F M W R H C P N => [X, F, M, W, R, H, C, P, N]
+  | DiniTheoremUp.mk compact family continuity windows realSeal transport continuation
+      provenance name =>
+      [BMark.b1 :: BMark.b1 :: BMark.b0 :: BMark.b0 :: [],
+        diniTheoremEncodeBHist compact,
+        diniTheoremEncodeBHist family,
+        diniTheoremEncodeBHist continuity,
+        diniTheoremEncodeBHist windows,
+        diniTheoremEncodeBHist realSeal,
+        diniTheoremEncodeBHist transport,
+        diniTheoremEncodeBHist continuation,
+        diniTheoremEncodeBHist provenance,
+        diniTheoremEncodeBHist name]
 
-def DiniTheoremTasteGate_single_carrier_alignment_toEventFlow :
-    DiniTheoremUp → EventFlow :=
+def diniTheoremReadRows : EventFlow -> Option DiniTheoremUp
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (DiniTheoremTasteGate_single_carrier_alignment_fields x).map
-      DiniTheoremTasteGate_single_carrier_alignment_encodeBHist
+  | compact :: rest1 =>
+      match rest1 with
+      | family :: rest2 =>
+          match rest2 with
+          | continuity :: rest3 =>
+              match rest3 with
+              | windows :: rest4 =>
+                  match rest4 with
+                  | realSeal :: rest5 =>
+                      match rest5 with
+                      | transport :: rest6 =>
+                          match rest6 with
+                          | continuation :: rest7 =>
+                              match rest7 with
+                              | provenance :: rest8 =>
+                                  match rest8 with
+                                  | name :: rest9 =>
+                                      match rest9 with
+                                      | [] =>
+                                          some
+                                            (DiniTheoremUp.mk
+                                              (diniTheoremDecodeBHist compact)
+                                              (diniTheoremDecodeBHist family)
+                                              (diniTheoremDecodeBHist continuity)
+                                              (diniTheoremDecodeBHist windows)
+                                              (diniTheoremDecodeBHist realSeal)
+                                              (diniTheoremDecodeBHist transport)
+                                              (diniTheoremDecodeBHist continuation)
+                                              (diniTheoremDecodeBHist provenance)
+                                              (diniTheoremDecodeBHist name))
+                                      | _ :: _ => none
+                                  | [] => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
+  | [] => none
 
-def DiniTheoremTasteGate_single_carrier_alignment_fromEventFlow :
-    EventFlow → Option DiniTheoremUp :=
+def diniTheoremFromEventFlow : EventFlow -> Option DiniTheoremUp
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | X :: F :: M :: W :: R :: H :: C :: P :: N :: [] =>
-      some
-        (DiniTheoremUp.mk
-          (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist X)
-          (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist F)
-          (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist M)
-          (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist W)
-          (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist R)
-          (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist H)
-          (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist C)
-          (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist P)
-          (DiniTheoremTasteGate_single_carrier_alignment_decodeBHist N))
-  | _ => none
+  | _tag :: rows => diniTheoremReadRows rows
+  | [] => none
 
-private theorem DiniTheoremTasteGate_single_carrier_alignment_round_trip :
+private theorem diniTheorem_round_trip :
     forall x : DiniTheoremUp,
-      DiniTheoremTasteGate_single_carrier_alignment_fromEventFlow
-          (DiniTheoremTasteGate_single_carrier_alignment_toEventFlow x) =
-        some x := by
+      diniTheoremFromEventFlow (diniTheoremToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk X F M W R H C P N =>
-      simp only [DiniTheoremTasteGate_single_carrier_alignment_toEventFlow,
-        DiniTheoremTasteGate_single_carrier_alignment_fields,
-        DiniTheoremTasteGate_single_carrier_alignment_fromEventFlow, List.map_cons,
-        List.map_nil, DiniTheoremTasteGate_single_carrier_alignment_decode_encode]
+  | mk compact family continuity windows realSeal transport continuation provenance name =>
+      change
+        some
+          (DiniTheoremUp.mk
+            (diniTheoremDecodeBHist (diniTheoremEncodeBHist compact))
+            (diniTheoremDecodeBHist (diniTheoremEncodeBHist family))
+            (diniTheoremDecodeBHist (diniTheoremEncodeBHist continuity))
+            (diniTheoremDecodeBHist (diniTheoremEncodeBHist windows))
+            (diniTheoremDecodeBHist (diniTheoremEncodeBHist realSeal))
+            (diniTheoremDecodeBHist (diniTheoremEncodeBHist transport))
+            (diniTheoremDecodeBHist (diniTheoremEncodeBHist continuation))
+            (diniTheoremDecodeBHist (diniTheoremEncodeBHist provenance))
+            (diniTheoremDecodeBHist (diniTheoremEncodeBHist name))) =
+          some
+            (DiniTheoremUp.mk compact family continuity windows realSeal transport
+              continuation provenance name)
+      rw [diniTheoremDecode_encode_bhist compact,
+        diniTheoremDecode_encode_bhist family,
+        diniTheoremDecode_encode_bhist continuity,
+        diniTheoremDecode_encode_bhist windows,
+        diniTheoremDecode_encode_bhist realSeal,
+        diniTheoremDecode_encode_bhist transport,
+        diniTheoremDecode_encode_bhist continuation,
+        diniTheoremDecode_encode_bhist provenance,
+        diniTheoremDecode_encode_bhist name]
 
-private theorem DiniTheoremTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : DiniTheoremUp} :
-    DiniTheoremTasteGate_single_carrier_alignment_toEventFlow x =
-        DiniTheoremTasteGate_single_carrier_alignment_toEventFlow y →
-      x = y := by
+private theorem diniTheoremToEventFlow_injective {x y : DiniTheoremUp} :
+    diniTheoremToEventFlow x = diniTheoremToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          DiniTheoremTasteGate_single_carrier_alignment_fromEventFlow
-            (DiniTheoremTasteGate_single_carrier_alignment_toEventFlow x) :=
-        (DiniTheoremTasteGate_single_carrier_alignment_round_trip x).symm
-      _ =
-          DiniTheoremTasteGate_single_carrier_alignment_fromEventFlow
-            (DiniTheoremTasteGate_single_carrier_alignment_toEventFlow y) :=
-        congrArg DiniTheoremTasteGate_single_carrier_alignment_fromEventFlow hxy
-      _ = some y := DiniTheoremTasteGate_single_carrier_alignment_round_trip y
-  exact Option.some.inj optionEq
+  intro heq
+  have hread :
+      diniTheoremFromEventFlow (diniTheoremToEventFlow x) =
+        diniTheoremFromEventFlow (diniTheoremToEventFlow y) :=
+    congrArg diniTheoremFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (diniTheorem_round_trip x).symm
+      (Eq.trans hread (diniTheorem_round_trip y)))
 
-instance DiniTheoremTasteGate_single_carrier_alignment_BHistCarrier :
-    BHistCarrier DiniTheoremUp where
+instance diniTheoremBHistCarrier : BHistCarrier DiniTheoremUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := DiniTheoremTasteGate_single_carrier_alignment_toEventFlow
-  fromEventFlow := DiniTheoremTasteGate_single_carrier_alignment_fromEventFlow
+  toEventFlow := diniTheoremToEventFlow
+  fromEventFlow := diniTheoremFromEventFlow
 
-instance DiniTheoremTasteGate_single_carrier_alignment_ChapterTasteGate :
-    ChapterTasteGate DiniTheoremUp where
+instance diniTheoremChapterTasteGate : ChapterTasteGate DiniTheoremUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      DiniTheoremTasteGate_single_carrier_alignment_fromEventFlow
-          (DiniTheoremTasteGate_single_carrier_alignment_toEventFlow x) =
-        some x
-    exact DiniTheoremTasteGate_single_carrier_alignment_round_trip x
+    change diniTheoremFromEventFlow (diniTheoremToEventFlow x) = some x
+    exact diniTheorem_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (DiniTheoremTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (diniTheoremToEventFlow_injective heq)
 
 theorem DiniTheoremTasteGate_single_carrier_alignment :
-    (forall X F M W R H C P N : BHist,
-      DiniTheoremTasteGate_single_carrier_alignment_fields
-          (DiniTheoremUp.mk X F M W R H C P N) =
-        [X, F, M, W, R, H, C, P, N]) ∧
-      DiniTheoremTasteGate_single_carrier_alignment_encodeBHist BHist.Empty =
-        ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact ⟨(fun _ _ _ _ _ _ _ _ _ => rfl), rfl⟩
+    (forall h : BHist, diniTheoremDecodeBHist (diniTheoremEncodeBHist h) = h) /\
+      (forall x : DiniTheoremUp,
+        diniTheoremFromEventFlow (diniTheoremToEventFlow x) = some x) /\
+      (forall {x y : DiniTheoremUp},
+        diniTheoremToEventFlow x = diniTheoremToEventFlow y -> x = y) /\
+      diniTheoremEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact diniTheoremDecode_encode_bhist
+  · constructor
+    · intro x
+      change diniTheoremFromEventFlow (diniTheoremToEventFlow x) = some x
+      exact diniTheorem_round_trip x
+    · constructor
+      · intro x y heq
+        exact diniTheoremToEventFlow_injective heq
+      · rfl
 
-end BEDC.Derived.DiniTheoremUp.TasteGate
+end BEDC.Derived.DiniTheoremUp
