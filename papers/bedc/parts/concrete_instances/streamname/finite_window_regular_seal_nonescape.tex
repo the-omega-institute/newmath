@@ -131,3 +131,23 @@ Finally use \autoref{thm:streamname-finite-window-regularity-selector-nonchoice}
 
 The remaining presentation is therefore support-row exact: the same $\RealUp$ seal-visible source is available precisely through the displayed finite BEDC support rows, and deletion of any required displayed row leaves no admissible replacement coordinate inside the StreamName-to-RegSeqRat-to-DyadicRatCore-to-Real route.
 \end{proof}
+
+\begin{theorem}[StreamName finite-window regular seal terminal route]
+\label{thm:streamname-finite-window-regular-seal-terminal-route}
+Let $W$ be an accepted finite terminal $\StreamNameUp$ window consumed through $\RegSeqRatUp$ regularity, $\DyadicRatCoreUp$ observation readback, and a finite-window $\RealUp$ seal. Then the terminal public route consumed by the $\RealUp$ seal is the four-face packet
+$$
+\StreamNameUp,\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad \RealUp
+$$
+together with the displayed $\BHist$ observations, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, certified $\mathsf{UnaryHistory}$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance rows, and local $\NameCert$ support rows.
+
+This route is invariant under accepted budget refinement. It has no coordinate for quotient stream equality, host sequence equality, a selected limit, countable-choice row, metric-completeness datum, standard bridge row, ambient $\RealUp$ completeness coordinate, hidden regularity selector, off-ledger seal source, or independent completed-real carrier.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-window-real-seal-route-exhaustion}. It supplies the full row inventory available to the finite-window $\RealUp$ seal consumer: the StreamName window row, bundle and membership rows, unary observations, RegSeqRat readback, DyadicRatCore ledger, Real seal boundary, transports, continuations, provenance, and local certificates.
+
+Next apply \autoref{thm:streamname-regseqrat-real-tail-window-exactness}. This identifies the seal-facing inventory with the four visible faces $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ plus exactly the displayed support rows, so the terminal route is a positive packet rather than only an exclusion list.
+
+The refinement clause follows from \autoref{thm:streamname-finite-window-regular-seal-budget-functoriality}. Accepted refinements compose through the same finite public packet, and the direct refinement sees no additional coordinate.
+
+Finally use \autoref{thm:streamname-finite-window-regularity-selector-nonchoice} and \autoref{thm:streamname-real-terminal-support-minimality}. The selector theorem rules out re-entry through hidden choice, quotient, host, limit, completion, bridge, or off-ledger seal data, while support minimality says the displayed local support rows are the rows actually consumed by the terminal packet. Combining these clauses gives the stated terminal route and its exclusions.
+\end{proof}
