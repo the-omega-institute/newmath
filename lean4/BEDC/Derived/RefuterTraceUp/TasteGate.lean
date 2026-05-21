@@ -171,6 +171,46 @@ instance refuterTraceChapterTasteGate : ChapterTasteGate RefuterTraceUp where
     intro x y hxy heq
     exact hxy (refuterTraceToEventFlow_injective heq)
 
+instance refuterTraceFieldFaithful : FieldFaithful RefuterTraceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | RefuterTraceUp.mk A U F E H C P N => [A, U, F, E, H, C, P, N]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk A₁ U₁ F₁ E₁ H₁ C₁ P₁ N₁ =>
+        cases y with
+        | mk A₂ U₂ F₂ E₂ H₂ C₂ P₂ N₂ =>
+            injection h with hA t1
+            injection t1 with hU t2
+            injection t2 with hF t3
+            injection t3 with hE t4
+            injection t4 with hH t5
+            injection t5 with hC t6
+            injection t6 with hP t7
+            injection t7 with hN _
+            subst hA
+            subst hU
+            subst hF
+            subst hE
+            subst hH
+            subst hC
+            subst hP
+            subst hN
+            rfl
+
+instance refuterTraceNontrivial : Nontrivial RefuterTraceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RefuterTraceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      RefuterTraceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem RefuterTraceTasteGate_single_carrier_alignment :
     (refuterTraceDecodeBHist (refuterTraceEncodeBHist BHist.Empty) = BHist.Empty) ∧
       (refuterTraceDecodeBHist (refuterTraceEncodeBHist (BHist.e1 BHist.Empty)) =

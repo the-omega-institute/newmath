@@ -20,9 +20,9 @@ def BayesianPosteriorPacket [AskSetup] [PackageSetup]
     (prior likelihood evidence posterior update normalisation provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory prior ∧ UnaryHistory likelihood ∧ UnaryHistory evidence ∧
-    UnaryHistory posterior ∧ Cont prior likelihood update ∧ Cont update evidence posterior ∧
-      Cont evidence posterior normalisation ∧ Cont provenance normalisation endpoint ∧
-        PkgSig bundle endpoint pkg
+    UnaryHistory posterior ∧ UnaryHistory provenance ∧ Cont prior likelihood update ∧
+      Cont update evidence posterior ∧ Cont evidence posterior normalisation ∧
+        Cont provenance normalisation endpoint ∧ PkgSig bundle endpoint pkg
 
 theorem BayesianPosteriorPacket_source_obligation [AskSetup] [PackageSetup]
     {prior likelihood evidence posterior update normalisation provenance endpoint : BHist}
@@ -34,15 +34,11 @@ theorem BayesianPosteriorPacket_source_obligation [AskSetup] [PackageSetup]
           Cont evidence posterior normalisation ∧ hsame endpoint (append provenance normalisation) ∧
             PkgSig bundle endpoint pkg := by
   intro packet
-  exact And.intro packet.left
-    (And.intro packet.right.left
-      (And.intro packet.right.right.left
-        (And.intro packet.right.right.right.left
-          (And.intro packet.right.right.right.right.left
-            (And.intro packet.right.right.right.right.right.left
-              (And.intro packet.right.right.right.right.right.right.left
-                (And.intro packet.right.right.right.right.right.right.right.left
-                  packet.right.right.right.right.right.right.right.right)))))))
+  obtain ⟨priorUnary, likelihoodUnary, evidenceUnary, posteriorUnary, _provenanceUnary,
+    updateRow, posteriorRow, normalisationRow, endpointRow, pkgRow⟩ := packet
+  exact
+    ⟨priorUnary, likelihoodUnary, evidenceUnary, posteriorUnary, updateRow, posteriorRow,
+      normalisationRow, endpointRow, pkgRow⟩
 
 theorem BayesianPosteriorPacket_non_escape_boundary [AskSetup] [PackageSetup]
     {prior likelihood evidence posterior update normalisation provenance endpoint : BHist}
@@ -55,13 +51,13 @@ theorem BayesianPosteriorPacket_non_escape_boundary [AskSetup] [PackageSetup]
   intro packet provenanceUnary
   have normalisationUnary : UnaryHistory normalisation :=
     unary_cont_closed packet.right.right.left packet.right.right.right.left
-      packet.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.left
   have endpointUnary : UnaryHistory endpoint :=
     unary_cont_closed provenanceUnary normalisationUnary
-      packet.right.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right.left
   exact And.intro endpointUnary
-    (And.intro packet.right.right.right.right.right.right.right.left
-      packet.right.right.right.right.right.right.right.right)
+    (And.intro packet.right.right.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right.right)
 
 def BayesianPosteriorSurface [AskSetup] [PackageSetup]
     (prior likelihood evidence posterior normalizer classifier provenance : BHist)
@@ -132,20 +128,49 @@ theorem BayesianPosteriorPacket_classifier_transport [AskSetup] [PackageSetup]
   intro provenanceNormalisationEndpoint endpointPkg
   have normalisationSame : hsame normalisation normalisation' :=
     cont_respects_hsame sameEvidence samePosterior
-      packet.right.right.right.right.right.right.left evidencePosteriorNormalisation
+      packet.right.right.right.right.right.right.right.left evidencePosteriorNormalisation
   have endpointSame : hsame endpoint endpoint' :=
     cont_respects_hsame sameProvenance normalisationSame
-      packet.right.right.right.right.right.right.right.left provenanceNormalisationEndpoint
+      packet.right.right.right.right.right.right.right.right.left provenanceNormalisationEndpoint
   exact And.intro
     (And.intro (unary_transport packet.left samePrior)
       (And.intro (unary_transport packet.right.left sameLikelihood)
         (And.intro (unary_transport packet.right.right.left sameEvidence)
           (And.intro (unary_transport packet.right.right.right.left samePosterior)
-            (And.intro priorLikelihoodUpdate
-              (And.intro updateEvidencePosterior
-                (And.intro evidencePosteriorNormalisation
-                  (And.intro provenanceNormalisationEndpoint endpointPkg))))))))
+            (And.intro (unary_transport packet.right.right.right.right.left sameProvenance)
+              (And.intro priorLikelihoodUpdate
+                (And.intro updateEvidencePosterior
+                  (And.intro evidencePosteriorNormalisation
+                    (And.intro provenanceNormalisationEndpoint endpointPkg)))))))))
     endpointSame
+
+theorem BayesianPosteriorPacket_carrier_introduction [AskSetup] [PackageSetup]
+    {prior likelihood evidence posterior update normalisation provenance endpoint publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BayesianPosteriorPacket prior likelihood evidence posterior update normalisation provenance
+        endpoint bundle pkg ->
+      Cont endpoint provenance publicRead ->
+        PkgSig bundle publicRead pkg ->
+          UnaryHistory prior ∧ UnaryHistory likelihood ∧ UnaryHistory evidence ∧
+            UnaryHistory posterior ∧ UnaryHistory publicRead ∧ Cont prior likelihood update ∧
+              Cont update evidence posterior ∧ Cont evidence posterior normalisation ∧
+                Cont endpoint provenance publicRead ∧
+                  hsame endpoint (append provenance normalisation) ∧
+                    PkgSig bundle endpoint pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame
+  intro packet endpointProvenanceRead publicReadPkg
+  obtain ⟨priorUnary, likelihoodUnary, evidenceUnary, posteriorUnary, provenanceUnary,
+    updateRow, posteriorRow, normalisationRow, endpointRow, endpointPkg⟩ := packet
+  have normalisationUnary : UnaryHistory normalisation :=
+    unary_cont_closed evidenceUnary posteriorUnary normalisationRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary normalisationUnary endpointRow
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed endpointUnary provenanceUnary endpointProvenanceRead
+  exact
+    ⟨priorUnary, likelihoodUnary, evidenceUnary, posteriorUnary, publicReadUnary, updateRow,
+      posteriorRow, normalisationRow, endpointProvenanceRead, endpointRow, endpointPkg,
+      publicReadPkg⟩
 
 theorem BayesianPosteriorPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {prior likelihood evidence posterior update normalisation provenance endpoint : BHist}
@@ -181,15 +206,16 @@ theorem BayesianPosteriorPacket_namecert_obligation_surface [AskSetup] [PackageS
     }
     pattern_sound := by
       intro _row sourceRow
-      exact
-        ⟨sourceRow.left.right.right.right.left,
-          sourceRow.left.right.right.right.right.right.left, sourceRow.right⟩
+      obtain ⟨_priorUnary, _likelihoodUnary, _evidenceUnary, posteriorUnary,
+        _provenanceUnary, _updateRow, posteriorRow, _normalisationRow, _endpointRow,
+        _pkgRow⟩ := sourceRow.left
+      exact ⟨posteriorUnary, posteriorRow, sourceRow.right⟩
     ledger_sound := by
       intro _row sourceRow
-      exact
-        ⟨sourceRow.left.right.right.right.right.right.right.left,
-          sourceRow.left.right.right.right.right.right.right.right.left,
-          sourceRow.left.right.right.right.right.right.right.right.right, sourceRow.right⟩
+      obtain ⟨_priorUnary, _likelihoodUnary, _evidenceUnary, _posteriorUnary,
+        _provenanceUnary, _updateRow, _posteriorRow, normalisationRow, endpointRow,
+        pkgRow⟩ := sourceRow.left
+      exact ⟨normalisationRow, endpointRow, pkgRow, sourceRow.right⟩
   }
 
 end BEDC.Derived.BayesianUp
