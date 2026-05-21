@@ -185,3 +185,60 @@ ledger. Completion data, quotient data, host index equality, selected limits,
 and RealUp completeness are not introduced by pointwise seal stability,
 pointwise seal pasting, or pasted seal associativity.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat finite-cover pasted seal terminality]
+\label{thm:streamname-regseqrat-finite-cover-pasted-seal-terminality}
+Let $\{\mathcal{W}_i\}_{i\in I}$ be a finite family of certified
+$\StreamNameUp$ windows satisfying the hypotheses of
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-source-exhaustion}.
+Assume every triple overlap satisfies
+\autoref{thm:streamname-regseqrat-triple-overlap-seal-cocycle}, and assume all
+displayed overlaps consume one shared $\DyadicRatCoreUp$ ledger in the induced
+$\RegSeqRat$ handoff packages. If $\mathcal{S}$ and $\mathcal{S}'$ are two
+induced finite-window $\RealUp$ pasted seal surfaces over the finite union with
+the same displayed $\StreamNameUp$ window rows, $\DyadicRatCoreUp$ ledger rows,
+$\RegSeqRat$ handoff rows, overlap $\hsame$ data, and displayed $\BHist$,
+$\Cont$, $\Pkg$, and $\NameCert$ support rows, then $\mathcal{S}=\mathcal{S}'$
+as pasted seal surfaces over the finite union.
+
+This terminality is a finite L10 seal statement. It contains no completion
+data, quotient data, host index equality, selected limits, countable choice, or
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First fix the source side. By
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-source-exhaustion}, the
+displayed StreamName rows, overlap $\hsame$ data, and shared
+DyadicRatCore ledger rows determine one RegSeqRat and finite-window RealUp
+source surface over the finite union. Thus $\mathcal{S}$ and $\mathcal{S}'$
+are compared over the same finite source surface.
+
+Next apply
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-seal-exhaustion} to both
+candidate pasted seal surfaces. Each candidate is exhausted by the same
+finite-window RealUp classifier rows forced by that source surface and the
+same shared DyadicRatCore ledger. The displayed RegSeqRat handoff rows and
+$\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ support rows therefore leave no
+separate seal coordinate that could distinguish the two candidates.
+
+It remains to identify the overlap choices used in the finite pasting. On each
+displayed pairwise overlap,
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability} gives the same
+pointwise seal row for both candidates, because the source row and dyadic
+ledger row are the same. The triple-overlap compatibility is exactly
+\autoref{thm:streamname-regseqrat-triple-overlap-seal-cocycle}, so the
+pointwise overlap rows agree on every common triple restriction.
+
+Finally use \autoref{thm:streamname-regseqrat-pointwise-seal-pasting} and
+\autoref{thm:streamname-regseqrat-pasted-seal-associativity}. Pointwise
+pasting attaches the same local seal rows along the same overlap data, and
+associativity makes the finite attachment order irrelevant. Hence both
+$\mathcal{S}$ and $\mathcal{S}'$ are the same pasted finite-window RealUp seal
+surface over the finite union.
+
+The argument only reads finite StreamName rows, DyadicRatCore ledger rows,
+RegSeqRat handoff rows, overlap $\hsame$ data, and displayed support rows.
+Completion data, quotient data, host index equality, selected limits,
+countable choice, and RealUp completeness are not carrier coordinates in this
+terminal pasted seal surface.
+\end{proof}
