@@ -232,4 +232,98 @@ theorem DependentCodomainClosurePreservationObligations [AskSetup] [PackageSetup
       exact ⟨rowUnary, namePkg, provenancePkg⟩
   }
 
+theorem DependentCodomainClosurePreservationPacket_closedness_ledger_exactness
+    [AskSetup] [PackageSetup]
+    {pi domain arg reduced codomainSource codomainTarget betaClosed substClosed boundary
+      transport ledger htrans replay provenance name ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DependentCodomainClosurePreservationPacket pi domain arg reduced codomainSource
+        codomainTarget betaClosed substClosed boundary transport ledger htrans replay provenance
+        name bundle pkg ->
+      Cont betaClosed substClosed ledger ->
+        Cont ledger replay ledgerRead ->
+          PkgSig bundle ledgerRead pkg ->
+            SemanticNameCert
+              (fun row : BHist =>
+                DependentCodomainClosurePreservationPacket pi domain arg reduced codomainSource
+                    codomainTarget betaClosed substClosed boundary transport ledger htrans replay
+                    provenance name bundle pkg ∧
+                  hsame row ledgerRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧
+                  (hsame row betaClosed ∨ hsame row substClosed ∨ hsame row transport ∨
+                    hsame row ledger ∨ hsame row ledgerRead))
+              (fun _row : BHist =>
+                Cont betaClosed substClosed ledger ∧ Cont ledger replay ledgerRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle ledgerRead pkg)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro packet betaSubstLedger ledgerReplayRead ledgerReadPkg
+  have packetWitness := packet
+  obtain ⟨_piUnary, _domainUnary, _argUnary, _reducedUnary, _codomainSourceUnary,
+    _codomainTargetUnary, betaClosedUnary, substClosedUnary, _boundaryUnary, transportUnary,
+    ledgerUnary, _htransUnary, replayUnary, provenanceUnary, nameUnary, _piDomainArg,
+    _argReducedCodomainSource, _codomainSourceTargetTransport, _packetBetaSubstLedger,
+    namePkg, provenancePkg⟩ := packet
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed ledgerUnary replayUnary ledgerReplayRead
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro ledgerRead ⟨packetWitness, hsame_refl ledgerRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro row source
+      have rowUnary : UnaryHistory row :=
+        unary_transport ledgerReadUnary (hsame_symm source.right)
+      exact
+        ⟨rowUnary,
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr source.right)))⟩
+    ledger_sound := by
+      intro _row _source
+      exact ⟨betaSubstLedger, ledgerReplayRead, provenancePkg, namePkg, ledgerReadPkg⟩
+  }
+
+theorem DependentCodomainClosurePreservationPacket_ledger_scope [AskSetup] [PackageSetup]
+    {pi domain arg reduced codomainSource codomainTarget betaClosed substClosed boundary
+      transport ledger htrans replay provenance name downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DependentCodomainClosurePreservationPacket pi domain arg reduced codomainSource
+        codomainTarget betaClosed substClosed boundary transport ledger htrans replay provenance
+        name bundle pkg ->
+      Cont transport ledger downstream ->
+        UnaryHistory betaClosed ∧ UnaryHistory substClosed ∧ UnaryHistory boundary ∧
+          UnaryHistory transport ∧ UnaryHistory ledger ∧ UnaryHistory downstream ∧
+            Cont codomainSource codomainTarget transport ∧ Cont betaClosed substClosed ledger ∧
+              Cont transport ledger downstream ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet transportLedgerDownstream
+  obtain ⟨_piUnary, _domainUnary, _argUnary, _reducedUnary, _codomainSourceUnary,
+    _codomainTargetUnary, betaClosedUnary, substClosedUnary, boundaryUnary, transportUnary,
+    ledgerUnary, _htransUnary, _replayUnary, _provenanceUnary, _nameUnary, _piDomainArg,
+    _argReducedCodomainSource, codomainSourceTargetTransport, betaSubstLedger, _namePkg,
+    provenancePkg⟩ := packet
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed transportUnary ledgerUnary transportLedgerDownstream
+  exact
+    ⟨betaClosedUnary, substClosedUnary, boundaryUnary, transportUnary, ledgerUnary,
+      downstreamUnary, codomainSourceTargetTransport, betaSubstLedger, transportLedgerDownstream,
+      provenancePkg⟩
+
 end BEDC.Derived.DependentCodomainClosurePreservationUp

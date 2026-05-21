@@ -338,6 +338,33 @@ theorem ArchimedeanRealCarrier_budgeted_observation_handoff [AskSetup] [PackageS
       budgetRegseqDyadic, budgetDyadicRealSeal, provenanceLocalExport, budgetSealPkg,
       exportPkg⟩
 
+theorem ArchimedeanRealCarrier_consumer_bound_handoff [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      Cont boundLedger routes consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧ UnaryHistory streamWindow ∧
+            UnaryHistory regseqHandoff ∧ UnaryHistory boundLedger ∧ UnaryHistory consumer ∧
+              Cont realName streamWindow regseqHandoff ∧
+                Cont ratBound dyadicBound boundLedger ∧ Cont boundLedger routes consumer ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier boundRoutesConsumer consumerPkg
+  obtain ⟨_realNameUnary, ratBoundUnary, dyadicBoundUnary, streamWindowUnary,
+    regseqHandoffUnary, boundLedgerUnary, _transportUnary, routesUnary, _provenanceUnary,
+    _localCertUnary, realNameStreamWindowRegseq, ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, provenancePkg, _localCertPkg⟩ :=
+    carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed boundLedgerUnary routesUnary boundRoutesConsumer
+  exact
+    ⟨ratBoundUnary, dyadicBoundUnary, streamWindowUnary, regseqHandoffUnary,
+      boundLedgerUnary, consumerUnary, realNameStreamWindowRegseq, ratDyadicBoundLedger,
+      boundRoutesConsumer, provenancePkg, consumerPkg⟩
+
 theorem ArchimedeanRealCarrier_dyadic_threshold_totality [AskSetup] [PackageSetup]
     {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
       provenance localCert budgetRequest threshold : BHist}

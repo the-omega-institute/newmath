@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.34 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.35 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
@@ -65,6 +65,7 @@ The Phase Verify step will reject the round if any of these is broken.
 8. **Do NOT git push.** The merge and push are handled externally.
 9. **Do NOT edit `papers/bedc/main.tex`'s structure.** You may edit it ONLY to add a single `\input{parts/<theme>/<file>}` if you split a chapter. Do not reorder chapters here.
 10. **Do NOT edit `lean4/lakefile.lean`, `lean4/lean-toolchain`, or `papers/bedc/preamble.tex` unless a target explicitly requires a new macro.** Adding a macro must be conservative (no breaking changes to existing macros).
+11. **Mislabeled composite gate.** Before applying an `\origin{ai}` target, run `python3 lean4/scripts/bedc_ci.py audit --json`. If the target's `<X>Up` appears in `mislabeled_composite_carriers`, reject the target; do not add `\leanchecked`, `closurestatus`, `\falsifiablePrediction`, `\independenceWitness`, or atomic `ai` nontriviality prose for it.
 
 ## Structural split rule
 
