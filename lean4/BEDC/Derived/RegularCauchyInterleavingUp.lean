@@ -154,6 +154,51 @@ theorem RegularCauchyInterleavingPacket_selector_parity_exactness [AskSetup] [Pa
       rightSealRoute'
   exact ⟨leftSealUnary', rightSealUnary', sameLeftSeal, sameRightSeal⟩
 
+theorem RegularCauchyInterleavingPacket_window_seal_symmetry [AskSetup] [PackageSetup]
+    {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
+      interleavedSeal transport routes provenance nameCert endpoint leftSealRead rightSealRead
+      endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleavingPacket leftName rightName leftSchedule rightSchedule selector
+        modulus leftSeal rightSeal interleavedSeal transport routes provenance nameCert endpoint
+        bundle pkg ->
+      Cont selector leftSchedule leftSealRead ->
+        Cont selector rightSchedule rightSealRead ->
+          Cont leftSealRead rightSealRead interleavedSeal ->
+            Cont interleavedSeal modulus endpointRead ->
+              PkgSig bundle endpointRead pkg ->
+                hsame leftSeal leftSealRead ∧ hsame rightSeal rightSealRead ∧
+                  hsame endpoint endpointRead ∧ UnaryHistory leftSealRead ∧
+                    UnaryHistory rightSealRead ∧ UnaryHistory endpointRead ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame UnaryHistory
+  intro packet leftSealRoute' rightSealRoute' interleavedRoute' endpointRoute' endpointPkg'
+  obtain ⟨_leftNameUnary, _rightNameUnary, leftScheduleUnary, rightScheduleUnary,
+    selectorUnary, modulusUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, leftSealRoute, rightSealRoute, interleavedRoute, endpointRoute,
+    endpointPkg⟩ := packet
+  have sameLeftSeal : hsame leftSeal leftSealRead :=
+    cont_respects_hsame (hsame_refl selector) (hsame_refl leftSchedule) leftSealRoute
+      leftSealRoute'
+  have sameRightSeal : hsame rightSeal rightSealRead :=
+    cont_respects_hsame (hsame_refl selector) (hsame_refl rightSchedule) rightSealRoute
+      rightSealRoute'
+  have interleavedSame : hsame interleavedSeal interleavedSeal :=
+    cont_respects_hsame sameLeftSeal sameRightSeal interleavedRoute interleavedRoute'
+  have leftSealReadUnary : UnaryHistory leftSealRead :=
+    unary_cont_closed selectorUnary leftScheduleUnary leftSealRoute'
+  have rightSealReadUnary : UnaryHistory rightSealRead :=
+    unary_cont_closed selectorUnary rightScheduleUnary rightSealRoute'
+  have interleavedUnary : UnaryHistory interleavedSeal :=
+    unary_cont_closed leftSealReadUnary rightSealReadUnary interleavedRoute'
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed interleavedUnary modulusUnary endpointRoute'
+  have sameEndpoint : hsame endpoint endpointRead :=
+    cont_respects_hsame interleavedSame (hsame_refl modulus) endpointRoute endpointRoute'
+  exact
+    ⟨sameLeftSeal, sameRightSeal, sameEndpoint, leftSealReadUnary, rightSealReadUnary,
+      endpointReadUnary, endpointPkg, endpointPkg'⟩
+
 theorem RegularCauchyInterleavingPacket_combined_modulus_exactness [AskSetup] [PackageSetup]
     {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
       interleavedSeal transport routes provenance nameCert endpoint endpoint' : BHist}
