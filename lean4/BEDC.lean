@@ -505,6 +505,7 @@ import BEDC.Derived.BHistHendecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp.TasteGate
 import BEDC.Derived.BHistHeptaSequenceNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
+import BEDC.Derived.BHistHexaSequenceNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaSequenceNameCertUp
@@ -554,6 +555,7 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedBoundaryExactness
 import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedTermBoundaryDependency
 import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
+import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BoolUp
@@ -1077,6 +1079,7 @@ import BEDC.Derived.CauchySequenceSpaceUp.QuotientRefusalRoute
 import BEDC.Derived.CauchySequenceSpaceUp.RealCompletionExactBoundaryTerminalPullback
 import BEDC.Derived.CauchySequenceSpaceUp.RealObservationBudgetFactorization
 import BEDC.Derived.CauchySequenceSpaceUp.StdBridge
+import BEDC.Derived.CauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp.TerminalPullbackExactness
 import BEDC.Derived.CauchySequenceSpaceUp.UniformCriterionConsumption
 import BEDC.Derived.CauchySequenceSpaceUp.WindowFactorization
@@ -2514,6 +2517,7 @@ import BEDC.Derived.FieldUp.TailFactor
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.TwoSidedEmptySolution
 import BEDC.Derived.FilterUp
+import BEDC.Derived.FilteredCauchyCompletionUp.TasteGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteErrorBudgetUp
@@ -2707,6 +2711,7 @@ import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
 import BEDC.Derived.GaloisExtUp.SharedCarrierCoverage
 import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.GaloisExtUp.StdBridge
+import BEDC.Derived.GaloisExtUp.TasteGate
 import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
@@ -3361,6 +3366,7 @@ import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedCenterTriangleComposit
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SharedModulusDomain
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SourceTargetLock
 import BEDC.Derived.MetricTriangleUniformEstimateUp.SourceTargetTwoTriangleRoute
+import BEDC.Derived.MetricTriangleUniformEstimateUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp.TwoPointTargetBoundary
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusBoundaryExactness
 import BEDC.Derived.MetricTriangleUniformEstimateUp.UniformModulusExactPackage
@@ -3442,6 +3448,7 @@ import BEDC.Derived.MonotoneCauchyUp.ObligationPackage
 import BEDC.Derived.MonotoneCauchyUp.PublicTailWindowCertificate
 import BEDC.Derived.MonotoneCauchyUp.RealSealScopePackage
 import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
+import BEDC.Derived.MonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.MultiHistConfigUp
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
 import BEDC.Derived.MultiHistoryPhysicsRouteUp.TasteGate
@@ -4165,6 +4172,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.NameCertObligationExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.OpenFitRefusalSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.PhysicalFitNonescape
 import BEDC.Derived.RealityConstrainedTruthCertUp.PublicExportBoundary
+import BEDC.Derived.RealityConstrainedTruthCertUp.RootReadinessPacket
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootTasteGateReadiness
 import BEDC.Derived.RealityConstrainedTruthCertUp.SiblingDependency
 import BEDC.Derived.RealityConstrainedTruthCertUp.SourceSignatureClassifierObligation
