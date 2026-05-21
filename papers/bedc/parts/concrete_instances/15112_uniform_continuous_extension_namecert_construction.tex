@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\UniformContinuousExtensionUp$}
+\label{ch:concrete-instances-uniform-continuous-extension-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\UniformContinuousExtensionUp$ packet records the finite BEDC surface for extending a uniformly continuous map across displayed metric completions. It reads the completion carrier of \autoref{ch:concrete-instances-completion-namecert}, the metric-completion route of \autoref{ch:concrete-instances-metriccompletion-namecert}, the complete-target convergence interface of \autoref{ch:concrete-instances-completemetric-namecert}, the continuous-map graph and local-modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, and the separated-target uniqueness boundary of \autoref{ch:concrete-instances-separatedmetric-namecert}. The packet is an extension ledger over finite modulus and Cauchy evidence rows; it is not a quotient-completion construction and it does not select representatives.
+
+\begin{definition}[UniformContinuousExtension carrier]
+\label{def:uniform-continuous-extension-carrier}
+A $\UniformContinuousExtensionUp$ carrier is a finite packet
+$$
+(X,Y,f,\omega,C_X,C_Y,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ row together with the $\CompletionUp$ and $\MetricCompletionUp$ evidence used to read completion names over the same point histories.
+\item $Y$ is the target $\CompleteMetricUp$ row equipped with the $\SeparatedMetricUp$ uniqueness boundary for carried limits.
+\item $f$ is the $\ContinuousMapUp$ graph row on the dense source, and $\omega$ is the finite uniform-modulus row that transports Cauchy closeness in $X$ to Cauchy closeness in $Y$.
+\item $C_X$ is the source completion evidence: regular-Cauchy input windows, source observations, and the route from source names to completion names.
+\item $C_Y$ is the target convergence handoff: the complete-metric limit witness used after applying $f$ through the transported modulus.
+\item $E$ is the extension row assigning a target completion read to each admitted source-completion read.
+\item $H$ is the componentwise $\hsame$ transport ledger for the source metric, target complete metric, map graph, modulus, completion evidence, convergence handoff, and extension row.
+\item $C$ is the displayed $\Cont$ replay route that forces every extension read to pass through $X,f,\omega,C_X,C_Y,E$ in that order.
+\item $P$ is the $\Pkg$ provenance row over $\BHist$, $\hsame$, $\Cont$, $\MetricUp$, $\CompletionUp$, $\MetricCompletionUp$, $\CompleteMetricUp$, $\SeparatedMetricUp$, $\ContinuousMapUp$, and the local completion and convergence rows.
+\item $N$ is the local $\NameCert_{\UniformContinuousExtensionUp}$ row naming this packet and no additional completion principle.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[UniformContinuousExtension NameCert obligations]
+\label{thm:uniform-continuous-extension-namecert-obligations}
+For the carrier of \autoref{def:uniform-continuous-extension-carrier}, the local $\NameCert_{\UniformContinuousExtensionUp}$ surface consists of six finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $(X,Y,f,\omega,C_X,C_Y,E,H,C,P,N)$;
+\item modulus transport, sending the source Cauchy evidence in $C_X$ through $\omega$ and the graph row $f$;
+\item Cauchy-source compatibility, requiring every extension read to use the same source completion route recorded in $X$ and $C_X$;
+\item complete-target convergence, requiring the transported image sequence to reach the target limit only through $Y$ and $C_Y$;
+\item separated uniqueness, comparing two candidate extension reads only by the $\SeparatedMetricUp$ boundary on the same complete target;
+\item ledger non-escape, stating that $H,C,P,N$ expose no quotient completion, selected representative, countable-choice schedule, open-cover compactness, or completeness of $\RealUp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the displayed packet. Carrier admission is the statement that all rows listed in \autoref{def:uniform-continuous-extension-carrier} are present over the same source and target histories, with $P$ and $N$ naming the local package.
+
+The modulus and source-compatibility clauses are read next. The row $\omega$ is the only route from source Cauchy evidence to target Cauchy evidence, and $C_X$ is the only route from source observations to completion names, so every admitted extension read must consume both rows before reaching the target side.
+
+The target convergence and uniqueness clauses then follow from the target rows. The complete-metric handoff $C_Y$ supplies the carried target limit, while the separated boundary in $Y$ is the only comparison row available for two displayed target limits.
+
+Finally inspect the structural rows. Transport in $H$ is componentwise, replay in $C$ follows the same ordered route, and provenance in $P,N$ records only the finite BEDC rows already listed. No excluded principle is a carrier coordinate, so the local NameCert obligations are exhausted by the six clauses above.
+\end{proof}
+
+\begin{theorem}[UniformContinuousExtension completion handoff]
+\label{thm:uniform-continuous-extension-completion-handoff}
+Every extension read exported by an accepted $\UniformContinuousExtensionUp$ carrier factors through the displayed route
+$$
+X,C_X\longmapsto f,\omega\longmapsto Y,C_Y\longmapsto E .
+$$
+Thus a completion consumer can read the extended value only after the source completion evidence, uniform modulus, continuous-map graph row, complete-target convergence handoff, and separated uniqueness boundary have been replayed inside the same packet.
+\end{theorem}
+\begin{proof}
+Begin with the source side. The completion name is admitted through $X$ and $C_X$, so the packet gives no direct access to a source-completion value before the displayed regular-Cauchy evidence has been read.
+
+Apply the map route next. The graph row $f$ and the modulus row $\omega$ transport the source Cauchy evidence into target Cauchy evidence. This is the only target-facing route in the carrier.
+
+The complete target row then supplies the limit handoff. The row $C_Y$ records convergence in the complete metric target, and the separated part of $Y$ records uniqueness for the displayed target read.
+
+The extension row $E$ is therefore reached only after the route $X,C_X,f,\omega,Y,C_Y$ has been replayed. The structural rows $H,C,P,N$ preserve that route under componentwise transport and expose no quotient completion, selected representative, countable-choice schedule, open-cover compactness, or completeness of $\RealUp$.
+\end{proof}
+
+\begin{closurestatus}{\UniformContinuousExtensionUp}
+  \constructivestory{A $\UniformContinuousExtensionUp$ packet is generated from a source MetricUp row with CompletionUp and MetricCompletionUp evidence, a target CompleteMetricUp row with SeparatedMetricUp uniqueness, a ContinuousMapUp graph, a finite uniform-modulus row, source completion evidence, target convergence handoff, an extension row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-continuous-extension-carrier}, \autoref{thm:uniform-continuous-extension-namecert-obligations}, and \autoref{thm:uniform-continuous-extension-completion-handoff} seed the finite uniformly continuous extension route across metric completions.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion, selected representatives, countable choice, open-cover compactness, ambient target completeness beyond the displayed CompleteMetricUp row, or completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus transport, source-completion compatibility, complete-target convergence, separated uniqueness, extension-row exactness, and ledger non-escape for BEDC.Derived.UniformContinuousExtensionUp.}
+\end{closurestatus}
