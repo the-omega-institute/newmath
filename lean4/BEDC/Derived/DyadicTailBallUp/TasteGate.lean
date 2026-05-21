@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DyadicTailBallUp
+namespace BEDC.Derived.DyadicTailBallUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def dyadicTailBallDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (dyadicTailBallDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (dyadicTailBallDecodeBHist tail)
 
-private theorem DyadicTailBallTasteGate_single_carrier_alignment_decode :
+theorem DyadicTailBallTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, dyadicTailBallDecodeBHist (dyadicTailBallEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,36 +38,55 @@ def dyadicTailBallFields : DyadicTailBallUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | DyadicTailBallUp.mk B D F R H C P N => [B, D, F, R, H, C, P, N]
 
-def dyadicTailBallToEventFlow : DyadicTailBallUp → EventFlow :=
+def dyadicTailBallToEventFlow : DyadicTailBallUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (dyadicTailBallFields x).map dyadicTailBallEncodeBHist
+  | x => (dyadicTailBallFields x).map dyadicTailBallEncodeBHist
 
-private def dyadicTailBallEventAtDefault : Nat → EventFlow → RawEvent
+def dyadicTailBallFromEventFlow : EventFlow → Option DyadicTailBallUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => dyadicTailBallEventAtDefault index rest
+  | [] => none
+  | B :: rest0 =>
+      match rest0 with
+      | [] => none
+      | D :: rest1 =>
+          match rest1 with
+          | [] => none
+          | F :: rest2 =>
+              match rest2 with
+              | [] => none
+              | R :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | H :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | C :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | P :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | N :: rest7 =>
+                                  match rest7 with
+                                  | [] =>
+                                      some
+                                        (DyadicTailBallUp.mk
+                                          (dyadicTailBallDecodeBHist B)
+                                          (dyadicTailBallDecodeBHist D)
+                                          (dyadicTailBallDecodeBHist F)
+                                          (dyadicTailBallDecodeBHist R)
+                                          (dyadicTailBallDecodeBHist H)
+                                          (dyadicTailBallDecodeBHist C)
+                                          (dyadicTailBallDecodeBHist P)
+                                          (dyadicTailBallDecodeBHist N))
+                                  | _ :: _ => none
 
-def dyadicTailBallFromEventFlow (ef : EventFlow) : Option DyadicTailBallUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (DyadicTailBallUp.mk
-      (dyadicTailBallDecodeBHist (dyadicTailBallEventAtDefault 0 ef))
-      (dyadicTailBallDecodeBHist (dyadicTailBallEventAtDefault 1 ef))
-      (dyadicTailBallDecodeBHist (dyadicTailBallEventAtDefault 2 ef))
-      (dyadicTailBallDecodeBHist (dyadicTailBallEventAtDefault 3 ef))
-      (dyadicTailBallDecodeBHist (dyadicTailBallEventAtDefault 4 ef))
-      (dyadicTailBallDecodeBHist (dyadicTailBallEventAtDefault 5 ef))
-      (dyadicTailBallDecodeBHist (dyadicTailBallEventAtDefault 6 ef))
-      (dyadicTailBallDecodeBHist (dyadicTailBallEventAtDefault 7 ef)))
-
-private theorem DyadicTailBallTasteGate_single_carrier_alignment_round_trip :
+theorem DyadicTailBallTasteGate_single_carrier_alignment_round_trip :
     ∀ x : DyadicTailBallUp,
       dyadicTailBallFromEventFlow (dyadicTailBallToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro token
-  cases token with
+  intro x
+  cases x with
   | mk B D F R H C P N =>
       change
         some
@@ -90,7 +109,7 @@ private theorem DyadicTailBallTasteGate_single_carrier_alignment_round_trip :
         DyadicTailBallTasteGate_single_carrier_alignment_decode P,
         DyadicTailBallTasteGate_single_carrier_alignment_decode N]
 
-private theorem DyadicTailBallTasteGate_single_carrier_alignment_toEventFlow_injective
+theorem DyadicTailBallTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : DyadicTailBallUp} :
     dyadicTailBallToEventFlow x = dyadicTailBallToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -104,7 +123,7 @@ private theorem DyadicTailBallTasteGate_single_carrier_alignment_toEventFlow_inj
       (DyadicTailBallTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (DyadicTailBallTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem DyadicTailBallTasteGate_single_carrier_alignment_fields :
+theorem DyadicTailBallTasteGate_single_carrier_alignment_field_faithful :
     ∀ x y : DyadicTailBallUp, dyadicTailBallFields x = dyadicTailBallFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
@@ -122,10 +141,8 @@ instance dyadicTailBallBHistCarrier : BHistCarrier DyadicTailBallUp where
 
 instance dyadicTailBallChapterTasteGate : ChapterTasteGate DyadicTailBallUp where
   -- BEDC touchpoint anchor: BHist BMark
-  round_trip := by
-    intro x
-    change dyadicTailBallFromEventFlow (dyadicTailBallToEventFlow x) = some x
-    exact DyadicTailBallTasteGate_single_carrier_alignment_round_trip x
+  round_trip := fun x =>
+    id (DyadicTailBallTasteGate_single_carrier_alignment_round_trip x)
   layer_separation := by
     intro x y hxy heq
     exact hxy (DyadicTailBallTasteGate_single_carrier_alignment_toEventFlow_injective heq)
@@ -133,15 +150,15 @@ instance dyadicTailBallChapterTasteGate : ChapterTasteGate DyadicTailBallUp wher
 instance dyadicTailBallFieldFaithful : FieldFaithful DyadicTailBallUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := dyadicTailBallFields
-  field_faithful := DyadicTailBallTasteGate_single_carrier_alignment_fields
+  field_faithful := DyadicTailBallTasteGate_single_carrier_alignment_field_faithful
 
 instance dyadicTailBallNontrivial : Nontrivial DyadicTailBallUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨DyadicTailBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      DyadicTailBallUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+    ⟨DyadicTailBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      DyadicTailBallUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -151,17 +168,43 @@ def taste_gate : ChapterTasteGate DyadicTailBallUp :=
   dyadicTailBallChapterTasteGate
 
 theorem DyadicTailBallTasteGate_single_carrier_alignment :
-    (∀ h : BHist, dyadicTailBallDecodeBHist (dyadicTailBallEncodeBHist h) = h) ∧
-      (∀ x : DyadicTailBallUp,
-        dyadicTailBallFromEventFlow (dyadicTailBallToEventFlow x) = some x) ∧
-        (∀ x y : DyadicTailBallUp,
-          dyadicTailBallToEventFlow x = dyadicTailBallToEventFlow y → x = y) ∧
-          dyadicTailBallEncodeBHist BHist.Empty = ([] : List BMark) := by
+    Nonempty (ChapterTasteGate DyadicTailBallUp) ∧
+      Nonempty (FieldFaithful DyadicTailBallUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial DyadicTailBallUp) ∧
+          (∀ h : BHist, dyadicTailBallDecodeBHist (dyadicTailBallEncodeBHist h) = h) ∧
+            (∀ x : DyadicTailBallUp,
+              dyadicTailBallFromEventFlow (dyadicTailBallToEventFlow x) = some x) ∧
+              (∀ x y : DyadicTailBallUp,
+                dyadicTailBallToEventFlow x = dyadicTailBallToEventFlow y → x = y) ∧
+                dyadicTailBallEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨DyadicTailBallTasteGate_single_carrier_alignment_decode,
+    ⟨⟨dyadicTailBallChapterTasteGate⟩,
+      ⟨dyadicTailBallFieldFaithful⟩,
+      ⟨dyadicTailBallNontrivial⟩,
+      DyadicTailBallTasteGate_single_carrier_alignment_decode,
       DyadicTailBallTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => DyadicTailBallTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+end BEDC.Derived.DyadicTailBallUp.TasteGate
+
+namespace BEDC.Derived.DyadicTailBallUp
+
+theorem DyadicTailBallTasteGate_single_carrier_alignment :
+    Nonempty (BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.DyadicTailBallUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.FieldFaithful TasteGate.DyadicTailBallUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial TasteGate.DyadicTailBallUp) ∧
+          (∀ h : BEDC.FKernel.Hist.BHist,
+            TasteGate.dyadicTailBallDecodeBHist (TasteGate.dyadicTailBallEncodeBHist h) = h) ∧
+            (∀ x : TasteGate.DyadicTailBallUp,
+              TasteGate.dyadicTailBallFromEventFlow (TasteGate.dyadicTailBallToEventFlow x) =
+                some x) ∧
+              (∀ x y : TasteGate.DyadicTailBallUp,
+                TasteGate.dyadicTailBallToEventFlow x = TasteGate.dyadicTailBallToEventFlow y →
+                  x = y) ∧
+                TasteGate.dyadicTailBallEncodeBHist BEDC.FKernel.Hist.BHist.Empty =
+                  ([] : BEDC.GroundCompiler.EventFlow.RawEvent) := by
+  exact TasteGate.DyadicTailBallTasteGate_single_carrier_alignment
 
 end BEDC.Derived.DyadicTailBallUp
