@@ -1734,6 +1734,93 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         if edge_count >= len(graph_edges):
             exceed_count += 1
 
+    boundary_neighbors: dict[str, list[str]] = collections.defaultdict(list)
+    boundary_edges: list[tuple[str, str]] = []
+    for left, right in all_edges:
+        if left in support and right not in support:
+            boundary_neighbors[right].append(left)
+            boundary_edges.append((left, right))
+        elif right in support and left not in support:
+            boundary_neighbors[left].append(right)
+            boundary_edges.append((right, left))
+    boundary_rows = [
+        {
+            "codon": codon,
+            "standard": standard[codon],
+            "boundary_degree": len(neighbors),
+            "boundary_pressure": sum(codon_weight(neighbor) for neighbor in neighbors),
+            "neighbors": tuple(sorted(neighbors)),
+        }
+        for codon, neighbors in sorted(boundary_neighbors.items())
+    ]
+    boundary_rows.sort(
+        key=lambda row: (-row["boundary_degree"], -row["boundary_pressure"], row["codon"])
+    )
+
+    q2_completion_faces: list[dict[str, object]] = []
+    completion_frontier: set[str] = set()
+    for free in itertools.combinations(range(6), 2):
+        for values in itertools.product("01", repeat=4):
+            vertices = subcube_vertices(free, values)
+            present = tuple(codon for codon in vertices if codon in support)
+            missing = tuple(codon for codon in vertices if codon not in support)
+            if len(present) == 3 and len(missing) == 1:
+                completion_frontier.add(missing[0])
+                q2_completion_faces.append(
+                    {
+                        "vertices": vertices,
+                        "present": present,
+                        "missing": missing[0],
+                    }
+                )
+
+    q2_faces = [
+        subcube_vertices(free, values)
+        for free in itertools.combinations(range(6), 2)
+        for values in itertools.product("01", repeat=4)
+    ]
+    completion_stages: list[dict[str, object]] = []
+    closed = set(support)
+    stage_index = 0
+    while len(closed) < 64:
+        additions: set[str] = set()
+        for face in q2_faces:
+            if sum(1 for codon in face if codon in closed) >= 3:
+                additions.update(codon for codon in face if codon not in closed)
+        additions -= closed
+        if not additions:
+            break
+        stage_index += 1
+        closed |= additions
+        completion_stages.append(
+            {
+                "stage": stage_index,
+                "added_count": len(additions),
+                "added": tuple(sorted(additions)),
+                "total_size": len(closed),
+            }
+        )
+
+    boundary_class: dict[str, dict[str, object]] = {}
+    for row in boundary_rows:
+        label = row["standard"]
+        if label not in boundary_class:
+            boundary_class[label] = {
+                "boundary_edges": 0,
+                "boundary_pressure": 0,
+                "codons": [],
+            }
+        boundary_class[label]["boundary_edges"] += row["boundary_degree"]
+        boundary_class[label]["boundary_pressure"] += row["boundary_pressure"]
+        boundary_class[label]["codons"].append(row["codon"])
+    boundary_class_rows = [
+        {"class": label, **values, "codons": tuple(sorted(values["codons"]))}
+        for label, values in boundary_class.items()
+    ]
+    boundary_class_rows.sort(
+        key=lambda row: (-row["boundary_pressure"], -row["boundary_edges"], row["class"])
+    )
+
     return {
         "support": tuple(sorted(support)),
         "support_size": len(support),
@@ -1811,6 +1898,21 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "exceed_count": exceed_count,
                 "p_value": exceed_count / random_trials,
             },
+        },
+        "boundary_closure": {
+            "boundary_edge_count": len(boundary_edges),
+            "boundary_codon_count": len(boundary_neighbors),
+            "boundary_edges": tuple(boundary_edges),
+            "boundary_rows": boundary_rows,
+            "top_boundary_rows": boundary_rows[:9],
+            "inactive_envelope_corners": tuple(sorted(envelope_union - support)),
+            "q2_completion_face_count": len(q2_completion_faces),
+            "q2_completion_frontier": tuple(sorted(completion_frontier)),
+            "q2_completion_faces": q2_completion_faces,
+            "completion_stages": completion_stages,
+            "completion_final_size": len(closed),
+            "completion_percolates": len(closed) == 64,
+            "boundary_class_rows": boundary_class_rows,
         },
     }
 
@@ -2855,6 +2957,44 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert skeleton["random_compactness"]["seed"] == 20260522
     assert skeleton["random_compactness"]["exceed_count"] == 19
     assert skeleton["random_compactness"]["p_value"] == 0.00019
+    boundary = summary["support_compression"]["boundary_closure"]
+    assert boundary["boundary_edge_count"] == 46
+    assert boundary["boundary_codon_count"] == 33
+    assert boundary["top_boundary_rows"] == [
+        {"codon": "TGG", "standard": "W", "boundary_degree": 3, "boundary_pressure": 33, "neighbors": ("AGG", "TAG", "TGA")},
+        {"codon": "AAG", "standard": "K", "boundary_degree": 3, "boundary_pressure": 21, "neighbors": ("AAA", "AGG", "TAG")},
+        {"codon": "ACA", "standard": "T", "boundary_degree": 3, "boundary_pressure": 14, "neighbors": ("AGA", "ATA", "TCA")},
+        {"codon": "TTG", "standard": "L", "boundary_degree": 3, "boundary_pressure": 14, "neighbors": ("CTG", "TAG", "TTA")},
+        {"codon": "CAG", "standard": "Q", "boundary_degree": 2, "boundary_pressure": 13, "neighbors": ("CTG", "TAG")},
+        {"codon": "CAA", "standard": "Q", "boundary_degree": 2, "boundary_pressure": 9, "neighbors": ("CTA", "TAA")},
+        {"codon": "GTA", "standard": "V", "boundary_degree": 2, "boundary_pressure": 6, "neighbors": ("ATA", "CTA")},
+        {"codon": "CCA", "standard": "P", "boundary_degree": 2, "boundary_pressure": 2, "neighbors": ("CTA", "TCA")},
+        {"codon": "TTT", "standard": "F", "boundary_degree": 2, "boundary_pressure": 2, "neighbors": ("CTT", "TTA")},
+    ]
+    assert boundary["inactive_envelope_corners"] == ("AAG", "ACA", "TGG")
+    assert boundary["q2_completion_face_count"] == 13
+    assert boundary["q2_completion_frontier"] == ("AAG", "ACA", "CAA", "CCA", "GTA", "TGG", "TTG", "TTT")
+    assert boundary["completion_stages"] == [
+        {"stage": 1, "added_count": 8, "added": ("AAG", "ACA", "CAA", "CCA", "GTA", "TGG", "TTG", "TTT"), "total_size": 21},
+        {"stage": 2, "added_count": 16, "added": ("ACG", "ATG", "ATT", "CAG", "CAT", "CCG", "CCT", "CGA", "GAA", "GCA", "GTG", "GTT", "TAT", "TCG", "TCT", "TTC"), "total_size": 37},
+        {"stage": 3, "added_count": 16, "added": ("AAT", "ACT", "ATC", "CAC", "CCC", "CGG", "CGT", "GAG", "GAT", "GCG", "GCT", "GGA", "GTC", "TAC", "TCC", "TGT"), "total_size": 53},
+        {"stage": 4, "added_count": 9, "added": ("AAC", "ACC", "AGT", "CGC", "GAC", "GCC", "GGG", "GGT", "TGC"), "total_size": 62},
+        {"stage": 5, "added_count": 2, "added": ("AGC", "GGC"), "total_size": 64},
+    ]
+    assert boundary["completion_final_size"] == 64
+    assert boundary["completion_percolates"] is True
+    assert boundary["boundary_class_rows"][:10] == [
+        {"class": "W", "boundary_edges": 3, "boundary_pressure": 33, "codons": ("TGG",)},
+        {"class": "Q", "boundary_edges": 4, "boundary_pressure": 22, "codons": ("CAA", "CAG")},
+        {"class": "T", "boundary_edges": 4, "boundary_pressure": 22, "codons": ("ACA", "ACG")},
+        {"class": "K", "boundary_edges": 3, "boundary_pressure": 21, "codons": ("AAG",)},
+        {"class": "S", "boundary_edges": 4, "boundary_pressure": 18, "codons": ("AGC", "AGT", "TCG", "TCT")},
+        {"class": "Y", "boundary_edges": 2, "boundary_pressure": 18, "codons": ("TAC", "TAT")},
+        {"class": "G", "boundary_edges": 2, "boundary_pressure": 16, "codons": ("GGA", "GGG")},
+        {"class": "C", "boundary_edges": 1, "boundary_pressure": 15, "codons": ("TGT",)},
+        {"class": "R", "boundary_edges": 1, "boundary_pressure": 15, "codons": ("CGA",)},
+        {"class": "L", "boundary_edges": 3, "boundary_pressure": 14, "codons": ("TTG",)},
+    ]
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),

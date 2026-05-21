@@ -1,0 +1,207 @@
+\begin{definition}[Outer reassignment boundary]
+\label{def:philosophy-outer-reassignment-boundary}
+The outer boundary of the reassigned support is
+$$
+  \partial\mathcal{R}
+  =
+  \{z\notin\mathcal{R}:\exists r\in\mathcal{R},\ d_{H}(z,r)=1\}.
+$$
+For $z\in\partial\mathcal{R}$ define the boundary degree and boundary
+pressure by
+$$
+\begin{aligned}
+  d_{\partial}(z)
+    &=|\{r\in\mathcal{R}:d_{H}(z,r)=1\}|,\\
+  P_{\partial}(z)
+    &=\sum_{r\in\mathcal{R},\ d_{H}(z,r)=1} w(r).
+\end{aligned}
+$$
+\end{definition}
+
+\begin{theorem}[Outer boundary size]
+\label{thm:philosophy-outer-boundary-size}
+The reassigned support has $46$ boundary edges and $33$ distinct outer
+boundary codons:
+$$
+  |\mathcal{R}|=13,\qquad
+  |E(G_{\mathcal{R}})|=16,\qquad
+  |\partial\mathcal{R}|=33.
+$$
+\end{theorem}
+\begin{proof}
+Each vertex of $Q_{6}$ has degree $6$, so the $13$ support vertices
+have $78$ incident half-edges. The $16$ internal edges of
+\autoref{thm:philosophy-reassignment-support-graph} consume $32$ of
+these half-edges. The remaining $46$ half-edges leave the support.
+Enumerating their external endpoints gives $33$ distinct codons.
+\end{proof}
+
+\begin{theorem}[Highest-pressure inactive boundary codons]
+\label{thm:philosophy-highest-pressure-inactive-boundary-codons}
+The highest-degree inactive boundary codons, ordered by boundary degree
+and then boundary pressure, begin as follows:
+$$
+\begin{array}{c|c|c|c|c}
+  \text{codon} & \text{class} & d_{\partial} & P_{\partial} & \text{support neighbors}\\
+  \hline
+  \mathrm{UGG} & W & 3 & 33 & \mathrm{UAG},\mathrm{UGA},\mathrm{AGG}\\
+  \mathrm{AAG} & K & 3 & 21 & \mathrm{UAG},\mathrm{AAA},\mathrm{AGG}\\
+  \mathrm{ACA} & T & 3 & 14 & \mathrm{UCA},\mathrm{AUA},\mathrm{AGA}\\
+  \mathrm{UUG} & L & 3 & 14 & \mathrm{UUA},\mathrm{UAG},\mathrm{CUG}\\
+  \mathrm{CAG} & Q & 2 & 13 & \mathrm{UAG},\mathrm{CUG}\\
+  \mathrm{CAA} & Q & 2 & 9 & \mathrm{UAA},\mathrm{CUA}\\
+  \mathrm{GUA} & V & 2 & 6 & \mathrm{AUA},\mathrm{CUA}\\
+  \mathrm{CCA} & P & 2 & 2 & \mathrm{UCA},\mathrm{CUA}\\
+  \mathrm{UUU} & F & 2 & 2 & \mathrm{UUA},\mathrm{CUU}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For every $z\notin\mathcal{R}$, inspect the six Hamming neighbors of
+$z$. Retain $z$ when at least one neighbor lies in $\mathcal{R}$, count
+these neighbors, and sum their reassignment weights. Sorting by
+boundary degree and pressure gives the displayed rows.
+\end{proof}
+
+\begin{corollary}[Inactive envelope corners]
+\label{cor:philosophy-inactive-envelope-corners}
+The three false-positive codons in the three-module envelope are exactly
+$$
+  \mathrm{UGG},\qquad \mathrm{AAG},\qquad \mathrm{ACA}.
+$$
+They are inactive boundary codons:
+$$
+  \mathrm{WRR}\cup\mathrm{CUN}\cup\mathrm{WYA}
+  =
+  \mathcal{R}\cup\{\mathrm{UGG},\mathrm{AAG},\mathrm{ACA}\}.
+$$
+\end{corollary}
+\begin{proof}
+The envelope identity is
+\autoref{thm:philosophy-envelope-versus-exact-support}. The displayed
+codons also occur in the boundary table of
+\autoref{thm:philosophy-highest-pressure-inactive-boundary-codons}.
+\end{proof}
+
+\begin{definition}[$Q_{2}$ completion frontier]
+\label{def:philosophy-q2-completion-frontier}
+The first $Q_{2}$-completion frontier is the set of codons
+$z\notin\mathcal{R}$ for which some $Q_{2}$ face contains exactly
+three vertices of $\mathcal{R}$ and has $z$ as its fourth vertex:
+$$
+  C_{1}(\mathcal{R})
+  =
+  \{z\notin\mathcal{R}:\exists Q_{2}\text{ face }F,\ 
+    |F\cap\mathcal{R}|=3,\ z\in F\setminus\mathcal{R}\}.
+$$
+\end{definition}
+
+\begin{theorem}[First completion frontier]
+\label{thm:philosophy-first-completion-frontier}
+The first $Q_{2}$-completion frontier is
+$$
+  C_{1}(\mathcal{R})
+  =
+  \{\mathrm{UGG},\mathrm{AAG},\mathrm{ACA},\mathrm{UUG},
+    \mathrm{CAA},\mathrm{CCA},\mathrm{GUA},\mathrm{UUU}\}.
+$$
+It is obtained from $13$ three-out-of-four $Q_{2}$ faces.
+\end{theorem}
+\begin{proof}
+Enumerate the $240$ axis-aligned $Q_{2}$ faces of $Q_{6}$ and select
+those with exactly three vertices in $\mathcal{R}$. There are $13$ such
+faces. Their missing vertices, after removing duplicates, are exactly
+the eight codons displayed above.
+\end{proof}
+
+\begin{theorem}[$Q_{2}$ completion percolation]
+\label{thm:philosophy-q2-completion-percolation}
+Starting from $S_{0}=\mathcal{R}$ and iterating the rule
+$$
+  S_{n+1}
+  =
+  S_{n}\cup
+  \{z:\exists Q_{2}\text{ face }F,\ |F\cap S_{n}|\ge 3,\ z\in F\},
+$$
+the process reaches all $64$ codons in five stages. The stage sizes are
+$$
+\begin{array}{c|c|l}
+  \text{stage} & \text{added} & \text{codons}\\
+  \hline
+  1 & 8 &
+    \mathrm{AAG},\mathrm{ACA},\mathrm{CAA},\mathrm{CCA},
+    \mathrm{GUA},\mathrm{UGG},\mathrm{UUG},\mathrm{UUU}\\
+  2 & 16 &
+    \mathrm{ACG},\mathrm{AUG},\mathrm{AUU},\mathrm{CAG},
+    \mathrm{CAU},\mathrm{CCG},\mathrm{CCU},\mathrm{CGA},
+    \mathrm{GAA},\mathrm{GCA},\mathrm{GUG},\mathrm{GUU},
+    \mathrm{UAU},\mathrm{UCG},\mathrm{UCU},\mathrm{UUC}\\
+  3 & 16 &
+    \mathrm{AAU},\mathrm{ACU},\mathrm{AUC},\mathrm{CAC},
+    \mathrm{CCC},\mathrm{CGG},\mathrm{CGU},\mathrm{GAG},
+    \mathrm{GAU},\mathrm{GCG},\mathrm{GCU},\mathrm{GGA},
+    \mathrm{GUC},\mathrm{UAC},\mathrm{UCC},\mathrm{UGU}\\
+  4 & 9 &
+    \mathrm{AAC},\mathrm{ACC},\mathrm{AGU},\mathrm{CGC},
+    \mathrm{GAC},\mathrm{GCC},\mathrm{GGG},\mathrm{GGU},
+    \mathrm{UGC}\\
+  5 & 2 &
+    \mathrm{AGC},\mathrm{GGC}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+At each stage enumerate all $Q_{2}$ faces and adjoin every missing
+vertex of each face already containing at least three vertices of the
+current set. The displayed stage table is the direct finite iteration;
+after the fifth stage the set has size $64$.
+\end{proof}
+
+\begin{theorem}[Boundary class pressure]
+\label{thm:philosophy-boundary-class-pressure}
+Aggregating outer-boundary codons by standard-code translation class,
+the highest-pressure classes are
+$$
+\begin{array}{c|c|c|c}
+  \text{class} & \text{boundary edges} & \text{pressure} & \text{codons}\\
+  \hline
+  W & 3 & 33 & \mathrm{UGG}\\
+  Q & 4 & 22 & \mathrm{CAA},\mathrm{CAG}\\
+  T & 4 & 22 & \mathrm{ACA},\mathrm{ACG}\\
+  K & 3 & 21 & \mathrm{AAG}\\
+  S & 4 & 18 & \mathrm{AGC},\mathrm{AGU},\mathrm{UCG},\mathrm{UCU}\\
+  Y & 2 & 18 & \mathrm{UAC},\mathrm{UAU}\\
+  G & 2 & 16 & \mathrm{GGA},\mathrm{GGG}\\
+  C & 1 & 15 & \mathrm{UGU}\\
+  R & 1 & 15 & \mathrm{CGA}\\
+  L & 3 & 14 & \mathrm{UUG}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each boundary codon $z$, take its standard-code class and add
+$d_{\partial}(z)$ and $P_{\partial}(z)$ to that class. Sorting the
+resulting class rows by pressure gives the displayed table.
+\end{proof}
+
+\begin{theorem}[Boundary-closure structure]
+\label{thm:philosophy-boundary-closure-structure}
+The reassigned support is a cubical seed with inactive boundary
+anchors:
+$$
+  \mathcal{R}
+  \quad+\quad
+  \{\mathrm{UGG},\mathrm{AAG},\mathrm{ACA}\}
+  \quad=\quad
+  \text{the active part of }
+  \mathrm{WRR}\cup\mathrm{CUN}\cup\mathrm{WYA}.
+$$
+The three inactive codons are high-pressure boundary codons, the first
+$Q_{2}$-completion frontier contains eight codons, and repeated
+$Q_{2}$-completion from $\mathcal{R}$ percolates through $Q_{6}$.
+\end{theorem}
+\begin{proof}
+Combine \autoref{cor:philosophy-inactive-envelope-corners},
+\autoref{thm:philosophy-first-completion-frontier}, and
+\autoref{thm:philosophy-q2-completion-percolation}.
+\end{proof}
