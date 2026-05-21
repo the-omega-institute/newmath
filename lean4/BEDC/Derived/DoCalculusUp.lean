@@ -97,4 +97,30 @@ theorem DoCalculusPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
   }
   exact ⟨cert, interventionReadUnary, adjustmentReadUnary, probabilityReadUnary⟩
 
+theorem DoCalculusPacket_adjustment_ledger_exactness [AskSetup] [PackageSetup]
+    {intervention variables adjustment distribution independence expectation exported htrans replay
+      provenance localName adjustmentRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DoCalculusPacket intervention variables adjustment distribution independence expectation exported
+        htrans replay provenance localName bundle pkg ->
+      Cont adjustment independence adjustmentRead ->
+        PkgSig bundle adjustmentRead pkg ->
+          UnaryHistory variables ∧ UnaryHistory adjustment ∧ UnaryHistory independence ∧
+            UnaryHistory adjustmentRead ∧ Cont intervention variables adjustment ∧
+              Cont adjustment distribution independence ∧
+                Cont adjustment independence adjustmentRead ∧ PkgSig bundle localName pkg ∧
+                  PkgSig bundle adjustmentRead pkg := by
+  intro packet adjustmentRow adjustmentPkg
+  obtain ⟨_interventionUnary, variablesUnary, adjustmentUnary, _distributionUnary,
+    independenceUnary, _expectationUnary, _exportedUnary, _htransUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, interventionVariablesAdjustment,
+    adjustmentDistributionIndependence, _independenceExpectationExport,
+    _htransReplayProvenance, localNamePkg⟩ := packet
+  have adjustmentReadUnary : UnaryHistory adjustmentRead :=
+    unary_cont_closed adjustmentUnary independenceUnary adjustmentRow
+  exact
+    ⟨variablesUnary, adjustmentUnary, independenceUnary, adjustmentReadUnary,
+      interventionVariablesAdjustment, adjustmentDistributionIndependence, adjustmentRow,
+      localNamePkg, adjustmentPkg⟩
+
 end BEDC.Derived.DoCalculusUp
