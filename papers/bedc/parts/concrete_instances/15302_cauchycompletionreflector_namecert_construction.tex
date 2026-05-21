@@ -69,10 +69,32 @@ Next read the idempotent row $I$. It states that repeating the completion pass r
 The universal-property row $E$ and reflection row $R$ are finally consumed over that fixed unit-counit-idempotent route. The structural rows $H,C,P,N$ transport, replay, source, and name only the displayed packet, which proves the factorization and the stated non-escape boundary.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionReflector naturality square]
+\label{thm:cauchy-completion-reflector-naturality-square}
+Let $K=(S,M,U,Q,I,E,R,T,H,C,P,N)$ be an accepted $\CauchyCompletionReflectorUp$ carrier. The public reflector square classifies the route
+$$
+S\longmapsto U\longmapsto M\longmapsto E,R\longmapsto H,C,P,N
+$$
+with the route
+$$
+S\longmapsto T\longmapsto Q,I\longmapsto E,R\longmapsto H,C,P,N .
+$$
+Equivalently, a consumer that first applies unit admission and then reads the extension and reflection rows has the same displayed classifier as a consumer that first reads the source through the local $\StreamNameUp$--$\RegSeqRatUp$--$\DyadicRatCoreUp$--$\RealUp$ transport row $T$ and then returns by the counit and idempotent rows. The comparison is made only through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CauchyCompletionReflectorUp}$ rows, and it exports no quotient completion equality, selected limit, host equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-completion-reflector-namecert-obligations} to expose the only rows available in an accepted carrier. The unit row $U$, counit row $Q$, idempotent row $I$, extension row $E$, reflection row $R$, transport row $T$, and structural rows $H,C,P,N$ are the entire public surface.
+
+Apply \autoref{thm:cauchy-completion-reflector-unit-counit-route} to place every public consumer on the same finite route. The left leg of the square reads $S$ through $U$ before it consumes $M,E,R$; the right leg reads $S$ through $T$ before the return and replay rows $Q,I$ feed the same $E,R$ consumers.
+
+The sibling certificates supply the public faces used by these two readings: the unit surface is \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the counit surface is \autoref{ch:concrete-instances-cauchy-completion-counit-namecert}, the idempotent replay surface is \autoref{ch:concrete-instances-cauchy-completion-idempotent-namecert}, the extension surface is \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, and the reflection boundary is \autoref{ch:concrete-instances-completionreflection-namecert}.
+
+Since both legs end by the same $H,C,P,N$ rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row classify them as the same public reflector square. No extra classifier coordinate remains from which a quotient completion, selected limit, host equality, countable choice, or ambient completeness claim could be read.
+\end{proof}
+
 \begin{closurestatus}{\CauchyCompletionReflectorUp}
   \constructivestory{A $\CauchyCompletionReflectorUp$ packet is generated from a displayed source row, a completion-object row, unit admission, counit return, idempotent replay, universal-property extension, completion reflection, local StreamName-RegSeqRat-DyadicRatCore-Real transport, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-reflector-carrier}, \autoref{thm:cauchy-completion-reflector-namecert-obligations}, and \autoref{thm:cauchy-completion-reflector-unit-counit-route} seed the public finite reflector surface for the L10 completion route.}
+  \scopeclosed{\autoref{def:cauchy-completion-reflector-carrier}, \autoref{thm:cauchy-completion-reflector-namecert-obligations}, \autoref{thm:cauchy-completion-reflector-unit-counit-route}, and \autoref{thm:cauchy-completion-reflector-naturality-square} seed the public finite reflector surface for the L10 completion route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, selected limits, host equality, countable choice, ambient completeness, detached $\RealUp$ completeness, Lean verification, or bridge checking.}
