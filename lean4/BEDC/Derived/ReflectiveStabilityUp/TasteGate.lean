@@ -278,4 +278,36 @@ theorem ReflectiveStabilityCarrier_namecert_obligations
   }
   exact ⟨reuseUnary, ledgerUnary, rfl, nameCert⟩
 
+theorem ReflectiveStabilityCarrier_anchor_stability
+    {S K A Q O F T L H C P N sourceAnchor checkpointAnchor auditAnchor
+      observationAnchor interfaceAnchor : BHist} :
+    reflectiveStabilityFields (ReflectiveStabilityUp.mk S K A Q O F T L H C P N) =
+        [S, K, A, Q, O, F, T, L, H, C, P, N] →
+      Cont S T sourceAnchor →
+        Cont K T checkpointAnchor →
+          Cont A T auditAnchor →
+            Cont O T observationAnchor →
+              Cont F T interfaceAnchor →
+                UnaryHistory S →
+                  UnaryHistory K →
+                    UnaryHistory A →
+                      UnaryHistory O →
+                        UnaryHistory F →
+                          UnaryHistory T →
+                            UnaryHistory sourceAnchor ∧
+                              UnaryHistory checkpointAnchor ∧
+                                UnaryHistory auditAnchor ∧
+                                  UnaryHistory observationAnchor ∧
+                                    UnaryHistory interfaceAnchor ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro _fields sTSource kTCheckpoint aTAudit oTObservation fTInterface
+    sUnary kUnary aUnary oUnary fUnary tUnary
+  exact
+    ⟨unary_cont_closed sUnary tUnary sTSource,
+      unary_cont_closed kUnary tUnary kTCheckpoint,
+      unary_cont_closed aUnary tUnary aTAudit,
+      unary_cont_closed oUnary tUnary oTObservation,
+      unary_cont_closed fUnary tUnary fTInterface,
+      hsame_refl N⟩
+
 end BEDC.Derived.ReflectiveStabilityUp
