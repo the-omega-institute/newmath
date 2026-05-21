@@ -912,6 +912,141 @@ def tile_pattern_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]
     }
 
 
+def reassignment_concentration_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
+    standard = tables[1]
+    diffs: list[tuple[int, str, str, str]] = []
+    for table_id, table in sorted(tables.items()):
+        if table_id == 1:
+            continue
+        for codon in all_codons():
+            if table[codon] != standard[codon]:
+                diffs.append((table_id, codon, standard[codon], table[codon]))
+    codon_counts: collections.Counter[str] = collections.Counter(codon for _table_id, codon, _old, _new in diffs)
+    codon_targets: dict[str, collections.Counter[str]] = collections.defaultdict(collections.Counter)
+    for _table_id, codon, _old, new in diffs:
+        codon_targets[codon][new] += 1
+
+    half_cube_counts = collections.Counter(bits(codon)[1] for _table_id, codon, _old, _new in diffs)
+    control_half_cube_codons = [codon for codon in sorted(codon_counts) if bits(codon)[1] == "0"]
+    outside_control_half_cube_codons = [codon for codon in sorted(codon_counts) if bits(codon)[1] == "1"]
+
+    refined_modules = {
+        "Stop/Trp_X2": {"TAA", "TAG", "TGA"},
+        "AGR": {"AGA", "AGG"},
+        "Ile/Met_leaf": {"ATA"},
+        "AAA_leaf": {"AAA"},
+        "rare_stop_insertions": {"TCA", "TTA"},
+        "CUN_Leu": {"CTT", "CTC", "CTA", "CTG"},
+    }
+    refined_counts: dict[str, int] = {}
+    for name, codons in refined_modules.items():
+        refined_counts[name] = sum(codon_counts[codon] for codon in codons)
+
+    reassigned_codons = sorted(codon_counts)
+    reassigned_set = set(reassigned_codons)
+    induced_edges = [
+        (left, right)
+        for left, right, _direction in hamming_edges()
+        if left in reassigned_set and right in reassigned_set
+    ]
+    adjacency: dict[str, set[str]] = {codon: set() for codon in reassigned_codons}
+    for left, right in induced_edges:
+        adjacency[left].add(right)
+        adjacency[right].add(left)
+    seen: set[str] = set()
+    components: list[list[str]] = []
+    for codon in reassigned_codons:
+        if codon in seen:
+            continue
+        stack = [codon]
+        seen.add(codon)
+        component: list[str] = []
+        while stack:
+            item = stack.pop()
+            component.append(item)
+            for neighbor in adjacency[item]:
+                if neighbor not in seen:
+                    seen.add(neighbor)
+                    stack.append(neighbor)
+        components.append(sorted(component))
+    components.sort(key=lambda component: (-len(component), component))
+
+    q1_by_table = {table_id: q1_spectrum(table)[0] for table_id, table in sorted(tables.items())}
+    q1_totals = {table_id: sum(counts) for table_id, counts in q1_by_table.items()}
+    q1_direction_ranges = []
+    for direction in range(6):
+        values = [counts[direction] for counts in q1_by_table.values()]
+        q1_direction_ranges.append(
+            {
+                "min": min(values),
+                "max": max(values),
+                "mean": sum(values) / len(values),
+            }
+        )
+
+    nucleotide_by_table = {
+        table_id: nucleotide_substitution_spectrum(table)
+        for table_id, table in sorted(tables.items())
+    }
+    nucleotide_totals = [row["same_total"] for row in nucleotide_by_table.values()]
+    nucleotide_position_values = [
+        [row["same_by_position"][position] for row in nucleotide_by_table.values()]
+        for position in range(3)
+    ]
+    nucleotide_position_stats = [
+        {
+            "min": min(values),
+            "max": max(values),
+            "mean": sum(values) / len(values),
+        }
+        for values in nucleotide_position_values
+    ]
+
+    return {
+        "distinct_reassigned_codon_count": len(reassigned_codons),
+        "distinct_reassigned_codons": reassigned_codons,
+        "weighted_event_count": len(diffs),
+        "codon_counts": {
+            codon: {
+                "standard": standard[codon],
+                "count": codon_counts[codon],
+                "targets": dict(sorted(codon_targets[codon].items())),
+            }
+            for codon in sorted(codon_counts, key=lambda codon: (-codon_counts[codon], codon))
+        },
+        "control_half_cube": {
+            "fixed_bit": 1,
+            "fixed_value": "0",
+            "inside_event_count": half_cube_counts["0"],
+            "outside_event_count": half_cube_counts["1"],
+            "inside_fraction": half_cube_counts["0"] / len(diffs),
+            "inside_codons": control_half_cube_codons,
+            "outside_codons": outside_control_half_cube_codons,
+        },
+        "refined_module_counts": refined_counts,
+        "reassigned_codon_graph": {
+            "node_count": len(reassigned_codons),
+            "edge_count": len(induced_edges),
+            "component_count": len(components),
+            "component_sizes": [len(component) for component in components],
+            "edges": induced_edges,
+        },
+        "q1_all_tables": {
+            "min": min(q1_totals.values()),
+            "max": max(q1_totals.values()),
+            "mean": sum(q1_totals.values()) / len(q1_totals),
+            "distribution": dict(sorted(collections.Counter(q1_totals.values()).items())),
+            "direction_ranges": q1_direction_ranges,
+        },
+        "nucleotide_substitution_all_tables": {
+            "same_total_min": min(nucleotide_totals),
+            "same_total_max": max(nucleotide_totals),
+            "same_total_mean": sum(nucleotide_totals) / len(nucleotide_totals),
+            "same_by_position": nucleotide_position_stats,
+        },
+    }
+
+
 def module_value_adjacency(states: list[tuple[tuple[str, ...], ...]]) -> dict[int, set[int]]:
     adjacency: dict[int, set[int]] = {index: set() for index in range(len(states))}
     for left, right in itertools.combinations(range(len(states)), 2):
@@ -1211,6 +1346,7 @@ def build_summary() -> dict[str, object]:
         "module_value_grammar": module_value_grammar_summary(partial_tables),
         "latent_completion": latent_completion_summary(partial_tables),
         "tile_patterns": tile_pattern_summary(partial_tables),
+        "reassignment_concentration": reassignment_concentration_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -1544,6 +1680,77 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert summary["tile_patterns"]["stop_trp_patterns"]["*/*/W/W"]["count"] == 8
     assert summary["tile_patterns"]["stop_trp_patterns"]["*/*/*/W"]["count"] == 5
     assert summary["tile_patterns"]["stop_trp_patterns"]["Q|*/Q|*/*|W/W"]["count"] == 1
+    assert summary["reassignment_concentration"]["distinct_reassigned_codon_count"] == 13
+    assert summary["reassignment_concentration"]["distinct_reassigned_codons"] == [
+        "AAA",
+        "AGA",
+        "AGG",
+        "ATA",
+        "CTA",
+        "CTC",
+        "CTG",
+        "CTT",
+        "TAA",
+        "TAG",
+        "TCA",
+        "TGA",
+        "TTA",
+    ]
+    assert summary["reassignment_concentration"]["weighted_event_count"] == 65
+    assert {
+        codon: row["count"]
+        for codon, row in summary["reassignment_concentration"]["codon_counts"].items()
+    } == {
+        "TGA": 15,
+        "TAG": 10,
+        "AGA": 8,
+        "AGG": 8,
+        "TAA": 8,
+        "ATA": 5,
+        "AAA": 3,
+        "CTG": 3,
+        "CTA": 1,
+        "CTC": 1,
+        "CTT": 1,
+        "TCA": 1,
+        "TTA": 1,
+    }
+    assert summary["reassignment_concentration"]["control_half_cube"] == {
+        "fixed_bit": 1,
+        "fixed_value": "0",
+        "inside_event_count": 59,
+        "outside_event_count": 6,
+        "inside_fraction": 59 / 65,
+        "inside_codons": ["AAA", "AGA", "AGG", "ATA", "TAA", "TAG", "TCA", "TGA", "TTA"],
+        "outside_codons": ["CTA", "CTC", "CTG", "CTT"],
+    }
+    assert summary["reassignment_concentration"]["refined_module_counts"] == {
+        "Stop/Trp_X2": 33,
+        "AGR": 16,
+        "Ile/Met_leaf": 5,
+        "AAA_leaf": 3,
+        "rare_stop_insertions": 2,
+        "CUN_Leu": 6,
+    }
+    assert summary["reassignment_concentration"]["reassigned_codon_graph"]["node_count"] == 13
+    assert summary["reassignment_concentration"]["reassigned_codon_graph"]["edge_count"] == 16
+    assert summary["reassignment_concentration"]["reassigned_codon_graph"]["component_count"] == 1
+    assert summary["reassignment_concentration"]["reassigned_codon_graph"]["component_sizes"] == [13]
+    assert summary["reassignment_concentration"]["q1_all_tables"]["min"] == 47
+    assert summary["reassignment_concentration"]["q1_all_tables"]["max"] == 52
+    assert round(summary["reassignment_concentration"]["q1_all_tables"]["mean"], 2) == 50.07
+    assert summary["reassignment_concentration"]["q1_all_tables"]["direction_ranges"][0] == {
+        "min": 0,
+        "max": 0,
+        "mean": 0.0,
+    }
+    assert summary["reassignment_concentration"]["q1_all_tables"]["direction_ranges"][5]["min"] == 28
+    assert summary["reassignment_concentration"]["q1_all_tables"]["direction_ranges"][5]["max"] == 32
+    assert round(summary["reassignment_concentration"]["q1_all_tables"]["direction_ranges"][5]["mean"], 2) == 30.04
+    assert round(summary["reassignment_concentration"]["nucleotide_substitution_all_tables"]["same_total_mean"], 2) == 69.04
+    assert round(summary["reassignment_concentration"]["nucleotide_substitution_all_tables"]["same_by_position"][0]["mean"], 2) == 3.59
+    assert round(summary["reassignment_concentration"]["nucleotide_substitution_all_tables"]["same_by_position"][1]["mean"], 2) == 0.67
+    assert round(summary["reassignment_concentration"]["nucleotide_substitution_all_tables"]["same_by_position"][2]["mean"], 2) == 64.78
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),

@@ -72,6 +72,164 @@ This is the first row of
 \autoref{thm:philosophy-alternative-code-reassignment-concentration}.
 \end{proof}
 
+\begin{theorem}[Sparse reassignment codon support]
+\label{thm:philosophy-sparse-reassignment-codon-support}
+Across the comparison family, the codons that are ever reassigned
+relative to the standard classifier are exactly
+$$
+\begin{gathered}
+  \mathrm{UGA},\ \mathrm{UAG},\ \mathrm{UAA},\ \mathrm{AUA},\
+  \mathrm{AGA},\ \mathrm{AGG},\ \mathrm{AAA},\\
+  \mathrm{CUG},\ \mathrm{CUU},\ \mathrm{CUC},\ \mathrm{CUA},\
+  \mathrm{UCA},\ \mathrm{UUA}.
+\end{gathered}
+$$
+With multiplicity over tables, the codon counts are
+$$
+\begin{array}{c|c|r|l}
+  \text{codon} & \text{standard label} & \text{count}
+    & \text{observed target labels}\\
+\hline
+  \mathrm{UGA} & \mathrm{Stop} & 15 & \mathrm{Trp},\mathrm{Cys},\mathrm{Gly},\mathrm{Stop|Trp}\\
+  \mathrm{UAG} & \mathrm{Stop} & 10 & \mathrm{Gln},\mathrm{Leu},\mathrm{Tyr},\mathrm{Glu},\mathrm{Trp},\mathrm{partial}\\
+  \mathrm{AGA} & \mathrm{Arg} & 8 & \mathrm{Stop},\mathrm{Ser},\mathrm{Gly}\\
+  \mathrm{AGG} & \mathrm{Arg} & 8 & \mathrm{Stop},\mathrm{Ser},\mathrm{Gly},\mathrm{Lys}\\
+  \mathrm{UAA} & \mathrm{Stop} & 8 & \mathrm{Gln},\mathrm{Tyr},\mathrm{Glu},\mathrm{partial}\\
+  \mathrm{AUA} & \mathrm{Ile} & 5 & \mathrm{Met}\\
+  \mathrm{CUG} & \mathrm{Leu} & 3 & \mathrm{Thr},\mathrm{Ser},\mathrm{Ala}\\
+  \mathrm{AAA} & \mathrm{Lys} & 3 & \mathrm{Asn}\\
+  \mathrm{CUU},\mathrm{CUC},\mathrm{CUA} & \mathrm{Leu} & 1\ \text{each} & \mathrm{Thr}\\
+  \mathrm{UCA} & \mathrm{Ser} & 1 & \mathrm{Stop}\\
+  \mathrm{UUA} & \mathrm{Leu} & 1 & \mathrm{Stop}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each non-standard table, compare all $64$ rows against the standard
+classifier, retaining partial labels as distinct target labels when the
+bridge table records a partial stop/sense assignment. Taking the union
+of changed codons gives the displayed $13$-codon support; keeping table
+multiplicity gives the displayed counts.
+\end{proof}
+
+\begin{corollary}[Comparative variation is sparse]
+\label{cor:philosophy-comparative-variation-sparse}
+The comparison changes only $13$ of the $64$ codons relative to the
+standard classifier. Thus the observed family is a sparse reassignment
+family rather than a global reshuffling of the codon carrier.
+\end{corollary}
+\begin{proof}
+This is the support size in
+\autoref{thm:philosophy-sparse-reassignment-codon-support}.
+\end{proof}
+
+\begin{theorem}[Control half-cube concentration]
+\label{thm:philosophy-control-half-cube-reassignment-concentration}
+Let
+$$
+  Q_{5}^{\mathrm{ctrl}}=\{x\in Q_{6}:b_{1}^{f}(x)=0\}.
+$$
+Among the $65$ reassignment rows in the comparison family, $59$ lie in
+$Q_{5}^{\mathrm{ctrl}}$ and $6$ lie outside it:
+$$
+\begin{array}{c|r}
+  \text{region} & \text{reassignment rows}\\
+\hline
+  b_{1}^{f}=0 & 59\\
+  b_{1}^{f}=1 & 6.
+\end{array}
+$$
+Equivalently, $59/65$ of the reassignment rows lie in the same
+half-cube that contains the dual Ile/Met and Stop/Trp control tiles.
+\end{theorem}
+\begin{proof}
+For each reassignment row, decode the codon to its six-bit word and
+read the first-base family bit. The finite count gives $59$ rows with
+$b_{1}^{f}=0$ and $6$ rows with $b_{1}^{f}=1$. The identification of
+this half-cube with the shared dual-control half-cube is
+\autoref{thm:philosophy-unique-shared-control-half-cube}.
+\end{proof}
+
+\begin{corollary}[The shared half-cube is the comparative working region]
+\label{cor:philosophy-shared-half-cube-comparative-working-region}
+The half-cube selected by the standard-code dual control tiles is also
+the main region of observed comparative reassignment. In this sense
+$b_{1}^{f}=0$ is both a standard-code control half-cube and the
+dominant comparative deformation region.
+\end{corollary}
+\begin{proof}
+The standard-code half-cube is
+\autoref{thm:philosophy-unique-shared-control-half-cube}. Its
+comparative concentration is
+\autoref{thm:philosophy-control-half-cube-reassignment-concentration}.
+\end{proof}
+
+\begin{theorem}[Refined reassignment module counts]
+\label{thm:philosophy-refined-reassignment-module-counts}
+The $65$ reassignment rows decompose into the following refined local
+modules:
+$$
+\begin{array}{c|c|r}
+  \text{module} & \text{codons} & \text{rows}\\
+\hline
+  \mathrm{Stop/Trp}\ X_{2} & \mathrm{UAA},\mathrm{UAG},\mathrm{UGA} & 33\\
+  \mathrm{AGR} & \mathrm{AGA},\mathrm{AGG} & 16\\
+  \mathrm{Ile/Met\ leaf} & \mathrm{AUA} & 5\\
+  \mathrm{AAA\ leaf} & \mathrm{AAA} & 3\\
+  \mathrm{rare\ stop\ insertions} & \mathrm{UCA},\mathrm{UUA} & 2\\
+  \mathrm{CUN\ Leu} & \mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG} & 6.
+\end{array}
+$$
+The first three rows contribute $54$ of the $65$ reassignment rows.
+\end{theorem}
+\begin{proof}
+Group the codon counts in
+\autoref{thm:philosophy-sparse-reassignment-codon-support} by the
+displayed codon sets and sum within each set.
+\end{proof}
+
+\begin{corollary}[Main comparative axis]
+\label{cor:philosophy-main-comparative-axis}
+The dominant comparative axis is
+$$
+  \mathrm{Stop/Trp}\ +\ \mathrm{AGR}\ +\ \mathrm{Ile/Met}.
+$$
+It accounts for $54/65$ reassignment rows, while the remaining rows are
+confined to the AAA leaf, two rare stop insertions, and the CUN Leu
+module.
+\end{corollary}
+\begin{proof}
+This is the sum of the first three rows in
+\autoref{thm:philosophy-refined-reassignment-module-counts}.
+\end{proof}
+
+\begin{theorem}[Connected reassignment support]
+\label{thm:philosophy-connected-reassignment-support}
+Let $R$ be the set of the $13$ codons that are ever reassigned in the
+comparison family. The induced Hamming subgraph $Q_{6}[R]$ is connected
+and has $16$ internal edges.
+\end{theorem}
+\begin{proof}
+Take the support set from
+\autoref{thm:philosophy-sparse-reassignment-codon-support}. Enumerate
+all Hamming edges whose two endpoints lie in this set. The finite
+enumeration gives $16$ such edges. A breadth-first search from any
+vertex reaches all $13$ codons.
+\end{proof}
+
+\begin{corollary}[Reassignment support is a connected zone]
+\label{cor:philosophy-reassignment-support-connected-zone}
+The reassigned codons are not scattered as isolated vertices of $Q_{6}$.
+They form one connected local deformation zone, whose weighted mass is
+concentrated in the control half-cube $b_{1}^{f}=0$.
+\end{corollary}
+\begin{proof}
+Connectivity is
+\autoref{thm:philosophy-connected-reassignment-support}. Weighted
+half-cube concentration is
+\autoref{thm:philosophy-control-half-cube-reassignment-concentration}.
+\end{proof}
+
 \begin{theorem}[Stop/Trp $11$ corner is invariant across the comparison]
 \label{thm:philosophy-stop-trp-eleven-corner-invariant}
 In the Stop/Trp tile, all observed reassignments occur in the
@@ -214,20 +372,17 @@ coordinate.
 \label{thm:philosophy-alternative-code-edge-smoothness-remains-local}
 Across the standard table together with the curated non-standard
 genetic-code tables, the total number of same-class Hamming edges lies
-between $47$ and $52$. The distribution is
-$$
-\begin{array}{c|rrrrrr}
-  \text{same-class edge count} & 47 & 48 & 49 & 50 & 51 & 52\\
-\hline
-  \text{table count} & 2 & 1 & 4 & 9 & 4 & 7.
-\end{array}
-$$
+between $47$ and $52$, with mean approximately $50.07$.
+The third-base family bit remains the dominant stable direction:
+its same-class edge count ranges from $28$ to $32$ out of $32$, with
+mean approximately $30.04$. The first-base shape bit has zero same-class
+edges in every table.
 \end{theorem}
 \begin{proof}
 For each table, enumerate the same $192$ Hamming edges used in
 \autoref{thm:philosophy-standard-code-q-one-edge-spectrum} and count
-same-class endpoints. The displayed distribution is the finite count
-over the comparison family.
+same-class endpoints, both in total and by bit direction. The displayed
+range and means are the finite counts over the comparison family.
 \end{proof}
 
 \begin{corollary}[Alternative codes are local deformations]
@@ -242,6 +397,36 @@ The edge-count range is narrow by
 \autoref{thm:philosophy-alternative-code-edge-smoothness-remains-local},
 and the reassignment rows are concentrated by
 \autoref{thm:philosophy-alternative-code-reassignment-concentration}.
+\end{proof}
+
+\begin{theorem}[Nucleotide-substitution smoothness across the comparison]
+\label{thm:philosophy-nucleotide-substitution-smoothness-comparison}
+For ordinary single-nucleotide substitution edges, the mean same-class
+edge count across the comparison family is approximately $69.04$ out of
+$288$. By codon position, the mean same-class counts are approximately
+$$
+  3.59,\qquad 0.67,\qquad 64.78
+$$
+out of $96$ edges per position.
+\end{theorem}
+\begin{proof}
+For each table and each codon position, fix the other two bases and
+connect the four choices at the chosen position by the complete graph
+on four bases. Counting same-class endpoints over the resulting
+$288$ substitution edges gives the displayed means.
+\end{proof}
+
+\begin{corollary}[Third-position stability is table-family level]
+\label{cor:philosophy-third-position-stability-family-level}
+The third-position stability seen in the standard table is preserved
+across the comparison family, both for two-axis bit flips and for
+ordinary single-nucleotide substitution edges.
+\end{corollary}
+\begin{proof}
+The bit-flip statement is
+\autoref{thm:philosophy-alternative-code-edge-smoothness-remains-local}.
+The nucleotide-substitution statement is
+\autoref{thm:philosophy-nucleotide-substitution-smoothness-comparison}.
 \end{proof}
 
 \begin{theorem}[Comparative tile-dynamics cannot-claim boundary]
@@ -265,14 +450,16 @@ for the AGA/AGG pair.
 \label{cor:philosophy-comparative-tile-dynamics-allowed-claim}
 Under the two-axis codon bridge, comparative genetic-code variation is
 strongly concentrated in local modules already visible in the standard
-codon-cube spectra. The Stop/Trp tile is the main deformation face; its
-$11$ corner remains a stable continuation corner; and the observed
-Ile/Met deformation is coupled to the corresponding Stop/Trp
+codon-cube spectra. The Stop/Trp tile is the main deformation face;
+the shared $b_{1}^{f}=0$ half-cube is the dominant reassignment region;
+the Stop/Trp $11$ corner remains a stable continuation corner; and the
+observed Ile/Met deformation is coupled to the corresponding Stop/Trp
 $10$-to-$11$ deformation.
 \end{corollary}
 \begin{proof}
 Combine
 \autoref{thm:philosophy-alternative-code-reassignment-concentration},
+\autoref{thm:philosophy-control-half-cube-reassignment-concentration},
 \autoref{thm:philosophy-stop-trp-eleven-corner-invariant}, and
 \autoref{thm:philosophy-coupled-ten-to-eleven-control-tile-reassignment}.
 \end{proof}
