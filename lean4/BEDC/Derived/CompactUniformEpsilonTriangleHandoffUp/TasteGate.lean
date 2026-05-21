@@ -290,3 +290,22 @@ theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment :
       ⟨compactUniformEpsilonTriangleHandoffNontrivial⟩, rfl, rfl⟩
 
 end BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
+
+namespace BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.Meta.TasteGate
+open BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
+
+theorem CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate CompactUniformEpsilonTriangleHandoffUp) ∧
+      Nonempty (FieldFaithful CompactUniformEpsilonTriangleHandoffUp) ∧
+        Nonempty (Nontrivial CompactUniformEpsilonTriangleHandoffUp) ∧
+          CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+              BHist.Empty = [] ∧
+            CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment_encodeBHist
+              (BHist.e0 BHist.Empty) = [BMark.b0] :=
+  BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.CompactUniformEpsilonTriangleHandoffTasteGate_single_carrier_alignment
+
+end BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
