@@ -72,7 +72,7 @@ CLOSURESTATUS_BLOCK_RE = re.compile(
     re.DOTALL,
 )
 TOP_LEVEL_ORIGIN_RE = re.compile(r"^\s*\\origin\{([^}]*)\}\s*$", re.MULTILINE)
-VALID_ORIGINS = {"human", "ai"}
+VALID_ORIGINS = {"human", "ai", "ai-composite"}
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -1018,7 +1018,7 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
     origin = block.get("origin", "human")
     if origin not in VALID_ORIGINS:
         issues.append(
-            f"{where}: \\origin='{origin}' is not in {{human, ai}}"
+            f"{where}: \\origin='{origin}' is not in {sorted(VALID_ORIGINS)}"
         )
     if origin == "ai":
         body = block.get("raw_body") or ""
