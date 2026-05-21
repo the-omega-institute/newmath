@@ -173,13 +173,10 @@ theorem RealUniformStructureTasteGate_single_carrier_alignment :
         realUniformStructureToEventFlow x = realUniformStructureToEventFlow y → x = y) ∧
       realUniformStructureEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  constructor
-  · exact RealUniformStructureTasteGate_single_carrier_alignment_decode_encode
-  constructor
-  · exact RealUniformStructureTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y
-    exact RealUniformStructureTasteGate_single_carrier_alignment_toEventFlow_injective
-  · rfl
+  exact
+    ⟨RealUniformStructureTasteGate_single_carrier_alignment_decode_encode,
+      RealUniformStructureTasteGate_single_carrier_alignment_round_trip,
+      fun _ _ heq => RealUniformStructureTasteGate_single_carrier_alignment_toEventFlow_injective heq,
+      rfl⟩
 
 end BEDC.Derived.RealUniformStructureUp
