@@ -112,6 +112,32 @@ theorem CauchyTailComparisonCarrier_real_completion_handoff [AskSetup] [PackageS
                       (And.intro endpointSame
                         (And.intro namecertSame pkgSig)))))))))))
 
+theorem CauchyTailComparisonCarrier_non_escape_boundary [AskSetup] [PackageSetup]
+    {leftName rightName modulus window endpointLedger readback provenance namecert endpoint
+      sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyTailComparisonCarrier leftName rightName modulus window endpointLedger readback
+        provenance namecert endpoint bundle pkg ->
+      Cont readback namecert sealRow ->
+        UnaryHistory leftName ∧ UnaryHistory rightName ∧ UnaryHistory modulus ∧
+          UnaryHistory window ∧ UnaryHistory endpointLedger ∧ UnaryHistory readback ∧
+            UnaryHistory provenance ∧ UnaryHistory namecert ∧ UnaryHistory endpoint ∧
+              UnaryHistory sealRow ∧ Cont (append leftName rightName) modulus window ∧
+                Cont window endpointLedger readback ∧ Cont readback namecert sealRow ∧
+                  hsame endpoint (append readback provenance) ∧ hsame namecert endpoint ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sealRoute
+  obtain ⟨leftUnary, rightUnary, modulusUnary, windowUnary, endpointLedgerUnary,
+    readbackUnary, provenanceUnary, namecertUnary, endpointUnary, commonWindow,
+    endpointReadback, endpointSame, namecertSame, pkgSig⟩ := carrier
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed readbackUnary namecertUnary sealRoute
+  exact
+    ⟨leftUnary, rightUnary, modulusUnary, windowUnary, endpointLedgerUnary, readbackUnary,
+      provenanceUnary, namecertUnary, endpointUnary, sealRowUnary, commonWindow, endpointReadback,
+      sealRoute, endpointSame, namecertSame, pkgSig⟩
+
 theorem CauchyTailComparisonCarrier_standard_bridge_source [AskSetup] [PackageSetup]
     {leftName rightName modulus window endpointLedger readback provenance namecert endpoint
       bridgeSource : BHist}
