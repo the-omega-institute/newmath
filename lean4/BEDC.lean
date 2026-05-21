@@ -210,7 +210,6 @@ import BEDC.Derived.ApproximationTowerResidueUp.Classifier
 import BEDC.Derived.ApproximationTowerResidueUp.HiddenSourceNonescape
 import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationUp
-import BEDC.Derived.ArchimedeanOrderedFieldUp.TasteGate
 import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.ArchimedeanRealUp.PublicOrderConsumer
 import BEDC.Derived.ArzelaAscoliUp
@@ -514,6 +513,7 @@ import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
 import BEDC.Derived.BareObjectRefusalUp.TasteGate
 import BEDC.Derived.BayesianUp
+import BEDC.Derived.BayesianUp.TasteGate
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
 import BEDC.Derived.BedcSelfSubstrateUp.ObligationSurface
 import BEDC.Derived.BedcSelfSubstrateUp.TasteGate
@@ -1893,6 +1893,7 @@ import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.CurvatureUp.SourceEnvelopeExactness
 import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.CurvatureUp.SourceEnvelopeReadback
+import BEDC.Derived.CurvatureUp.TasteGate
 import BEDC.Derived.CurvatureUp.TensorialSectionTransport
 import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CyclotomicUp
@@ -3393,6 +3394,7 @@ import BEDC.Derived.MetricUp.RightE1ResultShape
 import BEDC.Derived.MetricUp.SOneEquationDistanceFactorization
 import BEDC.Derived.MetricUp.SOneEquationDistanceSymmetry
 import BEDC.Derived.MetricUp.StdBridge
+import BEDC.Derived.MetricUp.TasteGate
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.MetricUp.Triangle
 import BEDC.Derived.MetricUp.VisibleContextDeterminacy
@@ -3918,7 +3920,6 @@ import BEDC.Derived.RatUp.RepresentativeStabilityPackage
 import BEDC.Derived.RatUp.StdBridge
 import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RationalBallUp
-import BEDC.Derived.RationalDensityRealUp.TasteGate
 import BEDC.Derived.RationalIntervalUp
 import BEDC.Derived.RationalIntervalUp.BisectionRefinementNesting
 import BEDC.Derived.RationalIntervalUp.ConsumerCompleteness
@@ -4241,7 +4242,6 @@ import BEDC.Derived.RegularCauchyDiagonalUp.SelectorWindowFunctoriality
 import BEDC.Derived.RegularCauchyDiagonalUp.StandardBridgeSource
 import BEDC.Derived.RegularCauchyDiagonalUp.StationaryFamilyExhaustion
 import BEDC.Derived.RegularCauchyDifferenceUp
-import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
@@ -4334,6 +4334,7 @@ import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RegularityModulusUp.CarrierSurface
 import BEDC.Derived.RegularityModulusUp.ObligationCompleteness
 import BEDC.Derived.RegulatorUp
+import BEDC.Derived.RegulatorUp.TasteGate
 import BEDC.Derived.RelationalFrameAuditUp.Carrier
 import BEDC.Derived.RelationalFrameAuditUp.FullPacketSemanticNameCert
 import BEDC.Derived.RelationalFrameAuditUp.TasteGate

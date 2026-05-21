@@ -409,4 +409,36 @@ theorem FiniteLebesgueNumberCompactContinuousTriad [AskSetup] [PackageSetup]
     ⟨compactUnary, continuousUnary, uniformUnary, radiusMeshCompact,
       compactRouteContinuous, continuousNameUniform, provenancePkg, uniformPkg⟩
 
+theorem FiniteLebesgueNumberRootRadiusWindowObligationSurface [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow radiusRead windowRead
+      rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont cover radius radiusRead ->
+        Cont window radius windowRead ->
+          Cont route nameRow rootRead ->
+            PkgSig bundle rootRead pkg ->
+              UnaryHistory cover /\ UnaryHistory window /\ UnaryHistory radius /\
+                UnaryHistory mesh /\ UnaryHistory radiusRead /\ UnaryHistory windowRead /\
+                  UnaryHistory rootRead /\ Cont cover window radius /\
+                    Cont cover radius radiusRead /\ Cont window radius windowRead /\
+                      Cont route nameRow rootRead /\ PkgSig bundle provenance pkg /\
+                        PkgSig bundle rootRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier coverRadiusRead windowRadiusRead routeNameRoot rootPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed coverUnary radiusUnary coverRadiusRead
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowUnary radiusUnary windowRadiusRead
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameRoot
+  exact
+    ⟨coverUnary, windowUnary, radiusUnary, meshUnary, radiusReadUnary, windowReadUnary,
+      rootReadUnary, coverWindowRadius, coverRadiusRead, windowRadiusRead, routeNameRoot,
+      provenancePkg, rootPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
