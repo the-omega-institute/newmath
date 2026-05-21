@@ -101,4 +101,26 @@ theorem ZetaContinuationWitnessPacket_ledger_boundary [AskSetup] [PackageSetup]
     }
   exact ⟨cert, ledgerUnary, routesNameRead⟩
 
+theorem ZetaContinuationWitnessCarrier_ledger_nonescape_boundary [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name
+      ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma transports
+        routes provenance name bundle pkg ->
+      UnaryHistory routes ->
+        UnaryHistory name ->
+          Cont routes name ledgerRead ->
+            UnaryHistory ledgerRead ∧ hsame ledgerRead (append routes name) ∧
+              Cont transports routes provenance ∧ PkgSig bundle name pkg ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet routesUnary nameUnary routesNameLedger
+  obtain ⟨_basicEtaAnalytic, _analyticFunctionalTransports, _poleZeroLedgerGamma,
+    transportsRoutesProvenance, namePkg, provenancePkg⟩ := packet
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed routesUnary nameUnary routesNameLedger
+  exact
+    ⟨ledgerReadUnary, routesNameLedger, transportsRoutesProvenance, namePkg,
+      provenancePkg⟩
+
 end BEDC.Derived.ZetaContinuationWitnessUp
