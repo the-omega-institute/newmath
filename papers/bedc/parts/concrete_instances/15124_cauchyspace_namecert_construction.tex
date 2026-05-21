@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CauchySpaceUp$}
+\label{ch:concrete-instances-cauchyspace-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley-style Cauchy-space terminology, the $\CauchySpaceUp$ packet records the finite BEDC interface in which a metric or uniform source presents Cauchy evidence before any completion-facing consumer may read a seal. It sits between the finite naming spine of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the filter evidence surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the net evidence surface of \autoref{ch:concrete-instances-cauchynet-namecert}, and the completion consumer boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet names the common finite Cauchy interface; it is not a quotient completion and it does not select limits.
+
+\begin{definition}[CauchySpace carrier]
+\label{def:cauchy-space-carrier}
+A $\CauchySpaceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,F,D,R,S,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source row, either a metric source or a uniform source, together with the displayed finite entourages or radius requests accepted by that source.
+\item $F$ is the Cauchy-evidence row, read through either the $\CauchyFilterUp$ branch or the $\CauchyNetUp$ branch over the same source row $X$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-window row attached to the source requests and to the Cauchy branch chosen in $F$.
+\item $R$ is the $\RegSeqRatUp$ readback row used when the accepted Cauchy evidence is inspected as a regular rational name.
+\item $S$ is the $\StreamNameUp$ finite schedule controlling which windows, indices, filter bases, or net stages can be queried before a completion seal is read.
+\item $W$ is the $\RegSeqRatUp/\RealUp$ readback boundary: regular rational observations are visible through $R$, and a terminal $\RealUp$ seal may be read only after $X,F,D,R,S$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, Cauchy branch, dyadic tolerance, regular readback, stream schedule, and seal-boundary rows.
+\item $C$ records displayed $\Cont$ replay through $X,F,D,R,S,W,H$.
+\item $P$ is the $\Pkg$ provenance over $\CauchySpaceUp$, $\CauchyFilterUp$, $\CauchyNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchySpaceUp}$ row.
+\end{enumerate}
+The carrier exposes only finite source, Cauchy-evidence, schedule, tolerance, readback, transport, continuation, provenance, and local naming data. It has no coordinate for quotient completion, selected limits, countable choice, open-cover compactness, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[CauchySpace NameCert obligation surface]
+\label{thm:cauchy-space-namecert-obligation-surface}
+For an accepted $\CauchySpaceUp$ carrier $Q=(X,F,D,R,S,W,H,C,P,N)$, the local $\NameCert_{\CauchySpaceUp}$ surface consists exactly of the following five obligations:
+\begin{enumerate}
+\item carrier admission for the displayed source, Cauchy-evidence branch, dyadic tolerance, regular readback, stream schedule, seal boundary, transport, continuation, provenance, and local naming rows;
+\item classifier agreement by common source plus common Cauchy evidence branch, so two accepted packets are compared only after they display the same metric or uniform source row and both choose either the filter branch or the net branch over that source;
+\item stability under $\hsame$ and $\Cont$ transport, requiring every source request, tolerance window, regular readback, stream schedule, and seal-facing read to replay componentwise after transport;
+\item completion-handoff exactness, requiring every $\MetricCompletionUp$ or $\RealUp$ consumer to pass through $S,R,D$ and then through the displayed $\CauchyFilterUp$ or $\CauchyNetUp$ branch before it reads any completion seal;
+\item ledger refusal, stating that the packet exports no quotient completion row, selected limit row, countable-choice row, open-cover compactness row, or proof of completeness of $\RealUp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-space-carrier}. The tuple lists the source, evidence branch, tolerance ledger, regular readback, finite schedule, seal boundary, and structural BEDC rows that the local certificate may expose.
+
+The classifier obligation is read from $X$ and $F$. A comparison may not identify a metric-source packet with a uniform-source packet, or a filter-branch packet with a net-branch packet, unless those choices are displayed as the same source and the same Cauchy evidence branch.
+
+Transport stability follows from $H$ and $C$. The $\hsame$ row moves the visible coordinates componentwise, and the continuation row replays the same source requests, tolerance windows, readbacks, schedules, and seal-boundary reads.
+
+Completion-handoff exactness uses $S,R,D,F$ in order. The finite schedule names the inspected windows, the regular readback and dyadic tolerance rows bind those windows to the L10 real route, and the Cauchy branch supplies the filter or net evidence before any completion-facing seal is visible.
+
+Finally inspect $P$ and $N$. Provenance names only the listed sibling packets and the local certificate row, so the excluded quotient, selected-limit, choice, compactness, and real-completeness principles have no coordinate from which a consumer could read them.
+\end{proof}
+
+\begin{theorem}[CauchySpace RegSeqRat and MetricCompletion handoff]
+\label{thm:cauchy-space-regseqrat-metriccompletion-handoff}
+Let $Q=(X,F,D,R,S,W,H,C,P,N)$ be an accepted $\CauchySpaceUp$ carrier. Every $\MetricCompletionUp$ or $\RealUp$ completion-facing consumer factors through the finite route
+$$
+\StreamNameUp(S)\longmapsto\RegSeqRatUp(R)\longmapsto\DyadicRatCoreUp(D)\longmapsto
+\bigl(\CauchyFilterUp(F)\ \mathrm{or}\ \CauchyNetUp(F)\bigr)
+\longmapsto W,H,C,P,N
+$$
+before reading any completion seal. Thus the completion-facing read is a consumer of the displayed stream schedule, regular rational readback, dyadic tolerance window, and chosen Cauchy evidence branch; it is not a quotient completion, selected limit, countable-choice selection, open-cover compactness witness, or completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Begin with the finite schedule. The row $S$ is the only stream-name surface available to a completion-facing consumer, so the consumer must first display the finite windows it intends to inspect.
+
+Next read $R$ and $D$. The regular rational row supplies the readback attached to those windows, and the dyadic row supplies the tolerance window governing the same requests.
+
+The Cauchy evidence row $F$ is then forced to be either the filter branch or the net branch over the source $X$. A completion-facing route cannot bypass that branch, because $W$ is downstream of $X,F,D,R,S$ in the carrier.
+
+The structural rows $H,C,P,N$ preserve the same route. They transport, replay, source, and name the displayed packet without adding a quotient carrier, selected limit, choice schedule, open-cover compactness row, or ambient completeness coordinate.
+\end{proof}
+
+\begin{closurestatus}{\CauchySpaceUp}
+  \constructivestory{A $\CauchySpaceUp$ packet is generated from a metric or uniform source row, a CauchyFilterUp or CauchyNetUp evidence branch, DyadicRatCore tolerance windows, RegSeqRat and RealUp readback boundary rows, a StreamName finite schedule, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-space-carrier}, \autoref{thm:cauchy-space-namecert-obligation-surface}, and \autoref{thm:cauchy-space-regseqrat-metriccompletion-handoff} seed the common finite Cauchy-space interface for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter refuses quotient completion, selected limits, countable choice, open-cover compactness, and completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, branch classifier agreement, transport stability, completion-handoff exactness, and ledger refusal for BEDC.Derived.CauchySpaceUp.}
+\end{closurestatus}
