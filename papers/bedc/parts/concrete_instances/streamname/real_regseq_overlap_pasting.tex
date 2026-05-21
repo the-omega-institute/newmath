@@ -341,3 +341,55 @@ window and overlap face. Each exported row is therefore a local StreamName
 row, a consumed RegSeqRat dyadic-ledger row, or a finite-window RealUp seal
 row on a certified member of the cover, as required.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real finite-cover descent support minimality]
+\label{thm:streamname-regseqrat-real-finite-cover-descent-support-minimality}
+Let $\{\mathcal{W}_i\}_{i\in I}$ be a finite family of certified
+$\StreamNameUp$ rational windows satisfying the hypotheses of
+\autoref{thm:streamname-regseqrat-real-finite-cover-descent-exactness}. For
+the descended finite surface produced there, none of the displayed support
+rows can be deleted while presenting the same descended surface.
+
+More precisely, deleting any local $\StreamNameUp$ row displayed on a cover
+member, any consumed $\DyadicRatCoreUp$ ledger row on an overlap, any
+$\RegSeqRatUp$ handoff row induced from such a ledger, any finite-window
+$\RealUp$ seal row, or any shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or
+$\NameCert$ support row prevents the same cover-indexed finite surface from
+being presented. Quotient streams, host index equalities, selected limits,
+countable-choice selectors, metric-completeness rows, bridge rows, and ambient
+$\RealUp$ completeness rows cannot replace the deleted support.
+\end{theorem}
+\begin{proof}
+First restrict the alleged presentation of the same descended surface to a
+cover member containing the deleted local row. By
+\autoref{thm:streamname-regseqrat-real-finite-cover-descent-exactness}, every
+row of the descended surface restricts on that member or on one of its
+certified overlaps to a unique local $\StreamNameUp$ row, consumed
+$\DyadicRatCoreUp$ ledger row, induced $\RegSeqRatUp$ handoff row, or
+finite-window $\RealUp$ seal row. Thus the restricted presentation must
+recover exactly the deleted row if the descended surface is unchanged.
+
+For a deleted overlap ledger or handoff row, restrict instead to an overlap
+face. The pairwise source is pinned by the unique-source hypotheses used in
+the descent theorem, and the compatibility of threefold restrictions is the
+one supplied by
+\autoref{thm:streamname-regseqrat-real-triple-overlap-pasting}. Hence two
+presentations of the same finite surface must read the same shared
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows on the
+overlap; omitting one of them changes the overlap face rather than merely its
+description.
+
+Next apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion} on the
+affected window or overlap. The theorem exhausts the visible handoff by the
+StreamName source rows, the consumed dyadic ledger, and the finite seal rows,
+so a missing displayed row has no second source inside the handoff surface.
+
+Finally use \autoref{thm:streamname-real-regseq-obligation-separation}. It
+keeps quotient streams, host index equalities, selected limits,
+countable-choice selectors, metric-completeness data, bridge rows, and
+ambient $\RealUp$ completeness outside the StreamName source and its
+finite-window RegSeqRat and Real faces. Those downstream or ambient rows
+therefore cannot substitute for the deleted support row, and the same
+descended finite surface cannot be presented after the deletion.
+\end{proof}
