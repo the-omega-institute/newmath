@@ -3080,6 +3080,7 @@ import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.IntervalBisectionUp.TasteGate
 import BEDC.Derived.IntervalUp
+import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
 import BEDC.Derived.IwasawaUp
