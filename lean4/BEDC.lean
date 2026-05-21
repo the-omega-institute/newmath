@@ -1131,6 +1131,7 @@ import BEDC.Derived.CausalCommitmentUp.ObservedRegularityNonchoice
 import BEDC.Derived.CausalCommitmentUp.ObserverLocalityHandoff
 import BEDC.Derived.CausalCommitmentUp.ObserverRowFactorization
 import BEDC.Derived.CausalCommitmentUp.PublicForwardGapExport
+import BEDC.Derived.CausalCommitmentUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.RecordPredictionSeparation
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalInterventionUp
@@ -3874,6 +3875,7 @@ import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RatClassifierTransportSealUp.ClassifierHandoffDeterminacy
+import BEDC.Derived.RatClassifierTransportSealUp.HandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.NameCertObligations
 import BEDC.Derived.RatClassifierTransportSealUp.TasteGate
 import BEDC.Derived.RatClassifierTransportSealUp.WindowExhaustion
