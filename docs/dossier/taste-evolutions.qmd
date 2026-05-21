@@ -20,21 +20,20 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-21T03:07:28Z
+> 最后刷新: 2026-05-21T06:49:26Z
 
-**Daemon 状态**: research (monitor cycle 1, adjust_since_research 0, round_counter 2991, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 1, adjust_since_research 1, round_counter 3328, last_adjust rule_evolution_completed)
 
-**待处理 queue** (31 条 finding):
+**待处理 queue** (32 条 finding):
+- isolated_theorem: 16 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - low_entropy_template: 16 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
-- isolated_theorem: 12 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
-- missing_origin: 3 条; 代表样本 `banach`, `int`, `continuousmap`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 77 次
+- TASTE ALERT category=isolated_theorem: 98 次
 - TASTE ALERT category=mislabeled_composite: 45 次
-- TASTE ALERT category=low_entropy_template: 25 次
+- TASTE ALERT category=low_entropy_template: 24 次
+- TASTE ALERT category=research_non_negative_criterion: 6 次
 - TASTE ALERT category=inventory_failed: 2 次
-- TASTE ALERT category=research_non_negative_criterion: 2 次
 - TASTE ALERT category=rule_evolution_failed: 2 次
 - TASTE ALERT category=cycle_exception: 1 次
 - TASTE ALERT category=missing_origin: 1 次
@@ -107,6 +106,14 @@ negative criterion 是纯机器形态: `\origin{ai}` 的 `<X>Up` 若位于至少
 
 Ship: commit `f63171aa56a7b4f94fe52a57bac39800a4b26331`. Detector/gate: recorded by daemon after merge.
 
+### 2026-05-21 — chapter lineage 缺失
+
+**2026-05-21 05:16 — `\chapter` 没有机器 lineage**
+
+daemon queue 给出 3 个 `missing_origin` finding, 代表样本是 `banach` / `int` / `continuousmap`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `83c0631cbce7f2106933835a15fce0b3a29fbfeb` 约束。Codex 先按 current HEAD 查队列样本: `banach/intro_and_carrier.tex` 已有 `\origin{human}`, `06_int_namecert_construction.tex` 和 `108_continuousmap_namecert_construction.tex` 当前只是 hub, 不含 `\chapter{...}`。所以旧 cluster 本身不足以证明 concrete-instance 专用规则。
+
+Codex 随后用 Python 扫 `papers/bedc/parts/**/*.tex`, 找到 137 个当前 `\chapter{...}` 文件没有顶层 `\origin{...}`, 代表证据包括 `papers/bedc/parts/acceptance/01_derivation_acceptance_gate.tex:1`, `papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex:1`, `papers/bedc/parts/acceptance/03_cannot_claim_registry.tex:1`。negative criterion 是: paper parts 下任何实际 chapter 文件如果缺少唯一顶层 `\origin{human}` 或 `\origin{ai}`, 就拒绝; hub-only `\input` 文件不在这个规则内。改动落在 `lean4/scripts/bedc_ci.py`, `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; `detect_paper_chapter_origin_tags()` 现在在 audit 中输出 new/legacy split, Review/Revise prompt 要求新 chapter 自带唯一合法 lineage。
+
 ## RESEARCH 探索历史
 
 每次 RESEARCH cycle daemon 派 Codex 扫整个 corpus, 目标是找现有 detector 没覆盖的新平凡 pattern。这里记录探索范围和结论；没 ship 的探索也保留, 因为 operator 需要知道 daemon 不是只在成功时才留下痕迹。
@@ -117,6 +124,15 @@ Ship: commit `f63171aa56a7b4f94fe52a57bac39800a4b26331`. Detector/gate: recorded
 
 - 2026-05-20T10:57:59Z: 用 META_PROMPT_RESEARCH (commit `048a4b867156ddd04025b77358d8f4b01c2d25ec`). 探索方向: 自决 corpus 扫描。报告 0 个候选; codex 没给出达到 evidence 门槛的新 negative pattern。 没有写入 queue。
 
+- 2026-05-21T04:11:33Z: 用 META_PROMPT_RESEARCH (commit `9e55faef2d6fb394a7b63c92b3763efd8e8c4b95`). 探索方向: 自决 corpus 扫描。报告 0 个候选; codex 没给出达到 evidence 门槛的新 negative pattern。 没有写入 queue。
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
+
+## 演化时间线
+
+### 2026-05-21 — missing origin
+
+Ship: commit `d25a5c4ebdd190317541c4de6cc9b39c24a22857`. Detector/gate: recorded by daemon after merge.
+

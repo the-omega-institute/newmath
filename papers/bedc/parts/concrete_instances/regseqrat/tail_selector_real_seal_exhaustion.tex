@@ -271,3 +271,59 @@ row for quotient streams, host real equality, selected limits, completion
 points, countable choice, metric completeness, aggregate status, bridge data,
 a second seal coordinate, or ambient $\RealUp$ completeness.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-selector diagonal cover source coherence]
+\label{thm:regseqrat-tail-selector-diagonal-cover-source-coherence}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal U$ be a finite
+certified cover of $\RealUp$ seal requests over $P$. Suppose every member of
+$\mathcal U$ is served by a certified cofinal RegSeqRat tail selector. Suppose
+also that every pairwise overlap preserves the displayed $\StreamNameUp$
+window rows, the $\DyadicRatCoreUp$ endpoint, radius, and finite
+dyadic-distance ledgers, the RegSeqRat classifier and regularity rows, the
+componentwise $\hsame$ rows, the displayed $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RegSeqRatUp}$ rows.
+Then all cover members determine one diagonal BEDC-visible $\RealUp$ seal
+source section.
+
+The diagonal source section is the single finite
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ source section
+seen simultaneously by every cover member and every overlap. It contains no
+quotient stream, selected limit, host real equality, countable-choice row,
+metric-completeness row, aggregate status row, bridge row, second seal
+coordinate, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+First glue the finite cover at the visible seal surface. Apply
+\autoref{thm:regseqrat-tail-selector-finite-cover-gluing}. This produces one
+BEDC-visible $\RealUp$ seal source section whose displayed rows are exactly
+the StreamName windows, dyadic endpoint, radius, and distance ledgers,
+RegSeqRat classifier and regularity rows, componentwise $\hsame$, displayed
+$\Cont$, $\mathsf{Pkg}$ provenance, and local
+$\NameCert_{\RegSeqRatUp}$ rows carried by the cover.
+
+Next make the gluing independent of the chosen cover member. For each member,
+apply \autoref{thm:regseqrat-tail-selector-cofinal-request-determinacy}. The
+overlap hypotheses identify the same schedule, dyadic ledger, classifier,
+regularity, support, provenance, and local naming rows, so the section read
+from that member is the section read from the glued cover.
+
+Now compare different cofinal tail selectors that serve the same overlap.
+Apply \autoref{thm:regseqrat-tail-selector-cofinal-refinement-monotonicity}.
+Refining a request may shrink the finite tail window, but it preserves the
+displayed rows that feed the seal source section. Hence all refinements still
+read the same diagonal section.
+
+The remaining coherence is the common finite window. Use
+\autoref{thm:streamname-tail-compatible-window-cofinal-bundle-lock} to lock
+the cofinal StreamName windows across the cover, and use
+\autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}
+to read the endpoint, radius, distance, transport, continuation, package, and
+local naming rows through the same four-face dyadic pullback.
+
+These two locks leave only the displayed finite source section. Since the
+cited packets export no quotient streams, selected limits, host real equality,
+countable choice, metric completeness, aggregate status, bridge data, second
+seal coordinate, or ambient $\RealUp$ completeness, no extra BEDC-visible row
+can separate one cover member from another. The cover members therefore
+determine one diagonal $\RealUp$ seal source section.
+\end{proof}

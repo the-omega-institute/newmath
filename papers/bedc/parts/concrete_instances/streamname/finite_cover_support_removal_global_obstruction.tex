@@ -152,3 +152,107 @@ displayed local support, and no quotient equality, selected limit, choice
 principle, metric-completeness datum, bridge row, ambient completeness
 principle, or replacement selector is an extra coordinate.
 \end{proof}
+
+\begin{theorem}[StreamName finite-cover support preservation reflection]
+\label{thm:streamname-finite-cover-support-preservation-reflection}
+Let $\{Q_i\}_{i \in I}$ and $\{R_k\}_{k \in K}$ be accepted finite covers of
+the same current Phase $\RealUp$ and Completion terminal $\StreamNameUp$
+request section. Suppose they admit an accepted common refinement
+$\{S_\ell\}_{\ell \in L}$, and suppose the descended finite-cover terminal
+support packets present the same $\RealUp$ seal-visible source. Then, after
+pullback to the accepted common refinement, the two presentations agree on
+the four visible faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+and $\RealUp$, and on the displayed $\BHist$, componentwise $\hsame$,
+$\Cont$, $\Pkg$, and local \NameCert{} rows.
+
+The reflection direction has exactly the same boundary as the exactness
+direction. It reflects only the finite-cover L10 support rows and does not
+reflect quotient stream equality, selected limits, countable choice,
+metric-completeness data, bridge rows, aggregate formalstatus rows, ambient
+$\RealUp$ completeness, or replacement regularity selectors.
+\end{theorem}
+\begin{proof}
+Argue contrapositively on the accepted common refinement. Suppose that after
+pullback the two presentations differ on one of the four visible faces or on
+one displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, or local
+\NameCert{} row.
+
+By
+\autoref{thm:streamname-finite-cover-terminal-support-defect-localization},
+the changed or missing displayed row localizes a finite-cover terminal defect
+on some accepted refined member or accepted refined overlap. The defect is
+not an invisible presentation choice: it lies on one of the rows from which
+the refined terminal support packet reads its carrier verdict, classifier
+verdict, or consumer-facing terminal route.
+
+Apply
+\autoref{thm:streamname-finite-cover-support-removal-global-obstruction} to
+that localized support defect. A refined presentation with such a defect
+cannot present the same $\RealUp$ seal-visible source merely by deleting,
+changing, or omitting the displayed row. The obstruction also rules out
+quotient stream equality, selected limits, countable choice,
+metric-completeness data, bridge rows, aggregate formalstatus rows, ambient
+$\RealUp$ completeness, and replacement regularity selectors as substitute
+coordinates for the defective row.
+
+Finally use
+\autoref{thm:streamname-finite-cover-support-invariance-under-refinement}.
+Passing between the original finite covers and the accepted common refinement
+cannot hide the localized defect or convert it into the same descended
+$\RealUp$ seal-visible source. Therefore the assumed sameness of the
+descended source forces agreement, after pullback, on all four visible faces
+and on the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and
+local \NameCert{} rows.
+
+Together with
+\autoref{thm:streamname-finite-cover-support-preservation-exactness}, this
+gives the bidirectional finite-cover support criterion for the L10
+StreamName exit: preserving exactly the displayed finite support yields the
+same descended $\RealUp$ source, and the same descended $\RealUp$ source
+reflects preservation of exactly that displayed finite support.
+\end{proof}
+
+\begin{theorem}[StreamName finite-cover support bicriterion]
+\label{thm:streamname-finite-cover-support-bicriterion}
+Let $\{Q_i\}_{i \in I}$ and $\{R_k\}_{k \in K}$ be accepted finite covers of
+the same current Phase $\RealUp$ and Completion terminal $\StreamNameUp$
+request section, and suppose that they admit an accepted common refinement
+$\{S_\ell\}_{\ell \in L}$. The descended finite-cover terminal support packets
+present the same $\RealUp$ seal-visible source if and only if, after pullback
+to the accepted common refinement, the two presentations agree on the four
+visible faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, and on the displayed $\BHist$, componentwise $\hsame$, $\Cont$,
+$\Pkg$, and local \NameCert{} rows.
+
+This bicriterion is only a criterion for the finite-cover L10 support surface.
+It excludes quotient stream equality, selected limits, countable choice,
+metric-completeness data, bridge rows, aggregate formalstatus rows, ambient
+$\RealUp$ completeness, and replacement regularity selectors; none of these is
+an additional coordinate of the descended support packet, and none is
+recovered from the agreement assertion.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the descended finite-cover terminal support
+packets present the same $\RealUp$ seal-visible source. Apply
+\autoref{thm:streamname-finite-cover-support-preservation-reflection}. It
+reflects that sameness back to agreement, after pullback to the accepted
+common refinement, on the four visible faces and on the displayed $\BHist$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and local \NameCert{} rows.
+
+For the reverse direction, assume agreement after pullback on exactly those
+visible faces and displayed support rows. Apply
+\autoref{thm:streamname-finite-cover-support-preservation-exactness}. The
+exactness theorem descends that preserved finite support to the same
+$\RealUp$ seal-visible source for the two finite-cover terminal support
+packets.
+
+Finally record the boundary of the equivalence. The exactness direction does
+not add quotient stream equality, selected limits, countable choice,
+metric-completeness data, bridge rows, ambient $\RealUp$ completeness, or
+replacement regularity selectors, and the reflection direction does not
+reflect quotient stream equality, selected limits, countable choice,
+metric-completeness data, bridge rows, aggregate formalstatus rows, ambient
+$\RealUp$ completeness, or replacement regularity selectors. Therefore the
+criterion binds only the displayed finite-cover support rows and has no hidden
+coordinate beyond them.
+\end{proof}

@@ -101,6 +101,34 @@ accepted readings are therefore conditional bridge citations and the listed
 unconditional fragments, not the full confluence claims.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit packet closed substitution boundary]
+\label{thm:metacic-confluence-audit-packet-closed-substitution-boundary}
+An accepted $\MetaCICConfluenceAuditPacketUp$ carrier may expose
+$\mathsf{BetaParallelClosedSubstitutionCompatibility}$ only as a closed-face
+boundary whose inputs include $\mathsf{ClosedAt}\ 0\ a$ and
+$\mathsf{ClosedAt}\ 1\ b$. The unclosed substitution obstruction remains
+outside that face, so the packet may not cite the obstruction as a
+closed-diamond proof or as a discharge of the closed Church--Rosser
+substitution input.
+\end{theorem}
+\begin{proof}
+Project the row $S$. It records substitution compatibility as a named boundary,
+and \autoref{thm:metacic-confluence-audit-packet-conditional-boundary} already
+states that the generic substitution input is not produced by the packet.
+
+The closed face is narrower than the generic input. Its stated compatibility
+requires the closedness hypotheses $\mathsf{ClosedAt}\ 0\ a$ and
+$\mathsf{ClosedAt}\ 1\ b$, while the Lean-side theorem
+\texttt{betaParallel\_closed\_substitution\_compatibility\_obstruction} records
+the obstruction that prevents the unclosed path from supplying those closed
+inputs.
+
+Therefore a downstream closed Church--Rosser consumer still needs an explicit
+closed compatibility row. The audit packet can route the boundary and can name
+the obstruction, but it cannot convert the obstruction into the closed
+substitution premise demanded by the closed diamond route.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit packet subject-reduction separation]
 \label{thm:metacic-confluence-audit-packet-subject-reduction-separation}
 The subject-reduction separation row $R$ of an accepted

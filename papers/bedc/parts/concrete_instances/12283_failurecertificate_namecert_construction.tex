@@ -31,6 +31,7 @@ The carrier contains no coordinate for a private gate override, prose repair, ho
 \label{thm:failure-certificate-gate-blocking}
 For every accepted $\FailureCertificateUp$ packet $F=(N_0,C,V,A,B,D,H,K,P,L)$, the failed-axis row $A$ and blocked-gate row $B$ jointly determine which gate is blocked for the named claim $N_0$. A theory-side failure blocks the theory gate named by $B$, a verification-side failure blocks the formal-status gate named by $B$, and an axis-confusion failure blocks the combined verified gate named by $B$. No accepted packet can recover the blocked gate from $D,H,K,P,L$ alone.
 \end{theorem}
+\leanchecked{BEDC.Derived.FailureCertificateUp.FailureCertificate\_gate\_blocking}
 \begin{proof}
 Project the finite carrier of \autoref{def:failure-certificate-carrier}. The row $A$ records the typed failure branch, while $B$ records the gate whose acceptance is denied. These rows are read before diagnostic replay, provenance, or local naming can be consumed.
 
