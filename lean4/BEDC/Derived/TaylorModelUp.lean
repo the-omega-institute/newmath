@@ -144,4 +144,38 @@ theorem TaylorModelCarrier_seed_public_package [AskSetup] [PackageSetup]
   exact ⟨coefficientRead, coefficientReadUnary, consumerUnary, rfl, ledgerRow, evalRow,
     endpointPkg, provenancePkg, nameCertPkg⟩
 
+theorem TaylorModelCarrier_finite_jet_prefix_restriction [AskSetup] [PackageSetup]
+    {center jet remainder ledger eval validated readback provenance nameCert sameRows route
+      endpoint subJet subEval subEndpoint coefficientRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TaylorModelCarrier center jet remainder ledger eval validated readback provenance nameCert
+        sameRows route endpoint bundle pkg ->
+      hsame subJet jet ->
+        Cont center subJet subEval ->
+          Cont subEval readback subEndpoint ->
+            Cont subEndpoint validated coefficientRead ->
+              PkgSig bundle subEndpoint pkg ->
+                UnaryHistory subJet ∧ UnaryHistory subEval ∧ UnaryHistory subEndpoint ∧
+                  UnaryHistory coefficientRead ∧ hsame eval (append center jet) ∧
+                    Cont center subJet subEval ∧ Cont subEval readback subEndpoint ∧
+                      Cont subEndpoint validated coefficientRead ∧
+                        PkgSig bundle subEndpoint pkg := by
+  intro carrier sameSubJet centerSubJet subEvalReadback subEndpointValidated subEndpointPkg
+  obtain ⟨centerUnary, jetUnary, _remainderUnary, _ledgerUnary, _evalUnary, validatedUnary,
+    readbackUnary, _provenanceUnary, _nameCertUnary, _sameRowsUnary, _routeUnary,
+    _endpointUnary, _ledgerRow, evalRow, _sameRowsRoute, _centerJetEval,
+    _remainderLedgerReadback, _evalReadbackEndpoint, _endpointPkg, _provenancePkg,
+    _nameCertPkg⟩ := carrier
+  have subJetUnary : UnaryHistory subJet :=
+    unary_transport jetUnary (hsame_symm sameSubJet)
+  have subEvalUnary : UnaryHistory subEval :=
+    unary_cont_closed centerUnary subJetUnary centerSubJet
+  have subEndpointUnary : UnaryHistory subEndpoint :=
+    unary_cont_closed subEvalUnary readbackUnary subEvalReadback
+  have coefficientReadUnary : UnaryHistory coefficientRead :=
+    unary_cont_closed subEndpointUnary validatedUnary subEndpointValidated
+  exact
+    ⟨subJetUnary, subEvalUnary, subEndpointUnary, coefficientReadUnary, evalRow,
+      centerSubJet, subEvalReadback, subEndpointValidated, subEndpointPkg⟩
+
 end BEDC.Derived.TaylorModelUp
