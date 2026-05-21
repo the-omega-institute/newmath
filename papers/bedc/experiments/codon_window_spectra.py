@@ -2057,6 +2057,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         codon: sum(1 for left, right in closure_edges if codon in (left, right))
         for codon in sorted(anchor_closure)
     }
+    support_tuple = tuple(sorted(support))
     median_set, median_stages = median_closure(support)
     convex_set, convex_stages = interval_closure(support)
     wnr_set = set(expand_iupac_motif("WNR"))
@@ -2064,6 +2065,26 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     wyg_set = set(expand_iupac_motif("WYG"))
     median_formula_union = wnr_set | cun
     median_complex = cubical_complex_summary(median_set)
+    median_stage_one = support | set(median_stages[0]["added"])
+    median_stage_one_formula = (wnr_set - {"ACG"}) | cun
+    median_stage_one_complex = cubical_complex_summary(median_stage_one)
+    median_stage_delta_f = tuple(
+        median_complex["f_vector"][index] - median_stage_one_complex["f_vector"][index]
+        for index in range(len(median_complex["f_vector"]))
+    )
+    active_one_step_medians = {
+        median_codon(left, middle, right)
+        for left, middle, right in itertools.combinations_with_replacement(support_tuple, 3)
+    }
+    median_first_step_witnesses = [
+        {"codon": "ACA", "triple": ("AGA", "ATA", "TCA")},
+        {"codon": "TGG", "triple": ("AGG", "TAG", "TGA")},
+        {"codon": "AAG", "triple": ("AAA", "AGG", "TAG")},
+        {"codon": "ATG", "triple": ("AGG", "ATA", "CTG")},
+        {"codon": "TCG", "triple": ("AGG", "TCA", "CTC")},
+        {"codon": "TTG", "triple": ("ATA", "CTG", "TAG")},
+    ]
+    median_second_step_witness = {"codon": "ACG", "triple": ("TGG", "ATG", "ACA")}
     maximal_median_cells: list[dict[str, object]] = []
     median_cells = [
         cell
@@ -2079,7 +2100,6 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             maximal_median_cells.append(cell)
     maximal_median_cells.sort(key=lambda cell: (-len(cell["free_bits"]), cell["vertices"]))
     median_boundary_edges = 6 * len(median_set) - 2 * median_complex["f_vector"][1]
-    support_tuple = tuple(sorted(support))
     minimal_median_generators: list[tuple[str, ...]] = []
     minimal_median_generator_size = 0
     for size in range(1, len(support_tuple) + 1):
@@ -2312,6 +2332,35 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "yur_inter_wnr": tuple(sorted(yur_set & wnr_set)),
             "yur_inter_cun": tuple(sorted(yur_set & cun)),
             "boundary_edge_count": median_boundary_edges,
+        },
+        "median_depth_sealing": {
+            "stage_count": len(median_stages),
+            "stages": median_stages,
+            "stage_one_closure": tuple(sorted(median_stage_one)),
+            "stage_one_size": len(median_stage_one),
+            "stage_one_formula": tuple(sorted(median_stage_one_formula)),
+            "stage_one_formula_matches": median_stage_one == median_stage_one_formula,
+            "stage_one_missing_from_median": tuple(sorted(median_set - median_stage_one)),
+            "stage_one_complex": median_stage_one_complex,
+            "median_complex": median_complex,
+            "sealing_corner": "ACG",
+            "sealing_delta_f": median_stage_delta_f,
+            "active_one_step_new": tuple(sorted(active_one_step_medians - support)),
+            "active_one_step_contains_sealing_corner": "ACG" in active_one_step_medians,
+            "strict_second_order_points": tuple(sorted(median_set - support - (active_one_step_medians - support))),
+            "first_step_witnesses": [
+                {
+                    **row,
+                    "median": median_codon(*row["triple"]),
+                    "valid": median_codon(*row["triple"]) == row["codon"],
+                }
+                for row in median_first_step_witnesses
+            ],
+            "second_step_witness": {
+                **median_second_step_witness,
+                "median": median_codon(*median_second_step_witness["triple"]),
+                "valid": median_codon(*median_second_step_witness["triple"]) == median_second_step_witness["codon"],
+            },
         },
         "generator_robustness": {
             "minimal_median_generator_size": minimal_median_generator_size,
@@ -3490,6 +3539,44 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert median["yur_inter_wnr"] == ("TTA", "TTG")
     assert median["yur_inter_cun"] == ("CTA", "CTG")
     assert median["boundary_edge_count"] == 44
+    sealing = summary["support_compression"]["median_depth_sealing"]
+    assert sealing["stage_count"] == 2
+    assert sealing["stages"] == [
+        {"stage": 1, "added_count": 6, "added": ("AAG", "ACA", "ATG", "TCG", "TGG", "TTG"), "total_size": 19},
+        {"stage": 2, "added_count": 1, "added": ("ACG",), "total_size": 20},
+    ]
+    assert sealing["stage_one_size"] == 19
+    assert sealing["stage_one_closure"] == (
+        "AAA", "AAG", "ACA", "AGA", "AGG", "ATA", "ATG", "CTA",
+        "CTC", "CTG", "CTT", "TAA", "TAG", "TCA", "TCG", "TGA",
+        "TGG", "TTA", "TTG",
+    )
+    assert sealing["stage_one_formula_matches"] is True
+    assert sealing["stage_one_missing_from_median"] == ("ACG",)
+    assert sealing["stage_one_complex"]["f_vector"] == (19, 34, 20, 4, 0, 0, 0)
+    assert sealing["stage_one_complex"]["max_dimension"] == 3
+    assert sealing["stage_one_complex"]["euler_characteristic"] == 1
+    assert sealing["stage_one_complex"]["boundary_ranks"] == {1: 18, 2: 16, 3: 4, 4: 0, 5: 0, 6: 0}
+    assert sealing["stage_one_complex"]["betti"] == (1, 0, 0, 0)
+    assert sealing["sealing_corner"] == "ACG"
+    assert sealing["sealing_delta_f"] == (1, 4, 6, 4, 1, 0, 0)
+    assert sealing["active_one_step_new"] == ("AAG", "ACA", "ATG", "TCG", "TGG", "TTG")
+    assert sealing["active_one_step_contains_sealing_corner"] is False
+    assert sealing["strict_second_order_points"] == ("ACG",)
+    assert sealing["first_step_witnesses"] == [
+        {"codon": "ACA", "triple": ("AGA", "ATA", "TCA"), "median": "ACA", "valid": True},
+        {"codon": "TGG", "triple": ("AGG", "TAG", "TGA"), "median": "TGG", "valid": True},
+        {"codon": "AAG", "triple": ("AAA", "AGG", "TAG"), "median": "AAG", "valid": True},
+        {"codon": "ATG", "triple": ("AGG", "ATA", "CTG"), "median": "ATG", "valid": True},
+        {"codon": "TCG", "triple": ("AGG", "TCA", "CTC"), "median": "TCG", "valid": True},
+        {"codon": "TTG", "triple": ("ATA", "CTG", "TAG"), "median": "TTG", "valid": True},
+    ]
+    assert sealing["second_step_witness"] == {
+        "codon": "ACG",
+        "triple": ("TGG", "ATG", "ACA"),
+        "median": "ACG",
+        "valid": True,
+    }
     robustness = summary["support_compression"]["generator_robustness"]
     assert robustness["minimal_median_generator_size"] == 7
     assert robustness["minimal_median_generator_count"] == 2
