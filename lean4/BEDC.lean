@@ -2260,6 +2260,7 @@ import BEDC.Derived.DyadicBallUp.RefinementOverlap
 import BEDC.Derived.DyadicBallUp.Tail
 import BEDC.Derived.DyadicBallUp.WindowRefinement
 import BEDC.Derived.DyadicBisectionUp
+import BEDC.Derived.DyadicBisectionUp.TasteGate
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCoverUp
@@ -4480,6 +4481,7 @@ import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SignedDigitRealUp
+import BEDC.Derived.SignedDigitRealUp.TasteGate
 import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.SignedDigitStreamUp.Core
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
@@ -4548,6 +4550,7 @@ import BEDC.Derived.StationaryDiagonalWindowUp.TasteGate
 import BEDC.Derived.StationaryPartitionDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StationaryRationalDiagonalUp
+import BEDC.Derived.StationaryRationalDiagonalUp.TasteGate
 import BEDC.Derived.StationaryWindowLatticeUp.TasteGate
 import BEDC.Derived.StationaryWindowNaturalityUp.TasteGate
 import BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
