@@ -1,4 +1,4 @@
-import BEDC.Derived.FiniteLebesgueNumberUp
+import BEDC.Derived.FiniteLebesgueNumberUp.Core
 
 namespace BEDC.Derived.FiniteLebesgueNumberUp
 
@@ -10,7 +10,37 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem FiniteLebesgueNumberRadiusCarrierSource [AskSetup] [PackageSetup]
+theorem FiniteLebesgueNumberCompactContinuousTriad [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactRow continuousRow
+      uniformRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont radius mesh compactRow ->
+        Cont compactRow route continuousRow ->
+          Cont continuousRow nameRow uniformRow ->
+            PkgSig bundle uniformRow pkg ->
+              UnaryHistory compactRow ∧ UnaryHistory continuousRow ∧
+                UnaryHistory uniformRow ∧ Cont radius mesh compactRow ∧
+                  Cont compactRow route continuousRow ∧
+                    Cont continuousRow nameRow uniformRow ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle uniformRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier radiusMeshCompact compactRouteContinuous continuousNameUniform uniformPkg
+  obtain ⟨_coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have compactUnary : UnaryHistory compactRow :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshCompact
+  have continuousUnary : UnaryHistory continuousRow :=
+    unary_cont_closed compactUnary routeUnary compactRouteContinuous
+  have uniformUnary : UnaryHistory uniformRow :=
+    unary_cont_closed continuousUnary nameRowUnary continuousNameUniform
+  exact
+    ⟨compactUnary, continuousUnary, uniformUnary, radiusMeshCompact,
+      compactRouteContinuous, continuousNameUniform, provenancePkg, uniformPkg⟩
+
+theorem FiniteLebesgueNumberDyadicRadiusWindowAdmissionCarrierSource [AskSetup] [PackageSetup]
     -- BEDC touchpoint anchor: BHist
     {cover window radius mesh transport route provenance nameRow radiusRead windowRead
       rootRead : BHist}
@@ -169,6 +199,31 @@ theorem FiniteLebesgueNumberDyadicRadiusWindowAdmission [AskSetup] [PackageSetup
     ⟨cert, radiusUnary, dyadicUnary, windowReadUnary, coverRadiusRead, dyadicWindowRead,
       provenancePkg, windowPkg⟩
 
+theorem FiniteLebesgueNumberRadiusCarrierSource [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow radiusRead rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont cover radius radiusRead ->
+        Cont route nameRow rootRead ->
+          PkgSig bundle rootRead pkg ->
+            UnaryHistory cover ∧ UnaryHistory radius ∧ UnaryHistory radiusRead ∧
+              UnaryHistory rootRead ∧ Cont cover radius radiusRead ∧
+                Cont route nameRow rootRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle rootRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier coverRadiusRead routeNameRoot rootPkg
+  obtain ⟨coverUnary, _windowUnary, radiusUnary, _meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed coverUnary radiusUnary coverRadiusRead
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameRoot
+  exact
+    ⟨coverUnary, radiusUnary, radiusReadUnary, rootReadUnary, coverRadiusRead,
+      routeNameRoot, provenancePkg, rootPkg⟩
+
 theorem FiniteLebesgueNumberRadiusRowDeterminacy [AskSetup] [PackageSetup]
     {cover window radius mesh transport route provenance nameRow compactRead uniformRead :
       BHist}
@@ -222,5 +277,6 @@ theorem FiniteLebesgueNumberRealPhaseSourceExhaustion [AskSetup] [PackageSetup]
     ⟨coverUnary, windowUnary, radiusUnary, meshUnary, auditUnary, terminalUnary,
       consumerUnary, coverWindowRadius, radiusMeshRoute, routeNameAudit,
       auditTerminalConsumer, provenancePkg, consumerPkg⟩
+
 
 end BEDC.Derived.FiniteLebesgueNumberUp
