@@ -1,0 +1,187 @@
+\begin{definition}[Partial-aware core state]
+\label{def:philosophy-partial-aware-core-state}
+The partial-aware core state of a genetic-code table is the
+$\mathcal H_{\mathrm{core}}$ state vector of
+\autoref{def:philosophy-core-hotspot-support}, except that ambiguous
+table rows are kept as separate labels. Thus a row such as
+$\mathrm{UGA}=\mathrm{Stop}\ \text{or}\ \mathrm{Trp}$ is recorded as
+$*|W$ rather than being collapsed to $W$ or to $*$.
+\end{definition}
+
+\begin{theorem}[Partial-aware core state spectrum]
+\label{thm:philosophy-partial-aware-core-state-spectrum}
+Across the comparison family, the partial-aware core states realize
+$22$ distinct states. The standard core state
+$$
+  (*,*,*,W,K,K,R,R,I)
+$$
+appears in exactly the tables
+$$
+  1,\quad 11,\quad 12,\quad 23,\quad 26.
+$$
+\end{theorem}
+\begin{proof}
+Read the nine core coordinates in the order
+$$
+  \mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG},
+  \mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},
+$$
+using the main one-letter row except when the difference table records
+an ambiguous row. Equal nine-tuples are then identified. The finite
+enumeration gives $22$ distinct states, with the standard tuple appearing
+in the five displayed table identifiers.
+\end{proof}
+
+\begin{definition}[Strict core state graph]
+\label{def:philosophy-strict-core-state-graph}
+Let $G_{1}(\mathcal H_{\mathrm{core}})$ be the graph whose vertices are
+the distinct partial-aware core states. Two vertices are adjacent when
+their nine-coordinate assignment vectors differ in exactly one
+coordinate.
+\end{definition}
+
+\begin{theorem}[Strict core state graph components]
+\label{thm:philosophy-strict-core-state-graph-components}
+The graph $G_{1}(\mathcal H_{\mathrm{core}})$ has $9$ connected
+components. Their sizes are
+$$
+  10,\quad 4,\quad 2,\quad 1,\quad 1,\quad 1,\quad 1,\quad 1,\quad 1.
+$$
+The component containing the standard state has ten vertices represented
+by the table groups
+$$
+\begin{gathered}
+  \{1,11,12,23,26\},\quad
+  \{32\},\quad
+  \{25\},\quad
+  \{16,22\},\quad
+  \{15\},\\
+  \{6\},\quad
+  \{27\},\quad
+  \{10\},\quad
+  \{4\},\quad
+  \{3\}.
+\end{gathered}
+$$
+The next two nontrivial components are represented by
+$$
+  \{5\},\{21\},\{9\},\{14\}
+$$
+and
+$$
+  \{24\},\{33\}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $22$ partial-aware core states of
+\autoref{thm:philosophy-partial-aware-core-state-spectrum}. For each
+pair of states, compute the Hamming distance of the nine assignment
+coordinates. Add an edge exactly when this distance is one. A finite
+connected-component computation gives the displayed component count,
+component sizes, and table-group representatives.
+\end{proof}
+
+\begin{corollary}[Single-coordinate dynamics is insufficient]
+\label{cor:philosophy-single-coordinate-dynamics-insufficient}
+The observed core states are not connected by strict single-coordinate
+changes. A state-system reading therefore requires module-level moves in
+addition to codon-coordinate Hamming edges.
+\end{corollary}
+\begin{proof}
+If strict single-coordinate moves connected the observed core state
+space, the graph $G_{1}(\mathcal H_{\mathrm{core}})$ would be connected.
+By \autoref{thm:philosophy-strict-core-state-graph-components}, it has
+nine connected components.
+\end{proof}
+
+\begin{definition}[Observed module generators]
+\label{def:philosophy-observed-module-generators}
+The observed module generators are schematic reassignment moves on the
+core support:
+$$
+\begin{array}{c|c}
+  \text{generator} & \text{support}\\
+\hline
+  g_{\mathrm{UGA}} & \{\mathrm{UGA}\}\\
+  g_{\mathrm{UAA/UAG}} & \{\mathrm{UAA},\mathrm{UAG}\}\\
+  g_{\mathrm{AGR}} & \{\mathrm{AGA},\mathrm{AGG}\}\\
+  g_{\mathrm{AUA}} & \{\mathrm{AUA}\}\\
+  g_{\mathrm{AAA}} & \{\mathrm{AAA}\}.
+\end{array}
+$$
+The labels record supports, not mechanistic causes. Each generator has
+several observed target labels, such as $g_{\mathrm{AGR}}$ sending
+$(R,R)$ to $(*,*)$, $(S,S)$, $(G,G)$, or $(S,K)$.
+\end{definition}
+
+\begin{theorem}[Module generators explain strict graph separation]
+\label{thm:philosophy-module-generators-explain-separation}
+Several observed core states differ from the standard state by a module
+combination rather than by a single coordinate. For example:
+$$
+\begin{array}{c|l}
+  \text{table} & \text{core module difference from standard}\\
+\hline
+  2 & g_{\mathrm{UGA}}+g_{\mathrm{AUA}}+g_{\mathrm{AGR}}\\
+  5 & g_{\mathrm{UGA}}+g_{\mathrm{AUA}}+g_{\mathrm{AGR}}\\
+  9 & g_{\mathrm{UGA}}+g_{\mathrm{AGR}}+g_{\mathrm{AAA}}\\
+  24 & g_{\mathrm{UGA}}+g_{\mathrm{AGR}}\\
+  33 & g_{\mathrm{UAA/UAG}}+g_{\mathrm{UGA}}+g_{\mathrm{AGR}}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Project each displayed table to the nine core coordinates and compare
+with the standard core state. Table $2$ changes $\mathrm{UGA}$,
+$\mathrm{AUA}$, and the $\mathrm{AGA}/\mathrm{AGG}$ pair. Table $5$
+has the same support pattern with a different AGR target. Table $9$
+changes $\mathrm{UGA}$, the AGR pair, and $\mathrm{AAA}$. Table $24$
+changes $\mathrm{UGA}$ and the AGR pair. Table $33$ changes a stop-arm
+coordinate, $\mathrm{UGA}$, and the AGR pair. These are module-support
+differences, not single-coordinate edges from the standard state.
+\end{proof}
+
+\begin{corollary}[Core dynamics uses hub, arm, satellite, leaf, and anchor roles]
+\label{cor:philosophy-core-dynamics-roles}
+The core state graph separates roles: $\mathrm{UGA}$ is the hub
+coordinate, $\mathrm{UAA}/\mathrm{UAG}$ forms a stop arm,
+$\mathrm{AGA}/\mathrm{AGG}$ forms the active satellite pair,
+$\mathrm{AUA}$ is the Ile/Met leaf coupled to the hub, $\mathrm{AAA}$ is
+a deeper hotspot point, and $\mathrm{UGG}$ and $\mathrm{AAG}$ are fixed
+anchors.
+\end{corollary}
+\begin{proof}
+The hub and inclusion relations are
+\autoref{cor:philosophy-core-reassignment-preorder}. The stop arm,
+satellite pair, leaf, and deeper point are the supports in
+\autoref{def:philosophy-observed-module-generators}. The anchors are
+\autoref{thm:philosophy-wrr-invariant-anchors}.
+\end{proof}
+
+\begin{theorem}[Core state graph cannot-claim boundary]
+\label{thm:philosophy-core-state-graph-cannot-claim-boundary}
+The strict core state graph and module generators do not license any
+claim that the observed tables form a temporal trajectory, that the
+generators are biochemical mutation mechanisms, that every generator can
+occur independently in nature, or that the finite comparison family
+exhausts all possible code states.
+\end{theorem}
+\begin{proof}
+The graph is built from observed assignment vectors and Hamming distances
+between them. The module generators summarize observed supports of
+difference from the standard state. Neither construction supplies time,
+mechanism, independence, or biological exhaustiveness.
+\end{proof}
+
+\begin{corollary}[Allowed module-state claim]
+\label{cor:philosophy-module-state-allowed-claim}
+The partial-aware core comparison is best read as a finite module-state
+system: strict single-coordinate adjacency is disconnected, while the
+observed differences organize into hub, arm, satellite, leaf, deeper
+point, and anchor roles.
+\end{corollary}
+\begin{proof}
+The disconnection is
+\autoref{cor:philosophy-single-coordinate-dynamics-insufficient}. The
+role decomposition is \autoref{cor:philosophy-core-dynamics-roles}.
+\end{proof}

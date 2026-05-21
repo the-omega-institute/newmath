@@ -24,6 +24,41 @@ TRANSFER_SQUARE = ("TGA", "TGG", "AGA", "AGG")
 ARG_MAIN_BOX = ("CGT", "CGC", "CGA", "CGG")
 ARG_SATELLITE = ("AGA", "AGG")
 SER_SATELLITE = ("AGT", "AGC")
+LABEL_NAMES = {
+    "STOP": "*",
+    "STOP *": "*",
+    "Ter": "*",
+    "Trp": "W",
+    "Trp W": "W",
+    "Gln": "Q",
+    "Gln Q": "Q",
+    "Glu": "E",
+    "Glu E": "E",
+    "Tyr": "Y",
+    "Tyr Y": "Y",
+    "Ser": "S",
+    "Ser S": "S",
+    "Lys": "K",
+    "Lys K": "K",
+    "Arg": "R",
+    "Arg R": "R",
+    "Ile": "I",
+    "Ile I": "I",
+    "Met": "M",
+    "Met M": "M",
+    "Gly": "G",
+    "Gly G": "G",
+    "Cys": "C",
+    "Cys C": "C",
+    "Ala": "A",
+    "Ala A": "A",
+    "Leu": "L",
+    "Leu L": "L",
+    "Asn": "N",
+    "Asn N": "N",
+    "Thr": "T",
+    "Thr T": "T",
+}
 
 
 def fetch_ncbi_page() -> str:
@@ -68,6 +103,48 @@ def parse_tables(text: str) -> dict[int, dict[str, str]]:
     if len(tables) != 27:
         raise RuntimeError(f"expected 27 tables, found {len(tables)}")
     return tables
+
+
+def normalize_difference_label(label: str) -> str:
+    label = " ".join(label.split())
+    if " or " in label:
+        return "|".join(normalize_difference_label(part) for part in label.split(" or "))
+    return LABEL_NAMES.get(label, label)
+
+
+def parse_difference_overrides(text: str) -> dict[int, dict[str, str]]:
+    heads = list(
+        re.finditer(
+            r"<h2>(\d+)\.\s*(.*?)\s*\(transl_table=(\d+)\)</h2>",
+            text,
+            re.S,
+        )
+    )
+    overrides: dict[int, dict[str, str]] = {}
+    for index, head in enumerate(heads):
+        table_id = int(head.group(3))
+        start = head.end()
+        end = heads[index + 1].start() if index + 1 < len(heads) else len(text)
+        segment = text[start:end]
+        match = re.search(r"<h4>Differences from the Standard Code:</h4>.*?<pre>(.*?)</pre>", segment, re.S)
+        rows: dict[str, str] = {}
+        if match:
+            block = re.sub(r"<.*?>", "", match.group(1))
+            for line in block.splitlines():
+                columns = re.split(r"\s{2,}", line.strip())
+                if len(columns) >= 3 and re.fullmatch(r"[UTCAG]{3}", columns[0]):
+                    rows[columns[0].replace("U", "T")] = normalize_difference_label(columns[1])
+        overrides[table_id] = rows
+    return overrides
+
+
+def partial_aware_tables(text: str) -> dict[int, dict[str, str]]:
+    tables = parse_tables(text)
+    overrides = parse_difference_overrides(text)
+    adjusted = {table_id: table.copy() for table_id, table in tables.items()}
+    for table_id, rows in overrides.items():
+        adjusted[table_id].update(rows)
+    return adjusted
 
 
 def all_codons() -> list[str]:
@@ -205,6 +282,43 @@ def containing_cube_patterns(cubes: list[dict[str, object]], tile: set[str]) -> 
     return patterns
 
 
+def state_components(tables: dict[int, dict[str, str]], codons: tuple[str, ...]) -> dict[str, object]:
+    states: dict[tuple[str, ...], list[int]] = collections.defaultdict(list)
+    for table_id, table in sorted(tables.items()):
+        states[tuple(table[codon] for codon in codons)].append(table_id)
+    nodes = list(states)
+    adjacency: dict[int, set[int]] = {index: set() for index in range(len(nodes))}
+    for left, right in itertools.combinations(range(len(nodes)), 2):
+        distance = sum(a != b for a, b in zip(nodes[left], nodes[right]))
+        if distance == 1:
+            adjacency[left].add(right)
+            adjacency[right].add(left)
+    seen: set[int] = set()
+    components: list[list[int]] = []
+    for index in range(len(nodes)):
+        if index in seen:
+            continue
+        stack = [index]
+        seen.add(index)
+        component: list[int] = []
+        while stack:
+            item = stack.pop()
+            component.append(item)
+            for neighbor in adjacency[item]:
+                if neighbor not in seen:
+                    seen.add(neighbor)
+                    stack.append(neighbor)
+        components.append(component)
+    components.sort(key=lambda component: (-len(component), min(min(states[nodes[index]]) for index in component)))
+    return {
+        "distinct_state_count": len(states),
+        "standard_state_tables": states[tuple(tables[1][codon] for codon in codons)],
+        "component_count": len(components),
+        "component_sizes": sorted([len(component) for component in components], reverse=True),
+        "components": [[states[nodes[index]] for index in component] for component in components],
+    }
+
+
 def reassignment_spectrum(tables: dict[int, dict[str, str]], cubes: list[dict[str, object]]) -> dict[str, object]:
     standard = tables[1]
     module_counts: collections.Counter[str] = collections.Counter()
@@ -319,7 +433,9 @@ def reassignment_spectrum(tables: dict[int, dict[str, str]], cubes: list[dict[st
 
 
 def build_summary() -> dict[str, object]:
-    tables = parse_tables(fetch_ncbi_page())
+    text = fetch_ncbi_page()
+    tables = parse_tables(text)
+    partial_tables = partial_aware_tables(text)
     standard = tables[1]
     q1_same, q1_diff = q1_spectrum(standard)
     q2_total, q2_geometry, three_one = q2_faces(standard)
@@ -340,6 +456,7 @@ def build_summary() -> dict[str, object]:
             "ile_met_neighborhoods": dict(containing_cube_patterns(cubes, MODULES["Ile/Met"])),
         },
         "reassignment": reassignment_spectrum(tables, cubes),
+        "partial_aware_core": state_components(partial_tables, CORE_HOTSPOT),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -396,6 +513,15 @@ def assert_expected(summary: dict[str, object]) -> None:
         "AAA_AGA": 3,
         "AAA_AGG": 3,
     }
+    assert summary["partial_aware_core"]["distinct_state_count"] == 22
+    assert summary["partial_aware_core"]["standard_state_tables"] == [1, 11, 12, 23, 26]
+    assert summary["partial_aware_core"]["component_count"] == 9
+    assert summary["partial_aware_core"]["component_sizes"] == [10, 4, 2, 1, 1, 1, 1, 1, 1]
+    assert summary["partial_aware_core"]["components"][:3] == [
+        [[1, 11, 12, 23, 26], [32], [25], [16, 22], [15], [6], [27], [10], [4], [3]],
+        [[5], [21], [9], [14]],
+        [[24], [33]],
+    ]
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
