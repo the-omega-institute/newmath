@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ProperMetricUp$}
+\label{ch:concrete-instances-propermetric-namecert}
+\origin{human}
+
+Following Bourbaki and Burago--Burago--Ivanov, the $\ProperMetricUp$ packet records constructive properness as compactness of displayed closed metric balls, not as open-cover compactness or choice-selected compactness. It reads the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the center-radius boundary rows of \autoref{ch:concrete-instances-metricclosedball-namecert}, the compact certificate surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the completion handoff of \autoref{ch:concrete-instances-completemetric-namecert}, and the located compact boundary of \autoref{ch:concrete-instances-locatedcompact-namecert}. The chapter fixes the traditional proper-metric interface needed by compactness and completion consumers while keeping every witness inside finite BEDC carrier rows.
+
+\begin{definition}[ProperMetric carrier]
+\label{def:proper-metric-carrier}
+A $\ProperMetricUp$ carrier is a finite $\BHist$ packet
+$$
+P=(X,B,K,L,T,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricSpaceUp$ row, including the point classifier, distance-witness source rows, metric-law ledger, and finite observation histories used by all downstream closed-ball reads.
+\item $B$ is a radius-indexed family of $\MetricClosedBallUp$ rows. For every displayed center row $c$ and every displayed nonnegative $\RatUp$ or $\RealUp$ radius row $r$, the entry $B(c,r)$ records the closed membership comparison $d(c,x)\leq_{\mathsf R} r$ through the center-radius surface of \autoref{def:metric-closed-ball-carrier}.
+\item $K$ assigns to each displayed closed ball $B(c,r)$ a $\CompactMetricUp$ witness row over the induced metric surface of that ball. This is the constructive properness datum: compactness is carried by explicit compact-metric rows for the shown balls.
+\item $L$ records the $\LocatedCompactUp$ row for each displayed compact closed ball, exposing finite-net and located-distance data when a consumer needs located compactness rather than only compactness.
+\item $T$ is the $\CompleteMetricUp$ handoff row. It states that the complete-metric consumer of a proper closed-ball window reads only the metric source row $X$, the closed-ball row $B(c,r)$, and the compact witness $K(c,r)$ before forming its completion-facing route.
+\item $H$ records componentwise $\hsame$ transports for the metric carrier, centers, radii, closed-ball membership rows, compact witnesses, located compact rows, and complete-metric handoff rows.
+\item $C$ records the displayed $\Cont$ routes from metric distance evaluation to closed-ball membership, from closed-ball membership to compact-metric witnesses, from compact witnesses to located compact reads, and from those rows to complete-metric handoff.
+\item $Q$ is the $\Pkg$ provenance over $\ProperMetricUp$, $\MetricSpaceUp$, $\MetricClosedBallUp$, $\CompactMetricUp$, $\CompleteMetricUp$, $\LocatedCompactUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProperMetricUp}$ row.
+\end{enumerate}
+The accepted carrier contains no open-cover compactness field, no host-selected center or radius, no quotient equality test on metric points, and no ambient real-completeness coordinate.
+\end{definition}
+
+\begin{theorem}[ProperMetric NameCert obligations]
+\label{thm:proper-metric-namecert-obligations}
+For an accepted packet $P=(X,B,K,L,T,H,C,Q,N)$, the local $\NameCert_{\ProperMetricUp}$ obligation surface consists exactly of carrier admission, displayed radius-window indexing, closed-ball membership transport, compact witness transport for every displayed closed ball, located compact handoff, complete-metric handoff, provenance non-escape, and local naming for the rows $X,B,K,L,T,H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed packet of \autoref{def:proper-metric-carrier}. The metric row $X$ supplies the point classifier and distance-witness rows, while $B$ exposes only closed-ball membership comparisons indexed by shown centers and radii.
+
+Radius-window indexing is finite and internal to the packet. Induct over the displayed list of center-radius windows. At each window, project the corresponding $\MetricClosedBallUp$ row and its compact witness $K(c,r)$; no host choice of centers or radii is used.
+
+Transport is componentwise. The ledger $H$ moves $X$, each $B(c,r)$, each $K(c,r)$, each located compact row $L(c,r)$, and the handoff row $T(c,r)$ along the displayed $\hsame$ routes, while $C$ replays the required continuation routes.
+
+Provenance and naming are exhausted by $Q$ and $N$. Since the carrier has no coordinate for open-cover compactness, quotient equality, selected centers, or ambient real completeness, none of those principles can appear in the local obligation surface.
+\end{proof}
+
+\begin{theorem}[ProperMetric closed-ball compactness]
+\label{thm:proper-metric-closed-ball-compactness}
+Every displayed closed ball in an accepted $\ProperMetricUp$ packet carries its compactness through the compact witness row already indexed by that ball:
+$$
+B(c,r)\longmapsto K(c,r).
+$$
+Thus a closed-ball compactness consumer reads the $\MetricSpaceUp$ source row, the $\MetricClosedBallUp$ membership row, the $\CompactMetricUp$ witness row, and their $\hsame$ and $\Cont$ transports, and it receives no open-cover compactness proof, selected center, quotient point equality, or ambient real-completeness theorem.
+\end{theorem}
+\begin{proof}
+Proceed by induction over the displayed finite radius-window list in the carrier. The empty list exports no closed-ball compactness claim.
+
+For a cons window $(c,r)$, project the row $B(c,r)$ and then project the paired compact witness $K(c,r)$. The route from $B(c,r)$ to $K(c,r)$ is one of the displayed $\Cont$ entries in $C$, and the equality-sensitive movement of the same rows is one of the componentwise $\hsame$ entries in $H$.
+
+The induction hypothesis covers the remaining windows. Repacking the head route with the recursive routes gives exactly the family of displayed closed-ball compactness witnesses and no additional compactness principle.
+\end{proof}
+
+\begin{theorem}[ProperMetric complete and located handoff]
+\label{thm:proper-metric-complete-located-handoff}
+For an accepted $\ProperMetricUp$ packet, every complete-metric or located-compact consumer of a displayed closed ball factors through
+$$
+X,\quad B(c,r),\quad K(c,r),\quad L(c,r),\quad T(c,r),\quad H,\quad C,\quad Q,\quad N .
+$$
+The handoff is therefore componentwise over the displayed closed-ball compact witnesses and does not import general Heine--Borel compactness, open-cover compactness, arbitrary properness beyond the shown windows, host choice of centers, quotient equality, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with a displayed closed-ball window $(c,r)$. The metric source row $X$ supplies the distance data, and $B(c,r)$ supplies the non-strict center-radius membership comparison.
+
+Next read the compact witness $K(c,r)$. A located-compact consumer continues through $L(c,r)$, while a complete-metric consumer continues through $T(c,r)$. Both routes are already named in $C$ and transported by $H$.
+
+The handoff is exact because $Q$ names only the cited sibling certificates and $N$ names only the local $\ProperMetricUp$ packet. No other row is available from the carrier, so the excluded classical and ambient principles cannot be recovered by a downstream consumer.
+\end{proof}
+
+\begin{closurestatus}{\ProperMetricUp}
+  \constructivestory{The construction starts from a certified metric carrier, attaches finite center-radius closed-ball rows, pairs each displayed ball with a compact-metric witness, and routes located compactness and complete-metric consumers through the same displayed transport and continuation ledgers.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proper-metric-carrier}, \autoref{thm:proper-metric-namecert-obligations}, \autoref{thm:proper-metric-closed-ball-compactness}, and \autoref{thm:proper-metric-complete-located-handoff} seed the constructive proper-metric interface as displayed closed-ball compact witnesses with complete and located handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{General Heine--Borel compactness, open-cover compactness, arbitrary properness beyond the displayed closed-ball compact witnesses, host-selected centers, quotient equality, and ambient real completeness are not claimed.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite radius-window indexing, closed-ball compact witness projection, located compact handoff, complete-metric handoff, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.ProperMetricUp.}
+\end{closurestatus}
