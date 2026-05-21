@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyAbsoluteValueUp$}
+\label{ch:concrete-instances-regular-cauchy-absolute-value-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the absolute value of a regular Cauchy real name is read by applying rational absolute value to each inspected dyadic observation and then checking that the same regular modulus still controls the resulting tail. The $\RegularCauchyAbsoluteValueUp$ packet records this operation as finite NameCert data over the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic absolute-value rows of \autoref{ch:concrete-instances-dyadicabsolutevalue-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It does not import a host real absolute-value function.
+
+\begin{definition}[Regular Cauchy absolute value carrier]
+\label{def:regular-cauchy-absolute-value-carrier}
+A $\RegularCauchyAbsoluteValueUp$ carrier is a finite $\BHist$ packet
+$$
+A=(Q,W,D,V,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the accepted $\RegSeqRatUp$ input row whose regular rational observations are being read.
+\item $W$ is the aligned $\StreamNameUp$ finite-window row opened from $Q$ for the requested precision scale.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the inspected dyadic endpoints, requested powers of two, and the comparison rows used by the regular Cauchy modulus.
+\item $V$ is the pointwise $\DyadicAbsoluteValueUp$ row applied to every dyadic endpoint displayed by $W$.
+\item $T$ is the regular rational readback row whose $n$th inspected entry is the dyadic absolute value of the corresponding inspected entry of $Q$.
+\item $R$ is the terminal $\RealUp$ seal row reached only after $Q,W,D,V,T$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the source, window, dyadic tolerance ledger, absolute-value row, regular readback, seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay for source inspection, finite-window opening, dyadic absolute-value evaluation, regularity-budget checking, and Real seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\DyadicAbsoluteValueUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyAbsoluteValueUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the displayed rows $Q,W,D,V,T,R,H,C,P,N$. It has no coordinate for host real absolute value, quotient equality of real names, trichotomy, ambient completeness, selected limits, or bridge data.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy absolute value NameCert obligations]
+\label{thm:regular-cauchy-absolute-value-namecert-obligations}
+The seed $\NameCert_{\RegularCauchyAbsoluteValueUp}$ surface for the carrier of \autoref{def:regular-cauchy-absolute-value-carrier} consists exactly of carrier admission for $A$, $\RegSeqRatUp$ source exposure through $Q$, finite-window exposure through $W$, $\DyadicRatCoreUp$ tolerance-ledger exposure through $D$, pointwise $\DyadicAbsoluteValueUp$ evaluation through $V$, regular readback through $T$, terminal $\RealUp$ sealing through $R$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the packet of \autoref{def:regular-cauchy-absolute-value-carrier}. The analytic rows $Q,W,D,V,T,R$ and the structural rows $H,C,P,N$ are all displayed coordinates.
+
+The source and window obligations are inherited from the regular Cauchy and stream-name sibling surfaces. A precision request first opens the $\RegSeqRatUp$ source row $Q$ through the finite $\StreamNameUp$ window $W$, then reads the dyadic tolerance ledger $D$.
+
+The absolute-value obligation is pointwise. The row $V$ applies the dyadic absolute-value packet to each endpoint displayed by $W$, and the readback row $T$ records the resulting regular rational name only after those endpoint rows have been inspected.
+
+Finally the Real seal is terminal. The rows $H,C,P,N$ transport, replay, source, and name the same displayed route, so the local certificate has no route through host real absolute value, quotient equality, trichotomy, selected limits, ambient completeness, or bridge data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy absolute value regularity bound]
+\label{thm:regular-cauchy-absolute-value-regularity-bound}
+Let $Q$ be a $\RegSeqRatUp$ source whose displayed dyadic observations $q_n$ satisfy the regular Cauchy bound
+
+$$
+|q_n-q_m|\leq 2^{-n}+2^{-m}.
+$$
+
+For the readback row $T$ with displayed observations $t_n=|q_n|$, the same finite tolerance ledger proves
+
+$$
+|t_n-t_m|\leq 2^{-n}+2^{-m}.
+$$
+
+Thus pointwise dyadic absolute value preserves the displayed regular Cauchy modulus used by the packet.
+\end{theorem}
+\begin{proof}
+Read $q_n$ and $q_m$ through the common $\StreamNameUp$ window $W$ and the tolerance ledger $D$. The source row $Q$ supplies the displayed estimate
+
+$$
+|q_n-q_m|\leq 2^{-n}+2^{-m}.
+$$
+
+Apply the dyadic absolute-value inequality in the $\DyadicAbsoluteValueUp$ row:
+
+$$
+\bigl||q_n|-|q_m|\bigr|\leq |q_n-q_m|.
+$$
+
+The readback row has $t_n=|q_n|$ and $t_m=|q_m|$. Substituting these names and composing the two displayed inequalities gives
+
+$$
+|t_n-t_m|\leq 2^{-n}+2^{-m}.
+$$
+
+All quantities used in the comparison are rows of $W,D,V,T$. Therefore the modulus preservation is a finite ledger statement inside the carrier, not an appeal to host real continuity or quotient equality.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy absolute value Real seal handoff]
+\label{thm:regular-cauchy-absolute-value-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyAbsoluteValueUp$ packet reaches the terminal seal only through the finite route
+
+$$
+Q\longmapsto W\longmapsto D\longmapsto V\longmapsto T\longmapsto R
+$$
+
+together with the componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchyAbsoluteValueUp}$ row. The packet exports no host real absolute value, quotient equality of real names, trichotomy, completeness principle, selected limit, or bridge-checked standard interface.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:regular-cauchy-absolute-value-namecert-obligations}. They place the regular source, finite window, dyadic tolerance ledger, pointwise absolute-value row, and regular readback row before the terminal seal.
+
+The regularity bound of \autoref{thm:regular-cauchy-absolute-value-regularity-bound} supplies the only analytic handoff from $T$ to the real-name seal. A consumer that omits $Q,W,D,V$, or $T$ has not displayed the route that licenses $R$.
+
+The structural rows $H,C,P,N$ preserve and name this same route. Since the carrier contains no further real-facing coordinate, every exported $\RealUp$ read factors through the displayed finite packet and cannot pass through host real absolute value, quotient equality, trichotomy, completeness, selected limits, or bridge status.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyAbsoluteValueUp$ consumer that reaches a $\RealUp$ seal without the displayed $\RegSeqRatUp$ source, $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, and pointwise $\DyadicAbsoluteValueUp$ row refutes the carrier surface.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, dyadicabsolutevalue, real: no listed sibling supplies the whole ten-row packet $A=(Q,W,D,V,T,R,H,C,P,N)$, because each sibling contributes only a regular source, finite window, dyadic tolerance ledger, pointwise dyadic absolute-value surface, or Real seal while this chapter binds all five faces with transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyAbsoluteValueUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyAbsoluteValueUp}
+  \constructivestory{A $\RegularCauchyAbsoluteValueUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\StreamNameUp$ finite-window row, a $\DyadicRatCoreUp$ tolerance ledger, a pointwise $\DyadicAbsoluteValueUp$ row, a regular rational readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-absolute-value-carrier}, \autoref{thm:regular-cauchy-absolute-value-namecert-obligations}, \autoref{thm:regular-cauchy-absolute-value-regularity-bound}, and \autoref{thm:regular-cauchy-absolute-value-real-seal-handoff} seed the absolute-value operation packet over regular Cauchy real names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real absolute value, quotient equality of real names, trichotomy, completeness, selected limits, or bridge status.}
+  \upgradepath{A formal route can encode the ten-row carrier and prove the NameCert obligation surface, dyadic regularity bound, and Real seal handoff theorem.}
+\end{closurestatus}
