@@ -845,6 +845,7 @@ import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
 import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
+import BEDC.Derived.CauchyCondensationUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
 import BEDC.Derived.CauchyConvolutionUp
@@ -1077,6 +1078,7 @@ import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
 import BEDC.Derived.CauchyNetUp
+import BEDC.Derived.CauchyNetUp.ObligationSurface
 import BEDC.Derived.CauchyNetUp.TasteGate
 import BEDC.Derived.CauchyNullEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyOscillationUp
@@ -2587,6 +2589,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
+import BEDC.Derived.FiniteLebesgueNumberUp.L10PhaseConsumerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhase
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRadiusWindowExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealAuditLedgerReadiness
@@ -3052,6 +3055,7 @@ import BEDC.Derived.InterHistTransportSealUp.NameCertObligations
 import BEDC.Derived.InterHistTransportSealUp.Nonescape
 import BEDC.Derived.InterHistTransportSealUp.TasteGate
 import BEDC.Derived.InterInscriptionCoherenceUp.TasteGate
+import BEDC.Derived.IntermediateValueBisectionUp
 import BEDC.Derived.IntermediateValueUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
@@ -5200,6 +5204,7 @@ import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WeierstrassMTestUp
 import BEDC.Derived.WeierstrassMTestUp.MajorantDominationPackage
 import BEDC.Derived.WeierstrassMTestUp.PublicConvergenceExport
+import BEDC.Derived.WeierstrassMTestUp.TasteGate
 import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.WeylGroupUp.PublicBoundary
 import BEDC.Derived.WeylGroupUp.RootSystemMatureBridge
