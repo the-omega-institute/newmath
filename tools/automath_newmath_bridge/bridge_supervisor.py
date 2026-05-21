@@ -45,6 +45,7 @@ DEFAULT_CONFIG = SCRIPT_DIR / "bridge_pipeline_config.json"
 STOP_FILE = SCRIPT_DIR / ".bridge_supervisor.stop"
 LOG_DIR = SCRIPT_DIR / "logs"
 PACKET_DIR = SCRIPT_DIR / "inbox" / "writeback_packets"
+LOCK_DIR = SCRIPT_DIR / "state" / "locks"
 
 
 def _now_iso() -> str:
@@ -84,7 +85,8 @@ def _git_quiet(repo: Path, args: list[str], *, timeout: int = 120) -> None:
 @contextmanager
 def repo_fetch_lock(repo: Path, *, timeout: int = 600):
     """Serialize fetches against a local repo across bridge supervisors."""
-    lock_path = repo / ".git" / "automath_newmath_bridge.fetch.lock"
+    safe_name = str(repo.resolve()).replace(":", "").replace("\\", "_").replace("/", "_")
+    lock_path = LOCK_DIR / f"{safe_name}.fetch.lock"
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     deadline = time.monotonic() + timeout
     with lock_path.open("a+b") as handle:
@@ -129,7 +131,8 @@ def repo_fetch_lock(repo: Path, *, timeout: int = 600):
 @contextmanager
 def repo_git_write_lock(repo: Path, *, timeout: int = 900):
     """Serialize local git index writes across bridge loops in one repo."""
-    lock_path = repo / ".git" / "automath_newmath_bridge.git_write.lock"
+    safe_name = str(repo.resolve()).replace(":", "").replace("\\", "_").replace("/", "_")
+    lock_path = LOCK_DIR / f"{safe_name}.git_write.lock"
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     deadline = time.monotonic() + timeout
     with lock_path.open("a+b") as handle:

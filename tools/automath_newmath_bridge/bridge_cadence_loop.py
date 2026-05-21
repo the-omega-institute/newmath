@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Low-cadence bridge supervisor for Automath/NewMath intake.
+"""Low-cadence bridge supervisor for Automath/NewMath landing search.
 
 This loop keeps the bridge from becoming a high-frequency production worker.
-It refreshes a NewMath emergence index more often, and only runs full bridge
-intake on a long cadence, defaulting to 12 hours.
+Each pass refreshes source refs and emits NewMath landing-search knowledge
+source entries. It does not write Automath material back, ingest BEDC BOARD
+items, merge into BEDC branches, or commit runtime artifacts.
 """
 
 from __future__ import annotations
@@ -19,8 +20,6 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent.parent
-OMEGA_ROOT = REPO_ROOT.parent
-AUTOMATH_ROOT = OMEGA_ROOT / "automath"
 STOP_FILE = SCRIPT_DIR / ".bridge_cadence_loop.stop"
 LOG_FILE = SCRIPT_DIR / "logs" / "bridge_cadence_loop.log"
 
@@ -52,14 +51,7 @@ def _run(cmd: list[str], *, cwd: Path, timeout: int) -> dict[str, object]:
     }
 
 
-def refresh_emergence(*, push: bool) -> dict[str, object]:
-    cmd = [sys.executable, str(SCRIPT_DIR / "newmath_emergence_index.py"), "--commit"]
-    if push:
-        cmd.append("--push")
-    return _run(cmd, cwd=REPO_ROOT, timeout=240)
-
-
-def run_newmath_intake(*, push: bool) -> dict[str, object]:
+def run_landing_source_pass() -> dict[str, object]:
     cmd = [
         sys.executable,
         str(SCRIPT_DIR / "bridge_supervisor.py"),
@@ -67,6 +59,8 @@ def run_newmath_intake(*, push: bool) -> dict[str, object]:
         "--allow-dirty",
         "--include-unchanged",
         "--update-state",
+        "--no-fetch",
+        "--no-auto-dev-sync",
         "--no-bedc-board-ingest",
         "--no-merge-back-after-gates",
         "--scan-limit-per-rule",
@@ -74,54 +68,26 @@ def run_newmath_intake(*, push: bool) -> dict[str, object]:
         "--limit-per-rule",
         "3",
     ]
-    if push:
-        cmd.extend(["--push-bridge-branch", "--push-bedc-branch"])
     return _run(cmd, cwd=REPO_ROOT, timeout=1200)
 
 
-def run_automath_intake(*, push: bool) -> dict[str, object]:
-    supervisor = AUTOMATH_ROOT / "tools" / "automath_newmath_bridge" / "bridge_supervisor.py"
-    cmd = [
-        sys.executable,
-        str(supervisor),
-        "--once",
-        "--allow-dirty",
-        "--include-unchanged",
-        "--update-state",
-        "--apply-automath-writeback",
-        "--automath-writeback-background",
-        "--commit-durable",
-        "--scan-limit-per-rule",
-        "30",
-        "--limit-per-rule",
-        "3",
-    ]
-    if push:
-        cmd.append("--push-branch")
-    return _run(cmd, cwd=AUTOMATH_ROOT, timeout=1200)
-
-
-def bridge_pass(*, push: bool) -> dict[str, object]:
-    emergence_before = refresh_emergence(push=push)
-    newmath = run_newmath_intake(push=push)
-    automath = run_automath_intake(push=push)
-    emergence_after = refresh_emergence(push=push)
+def bridge_pass() -> dict[str, object]:
+    landing_sources = run_landing_source_pass()
     return {
-        "emergence_before": emergence_before,
-        "newmath_intake": newmath,
-        "automath_intake": automath,
-        "emergence_after": emergence_after,
+        "landing_source_pass": landing_sources,
     }
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run low-cadence Automath/NewMath bridge intake")
+    parser = argparse.ArgumentParser(description="Run low-cadence Automath/NewMath landing-source bridge")
     parser.add_argument("--once", action="store_true")
-    parser.add_argument("--push", action="store_true")
+    parser.add_argument("--push", action="store_true", help="Accepted for old launch scripts; this loop does not push")
     parser.add_argument("--bridge-interval-seconds", type=int, default=43200)
-    parser.add_argument("--emergence-interval-seconds", type=int, default=3600)
+    parser.add_argument("--idle-interval-seconds", type=int, default=3600)
     parser.add_argument("--run-intake-immediately", action="store_true")
     args = parser.parse_args(argv)
+    if args.push:
+        _log({"event": "push_ignored", "reason": "landing-source cadence does not commit or push runtime output"})
 
     last_bridge = 0.0 if args.run_intake_immediately else time.monotonic()
     while True:
@@ -129,17 +95,17 @@ def main(argv: list[str] | None = None) -> int:
             _log({"event": "stop_file_seen", "path": str(STOP_FILE)})
             return 0
         if args.once:
-            result = bridge_pass(push=args.push) if args.run_intake_immediately else {"emergence": refresh_emergence(push=args.push)}
+            result = bridge_pass() if args.run_intake_immediately else {"status": "idle_once"}
             _log({"event": "once", "result": result})
             return 0
         now = time.monotonic()
         if now - last_bridge >= max(3600, args.bridge_interval_seconds):
             _log({"event": "bridge_intake_start", "interval_seconds": args.bridge_interval_seconds})
-            _log({"event": "bridge_intake_done", "result": bridge_pass(push=args.push)})
+            _log({"event": "bridge_intake_done", "result": bridge_pass()})
             last_bridge = time.monotonic()
         else:
-            _log({"event": "emergence_refresh", "result": refresh_emergence(push=args.push)})
-        sleep_for = min(max(300, args.emergence_interval_seconds), max(300, args.bridge_interval_seconds))
+            _log({"event": "idle", "seconds_until_next_bridge_pass": round(max(0.0, max(3600, args.bridge_interval_seconds) - (now - last_bridge)), 2)})
+        sleep_for = min(max(300, args.idle_interval_seconds), max(300, args.bridge_interval_seconds))
         time.sleep(sleep_for)
 
 

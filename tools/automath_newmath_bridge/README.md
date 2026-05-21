@@ -159,7 +159,7 @@ One pass does this:
 10. Optionally writes local review packets if `--apply-writeback-packets` is
    passed.
 
-Continuous mode:
+Continuous supervisor mode:
 
 ```bash
 python3 tools/automath_newmath_bridge/bridge_supervisor.py \
@@ -172,12 +172,26 @@ Stop continuous mode by creating:
 tools/automath_newmath_bridge/.bridge_supervisor.stop
 ```
 
+Low-cadence landing-source mode:
+
+```bash
+python3 tools/automath_newmath_bridge/bridge_cadence_loop.py \
+  --run-intake-immediately \
+  --bridge-interval-seconds 43200
+```
+
+The cadence loop assumes refs have already been fetched by the operator or
+outer scheduler. It reads the current local refs and emits knowledge source
+entries only; it ignores legacy `--push`, does not run Automath writeback, and
+does not write BEDC BOARD entries.
+
 The supervisor follows the local distillation/oracle pattern:
 
 - fixed branch guard;
 - stop file;
-- fetch before each pass;
-- fetch before scanning and read `origin/auto-dev` as a ref;
+- fetch before each supervisor pass unless `--no-fetch` is passed;
+- fetch before scanning and read `origin/auto-dev` as a ref, or run the cadence
+  loop with already-synced refs;
 - dry local runtime artifacts;
 - deterministic gates before local packet writes;
 - Automath-to-NewMath candidates are emitted as landing-search knowledge source
@@ -195,8 +209,10 @@ Local runtime outputs:
 - `tools/automath_newmath_bridge/out/bridge_synthesis_report.md`
 - `tools/automath_newmath_bridge/out/bridge_synthesis.jsonl`
 - `tools/automath_newmath_bridge/out/bridge_gate_results.jsonl`
+- `tools/automath_newmath_bridge/out/bridge_knowledge_sources.jsonl`
 - `tools/automath_newmath_bridge/state/bridge_state.json`
 - `tools/automath_newmath_bridge/logs/bridge_supervisor.log`
+- `tools/automath_newmath_bridge/logs/bridge_cadence_loop.log`
 
 Those files are intentionally ignored. Durable project decisions belong in
 `bridge_manifest.jsonl`, not in runtime artifacts.
@@ -226,20 +242,23 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
 These packets are review material only. They do not authorize destination
 writes.
 
-By default, a successful gated run attempts to merge the bridge branch back to
-the local BEDC branch:
+Merge-back to BEDC is disabled by default. To attempt a local scoped merge-back,
+enable it explicitly:
 
 ```bash
-python3 tools/automath_newmath_bridge/bridge_supervisor.py --once
+python3 tools/automath_newmath_bridge/bridge_supervisor.py \
+  --once
 ```
 
 The configured target is `../newmath` on `bedc-claim-packet-pipeline`. The
 merge-back step is intentionally conservative:
 
+- it runs only when config enables it and the caller does not pass
+  `--no-merge-back-after-gates`;
 - it runs only after all bridge gates pass;
 - it checks the target worktree is on `bedc-claim-packet-pipeline`;
 - it skips if the target has tracked or untracked changes;
-- it does not push unless the config explicitly sets `push: true`.
+- it does not push unless `--push-bedc-branch` is passed.
 
 Skip merge-back explicitly:
 
@@ -249,7 +268,8 @@ python3 tools/automath_newmath_bridge/bridge_supervisor.py \
   --no-merge-back-after-gates
 ```
 
-To actually hand eligible Automath-to-NewMath records to BEDC `board_spawn`:
+BEDC `board_spawn` ingest is legacy and disabled by default. To actually hand
+eligible Automath-to-NewMath records to BEDC `board_spawn`:
 
 ```bash
 python3 tools/automath_newmath_bridge/bridge_supervisor.py \
