@@ -311,4 +311,35 @@ theorem DiagonalCofinalTailCarrier_exact_boundary_terminal_route [AskSetup] [Pac
     ⟨completionUnary, realUnary, boundaryUnary, completionRoute, realRoute, boundaryRoute,
       pPkg, boundaryPkg⟩
 
+theorem DiagonalCofinalTailCarrier_terminal_common_tail_descent [AskSetup] [PackageSetup]
+    {q s g d r r' w h c p n h' c' p' n' leftSeal rightSeal descent : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg ->
+      DiagonalCofinalTailCarrier q s g d r' w h' c' p' n' bundle pkg ->
+        hsame r r' ->
+          Cont r w leftSeal ->
+            Cont r' w rightSeal ->
+              Cont leftSeal rightSeal descent ->
+                PkgSig bundle descent pkg ->
+                  UnaryHistory leftSeal ∧ UnaryHistory rightSeal ∧
+                    UnaryHistory descent ∧ hsame r r' ∧ Cont r w leftSeal ∧
+                      Cont r' w rightSeal ∧ Cont leftSeal rightSeal descent ∧
+                        PkgSig bundle p pkg ∧ PkgSig bundle p' pkg ∧
+                          PkgSig bundle descent pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont PkgSig UnaryHistory
+  intro carrier carrier' sameTail leftRoute rightRoute descentRoute descentPkg
+  obtain ⟨_qUnary, _sUnary, _gUnary, _dUnary, rUnary, wUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, _qsRoute, _gdRoute, _whRoute, pPkg⟩ := carrier
+  obtain ⟨_qUnary', _sUnary', _gUnary', _dUnary', rUnary', _wUnary', _hUnary',
+    _cUnary', _pUnary', _nUnary', _qsRoute', _gdRoute', _whRoute', pPkg'⟩ := carrier'
+  have leftUnary : UnaryHistory leftSeal :=
+    unary_cont_closed rUnary wUnary leftRoute
+  have rightUnary : UnaryHistory rightSeal :=
+    unary_cont_closed rUnary' wUnary rightRoute
+  have descentUnary : UnaryHistory descent :=
+    unary_cont_closed leftUnary rightUnary descentRoute
+  exact
+    ⟨leftUnary, rightUnary, descentUnary, sameTail, leftRoute, rightRoute, descentRoute,
+      pPkg, pPkg', descentPkg⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp
