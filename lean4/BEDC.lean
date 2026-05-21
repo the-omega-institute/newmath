@@ -567,6 +567,7 @@ import BEDC.Derived.BishopCompletionModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
 import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealUp
+import BEDC.Derived.BishopRegularCauchyCompletionUp.TasteGate
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
@@ -848,6 +849,7 @@ import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
 import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.CauchyCondensationUp.TasteGate
+import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
 import BEDC.Derived.CauchyConvergenceModulusUp
@@ -3344,6 +3346,7 @@ import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.MeasureUp.RootDownstreamUnblockPackage
 import BEDC.Derived.MeasureUp.RootPublicObligationBasis
 import BEDC.Derived.MeasureUp.RootPublicSurface
+import BEDC.Derived.MeasureUp.RootRealStreamRegularity
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp.TasteGate
@@ -4606,6 +4609,7 @@ import BEDC.Derived.SeparableMetricUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
+import BEDC.Derived.SequentialCompactnessUp.TasteGate
 import BEDC.Derived.SequentialContinuityUp.TasteGate
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
