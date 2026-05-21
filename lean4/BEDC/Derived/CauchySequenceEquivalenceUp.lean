@@ -165,4 +165,28 @@ theorem CauchySequenceEquivalenceNamecertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, endpointUnary⟩
 
+theorem CauchySequenceEquivalenceCarrier_regseqrat_real_handoff [AskSetup] [PackageSetup]
+    {leftSeq rightSeq witness regseq realSeal transport route provenance nameRow
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceEquivalenceEndpointCarrier leftSeq rightSeq witness regseq realSeal transport
+        route provenance nameRow bundle pkg ->
+      Cont regseq realSeal endpoint ->
+        PkgSig bundle endpoint pkg ->
+          UnaryHistory leftSeq ∧ UnaryHistory rightSeq ∧ UnaryHistory witness ∧
+            UnaryHistory regseq ∧ UnaryHistory realSeal ∧ UnaryHistory endpoint ∧
+              Cont leftSeq rightSeq witness ∧ Cont witness regseq realSeal ∧
+                Cont regseq realSeal endpoint ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier regRealEndpoint endpointPkg
+  obtain ⟨leftUnary, rightUnary, witnessUnary, regseqUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameRowUnary, leftRightWitness,
+    witnessRegReal, _realTransportRoute, _routeNameProvenance, provenancePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed regseqUnary realSealUnary regRealEndpoint
+  exact
+    ⟨leftUnary, rightUnary, witnessUnary, regseqUnary, realSealUnary, endpointUnary,
+      leftRightWitness, witnessRegReal, regRealEndpoint, provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.CauchySequenceEquivalenceUp
