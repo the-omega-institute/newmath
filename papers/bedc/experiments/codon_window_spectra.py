@@ -1496,7 +1496,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     exact_union = set().union(*exact_sets.values())
 
     all_internal_subcubes: list[dict[str, object]] = []
-    for dimension in range(1, 7):
+    for dimension in range(0, 7):
         for free in itertools.combinations(range(6), dimension):
             for values in itertools.product("01", repeat=6 - dimension):
                 vertices = subcube_vertices(free, values)
@@ -1519,14 +1519,82 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             maximal_internal.append(candidate)
     maximal_internal.sort(key=lambda item: (-item["dimension"], item["vertices"]))
 
-    minimal_exact_covers: list[tuple[dict[str, object], ...]] = []
+    minimal_prime_covers: list[tuple[dict[str, object], ...]] = []
     for cover_size in range(1, 8):
         for blocks in itertools.combinations(maximal_internal, cover_size):
+            covered = set().union(*(set(block["vertices"]) for block in blocks))
+            if covered == support:
+                minimal_prime_covers.append(blocks)
+        if minimal_prime_covers:
+            break
+    def subcube_name(vertices: tuple[str, ...]) -> str:
+        vertex_set = set(vertices)
+        known = {
+            tuple(expand_iupac_motif("CUN")): "CUN",
+            tuple(expand_iupac_motif("UNA")): "UNA",
+            tuple(expand_iupac_motif("WWA")): "WWA",
+            tuple(expand_iupac_motif("WRA")): "WRA",
+            tuple(expand_iupac_motif("AGR")): "AGR",
+            tuple(expand_iupac_motif("UAR")): "UAR",
+            tuple(expand_iupac_motif("YUA")): "YUA",
+            tuple(("TAG",)): "UAG",
+            tuple(("TCA",)): "UCA",
+            tuple(("ATA", "AAA")): "AWA",
+            tuple(("TCA", "TGA")): "USA",
+            tuple(("TTA", "ATA")): "WUA",
+            tuple(("TTA", "TAA")): "UWA",
+            tuple(("AAA",)): "AAA",
+            tuple(("TTA",)): "UUA",
+        }
+        for codons, name in known.items():
+            if set(codons) == vertex_set:
+                return name
+        return "/".join(vertices)
+
+    def vertex_key(block: dict[str, object]) -> tuple[str, ...]:
+        return tuple(block["vertices"])
+
+    def codon_weight(codon: str) -> int:
+        return sum(
+            1
+            for table_id, table in sorted(tables.items())
+            if table_id != 1 and table[codon] != standard[codon]
+        )
+
+    def block_weight(block: dict[str, object]) -> int:
+        return sum(codon_weight(codon) for codon in block["vertices"])
+
+    minimal_exact_covers: list[tuple[dict[str, object], ...]] = []
+    for cover_size in range(1, 8):
+        for blocks in itertools.combinations(all_internal_subcubes, cover_size):
             covered = set().union(*(set(block["vertices"]) for block in blocks))
             if covered == support:
                 minimal_exact_covers.append(blocks)
         if minimal_exact_covers:
             break
+    common_exact_blocks = set(vertex_key(block) for block in minimal_exact_covers[0])
+    for cover in minimal_exact_covers[1:]:
+        common_exact_blocks &= set(vertex_key(block) for block in cover)
+
+    prime_overlap_rows: list[dict[str, object]] = []
+    for left, right in itertools.combinations(maximal_internal, 2):
+        overlap = tuple(codon for codon in left["vertices"] if codon in set(right["vertices"]))
+        if not overlap:
+            continue
+        weight = sum(codon_weight(codon) for codon in overlap)
+        prime_overlap_rows.append(
+            {
+                "left": subcube_name(left["vertices"]),
+                "right": subcube_name(right["vertices"]),
+                "overlap": overlap,
+                "weight": weight,
+            }
+        )
+    overlap_weight_by_prime: collections.Counter[str] = collections.Counter()
+    for row in prime_overlap_rows:
+        overlap_weight_by_prime[row["left"]] += row["weight"]
+        overlap_weight_by_prime[row["right"]] += row["weight"]
+
     envelope_motifs = ("WRR", "CUN", "WYA")
     envelope_sets = {motif: set(expand_iupac_motif(motif)) for motif in envelope_motifs}
     envelope_union = set().union(*envelope_sets.values())
@@ -1540,13 +1608,29 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "exact_union": tuple(sorted(exact_union)),
         "exact_formula_matches_support": exact_union == support,
         "internal_subcube_count": len(all_internal_subcubes),
-        "maximal_internal_subcubes": maximal_internal,
+        "prime_implicants": [
+            {
+                **block,
+                "name": subcube_name(block["vertices"]),
+                "weight": block_weight(block),
+            }
+            for block in maximal_internal
+        ],
+        "minimal_prime_cover_size": len(minimal_prime_covers[0]),
+        "minimal_prime_cover_count": len(minimal_prime_covers),
+        "minimal_prime_covers": [
+            [subcube_name(tuple(block["vertices"])) for block in cover]
+            for cover in minimal_prime_covers
+        ],
         "minimal_exact_cover_size": len(minimal_exact_covers[0]),
         "minimal_exact_cover_count": len(minimal_exact_covers),
         "minimal_exact_covers": [
-            [tuple(block["vertices"]) for block in cover]
+            [subcube_name(tuple(block["vertices"])) for block in cover]
             for cover in minimal_exact_covers
         ],
+        "common_exact_cover_blocks": sorted(subcube_name(vertices) for vertices in common_exact_blocks),
+        "prime_overlap_rows": sorted(prime_overlap_rows, key=lambda row: (row["left"], row["right"])),
+        "prime_overlap_weight_totals": dict(sorted(overlap_weight_by_prime.items())),
         "envelope_motifs": {
             motif: tuple(sorted(codons))
             for motif, codons in envelope_sets.items()
@@ -2471,17 +2555,55 @@ def assert_expected(summary: dict[str, object]) -> None:
         "WWA": ("AAA", "ATA", "TAA", "TTA"),
     }
     assert summary["support_compression"]["exact_formula_matches_support"] is True
-    assert summary["support_compression"]["internal_subcube_count"] == 20
+    assert summary["support_compression"]["internal_subcube_count"] == 33
+    assert [
+        {key: prime[key] for key in ("name", "vertices", "dimension", "weight")}
+        for prime in summary["support_compression"]["prime_implicants"]
+    ] == [
+        {"name": "CUN", "vertices": ("CTT", "CTC", "CTA", "CTG"), "dimension": 2, "weight": 6},
+        {"name": "WRA", "vertices": ("TAA", "TGA", "AAA", "AGA"), "dimension": 2, "weight": 34},
+        {"name": "WWA", "vertices": ("TTA", "TAA", "ATA", "AAA"), "dimension": 2, "weight": 17},
+        {"name": "UNA", "vertices": ("TTA", "TCA", "TAA", "TGA"), "dimension": 2, "weight": 25},
+        {"name": "AGR", "vertices": ("AGA", "AGG"), "dimension": 1, "weight": 16},
+        {"name": "UAR", "vertices": ("TAA", "TAG"), "dimension": 1, "weight": 18},
+        {"name": "YUA", "vertices": ("TTA", "CTA"), "dimension": 1, "weight": 2},
+    ]
+    assert summary["support_compression"]["minimal_prime_cover_size"] == 5
+    assert summary["support_compression"]["minimal_prime_cover_count"] == 1
+    assert summary["support_compression"]["minimal_prime_covers"] == [
+        ["CUN", "WWA", "UNA", "AGR", "UAR"]
+    ]
     assert summary["support_compression"]["minimal_exact_cover_size"] == 5
-    assert summary["support_compression"]["minimal_exact_cover_count"] == 1
+    assert summary["support_compression"]["minimal_exact_cover_count"] == 6
     assert summary["support_compression"]["minimal_exact_covers"] == [
-        [
-            ("CTT", "CTC", "CTA", "CTG"),
-            ("TTA", "TAA", "ATA", "AAA"),
-            ("TTA", "TCA", "TAA", "TGA"),
-            ("AGA", "AGG"),
-            ("TAA", "TAG"),
-        ]
+        ["UAG", "USA", "AGR", "WWA", "CUN"],
+        ["UAG", "AWA", "AGR", "UNA", "CUN"],
+        ["UAG", "AGR", "WWA", "UNA", "CUN"],
+        ["USA", "UAR", "AGR", "WWA", "CUN"],
+        ["AWA", "UAR", "AGR", "UNA", "CUN"],
+        ["UAR", "AGR", "WWA", "UNA", "CUN"],
+    ]
+    assert summary["support_compression"]["common_exact_cover_blocks"] == ["AGR", "CUN"]
+    assert summary["support_compression"]["prime_overlap_weight_totals"] == {
+        "AGR": 8,
+        "CUN": 1,
+        "UAR": 24,
+        "UNA": 41,
+        "WRA": 50,
+        "WWA": 29,
+        "YUA": 3,
+    }
+    assert summary["support_compression"]["prime_overlap_rows"] == [
+        {"left": "CUN", "right": "YUA", "overlap": ("CTA",), "weight": 1},
+        {"left": "UNA", "right": "UAR", "overlap": ("TAA",), "weight": 8},
+        {"left": "UNA", "right": "YUA", "overlap": ("TTA",), "weight": 1},
+        {"left": "WRA", "right": "AGR", "overlap": ("AGA",), "weight": 8},
+        {"left": "WRA", "right": "UAR", "overlap": ("TAA",), "weight": 8},
+        {"left": "WRA", "right": "UNA", "overlap": ("TAA", "TGA"), "weight": 23},
+        {"left": "WRA", "right": "WWA", "overlap": ("TAA", "AAA"), "weight": 11},
+        {"left": "WWA", "right": "UAR", "overlap": ("TAA",), "weight": 8},
+        {"left": "WWA", "right": "UNA", "overlap": ("TTA", "TAA"), "weight": 9},
+        {"left": "WWA", "right": "YUA", "overlap": ("TTA",), "weight": 1},
     ]
     assert summary["support_compression"]["envelope_motifs"] == {
         "CUN": ("CTA", "CTC", "CTG", "CTT"),
