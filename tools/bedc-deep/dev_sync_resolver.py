@@ -15,8 +15,8 @@ with a flow that:
      ├─ ff success → commit + push
      └─ conflict:
         a. capture conflict files + hunks
-        b. spawn claude with project conventions + each conflict block
-        c. apply claude's resolved content
+        b. spawn Codex with project conventions + each conflict block
+        c. apply Codex's resolved content
         d. validation gauntlet (lake build / check-axioms / bedc_ci audit)
         e. hard reset on any failure; commit + push on full pass
 
@@ -32,10 +32,7 @@ from __future__ import annotations
 import json
 import os
 import re
-import shutil
 import subprocess
-import threading
-import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -45,7 +42,6 @@ from typing import Optional
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
 LOG_DIR = SCRIPT_DIR / "state" / "dev_sync_logs"
-PROMPTS_DIR = SCRIPT_DIR / "prompts"
 
 # Upstream integration branch we sync into bedc-claim-packet-pipeline.
 # This follows the shared integration trunk so BEDC does not rediscover or
@@ -54,9 +50,7 @@ PROMPTS_DIR = SCRIPT_DIR / "prompts"
 UPSTREAM_BRANCH = os.environ.get("BEDC_SYNC_UPSTREAM_BRANCH", "auto-dev")
 UPSTREAM_REF = f"origin/{UPSTREAM_BRANCH}"
 
-CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
-CLAUDE_RESOLVE_TIMEOUT = 1800   # 30 minutes for whole resolution
-CLAUDE_RESOLVE_PER_FILE_TIMEOUT = 600
+CODEX_RESOLVE_PER_FILE_TIMEOUT = 600
 
 VALIDATION_TIMEOUTS = {
     "paper_provenance": 120,
@@ -149,43 +143,16 @@ def _is_ours_on_clean_merge(path: str) -> bool:
     return any(p.search(path) for p in OURS_ON_CLEAN_MERGE_PATTERNS)
 
 
-def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
-    if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
-        return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
+def _codex_exec_text(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
+    import codex_orchestrator
+
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     ts = _now_tag()
     (LOG_DIR / f"{log_tag}_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
-    cmd = [CLAUDE_PATH, "-p", "--dangerously-skip-permissions"]
-    env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
-    proc = subprocess.Popen(
-        cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-        text=True, cwd=str(REPO_ROOT), env=env, encoding="utf-8", errors="replace",
-        start_new_session=True,
-    )
-    stdout = ""; stderr = ""; rc = -1
-    hard_killed = {"flag": False}
-    def _hard_kill() -> None:
-        hard_killed["flag"] = True
-        try: os.killpg(proc.pid, 9)
-        except (ProcessLookupError, PermissionError): pass
-    watchdog = threading.Timer(timeout + 60, _hard_kill); watchdog.daemon = True; watchdog.start()
-    try:
-        stdout, stderr = proc.communicate(input=prompt, timeout=timeout + 30)
-        rc = proc.returncode
-    except subprocess.TimeoutExpired:
-        try: os.killpg(proc.pid, 9)
-        except ProcessLookupError: pass
-        try: stdout, stderr = proc.communicate(timeout=10)
-        except subprocess.TimeoutExpired:
-            stdout = stdout or ""; stderr = stderr or ""
-        rc = -9
-    finally:
-        watchdog.cancel()
-    if hard_killed["flag"] and rc == 0:
-        rc = -9
-    (LOG_DIR / f"{log_tag}_{ts}.stdout.txt").write_text(stdout or "", encoding="utf-8")
-    (LOG_DIR / f"{log_tag}_{ts}.stderr.txt").write_text(stderr or "", encoding="utf-8")
-    return (rc == 0, stdout, rc)
+    result = codex_orchestrator.codex_exec(prompt, timeout=timeout, log_tag=log_tag)
+    (LOG_DIR / f"{log_tag}_{ts}.stdout.txt").write_text(result.raw_output or "", encoding="utf-8")
+    (LOG_DIR / f"{log_tag}_{ts}.stderr.txt").write_text(result.error or "", encoding="utf-8")
+    return (result.ok, result.raw_output, result.rc)
 
 
 # ---------------------------------------------------------------------------
@@ -304,7 +271,7 @@ def _read_conflict_file(path: str) -> ConflictFile:
 
 
 # ---------------------------------------------------------------------------
-# Claude conflict resolver
+# Codex conflict resolver
 # ---------------------------------------------------------------------------
 
 
@@ -370,26 +337,26 @@ def _project_conventions_blob() -> str:
 
 def _resolve_one_conflict(cf: ConflictFile, project_conventions: str) -> tuple[bool, str]:
     """Returns (ok, error_msg). On ok=True, file has been overwritten with
-    claude's resolved content."""
+    Codex's resolved content."""
     prompt = _build_resolve_prompt(cf, project_conventions)
     log_tag = f"resolve_{cf.path.replace('/', '_')}"
-    ok, stdout, rc = _claude_exec(
+    ok, stdout, rc = _codex_exec_text(
         prompt,
-        timeout=CLAUDE_RESOLVE_PER_FILE_TIMEOUT,
+        timeout=CODEX_RESOLVE_PER_FILE_TIMEOUT,
         log_tag=log_tag,
     )
     if not ok:
-        return (False, f"claude exec rc={rc}: {stdout[:200]}")
+        return (False, f"codex exec rc={rc}: {stdout[:200]}")
 
     resolved = (stdout or "").strip()
     if not resolved:
-        return (False, "claude returned empty resolution")
+        return (False, "codex returned empty resolution")
     if resolved == "ABORT_CONFLICT":
-        return (False, "claude declared ABORT_CONFLICT (cannot responsibly resolve)")
+        return (False, "codex declared ABORT_CONFLICT (cannot responsibly resolve)")
 
-    # Defensive: ensure no conflict markers remain in claude's output
+    # Defensive: ensure no conflict markers remain in Codex's output.
     if any(m in resolved for m in ("<<<<<<< HEAD", "=======", f">>>>>>> {UPSTREAM_REF}")):
-        return (False, "claude output still contains conflict markers")
+        return (False, "codex output still contains conflict markers")
 
     target_path = REPO_ROOT / cf.path
     try:
@@ -530,7 +497,7 @@ class SyncResult:
 
 
 def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> SyncResult:
-    """Fetch + merge UPSTREAM_REF with claude-driven conflict resolution.
+    """Fetch + merge UPSTREAM_REF with Codex-driven conflict resolution.
 
     This is the supervisor's main hook. Locks paper_writes to keep Stage 2
     consistent throughout merge + validate + commit + push.
@@ -719,7 +686,7 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
                 error=f"protected files in conflict: {protected}; aborted, route to human_inbox",
             )
 
-        # Resolve each conflict via claude
+        # Resolve each conflict via Codex.
         project_conventions = _project_conventions_blob()
         resolved: list[str] = []
         failed: list[dict] = []

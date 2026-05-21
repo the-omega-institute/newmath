@@ -61,15 +61,16 @@ def test_supervisor_keeps_discovery_children_single_sync_entrypoint() -> None:
         assert "cmd.append(\"--no-dev-sync\")" in body, name
 
 
-def test_supervisor_dev_sync_is_opt_in_for_daemon_stability() -> None:
+def test_supervisor_dev_sync_is_enabled_for_shared_integration() -> None:
     text = _text(SUPERVISOR)
     assert "DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15" in text
-    assert "DEFAULT_DEV_SYNC_ENABLED = False" in text
+    assert "DEFAULT_DEV_SYNC_ENABLED = True" in text
     assert "dev_sync_enabled = bool(args.dev_sync) and not bool(args.no_dev_sync)" in text
+    assert "no_dev_sync = not dev_sync_enabled" in text
     assert "git_sync_dev(" in text
     assert "STARTUP_DEV_SYNC_TIMEOUT_SECONDS" in text
     assert "--no-dev-sync" in text
-    assert "Opt in to BEDC sync from origin/auto-dev" in text
+    assert "Default on so the BEDC branch stays joined to the shared integration trunk" in text
     assert "--status-once" in text
 
 
@@ -159,6 +160,15 @@ def test_dev_sync_protects_clean_merge_boundaries() -> None:
     assert '"rm", "--cached", "--ignore-unmatch", path' in text
     assert '"checkout", before_ref, "--", path' in text
     assert "post-merge boundaries settled" in text
+
+
+def test_dev_sync_conflict_resolution_uses_codex_not_claude() -> None:
+    text = _text(SCRIPT_DIR / "dev_sync_resolver.py")
+    assert "import codex_orchestrator" in text
+    assert "codex_orchestrator.codex_exec" in text
+    assert "Codex-driven conflict resolution" in text
+    assert "CLAUDE_PATH" not in text
+    assert "_claude_exec" not in text
 
 
 def test_candidate_inbox_holds_refinable_candidates() -> None:
@@ -275,7 +285,7 @@ if __name__ == "__main__":
     test_supervisor_does_not_clear_stop_file()
     test_supervisor_runs_gated_dev_sync_resolver()
     test_supervisor_keeps_discovery_children_single_sync_entrypoint()
-    test_supervisor_dev_sync_is_opt_in_for_daemon_stability()
+    test_supervisor_dev_sync_is_enabled_for_shared_integration()
     test_supervisor_defaults_to_paper_native_discovery()
     test_supervisor_oracle_candidate_generation_is_opt_in()
     test_supervisor_has_hard_branch_guard()
@@ -284,6 +294,7 @@ if __name__ == "__main__":
     test_auto_discovery_dev_sync_is_opt_in_and_path_guarded()
     test_bridge_prompts_keep_external_sources_as_metadata_only()
     test_dev_sync_protects_clean_merge_boundaries()
+    test_dev_sync_conflict_resolution_uses_codex_not_claude()
     test_candidate_inbox_holds_refinable_candidates()
     test_research_lane_recovers_held_candidates()
     test_supervisor_runs_plain_review_research_lane()

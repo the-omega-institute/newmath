@@ -15,8 +15,8 @@ Wraps `oracle_client.py --loop` and adds:
   6. Tab health: alert when queue_waiting_for_browser_agent stays stuck.
   7. Auto-commit: detect changes in papers/bedc/parts/ and BOARD.md, push.
   8. Loning watch: fetch-and-report remote pipeline/closure discipline changes.
-  9. Claude progress review (tier 3): periodic claude -p over the state +
-     server snapshot, with recommend_probe / recommend_curator auto-applied.
+  9. PI progress review: periodic pipeline-state review, with
+     recommend_probe / recommend_curator auto-applied.
 
 Stop the supervisor by creating tools/bedc-deep/.stop or sending SIGINT.
 On exit, the inner oracle_client is killed cleanly via SIGTERM.
@@ -67,7 +67,7 @@ DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
 DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS = 1.0
 DEFAULT_ORACLE_REFILL_RESEARCH_GRACE_MINUTES = 20.0
 DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15
-DEFAULT_DEV_SYNC_ENABLED = False
+DEFAULT_DEV_SYNC_ENABLED = True
 DEFAULT_DEV_SYNC_TIMEOUT_SECONDS = 600
 STARTUP_DEV_SYNC_TIMEOUT_SECONDS = 120
 ORPHAN_PID_REUSE_GRACE_S = 6 * 3600
@@ -1406,7 +1406,7 @@ def main() -> int:
     parser.add_argument("--no-auto-commit", action="store_true")
     parser.add_argument("--dev-sync", action="store_true",
                         default=DEFAULT_DEV_SYNC_ENABLED,
-                        help="Opt in to BEDC sync from origin/auto-dev. Default off for daemon stability.")
+                        help="Enable BEDC sync from origin/auto-dev. Default on so the BEDC branch stays joined to the shared integration trunk.")
     parser.add_argument("--no-dev-sync", action="store_true",
                         help="Disable BEDC sync from origin/auto-dev.")
     parser.add_argument("--status-once", action="store_true",
@@ -1429,7 +1429,7 @@ def main() -> int:
         return 2
 
     dev_sync_enabled = bool(args.dev_sync) and not bool(args.no_dev_sync)
-    no_dev_sync = True
+    no_dev_sync = not dev_sync_enabled
 
     supervisor_log(
         f"supervisor starting (parallel={args.parallel}, "
