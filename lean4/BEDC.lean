@@ -4038,6 +4038,7 @@ import BEDC.Derived.RealityConstrainedExplanationUp.TasteGate
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.BridgeBoundary
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.ContinuationScope
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.ContinuationScopeCarrier
+import BEDC.Derived.RealityConstrainedFailureSurfaceUp.DomainExportRefusal
 import BEDC.Derived.RealityConstrainedFailureSurfaceUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
 import BEDC.Derived.RealityConstrainedMethodologyLedgerUp.KernelCarrier
@@ -4078,6 +4079,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.CarrierTransport
 import BEDC.Derived.RealityConstrainedTruthCertUp.ClassifierObligationSurface
 import BEDC.Derived.RealityConstrainedTruthCertUp.ExportDefeatExhaustion
 import BEDC.Derived.RealityConstrainedTruthCertUp.FailureReadiness
+import BEDC.Derived.RealityConstrainedTruthCertUp.FailureRouting
 import BEDC.Derived.RealityConstrainedTruthCertUp.FieldCoverage
 import BEDC.Derived.RealityConstrainedTruthCertUp.KernelTruthRoute
 import BEDC.Derived.RealityConstrainedTruthCertUp.L10Readiness
