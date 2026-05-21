@@ -395,6 +395,208 @@ def containing_cube_patterns(cubes: list[dict[str, object]], tile: set[str]) -> 
     return patterns
 
 
+def hamming_edges() -> list[tuple[str, str, int]]:
+    edges: list[tuple[str, str, int]] = []
+    for direction in range(6):
+        for point in itertools.product("01", repeat=6):
+            if point[direction] == "1":
+                continue
+            neighbor = list(point)
+            neighbor[direction] = "1"
+            edges.append((codon_from_bits("".join(point)), codon_from_bits("".join(neighbor)), direction))
+    return edges
+
+
+def component_sizes_for_codons(codons: list[str], edges: list[tuple[str, str, int]]) -> list[int]:
+    codon_set = set(codons)
+    adjacency: dict[str, set[str]] = {codon: set() for codon in codons}
+    for left, right, _direction in edges:
+        if left in codon_set and right in codon_set:
+            adjacency[left].add(right)
+            adjacency[right].add(left)
+    seen: set[str] = set()
+    sizes: list[int] = []
+    for codon in codons:
+        if codon in seen:
+            continue
+        stack = [codon]
+        seen.add(codon)
+        size = 0
+        while stack:
+            item = stack.pop()
+            size += 1
+            for neighbor in adjacency[item]:
+                if neighbor not in seen:
+                    seen.add(neighbor)
+                    stack.append(neighbor)
+        sizes.append(size)
+    return sorted(sizes, reverse=True)
+
+
+def synonymous_graph_summary(table: dict[str, str]) -> dict[str, object]:
+    edges = hamming_edges()
+    codons_by_class: dict[str, list[str]] = collections.defaultdict(list)
+    for codon, label in table.items():
+        codons_by_class[label].append(codon)
+    class_rows: dict[str, dict[str, object]] = {}
+    component_types: dict[str, list[str]] = collections.defaultdict(list)
+    for label, codons in sorted(codons_by_class.items()):
+        internal_edges = sum(1 for left, right, _direction in edges if table[left] == label and table[right] == label)
+        boundary_degree = 6 * len(codons) - 2 * internal_edges
+        component_sizes = component_sizes_for_codons(sorted(codons), edges)
+        component_key = "+".join(str(size) for size in component_sizes)
+        component_types[component_key].append(label)
+        class_rows[label] = {
+            "size": len(codons),
+            "component_sizes": component_sizes,
+            "internal_edges": internal_edges,
+            "external_boundary_degree": boundary_degree,
+        }
+    return {
+        "component_types": {key: sorted(value) for key, value in sorted(component_types.items())},
+        "classes": class_rows,
+    }
+
+
+def class_adjacency_summary(table: dict[str, str]) -> dict[str, object]:
+    inter_class: collections.Counter[tuple[str, str]] = collections.Counter()
+    internal: collections.Counter[str] = collections.Counter()
+    for left, right, _direction in hamming_edges():
+        left_label = table[left]
+        right_label = table[right]
+        if left_label == right_label:
+            internal[left_label] += 1
+            continue
+        pair = tuple(sorted((left_label, right_label)))
+        inter_class[pair] += 1
+    top_pairs = sorted(inter_class.items(), key=lambda item: (-item[1], item[0]))
+    return {
+        "inter_class_edges": {"-".join(pair): count for pair, count in sorted(inter_class.items())},
+        "internal_edges": dict(sorted(internal.items())),
+        "top_inter_class_edges": [
+            {"pair": "-".join(pair), "count": count}
+            for pair, count in top_pairs[:12]
+        ],
+        "control_pair_edges": {
+            "I-M": inter_class[("I", "M")],
+            "*-W": inter_class[("*", "W")],
+        },
+    }
+
+
+def class_transition_summary(table: dict[str, str]) -> dict[str, object]:
+    codons_by_class: dict[str, list[str]] = collections.defaultdict(list)
+    for codon, label in table.items():
+        codons_by_class[label].append(codon)
+    counts: dict[str, dict[str, int]] = {}
+    probabilities: dict[str, dict[str, dict[str, object]]] = {}
+    for label, codons in sorted(codons_by_class.items()):
+        row: collections.Counter[str] = collections.Counter()
+        for codon in codons:
+            word = bits(codon)
+            for direction in range(6):
+                neighbor = list(word)
+                neighbor[direction] = "1" if word[direction] == "0" else "0"
+                row[table[codon_from_bits("".join(neighbor))]] += 1
+        denominator = 6 * len(codons)
+        counts[label] = dict(sorted(row.items()))
+        probabilities[label] = {
+            target: {
+                "numerator": count,
+                "denominator": denominator,
+                "decimal": count / denominator,
+            }
+            for target, count in sorted(row.items())
+        }
+    return {
+        "counts": counts,
+        "probabilities": probabilities,
+    }
+
+
+def q4_spectrum(table: dict[str, str]) -> tuple[dict[str, object], list[dict[str, object]]]:
+    max_distribution: collections.Counter[int] = collections.Counter()
+    complete_six: collections.Counter[str] = collections.Counter()
+    cubes: list[dict[str, object]] = []
+    class_sizes = collections.Counter(table.values())
+    for free in itertools.combinations(range(6), 4):
+        fixed = [index for index in range(6) if index not in free]
+        for values in itertools.product("01", repeat=2):
+            word = [""] * 6
+            for index, value in zip(fixed, values):
+                word[index] = value
+            vertices: list[str] = []
+            for local in itertools.product("01", repeat=4):
+                candidate = word.copy()
+                for index, value in zip(free, local):
+                    candidate[index] = value
+                vertices.append(codon_from_bits("".join(candidate)))
+            counts = collections.Counter(table[codon] for codon in vertices)
+            max_distribution[max(counts.values())] += 1
+            for label, count in counts.items():
+                if count == 6 and class_sizes[label] == 6:
+                    complete_six[label] += 1
+            cubes.append(
+                {
+                    "free_bits": free,
+                    "vertices": tuple(vertices),
+                    "pattern": multiplicity_pattern([table[codon] for codon in vertices]),
+                    "class_counts": dict(sorted(counts.items())),
+                }
+            )
+    return {
+        "max_class_size_distribution": dict(sorted(max_distribution.items())),
+        "complete_six_class_occurrences": dict(sorted(complete_six.items())),
+    }, cubes
+
+
+def containing_q4_neighborhoods(cubes: list[dict[str, object]], tile: set[str]) -> list[dict[str, object]]:
+    neighborhoods: list[dict[str, object]] = []
+    for cube in cubes:
+        if tile.issubset(set(cube["vertices"])):
+            neighborhoods.append(
+                {
+                    "free_bits": cube["free_bits"],
+                    "pattern": cube["pattern"],
+                    "class_counts": cube["class_counts"],
+                    "vertices": cube["vertices"],
+                }
+            )
+    neighborhoods.sort(key=lambda item: item["free_bits"])
+    return neighborhoods
+
+
+def q5_control_half_cube_summary(table: dict[str, str]) -> dict[str, object]:
+    control_codons = MODULES["Ile/Met"] | MODULES["Stop/Trp"]
+    shared_fixed_bits: list[dict[str, object]] = []
+    control_words = {codon: bits(codon) for codon in control_codons}
+    for direction in range(6):
+        values = {word[direction] for word in control_words.values()}
+        if len(values) == 1:
+            value = next(iter(values))
+            shared_fixed_bits.append({"bit": direction, "value": value})
+    if len(shared_fixed_bits) != 1:
+        raise RuntimeError(f"expected a unique shared fixed bit, found {shared_fixed_bits}")
+    fixed = shared_fixed_bits[0]
+    vertices = [
+        codon
+        for codon in all_codons()
+        if bits(codon)[fixed["bit"]] == fixed["value"]
+    ]
+    counts = collections.Counter(table[codon] for codon in vertices)
+    return {
+        "shared_fixed_bits": shared_fixed_bits,
+        "vertices": tuple(sorted(vertices)),
+        "class_counts": dict(sorted(counts.items(), key=lambda item: (-item[1], item[0]))),
+        "control_class_counts": {
+            "Stop": counts["*"],
+            "I": counts["I"],
+            "W": counts["W"],
+            "M": counts["M"],
+        },
+    }
+
+
 def state_components(tables: dict[int, dict[str, str]], codons: tuple[str, ...]) -> dict[str, object]:
     states: dict[tuple[str, ...], list[int]] = collections.defaultdict(list)
     for table_id, table in sorted(tables.items()):
@@ -975,12 +1177,16 @@ def build_summary() -> dict[str, object]:
     q1_same, q1_diff = q1_spectrum(standard)
     q2_total, q2_geometry, three_one = q2_faces(standard)
     q3_total, cubes = q3_spectrum(standard)
+    q4_standard, q4_cubes = q4_spectrum(standard)
     all_q1_totals = collections.Counter(sum(q1_spectrum(table)[0]) for table in tables.values())
     return {
         "table_ids": sorted(tables),
         "q1_standard": {"same_by_direction": q1_same, "diff_by_direction": q1_diff, "same_total": sum(q1_same)},
         "q1_random_baseline": q1_random_baseline(standard),
         "nucleotide_substitution": nucleotide_substitution_spectrum(standard),
+        "synonymous_graph": synonymous_graph_summary(standard),
+        "class_adjacency": class_adjacency_summary(standard),
+        "class_transition": class_transition_summary(standard),
         "q2_standard": {
             "total": dict(q2_total),
             "geometry": {key: dict(value) for key, value in q2_geometry.items()},
@@ -992,6 +1198,12 @@ def build_summary() -> dict[str, object]:
             "stop_trp_neighborhoods": dict(containing_cube_patterns(cubes, MODULES["Stop/Trp"])),
             "ile_met_neighborhoods": dict(containing_cube_patterns(cubes, MODULES["Ile/Met"])),
         },
+        "q4_standard": {
+            **q4_standard,
+            "stop_trp_neighborhoods": containing_q4_neighborhoods(q4_cubes, MODULES["Stop/Trp"]),
+            "ile_met_neighborhoods": containing_q4_neighborhoods(q4_cubes, MODULES["Ile/Met"]),
+        },
+        "q5_control_half_cube": q5_control_half_cube_summary(standard),
         "reassignment": reassignment_spectrum(tables, cubes),
         "partial_aware_core": state_components(partial_tables, CORE_HOTSPOT),
         "active_module_partitions": active_module_partition_summary(partial_tables),
@@ -1024,6 +1236,88 @@ def assert_expected(summary: dict[str, object]) -> None:
         "diff_by_position": [92, 95, 32],
         "same_total": 69,
     }
+    assert summary["synonymous_graph"]["component_types"] == {
+        "1": ["M", "W"],
+        "2": ["C", "D", "E", "F", "H", "K", "N", "Q", "Y"],
+        "3": ["*", "I"],
+        "4": ["A", "G", "P", "T", "V"],
+        "4+2": ["R", "S"],
+        "6": ["L"],
+    }
+    for label in ("M", "W"):
+        assert summary["synonymous_graph"]["classes"][label] == {
+            "size": 1,
+            "component_sizes": [1],
+            "internal_edges": 0,
+            "external_boundary_degree": 6,
+        }
+    for label in ("F", "Y", "C", "H", "Q", "N", "K", "D", "E"):
+        assert summary["synonymous_graph"]["classes"][label] == {
+            "size": 2,
+            "component_sizes": [2],
+            "internal_edges": 1,
+            "external_boundary_degree": 10,
+        }
+    for label in ("I", "*"):
+        assert summary["synonymous_graph"]["classes"][label] == {
+            "size": 3,
+            "component_sizes": [3],
+            "internal_edges": 2,
+            "external_boundary_degree": 14,
+        }
+    for label in ("P", "T", "V", "A", "G"):
+        assert summary["synonymous_graph"]["classes"][label] == {
+            "size": 4,
+            "component_sizes": [4],
+            "internal_edges": 4,
+            "external_boundary_degree": 16,
+        }
+    for label in ("S", "R"):
+        assert summary["synonymous_graph"]["classes"][label] == {
+            "size": 6,
+            "component_sizes": [4, 2],
+            "internal_edges": 5,
+            "external_boundary_degree": 26,
+        }
+    assert summary["synonymous_graph"]["classes"]["L"] == {
+        "size": 6,
+        "component_sizes": [6],
+        "internal_edges": 7,
+        "external_boundary_degree": 22,
+    }
+    assert {
+        item["pair"]: item["count"]
+        for item in summary["class_adjacency"]["top_inter_class_edges"]
+    } == {
+        "G-R": 6,
+        "S-T": 6,
+        "A-G": 4,
+        "A-P": 4,
+        "A-T": 4,
+        "A-V": 4,
+        "C-S": 4,
+        "F-L": 4,
+        "L-P": 4,
+        "L-V": 4,
+        "P-R": 4,
+        "P-S": 4,
+    }
+    assert summary["class_adjacency"]["control_pair_edges"] == {"I-M": 2, "*-W": 2}
+    assert summary["class_transition"]["counts"]["*"] == {
+        "*": 4,
+        "C": 1,
+        "K": 2,
+        "L": 2,
+        "Q": 2,
+        "R": 2,
+        "S": 1,
+        "W": 2,
+        "Y": 2,
+    }
+    assert summary["class_transition"]["counts"]["W"] == {"*": 2, "C": 1, "R": 2, "S": 1}
+    assert summary["class_transition"]["counts"]["I"]["I"] == 4
+    assert summary["class_transition"]["counts"]["I"]["M"] == 2
+    assert summary["class_transition"]["counts"]["M"] == {"I": 2, "K": 1, "L": 1, "T": 1, "V": 1}
     assert summary["q2_standard"]["total"] == {
         "4": 9,
         "3+1": 4,
@@ -1035,6 +1329,48 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert summary["q3_standard"]["total"]["6+2"] == 1
     assert summary["q3_standard"]["stop_trp_neighborhoods"] == {"3+2+2+1": 4}
     assert summary["q3_standard"]["ile_met_neighborhoods"] == {"3+2+2+1": 2, "4+3+1": 2}
+    assert summary["q4_standard"]["max_class_size_distribution"] == {2: 17, 3: 15, 4: 23, 6: 5}
+    assert summary["q4_standard"]["complete_six_class_occurrences"] == {"L": 3, "R": 1, "S": 1}
+    assert len(summary["q4_standard"]["stop_trp_neighborhoods"]) == 6
+    assert all(
+        neighborhood["class_counts"]["*"] == 3 and neighborhood["class_counts"]["W"] == 1
+        for neighborhood in summary["q4_standard"]["stop_trp_neighborhoods"]
+    )
+    assert len(summary["q4_standard"]["ile_met_neighborhoods"]) == 6
+    assert all(
+        neighborhood["class_counts"]["I"] == 3 and neighborhood["class_counts"]["M"] == 1
+        for neighborhood in summary["q4_standard"]["ile_met_neighborhoods"]
+    )
+    assert any(
+        neighborhood["class_counts"] == {"A": 4, "I": 3, "M": 1, "T": 4, "V": 4}
+        for neighborhood in summary["q4_standard"]["ile_met_neighborhoods"]
+    )
+    assert any(
+        neighborhood["class_counts"] == {"F": 2, "I": 3, "L": 6, "M": 1, "V": 4}
+        for neighborhood in summary["q4_standard"]["ile_met_neighborhoods"]
+    )
+    assert summary["q5_control_half_cube"]["shared_fixed_bits"] == [{"bit": 1, "value": "0"}]
+    assert summary["q5_control_half_cube"]["class_counts"] == {
+        "S": 6,
+        "T": 4,
+        "*": 3,
+        "I": 3,
+        "C": 2,
+        "F": 2,
+        "K": 2,
+        "L": 2,
+        "N": 2,
+        "R": 2,
+        "Y": 2,
+        "M": 1,
+        "W": 1,
+    }
+    assert summary["q5_control_half_cube"]["control_class_counts"] == {
+        "Stop": 3,
+        "I": 3,
+        "W": 1,
+        "M": 1,
+    }
     assert summary["reassignment"]["total"] == 65
     assert summary["reassignment"]["module_counts"] == {
         "Stop/Trp": 33,
