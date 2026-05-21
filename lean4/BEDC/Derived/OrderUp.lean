@@ -122,4 +122,17 @@ theorem OrderEndpointTransportObligation {Z : OrderUnaryComparisonCarrier}
           (hsame_trans sameEndpoints rightSame)))
   exact ⟨leftUnary, rightUnary, branch⟩
 
+theorem OrderUp_StdBridge :
+    (∀ Z : OrderUnaryComparisonCarrier,
+      UnaryHistory Z.left ∧ UnaryHistory Z.right ∧
+        (NatUnaryStrictPrefix Z.left Z.right ∨
+          NatUnaryStrictPrefix Z.right Z.left ∨ hsame Z.left Z.right)) ∧
+      (∀ {Z : OrderUnaryComparisonCarrier} {left right : BHist},
+        hsame Z.left left → hsame Z.right right →
+          UnaryHistory left ∧ UnaryHistory right ∧
+            (NatUnaryStrictPrefix left right ∨
+              NatUnaryStrictPrefix right left ∨ hsame left right)) := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory NatUnaryStrictPrefix
+  exact ⟨OrderFullNatArithmeticHandoff.left, OrderEndpointTransportObligation⟩
+
 end BEDC.Derived.OrderUp
