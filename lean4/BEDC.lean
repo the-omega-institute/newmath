@@ -1151,6 +1151,7 @@ import BEDC.Derived.CausalCommitmentUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.RecordPredictionSeparation
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalInterventionUp
+import BEDC.Derived.CausalInterventionUp.TasteGate
 import BEDC.Derived.CellularAutomatonUp.TasteGate
 import BEDC.Derived.CellularBoundaryConditionUp.CarrierSemanticNameCert
 import BEDC.Derived.CellularBoundaryConditionUp.NonescapeBoundary
@@ -1389,6 +1390,7 @@ import BEDC.Derived.CompactUniformContinuityUp.RootRationalFoldConsumer
 import BEDC.Derived.CompactUniformContinuityUp.StandardBridgeObligationPackage
 import BEDC.Derived.CompactUniformContinuityUp.UniformPrecisionConsumerRoute
 import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
+import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
 import BEDC.Derived.CompactUp.CompletePackage
@@ -1953,6 +1955,7 @@ import BEDC.Derived.DiagonalCofinalTailUp.WindowExhaustion
 import BEDC.Derived.DiagonalCofinalTailUp.WindowProjectionExactness
 import BEDC.Derived.DiagonalConvergenceBoundUp
 import BEDC.Derived.DiagonalIndexCofinalityUp
+import BEDC.Derived.DiagonalIndexCofinalityUp.TasteGate
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
 import BEDC.Derived.DiagonalLimitObserverUp
 import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
