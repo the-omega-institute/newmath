@@ -796,6 +796,7 @@ import BEDC.Derived.CategoryUp.UnaryTailZero
 import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CauchyChoiceBoundaryUp.DiagonalBudgetFactorization
+import BEDC.Derived.CauchyChoiceBoundaryUp.NameCertObligationSurface
 import BEDC.Derived.CauchyChoiceBoundaryUp.NoChoiceNonescape
 import BEDC.Derived.CauchyChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
@@ -2972,6 +2973,7 @@ import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionAuditUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
+import BEDC.Derived.LargeModelOutputVerifierUp.NameCertObligations
 import BEDC.Derived.LargeModelOutputVerifierUp.TasteGate
 import BEDC.Derived.LatticeUp
 import BEDC.Derived.LatticeUp.BoundUniqueness
@@ -3242,6 +3244,7 @@ import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
+import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CenterBoundContinuation
