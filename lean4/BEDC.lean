@@ -1078,6 +1078,7 @@ import BEDC.Derived.CauchySequenceSpaceUp.QuotientRefusalRoute
 import BEDC.Derived.CauchySequenceSpaceUp.RealCompletionExactBoundaryTerminalPullback
 import BEDC.Derived.CauchySequenceSpaceUp.RealObservationBudgetFactorization
 import BEDC.Derived.CauchySequenceSpaceUp.StdBridge
+import BEDC.Derived.CauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp.TerminalPullbackExactness
 import BEDC.Derived.CauchySequenceSpaceUp.UniformCriterionConsumption
 import BEDC.Derived.CauchySequenceSpaceUp.WindowFactorization
@@ -2708,6 +2709,7 @@ import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
 import BEDC.Derived.GaloisExtUp.SharedCarrierCoverage
 import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.GaloisExtUp.StdBridge
+import BEDC.Derived.GaloisExtUp.TasteGate
 import BEDC.Derived.GaloisGroupUp
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
