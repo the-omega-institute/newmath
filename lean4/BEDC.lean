@@ -249,6 +249,7 @@ import BEDC.Derived.AuditWritingDisciplineUp.TasteGate
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceBudgetCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceTotality
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AdmissionExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AuditBoundary
@@ -433,7 +434,6 @@ import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.AxisAddUp.TasteGate
 import BEDC.Derived.AxisBoundaryLimitRefusalUp.Nonescape
 import BEDC.Derived.AxisBoundaryLimitRefusalUp.TasteGate
-import BEDC.Derived.AxisCarryDiamondRouteUp.Nonescape
 import BEDC.Derived.AxisCarryDiamondRouteUp.TasteGate
 import BEDC.Derived.AxisCarryRefusalLedgerUp
 import BEDC.Derived.AxisCarryRefusalLedgerUp.TasteGate
@@ -1811,7 +1811,6 @@ import BEDC.Derived.CriticalStripZetaZeroWitnessUp.ScopedPackage
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.SharedSourceScope
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.SourceBoundaryClosure
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.WitnessScopeBinding
-import BEDC.Derived.CrossHistCausalConeUp.NameCertObligations
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.CrossHistCausalRateUp.Carrier
 import BEDC.Derived.CrossHistCausalRateUp.TasteGate
@@ -4118,6 +4117,7 @@ import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
+import BEDC.Derived.RegSeqRatUp.CommonTailRealBoundaryEquivalence
 import BEDC.Derived.RegSeqRatUp.CommonTailWindow
 import BEDC.Derived.RegSeqRatUp.FiniteRequestSourceSection
 import BEDC.Derived.RegSeqRatUp.RealSealFiniteWindowSaturation
@@ -4737,7 +4737,6 @@ import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditPacketUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditSynthesisUp.TasteGate
-import BEDC.Derived.TwinSubstrateBoundaryClassifierUp.RefusalDiscipline
 import BEDC.Derived.TwinSubstrateBoundaryClassifierUp.TasteGate
 import BEDC.Derived.TypeCheckingDerivationTraceUp
 import BEDC.Derived.TypeCheckingMembershipTraceUp
@@ -5006,6 +5005,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaCriticalStripReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaHorizonConsumerRow
+import BEDC.Derived.ZetaContinuationWitnessUp.GammaHorizonNonescapeRow
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.NoRhNonescape
