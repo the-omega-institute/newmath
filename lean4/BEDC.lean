@@ -1956,6 +1956,7 @@ import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
 import BEDC.Derived.DiagonalLimitStabilityUp.TasteGate
 import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.DiagonalModulusUp
+import BEDC.Derived.DiagonalModulusUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.Nonescape
 import BEDC.Derived.DiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.WindowFactorization
@@ -2290,6 +2291,7 @@ import BEDC.Derived.DyadicCoverUp.RealEnvelopeCoverageExactness
 import BEDC.Derived.DyadicCoverUp.RefinementWitnessExhaustion
 import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
 import BEDC.Derived.DyadicEmbeddingUp
+import BEDC.Derived.DyadicFloorUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
@@ -3167,6 +3169,7 @@ import BEDC.Derived.LocatedIntervalUp.ClassifierStability
 import BEDC.Derived.LocatedIntervalUp.PublicConsumerRoute
 import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
 import BEDC.Derived.LocatedIntervalUp.StdBridge
+import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
@@ -4440,6 +4443,7 @@ import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.SemiringUp
 import BEDC.Derived.SeparableExtUp
+import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
