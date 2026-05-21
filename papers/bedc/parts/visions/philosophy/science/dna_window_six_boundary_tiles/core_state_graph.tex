@@ -395,6 +395,115 @@ with the fact that both $S$ and $S+U$ occur in
 \autoref{thm:philosophy-observed-module-activation-patterns}.
 \end{proof}
 
+\begin{theorem}[Module value spectrum]
+\label{thm:philosophy-module-value-spectrum}
+Across the comparison family, the five modules have the following
+observed value spectra:
+$$
+\begin{array}{c|c|l}
+  \text{module} & \text{value count} & \text{values}\\
+\hline
+  S & 10 &
+  (*,*),(*,Q),(*,L),(*,W),(Q,Q),(Q|*,Q|*),(Y,*),(Y,Y),(E,E),(E|*,E|*)\\
+  U & 5 & *,W,C,G,*|W\\
+  N & 2 & K,N\\
+  R & 5 & (R,R),(*,*),(S,S),(G,G),(S,K)\\
+  I & 2 & I,M.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Read each table on the active coordinates and group the coordinates by
+the unique finest support partition of
+\autoref{thm:philosophy-unique-finest-connected-support-partition}.
+The finite enumeration of distinct block values gives the displayed
+spectra.
+\end{proof}
+
+\begin{theorem}[Four-branch module value grammar]
+\label{thm:philosophy-four-branch-module-value-grammar}
+The $22$ observed module-value states are exactly the states generated
+by the following four branches.
+$$
+\begin{array}{c|c|c}
+  \text{branch} & \text{constraint} & \text{state count}\\
+\hline
+  A & U=*,\ N=K,\ R=(R,R),\ I=I,\ S\in\{(*,*),(Q,Q),(*,Q),(*,L),(Y,Y),(E,E),(*,W)\} & 7\\
+  B & S=(*,*),\ N=K,\ R=(R,R),\ I=I,\ U\in\{C,G\} & 2\\
+  C & U=*|W,\ N=K,\ R=(R,R),\ I=I,\ S\in\{(Q,Q),(Q|*,Q|*)\} & 2\\
+  D & U=W\ \text{and one of the observed deep states} & 11.
+\end{array}
+$$
+The deep branch consists of the eleven tuples
+$$
+\begin{gathered}
+(*,*)/W/K/(R,R)/I,\quad
+(*,*)/W/K/(R,R)/M,\quad
+(E|*,E|*)/W/K/(R,R)/I,\\
+(*,*)/W/K/(*,*)/M,\quad
+(*,*)/W/K/(S,S)/M,\quad
+(*,*)/W/K/(G,G)/M,\\
+(*,*)/W/N/(S,S)/I,\quad
+(Y,*)/W/N/(S,S)/I,\quad
+(*,*)/W/N/(S,S)/M,\\
+(*,*)/W/K/(S,K)/I,\quad
+(Y,*)/W/K/(S,K)/I.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+The four displayed branches contain $7+2+2+11=22$ states. Direct
+finite enumeration of the module-value states obtained from the
+comparison family gives $22$ states, and the generated set equals the
+observed set.
+\end{proof}
+
+\begin{corollary}[Trp value as deep entrance]
+\label{cor:philosophy-trp-value-as-deep-entrance}
+Among the nonstandard values of $U$, only $U=W$ opens the deep coupled
+branch. The values $U=C$ and $U=G$ occur only in the pure $U$ branch,
+and $U=*|W$ occurs only in the partial-boundary branch.
+\end{corollary}
+\begin{proof}
+This is the branch separation in
+\autoref{thm:philosophy-four-branch-module-value-grammar}.
+\end{proof}
+
+\begin{theorem}[Deep value constraints]
+\label{thm:philosophy-deep-value-constraints}
+The observed module-value states satisfy the following value-level
+constraints:
+$$
+\begin{gathered}
+  R\neq(R,R)\Rightarrow U=W,\\
+  I=M\Rightarrow U=W\ \text{and}\ S=(*,*),\\
+  N=N\Rightarrow U=W\ \text{and}\ R=(S,S),\\
+  R\in\{(*,*),(G,G)\}\Rightarrow I=M,\ S=(*,*),\ N=K,\\
+  R=(S,K)\Rightarrow I=I,\ N=K,\ U=W.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Check the four branches of
+\autoref{thm:philosophy-four-branch-module-value-grammar}. In the first
+three branches, $R=(R,R)$ except for no case, $I=I$, and $N=K$. In the
+deep branch, the displayed eleven tuples verify each implication
+coordinatewise.
+\end{proof}
+
+\begin{corollary}[AGR as value splitter]
+\label{cor:philosophy-agr-as-value-splitter}
+The AGR module is a value splitter inside the deep branch. The value
+$(*,*)$ is tied to the $I=M$ leaf, $(S,S)$ is the only background in
+which $N=N$ occurs, $(G,G)$ is tied to the $I=M$ leaf, and $(S,K)$ is a
+split satellite value with $I=I$ and $N=K$.
+\end{corollary}
+\begin{proof}
+This is a restatement of the last three implications in
+\autoref{thm:philosophy-deep-value-constraints}, restricted to the
+nonstandard values of $R$.
+\end{proof}
+
 \begin{theorem}[Core state graph cannot-claim boundary]
 \label{thm:philosophy-core-state-graph-cannot-claim-boundary}
 The strict core state graph and module generators do not license any

@@ -513,6 +513,92 @@ def module_activation_summary(tables: dict[int, dict[str, str]]) -> dict[str, ob
     }
 
 
+def module_state(table: dict[str, str]) -> tuple[tuple[str, ...], ...]:
+    return tuple(tuple(table[codon] for codon in block) for block in FINEST_MODULE_PARTITION)
+
+
+def module_value_key(value: tuple[str, ...]) -> str:
+    return value[0] if len(value) == 1 else "(" + ",".join(value) + ")"
+
+
+def generated_module_value_states() -> dict[str, list[tuple[tuple[str, ...], ...]]]:
+    std_s = (("*", "*"),)
+    std_u = (("*",),)
+    std_n = (("K",),)
+    std_r = (("R", "R"),)
+    std_i = (("I",),)
+    branch_a_s = [("*", "*"), ("Q", "Q"), ("*", "Q"), ("*", "L"), ("Y", "Y"), ("E", "E"), ("*", "W")]
+    branch_b_u = [("C",), ("G",)]
+    branch_c_s = [("Q", "Q"), ("Q|*", "Q|*")]
+    branch_d = [
+        (("*", "*"), ("W",), ("K",), ("R", "R"), ("I",)),
+        (("*", "*"), ("W",), ("K",), ("R", "R"), ("M",)),
+        (("E|*", "E|*"), ("W",), ("K",), ("R", "R"), ("I",)),
+        (("*", "*"), ("W",), ("K",), ("*", "*"), ("M",)),
+        (("*", "*"), ("W",), ("K",), ("S", "S"), ("M",)),
+        (("*", "*"), ("W",), ("K",), ("G", "G"), ("M",)),
+        (("*", "*"), ("W",), ("N",), ("S", "S"), ("I",)),
+        (("Y", "*"), ("W",), ("N",), ("S", "S"), ("I",)),
+        (("*", "*"), ("W",), ("N",), ("S", "S"), ("M",)),
+        (("*", "*"), ("W",), ("K",), ("S", "K"), ("I",)),
+        (("Y", "*"), ("W",), ("K",), ("S", "K"), ("I",)),
+    ]
+    return {
+        "U_star_stoparm": [(s, std_u[0], std_n[0], std_r[0], std_i[0]) for s in branch_a_s],
+        "U_cg_pure": [(std_s[0], u, std_n[0], std_r[0], std_i[0]) for u in branch_b_u],
+        "U_partial_boundary": [(s, ("*|W",), std_n[0], std_r[0], std_i[0]) for s in branch_c_s],
+        "U_w_deep": branch_d,
+    }
+
+
+def module_value_grammar_summary(tables: dict[int, dict[str, str]]) -> dict[str, object]:
+    state_tables: dict[tuple[tuple[str, ...], ...], list[int]] = collections.defaultdict(list)
+    for table_id, table in sorted(tables.items()):
+        state_tables[module_state(table)].append(table_id)
+    observed = set(state_tables)
+    generated_by_branch = generated_module_value_states()
+    generated = set(itertools.chain.from_iterable(generated_by_branch.values()))
+    value_sets: dict[str, set[tuple[str, ...]]] = {name: set() for name in MODULE_SYMBOLS.values()}
+    for state in observed:
+        for name, value in zip(MODULE_SYMBOLS.values(), state):
+            value_sets[name].add(value)
+    constraints = {
+        "R_nonstandard_implies_U_W": all(state[1] == ("W",) for state in observed if state[3] != ("R", "R")),
+        "I_M_implies_U_W_and_S_standard": all(
+            state[1] == ("W",) and state[0] == ("*", "*") for state in observed if state[4] == ("M",)
+        ),
+        "N_N_implies_U_W_and_R_SS": all(
+            state[1] == ("W",) and state[3] == ("S", "S") for state in observed if state[2] == ("N",)
+        ),
+        "R_stop_or_gly_implies_I_M_S_standard_N_K": all(
+            state[4] == ("M",) and state[0] == ("*", "*") and state[2] == ("K",)
+            for state in observed
+            if state[3] in (("*", "*"), ("G", "G"))
+        ),
+        "R_SK_implies_I_I_N_K_U_W": all(
+            state[4] == ("I",) and state[2] == ("K",) and state[1] == ("W",)
+            for state in observed
+            if state[3] == ("S", "K")
+        ),
+    }
+    return {
+        "distinct_state_count": len(observed),
+        "module_value_counts": {name: len(values) for name, values in value_sets.items()},
+        "module_values": {
+            name: sorted(module_value_key(value) for value in values)
+            for name, values in value_sets.items()
+        },
+        "branch_counts": {name: len(states) for name, states in generated_by_branch.items()},
+        "generated_state_count": len(generated),
+        "exact_match": observed == generated,
+        "constraints": constraints,
+        "state_tables": {
+            "/".join(module_value_key(value) for value in state): table_ids
+            for state, table_ids in sorted(state_tables.items(), key=lambda item: (item[0], item[1]))
+        },
+    }
+
+
 def reassignment_spectrum(tables: dict[int, dict[str, str]], cubes: list[dict[str, object]]) -> dict[str, object]:
     standard = tables[1]
     module_counts: collections.Counter[str] = collections.Counter()
@@ -653,6 +739,7 @@ def build_summary() -> dict[str, object]:
         "partial_aware_core": state_components(partial_tables, CORE_HOTSPOT),
         "active_module_partitions": active_module_partition_summary(partial_tables),
         "module_activation_grammar": module_activation_summary(partial_tables),
+        "module_value_grammar": module_value_grammar_summary(partial_tables),
         "q1_all_tables": dict(sorted(all_q1_totals.items())),
     }
 
@@ -768,6 +855,29 @@ def assert_expected(summary: dict[str, object]) -> None:
         "I_implies_U": True,
         "N_implies_R": True,
         "S_disjoint_I": True,
+    }
+    assert summary["module_value_grammar"]["distinct_state_count"] == 22
+    assert summary["module_value_grammar"]["module_value_counts"] == {
+        "S": 10,
+        "U": 5,
+        "N": 2,
+        "R": 5,
+        "I": 2,
+    }
+    assert summary["module_value_grammar"]["branch_counts"] == {
+        "U_star_stoparm": 7,
+        "U_cg_pure": 2,
+        "U_partial_boundary": 2,
+        "U_w_deep": 11,
+    }
+    assert summary["module_value_grammar"]["generated_state_count"] == 22
+    assert summary["module_value_grammar"]["exact_match"] is True
+    assert summary["module_value_grammar"]["constraints"] == {
+        "R_nonstandard_implies_U_W": True,
+        "I_M_implies_U_W_and_S_standard": True,
+        "N_N_implies_U_W_and_R_SS": True,
+        "R_stop_or_gly_implies_I_M_S_standard_N_K": True,
+        "R_SK_implies_I_I_N_K_U_W": True,
     }
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
