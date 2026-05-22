@@ -583,6 +583,7 @@ import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
+import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetCofinalReadback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetRegularityLock
@@ -1101,6 +1102,7 @@ import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
+import BEDC.Derived.CauchyRepresentationUp.TasteGate
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.StdBridge
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
@@ -3051,6 +3053,7 @@ import BEDC.Derived.HostDelegationSocketUp
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.IdealClassUp
@@ -4481,6 +4484,7 @@ import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyMaxUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
+import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BridgeObstructionBoundary
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BudgetPullbackExhaustion
@@ -4970,6 +4974,7 @@ import BEDC.Derived.TheoryTransitionCertificateUp.NameCert
 import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.ToeplitzLemmaUp.TasteGate
 import BEDC.Derived.TopGroupUp
 import BEDC.Derived.TopGroupUp.BHistCarrier
 import BEDC.Derived.TopGroupUp.CarrierClassifierObligation
