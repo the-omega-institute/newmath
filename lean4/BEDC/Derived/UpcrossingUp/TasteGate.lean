@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Package
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
@@ -8,6 +9,7 @@ namespace BEDC.Derived.UpcrossingUp
 
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
@@ -245,5 +247,62 @@ theorem UpcrossingNamecertObligations [AskSetup] [PackageSetup]
   exact
     ⟨cert, sourceUnary, martingaleUnary, windowUnary, thresholdUnary, routeUnary,
       provenancePkg⟩
+
+theorem UpcrossingMartingaleRoute [AskSetup] [PackageSetup]
+    {source martingale window threshold route provenance localCert routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UpcrossingCarrier source martingale window threshold route provenance localCert
+        bundle pkg →
+      Cont martingale window routeRead →
+        PkgSig bundle routeRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row martingale ∨ hsame row window ∨ hsame row routeRead)
+              (fun row : BHist => hsame row routeRead ∧ PkgSig bundle routeRead pkg)
+              hsame ∧
+            UnaryHistory martingale ∧ UnaryHistory window ∧ UnaryHistory routeRead ∧
+              Cont martingale window routeRead ∧ PkgSig bundle routeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier martingaleWindow routePkg
+  obtain ⟨_sourceUnary, martingaleUnary, windowUnary, _thresholdUnary, _routeUnary,
+    _provenanceUnary, _localCertUnary, _provenancePkg⟩ := carrier
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed martingaleUnary windowUnary martingaleWindow
+  have sourceRoute :
+      (fun row : BHist => hsame row routeRead ∧ UnaryHistory row) routeRead := by
+    exact ⟨hsame_refl routeRead, routeReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row martingale ∨ hsame row window ∨ hsame row routeRead)
+          (fun row : BHist => hsame row routeRead ∧ PkgSig bundle routeRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro routeRead sourceRoute
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, routePkg⟩
+  }
+  exact ⟨cert, martingaleUnary, windowUnary, routeReadUnary, martingaleWindow, routePkg⟩
 
 end BEDC.Derived.UpcrossingUp
