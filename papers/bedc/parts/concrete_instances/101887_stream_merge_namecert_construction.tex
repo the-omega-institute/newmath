@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\StreamMergeUp$}
+\label{ch:concrete-instances-stream-merge-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive sequences, the $\StreamMergeUp$ packet records the finite operation of reading two certified stream schedules through one visible merge selector. It sits over the $\StreamNameUp$ window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It is the finite schedule-merge surface consumed by paired-window constructions such as \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}; it is not a quotient of streams, a countable choice selector, a host pairing primitive, or an ambient completion principle.
+
+\begin{definition}[Stream merge carrier]
+\label{def:stream-merge-carrier}
+A $\StreamMergeUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S_0,S_1,\sigma,W_0,W_1,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two certified $\StreamNameUp$ schedules whose finite observation windows may be inspected.
+\item $\sigma$ is the visible merge selector. Each displayed selector row records whether the merged position reads from $S_0$ or from $S_1$.
+\item $W_0$ and $W_1$ are the source windows opened from $S_0$ and $S_1$.
+\item $W$ is the merged window ledger obtained by reading each displayed position through $\sigma$ and then through the selected source window.
+\item $H$ records componentwise $\hsame$ transport for the two schedules, selector row, two source windows, merged window, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a merged-window request through $\sigma$, the selected $S_i$, the selected $W_i$, the merged row $W$, and the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\StreamMergeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StreamMergeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,\sigma,W_0,W_1,W,H,C,P,N$. It has no coordinate for quotient stream equality, a hidden selector, a host zip operation, a selected limit, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Stream merge NameCert obligations]
+\label{thm:stream-merge-namecert-obligations}
+For every accepted $\StreamMergeUp$ carrier
+$$
+M=(S_0,S_1,\sigma,W_0,W_1,W,H,C,P,N),
+$$
+the local $\NameCert_{\StreamMergeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two $\StreamNameUp$ schedules, visible selector, source windows, merged window, componentwise transport, displayed replay, provenance, and local naming rows;
+\item selector-stable classifier transport, requiring every transported merged position to keep the same selected side under $H$ and $C$;
+\item source projection recovery, requiring the projection of $W$ along either visible selector side to recover the displayed source window $W_0$ or $W_1$;
+\item merged-window coverage, requiring every displayed row of $W$ to be read from exactly one of the two source windows through $\sigma$;
+\item $\RegSeqRatUp$ and $\RealUp$ consumer non-escape, requiring every regular-rational or real-facing consumer of the merged stream to pass through the selected $\StreamNameUp$ window and the dyadic observation route before reaching a downstream seal.
+\end{enumerate}
+No stream-merge obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-merge-carrier}. The only schedule data available to the classifier are the two source schedules $S_0,S_1$, the visible selector $\sigma$, the source windows $W_0,W_1$, and the merged ledger $W$.
+
+Selector-stable classifier transport is read from $H$ and $C$. A transported selector row still names one of the two displayed source sides, so a merged position cannot change sides without changing a packet coordinate.
+
+Source projection recovery follows by restricting the merged ledger to one selector side. The positions selected as $0$ read through $S_0$ and $W_0$, while the positions selected as $1$ read through $S_1$ and $W_1$.
+
+Merged-window coverage is the converse read of the same finite data. Every row of $W$ is produced by first inspecting $\sigma$ and then using exactly the selected source window; the carrier has no third schedule or unscheduled row.
+
+Finally, the provenance row $P$ names the downstream $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ consumer route, while $N$ names the local certificate. Since quotient stream equality, hidden selectors, host pairing, selected limits, countable choice, and ambient completion are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Stream merge projection stability]
+\label{thm:stream-merge-projection-stability}
+Let
+$$
+M=(S_0,S_1,\sigma,W_0,W_1,W,H,C,P,N)
+$$
+be an accepted $\StreamMergeUp$ carrier. Projecting $M$ back to either source schedule preserves the displayed $\StreamNameUp$ window on that side and preserves the dyadic, $\RegSeqRatUp$, and $\RealUp$ consumer route attached to that window. Thus a consumer of the projected source receives the same source schedule, source window, transport, replay, provenance, and local naming rows that were present before the merge.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and choose one side of the visible selector. The selected side determines whether the read uses $S_0,W_0$ or $S_1,W_1$.
+
+Use source projection recovery from \autoref{thm:stream-merge-namecert-obligations}. The restriction of $W$ to the chosen selector side is exactly the source window displayed in the carrier, so projection does not synthesize a different schedule window.
+
+The dyadic and regular-rational route is unchanged because $P$ records the same $\DyadicRatCoreUp$ and $\RegSeqRatUp$ dependency surface for the selected source window. Any real-facing consumer then reaches $\RealUp$ only after that selected StreamName window and its dyadic readback route have been displayed.
+
+Transport and replay remain componentwise through $H$ and $C$, and the local row $N$ names the same finite packet. Therefore source projection preserves the displayed window and the downstream consumer route rather than exporting quotient stream equality, a hidden selector, a host zip operation, selected limits, countable choice, or ambient completion.
+\end{proof}
+
+\falsifiablePrediction{Every paired-window Real or Completion consumer using two certified stream schedules factors through a $\StreamMergeUp$ packet that displays both source windows, one visible selector, one merged window ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, regularcauchyinterleaving: $\StreamMergeUp$ is not bijective to any listed sibling because it jointly carries two certified schedules, a visible merge selector, two source windows, one merged window ledger, classifier transport, projection recovery, downstream regular-rational and real consumer routing, and local naming.}
+
+\closureat{StreamMergeUp}{seedStr}
+
+\begin{closurestatus}{\StreamMergeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stream-merge-carrier}, \autoref{thm:stream-merge-namecert-obligations}, and \autoref{thm:stream-merge-projection-stability} seed the finite two-schedule merge route through StreamName windows, a visible selector, merged-window coverage, source projection recovery, and regular-rational and real-facing non-escape.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient stream equality, hidden selectors, host pairing, selected limits, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector-stable classifier transport, source projection recovery, merged-window coverage, consumer non-escape, and TasteGate field faithfulness for BEDC.Derived.StreamMergeUp.}
+  \constructivestory{A $\StreamMergeUp$ packet is generated from two StreamName schedules, one visible merge selector, two source windows, one merged window ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
