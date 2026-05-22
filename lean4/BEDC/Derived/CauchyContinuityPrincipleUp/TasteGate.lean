@@ -1,5 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyContinuityPrincipleUp
@@ -213,4 +215,58 @@ theorem CauchyContinuityPrincipleTasteGate_single_carrier_alignment :
   · rfl
 
 end TasteGate
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def CauchyContinuityPrincipleCarrier [AskSetup] [PackageSetup]
+    (source windows tolerance modulus uniformity target sealRow transport replay provenance localName :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory source ∧ UnaryHistory windows ∧ UnaryHistory tolerance ∧
+    UnaryHistory modulus ∧ UnaryHistory uniformity ∧ UnaryHistory target ∧
+      UnaryHistory sealRow ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+        UnaryHistory provenance ∧ UnaryHistory localName ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle localName pkg
+
+theorem CauchyContinuityPrincipleCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {source windows tolerance modulus uniformity target sealRow transport replay provenance localName
+      toleranceRead sourceRead targetRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyContinuityPrincipleCarrier source windows tolerance modulus uniformity target sealRow transport
+        replay provenance localName bundle pkg →
+      Cont tolerance modulus toleranceRead →
+        Cont toleranceRead source sourceRead →
+          Cont sourceRead target targetRead →
+            Cont targetRead sealRow sealRead →
+              PkgSig bundle sealRead pkg →
+                UnaryHistory source ∧ UnaryHistory tolerance ∧ UnaryHistory toleranceRead ∧
+                  UnaryHistory sourceRead ∧ UnaryHistory targetRead ∧ UnaryHistory sealRead ∧
+                    Cont tolerance modulus toleranceRead ∧
+                      Cont toleranceRead source sourceRead ∧
+                        Cont sourceRead target targetRead ∧ Cont targetRead sealRow sealRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier toleranceModulus toleranceSource sourceTarget targetSeal sealSig
+  obtain ⟨sourceUnary, _windowsUnary, toleranceUnary, modulusUnary, _uniformityUnary,
+    targetUnary, sealUnary, _transportUnary, _replayUnary, provenanceUnary,
+    _localNameUnary, provenanceSig, _localNameSig⟩ := carrier
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed toleranceUnary modulusUnary toleranceModulus
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed toleranceReadUnary sourceUnary toleranceSource
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_cont_closed sourceReadUnary targetUnary sourceTarget
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed targetReadUnary sealUnary targetSeal
+  exact
+    ⟨sourceUnary, toleranceUnary, toleranceReadUnary, sourceReadUnary, targetReadUnary,
+      sealReadUnary, toleranceModulus, toleranceSource, sourceTarget, targetSeal, provenanceSig,
+      sealSig⟩
+
 end BEDC.Derived.CauchyContinuityPrincipleUp
