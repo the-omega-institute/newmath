@@ -2818,15 +2818,47 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "candidate_count": len(rows),
             "best_count": len(best_rows),
             "best_added": best_rows[0]["added"],
+            "best_rows": best_rows,
             "best_spectral_radius": best_radius,
             "best_gain": best_rows[0]["gain"],
             "top_rows": rows[:top_count],
         }
 
     anchor_triple_spectral_search = spectral_expansion_search(support, 3)
+    support_pair_spectral_search = spectral_expansion_search(support, 2)
     first_median_triple_spectral_search = spectral_expansion_search(anchor_closure, 3)
+    anchor_single_spectral_search = spectral_expansion_search(anchor_closure, 1)
+    anchor_pair_spectral_search = spectral_expansion_search(anchor_closure, 2)
     acg_single_spectral_search = spectral_expansion_search(median_stage_one, 1)
     support_single_spectral_search = spectral_expansion_search(support, 1)
+    support_quad_best_sets = (
+        ("AAG", "ACA", "ATG", "TTG"),
+        ("ACA", "TCG", "TGG", "TTG"),
+    )
+    support_quad_best_rows = [
+        {
+            "added": added,
+            "spectral_radius": spectral_radius_for_set(support | set(added)),
+            "gain": spectral_radius_for_set(support | set(added)) - spectral_radius_for_set(support),
+            "base_neighbor_count": sum(neighbor_count_in_set(codon, support) for codon in added),
+        }
+        for added in support_quad_best_sets
+    ]
+    support_quad_best_radius = support_quad_best_rows[0]["spectral_radius"]
+    assert all(abs(row["spectral_radius"] - support_quad_best_radius) < 1e-12 for row in support_quad_best_rows)
+    assert tuple(sorted(apply_cube_automorphism(codon, *tau) for codon in support_quad_best_sets[0])) == support_quad_best_sets[1]
+    tau_invariant_frontier_rows = [
+        {"budget": 1, "best_added": ("ACA",)},
+        {"budget": 2, "best_added": ("ACA", "TTG")},
+        {"budget": 3, "best_added": ("AAG", "ACA", "TGG")},
+        {"budget": 4, "best_added": ("AAG", "ACA", "TGG", "TTG")},
+        {"budget": 5, "best_added": ("AAG", "ATG", "TCG", "TGG", "TTG")},
+        {"budget": 6, "best_added": ("AAG", "ACA", "ATG", "TCG", "TGG", "TTG")},
+        {"budget": 6, "best_added": ("AAG", "ACG", "ATG", "TCG", "TGG", "TTG")},
+        {"budget": 7, "best_added": ("AAG", "ACA", "ACG", "ATG", "TCG", "TGG", "TTG")},
+    ]
+    for row in tau_invariant_frontier_rows:
+        assert all(apply_cube_automorphism(codon, *tau) in row["best_added"] for codon in row["best_added"])
     greedy_spectral_chain_rows = [
         {
             "set": "support",
@@ -3253,7 +3285,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         },
         "greedy_spectral_closure": {
             "anchor_triple_search": anchor_triple_spectral_search,
+            "support_pair_search": support_pair_spectral_search,
             "first_median_triple_search": first_median_triple_spectral_search,
+            "anchor_single_search": anchor_single_spectral_search,
+            "anchor_pair_search": anchor_pair_spectral_search,
             "acg_single_search": acg_single_spectral_search,
             "support_single_search": support_single_spectral_search,
             "chain_rows": greedy_spectral_chain_rows,
@@ -3271,6 +3306,59 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                     "gain": acg_single_spectral_search["best_gain"],
                 },
             ],
+            "fixed_budget_rows": [
+                {
+                    "budget": 1,
+                    "candidate_count": support_single_spectral_search["candidate_count"],
+                    "best_count": support_single_spectral_search["best_count"],
+                    "best_added_rows": support_single_spectral_search["best_rows"],
+                },
+                {
+                    "budget": 2,
+                    "candidate_count": support_pair_spectral_search["candidate_count"],
+                    "best_count": support_pair_spectral_search["best_count"],
+                    "best_added_rows": support_pair_spectral_search["best_rows"],
+                },
+                {
+                    "budget": 3,
+                    "candidate_count": anchor_triple_spectral_search["candidate_count"],
+                    "best_count": anchor_triple_spectral_search["best_count"],
+                    "best_added_rows": anchor_triple_spectral_search["best_rows"],
+                },
+                {
+                    "budget": 4,
+                    "candidate_count": 249900,
+                    "best_count": 2,
+                    "best_added_rows": support_quad_best_rows,
+                },
+            ],
+            "anchor_budget_rows": [
+                {
+                    "budget": 1,
+                    "candidate_count": anchor_single_spectral_search["candidate_count"],
+                    "best_count": anchor_single_spectral_search["best_count"],
+                    "best_added_rows": anchor_single_spectral_search["best_rows"],
+                },
+                {
+                    "budget": 2,
+                    "candidate_count": anchor_pair_spectral_search["candidate_count"],
+                    "best_count": anchor_pair_spectral_search["best_count"],
+                    "best_added_rows": anchor_pair_spectral_search["best_rows"],
+                },
+                {
+                    "budget": 3,
+                    "candidate_count": first_median_triple_spectral_search["candidate_count"],
+                    "best_count": first_median_triple_spectral_search["best_count"],
+                    "best_added_rows": first_median_triple_spectral_search["best_rows"],
+                },
+            ],
+            "tau_invariant_frontier_rows": tau_invariant_frontier_rows,
+            "fixed_budget_nested_failure": {
+                "budget_2": support_pair_spectral_search["best_added"],
+                "budget_3": anchor_triple_spectral_search["best_added"],
+                "budget_2_subset_budget_3": set(support_pair_spectral_search["best_added"])
+                <= set(anchor_triple_spectral_search["best_added"]),
+            },
         },
     }
 
@@ -4890,6 +4978,7 @@ def assert_expected(summary: dict[str, object]) -> None:
         (("GTA",), 0.649491, 0.00731, 2),
     ]
     assert greedy["support_single_search"]["best_added"] == ("ACA",)
+    assert greedy["support_single_search"]["best_count"] == 1
     assert [
         (row["added"], round(row["spectral_radius"], 6), row["base_neighbor_count"])
         for row in greedy["support_single_search"]["top_rows"][:5]
@@ -4899,6 +4988,57 @@ def assert_expected(summary: dict[str, object]) -> None:
         (("CAA",), 0.506652, 2),
         (("AAG",), 0.506292, 3),
         (("TGG",), 0.506292, 3),
+    ]
+    assert greedy["support_pair_search"]["candidate_count"] == 1275
+    assert greedy["support_pair_search"]["best_count"] == 1
+    assert greedy["support_pair_search"]["best_added"] == ("ACA", "TTG")
+    assert round(greedy["support_pair_search"]["best_spectral_radius"], 6) == 0.546504
+    assert [
+        (row["added"], round(row["spectral_radius"], 6), row["base_neighbor_count"])
+        for row in greedy["support_pair_search"]["top_rows"][:5]
+    ] == [
+        (("ACA", "TTG"), 0.546504, 6),
+        (("AAG", "ACA"), 0.545591, 6),
+        (("ACA", "TGG"), 0.545591, 6),
+        (("AAG", "TGG"), 0.54346, 6),
+        (("ACA", "CAA"), 0.541681, 5),
+    ]
+    assert greedy["anchor_single_search"]["candidate_count"] == 48
+    assert greedy["anchor_single_search"]["best_count"] == 1
+    assert greedy["anchor_single_search"]["best_added"] == ("TTG",)
+    assert round(greedy["anchor_single_search"]["best_spectral_radius"], 6) == 0.592944
+    assert greedy["anchor_pair_search"]["candidate_count"] == 1128
+    assert greedy["anchor_pair_search"]["best_count"] == 2
+    assert [
+        row["added"] for row in greedy["anchor_pair_search"]["best_rows"]
+    ] == [
+        ("ATG", "TTG"),
+        ("TCG", "TTG"),
+    ]
+    assert round(greedy["anchor_pair_search"]["best_spectral_radius"], 6) == 0.618387
+    assert greedy["fixed_budget_rows"][3]["candidate_count"] == 249900
+    assert greedy["fixed_budget_rows"][3]["best_count"] == 2
+    assert [
+        (row["added"], round(row["spectral_radius"], 6), round(row["gain"], 6), row["base_neighbor_count"])
+        for row in greedy["fixed_budget_rows"][3]["best_added_rows"]
+    ] == [
+        (("AAG", "ACA", "ATG", "TTG"), 0.597078, 0.121199, 10),
+        (("ACA", "TCG", "TGG", "TTG"), 0.597078, 0.121199, 10),
+    ]
+    assert greedy["fixed_budget_nested_failure"] == {
+        "budget_2": ("ACA", "TTG"),
+        "budget_3": ("AAG", "ACA", "TGG"),
+        "budget_2_subset_budget_3": False,
+    }
+    assert greedy["tau_invariant_frontier_rows"] == [
+        {"budget": 1, "best_added": ("ACA",)},
+        {"budget": 2, "best_added": ("ACA", "TTG")},
+        {"budget": 3, "best_added": ("AAG", "ACA", "TGG")},
+        {"budget": 4, "best_added": ("AAG", "ACA", "TGG", "TTG")},
+        {"budget": 5, "best_added": ("AAG", "ATG", "TCG", "TGG", "TTG")},
+        {"budget": 6, "best_added": ("AAG", "ACA", "ATG", "TCG", "TGG", "TTG")},
+        {"budget": 6, "best_added": ("AAG", "ACG", "ATG", "TCG", "TGG", "TTG")},
+        {"budget": 7, "best_added": ("AAG", "ACA", "ACG", "ATG", "TCG", "TGG", "TTG")},
     ]
     assert [
         (row["set"], row["added"], row["vertices"], round(row["spectral_radius"], 6))
