@@ -2970,6 +2970,7 @@ import BEDC.Derived.GapClosureBoundaryUp.TasteGate
 import BEDC.Derived.GapFailureBridgeAuditUp.NameCertObligations
 import BEDC.Derived.GapFailureBridgeAuditUp.TasteGate
 import BEDC.Derived.GapSocketBoundaryUp.TasteGate
+import BEDC.Derived.GaugeIntegralUp
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeneratorClosureUp
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
