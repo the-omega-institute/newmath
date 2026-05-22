@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
+namespace BEDC.Derived.RegularCauchyTailModulusUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -26,7 +26,7 @@ def regularCauchyTailModulusDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyTailModulusDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyTailModulusDecodeBHist tail)
 
-private theorem regularCauchyTailModulus_decode_encode :
+private theorem RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -44,94 +44,60 @@ def regularCauchyTailModulusToEventFlow : RegularCauchyTailModulusUp → EventFl
   -- BEDC touchpoint anchor: BHist BMark
   | x => (regularCauchyTailModulusFields x).map regularCauchyTailModulusEncodeBHist
 
-def regularCauchyTailModulusFromEventFlow :
-    EventFlow → Option RegularCauchyTailModulusUp
+private def regularCauchyTailModulusEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | S :: restS =>
-      match restS with
-      | Q :: restQ =>
-          match restQ with
-          | T :: restT =>
-              match restT with
-              | W :: restW =>
-                  match restW with
-                  | D :: restD =>
-                      match restD with
-                      | H :: restH =>
-                          match restH with
-                          | C :: restC =>
-                              match restC with
-                              | P :: restP =>
-                                  match restP with
-                                  | N :: restN =>
-                                      match restN with
-                                      | [] =>
-                                          some
-                                            (RegularCauchyTailModulusUp.mk
-                                              (regularCauchyTailModulusDecodeBHist S)
-                                              (regularCauchyTailModulusDecodeBHist Q)
-                                              (regularCauchyTailModulusDecodeBHist T)
-                                              (regularCauchyTailModulusDecodeBHist W)
-                                              (regularCauchyTailModulusDecodeBHist D)
-                                              (regularCauchyTailModulusDecodeBHist H)
-                                              (regularCauchyTailModulusDecodeBHist C)
-                                              (regularCauchyTailModulusDecodeBHist P)
-                                              (regularCauchyTailModulusDecodeBHist N))
-                                      | _ :: _ => none
-                                  | [] => none
-                              | [] => none
-                          | [] => none
-                      | [] => none
-                  | [] => none
-              | [] => none
-          | [] => none
-      | [] => none
-  | [] => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyTailModulusEventAt index rest
 
-private theorem regularCauchyTailModulus_mk_congr
-    {S S' Q Q' T T' W W' D D' H H' C C' P P' N N' : BHist}
-    (hS : S' = S) (hQ : Q' = Q) (hT : T' = T) (hW : W' = W)
-    (hD : D' = D) (hH : H' = H) (hC : C' = C) (hP : P' = P)
-    (hN : N' = N) :
-    RegularCauchyTailModulusUp.mk S' Q' T' W' D' H' C' P' N' =
-      RegularCauchyTailModulusUp.mk S Q T W D H C P N := by
+def regularCauchyTailModulusFromEventFlow (ef : EventFlow) :
+    Option RegularCauchyTailModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  cases hS
-  cases hQ
-  cases hT
-  cases hW
-  cases hD
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
+  some
+    (RegularCauchyTailModulusUp.mk
+      (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEventAt 0 ef))
+      (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEventAt 1 ef))
+      (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEventAt 2 ef))
+      (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEventAt 3 ef))
+      (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEventAt 4 ef))
+      (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEventAt 5 ef))
+      (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEventAt 6 ef))
+      (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEventAt 7 ef))
+      (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEventAt 8 ef)))
 
-private theorem regularCauchyTailModulus_round_trip :
-    ∀ x : RegularCauchyTailModulusUp,
-      regularCauchyTailModulusFromEventFlow
-        (regularCauchyTailModulusToEventFlow x) = some x := by
+private theorem RegularCauchyTailModulusTasteGate_single_carrier_alignment_round_trip
+    (x : RegularCauchyTailModulusUp) :
+    regularCauchyTailModulusFromEventFlow (regularCauchyTailModulusToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk S Q T W D H C P N =>
-      exact
-        congrArg some
-          (regularCauchyTailModulus_mk_congr
-            (regularCauchyTailModulus_decode_encode S)
-            (regularCauchyTailModulus_decode_encode Q)
-            (regularCauchyTailModulus_decode_encode T)
-            (regularCauchyTailModulus_decode_encode W)
-            (regularCauchyTailModulus_decode_encode D)
-            (regularCauchyTailModulus_decode_encode H)
-            (regularCauchyTailModulus_decode_encode C)
-            (regularCauchyTailModulus_decode_encode P)
-            (regularCauchyTailModulus_decode_encode N))
+      change
+        some
+          (RegularCauchyTailModulusUp.mk
+            (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist S))
+            (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist Q))
+            (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist T))
+            (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist W))
+            (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist D))
+            (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist H))
+            (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist C))
+            (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist P))
+            (regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist N))) =
+          some (RegularCauchyTailModulusUp.mk S Q T W D H C P N)
+      rw [RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode S,
+        RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode Q,
+        RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode T,
+        RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode W,
+        RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode D,
+        RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode H,
+        RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode C,
+        RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode P,
+        RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem regularCauchyTailModulusToEventFlow_injective
+private theorem RegularCauchyTailModulusTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RegularCauchyTailModulusUp} :
-    regularCauchyTailModulusToEventFlow x =
-      regularCauchyTailModulusToEventFlow y → x = y := by
+    regularCauchyTailModulusToEventFlow x = regularCauchyTailModulusToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -139,8 +105,21 @@ private theorem regularCauchyTailModulusToEventFlow_injective
         regularCauchyTailModulusFromEventFlow (regularCauchyTailModulusToEventFlow y) :=
     congrArg regularCauchyTailModulusFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (regularCauchyTailModulus_round_trip x).symm
-      (Eq.trans hread (regularCauchyTailModulus_round_trip y)))
+    (Eq.trans (RegularCauchyTailModulusTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (RegularCauchyTailModulusTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem RegularCauchyTailModulusTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : RegularCauchyTailModulusUp,
+      regularCauchyTailModulusFields x = regularCauchyTailModulusFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S₁ Q₁ T₁ W₁ D₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk S₂ Q₂ T₂ W₂ D₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance regularCauchyTailModulusBHistCarrier :
     BHistCarrier RegularCauchyTailModulusUp where
@@ -154,35 +133,53 @@ instance regularCauchyTailModulusChapterTasteGate :
   round_trip := by
     intro x
     change
-      regularCauchyTailModulusFromEventFlow (regularCauchyTailModulusToEventFlow x) =
-        some x
-    exact regularCauchyTailModulus_round_trip x
+      regularCauchyTailModulusFromEventFlow
+        (regularCauchyTailModulusToEventFlow x) = some x
+    exact RegularCauchyTailModulusTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (regularCauchyTailModulusToEventFlow_injective heq)
+    exact hxy
+      (RegularCauchyTailModulusTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate RegularCauchyTailModulusUp :=
+instance regularCauchyTailModulusFieldFaithful :
+    FieldFaithful RegularCauchyTailModulusUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchyTailModulusFields
+  field_faithful := RegularCauchyTailModulusTasteGate_single_carrier_alignment_fields_faithful
+
+instance regularCauchyTailModulusNontrivial : Nontrivial RegularCauchyTailModulusUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchyTailModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RegularCauchyTailModulusUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def RegularCauchyTailModulusTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate RegularCauchyTailModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyTailModulusChapterTasteGate
 
-theorem RegularCauchyTailModulusUpTasteGate_single_carrier_alignment :
+theorem RegularCauchyTailModulusTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       regularCauchyTailModulusDecodeBHist (regularCauchyTailModulusEncodeBHist h) = h) ∧
       (∀ x : RegularCauchyTailModulusUp,
         regularCauchyTailModulusFromEventFlow
           (regularCauchyTailModulusToEventFlow x) = some x) ∧
-      (∀ x y : RegularCauchyTailModulusUp,
-        regularCauchyTailModulusToEventFlow x =
-          regularCauchyTailModulusToEventFlow y → x = y) ∧
-      regularCauchyTailModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact regularCauchyTailModulus_decode_encode
-  constructor
-  · exact regularCauchyTailModulus_round_trip
-  constructor
-  · intro x y heq
-    exact regularCauchyTailModulusToEventFlow_injective heq
-  · rfl
+        (∀ x y : RegularCauchyTailModulusUp,
+          regularCauchyTailModulusToEventFlow x =
+              regularCauchyTailModulusToEventFlow y →
+            x = y) ∧
+          regularCauchyTailModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨RegularCauchyTailModulusTasteGate_single_carrier_alignment_decode_encode,
+      RegularCauchyTailModulusTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        RegularCauchyTailModulusTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
-end BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
+end BEDC.Derived.RegularCauchyTailModulusUp
