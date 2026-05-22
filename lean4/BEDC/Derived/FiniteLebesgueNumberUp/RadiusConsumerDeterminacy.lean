@@ -134,4 +134,34 @@ theorem FiniteLebesgueNumberCompactConsumerDeterminacyPackage [AskSetup] [Packag
       radiusMeshCompactMetric, radiusMeshCompactNet, compactNetNameUniform, provenancePkg,
       compactMetricPkg, uniformPkg⟩
 
+def FiniteLebesgueNumberRadiusConsumerDeterminacyLedger [AskSetup] [PackageSetup]
+    (cover radius mesh source regular real transport route provenance nameRow compactConsumer
+      uniformConsumer : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory cover ∧ UnaryHistory radius ∧ UnaryHistory mesh ∧ UnaryHistory source ∧
+    UnaryHistory regular ∧ UnaryHistory real ∧ UnaryHistory compactConsumer ∧
+      UnaryHistory uniformConsumer ∧ Cont cover radius source ∧ Cont source mesh regular ∧
+        Cont regular route real ∧ Cont real nameRow compactConsumer ∧
+          Cont compactConsumer transport uniformConsumer ∧ PkgSig bundle provenance pkg
+
+theorem FiniteLebesgueNumberRadiusConsumerDeterminacyLedger_fields [AskSetup]
+    [PackageSetup]
+    {cover radius mesh source regular real transport route provenance nameRow compactConsumer
+      uniformConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberRadiusConsumerDeterminacyLedger cover radius mesh source regular real
+        transport route provenance nameRow compactConsumer uniformConsumer bundle pkg ->
+      Cont cover radius source ∧ Cont source mesh regular ∧ Cont regular route real ∧
+        Cont real nameRow compactConsumer ∧ Cont compactConsumer transport uniformConsumer ∧
+          PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro ledger
+  exact
+    ⟨ledger.right.right.right.right.right.right.right.right.left,
+      ledger.right.right.right.right.right.right.right.right.right.left,
+      ledger.right.right.right.right.right.right.right.right.right.right.left,
+      ledger.right.right.right.right.right.right.right.right.right.right.right.left,
+      ledger.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      ledger.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
