@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyRealOrderUp.TasteGate
+namespace BEDC.Derived.CauchyRealOrderUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -153,19 +153,6 @@ theorem CauchyRealOrderTasteGate_single_carrier_alignment_toEventFlow_injective
     (Eq.trans (CauchyRealOrderTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (CauchyRealOrderTasteGate_single_carrier_alignment_round_trip y)))
 
-theorem CauchyRealOrderTasteGate_single_carrier_alignment_field_faithful :
-    ∀ x y : CauchyRealOrderUp, cauchyRealOrderFields x = cauchyRealOrderFields y -> x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk sourceLeft1 sourceRight1 window1 dyadic1 quotient1 realSeal1 verdict1 transport1
-      replay1 provenance1 localName1 =>
-      cases y with
-      | mk sourceLeft2 sourceRight2 window2 dyadic2 quotient2 realSeal2 verdict2 transport2
-          replay2 provenance2 localName2 =>
-          cases hfields
-          rfl
-
 instance cauchyRealOrderBHistCarrier : BHistCarrier CauchyRealOrderUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := cauchyRealOrderToEventFlow
@@ -179,27 +166,11 @@ instance cauchyRealOrderChapterTasteGate : ChapterTasteGate CauchyRealOrderUp wh
     intro x y hxy heq
     exact hxy (CauchyRealOrderTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-instance cauchyRealOrderFieldFaithful : FieldFaithful CauchyRealOrderUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := cauchyRealOrderFields
-  field_faithful := CauchyRealOrderTasteGate_single_carrier_alignment_field_faithful
-
-instance cauchyRealOrderNontrivial : Nontrivial CauchyRealOrderUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CauchyRealOrderUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CauchyRealOrderUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
 def taste_gate : ChapterTasteGate CauchyRealOrderUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchyRealOrderChapterTasteGate
 
-theorem CauchyRealOrderTasteGate_single_carrier_alignment :
+theorem CauchyRealOrderUpTasteGate_single_carrier_alignment :
     (∀ h : BHist, cauchyRealOrderDecodeBHist (cauchyRealOrderEncodeBHist h) = h) ∧
       (∀ x : CauchyRealOrderUp,
         cauchyRealOrderFromEventFlow (cauchyRealOrderToEventFlow x) = some x) ∧
@@ -216,21 +187,22 @@ theorem CauchyRealOrderTasteGate_single_carrier_alignment :
         exact CauchyRealOrderTasteGate_single_carrier_alignment_toEventFlow_injective heq
       · rfl
 
-end BEDC.Derived.CauchyRealOrderUp.TasteGate
+namespace TasteGate
 
-namespace BEDC.Derived.CauchyRealOrderUp
-
-open BEDC.FKernel.Hist
-open BEDC.GroundCompiler.EventFlow
-
-theorem CauchyRealOrderTasteGate_e0_row_round_trip
-    (S T W D Q R A H C P N : BHist) :
-    TasteGate.cauchyRealOrderFromEventFlow
-      (TasteGate.cauchyRealOrderToEventFlow
-        (TasteGate.CauchyRealOrderUp.mk (BHist.e0 S) T W D Q R A H C P N)) =
-      some (TasteGate.CauchyRealOrderUp.mk (BHist.e0 S) T W D Q R A H C P N) := by
+theorem CauchyRealOrderTasteGate_single_carrier_alignment :
+    (∀ h : BHist, cauchyRealOrderDecodeBHist (cauchyRealOrderEncodeBHist h) = h) ∧
+      (∀ x : CauchyRealOrderUp,
+        cauchyRealOrderFromEventFlow (cauchyRealOrderToEventFlow x) = some x) ∧
+        (∀ x y : CauchyRealOrderUp,
+          cauchyRealOrderToEventFlow x = cauchyRealOrderToEventFlow y -> x = y) ∧
+          cauchyRealOrderEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact TasteGate.CauchyRealOrderTasteGate_single_carrier_alignment_round_trip
-    (TasteGate.CauchyRealOrderUp.mk (BHist.e0 S) T W D Q R A H C P N)
+  exact CauchyRealOrderUpTasteGate_single_carrier_alignment
+
+def taste_gate : ChapterTasteGate CauchyRealOrderUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  BEDC.Derived.CauchyRealOrderUp.taste_gate
+
+end TasteGate
 
 end BEDC.Derived.CauchyRealOrderUp
