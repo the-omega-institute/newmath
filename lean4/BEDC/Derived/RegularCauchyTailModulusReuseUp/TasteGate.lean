@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyTailModulusReuseUp
@@ -25,19 +26,16 @@ def regularCauchyTailModulusReuseDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyTailModulusReuseDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyTailModulusReuseDecodeBHist tail)
 
-private theorem regularCauchyTailModulusReuseDecode_encode_bhist :
+private theorem RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       regularCauchyTailModulusReuseDecodeBHist
         (regularCauchyTailModulusReuseEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def regularCauchyTailModulusReuseFields :
     RegularCauchyTailModulusReuseUp → List BHist
@@ -48,51 +46,54 @@ def regularCauchyTailModulusReuseFields :
 def regularCauchyTailModulusReuseToEventFlow :
     RegularCauchyTailModulusReuseUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (regularCauchyTailModulusReuseFields x).map
-      regularCauchyTailModulusReuseEncodeBHist
+  | x =>
+      (regularCauchyTailModulusReuseFields x).map
+        regularCauchyTailModulusReuseEncodeBHist
 
-def regularCauchyTailModulusReuseFromEventFlow :
-    EventFlow → Option RegularCauchyTailModulusReuseUp
+private def regularCauchyTailModulusReuseEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _a :: [] => none
-  | _a :: _b :: [] => none
-  | _a :: _b :: _c :: [] => none
-  | _a :: _b :: _c :: _d :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: _k :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: _k :: _l :: [] =>
-      none
-  | S :: Q :: T :: E :: L :: W :: D :: M :: U :: H :: C :: P :: N :: [] =>
-      some
-        (RegularCauchyTailModulusReuseUp.mk
-          (regularCauchyTailModulusReuseDecodeBHist S)
-          (regularCauchyTailModulusReuseDecodeBHist Q)
-          (regularCauchyTailModulusReuseDecodeBHist T)
-          (regularCauchyTailModulusReuseDecodeBHist E)
-          (regularCauchyTailModulusReuseDecodeBHist L)
-          (regularCauchyTailModulusReuseDecodeBHist W)
-          (regularCauchyTailModulusReuseDecodeBHist D)
-          (regularCauchyTailModulusReuseDecodeBHist M)
-          (regularCauchyTailModulusReuseDecodeBHist U)
-          (regularCauchyTailModulusReuseDecodeBHist H)
-          (regularCauchyTailModulusReuseDecodeBHist C)
-          (regularCauchyTailModulusReuseDecodeBHist P)
-          (regularCauchyTailModulusReuseDecodeBHist N))
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: _k ::
-      _l :: _m :: _n :: _rest => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyTailModulusReuseEventAt index rest
 
-private theorem regularCauchyTailModulusReuse_round_trip :
-    ∀ x : RegularCauchyTailModulusReuseUp,
-      regularCauchyTailModulusReuseFromEventFlow
-        (regularCauchyTailModulusReuseToEventFlow x) = some x := by
+def regularCauchyTailModulusReuseFromEventFlow (ef : EventFlow) :
+    Option RegularCauchyTailModulusReuseUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
+  some
+    (RegularCauchyTailModulusReuseUp.mk
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 0 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 1 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 2 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 3 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 4 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 5 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 6 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 7 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 8 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 9 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 10 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 11 ef))
+      (regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEventAt 12 ef)))
+
+private theorem RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_round_trip
+    (x : RegularCauchyTailModulusReuseUp) :
+    regularCauchyTailModulusReuseFromEventFlow
+      (regularCauchyTailModulusReuseToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk S Q T E L W D M U H C P N =>
       change
@@ -125,24 +126,25 @@ private theorem regularCauchyTailModulusReuse_round_trip :
             (regularCauchyTailModulusReuseDecodeBHist
               (regularCauchyTailModulusReuseEncodeBHist N))) =
           some (RegularCauchyTailModulusReuseUp.mk S Q T E L W D M U H C P N)
-      rw [regularCauchyTailModulusReuseDecode_encode_bhist S,
-        regularCauchyTailModulusReuseDecode_encode_bhist Q,
-        regularCauchyTailModulusReuseDecode_encode_bhist T,
-        regularCauchyTailModulusReuseDecode_encode_bhist E,
-        regularCauchyTailModulusReuseDecode_encode_bhist L,
-        regularCauchyTailModulusReuseDecode_encode_bhist W,
-        regularCauchyTailModulusReuseDecode_encode_bhist D,
-        regularCauchyTailModulusReuseDecode_encode_bhist M,
-        regularCauchyTailModulusReuseDecode_encode_bhist U,
-        regularCauchyTailModulusReuseDecode_encode_bhist H,
-        regularCauchyTailModulusReuseDecode_encode_bhist C,
-        regularCauchyTailModulusReuseDecode_encode_bhist P,
-        regularCauchyTailModulusReuseDecode_encode_bhist N]
+      rw [RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode S,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode Q,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode T,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode E,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode L,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode W,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode D,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode M,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode U,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode H,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode C,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode P,
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem regularCauchyTailModulusReuseToEventFlow_injective
+private theorem RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RegularCauchyTailModulusReuseUp} :
     regularCauchyTailModulusReuseToEventFlow x =
-      regularCauchyTailModulusReuseToEventFlow y → x = y := by
+        regularCauchyTailModulusReuseToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -152,19 +154,21 @@ private theorem regularCauchyTailModulusReuseToEventFlow_injective
           (regularCauchyTailModulusReuseToEventFlow y) :=
     congrArg regularCauchyTailModulusReuseFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (regularCauchyTailModulusReuse_round_trip x).symm
-      (Eq.trans hread (regularCauchyTailModulusReuse_round_trip y)))
+    (Eq.trans
+      (RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem regularCauchyTailModulusReuse_fields_faithful :
+private theorem RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_fields_faithful :
     ∀ x y : RegularCauchyTailModulusReuseUp,
       regularCauchyTailModulusReuseFields x =
         regularCauchyTailModulusReuseFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk S Q T E L W D M U H C P N =>
+  | mk S1 Q1 T1 E1 L1 W1 D1 M1 U1 H1 C1 P1 N1 =>
       cases y with
-      | mk S' Q' T' E' L' W' D' M' U' H' C' P' N' =>
+      | mk S2 Q2 T2 E2 L2 W2 D2 M2 U2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -182,50 +186,56 @@ instance regularCauchyTailModulusReuseChapterTasteGate :
     change
       regularCauchyTailModulusReuseFromEventFlow
         (regularCauchyTailModulusReuseToEventFlow x) = some x
-    exact regularCauchyTailModulusReuse_round_trip x
+    exact RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (regularCauchyTailModulusReuseToEventFlow_injective heq)
+    exact hxy
+      (RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance regularCauchyTailModulusReuseFieldFaithful :
     FieldFaithful RegularCauchyTailModulusReuseUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := regularCauchyTailModulusReuseFields
-  field_faithful := regularCauchyTailModulusReuse_fields_faithful
+  field_faithful :=
+    RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_fields_faithful
 
 instance regularCauchyTailModulusReuseNontrivial :
     Nontrivial RegularCauchyTailModulusReuseUp where
+  -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨RegularCauchyTailModulusReuseUp.mk BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      RegularCauchyTailModulusReuseUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    ⟨RegularCauchyTailModulusReuseUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      RegularCauchyTailModulusReuseUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
       by
-        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate RegularCauchyTailModulusReuseUp :=
+def RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate RegularCauchyTailModulusReuseUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyTailModulusReuseChapterTasteGate
 
 theorem RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-        regularCauchyTailModulusReuseDecodeBHist
-          (regularCauchyTailModulusReuseEncodeBHist h) = h) ∧
+      regularCauchyTailModulusReuseDecodeBHist
+        (regularCauchyTailModulusReuseEncodeBHist h) = h) ∧
       (∀ x : RegularCauchyTailModulusReuseUp,
         regularCauchyTailModulusReuseFromEventFlow
           (regularCauchyTailModulusReuseToEventFlow x) = some x) ∧
-      (∀ x y : RegularCauchyTailModulusReuseUp,
-        regularCauchyTailModulusReuseToEventFlow x =
-          regularCauchyTailModulusReuseToEventFlow y → x = y) ∧
-      regularCauchyTailModulusReuseEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact ⟨regularCauchyTailModulusReuseDecode_encode_bhist,
-    regularCauchyTailModulusReuse_round_trip,
-    fun _ _ heq => regularCauchyTailModulusReuseToEventFlow_injective heq,
-    rfl⟩
+        (∀ x y : RegularCauchyTailModulusReuseUp,
+          regularCauchyTailModulusReuseToEventFlow x =
+              regularCauchyTailModulusReuseToEventFlow y →
+            x = y) ∧
+          regularCauchyTailModulusReuseEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_decode_encode,
+      RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        RegularCauchyTailModulusReuseTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.RegularCauchyTailModulusReuseUp

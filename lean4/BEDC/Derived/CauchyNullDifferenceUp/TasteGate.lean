@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyNullDifferenceUp
@@ -25,19 +26,15 @@ def cauchyNullDifferenceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyNullDifferenceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyNullDifferenceDecodeBHist tail)
 
-private theorem cauchyNullDifferenceDecode_encode_bhist :
+private theorem CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
-      cauchyNullDifferenceDecodeBHist
-        (cauchyNullDifferenceEncodeBHist h) = h := by
+      cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def cauchyNullDifferenceFields : CauchyNullDifferenceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -48,42 +45,34 @@ def cauchyNullDifferenceToEventFlow : CauchyNullDifferenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (cauchyNullDifferenceFields x).map cauchyNullDifferenceEncodeBHist
 
-def cauchyNullDifferenceFromEventFlow : EventFlow → Option CauchyNullDifferenceUp
+private def cauchyNullDifferenceEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _a :: [] => none
-  | _a :: _b :: [] => none
-  | _a :: _b :: _c :: [] => none
-  | _a :: _b :: _c :: _d :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: [] => none
-  | X :: Y :: D :: Z :: W :: T :: E :: H :: K :: P :: N :: [] =>
-      some
-        (CauchyNullDifferenceUp.mk
-          (cauchyNullDifferenceDecodeBHist X)
-          (cauchyNullDifferenceDecodeBHist Y)
-          (cauchyNullDifferenceDecodeBHist D)
-          (cauchyNullDifferenceDecodeBHist Z)
-          (cauchyNullDifferenceDecodeBHist W)
-          (cauchyNullDifferenceDecodeBHist T)
-          (cauchyNullDifferenceDecodeBHist E)
-          (cauchyNullDifferenceDecodeBHist H)
-          (cauchyNullDifferenceDecodeBHist K)
-          (cauchyNullDifferenceDecodeBHist P)
-          (cauchyNullDifferenceDecodeBHist N))
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j ::
-      _k :: _l :: _rest => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => cauchyNullDifferenceEventAt index rest
 
-private theorem cauchyNullDifference_round_trip :
-    ∀ x : CauchyNullDifferenceUp,
-      cauchyNullDifferenceFromEventFlow
-        (cauchyNullDifferenceToEventFlow x) = some x := by
+def cauchyNullDifferenceFromEventFlow (ef : EventFlow) :
+    Option CauchyNullDifferenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
+  some
+    (CauchyNullDifferenceUp.mk
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 0 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 1 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 2 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 3 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 4 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 5 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 6 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 7 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 8 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 9 ef))
+      (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEventAt 10 ef)))
+
+private theorem CauchyNullDifferenceTasteGate_single_carrier_alignment_round_trip
+    (x : CauchyNullDifferenceUp) :
+    cauchyNullDifferenceFromEventFlow (cauchyNullDifferenceToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk X Y D Z W T E H K P N =>
       change
@@ -101,22 +90,21 @@ private theorem cauchyNullDifference_round_trip :
             (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEncodeBHist P))
             (cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEncodeBHist N))) =
           some (CauchyNullDifferenceUp.mk X Y D Z W T E H K P N)
-      rw [cauchyNullDifferenceDecode_encode_bhist X,
-        cauchyNullDifferenceDecode_encode_bhist Y,
-        cauchyNullDifferenceDecode_encode_bhist D,
-        cauchyNullDifferenceDecode_encode_bhist Z,
-        cauchyNullDifferenceDecode_encode_bhist W,
-        cauchyNullDifferenceDecode_encode_bhist T,
-        cauchyNullDifferenceDecode_encode_bhist E,
-        cauchyNullDifferenceDecode_encode_bhist H,
-        cauchyNullDifferenceDecode_encode_bhist K,
-        cauchyNullDifferenceDecode_encode_bhist P,
-        cauchyNullDifferenceDecode_encode_bhist N]
+      rw [CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode X,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode Y,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode D,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode Z,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode W,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode T,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode E,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode H,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode K,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode P,
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem cauchyNullDifferenceToEventFlow_injective
+private theorem CauchyNullDifferenceTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyNullDifferenceUp} :
-    cauchyNullDifferenceToEventFlow x =
-      cauchyNullDifferenceToEventFlow y → x = y := by
+    cauchyNullDifferenceToEventFlow x = cauchyNullDifferenceToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -124,22 +112,24 @@ private theorem cauchyNullDifferenceToEventFlow_injective
         cauchyNullDifferenceFromEventFlow (cauchyNullDifferenceToEventFlow y) :=
     congrArg cauchyNullDifferenceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (cauchyNullDifference_round_trip x).symm
-      (Eq.trans hread (cauchyNullDifference_round_trip y)))
+    (Eq.trans (CauchyNullDifferenceTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (CauchyNullDifferenceTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem cauchyNullDifference_fields_faithful :
+private theorem CauchyNullDifferenceTasteGate_single_carrier_alignment_fields_faithful :
     ∀ x y : CauchyNullDifferenceUp,
       cauchyNullDifferenceFields x = cauchyNullDifferenceFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk X Y D Z W T E H K P N =>
+  | mk X1 Y1 D1 Z1 W1 T1 E1 H1 K1 P1 N1 =>
       cases y with
-      | mk X' Y' D' Z' W' T' E' H' K' P' N' =>
+      | mk X2 Y2 D2 Z2 W2 T2 E2 H2 K2 P2 N2 =>
           cases hfields
           rfl
 
-instance cauchyNullDifferenceBHistCarrier : BHistCarrier CauchyNullDifferenceUp where
+instance cauchyNullDifferenceBHistCarrier :
+    BHistCarrier CauchyNullDifferenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := cauchyNullDifferenceToEventFlow
   fromEventFlow := cauchyNullDifferenceFromEventFlow
@@ -151,47 +141,51 @@ instance cauchyNullDifferenceChapterTasteGate :
     intro x
     change
       cauchyNullDifferenceFromEventFlow (cauchyNullDifferenceToEventFlow x) = some x
-    exact cauchyNullDifference_round_trip x
+    exact CauchyNullDifferenceTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (cauchyNullDifferenceToEventFlow_injective heq)
+    exact hxy
+      (CauchyNullDifferenceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-instance cauchyNullDifferenceFieldFaithful : FieldFaithful CauchyNullDifferenceUp where
+instance cauchyNullDifferenceFieldFaithful :
+    FieldFaithful CauchyNullDifferenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := cauchyNullDifferenceFields
-  field_faithful := cauchyNullDifference_fields_faithful
+  field_faithful := CauchyNullDifferenceTasteGate_single_carrier_alignment_fields_faithful
 
 instance cauchyNullDifferenceNontrivial : Nontrivial CauchyNullDifferenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CauchyNullDifferenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CauchyNullDifferenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+    ⟨CauchyNullDifferenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      CauchyNullDifferenceUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty,
       by
-        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate CauchyNullDifferenceUp :=
+def CauchyNullDifferenceTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate CauchyNullDifferenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchyNullDifferenceChapterTasteGate
 
 theorem CauchyNullDifferenceTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-        cauchyNullDifferenceDecodeBHist
-          (cauchyNullDifferenceEncodeBHist h) = h) ∧
+      cauchyNullDifferenceDecodeBHist (cauchyNullDifferenceEncodeBHist h) = h) ∧
       (∀ x : CauchyNullDifferenceUp,
-        cauchyNullDifferenceFromEventFlow
-          (cauchyNullDifferenceToEventFlow x) = some x) ∧
-      (∀ x y : CauchyNullDifferenceUp,
-        cauchyNullDifferenceToEventFlow x =
-          cauchyNullDifferenceToEventFlow y → x = y) ∧
-      cauchyNullDifferenceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact ⟨cauchyNullDifferenceDecode_encode_bhist,
-    cauchyNullDifference_round_trip,
-    fun _ _ heq => cauchyNullDifferenceToEventFlow_injective heq,
-    rfl⟩
+        cauchyNullDifferenceFromEventFlow (cauchyNullDifferenceToEventFlow x) = some x) ∧
+        (∀ x y : CauchyNullDifferenceUp,
+          cauchyNullDifferenceToEventFlow x = cauchyNullDifferenceToEventFlow y →
+            x = y) ∧
+          cauchyNullDifferenceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨CauchyNullDifferenceTasteGate_single_carrier_alignment_decode_encode,
+      CauchyNullDifferenceTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        CauchyNullDifferenceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.CauchyNullDifferenceUp
