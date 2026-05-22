@@ -138,18 +138,28 @@ def taste_gate : ChapterTasteGate FastCauchyModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   fastCauchyModulusChapterTasteGate
 
-theorem FastCauchyModulusTasteGate_single_carrier_alignment :
-    (forall h : BHist, fastCauchyModulusDecodeBHist (fastCauchyModulusEncodeBHist h) = h) ∧
-      (forall x : FastCauchyModulusUp,
+theorem FastCauchyModulusUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist, fastCauchyModulusDecodeBHist (fastCauchyModulusEncodeBHist h) = h) ∧
+      (∀ x : FastCauchyModulusUp,
         fastCauchyModulusFromEventFlow (fastCauchyModulusToEventFlow x) = some x) ∧
-      (forall x y : FastCauchyModulusUp,
-        fastCauchyModulusToEventFlow x = fastCauchyModulusToEventFlow y -> x = y) ∧
-      fastCauchyModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+        (∀ x y : FastCauchyModulusUp,
+          fastCauchyModulusToEventFlow x = fastCauchyModulusToEventFlow y → x = y) ∧
+          fastCauchyModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨fastCauchyModulus_decode_encode_bhist,
       fastCauchyModulus_round_trip,
       (fun _ _ heq => fastCauchyModulusToEventFlow_injective heq),
       rfl⟩
+
+theorem FastCauchyModulusTasteGate_single_carrier_alignment :
+    (∀ h : BHist, fastCauchyModulusDecodeBHist (fastCauchyModulusEncodeBHist h) = h) ∧
+      (∀ x : FastCauchyModulusUp,
+        fastCauchyModulusFromEventFlow (fastCauchyModulusToEventFlow x) = some x) ∧
+        (∀ x y : FastCauchyModulusUp,
+          fastCauchyModulusToEventFlow x = fastCauchyModulusToEventFlow y → x = y) ∧
+          fastCauchyModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact FastCauchyModulusUpTasteGate_single_carrier_alignment
 
 end BEDC.Derived.FastCauchyModulusUp
