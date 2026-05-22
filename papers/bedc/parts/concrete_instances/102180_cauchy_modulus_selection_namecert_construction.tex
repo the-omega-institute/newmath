@@ -76,12 +76,56 @@ The selected threshold $M$ is not external to this route. The ledger $T$ binds i
 Finally, $H,C,P,N$ preserve and name the displayed route. Hence the accepted request factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ in that order, with the selected threshold visible before the Real seal and with no bypass through host choice, quotient stream equality, selected limits, trichotomy, ambient completeness, Lean verification, or bridge checking.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus-selection threshold uniqueness]
+\label{thm:cauchy-modulus-selection-threshold-uniqueness}
+For every accepted $\CauchyModulusSelectionUp$ carrier
+$$
+X=(R,D,W,M,T,E,H,C,P,N),
+$$
+every exported threshold for the displayed request is read through the single selected row $M$ and certified by the exactness ledger $T$. No consumer of the packet can introduce a second modulus row outside the displayed coordinates $R,D,W,M,T,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-selection-carrier}. Its only coordinate whose role is a selected unary threshold is $M$, and its only coordinate whose role is request-threshold exactness is $T$.
+
+Apply \autoref{thm:cauchy-modulus-selection-namecert-obligations}. The obligation surface binds selected-threshold exactness to $T$ and requires $T$ to bind $M$ to the displayed dyadic request in $D$ over the source row $R$.
+
+The classifier has no further threshold coordinate. Therefore any exported threshold visible to a consumer must be the row already displayed as $M$, certified by $T$, and transported or replayed only through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus-selection dyadic monotonicity]
+\label{thm:cauchy-modulus-selection-dyadic-monotonicity}
+For every accepted $\CauchyModulusSelectionUp$ carrier
+$$
+X=(R,D,W,M,T,E,H,C,P,N),
+$$
+any refinement of a dyadic tolerance request must be routed through the same $\DyadicRatCoreUp$ tolerance ledger $D$ before the selected threshold row $M$ and exactness ledger $T$ are visible. In particular, refined requests cannot bypass the dyadic tolerance ledger or the finite $\StreamNameUp$ windows.
+\end{theorem}
+\begin{proof}
+Read the analytic route from the carrier. The tolerance request is $D$, the finite observation surface is $W$, the regular rational source row is $R$, and the selected threshold and exactness rows are $M,T$.
+
+Apply \autoref{thm:cauchy-modulus-selection-real-request-handoff}. Every Real-facing request reaches the boundary $E$ only after passing through the displayed $D,W,R$ route with $M$ and $T$ visible before the Real seal.
+
+A refined dyadic tolerance request is still a dyadic request. Since the carrier has no second tolerance ledger and no external window coordinate, refinement can only change the data read inside $D$ and then pass through $W,R,M,T$ in the same order.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus-selection transport closure]
+\label{thm:cauchy-modulus-selection-transport-closure}
+If two accepted $\CauchyModulusSelectionUp$ packets are classifier-related through their displayed rows, then their selected threshold rows transport componentwise through $H$ and replay the same finite route through $C$. The transported route preserves the order $D,W,R,M,T,E$ and introduces no external modulus row, tolerance ledger, Real limit, or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Use the carrier coordinates for the two accepted packets. Classifier relatedness is measured only through the displayed rows $R,D,W,M,T,E,H,C,P,N$, so componentwise comparison has a threshold component, an exactness component, a Real-boundary component, and the transport and replay components.
+
+The row $H$ records the componentwise $\hsame$ transport for the regular source, dyadic request, finite windows, selected threshold, exactness ledger, Real boundary, replay, provenance, and local naming rows. Transport of the selected threshold is therefore the $M$ component of the same displayed relation, not a new selector.
+
+The row $C$ records displayed $\Cont$ replay from every Real-facing request through $D,W,R,M,T,E,H,P,N$. Replaying after transport follows that route in the same order, so the transported packet preserves the finite handoff and remains inside the original classifier surface.
+\end{proof}
+
 \closureat{CauchyModulusSelectionUp}{seedStr}
 
 \begin{closurestatus}{\CauchyModulusSelectionUp}
   \constructivestory{A $\CauchyModulusSelectionUp$ packet is generated from a RegSeqRat source row, a DyadicRatCore tolerance request, finite StreamName observation windows, a selected unary threshold row, a request-threshold exactness ledger, a RealUp request boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-selection-carrier}, \autoref{thm:cauchy-modulus-selection-namecert-obligations}, and \autoref{thm:cauchy-modulus-selection-real-request-handoff} seed the finite threshold-selection certificate for regular Cauchy requests on the L10 route.}
+  \scopeclosed{\autoref{def:cauchy-modulus-selection-carrier}, \autoref{thm:cauchy-modulus-selection-namecert-obligations}, \autoref{thm:cauchy-modulus-selection-real-request-handoff}, \autoref{thm:cauchy-modulus-selection-threshold-uniqueness}, \autoref{thm:cauchy-modulus-selection-dyadic-monotonicity}, and \autoref{thm:cauchy-modulus-selection-transport-closure} seed the finite threshold-selection certificate for regular Cauchy requests on the L10 route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host choice, quotient stream equality, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
