@@ -39,6 +39,34 @@ private theorem LimitTasteGate_single_carrier_alignment_decode_aux :
     ∀ h : BHist, limitDecodeBHist (limitEncodeBHist h) = h :=
   limitDecodeEncodeBHist
 
+private theorem LimitTasteGate_single_carrier_alignment_mk_aux
+    {stream stream' readback readback' dyadic dyadic' realSeal realSeal'
+      transport transport' continuation continuation' history history' provenance provenance'
+      name name' : BHist}
+    (hStream : stream' = stream)
+    (hReadback : readback' = readback)
+    (hDyadic : dyadic' = dyadic)
+    (hRealSeal : realSeal' = realSeal)
+    (hTransport : transport' = transport)
+    (hContinuation : continuation' = continuation)
+    (hHistory : history' = history)
+    (hProvenance : provenance' = provenance)
+    (hName : name' = name) :
+    LimitUp.mk stream' readback' dyadic' realSeal' transport' continuation' history'
+        provenance' name' =
+      LimitUp.mk stream readback dyadic realSeal transport continuation history provenance name := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hStream
+  cases hReadback
+  cases hDyadic
+  cases hRealSeal
+  cases hTransport
+  cases hContinuation
+  cases hHistory
+  cases hProvenance
+  cases hName
+  rfl
+
 def limitFields : LimitUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | LimitUp.mk stream readback dyadic realSeal transport continuation history provenance name =>
@@ -133,16 +161,16 @@ private theorem limit_round_trip :
   | mk stream readback dyadic realSeal transport continuation history provenance name =>
       exact
         congrArg some
-          (limit_mk_congr
-            (limitDecodeEncodeBHist stream)
-            (limitDecodeEncodeBHist readback)
-            (limitDecodeEncodeBHist dyadic)
-            (limitDecodeEncodeBHist realSeal)
-            (limitDecodeEncodeBHist transport)
-            (limitDecodeEncodeBHist continuation)
-            (limitDecodeEncodeBHist history)
-            (limitDecodeEncodeBHist provenance)
-            (limitDecodeEncodeBHist name))
+          (LimitTasteGate_single_carrier_alignment_mk_aux
+            (LimitTasteGate_single_carrier_alignment_decode_aux stream)
+            (LimitTasteGate_single_carrier_alignment_decode_aux readback)
+            (LimitTasteGate_single_carrier_alignment_decode_aux dyadic)
+            (LimitTasteGate_single_carrier_alignment_decode_aux realSeal)
+            (LimitTasteGate_single_carrier_alignment_decode_aux transport)
+            (LimitTasteGate_single_carrier_alignment_decode_aux continuation)
+            (LimitTasteGate_single_carrier_alignment_decode_aux history)
+            (LimitTasteGate_single_carrier_alignment_decode_aux provenance)
+            (LimitTasteGate_single_carrier_alignment_decode_aux name))
 
 private theorem limitToEventFlow_injective {x y : LimitUp} :
     limitToEventFlow x = limitToEventFlow y → x = y := by
@@ -256,12 +284,14 @@ theorem LimitUpTasteGate_single_carrier_alignment :
 
 theorem LimitTasteGate_single_carrier_alignment :
     (∀ h : BHist, limitDecodeBHist (limitEncodeBHist h) = h) ∧
-      (∀ x : LimitUp, limitFromEventFlow (limitToEventFlow x) = some x) ∧
-      (∀ x y : LimitUp, limitToEventFlow x = limitToEventFlow y → x = y) ∧
-      limitEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ stream readback dyadic realSeal transport continuation history provenance name : BHist,
+        limitFields
+            (LimitUp.mk stream readback dyadic realSeal transport continuation history provenance
+              name) =
+          [stream, readback, dyadic, realSeal, transport, continuation, history, provenance,
+            name]) ∧
+        limitEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨limitDecodeEncodeBHist, limit_round_trip, (fun _x _y heq => limitToEventFlow_injective heq),
-      rfl⟩
+  exact LimitUpTasteGate_single_carrier_alignment
 
 end BEDC.Derived.LimitUp
