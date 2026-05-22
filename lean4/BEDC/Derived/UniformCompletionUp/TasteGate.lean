@@ -1,8 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
-import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.UniformCompletionUp
@@ -10,8 +10,10 @@ namespace BEDC.Derived.UniformCompletionUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
-open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -281,6 +283,22 @@ theorem UniformCompletion_cauchy_filter_factorization {F D U E H C P N : BHist} 
     · constructor
       · exact uniformCompletionDecode_encode_bhist F
       · exact uniformCompletionDecode_encode_bhist D
+
+theorem UniformCompletion_namecert_obligation_surface
+    [AskSetup] [PackageSetup]
+    {F D U E H C P N audit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    uniformCompletionFields (UniformCompletionUp.mk F D U E H C P N) =
+        [F, D, U, E, H, C, P, N] ∧
+      Cont H C audit ∧ PkgSig bundle N pkg →
+        hsame (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist N)) N ∧
+          Cont H C audit ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame ProbeBundle Pkg PkgSig
+  intro surface
+  exact
+    ⟨uniformCompletionDecode_encode_bhist N,
+      surface.right.left,
+      surface.right.right⟩
 
 def taste_gate : ChapterTasteGate UniformCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark

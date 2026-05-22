@@ -377,6 +377,24 @@ theorem RegularCauchyEquivalence_refinement_transport {X Y W D Z R E H C P N : B
         · exact regularCauchyEquivalenceDecode_encode_bhist Y
         · exact regularCauchyEquivalenceDecode_encode_bhist W
 
+theorem RegularCauchyEquivalence_real_classifier_boundary
+    {X Y W D Z R E H C P N reflected : BHist} :
+    regularCauchyEquivalenceFields
+        (RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N) =
+        [X, Y, W, D, Z, R, E, H, C, P, N] ∧
+      Cont Z R reflected →
+        hsame (regularCauchyEquivalenceDecodeBHist
+          (regularCauchyEquivalenceEncodeBHist R)) R ∧
+          Cont Z R reflected ∧
+            hsame (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist E)) E := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro surface
+  exact
+    ⟨regularCauchyEquivalenceDecode_encode_bhist R,
+      surface.right,
+      regularCauchyEquivalenceDecode_encode_bhist E⟩
+
 end TasteGate
 
 end BEDC.Derived.RegularCauchyEquivalenceUp
