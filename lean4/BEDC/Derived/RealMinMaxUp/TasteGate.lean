@@ -36,6 +36,11 @@ private theorem RealMinMaxTasteGate_single_carrier_alignment_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+def realMinMaxFields : RealMinMaxUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RealMinMaxUp.mk X Y RX RY SX SY D E C O L U H T P N =>
+      [X, Y, RX, RY, SX, SY, D, E, C, O, L, U, H, T, P, N]
+
 private theorem realMinMax_mk_congr
     {X₁ X₂ Y₁ Y₂ RX₁ RX₂ RY₁ RY₂ SX₁ SX₂ SY₁ SY₂ D₁ D₂ E₁ E₂ C₁ C₂ O₁ O₂
       L₁ L₂ U₁ U₂ H₁ H₂ T₁ T₂ P₁ P₂ N₁ N₂ : BHist} :
@@ -219,6 +224,17 @@ private theorem RealMinMaxTasteGate_single_carrier_alignment_toEventFlow_injecti
       (RealMinMaxTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (RealMinMaxTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem realMinMax_field_faithful :
+    ∀ x y : RealMinMaxUp, realMinMaxFields x = realMinMaxFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk X₁ Y₁ RX₁ RY₁ SX₁ SY₁ D₁ E₁ C₁ O₁ L₁ U₁ H₁ T₁ P₁ N₁ =>
+      cases y with
+      | mk X₂ Y₂ RX₂ RY₂ SX₂ SY₂ D₂ E₂ C₂ O₂ L₂ U₂ H₂ T₂ P₂ N₂ =>
+          cases h
+          rfl
+
 instance realMinMaxBHistCarrier : BHistCarrier RealMinMaxUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := realMinMaxToEventFlow
@@ -233,6 +249,28 @@ instance realMinMaxChapterTasteGate : ChapterTasteGate RealMinMaxUp where
   layer_separation := by
     intro x y hxy heq
     exact hxy (RealMinMaxTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+instance realMinMaxFieldFaithful : FieldFaithful RealMinMaxUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := realMinMaxFields
+  field_faithful := realMinMax_field_faithful
+
+def taste_gate : ChapterTasteGate RealMinMaxUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  realMinMaxChapterTasteGate
+
+theorem RealMinMaxUp_single_carrier_alignment :
+    (∀ h : BHist, realMinMaxDecodeBHist (realMinMaxEncodeBHist h) = h) ∧
+      (∀ x : RealMinMaxUp, realMinMaxFromEventFlow (realMinMaxToEventFlow x) = some x) ∧
+      (∀ x y : RealMinMaxUp,
+        realMinMaxToEventFlow x = realMinMaxToEventFlow y → x = y) ∧
+      realMinMaxEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨RealMinMaxTasteGate_single_carrier_alignment_decode_encode,
+      RealMinMaxTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => RealMinMaxTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 theorem RealMinMaxTasteGate_single_carrier_alignment :
     (∀ h : BHist, realMinMaxDecodeBHist (realMinMaxEncodeBHist h) = h) ∧
