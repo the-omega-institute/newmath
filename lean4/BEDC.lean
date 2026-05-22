@@ -1147,6 +1147,7 @@ import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
+import BEDC.Derived.CauchyRateDominanceUp.TasteGate
 import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
@@ -2479,6 +2480,7 @@ import BEDC.Derived.DyadicRatCoreUp.RegSeqRatWindow
 import BEDC.Derived.DyadicRatCoreUp.SourceBoundary
 import BEDC.Derived.DyadicRatCoreUp.StandardSourceBridge
 import BEDC.Derived.DyadicRoundingUp
+import BEDC.Derived.DyadicShrinkScheduleUp
 import BEDC.Derived.DyadicSplineUp
 import BEDC.Derived.DyadicSplineUp.TasteGate
 import BEDC.Derived.DyadicStepFunctionUp
