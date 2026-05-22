@@ -136,6 +136,17 @@ instance metricTopologyFieldFaithful : FieldFaithful MetricTopologyUp where
   fields := metricTopologyFields
   field_faithful := metricTopology_fields_faithful
 
+instance metricTopologyNontrivial : Nontrivial MetricTopologyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨MetricTopologyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      MetricTopologyUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate MetricTopologyUp :=
   -- BEDC touchpoint anchor: BHist BMark
   metricTopologyChapterTasteGate
@@ -147,7 +158,7 @@ theorem MetricTopologyTasteGate_single_carrier_alignment :
         (∀ x y : MetricTopologyUp,
           metricTopologyToEventFlow x = metricTopologyToEventFlow y → x = y) ∧
           metricTopologyEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
     ⟨metricTopology_decode_encode_bhist,
       metricTopology_round_trip,
