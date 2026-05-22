@@ -251,13 +251,48 @@ theorem LimitTasteGate_single_carrier_alignment :
       (∀ x y : LimitUp, limitToEventFlow x = limitToEventFlow y → x = y) ∧
       limitEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
+  have decode : ∀ h : BHist, limitDecodeBHist (limitEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have roundTrip :
+      ∀ x : LimitUp, limitFromEventFlow (limitToEventFlow x) = some x := by
+    intro x
+    cases x with
+    | mk stream readback dyadic realSeal transport continuation history provenance name =>
+        change
+          some
+            (LimitUp.mk
+              (limitDecodeBHist (limitEncodeBHist stream))
+              (limitDecodeBHist (limitEncodeBHist readback))
+              (limitDecodeBHist (limitEncodeBHist dyadic))
+              (limitDecodeBHist (limitEncodeBHist realSeal))
+              (limitDecodeBHist (limitEncodeBHist transport))
+              (limitDecodeBHist (limitEncodeBHist continuation))
+              (limitDecodeBHist (limitEncodeBHist history))
+              (limitDecodeBHist (limitEncodeBHist provenance))
+              (limitDecodeBHist (limitEncodeBHist name))) =
+            some
+              (LimitUp.mk stream readback dyadic realSeal transport continuation history
+                provenance name)
+        rw [decode stream, decode readback, decode dyadic, decode realSeal, decode transport,
+          decode continuation, decode history, decode provenance, decode name]
+  have injective :
+      ∀ x y : LimitUp, limitToEventFlow x = limitToEventFlow y → x = y := by
+    intro x y heq
+    have hread :
+        limitFromEventFlow (limitToEventFlow x) =
+          limitFromEventFlow (limitToEventFlow y) :=
+      congrArg limitFromEventFlow heq
+    exact Option.some.inj (Eq.trans (roundTrip x).symm (Eq.trans hread (roundTrip y)))
   constructor
-  · exact LimitTasteGate_single_carrier_alignment_decode_aux
+  · exact decode
   · constructor
-    · exact LimitTasteGate_single_carrier_alignment_round_trip_aux
+    · exact roundTrip
     · constructor
-      · intro x y heq
-        exact LimitTasteGate_single_carrier_alignment_injective_aux heq
+      · exact injective
       · rfl
 
 end BEDC.Derived.LimitUp
