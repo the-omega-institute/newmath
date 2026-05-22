@@ -3,6 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyCompletionReflectiveSubcategoryUp
+namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -36,42 +37,20 @@ private theorem CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_al
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+def cauchyCompletionReflectiveSubcategoryFields :
+    CauchyCompletionReflectiveSubcategoryUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | CauchyCompletionReflectiveSubcategoryUp.mk S M J U Q E Z T H C P N =>
+      [S, M, J, U, Q, E, Z, T, H, C, P, N]
+
 def cauchyCompletionReflectiveSubcategoryToEventFlow :
     CauchyCompletionReflectiveSubcategoryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | CauchyCompletionReflectiveSubcategoryUp.mk S M J U Q E Z T H C P N =>
-      [[BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist S,
-        [BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist M,
-        [BMark.b1, BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist J,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist U,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist Q,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist E,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist Z,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist T,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cauchyCompletionReflectiveSubcategoryEncodeBHist N]
+  | x =>
+      (cauchyCompletionReflectiveSubcategoryFields x).map
+        cauchyCompletionReflectiveSubcategoryEncodeBHist
 
-private def cauchyCompletionReflectiveSubcategoryEventAtDefault :
-    Nat → EventFlow → RawEvent
+private def cauchyCompletionReflectiveSubcategoryEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -85,29 +64,51 @@ def cauchyCompletionReflectiveSubcategoryFromEventFlow
   some
     (CauchyCompletionReflectiveSubcategoryUp.mk
       (cauchyCompletionReflectiveSubcategoryDecodeBHist
+        (cauchyCompletionReflectiveSubcategoryEventAtDefault 0 ef))
+      (cauchyCompletionReflectiveSubcategoryDecodeBHist
         (cauchyCompletionReflectiveSubcategoryEventAtDefault 1 ef))
+      (cauchyCompletionReflectiveSubcategoryDecodeBHist
+        (cauchyCompletionReflectiveSubcategoryEventAtDefault 2 ef))
       (cauchyCompletionReflectiveSubcategoryDecodeBHist
         (cauchyCompletionReflectiveSubcategoryEventAtDefault 3 ef))
       (cauchyCompletionReflectiveSubcategoryDecodeBHist
+        (cauchyCompletionReflectiveSubcategoryEventAtDefault 4 ef))
+      (cauchyCompletionReflectiveSubcategoryDecodeBHist
         (cauchyCompletionReflectiveSubcategoryEventAtDefault 5 ef))
+      (cauchyCompletionReflectiveSubcategoryDecodeBHist
+        (cauchyCompletionReflectiveSubcategoryEventAtDefault 6 ef))
       (cauchyCompletionReflectiveSubcategoryDecodeBHist
         (cauchyCompletionReflectiveSubcategoryEventAtDefault 7 ef))
       (cauchyCompletionReflectiveSubcategoryDecodeBHist
+        (cauchyCompletionReflectiveSubcategoryEventAtDefault 8 ef))
+      (cauchyCompletionReflectiveSubcategoryDecodeBHist
         (cauchyCompletionReflectiveSubcategoryEventAtDefault 9 ef))
       (cauchyCompletionReflectiveSubcategoryDecodeBHist
-        (cauchyCompletionReflectiveSubcategoryEventAtDefault 11 ef))
+        (cauchyCompletionReflectiveSubcategoryEventAtDefault 10 ef))
       (cauchyCompletionReflectiveSubcategoryDecodeBHist
-        (cauchyCompletionReflectiveSubcategoryEventAtDefault 13 ef))
-      (cauchyCompletionReflectiveSubcategoryDecodeBHist
-        (cauchyCompletionReflectiveSubcategoryEventAtDefault 15 ef))
-      (cauchyCompletionReflectiveSubcategoryDecodeBHist
-        (cauchyCompletionReflectiveSubcategoryEventAtDefault 17 ef))
-      (cauchyCompletionReflectiveSubcategoryDecodeBHist
-        (cauchyCompletionReflectiveSubcategoryEventAtDefault 19 ef))
-      (cauchyCompletionReflectiveSubcategoryDecodeBHist
-        (cauchyCompletionReflectiveSubcategoryEventAtDefault 21 ef))
-      (cauchyCompletionReflectiveSubcategoryDecodeBHist
-        (cauchyCompletionReflectiveSubcategoryEventAtDefault 23 ef)))
+        (cauchyCompletionReflectiveSubcategoryEventAtDefault 11 ef)))
+
+private theorem cauchyCompletionReflectiveSubcategory_mk_congr
+    {S S' M M' J J' U U' Q Q' E E' Z Z' T T' H H' C C' P P' N N' : BHist}
+    (hS : S' = S) (hM : M' = M) (hJ : J' = J) (hU : U' = U)
+    (hQ : Q' = Q) (hE : E' = E) (hZ : Z' = Z) (hT : T' = T)
+    (hH : H' = H) (hC : C' = C) (hP : P' = P) (hN : N' = N) :
+    CauchyCompletionReflectiveSubcategoryUp.mk S' M' J' U' Q' E' Z' T' H' C' P' N' =
+      CauchyCompletionReflectiveSubcategoryUp.mk S M J U Q E Z T H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hS
+  cases hM
+  cases hJ
+  cases hU
+  cases hQ
+  cases hE
+  cases hZ
+  cases hT
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
 
 private theorem CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_round_trip :
     ∀ x : CauchyCompletionReflectiveSubcategoryUp,
@@ -117,48 +118,23 @@ private theorem CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_al
   intro x
   cases x with
   | mk S M J U Q E Z T H C P N =>
-      change
-        some
-          (CauchyCompletionReflectiveSubcategoryUp.mk
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist S))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist M))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist J))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist U))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist Q))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist E))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist Z))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist T))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist H))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist C))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist P))
-            (cauchyCompletionReflectiveSubcategoryDecodeBHist
-              (cauchyCompletionReflectiveSubcategoryEncodeBHist N))) =
-          some (CauchyCompletionReflectiveSubcategoryUp.mk S M J U Q E Z T H C P N)
-      rw [CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode S,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode M,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode J,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode U,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode Q,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode E,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode Z,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode T,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode H,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode C,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode P,
-        CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode N]
+      exact
+        congrArg some
+          (cauchyCompletionReflectiveSubcategory_mk_congr
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode S)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode M)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode J)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode U)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode Q)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode E)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode Z)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode T)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode H)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode C)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode P)
+            (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode N))
 
-private theorem CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem cauchyCompletionReflectiveSubcategoryToEventFlow_injective
     {x y : CauchyCompletionReflectiveSubcategoryUp} :
     cauchyCompletionReflectiveSubcategoryToEventFlow x =
       cauchyCompletionReflectiveSubcategoryToEventFlow y → x = y := by
@@ -175,6 +151,19 @@ private theorem CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_al
       (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem cauchyCompletionReflectiveSubcategory_field_faithful :
+    ∀ x y : CauchyCompletionReflectiveSubcategoryUp,
+      cauchyCompletionReflectiveSubcategoryFields x =
+        cauchyCompletionReflectiveSubcategoryFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S M J U Q E Z T H C P N =>
+      cases y with
+      | mk S' M' J' U' Q' E' Z' T' H' C' P' N' =>
+          cases hfields
+          rfl
 
 instance cauchyCompletionReflectiveSubcategoryBHistCarrier :
     BHistCarrier CauchyCompletionReflectiveSubcategoryUp where
@@ -193,9 +182,13 @@ instance cauchyCompletionReflectiveSubcategoryChapterTasteGate :
     exact CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_toEventFlow_injective
-        heq)
+    exact hxy (cauchyCompletionReflectiveSubcategoryToEventFlow_injective heq)
+
+instance cauchyCompletionReflectiveSubcategoryFieldFaithful :
+    FieldFaithful CauchyCompletionReflectiveSubcategoryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := cauchyCompletionReflectiveSubcategoryFields
+  field_faithful := cauchyCompletionReflectiveSubcategory_field_faithful
 
 def taste_gate : ChapterTasteGate CauchyCompletionReflectiveSubcategoryUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -208,13 +201,17 @@ theorem CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment 
       (∀ x : CauchyCompletionReflectiveSubcategoryUp,
         cauchyCompletionReflectiveSubcategoryFromEventFlow
           (cauchyCompletionReflectiveSubcategoryToEventFlow x) = some x) ∧
-      Nonempty (ChapterTasteGate CauchyCompletionReflectiveSubcategoryUp) ∧
-        cauchyCompletionReflectiveSubcategoryEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+        (∀ x y : CauchyCompletionReflectiveSubcategoryUp,
+          cauchyCompletionReflectiveSubcategoryToEventFlow x =
+            cauchyCompletionReflectiveSubcategoryToEventFlow y → x = y) ∧
+          cauchyCompletionReflectiveSubcategoryEncodeBHist BHist.Empty =
+            ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   exact
     ⟨CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_decode,
       CauchyCompletionReflectiveSubcategoryTasteGate_single_carrier_alignment_round_trip,
-      ⟨cauchyCompletionReflectiveSubcategoryChapterTasteGate⟩,
+      (fun _ _ heq => cauchyCompletionReflectiveSubcategoryToEventFlow_injective heq),
       rfl⟩
 
+end TasteGate
 end BEDC.Derived.CauchyCompletionReflectiveSubcategoryUp
