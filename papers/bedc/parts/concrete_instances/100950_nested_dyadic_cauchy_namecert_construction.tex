@@ -72,6 +72,28 @@ The schedule row $S$ then fixes which interval endpoints or midpoint observation
 The rows $H,C,P,N$ transport, replay, source, and name that handoff. Since the carrier has no additional tail selector or quotient coordinate, every RegSeqRat read factors through the displayed route.
 \end{proof}
 
+\begin{theorem}[Nested dyadic Cauchy tail gluing]
+\label{thm:nested-dyadic-cauchy-tail-gluing}
+Let $K=(I,B,S,R,E,H,C,P,N)$ and $K'=(I',B',S',R',E',H',C',P',N')$ be accepted $\NestedDyadicCauchyUp$ carriers. Suppose their finite interval prefixes and dyadic budgets admit a displayed common refinement through the StreamName schedules: there are rows $I^*$, $B^*$, and $S^*$ such that $I^*$ refines the displayed tails of $I$ and $I'$, $B^*$ compares both dyadic tolerance budgets against that common prefix through \autoref{ch:concrete-instances-dyadicratcore-namecert}, and $S^*$ restricts both scheduled reads through \autoref{ch:concrete-instances-streamname-namecert}. Then every $\RegSeqRatUp$-facing read of $K$ and $K'$ factors through one common finite route
+$$
+I^*\longmapsto B^*\longmapsto S^*\longmapsto R^*
+$$
+before either $\RealUp$ seal row $E$ or $E'$ is available. Here $R^*$ is the shared regular rational handoff row supplied by the $\RegSeqRatUp$ surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal boundary remains the $\RealUp$ boundary of \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers by \autoref{def:nested-dyadic-cauchy-carrier}. The projections expose only the finite interval-prefix rows, shrinking-width budgets, StreamName schedule rows, RegSeqRat handoff rows, Real seal rows, and structural transport, replay, provenance, and naming rows.
+
+Use the assumed displayed common refinement to choose the common prefix row $I^*$. The nested-prefix rows identify the tail entries of $I$ and $I'$ that are read by the two consumers, and the common prefix refines both of them before any downstream handoff row is opened.
+
+Next use $B^*$ to compare the two tolerance budgets against the same prefix. The comparisons are dyadic endpoint and width comparisons in the sense of \autoref{ch:concrete-instances-dyadicratcore-namecert}, so no external tail selector or ambient completeness principle is needed to align the two requests.
+
+The schedule row $S^*$ restricts both reads to the same finite endpoint observations. By the StreamName discipline of \autoref{ch:concrete-instances-streamname-namecert}, those observations are exactly the endpoint or midpoint rows that the two regular rational consumers may inspect.
+
+Apply \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff} to each carrier and compare the two handoffs through the shared rows $I^*,B^*,S^*$. The RegSeqRat interface of \autoref{ch:concrete-instances-regseqrat-namecert} repacks those shared finite observations as one row $R^*$, so both reads factor through $I^*\mapsto B^*\mapsto S^*\mapsto R^*$ before the Real seal boundary of \autoref{ch:concrete-instances-real-namecert} is consumed.
+
+The construction exports no completed intersection point, quotient stream equality, host real equality, countable-choice selector, or ambient completeness. It only glues two compatible finite tails through the common route available before $E$ or $E'$.
+\end{proof}
+
 \begin{theorem}[Nested dyadic Cauchy Real seal boundary]
 \label{thm:nested-dyadic-cauchy-real-seal-boundary}
 For every accepted $\NestedDyadicCauchyUp$ carrier $K=(I,B,S,R,E,H,C,P,N)$, every $\RealUp$-facing read factors through the regular rational handoff row $R$ before the seal row $E$ is available. The consumer receives the finite interval prefix, shrinking-width budget, StreamName schedule, RegSeqRat handoff, Real seal, and structural rows, but receives no completed intersection point, quotient stream equality, host real equality, countable-choice selector, or ambient completeness principle.
@@ -89,7 +111,7 @@ The seal row $E$ packages that handoff as the terminal Real boundary. Because th
 \begin{closurestatus}{\NestedDyadicCauchyUp}
   \constructivestory{A $\NestedDyadicCauchyUp$ packet is generated from finite nested dyadic interval windows, a shrinking-width dyadic budget, a StreamName schedule, a RegSeqRat handoff, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:nested-dyadic-cauchy-carrier}, \autoref{thm:nested-dyadic-cauchy-namecert-obligations}, \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff}, and \autoref{thm:nested-dyadic-cauchy-real-seal-boundary} seed the finite nested dyadic Cauchy route from interval prefixes to RegSeqRat readback and the Real seal boundary.}
+  \scopeclosed{\autoref{def:nested-dyadic-cauchy-carrier}, \autoref{thm:nested-dyadic-cauchy-namecert-obligations}, \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff}, \autoref{thm:nested-dyadic-cauchy-tail-gluing}, and \autoref{thm:nested-dyadic-cauchy-real-seal-boundary} seed the finite nested dyadic Cauchy route from interval prefixes to RegSeqRat readback and the Real seal boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close completed intersections, quotient stream equality, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
