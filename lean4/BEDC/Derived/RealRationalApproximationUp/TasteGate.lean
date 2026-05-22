@@ -25,9 +25,9 @@ def realRationalApproximationDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (realRationalApproximationDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realRationalApproximationDecodeBHist tail)
 
-private theorem realRationalApproximationDecode_encode_bhist :
-    ∀ h : BHist, realRationalApproximationDecodeBHist
-      (realRationalApproximationEncodeBHist h) = h := by
+private theorem realRationalApproximation_decode_encode_bhist :
+    ∀ h : BHist,
+      realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,53 +41,52 @@ private theorem realRationalApproximationDecode_encode_bhist :
 def realRationalApproximationFields :
     RealRationalApproximationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RealRationalApproximationUp.mk R Q D S G A H C P N =>
-      [R, Q, D, S, G, A, H, C, P, N]
+  | RealRationalApproximationUp.mk R Q D S G A H C P N => [R, Q, D, S, G, A, H, C, P, N]
 
 def realRationalApproximationToEventFlow :
-    RealRationalApproximationUp → EventFlow :=
+    RealRationalApproximationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (realRationalApproximationFields x).map realRationalApproximationEncodeBHist
+  | x => (realRationalApproximationFields x).map realRationalApproximationEncodeBHist
 
-private def realRationalApproximationEventAtDefault :
-    Nat → EventFlow → RawEvent
+private def realRationalApproximationRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      realRationalApproximationEventAtDefault index rest
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => realRationalApproximationRawAt n rest
 
-def realRationalApproximationFromEventFlow
-    (ef : EventFlow) : Option RealRationalApproximationUp :=
+private def realRationalApproximationLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RealRationalApproximationUp.mk
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 0 ef))
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 1 ef))
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 2 ef))
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 3 ef))
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 4 ef))
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 5 ef))
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 6 ef))
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 7 ef))
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 8 ef))
-      (realRationalApproximationDecodeBHist
-        (realRationalApproximationEventAtDefault 9 ef)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => realRationalApproximationLengthEq n rest
+
+def realRationalApproximationFromEventFlow :
+    EventFlow → Option RealRationalApproximationUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match realRationalApproximationLengthEq 10 flow with
+      | true =>
+          some
+            (RealRationalApproximationUp.mk
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 0 flow))
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 1 flow))
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 2 flow))
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 3 flow))
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 4 flow))
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 5 flow))
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 6 flow))
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 7 flow))
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 8 flow))
+              (realRationalApproximationDecodeBHist (realRationalApproximationRawAt 9 flow)))
+      | false => none
 
 private theorem realRationalApproximation_round_trip :
     ∀ x : RealRationalApproximationUp,
       realRationalApproximationFromEventFlow
-        (realRationalApproximationToEventFlow x) = some x := by
+          (realRationalApproximationToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -95,42 +94,33 @@ private theorem realRationalApproximation_round_trip :
       change
         some
           (RealRationalApproximationUp.mk
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist R))
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist Q))
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist D))
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist S))
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist G))
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist A))
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist H))
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist C))
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist P))
-            (realRationalApproximationDecodeBHist
-              (realRationalApproximationEncodeBHist N))) =
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist R))
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist Q))
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist D))
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist S))
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist G))
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist A))
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist H))
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist C))
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist P))
+            (realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist N))) =
           some (RealRationalApproximationUp.mk R Q D S G A H C P N)
-      rw [realRationalApproximationDecode_encode_bhist R,
-        realRationalApproximationDecode_encode_bhist Q,
-        realRationalApproximationDecode_encode_bhist D,
-        realRationalApproximationDecode_encode_bhist S,
-        realRationalApproximationDecode_encode_bhist G,
-        realRationalApproximationDecode_encode_bhist A,
-        realRationalApproximationDecode_encode_bhist H,
-        realRationalApproximationDecode_encode_bhist C,
-        realRationalApproximationDecode_encode_bhist P,
-        realRationalApproximationDecode_encode_bhist N]
+      rw [realRationalApproximation_decode_encode_bhist R,
+        realRationalApproximation_decode_encode_bhist Q,
+        realRationalApproximation_decode_encode_bhist D,
+        realRationalApproximation_decode_encode_bhist S,
+        realRationalApproximation_decode_encode_bhist G,
+        realRationalApproximation_decode_encode_bhist A,
+        realRationalApproximation_decode_encode_bhist H,
+        realRationalApproximation_decode_encode_bhist C,
+        realRationalApproximation_decode_encode_bhist P,
+        realRationalApproximation_decode_encode_bhist N]
 
 private theorem realRationalApproximationToEventFlow_injective
     {x y : RealRationalApproximationUp} :
     realRationalApproximationToEventFlow x =
-      realRationalApproximationToEventFlow y → x = y := by
+        realRationalApproximationToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -143,36 +133,17 @@ private theorem realRationalApproximationToEventFlow_injective
     (Eq.trans (realRationalApproximation_round_trip x).symm
       (Eq.trans hread (realRationalApproximation_round_trip y)))
 
-private theorem realRationalApproximation_fields_faithful :
+private theorem realRationalApproximation_field_faithful :
     ∀ x y : RealRationalApproximationUp,
-      realRationalApproximationFields x =
-        realRationalApproximationFields y → x = y := by
+      realRationalApproximationFields x = realRationalApproximationFields y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
   | mk R1 Q1 D1 S1 G1 A1 H1 C1 P1 N1 =>
       cases y with
       | mk R2 Q2 D2 S2 G2 A2 H2 C2 P2 N2 =>
-          injection hfields with hR t1
-          injection t1 with hQ t2
-          injection t2 with hD t3
-          injection t3 with hS t4
-          injection t4 with hG t5
-          injection t5 with hA t6
-          injection t6 with hH t7
-          injection t7 with hC t8
-          injection t8 with hP t9
-          injection t9 with hN _
-          cases hR
-          cases hQ
-          cases hD
-          cases hS
-          cases hG
-          cases hA
-          cases hH
-          cases hC
-          cases hP
-          cases hN
+          cases hfields
           rfl
 
 instance realRationalApproximationBHistCarrier :
@@ -199,7 +170,7 @@ instance realRationalApproximationFieldFaithful :
     FieldFaithful RealRationalApproximationUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := realRationalApproximationFields
-  field_faithful := realRationalApproximation_fields_faithful
+  field_faithful := realRationalApproximation_field_faithful
 
 instance realRationalApproximationNontrivial :
     Nontrivial RealRationalApproximationUp where
@@ -207,9 +178,9 @@ instance realRationalApproximationNontrivial :
   witness_pair :=
     ⟨RealRationalApproximationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      RealRationalApproximationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+      RealRationalApproximationUp.mk (BHist.e0 BHist.Empty) BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
+        BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -219,20 +190,45 @@ def taste_gate : ChapterTasteGate RealRationalApproximationUp :=
   realRationalApproximationChapterTasteGate
 
 theorem RealRationalApproximationTasteGate_single_carrier_alignment :
-    (∀ h : BHist, realRationalApproximationDecodeBHist
-      (realRationalApproximationEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate RealRationalApproximationUp) ∧
+      Nonempty (FieldFaithful RealRationalApproximationUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RealRationalApproximationUp) ∧
+      (∀ h : BHist,
+        realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist h) = h) ∧
       (∀ x : RealRationalApproximationUp,
-        realRationalApproximationFromEventFlow
-          (realRationalApproximationToEventFlow x) = some x) ∧
-        (∀ x y : RealRationalApproximationUp,
-          realRationalApproximationToEventFlow x =
-            realRationalApproximationToEventFlow y → x = y) ∧
-          realRationalApproximationEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+        realRationalApproximationFromEventFlow (realRationalApproximationToEventFlow x) =
+          some x) ∧
+      (∀ x y : RealRationalApproximationUp,
+        realRationalApproximationToEventFlow x = realRationalApproximationToEventFlow y →
+          x = y) ∧
+      realRationalApproximationEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   exact
-    ⟨realRationalApproximationDecode_encode_bhist,
+    ⟨Nonempty.intro realRationalApproximationChapterTasteGate,
+      Nonempty.intro realRationalApproximationFieldFaithful,
+      Nonempty.intro realRationalApproximationNontrivial,
+      realRationalApproximation_decode_encode_bhist,
       realRationalApproximation_round_trip,
       (fun _ _ heq => realRationalApproximationToEventFlow_injective heq),
       rfl⟩
+
+namespace TasteGate
+
+theorem RealRationalApproximationTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate RealRationalApproximationUp) ∧
+      Nonempty (FieldFaithful RealRationalApproximationUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RealRationalApproximationUp) ∧
+      (∀ h : BHist,
+        realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist h) = h) ∧
+      (∀ x : RealRationalApproximationUp,
+        realRationalApproximationFromEventFlow (realRationalApproximationToEventFlow x) =
+          some x) ∧
+      (∀ x y : RealRationalApproximationUp,
+        realRationalApproximationToEventFlow x = realRationalApproximationToEventFlow y →
+          x = y) ∧
+      realRationalApproximationEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  exact BEDC.Derived.RealRationalApproximationUp.RealRationalApproximationTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.RealRationalApproximationUp
