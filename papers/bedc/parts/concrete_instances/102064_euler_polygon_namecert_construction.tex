@@ -60,6 +60,28 @@ Dyadic accounting is then forced by $D$. The ledger stores the products, radius 
 Finally, $Q,R,H,C,P,N$ exhaust the handoff boundary. The readback row $Q$ is the only route from vertex windows to the Real seal $R$, while transport, replay, provenance, and naming preserve only the displayed rows. Thus no excluded solution, selected limit, quotient equality, host equality, choice schedule, ambient completeness principle, Lean evidence, or bridge credential is exported.
 \end{proof}
 
+\begin{theorem}[Euler polygon step-ledger induction]
+\label{thm:euler-polygon-step-ledger-induction}
+For every accepted $\EulerPolygonUp$ carrier
+$$
+E=(M,A,L,V,D,Q,R,H,C,P,N),
+$$
+induction over the finite dyadic mesh row $M$ shows that every displayed prefix of the polygon route has a matching prefix of polygon-vertex windows in $V$ and accumulated dyadic ledger cells in $D$. The base prefix is the initial row $A$. At each successor mesh step, the route reads exactly one step width from $M$, exactly one slope and Lipschitz-control row from $L$, appends one vertex window to $V$, and appends the corresponding dyadic product, slack, and error cell to $D$. Thus the completed finite ledger is available before the $\RegSeqRatUp$ row $Q$ or the terminal $\RealUp$ seal $R$ can be read.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite mesh row $M$. The empty-prefix case exposes no step width, so the only route prefix is the initial point row $A$. The matching vertex prefix is the first displayed vertex window in $V$, and the matching ledger prefix in $D$ is empty except for the accumulated zero-step accounting attached to the initial row.
+
+For the successor case, assume the prefix already has matching displayed vertex windows and accumulated dyadic ledger cells. The next mesh entry of $M$ supplies the single step width allowed for the next advance. The local row $L$ supplies the corresponding slope sample and Lipschitz bound; no external differential-equation object is available in the carrier.
+
+Using exactly those displayed rows, the polygon route appends one vertex window to $V$. The dyadic ledger $D$ appends the product cell for the step, the slack comparison for the local radius budget, and the accumulated error cell for the enlarged prefix. Hence the extended route prefix again has matching prefixes in $V$ and $D$.
+
+Finite induction over all displayed mesh entries therefore constructs the full vertex-and-ledger route
+$$
+(M,A,L)\longmapsto V\longmapsto D .
+$$
+The existing $\RegSeqRatUp$ handoff and $\RealUp$ nonescape results consume this completed finite induction ledger: $Q$ can read only the already displayed $V,D$ prefixes, and $R$ is downstream of $Q$.
+\end{proof}
+
 \begin{theorem}[Euler polygon RegSeqRat handoff]
 \label{thm:euler-polygon-regseqrat-handoff}
 For every accepted $\EulerPolygonUp$ carrier

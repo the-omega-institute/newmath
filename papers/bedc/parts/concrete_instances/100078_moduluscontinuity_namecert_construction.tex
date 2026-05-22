@@ -71,10 +71,36 @@ The remaining rows do not add mathematical primitives. The $\BHist$, $\hsame$, $
 \end{proof}
 \leanchecked{BEDC.Derived.ModulusContinuityUp.ModulusContinuityRealCompletion\_handoff}
 
+\begin{theorem}[Modulus-continuity composition route]
+\label{thm:modulus-continuity-composition-route}
+Let
+$$
+M_f=(G_f,S_f,K_f,D_f,Q_f,R_f,H_f,C_f,P_f,N_f)
+$$
+and
+$$
+M_g=(G_g,S_g,K_g,D_g,Q_g,R_g,H_g,C_g,P_g,N_g)
+$$
+be accepted $\ModulusContinuityUp$ carriers. Suppose the target seal exposed by $M_f$ is the source window and readback surface consumed by $M_g$. Then every target tolerance request for the composed Real or Completion consumer factors through the finite route
+$$
+D_g \to K_g \to S_g \to G_g \to Q_g \to D_f \to K_f \to S_f \to G_f \to Q_f \to R_f .
+$$
+The composed route uses only the displayed $\ContinuousMapUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the two carriers.
+\end{theorem}
+\begin{proof}
+Project the second carrier first. By \autoref{thm:modulus-continuity-namecert-obligations}, the request for the outer target tolerance starts in $D_g$, is converted by $K_g$ into the finite window $S_g$, and reaches the graph and readback rows only through $G_g$ and $Q_g$.
+
+Use the stated seal match to hand the consumed source surface of $M_g$ to the target surface of $M_f$. The handoff theorem \autoref{thm:modulus-continuity-real-completion-handoff} says that this surface is not a free Real or Completion oracle; it is read only through the displayed rows of $M_f$.
+
+Project the first carrier along the same finite pattern. The matching request therefore passes through $D_f$, then $K_f$, then $S_f$, then $G_f$ and $Q_f$, and only after those finite rows have been replayed does it reach the terminal Real seal $R_f$.
+
+The structural rows add no new primitive. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates in $M_f$ and $M_g$ transport and name the two projected routes, so their concatenation is still a finite tolerance-to-window route built from the displayed carrier rows alone.
+\end{proof}
+
 \begin{closurestatus}{\ModulusContinuityUp}
   \constructivestory{A $\ModulusContinuityUp$ packet is generated from a ContinuousMap graph row, a source StreamName window, a CauchyModulus tolerance-to-window row, a DyadicRatCore tolerance ledger, RegSeqRat readback, a Real target seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:modulus-continuity-carrier}, \autoref{thm:modulus-continuity-namecert-obligations}, and \autoref{thm:modulus-continuity-real-completion-handoff} seed the finite function-specific modulus route for Real and Completion consumers.}
+  \scopeclosed{\autoref{def:modulus-continuity-carrier}, \autoref{thm:modulus-continuity-namecert-obligations}, \autoref{thm:modulus-continuity-real-completion-handoff}, and \autoref{thm:modulus-continuity-composition-route} seed the finite function-specific modulus route for Real and Completion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close open-cover compactness, selected limits, quotient stream equality, host real equality, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
