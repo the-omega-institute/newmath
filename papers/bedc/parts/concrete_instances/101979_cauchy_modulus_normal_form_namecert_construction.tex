@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusNormalFormUp$}
+\label{ch:concrete-instances-cauchy-modulus-normal-form-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyModulusNormalFormUp$ packet isolates the effective-modulus normalization step used by the L10 Real and Completion route. It sits between the $\CauchyModulusUp$ schedule consumed by \autoref{ch:concrete-instances-cauchyrate-namecert}, the dyadic tail-bound ledger of \autoref{ch:concrete-instances-dyadictailbound-namecert}, the finite window service of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a monotone normal form for a displayed modulus before a CauchyRate, RegSeqRat, or Real consumer reads it; it is not Real completeness, quotient stream equality, a selected limit, trichotomy, countable choice, Lean verification, or bridge checking.
+
+\begin{definition}[Cauchy modulus normal-form carrier]
+\label{def:cauchy-modulus-normal-form-carrier}
+A $\CauchyModulusNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(p,\mu,\nu,\tau,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $p$ is the precision-request row whose finite tolerance demand starts the normalization route;
+\item $\mu$ is the raw $\CauchyModulusUp$ row attached to the source Cauchy name;
+\item $\nu$ is the normalized monotone modulus row, displaying a nondecreasing finite window schedule refining $\mu$ on every request named by $p$;
+\item $\tau$ is the $\DyadicTailBoundUp$ row whose dyadic tail comparisons justify the normalized windows;
+\item $W$ is the $\StreamNameUp$ finite-window row inspected after $\nu$ and $\tau$ have been fixed;
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the normalized window route;
+\item $E$ is the $\RealUp$ seal boundary reached only after $p,\mu,\nu,\tau,W,Q$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport for the precision, raw modulus, normal-form modulus, tail-bound, window, readback, seal, route, provenance, and local name rows;
+\item $C$ records the displayed $\Cont$ replay
+$$
+p\longmapsto \mu\longmapsto \nu\longmapsto \tau\longmapsto W\longmapsto Q\longmapsto E ;
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusNormalFormUp$, $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyRateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyModulusNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $p,\mu,\nu,\tau,W,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, host real equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean evidence, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus normal-form NameCert obligations]
+\label{thm:cauchy-modulus-normal-form-namecert-obligations}
+For every accepted $\CauchyModulusNormalFormUp$ carrier
+$$
+Z=(p,\mu,\nu,\tau,W,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyModulusNormalFormUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the precision request, raw modulus, normalized monotone modulus, dyadic tail bound, finite window, regular readback, Real seal, and structural rows $H,C,P,N$;
+\item normalization exactness, requiring $\nu$ to be the displayed nondecreasing normal form refining the raw $\CauchyModulusUp$ row $\mu$ on the precision requests named by $p$;
+\item monotone-window refinement, requiring every $\StreamNameUp$ window in $W$ to be opened through the normalized row $\nu$ and justified by the same $\DyadicTailBoundUp$ row $\tau$;
+\item RegSeqRat/Real handoff compatibility, requiring the $\RegSeqRatUp$ readback $Q$ and terminal $\RealUp$ seal $E$ to factor through $p,\mu,\nu,\tau,W$ in the displayed order;
+\item ledger non-escape, requiring $H,C,P,N$ to preserve only the displayed route and to export no quotient stream equality, selected limit, host real equality, trichotomy, countable-choice schedule, ambient $\RealUp$ completeness, Lean verification, or bridge credential.
+\end{enumerate}
+No Cauchy modulus normal-form obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $Z=(p,\mu,\nu,\tau,W,Q,E,H,C,P,N)$. Carrier exposure is immediate because these are exactly the displayed coordinates available to the local classifier.
+
+Normalization exactness is read from $\nu$. It is downstream of the raw row $\mu$ and the precision request $p$, so every normalized demand remains tied to the source Cauchy modulus rather than to an external schedule.
+
+Monotone-window refinement then uses $\tau$ and $W$. The dyadic tail-bound row justifies the finite windows opened by the nondecreasing schedule, and no separate window oracle appears between $\nu$ and $W$.
+
+The readback and seal rows finish the route. The $\RegSeqRatUp$ row $Q$ is obtained only after the normalized windows have been displayed, and the $\RealUp$ boundary $E$ is downstream of that readback.
+
+Finally, $H,C,P,N$ transport, replay, name, and source only the same finite route. Since the carrier has no coordinate for quotient stream equality, selected limits, host real equality, trichotomy, countable choice, ambient completeness, Lean evidence, or bridge checking, the five obligation rows exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus normal-form handoff]
+\label{thm:cauchy-modulus-normal-form-handoff}
+For every accepted $\CauchyModulusNormalFormUp$ carrier
+$$
+Z=(p,\mu,\nu,\tau,W,Q,E,H,C,P,N),
+$$
+every $\CauchyRateUp$, $\RegSeqRatUp$, or $\RealUp$ consumer that uses the normalized modulus factors through the displayed route
+$$
+p\longmapsto \mu\longmapsto \nu\longmapsto \tau\longmapsto W\longmapsto Q\longmapsto E
+$$
+together with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The consumer cannot replace $\nu$ by an unrecorded modulus, cannot read $W$ without $\tau$, cannot read $Q$ without the normalized windows, and cannot read $E$ as Real completeness or as a selected limit.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the normalized modulus. The carrier exposes $\nu$ only as the normal-form row downstream of the raw modulus $\mu$ and the precision request $p$.
+
+Read forward along the route. The tail-bound row $\tau$ justifies the normalized finite windows, the $\StreamNameUp$ row $W$ supplies the inspected window surface, the $\RegSeqRatUp$ row $Q$ is the regular rational readback of that surface, and the $\RealUp$ row $E$ is the terminal seal boundary.
+
+The structural rows preserve the same path. Componentwise transport in $H$ keeps the raw and normalized modulus rows tied to the same tail-bound and window rows, while $C$ replays the route order and $P,N$ name the local certificate.
+
+Thus every CauchyRate, RegSeqRat, or Real-facing use factors through $p,\mu,\nu,\tau,W,Q,E,H,C,P,N$. The packet contains no hidden modulus, detached tail ledger, quotient stream equality, selected limit, countable-choice object, trichotomy witness, ambient Real-completeness principle, Lean evidence, or bridge credential.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyModulusNormalFormUp$ consumer read factors through a precision request, raw CauchyModulus row, normalized monotone modulus row, DyadicTailBound row, StreamName finite-window row, RegSeqRat readback row, RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{cauchyrate, cauchymodulus, dyadictailbound, streamname, regseqrat, real: $\CauchyModulusNormalFormUp$ is not bijective to any listed sibling because it jointly carries raw-modulus exposure, monotone normal-form exactness, dyadic tail-bound justification, finite-window refinement, RegSeqRat readback, Real seal factorization, replay, provenance, and local naming.}
+
+\closureat{CauchyModulusNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusNormalFormUp}
+  \constructivestory{A $\CauchyModulusNormalFormUp$ packet is generated from a precision request, raw $\CauchyModulusUp$ row, normalized monotone modulus row, $\DyadicTailBoundUp$ row, $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row, terminal $\RealUp$ seal, componentwise transports, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-normal-form-carrier}, \autoref{thm:cauchy-modulus-normal-form-namecert-obligations}, and \autoref{thm:cauchy-modulus-normal-form-handoff} seed the finite monotone effective-modulus normal-form boundary for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealUp completeness, quotient stream equality, selected limits, trichotomy, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, normalization exactness, monotone-window refinement, RegSeqRat/Real handoff compatibility, ledger non-escape, and consumer factorization for BEDC.Derived.CauchyModulusNormalFormUp.}
+\end{closurestatus}
