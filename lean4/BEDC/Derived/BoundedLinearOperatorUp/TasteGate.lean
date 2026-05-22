@@ -10,118 +10,140 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive BoundedLinearOperatorUp : Type where
-  | mk (source target endpointAction bound ledger transport replay provenance nameCert :
-      BHist) : BoundedLinearOperatorUp
+  | mk (source target endpoint bound ledger transport continuation provenance name : BHist) :
+      BoundedLinearOperatorUp
   deriving DecidableEq
 
-def boundedLinearOperatorEncodeBHist : BHist -> RawEvent
+def boundedLinearOperatorEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: boundedLinearOperatorEncodeBHist h
   | BHist.e1 h => BMark.b1 :: boundedLinearOperatorEncodeBHist h
 
-def boundedLinearOperatorDecodeBHist : RawEvent -> BHist
+def boundedLinearOperatorDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (boundedLinearOperatorDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (boundedLinearOperatorDecodeBHist tail)
 
-private theorem BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode :
-    forall h : BHist,
-      boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist h) = h := by
+private theorem boundedLinearOperator_decode_encode_bhist :
+    ∀ h : BHist, boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-private def boundedLinearOperatorFields : BoundedLinearOperatorUp -> List BHist
+def boundedLinearOperatorFields : BoundedLinearOperatorUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | BoundedLinearOperatorUp.mk source target endpointAction bound ledger transport replay
-      provenance nameCert =>
-      [source, target, endpointAction, bound, ledger, transport, replay, provenance, nameCert]
+  | BoundedLinearOperatorUp.mk source target endpoint bound ledger transport continuation provenance
+      name =>
+      [source, target, endpoint, bound, ledger, transport, continuation, provenance, name]
 
-def boundedLinearOperatorToEventFlow : BoundedLinearOperatorUp -> EventFlow
+def boundedLinearOperatorToEventFlow : BoundedLinearOperatorUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (boundedLinearOperatorFields x).map boundedLinearOperatorEncodeBHist
+  fun x => (boundedLinearOperatorFields x).map boundedLinearOperatorEncodeBHist
 
-private def boundedLinearOperatorEventAtDefault : Nat -> EventFlow -> RawEvent
+def boundedLinearOperatorFromEventFlow : EventFlow → Option BoundedLinearOperatorUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => boundedLinearOperatorEventAtDefault index rest
+  | source :: restSource =>
+      match restSource with
+      | target :: restTarget =>
+          match restTarget with
+          | endpoint :: restEndpoint =>
+              match restEndpoint with
+              | bound :: restBound =>
+                  match restBound with
+                  | ledger :: restLedger =>
+                      match restLedger with
+                      | transport :: restTransport =>
+                          match restTransport with
+                          | continuation :: restContinuation =>
+                              match restContinuation with
+                              | provenance :: restProvenance =>
+                                  match restProvenance with
+                                  | name :: restName =>
+                                      match restName with
+                                      | [] =>
+                                          some
+                                            (BoundedLinearOperatorUp.mk
+                                              (boundedLinearOperatorDecodeBHist source)
+                                              (boundedLinearOperatorDecodeBHist target)
+                                              (boundedLinearOperatorDecodeBHist endpoint)
+                                              (boundedLinearOperatorDecodeBHist bound)
+                                              (boundedLinearOperatorDecodeBHist ledger)
+                                              (boundedLinearOperatorDecodeBHist transport)
+                                              (boundedLinearOperatorDecodeBHist continuation)
+                                              (boundedLinearOperatorDecodeBHist provenance)
+                                              (boundedLinearOperatorDecodeBHist name))
+                                      | _ :: _ => none
+                                  | [] => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
+  | [] => none
 
-def boundedLinearOperatorFromEventFlow (ef : EventFlow) : Option BoundedLinearOperatorUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (BoundedLinearOperatorUp.mk
-      (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEventAtDefault 0 ef))
-      (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEventAtDefault 1 ef))
-      (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEventAtDefault 2 ef))
-      (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEventAtDefault 3 ef))
-      (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEventAtDefault 4 ef))
-      (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEventAtDefault 5 ef))
-      (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEventAtDefault 6 ef))
-      (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEventAtDefault 7 ef))
-      (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEventAtDefault 8 ef)))
-
-private theorem BoundedLinearOperatorUpTasteGate_single_carrier_alignment_round_trip :
-    forall x : BoundedLinearOperatorUp,
+private theorem boundedLinearOperator_round_trip :
+    ∀ x : BoundedLinearOperatorUp,
       boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
-  cases x with
-  | mk source target endpointAction bound ledger transport replay provenance nameCert =>
+  intro token
+  cases token with
+  | mk source target endpoint bound ledger transport continuation provenance name =>
       change
         some
           (BoundedLinearOperatorUp.mk
             (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist source))
             (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist target))
-            (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist endpointAction))
+            (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist endpoint))
             (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist bound))
             (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist ledger))
             (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist transport))
-            (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist replay))
+            (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist continuation))
             (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist provenance))
-            (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist nameCert))) =
+            (boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist name))) =
           some
-            (BoundedLinearOperatorUp.mk source target endpointAction bound ledger transport replay
-              provenance nameCert)
-      rw [BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode source,
-        BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode target,
-        BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode endpointAction,
-        BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode bound,
-        BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode ledger,
-        BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode transport,
-        BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode replay,
-        BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode provenance,
-        BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode nameCert]
+            (BoundedLinearOperatorUp.mk source target endpoint bound ledger transport
+              continuation provenance name)
+      rw [boundedLinearOperator_decode_encode_bhist source,
+        boundedLinearOperator_decode_encode_bhist target,
+        boundedLinearOperator_decode_encode_bhist endpoint,
+        boundedLinearOperator_decode_encode_bhist bound,
+        boundedLinearOperator_decode_encode_bhist ledger,
+        boundedLinearOperator_decode_encode_bhist transport,
+        boundedLinearOperator_decode_encode_bhist continuation,
+        boundedLinearOperator_decode_encode_bhist provenance,
+        boundedLinearOperator_decode_encode_bhist name]
 
-private theorem BoundedLinearOperatorUpTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : BoundedLinearOperatorUp} :
-    boundedLinearOperatorToEventFlow x = boundedLinearOperatorToEventFlow y -> x = y := by
+private theorem boundedLinearOperatorToEventFlow_injective {x y : BoundedLinearOperatorUp} :
+    boundedLinearOperatorToEventFlow x = boundedLinearOperatorToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow x) =
-        boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow y) :=
-    congrArg boundedLinearOperatorFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (BoundedLinearOperatorUpTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (BoundedLinearOperatorUpTasteGate_single_carrier_alignment_round_trip y)))
+  intro hxy
+  have optionEq : some x = some y := by
+    calc
+      some x = boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow x) :=
+        (boundedLinearOperator_round_trip x).symm
+      _ = boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow y) :=
+        congrArg boundedLinearOperatorFromEventFlow hxy
+      _ = some y := boundedLinearOperator_round_trip y
+  exact Option.some.inj optionEq
 
-private theorem BoundedLinearOperatorUpTasteGate_single_carrier_alignment_fields :
-    forall x y : BoundedLinearOperatorUp,
-      boundedLinearOperatorFields x = boundedLinearOperatorFields y -> x = y := by
+private theorem boundedLinearOperator_fields_faithful :
+    ∀ x y : BoundedLinearOperatorUp, boundedLinearOperatorFields x = boundedLinearOperatorFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk source target endpointAction bound ledger transport replay provenance nameCert =>
+  | mk source target endpoint bound ledger transport continuation provenance name =>
       cases y with
-      | mk source' target' endpointAction' bound' ledger' transport' replay' provenance'
-          nameCert' =>
+      | mk source' target' endpoint' bound' ledger' transport' continuation' provenance' name' =>
           cases hfields
           rfl
 
@@ -130,46 +152,73 @@ instance boundedLinearOperatorBHistCarrier : BHistCarrier BoundedLinearOperatorU
   toEventFlow := boundedLinearOperatorToEventFlow
   fromEventFlow := boundedLinearOperatorFromEventFlow
 
-instance boundedLinearOperatorChapterTasteGate :
-    ChapterTasteGate BoundedLinearOperatorUp where
+instance boundedLinearOperatorChapterTasteGate : ChapterTasteGate BoundedLinearOperatorUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow x) = some x
-    exact BoundedLinearOperatorUpTasteGate_single_carrier_alignment_round_trip x
+    exact boundedLinearOperator_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (BoundedLinearOperatorUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (boundedLinearOperatorToEventFlow_injective heq)
 
-instance boundedLinearOperatorFieldFaithful :
-    FieldFaithful BoundedLinearOperatorUp where
+instance boundedLinearOperatorFieldFaithful : FieldFaithful BoundedLinearOperatorUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := boundedLinearOperatorFields
-  field_faithful := BoundedLinearOperatorUpTasteGate_single_carrier_alignment_fields
+  field_faithful := boundedLinearOperator_fields_faithful
 
 instance boundedLinearOperatorNontrivial :
-    Nontrivial BoundedLinearOperatorUp where
+    BEDC.Meta.TasteGate.Nontrivial BoundedLinearOperatorUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨BoundedLinearOperatorUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨BoundedLinearOperatorUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BoundedLinearOperatorUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      BoundedLinearOperatorUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate BoundedLinearOperatorUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  boundedLinearOperatorChapterTasteGate
+
+theorem BoundedLinearOperatorTasteGate_single_carrier_alignment :
+    (∀ h : BHist, boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist h) = h) ∧
+      (∀ x : BoundedLinearOperatorUp,
+        boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow x) = some x) ∧
+        (∀ x y : BoundedLinearOperatorUp,
+          boundedLinearOperatorToEventFlow x = boundedLinearOperatorToEventFlow y → x = y) ∧
+          boundedLinearOperatorEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨boundedLinearOperator_decode_encode_bhist,
+      boundedLinearOperator_round_trip,
+      (by
+        intro x y heq
+        exact boundedLinearOperatorToEventFlow_injective heq),
+      rfl⟩
+
 theorem BoundedLinearOperatorUpTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate BoundedLinearOperatorUp) ∧ Nonempty (FieldFaithful BoundedLinearOperatorUp) ∧ Nonempty (BEDC.Meta.TasteGate.Nontrivial BoundedLinearOperatorUp) ∧ (∀ h : BHist, boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist h) = h) ∧ (∀ x : BoundedLinearOperatorUp, boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow x) = some x) ∧ (∀ x y : BoundedLinearOperatorUp, boundedLinearOperatorToEventFlow x = boundedLinearOperatorToEventFlow y → x = y) ∧ boundedLinearOperatorEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    Nonempty (ChapterTasteGate BoundedLinearOperatorUp) ∧
+      Nonempty (FieldFaithful BoundedLinearOperatorUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial BoundedLinearOperatorUp) ∧
+          (∀ h : BHist, boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist h) = h) ∧
+            (∀ x : BoundedLinearOperatorUp,
+              boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow x) = some x) ∧
+              (∀ x y : BoundedLinearOperatorUp,
+                boundedLinearOperatorToEventFlow x = boundedLinearOperatorToEventFlow y → x = y) ∧
+                boundedLinearOperatorEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
     ⟨⟨boundedLinearOperatorChapterTasteGate⟩,
       ⟨boundedLinearOperatorFieldFaithful⟩,
       ⟨boundedLinearOperatorNontrivial⟩,
-      BoundedLinearOperatorUpTasteGate_single_carrier_alignment_decode,
-      BoundedLinearOperatorUpTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        BoundedLinearOperatorUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      boundedLinearOperator_decode_encode_bhist,
+      boundedLinearOperator_round_trip,
+      (by
+        intro x y heq
+        exact boundedLinearOperatorToEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.BoundedLinearOperatorUp
