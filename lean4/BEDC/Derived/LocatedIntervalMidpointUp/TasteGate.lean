@@ -25,7 +25,7 @@ def locatedIntervalMidpointDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (locatedIntervalMidpointDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (locatedIntervalMidpointDecodeBHist tail)
 
-private theorem LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode :
+private theorem locatedIntervalMidpoint_decode_encode_bhist :
     ∀ h : BHist,
       locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -35,85 +35,116 @@ private theorem LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_deco
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def locatedIntervalMidpointToEventFlow : LocatedIntervalMidpointUp → EventFlow
+private theorem locatedIntervalMidpoint_mk_congr
+    {I I' D D' E0 E0' E1 E1' B B' S S' R R' Q Q' H H' C C' P P' N N' : BHist}
+    (hI : I' = I) (hD : D' = D) (hE0 : E0' = E0) (hE1 : E1' = E1)
+    (hB : B' = B) (hS : S' = S) (hR : R' = R) (hQ : Q' = Q)
+    (hH : H' = H) (hC : C' = C) (hP : P' = P) (hN : N' = N) :
+    LocatedIntervalMidpointUp.mk I' D' E0' E1' B' S' R' Q' H' C' P' N' =
+      LocatedIntervalMidpointUp.mk I D E0 E1 B S R Q H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hI
+  cases hD
+  cases hE0
+  cases hE1
+  cases hB
+  cases hS
+  cases hR
+  cases hQ
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
+def locatedIntervalMidpointFields : LocatedIntervalMidpointUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | LocatedIntervalMidpointUp.mk I D E0 E1 B S R Q H C P N =>
-      [locatedIntervalMidpointEncodeBHist I,
-        locatedIntervalMidpointEncodeBHist D,
-        locatedIntervalMidpointEncodeBHist E0,
-        locatedIntervalMidpointEncodeBHist E1,
-        locatedIntervalMidpointEncodeBHist B,
-        locatedIntervalMidpointEncodeBHist S,
-        locatedIntervalMidpointEncodeBHist R,
-        locatedIntervalMidpointEncodeBHist Q,
-        locatedIntervalMidpointEncodeBHist H,
-        locatedIntervalMidpointEncodeBHist C,
-        locatedIntervalMidpointEncodeBHist P,
-        locatedIntervalMidpointEncodeBHist N]
+      [I, D, E0, E1, B, S, R, Q, H, C, P, N]
 
-private def locatedIntervalMidpointEventAtDefault : Nat → EventFlow → RawEvent
+def locatedIntervalMidpointToEventFlow : LocatedIntervalMidpointUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => locatedIntervalMidpointEventAtDefault index rest
+  | x => (locatedIntervalMidpointFields x).map locatedIntervalMidpointEncodeBHist
 
-def locatedIntervalMidpointFromEventFlow (ef : EventFlow) :
-    Option LocatedIntervalMidpointUp :=
+def locatedIntervalMidpointFromEventFlow : EventFlow → Option LocatedIntervalMidpointUp
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (LocatedIntervalMidpointUp.mk
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 0 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 1 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 2 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 3 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 4 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 5 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 6 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 7 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 8 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 9 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 10 ef))
-      (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEventAtDefault 11 ef)))
+  | [] => none
+  | I :: rest0 =>
+      match rest0 with
+      | [] => none
+      | D :: rest1 =>
+          match rest1 with
+          | [] => none
+          | E0 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | E1 :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | B :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | S :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | R :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | Q :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | H :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | C :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | P :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | N :: rest11 =>
+                                                  match rest11 with
+                                                  | [] =>
+                                                      some
+                                                        (LocatedIntervalMidpointUp.mk
+                                                          (locatedIntervalMidpointDecodeBHist I)
+                                                          (locatedIntervalMidpointDecodeBHist D)
+                                                          (locatedIntervalMidpointDecodeBHist E0)
+                                                          (locatedIntervalMidpointDecodeBHist E1)
+                                                          (locatedIntervalMidpointDecodeBHist B)
+                                                          (locatedIntervalMidpointDecodeBHist S)
+                                                          (locatedIntervalMidpointDecodeBHist R)
+                                                          (locatedIntervalMidpointDecodeBHist Q)
+                                                          (locatedIntervalMidpointDecodeBHist H)
+                                                          (locatedIntervalMidpointDecodeBHist C)
+                                                          (locatedIntervalMidpointDecodeBHist P)
+                                                          (locatedIntervalMidpointDecodeBHist N))
+                                                  | _ :: _ => none
 
-private theorem LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_round_trip :
+private theorem locatedIntervalMidpoint_round_trip :
     ∀ x : LocatedIntervalMidpointUp,
       locatedIntervalMidpointFromEventFlow (locatedIntervalMidpointToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk I D E0 E1 B S R Q H C P N =>
-      change
-        some
-          (LocatedIntervalMidpointUp.mk
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist I))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist D))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist E0))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist E1))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist B))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist S))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist R))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist Q))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist H))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist C))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist P))
-            (locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist N))) =
-          some (LocatedIntervalMidpointUp.mk I D E0 E1 B S R Q H C P N)
-      rw [LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode I,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode D,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode E0,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode E1,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode B,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode S,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode R,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode Q,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode H,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode C,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode P,
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode N]
+      exact
+        congrArg some
+          (locatedIntervalMidpoint_mk_congr
+            (locatedIntervalMidpoint_decode_encode_bhist I)
+            (locatedIntervalMidpoint_decode_encode_bhist D)
+            (locatedIntervalMidpoint_decode_encode_bhist E0)
+            (locatedIntervalMidpoint_decode_encode_bhist E1)
+            (locatedIntervalMidpoint_decode_encode_bhist B)
+            (locatedIntervalMidpoint_decode_encode_bhist S)
+            (locatedIntervalMidpoint_decode_encode_bhist R)
+            (locatedIntervalMidpoint_decode_encode_bhist Q)
+            (locatedIntervalMidpoint_decode_encode_bhist H)
+            (locatedIntervalMidpoint_decode_encode_bhist C)
+            (locatedIntervalMidpoint_decode_encode_bhist P)
+            (locatedIntervalMidpoint_decode_encode_bhist N))
 
-private theorem LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : LocatedIntervalMidpointUp} :
+private theorem locatedIntervalMidpointToEventFlow_injective {x y : LocatedIntervalMidpointUp} :
     locatedIntervalMidpointToEventFlow x = locatedIntervalMidpointToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -122,45 +153,39 @@ private theorem LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_toEv
         locatedIntervalMidpointFromEventFlow (locatedIntervalMidpointToEventFlow y) :=
     congrArg locatedIntervalMidpointFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (locatedIntervalMidpoint_round_trip x).symm
+      (Eq.trans hread (locatedIntervalMidpoint_round_trip y)))
 
 instance locatedIntervalMidpointBHistCarrier : BHistCarrier LocatedIntervalMidpointUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := locatedIntervalMidpointToEventFlow
   fromEventFlow := locatedIntervalMidpointFromEventFlow
 
-instance locatedIntervalMidpointChapterTasteGate :
-    ChapterTasteGate LocatedIntervalMidpointUp where
+instance locatedIntervalMidpointChapterTasteGate : ChapterTasteGate LocatedIntervalMidpointUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change locatedIntervalMidpointFromEventFlow (locatedIntervalMidpointToEventFlow x) = some x
-    exact LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_round_trip x
+    exact locatedIntervalMidpoint_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (locatedIntervalMidpointToEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate LocatedIntervalMidpointUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  locatedIntervalMidpointChapterTasteGate
-
-theorem LocatedIntervalMidpointUpTasteGate_single_carrier_alignment :
+theorem LocatedIntervalMidpointTasteGate_single_carrier_alignment :
     (∀ h : BHist, locatedIntervalMidpointDecodeBHist (locatedIntervalMidpointEncodeBHist h) = h) ∧
       (∀ x : LocatedIntervalMidpointUp,
         locatedIntervalMidpointFromEventFlow (locatedIntervalMidpointToEventFlow x) = some x) ∧
         (∀ x y : LocatedIntervalMidpointUp,
           locatedIntervalMidpointToEventFlow x = locatedIntervalMidpointToEventFlow y → x = y) ∧
           locatedIntervalMidpointEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_decode_encode,
-      LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_round_trip,
-      fun _ _ heq =>
-        LocatedIntervalMidpointUpTasteGate_single_carrier_alignment_toEventFlow_injective heq,
-      rfl⟩
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact locatedIntervalMidpoint_decode_encode_bhist
+  · constructor
+    · exact locatedIntervalMidpoint_round_trip
+    · constructor
+      · intro x y heq
+        exact locatedIntervalMidpointToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.LocatedIntervalMidpointUp
