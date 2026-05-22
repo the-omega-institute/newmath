@@ -1,21 +1,16 @@
-import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegularCauchyApartnessOrderUp.TasteGate
+namespace BEDC.Derived.RegularCauchyApartnessOrderUp
 
-open BEDC.FKernel.Ask
-open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
-open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RegularCauchyApartnessOrderUp : Type where
-  | mk
-      (source budget direction modulus window positiveBound readback realSeal transport replay
-        provenance name : BHist) : RegularCauchyApartnessOrderUp
+  | mk (X A O M W D R E H C P N : BHist) : RegularCauchyApartnessOrderUp
   deriving DecidableEq
 
 def regularCauchyApartnessOrderEncodeBHist : BHist → RawEvent
@@ -30,7 +25,7 @@ def regularCauchyApartnessOrderDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyApartnessOrderDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyApartnessOrderDecodeBHist tail)
 
-private theorem regularCauchyApartnessOrderDecodeEncodeBHist :
+private theorem RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       regularCauchyApartnessOrderDecodeBHist
         (regularCauchyApartnessOrderEncodeBHist h) = h := by
@@ -41,147 +36,105 @@ private theorem regularCauchyApartnessOrderDecodeEncodeBHist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def regularCauchyApartnessOrderFields :
+private def regularCauchyApartnessOrderFields :
     RegularCauchyApartnessOrderUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyApartnessOrderUp.mk source budget direction modulus window positiveBound
-      readback realSeal transport replay provenance name =>
-      [source, budget, direction, modulus, window, positiveBound, readback, realSeal,
-        transport, replay, provenance, name]
-
-def regularCauchyApartnessOrderNameRow : RegularCauchyApartnessOrderUp → BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyApartnessOrderUp.mk _ _ _ _ _ _ _ _ _ _ _ name => name
+  | RegularCauchyApartnessOrderUp.mk X A O M W D R E H C P N =>
+      [X, A, O, M, W, D, R, E, H, C, P, N]
 
 def regularCauchyApartnessOrderToEventFlow :
     RegularCauchyApartnessOrderUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (regularCauchyApartnessOrderFields x).map
-        regularCauchyApartnessOrderEncodeBHist
+  | token =>
+      (regularCauchyApartnessOrderFields token).map regularCauchyApartnessOrderEncodeBHist
 
-def regularCauchyApartnessOrderFromEventFlow :
-    EventFlow → Option RegularCauchyApartnessOrderUp
+private def regularCauchyApartnessOrderEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | source :: rest0 =>
-      match rest0 with
-      | [] => none
-      | budget :: rest1 =>
-          match rest1 with
-          | [] => none
-          | direction :: rest2 =>
-              match rest2 with
-              | [] => none
-              | modulus :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | window :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | positiveBound :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | readback :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | realSeal :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | transport :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | replay :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | provenance :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | name :: rest11 =>
-                                                  match rest11 with
-                                                  | [] =>
-                                                      some
-                                                        (RegularCauchyApartnessOrderUp.mk
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            source)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            budget)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            direction)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            modulus)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            window)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            positiveBound)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            readback)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            realSeal)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            transport)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            replay)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            provenance)
-                                                          (regularCauchyApartnessOrderDecodeBHist
-                                                            name))
-                                                  | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyApartnessOrderEventAtDefault index rest
 
-private theorem regularCauchyApartnessOrder_round_trip :
+def regularCauchyApartnessOrderFromEventFlow
+    (ef : EventFlow) : Option RegularCauchyApartnessOrderUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (RegularCauchyApartnessOrderUp.mk
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 0 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 1 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 2 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 3 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 4 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 5 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 6 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 7 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 8 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 9 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 10 ef))
+      (regularCauchyApartnessOrderDecodeBHist
+        (regularCauchyApartnessOrderEventAtDefault 11 ef)))
+
+private theorem RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_round_trip :
     ∀ x : RegularCauchyApartnessOrderUp,
       regularCauchyApartnessOrderFromEventFlow
-          (regularCauchyApartnessOrderToEventFlow x) =
-        some x := by
+        (regularCauchyApartnessOrderToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
-  cases x with
-  | mk source budget direction modulus window positiveBound readback realSeal transport replay
-      provenance name =>
+  intro token
+  cases token with
+  | mk X A O M W D R E H C P N =>
       change
         some
           (RegularCauchyApartnessOrderUp.mk
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist source))
+              (regularCauchyApartnessOrderEncodeBHist X))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist budget))
+              (regularCauchyApartnessOrderEncodeBHist A))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist direction))
+              (regularCauchyApartnessOrderEncodeBHist O))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist modulus))
+              (regularCauchyApartnessOrderEncodeBHist M))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist window))
+              (regularCauchyApartnessOrderEncodeBHist W))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist positiveBound))
+              (regularCauchyApartnessOrderEncodeBHist D))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist readback))
+              (regularCauchyApartnessOrderEncodeBHist R))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist realSeal))
+              (regularCauchyApartnessOrderEncodeBHist E))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist transport))
+              (regularCauchyApartnessOrderEncodeBHist H))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist replay))
+              (regularCauchyApartnessOrderEncodeBHist C))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist provenance))
+              (regularCauchyApartnessOrderEncodeBHist P))
             (regularCauchyApartnessOrderDecodeBHist
-              (regularCauchyApartnessOrderEncodeBHist name))) =
-          some
-            (RegularCauchyApartnessOrderUp.mk source budget direction modulus window
-              positiveBound readback realSeal transport replay provenance name)
-      rw [regularCauchyApartnessOrderDecodeEncodeBHist source,
-        regularCauchyApartnessOrderDecodeEncodeBHist budget,
-        regularCauchyApartnessOrderDecodeEncodeBHist direction,
-        regularCauchyApartnessOrderDecodeEncodeBHist modulus,
-        regularCauchyApartnessOrderDecodeEncodeBHist window,
-        regularCauchyApartnessOrderDecodeEncodeBHist positiveBound,
-        regularCauchyApartnessOrderDecodeEncodeBHist readback,
-        regularCauchyApartnessOrderDecodeEncodeBHist realSeal,
-        regularCauchyApartnessOrderDecodeEncodeBHist transport,
-        regularCauchyApartnessOrderDecodeEncodeBHist replay,
-        regularCauchyApartnessOrderDecodeEncodeBHist provenance,
-        regularCauchyApartnessOrderDecodeEncodeBHist name]
+              (regularCauchyApartnessOrderEncodeBHist N))) =
+          some (RegularCauchyApartnessOrderUp.mk X A O M W D R E H C P N)
+      rw [RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode X,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode A,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode O,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode M,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode W,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode D,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode R,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode E,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode H,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode C,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode P,
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode N]
 
-private theorem regularCauchyApartnessOrderToEventFlow_injective
+private theorem RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RegularCauchyApartnessOrderUp} :
     regularCauchyApartnessOrderToEventFlow x =
       regularCauchyApartnessOrderToEventFlow y → x = y := by
@@ -194,8 +147,22 @@ private theorem regularCauchyApartnessOrderToEventFlow_injective
           (regularCauchyApartnessOrderToEventFlow y) :=
     congrArg regularCauchyApartnessOrderFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (regularCauchyApartnessOrder_round_trip x).symm
-      (Eq.trans hread (regularCauchyApartnessOrder_round_trip y)))
+    (Eq.trans
+      (RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_fields :
+    ∀ x y : RegularCauchyApartnessOrderUp,
+      regularCauchyApartnessOrderFields x = regularCauchyApartnessOrderFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk X1 A1 O1 M1 W1 D1 R1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk X2 A2 O2 M2 W2 D2 R2 E2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance regularCauchyApartnessOrderBHistCarrier :
     BHistCarrier RegularCauchyApartnessOrderUp where
@@ -210,28 +177,44 @@ instance regularCauchyApartnessOrderChapterTasteGate :
     intro x
     change
       regularCauchyApartnessOrderFromEventFlow
-          (regularCauchyApartnessOrderToEventFlow x) =
-        some x
-    exact regularCauchyApartnessOrder_round_trip x
+        (regularCauchyApartnessOrderToEventFlow x) = some x
+    exact RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (regularCauchyApartnessOrderToEventFlow_injective heq)
+    exact hxy
+      (RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate RegularCauchyApartnessOrderUp :=
+instance regularCauchyApartnessOrderFieldFaithful :
+    FieldFaithful RegularCauchyApartnessOrderUp where
   -- BEDC touchpoint anchor: BHist BMark
-  regularCauchyApartnessOrderChapterTasteGate
+  fields := regularCauchyApartnessOrderFields
+  field_faithful := RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_fields
 
-theorem RegularCauchyApartnessOrderTasteGate_single_carrier_alignment
-    [AskSetup] [PackageSetup]
-    {x y : RegularCauchyApartnessOrderUp}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    regularCauchyApartnessOrderToEventFlow x =
-        regularCauchyApartnessOrderToEventFlow y →
-      PkgSig bundle (regularCauchyApartnessOrderNameRow x) pkg →
-        PkgSig bundle (regularCauchyApartnessOrderNameRow y) pkg →
-          x = y := by
-  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg PkgSig
-  intro heq _ _
-  exact regularCauchyApartnessOrderToEventFlow_injective heq
+instance regularCauchyApartnessOrderNontrivial :
+    Nontrivial RegularCauchyApartnessOrderUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchyApartnessOrderUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      RegularCauchyApartnessOrderUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
-end BEDC.Derived.RegularCauchyApartnessOrderUp.TasteGate
+theorem RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate RegularCauchyApartnessOrderUp) ∧ Nonempty (FieldFaithful RegularCauchyApartnessOrderUp) ∧ Nonempty (BEDC.Meta.TasteGate.Nontrivial RegularCauchyApartnessOrderUp) ∧ (∀ h : BHist, regularCauchyApartnessOrderDecodeBHist (regularCauchyApartnessOrderEncodeBHist h) = h) ∧ (∀ x : RegularCauchyApartnessOrderUp, regularCauchyApartnessOrderFromEventFlow (regularCauchyApartnessOrderToEventFlow x) = some x) ∧ (∀ x y : RegularCauchyApartnessOrderUp, regularCauchyApartnessOrderToEventFlow x = regularCauchyApartnessOrderToEventFlow y → x = y) ∧ regularCauchyApartnessOrderEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨⟨regularCauchyApartnessOrderChapterTasteGate⟩,
+      ⟨regularCauchyApartnessOrderFieldFaithful⟩,
+      ⟨regularCauchyApartnessOrderNontrivial⟩,
+      RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_decode,
+      RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        RegularCauchyApartnessOrderUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
+
+end BEDC.Derived.RegularCauchyApartnessOrderUp

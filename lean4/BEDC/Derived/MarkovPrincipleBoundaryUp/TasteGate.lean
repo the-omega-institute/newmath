@@ -1,15 +1,12 @@
 import BEDC.Derived.MarkovPrincipleBoundaryUp
-import BEDC.FKernel.Package.Core
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
+namespace BEDC.Derived.MarkovPrincipleBoundaryUp
 
-open BEDC.FKernel.Ask
-open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
-open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -25,10 +22,9 @@ def markovPrincipleBoundaryDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (markovPrincipleBoundaryDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (markovPrincipleBoundaryDecodeBHist tail)
 
-private theorem markovPrincipleBoundaryDecodeEncodeBHist :
-    ∀ h : BHist,
-      markovPrincipleBoundaryDecodeBHist
-        (markovPrincipleBoundaryEncodeBHist h) = h := by
+theorem MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist, markovPrincipleBoundaryDecodeBHist
+      (markovPrincipleBoundaryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -43,15 +39,12 @@ def markovPrincipleBoundaryFields : MarkovPrincipleBoundaryUp → List BHist
       [inspection, speckerControl, streamSchedule, rationalReadback, dyadicLedger, realSeal,
         witnessRow, transport, replay, provenance, name]
 
-def markovPrincipleBoundaryNameRow : MarkovPrincipleBoundaryUp → BHist
+def markovPrincipleBoundaryToEventFlow : MarkovPrincipleBoundaryUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | MarkovPrincipleBoundaryUp.mk _ _ _ _ _ _ _ _ _ _ name => name
+  fun x => (markovPrincipleBoundaryFields x).map markovPrincipleBoundaryEncodeBHist
 
-def markovPrincipleBoundaryToEventFlow : MarkovPrincipleBoundaryUp → EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | x => (markovPrincipleBoundaryFields x).map markovPrincipleBoundaryEncodeBHist
-
-def markovPrincipleBoundaryFromEventFlow : EventFlow → Option MarkovPrincipleBoundaryUp
+def markovPrincipleBoundaryFromEventFlow :
+    EventFlow → Option MarkovPrincipleBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | inspection :: rest0 =>
@@ -109,10 +102,11 @@ def markovPrincipleBoundaryFromEventFlow : EventFlow → Option MarkovPrincipleB
                                                         replay)
                                                       (markovPrincipleBoundaryDecodeBHist
                                                         provenance)
-                                                      (markovPrincipleBoundaryDecodeBHist name))
+                                                      (markovPrincipleBoundaryDecodeBHist
+                                                        name))
                                               | _ :: _ => none
 
-private theorem markovPrincipleBoundary_round_trip :
+theorem MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_round_trip :
     ∀ x : MarkovPrincipleBoundaryUp,
       markovPrincipleBoundaryFromEventFlow (markovPrincipleBoundaryToEventFlow x) =
         some x := by
@@ -149,19 +143,19 @@ private theorem markovPrincipleBoundary_round_trip :
           some
             (MarkovPrincipleBoundaryUp.mk inspection speckerControl streamSchedule
               rationalReadback dyadicLedger realSeal witnessRow transport replay provenance name)
-      rw [markovPrincipleBoundaryDecodeEncodeBHist inspection,
-        markovPrincipleBoundaryDecodeEncodeBHist speckerControl,
-        markovPrincipleBoundaryDecodeEncodeBHist streamSchedule,
-        markovPrincipleBoundaryDecodeEncodeBHist rationalReadback,
-        markovPrincipleBoundaryDecodeEncodeBHist dyadicLedger,
-        markovPrincipleBoundaryDecodeEncodeBHist realSeal,
-        markovPrincipleBoundaryDecodeEncodeBHist witnessRow,
-        markovPrincipleBoundaryDecodeEncodeBHist transport,
-        markovPrincipleBoundaryDecodeEncodeBHist replay,
-        markovPrincipleBoundaryDecodeEncodeBHist provenance,
-        markovPrincipleBoundaryDecodeEncodeBHist name]
+      rw [MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode inspection,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode speckerControl,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode streamSchedule,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode rationalReadback,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode dyadicLedger,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode realSeal,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode witnessRow,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode transport,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode replay,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode provenance,
+        MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode name]
 
-private theorem markovPrincipleBoundaryToEventFlow_injective
+theorem MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : MarkovPrincipleBoundaryUp} :
     markovPrincipleBoundaryToEventFlow x = markovPrincipleBoundaryToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -171,11 +165,12 @@ private theorem markovPrincipleBoundaryToEventFlow_injective
         markovPrincipleBoundaryFromEventFlow (markovPrincipleBoundaryToEventFlow y) :=
     congrArg markovPrincipleBoundaryFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (markovPrincipleBoundary_round_trip x).symm
-      (Eq.trans hread (markovPrincipleBoundary_round_trip y)))
+    (Eq.trans
+      (MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_round_trip y)))
 
-instance markovPrincipleBoundaryBHistCarrier :
-    BHistCarrier MarkovPrincipleBoundaryUp where
+instance markovPrincipleBoundaryBHistCarrier : BHistCarrier MarkovPrincipleBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := markovPrincipleBoundaryToEventFlow
   fromEventFlow := markovPrincipleBoundaryFromEventFlow
@@ -185,28 +180,36 @@ instance markovPrincipleBoundaryChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      markovPrincipleBoundaryFromEventFlow (markovPrincipleBoundaryToEventFlow x) =
-        some x
-    exact markovPrincipleBoundary_round_trip x
+    change markovPrincipleBoundaryFromEventFlow (markovPrincipleBoundaryToEventFlow x) =
+      some x
+    exact MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (markovPrincipleBoundaryToEventFlow_injective heq)
+    exact hxy
+      (MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate MarkovPrincipleBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   markovPrincipleBoundaryChapterTasteGate
 
-theorem MarkovPrincipleBoundaryTasteGate_single_carrier_alignment
-    [AskSetup] [PackageSetup]
-    {x y : MarkovPrincipleBoundaryUp}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    markovPrincipleBoundaryToEventFlow x = markovPrincipleBoundaryToEventFlow y →
-      PkgSig bundle (markovPrincipleBoundaryNameRow x) pkg →
-        PkgSig bundle (markovPrincipleBoundaryNameRow y) pkg →
-          x = y := by
-  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg PkgSig
-  intro heq _ _
-  exact markovPrincipleBoundaryToEventFlow_injective heq
+theorem MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist, markovPrincipleBoundaryDecodeBHist
+      (markovPrincipleBoundaryEncodeBHist h) = h) ∧
+      (∀ x : MarkovPrincipleBoundaryUp,
+        markovPrincipleBoundaryFromEventFlow (markovPrincipleBoundaryToEventFlow x) =
+          some x) ∧
+        (∀ x y : MarkovPrincipleBoundaryUp,
+          markovPrincipleBoundaryToEventFlow x = markovPrincipleBoundaryToEventFlow y →
+            x = y) ∧
+          markovPrincipleBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_decode
+  · constructor
+    · exact MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_round_trip
+    · constructor
+      · intro x y heq
+        exact MarkovPrincipleBoundaryUpTasteGate_single_carrier_alignment_toEventFlow_injective heq
+      · rfl
 
-end BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
+end BEDC.Derived.MarkovPrincipleBoundaryUp
