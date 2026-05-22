@@ -37,6 +37,27 @@ Rationale: lineage / option narrowing is a deliberate simplification (e.g. remov
 
 Detection: any conflict containing `ai-composite`, `mislabeled_composite`, or a `\origin{{...}}` chapter-header line where the two sides differ on lineage value — trust BASE.
 
+## Axiom-purity HARD GATE (CRITICAL — failure here makes the round unrecoverable)
+
+BEDC is mathlib-free and the invariant `forbidden = ['Classical.choice', 'Quot.sound', 'propext']` is enforced post-merge by `python3 lean4/scripts/bedc_ci.py axiom-purity --strict`. If your resolution introduces (or re-introduces) any transitive use of those axioms, the round dies.
+
+The most common trap during merge resolution is the **propext-via-typeclass-projection trap** in `lean4/BEDC/Derived/**/TasteGate.lean`. A standalone helper theorem of shape
+
+  `BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x`
+
+forces Lean to unfold the typeclass instance via propositional equality, which leaks `propext`. If one side of the conflict DELETED such a helper (typically because a previous round caught the leak) and your "ours" side still has it, **prefer the deletion**. The `ChapterTasteGate <X>Up` instance already carries the equivalent `round_trip` field.
+
+Verification step (mandatory before committing the merge):
+
+```bash
+cd lean4 && lake build 2>&1 | tail -20         # must succeed
+cd .. && python3 lean4/scripts/bedc_ci.py axiom-purity --strict 2>&1 | tail -5
+```
+
+The axiom-purity line MUST report `impure=0`. If it reports `impure=1` or more, look at the listed theorem; it is almost always a typeclass-projection helper added on the ours side. Drop it (or rewrite to reference concrete underlying defs like `<X>FromEventFlow` / `<X>ToEventFlow` instead of `BHistCarrier.fromEventFlow` / `BHistCarrier.toEventFlow`) and re-run axiom-purity until `impure=0`. Only then commit.
+
+Do not commit while `impure ≠ 0` — the post-merge gate will fail and the round becomes unrecoverable with no second chance.
+
 ## Completion
 6. After resolving, run: git add <file> for each resolved file
 7. Then run: git commit --no-edit  (this completes the merge — do not amend its message)
