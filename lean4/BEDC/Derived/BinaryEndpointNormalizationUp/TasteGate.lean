@@ -25,11 +25,10 @@ def binaryEndpointNormalizationDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (binaryEndpointNormalizationDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (binaryEndpointNormalizationDecodeBHist tail)
 
-private theorem binaryEndpointNormalization_decode_encode :
+private theorem BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       binaryEndpointNormalizationDecodeBHist
-          (binaryEndpointNormalizationEncodeBHist h) =
-        h := by
+        (binaryEndpointNormalizationEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,49 +36,148 @@ private theorem binaryEndpointNormalization_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def binaryEndpointNormalizationFields :
-    BinaryEndpointNormalizationUp → List BHist
+private theorem BinaryEndpointNormalizationTasteGate_single_carrier_alignment_mk_congr
+    {L1 R1 K1 D1 A1 W1 Q1 S1 H1 C1 P1 N1 L2 R2 K2 D2 A2 W2 Q2 S2 H2 C2 P2 N2 :
+      BHist}
+    (hL : L1 = L2)
+    (hR : R1 = R2)
+    (hK : K1 = K2)
+    (hD : D1 = D2)
+    (hA : A1 = A2)
+    (hW : W1 = W2)
+    (hQ : Q1 = Q2)
+    (hS : S1 = S2)
+    (hH : H1 = H2)
+    (hC : C1 = C2)
+    (hP : P1 = P2)
+    (hN : N1 = N2) :
+    BinaryEndpointNormalizationUp.mk L1 R1 K1 D1 A1 W1 Q1 S1 H1 C1 P1 N1 =
+      BinaryEndpointNormalizationUp.mk L2 R2 K2 D2 A2 W2 Q2 S2 H2 C2 P2 N2 := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hL
+  cases hR
+  cases hK
+  cases hD
+  cases hA
+  cases hW
+  cases hQ
+  cases hS
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
+def binaryEndpointNormalizationToEventFlow : BinaryEndpointNormalizationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | BinaryEndpointNormalizationUp.mk L R K D A W Q S H C P N =>
-      [L, R, K, D, A, W, Q, S, H, C, P, N]
+      [[BMark.b0],
+        binaryEndpointNormalizationEncodeBHist L,
+        [BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist R,
+        [BMark.b1, BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist K,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist D,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist A,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist W,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist Q,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        binaryEndpointNormalizationEncodeBHist S,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        binaryEndpointNormalizationEncodeBHist N]
 
-def binaryEndpointNormalizationToEventFlow :
-    BinaryEndpointNormalizationUp → EventFlow
+def binaryEndpointNormalizationPayloads : EventFlow → Option EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      List.map binaryEndpointNormalizationEncodeBHist
-        (binaryEndpointNormalizationFields x)
+  | [] => some []
+  | _ :: rest =>
+      match rest with
+      | [] => none
+      | row :: tail =>
+          match binaryEndpointNormalizationPayloads tail with
+          | some rows => some (row :: rows)
+          | none => none
 
-private def binaryEndpointNormalizationRawAt : Nat → EventFlow → RawEvent
+def binaryEndpointNormalizationFromPayloads :
+    EventFlow → Option BinaryEndpointNormalizationUp
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => binaryEndpointNormalizationRawAt index rest
+  | [] => none
+  | L :: restR =>
+      match restR with
+      | [] => none
+      | R :: restK =>
+          match restK with
+          | [] => none
+          | K :: restD =>
+              match restD with
+              | [] => none
+              | D :: restA =>
+                  match restA with
+                  | [] => none
+                  | A :: restW =>
+                      match restW with
+                      | [] => none
+                      | W :: restQ =>
+                          match restQ with
+                          | [] => none
+                          | Q :: restS =>
+                              match restS with
+                              | [] => none
+                              | S :: restH =>
+                                  match restH with
+                                  | [] => none
+                                  | H :: restC =>
+                                      match restC with
+                                      | [] => none
+                                      | C :: restP =>
+                                          match restP with
+                                          | [] => none
+                                          | P :: restN =>
+                                              match restN with
+                                              | [] => none
+                                              | N :: rest =>
+                                                  match rest with
+                                                  | [] =>
+                                                      some (BinaryEndpointNormalizationUp.mk
+                                                        (binaryEndpointNormalizationDecodeBHist L)
+                                                        (binaryEndpointNormalizationDecodeBHist R)
+                                                        (binaryEndpointNormalizationDecodeBHist K)
+                                                        (binaryEndpointNormalizationDecodeBHist D)
+                                                        (binaryEndpointNormalizationDecodeBHist A)
+                                                        (binaryEndpointNormalizationDecodeBHist W)
+                                                        (binaryEndpointNormalizationDecodeBHist Q)
+                                                        (binaryEndpointNormalizationDecodeBHist S)
+                                                        (binaryEndpointNormalizationDecodeBHist H)
+                                                        (binaryEndpointNormalizationDecodeBHist C)
+                                                        (binaryEndpointNormalizationDecodeBHist P)
+                                                        (binaryEndpointNormalizationDecodeBHist N))
+                                                  | _ :: _ => none
 
 def binaryEndpointNormalizationFromEventFlow
     (flow : EventFlow) : Option BinaryEndpointNormalizationUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (BinaryEndpointNormalizationUp.mk
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 0 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 1 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 2 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 3 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 4 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 5 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 6 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 7 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 8 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 9 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 10 flow))
-      (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationRawAt 11 flow)))
+  match binaryEndpointNormalizationPayloads flow with
+  | some rows => binaryEndpointNormalizationFromPayloads rows
+  | none => none
 
-private theorem binaryEndpointNormalization_round_trip :
+private theorem BinaryEndpointNormalizationTasteGate_single_carrier_alignment_round_trip :
     ∀ x : BinaryEndpointNormalizationUp,
       binaryEndpointNormalizationFromEventFlow
-          (binaryEndpointNormalizationToEventFlow x) =
-        some x := by
+        (binaryEndpointNormalizationToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -87,60 +185,49 @@ private theorem binaryEndpointNormalization_round_trip :
       change
         some
           (BinaryEndpointNormalizationUp.mk
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist L))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist R))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist K))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist D))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist A))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist W))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist Q))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist S))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist H))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist C))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist P))
-            (binaryEndpointNormalizationDecodeBHist
-              (binaryEndpointNormalizationEncodeBHist N))) =
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist L))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist R))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist K))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist D))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist A))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist W))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist Q))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist S))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist H))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist C))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist P))
+            (binaryEndpointNormalizationDecodeBHist (binaryEndpointNormalizationEncodeBHist N))) =
           some (BinaryEndpointNormalizationUp.mk L R K D A W Q S H C P N)
-      rw [binaryEndpointNormalization_decode_encode L,
-        binaryEndpointNormalization_decode_encode R,
-        binaryEndpointNormalization_decode_encode K,
-        binaryEndpointNormalization_decode_encode D,
-        binaryEndpointNormalization_decode_encode A,
-        binaryEndpointNormalization_decode_encode W,
-        binaryEndpointNormalization_decode_encode Q,
-        binaryEndpointNormalization_decode_encode S,
-        binaryEndpointNormalization_decode_encode H,
-        binaryEndpointNormalization_decode_encode C,
-        binaryEndpointNormalization_decode_encode P,
-        binaryEndpointNormalization_decode_encode N]
+      exact congrArg some
+        (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_mk_congr
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode L)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode R)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode K)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode D)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode A)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode W)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode Q)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode S)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode H)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode C)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode P)
+          (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode N))
 
-private theorem binaryEndpointNormalizationToEventFlow_injective
+private theorem BinaryEndpointNormalizationTasteGate_single_carrier_alignment_injective
     {x y : BinaryEndpointNormalizationUp} :
     binaryEndpointNormalizationToEventFlow x =
-        binaryEndpointNormalizationToEventFlow y →
-      x = y := by
+      binaryEndpointNormalizationToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      binaryEndpointNormalizationFromEventFlow
-          (binaryEndpointNormalizationToEventFlow x) =
-        binaryEndpointNormalizationFromEventFlow
-          (binaryEndpointNormalizationToEventFlow y) :=
+      binaryEndpointNormalizationFromEventFlow (binaryEndpointNormalizationToEventFlow x) =
+        binaryEndpointNormalizationFromEventFlow (binaryEndpointNormalizationToEventFlow y) :=
     congrArg binaryEndpointNormalizationFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (binaryEndpointNormalization_round_trip x).symm
-      (Eq.trans hread (binaryEndpointNormalization_round_trip y)))
+      (Eq.trans
+        (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_round_trip y)))
 
 instance binaryEndpointNormalizationBHistCarrier :
     BHistCarrier BinaryEndpointNormalizationUp where
@@ -155,12 +242,11 @@ instance binaryEndpointNormalizationChapterTasteGate :
     intro x
     change
       binaryEndpointNormalizationFromEventFlow
-          (binaryEndpointNormalizationToEventFlow x) =
-        some x
-    exact binaryEndpointNormalization_round_trip x
+        (binaryEndpointNormalizationToEventFlow x) = some x
+    exact BinaryEndpointNormalizationTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (binaryEndpointNormalizationToEventFlow_injective heq)
+    exact hxy (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_injective heq)
 
 def taste_gate : ChapterTasteGate BinaryEndpointNormalizationUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -169,24 +255,21 @@ def taste_gate : ChapterTasteGate BinaryEndpointNormalizationUp :=
 theorem BinaryEndpointNormalizationTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       binaryEndpointNormalizationDecodeBHist
-          (binaryEndpointNormalizationEncodeBHist h) =
-        h) ∧
+        (binaryEndpointNormalizationEncodeBHist h) = h) ∧
       (∀ x : BinaryEndpointNormalizationUp,
         binaryEndpointNormalizationFromEventFlow
-            (binaryEndpointNormalizationToEventFlow x) =
-          some x) ∧
-        (∀ x y : BinaryEndpointNormalizationUp,
-          binaryEndpointNormalizationToEventFlow x =
-              binaryEndpointNormalizationToEventFlow y →
-            x = y) ∧
-          binaryEndpointNormalizationEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+          (binaryEndpointNormalizationToEventFlow x) = some x) ∧
+      (∀ x y : BinaryEndpointNormalizationUp,
+        binaryEndpointNormalizationToEventFlow x =
+          binaryEndpointNormalizationToEventFlow y → x = y) ∧
+      binaryEndpointNormalizationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨binaryEndpointNormalization_decode_encode,
-      binaryEndpointNormalization_round_trip,
-      by
-        intro x y heq
-        exact binaryEndpointNormalizationToEventFlow_injective heq,
-      rfl⟩
+    And.intro BinaryEndpointNormalizationTasteGate_single_carrier_alignment_decode
+      (And.intro BinaryEndpointNormalizationTasteGate_single_carrier_alignment_round_trip
+        (And.intro
+          (fun x y heq =>
+            BinaryEndpointNormalizationTasteGate_single_carrier_alignment_injective heq)
+          rfl))
 
 end BEDC.Derived.BinaryEndpointNormalizationUp
