@@ -1,11 +1,18 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BoundedLinearOperatorUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -220,5 +227,44 @@ theorem BoundedLinearOperatorUpTasteGate_single_carrier_alignment :
         intro x y heq
         exact boundedLinearOperatorToEventFlow_injective heq),
       rfl⟩
+
+def BoundedLinearOperatorCarrier [AskSetup] [PackageSetup]
+    (source target endpoint bound ledger transport continuation provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory endpoint ∧
+    UnaryHistory bound ∧ UnaryHistory ledger ∧ UnaryHistory transport ∧
+      UnaryHistory continuation ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+        PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
+
+theorem BoundedLinearOperatorCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source target endpoint bound ledger transport continuation provenance name endpointRead boundRead
+      ledgerRead packageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedLinearOperatorCarrier source target endpoint bound ledger transport continuation provenance
+        name bundle pkg →
+      Cont source endpoint endpointRead →
+        Cont endpoint bound boundRead →
+          Cont boundRead ledger ledgerRead →
+            PkgSig bundle packageRead pkg →
+              UnaryHistory source ∧ UnaryHistory endpoint ∧ UnaryHistory endpointRead ∧
+                UnaryHistory boundRead ∧ UnaryHistory ledgerRead ∧
+                  Cont source endpoint endpointRead ∧ Cont endpoint bound boundRead ∧
+                    Cont boundRead ledger ledgerRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle packageRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier sourceEndpoint endpointBound boundLedger packageSig
+  obtain ⟨sourceUnary, _targetUnary, endpointUnary, boundUnary, ledgerUnary,
+    _transportUnary, _continuationUnary, provenanceUnary, _nameUnary, provenanceSig,
+    _nameSig⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed sourceUnary endpointUnary sourceEndpoint
+  have boundReadUnary : UnaryHistory boundRead :=
+    unary_cont_closed endpointUnary boundUnary endpointBound
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed boundReadUnary ledgerUnary boundLedger
+  exact
+    ⟨sourceUnary, endpointUnary, endpointReadUnary, boundReadUnary, ledgerReadUnary,
+      sourceEndpoint, endpointBound, boundLedger, provenanceSig, packageSig⟩
 
 end BEDC.Derived.BoundedLinearOperatorUp
