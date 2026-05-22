@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.LocallyCompactUp
+namespace BEDC.Derived.LocallyCompactUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def locallyCompactDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (locallyCompactDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (locallyCompactDecodeBHist tail)
 
-private theorem LocallyCompactUpTasteGate_single_carrier_alignment_decode :
+private theorem locallyCompact_decode_encode_bhist :
     ∀ h : BHist, locallyCompactDecodeBHist (locallyCompactEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -34,13 +34,13 @@ private theorem LocallyCompactUpTasteGate_single_carrier_alignment_decode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private def locallyCompactFields : LocallyCompactUp → List BHist
+def locallyCompactFields : LocallyCompactUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | LocallyCompactUp.mk X x r B K A H C P N => [X, x, r, B, K, A, H, C, P, N]
 
 def locallyCompactToEventFlow : LocallyCompactUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | token => (locallyCompactFields token).map locallyCompactEncodeBHist
+  | x => (locallyCompactFields x).map locallyCompactEncodeBHist
 
 private def locallyCompactEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -64,12 +64,12 @@ def locallyCompactFromEventFlow (ef : EventFlow) : Option LocallyCompactUp :=
       (locallyCompactDecodeBHist (locallyCompactEventAtDefault 8 ef))
       (locallyCompactDecodeBHist (locallyCompactEventAtDefault 9 ef)))
 
-private theorem LocallyCompactUpTasteGate_single_carrier_alignment_round_trip :
+private theorem locallyCompact_round_trip :
     ∀ x : LocallyCompactUp,
       locallyCompactFromEventFlow (locallyCompactToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro token
-  cases token with
+  intro x
+  cases x with
   | mk X x r B K A H C P N =>
       change
         some
@@ -85,19 +85,18 @@ private theorem LocallyCompactUpTasteGate_single_carrier_alignment_round_trip :
             (locallyCompactDecodeBHist (locallyCompactEncodeBHist P))
             (locallyCompactDecodeBHist (locallyCompactEncodeBHist N))) =
           some (LocallyCompactUp.mk X x r B K A H C P N)
-      rw [LocallyCompactUpTasteGate_single_carrier_alignment_decode X,
-        LocallyCompactUpTasteGate_single_carrier_alignment_decode x,
-        LocallyCompactUpTasteGate_single_carrier_alignment_decode r,
-        LocallyCompactUpTasteGate_single_carrier_alignment_decode B,
-        LocallyCompactUpTasteGate_single_carrier_alignment_decode K,
-        LocallyCompactUpTasteGate_single_carrier_alignment_decode A,
-        LocallyCompactUpTasteGate_single_carrier_alignment_decode H,
-        LocallyCompactUpTasteGate_single_carrier_alignment_decode C,
-        LocallyCompactUpTasteGate_single_carrier_alignment_decode P,
-        LocallyCompactUpTasteGate_single_carrier_alignment_decode N]
+      rw [locallyCompact_decode_encode_bhist X,
+        locallyCompact_decode_encode_bhist x,
+        locallyCompact_decode_encode_bhist r,
+        locallyCompact_decode_encode_bhist B,
+        locallyCompact_decode_encode_bhist K,
+        locallyCompact_decode_encode_bhist A,
+        locallyCompact_decode_encode_bhist H,
+        locallyCompact_decode_encode_bhist C,
+        locallyCompact_decode_encode_bhist P,
+        locallyCompact_decode_encode_bhist N]
 
-private theorem LocallyCompactUpTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : LocallyCompactUp} :
+private theorem locallyCompactToEventFlow_injective {x y : LocallyCompactUp} :
     locallyCompactToEventFlow x = locallyCompactToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -106,10 +105,10 @@ private theorem LocallyCompactUpTasteGate_single_carrier_alignment_toEventFlow_i
         locallyCompactFromEventFlow (locallyCompactToEventFlow y) :=
     congrArg locallyCompactFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (LocallyCompactUpTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (LocallyCompactUpTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (locallyCompact_round_trip x).symm
+      (Eq.trans hread (locallyCompact_round_trip y)))
 
-private theorem LocallyCompactUpTasteGate_single_carrier_alignment_fields :
+private theorem locallyCompact_fields_faithful :
     ∀ x y : LocallyCompactUp, locallyCompactFields x = locallyCompactFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
@@ -130,15 +129,15 @@ instance locallyCompactChapterTasteGate : ChapterTasteGate LocallyCompactUp wher
   round_trip := by
     intro x
     change locallyCompactFromEventFlow (locallyCompactToEventFlow x) = some x
-    exact LocallyCompactUpTasteGate_single_carrier_alignment_round_trip x
+    exact locallyCompact_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (LocallyCompactUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (locallyCompactToEventFlow_injective heq)
 
 instance locallyCompactFieldFaithful : FieldFaithful LocallyCompactUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := locallyCompactFields
-  field_faithful := LocallyCompactUpTasteGate_single_carrier_alignment_fields
+  field_faithful := locallyCompact_fields_faithful
 
 instance locallyCompactNontrivial : Nontrivial LocallyCompactUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -151,17 +150,52 @@ instance locallyCompactNontrivial : Nontrivial LocallyCompactUp where
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate LocallyCompactUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  locallyCompactChapterTasteGate
+
+theorem LocallyCompactTasteGate_single_carrier_alignment :
+    (∀ h : BHist, locallyCompactDecodeBHist (locallyCompactEncodeBHist h) = h) ∧
+      (∀ x : LocallyCompactUp,
+        locallyCompactFromEventFlow (locallyCompactToEventFlow x) = some x) ∧
+        (∀ x y : LocallyCompactUp,
+          locallyCompactToEventFlow x = locallyCompactToEventFlow y → x = y) ∧
+          locallyCompactEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨locallyCompact_decode_encode_bhist,
+      locallyCompact_round_trip,
+      (fun _ _ heq => locallyCompactToEventFlow_injective heq),
+      rfl⟩
+
+end BEDC.Derived.LocallyCompactUp.TasteGate
+
+namespace BEDC.Derived.LocallyCompactUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+open BEDC.Derived.LocallyCompactUp.TasteGate
+
 theorem LocallyCompactUpTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate LocallyCompactUp) ∧ Nonempty (FieldFaithful LocallyCompactUp) ∧ Nonempty (BEDC.Meta.TasteGate.Nontrivial LocallyCompactUp) ∧ (∀ h : BHist, locallyCompactDecodeBHist (locallyCompactEncodeBHist h) = h) ∧ (∀ x : LocallyCompactUp, locallyCompactFromEventFlow (locallyCompactToEventFlow x) = some x) ∧ (∀ x y : LocallyCompactUp, locallyCompactToEventFlow x = locallyCompactToEventFlow y → x = y) ∧ locallyCompactEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    Nonempty (ChapterTasteGate LocallyCompactUp) ∧
+      Nonempty (FieldFaithful LocallyCompactUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial LocallyCompactUp) ∧
+      (∀ h : BHist, locallyCompactDecodeBHist (locallyCompactEncodeBHist h) = h) ∧
+      (∀ x : LocallyCompactUp,
+        locallyCompactFromEventFlow (locallyCompactToEventFlow x) = some x) ∧
+        (∀ x y : LocallyCompactUp,
+          locallyCompactToEventFlow x = locallyCompactToEventFlow y → x = y) ∧
+          locallyCompactEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
     ⟨⟨locallyCompactChapterTasteGate⟩,
       ⟨locallyCompactFieldFaithful⟩,
       ⟨locallyCompactNontrivial⟩,
-      LocallyCompactUpTasteGate_single_carrier_alignment_decode,
-      LocallyCompactUpTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        LocallyCompactUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+      LocallyCompactTasteGate_single_carrier_alignment.1,
+      LocallyCompactTasteGate_single_carrier_alignment.2.1,
+      LocallyCompactTasteGate_single_carrier_alignment.2.2.1,
+      LocallyCompactTasteGate_single_carrier_alignment.2.2.2⟩
 
 end BEDC.Derived.LocallyCompactUp
