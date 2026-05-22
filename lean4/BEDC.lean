@@ -2412,6 +2412,7 @@ import BEDC.Derived.EpistemicOntologyBridgeUp.TasteGate
 import BEDC.Derived.EpistemicWitnessUp.TasteGate
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.EquicontinuityFamilyUp
+import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.ErgodicUp
 import BEDC.Derived.ErrorCodeUp
@@ -2782,6 +2783,7 @@ import BEDC.Derived.FpsUp.StabilityFields
 import BEDC.Derived.FpsUp.StdBridge
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
+import BEDC.Derived.FractionalPartUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FreeMonoidUp.TasteGate
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
