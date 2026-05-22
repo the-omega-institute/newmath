@@ -3,6 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyContinuousExtensionUp
+namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,10 +11,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CauchyContinuousExtensionUp : Type where
-  | mk
-      (source window tolerance mapRow extension uniqueness transport replay provenance
-        name : BHist) :
-      CauchyContinuousExtensionUp
+  | mk (S W D F U L H C P N : BHist) : CauchyContinuousExtensionUp
   deriving DecidableEq
 
 def cauchyContinuousExtensionEncodeBHist : BHist → RawEvent
@@ -28,10 +26,9 @@ def cauchyContinuousExtensionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyContinuousExtensionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyContinuousExtensionDecodeBHist tail)
 
-private theorem cauchyContinuousExtension_decode_encode_bhist :
+private theorem CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      cauchyContinuousExtensionDecodeBHist
-        (cauchyContinuousExtensionEncodeBHist h) = h := by
+      cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,88 +38,80 @@ private theorem cauchyContinuousExtension_decode_encode_bhist :
 
 def cauchyContinuousExtensionFields : CauchyContinuousExtensionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CauchyContinuousExtensionUp.mk source window tolerance mapRow extension uniqueness
-      transport replay provenance name =>
-      [source, window, tolerance, mapRow, extension, uniqueness, transport, replay,
-        provenance, name]
+  | CauchyContinuousExtensionUp.mk S W D F U L H C P N => [S, W, D, F, U, L, H, C, P, N]
 
-def cauchyContinuousExtensionToEventFlow :
-    CauchyContinuousExtensionUp → EventFlow
+def cauchyContinuousExtensionToEventFlow : CauchyContinuousExtensionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (cauchyContinuousExtensionFields x).map cauchyContinuousExtensionEncodeBHist
 
-private def cauchyContinuousExtensionEventAtDefault : Nat → EventFlow → RawEvent
+private def cauchyContinuousExtensionEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyContinuousExtensionEventAtDefault index rest
+  | Nat.succ index, _event :: rest => cauchyContinuousExtensionEventAt index rest
 
-def cauchyContinuousExtensionFromEventFlow
-    (ef : EventFlow) : Option CauchyContinuousExtensionUp :=
+def cauchyContinuousExtensionFromEventFlow (ef : EventFlow) :
+    Option CauchyContinuousExtensionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CauchyContinuousExtensionUp.mk
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 0 ef))
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 1 ef))
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 2 ef))
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 3 ef))
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 4 ef))
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 5 ef))
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 6 ef))
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 7 ef))
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 8 ef))
-      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAtDefault 9 ef)))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 0 ef))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 1 ef))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 2 ef))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 3 ef))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 4 ef))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 5 ef))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 6 ef))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 7 ef))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 8 ef))
+      (cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEventAt 9 ef)))
 
-private theorem cauchyContinuousExtension_round_trip :
+private theorem cauchyContinuousExtension_mk_congr
+    {S S' W W' D D' F F' U U' L L' H H' C C' P P' N N' : BHist}
+    (hS : S' = S) (hW : W' = W) (hD : D' = D) (hF : F' = F)
+    (hU : U' = U) (hL : L' = L) (hH : H' = H) (hC : C' = C)
+    (hP : P' = P) (hN : N' = N) :
+    CauchyContinuousExtensionUp.mk S' W' D' F' U' L' H' C' P' N' =
+      CauchyContinuousExtensionUp.mk S W D F U L H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hS
+  cases hW
+  cases hD
+  cases hF
+  cases hU
+  cases hL
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
+private theorem CauchyContinuousExtensionTasteGate_single_carrier_alignment_round_trip :
     ∀ x : CauchyContinuousExtensionUp,
-      cauchyContinuousExtensionFromEventFlow
-        (cauchyContinuousExtensionToEventFlow x) = some x := by
+      cauchyContinuousExtensionFromEventFlow (cauchyContinuousExtensionToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source window tolerance mapRow extension uniqueness transport replay provenance name =>
-      change
-        some
-          (CauchyContinuousExtensionUp.mk
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist source))
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist window))
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist tolerance))
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist mapRow))
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist extension))
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist uniqueness))
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist transport))
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist replay))
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist provenance))
-            (cauchyContinuousExtensionDecodeBHist
-              (cauchyContinuousExtensionEncodeBHist name))) =
-          some
-            (CauchyContinuousExtensionUp.mk source window tolerance mapRow extension
-              uniqueness transport replay provenance name)
-      rw [cauchyContinuousExtension_decode_encode_bhist source,
-        cauchyContinuousExtension_decode_encode_bhist window,
-        cauchyContinuousExtension_decode_encode_bhist tolerance,
-        cauchyContinuousExtension_decode_encode_bhist mapRow,
-        cauchyContinuousExtension_decode_encode_bhist extension,
-        cauchyContinuousExtension_decode_encode_bhist uniqueness,
-        cauchyContinuousExtension_decode_encode_bhist transport,
-        cauchyContinuousExtension_decode_encode_bhist replay,
-        cauchyContinuousExtension_decode_encode_bhist provenance,
-        cauchyContinuousExtension_decode_encode_bhist name]
+  | mk S W D F U L H C P N =>
+      exact
+        congrArg some
+          (cauchyContinuousExtension_mk_congr
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode S)
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode W)
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode D)
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode F)
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode U)
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode L)
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode H)
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode C)
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode P)
+            (CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode N))
 
 private theorem cauchyContinuousExtensionToEventFlow_injective
     {x y : CauchyContinuousExtensionUp} :
-    cauchyContinuousExtensionToEventFlow x =
-      cauchyContinuousExtensionToEventFlow y → x = y := by
+    cauchyContinuousExtensionToEventFlow x = cauchyContinuousExtensionToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -130,8 +119,8 @@ private theorem cauchyContinuousExtensionToEventFlow_injective
         cauchyContinuousExtensionFromEventFlow (cauchyContinuousExtensionToEventFlow y) :=
     congrArg cauchyContinuousExtensionFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (cauchyContinuousExtension_round_trip x).symm
-      (Eq.trans hread (cauchyContinuousExtension_round_trip y)))
+    (Eq.trans (CauchyContinuousExtensionTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (CauchyContinuousExtensionTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem cauchyContinuousExtension_field_faithful :
     ∀ x y : CauchyContinuousExtensionUp,
@@ -139,11 +128,9 @@ private theorem cauchyContinuousExtension_field_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk source₁ window₁ tolerance₁ mapRow₁ extension₁ uniqueness₁ transport₁ replay₁
-      provenance₁ name₁ =>
+  | mk S W D F U L H C P N =>
       cases y with
-      | mk source₂ window₂ tolerance₂ mapRow₂ extension₂ uniqueness₂ transport₂ replay₂
-          provenance₂ name₂ =>
+      | mk S' W' D' F' U' L' H' C' P' N' =>
           cases hfields
           rfl
 
@@ -158,10 +145,9 @@ instance cauchyContinuousExtensionChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      cauchyContinuousExtensionFromEventFlow
-        (cauchyContinuousExtensionToEventFlow x) = some x
-    exact cauchyContinuousExtension_round_trip x
+    change cauchyContinuousExtensionFromEventFlow (cauchyContinuousExtensionToEventFlow x) =
+      some x
+    exact CauchyContinuousExtensionTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (cauchyContinuousExtensionToEventFlow_injective heq)
@@ -172,15 +158,14 @@ instance cauchyContinuousExtensionFieldFaithful :
   fields := cauchyContinuousExtensionFields
   field_faithful := cauchyContinuousExtension_field_faithful
 
-instance cauchyContinuousExtensionNontrivial : Nontrivial CauchyContinuousExtensionUp where
+instance cauchyContinuousExtensionNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial CauchyContinuousExtensionUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CauchyContinuousExtensionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      CauchyContinuousExtensionUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
+    ⟨CauchyContinuousExtensionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CauchyContinuousExtensionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -190,21 +175,33 @@ def taste_gate : ChapterTasteGate CauchyContinuousExtensionUp :=
   cauchyContinuousExtensionChapterTasteGate
 
 theorem CauchyContinuousExtensionTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      cauchyContinuousExtensionDecodeBHist
-        (cauchyContinuousExtensionEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate CauchyContinuousExtensionUp) ∧
+      Nonempty (FieldFaithful CauchyContinuousExtensionUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial CauchyContinuousExtensionUp) ∧
+      (∀ h : BHist,
+        cauchyContinuousExtensionDecodeBHist (cauchyContinuousExtensionEncodeBHist h) = h) ∧
       (∀ x : CauchyContinuousExtensionUp,
-        cauchyContinuousExtensionFromEventFlow
-          (cauchyContinuousExtensionToEventFlow x) = some x) ∧
-        (∀ x y : CauchyContinuousExtensionUp,
-          cauchyContinuousExtensionToEventFlow x =
-            cauchyContinuousExtensionToEventFlow y → x = y) ∧
-          cauchyContinuousExtensionEncodeBHist BHist.Empty = ([] : List BMark) := by
+        cauchyContinuousExtensionFromEventFlow (cauchyContinuousExtensionToEventFlow x) =
+          some x) ∧
+      (∀ x y : CauchyContinuousExtensionUp,
+        cauchyContinuousExtensionToEventFlow x = cauchyContinuousExtensionToEventFlow y →
+          x = y) ∧
+      cauchyContinuousExtensionEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨cauchyContinuousExtension_decode_encode_bhist,
-      cauchyContinuousExtension_round_trip,
-      (fun _ _ heq => cauchyContinuousExtensionToEventFlow_injective heq),
-      rfl⟩
+  constructor
+  · exact ⟨cauchyContinuousExtensionChapterTasteGate⟩
+  constructor
+  · exact ⟨cauchyContinuousExtensionFieldFaithful⟩
+  constructor
+  · exact ⟨cauchyContinuousExtensionNontrivial⟩
+  constructor
+  · exact CauchyContinuousExtensionTasteGate_single_carrier_alignment_decode
+  constructor
+  · exact CauchyContinuousExtensionTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact cauchyContinuousExtensionToEventFlow_injective heq
+  · rfl
 
+end TasteGate
 end BEDC.Derived.CauchyContinuousExtensionUp
