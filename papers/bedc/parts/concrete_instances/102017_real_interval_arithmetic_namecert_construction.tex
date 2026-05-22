@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\RealIntervalArithmeticUp$}
+\label{ch:concrete-instances-real-interval-arithmetic-namecert}
+\origin{human}
+
+Following Moore and Bishop-Bridges, the $\RealIntervalArithmeticUp$ packet records constructive interval arithmetic after dyadic enclosures have been admitted to a real-name surface. It sits after the dyadic endpoint operation route of \autoref{ch:concrete-instances-dyadic-interval-arithmetic-namecert}, the located endpoint boundary of \autoref{ch:concrete-instances-located-real-interval-namecert}, the tail-diameter budget of \autoref{ch:concrete-instances-cauchy-tail-diameter-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives L10 Real and Completion arguments one finite interval-enclosure consumer over $\RealUp$, while keeping host interval equality, real trichotomy, countable choice, open-cover compactness, and ambient Real completeness outside the carrier.
+
+\begin{definition}[Real interval arithmetic carrier]
+\label{def:real-interval-arithmetic-carrier}
+A $\RealIntervalArithmeticUp$ carrier is a finite $\BHist$ packet
+$$
+A=(I,J,D,L,T,+_R,\cdot_R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ and $J$ are input interval rows accepted by $\LocatedRealIntervalUp$, exposing lower and upper located-real endpoint names together with their finite enclosure ledgers.
+\item $D$ is the $\DyadicIntervalArithmeticUp$ operation row that computes outward dyadic endpoint enclosures for the requested interval operation before any $\RealUp$ seal is read.
+\item $L$ is the located-real lift row, relating the dyadic enclosure endpoints in $D$ to the located endpoint rows carried by $I$ and $J$.
+\item $T$ is the $\CauchyTailDiameterUp$ budget row, recording the requested tail diameter and the tolerance ledger used to justify the exported real interval width.
+\item $+_R$ is the real-interval addition row, whose output interval enclosure is obtained from the displayed dyadic endpoint sums, located endpoint lifts, and tail-diameter budget.
+\item $\cdot_R$ is the real-interval multiplication row, whose output interval enclosure is obtained from the displayed dyadic endpoint products, outward comparison rows, located endpoint lifts, and tail-diameter budget.
+\item $E$ is the $\RealUp$ enclosure-seal row, requiring every exported interval endpoint and every width claim to pass through the same real-name seal surface.
+\item $H$ records componentwise $\hsame$ transport for the input intervals, dyadic operation row, located lift, tail-diameter budget, real operation rows, enclosure seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a requested interval operation through $I,J,D,L,T,+_R,\cdot_R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealIntervalArithmeticUp$, $\DyadicIntervalArithmeticUp$, $\LocatedRealIntervalUp$, $\CauchyTailDiameterUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealIntervalArithmeticUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite constructive real interval-operation packet. It has no coordinate for host interval equality, trichotomy of real endpoints, countable choice, open-cover compactness, ambient $\RealUp$ completeness, quotient endpoint equality, or a selected host representative.
+\end{definition}
+
+\begin{theorem}[Real interval arithmetic NameCert obligations]
+\label{thm:real-interval-arithmetic-namecert-obligations}
+For every accepted $\RealIntervalArithmeticUp$ carrier
+$$
+A=(I,J,D,L,T,+_R,\cdot_R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealIntervalArithmeticUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two located real interval inputs, dyadic interval arithmetic row, located-real lift row, Cauchy tail-diameter budget, real addition and multiplication rows, Real enclosure seal, and structural rows $H,C,P,N$;
+\item dyadic-to-real lift discipline, requiring every real interval endpoint exported by $+_R$ or $\cdot_R$ to originate in the displayed dyadic enclosure row $D$ and then pass through the located lift row $L$;
+\item tail-diameter discipline, requiring $T$ to be the only width and tolerance budget consumed when a downstream Real or Completion argument reads the exported enclosure;
+\item operation enclosure soundness, requiring $+_R$ and $\cdot_R$ to preserve containment for all scheduled endpoint windows supplied by $I$ and $J$;
+\item seal non-escape, requiring $E$ to be the only $\RealUp$ handoff for exported endpoints and interval-width claims;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the dyadic operation row, located lift, tail budget, operation rows, enclosure seal, provenance, and local name componentwise;
+\item exclusion, ruling out host interval equality, real trichotomy, countable-choice selectors, open-cover compactness, ambient $\RealUp$ completeness, quotient endpoint equality, and selected host representatives as local data.
+\end{enumerate}
+No RealIntervalArithmetic obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:real-interval-arithmetic-carrier}. The projection exposes exactly the two located real interval inputs, the dyadic operation row, located lift, tail-diameter budget, operation rows, Real seal, and structural rows.
+
+The dyadic-to-real lift discipline is the route $D\longmapsto L\longmapsto +_R,\cdot_R$. The dyadic packet supplies outward endpoint enclosures, and the located lift reads those endpoints as located real interval data before any real-name seal is consumed.
+
+The width and tolerance information is stored in $T$. Thus a Real or Completion consumer can inspect a diameter claim only through the displayed $\CauchyTailDiameterUp$ budget and cannot substitute an ambient completeness argument.
+
+Operation enclosure soundness is read from $+_R$ and $\cdot_R$. The addition row uses displayed dyadic endpoint sums, while the multiplication row uses displayed dyadic endpoint products and outward comparison rows; both rows then pass through $L,T,E$ before reaching a public consumer.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier inventory contains no host interval equality, trichotomy, countable-choice selector, open-cover compactness witness, ambient Real completeness principle, quotient endpoint equality, or selected host representative, none of those objects can be exported.
+\end{proof}
+
+\begin{theorem}[Real interval arithmetic enclosure soundness]
+\label{thm:real-interval-arithmetic-enclosure-soundness}
+Every exported operation of an accepted $\RealIntervalArithmeticUp$ carrier factors through the displayed route
+$$
+I,J \longmapsto D \longmapsto L \longmapsto T \longmapsto +_R,\cdot_R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently every downstream $\RealUp$ or Completion consumer receives only a constructive interval enclosure whose endpoints, operation rows, and diameter budget are displayed by $\DyadicIntervalArithmeticUp$, $\LocatedRealIntervalUp$, and $\CauchyTailDiameterUp$ before the terminal $\RealUp$ seal is read. The consumer cannot replace this route by host interval equality, trichotomy, countable choice, open-cover compactness, ambient Real completeness, quotient endpoint equality, or a selected host representative.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $A=(I,J,D,L,T,+_R,\cdot_R,E,H,C,P,N)$. The only input interval coordinates are $I$ and $J$, so every operation begins with displayed located real interval endpoint data.
+
+The dyadic operation row $D$ computes outward endpoint enclosures. The lift row $L$ relates those dyadic endpoints to located real interval endpoints, and the tail-diameter row $T$ records the tolerance budget read by the exported width claim.
+
+For addition, project $+_R$ and read the output enclosure from the displayed endpoint sums, lift, and budget. For multiplication, project $\cdot_R$ and read the output enclosure from the displayed endpoint products, outward comparison rows, lift, and budget.
+
+The seal row $E$ is the only route into $\RealUp$. Componentwise transport and replay through $H$ and $C$, together with provenance and local naming in $P,N$, preserve the same route for downstream consumers. Therefore the exported enclosure is exhausted by the displayed finite rows and no excluded host, choice, compactness, completeness, quotient, or representative coordinate is available.
+\end{proof}
+
+\closureat{RealIntervalArithmeticUp}{seedStr}
+
+\begin{closurestatus}{\RealIntervalArithmeticUp}
+  \constructivestory{A $\RealIntervalArithmeticUp$ packet is generated from two LocatedRealInterval input rows, one DyadicIntervalArithmetic operation row, a located-real lift, a CauchyTailDiameter budget, displayed addition and multiplication enclosure rows, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-interval-arithmetic-carrier}, \autoref{thm:real-interval-arithmetic-namecert-obligations}, and \autoref{thm:real-interval-arithmetic-enclosure-soundness} seed the finite constructive interval-enclosure arithmetic interface over RealUp.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval equality, trichotomy, countable choice, open-cover compactness, ambient $\RealUp$ completeness, quotient endpoint equality, selected host representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic-to-real lift discipline, tail-diameter discipline, operation enclosure soundness, Real-seal non-escape, transport/replay/provenance coverage, and exclusion for BEDC.Derived.RealIntervalArithmeticUp.}
+\end{closurestatus}
