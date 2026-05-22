@@ -77,11 +77,58 @@ The NameCert obligations place $E$ downstream of the shared-threshold criterion 
 Finally, $H,C,P,N$ preserve the same displayed route for equivalent packets and consumer replays. The carrier lists no quotient stream, selected host limit, host real equality, countable-choice selector, or ambient completeness coordinate, so the real seal boundary is exhausted by the stated finite packet.
 \end{proof}
 
+\begin{theorem}[UniformCauchyFamily shared-threshold transport]
+\label{thm:uniform-cauchy-family-shared-threshold-transport}
+Let $U=(F,\sigma,R,D,T,E,H,C,P,N)$ be an accepted $\UniformCauchyFamilyUp$ carrier. The transport rows $H$ and $C$ move the single shared $\StreamNameUp$ schedule $\sigma$ and the single $\DyadicRatCoreUp$ ledger $D$ together with the displayed family row $F$ and the accepted criterion row $T$. Thus a transported component cannot acquire its own hidden threshold, tolerance ledger, or per-component Cauchy witness outside the route
+$$
+F,\sigma,R,D,T,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The only schedule coordinate available to the family is $\sigma$, and the only tolerance ledger coordinate available to componentwise comparisons is $D$.
+
+The transport row $H$ is componentwise $\hsame$ over the displayed family row, shared schedule, regular readbacks, dyadic ledger, criterion row, real seal, replay row, provenance row, and local naming row. It therefore transports the criterion surface with $\sigma$ and $D$ still attached.
+
+The replay row $C$ follows the same displayed route from family inspection through the shared schedule, regular readbacks, dyadic tolerance ledger, uniform criterion, and real seal. Since neither $H$ nor $C$ adds a threshold coordinate, every transported component remains bound to the shared schedule and ledger.
+\end{proof}
+
+\begin{theorem}[UniformCauchyFamily Real seal factorization]
+\label{thm:uniform-cauchy-family-real-seal-factorization}
+For an accepted $\UniformCauchyFamilyUp$ carrier $U=(F,\sigma,R,D,T,E,H,C,P,N)$, every $\RealUp$ seal read factors through the finite packet
+$$
+F,\sigma,R,D,T,E,H,C,P,N.
+$$
+The seal coordinate $E$ is therefore readable only as the terminal handoff of the displayed family row, shared $\StreamNameUp$ schedule, $\RegSeqRatUp$ family readbacks, $\DyadicRatCoreUp$ tolerance ledger, accepted $\UniformCauchyCriterionUp$ row, transport rows, replay row, provenance, and local $\NameCert_{\UniformCauchyFamilyUp}$ row.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$ seal read of $U$. By the carrier definition, the only seal coordinate is $E$, and it is listed after the family row, schedule, readbacks, tolerance ledger, and accepted criterion row.
+
+The NameCert obligations require real-seal non-escape. Thus the read cannot reach $E$ before the shared criterion $T$ and the regular readback family $R$ have been displayed over $F,\sigma,D$.
+
+Transport and replay preserve the factorization. The rows $H$ and $C$ move the same displayed data, while $P$ and $N$ record provenance and local naming for the packet; no extra seal source is available.
+\end{proof}
+
+\begin{theorem}[UniformCauchyFamily CauchySequenceSpace compatibility]
+\label{thm:uniform-cauchy-family-cauchy-sequence-space-compatibility}
+Let $U=(F,\sigma,R,D,T,E,H,C,P,N)$ be an accepted $\UniformCauchyFamilyUp$ carrier. Any $\CauchySequenceSpaceUp$ consumer of the family receives exactly the finite route
+$$
+F,\sigma,R,D,T,E,H,C,P,N
+$$
+through the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\UniformCauchyCriterionUp$, and $\RealUp$ surfaces. Such a consumer cannot import quotient streams, selected limits, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the consumer through the compatibility clause of \autoref{thm:uniform-cauchy-family-namecert-obligations}. The clause names the same carrier route $F,\sigma,R,D,T,E,H,C,P,N$ for every $\CauchySequenceSpaceUp$ consumer.
+
+The upstream rows are finite and displayed. They pass through the $\StreamNameUp$ schedule $\sigma$, the $\RegSeqRatUp$ readbacks $R$, the $\DyadicRatCoreUp$ ledger $D$, the accepted $\UniformCauchyCriterionUp$ row $T$, and the $\RealUp$ handoff $E$.
+
+The exclusion follows from ledger exhaustion. Since the carrier has no quotient-stream coordinate, selected-limit coordinate, countable-choice selector, host real equality, or ambient completeness row, the consumer cannot import any of those structures.
+\end{proof}
+
 \closureat{UniformCauchyFamilyUp}{seedStr}
 
 \begin{closurestatus}{\UniformCauchyFamilyUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:uniform-cauchy-family-carrier}, \autoref{thm:uniform-cauchy-family-namecert-obligations}, \autoref{thm:uniform-cauchy-family-common-window-extraction}, and \autoref{thm:uniform-cauchy-family-real-seal-boundary} seed the shared-threshold family packet over StreamName schedules, RegSeqRat readbacks, DyadicRatCore tolerances, UniformCauchyCriterion rows, CauchySequenceSpace consumers, and Real seal handoff.}
+  \scopeclosed{\autoref{def:uniform-cauchy-family-carrier}, \autoref{thm:uniform-cauchy-family-namecert-obligations}, \autoref{thm:uniform-cauchy-family-common-window-extraction}, \autoref{thm:uniform-cauchy-family-real-seal-boundary}, \autoref{thm:uniform-cauchy-family-shared-threshold-transport}, \autoref{thm:uniform-cauchy-family-real-seal-factorization}, and \autoref{thm:uniform-cauchy-family-cauchy-sequence-space-compatibility} seed the shared-threshold family packet over StreamName schedules, RegSeqRat readbacks, DyadicRatCore tolerances, UniformCauchyCriterion rows, CauchySequenceSpace consumers, and Real seal handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close per-component hidden thresholds, quotient streams, selected host limits, host real equality, countable choice, ambient completeness, or Lean verification.}

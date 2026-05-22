@@ -46,61 +46,29 @@ def upcrossingToEventFlow : UpcrossingUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
   fun x => (upcrossingFields x).map upcrossingEncodeBHist
 
+private def upcrossingRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, event :: _ => event
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => upcrossingRawAt n rest
+
 def upcrossingFromEventFlow (flow : EventFlow) : Option UpcrossingUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  match flow with
-  | [] => none
-  | omega :: rest₁ =>
-      match rest₁ with
-      | [] => none
-      | martingale :: rest₂ =>
-          match rest₂ with
-          | [] => none
-          | lower :: rest₃ =>
-              match rest₃ with
-              | [] => none
-              | upper :: rest₄ =>
-                  match rest₄ with
-                  | [] => none
-                  | horizon :: rest₅ =>
-                      match rest₅ with
-                      | [] => none
-                      | values :: rest₆ =>
-                          match rest₆ with
-                          | [] => none
-                          | lowerLedger :: rest₇ =>
-                              match rest₇ with
-                              | [] => none
-                              | upperLedger :: rest₈ =>
-                                  match rest₈ with
-                                  | [] => none
-                                  | transport :: rest₉ =>
-                                      match rest₉ with
-                                      | [] => none
-                                      | routes :: rest₁₀ =>
-                                          match rest₁₀ with
-                                          | [] => none
-                                          | provenance :: rest₁₁ =>
-                                              match rest₁₁ with
-                                              | [] => none
-                                              | nameCert :: rest₁₂ =>
-                                                  match rest₁₂ with
-                                                  | [] =>
-                                                      some
-                                                        (UpcrossingUp.mk
-                                                          (upcrossingDecodeBHist omega)
-                                                          (upcrossingDecodeBHist martingale)
-                                                          (upcrossingDecodeBHist lower)
-                                                          (upcrossingDecodeBHist upper)
-                                                          (upcrossingDecodeBHist horizon)
-                                                          (upcrossingDecodeBHist values)
-                                                          (upcrossingDecodeBHist lowerLedger)
-                                                          (upcrossingDecodeBHist upperLedger)
-                                                          (upcrossingDecodeBHist transport)
-                                                          (upcrossingDecodeBHist routes)
-                                                          (upcrossingDecodeBHist provenance)
-                                                          (upcrossingDecodeBHist nameCert))
-                                                  | _ :: _ => none
+  some
+    (UpcrossingUp.mk
+      (upcrossingDecodeBHist (upcrossingRawAt 0 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 1 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 2 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 3 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 4 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 5 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 6 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 7 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 8 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 9 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 10 flow))
+      (upcrossingDecodeBHist (upcrossingRawAt 11 flow)))
 
 private theorem upcrossing_round_trip :
     ∀ x : UpcrossingUp, upcrossingFromEventFlow (upcrossingToEventFlow x) = some x := by
@@ -201,13 +169,10 @@ theorem UpcrossingTasteGate_single_carrier_alignment :
         (∀ x y : UpcrossingUp, upcrossingToEventFlow x = upcrossingToEventFlow y → x = y) ∧
           upcrossingEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  constructor
-  · exact upcrossingDecode_encode_bhist
-  constructor
-  · exact upcrossing_round_trip
-  constructor
-  · intro x y heq
-    exact upcrossingToEventFlow_injective heq
-  · rfl
+  exact
+    ⟨upcrossingDecode_encode_bhist,
+      upcrossing_round_trip,
+      fun _ _ heq => upcrossingToEventFlow_injective heq,
+      rfl⟩
 
 end BEDC.Derived.UpcrossingUp

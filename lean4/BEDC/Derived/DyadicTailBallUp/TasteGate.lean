@@ -178,19 +178,33 @@ theorem DyadicTailBallTasteGate_single_carrier_alignment :
                 dyadicTailBallToEventFlow x = dyadicTailBallToEventFlow y → x = y) ∧
                 dyadicTailBallEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  constructor
-  · exact ⟨dyadicTailBallChapterTasteGate⟩
-  · constructor
-    · exact ⟨dyadicTailBallFieldFaithful⟩
-    · constructor
-      · exact ⟨dyadicTailBallNontrivial⟩
-      · constructor
-        · exact DyadicTailBallTasteGate_single_carrier_alignment_decode
-        · constructor
-          · exact DyadicTailBallTasteGate_single_carrier_alignment_round_trip
-          · constructor
-            · intro x y heq
-              exact DyadicTailBallTasteGate_single_carrier_alignment_toEventFlow_injective heq
-            · rfl
+  exact
+    ⟨⟨dyadicTailBallChapterTasteGate⟩,
+      ⟨dyadicTailBallFieldFaithful⟩,
+      ⟨dyadicTailBallNontrivial⟩,
+      DyadicTailBallTasteGate_single_carrier_alignment_decode,
+      DyadicTailBallTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => DyadicTailBallTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.DyadicTailBallUp.TasteGate
+
+namespace BEDC.Derived.DyadicTailBallUp
+
+theorem DyadicTailBallTasteGate_single_carrier_alignment :
+    Nonempty (BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.DyadicTailBallUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.FieldFaithful TasteGate.DyadicTailBallUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial TasteGate.DyadicTailBallUp) ∧
+          (∀ h : BEDC.FKernel.Hist.BHist,
+            TasteGate.dyadicTailBallDecodeBHist (TasteGate.dyadicTailBallEncodeBHist h) = h) ∧
+            (∀ x : TasteGate.DyadicTailBallUp,
+              TasteGate.dyadicTailBallFromEventFlow (TasteGate.dyadicTailBallToEventFlow x) =
+                some x) ∧
+              (∀ x y : TasteGate.DyadicTailBallUp,
+                TasteGate.dyadicTailBallToEventFlow x = TasteGate.dyadicTailBallToEventFlow y →
+                  x = y) ∧
+                TasteGate.dyadicTailBallEncodeBHist BEDC.FKernel.Hist.BHist.Empty =
+                  ([] : BEDC.GroundCompiler.EventFlow.RawEvent) := by
+  exact TasteGate.DyadicTailBallTasteGate_single_carrier_alignment
+
+end BEDC.Derived.DyadicTailBallUp

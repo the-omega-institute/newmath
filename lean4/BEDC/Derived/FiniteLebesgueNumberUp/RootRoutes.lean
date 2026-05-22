@@ -224,6 +224,35 @@ theorem FiniteLebesgueNumberRadiusCarrierSource [AskSetup] [PackageSetup]
     ⟨coverUnary, radiusUnary, radiusReadUnary, rootReadUnary, coverRadiusRead,
       routeNameRoot, provenancePkg, rootPkg⟩
 
+theorem FiniteLebesgueNumberCompactUniformRadiusAdmission [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow auditRead compactRead
+      uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont route nameRow auditRead ->
+        Cont auditRead mesh compactRead ->
+          Cont compactRead radius uniformRead ->
+            PkgSig bundle uniformRead pkg ->
+              UnaryHistory auditRead ∧ UnaryHistory compactRead ∧
+                UnaryHistory uniformRead ∧ Cont route nameRow auditRead ∧
+                  Cont auditRead mesh compactRead ∧ Cont compactRead radius uniformRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle uniformRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier routeNameAudit auditMeshCompact compactRadiusUniform uniformPkg
+  obtain ⟨_coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameAudit
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed auditUnary meshUnary auditMeshCompact
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed compactUnary radiusUnary compactRadiusUniform
+  exact
+    ⟨auditUnary, compactUnary, uniformUnary, routeNameAudit, auditMeshCompact,
+      compactRadiusUniform, provenancePkg, uniformPkg⟩
+
 theorem FiniteLebesgueNumberRadiusRowDeterminacy [AskSetup] [PackageSetup]
     {cover window radius mesh transport route provenance nameRow compactRead uniformRead :
       BHist}
