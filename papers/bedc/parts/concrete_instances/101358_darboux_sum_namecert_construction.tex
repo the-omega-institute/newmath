@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxSumUp$}
+\label{ch:concrete-instances-darboux-sum-namecert}
+\origin{human}
+
+Following Darboux and Bishop--Bridges constructive analysis, the $\DarbouxSumUp$ packet names the finite upper/lower sum surface over a dyadic partition and step-function brackets. It consumes the dyadic partition ledger of \autoref{ch:concrete-instances-dyadic-partition-namecert}, the bracket rows of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the tagged finite-sum consumer of \autoref{ch:concrete-instances-riemannsum-namecert}, the Darboux integration carrier of \autoref{ch:concrete-instances-darbouxintegral-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies the finite $SU/SL$ boundary that later Darboux and Riemann integration chapters can cite without importing open-cover compactness, selected mesh limits, measure-theoretic integration, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Darboux sum carrier]\label{def:darboux-sum-carrier}
+A $\DarbouxSumUp$ carrier is a finite $\BHist$ packet
+$$
+S=(P,L,U,SL,SU,G,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\DyadicPartitionUp$ packet naming the finite ordered dyadic cell list and its common-refinement ledger.
+\item $L$ and $U$ are lower and upper $\DyadicStepFunctionUp$ packets over the displayed partition cells, with every bracket value read through the same partition row $P$.
+\item $SL$ is the finite lower Darboux-sum row computed from the displayed cell widths of $P$ and the carried lower values of $L$.
+\item $SU$ is the finite upper Darboux-sum row computed from the displayed cell widths of $P$ and the carried upper values of $U$.
+\item $G$ is the upper-minus-lower gap row, exposing only the finite comparison between $SU$ and $SL$ after the partition and step-function brackets have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the partition row, lower and upper step-function rows, lower and upper finite sum rows, gap row, continuation replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from partition cells to bracket reads, from bracket reads to finite sums, and from the two finite sums to the gap comparison.
+\item $Q$ is the $\Pkg$ provenance over $\DarbouxSumUp$, $\DyadicPartitionUp$, $\DyadicStepFunctionUp$, $\RiemannSumUp$, $\DarbouxIntegralUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DarbouxSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,L,U,SL,SU,G,H,C,Q,N$. It has no coordinate for open-cover compactness, selected mesh limits, measure-theoretic integration, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Darboux sum NameCert obligations]\label{thm:darboux-sum-namecert-obligations}
+For every accepted $\DarbouxSumUp$ carrier
+$$
+S=(P,L,U,SL,SU,G,H,C,Q,N),
+$$
+the local $\NameCert_{\DarbouxSumUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed dyadic partition packet, lower and upper step-function brackets, finite lower and upper sum rows, gap row, transport and replay ledger, provenance, and local naming row;
+\item partition compatibility, requiring every bracket value and every cell width used by $SL$ and $SU$ to be read through the displayed $\DyadicPartitionUp$ row $P$;
+\item bracket stability, requiring $\hsame$ transport of $L$ and $U$ to carry the same lower/upper role over any displayed common refinement of $P$;
+\item finite sum stability, requiring $SL$ and $SU$ to replay as finite cellwise sums after transport of the partition and bracket rows;
+\item ledger non-escape, requiring $H,C,Q,N$ to preserve, replay, source, and name only the displayed rows and to exclude open-cover compactness, selected mesh limits, measure-theoretic integration, quotient real equality, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:darboux-sum-carrier}. The accepted packet displays exactly the partition, lower bracket, upper bracket, lower finite sum, upper finite sum, gap, transport, replay, provenance, and local naming rows.
+
+Partition compatibility is forced before any sum row can be read. The row $P$ supplies the finite ordered dyadic cells and their widths, while $L$ and $U$ supply lower and upper values over those same displayed cells.
+
+Bracket stability and finite sum stability are then replayed through $H$ and $C$. Transport moves the partition and both brackets componentwise, and continuation replay recomputes $SL$ and $SU$ as finite cellwise sums over the transported rows.
+
+Finally, $Q$ and $N$ source and name this same finite route. Since no carrier coordinate stores open-cover compactness, selected mesh limits, measure data, quotient real equality, or ambient completeness, the ledger non-escape row exhausts the remaining obligation surface.
+\end{proof}
+
+\begin{theorem}[Darboux upper-lower gap]\label{thm:darboux-sum-upper-lower-gap}
+For every accepted $\DarbouxSumUp$ carrier $S=(P,L,U,SL,SU,G,H,C,Q,N)$, the upper-minus-lower gap row $G$ is read only through the displayed finite partition $P$, the displayed lower and upper step-function brackets $L$ and $U$, and the resulting finite sum rows $SL$ and $SU$. Any consumer of $G$ therefore receives a finite partition-and-bracket comparison surface, not open-cover compactness, a selected mesh limit, measure-theoretic integration, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only rows upstream of $G$ are $P,L,U,SL,SU$ together with the transport and replay structure that preserves them.
+
+The lower and upper finite sums are computed before the gap is visible. The row $SL$ uses the cell widths of $P$ and the carried lower values of $L$, while $SU$ uses the same cell widths and the carried upper values of $U$.
+
+Reading $G$ then compares these two displayed finite sums. Componentwise transport through $H$ and replay through $C$ may move the packet to a displayed common refinement, but the read still factors through the transported partition, transported brackets, and recomputed finite sum rows.
+
+The excluded analytic objects are absent from the carrier. Thus no consumer can obtain them by inspecting the upper-minus-lower gap.
+\end{proof}
+
+\closureat{DarbouxSumUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxSumUp}
+  \constructivestory{A $\DarbouxSumUp$ packet is generated from a DyadicPartition row, lower and upper DyadicStepFunction brackets, lower and upper finite Darboux sums, an upper-minus-lower gap row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-sum-carrier}, \autoref{thm:darboux-sum-namecert-obligations}, and \autoref{thm:darboux-sum-upper-lower-gap} seed the finite Darboux upper/lower sum interface over displayed dyadic partitions and step-function brackets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected mesh limits, measure-theoretic integration, quotient real equality, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition compatibility, bracket stability, finite sum stability, ledger non-escape, and upper-lower gap factorization for BEDC.Derived.DarbouxSumUp.}
+\end{closurestatus}
