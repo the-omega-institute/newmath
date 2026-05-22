@@ -3103,6 +3103,104 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     quotient_preimage = {
         codon for codon in all_codons() if project_without_f3(codon) in quotient_median
     }
+    radial_state_order = ("X3", "X2", "X1", "X0", "YR", "YY")
+    radial_state_names = {
+        "X3": "AGR",
+        "X2": "Anchor6",
+        "X1": "StopStart6",
+        "X0": "UUR",
+        "YR": "CUR",
+        "YY": "CUY",
+    }
+    radial_state_codons = {
+        "X3": ("AGR",),
+        "X2": ("AAR", "ACR", "UGR"),
+        "X1": ("AUR", "UAR", "UCR"),
+        "X0": ("UUR",),
+        "YR": ("CUR",),
+        "YY": ("CUY",),
+    }
+    radial_matrix = (
+        (0, 3, 0, 0, 0, 0),
+        (1, 0, 2, 0, 0, 0),
+        (0, 2, 0, 1, 0, 0),
+        (0, 0, 3, 0, 1, 0),
+        (0, 0, 0, 1, 0, 1),
+        (0, 0, 0, 0, 1, 0),
+    )
+
+    def polynomial_add(left: list[int], right: list[int]) -> list[int]:
+        size = max(len(left), len(right))
+        result = [0 for _index in range(size)]
+        for index, value in enumerate(left):
+            result[index] += value
+        for index, value in enumerate(right):
+            result[index] += value
+        while len(result) > 1 and result[-1] == 0:
+            result.pop()
+        return result
+
+    def polynomial_mul(left: list[int], right: list[int]) -> list[int]:
+        result = [0 for _index in range(len(left) + len(right) - 1)]
+        for left_index, left_value in enumerate(left):
+            for right_index, right_value in enumerate(right):
+                result[left_index + right_index] += left_value * right_value
+        while len(result) > 1 and result[-1] == 0:
+            result.pop()
+        return result
+
+    def polynomial_det(matrix: list[list[list[int]]]) -> list[int]:
+        size = len(matrix)
+        if size == 1:
+            return matrix[0][0]
+        total = [0]
+        for column in range(size):
+            minor = [
+                [matrix[row][minor_column] for minor_column in range(size) if minor_column != column]
+                for row in range(1, size)
+            ]
+            term = polynomial_mul(matrix[0][column], polynomial_det(minor))
+            if column % 2:
+                term = [-coefficient for coefficient in term]
+            total = polynomial_add(total, term)
+        return total
+
+    radial_characteristic_matrix = [
+        [
+            ([-radial_matrix[row][column], 1] if row == column else [-radial_matrix[row][column]])
+            for column in range(len(radial_matrix))
+        ]
+        for row in range(len(radial_matrix))
+    ]
+    radial_characteristic_polynomial = tuple(polynomial_det(radial_characteristic_matrix))
+    radial_matrix_float = [[float(value) for value in row] for row in radial_matrix]
+    radial_mu_max, radial_vector = dominant_symmetric_eigenpair(radial_matrix_float)
+    radial_max = max(radial_vector)
+    radial_survival_rows = [
+        {
+            "state": state,
+            "name": radial_state_names[state],
+            "potential": radial_vector[index] / radial_max,
+        }
+        for index, state in enumerate(radial_state_order)
+    ]
+    radial_lift_sizes = tuple(2 * len(radial_state_codons[state]) for state in radial_state_order)
+    radial_mass_denominator = sum(
+        size * radial_vector[index]
+        for index, size in enumerate(radial_lift_sizes)
+    )
+    radial_qsd_rows = [
+        {
+            "state": state,
+            "name": radial_state_names[state],
+            "orbit_size": radial_lift_sizes[index],
+            "mass": radial_lift_sizes[index] * radial_vector[index] / radial_mass_denominator,
+        }
+        for index, state in enumerate(radial_state_order)
+    ]
+    radial_cubic_coefficients = (-9, 26, -12, 1)
+    radial_r_max = radial_mu_max * radial_mu_max
+    radial_product_lambda = (radial_mu_max + 1.0) / 6.0
 
     return {
         "support": tuple(sorted(support)),
@@ -3647,6 +3745,33 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                     for row in quotient_occupancy_rows
                     if row["active_occupancy"] == 0
                 ),
+                "radial_spectrum": {
+                    "state_order": radial_state_order,
+                    "state_names": radial_state_names,
+                    "state_codons": radial_state_codons,
+                    "lift_orbit_sizes": radial_lift_sizes,
+                    "adjacency_matrix": radial_matrix,
+                    "characteristic_polynomial_coefficients": radial_characteristic_polynomial,
+                    "cubic_in_mu_squared_coefficients": radial_cubic_coefficients,
+                    "r_max": radial_r_max,
+                    "mu_max": radial_mu_max,
+                    "lambda_from_radial": radial_product_lambda,
+                    "lambda_matches_median": abs(radial_product_lambda - median_spectral_radius) < 1e-12,
+                    "survival_potential_rows": radial_survival_rows,
+                    "qsd_rows": radial_qsd_rows,
+                    "anchor_stopstart_mass": sum(
+                        row["mass"]
+                        for row in radial_qsd_rows
+                        if row["state"] in {"X2", "X1"}
+                    ),
+                    "highest_survival_state": max(
+                        radial_survival_rows,
+                        key=lambda row: row["potential"],
+                    )["state"],
+                    "self_loop_probability_from_f3": "1/6",
+                    "wobble_lambda_gain": 1.0 / 6.0,
+                    "lambda_without_wobble_edge": radial_mu_max / 6.0,
+                },
             },
         },
     }
@@ -5463,6 +5588,66 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert quotient["full_active_pairs"] == ("UAR", "AGR", "CUR", "CUY")
     assert quotient["half_active_pairs"] == ("UUR", "UCR", "UGR", "AUR", "AAR")
     assert quotient["empty_pairs"] == ("ACR",)
+    radial = quotient["radial_spectrum"]
+    assert radial["state_order"] == ("X3", "X2", "X1", "X0", "YR", "YY")
+    assert radial["state_names"] == {
+        "X3": "AGR",
+        "X2": "Anchor6",
+        "X1": "StopStart6",
+        "X0": "UUR",
+        "YR": "CUR",
+        "YY": "CUY",
+    }
+    assert radial["state_codons"] == {
+        "X3": ("AGR",),
+        "X2": ("AAR", "ACR", "UGR"),
+        "X1": ("AUR", "UAR", "UCR"),
+        "X0": ("UUR",),
+        "YR": ("CUR",),
+        "YY": ("CUY",),
+    }
+    assert radial["lift_orbit_sizes"] == (2, 6, 6, 2, 2, 2)
+    assert radial["adjacency_matrix"] == (
+        (0, 3, 0, 0, 0, 0),
+        (1, 0, 2, 0, 0, 0),
+        (0, 2, 0, 1, 0, 0),
+        (0, 0, 3, 0, 1, 0),
+        (0, 0, 0, 1, 0, 1),
+        (0, 0, 0, 0, 1, 0),
+    )
+    assert radial["characteristic_polynomial_coefficients"] == (-9, 0, 26, 0, -12, 0, 1)
+    assert radial["cubic_in_mu_squared_coefficients"] == (-9, 26, -12, 1)
+    assert round(radial["r_max"], 9) == 9.311576483
+    assert round(radial["mu_max"], 9) == 3.051487585
+    assert round(radial["lambda_from_radial"], 9) == 0.675247931
+    assert radial["lambda_matches_median"] is True
+    assert [
+        (row["state"], row["name"], round(row["potential"], 4))
+        for row in radial["survival_potential_rows"]
+    ] == [
+        ("X3", "AGR", 0.8506),
+        ("X2", "Anchor6", 0.8652),
+        ("X1", "StopStart6", 0.8948),
+        ("X0", "UUR", 1.0),
+        ("YR", "CUR", 0.3671),
+        ("YY", "CUY", 0.1203),
+    ]
+    assert [
+        (row["state"], row["name"], row["orbit_size"], round(row["mass"], 4))
+        for row in radial["qsd_rows"]
+    ] == [
+        ("X3", "AGR", 2, 0.1117),
+        ("X2", "Anchor6", 6, 0.3407),
+        ("X1", "StopStart6", 6, 0.3524),
+        ("X0", "UUR", 2, 0.1313),
+        ("YR", "CUR", 2, 0.0482),
+        ("YY", "CUY", 2, 0.0158),
+    ]
+    assert round(radial["anchor_stopstart_mass"], 4) == 0.6931
+    assert radial["highest_survival_state"] == "X0"
+    assert radial["self_loop_probability_from_f3"] == "1/6"
+    assert round(radial["wobble_lambda_gain"], 6) == 0.166667
+    assert round(radial["lambda_without_wobble_edge"], 9) == 0.508581264
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
