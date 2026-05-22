@@ -1281,6 +1281,7 @@ import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.TasteGate
 import BEDC.Derived.ClaimRegistryLayerUp
 import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClassFieldUp
+import BEDC.Derived.ClassFieldUp.TasteGate
 import BEDC.Derived.ClassifierBoundaryUp
 import BEDC.Derived.ClassifierMorphismUp.Packet
 import BEDC.Derived.ClassifierMorphismUp.TasteGate
@@ -1577,6 +1578,7 @@ import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ContactUp
+import BEDC.Derived.ContactUp.TasteGate
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.ContextFreeGrammarUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
@@ -3231,6 +3233,7 @@ import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
+import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.LPDualityUp
@@ -4581,6 +4584,7 @@ import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.RootExitPartitionStabili
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.StreamNameRegSeqRatRealExactness
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TailWindowRefusal
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TasteGate
+import BEDC.Derived.RegularCauchyMultiplicationUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularCauchyNameUp.StdBridge
 import BEDC.Derived.RegularCauchyNameUp.TasteGate
@@ -4920,6 +4924,7 @@ import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.SternBrocotApproximationUp.TasteGate
 import BEDC.Derived.StolzCesaroUp.TasteGate
 import BEDC.Derived.StoneDualityUp
+import BEDC.Derived.StoneDualityUp.TasteGate
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.TasteGate
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
