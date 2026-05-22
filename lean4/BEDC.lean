@@ -4991,6 +4991,7 @@ import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.TasteGateCompilerWitnessUp.TasteGate
 import BEDC.Derived.TasteGateStabilityUp.TasteGate
 import BEDC.Derived.TaylorModelUp
+import BEDC.Derived.TaylorModelUp.TasteGate
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.TermStratumChoiceClosureUp.TasteGate
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
