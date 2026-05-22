@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.HellySelectionUp.TasteGate
+namespace BEDC.Derived.HellySelectionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,63 +25,58 @@ def hellySelectionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (hellySelectionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (hellySelectionDecodeBHist tail)
 
-private theorem hellySelectionDecode_encode_bhist :
-    ∀ h : BHist, hellySelectionDecodeBHist (hellySelectionEncodeBHist h) = h := by
+private theorem HellySelectionTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist,
+      hellySelectionDecodeBHist (hellySelectionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def hellySelectionFields : HellySelectionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | HellySelectionUp.mk B A W S R E T C P N =>
-      [B, A, W, S, R, E, T, C, P, N]
+  | HellySelectionUp.mk B A W S R E T C P N => [B, A, W, S, R, E, T, C, P, N]
 
 def hellySelectionToEventFlow : HellySelectionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (hellySelectionFields x).map hellySelectionEncodeBHist
+  | x => List.map hellySelectionEncodeBHist (hellySelectionFields x)
+
+private def hellySelectionRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => hellySelectionRawAt n rest
+
+private def hellySelectionLengthEq : Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => hellySelectionLengthEq n rest
 
 def hellySelectionFromEventFlow : EventFlow → Option HellySelectionUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | b :: rest0 =>
-      match rest0 with
-      | [] => none
-      | a :: rest1 =>
-          match rest1 with
-          | [] => none
-          | w :: rest2 =>
-              match rest2 with
-              | [] => none
-              | s :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | r :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | e :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | t :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | c :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | p :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | n :: rest9 =>
-                                          match rest9 with
-                                          | [] =>
-                                              some (HellySelectionUp.mk (hellySelectionDecodeBHist b) (hellySelectionDecodeBHist a) (hellySelectionDecodeBHist w) (hellySelectionDecodeBHist s) (hellySelectionDecodeBHist r) (hellySelectionDecodeBHist e) (hellySelectionDecodeBHist t) (hellySelectionDecodeBHist c) (hellySelectionDecodeBHist p) (hellySelectionDecodeBHist n))
-                                          | _ :: _ => none
-private theorem hellySelection_round_trip :
+  | flow =>
+      match hellySelectionLengthEq 10 flow with
+      | true =>
+          some
+            (HellySelectionUp.mk
+              (hellySelectionDecodeBHist (hellySelectionRawAt 0 flow))
+              (hellySelectionDecodeBHist (hellySelectionRawAt 1 flow))
+              (hellySelectionDecodeBHist (hellySelectionRawAt 2 flow))
+              (hellySelectionDecodeBHist (hellySelectionRawAt 3 flow))
+              (hellySelectionDecodeBHist (hellySelectionRawAt 4 flow))
+              (hellySelectionDecodeBHist (hellySelectionRawAt 5 flow))
+              (hellySelectionDecodeBHist (hellySelectionRawAt 6 flow))
+              (hellySelectionDecodeBHist (hellySelectionRawAt 7 flow))
+              (hellySelectionDecodeBHist (hellySelectionRawAt 8 flow))
+              (hellySelectionDecodeBHist (hellySelectionRawAt 9 flow)))
+      | false => none
+
+private theorem HellySelectionTasteGate_single_carrier_alignment_round_trip :
     ∀ x : HellySelectionUp,
       hellySelectionFromEventFlow (hellySelectionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -89,89 +84,70 @@ private theorem hellySelection_round_trip :
   cases x with
   | mk B A W S R E T C P N =>
       change
-        some (HellySelectionUp.mk (hellySelectionDecodeBHist (hellySelectionEncodeBHist B)) (hellySelectionDecodeBHist (hellySelectionEncodeBHist A)) (hellySelectionDecodeBHist (hellySelectionEncodeBHist W)) (hellySelectionDecodeBHist (hellySelectionEncodeBHist S)) (hellySelectionDecodeBHist (hellySelectionEncodeBHist R)) (hellySelectionDecodeBHist (hellySelectionEncodeBHist E)) (hellySelectionDecodeBHist (hellySelectionEncodeBHist T)) (hellySelectionDecodeBHist (hellySelectionEncodeBHist C)) (hellySelectionDecodeBHist (hellySelectionEncodeBHist P)) (hellySelectionDecodeBHist (hellySelectionEncodeBHist N))) =
+        some
+            (HellySelectionUp.mk
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist B))
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist A))
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist W))
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist S))
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist R))
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist E))
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist T))
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist C))
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist P))
+              (hellySelectionDecodeBHist (hellySelectionEncodeBHist N))) =
           some (HellySelectionUp.mk B A W S R E T C P N)
-      rw [hellySelectionDecode_encode_bhist B,
-        hellySelectionDecode_encode_bhist A,
-        hellySelectionDecode_encode_bhist W,
-        hellySelectionDecode_encode_bhist S,
-        hellySelectionDecode_encode_bhist R,
-        hellySelectionDecode_encode_bhist E,
-        hellySelectionDecode_encode_bhist T,
-        hellySelectionDecode_encode_bhist C,
-        hellySelectionDecode_encode_bhist P,
-        hellySelectionDecode_encode_bhist N]
+      rw [HellySelectionTasteGate_single_carrier_alignment_decode B,
+        HellySelectionTasteGate_single_carrier_alignment_decode A,
+        HellySelectionTasteGate_single_carrier_alignment_decode W,
+        HellySelectionTasteGate_single_carrier_alignment_decode S,
+        HellySelectionTasteGate_single_carrier_alignment_decode R,
+        HellySelectionTasteGate_single_carrier_alignment_decode E,
+        HellySelectionTasteGate_single_carrier_alignment_decode T,
+        HellySelectionTasteGate_single_carrier_alignment_decode C,
+        HellySelectionTasteGate_single_carrier_alignment_decode P,
+        HellySelectionTasteGate_single_carrier_alignment_decode N]
 
-private theorem hellySelectionToEventFlow_injective
-    {x y : HellySelectionUp} :
-    hellySelectionToEventFlow x = hellySelectionToEventFlow y → x = y := by
+private theorem HellySelectionTasteGate_single_carrier_alignment_injective
+    {x y : HellySelectionUp}
+    (h : hellySelectionToEventFlow x = hellySelectionToEventFlow y) :
+    x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
   have hread :
       hellySelectionFromEventFlow (hellySelectionToEventFlow x) =
         hellySelectionFromEventFlow (hellySelectionToEventFlow y) :=
-    congrArg hellySelectionFromEventFlow heq
+    congrArg hellySelectionFromEventFlow h
   exact Option.some.inj
-    (Eq.trans (hellySelection_round_trip x).symm
-      (Eq.trans hread (hellySelection_round_trip y)))
-
-private theorem hellySelection_field_faithful :
-    ∀ x y : HellySelectionUp,
-      hellySelectionFields x = hellySelectionFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x
-  cases y
-  cases hfields
-  rfl
+    (Eq.trans
+      (HellySelectionTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (HellySelectionTasteGate_single_carrier_alignment_round_trip y)))
 
 instance hellySelectionBHistCarrier : BHistCarrier HellySelectionUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := hellySelectionToEventFlow
   fromEventFlow := hellySelectionFromEventFlow
 
-instance hellySelectionChapterTasteGate :
-    ChapterTasteGate HellySelectionUp where
+instance hellySelectionChapterTasteGate : ChapterTasteGate HellySelectionUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change hellySelectionFromEventFlow (hellySelectionToEventFlow x) = some x
-    exact hellySelection_round_trip x
+    exact HellySelectionTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (hellySelectionToEventFlow_injective heq)
-
-instance hellySelectionFieldFaithful :
-    FieldFaithful HellySelectionUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := hellySelectionFields
-  field_faithful := hellySelection_field_faithful
-
-instance hellySelectionNontrivial : Nontrivial HellySelectionUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨HellySelectionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      HellySelectionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+    exact hxy (HellySelectionTasteGate_single_carrier_alignment_injective heq)
 
 def taste_gate : ChapterTasteGate HellySelectionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   hellySelectionChapterTasteGate
 
-theorem HellySelectionUpTasteGate_single_carrier_alignment :
+theorem HellySelectionTasteGate_single_carrier_alignment :
     (∀ h : BHist, hellySelectionDecodeBHist (hellySelectionEncodeBHist h) = h) ∧
-      (∀ x : HellySelectionUp,
-        hellySelectionFromEventFlow (hellySelectionToEventFlow x) = some x) ∧
-        (∀ x y : HellySelectionUp,
-          hellySelectionToEventFlow x = hellySelectionToEventFlow y → x = y) ∧
-          hellySelectionEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+      Nonempty (ChapterTasteGate HellySelectionUp) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨hellySelectionDecode_encode_bhist,
-      hellySelection_round_trip,
-      (fun _ _ heq => hellySelectionToEventFlow_injective heq),
-      rfl⟩
+    ⟨HellySelectionTasteGate_single_carrier_alignment_decode,
+      Nonempty.intro hellySelectionChapterTasteGate⟩
 
-end BEDC.Derived.HellySelectionUp.TasteGate
+end BEDC.Derived.HellySelectionUp
