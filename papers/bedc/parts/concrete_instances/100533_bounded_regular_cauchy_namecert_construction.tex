@@ -72,11 +72,29 @@ The regular rational readback and Real seal are last. The row $Q$ is the $\RegSe
 The structural rows preserve this route without enlarging it. Componentwise transport in $H$, replay in $C$, provenance in $P$, and local naming in $N$ add no coordinate for host completeness, quotient stream representatives, selected limits, countable choice, trichotomy, open-cover compactness, or ambient Real equality.
 \end{proof}
 
+\begin{theorem}[BoundedRegularCauchy tail-window induction]
+\label{thm:bounded-regular-cauchy-tail-window-induction}
+For every accepted $\BoundedRegularCauchyUp$ carrier
+$$
+R_{\mathrm{bd}}=(S,M,B,Q,A,H,C,P,N)
+$$
+and every unary tolerance-depth request read through $M$, induction on the finite threshold chain displayed by $M$ shows that each late window is first read through $S$, then bounded through $B$, then repacked through the same $\RegSeqRatUp$ row $Q$, and only after those stages reaches the terminal $\RealUp$ row $A$. No endpoint, selected limit, quotient stream, countable choice, trichotomy, open-cover compactness, or ambient Real equality can enter the induction.
+\end{theorem}
+\begin{proof}
+The base stage projects the first displayed threshold from $M$. At that stage the carrier exposes only the finite stream-window row $S$ attached to the threshold, the dyadic bound row $B$ attached to the same late window, and the regular readback row $Q$ obtained from those displayed rows.
+
+For the induction step, assume the route has been established for the preceding displayed thresholds. The next threshold is supplied by the same modulus row $M$; the continuation row $C$ replays the route through the next $S$-window and the next $B$-bound, while componentwise transport in $H$ carries the displayed rows without changing the classifier surface.
+
+The repacking stage preserves the $\RegSeqRatUp$ handoff because $Q$ has no coordinate beyond the stream windows, modulus schedule, and dyadic boundedness ledger. Thus each successor window reaches $A$ only after the finite route through $S,B,Q$ has been displayed.
+
+The conclusion follows from \autoref{thm:bounded-regular-cauchy-real-seal-boundary} together with ledger non-escape in $P$ and $N$. Since those rows export no endpoint choice, selected limit, quotient stream, countable choice, trichotomy, open-cover compactness, or ambient Real equality, the induction remains confined to the displayed threshold windows.
+\end{proof}
+
 \closureat{BoundedRegularCauchyUp}{seedStr}
 
 \begin{closurestatus}{\BoundedRegularCauchyUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-regular-cauchy-carrier}, \autoref{thm:bounded-regular-cauchy-obligation-surface}, and \autoref{thm:bounded-regular-cauchy-real-seal-boundary} seed the finite bounded regular Cauchy packet over displayed $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \scopeclosed{\autoref{def:bounded-regular-cauchy-carrier}, \autoref{thm:bounded-regular-cauchy-obligation-surface}, \autoref{thm:bounded-regular-cauchy-real-seal-boundary}, and \autoref{thm:bounded-regular-cauchy-tail-window-induction} seed the finite bounded regular Cauchy packet over displayed $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host completeness, quotient streams, selected limits, countable choice, trichotomy, open-cover compactness, ambient Real equality, Lean verification, or bridge checking.}
