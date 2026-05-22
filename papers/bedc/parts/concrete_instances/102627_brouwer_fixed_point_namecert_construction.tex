@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerFixedPointUp$}
+\label{ch:concrete-instances-brouwer-fixed-point-namecert}
+\origin{human}
+
+Following Brouwer and Sperner, the $\BrouwerFixedPointUp$ packet names the finite dyadic-subdivision route by which a compact convex self-map is inspected before any fixed point is read. It is grounded in the finite labeled-simplex certificate of \autoref{ch:concrete-instances-sperner-lemma-namecert}, the simplex inventory of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the dyadic subdivision and cover rows of \autoref{ch:concrete-instances-dyadic-partition-namecert} and \autoref{ch:concrete-instances-dyadiccover-namecert}, the self-map interface of \autoref{ch:concrete-instances-continuousmap-namecert}, and the sealed real-name surface of \autoref{ch:concrete-instances-real-namecert}. The chapter records a finite NameCert route for approximate fixed-simplex readback, not a host fixed-point choice.
+
+\begin{definition}[Brouwer fixed-point carrier]
+\label{def:brouwer-fixed-point-carrier}
+A $\BrouwerFixedPointUp$ carrier is a finite packet
+$$
+B=(K,S,D,L,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact convex dyadic-domain row. It records the accepted finite simplex or polytope inventory, face incidence, convex-combination closure, and dyadic mesh scale used by the self-map packet.
+\item $S$ is the $\SimplicialComplexUp$ row naming the carried finite simplicial subdivision of $K$.
+\item $D$ is the paired $\DyadicPartitionUp$ and $\DyadicCoverUp$ row. It records the dyadic cells, cell-face incidence, mesh refinement, and finite cover routing used by the labelled subdivision.
+\item $L$ is the Sperner-labelling row. It contains the boundary-admissible labels induced by the displacement of the self-map and the finite transport of those labels along the faces of $S$ and cells of $D$.
+\item $W$ is the approximate fixed-simplex witness row. It records the fully labelled simplex supplied through $\SpernerLemmaUp$, the associated dyadic cell, and the finite residual bounds read from the self-map rows.
+\item $E$ is the $\RealUp$ seal row. It records the real-name readback used to keep the approximate fixed simplex inside the displayed compact convex domain and to prevent escape through an ambient completion principle.
+\item $H$ records componentwise $\hsame$ transport for the domain, simplicial subdivision, dyadic partition and cover, labelling, witness, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for every consumer route through
+$$
+K,S,D,L,W \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BrouwerFixedPointUp$, $\SpernerLemmaUp$, $\SimplicialComplexUp$, $\DyadicPartitionUp$, $\DyadicCoverUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerFixedPointUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,S,D,L,W,E,H,C,P,N$. It has no coordinate for a host fixed-point choice, open-cover compactness, real trichotomy, quotient stream equality, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Brouwer fixed-point NameCert obligations]
+\label{thm:brouwer-fixed-point-namecert-obligations}
+For every accepted $\BrouwerFixedPointUp$ carrier
+$$
+B=(K,S,D,L,W,E,H,C,P,N),
+$$
+the local $\NameCert_{\BrouwerFixedPointUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed compact convex dyadic domain, simplicial subdivision, dyadic partition and cover, Sperner labelling, approximate fixed-simplex witness, RealUp seal, transport, replay, provenance, and local naming rows;
+\item boundary labelling, requiring $L$ to read all boundary colors from the displacement rows of the carried $\ContinuousMapUp$ self-map and from the boundary faces displayed by $S$ and $D$;
+\item Sperner handoff, requiring the fully labelled simplex coordinate of $W$ to enter only through the $\SpernerLemmaUp$ packet and its finite labelled-simplex route;
+\item approximate fixed-point readback, requiring the residual and cell-diameter data in $W$ to be read through $K,S,D,L$ before a consumer can inspect the approximate fixed simplex;
+\item RealUp seal nonescape, requiring $E$ to keep the readback inside the displayed compact convex dyadic domain without adding host fixed-point choice, open-cover compactness, real trichotomy, quotient stream equality, selected limits, or ambient $\RealUp$ completeness.
+\end{enumerate}
+No Brouwer fixed-point NameCert obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:brouwer-fixed-point-carrier}. The visible packet lists the compact convex dyadic domain row $K$, the simplicial subdivision row $S$, the dyadic partition and cover row $D$, the labelling row $L$, the witness row $W$, and the structural rows $E,H,C,P,N$.
+
+Boundary labelling is the row $L$. Its admissible colors are read after the finite boundary faces of $S$ and the dyadic cell incidence of $D$ have been displayed, and the only map data available to the read is the carried $\ContinuousMapUp$ self-map surface named in the provenance row.
+
+The Sperner handoff is the fully labelled simplex part of $W$. Since the carrier places that witness downstream of $L$ and records $\SpernerLemmaUp$ in $P$, a consumer reaches the labelled simplex only through the finite Sperner route.
+
+Approximate fixed-point readback uses the same witness row $W$ together with the mesh and residual information from $K,S,D,L$. These rows determine the displayed approximate fixed simplex before the seal row is inspected.
+
+Finally, $E$ seals the readback as a $\RealUp$-facing object inside the carried domain. The remaining rows transport, replay, source, and name the same finite packet, so no excluded host fixed-point, open-cover, trichotomy, quotient, selected-limit, completeness, verification, or bridge data can appear as an extra obligation.
+\end{proof}
+
+\begin{theorem}[Brouwer fixed-point Sperner handoff]
+\label{thm:brouwer-fixed-point-sperner-handoff}
+Every accepted $\BrouwerFixedPointUp$ fixed-point read factors through the displayed route
+$$
+\SpernerLemmaUp \longmapsto \SimplicialComplexUp \longmapsto \DyadicPartitionUp \longmapsto \DyadicCoverUp \longmapsto \ContinuousMapUp \longmapsto \RealUp .
+$$
+Equivalently, the read uses the carrier rows $K,S,D,L,W,E,H,C,P,N$ to obtain a finite approximate fixed-simplex certificate. It exports no host fixed-point choice, open-cover compactness, real trichotomy, quotient stream equality, selected limit, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only row that exposes a fixed-point-facing witness is $W$, and $W$ is specified as the approximate fixed-simplex witness supplied through the finite labelled-simplex route of $\SpernerLemmaUp$.
+
+Reading $W$ first requires the finite geometry rows $S$ and $D$. These provide the simplicial-complex inventory, dyadic partition, and dyadic cover routing on which the Sperner labels are meaningful.
+
+The labels in $L$ are tied to the carried $\ContinuousMapUp$ self-map surface. Their displacement readback is then sealed by $E$ as a $\RealUp$-facing object inside the compact convex dyadic domain row $K$.
+
+Thus every fixed-point read factors through the named finite route and then through the structural rows $H,C,P,N$. Since none of the carrier coordinates is a host fixed-point choice, an open-cover compactness theorem, real trichotomy, quotient stream equality, a selected limit, or ambient Real completeness, none of those objects is exported.
+\end{proof}
+
+\closureat{BrouwerFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerFixedPointUp}
+  \constructivestory{A $\BrouwerFixedPointUp$ packet is generated from a compact convex dyadic domain row, a SimplicialComplexUp subdivision row, DyadicPartitionUp and DyadicCoverUp rows, a Sperner-labelled boundary row, an approximate fixed-simplex witness row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-fixed-point-carrier}, \autoref{thm:brouwer-fixed-point-namecert-obligations}, and \autoref{thm:brouwer-fixed-point-sperner-handoff} seed the finite Brouwer fixed-point route from dyadic compact-convex data through Sperner labelling, approximate fixed-simplex readback, RealUp sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host fixed-point choice, open-cover compactness, real trichotomy, quotient stream equality, selected limits, ambient Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary labelling, Sperner handoff, approximate fixed-point readback, RealUp seal nonescape, transport/replay/provenance stability, and non-escape for BEDC.Derived.BrouwerFixedPointUp.}
+\end{closurestatus}
