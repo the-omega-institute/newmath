@@ -3076,6 +3076,121 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "gate_cur_edges": gate_shell_edge_groups["CUR-GateShell"],
     }
 
+    def motif_codons(pattern: str) -> set[str]:
+        return set(expand_iupac_motif(pattern))
+
+    mstar_set = motif_codons("NNR") | motif_codons("CUY")
+    full_cube_set = set(all_codons())
+    cuy_bits_prefix = bits("CTT")[:4]
+    y_shells: dict[int, set[str]] = {index: set() for index in range(5)}
+    for codon in full_cube_set:
+        word = bits(codon)
+        if word[4] != "0":
+            continue
+        distance = sum(left != right for left, right in zip(word[:4], cuy_bits_prefix))
+        y_shells[distance].add(codon)
+    mstar_closure, mstar_closure_stages = median_closure(mstar_set)
+    shell_trigger_rows = []
+    for shell_index in range(1, 5):
+        start_set = mstar_set | y_shells[shell_index]
+        closure, stages = median_closure(start_set)
+        shell_trigger_rows.append(
+            {
+                "shell": f"H{shell_index}",
+                "shell_index": shell_index,
+                "shell_size": len(y_shells[shell_index]),
+                "start_size": len(start_set),
+                "closure_size": len(closure),
+                "stage_additions": tuple(
+                    {
+                        "stage": stage["stage"],
+                        "added_count": stage["added_count"],
+                        "total_size": stage["total_size"],
+                    }
+                    for stage in stages
+                ),
+                "closure_is_full_cube": closure == full_cube_set,
+            }
+        )
+    single_antipode_rows = []
+    for codon in sorted(y_shells[4]):
+        closure, stages = median_closure(mstar_set | {codon})
+        single_antipode_rows.append(
+            {
+                "codon": codon,
+                "closure_size": len(closure),
+                "stage_count": len(stages),
+                "stage_additions": tuple(
+                    {
+                        "stage": stage["stage"],
+                        "added_count": stage["added_count"],
+                        "total_size": stage["total_size"],
+                    }
+                    for stage in stages
+                ),
+                "closure_is_full_cube": closure == full_cube_set,
+            }
+        )
+    single_trigger_rows = []
+    mstar_base_radius = spectral_radius_for_set(mstar_set)
+    for shell_index in range(1, 5):
+        shell_codons = sorted(y_shells[shell_index])
+        representative = shell_codons[0]
+        closure, stages = median_closure(mstar_set | {representative})
+        radius = spectral_radius_for_set(mstar_set | {representative})
+        single_trigger_rows.append(
+            {
+                "shell": f"H{shell_index}",
+                "representative": representative,
+                "shell_size": len(shell_codons),
+                "median_closure_size": len(closure),
+                "stage_count": len(stages),
+                "spectral_radius": radius,
+                "gain": radius - mstar_base_radius,
+            }
+        )
+    shell_filling_rows = []
+    cumulative = set(y_shells[0])
+    for shell_index in range(5):
+        if shell_index:
+            cumulative |= y_shells[shell_index]
+        shell_set = motif_codons("NNR") | cumulative
+        retention = retention_row(f"mstar_shell_{shell_index}", shell_set)
+        shell_filling_rows.append(
+            {
+                "level": f"S{shell_index}",
+                "size": len(shell_set),
+                "structure": "NNR+H0" if shell_index == 0 else f"+H{shell_index}",
+                "spectral_radius": spectral_radius_for_set(shell_set),
+                "retention": retention["retention"],
+                "retention_float": retention["retention_float"],
+                "internal_edges": retention["internal_edges"],
+            }
+        )
+    antipodal_trigger_summary = {
+        "mstar": tuple(sorted(mstar_set)),
+        "mstar_size": len(mstar_set),
+        "mstar_is_median_closed": mstar_closure == mstar_set,
+        "mstar_closure_stage_count": len(mstar_closure_stages),
+        "mstar_structure": ("NNR", "CUY"),
+        "y_shell_rows": [
+            {
+                "shell": f"H{index}",
+                "size": len(y_shells[index]),
+                "codons": tuple(sorted(y_shells[index])),
+            }
+            for index in range(5)
+        ],
+        "shell_trigger_rows": shell_trigger_rows,
+        "single_antipode_rows": single_antipode_rows,
+        "single_trigger_rows": single_trigger_rows,
+        "shell_filling_rows": shell_filling_rows,
+        "mstar_spectral_radius": shell_filling_rows[0]["spectral_radius"],
+        "mstar_retention_float": shell_filling_rows[0]["retention_float"],
+        "full_cube_spectral_radius": shell_filling_rows[-1]["spectral_radius"],
+        "full_cube_retention_float": shell_filling_rows[-1]["retention_float"],
+    }
+
     def spectral_expansion_search(
         base: set[str],
         added_size: int,
@@ -4160,6 +4275,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "outside_target_rows": outside_target_rows,
             "first_exit_channels": first_exit_channel_summary,
             "post_median_gate_shell": post_median_gate_shell_summary,
+            "antipodal_trigger": antipodal_trigger_summary,
             "acg_spectral_radius_before": spectral_rows[2]["spectral_radius"],
             "acg_spectral_radius_after": spectral_rows[3]["spectral_radius"],
             "acg_retention_before": spectral_rows[2]["retention_float"],
@@ -6014,6 +6130,60 @@ def assert_expected(summary: dict[str, object]) -> None:
         "CTA": ("CAA", "CCA", "CTG", "CTT", "GTA", "TTA"),
         "CTG": ("CAG", "CCG", "CTA", "CTC", "GTG", "TTG"),
     }
+    antipodal = spectral["antipodal_trigger"]
+    assert antipodal["mstar_size"] == 34
+    assert antipodal["mstar_is_median_closed"] is True
+    assert antipodal["mstar_closure_stage_count"] == 0
+    assert [
+        (row["shell"], row["size"])
+        for row in antipodal["y_shell_rows"]
+    ] == [
+        ("H0", 2),
+        ("H1", 8),
+        ("H2", 12),
+        ("H3", 8),
+        ("H4", 2),
+    ]
+    assert [
+        (
+            row["shell"],
+            row["start_size"],
+            row["closure_size"],
+            tuple(stage["added_count"] for stage in row["stage_additions"]),
+        )
+        for row in antipodal["shell_trigger_rows"]
+    ] == [
+        ("H1", 42, 64, (12, 10)),
+        ("H2", 46, 64, (18,)),
+        ("H3", 42, 64, (22,)),
+        ("H4", 36, 64, (28,)),
+    ]
+    assert [
+        (row["codon"], row["closure_size"], row["stage_count"], tuple(stage["added_count"] for stage in row["stage_additions"]))
+        for row in antipodal["single_antipode_rows"]
+    ] == [
+        ("AGC", 64, 1, (29,)),
+        ("AGT", 64, 1, (29,)),
+    ]
+    assert [
+        (row["shell"], row["median_closure_size"], round(row["spectral_radius"], 6))
+        for row in antipodal["single_trigger_rows"]
+    ] == [
+        ("H1", 36, 0.837956),
+        ("H2", 40, 0.837179),
+        ("H3", 48, 0.837165),
+        ("H4", 64, 0.837156),
+    ]
+    assert [
+        (row["level"], row["size"], row["structure"], round(row["spectral_radius"], 6), round(row["retention_float"], 6))
+        for row in antipodal["shell_filling_rows"]
+    ] == [
+        ("S0", 34, "NNR+H0", 0.836111, 0.813725),
+        ("S1", 42, "+H1", 0.859128, 0.81746),
+        ("S2", 54, "+H2", 0.921172, 0.895062),
+        ("S3", 62, "+H3", 0.978349, 0.973118),
+        ("S4", 64, "+H4", 1.0, 1.0),
+    ]
     assert round(spectral["acg_spectral_radius_before"], 4) == 0.6422
     assert round(spectral["acg_spectral_radius_after"], 4) == 0.6752
     assert round(spectral["acg_retention_before"], 3) == 0.596
