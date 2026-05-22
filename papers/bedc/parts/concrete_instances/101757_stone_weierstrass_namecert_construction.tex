@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\StoneWeierstrassUp$}
+\label{ch:concrete-instances-stone-weierstrass-namecert}
+\origin{human}
+
+Following Stone's Stone--Weierstrass theorem, the $\StoneWeierstrassUp$ packet records the finite separating-algebra route by which compact real approximation data may be read through displayed algebra, compactness, continuity, and real-name surfaces. It sits over the compact carrier of \autoref{ch:concrete-instances-compact-namecert}, the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the ring operations of \autoref{ch:concrete-instances-ring-namecert}, and the polynomial approximation consumer of \autoref{ch:concrete-instances-weierstrass-approximation-namecert}. The packet names a finite BEDC certificate for separation, constants, algebraic closure, approximation handoff, and transport only; it does not claim nonconstructive compactness, choice-selected dense subsets, host function equality, or ambient completeness.
+
+\begin{definition}[Stone--Weierstrass carrier]
+\label{def:stone-weierstrass-carrier}
+A $\StoneWeierstrassUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,A,U,V,R,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact source row, read through the $\CompactUp$ interface and its finite cover or finite-net witnesses.
+\item $A$ is the algebra row, exposing only finitely named $\ContinuousMapUp$ generators over $K$ together with displayed addition, multiplication, scalar, and constant-one operations routed through $\RingUp$ and $\RealUp$.
+\item $U$ is the unit and constants ledger, recording the visible constant real functions admitted into the algebra row.
+\item $V$ is the separation ledger, assigning each displayed apartness request between named compact points a generator in $A$ and a finite real-window comparison that separates the two inspected points.
+\item $R$ is the real-valued evaluation ledger, reading every generator, algebraic combination, and constant through the same $\RealUp$ windows used by the compact and continuous-map surfaces.
+\item $M$ is the compact-continuity modulus row, recording the finite continuity and compactness data needed before approximation is requested.
+\item $E$ is the approximation handoff row, sending an inspected continuous target, a rational error row, and the displayed algebra data to a $\WeierstrassApproximationUp$ consumer.
+\item $H$ stores componentwise $\hsame$ transport for the compact source, algebra, constants, separation, evaluation, modulus, approximation, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a compact-point request through algebra evaluation, separation comparison, compact-continuity modulus, and approximation handoff.
+\item $P$ is the $\Pkg$ provenance over $\StoneWeierstrassUp$, $\CompactUp$, $\ContinuousMapUp$, $\RealUp$, $\RingUp$, $\WeierstrassApproximationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StoneWeierstrassUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for nonconstructive compactness, choice-selected dense subsets, host function equality, an ambient function-space quotient, a host supremum norm, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Stone--Weierstrass NameCert obligations]
+\label{thm:stone-weierstrass-namecert-obligations}
+For every accepted $\StoneWeierstrassUp$ carrier
+$$
+S=(K,A,U,V,R,M,E,H,C,P,N),
+$$
+the local $\NameCert_{\StoneWeierstrassUp}$ surface consists of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the compact source, algebra, constants, separation, real-valued evaluation, compact-continuity modulus, approximation handoff, transport, replay, provenance, and local naming rows;
+\item compact-source compatibility, requiring every point and finite witness consumed by the algebra and separation rows to pass through the same $\CompactUp$ row $K$;
+\item algebra closure visibility, requiring $A$ and $U$ to display the continuous generators, constants, and finite algebraic operations used by the packet rather than a host algebra of all functions;
+\item separation exactness, requiring each separation request in $V$ to name the generator, the two compact-point windows, and the real-window apartness comparison used to distinguish them;
+\item evaluation and modulus routing, requiring $R$ and $M$ to mediate every real-valued read before any approximation handoff is exposed;
+\item approximation handoff exactness, requiring $E$ to send the inspected continuous target and rational error through the displayed algebra data before it reaches $\WeierstrassApproximationUp$;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$;
+\item ledger refusal for nonconstructive compactness, choice-selected dense subsets, host function equality, ambient function-space quotients, host supremum norms, ambient completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No Stone--Weierstrass obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stone-weierstrass-carrier}. The packet exposes exactly the compact source, algebra, constants, separation, evaluation, modulus, approximation, transport, replay, provenance, and local naming rows.
+
+The compact-source and algebra clauses are then fixed by row membership. The row $K$ is the only compact input surface, while $A$ and $U$ are the only places where generators, constants, and algebraic operations are named.
+
+For a separation request, the row $V$ supplies a displayed generator and the corresponding real-window comparison. The evaluation row $R$ routes that comparison through $\RealUp$, and $M$ supplies the compact-continuity information needed before a downstream approximation read is allowed.
+
+The approximation handoff is the row $E$. It sends the inspected continuous target and rational error to the $\WeierstrassApproximationUp$ consumer only after the algebra, separation, evaluation, and modulus rows have been displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since none of the excluded objects occurs as a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Stone--Weierstrass separating-algebra route]
+\label{thm:stone-weierstrass-separating-algebra-route}
+Every approximation-facing consumer of an accepted $\StoneWeierstrassUp$ carrier factors through the finite route
+$$
+K \longmapsto A,U,V \longmapsto R,M \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer reads compactness, continuous-map generators, real constants, separating witnesses, real-window evaluations, compact-continuity moduli, approximation handoff data, transport, replay, provenance, and local naming. The route does not provide nonconstructive compactness, choice-selected dense subsets, host function equality, ambient function-space quotients, host supremum norms, ambient completeness, Lean verification, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with an approximation-facing read of the accepted carrier. The source point and compact witness data first enter through $K$, so the consumer has no direct route to an ambient compactness principle.
+
+The algebraic data are then read through $A$ and $U$. Separation requests pass through $V$, which names a generator and a finite real-window comparison for the displayed compact-point windows.
+
+Next the route reaches $R$ and $M$. These rows ensure that each function value and compact-continuity read is mediated by the displayed $\RealUp$, $\ContinuousMapUp$, and $\CompactUp$ surfaces.
+
+Only after those rows are present can $E$ hand the inspected target and rational error to the $\WeierstrassApproximationUp$ consumer. The structural rows $H,C,P,N$ preserve and name the same route, so the excluded compactness, choice, equality, quotient, norm, completeness, verification, and bridge data cannot be recovered from the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\StoneWeierstrassUp$ approximation-facing read factors through compact source rows, finite continuous-map algebra generators, constants, separating witnesses, real-window evaluations, compact-continuity moduli, WeierstrassApproximation handoff data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{compact, continuousmap, real, ring, weierstrass-approximation: $\StoneWeierstrassUp$ is not bijective to any listed sibling because it jointly carries compact source data, a finite separating algebra of continuous real-valued generators, constant and algebraic closure rows, real-window evaluation, compact-continuity routing, approximation handoff, transport, replay, provenance, and local naming.}
+
+\closureat{StoneWeierstrassUp}{seedStr}
+
+\begin{closurestatus}{\StoneWeierstrassUp}
+  \constructivestory{A $\StoneWeierstrassUp$ packet is generated from a compact source row, finite continuous-map algebra generators, constants, separating witnesses, real-window evaluations, compact-continuity moduli, WeierstrassApproximation handoff data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stone-weierstrass-carrier}, \autoref{thm:stone-weierstrass-namecert-obligations}, and \autoref{thm:stone-weierstrass-separating-algebra-route} seed the finite separating-algebra route over compact, continuous-map, real, ring, and WeierstrassApproximation surfaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close nonconstructive compactness, choice-selected dense subsets, host function equality, ambient function-space quotients, host supremum norms, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-source compatibility, algebra closure visibility, separation exactness, evaluation and modulus routing, approximation handoff exactness, and separating-algebra route proofs for BEDC.Derived.StoneWeierstrassUp.}
+\end{closurestatus}
