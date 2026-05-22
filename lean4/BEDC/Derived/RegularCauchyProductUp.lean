@@ -220,6 +220,41 @@ theorem RegularCauchyProductCarrier_source_window_transport [AskSetup] [PackageS
     ⟨transportSame, sourceAUnary', sourceBUnary', windowAUnary', windowBUnary',
       windowTransportRow, transportedWindow⟩
 
+theorem RegularCauchyProductCarrier_downstream_source_lock [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback
+      transport route provenance name regConsumer realConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB
+        product budget readback transport route provenance name bundle pkg ->
+      Cont readback provenance regConsumer ->
+        Cont regConsumer route realConsumer ->
+          PkgSig bundle realConsumer pkg ->
+            UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+              UnaryHistory windowB ∧ UnaryHistory readback ∧ UnaryHistory regConsumer ∧
+                UnaryHistory realConsumer ∧ Cont windowA windowB transport ∧
+                  Cont endpointA endpointB product ∧ Cont product budget readback ∧
+                    Cont readback provenance regConsumer ∧
+                      Cont regConsumer route realConsumer ∧ PkgSig bundle name pkg ∧
+                        PkgSig bundle realConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier readbackProvenanceConsumer consumerRouteReal realConsumerPkg
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, routeUnary, provenanceUnary, windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed productUnary budgetUnary productBudgetRow
+  have regConsumerUnary : UnaryHistory regConsumer :=
+    unary_cont_closed readbackUnary provenanceUnary readbackProvenanceConsumer
+  have realConsumerUnary : UnaryHistory realConsumer :=
+    unary_cont_closed regConsumerUnary routeUnary consumerRouteReal
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, readbackUnary,
+      regConsumerUnary, realConsumerUnary, windowTransportRow, endpointProductRow,
+      productBudgetRow, readbackProvenanceConsumer, consumerRouteReal, namePkg,
+      realConsumerPkg⟩
+
 theorem RegularCauchyProductCarrier_real_seal_product_budget [AskSetup] [PackageSetup]
     {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
       provenance name budgetRead realSeal : BHist}
