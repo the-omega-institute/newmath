@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\CompactOperatorUp$}
+\label{ch:concrete-instances-compactoperator-namecert}
+\origin{human}
+
+Following Riesz and Schauder, the $\CompactOperatorUp$ packet records the finite BEDC surface by which a bounded linear operator between Banach carriers is witnessed through finite image-net schedules and tail moduli. It reads the bounded-operator row of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the Banach endpoint rows of \autoref{ch:concrete-instances-banach-namecert}, the compact-witness rows already consumed by \autoref{ch:concrete-instances-functionalanalysis-namecert}, the operator-ideal dependency of \autoref{ch:concrete-instances-operatorideal-namecert}, and the compact-prefix consumer route of \autoref{ch:concrete-instances-nuclear-namecert}. The chapter names only the reusable compact-operator certificate; it does not assert spectral theory, trace-class theory, choice-selected compactness, or host equality of operators.
+
+\begin{definition}[Compact operator carrier]
+\label{def:compact-operator-carrier}
+A $\CompactOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,B,N,M,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\BanachUp$ source row, including the carried source endpoints, source classifier, norm-induced metric rows, and visible completion ledger.
+\item $T$ is the $\BanachUp$ target row, including the carried target endpoints, target classifier, norm-induced metric rows, and visible completion ledger.
+\item $B$ is the $\BoundedLinearOperatorUp$ row recording the displayed operator action, linearity ledger, norm-bound endpoint, and bounded-operator provenance over $S$ and $T$.
+\item $N$ is the finite image-net schedule: for each displayed precision request it records a finite family of target endpoints and the source-unit-bound rows whose images are covered by those endpoints.
+\item $M$ is the tail/modulus row binding the finite schedules in $N$ to the target Banach metric and recording the precision transitions used by downstream consumers.
+\item $H$ records componentwise $\hsame$ transport for $S,T,B,N,M$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,T,B\longmapsto N\longmapsto M .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompactOperatorUp$, $\BoundedLinearOperatorUp$, $\BanachUp$, $\FunctionalAnalysisUp$, $\OperatorIdealUp$, $\NuclearUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CompactOperatorUp}$ row.
+\end{enumerate}
+The classifier of the carrier compares accepted packets only through the displayed Banach endpoints, bounded-operator row, finite image-net schedules, tail/modulus rows, componentwise transport, continuation replay, provenance, and local naming row.
+\end{definition}
+
+\begin{theorem}[Compact operator NameCert obligations]
+\label{thm:compact-operator-namecert-obligations}
+For every accepted $\CompactOperatorUp$ carrier
+$$
+K=(S,T,B,N,M,H,C,P,L),
+$$
+the local $\NameCert_{\CompactOperatorUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source Banach row, target Banach row, bounded-linear-operator row, finite image-net schedule, tail/modulus row, transport row, replay row, provenance row, and local naming row;
+\item finite-image-net stability, requiring every transported precision request to replay through the same finite schedule row $N$ and the same target metric coverage rows;
+\item classifier transport, requiring componentwise $\hsame$ transport of the source endpoint, target endpoint, bounded-operator endpoint, image-net endpoints, and tail/modulus ledger;
+\item ledger non-escape, requiring $P$ and $L$ to source no spectral row, trace-class row, choice-selected compactness row, host operator equality, or external compactness principle;
+\item bounded-operator compatibility, requiring every compactness read to enter through the bounded-linear-operator row $B$ before any finite image-net or tail/modulus row can be consumed.
+\end{enumerate}
+No compact-operator obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-operator-carrier}. The visible analytic coordinates are exactly the two Banach endpoint rows, the bounded-linear-operator row, the finite image-net schedule, and the tail/modulus ledger.
+
+Finite-image-net stability is componentwise. A transported precision request keeps the same source-unit-bound row and target metric row after $\hsame$ transport, so replay through $C$ reaches the same schedule coordinate $N$ and the same tail/modulus coordinate $M$.
+
+The classifier clauses are inherited row by row from the Banach and bounded-linear-operator surfaces. The source and target classifiers move endpoints, the bounded-operator classifier moves the operator and norm-bound ledger, and the compact schedule moves only through the displayed image-net endpoints and moduli.
+
+Finally inspect $P$ and $L$. Their source list is finite and contains no spectral, trace-class, choice, host-equality, or external compactness coordinate. Since every compactness read is downstream of $B$, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Compact operator functional-analysis route]
+\label{thm:compact-operator-functional-analysis-route}
+Every compact-operator witness exposed by $\FunctionalAnalysisUp$ factors through an accepted $\CompactOperatorUp$ carrier before it can be consumed by $\NuclearUp$ or $\OperatorIdealUp$. Equivalently, a downstream compact read must pass through the finite route
+$$
+\BanachUp,\BoundedLinearOperatorUp\longmapsto \CompactOperatorUp\longmapsto \OperatorIdealUp,\NuclearUp
+$$
+where the middle packet supplies the image-net schedules, tail/modulus rows, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The route is a certificate-level factorization, not host equality between operators.
+\end{theorem}
+\begin{proof}
+Begin with a compact witness from the $\FunctionalAnalysisUp$ surface. Its bounded-operator part is already a displayed $\BoundedLinearOperatorUp$ row over Banach source and target endpoints, and its compactness evidence is a finite probe ledger for images of carried source-unit-bound rows.
+
+Package those rows as in \autoref{def:compact-operator-carrier}. The Banach endpoints supply $S$ and $T$, the bounded-operator row supplies $B$, and the compact probe ledger supplies the finite schedule $N$ together with its tail/modulus row $M$.
+
+The downstream handoff is then forced by \autoref{thm:compact-operator-namecert-obligations}. $\OperatorIdealUp$ may read the compact row only through the bounded-operator-compatible carrier, and $\NuclearUp$ may read compact prefixes only after the same carrier has supplied its finite image-net and tail/modulus rows. No host operator equality is introduced in either handoff.
+\end{proof}
+
+\closureat{CompactOperatorUp}{seedStr}
+
+\begin{closurestatus}{\CompactOperatorUp}
+  \constructivestory{A $\CompactOperatorUp$ packet is generated from source and target Banach rows, a bounded-linear-operator row, displayed finite image-net schedules, tail/modulus rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-operator-carrier}, \autoref{thm:compact-operator-namecert-obligations}, and \autoref{thm:compact-operator-functional-analysis-route} seed the reusable compact-operator certificate consumed by FunctionalAnalysis, OperatorIdeal, and Nuclear rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CompactOperatorUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close spectral theory, trace-class theory, choice-selected compactness, host operator equality, Lean-checked obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-image-net stability, classifier transport, ledger non-escape, bounded-operator compatibility, and a Lean obligation surface for BEDC.Derived.CompactOperatorUp.}
+\end{closurestatus}

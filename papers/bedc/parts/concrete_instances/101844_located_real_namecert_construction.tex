@@ -1,0 +1,110 @@
+\chapter{Located Real NameCert Construction}
+\label{ch:concrete-instances-located-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a located real is represented by certified regular real-name data plus finite dyadic locatedness windows, not by a quotient or classical trichotomy. The $\LocatedRealUp$ chapter records this central L10 object as the public-facing route beneath the interval consumer of \autoref{ch:concrete-instances-located-real-interval-namecert}, the comparison consumer of \autoref{ch:concrete-instances-located-real-comparison-namecert}, and the tail-envelope consumer of \autoref{ch:concrete-instances-located-real-tail-envelope-namecert}. It is the hyphenated reference point for the same finite route already exposed by \autoref{ch:concrete-instances-locatedreal-namecert-surface}: $\StreamNameUp$ windows, $\RegSeqRatUp$ regular rational readback, $\DyadicRatCoreUp$ endpoint and radius ledgers, and the terminal $\RealUp$ seal.
+
+\begin{definition}[Located real carrier]
+\label{def:located-real-carrier}
+A $\LocatedRealUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,R,D,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-observation schedule that names which regular rational windows are read at a requested precision.
+\item $R$ is the $\RegSeqRatUp$ source row carrying the regular rational stream, regularity budget, and readback data visible at the scheduled windows.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and radius ledger; it stores the dyadic lower endpoint, upper endpoint, radius, and slack data used by the locatedness window.
+\item $E$ is the located enclosure row, asserting that the scheduled $R$-windows lie inside the dyadic interval supplied by $D$ at the requested radius.
+\item $Q$ is the $\RealUp$ seal row obtained by forgetting only the locatedness enclosure while retaining the same regular real-name source surface.
+\item $H$ records componentwise $\hsame$ transport for $S,R,D,E,Q$ and for the structural replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a locatedness request through $S,R,D,E,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite located real-name surface. It contains no Dedekind cut, quotient real, host real equality, trichotomy decision, countable-choice selector, compactness witness, metric-completion object, or bridge credential.
+\end{definition}
+
+\begin{definition}[Located real classifier]
+\label{def:located-real-classifier}
+Two accepted $\LocatedRealUp$ carriers
+$$
+L=(S,R,D,E,Q,H,C,P,N)
+$$
+and
+$$
+L'=(S',R',D',E',Q',H',C',P',N')
+$$
+are classified as the same located real exactly when their $\StreamNameUp$ schedules admit a common finite observation window, their $\RegSeqRatUp$ readbacks agree on that window through the displayed regular rational classifier, their $\DyadicRatCoreUp$ endpoint and radius ledgers refine to a common dyadic enclosure, and the enclosure and $\RealUp$ seal rows transport through the same $H,C,P,N$ structural route.
+
+The classifier is therefore common-window regular readback plus dyadic enclosure refinement. It is not quotient equality of real names, host equality of completed reals, trichotomy of endpoints, or a selected representative for the underlying $\RealUp$ seal.
+\end{definition}
+
+\begin{theorem}[Located real NameCert obligations]
+\label{thm:located-real-namecert-obligations}
+For every accepted $\LocatedRealUp$ carrier $L=(S,R,D,E,Q,H,C,P,N)$, the local $\NameCert_{\LocatedRealUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the stream schedule, regular rational readback, dyadic endpoint and radius ledger, located enclosure, real seal, transport, replay, provenance, and local naming rows;
+\item classifier exactness, requiring sameness to be common finite-window agreement of $S,R$ together with common dyadic enclosure refinement of $D,E$;
+\item regular seal compatibility, requiring the $\RealUp$ row $Q$ to read the same $\RegSeqRatUp$ source surface and no extra locatedness-independent representative;
+\item transport stability, requiring $H$ and $C$ to preserve the schedule, readback, dyadic ledger, enclosure row, real seal row, provenance, and local name componentwise;
+\item public-route exhaustion, requiring every downstream $\LocatedRealIntervalUp$, $\LocatedRealComparisonUp$, or $\LocatedRealTailEnvelopeUp$ consumer to factor through $S,R,D,E,Q,H,C,P,N$;
+\item non-escape, excluding Dedekind cuts, quotient reals, host real equality, trichotomy, countable choice, compactness, metric completion, Lean verification, and bridge checking as local data.
+\end{enumerate}
+No located-real obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-real-carrier}. The accepted packet displays exactly the stream schedule, regular rational source, dyadic endpoint and radius ledger, enclosure row, real seal, and structural rows.
+
+Classifier exactness is projection from \autoref{def:located-real-classifier}. A comparison of two packets first chooses a common finite window for their $\StreamNameUp$ schedules, then compares the $\RegSeqRatUp$ readbacks on that window, and only then refines the $\DyadicRatCoreUp$ endpoint and radius ledgers.
+
+Regular seal compatibility is the row $Q$. It forgets the located enclosure but keeps the same regular rational source and scheduled observations, so it cannot introduce a host representative or quotient equality.
+
+Transport and public-route exhaustion are structural. The rows $H$ and $C$ move and replay the displayed packet, while $P$ and $N$ source and name it. Since \autoref{ch:concrete-instances-located-real-interval-namecert} and the comparison and tail-envelope consumers cite $\LocatedRealUp$ only through these public rows, no excluded coordinate can be exported.
+\end{proof}
+
+\begin{theorem}[Located real regular seal]
+\label{thm:located-real-regular-seal}
+Every accepted $\LocatedRealUp$ carrier $L=(S,R,D,E,Q,H,C,P,N)$ presents its terminal $\RealUp$ seal by retaining the scheduled $\RegSeqRatUp$ source $R$ and the $\StreamNameUp$ window row $S$, while forgetting only the located enclosure row $E$ and its dyadic endpoint-radius ledger $D$.
+
+Conversely, a $\RealUp$ seal-facing regular source may be equipped with a $\LocatedRealUp$ carrier only by adding finite $\DyadicRatCoreUp$ endpoint and radius rows together with an enclosure row over the already displayed $S,R$ windows.
+\end{theorem}
+\begin{proof}
+Read the carrier projection. The $\RealUp$ seal coordinate $Q$ is downstream of the same $S$ and $R$ rows used by the locatedness enclosure, so it sees the scheduled regular rational source before any locatedness row is consulted.
+
+Forgetting $D$ and $E$ leaves $S,R,Q,H,C,P,N$ and therefore preserves the regular real-name surface. The forgotten rows are precisely the dyadic endpoint, radius, and enclosure data.
+
+For the converse, start with a displayed regular seal source $S,R,Q$ and attach a finite $\DyadicRatCoreUp$ ledger $D$ plus an enclosure row $E$ for the scheduled observations. Repacking with $H,C,P,N$ yields the carrier of \autoref{def:located-real-carrier}; no quotient, trichotomy, or selected completed real is introduced.
+\end{proof}
+
+\begin{theorem}[Located real transport stability]
+\label{thm:located-real-transport-stability}
+Let $L=(S,R,D,E,Q,H,C,P,N)$ and $L'=(S',R',D',E',Q',H',C',P',N')$ be accepted $\LocatedRealUp$ carriers. If $H$ records componentwise $\hsame$ transport from each analytic row of $L$ to the corresponding analytic row of $L'$, and the displayed continuations replay the transported rows, then $L'$ is accepted by the same located-real classifier route.
+
+The transported packet reads only the $\StreamNameUp$ schedules, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ ledgers, enclosure rows, $\RealUp$ seals, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Unpack $L$ through \autoref{def:located-real-carrier}. The analytic coordinates are $S,R,D,E,Q$, and the remaining coordinates only transport, replay, source, and name those rows.
+
+Transport $S$ and $R$ to the scheduled source rows of $L'$. Transport $D$ and $E$ along the same componentwise route, so the dyadic endpoint and radius ledger still encloses the transported regular rational windows.
+
+The seal row $Q$ transports to $Q'$ by the regular seal statement of \autoref{thm:located-real-regular-seal}. Replaying through $C',P',N'$ repacks the accepted carrier, and \autoref{def:located-real-classifier} identifies the classifier route. No unlisted host equality, quotient, or trichotomy row is available during the transport.
+\end{proof}
+
+\begin{theorem}[Located real public route]
+\label{thm:located-real-public-route}
+Every downstream consumer of an accepted $\LocatedRealUp$ carrier, including the interval consumer of \autoref{ch:concrete-instances-located-real-interval-namecert}, the comparison consumer of \autoref{ch:concrete-instances-located-real-comparison-namecert}, and the tail-envelope consumer of \autoref{ch:concrete-instances-located-real-tail-envelope-namecert}, receives exactly the public route
+$$
+S,R,D,E \longmapsto Q \longmapsto H,C,P,N .
+$$
+Thus the consumer can inspect scheduled regular rational windows, dyadic endpoint and radius ledgers, located enclosure data, the regular $\RealUp$ seal, and the visible provenance rows. It cannot inspect a quotient real, host real equality, trichotomy decision, countable-choice selector, compactness witness, metric-completion object, or bridge credential.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier of \autoref{def:located-real-carrier}. Its only analytic rows are the stream schedule $S$, the regular rational readback $R$, the dyadic ledger $D$, the enclosure row $E$, and the real seal $Q$.
+
+Apply \autoref{thm:located-real-regular-seal} to bind the seal-facing read to the same $S,R$ source. Apply \autoref{thm:located-real-transport-stability} to show that componentwise movement of the packet remains inside the same displayed carrier route.
+
+The cited interval, comparison, and tail-envelope consumers receive $\LocatedRealUp$ endpoint or source data only through that carrier route. Since the carrier and classifier contain none of the excluded objects, every downstream read is exhausted by $S,R,D,E,Q,H,C,P,N$.
+\end{proof}
+
+\closureat{LocatedRealUp}{seedStr}
