@@ -122,10 +122,28 @@ quotient stream equality, a selected host limit, trichotomy, host sequence
 equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Real sequence limit laws dyadic operation exhaustion]
+\label{thm:real-sequence-limit-laws-dyadic-operation-exhaustion}
+Every accepted operation row $O$ in a $\RealSequenceLimitLawsUp$ carrier
+$$
+L=(X,Y,S_X,S_Y,R_X,R_Y,D,E_X,E_Y,O,H,C,P,N)
+$$
+must cite the displayed $\DyadicRatCoreUp$ ledger $D$ for its input budgets, operation budget, and output tolerance request. After $D,O,E_X,E_Y,H,C,P,N$ are fixed, no quotient stream equality, selected host limit, trichotomy row, host sequence equality, or ambient completeness principle can alter the public limit-law read.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The operation row $O$ and the dyadic ledger $D$ are the only coordinates that describe arithmetic error accounting for the two displayed source routes.
+
+Apply operation-row exactness from \autoref{thm:real-sequence-limit-laws-namecert-obligations}. The row $O$ must consume the tolerance data stored in $D$, including the two input budgets, the operation budget, and the output tolerance request.
+
+Apply the RealUp handoff theorem \autoref{thm:real-sequence-limit-laws-realup-handoff}. Once the two source seals $E_X,E_Y$ and the structural rows $H,C,P,N$ are fixed with $D$ and $O$, the public limit-law read is already routed through the displayed finite packet.
+
+The carrier has no coordinate for quotient stream equality, selected host limits, trichotomy, host sequence equality, or ambient completeness. Hence none of those objects can revise the dyadic operation read.
+\end{proof}
+
 \begin{closurestatus}{\RealSequenceLimitLawsUp}
   \constructivestory{A $\RealSequenceLimitLawsUp$ packet is generated from two $\RealUp$ sequence source routes, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, a $\DyadicRatCoreUp$ error ledger, two limit-seal rows, an operation row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-sequence-limit-laws-carrier}, \autoref{thm:real-sequence-limit-laws-namecert-obligations}, and \autoref{thm:real-sequence-limit-laws-realup-handoff} seed the finite constructive limit-law packet over StreamName, RegSeqRat, DyadicRatCore, RealUp, and SqueezeReal rows.}
+  \scopeclosed{\autoref{def:real-sequence-limit-laws-carrier}, \autoref{thm:real-sequence-limit-laws-namecert-obligations}, \autoref{thm:real-sequence-limit-laws-realup-handoff}, and \autoref{thm:real-sequence-limit-laws-dyadic-operation-exhaustion} seed the finite constructive limit-law packet over StreamName, RegSeqRat, DyadicRatCore, RealUp, and SqueezeReal rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient stream equality, selected host limits, trichotomy, host equality of real sequences, ambient completeness, Lean verification, or bridge checking.}
