@@ -200,4 +200,34 @@ theorem DyadicStepFunctionCarrier_real_seal_window_exactness [AskSetup] [Package
     ⟨cellsUnary, valuesUnary, endpointLedgerUnary, ledgerUnary, realSealUnary,
       partitionCellsValues, refinementEndpointLedger, ledgerRouteSeal, nameRowPkg⟩
 
+theorem DyadicStepFunctionCarrier_common_refinement_cell_coverage [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      commonCell endpointRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont cells refinement commonCell ->
+        Cont commonCell endpointLedger endpointRead ->
+          Cont endpointRead ledger consumerRead ->
+            UnaryHistory cells ∧ UnaryHistory refinement ∧ UnaryHistory commonCell ∧
+              UnaryHistory endpointRead ∧ UnaryHistory consumerRead ∧
+                Cont cells refinement commonCell ∧
+                  Cont commonCell endpointLedger endpointRead ∧
+                    Cont endpointRead ledger consumerRead ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier cellsRefinementCommon commonEndpointRead endpointLedgerRead
+  obtain ⟨_partitionUnary, cellsUnary, _valuesUnary, _readsUnary, refinementUnary,
+    endpointLedgerUnary, ledgerUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, _refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have commonCellUnary : UnaryHistory commonCell :=
+    unary_cont_closed cellsUnary refinementUnary cellsRefinementCommon
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed commonCellUnary endpointLedgerUnary commonEndpointRead
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed endpointReadUnary ledgerUnary endpointLedgerRead
+  exact
+    ⟨cellsUnary, refinementUnary, commonCellUnary, endpointReadUnary, consumerReadUnary,
+      cellsRefinementCommon, commonEndpointRead, endpointLedgerRead, nameRowPkg⟩
+
 end BEDC.Derived.DyadicStepFunctionUp
