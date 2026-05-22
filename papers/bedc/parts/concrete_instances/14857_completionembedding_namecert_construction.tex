@@ -81,10 +81,24 @@ The replay and provenance rows $C$ and $P$ record no second Real route. Transpor
 Therefore any exported $\RealUp$ read remains inside $R,D,I,S,A,L,C,P,N$. The excluded detached point, quotient representative, host equality, choice schedule, and ambient completeness data have no coordinate from which a consumer could read them.
 \end{proof}
 
+\begin{theorem}[CompletionEmbedding source-density reflection]
+\label{thm:completion-embedding-source-density-reflection}
+For every accepted $\CompletionEmbeddingUp$ packet $E=(X,Y,D,I,R,S,A,L,C,P,N)$, any completion-target read that the packet classifies back to a source-side approximation factors through the regular-Cauchy source row $R$, dense image row $D$, isometry row $I$, $\RealUp$ seal row $A$, and Hausdorff separated boundary row $S$. The resulting comparison is a local classifier reflection recorded by $L,C,P,N$, not host equality, quotient equality, selected representatives, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier and its NameCert obligations. The dense-image coverage obligation requires a completion-facing tolerance read in $Y$ to pass first through the source-side regular-Cauchy data in $R$ and the dense image window in $D$.
+
+Use the dense isometric handoff of \autoref{thm:completion-embedding-dense-isometric-handoff} to extend that source-density route through $I$ and $A$. The isometry row supplies the distance-reflecting comparison, and the $\RealUp$ seal records the displayed real-valued boundary consumed by completion readers.
+
+The Real-seal non-escape theorem, \autoref{thm:completion-embedding-real-seal-nonescape}, keeps that comparison inside the same finite route. The separated boundary row $S$ is therefore the only target-read comparison surface available after the dense and isometric rows have been replayed.
+
+Finally, $L,C,P,N$ transport, replay, source, and name the reflected classifier route. Since the carrier has no coordinate for host equality, quotient equality, selected representatives, countable choice, or ambient completeness, the source-density read exports only the local reflection described above.
+\end{proof}
+
 \begin{closurestatus}{\CompletionEmbeddingUp}
   \constructivestory{A $\CompletionEmbeddingUp$ packet is generated from a source metric row, a completion target row, a dense image row, an isometry row, a regular-Cauchy source row, a Hausdorff separated boundary row, a Real seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:completion-embedding-carrier}, \autoref{thm:completion-embedding-namecert-obligations}, \autoref{thm:completion-embedding-dense-isometric-handoff}, and \autoref{thm:completion-embedding-real-seal-nonescape} seed the finite L10 dense isometric completion-embedding surface.}
+  \scopeclosed{\autoref{def:completion-embedding-carrier}, \autoref{thm:completion-embedding-namecert-obligations}, \autoref{thm:completion-embedding-dense-isometric-handoff}, \autoref{thm:completion-embedding-real-seal-nonescape}, and \autoref{thm:completion-embedding-source-density-reflection} seed the finite L10 dense isometric completion-embedding surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, selected representatives, host equality, countable choice, or ambient completeness.}
