@@ -1,11 +1,18 @@
+import BEDC.Derived.BHistCellRowEmbeddingUp.NameCertObligations
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CellularVerbRealignmentUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -306,5 +313,31 @@ theorem CellularVerbRealignmentTasteGate_single_carrier_alignment :
             · intro x y heq
               exact CellularVerbRealignmentTasteGate_single_carrier_alignment_injective heq
             · rfl
+
+theorem CellularVerbRealignment_embedding_namecert_tastegate_boundary [AskSetup] [PackageSetup]
+    {source bitRow width orbitZero readback transports routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.BHistCellRowEmbeddingUp.BHistCellRowEmbeddingCarrier source bitRow width
+        orbitZero readback transports routes provenance name bundle pkg →
+      Nonempty (ChapterTasteGate CellularVerbRealignmentUp) ∧
+        Nonempty (FieldFaithful CellularVerbRealignmentUp) ∧
+          SemanticNameCert
+            (fun row : BHist =>
+              BEDC.Derived.BHistCellRowEmbeddingUp.BHistCellRowEmbeddingCarrier source bitRow
+                  width orbitZero readback transports routes provenance name bundle pkg ∧
+                (hsame row source ∨ hsame row bitRow ∨ hsame row width ∨
+                  hsame row orbitZero ∨ hsame row readback ∨ hsame row transports ∨
+                  hsame row routes ∨ hsame row provenance ∨ hsame row name))
+            (fun _row : BHist =>
+              Cont source bitRow width ∧ Cont orbitZero readback routes ∧
+                PkgSig bundle provenance pkg)
+            (fun row : BHist => UnaryHistory row ∧ PkgSig bundle name pkg)
+            hsame := by
+  intro embeddingCarrier
+  exact
+    ⟨⟨cellularVerbRealignmentChapterTasteGate⟩,
+      ⟨cellularVerbRealignmentFieldFaithful⟩,
+      BEDC.Derived.BHistCellRowEmbeddingUp.BHistCellRowEmbeddingCarrier_namecert_obligations
+        embeddingCarrier⟩
 
 end BEDC.Derived.CellularVerbRealignmentUp

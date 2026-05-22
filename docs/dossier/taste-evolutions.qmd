@@ -20,20 +20,20 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-22T00:35:54Z
+> 最后刷新: 2026-05-22T03:06:06Z
 
-**Daemon 状态**: monitor (monitor cycle 10, adjust_since_research 3, round_counter 6049, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 12, adjust_since_research 3, round_counter 6367, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (121 条 finding):
+**待处理 queue** (122 条 finding):
 - isolated_theorem: 98 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - low_entropy_template: 23 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
+- missing_origin: 1 条; 代表样本 `dyadic`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 211 次
-- TASTE ALERT category=low_entropy_template: 14 次
+- TASTE ALERT category=isolated_theorem: 191 次
+- TASTE ALERT category=low_entropy_template: 12 次
 - TASTE ALERT category=research_non_negative_criterion: 4 次
-- TASTE ALERT category=dossier_snapshot_push_failed: 1 次
-- TASTE ALERT category=rule_evolution_failed: 1 次
+- TASTE ALERT category=dossier_snapshot_push_failed: 2 次
 - TASTE ALERT category=sync_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -149,6 +149,10 @@ to case-by-case judgment.
 - 2026-05-21T23:17:18Z: `resolved` `delete_theorem` for `BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_uniform_tail_budget_scope` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_uniform_tail_budget_scope:12c20eb9`). Rationale: The target had no downstream Lean consumers after repo-wide grep; it only appeared as its own declaration and one removable paper marker. Its content is an unconsumed intermediate projection assembled from WeierstrassMTestCarrier_regseqrat_handoff plus carrier fields, while later stronger theorems such as WeierstrassMTestCarrier_obligation_closure_package, WeierstrassMTestCarrier_uniform_cauchy_handoff, and the public convergence export already carry the meaningful route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-05-22T00:35:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_tail_majorant_ledger` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_tail_majorant_ledger:12c20eb9`). Rationale: The target is not a disposable wrapper: it exposes the tail read, domination-tail route, hsame alignment with the regular handoff, and package rows for the Weierstrass M-test carrier. Repository grep showed no Lean consumer, while the paper already treats it as part of the majorant-domination package, so I added a sibling theorem that consumes it together with the existing majorant-domination package and records the combined surface in the chapter. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-22T01:46:20Z: `resolved` `leave_with_rationale` for `BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_majorant_tail_transport` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_majorant_tail_transport:12c20eb9`). Rationale: The target has real BEDC content: it transports an accepted Weierstrass M-test carrier across an hsame tail replacement, rebuilds the Cont domination-tail-regseq route, and returns the induced hsame on the RegSeqRat handoff row. Repo grep showed no Lean downstream user and only the paper marker, so I attempted add_downstream_user by adding a transported-tail obligation-closure consumer, but lake build failed on the edited WeierstrassMTestUp.lean with unsolved goals and tab-format errors. Per the task rule, I reverted the edit and switched to leave_with_rationale; the theorem should be kept as staging for the nearby uniform-tail/RegSeqRat/Real-seal route rather than deleted. Gate results: lake_build=failed after attempted downstream consumer: BEDC/Derived/WeierstrassMTestUp.lean reported tabs are not allowed and unsolved goals around WeierstrassMTestCarrier_majorant_tail_transport / obligation closure; changes reverted, audit=skipped, phase_d_lint=skipped.
+
+- 2026-05-22T03:05:52Z: `resolved` `add_downstream_user` for `BEDC.Derived.BHistCellRowEmbeddingUp.BHistCellRowEmbeddingCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:bhistcellrowembedding:a863696a`). Rationale: The target has real BEDC content: it constructs a SemanticNameCert for the BHist cell-row embedding carrier rather than merely wrapping another theorem. The related CellularVerbRealignmentUp chapter already treats the embedding/readback row as a sibling dependency, so I added a downstream theorem there that consumes the target theorem and ties its SemanticNameCert output to the realignment TasteGate and FieldFaithful boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

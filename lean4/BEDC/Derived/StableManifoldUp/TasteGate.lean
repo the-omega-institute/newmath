@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.StableManifoldUp.TasteGate
+namespace BEDC.Derived.StableManifoldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -109,6 +109,17 @@ private theorem stableManifoldToEventFlow_injective
     (Eq.trans (stableManifold_round_trip x).symm
       (Eq.trans hread (stableManifold_round_trip y)))
 
+private theorem StableManifoldTasteGate_single_carrier_alignment_fields :
+    ∀ x y : StableManifoldUp, stableManifoldFields x = stableManifoldFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk E1 D1 O1 M1 L1 T1 H1 C1 P1 N1 =>
+      cases y with
+      | mk E2 D2 O2 M2 L2 T2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance stableManifoldBHistCarrier : BHistCarrier StableManifoldUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := stableManifoldToEventFlow
@@ -129,6 +140,22 @@ def taste_gate : ChapterTasteGate StableManifoldUp :=
   -- BEDC touchpoint anchor: BHist BMark
   stableManifoldChapterTasteGate
 
+instance stableManifoldFieldFaithful : FieldFaithful StableManifoldUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := stableManifoldFields
+  field_faithful := StableManifoldTasteGate_single_carrier_alignment_fields
+
+instance stableManifoldNontrivial : Nontrivial StableManifoldUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨StableManifoldUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      StableManifoldUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem StableManifoldTasteGate_single_carrier_alignment :
     (∀ h : BHist, stableManifoldDecodeBHist (stableManifoldEncodeBHist h) = h) ∧
       (∀ x : StableManifoldUp,
@@ -136,7 +163,7 @@ theorem StableManifoldTasteGate_single_carrier_alignment :
       (∀ x y : StableManifoldUp,
         stableManifoldToEventFlow x = stableManifoldToEventFlow y → x = y) ∧
       stableManifoldEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
     ⟨StableManifoldTasteGate_single_carrier_alignment_decode,
       stableManifold_round_trip,
@@ -145,4 +172,4 @@ theorem StableManifoldTasteGate_single_carrier_alignment :
         exact stableManifoldToEventFlow_injective heq,
       rfl⟩
 
-end BEDC.Derived.StableManifoldUp.TasteGate
+end BEDC.Derived.StableManifoldUp

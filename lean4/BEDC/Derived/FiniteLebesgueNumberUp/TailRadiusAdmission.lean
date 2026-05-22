@@ -6,6 +6,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -74,5 +75,85 @@ theorem FiniteLebesgueNumberCompactRadiusWindowPullback [AskSetup] [PackageSetup
     ⟨coverUnary, radiusUnary, meshUnary, compactRadiusUnary, compactWindowUnary,
       pullbackUnary, coverWindowRadius, coverRadiusCompact, compactMeshWindow,
       windowRoutePullback, provenancePkg, pullbackPkg⟩
+
+theorem FiniteLebesgueNumberBudgetedRealCompletionNonescape [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactRadius compactWindow
+      uniformRead realCompletionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont cover radius compactRadius →
+        Cont compactRadius mesh compactWindow →
+          Cont compactWindow route uniformRead →
+            Cont uniformRead nameRow realCompletionRead →
+              PkgSig bundle realCompletionRead pkg →
+                UnaryHistory compactRadius ∧ UnaryHistory compactWindow ∧
+                  UnaryHistory uniformRead ∧ UnaryHistory realCompletionRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle realCompletionRead pkg ∧
+                      SemanticNameCert
+                        (fun row : BHist => hsame row realCompletionRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row radius ∨ hsame row compactRadius ∨
+                            hsame row compactWindow ∨ hsame row uniformRead ∨
+                              hsame row realCompletionRead)
+                        (fun row : BHist =>
+                          hsame row realCompletionRead ∧
+                            PkgSig bundle realCompletionRead pkg)
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier coverRadiusCompact compactMeshWindow compactRouteUniform
+    uniformNameCompletion completionPkg
+  obtain ⟨coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have compactRadiusUnary : UnaryHistory compactRadius :=
+    unary_cont_closed coverUnary radiusUnary coverRadiusCompact
+  have compactWindowUnary : UnaryHistory compactWindow :=
+    unary_cont_closed compactRadiusUnary meshUnary compactMeshWindow
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed compactWindowUnary routeUnary compactRouteUniform
+  have completionUnary : UnaryHistory realCompletionRead :=
+    unary_cont_closed uniformUnary nameRowUnary uniformNameCompletion
+  have sourceCompletion :
+      (fun row : BHist => hsame row realCompletionRead ∧ UnaryHistory row)
+        realCompletionRead := by
+    exact ⟨hsame_refl realCompletionRead, completionUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row realCompletionRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row radius ∨ hsame row compactRadius ∨ hsame row compactWindow ∨
+            hsame row uniformRead ∨ hsame row realCompletionRead)
+        (fun row : BHist =>
+          hsame row realCompletionRead ∧ PkgSig bundle realCompletionRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro realCompletionRead sourceCompletion
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, completionPkg⟩
+    }
+  exact
+    ⟨compactRadiusUnary, compactWindowUnary, uniformUnary, completionUnary, provenancePkg,
+      completionPkg, cert⟩
 
 end BEDC.Derived.FiniteLebesgueNumberUp

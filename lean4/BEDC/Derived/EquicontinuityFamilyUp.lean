@@ -1,3 +1,4 @@
+import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
