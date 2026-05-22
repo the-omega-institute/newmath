@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\SpernerLemmaUp$}
+\label{ch:concrete-instances-sperner-lemma-namecert}
+\origin{human}
+
+Following Sperner, the $\SpernerLemmaUp$ packet names the finite labeled-simplex ledger used by constructive dyadic compactness and fixed-point routes before any host geometric realization is consulted. It sits over the finite face inventory of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the dyadic subdivision surface of \autoref{ch:concrete-instances-dyadic-partition-namecert}, and the cover-routing rows of \autoref{ch:concrete-instances-dyadiccover-namecert}. The chapter isolates the combinatorial certificate itself: simplex inventory, dyadic subdivision, boundary labels, face-label transport, fully-labeled simplex witness, structural transport, replay, provenance, and local naming.
+
+\begin{definition}[Sperner lemma carrier]
+\label{def:sperner-lemma-carrier}
+A $\SpernerLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+S=(k,d,b,f,w,h,c,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $k$ is the finite simplicial-complex row. It records the accepted $\mathsf{SimplicialComplex}^{\uparrow}$ simplex inventory, face-incidence relation, dimension grading, and carried-face closure used by the labeled subdivision.
+\item $d$ is the dyadic subdivision row. It records the accepted $\DyadicPartitionUp$ subdivision or partition ledger, including the dyadic cell indices and their incidence with the finite simplex row.
+\item $b$ is the boundary-label ledger. It records the boundary faces, their admissible colors, and the displayed exclusion of forbidden boundary colors.
+\item $f$ is the face-label transport row. It transports labels along the finite face relation of $k$ and the dyadic subdivision incidence of $d$ without using an ambient geometric simplex.
+\item $w$ is the fully-labeled simplex witness row. It records one carried subsimplex, its vertices, and the finite color list witnessing that each required color appears exactly through the displayed label ledger.
+\item $h$ records componentwise $\hsame$ transport for the simplicial-complex row, dyadic subdivision row, boundary-label ledger, face-label transport, fully-labeled witness, replay, provenance, and local naming rows.
+\item $c$ records displayed $\Cont$ replay from the finite simplex inventory through subdivision, boundary labels, face-label transport, fully-labeled witness, structural transport, provenance, and local naming.
+\item $p$ is the $\Pkg$ provenance over $\SpernerLemmaUp$, $\mathsf{SimplicialComplex}^{\uparrow}$, $\DyadicPartitionUp$, $\mathsf{DyadicCover}^{\uparrow}$, $\mathsf{CompactIntervalFixedPoint}^{\uparrow}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $n$ is the local $\NameCert_{\SpernerLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $k,d,b,f,w,h,c,p,n$. It has no coordinate for host geometric realization, open-cover compactness, real trichotomy, selected fixed points, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Sperner lemma NameCert obligations]
+\label{thm:sperner-lemma-namecert-obligations}
+For every accepted $\SpernerLemmaUp$ carrier $S=(k,d,b,f,w,h,c,p,n)$, the local $\NameCert_{\SpernerLemmaUp}$ surface consists exactly of the following five certificate rows:
+\begin{enumerate}
+\item the finite carrier row $k,d$ combining the $\mathsf{SimplicialComplex}^{\uparrow}$ simplex inventory with the $\DyadicPartitionUp$ subdivision ledger;
+\item the boundary-coloring row $b$ recording admissible boundary colors and forbidden-color exclusions;
+\item the face-label transport row $f$ moving labels through carried faces and dyadic incidence;
+\item the fully-labeled simplex handoff row $w$ exposing the finite witness to dyadic compactness and fixed-point consumers;
+\item the structural row $h,c,p,n$ for componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{enumerate}
+No Sperner obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:sperner-lemma-carrier}. The visible packet lists the finite simplicial-complex row $k$, the dyadic subdivision row $d$, the boundary-label ledger $b$, the face-label transport row $f$, the fully-labeled witness row $w$, and the structural rows $h,c,p,n$.
+
+The first certificate row is the pair $k,d$. It fixes the finite simplex inventory and the dyadic subdivision surface before any labels are read.
+
+The second and third rows are $b$ and $f$. The boundary-coloring data is accepted only as a finite ledger, and the label transport is accepted only along the displayed face and subdivision incidence rows.
+
+The fourth row is $w$. A compactness or fixed-point consumer receives a fully-labeled simplex only through this witness row after the carrier, boundary, and transport rows have been displayed.
+
+The fifth row is structural. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row package exactly the listed coordinates, so the excluded host-geometric, open-cover, trichotomy, selected-point, completeness, verification, and bridge data cannot appear as hidden obligations.
+\end{proof}
+
+\begin{theorem}[Sperner boundary-coloring route]
+\label{thm:sperner-lemma-boundary-coloring-route}
+Let $S=(k,d,b,f,w,h,c,p,n)$ be an accepted $\SpernerLemmaUp$ carrier. Every read of the boundary-coloring ledger factors through the displayed $\mathsf{SimplicialComplex}^{\uparrow}$ finite face row $k$, the $\DyadicPartitionUp$ subdivision row $d$, and the $\mathsf{DyadicCover}^{\uparrow}$ cover-routing provenance recorded in $p$. In particular, boundary admissibility cannot be read directly from a host simplex, an open cover of a compact space, real trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The boundary-coloring coordinate is $b$, and the definition places $b$ after the finite simplex row $k$ and dyadic subdivision row $d$.
+
+The simplicial row supplies the finite boundary faces and their face-incidence relation. The dyadic subdivision row supplies the finite cells whose boundary labels are being read. The package row $p$ records the $\mathsf{DyadicCover}^{\uparrow}$ provenance that makes the label ledger visible to dyadic cover consumers.
+
+Thus any boundary-coloring read reaches $b$ only after the finite face inventory, the dyadic subdivision incidence, and the cover-routing provenance have been displayed. Since the classifier has no coordinate for host simplices, open-cover compactness, trichotomy, or ambient completeness, none of those objects can supply an alternate boundary-coloring route.
+\end{proof}
+
+\begin{theorem}[Sperner fully-labeled simplex handoff]
+\label{thm:sperner-lemma-odd-simplex-handoff}
+Let $S=(k,d,b,f,w,h,c,p,n)$ be an accepted $\SpernerLemmaUp$ carrier. Every fully-labeled simplex handoff exported to $\mathsf{CompactIntervalFixedPoint}^{\uparrow}$ or to a dyadic fixed-point consumer passes through the finite route
+$$
+k \longmapsto d \longmapsto b \longmapsto f \longmapsto w \longmapsto h,c,p,n.
+$$
+Consequently the handoff cannot bypass the displayed finite ledger through host geometric realization, open-cover compactness, real trichotomy, selected fixed points, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only coordinate exposing a fully-labeled simplex is $w$, and $w$ is downstream of the finite simplex inventory $k$, the dyadic subdivision row $d$, the boundary-label ledger $b$, and the face-label transport row $f$.
+
+A $\mathsf{CompactIntervalFixedPoint}^{\uparrow}$ consumer therefore receives a labeled subsimplex only after the finite subdivision and boundary ledger have already been displayed. A dyadic fixed-point consumer reads the same witness through the package and replay rows, which transport the finite certificate without adding a selected point.
+
+The excluded objects are absent from the classifier. Hence the exported handoff is exactly the displayed finite route and cannot obtain a host geometric realization, open-cover compactness theorem, real-trichotomy branch, selected fixed point, or ambient completeness witness from this packet.
+\end{proof}
+
+\closureat{SpernerLemmaUp}{seedStr}
+
+\begin{closurestatus}{\SpernerLemmaUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sperner-lemma-carrier}, \autoref{thm:sperner-lemma-namecert-obligations}, \autoref{thm:sperner-lemma-boundary-coloring-route}, and \autoref{thm:sperner-lemma-odd-simplex-handoff} seed the finite labeled-simplex route from simplicial-complex inventory through dyadic subdivision, boundary labels, face-label transport, fully-labeled witness, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host geometric realization, open-cover compactness, classical Brouwer fixed points, real trichotomy, selected fixed points, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary-coloring route, face-label transport, fully-labeled simplex handoff, provenance, transport, replay, and local naming for BEDC.Derived.SpernerLemmaUp.}
+  \constructivestory{A $\SpernerLemmaUp$ packet is generated from a displayed finite simplicial-complex row, a dyadic subdivision or partition row, a boundary-label ledger, face-label transport rows, a fully-labeled simplex witness row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
