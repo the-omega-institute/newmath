@@ -3499,6 +3499,81 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             }
         )
 
+    def markov_transition_probabilities(added_size: int, rank: int) -> dict[int, float]:
+        if rank == 4:
+            return {4: 1.0}
+        denominator = len(y_external_codons) - added_size
+        transitions: dict[int, float] = {}
+        same_count = 2 * ((2 ** rank) - 1) - added_size
+        if same_count:
+            transitions[rank] = same_count / denominator
+        for increase in range(1, 5 - rank):
+            target_rank = rank + increase
+            transitions[target_rank] = (
+                2 * (2 ** rank) * math.comb(4 - rank, increase) / denominator
+            )
+        return transitions
+
+    markov_transition_state_rows = []
+    for added_size, rank in ((0, 0), (1, 1), (1, 2), (1, 3), (2, 2), (3, 3), (6, 3)):
+        transitions = markov_transition_probabilities(added_size, rank)
+        markov_transition_state_rows.append(
+            {
+                "state": (added_size, rank),
+                "transitions": transitions,
+                "direct_trigger_probability": transitions.get(4, 0.0),
+                "expected_rank_increment": sum((target_rank - rank) * probability for target_rank, probability in transitions.items()),
+                "drift_formula_value": 16 * (4 - rank) / (len(y_external_codons) - added_size),
+                "probability_sum": sum(transitions.values()),
+            }
+        )
+
+    @functools.cache
+    def markov_remaining_mean(added_size: int, rank: int) -> float:
+        if rank == 4:
+            return 0.0
+        transitions = markov_transition_probabilities(added_size, rank)
+        return 1.0 + sum(
+            probability * markov_remaining_mean(added_size + 1, target_rank)
+            for target_rank, probability in transitions.items()
+        )
+
+    @functools.cache
+    def markov_remaining_second_moment(added_size: int, rank: int) -> float:
+        if rank == 4:
+            return 0.0
+        transitions = markov_transition_probabilities(added_size, rank)
+        return sum(
+            probability
+            * (
+                1.0
+                + 2.0 * markov_remaining_mean(added_size + 1, target_rank)
+                + markov_remaining_second_moment(added_size + 1, target_rank)
+            )
+            for target_rank, probability in transitions.items()
+        )
+
+    trigger_time_variance = markov_remaining_second_moment(0, 0) - (markov_remaining_mean(0, 0) ** 2)
+    markov_remaining_time_rows = [
+        {
+            "state": state,
+            "expected_remaining_steps": markov_remaining_mean(*state),
+        }
+        for state in (
+            (0, 0),
+            (1, 1),
+            (1, 2),
+            (1, 3),
+            (2, 1),
+            (2, 2),
+            (2, 3),
+            (3, 2),
+            (3, 3),
+            (6, 2),
+            (6, 3),
+        )
+    ]
+
     nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
     quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
     for trigger_size in range(1, 5):
@@ -3564,6 +3639,11 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "expected_rank_rows": expected_rank_rows,
         "expected_closure_rows": expected_closure_rows,
         "expected_spectral_rows": expected_spectral_rows,
+        "markov_transition_state_rows": markov_transition_state_rows,
+        "markov_remaining_time_rows": markov_remaining_time_rows,
+        "markov_expected_trigger_time": markov_remaining_mean(0, 0),
+        "trigger_time_variance": trigger_time_variance,
+        "trigger_time_standard_deviation": trigger_time_variance ** 0.5,
         "minimal_trigger_rows": minimal_trigger_rows,
         "minimal_trigger_quotient_total": sum(row["quotient_count"] for row in minimal_trigger_rows),
         "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
@@ -6734,6 +6814,44 @@ def assert_expected(summary: dict[str, object]) -> None:
         (8, 0.9998),
         (9, 0.999945),
         (10, 0.999987),
+    ]
+    assert [
+        (
+            row["state"],
+            {rank: round(probability, 4) for rank, probability in row["transitions"].items()},
+            round(row["direct_trigger_probability"], 4),
+            round(row["expected_rank_increment"], 4),
+            round(row["drift_formula_value"], 4),
+            round(row["probability_sum"], 4),
+        )
+        for row in antipodal["markov_transition_state_rows"]
+    ] == [
+        ((0, 0), {1: 0.2667, 2: 0.4, 3: 0.2667, 4: 0.0667}, 0.0667, 2.1333, 2.1333, 1.0),
+        ((1, 1), {1: 0.0345, 2: 0.4138, 3: 0.4138, 4: 0.1379}, 0.1379, 1.6552, 1.6552, 1.0),
+        ((1, 2), {2: 0.1724, 3: 0.5517, 4: 0.2759}, 0.2759, 1.1034, 1.1034, 1.0),
+        ((1, 3), {3: 0.4483, 4: 0.5517}, 0.5517, 0.5517, 0.5517, 1.0),
+        ((2, 2), {2: 0.1429, 3: 0.5714, 4: 0.2857}, 0.2857, 1.1429, 1.1429, 1.0),
+        ((3, 3), {3: 0.4074, 4: 0.5926}, 0.5926, 0.5926, 0.5926, 1.0),
+        ((6, 3), {3: 0.3333, 4: 0.6667}, 0.6667, 0.6667, 0.6667, 1.0),
+    ]
+    assert round(antipodal["markov_expected_trigger_time"], 5) == 3.12998
+    assert round(antipodal["trigger_time_variance"], 5) == 1.81588
+    assert round(antipodal["trigger_time_standard_deviation"], 5) == 1.34755
+    assert [
+        (row["state"], round(row["expected_remaining_steps"], 3))
+        for row in antipodal["markov_remaining_time_rows"]
+    ] == [
+        ((0, 0), 3.13),
+        ((1, 1), 2.729),
+        ((1, 2), 2.329),
+        ((1, 3), 1.765),
+        ((2, 1), 2.638),
+        ((2, 2), 2.252),
+        ((2, 3), 1.706),
+        ((3, 2), 2.174),
+        ((3, 3), 1.647),
+        ((6, 2), 1.941),
+        ((6, 3), 1.471),
     ]
     assert [
         (row["trigger_size"], row["quotient_count"], row["codon_count"])
