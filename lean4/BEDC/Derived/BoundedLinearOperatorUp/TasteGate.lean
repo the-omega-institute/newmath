@@ -136,6 +136,17 @@ private theorem boundedLinearOperatorToEventFlow_injective {x y : BoundedLinearO
       _ = some y := boundedLinearOperator_round_trip y
   exact Option.some.inj optionEq
 
+private theorem boundedLinearOperator_fields_faithful :
+    ∀ x y : BoundedLinearOperatorUp, boundedLinearOperatorFields x = boundedLinearOperatorFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk source target endpoint bound ledger transport continuation provenance name =>
+      cases y with
+      | mk source' target' endpoint' bound' ledger' transport' continuation' provenance' name' =>
+          cases hfields
+          rfl
+
 instance boundedLinearOperatorBHistCarrier : BHistCarrier BoundedLinearOperatorUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := boundedLinearOperatorToEventFlow
@@ -151,6 +162,23 @@ instance boundedLinearOperatorChapterTasteGate : ChapterTasteGate BoundedLinearO
     intro x y hxy heq
     exact hxy (boundedLinearOperatorToEventFlow_injective heq)
 
+instance boundedLinearOperatorFieldFaithful : FieldFaithful BoundedLinearOperatorUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := boundedLinearOperatorFields
+  field_faithful := boundedLinearOperator_fields_faithful
+
+instance boundedLinearOperatorNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial BoundedLinearOperatorUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BoundedLinearOperatorUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BoundedLinearOperatorUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate BoundedLinearOperatorUp :=
   -- BEDC touchpoint anchor: BHist BMark
   boundedLinearOperatorChapterTasteGate
@@ -165,6 +193,28 @@ theorem BoundedLinearOperatorTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨boundedLinearOperator_decode_encode_bhist,
+      boundedLinearOperator_round_trip,
+      (by
+        intro x y heq
+        exact boundedLinearOperatorToEventFlow_injective heq),
+      rfl⟩
+
+theorem BoundedLinearOperatorUpTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate BoundedLinearOperatorUp) ∧
+      Nonempty (FieldFaithful BoundedLinearOperatorUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial BoundedLinearOperatorUp) ∧
+          (∀ h : BHist, boundedLinearOperatorDecodeBHist (boundedLinearOperatorEncodeBHist h) = h) ∧
+            (∀ x : BoundedLinearOperatorUp,
+              boundedLinearOperatorFromEventFlow (boundedLinearOperatorToEventFlow x) = some x) ∧
+              (∀ x y : BoundedLinearOperatorUp,
+                boundedLinearOperatorToEventFlow x = boundedLinearOperatorToEventFlow y → x = y) ∧
+                boundedLinearOperatorEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨⟨boundedLinearOperatorChapterTasteGate⟩,
+      ⟨boundedLinearOperatorFieldFaithful⟩,
+      ⟨boundedLinearOperatorNontrivial⟩,
+      boundedLinearOperator_decode_encode_bhist,
       boundedLinearOperator_round_trip,
       (by
         intro x y heq
