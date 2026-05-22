@@ -739,6 +739,7 @@ import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.TasteGate
 import BEDC.Derived.BoundedRealUpperCutUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
+import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedUniversalTraceUp.Carrier
 import BEDC.Derived.BoundedUniversalTraceUp.TasteGate
 import BEDC.Derived.BoundedVariationUp
@@ -4267,6 +4268,7 @@ import BEDC.Derived.RealObservationBudgetUp.WindowCoverage
 import BEDC.Derived.RealOneUp.TasteGate
 import BEDC.Derived.RealOscillationUp
 import BEDC.Derived.RealPlaneUp
+import BEDC.Derived.RealPolynomialUp.TasteGate
 import BEDC.Derived.RealPowerSeriesUp.TasteGate
 import BEDC.Derived.RealRationalApproximationUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
