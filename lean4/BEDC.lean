@@ -739,6 +739,7 @@ import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.TasteGate
 import BEDC.Derived.BoundedRealUpperCutUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
+import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedUniversalTraceUp.Carrier
 import BEDC.Derived.BoundedUniversalTraceUp.TasteGate
 import BEDC.Derived.BoundedVariationUp
@@ -4574,6 +4575,7 @@ import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.RootExitPartitionStabili
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.StreamNameRegSeqRatRealExactness
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TailWindowRefusal
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TasteGate
+import BEDC.Derived.RegularCauchyMultiplicationUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularCauchyNameUp.StdBridge
 import BEDC.Derived.RegularCauchyNameUp.TasteGate
