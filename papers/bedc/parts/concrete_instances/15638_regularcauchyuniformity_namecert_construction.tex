@@ -66,6 +66,26 @@ Replay $C$ after transport. The replay reaches the same entourage row $E$ from e
 Thus the dyadic-entourage row is stable under the common finite refinements, and the packet continues to expose a single finite route through $R,W,D,E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy uniformity common-refinement transitivity]
+\label{thm:regular-cauchy-uniformity-common-refinement-transitivity}
+Let $U=(R,W,D,E,H,C,P,N)$ be an accepted $\RegularCauchyUniformityUp$ carrier. For any displayed finite chain of $\StreamNameUp$ common refinements
+$$
+W=W_0 \leadsto W_1 \leadsto \cdots \leadsto W_k
+$$
+starting at the window row $W$, if every step keeps the same $\RegSeqRatUp$ source row $R$ and the same $\DyadicRatCoreUp$ tolerance row $D$, then the terminal window $W_k$ carries the same dyadic-entourage row $E$. Every $\RealUp$ or $\MetricCompletionUp$ consumer of $W_k$ still factors through the finite route
+$$
+R \longmapsto W \longmapsto D \longmapsto E \longmapsto H,C,P,N .
+$$
+The chain introduces no quotient stream equality, selected limit, host real equality, countable choice, open-cover compactness, or Real completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite refinement chain. In the base case the terminal window is $W$ itself, so the carrier projection of \autoref{def:regular-cauchy-uniformity-carrier} supplies the source row $R$, tolerance row $D$, dyadic-entourage row $E$, and the replay route through $H,C,P,N$.
+
+For the step, assume the current terminal window has already retained the same rows $R,D,E$. Apply \autoref{thm:regular-cauchy-uniformity-dyadic-entourage-stability} to the next common finite refinement. The hypothesis that the refinement keeps $R$ and $D$ makes the theorem applicable, and its conclusion preserves $E$ as the displayed dyadic-entourage row.
+
+Finally apply \autoref{thm:regular-cauchy-uniformity-real-seal-handoff} to the terminal window. The consumer route remains the finite route through $R,W,D,E,H,C,P,N$, so the induction never creates quotient stream equality, a selected limit, host real equality, countable choice, open-cover compactness, Real completeness, or any host uniformity coordinate.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy uniformity Real seal handoff]
 \label{thm:regular-cauchy-uniformity-real-seal-handoff}
 Every $\RealUp$ or $\MetricCompletionUp$ consumer of an accepted $\RegularCauchyUniformityUp$ carrier sees the uniformity only through the finite route
@@ -87,7 +107,7 @@ The provenance and local naming rows $P,N$ package the same route for $\RealUp$,
 \begin{closurestatus}{\RegularCauchyUniformityUp}
   \constructivestory{A $\RegularCauchyUniformityUp$ packet is generated from a regular rational name row, a finite StreamName window row, a DyadicRatCore tolerance row, a dyadic-entourage row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-uniformity-carrier}, \autoref{thm:regular-cauchy-uniformity-namecert-obligations}, \autoref{thm:regular-cauchy-uniformity-dyadic-entourage-stability}, and \autoref{thm:regular-cauchy-uniformity-real-seal-handoff} seed the finite dyadic-entourage uniformity surface for RegSeqRat, StreamName, DyadicRatCore, Real, UniformSpace, and MetricCompletion consumers.}
+  \scopeclosed{\autoref{def:regular-cauchy-uniformity-carrier}, \autoref{thm:regular-cauchy-uniformity-namecert-obligations}, \autoref{thm:regular-cauchy-uniformity-dyadic-entourage-stability}, \autoref{thm:regular-cauchy-uniformity-common-refinement-transitivity}, and \autoref{thm:regular-cauchy-uniformity-real-seal-handoff} seed the finite dyadic-entourage uniformity surface for RegSeqRat, StreamName, DyadicRatCore, Real, UniformSpace, and MetricCompletion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, host real equality, countable choice, open-cover compactness, Real completeness, Lean verification, or a public standard bridge.}
