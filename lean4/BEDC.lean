@@ -3477,6 +3477,7 @@ import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
 import BEDC.Derived.MetricSubspaceUp.TasteGate
+import BEDC.Derived.MetricTopologyUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CenterBoundContinuation
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CenterReuseDeterminacy
