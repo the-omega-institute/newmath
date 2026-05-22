@@ -88,4 +88,33 @@ theorem FiniteLebesgueNumberRegSeqStreamNameNonescape [AskSetup] [PackageSetup]
       fun hostReturn =>
         cont_mutual_extension_right_tail_absurd.right regseqRouteReal hostReturn⟩
 
+theorem FiniteLebesgueNumberRealSourceLedgerCoverage [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow streamRead regularRead
+      realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont window radius streamRead →
+        Cont streamRead mesh regularRead →
+          Cont regularRead nameRow realRead →
+            PkgSig bundle realRead pkg →
+              UnaryHistory streamRead ∧ UnaryHistory regularRead ∧ UnaryHistory realRead ∧
+                Cont window radius streamRead ∧ Cont streamRead mesh regularRead ∧
+                  Cont regularRead nameRow realRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier windowRadiusStream streamMeshRegular regularNameReal realPkg
+  obtain ⟨_coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, _routeUnary,
+    provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed windowUnary radiusUnary windowRadiusStream
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed streamUnary meshUnary streamMeshRegular
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed regularUnary nameRowUnary regularNameReal
+  exact
+    ⟨streamUnary, regularUnary, realUnary, windowRadiusStream, streamMeshRegular,
+      regularNameReal, provenancePkg, realPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
