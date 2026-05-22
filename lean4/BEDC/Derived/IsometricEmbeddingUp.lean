@@ -208,4 +208,41 @@ theorem IsometricEmbeddingCarrier_real_distance_route_determinacy [AskSetup] [Pa
       targetDistanceUnary, reflectionUnary, routesUnary, consumerUnary, sourceGraph,
       distanceReflection, reflectionRoutesConsumer, pkgReflection, consumerPkg⟩
 
+theorem IsometricEmbeddingCarrier_completion_reflection_handoff [AskSetup] [PackageSetup]
+    {source target graph sourceDistance targetDistance reflection transports routes provenance
+      localCert completionConsumer separatedConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IsometricEmbeddingCarrier source target graph sourceDistance targetDistance reflection
+        transports routes provenance localCert bundle pkg ->
+      Cont target transports completionConsumer ->
+        Cont reflection routes separatedConsumer ->
+          PkgSig bundle completionConsumer pkg ->
+            PkgSig bundle separatedConsumer pkg ->
+              SemanticNameCert
+                    (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+                    (fun row : BHist => UnaryHistory row ∧ hsame row localCert)
+                    (fun row : BHist => UnaryHistory row ∧ PkgSig bundle reflection pkg)
+                    hsame ∧
+                UnaryHistory target ∧ UnaryHistory reflection ∧
+                  UnaryHistory completionConsumer ∧ UnaryHistory separatedConsumer ∧
+                    Cont source graph target ∧ Cont sourceDistance targetDistance reflection ∧
+                      Cont target transports completionConsumer ∧
+                        Cont reflection routes separatedConsumer ∧
+                          PkgSig bundle reflection pkg ∧
+                            PkgSig bundle completionConsumer pkg ∧
+                              PkgSig bundle separatedConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro carrier targetTransportsCompletion reflectionRoutesSeparated completionPkg separatedPkg
+  obtain ⟨_sourceUnary, targetUnary, _graphUnary, _sourceDistanceUnary, _targetDistanceUnary,
+    reflectionUnary, transportsUnary, routesUnary, _provenanceUnary, _localCertUnary,
+      sourceGraph, distanceReflection, reflectionPkg, localSemantic⟩ := carrier
+  have completionUnary : UnaryHistory completionConsumer :=
+    unary_cont_closed targetUnary transportsUnary targetTransportsCompletion
+  have separatedUnary : UnaryHistory separatedConsumer :=
+    unary_cont_closed reflectionUnary routesUnary reflectionRoutesSeparated
+  exact
+    ⟨localSemantic, targetUnary, reflectionUnary, completionUnary, separatedUnary, sourceGraph,
+      distanceReflection, targetTransportsCompletion, reflectionRoutesSeparated, reflectionPkg,
+      completionPkg, separatedPkg⟩
+
 end BEDC.Derived.IsometricEmbeddingUp
