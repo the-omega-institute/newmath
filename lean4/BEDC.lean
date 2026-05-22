@@ -3438,6 +3438,7 @@ import BEDC.Derived.LocatedRealIntervalUp.TasteGate
 import BEDC.Derived.LocatedRealTailEnvelopeUp.TasteGate
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
+import BEDC.Derived.LocatedSequenceModulusUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
 import BEDC.Derived.LocatednessModulusUp
