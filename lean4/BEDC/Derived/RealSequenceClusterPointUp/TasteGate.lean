@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealSequenceClusterPointUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -181,5 +184,35 @@ theorem RealSequenceClusterPointTasteGate_single_carrier_alignment :
   constructor
   · exact RealSequenceClusterPointTasteGate_single_carrier_alignment_decode
   · rfl
+
+theorem RealSequenceClusterPointSubsequence_handoff
+    {S J W Q D R H C P N selected clusterRoute : BHist} :
+    UnaryHistory S ->
+      UnaryHistory J ->
+        UnaryHistory Q ->
+          UnaryHistory R ->
+            UnaryHistory H ->
+              Cont S J W ->
+                Cont W Q D ->
+                  Cont D R selected ->
+                    Cont selected H clusterRoute ->
+                      UnaryHistory W ∧ UnaryHistory D ∧ UnaryHistory selected ∧
+                        UnaryHistory clusterRoute ∧
+                          realSequenceClusterPointToEventFlow
+                              (RealSequenceClusterPointUp.mk S J W Q D R H C P N) =
+                            realSequenceClusterPointToEventFlow
+                              (RealSequenceClusterPointUp.mk S J W Q D R H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  intro sourceUnary indexUnary readbackUnary clusterUnary transportUnary indexRoute windowRoute
+    selectedRoute clusterRouteRead
+  have windowUnary : UnaryHistory W :=
+    unary_cont_closed sourceUnary indexUnary indexRoute
+  have dyadicUnary : UnaryHistory D :=
+    unary_cont_closed windowUnary readbackUnary windowRoute
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed dyadicUnary clusterUnary selectedRoute
+  have clusterRouteUnary : UnaryHistory clusterRoute :=
+    unary_cont_closed selectedUnary transportUnary clusterRouteRead
+  exact ⟨windowUnary, dyadicUnary, selectedUnary, clusterRouteUnary, rfl⟩
 
 end BEDC.Derived.RealSequenceClusterPointUp

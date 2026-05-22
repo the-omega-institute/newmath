@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BoundedRealSequenceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -202,5 +205,35 @@ theorem BoundedRealSequenceTasteGate_single_carrier_alignment :
   constructor
   · exact ⟨BoundedRealSequenceTasteGate_single_carrier_alignment_BHistCarrier⟩
   · exact ⟨BoundedRealSequenceTasteGate_single_carrier_alignment_ChapterTasteGate⟩
+
+theorem BoundedRealSequenceFiniteWindow_bound
+    {S W Q R I H C P N sealRead boundRead : BHist} :
+    UnaryHistory S ->
+      UnaryHistory W ->
+        UnaryHistory R ->
+          UnaryHistory I ->
+            UnaryHistory H ->
+              Cont S W Q ->
+                Cont Q R sealRead ->
+                  Cont sealRead I boundRead ->
+                    Cont boundRead H C ->
+                      UnaryHistory Q ∧ UnaryHistory sealRead ∧ UnaryHistory boundRead ∧
+                        UnaryHistory C ∧
+                          BHistCarrier.toEventFlow
+                              (BoundedRealSequenceUp.mk S W Q R I H C P N) =
+                            BoundedRealSequenceTasteGate_single_carrier_alignment_to_event_flow
+                              (BoundedRealSequenceUp.mk S W Q R I H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  intro sourceUnary windowUnary realUnary intervalUnary transportUnary sourceWindow
+    sealRoute boundRoute consumerRoute
+  have readbackUnary : UnaryHistory Q :=
+    unary_cont_closed sourceUnary windowUnary sourceWindow
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary realUnary sealRoute
+  have boundUnary : UnaryHistory boundRead :=
+    unary_cont_closed sealUnary intervalUnary boundRoute
+  have consumerUnary : UnaryHistory C :=
+    unary_cont_closed boundUnary transportUnary consumerRoute
+  exact ⟨readbackUnary, sealUnary, boundUnary, consumerUnary, rfl⟩
 
 end BEDC.Derived.BoundedRealSequenceUp
