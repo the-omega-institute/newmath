@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-22T09:27:12Z
+> 最后刷新: 2026-05-22T11:47:26Z
 
-**Daemon 状态**: monitor (monitor cycle 17, adjust_since_research 3, round_counter 7412, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 19, adjust_since_research 3, round_counter 7792, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (142 条 finding):
-- isolated_theorem: 117 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+**待处理 queue** (146 条 finding):
+- isolated_theorem: 121 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - low_entropy_template: 24 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 - missing_origin: 1 条; 代表样本 `dyadic`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 112 次
-- TASTE ALERT category=low_entropy_template: 5 次
-- TASTE ALERT category=missing_origin: 3 次
+- TASTE ALERT category=isolated_theorem: 97 次
+- TASTE ALERT category=missing_origin: 4 次
+- TASTE ALERT category=low_entropy_template: 3 次
 - TASTE ALERT category=dossier_snapshot_push_failed: 2 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
 - TASTE ALERT category=resolution_merge_failed: 1 次
@@ -159,6 +159,8 @@ to case-by-case judgment.
 - 2026-05-22T04:24:36Z: `resolved` `add_downstream_user` for `BEDC.Derived.FiniteWindowRealSealAuditUp.FiniteWindowRealSealAuditCarrier_refusal_transport` (flag `isolated_theorem`, finding `isolated_theorem:finitewindowrealsealaudit:90f06f16`). Rationale: The theorem is not a disposable wrapper: the chapter uses it as the transport-stability claim for the finite-window Real-seal audit route, and the Lean statement transports the full carrier across componentwise hsame while preserving the target Cont and PkgSig rows. Grep showed no existing Lean downstream use, so I added FiniteWindowRealSealAuditCarrier_transport_nonescape in the same row family; it uses the flagged theorem to build the transported carrier and then feeds that result into the existing nonescape theorem, tying refusal transport to an actual consumer certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-05-22T09:27:02Z: `resolved` `add_downstream_user` for `BEDC.Derived.DoCalculusUp.DoCalculusPacket_namecert_obligation_surface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.DoCalculusUp.DoCalculusPacket_namecert_obligation_surface:ae9f6b20`). Rationale: The target is not a trivial wrapper: it constructs a SemanticNameCert for the DoCalculus local naming surface and proves UnaryHistory closure for intervention, adjustment, and probability reads. It was isolated because only the paper marker referenced it, so I added a sibling TasteGate consumer theorem that combines the DoCalculus event-flow round trip and field readback with this NameCert obligation surface, making the original theorem an actual Lean dependency. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-22T10:46:30Z: `resolved` `add_downstream_user` for `BEDC.Derived.DoCalculusUp.DoCalculusPacket_adjustment_ledger_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.DoCalculusUp.DoCalculusPacket_adjustment_ledger_exactness:ae9f6b20`). Rationale: The theorem has real BEDC content: it extracts the adjustment ledger's UnaryHistory closure, Cont routes, and both localName and adjustmentRead PkgSig facts from an accepted DoCalculusPacket. It was isolated because only the paper marker referenced it, so I added a sibling TasteGate consumer theorem that combines the DoCalculus event-flow round trip and field readback with this adjustment ledger exactness result, making the target a real Lean dependency without changing the paper marker. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
