@@ -192,3 +192,24 @@ theorem CauchyQuotientBoundaryUp_single_carrier_alignment :
   · rfl
 
 end BEDC.Derived.CauchyQuotientBoundaryUp
+
+namespace BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.Derived.CauchyQuotientBoundaryUp
+
+theorem CauchyQuotientBoundaryUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      cauchyQuotientBoundaryDecodeBHist (cauchyQuotientBoundaryEncodeBHist h) = h) ∧
+      (∀ x : CauchyQuotientBoundaryUp,
+        cauchyQuotientBoundaryFromEventFlow (cauchyQuotientBoundaryToEventFlow x) =
+          some x) ∧
+      (∀ x y : CauchyQuotientBoundaryUp,
+        cauchyQuotientBoundaryToEventFlow x = cauchyQuotientBoundaryToEventFlow y →
+          x = y) ∧
+      cauchyQuotientBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact BEDC.Derived.CauchyQuotientBoundaryUp.CauchyQuotientBoundaryUp_single_carrier_alignment
+
+end BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
