@@ -181,6 +181,16 @@ def taste_gate : ChapterTasteGate SeparatedMetricReflectionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   separatedMetricReflectionChapterTasteGate
 
+private theorem SeparatedMetricReflectionTasteGate_single_carrier_alignment_instances :
+    Nonempty (ChapterTasteGate SeparatedMetricReflectionUp) ∧
+      Nonempty (FieldFaithful SeparatedMetricReflectionUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial SeparatedMetricReflectionUp) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨⟨separatedMetricReflectionChapterTasteGate⟩,
+      ⟨separatedMetricReflectionFieldFaithful⟩,
+      ⟨separatedMetricReflectionNontrivial⟩⟩
+
 theorem SeparatedMetricReflectionTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate SeparatedMetricReflectionUp) ∧
       Nonempty (FieldFaithful SeparatedMetricReflectionUp) ∧
@@ -196,10 +206,12 @@ theorem SeparatedMetricReflectionTasteGate_single_carrier_alignment :
                   separatedMetricReflectionToEventFlow y → x = y) ∧
                 separatedMetricReflectionEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  have hinstances :=
+    SeparatedMetricReflectionTasteGate_single_carrier_alignment_instances
   exact
-    ⟨⟨separatedMetricReflectionChapterTasteGate⟩,
-      ⟨separatedMetricReflectionFieldFaithful⟩,
-      ⟨separatedMetricReflectionNontrivial⟩,
+    ⟨hinstances.1,
+      hinstances.2.1,
+      hinstances.2.2,
       separatedMetricReflection_decode_encode_bhist,
       separatedMetricReflection_round_trip,
       (fun _ _ heq => separatedMetricReflectionToEventFlow_injective heq),
