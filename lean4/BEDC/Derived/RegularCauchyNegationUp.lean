@@ -167,4 +167,34 @@ theorem RegularCauchyNegationCarrier_bridge_readback_scope [AskSetup] [PackageSe
       transportRouteProvenance, sealProvenanceName, nameRouteBridge, provenancePkg,
       bridgePkg⟩
 
+theorem RegularCauchyNegationCarrier_algebraic_handoff [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name sumRead
+      diffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg ->
+      Cont flipped classifier sumRead ->
+        Cont flipped dyadic diffRead ->
+          PkgSig bundle sumRead pkg ->
+            PkgSig bundle diffRead pkg ->
+              UnaryHistory flipped ∧ UnaryHistory classifier ∧ UnaryHistory dyadic ∧
+                UnaryHistory sealRow ∧ UnaryHistory sumRead ∧ UnaryHistory diffRead ∧
+                  Cont dyadic classifier flipped ∧ Cont flipped sealRow transportRow ∧
+                    Cont flipped classifier sumRead ∧ Cont flipped dyadic diffRead ∧
+                      PkgSig bundle sumRead pkg ∧ PkgSig bundle diffRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier flippedClassifierSum flippedDyadicDiff sumPkg diffPkg
+  obtain ⟨_sourceUnary, _windowUnary, dyadicUnary, classifierUnary, flippedUnary,
+    sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _sourceWindowDyadic, dyadicClassifierFlipped, flippedSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, _provenancePkg, _namePkg⟩ := carrier
+  have sumUnary : UnaryHistory sumRead :=
+    unary_cont_closed flippedUnary classifierUnary flippedClassifierSum
+  have diffUnary : UnaryHistory diffRead :=
+    unary_cont_closed flippedUnary dyadicUnary flippedDyadicDiff
+  exact
+    ⟨flippedUnary, classifierUnary, dyadicUnary, sealUnary, sumUnary, diffUnary,
+      dyadicClassifierFlipped, flippedSealTransport, flippedClassifierSum, flippedDyadicDiff,
+      sumPkg, diffPkg⟩
+
 end BEDC.Derived.RegularCauchyNegationUp
