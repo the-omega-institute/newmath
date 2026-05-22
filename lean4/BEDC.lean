@@ -855,6 +855,7 @@ import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
 import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
+import BEDC.Derived.CauchyConvergenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyConvergenceModulusUp
 import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyCriterionUp
@@ -4770,6 +4771,7 @@ import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.SqueezeRealUp.TasteGate
+import BEDC.Derived.StableManifoldUp.TasteGate
 import BEDC.Derived.StableNegationBoundaryUp
 import BEDC.Derived.StableNegationBoundaryUp.CertificateTruthNonEscape
 import BEDC.Derived.StableNegationBoundaryUp.LedgerExhaustion
