@@ -98,4 +98,45 @@ theorem FiniteWindowRealSealAuditCarrier_nonescape [AskSetup] [PackageSetup]
       consumerUnary, windowRoute, refusalSealRoute, consumerRoute, provenancePkg,
       consumerPkg⟩
 
+theorem FiniteWindowRealSealAuditCarrier_transport_nonescape [AskSetup] [PackageSetup]
+    {window tolerance readback sealRow refusal transports routes provenance name window'
+      tolerance' readback' sealRow' refusal' transports' routes' provenance' name'
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowRealSealAuditCarrier window tolerance readback sealRow refusal transports
+        routes provenance name bundle pkg →
+      hsame window window' →
+        hsame tolerance tolerance' →
+          hsame readback readback' →
+            hsame sealRow sealRow' →
+              hsame refusal refusal' →
+                hsame transports transports' →
+                  hsame routes routes' →
+                    hsame provenance provenance' →
+                      hsame name name' →
+                        Cont window' tolerance' readback' →
+                          Cont readback' refusal' sealRow' →
+                            PkgSig bundle provenance' pkg →
+                              PkgSig bundle name' pkg →
+                                Cont sealRow' name' consumer →
+                                  PkgSig bundle consumer pkg →
+                                    UnaryHistory window' ∧ UnaryHistory tolerance' ∧
+                                      UnaryHistory readback' ∧ UnaryHistory sealRow' ∧
+                                        UnaryHistory refusal' ∧ UnaryHistory consumer ∧
+                                          Cont window' tolerance' readback' ∧
+                                            Cont readback' refusal' sealRow' ∧
+                                              Cont sealRow' name' consumer ∧
+                                                PkgSig bundle provenance' pkg ∧
+                                                  PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameWindow sameTolerance sameReadback sameSealRow sameRefusal sameTransports
+    sameRoutes sameProvenance sameName targetRoute targetRefusalSeal targetProvenancePkg
+    targetNamePkg consumerRoute consumerPkg
+  exact
+    FiniteWindowRealSealAuditCarrier_nonescape
+      (FiniteWindowRealSealAuditCarrier_refusal_transport carrier sameWindow sameTolerance
+        sameReadback sameSealRow sameRefusal sameTransports sameRoutes sameProvenance sameName
+        targetRoute targetRefusalSeal targetProvenancePkg targetNamePkg)
+      consumerRoute consumerPkg
+
 end BEDC.Derived.FiniteWindowRealSealAuditUp
