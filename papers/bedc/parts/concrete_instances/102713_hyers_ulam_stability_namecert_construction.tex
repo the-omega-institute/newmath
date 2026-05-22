@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\HyersUlamStabilityUp$}
+\label{ch:concrete-instances-hyers-ulam-stability-namecert}
+\origin{human}
+
+Following Hyers and Ulam, the $\HyersUlamStabilityUp$ packet records constructive stability of approximate solutions as finite correction data rather than as an ambient completeness theorem. It reads the displayed target-completeness row of \autoref{ch:concrete-instances-completemetric-namecert}, the Lipschitz-control ledger of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the contraction route of \autoref{ch:concrete-instances-contractionmapping-namecert} and \autoref{ch:concrete-instances-picardcontraction-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the surface on which an approximate equation row, an error-bound row, and a correction witness row are kept together before Picard, ODE, or completion-facing consumers read the corrected solution.
+
+\begin{definition}[Hyers--Ulam stability carrier]
+\label{def:hyers-ulam-stability-carrier}
+A $\HyersUlamStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,W,L,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the approximate-solution row, containing the displayed domain cell, candidate solution graph, residual observation, and tolerance request.
+\item $W$ is the correction-witness row, storing the corrected solution name, the finite comparison from the approximate graph to the corrected graph, and the witnessed error bound.
+\item $L$ is the Lipschitz and control ledger. It records the $\LipschitzMapUp$ row, the displayed control constant, the contraction threshold when present, and the finite residual-to-correction estimate.
+\item $M$ is the $\CompleteMetricUp$ handoff row, carrying the regular Cauchy limit witness or complete target surface needed to accept the corrected solution without selecting a host limit.
+\item $R$ is the $\RealUp$ seal row for the displayed error, control, and correction-bound observations.
+\item $H$ records componentwise $\hsame$ transport for the approximate row, correction witness, control ledger, complete-metric handoff, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+A,W,L,M,R \longmapsto \NameCert_{\HyersUlamStabilityUp}.
+$$
+\item $P$ is the $\Pkg$ provenance over $\HyersUlamStabilityUp$, $\CompleteMetricUp$, $\LipschitzMapUp$, $\ContractionMappingUp$, $\PicardContractionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HyersUlamStabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,L,M,R,H,C,P,N$. It has no coordinate for host function equality, a selected exact solution, quotient completion equality, an unbounded stability constant, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Hyers--Ulam stability NameCert obligations]
+\label{thm:hyers-ulam-stability-namecert-obligations}
+For an accepted $\HyersUlamStabilityUp$ carrier
+$$
+S=(A,W,L,M,R,H,C,P,N),
+$$
+the local $\NameCert_{\HyersUlamStabilityUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item approximate-row admission for the displayed candidate solution, residual observation, and tolerance request in $A$;
+\item correction-witness admission for the corrected solution name, graph comparison, and error-bound witness in $W$;
+\item control-ledger admission for the Lipschitz row, contraction threshold when present, and residual-to-correction estimate in $L$;
+\item complete-metric handoff through $M$, requiring every corrected-solution acceptance to pass through the displayed $\CompleteMetricUp$ row;
+\item real-bound sealing through $R$, requiring every error, control, and correction-bound read to reach $\RealUp$ only after $A,W,L,M$ have been displayed;
+\item structural stability through $H,C,P,N$.
+\end{enumerate}
+No Hyers--Ulam stability obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hyers-ulam-stability-carrier}. The approximate candidate, correction witness, control ledger, complete-metric handoff, real-bound seal, transport, replay, provenance, and local name are all rows of the same finite packet.
+
+The approximate and corrected solution data are separated but not detached. The row $A$ exposes the residual and tolerance request, while $W$ supplies the corrected solution name and the finite comparison back to the approximate graph.
+
+The control and completion rows then bind the correction. The row $L$ contains the Lipschitz or contraction ledger that turns the residual into a correction bound, and $M$ supplies the complete-metric handoff through which the corrected solution is accepted.
+
+Finally $R,H,C,P,N$ seal and preserve exactly that route. Since the carrier has no other coordinate, the listed rows exhaust the local NameCert surface and cannot export a selected exact solution, host function equality, quotient completion equality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Hyers--Ulam stability correction route]
+\label{thm:hyers-ulam-stability-correction-route}
+Let $S=(A,W,L,M,R,H,C,P,N)$ be an accepted $\HyersUlamStabilityUp$ carrier. Every correction read exported by $S$ factors through the finite route
+$$
+\LipschitzMapUp \longmapsto \ContractionMappingUp \longmapsto \PicardContractionUp \longmapsto \CompleteMetricUp \longmapsto \RealUp
+$$
+as displayed inside $L,M,R,H,C,P,N$. In particular, the corrected solution is read as a NameCert witness downstream of the approximate residual and the control ledger, not as a host-selected exact solution and not as a consequence of ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with a correction request. The row $A$ displays the approximate solution and the residual tolerance whose stability is being inspected.
+
+Read the control ledger $L$. Its $\LipschitzMapUp$ and contraction-facing rows provide the finite control data that relate the residual to a correction bound, and its Picard-facing row records the iterative correction route when the packet is consumed by a fixed-point or ODE surface.
+
+The corrected solution is accepted through $W$ and $M$. The witness row $W$ gives the corrected name and comparison, while the complete-metric handoff $M$ supplies the convergence or target-completeness route needed by downstream consumers.
+
+The real-valued bound is sealed only after those rows have been displayed. The row $R$ records the $\RealUp$ observations for the residual, control constant, and correction estimate, and the structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Hence the exported correction has no path through a selected exact solution, host function equality, quotient completion equality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Hyers--Ulam completion handoff]
+\label{thm:hyers-ulam-stability-completion-handoff}
+Every $\CompleteMetricUp$ consumer of an accepted $\HyersUlamStabilityUp$ packet receives the approximate row, correction witness, Lipschitz-control ledger, and real-bound seal as one displayed route. The complete-metric row $M$ is therefore a handoff for the correction witness $W$, not an independent assertion that all approximate solutions converge, not a completeness theorem for $\RealUp$, and not a choice principle for exact solutions.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing consumer. The only complete-metric coordinate in the carrier is $M$, and it is listed after the approximate row $A$, the correction witness $W$, and the control ledger $L$.
+
+The consumer therefore reads $M$ together with the rows that make the correction meaningful. The approximate residual is visible in $A$, the corrected solution name and graph comparison are visible in $W$, and the stability estimate is visible in $L$ before the real-bound seal $R$ is consumed.
+
+Componentwise transport and displayed replay preserve this dependency. The rows $H$ and $C$ move and replay the same packet, while $P$ and $N$ source and name it as $\HyersUlamStabilityUp$ data.
+
+Thus completion is exposed only as the handoff for the displayed correction route. No row supplies an independent convergence theorem for arbitrary approximate solutions, completeness of $\RealUp$, host equality of functions, selected exact solutions, or countable choice.
+\end{proof}
+
+\falsifiablePrediction{Every $\HyersUlamStabilityUp$ correction read factors through one approximate-solution row, one correction witness row, one Lipschitz or contraction control ledger, one CompleteMetric handoff row, one RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{complete-metric, lipschitz-map, contraction-mapping, picard-contraction, real: $\HyersUlamStabilityUp$ is not bijective to any listed sibling because it jointly carries approximate residual data, a correction witness, a control ledger, a complete-metric handoff, a RealUp seal, transport, replay, provenance, and local naming as one stability certificate.}
+
+\closureat{HyersUlamStabilityUp}{seedStr}
+
+\begin{closurestatus}{\HyersUlamStabilityUp}
+  \constructivestory{A $\HyersUlamStabilityUp$ packet is generated from an approximate-solution row, a correction witness row, a Lipschitz or contraction control ledger, a CompleteMetric handoff row, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyers-ulam-stability-carrier}, \autoref{thm:hyers-ulam-stability-namecert-obligations}, \autoref{thm:hyers-ulam-stability-correction-route}, and \autoref{thm:hyers-ulam-stability-completion-handoff} seed the finite stability certificate for approximate solutions through correction witnesses, control ledgers, complete-metric handoff, and Real-bound sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, selected exact solutions, quotient completion equality, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, approximate-row admission, correction-witness admission, control-ledger admission, complete-metric handoff, real-bound sealing, transport, replay, provenance, and local naming for BEDC.Derived.HyersUlamStabilityUp.}
+\end{closurestatus}
