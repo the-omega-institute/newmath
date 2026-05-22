@@ -74,9 +74,33 @@ The handoff to $R$ places the inspected rational candidate into the regular rati
 The exactness ledger $T$, componentwise transport $H$, replay $C$, provenance $P$, and local naming row $N$ preserve this order. Hence every exported density read factors through $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before separability is consumed.
 \end{proof}
 
+\begin{theorem}[Real separability dyadic-rational density handoff]
+\label{thm:real-separability-dyadic-rational-density-handoff}
+Every accepted $\RealSeparabilityUp$ density consumer whose tolerance row is served by an accepted $\DyadicDensityRealUp$ witness and whose interval witness is served by $\RationalDensityRealUp$ factors through the finite route
+$$
+\DyadicRatCoreUp \longrightarrow \DyadicDensityRealUp \longrightarrow \RationalDensityRealUp \longrightarrow \RatUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+The route uses only the displayed carrier rows $Q,D,W,R,E,T,H,C,P,N$ together with the dyadic-density surface of \autoref{ch:concrete-instances-dyadic-density-real-namecert} and the rational-density surface of \autoref{ch:concrete-instances-rational-density-real-namecert}. It exports no host real equality, choice-selected dense point, quotient stream, trichotomy, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the accepted $\RealSeparabilityUp$ carrier as
+$$
+S=(Q,D,W,R,E,T,H,C,P,N).
+$$
+The row $D$ is the only tolerance row exposed to the density consumer, while $Q,W,R,E$ are the rational enumeration, finite window, regular readback, and terminal Real seal rows consumed by the existing rational dense handoff.
+
+Read the tolerance request through \autoref{ch:concrete-instances-dyadic-density-real-namecert}. An accepted $\DyadicDensityRealUp$ witness names the dyadic source inside $\DyadicRatCoreUp$ before the Real-facing window and readback rows are inspected, so the request supplies a displayed dyadic witness rather than a selected host real point.
+
+Next read the interval witness through \autoref{ch:concrete-instances-rational-density-real-namecert}. The accepted $\RationalDensityRealUp$ packet turns the displayed interval and dyadic tolerance into a visible $\RatUp$ witness row, with the rational witness routed through its own finite window and ledger rows before any Real seal is available.
+
+Compose those two witness routes with \autoref{thm:real-separability-rational-dense-handoff}. The consumer first sees the $\DyadicRatCoreUp$ source, then the dyadic-density witness, then the rational-density witness, and only then the rational enumeration, StreamName window, RegSeqRat readback, and Real seal recorded by $Q,W,R,E$.
+
+The remaining rows $T,H,C,P,N$ preserve the same order as exactness ledger, componentwise transport, displayed replay, provenance, and local naming. Since none of the three packets contains a coordinate for host real equality, a choice-selected dense point, quotient stream equality, trichotomy, or ambient completeness, the composed handoff cannot export any such data.
+\end{proof}
+
 \begin{closurestatus}{\RealSeparabilityUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-separability-carrier}, \autoref{thm:real-separability-namecert-obligations}, and \autoref{thm:real-separability-rational-dense-handoff} seed the finite rational dense enumeration route for $\RealUp$ consumers through $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\CountableDenseSubsetUp$ data.}
+  \scopeclosed{\autoref{def:real-separability-carrier}, \autoref{thm:real-separability-namecert-obligations}, \autoref{thm:real-separability-rational-dense-handoff}, and \autoref{thm:real-separability-dyadic-rational-density-handoff} seed the finite rational dense enumeration route for $\RealUp$ consumers through $\DyadicDensityRealUp$, $\RationalDensityRealUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\CountableDenseSubsetUp$ data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim host real equality, choice-selected dense points, quotient stream equality, ambient completeness, trichotomy, Lean verification, or bridge checking.}
