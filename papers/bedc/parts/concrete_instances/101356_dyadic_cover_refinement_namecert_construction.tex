@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCoverRefinementUp$}
+\label{ch:concrete-instances-dyadic-cover-refinement-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and the finite dyadic cover discipline, the $\DyadicCoverRefinementUp$ packet records the common refinement data needed to compare two dyadic cover presentations without invoking an open-cover compactness principle. It sits between the dyadic cover surface of \autoref{ch:concrete-instances-dyadiccover-namecert}, the one-step refinement route of \autoref{ch:concrete-instances-dyadic-interval-refinement-namecert}, the ordered partition surface of \autoref{ch:concrete-instances-dyadic-partition-namecert}, and the finite interval-cover handoff of \autoref{ch:concrete-instances-interval-finite-cover-certificate-namecert}. The packet gives $\RealUp$, $\RegSeqRatUp$, and interval finite-cover consumers a reusable finite common-refinement certificate while staying inside displayed cover rows, restriction ledgers, transport, replay, provenance, and local naming.
+
+\begin{definition}[Dyadic cover refinement carrier]
+\label{def:dyadic-cover-refinement-carrier}
+A $\DyadicCoverRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(D_L,D_R,F,L,R_0,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D_L$ and $D_R$ are the two accepted $\DyadicCoverUp$ packets being compared. They expose only finite dyadic centers, radii, interval cells, mesh rows, coverage witnesses, and their local naming data.
+\item $F$ is the displayed common dyadic refinement cover. Its cells are finite dyadic intervals whose endpoints are read through the same dyadic arithmetic and partition discipline used by $\DyadicIntervalRefinementUp$ and $\DyadicPartitionUp$.
+\item $L$ is the left restriction ledger. For each cell of $F$, it records the parent cell of $D_L$ that contains it, together with endpoint containment and coverage preservation rows.
+\item $R_0$ is the right restriction ledger. For each cell of $F$, it records the parent cell of $D_R$ that contains it, together with endpoint containment and coverage preservation rows.
+\item $H$ records componentwise $\hsame$ transport for the two source covers, the common refinement cover, both restriction ledgers, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+D_L,D_R\longmapsto F\longmapsto L,R_0 .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicCoverRefinementUp$, $\DyadicCoverUp$, $\DyadicIntervalRefinementUp$, $\DyadicPartitionUp$, $\IntervalFiniteCoverCertificateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCoverRefinementUp}$ row.
+\end{enumerate}
+The classifier of an accepted packet compares the two cover presentations only through $D_L,D_R,F,L,R_0,H,C,P,N$. It has no coordinate for general open-cover compactness, selected subcovers, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Dyadic cover refinement NameCert obligations]
+\label{thm:dyadic-cover-refinement-namecert-obligations}
+For every accepted $\DyadicCoverRefinementUp$ carrier
+$$
+R=(D_L,D_R,F,L,R_0,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicCoverRefinementUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the two source $\DyadicCoverUp$ packets, the displayed common refinement cover, both restriction ledgers, transport, replay, provenance, and local naming;
+\item left restriction exactness, requiring every cell of $F$ to read its left parent cell through $L$ and preserving the displayed dyadic endpoint containment and finite coverage rows of $D_L$;
+\item right restriction exactness, requiring every cell of $F$ to read its right parent cell through $R_0$ and preserving the displayed dyadic endpoint containment and finite coverage rows of $D_R$;
+\item common-refinement coverage, requiring every coverage read of either source cover to factor through the finite cell family $F$ before any downstream $\RegSeqRatUp$, $\RealUp$, or interval finite-cover consumer can inspect the comparison;
+\item classifier transport through componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ naming, with no escape to general open-cover compactness, selected subcovers, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No local NameCert obligation is stored outside these five rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:dyadic-cover-refinement-carrier}. The tuple displays the two source covers, the finite common refinement cover, the two restriction ledgers, and the structural rows.
+
+Left restriction exactness is the role of $L$. Each refined cell reaches the left source cover only by naming its containing parent cell in $D_L$ and replaying the displayed endpoint containment and finite coverage rows already carried by that source cover.
+
+Right restriction exactness is symmetric through $R_0$. Each refined cell reaches the right source cover only by naming its containing parent cell in $D_R$ and replaying the corresponding endpoint containment and finite coverage rows.
+
+Common-refinement coverage follows because the only comparison cover in the carrier is $F$. Any downstream read by a regular-rational, real-facing, or finite interval-cover consumer must first project $F$ and then use the appropriate restriction ledger.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the same finite route. Since the carrier contains no field for open-cover compactness, selected subcovers, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking, the classifier cannot export such data.
+\end{proof}
+
+\begin{theorem}[Dyadic cover common refinement exactness]
+\label{thm:dyadic-cover-refinement-common-refinement-exactness}
+Let
+$$
+R=(D_L,D_R,F,L,R_0,H,C,P,N)
+$$
+be an accepted $\DyadicCoverRefinementUp$ carrier. Every consumer comparing the two dyadic-cover presentations $D_L$ and $D_R$ factors through the displayed finite route
+$$
+D_L,D_R\longmapsto F\longmapsto L,R_0\longmapsto H,C,P,N .
+$$
+Consequently the comparison reads exactly the common refinement cover, the left and right restriction ledgers, componentwise transport, continuation replay, provenance, and local naming. It cannot read open-cover compactness, selected subcovers, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking from this packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only rows mentioning the two dyadic cover presentations are $D_L$ and $D_R$, and the only row relating them is the displayed common refinement cover $F$.
+
+Read a comparison request. Before it can inspect either source cover through a downstream consumer, it must pass to the finite cells of $F$; there is no separate comparison coordinate in the carrier.
+
+The left and right projections from $F$ are exactly $L$ and $R_0$. Thus the source covers are visible only as parent-cell and coverage-preservation reads along those two restriction ledgers.
+
+The remaining rows $H,C,P,N$ preserve this route by componentwise transport, continuation replay, provenance, and local naming. None of those rows introduces open-cover compactness, selected subcovers, quotient real equality, countable choice, ambient completeness, Lean verification, or bridge data, so every accepted comparison factors through the displayed common refinement.
+\end{proof}
+
+\closureat{DyadicCoverRefinementUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCoverRefinementUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cover-refinement-carrier}, \autoref{thm:dyadic-cover-refinement-namecert-obligations}, and \autoref{thm:dyadic-cover-refinement-common-refinement-exactness} seed the finite common-refinement route between two dyadic cover packets, their displayed refinement cover, both restriction ledgers, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DyadicCoverRefinementUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general open-cover compactness, Heine--Borel, selected subcovers, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, left and right restriction exactness, common-refinement coverage, classifier transport, and common-refinement exactness for BEDC.Derived.DyadicCoverRefinementUp.}
+  \constructivestory{A $\DyadicCoverRefinementUp$ packet is generated from two DyadicCover packets, one displayed finite common dyadic refinement cover, left and right restriction ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
