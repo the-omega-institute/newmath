@@ -25,7 +25,7 @@ def summableTailModulusDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (summableTailModulusDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (summableTailModulusDecodeBHist tail)
 
-private theorem summableTailModulusDecode_encode_bhist :
+private theorem SummableTailModulusTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       summableTailModulusDecodeBHist (summableTailModulusEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -35,19 +35,13 @@ private theorem summableTailModulusDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+def summableTailModulusFields : SummableTailModulusUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | SummableTailModulusUp.mk M D S R B E H C P N => [M, D, S, R, B, E, H, C, P, N]
+
 def summableTailModulusToEventFlow : SummableTailModulusUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | SummableTailModulusUp.mk M D S R B E H C P N =>
-      [summableTailModulusEncodeBHist M,
-        summableTailModulusEncodeBHist D,
-        summableTailModulusEncodeBHist S,
-        summableTailModulusEncodeBHist R,
-        summableTailModulusEncodeBHist B,
-        summableTailModulusEncodeBHist E,
-        summableTailModulusEncodeBHist H,
-        summableTailModulusEncodeBHist C,
-        summableTailModulusEncodeBHist P,
-        summableTailModulusEncodeBHist N]
+  | x => (summableTailModulusFields x).map summableTailModulusEncodeBHist
 
 private def summableTailModulusEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -56,27 +50,25 @@ private def summableTailModulusEventAt : Nat → EventFlow → RawEvent
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => summableTailModulusEventAt index rest
 
-def summableTailModulusFromEventFlow : EventFlow → Option SummableTailModulusUp
+def summableTailModulusFromEventFlow (ef : EventFlow) : Option SummableTailModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (SummableTailModulusUp.mk
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 0 ef))
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 1 ef))
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 2 ef))
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 3 ef))
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 4 ef))
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 5 ef))
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 6 ef))
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 7 ef))
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 8 ef))
-          (summableTailModulusDecodeBHist (summableTailModulusEventAt 9 ef)))
+  some
+    (SummableTailModulusUp.mk
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 0 ef))
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 1 ef))
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 2 ef))
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 3 ef))
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 4 ef))
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 5 ef))
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 6 ef))
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 7 ef))
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 8 ef))
+      (summableTailModulusDecodeBHist (summableTailModulusEventAt 9 ef)))
 
-private theorem summableTailModulus_round_trip :
-    ∀ x : SummableTailModulusUp,
-      summableTailModulusFromEventFlow (summableTailModulusToEventFlow x) = some x := by
+private theorem SummableTailModulusTasteGate_single_carrier_alignment_round_trip
+    (x : SummableTailModulusUp) :
+    summableTailModulusFromEventFlow (summableTailModulusToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk M D S R B E H C P N =>
       change
@@ -93,18 +85,18 @@ private theorem summableTailModulus_round_trip :
             (summableTailModulusDecodeBHist (summableTailModulusEncodeBHist P))
             (summableTailModulusDecodeBHist (summableTailModulusEncodeBHist N))) =
           some (SummableTailModulusUp.mk M D S R B E H C P N)
-      rw [summableTailModulusDecode_encode_bhist M,
-        summableTailModulusDecode_encode_bhist D,
-        summableTailModulusDecode_encode_bhist S,
-        summableTailModulusDecode_encode_bhist R,
-        summableTailModulusDecode_encode_bhist B,
-        summableTailModulusDecode_encode_bhist E,
-        summableTailModulusDecode_encode_bhist H,
-        summableTailModulusDecode_encode_bhist C,
-        summableTailModulusDecode_encode_bhist P,
-        summableTailModulusDecode_encode_bhist N]
+      rw [SummableTailModulusTasteGate_single_carrier_alignment_decode_encode M,
+        SummableTailModulusTasteGate_single_carrier_alignment_decode_encode D,
+        SummableTailModulusTasteGate_single_carrier_alignment_decode_encode S,
+        SummableTailModulusTasteGate_single_carrier_alignment_decode_encode R,
+        SummableTailModulusTasteGate_single_carrier_alignment_decode_encode B,
+        SummableTailModulusTasteGate_single_carrier_alignment_decode_encode E,
+        SummableTailModulusTasteGate_single_carrier_alignment_decode_encode H,
+        SummableTailModulusTasteGate_single_carrier_alignment_decode_encode C,
+        SummableTailModulusTasteGate_single_carrier_alignment_decode_encode P,
+        SummableTailModulusTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem summableTailModulusToEventFlow_injective
+private theorem SummableTailModulusTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : SummableTailModulusUp} :
     summableTailModulusToEventFlow x = summableTailModulusToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -114,48 +106,71 @@ private theorem summableTailModulusToEventFlow_injective
         summableTailModulusFromEventFlow (summableTailModulusToEventFlow y) :=
     congrArg summableTailModulusFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (summableTailModulus_round_trip x).symm
-      (Eq.trans hread (summableTailModulus_round_trip y)))
+    (Eq.trans (SummableTailModulusTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (SummableTailModulusTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem SummableTailModulusTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : SummableTailModulusUp,
+      summableTailModulusFields x = summableTailModulusFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk M₁ D₁ S₁ R₁ B₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk M₂ D₂ S₂ R₂ B₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance summableTailModulusBHistCarrier : BHistCarrier SummableTailModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := summableTailModulusToEventFlow
   fromEventFlow := summableTailModulusFromEventFlow
 
-instance summableTailModulusChapterTasteGate :
-    ChapterTasteGate SummableTailModulusUp where
+instance summableTailModulusChapterTasteGate : ChapterTasteGate SummableTailModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change summableTailModulusFromEventFlow (summableTailModulusToEventFlow x) = some x
-    exact summableTailModulus_round_trip x
+    exact SummableTailModulusTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (summableTailModulusToEventFlow_injective heq)
+    exact hxy (SummableTailModulusTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate SummableTailModulusUp :=
+instance summableTailModulusFieldFaithful : FieldFaithful SummableTailModulusUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := summableTailModulusFields
+  field_faithful := SummableTailModulusTasteGate_single_carrier_alignment_fields_faithful
+
+instance summableTailModulusNontrivial : Nontrivial SummableTailModulusUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨SummableTailModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      SummableTailModulusUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def SummableTailModulusTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate SummableTailModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   summableTailModulusChapterTasteGate
 
-namespace TasteGate
-
 theorem SummableTailModulusTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate SummableTailModulusUp) ∧
-      (∀ h : BHist,
-        summableTailModulusDecodeBHist (summableTailModulusEncodeBHist h) = h) ∧
+    (∀ h : BHist, summableTailModulusDecodeBHist (summableTailModulusEncodeBHist h) = h) ∧
       (∀ x : SummableTailModulusUp,
         summableTailModulusFromEventFlow (summableTailModulusToEventFlow x) = some x) ∧
-      (∀ x y : SummableTailModulusUp,
-        summableTailModulusToEventFlow x = summableTailModulusToEventFlow y → x = y) ∧
-      summableTailModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : SummableTailModulusUp,
+          summableTailModulusToEventFlow x = summableTailModulusToEventFlow y → x = y) ∧
+          summableTailModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨⟨summableTailModulusChapterTasteGate⟩,
-      summableTailModulusDecode_encode_bhist,
-      summableTailModulus_round_trip,
-      (fun _ _ heq => summableTailModulusToEventFlow_injective heq),
+    ⟨SummableTailModulusTasteGate_single_carrier_alignment_decode_encode,
+      SummableTailModulusTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        SummableTailModulusTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
-
-end TasteGate
 
 end BEDC.Derived.SummableTailModulusUp

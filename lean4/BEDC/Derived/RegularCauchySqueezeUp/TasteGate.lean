@@ -25,7 +25,7 @@ def regularCauchySqueezeDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchySqueezeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchySqueezeDecodeBHist tail)
 
-private theorem regularCauchySqueezeDecode_encode_bhist :
+private theorem RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       regularCauchySqueezeDecodeBHist (regularCauchySqueezeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -35,20 +35,13 @@ private theorem regularCauchySqueezeDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+def regularCauchySqueezeFields : RegularCauchySqueezeUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchySqueezeUp.mk L M U W D T E H C P N => [L, M, U, W, D, T, E, H, C, P, N]
+
 def regularCauchySqueezeToEventFlow : RegularCauchySqueezeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchySqueezeUp.mk L M U W D T E H C P N =>
-      [regularCauchySqueezeEncodeBHist L,
-        regularCauchySqueezeEncodeBHist M,
-        regularCauchySqueezeEncodeBHist U,
-        regularCauchySqueezeEncodeBHist W,
-        regularCauchySqueezeEncodeBHist D,
-        regularCauchySqueezeEncodeBHist T,
-        regularCauchySqueezeEncodeBHist E,
-        regularCauchySqueezeEncodeBHist H,
-        regularCauchySqueezeEncodeBHist C,
-        regularCauchySqueezeEncodeBHist P,
-        regularCauchySqueezeEncodeBHist N]
+  | x => (regularCauchySqueezeFields x).map regularCauchySqueezeEncodeBHist
 
 private def regularCauchySqueezeEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -57,28 +50,26 @@ private def regularCauchySqueezeEventAt : Nat → EventFlow → RawEvent
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => regularCauchySqueezeEventAt index rest
 
-def regularCauchySqueezeFromEventFlow : EventFlow → Option RegularCauchySqueezeUp
+def regularCauchySqueezeFromEventFlow (ef : EventFlow) : Option RegularCauchySqueezeUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (RegularCauchySqueezeUp.mk
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 0 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 1 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 2 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 3 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 4 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 5 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 6 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 7 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 8 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 9 ef))
-          (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 10 ef)))
+  some
+    (RegularCauchySqueezeUp.mk
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 0 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 1 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 2 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 3 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 4 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 5 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 6 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 7 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 8 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 9 ef))
+      (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEventAt 10 ef)))
 
-private theorem regularCauchySqueeze_round_trip :
-    ∀ x : RegularCauchySqueezeUp,
-      regularCauchySqueezeFromEventFlow (regularCauchySqueezeToEventFlow x) = some x := by
+private theorem RegularCauchySqueezeTasteGate_single_carrier_alignment_round_trip
+    (x : RegularCauchySqueezeUp) :
+    regularCauchySqueezeFromEventFlow (regularCauchySqueezeToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk L M U W D T E H C P N =>
       change
@@ -96,19 +87,19 @@ private theorem regularCauchySqueeze_round_trip :
             (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEncodeBHist P))
             (regularCauchySqueezeDecodeBHist (regularCauchySqueezeEncodeBHist N))) =
           some (RegularCauchySqueezeUp.mk L M U W D T E H C P N)
-      rw [regularCauchySqueezeDecode_encode_bhist L,
-        regularCauchySqueezeDecode_encode_bhist M,
-        regularCauchySqueezeDecode_encode_bhist U,
-        regularCauchySqueezeDecode_encode_bhist W,
-        regularCauchySqueezeDecode_encode_bhist D,
-        regularCauchySqueezeDecode_encode_bhist T,
-        regularCauchySqueezeDecode_encode_bhist E,
-        regularCauchySqueezeDecode_encode_bhist H,
-        regularCauchySqueezeDecode_encode_bhist C,
-        regularCauchySqueezeDecode_encode_bhist P,
-        regularCauchySqueezeDecode_encode_bhist N]
+      rw [RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode L,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode M,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode U,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode W,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode D,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode T,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode E,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode H,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode C,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode P,
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem regularCauchySqueezeToEventFlow_injective
+private theorem RegularCauchySqueezeTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RegularCauchySqueezeUp} :
     regularCauchySqueezeToEventFlow x = regularCauchySqueezeToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -118,48 +109,73 @@ private theorem regularCauchySqueezeToEventFlow_injective
         regularCauchySqueezeFromEventFlow (regularCauchySqueezeToEventFlow y) :=
     congrArg regularCauchySqueezeFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (regularCauchySqueeze_round_trip x).symm
-      (Eq.trans hread (regularCauchySqueeze_round_trip y)))
+    (Eq.trans (RegularCauchySqueezeTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (RegularCauchySqueezeTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem RegularCauchySqueezeTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : RegularCauchySqueezeUp,
+      regularCauchySqueezeFields x = regularCauchySqueezeFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk L₁ M₁ U₁ W₁ D₁ T₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk L₂ M₂ U₂ W₂ D₂ T₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance regularCauchySqueezeBHistCarrier : BHistCarrier RegularCauchySqueezeUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := regularCauchySqueezeToEventFlow
   fromEventFlow := regularCauchySqueezeFromEventFlow
 
-instance regularCauchySqueezeChapterTasteGate :
-    ChapterTasteGate RegularCauchySqueezeUp where
+instance regularCauchySqueezeChapterTasteGate : ChapterTasteGate RegularCauchySqueezeUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change regularCauchySqueezeFromEventFlow (regularCauchySqueezeToEventFlow x) = some x
-    exact regularCauchySqueeze_round_trip x
+    exact RegularCauchySqueezeTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (regularCauchySqueezeToEventFlow_injective heq)
+    exact hxy (RegularCauchySqueezeTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate RegularCauchySqueezeUp :=
+instance regularCauchySqueezeFieldFaithful : FieldFaithful RegularCauchySqueezeUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchySqueezeFields
+  field_faithful := RegularCauchySqueezeTasteGate_single_carrier_alignment_fields_faithful
+
+instance regularCauchySqueezeNontrivial : Nontrivial RegularCauchySqueezeUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchySqueezeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      RegularCauchySqueezeUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def RegularCauchySqueezeTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate RegularCauchySqueezeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchySqueezeChapterTasteGate
 
-namespace TasteGate
-
 theorem RegularCauchySqueezeTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate RegularCauchySqueezeUp) ∧
-      (∀ h : BHist,
-        regularCauchySqueezeDecodeBHist (regularCauchySqueezeEncodeBHist h) = h) ∧
+    (∀ h : BHist, regularCauchySqueezeDecodeBHist (regularCauchySqueezeEncodeBHist h) = h) ∧
       (∀ x : RegularCauchySqueezeUp,
         regularCauchySqueezeFromEventFlow (regularCauchySqueezeToEventFlow x) = some x) ∧
-      (∀ x y : RegularCauchySqueezeUp,
-        regularCauchySqueezeToEventFlow x = regularCauchySqueezeToEventFlow y → x = y) ∧
-      regularCauchySqueezeEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : RegularCauchySqueezeUp,
+          regularCauchySqueezeToEventFlow x = regularCauchySqueezeToEventFlow y → x = y) ∧
+          regularCauchySqueezeEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨⟨regularCauchySqueezeChapterTasteGate⟩,
-      regularCauchySqueezeDecode_encode_bhist,
-      regularCauchySqueeze_round_trip,
-      (fun _ _ heq => regularCauchySqueezeToEventFlow_injective heq),
+    ⟨RegularCauchySqueezeTasteGate_single_carrier_alignment_decode_encode,
+      RegularCauchySqueezeTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        RegularCauchySqueezeTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
-
-end TasteGate
 
 end BEDC.Derived.RegularCauchySqueezeUp
