@@ -101,4 +101,29 @@ theorem IsometricEmbeddingCarrier_completion_boundary [AskSetup] [PackageSetup]
   exact
     ⟨consumerUnary, sourceGraph, targetTransportsConsumer, pkgReflection, consumerPkg⟩
 
+theorem IsometricEmbeddingCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source target graph sourceDistance targetDistance reflection transports routes provenance
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IsometricEmbeddingCarrier source target graph sourceDistance targetDistance reflection
+        transports routes provenance localCert bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+          (fun row : BHist => UnaryHistory row ∧ hsame row localCert)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle reflection pkg)
+          hsame ∧
+        UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+          UnaryHistory sourceDistance ∧ UnaryHistory targetDistance ∧
+            UnaryHistory reflection ∧ Cont source graph target ∧
+              Cont sourceDistance targetDistance reflection ∧ PkgSig bundle reflection pkg := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame Cont ProbeBundle Pkg
+  intro carrier
+  obtain ⟨sourceUnary, targetUnary, graphUnary, sourceDistanceUnary, targetDistanceUnary,
+    reflectionUnary, _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary,
+    sourceGraphTarget, distanceReflection, reflectionPkg, localSemantic⟩ := carrier
+  exact
+    ⟨localSemantic, sourceUnary, targetUnary, graphUnary, sourceDistanceUnary,
+      targetDistanceUnary, reflectionUnary, sourceGraphTarget, distanceReflection,
+      reflectionPkg⟩
+
 end BEDC.Derived.IsometricEmbeddingUp
