@@ -224,8 +224,8 @@ private theorem BinaryEndpointNormalizationTasteGate_single_carrier_alignment_in
         binaryEndpointNormalizationFromEventFlow (binaryEndpointNormalizationToEventFlow y) :=
     congrArg binaryEndpointNormalizationFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans
+        (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_round_trip y)))
 
@@ -247,6 +247,10 @@ instance binaryEndpointNormalizationChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (BinaryEndpointNormalizationTasteGate_single_carrier_alignment_injective heq)
+
+def taste_gate : ChapterTasteGate BinaryEndpointNormalizationUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  binaryEndpointNormalizationChapterTasteGate
 
 theorem BinaryEndpointNormalizationTasteGate_single_carrier_alignment :
     (∀ h : BHist,
