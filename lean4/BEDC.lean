@@ -1394,6 +1394,7 @@ import BEDC.Derived.CofinalWindowRealSealUp.TerminalMeet
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.CollisionKernelUp
+import BEDC.Derived.CollisionKernelUp.TasteGate
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.CrossTerm
 import BEDC.Derived.CommRingUp.DiagonalExtractionPackage
@@ -2069,6 +2070,7 @@ import BEDC.Derived.DiagonalModulusUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.Nonescape
 import BEDC.Derived.DiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.WindowFactorization
+import BEDC.Derived.DiagonalSubsequenceUp.TasteGate
 import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.DiagonallimitcompatibilityUp
 import BEDC.Derived.DiagonallimitcompatibilityUp.AmbientCompletenessRefusal
@@ -4283,6 +4285,7 @@ import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealEqualityUp
 import BEDC.Derived.RealEqualityUp.TasteGate
 import BEDC.Derived.RealExponentialUp
+import BEDC.Derived.RealFunctionUniformCauchyUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessSealUp
 import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
@@ -4529,6 +4532,7 @@ import BEDC.Derived.RegSeqRatUp.RealSealRouteExclusionPackage
 import BEDC.Derived.RegSeqRatUp.RealTerminalFourFaceExactness
 import BEDC.Derived.RegSeqRatUp.StreamNameDyadicRealHandoff
 import BEDC.Derived.RegSeqRatUp.TailBudgetTerminalRealSeal
+import BEDC.Derived.RegSeqRatUp.TerminalFourFaceSourceUniqueness
 import BEDC.Derived.RegistryChangeContinuityUp.TasteGate
 import BEDC.Derived.RegistryConsistencyAuditUp.TasteGate
 import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
