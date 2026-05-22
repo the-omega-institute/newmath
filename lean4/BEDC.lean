@@ -582,7 +582,6 @@ import BEDC.Derived.BisectionRootCauchySealUp.TasteGate
 import BEDC.Derived.BisectionRootIsolationUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
-import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
 import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
@@ -1148,6 +1147,7 @@ import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductUp
+import BEDC.Derived.CauchyProductUp.TasteGate
 import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
@@ -2052,6 +2052,8 @@ import BEDC.Derived.CurvatureUp.TensorialSectionTransport
 import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.CyclotomicUp.SplittingPolynomial
+import BEDC.Derived.DarbouxIntegralUp
+import BEDC.Derived.DarbouxIntegralUp.TasteGate
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.BridgeInputSource
