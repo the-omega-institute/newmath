@@ -271,6 +271,34 @@ def RealCauchyModulusCarrier [AskSetup] [PackageSetup]
               (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
               (fun row row' : BHist => hsame row row')
 
+namespace TasteGate
+
+theorem RealCauchyModulusCarrier_window_modulus_route [AskSetup] [PackageSetup]
+    {modulus windows dyadic readback sealRow transports routes provenance localCert
+      routeConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyModulusCarrier modulus windows dyadic readback sealRow transports routes provenance
+        localCert bundle pkg ->
+      Cont sealRow routes routeConsumer ->
+        PkgSig bundle routeConsumer pkg ->
+          UnaryHistory modulus ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+            UnaryHistory sealRow ∧ UnaryHistory routeConsumer ∧ Cont modulus windows dyadic ∧
+              Cont dyadic readback sealRow ∧ Cont sealRow routes routeConsumer ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle routeConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier routeConsumerCont routeConsumerPkg
+  obtain ⟨modulusUnary, windowsUnary, dyadicUnary, _readbackUnary, sealUnary,
+    _transportsUnary, routesUnary, _provenanceUnary, _localCertUnary, modulusWindowRoute,
+      dyadicReadbackRoute, _sealRoute, provenancePkg, _localSemantic⟩ := carrier
+  have routeConsumerUnary : UnaryHistory routeConsumer :=
+    unary_cont_closed sealUnary routesUnary routeConsumerCont
+  exact
+    ⟨modulusUnary, windowsUnary, dyadicUnary, sealUnary, routeConsumerUnary,
+      modulusWindowRoute, dyadicReadbackRoute, routeConsumerCont, provenancePkg,
+      routeConsumerPkg⟩
+
+end TasteGate
+
 theorem RealCauchyModulusCarrier_threshold_stability [AskSetup] [PackageSetup]
     {modulus windows dyadic readback sealRow transports routes provenance localCert modulus'
       windows' dyadic' readback' sealRow' transports' routes' provenance' localCert' : BHist}

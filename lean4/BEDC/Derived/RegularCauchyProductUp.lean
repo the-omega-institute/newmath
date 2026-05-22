@@ -129,6 +129,65 @@ theorem RegularCauchyProductCarrier_real_seal_boundary [AskSetup] [PackageSetup]
       readbackUnary, realReadUnary, endpointProductRow, productBudgetRow,
       readbackProvenanceRead, namePkg, realReadPkg⟩
 
+theorem RegularCauchyProductCarrier_bounded_source_handoff [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name boundedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product budget
+        readback transport route provenance name bundle pkg ->
+      Cont readback budget boundedRead ->
+        PkgSig bundle boundedRead pkg ->
+          UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+            UnaryHistory windowB ∧ UnaryHistory product ∧ UnaryHistory budget ∧
+              UnaryHistory readback ∧ UnaryHistory boundedRead ∧
+                Cont endpointA endpointB product ∧ Cont product budget readback ∧
+                  Cont readback budget boundedRead ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle boundedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier readbackBudgetBounded boundedReadPkg
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, _routeUnary, _provenanceUnary, _windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed productUnary budgetUnary productBudgetRow
+  have boundedReadUnary : UnaryHistory boundedRead :=
+    unary_cont_closed readbackUnary budgetUnary readbackBudgetBounded
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, productUnary, budgetUnary,
+      readbackUnary, boundedReadUnary, endpointProductRow, productBudgetRow,
+      readbackBudgetBounded, namePkg, boundedReadPkg⟩
+
+theorem RegularCauchyProductCarrier_error_budget_exactness [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name budgetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product budget
+        readback transport route provenance name bundle pkg ->
+      Cont readback budget budgetRead ->
+        PkgSig bundle budgetRead pkg ->
+          UnaryHistory endpointA ∧ UnaryHistory endpointB ∧ UnaryHistory product ∧
+            UnaryHistory budget ∧ UnaryHistory readback ∧ UnaryHistory budgetRead ∧
+              Cont endpointA endpointB product ∧ Cont product budget readback ∧
+                Cont readback budget budgetRead ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle budgetRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier readbackBudget budgetReadPkg
+  obtain ⟨_sourceAUnary, _sourceBUnary, _windowAUnary, _windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, _routeUnary, _provenanceUnary, _windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed productUnary budgetUnary productBudgetRow
+  have budgetReadUnary : UnaryHistory budgetRead :=
+    unary_cont_closed readbackUnary budgetUnary readbackBudget
+  exact
+    ⟨endpointAUnary, endpointBUnary, productUnary, budgetUnary, readbackUnary,
+      budgetReadUnary, endpointProductRow, productBudgetRow, readbackBudget, namePkg,
+      budgetReadPkg⟩
+
 theorem RegularCauchyProductCarrier_source_window_transport [AskSetup] [PackageSetup]
     {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
       provenance name sourceA' sourceB' windowA' windowB' transport' : BHist}
