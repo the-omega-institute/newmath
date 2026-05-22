@@ -42,29 +42,41 @@ def realOneToEventFlow : RealOneUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (realOneFields x).map realOneEncodeBHist
 
-private def realOneEventAtDefault : Nat → EventFlow → RawEvent
+private def realOneRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => realOneEventAtDefault index rest
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => realOneRawAt n rest
 
-def realOneFromEventFlow (flow : EventFlow) : Option RealOneUp :=
+private def realOneLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RealOneUp.mk
-      (realOneDecodeBHist (realOneEventAtDefault 0 flow))
-      (realOneDecodeBHist (realOneEventAtDefault 1 flow))
-      (realOneDecodeBHist (realOneEventAtDefault 2 flow))
-      (realOneDecodeBHist (realOneEventAtDefault 3 flow))
-      (realOneDecodeBHist (realOneEventAtDefault 4 flow))
-      (realOneDecodeBHist (realOneEventAtDefault 5 flow))
-      (realOneDecodeBHist (realOneEventAtDefault 6 flow))
-      (realOneDecodeBHist (realOneEventAtDefault 7 flow))
-      (realOneDecodeBHist (realOneEventAtDefault 8 flow)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => realOneLengthEq n rest
+
+def realOneFromEventFlow : EventFlow → Option RealOneUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match realOneLengthEq 9 flow with
+      | true =>
+          some
+            (RealOneUp.mk
+              (realOneDecodeBHist (realOneRawAt 0 flow))
+              (realOneDecodeBHist (realOneRawAt 1 flow))
+              (realOneDecodeBHist (realOneRawAt 2 flow))
+              (realOneDecodeBHist (realOneRawAt 3 flow))
+              (realOneDecodeBHist (realOneRawAt 4 flow))
+              (realOneDecodeBHist (realOneRawAt 5 flow))
+              (realOneDecodeBHist (realOneRawAt 6 flow))
+              (realOneDecodeBHist (realOneRawAt 7 flow))
+              (realOneDecodeBHist (realOneRawAt 8 flow)))
+      | false => none
 
 private theorem realOne_round_trip :
-    ∀ x : RealOneUp, realOneFromEventFlow (realOneToEventFlow x) = some x := by
+    ∀ x : RealOneUp,
+      realOneFromEventFlow (realOneToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -99,6 +111,17 @@ private theorem RealOneToEventFlow_injective {x y : RealOneUp} :
   exact Option.some.inj
     (Eq.trans (realOne_round_trip x).symm (Eq.trans hread (realOne_round_trip y)))
 
+private theorem realOne_field_faithful :
+    ∀ x y : RealOneUp, realOneFields x = realOneFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk q1 S1 R1 D1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk q2 S2 R2 D2 E2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance realOneBHistCarrier : BHistCarrier RealOneUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := realOneToEventFlow
@@ -114,18 +137,42 @@ instance realOneChapterTasteGate : ChapterTasteGate RealOneUp where
     intro x y hxy heq
     exact hxy (RealOneToEventFlow_injective heq)
 
+instance realOneFieldFaithful : FieldFaithful RealOneUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := realOneFields
+  field_faithful := realOne_field_faithful
+
+instance realOneNontrivial : BEDC.Meta.TasteGate.Nontrivial RealOneUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RealOneUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealOneUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate RealOneUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realOneChapterTasteGate
 
 theorem RealOneTasteGate_single_carrier_alignment :
-    (∀ h : BHist, realOneDecodeBHist (realOneEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate RealOneUp) ∧
+      Nonempty (FieldFaithful RealOneUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RealOneUp) ∧
+      (∀ h : BHist, realOneDecodeBHist (realOneEncodeBHist h) = h) ∧
       (∀ x : RealOneUp, realOneFromEventFlow (realOneToEventFlow x) = some x) ∧
-        (∀ x y : RealOneUp, realOneToEventFlow x = realOneToEventFlow y → x = y) ∧
-          realOneEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+      (∀ x y : RealOneUp, realOneToEventFlow x = realOneToEventFlow y → x = y) ∧
+      realOneEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   exact
-    ⟨realOne_decode_encode_bhist, realOne_round_trip,
-      (fun _ _ heq => RealOneToEventFlow_injective heq), rfl⟩
+    ⟨Nonempty.intro realOneChapterTasteGate,
+      Nonempty.intro realOneFieldFaithful,
+      Nonempty.intro realOneNontrivial,
+      realOne_decode_encode_bhist,
+      realOne_round_trip,
+      (fun _ _ heq => RealOneToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.RealOneUp
