@@ -156,4 +156,46 @@ theorem FiniteLebesgueNumberBudgetedRealCompletionNonescape [AskSetup] [PackageS
     ⟨compactRadiusUnary, compactWindowUnary, uniformUnary, completionUnary, provenancePkg,
       completionPkg, cert⟩
 
+def FiniteLebesgueNumberChoiceFreeTailRadiusLedger [AskSetup] [PackageSetup]
+    (cover window radius mesh tailAdmission streamTail regularTail realTail transport route
+      provenance nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+      bundle pkg ∧
+    Cont window radius tailAdmission ∧
+      Cont tailAdmission mesh streamTail ∧
+        Cont streamTail route regularTail ∧
+          Cont regularTail nameRow realTail ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle realTail pkg
+
+theorem FiniteLebesgueNumberChoiceFreeTailRadiusLedger_fields [AskSetup] [PackageSetup]
+    {cover window radius mesh tailAdmission streamTail regularTail realTail transport route
+      provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberChoiceFreeTailRadiusLedger cover window radius mesh tailAdmission
+        streamTail regularTail realTail transport route provenance nameRow bundle pkg ->
+      UnaryHistory tailAdmission ∧ UnaryHistory streamTail ∧ UnaryHistory regularTail ∧
+        UnaryHistory realTail ∧ Cont window radius tailAdmission ∧
+          Cont tailAdmission mesh streamTail ∧ Cont streamTail route regularTail ∧
+            Cont regularTail nameRow realTail ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle realTail pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro ledger
+  obtain ⟨carrier, windowRadiusTail, tailMeshStream, streamRouteRegular, regularNameReal,
+    provenancePkg, realPkg⟩ := ledger
+  obtain ⟨_coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, _carrierPkg⟩ := carrier
+  have tailUnary : UnaryHistory tailAdmission :=
+    unary_cont_closed windowUnary radiusUnary windowRadiusTail
+  have streamUnary : UnaryHistory streamTail :=
+    unary_cont_closed tailUnary meshUnary tailMeshStream
+  have regularUnary : UnaryHistory regularTail :=
+    unary_cont_closed streamUnary routeUnary streamRouteRegular
+  have realUnary : UnaryHistory realTail :=
+    unary_cont_closed regularUnary nameRowUnary regularNameReal
+  exact
+    ⟨tailUnary, streamUnary, regularUnary, realUnary, windowRadiusTail, tailMeshStream,
+      streamRouteRegular, regularNameReal, provenancePkg, realPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
