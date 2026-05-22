@@ -1112,6 +1112,7 @@ import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
+import BEDC.Derived.CauchyRealOrderUp.TasteGate
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
 import BEDC.Derived.CauchyRepresentationUp.TasteGate
@@ -1477,6 +1478,7 @@ import BEDC.Derived.CompilerTraceFaithfulnessUp
 import BEDC.Derived.CompilerTraceFaithfulnessUp.TasteGate
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
+import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionEmbeddingUp
 import BEDC.Derived.CompletionExtractorUp
@@ -3353,6 +3355,7 @@ import BEDC.Derived.LocatedIntervalUp.StdBridge
 import BEDC.Derived.LocatedIntervalUp.TasteGate
 import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedModulusCompletionUp
+import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalUp.TasteGate
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
@@ -5320,6 +5323,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowRefinementExactness
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
 import BEDC.Derived.UniformCauchyFilterUp.TasteGate
+import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
