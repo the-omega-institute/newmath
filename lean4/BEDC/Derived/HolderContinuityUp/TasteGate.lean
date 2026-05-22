@@ -126,6 +126,21 @@ private theorem holderContinuityToEventFlow_injective {x y : HolderContinuityUp}
     (Eq.trans (holderContinuity_round_trip x).symm
       (Eq.trans hread (holderContinuity_round_trip y)))
 
+def holderContinuityFields : HolderContinuityUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | HolderContinuityUp.mk X Y G alpha K M H C P N => [X, Y, G, alpha, K, M, H, C, P, N]
+
+private theorem holderContinuity_field_faithful :
+    ∀ x y : HolderContinuityUp, holderContinuityFields x = holderContinuityFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk X1 Y1 G1 alpha1 K1 M1 H1 C1 P1 N1 =>
+      cases y with
+      | mk X2 Y2 G2 alpha2 K2 M2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance holderContinuityBHistCarrier : BHistCarrier HolderContinuityUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := holderContinuityToEventFlow
@@ -145,6 +160,22 @@ def taste_gate : ChapterTasteGate HolderContinuityUp :=
   -- BEDC touchpoint anchor: BHist BMark
   holderContinuityChapterTasteGate
 
+instance holderContinuityFieldFaithful : FieldFaithful HolderContinuityUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := holderContinuityFields
+  field_faithful := holderContinuity_field_faithful
+
+instance holderContinuityNontrivial : Nontrivial HolderContinuityUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨HolderContinuityUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      HolderContinuityUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem HolderContinuityUpTasteGate_single_carrier_alignment :
     (∀ h : BHist, holderContinuityDecodeBHist (holderContinuityEncodeBHist h) = h) ∧
       (∀ x : HolderContinuityUp,
@@ -155,6 +186,26 @@ theorem HolderContinuityUpTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨holderContinuityDecode_encode,
+      holderContinuity_round_trip,
+      fun _ _ heq => holderContinuityToEventFlow_injective heq,
+      rfl⟩
+
+theorem HolderContinuityTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate HolderContinuityUp) ∧
+      Nonempty (FieldFaithful HolderContinuityUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial HolderContinuityUp) ∧
+      (∀ h : BHist, holderContinuityDecodeBHist (holderContinuityEncodeBHist h) = h) ∧
+      (∀ x : HolderContinuityUp,
+        holderContinuityFromEventFlow (holderContinuityToEventFlow x) = some x) ∧
+      (∀ x y : HolderContinuityUp,
+        holderContinuityToEventFlow x = holderContinuityToEventFlow y → x = y) ∧
+      holderContinuityEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨Nonempty.intro holderContinuityChapterTasteGate,
+      Nonempty.intro holderContinuityFieldFaithful,
+      Nonempty.intro holderContinuityNontrivial,
+      holderContinuityDecode_encode,
       holderContinuity_round_trip,
       fun _ _ heq => holderContinuityToEventFlow_injective heq,
       rfl⟩
