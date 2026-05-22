@@ -25,17 +25,19 @@ def dedekindCutCauchyBoundaryDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (dedekindCutCauchyBoundaryDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (dedekindCutCauchyBoundaryDecodeBHist tail)
 
-private theorem dedekindCutCauchyBoundary_decode_encode :
+private theorem dedekindCutCauchyBoundaryDecode_encode_bhist :
     ∀ h : BHist,
-      dedekindCutCauchyBoundaryDecodeBHist
-          (dedekindCutCauchyBoundaryEncodeBHist h) =
+      dedekindCutCauchyBoundaryDecodeBHist (dedekindCutCauchyBoundaryEncodeBHist h) =
         h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def dedekindCutCauchyBoundaryFields :
     DedekindCutCauchyBoundaryUp → List BHist
@@ -44,50 +46,65 @@ def dedekindCutCauchyBoundaryFields :
       [L, U, K, Q, S, R, D, E, H, C, P, N]
 
 def dedekindCutCauchyBoundaryToEventFlow :
-    DedekindCutCauchyBoundaryUp → EventFlow :=
+    DedekindCutCauchyBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (dedekindCutCauchyBoundaryFields x).map
-      dedekindCutCauchyBoundaryEncodeBHist
+  | x => (dedekindCutCauchyBoundaryFields x).map dedekindCutCauchyBoundaryEncodeBHist
 
-private def dedekindCutCauchyBoundaryEventAtDefault :
-    Nat → EventFlow → RawEvent
+def dedekindCutCauchyBoundaryFromEventFlow :
+    EventFlow → Option DedekindCutCauchyBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      dedekindCutCauchyBoundaryEventAtDefault index rest
-
-def dedekindCutCauchyBoundaryFromEventFlow
-    (ef : EventFlow) : Option DedekindCutCauchyBoundaryUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (DedekindCutCauchyBoundaryUp.mk
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 0 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 1 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 2 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 3 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 4 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 5 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 6 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 7 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 8 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 9 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 10 ef))
-      (dedekindCutCauchyBoundaryDecodeBHist
-        (dedekindCutCauchyBoundaryEventAtDefault 11 ef)))
+  | [] => none
+  | L :: restU =>
+      match restU with
+      | [] => none
+      | U :: restK =>
+          match restK with
+          | [] => none
+          | K :: restQ =>
+              match restQ with
+              | [] => none
+              | Q :: restS =>
+                  match restS with
+                  | [] => none
+                  | S :: restR =>
+                      match restR with
+                      | [] => none
+                      | R :: restD =>
+                          match restD with
+                          | [] => none
+                          | D :: restE =>
+                              match restE with
+                              | [] => none
+                              | E :: restH =>
+                                  match restH with
+                                  | [] => none
+                                  | H :: restC =>
+                                      match restC with
+                                      | [] => none
+                                      | C :: restP =>
+                                          match restP with
+                                          | [] => none
+                                          | P :: restN =>
+                                              match restN with
+                                              | [] => none
+                                              | N :: rest =>
+                                                  match rest with
+                                                  | [] =>
+                                                      some
+                                                        (DedekindCutCauchyBoundaryUp.mk
+                                                          (dedekindCutCauchyBoundaryDecodeBHist L)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist U)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist K)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist Q)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist S)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist R)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist D)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist E)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist H)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist C)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist P)
+                                                          (dedekindCutCauchyBoundaryDecodeBHist N))
+                                                  | _ :: _ => none
 
 private theorem dedekindCutCauchyBoundary_round_trip :
     ∀ x : DedekindCutCauchyBoundaryUp,
@@ -126,18 +143,18 @@ private theorem dedekindCutCauchyBoundary_round_trip :
             (dedekindCutCauchyBoundaryDecodeBHist
               (dedekindCutCauchyBoundaryEncodeBHist N))) =
           some (DedekindCutCauchyBoundaryUp.mk L U K Q S R D E H C P N)
-      rw [dedekindCutCauchyBoundary_decode_encode L,
-        dedekindCutCauchyBoundary_decode_encode U,
-        dedekindCutCauchyBoundary_decode_encode K,
-        dedekindCutCauchyBoundary_decode_encode Q,
-        dedekindCutCauchyBoundary_decode_encode S,
-        dedekindCutCauchyBoundary_decode_encode R,
-        dedekindCutCauchyBoundary_decode_encode D,
-        dedekindCutCauchyBoundary_decode_encode E,
-        dedekindCutCauchyBoundary_decode_encode H,
-        dedekindCutCauchyBoundary_decode_encode C,
-        dedekindCutCauchyBoundary_decode_encode P,
-        dedekindCutCauchyBoundary_decode_encode N]
+      rw [dedekindCutCauchyBoundaryDecode_encode_bhist L,
+        dedekindCutCauchyBoundaryDecode_encode_bhist U,
+        dedekindCutCauchyBoundaryDecode_encode_bhist K,
+        dedekindCutCauchyBoundaryDecode_encode_bhist Q,
+        dedekindCutCauchyBoundaryDecode_encode_bhist S,
+        dedekindCutCauchyBoundaryDecode_encode_bhist R,
+        dedekindCutCauchyBoundaryDecode_encode_bhist D,
+        dedekindCutCauchyBoundaryDecode_encode_bhist E,
+        dedekindCutCauchyBoundaryDecode_encode_bhist H,
+        dedekindCutCauchyBoundaryDecode_encode_bhist C,
+        dedekindCutCauchyBoundaryDecode_encode_bhist P,
+        dedekindCutCauchyBoundaryDecode_encode_bhist N]
 
 private theorem dedekindCutCauchyBoundaryToEventFlow_injective
     {x y : DedekindCutCauchyBoundaryUp} :
@@ -153,14 +170,12 @@ private theorem dedekindCutCauchyBoundaryToEventFlow_injective
           (dedekindCutCauchyBoundaryToEventFlow y) :=
     congrArg dedekindCutCauchyBoundaryFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (dedekindCutCauchyBoundary_round_trip x).symm
+    (Eq.trans (dedekindCutCauchyBoundary_round_trip x).symm
       (Eq.trans hread (dedekindCutCauchyBoundary_round_trip y)))
 
-private theorem dedekindCutCauchyBoundary_field_faithful :
+private theorem dedekindCutCauchyBoundary_fields_faithful :
     ∀ x y : DedekindCutCauchyBoundaryUp,
-      dedekindCutCauchyBoundaryFields x =
-          dedekindCutCauchyBoundaryFields y →
+      dedekindCutCauchyBoundaryFields x = dedekindCutCauchyBoundaryFields y →
         x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
@@ -169,29 +184,29 @@ private theorem dedekindCutCauchyBoundary_field_faithful :
       cases y with
       | mk L2 U2 K2 Q2 S2 R2 D2 E2 H2 C2 P2 N2 =>
           injection hfields with hL t1
+          cases hL
           injection t1 with hU t2
+          cases hU
           injection t2 with hK t3
+          cases hK
           injection t3 with hQ t4
+          cases hQ
           injection t4 with hS t5
+          cases hS
           injection t5 with hR t6
+          cases hR
           injection t6 with hD t7
+          cases hD
           injection t7 with hE t8
+          cases hE
           injection t8 with hH t9
+          cases hH
           injection t9 with hC t10
+          cases hC
           injection t10 with hP t11
+          cases hP
           injection t11 with hN _
-          subst hL
-          subst hU
-          subst hK
-          subst hQ
-          subst hS
-          subst hR
-          subst hD
-          subst hE
-          subst hH
-          subst hC
-          subst hP
-          subst hN
+          cases hN
           rfl
 
 instance dedekindCutCauchyBoundaryBHistCarrier :
@@ -218,18 +233,18 @@ instance dedekindCutCauchyBoundaryFieldFaithful :
     FieldFaithful DedekindCutCauchyBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := dedekindCutCauchyBoundaryFields
-  field_faithful := dedekindCutCauchyBoundary_field_faithful
+  field_faithful := dedekindCutCauchyBoundary_fields_faithful
 
 instance dedekindCutCauchyBoundaryNontrivial :
     Nontrivial DedekindCutCauchyBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨DedekindCutCauchyBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      DedekindCutCauchyBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    ⟨DedekindCutCauchyBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      DedekindCutCauchyBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -238,25 +253,45 @@ def taste_gate : ChapterTasteGate DedekindCutCauchyBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   dedekindCutCauchyBoundaryChapterTasteGate
 
-theorem DedekindCutCauchyBoundaryUpTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      dedekindCutCauchyBoundaryDecodeBHist
-          (dedekindCutCauchyBoundaryEncodeBHist h) =
-        h) ∧
-      (∀ x : DedekindCutCauchyBoundaryUp,
-        dedekindCutCauchyBoundaryFromEventFlow
-            (dedekindCutCauchyBoundaryToEventFlow x) =
-          some x) ∧
-      (∀ x y : DedekindCutCauchyBoundaryUp,
-        dedekindCutCauchyBoundaryToEventFlow x =
-            dedekindCutCauchyBoundaryToEventFlow y →
-          x = y) ∧
-      dedekindCutCauchyBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨dedekindCutCauchyBoundary_decode_encode,
-      dedekindCutCauchyBoundary_round_trip,
-      fun _ _ heq => dedekindCutCauchyBoundaryToEventFlow_injective heq,
-      rfl⟩
+namespace TasteGate
+
+theorem DedekindCutCauchyBoundaryTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate DedekindCutCauchyBoundaryUp) ∧
+      Nonempty (FieldFaithful DedekindCutCauchyBoundaryUp) ∧
+        Nonempty (Nontrivial DedekindCutCauchyBoundaryUp) ∧
+          (∀ h : BHist,
+            dedekindCutCauchyBoundaryDecodeBHist
+                (dedekindCutCauchyBoundaryEncodeBHist h) =
+              h) ∧
+            (∀ x : DedekindCutCauchyBoundaryUp,
+              dedekindCutCauchyBoundaryFromEventFlow
+                  (dedekindCutCauchyBoundaryToEventFlow x) =
+                some x) ∧
+              (∀ x y : DedekindCutCauchyBoundaryUp,
+                dedekindCutCauchyBoundaryToEventFlow x =
+                    dedekindCutCauchyBoundaryToEventFlow y →
+                  x = y) ∧
+                dedekindCutCauchyBoundaryEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  constructor
+  · exact ⟨dedekindCutCauchyBoundaryChapterTasteGate⟩
+  · constructor
+    · exact ⟨dedekindCutCauchyBoundaryFieldFaithful⟩
+    · constructor
+      · exact ⟨dedekindCutCauchyBoundaryNontrivial⟩
+      · constructor
+        · exact dedekindCutCauchyBoundaryDecode_encode_bhist
+        · constructor
+          · exact dedekindCutCauchyBoundary_round_trip
+          · constructor
+            · intro x y heq
+              exact dedekindCutCauchyBoundaryToEventFlow_injective heq
+            · rfl
+
+def taste_gate : ChapterTasteGate DedekindCutCauchyBoundaryUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  BEDC.Derived.DedekindCutCauchyBoundaryUp.taste_gate
+
+end TasteGate
 
 end BEDC.Derived.DedekindCutCauchyBoundaryUp
