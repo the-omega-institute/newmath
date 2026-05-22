@@ -120,4 +120,37 @@ theorem CauchyCompletionUnitCarrier_constant_window_induction [AskSetup] [Packag
     ⟨generatedWindow, generatedTolerance, windowCont, toleranceCont, generatedWindowUnary,
       generatedToleranceUnary, provenancePkg⟩
 
+theorem CauchyCompletionUnitCarrier_real_completion_consumer_boundary [AskSetup] [PackageSetup]
+    {source window tolerance readback sealRow completion transport route provenance name
+      realConsumer completionConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionUnitCarrier source window tolerance readback sealRow completion transport route
+        provenance name bundle pkg ->
+      Cont sealRow route realConsumer ->
+        Cont completion route completionConsumer ->
+          PkgSig bundle realConsumer pkg ->
+            PkgSig bundle completionConsumer pkg ->
+              UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory tolerance ∧
+                UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory completion ∧
+                  UnaryHistory realConsumer ∧ UnaryHistory completionConsumer ∧
+                    Cont source window tolerance ∧ Cont tolerance readback sealRow ∧
+                      Cont sealRow route realConsumer ∧ Cont completion route completionConsumer ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle realConsumer pkg ∧
+                          PkgSig bundle completionConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier realConsumerCont completionConsumerCont realConsumerPkg completionConsumerPkg
+  obtain ⟨sourceUnary, windowUnary, toleranceUnary, readbackUnary, sealUnary,
+    completionUnary, _transportUnary, routeUnary, _provenanceUnary, _nameUnary,
+      sourceWindowRoute, toleranceReadbackRoute, _sealCompletionRoute, _transportEmpty,
+        provenancePkg, _namePkg⟩ := carrier
+  have realConsumerUnary : UnaryHistory realConsumer :=
+    unary_cont_closed sealUnary routeUnary realConsumerCont
+  have completionConsumerUnary : UnaryHistory completionConsumer :=
+    unary_cont_closed completionUnary routeUnary completionConsumerCont
+  exact
+    ⟨sourceUnary, windowUnary, toleranceUnary, readbackUnary, sealUnary, completionUnary,
+      realConsumerUnary, completionConsumerUnary, sourceWindowRoute, toleranceReadbackRoute,
+      realConsumerCont, completionConsumerCont, provenancePkg, realConsumerPkg,
+      completionConsumerPkg⟩
+
 end BEDC.Derived.CauchyCompletionUnitUp
