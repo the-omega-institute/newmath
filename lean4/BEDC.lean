@@ -3222,6 +3222,7 @@ import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
+import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.LQRUp
@@ -3349,6 +3350,7 @@ import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCompactUp.TasteGate
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
+import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.ClassifierStability
 import BEDC.Derived.LocatedIntervalUp.PublicConsumerRoute
@@ -4621,6 +4623,7 @@ import BEDC.Derived.RegularCauchyWitnessSelectorUp.ClassifierStability
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.LedgerNonescape
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.NameCertSurface
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate
+import BEDC.Derived.RegularCauchyZeroDistanceUp.TasteGate
 import BEDC.Derived.RegularCauchyZeroUp.TasteGate
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegularLanguageUp.TasteGate
