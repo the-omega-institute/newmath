@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.BishopFanModulusUp
+namespace BEDC.Derived.BishopFanModulusUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,9 +25,8 @@ def bishopFanModulusDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (bishopFanModulusDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (bishopFanModulusDecodeBHist tail)
 
-private theorem BishopFanModulusTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist,
-      bishopFanModulusDecodeBHist (bishopFanModulusEncodeBHist h) = h := by
+private theorem bishopFanModulus_decode_encode_bhist :
+    ∀ h : BHist, bishopFanModulusDecodeBHist (bishopFanModulusEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -35,144 +34,40 @@ private theorem BishopFanModulusTasteGate_single_carrier_alignment_decode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private theorem BishopFanModulusTasteGate_single_carrier_alignment_mk_congr
-    {F1 A1 B1 S1 Q1 D1 R1 U1 H1 C1 P1 N1 F2 A2 B2 S2 Q2 D2 R2 U2 H2 C2 P2 N2 :
-      BHist}
-    (hF : F1 = F2)
-    (hA : A1 = A2)
-    (hB : B1 = B2)
-    (hS : S1 = S2)
-    (hQ : Q1 = Q2)
-    (hD : D1 = D2)
-    (hR : R1 = R2)
-    (hU : U1 = U2)
-    (hH : H1 = H2)
-    (hC : C1 = C2)
-    (hP : P1 = P2)
-    (hN : N1 = N2) :
-    BishopFanModulusUp.mk F1 A1 B1 S1 Q1 D1 R1 U1 H1 C1 P1 N1 =
-      BishopFanModulusUp.mk F2 A2 B2 S2 Q2 D2 R2 U2 H2 C2 P2 N2 := by
+def bishopFanModulusFields : BishopFanModulusUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  cases hF
-  cases hA
-  cases hB
-  cases hS
-  cases hQ
-  cases hD
-  cases hR
-  cases hU
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
+  | BishopFanModulusUp.mk F A B S Q D R U H C P N =>
+      [F, A, B, S, Q, D, R, U, H, C, P, N]
 
 def bishopFanModulusToEventFlow : BishopFanModulusUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | BishopFanModulusUp.mk F A B S Q D R U H C P N =>
-      [[BMark.b0],
-        bishopFanModulusEncodeBHist F,
-        [BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist A,
-        [BMark.b1, BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist B,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist S,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist Q,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist D,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        bishopFanModulusEncodeBHist U,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bishopFanModulusEncodeBHist N]
+  | x => (bishopFanModulusFields x).map bishopFanModulusEncodeBHist
 
-def bishopFanModulusPayloads : EventFlow → Option EventFlow
+private def bishopFanModulusEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => some []
-  | _ :: rest =>
-      match rest with
-      | [] => none
-      | row :: tail =>
-          match bishopFanModulusPayloads tail with
-          | some rows => some (row :: rows)
-          | none => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => bishopFanModulusEventAtDefault index rest
 
-def bishopFanModulusFromPayloads : EventFlow → Option BishopFanModulusUp
+def bishopFanModulusFromEventFlow (ef : EventFlow) : Option BishopFanModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | F :: restA =>
-      match restA with
-      | [] => none
-      | A :: restB =>
-          match restB with
-          | [] => none
-          | B :: restS =>
-              match restS with
-              | [] => none
-              | S :: restQ =>
-                  match restQ with
-                  | [] => none
-                  | Q :: restD =>
-                      match restD with
-                      | [] => none
-                      | D :: restR =>
-                          match restR with
-                          | [] => none
-                          | R :: restU =>
-                              match restU with
-                              | [] => none
-                              | U :: restH =>
-                                  match restH with
-                                  | [] => none
-                                  | H :: restC =>
-                                      match restC with
-                                      | [] => none
-                                      | C :: restP =>
-                                          match restP with
-                                          | [] => none
-                                          | P :: restN =>
-                                              match restN with
-                                              | [] => none
-                                              | N :: rest =>
-                                                  match rest with
-                                                  | [] =>
-                                                      some (BishopFanModulusUp.mk
-                                                        (bishopFanModulusDecodeBHist F)
-                                                        (bishopFanModulusDecodeBHist A)
-                                                        (bishopFanModulusDecodeBHist B)
-                                                        (bishopFanModulusDecodeBHist S)
-                                                        (bishopFanModulusDecodeBHist Q)
-                                                        (bishopFanModulusDecodeBHist D)
-                                                        (bishopFanModulusDecodeBHist R)
-                                                        (bishopFanModulusDecodeBHist U)
-                                                        (bishopFanModulusDecodeBHist H)
-                                                        (bishopFanModulusDecodeBHist C)
-                                                        (bishopFanModulusDecodeBHist P)
-                                                        (bishopFanModulusDecodeBHist N))
-                                                  | _ :: _ => none
+  some
+    (BishopFanModulusUp.mk
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 0 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 1 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 2 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 3 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 4 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 5 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 6 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 7 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 8 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 9 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 10 ef))
+      (bishopFanModulusDecodeBHist (bishopFanModulusEventAtDefault 11 ef)))
 
-def bishopFanModulusFromEventFlow
-    (flow : EventFlow) : Option BishopFanModulusUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  match bishopFanModulusPayloads flow with
-  | some rows => bishopFanModulusFromPayloads rows
-  | none => none
-
-private theorem BishopFanModulusTasteGate_single_carrier_alignment_round_trip :
+private theorem bishopFanModulus_round_trip :
     ∀ x : BishopFanModulusUp,
       bishopFanModulusFromEventFlow (bishopFanModulusToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -195,23 +90,20 @@ private theorem BishopFanModulusTasteGate_single_carrier_alignment_round_trip :
             (bishopFanModulusDecodeBHist (bishopFanModulusEncodeBHist P))
             (bishopFanModulusDecodeBHist (bishopFanModulusEncodeBHist N))) =
           some (BishopFanModulusUp.mk F A B S Q D R U H C P N)
-      exact congrArg some
-        (BishopFanModulusTasteGate_single_carrier_alignment_mk_congr
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode F)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode A)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode B)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode S)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode Q)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode D)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode R)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode U)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode H)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode C)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode P)
-          (BishopFanModulusTasteGate_single_carrier_alignment_decode N))
+      rw [bishopFanModulus_decode_encode_bhist F,
+        bishopFanModulus_decode_encode_bhist A,
+        bishopFanModulus_decode_encode_bhist B,
+        bishopFanModulus_decode_encode_bhist S,
+        bishopFanModulus_decode_encode_bhist Q,
+        bishopFanModulus_decode_encode_bhist D,
+        bishopFanModulus_decode_encode_bhist R,
+        bishopFanModulus_decode_encode_bhist U,
+        bishopFanModulus_decode_encode_bhist H,
+        bishopFanModulus_decode_encode_bhist C,
+        bishopFanModulus_decode_encode_bhist P,
+        bishopFanModulus_decode_encode_bhist N]
 
-private theorem BishopFanModulusTasteGate_single_carrier_alignment_injective
-    {x y : BishopFanModulusUp} :
+private theorem bishopFanModulusToEventFlow_injective {x y : BishopFanModulusUp} :
     bishopFanModulusToEventFlow x = bishopFanModulusToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -220,10 +112,19 @@ private theorem BishopFanModulusTasteGate_single_carrier_alignment_injective
         bishopFanModulusFromEventFlow (bishopFanModulusToEventFlow y) :=
     congrArg bishopFanModulusFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (BishopFanModulusTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (BishopFanModulusTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (bishopFanModulus_round_trip x).symm
+      (Eq.trans hread (bishopFanModulus_round_trip y)))
+
+private theorem bishopFanModulus_fields_faithful :
+    ∀ x y : BishopFanModulusUp, bishopFanModulusFields x = bishopFanModulusFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk F1 A1 B1 S1 Q1 D1 R1 U1 H1 C1 P1 N1 =>
+      cases y with
+      | mk F2 A2 B2 S2 Q2 D2 R2 U2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance bishopFanModulusBHistCarrier : BHistCarrier BishopFanModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -235,25 +136,44 @@ instance bishopFanModulusChapterTasteGate : ChapterTasteGate BishopFanModulusUp 
   round_trip := by
     intro x
     change bishopFanModulusFromEventFlow (bishopFanModulusToEventFlow x) = some x
-    exact BishopFanModulusTasteGate_single_carrier_alignment_round_trip x
+    exact bishopFanModulus_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (BishopFanModulusTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (bishopFanModulusToEventFlow_injective heq)
+
+instance bishopFanModulusFieldFaithful : FieldFaithful BishopFanModulusUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := bishopFanModulusFields
+  field_faithful := bishopFanModulus_fields_faithful
+
+instance bishopFanModulusNontrivial : Nontrivial BishopFanModulusUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BishopFanModulusUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BishopFanModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate BishopFanModulusUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  bishopFanModulusChapterTasteGate
 
 theorem BishopFanModulusTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      bishopFanModulusDecodeBHist (bishopFanModulusEncodeBHist h) = h) ∧
+    (∀ h : BHist, bishopFanModulusDecodeBHist (bishopFanModulusEncodeBHist h) = h) ∧
       (∀ x : BishopFanModulusUp,
         bishopFanModulusFromEventFlow (bishopFanModulusToEventFlow x) = some x) ∧
-      (∀ x y : BishopFanModulusUp,
-        bishopFanModulusToEventFlow x = bishopFanModulusToEventFlow y → x = y) ∧
-      bishopFanModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+        (∀ x y : BishopFanModulusUp,
+          bishopFanModulusToEventFlow x = bishopFanModulusToEventFlow y → x = y) ∧
+          bishopFanModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    And.intro BishopFanModulusTasteGate_single_carrier_alignment_decode
-      (And.intro BishopFanModulusTasteGate_single_carrier_alignment_round_trip
-        (And.intro
-          (fun x y heq => BishopFanModulusTasteGate_single_carrier_alignment_injective heq)
-          rfl))
+    ⟨bishopFanModulus_decode_encode_bhist,
+      bishopFanModulus_round_trip,
+      (fun _ _ heq => bishopFanModulusToEventFlow_injective heq),
+      rfl⟩
 
-end BEDC.Derived.BishopFanModulusUp
+end BEDC.Derived.BishopFanModulusUp.TasteGate
