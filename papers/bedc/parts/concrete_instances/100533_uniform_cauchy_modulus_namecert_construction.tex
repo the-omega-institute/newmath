@@ -73,6 +73,23 @@ Now take two endpoint-facing consumers that share $M$ and $W$. The induction giv
 The excluded principles are not coordinates of $U$ and are not produced by $H$ or $C$. Therefore the finite budget cannot import quotient stream equality, a selected limit, countable choice, ambient completeness, host real equality, open-cover compactness, or trichotomy.
 \end{proof}
 
+\begin{theorem}[Uniform Cauchy modulus single-route exhaustion]\label{thm:uniform-cauchy-modulus-single-route-exhaustion}
+For every accepted $\UniformCauchyModulusUp$ carrier $U=(S,R,D,M,W,E,H,C,P,N)$, any two $\RealUp$ or completion-facing consumers that use the same precision request and the displayed witness row $W$ factor through the same ordered route
+$$
+S \longrightarrow R \longrightarrow D \longrightarrow M \longrightarrow W \longrightarrow E .
+$$
+The route is exhausted by the displayed rows of $U$: no second modulus row, detached tail selector, quotient stream equality, selected limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness can be inserted between the precision request and the endpoint handoff.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. By \autoref{def:uniform-cauchy-modulus-carrier}, the endpoint-facing order is already displayed as selected windows $S$, regular rational readbacks $R$, dyadic tolerance accounting $D$, one shared Cauchy-window modulus row $M$, finite witness replay $W$, and handoff row $E$.
+
+The single-row obligation is fixed by \autoref{thm:uniform-cauchy-modulus-namecert-obligations}: accepted comparisons must preserve the same row $M$ for every displayed Cauchy comparison requested by $D$. Thus two consumers with the same precision request cannot split into distinct modulus rows or detached tail selectors before the witness row is read.
+
+Apply \autoref{thm:uniform-cauchy-modulus-shared-window-budget} to the common witness row $W$. Its witness induction gives the same finite route through $S,R,D,M,W$ for both consumers, with transport and replay supplied only by $H$ and $C$.
+
+Finally, \autoref{thm:uniform-cauchy-modulus-real-handoff} gives the nonescape boundary at $E$. Since the excluded principles are not coordinates of the carrier and are not produced by $H$ or $C$, neither consumer can insert quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness into the route.
+\end{proof}
+
 \falsifiablePrediction{Every $\UniformCauchyModulusUp$ endpoint-facing read factors through selected StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, one shared Cauchy-window modulus row, finite witness replay, a RealUp handoff row, hsame transport, Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, cauchymodulusmeet, uniformcauchyfilter, real: $\UniformCauchyModulusUp$ is not bijective to any listed sibling because it jointly carries selected windows, regular rational readbacks, dyadic tolerance accounting, one shared finite Cauchy-window budget, witness replay, endpoint handoff, transport, continuation, provenance, and local naming.}
@@ -82,7 +99,7 @@ The excluded principles are not coordinates of $U$ and are not produced by $H$ o
 \begin{closurestatus}{\UniformCauchyModulusUp}
   \constructivestory{A $\UniformCauchyModulusUp$ packet is generated from selected StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, one shared finite Cauchy-window modulus row, finite witness replay, a RealUp handoff row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:uniform-cauchy-modulus-carrier}, \autoref{thm:uniform-cauchy-modulus-namecert-obligations}, \autoref{thm:uniform-cauchy-modulus-real-handoff}, and \autoref{thm:uniform-cauchy-modulus-shared-window-budget} seed the finite shared Cauchy-window budget route for Real and completion consumers.}
+  \scopeclosed{\autoref{def:uniform-cauchy-modulus-carrier}, \autoref{thm:uniform-cauchy-modulus-namecert-obligations}, \autoref{thm:uniform-cauchy-modulus-real-handoff}, \autoref{thm:uniform-cauchy-modulus-shared-window-budget}, and \autoref{thm:uniform-cauchy-modulus-single-route-exhaustion} seed the finite shared Cauchy-window budget route for Real and completion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, open-cover compactness, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
