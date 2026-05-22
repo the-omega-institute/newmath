@@ -2419,6 +2419,7 @@ import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
 import BEDC.Derived.DyadicWindowSealUp.TasteGate
 import BEDC.Derived.DynSystemUp
+import BEDC.Derived.EffectiveCauchySequenceUp
 import BEDC.Derived.EffectiveCauchySequenceUp.TasteGate
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.EigenUp
@@ -2643,6 +2644,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
 import BEDC.Derived.FiniteLebesgueNumberUp.L10PhaseConsumerReadiness
+import BEDC.Derived.FiniteLebesgueNumberUp.L10SiblingRoute
 import BEDC.Derived.FiniteLebesgueNumberUp.L10SourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhase
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseNonchoiceCover
@@ -4463,6 +4465,7 @@ import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
 import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
 import BEDC.Derived.RegistryNoSmugglingPredicateUp.TasteGate
+import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyClassifierNormalFormUp.TasteGate
@@ -5292,6 +5295,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.TerminalSelectorUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowRefinementExactness
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
+import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate

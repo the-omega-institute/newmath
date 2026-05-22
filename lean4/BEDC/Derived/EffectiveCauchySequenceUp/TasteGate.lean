@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.EffectiveCauchySequenceUp.TasteGate
+namespace BEDC.Derived.EffectiveCauchySequenceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,9 +25,11 @@ def effectiveCauchySequenceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (effectiveCauchySequenceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (effectiveCauchySequenceDecodeBHist tail)
 
-private theorem effectiveCauchySequence_decode_encode_bhist :
+private theorem effectiveCauchySequence_decode_encode :
     ∀ h : BHist,
-      effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEncodeBHist h) = h := by
+      effectiveCauchySequenceDecodeBHist
+          (effectiveCauchySequenceEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -35,46 +37,46 @@ private theorem effectiveCauchySequence_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def effectiveCauchySequenceToEventFlow : EffectiveCauchySequenceUp → EventFlow
+def effectiveCauchySequenceFields :
+    EffectiveCauchySequenceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | EffectiveCauchySequenceUp.mk S M W D Q E H C P N =>
-      [effectiveCauchySequenceEncodeBHist S,
-        effectiveCauchySequenceEncodeBHist M,
-        effectiveCauchySequenceEncodeBHist W,
-        effectiveCauchySequenceEncodeBHist D,
-        effectiveCauchySequenceEncodeBHist Q,
-        effectiveCauchySequenceEncodeBHist E,
-        effectiveCauchySequenceEncodeBHist H,
-        effectiveCauchySequenceEncodeBHist C,
-        effectiveCauchySequenceEncodeBHist P,
-        effectiveCauchySequenceEncodeBHist N]
+      [S, M, W, D, Q, E, H, C, P, N]
 
-private def effectiveCauchySequenceEventAt : Nat → EventFlow → RawEvent
+def effectiveCauchySequenceToEventFlow :
+    EffectiveCauchySequenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
+  | x =>
+      List.map effectiveCauchySequenceEncodeBHist
+        (effectiveCauchySequenceFields x)
+
+private def effectiveCauchySequenceRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => effectiveCauchySequenceEventAt index rest
+  | Nat.succ index, _event :: rest => effectiveCauchySequenceRawAt index rest
 
-def effectiveCauchySequenceFromEventFlow : EventFlow → Option EffectiveCauchySequenceUp
+def effectiveCauchySequenceFromEventFlow
+    (flow : EventFlow) : Option EffectiveCauchySequenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (EffectiveCauchySequenceUp.mk
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 0 ef))
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 1 ef))
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 2 ef))
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 3 ef))
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 4 ef))
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 5 ef))
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 6 ef))
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 7 ef))
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 8 ef))
-          (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEventAt 9 ef)))
+  some
+    (EffectiveCauchySequenceUp.mk
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 0 flow))
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 1 flow))
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 2 flow))
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 3 flow))
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 4 flow))
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 5 flow))
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 6 flow))
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 7 flow))
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 8 flow))
+      (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceRawAt 9 flow)))
 
 private theorem effectiveCauchySequence_round_trip :
     ∀ x : EffectiveCauchySequenceUp,
-      effectiveCauchySequenceFromEventFlow (effectiveCauchySequenceToEventFlow x) =
+      effectiveCauchySequenceFromEventFlow
+          (effectiveCauchySequenceToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -94,31 +96,36 @@ private theorem effectiveCauchySequence_round_trip :
             (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEncodeBHist P))
             (effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEncodeBHist N))) =
           some (EffectiveCauchySequenceUp.mk S M W D Q E H C P N)
-      rw [effectiveCauchySequence_decode_encode_bhist S,
-        effectiveCauchySequence_decode_encode_bhist M,
-        effectiveCauchySequence_decode_encode_bhist W,
-        effectiveCauchySequence_decode_encode_bhist D,
-        effectiveCauchySequence_decode_encode_bhist Q,
-        effectiveCauchySequence_decode_encode_bhist E,
-        effectiveCauchySequence_decode_encode_bhist H,
-        effectiveCauchySequence_decode_encode_bhist C,
-        effectiveCauchySequence_decode_encode_bhist P,
-        effectiveCauchySequence_decode_encode_bhist N]
+      rw [effectiveCauchySequence_decode_encode S,
+        effectiveCauchySequence_decode_encode M,
+        effectiveCauchySequence_decode_encode W,
+        effectiveCauchySequence_decode_encode D,
+        effectiveCauchySequence_decode_encode Q,
+        effectiveCauchySequence_decode_encode E,
+        effectiveCauchySequence_decode_encode H,
+        effectiveCauchySequence_decode_encode C,
+        effectiveCauchySequence_decode_encode P,
+        effectiveCauchySequence_decode_encode N]
 
 private theorem effectiveCauchySequenceToEventFlow_injective
     {x y : EffectiveCauchySequenceUp} :
-    effectiveCauchySequenceToEventFlow x = effectiveCauchySequenceToEventFlow y → x = y := by
+    effectiveCauchySequenceToEventFlow x =
+        effectiveCauchySequenceToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      effectiveCauchySequenceFromEventFlow (effectiveCauchySequenceToEventFlow x) =
-        effectiveCauchySequenceFromEventFlow (effectiveCauchySequenceToEventFlow y) :=
+      effectiveCauchySequenceFromEventFlow
+          (effectiveCauchySequenceToEventFlow x) =
+        effectiveCauchySequenceFromEventFlow
+          (effectiveCauchySequenceToEventFlow y) :=
     congrArg effectiveCauchySequenceFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (effectiveCauchySequence_round_trip x).symm
       (Eq.trans hread (effectiveCauchySequence_round_trip y)))
 
-instance effectiveCauchySequenceBHistCarrier : BHistCarrier EffectiveCauchySequenceUp where
+instance effectiveCauchySequenceBHistCarrier :
+    BHistCarrier EffectiveCauchySequenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := effectiveCauchySequenceToEventFlow
   fromEventFlow := effectiveCauchySequenceFromEventFlow
@@ -128,22 +135,93 @@ instance effectiveCauchySequenceChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change effectiveCauchySequenceFromEventFlow (effectiveCauchySequenceToEventFlow x) = some x
+    change
+      effectiveCauchySequenceFromEventFlow
+          (effectiveCauchySequenceToEventFlow x) =
+        some x
     exact effectiveCauchySequence_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (effectiveCauchySequenceToEventFlow_injective heq)
 
+instance effectiveCauchySequenceFieldFaithful :
+    FieldFaithful EffectiveCauchySequenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := effectiveCauchySequenceFields
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk S₁ M₁ W₁ D₁ Q₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk S₂ M₂ W₂ D₂ Q₂ E₂ H₂ C₂ P₂ N₂ =>
+        injection h with hS t1
+        injection t1 with hM t2
+        injection t2 with hW t3
+        injection t3 with hD t4
+        injection t4 with hQ t5
+        injection t5 with hE t6
+        injection t6 with hH t7
+        injection t7 with hC t8
+        injection t8 with hP t9
+        injection t9 with hN _
+        cases hS
+        cases hM
+        cases hW
+        cases hD
+        cases hQ
+        cases hE
+        cases hH
+        cases hC
+        cases hP
+        cases hN
+        rfl
+
+def taste_gate : ChapterTasteGate EffectiveCauchySequenceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  effectiveCauchySequenceChapterTasteGate
+
+theorem EffectiveCauchySequenceTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      effectiveCauchySequenceDecodeBHist
+          (effectiveCauchySequenceEncodeBHist h) =
+        h) ∧
+      (∀ x : EffectiveCauchySequenceUp,
+        effectiveCauchySequenceFromEventFlow
+            (effectiveCauchySequenceToEventFlow x) =
+          some x) ∧
+        (∀ x y : EffectiveCauchySequenceUp,
+          effectiveCauchySequenceToEventFlow x =
+              effectiveCauchySequenceToEventFlow y →
+            x = y) ∧
+          effectiveCauchySequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨effectiveCauchySequence_decode_encode,
+      effectiveCauchySequence_round_trip,
+      by
+        intro x y heq
+        exact effectiveCauchySequenceToEventFlow_injective heq,
+      rfl⟩
+
+namespace TasteGate
+
 theorem EffectiveCauchySequenceUpTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      effectiveCauchySequenceDecodeBHist (effectiveCauchySequenceEncodeBHist h) = h) ∧
+      effectiveCauchySequenceDecodeBHist
+          (effectiveCauchySequenceEncodeBHist h) =
+        h) ∧
       (∀ x : EffectiveCauchySequenceUp,
-        effectiveCauchySequenceFromEventFlow (effectiveCauchySequenceToEventFlow x) = some x) ∧
-      (∀ x y : EffectiveCauchySequenceUp,
-        effectiveCauchySequenceToEventFlow x = effectiveCauchySequenceToEventFlow y → x = y) ∧
-      effectiveCauchySequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact ⟨effectiveCauchySequence_decode_encode_bhist, effectiveCauchySequence_round_trip,
-    fun _ _ heq => effectiveCauchySequenceToEventFlow_injective heq, rfl⟩
+        effectiveCauchySequenceFromEventFlow
+            (effectiveCauchySequenceToEventFlow x) =
+          some x) ∧
+        (∀ x y : EffectiveCauchySequenceUp,
+          effectiveCauchySequenceToEventFlow x =
+              effectiveCauchySequenceToEventFlow y →
+            x = y) ∧
+          effectiveCauchySequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact EffectiveCauchySequenceTasteGate_single_carrier_alignment
 
-end BEDC.Derived.EffectiveCauchySequenceUp.TasteGate
+end TasteGate
+
+end BEDC.Derived.EffectiveCauchySequenceUp
