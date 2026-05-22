@@ -1,11 +1,18 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealMetricLocatednessBracketUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -164,5 +171,46 @@ theorem RealMetricLocatednessBracketTasteGate_single_carrier_alignment :
   · constructor
     · exact realMetricLocatednessBracket_round_trip
     · rfl
+
+def RealMetricLocatednessBracketCarrier [AskSetup] [PackageSetup]
+    (metric locatedness equality windows readback tolerance transport replay provenance localName :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory metric ∧ UnaryHistory locatedness ∧ UnaryHistory equality ∧
+    UnaryHistory windows ∧ UnaryHistory readback ∧ UnaryHistory tolerance ∧
+      UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+        UnaryHistory localName ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
+theorem RealMetricLocatednessBracketCarrier_window_transport [AskSetup] [PackageSetup]
+    {metric locatedness equality windows readback tolerance transport replay provenance localName
+      metricRead locatednessRead equalityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealMetricLocatednessBracketCarrier metric locatedness equality windows readback tolerance
+        transport replay provenance localName bundle pkg →
+      Cont windows readback metricRead →
+        Cont metricRead tolerance locatednessRead →
+          Cont locatednessRead equality equalityRead →
+            PkgSig bundle equalityRead pkg →
+              UnaryHistory windows ∧ UnaryHistory readback ∧ UnaryHistory metricRead ∧
+                UnaryHistory locatednessRead ∧ UnaryHistory equalityRead ∧
+                  Cont windows readback metricRead ∧
+                    Cont metricRead tolerance locatednessRead ∧
+                      Cont locatednessRead equality equalityRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle equalityRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier windowsReadback metricTolerance locatednessEquality equalitySig
+  obtain ⟨_metricUnary, _locatednessUnary, equalityUnary, windowsUnary, readbackUnary,
+    toleranceUnary, _transportUnary, _replayUnary, provenanceUnary, _localNameUnary,
+    provenanceSig, _localNameSig⟩ := carrier
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed windowsUnary readbackUnary windowsReadback
+  have locatednessReadUnary : UnaryHistory locatednessRead :=
+    unary_cont_closed metricReadUnary toleranceUnary metricTolerance
+  have equalityReadUnary : UnaryHistory equalityRead :=
+    unary_cont_closed locatednessReadUnary equalityUnary locatednessEquality
+  exact
+    ⟨windowsUnary, readbackUnary, metricReadUnary, locatednessReadUnary, equalityReadUnary,
+      windowsReadback, metricTolerance, locatednessEquality, provenanceSig, equalitySig⟩
 
 end BEDC.Derived.RealMetricLocatednessBracketUp
