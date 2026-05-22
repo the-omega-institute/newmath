@@ -4374,6 +4374,7 @@ import BEDC.Derived.RealSequenceAlgebraUp.TasteGate
 import BEDC.Derived.RealSequenceClusterPointUp.TasteGate
 import BEDC.Derived.RealSequenceLimitUp.NameCertObligations
 import BEDC.Derived.RealSequenceLimitUp.TasteGate
+import BEDC.Derived.RealSeriesCauchyCriterionUp
 import BEDC.Derived.RealSeriesUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.DyadicWindowExactness
 import BEDC.Derived.RealTailAgreementSealUp.RealCompletionHandoff
