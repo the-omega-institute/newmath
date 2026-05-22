@@ -78,6 +78,58 @@ The handoff row $E$ is downstream of $M,F,S,D,Q$, so regular-rational and Real c
 The excluded objects have no carrier coordinate. Therefore the listed rows exhaust the local NameCert obligation surface.
 \end{proof}
 
+\begin{theorem}[Fast Cauchy modulus threshold dichotomy]
+\label{thm:fast-cauchy-modulus-threshold-dichotomy}
+Let
+$$
+M_{\mathrm{fast}}=(M,F,S,D,Q,E,H,C,P,N)
+$$
+be an accepted $\FastCauchyModulusUp$ carrier. For the displayed precision query $Q$, the threshold discipline row $F$ exposes exactly one of the following rows read from the same source modulus row $M$: the direct fast threshold row, or the doubled-window threshold row. The choice is part of $F$ itself and is not supplied by a hidden selector, quotient stream equality, selected limit, countable choice, trichotomy, ambient $\RealUp$ completeness theorem, Lean verification row, or bridge datum.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:fast-cauchy-modulus-carrier}. The only coordinates that mention thresholds are the source modulus row $M$, the fast discipline row $F$, and the precision query row $Q$.
+
+Apply \autoref{thm:fast-cauchy-modulus-doubling-window}. A consumer can open a StreamName window only after $Q$ has passed through $M$ and $F$, and $F$ records whether the direct fast threshold or the doubled threshold is used.
+
+Apply \autoref{thm:fast-cauchy-modulus-namecert-obligations}. Its threshold exactness row requires the selected threshold to be either the direct fast threshold or the doubled-window threshold from $M$ for the same $Q$. Since no other selector is present in the carrier, the two alternatives are exclusive and exhaustive on accepted packets.
+\end{proof}
+
+\begin{theorem}[Fast Cauchy modulus window exactness]
+\label{thm:fast-cauchy-modulus-window-exactness}
+Let
+$$
+M_{\mathrm{fast}}=(M,F,S,D,Q,E,H,C,P,N)
+$$
+be an accepted $\FastCauchyModulusUp$ carrier. The $\StreamNameUp$ finite window row $S$ and the $\DyadicRatCoreUp$ ledger row $D$ are determined by the threshold selected in $F$ for the precision query $Q$. If $F$ selects the direct fast threshold, then $S$ is the finite window opened at that threshold and $D$ records the requested tolerance account. If $F$ selects the doubled-window threshold, then $S$ is the enlarged finite window and $D$ records the dyadic slack proving that the doubled read preserves the requested tail estimate.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the route displayed in \autoref{thm:fast-cauchy-modulus-doubling-window}. The row $S$ appears only after the source modulus and threshold discipline rows have been read, so it is opened at the threshold selected in $F$.
+
+In the direct case, the threshold stored by $F$ already supplies the requested tail estimate. Thus the StreamName row is the finite window at that threshold, and the DyadicRatCore row stores the tolerance ledger consumed by that read.
+
+In the doubled case, $F$ stores the enlarged threshold before $S$ is opened. The same theorem identifies $S$ as the enlarged finite window and identifies $D$ as the dyadic slack ledger that transports the doubled read back to the original precision request.
+
+The NameCert obligations of \autoref{thm:fast-cauchy-modulus-namecert-obligations} state that finite-window exactness and dyadic slack exactness are stored in those same displayed rows. No further window or tolerance coordinate is available.
+\end{proof}
+
+\begin{theorem}[Fast Cauchy modulus handoff nonescape]
+\label{thm:fast-cauchy-modulus-handoff-nonescape}
+Let
+$$
+M_{\mathrm{fast}}=(M,F,S,D,Q,E,H,C,P,N)
+$$
+be an accepted $\FastCauchyModulusUp$ carrier. Any $\RegSeqRatUp$ or $\RealUp$ handoff row $E$ must consume the displayed rows $M,F,S,D,Q$ before exposing a regular-rational readback or Real seal. The handoff exports no quotient stream equality, selected limit, countable-choice schedule, trichotomy principle, ambient $\RealUp$ completeness theorem, host real equality, Lean verification row, or bridge datum.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:fast-cauchy-modulus-carrier}. The handoff coordinate $E$ is listed downstream of the source modulus, threshold discipline, finite window, dyadic ledger, and precision query rows.
+
+Apply \autoref{thm:fast-cauchy-modulus-doubling-window}. Every regular-Cauchy or Real-facing consumer follows the finite route through $Q$, then $M,F$, then $S,D$, and only then reaches $E$.
+
+Apply \autoref{thm:fast-cauchy-modulus-namecert-obligations}. Its regular and Real handoff row requires $E$ to consume $M,F,S,D,Q$ before any readback or seal is exposed, while its refusal row excludes quotient stream equality, selected limits, choice, trichotomy, ambient completeness, Lean verification, and bridge data from the local certificate surface.
+
+Therefore the handoff cannot escape the displayed fast-modulus route. It exposes only the readback or seal certified by the finite carrier rows.
+\end{proof}
+
 \falsifiablePrediction{Every $\FastCauchyModulusUp$ precision read factors through one CauchyModulus row, one fast or doubled threshold discipline row, one StreamName finite window, one DyadicRatCore tolerance ledger, one precision query, one RegSeqRat and RealUp handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{cauchymodulus, streamname, dyadicratcore, regseqrat, real: $\FastCauchyModulusUp$ is not bijective to any listed sibling because it jointly carries the source modulus row, the fast or doubled threshold choice, the opened finite window, the dyadic slack ledger, and the regular-rational or Real-facing handoff as one certificate.}
