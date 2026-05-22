@@ -2704,6 +2704,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhase
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseNonchoiceCover
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRadiusWindowExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRootUnblockObligations
+import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseSourceNonescape
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealAuditLedgerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealFourFaceSourceExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealLocalRadiusDeterminacy
@@ -3766,6 +3767,7 @@ import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NewtonIterationUp
+import BEDC.Derived.NewtonKantorovichUp.TasteGate
 import BEDC.Derived.NoAbsoluteBridgeAuditUp.TasteGate
 import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.ConsumerNonescape
