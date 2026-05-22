@@ -35,6 +35,10 @@ private theorem limitDecodeEncodeBHist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+private theorem LimitTasteGate_single_carrier_alignment_decode_aux :
+    ∀ h : BHist, limitDecodeBHist (limitEncodeBHist h) = h :=
+  limitDecodeEncodeBHist
+
 def limitFields : LimitUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | LimitUp.mk stream readback dyadic realSeal transport continuation history provenance name =>
@@ -111,6 +115,19 @@ private theorem limit_field_faithful :
           subst hname
           rfl
 
+private theorem LimitTasteGate_single_carrier_alignment_round_trip_aux :
+    ∀ x : LimitUp, limitFromEventFlow (limitToEventFlow x) = some x :=
+  limit_round_trip
+
+private theorem LimitTasteGate_single_carrier_alignment_injective_aux
+    {x y : LimitUp} :
+    limitToEventFlow x = limitToEventFlow y → x = y :=
+  limitToEventFlow_injective
+
+private theorem LimitTasteGate_single_carrier_alignment_fields_aux :
+    ∀ x y : LimitUp, limitFields x = limitFields y → x = y :=
+  limit_field_faithful
+
 instance limitBHistCarrier : BHistCarrier LimitUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := limitToEventFlow
@@ -166,5 +183,20 @@ theorem LimitUpTasteGate_single_carrier_alignment :
     · intro stream readback dyadic realSeal transport continuation history provenance name
       rfl
     · rfl
+
+theorem LimitTasteGate_single_carrier_alignment :
+    (∀ h : BHist, limitDecodeBHist (limitEncodeBHist h) = h) ∧
+      (∀ x : LimitUp, limitFromEventFlow (limitToEventFlow x) = some x) ∧
+      (∀ x y : LimitUp, limitToEventFlow x = limitToEventFlow y → x = y) ∧
+      limitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact LimitTasteGate_single_carrier_alignment_decode_aux
+  · constructor
+    · exact LimitTasteGate_single_carrier_alignment_round_trip_aux
+    · constructor
+      · intro x y heq
+        exact LimitTasteGate_single_carrier_alignment_injective_aux heq
+      · rfl
 
 end BEDC.Derived.LimitUp
