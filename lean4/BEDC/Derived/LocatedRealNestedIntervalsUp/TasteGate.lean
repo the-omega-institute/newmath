@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.LocatedRealNestedIntervalsUp.TasteGate
+namespace BEDC.Derived.LocatedRealNestedIntervalsUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def locatedRealNestedIntervalsDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (locatedRealNestedIntervalsDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (locatedRealNestedIntervalsDecodeBHist tail)
 
-private theorem locatedRealNestedIntervals_decode_encode :
+private theorem LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -51,31 +51,44 @@ private def locatedRealNestedIntervalsEventAtDefault : Nat → EventFlow → Raw
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => locatedRealNestedIntervalsEventAtDefault index rest
 
-def locatedRealNestedIntervalsFromEventFlow (ef : EventFlow) :
-    Option LocatedRealNestedIntervalsUp :=
+def locatedRealNestedIntervalsFromEventFlow :
+    EventFlow → Option LocatedRealNestedIntervalsUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (LocatedRealNestedIntervalsUp.mk
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 0 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 1 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 2 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 3 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 4 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 5 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 6 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 7 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 8 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 9 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 10 ef))
-      (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEventAtDefault 11 ef)))
+  fun ef =>
+    some
+      (LocatedRealNestedIntervalsUp.mk
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 0 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 1 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 2 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 3 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 4 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 5 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 6 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 7 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 8 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 9 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 10 ef))
+        (locatedRealNestedIntervalsDecodeBHist
+          (locatedRealNestedIntervalsEventAtDefault 11 ef)))
 
-private theorem locatedRealNestedIntervals_round_trip :
+private theorem LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_round_trip :
     ∀ x : LocatedRealNestedIntervalsUp,
       locatedRealNestedIntervalsFromEventFlow (locatedRealNestedIntervalsToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
-  cases x with
+  intro token
+  cases token with
   | mk I B M D J S R E H C P N =>
       change
         some
@@ -93,20 +106,20 @@ private theorem locatedRealNestedIntervals_round_trip :
             (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEncodeBHist P))
             (locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEncodeBHist N))) =
           some (LocatedRealNestedIntervalsUp.mk I B M D J S R E H C P N)
-      rw [locatedRealNestedIntervals_decode_encode I,
-        locatedRealNestedIntervals_decode_encode B,
-        locatedRealNestedIntervals_decode_encode M,
-        locatedRealNestedIntervals_decode_encode D,
-        locatedRealNestedIntervals_decode_encode J,
-        locatedRealNestedIntervals_decode_encode S,
-        locatedRealNestedIntervals_decode_encode R,
-        locatedRealNestedIntervals_decode_encode E,
-        locatedRealNestedIntervals_decode_encode H,
-        locatedRealNestedIntervals_decode_encode C,
-        locatedRealNestedIntervals_decode_encode P,
-        locatedRealNestedIntervals_decode_encode N]
+      rw [LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode I,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode B,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode M,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode D,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode J,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode S,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode R,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode E,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode H,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode C,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode P,
+        LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem locatedRealNestedIntervalsToEventFlow_injective
+private theorem LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : LocatedRealNestedIntervalsUp} :
     locatedRealNestedIntervalsToEventFlow x = locatedRealNestedIntervalsToEventFlow y →
       x = y := by
@@ -117,18 +130,19 @@ private theorem locatedRealNestedIntervalsToEventFlow_injective
         locatedRealNestedIntervalsFromEventFlow (locatedRealNestedIntervalsToEventFlow y) :=
     congrArg locatedRealNestedIntervalsFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (locatedRealNestedIntervals_round_trip x).symm
-      (Eq.trans hread (locatedRealNestedIntervals_round_trip y)))
+    (Eq.trans (LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem locatedRealNestedIntervals_field_faithful :
+private theorem LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_fields_faithful :
     ∀ x y : LocatedRealNestedIntervalsUp,
       locatedRealNestedIntervalsFields x = locatedRealNestedIntervalsFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk I1 B1 M1 D1 J1 S1 R1 E1 H1 C1 P1 N1 =>
+  | mk I₁ B₁ M₁ D₁ J₁ S₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
       cases y with
-      | mk I2 B2 M2 D2 J2 S2 R2 E2 H2 C2 P2 N2 =>
+      | mk I₂ B₂ M₂ D₂ J₂ S₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
           cases hfields
           rfl
 
@@ -146,19 +160,20 @@ instance locatedRealNestedIntervalsChapterTasteGate :
     change
       locatedRealNestedIntervalsFromEventFlow (locatedRealNestedIntervalsToEventFlow x) =
         some x
-    exact locatedRealNestedIntervals_round_trip x
+    exact LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (locatedRealNestedIntervalsToEventFlow_injective heq)
+    exact hxy
+      (LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance locatedRealNestedIntervalsFieldFaithful :
     FieldFaithful LocatedRealNestedIntervalsUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := locatedRealNestedIntervalsFields
-  field_faithful := locatedRealNestedIntervals_field_faithful
+  field_faithful :=
+    LocatedRealNestedIntervalsTasteGate_single_carrier_alignment_fields_faithful
 
-instance locatedRealNestedIntervalsNontrivial :
-    Nontrivial LocatedRealNestedIntervalsUp where
+instance locatedRealNestedIntervalsNontrivial : Nontrivial LocatedRealNestedIntervalsUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨LocatedRealNestedIntervalsUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -176,22 +191,8 @@ def taste_gate : ChapterTasteGate LocatedRealNestedIntervalsUp :=
   locatedRealNestedIntervalsChapterTasteGate
 
 theorem LocatedRealNestedIntervalsTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate LocatedRealNestedIntervalsUp) ∧
-      Nonempty (FieldFaithful LocatedRealNestedIntervalsUp) ∧
-      Nonempty (Nontrivial LocatedRealNestedIntervalsUp) ∧
-      (∀ h : BHist,
-        locatedRealNestedIntervalsDecodeBHist (locatedRealNestedIntervalsEncodeBHist h) = h) ∧
-      (∀ x : LocatedRealNestedIntervalsUp,
-        locatedRealNestedIntervalsFromEventFlow
-          (locatedRealNestedIntervalsToEventFlow x) = some x) ∧
-      locatedRealNestedIntervalsEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate Nontrivial
-  exact
-    ⟨Nonempty.intro locatedRealNestedIntervalsChapterTasteGate,
-      Nonempty.intro locatedRealNestedIntervalsFieldFaithful,
-      Nonempty.intro locatedRealNestedIntervalsNontrivial,
-      locatedRealNestedIntervals_decode_encode,
-      locatedRealNestedIntervals_round_trip,
-      rfl⟩
+    ChapterTasteGate LocatedRealNestedIntervalsUp := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact locatedRealNestedIntervalsChapterTasteGate
 
-end BEDC.Derived.LocatedRealNestedIntervalsUp.TasteGate
+end BEDC.Derived.LocatedRealNestedIntervalsUp
