@@ -1129,6 +1129,7 @@ import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
 import BEDC.Derived.CauchyRealOrderUp.TasteGate
+import BEDC.Derived.CauchyRealizerUp.TasteGate
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
 import BEDC.Derived.CauchyRepresentationUp.TasteGate
@@ -2415,6 +2416,7 @@ import BEDC.Derived.DyadicCoverUp.RefinementWitnessExhaustion
 import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.DyadicEmbeddingUp.TasteGate
+import BEDC.Derived.DyadicErrorBudgetUp.TasteGate
 import BEDC.Derived.DyadicFloorUp.TasteGate
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
@@ -2511,6 +2513,7 @@ import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
+import BEDC.Derived.FastCauchyModulusUp.TasteGate
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FastCauchyUp.Core
@@ -4574,6 +4577,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.StandardBridgeSource
 import BEDC.Derived.RegularCauchyDiagonalUp.StationaryFamilyExhaustion
 import BEDC.Derived.RegularCauchyDiagonalUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceUp
+import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
 import BEDC.Derived.RegularCauchyEquivalenceUp.RefinementTransport
 import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyFamilyUp
