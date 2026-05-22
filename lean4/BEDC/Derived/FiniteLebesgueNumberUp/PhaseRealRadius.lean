@@ -291,4 +291,68 @@ theorem FiniteLebesgueNumberPhaseRealRadiusConsumerStability [AskSetup] [Package
   }
   exact ⟨compactPrimeUnary, continuousPrimeUnary, uniformPrimeUnary, cert⟩
 
+def FiniteLebesgueNumberPhaseRealRadiusAuditPacket [AskSetup] [PackageSetup]
+    (cover radius mesh core stream regular real _transport _replay _provenance _nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  UnaryHistory cover ∧ UnaryHistory radius ∧ UnaryHistory mesh ∧ UnaryHistory core ∧
+    UnaryHistory stream ∧ UnaryHistory regular ∧ UnaryHistory real ∧
+      Cont cover radius mesh ∧ Cont mesh core stream ∧ Cont stream regular real ∧
+        PkgSig bundle real pkg
+
+theorem FiniteLebesgueNumberPhaseRealRadiusAuditPacket_certificate [AskSetup]
+    [PackageSetup]
+    {cover radius mesh core stream regular real transport replay provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberPhaseRealRadiusAuditPacket cover radius mesh core stream regular real
+        transport replay provenance nameRow bundle pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row real ∧
+              FiniteLebesgueNumberPhaseRealRadiusAuditPacket cover radius mesh core stream
+                regular real transport replay provenance nameRow bundle pkg)
+          (fun row : BHist =>
+            hsame row cover ∨ hsame row radius ∨ hsame row mesh ∨ hsame row core ∨
+              hsame row stream ∨ hsame row regular ∨ hsame row real)
+          (fun row : BHist => hsame row real ∧ PkgSig bundle real pkg)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro packet
+  have packetSource :
+      FiniteLebesgueNumberPhaseRealRadiusAuditPacket cover radius mesh core stream regular
+        real transport replay provenance nameRow bundle pkg :=
+    packet
+  obtain ⟨_coverUnary, _radiusUnary, _meshUnary, _coreUnary, _streamUnary,
+    _regularUnary, _realUnary, _coverRadiusMesh, _meshCoreStream, _streamRegularReal,
+    realPkg⟩ := packet
+  have sourceReal :
+      (fun row : BHist =>
+        hsame row real ∧
+          FiniteLebesgueNumberPhaseRealRadiusAuditPacket cover radius mesh core stream
+            regular real transport replay provenance nameRow bundle pkg) real := by
+    exact ⟨hsame_refl real, packetSource⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro real sourceReal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, realPkg⟩
+  }
+
 end BEDC.Derived.FiniteLebesgueNumberUp
