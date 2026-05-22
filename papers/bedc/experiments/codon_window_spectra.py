@@ -2790,6 +2790,19 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             previous = value
         return value
 
+    def spectral_radius_for_edge_set(codons: set[str], edges: set[tuple[str, str]]) -> float:
+        ordered = tuple(sorted(codons))
+        codon_to_index = {codon: index for index, codon in enumerate(ordered)}
+        matrix = [[0.0 for _column in ordered] for _row in ordered]
+        for left, right in edges:
+            if left in codon_to_index and right in codon_to_index:
+                left_index = codon_to_index[left]
+                right_index = codon_to_index[right]
+                matrix[left_index][right_index] = 1.0 / 6.0
+                matrix[right_index][left_index] = 1.0 / 6.0
+        radius, _vector = dominant_symmetric_eigenpair(matrix)
+        return radius
+
     def spectral_expansion_search(
         base: set[str],
         added_size: int,
@@ -3265,6 +3278,108 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "tail_gain_capture_against_length_5": tail_gain_capture,
         "tail_qsd_mass": tail_qsd_mass,
         "spectral_gain_over_core": radial_product_lambda - core_spectral_radius,
+    }
+    median_edge_set = {tuple(sorted((left, right))) for left, right in median_edges}
+    state_by_codon = {
+        codon: state
+        for state, codons in quotient_state_sets.items()
+        for codon in codons
+    }
+    state_position = {state: index for index, state in enumerate(path_order)}
+
+    def loss_row(name: str, radius: float, **extra: object) -> dict[str, object]:
+        return {
+            "name": name,
+            **extra,
+            "spectral_radius": radius,
+            "loss": median_spectral_radius - radius,
+        }
+
+    single_codon_ablation_rows = []
+    for codon in sorted(median_set):
+        reduced = median_set - {codon}
+        radius = spectral_radius_for_set(reduced)
+        single_codon_ablation_rows.append(
+            loss_row(
+                codon,
+                radius,
+                state=state_by_codon[codon],
+            )
+        )
+    single_codon_ablation_rows.sort(key=lambda row: (-row["loss"], row["name"]))
+    single_codon_orbit_rows = []
+    for state in path_order:
+        rows = [row for row in single_codon_ablation_rows if row["state"] == state]
+        single_codon_orbit_rows.append(
+            {
+                "state": state,
+                "codons": tuple(sorted(row["name"] for row in rows)),
+                "spectral_radius": rows[0]["spectral_radius"],
+                "loss": rows[0]["loss"],
+            }
+        )
+    single_codon_orbit_rows.sort(key=lambda row: (-row["loss"], row["state"]))
+
+    module_ablation_rows = []
+    for state in path_order:
+        reduced = median_set - quotient_state_sets[state]
+        radius = spectral_radius_for_set(reduced)
+        module_ablation_rows.append(
+            loss_row(
+                state,
+                radius,
+                size=len(quotient_state_sets[state]),
+                codons=tuple(sorted(quotient_state_sets[state])),
+            )
+        )
+    module_ablation_rows.sort(key=lambda row: (-row["loss"], row["name"]))
+
+    edge_groups: dict[str, set[tuple[str, str]]] = collections.defaultdict(set)
+    for left, right in median_edge_set:
+        left_state = state_by_codon[left]
+        right_state = state_by_codon[right]
+        if left_state == right_state:
+            group = f"{left_state}_internal"
+        else:
+            if state_position[left_state] <= state_position[right_state]:
+                group = f"{left_state}-{right_state}"
+            else:
+                group = f"{right_state}-{left_state}"
+        edge_groups[group].add((left, right))
+    edge_group_ablation_rows = []
+    for group, edges in sorted(edge_groups.items()):
+        radius = spectral_radius_for_edge_set(median_set, median_edge_set - edges)
+        edge_group_ablation_rows.append(
+            loss_row(
+                group,
+                radius,
+                edge_count=len(edges),
+                edges=tuple(sorted(edges)),
+            )
+        )
+    edge_group_ablation_rows.sort(key=lambda row: (-row["loss"], row["name"]))
+
+    single_edge_ablation_rows = []
+    for edge in sorted(median_edge_set):
+        radius = spectral_radius_for_edge_set(median_set, median_edge_set - {edge})
+        left, right = edge
+        single_edge_ablation_rows.append(
+            loss_row(
+                f"{left}-{right}",
+                radius,
+                edge=edge,
+                states=tuple(sorted((state_by_codon[left], state_by_codon[right]), key=state_position.get)),
+            )
+        )
+    single_edge_ablation_rows.sort(key=lambda row: (-row["loss"], row["name"]))
+    spectral_ablation_summary = {
+        "base_spectral_radius": median_spectral_radius,
+        "single_codon_orbit_rows": single_codon_orbit_rows,
+        "single_codon_top_rows": single_codon_ablation_rows[:10],
+        "module_ablation_rows": module_ablation_rows,
+        "tail_coupling_ablation": next(row for row in edge_group_ablation_rows if row["name"] == "UUR-CUR"),
+        "edge_group_ablation_rows": edge_group_ablation_rows,
+        "single_edge_top_rows": single_edge_ablation_rows[:12],
     }
 
     return {
@@ -3837,6 +3952,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                     "wobble_lambda_gain": 1.0 / 6.0,
                     "lambda_without_wobble_edge": radial_mu_max / 6.0,
                     "spectral_antenna": spectral_antenna_summary,
+                    "spectral_ablation": spectral_ablation_summary,
                 },
             },
         },
@@ -5749,6 +5865,62 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert round(antenna["tail_gain_capture_against_length_5"], 4) == 0.9817
     assert round(antenna["tail_qsd_mass"], 4) == 0.064
     assert round(antenna["spectral_gain_over_core"], 6) == 0.008581
+    ablation = radial["spectral_ablation"]
+    assert round(ablation["base_spectral_radius"], 9) == 0.675247931
+    assert [
+        (row["state"], row["codons"], round(row["loss"], 6))
+        for row in ablation["single_codon_orbit_rows"]
+    ] == [
+        ("UUR", ("TTA", "TTG"), 0.041994),
+        ("StopStart6", ("ATA", "ATG", "TAA", "TAG", "TCA", "TCG"), 0.035931),
+        ("Anchor6", ("AAA", "AAG", "ACA", "ACG", "TGA", "TGG"), 0.033066),
+        ("AGR", ("AGA", "AGG"), 0.031505),
+        ("CUR", ("CTA", "CTG"), 0.005593),
+        ("CUY", ("CTC", "CTT"), 0.000643),
+    ]
+    assert [
+        (row["name"], row["size"], round(row["spectral_radius"], 6), round(row["loss"], 6))
+        for row in ablation["module_ablation_rows"]
+    ] == [
+        ("StopStart6", 6, 0.455342, 0.219906),
+        ("Anchor6", 6, 0.512386, 0.162862),
+        ("UUR", 2, 0.607625, 0.067623),
+        ("AGR", 2, 0.62436, 0.050888),
+        ("CUR", 2, 0.666667, 0.008581),
+        ("CUY", 2, 0.674246, 0.001002),
+    ]
+    assert ablation["tail_coupling_ablation"]["name"] == "UUR-CUR"
+    assert ablation["tail_coupling_ablation"]["edge_count"] == 2
+    assert round(ablation["tail_coupling_ablation"]["spectral_radius"], 6) == 0.666667
+    assert round(ablation["tail_coupling_ablation"]["loss"], 6) == 0.008581
+    assert [
+        (row["name"], row["edge_count"], round(row["spectral_radius"], 6), round(row["loss"], 6))
+        for row in ablation["edge_group_ablation_rows"]
+    ] == [
+        ("Anchor6-StopStart6", 12, 0.512386, 0.162862),
+        ("StopStart6-UUR", 6, 0.607625, 0.067623),
+        ("StopStart6_internal", 3, 0.622672, 0.052576),
+        ("AGR-Anchor6", 6, 0.62436, 0.050888),
+        ("Anchor6_internal", 3, 0.627825, 0.047423),
+        ("UUR_internal", 1, 0.655912, 0.019336),
+        ("AGR_internal", 1, 0.661306, 0.013942),
+        ("UUR-CUR", 2, 0.666667, 0.008581),
+        ("CUR_internal", 1, 0.672777, 0.002471),
+        ("CUR-CUY", 2, 0.674246, 0.001002),
+        ("CUY_internal", 1, 0.674978, 0.00027),
+    ]
+    assert [
+        (row["name"], tuple(row["edge"]), tuple(row["states"]), round(row["loss"], 6))
+        for row in ablation["single_edge_top_rows"][:7]
+    ] == [
+        ("TTA-TTG", ("TTA", "TTG"), ("UUR", "UUR"), 0.019336),
+        ("ATA-TTA", ("ATA", "TTA"), ("StopStart6", "UUR"), 0.017432),
+        ("ATG-TTG", ("ATG", "TTG"), ("StopStart6", "UUR"), 0.017432),
+        ("TAA-TTA", ("TAA", "TTA"), ("StopStart6", "UUR"), 0.017432),
+        ("TAG-TTG", ("TAG", "TTG"), ("StopStart6", "UUR"), 0.017432),
+        ("TCA-TTA", ("TCA", "TTA"), ("StopStart6", "UUR"), 0.017432),
+        ("TCG-TTG", ("TCG", "TTG"), ("StopStart6", "UUR"), 0.017432),
+    ]
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
