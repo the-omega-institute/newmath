@@ -43,52 +43,38 @@ def dyadicArchimedeanToEventFlow : DyadicArchimedeanUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (dyadicArchimedeanFields x).map dyadicArchimedeanEncodeBHist
 
+private def dyadicArchimedeanRawAt : Nat -> EventFlow -> RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => dyadicArchimedeanRawAt n rest
+
+private def dyadicArchimedeanLengthEq : Nat -> EventFlow -> Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => dyadicArchimedeanLengthEq n rest
+
 def dyadicArchimedeanFromEventFlow : EventFlow -> Option DyadicArchimedeanUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | D :: rest0 =>
-      match rest0 with
-      | [] => none
-      | B :: rest1 =>
-          match rest1 with
-          | [] => none
-          | K :: rest2 =>
-              match rest2 with
-              | [] => none
-              | S :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | C :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | I :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | H :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | T :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | P :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | N :: rest9 =>
-                                          match rest9 with
-                                          | [] =>
-                                              some
-                                                (DyadicArchimedeanUp.mk
-                                                  (dyadicArchimedeanDecodeBHist D)
-                                                  (dyadicArchimedeanDecodeBHist B)
-                                                  (dyadicArchimedeanDecodeBHist K)
-                                                  (dyadicArchimedeanDecodeBHist S)
-                                                  (dyadicArchimedeanDecodeBHist C)
-                                                  (dyadicArchimedeanDecodeBHist I)
-                                                  (dyadicArchimedeanDecodeBHist H)
-                                                  (dyadicArchimedeanDecodeBHist T)
-                                                  (dyadicArchimedeanDecodeBHist P)
-                                                  (dyadicArchimedeanDecodeBHist N))
-                                          | _ :: _ => none
+  | flow =>
+      match dyadicArchimedeanLengthEq 10 flow with
+      | true =>
+          some
+            (DyadicArchimedeanUp.mk
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 0 flow))
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 1 flow))
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 2 flow))
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 3 flow))
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 4 flow))
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 5 flow))
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 6 flow))
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 7 flow))
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 8 flow))
+              (dyadicArchimedeanDecodeBHist (dyadicArchimedeanRawAt 9 flow)))
+      | false => none
 
 theorem DyadicArchimedeanTasteGate_single_carrier_alignment_round_trip :
     forall x : DyadicArchimedeanUp,
