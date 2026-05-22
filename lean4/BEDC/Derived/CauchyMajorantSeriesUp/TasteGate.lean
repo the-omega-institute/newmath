@@ -14,20 +14,20 @@ inductive CauchyMajorantSeriesUp : Type where
   | mk (A D S R B E H C P N : BHist) : CauchyMajorantSeriesUp
   deriving DecidableEq
 
-def cauchyMajorantSeriesEncodeBHist : BHist -> RawEvent
+def cauchyMajorantSeriesEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cauchyMajorantSeriesEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cauchyMajorantSeriesEncodeBHist h
 
-def cauchyMajorantSeriesDecodeBHist : RawEvent -> BHist
+def cauchyMajorantSeriesDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cauchyMajorantSeriesDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyMajorantSeriesDecodeBHist tail)
 
 private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode :
-    forall h : BHist,
+    ∀ h : BHist,
       cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -36,15 +36,15 @@ private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_en
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cauchyMajorantSeriesFields : CauchyMajorantSeriesUp -> List BHist
+def cauchyMajorantSeriesFields : CauchyMajorantSeriesUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CauchyMajorantSeriesUp.mk A D S R B E H C P N => [A, D, S, R, B, E, H, C, P, N]
 
-def cauchyMajorantSeriesToEventFlow : CauchyMajorantSeriesUp -> EventFlow
+def cauchyMajorantSeriesToEventFlow : CauchyMajorantSeriesUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (cauchyMajorantSeriesFields x).map cauchyMajorantSeriesEncodeBHist
 
-private def cauchyMajorantSeriesRawAt : Nat -> EventFlow -> RawEvent
+private def cauchyMajorantSeriesRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -68,7 +68,7 @@ def cauchyMajorantSeriesFromEventFlow
       (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 9 flow)))
 
 private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_round_trip :
-    forall x : CauchyMajorantSeriesUp,
+    ∀ x : CauchyMajorantSeriesUp,
       cauchyMajorantSeriesFromEventFlow (cauchyMajorantSeriesToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -102,7 +102,7 @@ private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_round_tri
 
 private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyMajorantSeriesUp} :
-    cauchyMajorantSeriesToEventFlow x = cauchyMajorantSeriesToEventFlow y -> x = y := by
+    cauchyMajorantSeriesToEventFlow x = cauchyMajorantSeriesToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -115,8 +115,8 @@ private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_toEventFl
         (CauchyMajorantSeriesTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_fields_faithful :
-    forall x y : CauchyMajorantSeriesUp,
-      cauchyMajorantSeriesFields x = cauchyMajorantSeriesFields y -> x = y := by
+    ∀ x y : CauchyMajorantSeriesUp,
+      cauchyMajorantSeriesFields x = cauchyMajorantSeriesFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y h
   cases x with
@@ -161,15 +161,15 @@ instance cauchyMajorantSeriesNontrivial : Nontrivial CauchyMajorantSeriesUp wher
         cases h⟩
 
 theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment :
-    (forall h : BHist,
+    (∀ h : BHist,
       cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEncodeBHist h) = h) ∧
-      (forall x : CauchyMajorantSeriesUp,
+      (∀ x : CauchyMajorantSeriesUp,
         cauchyMajorantSeriesFromEventFlow (cauchyMajorantSeriesToEventFlow x) =
           some x) ∧
-        (forall x y : CauchyMajorantSeriesUp,
-          cauchyMajorantSeriesToEventFlow x = cauchyMajorantSeriesToEventFlow y ->
+        (∀ x y : CauchyMajorantSeriesUp,
+          cauchyMajorantSeriesToEventFlow x = cauchyMajorantSeriesToEventFlow y →
             x = y) ∧
-          cauchyMajorantSeriesEncodeBHist BHist.Empty = ([] : List BMark) := by
+          cauchyMajorantSeriesEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   exact
     ⟨CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode,
