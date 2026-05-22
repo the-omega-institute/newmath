@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyRateDominanceUp.TasteGate
+namespace BEDC.Derived.CauchyRateDominanceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -13,20 +14,20 @@ inductive CauchyRateDominanceUp : Type where
   | mk (M D S Q E H C P N : BHist) : CauchyRateDominanceUp
   deriving DecidableEq
 
-def cauchyRateDominanceEncodeBHist : BHist → RawEvent
+def cauchyRateDominanceEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cauchyRateDominanceEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cauchyRateDominanceEncodeBHist h
 
-def cauchyRateDominanceDecodeBHist : RawEvent → BHist
+def cauchyRateDominanceDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cauchyRateDominanceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyRateDominanceDecodeBHist tail)
 
-private theorem CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist, cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist h) = h := by
+private theorem CauchyRateDominanceTasteGate_single_carrier_alignment_decode :
+    forall h : BHist, cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,43 +35,34 @@ private theorem CauchyRateDominanceTasteGate_single_carrier_alignment_decode_enc
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cauchyRateDominanceFields : CauchyRateDominanceUp → List BHist
+def cauchyRateDominanceFields : CauchyRateDominanceUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CauchyRateDominanceUp.mk M D S Q E H C P N => [M, D, S, Q, E, H, C, P, N]
 
-def cauchyRateDominanceToEventFlow : CauchyRateDominanceUp → EventFlow
+def cauchyRateDominanceToEventFlow : CauchyRateDominanceUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (cauchyRateDominanceFields x).map cauchyRateDominanceEncodeBHist
 
-def cauchyRateDominanceFromEventFlow : EventFlow → Option CauchyRateDominanceUp
+def cauchyRateDominanceFromEventFlow : EventFlow -> Option CauchyRateDominanceUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
   | M :: restM =>
       match restM with
-      | [] => none
       | D :: restD =>
           match restD with
-          | [] => none
           | S :: restS =>
               match restS with
-              | [] => none
               | Q :: restQ =>
                   match restQ with
-                  | [] => none
                   | E :: restE =>
                       match restE with
-                      | [] => none
                       | H :: restH =>
                           match restH with
-                          | [] => none
                           | C :: restC =>
                               match restC with
-                              | [] => none
                               | P :: restP =>
                                   match restP with
-                                  | [] => none
-                                  | N :: restN =>
-                                      match restN with
+                                  | N :: rest =>
+                                      match rest with
                                       | [] =>
                                           some
                                             (CauchyRateDominanceUp.mk
@@ -84,40 +76,58 @@ def cauchyRateDominanceFromEventFlow : EventFlow → Option CauchyRateDominanceU
                                               (cauchyRateDominanceDecodeBHist P)
                                               (cauchyRateDominanceDecodeBHist N))
                                       | _ :: _ => none
+                                  | [] => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
+  | [] => none
+
+private theorem CauchyRateDominanceTasteGate_single_carrier_alignment_mk_congr
+    {M M' D D' S S' Q Q' E E' H H' C C' P P' N N' : BHist}
+    (hM : M' = M) (hD : D' = D) (hS : S' = S) (hQ : Q' = Q)
+    (hE : E' = E) (hH : H' = H) (hC : C' = C) (hP : P' = P)
+    (hN : N' = N) :
+    CauchyRateDominanceUp.mk M' D' S' Q' E' H' C' P' N' =
+      CauchyRateDominanceUp.mk M D S Q E H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hM
+  cases hD
+  cases hS
+  cases hQ
+  cases hE
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
 
 private theorem CauchyRateDominanceTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : CauchyRateDominanceUp,
+    forall x : CauchyRateDominanceUp,
       cauchyRateDominanceFromEventFlow (cauchyRateDominanceToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk M D S Q E H C P N =>
-      change
-        some
-          (CauchyRateDominanceUp.mk
-            (cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist M))
-            (cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist D))
-            (cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist S))
-            (cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist Q))
-            (cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist E))
-            (cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist H))
-            (cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist C))
-            (cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist P))
-            (cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist N))) =
-          some (CauchyRateDominanceUp.mk M D S Q E H C P N)
-      rw [CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode M,
-        CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode D,
-        CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode S,
-        CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode Q,
-        CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode E,
-        CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode H,
-        CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode C,
-        CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode P,
-        CauchyRateDominanceTasteGate_single_carrier_alignment_decode_encode N]
+      exact
+        congrArg some
+          (CauchyRateDominanceTasteGate_single_carrier_alignment_mk_congr
+            (CauchyRateDominanceTasteGate_single_carrier_alignment_decode M)
+            (CauchyRateDominanceTasteGate_single_carrier_alignment_decode D)
+            (CauchyRateDominanceTasteGate_single_carrier_alignment_decode S)
+            (CauchyRateDominanceTasteGate_single_carrier_alignment_decode Q)
+            (CauchyRateDominanceTasteGate_single_carrier_alignment_decode E)
+            (CauchyRateDominanceTasteGate_single_carrier_alignment_decode H)
+            (CauchyRateDominanceTasteGate_single_carrier_alignment_decode C)
+            (CauchyRateDominanceTasteGate_single_carrier_alignment_decode P)
+            (CauchyRateDominanceTasteGate_single_carrier_alignment_decode N))
 
 private theorem CauchyRateDominanceTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyRateDominanceUp} :
-    cauchyRateDominanceToEventFlow x = cauchyRateDominanceToEventFlow y → x = y := by
+    cauchyRateDominanceToEventFlow x = cauchyRateDominanceToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -127,35 +137,6 @@ private theorem CauchyRateDominanceTasteGate_single_carrier_alignment_toEventFlo
   exact Option.some.inj
     (Eq.trans (CauchyRateDominanceTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (CauchyRateDominanceTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem CauchyRateDominanceTasteGate_single_carrier_alignment_field_faithful :
-    ∀ x y : CauchyRateDominanceUp,
-      cauchyRateDominanceFields x = cauchyRateDominanceFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk M₁ D₁ S₁ Q₁ E₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk M₂ D₂ S₂ Q₂ E₂ H₂ C₂ P₂ N₂ =>
-          injection hfields with hM tailD
-          injection tailD with hD tailS
-          injection tailS with hS tailQ
-          injection tailQ with hQ tailE
-          injection tailE with hE tailH
-          injection tailH with hH tailC
-          injection tailC with hC tailP
-          injection tailP with hP tailN
-          injection tailN with hN _
-          subst hM
-          subst hD
-          subst hS
-          subst hQ
-          subst hE
-          subst hH
-          subst hC
-          subst hP
-          subst hN
-          rfl
 
 instance cauchyRateDominanceBHistCarrier : BHistCarrier CauchyRateDominanceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -172,29 +153,21 @@ instance cauchyRateDominanceChapterTasteGate : ChapterTasteGate CauchyRateDomina
     intro x y hxy heq
     exact hxy (CauchyRateDominanceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-instance cauchyRateDominanceFieldFaithful : FieldFaithful CauchyRateDominanceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := cauchyRateDominanceFields
-  field_faithful := CauchyRateDominanceTasteGate_single_carrier_alignment_field_faithful
-
-instance cauchyRateDominanceNontrivial : Nontrivial CauchyRateDominanceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CauchyRateDominanceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CauchyRateDominanceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def taste_gate : ChapterTasteGate CauchyRateDominanceUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  cauchyRateDominanceChapterTasteGate
-
 theorem CauchyRateDominanceTasteGate_single_carrier_alignment :
-    ChapterTasteGate CauchyRateDominanceUp := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  exact inferInstance
+    (forall h : BHist, cauchyRateDominanceDecodeBHist (cauchyRateDominanceEncodeBHist h) = h) ∧
+      (forall x : CauchyRateDominanceUp,
+        cauchyRateDominanceFromEventFlow (cauchyRateDominanceToEventFlow x) = some x) ∧
+        (forall x y : CauchyRateDominanceUp,
+          cauchyRateDominanceToEventFlow x = cauchyRateDominanceToEventFlow y -> x = y) ∧
+          cauchyRateDominanceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact CauchyRateDominanceTasteGate_single_carrier_alignment_decode
+  · constructor
+    · exact CauchyRateDominanceTasteGate_single_carrier_alignment_round_trip
+    · constructor
+      · intro x y heq
+        exact CauchyRateDominanceTasteGate_single_carrier_alignment_toEventFlow_injective heq
+      · rfl
 
-end BEDC.Derived.CauchyRateDominanceUp.TasteGate
+end BEDC.Derived.CauchyRateDominanceUp
