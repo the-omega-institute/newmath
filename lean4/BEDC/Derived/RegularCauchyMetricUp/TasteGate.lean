@@ -18,21 +18,21 @@ inductive RegularCauchyMetricUp : Type where
       RegularCauchyMetricUp
   deriving DecidableEq
 
-def regularCauchyMetricEncodeRawEvent : BHist -> RawEvent
+def regularCauchyMetricEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: regularCauchyMetricEncodeRawEvent h
-  | BHist.e1 h => BMark.b1 :: regularCauchyMetricEncodeRawEvent h
+  | BHist.e0 h => BMark.b0 :: regularCauchyMetricEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: regularCauchyMetricEncodeBHist h
 
-def regularCauchyMetricDecodeRawEvent : RawEvent -> BHist
+def regularCauchyMetricDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (regularCauchyMetricDecodeRawEvent tail)
-  | BMark.b1 :: tail => BHist.e1 (regularCauchyMetricDecodeRawEvent tail)
+  | BMark.b0 :: tail => BHist.e0 (regularCauchyMetricDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (regularCauchyMetricDecodeBHist tail)
 
-private theorem regularCauchyMetric_decode_encode_bhist :
+private theorem RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode :
     forall h : BHist,
-      regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent h) = h := by
+      regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -47,7 +47,7 @@ def regularCauchyMetricFields : RegularCauchyMetricUp -> List BHist
       [r0, r1, w, d, q, e, h, c,
         p, n]
 
-def regularCauchyMetricEncodeBHist : RegularCauchyMetricUp -> BHist
+def regularCauchyMetricEncodeCarrier : RegularCauchyMetricUp -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyMetricUp.mk r0 r1 w d q e h
       c p n =>
@@ -62,16 +62,16 @@ def regularCauchyMetricToEventFlow : RegularCauchyMetricUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyMetricUp.mk r0 r1 w d q e h
       c p n =>
-      [regularCauchyMetricEncodeRawEvent r0,
-        regularCauchyMetricEncodeRawEvent r1,
-        regularCauchyMetricEncodeRawEvent w,
-        regularCauchyMetricEncodeRawEvent d,
-        regularCauchyMetricEncodeRawEvent q,
-        regularCauchyMetricEncodeRawEvent e,
-        regularCauchyMetricEncodeRawEvent h,
-        regularCauchyMetricEncodeRawEvent c,
-        regularCauchyMetricEncodeRawEvent p,
-        regularCauchyMetricEncodeRawEvent n]
+      [regularCauchyMetricEncodeBHist r0,
+        regularCauchyMetricEncodeBHist r1,
+        regularCauchyMetricEncodeBHist w,
+        regularCauchyMetricEncodeBHist d,
+        regularCauchyMetricEncodeBHist q,
+        regularCauchyMetricEncodeBHist e,
+        regularCauchyMetricEncodeBHist h,
+        regularCauchyMetricEncodeBHist c,
+        regularCauchyMetricEncodeBHist p,
+        regularCauchyMetricEncodeBHist n]
 
 private def regularCauchyMetricEventAtDefault : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -83,19 +83,19 @@ private def regularCauchyMetricEventAtDefault : Nat -> EventFlow -> RawEvent
 def regularCauchyMetricFromEventFlow (ef : EventFlow) : Option RegularCauchyMetricUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
-    (RegularCauchyMetricUp.mk
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 0 ef))
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 1 ef))
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 2 ef))
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 3 ef))
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 4 ef))
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 5 ef))
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 6 ef))
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 7 ef))
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 8 ef))
-      (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEventAtDefault 9 ef)))
+      (RegularCauchyMetricUp.mk
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 0 ef))
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 1 ef))
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 2 ef))
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 3 ef))
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 4 ef))
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 5 ef))
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 6 ef))
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 7 ef))
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 8 ef))
+      (regularCauchyMetricDecodeBHist (regularCauchyMetricEventAtDefault 9 ef)))
 
-private theorem regularCauchyMetric_round_trip :
+private theorem RegularCauchyMetricTasteGate_single_carrier_alignment_round_trip :
     forall x : RegularCauchyMetricUp,
       regularCauchyMetricFromEventFlow (regularCauchyMetricToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -105,31 +105,32 @@ private theorem regularCauchyMetric_round_trip :
       change
         some
           (RegularCauchyMetricUp.mk
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent r0))
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent r1))
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent w))
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent d))
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent q))
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent e))
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent h))
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent c))
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent p))
-            (regularCauchyMetricDecodeRawEvent (regularCauchyMetricEncodeRawEvent n))) =
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist r0))
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist r1))
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist w))
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist d))
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist q))
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist e))
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist h))
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist c))
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist p))
+            (regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist n))) =
           some
             (RegularCauchyMetricUp.mk r0 r1 w d q e
               h c p n)
-      rw [regularCauchyMetric_decode_encode_bhist r0,
-        regularCauchyMetric_decode_encode_bhist r1,
-        regularCauchyMetric_decode_encode_bhist w,
-        regularCauchyMetric_decode_encode_bhist d,
-        regularCauchyMetric_decode_encode_bhist q,
-        regularCauchyMetric_decode_encode_bhist e,
-        regularCauchyMetric_decode_encode_bhist h,
-        regularCauchyMetric_decode_encode_bhist c,
-        regularCauchyMetric_decode_encode_bhist p,
-        regularCauchyMetric_decode_encode_bhist n]
+      rw [RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode r0,
+        RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode r1,
+        RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode w,
+        RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode d,
+        RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode q,
+        RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode e,
+        RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode h,
+        RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode c,
+        RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode p,
+        RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode n]
 
-private theorem regularCauchyMetricToEventFlow_injective {x y : RegularCauchyMetricUp} :
+private theorem RegularCauchyMetricTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : RegularCauchyMetricUp} :
     regularCauchyMetricToEventFlow x = regularCauchyMetricToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -139,8 +140,8 @@ private theorem regularCauchyMetricToEventFlow_injective {x y : RegularCauchyMet
     congrArg regularCauchyMetricFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
-      (regularCauchyMetric_round_trip x).symm
-      (Eq.trans hread (regularCauchyMetric_round_trip y)))
+      (RegularCauchyMetricTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (RegularCauchyMetricTasteGate_single_carrier_alignment_round_trip y)))
 
 instance regularCauchyMetricBHistCarrier : BHistCarrier RegularCauchyMetricUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -152,26 +153,39 @@ instance regularCauchyMetricChapterTasteGate : ChapterTasteGate RegularCauchyMet
   round_trip := by
     intro x
     change regularCauchyMetricFromEventFlow (regularCauchyMetricToEventFlow x) = some x
-    exact regularCauchyMetric_round_trip x
+    exact RegularCauchyMetricTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (regularCauchyMetricToEventFlow_injective heq)
+    exact hxy (RegularCauchyMetricTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate RegularCauchyMetricUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyMetricChapterTasteGate
 
 theorem RegularCauchyMetricTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier RegularCauchyMetricUp) ∧
-      Nonempty (ChapterTasteGate RegularCauchyMetricUp) ∧
-        (∀ x : RegularCauchyMetricUp,
-          Cont (regularCauchyMetricEncodeBHist x)
-            (regularCauchyMetricEncodeBHist x)
-            (append (regularCauchyMetricEncodeBHist x) (regularCauchyMetricEncodeBHist x))) := by
-  -- BEDC touchpoint anchor: BHist Cont BMark ChapterTasteGate BHistCarrier
-  exact
-    ⟨⟨regularCauchyMetricBHistCarrier⟩, ⟨regularCauchyMetricChapterTasteGate⟩, by
-      intro x
-      rfl⟩
+    (∀ h : BHist, regularCauchyMetricDecodeBHist (regularCauchyMetricEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyMetricUp,
+        regularCauchyMetricFromEventFlow (regularCauchyMetricToEventFlow x) = some x) ∧
+      (∀ x y : RegularCauchyMetricUp,
+        regularCauchyMetricToEventFlow x = regularCauchyMetricToEventFlow y -> x = y) ∧
+      regularCauchyMetricEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact RegularCauchyMetricTasteGate_single_carrier_alignment_decode_encode
+  constructor
+  · exact RegularCauchyMetricTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact RegularCauchyMetricTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  · rfl
+
+theorem RegularCauchyMetricTasteGate_single_carrier_alignment_carrier_cont :
+    ∀ x : RegularCauchyMetricUp,
+      Cont (regularCauchyMetricEncodeCarrier x)
+        (regularCauchyMetricEncodeCarrier x)
+        (append (regularCauchyMetricEncodeCarrier x) (regularCauchyMetricEncodeCarrier x)) := by
+  -- BEDC touchpoint anchor: BHist Cont BMark
+  intro x
+  rfl
 
 end BEDC.Derived.RegularCauchyMetricUp
