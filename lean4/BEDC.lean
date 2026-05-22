@@ -1477,6 +1477,7 @@ import BEDC.Derived.CompilerTraceFaithfulnessUp
 import BEDC.Derived.CompilerTraceFaithfulnessUp.TasteGate
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
+import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionEmbeddingUp
 import BEDC.Derived.CompletionExtractorUp
