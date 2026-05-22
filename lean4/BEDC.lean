@@ -922,6 +922,7 @@ import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
 import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CauchyEstimateUp
+import BEDC.Derived.CauchyExtensionOperatorUp.TasteGate
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
@@ -1422,6 +1423,7 @@ import BEDC.Derived.CompactNetModulusSelectorUp.KernelCarrier
 import BEDC.Derived.CompactNetModulusSelectorUp.MetricConsumerBoundary
 import BEDC.Derived.CompactNetModulusSelectorUp.PointwiseRadiusRoute
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
+import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.CompactUniformContinuityUp.BridgeModulusAssembly
 import BEDC.Derived.CompactUniformContinuityUp.BridgeNonEscapeBoundary
@@ -4605,6 +4607,7 @@ import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyProductUp
 import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
+import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp
 import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
