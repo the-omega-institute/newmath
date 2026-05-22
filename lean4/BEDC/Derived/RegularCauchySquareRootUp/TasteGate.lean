@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchySquareRootUp.TasteGate
@@ -123,8 +124,7 @@ def regularCauchySquareRootFromEventFlow : EventFlow → Option RegularCauchySqu
                                                               (regularCauchySquareRootDecodeBHist H)
                                                               (regularCauchySquareRootDecodeBHist C)
                                                               (regularCauchySquareRootDecodeBHist P)
-                                                              (regularCauchySquareRootDecodeBHist
-                                                                A))
+                                                              (regularCauchySquareRootDecodeBHist A))
                                                       | _ :: _ => none
 
 private theorem regularCauchySquareRoot_round_trip :
@@ -187,7 +187,7 @@ theorem RegularCauchySquareRootTasteGate_single_carrier_alignment :
       (∀ x : RegularCauchySquareRootUp,
         regularCauchySquareRootFromEventFlow (regularCauchySquareRootToEventFlow x) = some x) ∧
         (∀ x y : RegularCauchySquareRootUp,
-          regularCauchySquareRootToEventFlow x = regularCauchySquareRootToEventFlow y -> x = y) ∧
+          regularCauchySquareRootToEventFlow x = regularCauchySquareRootToEventFlow y → x = y) ∧
           regularCauchySquareRootEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
