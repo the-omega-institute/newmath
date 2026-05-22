@@ -1094,6 +1094,7 @@ import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
+import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
