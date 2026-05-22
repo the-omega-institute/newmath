@@ -155,4 +155,39 @@ theorem CauchyNetDirectedWindow_localization [AskSetup] [PackageSetup]
     }
   exact ⟨cert, restrictedRealUnary, restrictedCont⟩
 
+def CauchyNetWitnessCompleteSubwindow [AskSetup] [PackageSetup]
+    (directed schedule regseq dyadic classifier realHandoff transport route provenance
+      nameRow restrictedDirected restrictedSchedule restrictedRegseq restrictedDyadic
+      restrictedClassifier restrictedReal restrictedTransport restrictedRoute
+      restrictedProvenance restrictedName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  CauchyNetCarrier directed schedule regseq dyadic classifier realHandoff transport route
+      provenance nameRow bundle pkg ∧
+    CauchyNetCarrier restrictedDirected restrictedSchedule restrictedRegseq restrictedDyadic
+      restrictedClassifier restrictedReal restrictedTransport restrictedRoute restrictedProvenance
+      restrictedName bundle pkg ∧
+    Cont restrictedRegseq restrictedReal restrictedRoute ∧
+      PkgSig bundle restrictedProvenance pkg
+
+theorem CauchyNetWitnessCompleteSubwindow_carrier_restriction [AskSetup] [PackageSetup]
+    {directed schedule regseq dyadic classifier realHandoff transport route provenance
+      nameRow restrictedDirected restrictedSchedule restrictedRegseq restrictedDyadic
+      restrictedClassifier restrictedReal restrictedTransport restrictedRoute
+      restrictedProvenance restrictedName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyNetWitnessCompleteSubwindow directed schedule regseq dyadic classifier realHandoff
+        transport route provenance nameRow restrictedDirected restrictedSchedule
+        restrictedRegseq restrictedDyadic restrictedClassifier restrictedReal restrictedTransport
+        restrictedRoute restrictedProvenance restrictedName bundle pkg →
+      CauchyNetCarrier restrictedDirected restrictedSchedule restrictedRegseq restrictedDyadic
+          restrictedClassifier restrictedReal restrictedTransport restrictedRoute
+          restrictedProvenance restrictedName bundle pkg ∧
+        Cont restrictedRegseq restrictedReal restrictedRoute ∧
+          PkgSig bundle restrictedProvenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro subwindow
+  obtain ⟨_originalCarrier, restrictedCarrier, restrictedRouteHandoff,
+    restrictedProvenancePkg⟩ := subwindow
+  exact ⟨restrictedCarrier, restrictedRouteHandoff, restrictedProvenancePkg⟩
+
 end BEDC.Derived.CauchyNetUp

@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CauchyApproximationSystemUp$}
+\label{ch:concrete-instances-cauchy-approximation-system-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive analysis, the $\CauchyApproximationSystemUp$ packet records the finite approximation system that turns displayed dyadic observation windows into regular Cauchy-name evidence. It sits between the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the nested dyadic Cauchy route of \autoref{ch:concrete-instances-nested-dyadic-cauchy-namecert}. The packet packages finite dyadic observation windows into regular Cauchy-name evidence before any consumer may read a completed real-name boundary.
+
+\begin{definition}[Cauchy approximation-system carrier]
+\label{def:cauchy-approximation-system-carrier}
+A $\CauchyApproximationSystemUp$ carrier is a finite $\BHist$ packet
+$$
+A_{\mathrm{sys}}=(S,W,A,R,M,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row, carrying the finite stream schedule whose observations may be opened by the packet.
+\item $W$ is the unary finite-window row, assigning each displayed precision request to an inspected initial window of $S$.
+\item $A$ is the dyadic approximant row, recording for each inspected window the $\DyadicRatCoreUp$ approximant read from that window.
+\item $R$ is the refinement row, recording displayed inclusions from a smaller unary window to a larger unary window together with the dyadic comparison budget used to keep the approximants coherent.
+\item $M$ is the modulus budget, assigning every displayed Cauchy precision to a unary window after which all later accepted windows refine through $R$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyApproximationSystemUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\NestedDyadicCauchyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyApproximationSystemUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,W,A,R,M,P,N$. It contains no coordinate for quotient real equality, choice-selected limits, open-cover compactness, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy approximation-system window refinement]
+\label{thm:cauchy-approximation-system-window-refinement}
+Let
+$$
+A_{\mathrm{sys}}=(S,W,A,R,M,P,N)
+$$
+be an accepted $\CauchyApproximationSystemUp$ carrier. If a unary window $w'$ extends a displayed unary window $w$ and the extension is recorded by the refinement row $R$, then the larger-window packet is accepted by the same local classifier. Its stream source remains $S$, its dyadic approximants are the transported rows of $A$, its Cauchy budget is still governed by $M$, and its provenance and local name remain $P$ and $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-approximation-system-carrier}. The only window data are the source row $S$, the unary finite-window row $W$, the dyadic approximant row $A$, the refinement row $R$, and the modulus budget $M$.
+
+Use the displayed extension $w\subseteq w'$ through $R$. The refinement row is part of the carrier, so the larger window is not chosen by an external selector; it is one of the finite windows whose comparison against the old window is already recorded.
+
+The dyadic approximants transport along the same refinement row. Since every approximant in $A$ is sourced by the $\DyadicRatCoreUp$ ledger and every later Cauchy request is bounded by $M$, enlarging the window preserves the displayed approximation budget.
+
+Finally $P$ and $N$ source and name the same finite packet. No quotient real equality, choice-selected limit, open-cover compactness, trichotomy, or ambient completeness coordinate is introduced by the larger window, so the local classifier accepts the transported packet.
+\end{proof}
+
+\begin{theorem}[Cauchy approximation-system regular-name route]
+\label{thm:cauchy-approximation-system-regular-name-route}
+Every coherent family of accepted $\CauchyApproximationSystemUp$ window refinements supplies the regular-name route consumed by $\RegSeqRatUp$ and the terminal $\RealUp$ seal. More precisely, a consumer that reads finite windows through $S,W$, dyadic approximants through $A$, refinement stability through $R$, and Cauchy budgets through $M$ factors through the route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp ,
+$$
+with the nested-window compatibility supplied by \autoref{ch:concrete-instances-nested-dyadic-cauchy-namecert}. The route exports no quotient real equality, selected limit, trichotomy, open-cover compactness, countable-choice selector, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a coherent family of accepted window refinements. Each member exposes the same stream source $S$, the inspected unary windows $W$, dyadic approximants $A$, refinement rows $R$, and modulus budget $M$.
+
+Apply \autoref{thm:cauchy-approximation-system-window-refinement} along the refinement family. Larger windows preserve the same source, approximant, budget, provenance, and local naming rows, so the family gives one stable finite observation route rather than unrelated window reads.
+
+The stable route is exactly the input shape required by the $\RegSeqRatUp$ handoff. The StreamName surface supplies finite observations, the DyadicRatCore surface supplies dyadic approximants and comparison budgets, and the refinement rows supply the Cauchy coherence needed before regular rational readback.
+
+Finally the $\RealUp$ seal is consumed only after that regular handoff. The nested-window compatibility is the sibling route of \autoref{ch:concrete-instances-nested-dyadic-cauchy-namecert}, so the completed read remains a finite BEDC route and cannot export quotient real equality, selected limits, trichotomy, open-cover compactness, countable choice, or ambient completeness.
+\end{proof}
+
+\closureat{CauchyApproximationSystemUp}{seedStr}
+
+\begin{closurestatus}{\CauchyApproximationSystemUp}
+  \constructivestory{A $\CauchyApproximationSystemUp$ packet is generated from a StreamName source row, unary finite-window rows, DyadicRatCore approximant rows, displayed refinement rows, a modulus budget, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-approximation-system-carrier}, \autoref{thm:cauchy-approximation-system-window-refinement}, and \autoref{thm:cauchy-approximation-system-regular-name-route} seed the finite approximation-system route from stream windows and dyadic approximants to RegSeqRat readback and the Real seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient reals, choice-selected limits, open-cover compactness, trichotomy, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window refinement stability, coherent regular-name routing, and nonescape for BEDC.Derived.CauchyApproximationSystemUp.}
+\end{closurestatus}
