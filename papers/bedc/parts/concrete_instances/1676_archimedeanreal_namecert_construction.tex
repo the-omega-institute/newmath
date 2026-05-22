@@ -62,6 +62,20 @@ Thus the exported witness is exactly the finite pair $(Q,D)$ with its ledger $B$
 \end{proof}
 \leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealPacket\_rational\_bound\_witness}
 
+\begin{theorem}[ArchimedeanReal rational-dyadic bound coherence]
+\label{thm:archimedean-real-rat-dyadic-bound-coherence}
+For every accepted $\ArchimedeanRealUp$ packet $A=(R,Q,D,S,G,B,H,C,P,N)$, the $\RatUp$ row $Q$ and the $\DyadicRatCoreUp$ row $D$ form one coherent bound witness for the displayed $\RealUp$ name $R$. Every $\RealUp$ order, locatedness, completion, integer-part, or decimal-prefix consumer that reads either row must read both rows through the same finite ledger $B$, $\StreamNameUp$ window $S$, $\RegSeqRatUp$ handoff $G$, $\hsame$ transports $H$, $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\ArchimedeanRealUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:archimedean-real-carrier}. The accepted packet exposes $Q$ and $D$ as named coordinates of a single finite $\ArchimedeanRealUp$ carrier rather than as two independent bound witnesses.
+
+Apply \autoref{thm:archimedean-real-namecert-obligations}. Its ledger-exactness and rational-bound export clauses say that the comparison of inspected $\RegSeqRatUp$ observations against $Q$ and $D$ is mediated by the same ledger $B$, while the exported consumer surface keeps the same $S,G,H,C,P,N$ rows.
+
+Apply \autoref{thm:archimedean-real-rational-bound-witness}. The public witness for the displayed real name is the pair $Q,D$ together with the finite ledger $B$, so a consumer cannot take the $\RatUp$ row without the dyadic presentation or take the dyadic row without the rational row.
+
+Finally use \autoref{thm:archimedean-real-bound-ledger-nonescape}. Since the packet has no host supremum, selected least bound, quotient stream equality, host limit, or ambient completeness coordinate, there is no second bound surface through which a downstream order, locatedness, completion, integer-part, or decimal-prefix consumer could separate the two rows.
+\end{proof}
+
 \begin{theorem}[ArchimedeanReal transported bound stability]
 \label{thm:archimedean-real-transported-bound-stability}
 Let $A=(R,Q,D,S,G,B,H,C,P,N)$ and $A'=(R',Q',D',S',G',B',H',C',P',N')$ be accepted $\ArchimedeanRealUp$ packets. If the real-name row, rational bound row, dyadic bound row, stream window, regular-Cauchy handoff, bound ledger, transport table, continuation table, provenance row, and local naming row are replaced only by rows classified through the displayed $\hsame$ and $\Cont$ routes, then the rational-bound witness of \autoref{thm:archimedean-real-rational-bound-witness} is transported unchanged as a witness surface: the exported $\RatUp$ row, $\DyadicRatCoreUp$ row, and finite ledger comparison remain the same displayed bound rows for the classified $\RealUp$ name.
