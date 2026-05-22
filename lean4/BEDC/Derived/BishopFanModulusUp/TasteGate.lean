@@ -177,3 +177,41 @@ theorem BishopFanModulusTasteGate_single_carrier_alignment :
       rfl⟩
 
 end BEDC.Derived.BishopFanModulusUp.TasteGate
+
+namespace BEDC.Derived.BishopFanModulusUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.Derived.BishopFanModulusUp.TasteGate
+
+theorem BishopFanModulusUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist, bishopFanModulusDecodeBHist (bishopFanModulusEncodeBHist h) = h) ∧
+      (∀ x : BishopFanModulusUp,
+        bishopFanModulusToEventFlow x =
+          List.map bishopFanModulusEncodeBHist (bishopFanModulusFields x)) ∧
+        (∀ x y : BishopFanModulusUp, bishopFanModulusFields x = bishopFanModulusFields y →
+          x = y) ∧
+          (∃ x y : BishopFanModulusUp, x ≠ y) ∧
+            bishopFanModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  constructor
+  · exact BishopFanModulusTasteGate_single_carrier_alignment.left
+  · constructor
+    · intro x
+      rfl
+    · constructor
+      · exact bishopFanModulus_fields_faithful
+      · constructor
+        · exact
+            ⟨BishopFanModulusUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty,
+              BishopFanModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty,
+              by
+                intro h
+                cases h⟩
+        · rfl
+
+end BEDC.Derived.BishopFanModulusUp
