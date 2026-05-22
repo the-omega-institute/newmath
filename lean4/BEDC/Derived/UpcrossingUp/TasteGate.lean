@@ -305,4 +305,40 @@ theorem UpcrossingMartingaleRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, martingaleUnary, windowUnary, routeReadUnary, martingaleWindow, routePkg⟩
 
+theorem Upcrossing_nonescape [AskSetup] [PackageSetup]
+    {source martingale window threshold route provenance localCert routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UpcrossingCarrier source martingale window threshold route provenance localCert
+        bundle pkg →
+      Cont martingale window routeRead →
+        PkgSig bundle routeRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row route ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row source ∨ hsame row martingale ∨ hsame row window ∨
+                  hsame row threshold ∨ hsame row route)
+              (fun row : BHist => hsame row route ∧ PkgSig bundle provenance pkg)
+              hsame ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row martingale ∨ hsame row window ∨ hsame row routeRead)
+              (fun row : BHist => hsame row routeRead ∧ PkgSig bundle routeRead pkg)
+              hsame ∧
+            UnaryHistory source ∧ UnaryHistory martingale ∧ UnaryHistory window ∧
+              UnaryHistory threshold ∧ UnaryHistory route ∧ UnaryHistory routeRead ∧
+                Cont martingale window routeRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle routeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier martingaleWindow routePkg
+  obtain ⟨routeCert, sourceUnary, martingaleUnary, windowUnary, thresholdUnary,
+    routeUnary, provenancePkg⟩ := UpcrossingNamecertObligations carrier
+  obtain ⟨routeReadCert, _martingaleUnary, _windowUnary, routeReadUnary,
+    martingaleWindowProof, routeReadPkg⟩ :=
+    UpcrossingMartingaleRoute carrier martingaleWindow routePkg
+  exact
+    ⟨routeCert, routeReadCert, sourceUnary, martingaleUnary, windowUnary,
+      thresholdUnary, routeUnary, routeReadUnary, martingaleWindowProof,
+      provenancePkg, routeReadPkg⟩
+
 end BEDC.Derived.UpcrossingUp
