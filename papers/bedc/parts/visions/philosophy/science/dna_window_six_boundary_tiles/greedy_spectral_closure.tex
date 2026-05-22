@@ -1,0 +1,276 @@
+\begin{definition}[Spectral expansion problem]
+\label{def:philosophy-spectral-expansion-problem}
+For $S\subseteq Q_{6}$ and $k\geq 1$, the $k$-point spectral expansion
+problem asks for subsets
+$$
+  B\subseteq Q_{6}\setminus S,\qquad |B|=k,
+$$
+maximizing
+$$
+  \lambda(S\cup B),
+$$
+where $\lambda$ is the killed bit-flip spectral radius of
+\autoref{def:philosophy-killed-bit-flip-walk}.
+\end{definition}
+
+\begin{theorem}[Anchor triple optimality]
+\label{thm:philosophy-anchor-triple-spectral-optimality}
+Among all $3$-point subsets $B\subseteq Q_{6}\setminus\mathcal{R}$,
+the unique maximizer of $\lambda(\mathcal{R}\cup B)$ is
+$$
+  B=\{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}.
+$$
+The search has $\binom{51}{3}=20825$ candidates, and
+$$
+  \lambda(\mathcal{R})=0.475879,\qquad
+  \lambda(\mathcal{R}\cup B)=0.573333.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all $3$-element subsets of the $51$ codons outside
+$\mathcal{R}$ and compute the Perron root of the killed bit-flip
+transition matrix for each expanded set. The maximum is unique and is
+attained at the displayed anchor triple.
+\end{proof}
+
+\begin{corollary}[Anchor layer as spectral stabilizer]
+\label{cor:philosophy-anchor-layer-spectral-stabilizer}
+The inactive-anchor closure
+$$
+  \overline{\mathcal{R}}
+  =
+  \mathcal{R}\cup\{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}
+$$
+is the optimal $3$-point spectral stabilization of $\mathcal{R}$.
+\end{corollary}
+\begin{proof}
+This is exactly the maximizing triple in
+\autoref{thm:philosophy-anchor-triple-spectral-optimality}.
+\end{proof}
+
+\begin{theorem}[First-median triple optimality]
+\label{thm:philosophy-first-median-triple-spectral-optimality}
+Among all $3$-point subsets
+$B\subseteq Q_{6}\setminus\overline{\mathcal{R}}$, the unique maximizer
+of $\lambda(\overline{\mathcal{R}}\cup B)$ is
+$$
+  B=\{\mathrm{AUG},\mathrm{UCG},\mathrm{UUG}\}.
+$$
+The search has $\binom{48}{3}=17296$ candidates, and
+$$
+  \lambda(\overline{\mathcal{R}})=0.573333,\qquad
+  \lambda(\overline{\mathcal{R}}\cup B)=0.642182.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all $3$-element subsets of the $48$ codons outside
+$\overline{\mathcal{R}}$ and compute the killed-walk Perron root for
+each expanded set. The maximum is unique and is attained at
+$\{\mathrm{AUG},\mathrm{UCG},\mathrm{UUG}\}$.
+\end{proof}
+
+\begin{corollary}[First median layer as spectral stabilizer]
+\label{cor:philosophy-first-median-layer-spectral-stabilizer}
+The first median layer satisfies
+$$
+  \operatorname{Med}_{1}(\mathcal{R})
+  =
+  \overline{\mathcal{R}}
+  \cup
+  \{\mathrm{AUG},\mathrm{UCG},\mathrm{UUG}\},
+$$
+and is the optimal $3$-point spectral stabilization of
+$\overline{\mathcal{R}}$.
+\end{corollary}
+\begin{proof}
+Combine \autoref{thm:philosophy-median-depth-sealing} with
+\autoref{thm:philosophy-first-median-triple-spectral-optimality}.
+\end{proof}
+
+\begin{theorem}[$\mathrm{ACG}$ single-point optimality]
+\label{thm:philosophy-acg-single-point-spectral-optimality}
+Among all single codons
+$p\in Q_{6}\setminus\operatorname{Med}_{1}(\mathcal{R})$, the unique
+maximizer of
+$$
+  \lambda(\operatorname{Med}_{1}(\mathcal{R})\cup\{p\})
+$$
+is
+$$
+  p=\mathrm{ACG}.
+$$
+There are $45$ candidates, and
+$$
+  \lambda(\operatorname{Med}_{1}(\mathcal{R}))=0.642182,\qquad
+  \lambda(\operatorname{Med}_{1}(\mathcal{R})\cup\{\mathrm{ACG}\})
+  =0.675248.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $45$ codons outside $\operatorname{Med}_{1}(\mathcal{R})$
+and compute the killed-walk Perron root after adjoining each one. The
+unique maximum is attained at $\mathrm{ACG}$.
+\end{proof}
+
+\begin{corollary}[$\mathrm{ACG}$ as optimal spectral seal]
+\label{cor:philosophy-acg-optimal-spectral-seal}
+The final sealing codon $\mathrm{ACG}$ is not only the unique strict
+second-layer median point; it is also the unique optimal one-point
+spectral stabilization of $\operatorname{Med}_{1}(\mathcal{R})$.
+\end{corollary}
+\begin{proof}
+The median statement is \autoref{thm:philosophy-median-layer-witnesses}.
+The spectral statement is
+\autoref{thm:philosophy-acg-single-point-spectral-optimality}.
+\end{proof}
+
+\begin{theorem}[Greedy spectral closure chain]
+\label{thm:philosophy-greedy-spectral-closure-chain}
+The greedy spectral stabilization steps
+$$
+  \mathcal{R}
+  \xrightarrow{\mathrm{best}\ +3}
+  \overline{\mathcal{R}}
+  \xrightarrow{\mathrm{best}\ +3}
+  \operatorname{Med}_{1}(\mathcal{R})
+  \xrightarrow{\mathrm{best}\ +1}
+  M
+$$
+are exactly
+$$
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\},
+  \qquad
+  \{\mathrm{AUG},\mathrm{UCG},\mathrm{UUG}\},
+  \qquad
+  \{\mathrm{ACG}\}.
+$$
+The corresponding spectral radii are
+$$
+\begin{array}{c|l|r|r}
+  \text{set} & \text{adjoined codons} & \text{vertices} & \lambda\\
+  \hline
+  \mathcal{R} & \varnothing & 13 & 0.475879\\
+  \overline{\mathcal{R}}
+    & \mathrm{AAG},\mathrm{ACA},\mathrm{UGG} & 16 & 0.573333\\
+  \operatorname{Med}_{1}(\mathcal{R})
+    & \mathrm{AUG},\mathrm{UCG},\mathrm{UUG} & 19 & 0.642182\\
+  M
+    & \mathrm{ACG} & 20 & 0.675248.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The three greedy steps are respectively
+\autoref{thm:philosophy-anchor-triple-spectral-optimality},
+\autoref{thm:philosophy-first-median-triple-spectral-optimality}, and
+\autoref{thm:philosophy-acg-single-point-spectral-optimality}. The
+identified sets are the inactive-anchor closure, the first median layer,
+and the full median closure by
+\autoref{thm:philosophy-median-depth-sealing}.
+\end{proof}
+
+\begin{definition}[Spectral gain]
+\label{def:philosophy-spectral-gain}
+For $S\subseteq S'\subseteq Q_{6}$, define
+$$
+  \Delta\lambda(S,S')=\lambda(S')-\lambda(S).
+$$
+\end{definition}
+
+\begin{corollary}[Diminishing spectral gain]
+\label{cor:philosophy-diminishing-spectral-gain}
+The greedy spectral gains along the closure chain are
+$$
+  0.097454,\qquad
+  0.068849,\qquad
+  0.033066,
+$$
+and therefore strictly decrease.
+\end{corollary}
+\begin{proof}
+Subtract consecutive spectral radii in
+\autoref{thm:philosophy-greedy-spectral-closure-chain}.
+\end{proof}
+
+\begin{theorem}[Single-point expansion from the active support]
+\label{thm:philosophy-single-point-active-spectral-ranking}
+For one-point expansions of $\mathcal{R}$, the first five spectral
+values are
+$$
+\begin{array}{c|r|r}
+  \text{adjoined codon} & \lambda(\mathcal{R}\cup\{p\})
+  & \text{active neighbors}\\
+  \hline
+  \mathrm{ACA} & 0.523726 & 3\\
+  \mathrm{UUG} & 0.513385 & 3\\
+  \mathrm{CAA} & 0.506652 & 2\\
+  \mathrm{AAG} & 0.506292 & 3\\
+  \mathrm{UGG} & 0.506292 & 3.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $51$ one-point expansions of $\mathcal{R}$. Sorting by
+the resulting Perron root gives the displayed first five rows.
+\end{proof}
+
+\begin{corollary}[Anchor layer is combinatorial]
+\label{cor:philosophy-anchor-layer-combinatorial}
+The anchor triple
+$\{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}$ is a joint spectral
+optimizer, not the result of choosing the three highest one-point
+expansions independently.
+\end{corollary}
+\begin{proof}
+The optimal one-point expansion begins with $\mathrm{ACA}$ and
+$\mathrm{UUG}$ by
+\autoref{thm:philosophy-single-point-active-spectral-ranking}, whereas
+the optimal three-point expansion is the anchor triple by
+\autoref{thm:philosophy-anchor-triple-spectral-optimality}.
+\end{proof}
+
+\begin{theorem}[$\mathrm{ACG}$ spectral gap]
+\label{thm:philosophy-acg-spectral-gap}
+For one-point expansions of $\operatorname{Med}_{1}(\mathcal{R})$, the
+first five spectral values are
+$$
+\begin{array}{c|r|r|r}
+  \text{adjoined codon} & \lambda & \Delta\lambda
+  & \text{neighbors in }\operatorname{Med}_{1}\\
+  \hline
+  \mathrm{ACG} & 0.675248 & 0.033066 & 4\\
+  \mathrm{CAA} & 0.650885 & 0.008703 & 2\\
+  \mathrm{CAG} & 0.650143 & 0.007961 & 2\\
+  \mathrm{CCA} & 0.649491 & 0.007310 & 2\\
+  \mathrm{GUA} & 0.649491 & 0.007310 & 2.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $45$ one-point expansions of
+$\operatorname{Med}_{1}(\mathcal{R})$ and sort by the resulting Perron
+root. The first row is $\mathrm{ACG}$, and the second row is separated
+by a gain ratio approximately $0.033066/0.008703$.
+\end{proof}
+
+\begin{theorem}[Greedy spectral closure theorem]
+\label{thm:philosophy-greedy-spectral-closure-theorem}
+The median closure chain
+$$
+  \mathcal{R}
+  \subset
+  \overline{\mathcal{R}}
+  \subset
+  \operatorname{Med}_{1}(\mathcal{R})
+  \subset
+  \operatorname{Med}(\mathcal{R})
+$$
+coincides with the greedy spectral-optimal stabilization chain obtained
+by two optimal $3$-point expansions followed by one optimal one-point
+expansion.
+\end{theorem}
+\begin{proof}
+This is the combined content of
+\autoref{thm:philosophy-greedy-spectral-closure-chain} and
+\autoref{thm:philosophy-median-depth-and-sealing-corner}.
+\end{proof}

@@ -2745,6 +2745,115 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     ]
     outside_target_rows.sort(key=lambda row: (-row["probability"], row["class"]))
 
+    def neighbor_count_in_set(codon: str, codons: set[str]) -> int:
+        return sum(
+            1
+            for left, right, _direction in hamming_edges()
+            if codon in (left, right)
+            and (right if left == codon else left) in codons
+        )
+
+    global_codon_order = tuple(all_codons())
+    global_codon_index = {codon: index for index, codon in enumerate(global_codon_order)}
+    global_neighbors: list[list[int]] = [[] for _codon in global_codon_order]
+    for left, right, _direction in hamming_edges():
+        left_index = global_codon_index[left]
+        right_index = global_codon_index[right]
+        global_neighbors[left_index].append(right_index)
+        global_neighbors[right_index].append(left_index)
+
+    def spectral_radius_for_set(codons: set[str]) -> float:
+        nodes = tuple(sorted(global_codon_index[codon] for codon in codons))
+        node_set = set(nodes)
+        local_index = {node: index for index, node in enumerate(nodes)}
+        adjacency = [
+            [local_index[neighbor] for neighbor in global_neighbors[node] if neighbor in node_set]
+            for node in nodes
+        ]
+        size = len(nodes)
+        vector = [1.0 / (size ** 0.5) for _node in nodes]
+        previous = 0.0
+        for _iteration in range(1000):
+            action = [
+                sum(vector[neighbor] for neighbor in adjacency[row]) / 6.0
+                for row in range(size)
+            ]
+            shifted = [vector[row] + action[row] for row in range(size)]
+            norm = sum(entry * entry for entry in shifted) ** 0.5
+            vector = [entry / norm for entry in shifted]
+            value = sum(
+                vector[row] * sum(vector[neighbor] for neighbor in adjacency[row]) / 6.0
+                for row in range(size)
+            )
+            if abs(value - previous) < 1e-13:
+                break
+            previous = value
+        return value
+
+    def spectral_expansion_search(
+        base: set[str],
+        added_size: int,
+        top_count: int = 5,
+    ) -> dict[str, object]:
+        base_radius = spectral_radius_for_set(base)
+        rows: list[dict[str, object]] = []
+        for added in itertools.combinations(sorted(set(all_codons()) - base), added_size):
+            expanded = base | set(added)
+            radius = spectral_radius_for_set(expanded)
+            rows.append(
+                {
+                    "added": added,
+                    "spectral_radius": radius,
+                    "gain": radius - base_radius,
+                    "base_neighbor_count": sum(neighbor_count_in_set(codon, base) for codon in added),
+                }
+            )
+        rows.sort(key=lambda row: (-row["spectral_radius"], row["added"]))
+        best_radius = rows[0]["spectral_radius"]
+        best_rows = [
+            row for row in rows if abs(row["spectral_radius"] - best_radius) < 1e-12
+        ]
+        return {
+            "base_spectral_radius": base_radius,
+            "candidate_count": len(rows),
+            "best_count": len(best_rows),
+            "best_added": best_rows[0]["added"],
+            "best_spectral_radius": best_radius,
+            "best_gain": best_rows[0]["gain"],
+            "top_rows": rows[:top_count],
+        }
+
+    anchor_triple_spectral_search = spectral_expansion_search(support, 3)
+    first_median_triple_spectral_search = spectral_expansion_search(anchor_closure, 3)
+    acg_single_spectral_search = spectral_expansion_search(median_stage_one, 1)
+    support_single_spectral_search = spectral_expansion_search(support, 1)
+    greedy_spectral_chain_rows = [
+        {
+            "set": "support",
+            "added": (),
+            "vertices": len(support),
+            "spectral_radius": anchor_triple_spectral_search["base_spectral_radius"],
+        },
+        {
+            "set": "anchor_closure",
+            "added": anchor_triple_spectral_search["best_added"],
+            "vertices": len(anchor_closure),
+            "spectral_radius": anchor_triple_spectral_search["best_spectral_radius"],
+        },
+        {
+            "set": "median_stage_one",
+            "added": first_median_triple_spectral_search["best_added"],
+            "vertices": len(median_stage_one),
+            "spectral_radius": first_median_triple_spectral_search["best_spectral_radius"],
+        },
+        {
+            "set": "median_closure",
+            "added": acg_single_spectral_search["best_added"],
+            "vertices": len(median_set),
+            "spectral_radius": acg_single_spectral_search["best_spectral_radius"],
+        },
+    ]
+
     return {
         "support": tuple(sorted(support)),
         "support_size": len(support),
@@ -3141,6 +3250,27 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "acg_retention_after": spectral_rows[3]["retention_float"],
             "acg_boundary_before": closure_retention_rows[2]["boundary_half_edges"],
             "acg_boundary_after": closure_retention_rows[3]["boundary_half_edges"],
+        },
+        "greedy_spectral_closure": {
+            "anchor_triple_search": anchor_triple_spectral_search,
+            "first_median_triple_search": first_median_triple_spectral_search,
+            "acg_single_search": acg_single_spectral_search,
+            "support_single_search": support_single_spectral_search,
+            "chain_rows": greedy_spectral_chain_rows,
+            "gain_rows": [
+                {
+                    "step": "support_to_anchor_closure",
+                    "gain": anchor_triple_spectral_search["best_gain"],
+                },
+                {
+                    "step": "anchor_closure_to_median_stage_one",
+                    "gain": first_median_triple_spectral_search["best_gain"],
+                },
+                {
+                    "step": "median_stage_one_to_median_closure",
+                    "gain": acg_single_spectral_search["best_gain"],
+                },
+            ],
         },
     }
 
@@ -4710,6 +4840,80 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert round(spectral["acg_retention_after"], 3) == 0.633
     assert spectral["acg_boundary_before"] == 46
     assert spectral["acg_boundary_after"] == 44
+    greedy = summary["support_compression"]["greedy_spectral_closure"]
+    assert greedy["anchor_triple_search"]["candidate_count"] == 20825
+    assert greedy["anchor_triple_search"]["best_count"] == 1
+    assert greedy["anchor_triple_search"]["best_added"] == ("AAG", "ACA", "TGG")
+    assert round(greedy["anchor_triple_search"]["base_spectral_radius"], 6) == 0.475879
+    assert round(greedy["anchor_triple_search"]["best_spectral_radius"], 6) == 0.573333
+    assert round(greedy["anchor_triple_search"]["best_gain"], 6) == 0.097454
+    assert [
+        (row["added"], round(row["spectral_radius"], 6), row["base_neighbor_count"])
+        for row in greedy["anchor_triple_search"]["top_rows"][:5]
+    ] == [
+        (("AAG", "ACA", "TGG"), 0.573333, 9),
+        (("AAG", "ATG", "TTG"), 0.571538, 7),
+        (("TCG", "TGG", "TTG"), 0.571538, 7),
+        (("CAA", "CAG", "TTG"), 0.568746, 7),
+        (("AAG", "TGG", "TTG"), 0.568575, 9),
+    ]
+    assert greedy["first_median_triple_search"]["candidate_count"] == 17296
+    assert greedy["first_median_triple_search"]["best_count"] == 1
+    assert greedy["first_median_triple_search"]["best_added"] == ("ATG", "TCG", "TTG")
+    assert round(greedy["first_median_triple_search"]["base_spectral_radius"], 6) == 0.573333
+    assert round(greedy["first_median_triple_search"]["best_spectral_radius"], 6) == 0.642182
+    assert round(greedy["first_median_triple_search"]["best_gain"], 6) == 0.068849
+    assert [
+        (row["added"], round(row["spectral_radius"], 6), row["base_neighbor_count"])
+        for row in greedy["first_median_triple_search"]["top_rows"][:5]
+    ] == [
+        (("ATG", "TCG", "TTG"), 0.642182, 7),
+        (("ACG", "ATG", "TTG"), 0.639317, 7),
+        (("ACG", "TCG", "TTG"), 0.639317, 7),
+        (("ACG", "ATG", "TCG"), 0.633254, 6),
+        (("ATG", "CAA", "TTG"), 0.6289, 7),
+    ]
+    assert greedy["acg_single_search"]["candidate_count"] == 45
+    assert greedy["acg_single_search"]["best_count"] == 1
+    assert greedy["acg_single_search"]["best_added"] == ("ACG",)
+    assert round(greedy["acg_single_search"]["base_spectral_radius"], 6) == 0.642182
+    assert round(greedy["acg_single_search"]["best_spectral_radius"], 6) == 0.675248
+    assert round(greedy["acg_single_search"]["best_gain"], 6) == 0.033066
+    assert [
+        (row["added"], round(row["spectral_radius"], 6), round(row["gain"], 6), row["base_neighbor_count"])
+        for row in greedy["acg_single_search"]["top_rows"][:5]
+    ] == [
+        (("ACG",), 0.675248, 0.033066, 4),
+        (("CAA",), 0.650885, 0.008703, 2),
+        (("CAG",), 0.650143, 0.007961, 2),
+        (("CCA",), 0.649491, 0.00731, 2),
+        (("GTA",), 0.649491, 0.00731, 2),
+    ]
+    assert greedy["support_single_search"]["best_added"] == ("ACA",)
+    assert [
+        (row["added"], round(row["spectral_radius"], 6), row["base_neighbor_count"])
+        for row in greedy["support_single_search"]["top_rows"][:5]
+    ] == [
+        (("ACA",), 0.523726, 3),
+        (("TTG",), 0.513385, 3),
+        (("CAA",), 0.506652, 2),
+        (("AAG",), 0.506292, 3),
+        (("TGG",), 0.506292, 3),
+    ]
+    assert [
+        (row["set"], row["added"], row["vertices"], round(row["spectral_radius"], 6))
+        for row in greedy["chain_rows"]
+    ] == [
+        ("support", (), 13, 0.475879),
+        ("anchor_closure", ("AAG", "ACA", "TGG"), 16, 0.573333),
+        ("median_stage_one", ("ATG", "TCG", "TTG"), 19, 0.642182),
+        ("median_closure", ("ACG",), 20, 0.675248),
+    ]
+    assert [round(row["gain"], 6) for row in greedy["gain_rows"]] == [
+        0.097454,
+        0.068849,
+        0.033066,
+    ]
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
