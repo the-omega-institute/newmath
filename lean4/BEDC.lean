@@ -510,6 +510,7 @@ import BEDC.Derived.BHistArity14SequenceNameCertUp
 import BEDC.Derived.BHistArity14TupleNameCertUp
 import BEDC.Derived.BHistArity15SequenceNameCertUp
 import BEDC.Derived.BHistArity16EventFlowNameCertUp
+import BEDC.Derived.BHistArity16SequenceNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.NameCertObligations
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
 import BEDC.Derived.BHistDecaSequenceNameCertUp
@@ -2733,6 +2734,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealFourFaceSourceExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealLocalRadiusDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadius
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusConsumerNonescape
+import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowExitConsumerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowNoExtraSource
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRootUnblockPackage
@@ -3441,6 +3443,7 @@ import BEDC.Derived.LocatedRealIntervalUp.TasteGate
 import BEDC.Derived.LocatedRealTailEnvelopeUp.TasteGate
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
+import BEDC.Derived.LocatedSequenceModulusUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
 import BEDC.Derived.LocatednessModulusUp
