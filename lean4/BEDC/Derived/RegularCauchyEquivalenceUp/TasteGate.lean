@@ -345,6 +345,19 @@ theorem RegularCauchyEquivalenceCarrier_refinement_transport
   cases hN
   exact ⟨carrier, cont_right_unit C⟩
 
+theorem RegularCauchyEquivalence_real_classifier_boundary {X Y W D Z R E H C P N : BHist} :
+    RegularCauchyEquivalenceCarrier
+        (RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N) ->
+      hsame R R ∧ hsame E E ∧ Cont C BHist.Empty C ∧
+        regularCauchyEquivalenceFields
+            (RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N) =
+          [X, Y, W, D, Z, R, E, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro carrier
+  rcases carrier with
+    ⟨_hX, _hY, _hW, _hD, _hZ, hR, hE, _hH, _hC, _hP, _hN, hCont⟩
+  exact ⟨hR, hE, hCont, rfl⟩
+
 namespace TasteGate
 
 theorem RegularCauchyEquivalence_refinement_transport {X Y W D Z R E H C P N : BHist} :
@@ -376,6 +389,24 @@ theorem RegularCauchyEquivalence_refinement_transport {X Y W D Z R E H C P N : B
       · constructor
         · exact regularCauchyEquivalenceDecode_encode_bhist Y
         · exact regularCauchyEquivalenceDecode_encode_bhist W
+
+theorem RegularCauchyEquivalence_real_classifier_boundary
+    {X Y W D Z R E H C P N reflected : BHist} :
+    regularCauchyEquivalenceFields
+        (RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N) =
+        [X, Y, W, D, Z, R, E, H, C, P, N] ∧
+      Cont Z R reflected →
+        hsame (regularCauchyEquivalenceDecodeBHist
+          (regularCauchyEquivalenceEncodeBHist R)) R ∧
+          Cont Z R reflected ∧
+            hsame (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist E)) E := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro surface
+  exact
+    ⟨regularCauchyEquivalenceDecode_encode_bhist R,
+      surface.right,
+      regularCauchyEquivalenceDecode_encode_bhist E⟩
 
 end TasteGate
 
