@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UniformLimitContinuousUp : Type where
-  | mk (F U M W R E H C P N : BHist) : UniformLimitContinuousUp
+  | mk
+      (continuousFamily uniformLimitRow sharedModulus finiteWindows regularHandoff endpointSeal
+        transports continuations provenance localNameCert : BHist) :
+      UniformLimitContinuousUp
   deriving DecidableEq
 
 def uniformLimitContinuousEncodeBHist : BHist → RawEvent
@@ -25,9 +28,8 @@ def uniformLimitContinuousDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (uniformLimitContinuousDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (uniformLimitContinuousDecodeBHist tail)
 
-private theorem UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist,
-      uniformLimitContinuousDecodeBHist (uniformLimitContinuousEncodeBHist h) = h := by
+private theorem uniformLimitContinuous_decode_encode_bhist :
+    ∀ h : BHist, uniformLimitContinuousDecodeBHist (uniformLimitContinuousEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,102 +39,85 @@ private theorem UniformLimitContinuousUpTasteGate_single_carrier_alignment_decod
 
 def uniformLimitContinuousFields : UniformLimitContinuousUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | UniformLimitContinuousUp.mk F U M W R E H C P N => [F, U, M, W, R, E, H, C, P, N]
+  | UniformLimitContinuousUp.mk continuousFamily uniformLimitRow sharedModulus finiteWindows
+      regularHandoff endpointSeal transports continuations provenance localNameCert =>
+      [continuousFamily, uniformLimitRow, sharedModulus, finiteWindows, regularHandoff,
+        endpointSeal, transports, continuations, provenance, localNameCert]
 
 def uniformLimitContinuousToEventFlow : UniformLimitContinuousUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (uniformLimitContinuousFields x).map uniformLimitContinuousEncodeBHist
 
-def uniformLimitContinuousFromEventFlow : EventFlow → Option UniformLimitContinuousUp
+private def uniformLimitContinuousEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | F :: restF =>
-      match restF with
-      | U :: restU =>
-          match restU with
-          | M :: restM =>
-              match restM with
-              | W :: restW =>
-                  match restW with
-                  | R :: restR =>
-                      match restR with
-                      | E :: restE =>
-                          match restE with
-                          | H :: restH =>
-                              match restH with
-                              | C :: restC =>
-                                  match restC with
-                                  | P :: restP =>
-                                      match restP with
-                                      | N :: rest =>
-                                          match rest with
-                                          | [] =>
-                                              some
-                                                (UniformLimitContinuousUp.mk
-                                                  (uniformLimitContinuousDecodeBHist F)
-                                                  (uniformLimitContinuousDecodeBHist U)
-                                                  (uniformLimitContinuousDecodeBHist M)
-                                                  (uniformLimitContinuousDecodeBHist W)
-                                                  (uniformLimitContinuousDecodeBHist R)
-                                                  (uniformLimitContinuousDecodeBHist E)
-                                                  (uniformLimitContinuousDecodeBHist H)
-                                                  (uniformLimitContinuousDecodeBHist C)
-                                                  (uniformLimitContinuousDecodeBHist P)
-                                                  (uniformLimitContinuousDecodeBHist N))
-                                          | _ :: _ => none
-                                      | [] => none
-                                  | [] => none
-                              | [] => none
-                          | [] => none
-                      | [] => none
-                  | [] => none
-              | [] => none
-          | [] => none
-      | [] => none
-  | [] => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => uniformLimitContinuousEventAtDefault index rest
 
-private theorem uniformLimitContinuous_mk_congr
-    {F F' U U' M M' W W' R R' E E' H H' C C' P P' N N' : BHist}
-    (hF : F' = F) (hU : U' = U) (hM : M' = M) (hW : W' = W)
-    (hR : R' = R) (hE : E' = E) (hH : H' = H) (hC : C' = C)
-    (hP : P' = P) (hN : N' = N) :
-    UniformLimitContinuousUp.mk F' U' M' W' R' E' H' C' P' N' =
-      UniformLimitContinuousUp.mk F U M W R E H C P N := by
+def uniformLimitContinuousFromEventFlow : EventFlow → Option UniformLimitContinuousUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  cases hF
-  cases hU
-  cases hM
-  cases hW
-  cases hR
-  cases hE
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
+  fun ef =>
+    some
+      (UniformLimitContinuousUp.mk
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 0 ef))
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 1 ef))
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 2 ef))
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 3 ef))
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 4 ef))
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 5 ef))
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 6 ef))
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 7 ef))
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 8 ef))
+        (uniformLimitContinuousDecodeBHist (uniformLimitContinuousEventAtDefault 9 ef)))
 
-private theorem UniformLimitContinuousUpTasteGate_single_carrier_alignment_round_trip :
+private theorem uniformLimitContinuous_round_trip :
     ∀ x : UniformLimitContinuousUp,
       uniformLimitContinuousFromEventFlow (uniformLimitContinuousToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk F U M W R E H C P N =>
-      exact
-        congrArg some
-          (uniformLimitContinuous_mk_congr
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode F)
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode U)
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode M)
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode W)
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode R)
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode E)
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode H)
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode C)
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode P)
-            (UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode N))
+  | mk continuousFamily uniformLimitRow sharedModulus finiteWindows regularHandoff
+      endpointSeal transports continuations provenance localNameCert =>
+      change
+        some
+          (UniformLimitContinuousUp.mk
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist continuousFamily))
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist uniformLimitRow))
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist sharedModulus))
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist finiteWindows))
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist regularHandoff))
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist endpointSeal))
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist transports))
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist continuations))
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist provenance))
+            (uniformLimitContinuousDecodeBHist
+              (uniformLimitContinuousEncodeBHist localNameCert))) =
+          some
+            (UniformLimitContinuousUp.mk continuousFamily uniformLimitRow sharedModulus
+              finiteWindows regularHandoff endpointSeal transports continuations provenance
+              localNameCert)
+      rw [uniformLimitContinuous_decode_encode_bhist continuousFamily,
+        uniformLimitContinuous_decode_encode_bhist uniformLimitRow,
+        uniformLimitContinuous_decode_encode_bhist sharedModulus,
+        uniformLimitContinuous_decode_encode_bhist finiteWindows,
+        uniformLimitContinuous_decode_encode_bhist regularHandoff,
+        uniformLimitContinuous_decode_encode_bhist endpointSeal,
+        uniformLimitContinuous_decode_encode_bhist transports,
+        uniformLimitContinuous_decode_encode_bhist continuations,
+        uniformLimitContinuous_decode_encode_bhist provenance,
+        uniformLimitContinuous_decode_encode_bhist localNameCert]
 
-private theorem uniformLimitContinuousToEventFlow_injective
-    {x y : UniformLimitContinuousUp} :
+private theorem uniformLimitContinuousToEventFlow_injective {x y : UniformLimitContinuousUp} :
     uniformLimitContinuousToEventFlow x = uniformLimitContinuousToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -141,19 +126,20 @@ private theorem uniformLimitContinuousToEventFlow_injective
         uniformLimitContinuousFromEventFlow (uniformLimitContinuousToEventFlow y) :=
     congrArg uniformLimitContinuousFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (UniformLimitContinuousUpTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (UniformLimitContinuousUpTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (uniformLimitContinuous_round_trip x).symm
+      (Eq.trans hread (uniformLimitContinuous_round_trip y)))
 
 private theorem uniformLimitContinuous_field_faithful :
-    ∀ x y : UniformLimitContinuousUp,
-      uniformLimitContinuousFields x = uniformLimitContinuousFields y → x = y := by
+    ∀ x y : UniformLimitContinuousUp, uniformLimitContinuousFields x =
+      uniformLimitContinuousFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk F U M W R E H C P N =>
+  | mk continuousFamily₁ uniformLimitRow₁ sharedModulus₁ finiteWindows₁ regularHandoff₁
+      endpointSeal₁ transports₁ continuations₁ provenance₁ localNameCert₁ =>
       cases y with
-      | mk F' U' M' W' R' E' H' C' P' N' =>
+      | mk continuousFamily₂ uniformLimitRow₂ sharedModulus₂ finiteWindows₂ regularHandoff₂
+          endpointSeal₂ transports₂ continuations₂ provenance₂ localNameCert₂ =>
           cases hfields
           rfl
 
@@ -162,13 +148,12 @@ instance uniformLimitContinuousBHistCarrier : BHistCarrier UniformLimitContinuou
   toEventFlow := uniformLimitContinuousToEventFlow
   fromEventFlow := uniformLimitContinuousFromEventFlow
 
-instance uniformLimitContinuousChapterTasteGate :
-    ChapterTasteGate UniformLimitContinuousUp where
+instance uniformLimitContinuousChapterTasteGate : ChapterTasteGate UniformLimitContinuousUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change uniformLimitContinuousFromEventFlow (uniformLimitContinuousToEventFlow x) = some x
-    exact UniformLimitContinuousUpTasteGate_single_carrier_alignment_round_trip x
+    exact uniformLimitContinuous_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (uniformLimitContinuousToEventFlow_injective heq)
@@ -178,14 +163,13 @@ instance uniformLimitContinuousFieldFaithful : FieldFaithful UniformLimitContinu
   fields := uniformLimitContinuousFields
   field_faithful := uniformLimitContinuous_field_faithful
 
-instance uniformLimitContinuousNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial UniformLimitContinuousUp where
+instance uniformLimitContinuousNontrivial : Nontrivial UniformLimitContinuousUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨UniformLimitContinuousUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨UniformLimitContinuousUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      UniformLimitContinuousUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      UniformLimitContinuousUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -194,24 +178,17 @@ def taste_gate : ChapterTasteGate UniformLimitContinuousUp :=
   -- BEDC touchpoint anchor: BHist BMark
   uniformLimitContinuousChapterTasteGate
 
-theorem UniformLimitContinuousUpTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate UniformLimitContinuousUp) ∧
-      Nonempty (FieldFaithful UniformLimitContinuousUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial UniformLimitContinuousUp) ∧
-      (∀ h : BHist,
-        uniformLimitContinuousDecodeBHist (uniformLimitContinuousEncodeBHist h) = h) ∧
+theorem UniformLimitContinuousTasteGate_single_carrier_alignment :
+    (∀ h : BHist, uniformLimitContinuousDecodeBHist (uniformLimitContinuousEncodeBHist h) = h) ∧
       (∀ x : UniformLimitContinuousUp,
         uniformLimitContinuousFromEventFlow (uniformLimitContinuousToEventFlow x) = some x) ∧
-      (∀ x y : UniformLimitContinuousUp,
-        uniformLimitContinuousToEventFlow x = uniformLimitContinuousToEventFlow y → x = y) ∧
-      uniformLimitContinuousEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+        (∀ x y : UniformLimitContinuousUp,
+          uniformLimitContinuousToEventFlow x = uniformLimitContinuousToEventFlow y → x = y) ∧
+          uniformLimitContinuousEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
-    ⟨⟨uniformLimitContinuousChapterTasteGate⟩,
-      ⟨uniformLimitContinuousFieldFaithful⟩,
-      ⟨uniformLimitContinuousNontrivial⟩,
-      UniformLimitContinuousUpTasteGate_single_carrier_alignment_decode,
-      UniformLimitContinuousUpTasteGate_single_carrier_alignment_round_trip,
+    ⟨uniformLimitContinuous_decode_encode_bhist,
+      uniformLimitContinuous_round_trip,
       (fun _ _ heq => uniformLimitContinuousToEventFlow_injective heq),
       rfl⟩
 
