@@ -25,7 +25,7 @@ def cauchyApproximationSequenceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyApproximationSequenceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyApproximationSequenceDecodeBHist tail)
 
-private theorem CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode :
+theorem CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       cauchyApproximationSequenceDecodeBHist
         (cauchyApproximationSequenceEncodeBHist h) = h := by
@@ -40,93 +40,81 @@ def cauchyApproximationSequenceFields : CauchyApproximationSequenceUp → List B
   -- BEDC touchpoint anchor: BHist BMark
   | CauchyApproximationSequenceUp.mk Q D S R E H C P N => [Q, D, S, R, E, H, C, P, N]
 
-def cauchyApproximationSequenceToEventFlow : CauchyApproximationSequenceUp → EventFlow :=
+def cauchyApproximationSequenceToEventFlow : CauchyApproximationSequenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (cauchyApproximationSequenceFields x).map cauchyApproximationSequenceEncodeBHist
+  | x => (cauchyApproximationSequenceFields x).map cauchyApproximationSequenceEncodeBHist
 
-private def cauchyApproximationSequenceDecodePacket
-    (Q D S R E H C P N : RawEvent) : CauchyApproximationSequenceUp :=
+def cauchyApproximationSequenceFromEventFlow :
+    EventFlow → Option CauchyApproximationSequenceUp
   -- BEDC touchpoint anchor: BHist BMark
-  CauchyApproximationSequenceUp.mk
-    (cauchyApproximationSequenceDecodeBHist Q)
-    (cauchyApproximationSequenceDecodeBHist D)
-    (cauchyApproximationSequenceDecodeBHist S)
-    (cauchyApproximationSequenceDecodeBHist R)
-    (cauchyApproximationSequenceDecodeBHist E)
-    (cauchyApproximationSequenceDecodeBHist H)
-    (cauchyApproximationSequenceDecodeBHist C)
-    (cauchyApproximationSequenceDecodeBHist P)
-    (cauchyApproximationSequenceDecodeBHist N)
-
-private def cauchyApproximationSequenceRawAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => cauchyApproximationSequenceRawAt n rest
-
-private def cauchyApproximationSequenceLengthEq : Nat → EventFlow → Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => cauchyApproximationSequenceLengthEq n rest
-
-def cauchyApproximationSequenceFromEventFlow
-    (flow : EventFlow) : Option CauchyApproximationSequenceUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  match cauchyApproximationSequenceLengthEq 9 flow with
-  | true =>
+  | [] => none
+  | _Q :: [] => none
+  | _Q :: _D :: [] => none
+  | _Q :: _D :: _S :: [] => none
+  | _Q :: _D :: _S :: _R :: [] => none
+  | _Q :: _D :: _S :: _R :: _E :: [] => none
+  | _Q :: _D :: _S :: _R :: _E :: _H :: [] => none
+  | _Q :: _D :: _S :: _R :: _E :: _H :: _C :: [] => none
+  | _Q :: _D :: _S :: _R :: _E :: _H :: _C :: _P :: [] => none
+  | Q :: D :: S :: R :: E :: H :: C :: P :: N :: [] =>
       some
-        (cauchyApproximationSequenceDecodePacket
-          (cauchyApproximationSequenceRawAt 0 flow)
-          (cauchyApproximationSequenceRawAt 1 flow)
-          (cauchyApproximationSequenceRawAt 2 flow)
-          (cauchyApproximationSequenceRawAt 3 flow)
-          (cauchyApproximationSequenceRawAt 4 flow)
-          (cauchyApproximationSequenceRawAt 5 flow)
-          (cauchyApproximationSequenceRawAt 6 flow)
-          (cauchyApproximationSequenceRawAt 7 flow)
-          (cauchyApproximationSequenceRawAt 8 flow))
-  | false => none
+        (CauchyApproximationSequenceUp.mk
+          (cauchyApproximationSequenceDecodeBHist Q)
+          (cauchyApproximationSequenceDecodeBHist D)
+          (cauchyApproximationSequenceDecodeBHist S)
+          (cauchyApproximationSequenceDecodeBHist R)
+          (cauchyApproximationSequenceDecodeBHist E)
+          (cauchyApproximationSequenceDecodeBHist H)
+          (cauchyApproximationSequenceDecodeBHist C)
+          (cauchyApproximationSequenceDecodeBHist P)
+          (cauchyApproximationSequenceDecodeBHist N))
+  | _Q :: _D :: _S :: _R :: _E :: _H :: _C :: _P :: _N :: _extra :: _rest => none
 
-private theorem CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_round_trip :
+private theorem cauchyApproximationSequence_mk_congr
+    {Q Q' D D' S S' R R' E E' H H' C C' P P' N N' : BHist}
+    (hQ : Q' = Q) (hD : D' = D) (hS : S' = S) (hR : R' = R)
+    (hE : E' = E) (hH : H' = H) (hC : C' = C) (hP : P' = P)
+    (hN : N' = N) :
+    CauchyApproximationSequenceUp.mk Q' D' S' R' E' H' C' P' N' =
+      CauchyApproximationSequenceUp.mk Q D S R E H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hQ
+  cases hD
+  cases hS
+  cases hR
+  cases hE
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
+theorem CauchyApproximationSequenceTasteGate_single_carrier_alignment_round_trip :
     ∀ x : CauchyApproximationSequenceUp,
       cauchyApproximationSequenceFromEventFlow
-        (cauchyApproximationSequenceToEventFlow x) = some x := by
+          (cauchyApproximationSequenceToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk Q D S R E H C P N =>
-      change
-        some
-          (cauchyApproximationSequenceDecodePacket
-            (cauchyApproximationSequenceEncodeBHist Q)
-            (cauchyApproximationSequenceEncodeBHist D)
-            (cauchyApproximationSequenceEncodeBHist S)
-            (cauchyApproximationSequenceEncodeBHist R)
-            (cauchyApproximationSequenceEncodeBHist E)
-            (cauchyApproximationSequenceEncodeBHist H)
-            (cauchyApproximationSequenceEncodeBHist C)
-            (cauchyApproximationSequenceEncodeBHist P)
-            (cauchyApproximationSequenceEncodeBHist N)) =
-          some (CauchyApproximationSequenceUp.mk Q D S R E H C P N)
-      unfold cauchyApproximationSequenceDecodePacket
-      rw [CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode Q,
-        CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode D,
-        CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode S,
-        CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode R,
-        CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode E,
-        CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode H,
-        CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode C,
-        CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode P,
-        CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode N]
+      exact
+        congrArg some
+          (cauchyApproximationSequence_mk_congr
+            (CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode Q)
+            (CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode D)
+            (CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode S)
+            (CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode R)
+            (CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode E)
+            (CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode H)
+            (CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode C)
+            (CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode P)
+            (CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode N))
 
-private theorem CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_toEventFlow_injective
+theorem CauchyApproximationSequenceTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyApproximationSequenceUp} :
     cauchyApproximationSequenceToEventFlow x =
-        cauchyApproximationSequenceToEventFlow y →
-      x = y := by
+      cauchyApproximationSequenceToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -135,9 +123,9 @@ private theorem CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_
     congrArg cauchyApproximationSequenceFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
-      (CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (CauchyApproximationSequenceTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
-        (CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_round_trip y)))
+        (CauchyApproximationSequenceTasteGate_single_carrier_alignment_round_trip y)))
 
 instance cauchyApproximationSequenceBHistCarrier :
     BHistCarrier CauchyApproximationSequenceUp where
@@ -152,30 +140,38 @@ instance cauchyApproximationSequenceChapterTasteGate :
     intro x
     change
       cauchyApproximationSequenceFromEventFlow
-        (cauchyApproximationSequenceToEventFlow x) = some x
-    exact CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_round_trip x
+          (cauchyApproximationSequenceToEventFlow x) =
+        some x
+    exact CauchyApproximationSequenceTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+      (CauchyApproximationSequenceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem CauchyApproximationSequenceUpTasteGate_single_carrier_alignment :
+def taste_gate : ChapterTasteGate CauchyApproximationSequenceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchyApproximationSequenceChapterTasteGate
+
+theorem CauchyApproximationSequenceTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       cauchyApproximationSequenceDecodeBHist
         (cauchyApproximationSequenceEncodeBHist h) = h) ∧
       (∀ x : CauchyApproximationSequenceUp,
         cauchyApproximationSequenceFromEventFlow
-          (cauchyApproximationSequenceToEventFlow x) = some x) ∧
+            (cauchyApproximationSequenceToEventFlow x) =
+          some x) ∧
       (∀ x y : CauchyApproximationSequenceUp,
         cauchyApproximationSequenceToEventFlow x =
           cauchyApproximationSequenceToEventFlow y → x = y) ∧
       cauchyApproximationSequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_decode,
-      CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        CauchyApproximationSequenceUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+  constructor
+  · exact CauchyApproximationSequenceTasteGate_single_carrier_alignment_decode_encode
+  constructor
+  · exact CauchyApproximationSequenceTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact CauchyApproximationSequenceTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  · rfl
 
 end BEDC.Derived.CauchyApproximationSequenceUp

@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\SchauderFixedPointUp$}
+\label{ch:concrete-instances-schauder-fixed-point-namecert}
+\origin{human}
+
+Following Schauder's fixed point theorem in the compact-convex tradition, the $\SchauderFixedPointUp$ packet records only the finite BEDC route that a compact convex self-map certificate must expose. It carries compactness, convexity, continuous-map, approximation-net, residual, transport, replay, provenance, and local NameCert rows, and it does not assert a host fixed-point choice, a quotient of approximating nets, ambient Real completeness, or an uncarried topological vector-space theorem.
+
+The route is anchored by the carried completeness and compactness interfaces of \autoref{ch:concrete-instances-completemetric-namecert} and \autoref{ch:concrete-instances-totallybounded-namecert}, by the interval fixed-point and contraction comparison surfaces of \autoref{ch:concrete-instances-compactintervalfixedpoint-namecert} and \autoref{ch:concrete-instances-banach-fixed-point-namecert}, and by the convex and continuous-map interfaces of \autoref{ch:concrete-instances-convexset-namecert} and \autoref{ch:concrete-instances-continuousmap-namecert}. The packet is therefore a finite naming certificate for the compact-convex handoff rather than a semantic proof object for Schauder's theorem in an ambient analysis library.
+
+\begin{definition}[SchauderFixedPoint carrier]
+\label{def:schauder-fixed-point-carrier}
+A $\SchauderFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,Q,V,A,F,E,R,L,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $K$ is the compact-metric support row, read through the carried $\CompleteMetricUp$ and $\TotallyBoundedUp$ surfaces, including the finite-net coverage rows used by later approximation reads;
+\item $Q$ is the $\ConvexSetUp$ row for the carried subset, exposing only affine-combination closure, scalar classifier transport, and membership rows;
+\item $V$ is the ambient vector and metric compatibility row that lets compact-net centers, convex combinations, and residual estimates be compared inside the same carried metric context;
+\item $A$ is the approximation-net ledger, recording finite centers, rational tolerances, barycentric or finite-affine cells, and the finite projection route from compact coverage into the convex carrier;
+\item $F$ is the $\ContinuousMapUp$ self-map row, including graph, pointwise modulus, source membership, and target membership data for the compact convex carrier;
+\item $E$ is the approximate-endpoint ledger, exposing for each displayed tolerance a finite cell where the approximation route and the continuous-map route meet;
+\item $R$ is the residual row that compares the displayed point, its image under $F$, and the finite-affine approximation cell through the metric and convexity ledgers;
+\item $L$ is the limiting handoff row, using only the carried complete-metric and total-boundedness data to retain a candidate name boundary for downstream readers;
+\item $H$ stores componentwise $\hsame$ transports for $K,Q,V,A,F,E,R,L$ and the local certificate row;
+\item $C$ stores the displayed $\Cont$ replay routes for compact-net reads, convex-affine reads, continuous-map reads, residual comparison, limiting handoff, and consumer export;
+\item $P$ is the $\Pkg$ provenance over $\CompleteMetricUp$, $\TotallyBoundedUp$, $\CompactIntervalFixedPointUp$, $\BanachFixedPointUp$, $\ConvexSetUp$, $\ContinuousMapUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SchauderFixedPointUp}$ registration row.
+\end{enumerate}
+The carrier predicate says that these rows form one finite compact-convex fixed-point certificate for the displayed self-map. It has no coordinate for a chosen fixed point, an open-cover compactness principle, a quotient limit, a host topological vector space, or ambient completeness beyond the carried rows.
+\end{definition}
+
+\begin{theorem}[SchauderFixedPoint NameCert obligations]
+\label{thm:schauder-fixed-point-namecert-obligations}
+For an accepted packet $S=(K,Q,V,A,F,E,R,L,H,C,P,N)$, the local $\NameCert_{\SchauderFixedPointUp}$ obligations are exhausted by the carrier rows of \autoref{def:schauder-fixed-point-carrier}. They consist of compact-net coverage, carried completeness handoff, convex membership and affine-combination stability, continuous-map graph and modulus replay, approximation-net coherence, residual comparison, limiting handoff, componentwise classifier transport, displayed continuation replay, package provenance, and local naming. No obligation may call on host fixed-point choice, open-cover compactness, ambient Real completeness, quotient equality of nets, uncarried topological vector-space structure, or a global Schauder theorem outside the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. Carrier admission gives exactly the rows
+$K,Q,V,A,F,E,R,L,H,C,P,N$ listed in
+\autoref{def:schauder-fixed-point-carrier}.
+
+The compact and convex obligations are separated but share the same carried
+metric context. The compact row $K$ supplies finite coverage and carried
+completeness, while $Q$ supplies membership and affine-combination closure
+inside the displayed convex carrier. The compatibility row $V$ is the only
+route through which those two surfaces are read together.
+
+The map and approximation obligations then consume $F$ and $A$. The
+continuous-map row supplies graph and modulus replay, and the approximation-net
+ledger supplies the finite centers and affine cells on which the residual row
+$R$ is computed. The limiting handoff $L$ is available only after those rows
+have been replayed.
+
+Finally $H,C,P$, and $N$ transport, replay, record provenance, and register the
+same finite route. Since no coordinate outside this route is present, the
+excluded host, quotient, compactness, Real-completeness, and global fixed-point
+principles cannot enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SchauderFixedPoint compact-convex handoff]
+\label{thm:schauder-fixed-point-compact-convex-handoff}
+Every downstream read of an accepted $\SchauderFixedPointUp$ packet factors through the displayed compact-convex route
+$$
+K,Q,V,A,F,E,R,L,H,C,P,N .
+$$
+In particular, a consumer can inspect a candidate boundary only after the $\TotallyBoundedUp$ finite-net coverage, the $\CompleteMetricUp$ handoff, the $\ConvexSetUp$ affine-membership rows, and the $\ContinuousMapUp$ graph and modulus rows have all been replayed through the approximation and residual ledgers.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the accepted packet. The only consumer-facing route is
+the continuation ledger $C$, and its compact reads are attached to $K$, so the
+finite-net and carried-completeness surfaces are read before any candidate
+boundary appears.
+
+The convex data are read next through $Q$ and $V$. These rows align finite
+centers, affine cells, and carrier membership, so the approximation ledger
+cannot export a point outside the displayed compact-convex context.
+
+The continuous self-map row $F$ and the approximation ledger $A$ then feed the
+approximate-endpoint and residual rows $E$ and $R$. The limiting handoff $L$ is
+therefore a boundary of the displayed residual route, not a selected host fixed
+point.
+
+The transport, replay, provenance, and local naming rows keep this order intact.
+Hence every downstream read factors through the compact-convex handoff surface
+named in the theorem.
+\end{proof}
+
+\begin{closurestatus}{\SchauderFixedPointUp}
+  \constructivestory{A $\SchauderFixedPointUp$ packet is generated from compact-metric finite-net coverage, carried completeness, convex membership and affine-combination rows, ambient vector-metric compatibility, continuous-map graph and modulus data, approximation-net cells, residual comparison, limiting handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schauder-fixed-point-carrier}, \autoref{thm:schauder-fixed-point-namecert-obligations}, and \autoref{thm:schauder-fixed-point-compact-convex-handoff} seed the finite compact-convex fixed-point naming route over the displayed compactness, completeness, convexity, continuous-map, approximation, residual, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host fixed-point choice, open-cover compactness, ambient Real completeness, quotient equality of approximating nets, a topological vector-space theorem outside the carried rows, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-net coverage, convex-affine membership stability, continuous-map replay, approximation-net coherence, residual comparison, limiting handoff, and local NameCert coverage for the displayed packet.}
+\end{closurestatus}
