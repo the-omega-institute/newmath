@@ -2013,6 +2013,7 @@ import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
 import BEDC.Derived.DecimalExpansionUp.TasteGate
 import BEDC.Derived.DedekindCauchyComparisonUp.TasteGate
+import BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
@@ -2690,6 +2691,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RadiusClassifierStability
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumers
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusCover
+import BEDC.Derived.FiniteLebesgueNumberUp.RadiusLedgerExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusReadback
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.RealPhaseSourceExhaustion
@@ -4499,6 +4501,7 @@ import BEDC.Derived.RefuterTraceUp.PermittedRefutationRoute
 import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
+import BEDC.Derived.RegSeqRatUp.AuditThresholdFiniteCoverGluing
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegSeqRatUp.CommonTailRealBoundaryEquivalence
 import BEDC.Derived.RegSeqRatUp.CommonTailWindow
