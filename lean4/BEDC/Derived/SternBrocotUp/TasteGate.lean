@@ -180,3 +180,23 @@ theorem SternBrocotTasteGate_single_carrier_alignment :
       rfl⟩
 
 end BEDC.Derived.SternBrocotUp.TasteGate
+
+namespace BEDC.Derived.SternBrocotUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+
+theorem SternBrocotTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      TasteGate.sternBrocotDecodeBHist (TasteGate.sternBrocotEncodeBHist h) = h) ∧
+      (∀ x : TasteGate.SternBrocotUp,
+        TasteGate.sternBrocotFromEventFlow
+          (TasteGate.sternBrocotToEventFlow x) = some x) ∧
+        (∀ x y : TasteGate.SternBrocotUp,
+          TasteGate.sternBrocotToEventFlow x = TasteGate.sternBrocotToEventFlow y → x = y) ∧
+          TasteGate.sternBrocotEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact TasteGate.SternBrocotTasteGate_single_carrier_alignment
+
+end BEDC.Derived.SternBrocotUp
