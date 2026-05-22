@@ -563,6 +563,7 @@ import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.BilinFormUp.ZeroLeftPairing
 import BEDC.Derived.BinaryEndpointNormalizationUp.TasteGate
+import BEDC.Derived.BinaryEndpointUniquenessUp.TasteGate
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinderBudgetSealUp.CarrierAdmission
 import BEDC.Derived.BinderBudgetSealUp.CompilerBoundary
@@ -2465,6 +2466,7 @@ import BEDC.Derived.DyadicErrorBudgetUp.TasteGate
 import BEDC.Derived.DyadicExponentShiftUp.TasteGate
 import BEDC.Derived.DyadicFloorUp.TasteGate
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
+import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
