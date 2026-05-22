@@ -950,6 +950,7 @@ import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CauchyEstimateUp
+import BEDC.Derived.CauchyEstimateUp.TasteGate
 import BEDC.Derived.CauchyExtensionOperatorUp.TasteGate
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterLimitUp
@@ -1532,6 +1533,7 @@ import BEDC.Derived.CompilerCompositionTraceUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.CompilerTraceFaithfulnessUp
 import BEDC.Derived.CompilerTraceFaithfulnessUp.TasteGate
+import BEDC.Derived.CompleteArchimedeanFieldUp
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
@@ -1815,6 +1817,7 @@ import BEDC.Derived.ConvergenceRadiusUp.TailBoundary
 import BEDC.Derived.ConvergenceRadiusUp.TailShift
 import BEDC.Derived.ConvergenceRadiusUp.TailShiftBoundary
 import BEDC.Derived.ConvergentRealSequenceCauchyUp.TasteGate
+import BEDC.Derived.ConvergentSequenceCauchyUp.TasteGate
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
@@ -4876,6 +4879,7 @@ import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentialCompactnessUp.TasteGate
 import BEDC.Derived.SequentialCompletionUp.TasteGate
 import BEDC.Derived.SequentialContinuityUp.TasteGate
+import BEDC.Derived.SeriesLimitComparisonUp
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
