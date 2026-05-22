@@ -25,7 +25,7 @@ def regularCauchyMultiplicationDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyMultiplicationDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyMultiplicationDecodeBHist tail)
 
-private theorem RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode :
+private theorem regularCauchyMultiplicationDecode_encode_bhist :
     ∀ h : BHist,
       regularCauchyMultiplicationDecodeBHist
         (regularCauchyMultiplicationEncodeBHist h) = h := by
@@ -36,75 +36,74 @@ private theorem RegularCauchyMultiplicationTasteGate_single_carrier_alignment_de
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def regularCauchyMultiplicationFields : RegularCauchyMultiplicationUp → List BHist
+def regularCauchyMultiplicationFields :
+    RegularCauchyMultiplicationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyMultiplicationUp.mk X Y W D B E M Z H C P N =>
       [X, Y, W, D, B, E, M, Z, H, C, P, N]
 
-def regularCauchyMultiplicationToEventFlow : RegularCauchyMultiplicationUp → EventFlow
+def regularCauchyMultiplicationToEventFlow :
+    RegularCauchyMultiplicationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (regularCauchyMultiplicationFields x).map regularCauchyMultiplicationEncodeBHist
 
-private def regularCauchyMultiplicationEventAtDefault : Nat → EventFlow → RawEvent
+def regularCauchyMultiplicationFromEventFlow :
+    EventFlow → Option RegularCauchyMultiplicationUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => regularCauchyMultiplicationEventAtDefault index rest
+  | [] => none
+  | X :: restY =>
+      match restY with
+      | [] => none
+      | Y :: restW =>
+          match restW with
+          | [] => none
+          | W :: restD =>
+              match restD with
+              | [] => none
+              | D :: restB =>
+                  match restB with
+                  | [] => none
+                  | B :: restE =>
+                      match restE with
+                      | [] => none
+                      | E :: restM =>
+                          match restM with
+                          | [] => none
+                          | M :: restZ =>
+                              match restZ with
+                              | [] => none
+                              | Z :: restH =>
+                                  match restH with
+                                  | [] => none
+                                  | H :: restC =>
+                                      match restC with
+                                      | [] => none
+                                      | C :: restP =>
+                                          match restP with
+                                          | [] => none
+                                          | P :: restN =>
+                                              match restN with
+                                              | [] => none
+                                              | N :: rest =>
+                                                  match rest with
+                                                  | [] =>
+                                                      some
+                                                        (RegularCauchyMultiplicationUp.mk
+                                                          (regularCauchyMultiplicationDecodeBHist X)
+                                                          (regularCauchyMultiplicationDecodeBHist Y)
+                                                          (regularCauchyMultiplicationDecodeBHist W)
+                                                          (regularCauchyMultiplicationDecodeBHist D)
+                                                          (regularCauchyMultiplicationDecodeBHist B)
+                                                          (regularCauchyMultiplicationDecodeBHist E)
+                                                          (regularCauchyMultiplicationDecodeBHist M)
+                                                          (regularCauchyMultiplicationDecodeBHist Z)
+                                                          (regularCauchyMultiplicationDecodeBHist H)
+                                                          (regularCauchyMultiplicationDecodeBHist C)
+                                                          (regularCauchyMultiplicationDecodeBHist P)
+                                                          (regularCauchyMultiplicationDecodeBHist N))
+                                                  | _ :: _ => none
 
-def regularCauchyMultiplicationFromEventFlow
-    (ef : EventFlow) : Option RegularCauchyMultiplicationUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RegularCauchyMultiplicationUp.mk
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 0 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 1 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 2 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 3 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 4 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 5 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 6 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 7 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 8 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 9 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 10 ef))
-      (regularCauchyMultiplicationDecodeBHist
-        (regularCauchyMultiplicationEventAtDefault 11 ef)))
-
-private theorem regularCauchyMultiplication_mk_congr
-    {X X' Y Y' W W' D D' B B' E E' M M' Z Z' H H' C C' P P' N N' : BHist}
-    (hX : X' = X) (hY : Y' = Y) (hW : W' = W) (hD : D' = D)
-    (hB : B' = B) (hE : E' = E) (hM : M' = M) (hZ : Z' = Z)
-    (hH : H' = H) (hC : C' = C) (hP : P' = P) (hN : N' = N) :
-    RegularCauchyMultiplicationUp.mk X' Y' W' D' B' E' M' Z' H' C' P' N' =
-      RegularCauchyMultiplicationUp.mk X Y W D B E M Z H C P N := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hX
-  cases hY
-  cases hW
-  cases hD
-  cases hB
-  cases hE
-  cases hM
-  cases hZ
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
-
-private theorem RegularCauchyMultiplicationTasteGate_single_carrier_alignment_round_trip :
+private theorem regularCauchyMultiplication_round_trip :
     ∀ x : RegularCauchyMultiplicationUp,
       regularCauchyMultiplicationFromEventFlow
         (regularCauchyMultiplicationToEventFlow x) = some x := by
@@ -112,22 +111,48 @@ private theorem RegularCauchyMultiplicationTasteGate_single_carrier_alignment_ro
   intro x
   cases x with
   | mk X Y W D B E M Z H C P N =>
-      exact congrArg some
-        (regularCauchyMultiplication_mk_congr
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode X)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode Y)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode W)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode D)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode B)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode E)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode M)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode Z)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode H)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode C)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode P)
-          (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode N))
+      change
+        some
+          (RegularCauchyMultiplicationUp.mk
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist X))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist Y))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist W))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist D))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist B))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist E))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist M))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist Z))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist H))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist C))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist P))
+            (regularCauchyMultiplicationDecodeBHist
+              (regularCauchyMultiplicationEncodeBHist N))) =
+          some (RegularCauchyMultiplicationUp.mk X Y W D B E M Z H C P N)
+      rw [regularCauchyMultiplicationDecode_encode_bhist X,
+        regularCauchyMultiplicationDecode_encode_bhist Y,
+        regularCauchyMultiplicationDecode_encode_bhist W,
+        regularCauchyMultiplicationDecode_encode_bhist D,
+        regularCauchyMultiplicationDecode_encode_bhist B,
+        regularCauchyMultiplicationDecode_encode_bhist E,
+        regularCauchyMultiplicationDecode_encode_bhist M,
+        regularCauchyMultiplicationDecode_encode_bhist Z,
+        regularCauchyMultiplicationDecode_encode_bhist H,
+        regularCauchyMultiplicationDecode_encode_bhist C,
+        regularCauchyMultiplicationDecode_encode_bhist P,
+        regularCauchyMultiplicationDecode_encode_bhist N]
 
-private theorem RegularCauchyMultiplicationToEventFlow_injective
+private theorem regularCauchyMultiplicationToEventFlow_injective
     {x y : RegularCauchyMultiplicationUp} :
     regularCauchyMultiplicationToEventFlow x =
       regularCauchyMultiplicationToEventFlow y → x = y := by
@@ -140,10 +165,21 @@ private theorem RegularCauchyMultiplicationToEventFlow_injective
           (regularCauchyMultiplicationToEventFlow y) :=
     congrArg regularCauchyMultiplicationFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (RegularCauchyMultiplicationTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (regularCauchyMultiplication_round_trip x).symm
+      (Eq.trans hread (regularCauchyMultiplication_round_trip y)))
+
+private theorem regularCauchyMultiplicationFields_faithful :
+    ∀ x y : RegularCauchyMultiplicationUp,
+      regularCauchyMultiplicationFields x =
+        regularCauchyMultiplicationFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk X1 Y1 W1 D1 B1 E1 M1 Z1 H1 C1 P1 N1 =>
+      cases y with
+      | mk X2 Y2 W2 D2 B2 E2 M2 Z2 H2 C2 P2 N2 =>
+          cases h
+          rfl
 
 instance regularCauchyMultiplicationBHistCarrier :
     BHistCarrier RegularCauchyMultiplicationUp where
@@ -159,65 +195,36 @@ instance regularCauchyMultiplicationChapterTasteGate :
     change
       regularCauchyMultiplicationFromEventFlow
         (regularCauchyMultiplicationToEventFlow x) = some x
-    exact RegularCauchyMultiplicationTasteGate_single_carrier_alignment_round_trip x
+    exact regularCauchyMultiplication_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (RegularCauchyMultiplicationToEventFlow_injective heq)
+    exact hxy (regularCauchyMultiplicationToEventFlow_injective heq)
 
 instance regularCauchyMultiplicationFieldFaithful :
     FieldFaithful RegularCauchyMultiplicationUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := regularCauchyMultiplicationFields
-  field_faithful := by
-    -- BEDC touchpoint anchor: BHist BMark
-    intro x y h
-    cases x with
-    | mk X₁ Y₁ W₁ D₁ B₁ E₁ M₁ Z₁ H₁ C₁ P₁ N₁ =>
-        cases y with
-        | mk X₂ Y₂ W₂ D₂ B₂ E₂ M₂ Z₂ H₂ C₂ P₂ N₂ =>
-            injection h with hX rest₁
-            injection rest₁ with hY rest₂
-            injection rest₂ with hW rest₃
-            injection rest₃ with hD rest₄
-            injection rest₄ with hB rest₅
-            injection rest₅ with hE rest₆
-            injection rest₆ with hM rest₇
-            injection rest₇ with hZ rest₈
-            injection rest₈ with hH rest₉
-            injection rest₉ with hC rest₁₀
-            injection rest₁₀ with hP rest₁₁
-            injection rest₁₁ with hN _
-            cases hX
-            cases hY
-            cases hW
-            cases hD
-            cases hB
-            cases hE
-            cases hM
-            cases hZ
-            cases hH
-            cases hC
-            cases hP
-            cases hN
-            rfl
+  field_faithful := regularCauchyMultiplicationFields_faithful
 
 instance regularCauchyMultiplicationNontrivial :
     Nontrivial RegularCauchyMultiplicationUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨RegularCauchyMultiplicationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨RegularCauchyMultiplicationUp.mk BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      RegularCauchyMultiplicationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      RegularCauchyMultiplicationUp.mk (BHist.e0 BHist.Empty) BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty, by
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
         intro h
-        injection h with hX _ _ _ _ _ _ _ _ _ _ _
-        cases hX⟩
+        cases h⟩
 
 def taste_gate : ChapterTasteGate RegularCauchyMultiplicationUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  regularCauchyMultiplicationChapterTasteGate
+  inferInstance
+
+namespace TasteGate
 
 theorem RegularCauchyMultiplicationTasteGate_single_carrier_alignment :
     (∀ h : BHist,
@@ -226,15 +233,37 @@ theorem RegularCauchyMultiplicationTasteGate_single_carrier_alignment :
       (∀ x : RegularCauchyMultiplicationUp,
         regularCauchyMultiplicationFromEventFlow
           (regularCauchyMultiplicationToEventFlow x) = some x) ∧
-      (∀ x y : RegularCauchyMultiplicationUp,
-        regularCauchyMultiplicationToEventFlow x =
-          regularCauchyMultiplicationToEventFlow y → x = y) ∧
-      regularCauchyMultiplicationEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨RegularCauchyMultiplicationTasteGate_single_carrier_alignment_decode,
-      RegularCauchyMultiplicationTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => RegularCauchyMultiplicationToEventFlow_injective heq),
-      rfl⟩
+        (∀ x y : RegularCauchyMultiplicationUp,
+          regularCauchyMultiplicationToEventFlow x =
+            regularCauchyMultiplicationToEventFlow y → x = y) ∧
+          (∀ x y : RegularCauchyMultiplicationUp,
+            regularCauchyMultiplicationFields x =
+              regularCauchyMultiplicationFields y → x = y) ∧
+            (∃ x y : RegularCauchyMultiplicationUp, x ≠ y) ∧
+              regularCauchyMultiplicationEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  constructor
+  · exact regularCauchyMultiplicationDecode_encode_bhist
+  · constructor
+    · exact regularCauchyMultiplication_round_trip
+    · constructor
+      · intro x y heq
+        exact regularCauchyMultiplicationToEventFlow_injective heq
+      · constructor
+        · exact regularCauchyMultiplicationFields_faithful
+        · constructor
+          · exact
+              ⟨RegularCauchyMultiplicationUp.mk BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty,
+                RegularCauchyMultiplicationUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+                by
+                  intro h
+                  cases h⟩
+          · rfl
+
+end TasteGate
 
 end BEDC.Derived.RegularCauchyMultiplicationUp
