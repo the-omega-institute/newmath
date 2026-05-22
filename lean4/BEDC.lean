@@ -844,6 +844,7 @@ import BEDC.Derived.CategoryUp.TargetSourceCasesIff
 import BEDC.Derived.CategoryUp.UnaryTailZero
 import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
+import BEDC.Derived.CauchyApproximationSequenceUp.TasteGate
 import BEDC.Derived.CauchyChoiceBoundaryUp.DiagonalBudgetFactorization
 import BEDC.Derived.CauchyChoiceBoundaryUp.NameCertObligationSurface
 import BEDC.Derived.CauchyChoiceBoundaryUp.NoChoiceNonescape
@@ -962,6 +963,7 @@ import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.CauchyModulusMeetUp.StdBridge
+import BEDC.Derived.CauchyModulusMonotoneNormalizationUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchyModulusRefinementUp.BHistSourceScope
 import BEDC.Derived.CauchyModulusRefinementUp.BridgeConsumerRouteExhaustion
@@ -2010,6 +2012,7 @@ import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
 import BEDC.Derived.DecimalExpansionUp.TasteGate
 import BEDC.Derived.DedekindCauchyComparisonUp.TasteGate
+import BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
@@ -4924,6 +4927,7 @@ import BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
 import BEDC.Derived.StatusDowngradeUp.TasteGate
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.SternBrocotApproximationUp.TasteGate
+import BEDC.Derived.SternBrocotUp.TasteGate
 import BEDC.Derived.StolzCesaroUp.TasteGate
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.StoneDualityUp.TasteGate
