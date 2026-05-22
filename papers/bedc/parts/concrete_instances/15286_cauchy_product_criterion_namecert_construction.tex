@@ -60,6 +60,22 @@ Thus the consumer must pass through the displayed chain $X,Y,W,D,P,R$. The struc
 No other regular-rational classifier occurs in the packet. Therefore the synchronized window and dyadic product budget are sufficient for the $\RegSeqRatUp$ handoff, and the excluded objects cannot be exported by the criterion.
 \end{proof}
 
+\begin{theorem}[Cauchy product criterion source-window stability]
+\label{thm:cauchy-product-criterion-stability-under-equivalent-source-windows}
+Let $Z=(X,Y,W,D,P,R,E,H,C,L,N)$ be an accepted $\CauchyProductCriterionUp$ carrier. Suppose the source rows $X,Y$ and the synchronized window row $W$ are replaced only by displayed componentwise $\hsame$ rows and the replacement is replayed through the displayed $\Cont$ row $C$. Then the same dyadic product-budget row $D$, product route $P$, $\RegSeqRatUp$ handoff $R$, and $\RealUp$ seal $E$ remain the admissible criterion route:
+$$
+X,Y\longmapsto W\longmapsto D\longmapsto P\longmapsto R\longmapsto E .
+$$
+Thus source-window replacement along the classifier data preserves the product criterion and cannot introduce host multiplication, quotient stream equality, a selected product limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its displayed rows. By \autoref{thm:cauchy-product-criterion-window-budget-sufficiency}, the original $\RegSeqRatUp$ product read factors through $X,Y,W,D,P,R$.
+
+The replacement hypothesis is internal to the carrier data: $H$ supplies componentwise $\hsame$ transport for the source rows and synchronized window, while $C$ replays the continuation from the transported source-window data through the same displayed product route.
+
+Therefore the transported source-window presentation still reaches $D$, then $P$, then $R$, and the real-facing row $E$ reads the same admissible criterion route. No row in the carrier can insert host multiplication, a quotient-stream witness, a selected limit, countable choice, trichotomy, or ambient completeness between these displayed stages.
+\end{proof}
+
 \begin{theorem}[Cauchy product criterion real-seal boundary]
 \label{thm:cauchy-product-criterion-real-seal-boundary}
 Every $\RealUp$ seal read of an accepted $\CauchyProductCriterionUp$ carrier factors through
@@ -83,7 +99,7 @@ Since there is no coordinate for quotient streams, selected limits, countable ch
 \begin{closurestatus}{\CauchyProductCriterionUp}
   \constructivestory{A $\CauchyProductCriterionUp$ packet is generated from two Cauchy source rows, a synchronized StreamName window, a DyadicRatCore product-budget ledger, a CauchyProduct route, a RegSeqRat classifier row, a RealUp seal row, componentwise transport, displayed continuation replay, provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-product-criterion-carrier}, \autoref{thm:cauchy-product-criterion-namecert-obligations}, \autoref{thm:cauchy-product-criterion-window-budget-sufficiency}, and \autoref{thm:cauchy-product-criterion-real-seal-boundary} seed the finite criterion for synchronized Cauchy product data before RegSeqRat and Real seal consumers read the product.}
+  \scopeclosed{\autoref{def:cauchy-product-criterion-carrier}, \autoref{thm:cauchy-product-criterion-namecert-obligations}, \autoref{thm:cauchy-product-criterion-window-budget-sufficiency}, \autoref{thm:cauchy-product-criterion-stability-under-equivalent-source-windows}, and \autoref{thm:cauchy-product-criterion-real-seal-boundary} seed the finite criterion for synchronized Cauchy product data before RegSeqRat and Real seal consumers read the product.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host multiplication, quotient stream equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
