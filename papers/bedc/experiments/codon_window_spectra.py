@@ -1433,6 +1433,33 @@ def fraction_string(value: fractions.Fraction) -> str:
     return f"{value.numerator}/{value.denominator}"
 
 
+def dominant_symmetric_eigenpair(
+    matrix: list[list[float]],
+    tolerance: float = 1e-15,
+    max_iterations: int = 10000,
+) -> tuple[float, list[float]]:
+    size = len(matrix)
+    vector = [1.0 / (size ** 0.5) for _index in range(size)]
+    previous = 0.0
+    for _iteration in range(max_iterations):
+        shifted = [
+            vector[row] + sum(matrix[row][column] * vector[column] for column in range(size))
+            for row in range(size)
+        ]
+        norm = sum(entry * entry for entry in shifted) ** 0.5
+        vector = [entry / norm for entry in shifted]
+        value = sum(
+            vector[row] * sum(matrix[row][column] * vector[column] for column in range(size))
+            for row in range(size)
+        )
+        if abs(value - previous) < tolerance:
+            break
+        previous = value
+    if sum(vector) < 0:
+        vector = [-entry for entry in vector]
+    return value, vector
+
+
 def interval_closure(codons: set[str]) -> tuple[set[str], list[dict[str, object]]]:
     closed = set(codons)
     stages: list[dict[str, object]] = []
@@ -2621,6 +2648,103 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     )
     acg_boundary_delta = 6 - 2 * len(acg_stage_one_neighbors)
 
+    def killed_walk_matrix(codons: set[str]) -> tuple[tuple[str, ...], list[list[float]]]:
+        ordered = tuple(sorted(codons))
+        codon_to_index = {codon: index for index, codon in enumerate(ordered)}
+        matrix = [[0.0 for _column in ordered] for _row in ordered]
+        for left, right, _direction in hamming_edges():
+            if left in codon_to_index and right in codon_to_index:
+                left_index = codon_to_index[left]
+                right_index = codon_to_index[right]
+                matrix[left_index][right_index] = 1.0 / 6.0
+                matrix[right_index][left_index] = 1.0 / 6.0
+        return ordered, matrix
+
+    spectral_closure_sets = (
+        ("support", support),
+        ("anchor_closure", anchor_closure),
+        ("median_stage_one", median_stage_one),
+        ("median_closure", median_set),
+    )
+    spectral_rows: list[dict[str, object]] = []
+    median_eigenvector: list[float] = []
+    median_ordered_codons: tuple[str, ...] = ()
+    median_spectral_radius = 0.0
+    for name, codons in spectral_closure_sets:
+        ordered_codons, killed_matrix = killed_walk_matrix(codons)
+        spectral_radius, eigenvector = dominant_symmetric_eigenpair(killed_matrix)
+        retention = next(row for row in closure_retention_rows if row["name"] == name)
+        spectral_rows.append(
+            {
+                "name": name,
+                "vertices": len(codons),
+                "internal_edges": retention["internal_edges"],
+                "retention": retention["retention"],
+                "retention_float": retention["retention_float"],
+                "spectral_radius": spectral_radius,
+                "quasi_lifetime": 1.0 / (1.0 - spectral_radius),
+            }
+        )
+        if name == "median_closure":
+            median_ordered_codons = ordered_codons
+            median_eigenvector = eigenvector
+            median_spectral_radius = spectral_radius
+
+    median_codon_to_spectral_index = {
+        codon: index for index, codon in enumerate(median_ordered_codons)
+    }
+    eigenvector_sum = sum(median_eigenvector)
+    quotient_state_sets = {
+        name: set(quotient_orbits[orbit_names.index(name)])
+        for name in path_order
+    }
+    qsd_rows: list[dict[str, object]] = []
+    survival_rows: list[dict[str, object]] = []
+    state_potentials = {
+        name: sum(median_eigenvector[median_codon_to_spectral_index[codon]] for codon in codons) / len(codons)
+        for name, codons in quotient_state_sets.items()
+    }
+    max_potential = max(state_potentials.values())
+    for name in path_order:
+        codons = quotient_state_sets[name]
+        mass = sum(
+            median_eigenvector[median_codon_to_spectral_index[codon]]
+            for codon in codons
+        ) / eigenvector_sum
+        qsd_rows.append({"state": name, "mass": mass})
+        survival_rows.append({"state": name, "potential": state_potentials[name] / max_potential})
+
+    exit_prestates = []
+    median_exit_probability = 1.0 - median_spectral_radius
+    for row, outside_probability in zip(qsd_rows, leakage_probabilities):
+        exit_prestates.append(
+            {
+                "state": row["state"],
+                "conditional_probability": row["mass"] * float(outside_probability) / median_exit_probability,
+            }
+        )
+
+    outside_target_by_class: collections.Counter[str] = collections.Counter()
+    for codon in median_set:
+        codon_index = median_codon_to_spectral_index[codon]
+        word = bits(codon)
+        for bit_index in range(6):
+            neighbor_word = list(word)
+            neighbor_word[bit_index] = "1" if neighbor_word[bit_index] == "0" else "0"
+            neighbor = codon_from_bits("".join(neighbor_word))
+            if neighbor not in median_set:
+                outside_target_by_class[standard[neighbor]] += (
+                    median_eigenvector[codon_index]
+                    / eigenvector_sum
+                    * (1.0 / 6.0)
+                    / median_exit_probability
+                )
+    outside_target_rows = [
+        {"class": label, "probability": probability}
+        for label, probability in outside_target_by_class.items()
+    ]
+    outside_target_rows.sort(key=lambda row: (-row["probability"], row["class"]))
+
     return {
         "support": tuple(sorted(support)),
         "support_size": len(support),
@@ -2988,6 +3112,35 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "acg_boundary_delta": acg_boundary_delta,
             "boundary_before_acg": closure_retention_rows[2]["boundary_half_edges"],
             "boundary_after_acg": closure_retention_rows[3]["boundary_half_edges"],
+        },
+        "spectral_stabilization": {
+            "closure_spectral_rows": spectral_rows,
+            "median_spectral_radius": median_spectral_radius,
+            "median_quasi_lifetime": 1.0 / (1.0 - median_spectral_radius),
+            "qsd_rows": qsd_rows,
+            "anchor_stopstart_qsd_mass": sum(
+                row["mass"]
+                for row in qsd_rows
+                if row["state"] in {"Anchor6", "StopStart6"}
+            ),
+            "survival_potential_rows": survival_rows,
+            "highest_survival_potential_state": max(
+                survival_rows,
+                key=lambda row: row["potential"],
+            )["state"],
+            "exit_prestates": exit_prestates,
+            "anchor_stopstart_exit_share": sum(
+                row["conditional_probability"]
+                for row in exit_prestates
+                if row["state"] in {"Anchor6", "StopStart6"}
+            ),
+            "outside_target_rows": outside_target_rows,
+            "acg_spectral_radius_before": spectral_rows[2]["spectral_radius"],
+            "acg_spectral_radius_after": spectral_rows[3]["spectral_radius"],
+            "acg_retention_before": spectral_rows[2]["retention_float"],
+            "acg_retention_after": spectral_rows[3]["retention_float"],
+            "acg_boundary_before": closure_retention_rows[2]["boundary_half_edges"],
+            "acg_boundary_after": closure_retention_rows[3]["boundary_half_edges"],
         },
     }
 
@@ -4476,6 +4629,87 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert dynamics["acg_boundary_delta"] == -2
     assert dynamics["boundary_before_acg"] == 46
     assert dynamics["boundary_after_acg"] == 44
+    spectral = summary["support_compression"]["spectral_stabilization"]
+    assert [
+        (
+            row["name"],
+            row["vertices"],
+            row["internal_edges"],
+            row["retention"],
+            round(row["spectral_radius"], 4),
+            round(row["quasi_lifetime"], 3),
+        )
+        for row in spectral["closure_spectral_rows"]
+    ] == [
+        ("support", 13, 16, "16/39", 0.4759, 1.908),
+        ("anchor_closure", 16, 25, "25/48", 0.5733, 2.344),
+        ("median_stage_one", 19, 34, "34/57", 0.6422, 2.795),
+        ("median_closure", 20, 38, "19/30", 0.6752, 3.079),
+    ]
+    assert round(spectral["median_spectral_radius"], 7) == 0.6752479
+    assert round(spectral["median_quasi_lifetime"], 3) == 3.079
+    assert [
+        (row["state"], round(row["mass"], 4))
+        for row in spectral["qsd_rows"]
+    ] == [
+        ("AGR", 0.1117),
+        ("Anchor6", 0.3407),
+        ("StopStart6", 0.3524),
+        ("UUR", 0.1313),
+        ("CUR", 0.0482),
+        ("CUY", 0.0158),
+    ]
+    assert round(spectral["anchor_stopstart_qsd_mass"], 4) == 0.6931
+    assert [
+        (row["state"], round(row["potential"], 4))
+        for row in spectral["survival_potential_rows"]
+    ] == [
+        ("AGR", 0.8506),
+        ("Anchor6", 0.8652),
+        ("StopStart6", 0.8948),
+        ("UUR", 1.0),
+        ("CUR", 0.3671),
+        ("CUY", 0.1203),
+    ]
+    assert spectral["highest_survival_potential_state"] == "UUR"
+    assert [
+        (row["state"], round(row["conditional_probability"], 4))
+        for row in spectral["exit_prestates"]
+    ] == [
+        ("AGR", 0.1146),
+        ("Anchor6", 0.3497),
+        ("StopStart6", 0.3617),
+        ("UUR", 0.0674),
+        ("CUR", 0.0742),
+        ("CUY", 0.0324),
+    ]
+    assert round(spectral["anchor_stopstart_exit_share"], 4) == 0.7114
+    assert [
+        (row["class"], round(row["probability"], 4))
+        for row in spectral["outside_target_rows"]
+    ] == [
+        ("S", 0.1176),
+        ("P", 0.0931),
+        ("V", 0.0931),
+        ("Q", 0.085),
+        ("F", 0.0755),
+        ("I", 0.0603),
+        ("Y", 0.0603),
+        ("A", 0.0583),
+        ("C", 0.0583),
+        ("E", 0.0583),
+        ("N", 0.0583),
+        ("R", 0.0583),
+        ("T", 0.0583),
+        ("G", 0.0573),
+        ("H", 0.0081),
+    ]
+    assert round(spectral["acg_spectral_radius_before"], 4) == 0.6422
+    assert round(spectral["acg_spectral_radius_after"], 4) == 0.6752
+    assert round(spectral["acg_retention_before"], 3) == 0.596
+    assert round(spectral["acg_retention_after"], 3) == 0.633
+    assert spectral["acg_boundary_before"] == 46
+    assert spectral["acg_boundary_after"] == 44
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
