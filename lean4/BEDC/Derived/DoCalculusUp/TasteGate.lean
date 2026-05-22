@@ -1,11 +1,18 @@
+import BEDC.Derived.DoCalculusUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DoCalculusUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -297,5 +304,72 @@ theorem DoCalculusUpTasteGate_single_carrier_alignment :
       · intro x y heq
         exact DoCalculusUpTasteGate_single_carrier_alignment_toEventFlow_injective heq
       · rfl
+
+theorem DoCalculusUpTasteGate_namecert_surface_eventflow_consumer [AskSetup] [PackageSetup]
+    {intervention variables adjustment distribution independence expectation exported htrans replay
+      provenance localName interventionRead adjustmentRead probabilityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DoCalculusPacket intervention variables adjustment distribution independence expectation exported
+        htrans replay provenance localName bundle pkg →
+      Cont intervention variables interventionRead →
+        Cont adjustment independence adjustmentRead →
+          Cont expectation exported probabilityRead →
+            PkgSig bundle localName pkg →
+              let carrier :=
+                DoCalculusUp.mk intervention variables adjustment distribution independence expectation
+                  exported htrans replay provenance localName
+              doCalculusFromEventFlow (doCalculusToEventFlow carrier) = some carrier ∧
+                doCalculusFields carrier =
+                  [intervention, variables, adjustment, distribution, independence, expectation,
+                    exported, htrans, replay, provenance, localName] ∧
+                  SemanticNameCert
+                      (fun row : BHist => hsame row localName ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row interventionRead ∨ hsame row adjustmentRead ∨
+                          hsame row probabilityRead ∨ hsame row localName)
+                      (fun row : BHist => PkgSig bundle localName pkg ∧ hsame row localName)
+                      hsame ∧
+                    UnaryHistory interventionRead ∧ UnaryHistory adjustmentRead ∧
+                      UnaryHistory probabilityRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert ChapterTasteGate
+  intro packet interventionCont adjustmentCont probabilityCont localNamePkg
+  let carrier :=
+    DoCalculusUp.mk intervention variables adjustment distribution independence expectation exported
+      htrans replay provenance localName
+  have surface :=
+    DoCalculusPacket_namecert_obligation_surface
+      (interventionRead := interventionRead) (adjustmentRead := adjustmentRead)
+      (probabilityRead := probabilityRead) packet interventionCont adjustmentCont probabilityCont
+      localNamePkg
+  exact ⟨DoCalculusUpTasteGate_single_carrier_alignment.right.left carrier, rfl, surface⟩
+
+theorem DoCalculusUpTasteGate_adjustment_ledger_eventflow_consumer [AskSetup] [PackageSetup]
+    {intervention variables adjustment distribution independence expectation exported htrans replay
+      provenance localName adjustmentRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DoCalculusPacket intervention variables adjustment distribution independence expectation exported
+        htrans replay provenance localName bundle pkg →
+      Cont adjustment independence adjustmentRead →
+        PkgSig bundle adjustmentRead pkg →
+          let carrier :=
+            DoCalculusUp.mk intervention variables adjustment distribution independence expectation
+              exported htrans replay provenance localName
+          doCalculusFromEventFlow (doCalculusToEventFlow carrier) = some carrier ∧
+            doCalculusFields carrier =
+              [intervention, variables, adjustment, distribution, independence, expectation,
+                exported, htrans, replay, provenance, localName] ∧
+              UnaryHistory variables ∧ UnaryHistory adjustment ∧ UnaryHistory independence ∧
+                UnaryHistory adjustmentRead ∧ Cont intervention variables adjustment ∧
+                  Cont adjustment distribution independence ∧
+                    Cont adjustment independence adjustmentRead ∧ PkgSig bundle localName pkg ∧
+                      PkgSig bundle adjustmentRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont ChapterTasteGate
+  intro packet adjustmentCont adjustmentPkg
+  let carrier :=
+    DoCalculusUp.mk intervention variables adjustment distribution independence expectation exported
+      htrans replay provenance localName
+  have ledger :=
+    DoCalculusPacket_adjustment_ledger_exactness packet adjustmentCont adjustmentPkg
+  exact ⟨DoCalculusUpTasteGate_single_carrier_alignment.right.left carrier, rfl, ledger⟩
 
 end BEDC.Derived.DoCalculusUp
