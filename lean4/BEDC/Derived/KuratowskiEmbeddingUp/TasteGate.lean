@@ -25,7 +25,7 @@ def kuratowskiEmbeddingDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (kuratowskiEmbeddingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (kuratowskiEmbeddingDecodeBHist tail)
 
-private theorem KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode :
+private theorem kuratowskiEmbedding_decode_encode_bhist :
     ∀ h : BHist, kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -33,6 +33,25 @@ private theorem KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_e
   | Empty => rfl
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
+
+private theorem kuratowskiEmbedding_mk_congr
+    {M M' B B' D D' T T' I I' H H' C C' P P' N N' : BHist}
+    (hM : M' = M) (hB : B' = B) (hD : D' = D) (hT : T' = T)
+    (hI : I' = I) (hH : H' = H) (hC : C' = C) (hP : P' = P)
+    (hN : N' = N) :
+    KuratowskiEmbeddingUp.mk M' B' D' T' I' H' C' P' N' =
+      KuratowskiEmbeddingUp.mk M B D T I H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hM
+  cases hB
+  cases hD
+  cases hT
+  cases hI
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
 
 def kuratowskiEmbeddingFields : KuratowskiEmbeddingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -42,58 +61,70 @@ def kuratowskiEmbeddingToEventFlow : KuratowskiEmbeddingUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (kuratowskiEmbeddingFields x).map kuratowskiEmbeddingEncodeBHist
 
-private def kuratowskiEmbeddingEventAt : Nat → EventFlow → RawEvent
+def kuratowskiEmbeddingFromEventFlow : EventFlow → Option KuratowskiEmbeddingUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => kuratowskiEmbeddingEventAt index rest
+  | [] => none
+  | M :: rest0 =>
+      match rest0 with
+      | [] => none
+      | B :: rest1 =>
+          match rest1 with
+          | [] => none
+          | D :: rest2 =>
+              match rest2 with
+              | [] => none
+              | T :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | I :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | H :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | C :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | P :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | N :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (KuratowskiEmbeddingUp.mk
+                                              (kuratowskiEmbeddingDecodeBHist M)
+                                              (kuratowskiEmbeddingDecodeBHist B)
+                                              (kuratowskiEmbeddingDecodeBHist D)
+                                              (kuratowskiEmbeddingDecodeBHist T)
+                                              (kuratowskiEmbeddingDecodeBHist I)
+                                              (kuratowskiEmbeddingDecodeBHist H)
+                                              (kuratowskiEmbeddingDecodeBHist C)
+                                              (kuratowskiEmbeddingDecodeBHist P)
+                                              (kuratowskiEmbeddingDecodeBHist N))
+                                      | _ :: _ => none
 
-def kuratowskiEmbeddingFromEventFlow (ef : EventFlow) : Option KuratowskiEmbeddingUp :=
+private theorem kuratowskiEmbedding_round_trip :
+    ∀ x : KuratowskiEmbeddingUp,
+      kuratowskiEmbeddingFromEventFlow (kuratowskiEmbeddingToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (KuratowskiEmbeddingUp.mk
-      (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEventAt 0 ef))
-      (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEventAt 1 ef))
-      (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEventAt 2 ef))
-      (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEventAt 3 ef))
-      (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEventAt 4 ef))
-      (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEventAt 5 ef))
-      (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEventAt 6 ef))
-      (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEventAt 7 ef))
-      (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEventAt 8 ef)))
-
-private theorem KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_round_trip
-    (x : KuratowskiEmbeddingUp) :
-    kuratowskiEmbeddingFromEventFlow (kuratowskiEmbeddingToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk M B D T I H C P N =>
-      change
-        some
-          (KuratowskiEmbeddingUp.mk
-            (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist M))
-            (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist B))
-            (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist D))
-            (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist T))
-            (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist I))
-            (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist H))
-            (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist C))
-            (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist P))
-            (kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist N))) =
-          some (KuratowskiEmbeddingUp.mk M B D T I H C P N)
-      rw [KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode M,
-        KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode B,
-        KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode D,
-        KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode T,
-        KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode I,
-        KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode H,
-        KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode C,
-        KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode P,
-        KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode N]
+      exact
+        congrArg some
+          (kuratowskiEmbedding_mk_congr
+            (kuratowskiEmbedding_decode_encode_bhist M)
+            (kuratowskiEmbedding_decode_encode_bhist B)
+            (kuratowskiEmbedding_decode_encode_bhist D)
+            (kuratowskiEmbedding_decode_encode_bhist T)
+            (kuratowskiEmbedding_decode_encode_bhist I)
+            (kuratowskiEmbedding_decode_encode_bhist H)
+            (kuratowskiEmbedding_decode_encode_bhist C)
+            (kuratowskiEmbedding_decode_encode_bhist P)
+            (kuratowskiEmbedding_decode_encode_bhist N))
 
-private theorem KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : KuratowskiEmbeddingUp} :
+private theorem kuratowskiEmbeddingToEventFlow_injective {x y : KuratowskiEmbeddingUp} :
     kuratowskiEmbeddingToEventFlow x = kuratowskiEmbeddingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -102,8 +133,8 @@ private theorem KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_toEventF
         kuratowskiEmbeddingFromEventFlow (kuratowskiEmbeddingToEventFlow y) :=
     congrArg kuratowskiEmbeddingFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (kuratowskiEmbedding_round_trip x).symm
+      (Eq.trans hread (kuratowskiEmbedding_round_trip y)))
 
 instance kuratowskiEmbeddingBHistCarrier : BHistCarrier KuratowskiEmbeddingUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -115,12 +146,12 @@ instance kuratowskiEmbeddingChapterTasteGate : ChapterTasteGate KuratowskiEmbedd
   round_trip := by
     intro x
     change kuratowskiEmbeddingFromEventFlow (kuratowskiEmbeddingToEventFlow x) = some x
-    exact KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_round_trip x
+    exact kuratowskiEmbedding_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (kuratowskiEmbeddingToEventFlow_injective heq)
 
-theorem KuratowskiEmbeddingUpTasteGate_single_carrier_alignment :
+theorem KuratowskiEmbeddingTasteGate_single_carrier_alignment :
     (∀ h : BHist, kuratowskiEmbeddingDecodeBHist (kuratowskiEmbeddingEncodeBHist h) = h) ∧
       (∀ x : KuratowskiEmbeddingUp,
         kuratowskiEmbeddingFromEventFlow (kuratowskiEmbeddingToEventFlow x) = some x) ∧
@@ -128,11 +159,13 @@ theorem KuratowskiEmbeddingUpTasteGate_single_carrier_alignment :
           kuratowskiEmbeddingToEventFlow x = kuratowskiEmbeddingToEventFlow y → x = y) ∧
           kuratowskiEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_decode_encode,
-      KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        KuratowskiEmbeddingUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+  constructor
+  · exact kuratowskiEmbedding_decode_encode_bhist
+  · constructor
+    · exact kuratowskiEmbedding_round_trip
+    · constructor
+      · intro x y heq
+        exact kuratowskiEmbeddingToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.KuratowskiEmbeddingUp
