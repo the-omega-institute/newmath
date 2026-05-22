@@ -71,6 +71,24 @@ Apply the basis exposure and regular-tail exactness clauses of \autoref{thm:loca
 The remaining rows are downstream support. The sequence windows $S$, rational readbacks $Q$, transport $H$, replay $C$, provenance $P$, and local name $N$ preserve and package the same finite route; none of them adds a quotient filter, selected limit, countable-choice selector, hidden basis inspection, host equality, or ambient completeness witness.
 \end{proof}
 
+\begin{theorem}[Located Cauchy filter basis-refinement route]
+\label{thm:located-cauchy-filter-basis-refinement-route}
+Every located-tail read $T$ in an accepted $\LocatedCauchyFilterUp$ packet
+$$
+L=(F,B,R,S,Q,D,T,E,H,C,P,N)
+$$
+first fixes the $\CauchyFilterUp$ row $F$, then refines through the $\CauchyFilterBasisUp$ row $B$ at the displayed dyadic tolerance $D$, and only then exposes the $\RegularCauchyFilterUp$ row $R$, $\StreamNameUp$ windows $S$, $\RegSeqRatUp$ readback $Q$, and $\RealUp$ seal row $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The located-tail coordinate $T$ is packaged with exactly one Cauchy filter row $F$, one basis row $B$, one dyadic tolerance ledger $D$, and the downstream rows $R,S,Q,E,H,C,P,N$.
+
+Use the basis exposure clause of \autoref{thm:located-cauchy-filter-namecert-obligations}. A located request fixes $F$ before it may inspect the displayed basis row $B$.
+
+Use the regular-tail exactness clause of the same theorem. The basis refinement is read at the dyadic tolerance recorded in $D$, and the located-tail row $T$ shares that displayed request before $R,S,Q$ or $E$ are available.
+
+The remaining rows only preserve or consume the finite route. Hence quotient filters, selected limits, countable choice, hidden basis inspection, host equality, and ambient completeness are absent from the refinement path.
+\end{proof}
+
 \begin{theorem}[Located Cauchy filter Real seal boundary]
 \label{thm:located-cauchy-filter-real-seal-boundary}
 Every $\RealUp$-facing read exported by an accepted $\LocatedCauchyFilterUp$ carrier factors through the complete finite route
@@ -92,7 +110,7 @@ The structural rows then preserve the route. The rows $H,C,P,N$ transport, repla
 \begin{closurestatus}{\LocatedCauchyFilterUp}
   \constructivestory{A $\LocatedCauchyFilterUp$ packet is generated from a CauchyFilter row, a CauchyFilterBasis row, a RegularCauchyFilter tail budget, finite StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a located-tail witness, a Real seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-cauchy-filter-carrier}, \autoref{thm:located-cauchy-filter-namecert-obligations}, \autoref{thm:located-cauchy-filter-regular-tail-location}, and \autoref{thm:located-cauchy-filter-real-seal-boundary} seed the filter-level located Cauchy packet between CauchyFilter, CauchyFilterBasis, RegularCauchyFilter, LocatedCauchySequence, StreamName, RegSeqRat, DyadicRatCore, and Real consumers.}
+  \scopeclosed{\autoref{def:located-cauchy-filter-carrier}, \autoref{thm:located-cauchy-filter-namecert-obligations}, \autoref{thm:located-cauchy-filter-regular-tail-location}, \autoref{thm:located-cauchy-filter-basis-refinement-route}, and \autoref{thm:located-cauchy-filter-real-seal-boundary} seed the filter-level located Cauchy packet between CauchyFilter, CauchyFilterBasis, RegularCauchyFilter, LocatedCauchySequence, StreamName, RegSeqRat, DyadicRatCore, and Real consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient filter equality, selected limits, countable choice, hidden infinite basis inspection, host real equality, ambient Real completeness, Lean verification, or a public standard bridge.}
