@@ -3,7 +3,6 @@ import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyQuotientBoundaryUp
-namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -14,20 +13,20 @@ inductive CauchyQuotientBoundaryUp : Type where
   | mk (S Q F D W R E H C P N : BHist) : CauchyQuotientBoundaryUp
   deriving DecidableEq
 
-def cauchyQuotientBoundaryEncodeBHist : BHist -> RawEvent
+def cauchyQuotientBoundaryEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cauchyQuotientBoundaryEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cauchyQuotientBoundaryEncodeBHist h
 
-def cauchyQuotientBoundaryDecodeBHist : RawEvent -> BHist
+def cauchyQuotientBoundaryDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cauchyQuotientBoundaryDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyQuotientBoundaryDecodeBHist tail)
 
-private theorem cauchyQuotientBoundary_decode_encode_bhist :
-    forall h : BHist,
+private theorem CauchyQuotientBoundaryUp_single_carrier_alignment_decode :
+    ∀ h : BHist,
       cauchyQuotientBoundaryDecodeBHist (cauchyQuotientBoundaryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -36,15 +35,15 @@ private theorem cauchyQuotientBoundary_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cauchyQuotientBoundaryFields : CauchyQuotientBoundaryUp -> List BHist
+def cauchyQuotientBoundaryFields : CauchyQuotientBoundaryUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CauchyQuotientBoundaryUp.mk S Q F D W R E H C P N => [S, Q, F, D, W, R, E, H, C, P, N]
 
-def cauchyQuotientBoundaryToEventFlow : CauchyQuotientBoundaryUp -> EventFlow
+def cauchyQuotientBoundaryToEventFlow : CauchyQuotientBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (cauchyQuotientBoundaryFields x).map cauchyQuotientBoundaryEncodeBHist
 
-def cauchyQuotientBoundaryFromEventFlow : EventFlow -> Option CauchyQuotientBoundaryUp
+def cauchyQuotientBoundaryFromEventFlow : EventFlow → Option CauchyQuotientBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
   | S :: restS =>
       match restS with
@@ -116,33 +115,30 @@ private theorem cauchyQuotientBoundary_mk_congr
   cases hN
   rfl
 
-private theorem cauchyQuotientBoundary_round_trip :
-    forall x : CauchyQuotientBoundaryUp,
-      cauchyQuotientBoundaryFromEventFlow (cauchyQuotientBoundaryToEventFlow x) =
-        some x := by
+private theorem CauchyQuotientBoundaryUp_single_carrier_alignment_round_trip :
+    ∀ x : CauchyQuotientBoundaryUp,
+      cauchyQuotientBoundaryFromEventFlow (cauchyQuotientBoundaryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk S Q F D W R E H C P N =>
-      exact
-        congrArg some
-          (cauchyQuotientBoundary_mk_congr
-            (cauchyQuotientBoundary_decode_encode_bhist S)
-            (cauchyQuotientBoundary_decode_encode_bhist Q)
-            (cauchyQuotientBoundary_decode_encode_bhist F)
-            (cauchyQuotientBoundary_decode_encode_bhist D)
-            (cauchyQuotientBoundary_decode_encode_bhist W)
-            (cauchyQuotientBoundary_decode_encode_bhist R)
-            (cauchyQuotientBoundary_decode_encode_bhist E)
-            (cauchyQuotientBoundary_decode_encode_bhist H)
-            (cauchyQuotientBoundary_decode_encode_bhist C)
-            (cauchyQuotientBoundary_decode_encode_bhist P)
-            (cauchyQuotientBoundary_decode_encode_bhist N))
+      exact congrArg some
+        (cauchyQuotientBoundary_mk_congr
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode S)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode Q)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode F)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode D)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode W)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode R)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode E)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode H)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode C)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode P)
+          (CauchyQuotientBoundaryUp_single_carrier_alignment_decode N))
 
 private theorem cauchyQuotientBoundaryToEventFlow_injective
     {x y : CauchyQuotientBoundaryUp} :
-    cauchyQuotientBoundaryToEventFlow x = cauchyQuotientBoundaryToEventFlow y ->
-      x = y := by
+    cauchyQuotientBoundaryToEventFlow x = cauchyQuotientBoundaryToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -150,20 +146,8 @@ private theorem cauchyQuotientBoundaryToEventFlow_injective
         cauchyQuotientBoundaryFromEventFlow (cauchyQuotientBoundaryToEventFlow y) :=
     congrArg cauchyQuotientBoundaryFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (cauchyQuotientBoundary_round_trip x).symm
-      (Eq.trans hread (cauchyQuotientBoundary_round_trip y)))
-
-private theorem cauchyQuotientBoundary_field_faithful :
-    forall x y : CauchyQuotientBoundaryUp,
-      cauchyQuotientBoundaryFields x = cauchyQuotientBoundaryFields y -> x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk S Q F D W R E H C P N =>
-      cases y with
-      | mk S' Q' F' D' W' R' E' H' C' P' N' =>
-          cases hfields
-          rfl
+    (Eq.trans (CauchyQuotientBoundaryUp_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (CauchyQuotientBoundaryUp_single_carrier_alignment_round_trip y)))
 
 instance cauchyQuotientBoundaryBHistCarrier :
     BHistCarrier CauchyQuotientBoundaryUp where
@@ -178,55 +162,33 @@ instance cauchyQuotientBoundaryChapterTasteGate :
     intro x
     change cauchyQuotientBoundaryFromEventFlow (cauchyQuotientBoundaryToEventFlow x) =
       some x
-    exact cauchyQuotientBoundary_round_trip x
+    exact CauchyQuotientBoundaryUp_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (cauchyQuotientBoundaryToEventFlow_injective heq)
-
-instance cauchyQuotientBoundaryFieldFaithful :
-    FieldFaithful CauchyQuotientBoundaryUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := cauchyQuotientBoundaryFields
-  field_faithful := cauchyQuotientBoundary_field_faithful
-
-instance cauchyQuotientBoundaryNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial CauchyQuotientBoundaryUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CauchyQuotientBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      CauchyQuotientBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
 
 def taste_gate : ChapterTasteGate CauchyQuotientBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchyQuotientBoundaryChapterTasteGate
 
-theorem CauchyQuotientBoundaryTasteGate_single_carrier_alignment :
-    (forall h : BHist,
-        cauchyQuotientBoundaryDecodeBHist
-          (cauchyQuotientBoundaryEncodeBHist h) = h) /\
-      (forall x : CauchyQuotientBoundaryUp,
-        cauchyQuotientBoundaryFromEventFlow
-          (cauchyQuotientBoundaryToEventFlow x) = some x) /\
-      (forall x y : CauchyQuotientBoundaryUp,
-        cauchyQuotientBoundaryToEventFlow x =
-          cauchyQuotientBoundaryToEventFlow y -> x = y) /\
+theorem CauchyQuotientBoundaryUp_single_carrier_alignment :
+    (∀ h : BHist,
+      cauchyQuotientBoundaryDecodeBHist (cauchyQuotientBoundaryEncodeBHist h) = h) ∧
+      (∀ x : CauchyQuotientBoundaryUp,
+        cauchyQuotientBoundaryFromEventFlow (cauchyQuotientBoundaryToEventFlow x) =
+          some x) ∧
+      (∀ x y : CauchyQuotientBoundaryUp,
+        cauchyQuotientBoundaryToEventFlow x = cauchyQuotientBoundaryToEventFlow y →
+          x = y) ∧
       cauchyQuotientBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact cauchyQuotientBoundary_decode_encode_bhist
+  · exact CauchyQuotientBoundaryUp_single_carrier_alignment_decode
   constructor
-  · exact cauchyQuotientBoundary_round_trip
+  · exact CauchyQuotientBoundaryUp_single_carrier_alignment_round_trip
   constructor
   · intro x y heq
     exact cauchyQuotientBoundaryToEventFlow_injective heq
   · rfl
 
-end TasteGate
 end BEDC.Derived.CauchyQuotientBoundaryUp
