@@ -68,11 +68,31 @@ After $R$ is displayed, the Real seal $S$ can be consumed. The interchange trans
 Composing these route projections gives the displayed factorization. Because every step is a row of the finite packet and the packet has no coordinate for the excluded analytic objects, the handoff cannot export any stronger host-level principle.
 \end{proof}
 
+\begin{theorem}[UniformLimitInterchange shared modulus determinacy]
+\label{thm:uniform-limit-interchange-shared-modulus-determinacy}
+Let $I=(F,L,M,R,S,T,H,C,P,N)$ be an accepted $\UniformLimitInterchangeUp$ carrier. Every consumer route from the finite $\ContinuousMapUp$ rows of $F$ and the $\UniformLimitUp$ route $L$ to $\RegSeqRatUp$ readback and the $\RealUp$ seal factors through the same displayed shared-modulus row $M$ before it reaches $R$ and $S$.
+
+Equivalently, the finite gate for the interchange is determined by the carrier rows $F,L,M,R,S,T,H,C,P,N$: no host function-space completeness, quotient equality of maps, selected limit, open-cover compactness, pointwise-only convergence, or ambient $\RealUp$ completeness can replace the row $M$ in a certified readback route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:uniform-limit-interchange-carrier}. Its analytic surface contains the continuous-map ledger $F$, the uniform-limit row $L$, the shared modulus evidence $M$, the regular readback $R$, the Real seal $S$, and the transport row $T$.
+
+Apply \autoref{thm:uniform-limit-interchange-namecert-obligations}. The shared-modulus exactness row identifies $M$ as the single row consulted by both the continuity-facing reads of $F$ and the limit-facing read of $L$ before any $\RegSeqRatUp$ readback is exposed.
+
+Apply \autoref{thm:uniform-limit-interchange-real-seal-handoff}. Since every Real or Completion consumer reaches $S$ only through the displayed route
+$$
+F,L \longmapsto M \longmapsto R \longmapsto S \longmapsto T,H,C,P,N ,
+$$
+both $R$ and $S$ are downstream of that same $M$.
+
+The remaining excluded objects are absent from the classifier coordinates. They therefore cannot supply an alternate gate for the finite readback route or replace the shared modulus row inside the local $\NameCert_{\UniformLimitInterchangeUp}$ surface.
+\end{proof}
+
 \closureat{UniformLimitInterchangeUp}{seedStr}
 
 \begin{closurestatus}{\UniformLimitInterchangeUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:uniform-limit-interchange-carrier}, \autoref{thm:uniform-limit-interchange-namecert-obligations}, and \autoref{thm:uniform-limit-interchange-real-seal-handoff} seed the finite continuity handoff from continuous-map rows and a uniform-limit route to RegSeqRat readback and a Real seal.}
+  \scopeclosed{\autoref{def:uniform-limit-interchange-carrier}, \autoref{thm:uniform-limit-interchange-namecert-obligations}, \autoref{thm:uniform-limit-interchange-real-seal-handoff}, and \autoref{thm:uniform-limit-interchange-shared-modulus-determinacy} seed the finite continuity handoff from continuous-map rows and a uniform-limit route to RegSeqRat readback and a Real seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host function-space completeness, quotient equality of maps, selected host limits, open-cover compactness, pointwise-only convergence, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
