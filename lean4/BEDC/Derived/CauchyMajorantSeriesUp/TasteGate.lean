@@ -25,7 +25,7 @@ def cauchyMajorantSeriesDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyMajorantSeriesDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyMajorantSeriesDecodeBHist tail)
 
-private theorem CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode :
+private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -43,33 +43,35 @@ def cauchyMajorantSeriesToEventFlow : CauchyMajorantSeriesUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (cauchyMajorantSeriesFields x).map cauchyMajorantSeriesEncodeBHist
 
-private def cauchyMajorantSeriesEventAt : Nat → EventFlow → RawEvent
+private def cauchyMajorantSeriesRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyMajorantSeriesEventAt index rest
+  | Nat.succ index, _event :: rest => cauchyMajorantSeriesRawAt index rest
 
-def cauchyMajorantSeriesFromEventFlow (ef : EventFlow) :
-    Option CauchyMajorantSeriesUp :=
+def cauchyMajorantSeriesFromEventFlow
+    (flow : EventFlow) : Option CauchyMajorantSeriesUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CauchyMajorantSeriesUp.mk
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 0 ef))
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 1 ef))
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 2 ef))
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 3 ef))
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 4 ef))
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 5 ef))
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 6 ef))
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 7 ef))
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 8 ef))
-      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEventAt 9 ef)))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 0 flow))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 1 flow))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 2 flow))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 3 flow))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 4 flow))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 5 flow))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 6 flow))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 7 flow))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 8 flow))
+      (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesRawAt 9 flow)))
 
-private theorem CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_round_trip
-    (x : CauchyMajorantSeriesUp) :
-    cauchyMajorantSeriesFromEventFlow (cauchyMajorantSeriesToEventFlow x) = some x := by
+private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : CauchyMajorantSeriesUp,
+      cauchyMajorantSeriesFromEventFlow (cauchyMajorantSeriesToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk A D S R B E H C P N =>
       change
@@ -86,18 +88,18 @@ private theorem CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_round_t
             (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEncodeBHist P))
             (cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEncodeBHist N))) =
           some (CauchyMajorantSeriesUp.mk A D S R B E H C P N)
-      rw [CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode A,
-        CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode D,
-        CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode S,
-        CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode R,
-        CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode B,
-        CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode E,
-        CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode H,
-        CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode C,
-        CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode P,
-        CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_decode_encode N]
+      rw [CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode A,
+        CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode D,
+        CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode S,
+        CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode R,
+        CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode B,
+        CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode E,
+        CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode H,
+        CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode C,
+        CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode P,
+        CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyMajorantSeriesUp} :
     cauchyMajorantSeriesToEventFlow x = cauchyMajorantSeriesToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -107,8 +109,22 @@ private theorem CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_toEvent
         cauchyMajorantSeriesFromEventFlow (cauchyMajorantSeriesToEventFlow y) :=
     congrArg cauchyMajorantSeriesFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (CauchyMajorantSeriesTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (CauchyMajorantSeriesTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : CauchyMajorantSeriesUp,
+      cauchyMajorantSeriesFields x = cauchyMajorantSeriesFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk A1 D1 S1 R1 B1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk A2 D2 S2 R2 B2 E2 H2 C2 P2 N2 =>
+          simp only [cauchyMajorantSeriesFields] at h
+          cases h
+          rfl
 
 instance cauchyMajorantSeriesBHistCarrier : BHistCarrier CauchyMajorantSeriesUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -121,20 +137,45 @@ instance cauchyMajorantSeriesChapterTasteGate :
   round_trip := by
     intro x
     change cauchyMajorantSeriesFromEventFlow (cauchyMajorantSeriesToEventFlow x) = some x
-    exact CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_round_trip x
+    exact CauchyMajorantSeriesTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+      (CauchyMajorantSeriesTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-def CauchyMajorantSeriesUpTasteGate_single_carrier_alignment_taste_gate :
-    ChapterTasteGate CauchyMajorantSeriesUp :=
+instance cauchyMajorantSeriesFieldFaithful : FieldFaithful CauchyMajorantSeriesUp where
   -- BEDC touchpoint anchor: BHist BMark
-  cauchyMajorantSeriesChapterTasteGate
+  fields := cauchyMajorantSeriesFields
+  field_faithful := CauchyMajorantSeriesTasteGate_single_carrier_alignment_fields_faithful
 
-theorem CauchyMajorantSeriesUpTasteGate_single_carrier_alignment :
-    ChapterTasteGate CauchyMajorantSeriesUp := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact cauchyMajorantSeriesChapterTasteGate
+instance cauchyMajorantSeriesNontrivial : Nontrivial CauchyMajorantSeriesUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨CauchyMajorantSeriesUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CauchyMajorantSeriesUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+theorem CauchyMajorantSeriesTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      cauchyMajorantSeriesDecodeBHist (cauchyMajorantSeriesEncodeBHist h) = h) ∧
+      (∀ x : CauchyMajorantSeriesUp,
+        cauchyMajorantSeriesFromEventFlow (cauchyMajorantSeriesToEventFlow x) =
+          some x) ∧
+        (∀ x y : CauchyMajorantSeriesUp,
+          cauchyMajorantSeriesToEventFlow x = cauchyMajorantSeriesToEventFlow y →
+            x = y) ∧
+          cauchyMajorantSeriesEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨CauchyMajorantSeriesTasteGate_single_carrier_alignment_decode_encode,
+      CauchyMajorantSeriesTasteGate_single_carrier_alignment_round_trip,
+      by
+        intro x y heq
+        exact CauchyMajorantSeriesTasteGate_single_carrier_alignment_toEventFlow_injective heq,
+      rfl⟩
 
 end BEDC.Derived.CauchyMajorantSeriesUp
