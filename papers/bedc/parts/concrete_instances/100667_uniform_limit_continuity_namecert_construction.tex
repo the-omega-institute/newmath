@@ -63,6 +63,20 @@ Apply the uniform-tail exposure and continuity handoff clauses of \autoref{thm:u
 The remaining rows $H,C,P,N$ record transport, replay, package provenance, and naming provenance for the same path. Hence a continuous-map consumer factors through the uniform-limit threshold and seal route before it reads continuity data.
 \end{proof}
 
+\begin{theorem}[UniformLimitContinuity modulus handoff]
+\label{thm:uniform-limit-continuity-modulus-handoff}
+Every $\UniformModulusUp$ or uniform-continuity consumer of an accepted $\UniformLimitContinuityUp$ carrier $K=(F,M,T,R,E,G,U,H,C,P,N)$ must read the shared modulus row $M$ before using the tail ledger $T$, regular handoff $R$, real seal $E$, continuous-map graph $G$, or consumer row $U$. Thus all uniform-continuity consumption in the packet factors through the same displayed modulus row before it reaches any endpoint, graph, or downstream consumer surface.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier along \autoref{def:uniform-limit-continuity-carrier}. The only modulus-bearing coordinate available to a uniform-continuity request is the shared row $M$, while $T,R,E,G,U$ occur later in the displayed carrier route.
+
+Apply the uniform-tail exposure clause of \autoref{thm:uniform-limit-continuity-namecert-obligations}. It requires continuity-facing reads to pass through $M$ and the tail ledger before the limiting endpoint route is exposed.
+
+Apply \autoref{thm:uniform-limit-continuity-continuousmap-handoff} to the endpoint-facing part of the same consumer. That theorem places the route through $F,M,T,R,E$ before $G$ or $U$ can be read, so a $\UniformModulusUp$ or uniform-continuity consumer cannot reach the later rows without first passing through $M$.
+
+The remaining rows $H,C,P,N$ do not introduce a second route. They transport, replay, package, and name the same carrier path, so they preserve the modulus handoff rather than bypassing it.
+\end{proof}
+
 \begin{theorem}[UniformLimitContinuity nonescape boundary]
 \label{thm:uniform-limit-continuity-nonescape}
 An accepted $\UniformLimitContinuityUp$ carrier exports only the displayed uniform-limit family row, shared modulus row, tail ledger, regular handoff, real seal, continuous-map graph, uniform-continuity consumer row, componentwise transports, continuation replay, package provenance, and local naming row of \autoref{def:uniform-limit-continuity-carrier}. It exports no pointwise-only convergence theorem, no host limit selector, no quotient function equality, no open-cover compactness principle, and no ambient $\RealUp$ completeness theorem.
