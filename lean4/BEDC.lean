@@ -4404,6 +4404,7 @@ import BEDC.Derived.RegSeqRatUp.RealSealFiniteWindowSaturation
 import BEDC.Derived.RegSeqRatUp.RealSealRouteExclusionPackage
 import BEDC.Derived.RegSeqRatUp.RealTerminalFourFaceExactness
 import BEDC.Derived.RegSeqRatUp.StreamNameDyadicRealHandoff
+import BEDC.Derived.RegSeqRatUp.TailBudgetTerminalRealSeal
 import BEDC.Derived.RegistryChangeContinuityUp.TasteGate
 import BEDC.Derived.RegistryConsistencyAuditUp.TasteGate
 import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
@@ -4457,6 +4458,7 @@ import BEDC.Derived.RegularCauchyLimitModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyMaxUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
+import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BridgeObstructionBoundary
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BudgetPullbackExhaustion
