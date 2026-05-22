@@ -25,7 +25,7 @@ def closedIntervalCauchyCriterionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (closedIntervalCauchyCriterionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (closedIntervalCauchyCriterionDecodeBHist tail)
 
-private theorem ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode :
+private theorem ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       closedIntervalCauchyCriterionDecodeBHist
           (closedIntervalCauchyCriterionEncodeBHist h) =
@@ -55,8 +55,8 @@ private def closedIntervalCauchyCriterionEventAt : Nat → EventFlow → RawEven
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => closedIntervalCauchyCriterionEventAt index rest
 
-def closedIntervalCauchyCriterionFromEventFlow (ef : EventFlow) :
-    Option ClosedIntervalCauchyCriterionUp :=
+def closedIntervalCauchyCriterionFromEventFlow
+    (ef : EventFlow) : Option ClosedIntervalCauchyCriterionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (ClosedIntervalCauchyCriterionUp.mk
@@ -74,7 +74,7 @@ def closedIntervalCauchyCriterionFromEventFlow (ef : EventFlow) :
       (closedIntervalCauchyCriterionDecodeBHist (closedIntervalCauchyCriterionEventAt 11 ef))
       (closedIntervalCauchyCriterionDecodeBHist (closedIntervalCauchyCriterionEventAt 12 ef)))
 
-private theorem ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_round_trip
+private theorem ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_round_trip
     (x : ClosedIntervalCauchyCriterionUp) :
     closedIntervalCauchyCriterionFromEventFlow
         (closedIntervalCauchyCriterionToEventFlow x) =
@@ -112,21 +112,21 @@ private theorem ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignmen
             (closedIntervalCauchyCriterionDecodeBHist
               (closedIntervalCauchyCriterionEncodeBHist N))) =
           some (ClosedIntervalCauchyCriterionUp.mk A B I F W T S R E H C P N)
-      rw [ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode A,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode B,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode I,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode F,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode W,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode T,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode S,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode R,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode E,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode H,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode C,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode P,
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode N]
+      rw [ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode A,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode B,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode I,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode F,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode W,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode T,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode S,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode R,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode E,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode H,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode C,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode P,
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : ClosedIntervalCauchyCriterionUp} :
     closedIntervalCauchyCriterionToEventFlow x =
         closedIntervalCauchyCriterionToEventFlow y →
@@ -141,9 +141,22 @@ private theorem ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignmen
     congrArg closedIntervalCauchyCriterionFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
-      (ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
-        (ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_round_trip y)))
+        (ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : ClosedIntervalCauchyCriterionUp,
+      closedIntervalCauchyCriterionFields x = closedIntervalCauchyCriterionFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk A₁ B₁ I₁ F₁ W₁ T₁ S₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk A₂ B₂ I₂ F₂ W₂ T₂ S₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance closedIntervalCauchyCriterionBHistCarrier :
     BHistCarrier ClosedIntervalCauchyCriterionUp where
@@ -160,33 +173,39 @@ instance closedIntervalCauchyCriterionChapterTasteGate :
       closedIntervalCauchyCriterionFromEventFlow
           (closedIntervalCauchyCriterionToEventFlow x) =
         some x
-    exact ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_round_trip x
+    exact ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_toEventFlow_injective
-        heq)
+      (ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+instance closedIntervalCauchyCriterionFieldFaithful :
+    FieldFaithful ClosedIntervalCauchyCriterionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := closedIntervalCauchyCriterionFields
+  field_faithful :=
+    ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_fields_faithful
 
 instance closedIntervalCauchyCriterionNontrivial :
     Nontrivial ClosedIntervalCauchyCriterionUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨ClosedIntervalCauchyCriterionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       ClosedIntervalCauchyCriterionUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-def ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_taste_gate :
+def ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_taste_gate :
     ChapterTasteGate ClosedIntervalCauchyCriterionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   closedIntervalCauchyCriterionChapterTasteGate
 
-theorem ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment :
+theorem ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       closedIntervalCauchyCriterionDecodeBHist
           (closedIntervalCauchyCriterionEncodeBHist h) =
@@ -195,18 +214,17 @@ theorem ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment :
         closedIntervalCauchyCriterionFromEventFlow
             (closedIntervalCauchyCriterionToEventFlow x) =
           some x) ∧
-      (∀ x y : ClosedIntervalCauchyCriterionUp,
-        closedIntervalCauchyCriterionToEventFlow x =
-            closedIntervalCauchyCriterionToEventFlow y →
-          x = y) ∧
-      closedIntervalCauchyCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : ClosedIntervalCauchyCriterionUp,
+          closedIntervalCauchyCriterionToEventFlow x =
+              closedIntervalCauchyCriterionToEventFlow y →
+            x = y) ∧
+          closedIntervalCauchyCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_decode_encode,
-      ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_round_trip,
+    ⟨ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_decode_encode,
+      ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq =>
-        ClosedIntervalCauchyCriterionUpTasteGate_single_carrier_alignment_toEventFlow_injective
-          heq),
+        ClosedIntervalCauchyCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.ClosedIntervalCauchyCriterionUp
