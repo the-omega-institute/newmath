@@ -1,6 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.UniformCompletionUp
@@ -8,6 +10,8 @@ namespace BEDC.Derived.UniformCompletionUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -166,6 +170,70 @@ def taste_gate : ChapterTasteGate UniformCompletionUp :=
   uniformCompletionChapterTasteGate
 
 namespace TasteGate
+
+def UniformCompletionCarrier (row : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  ∃ F D U E H C P N : BHist,
+    hsame row N ∧ Cont F D U ∧ Cont U E H ∧ Cont H C P ∧ Cont P BHist.Empty N
+
+def UniformCompletionCauchyFilterPattern (row : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  ∃ F D U : BHist,
+    Cont F D U ∧
+      ∃ E H C P N : BHist,
+        hsame row N ∧ Cont U E H ∧ Cont H C P ∧ Cont P BHist.Empty N
+
+def UniformCompletionLedgerPolicy (row : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  ∃ P N : BHist, hsame row N ∧ Cont P BHist.Empty N
+
+def UniformCompletionClassifier (row row' : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame NameCert
+  hsame row row'
+
+theorem UniformCompletionCarrier_namecert_obligation_surface :
+    BEDC.FKernel.NameCert.SemanticNameCert UniformCompletionCarrier
+      UniformCompletionCauchyFilterPattern UniformCompletionLedgerPolicy
+      UniformCompletionClassifier := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited := by
+        exact
+          ⟨BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+            BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, hsame_refl BHist.Empty,
+            cont_right_unit BHist.Empty, cont_right_unit BHist.Empty,
+            cont_right_unit BHist.Empty, cont_right_unit BHist.Empty⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        obtain ⟨F, D, U, E, H, C, P, N, sameName, filterRoute, extensionRoute,
+          replayRoute, ledgerRoute⟩ := source
+        exact
+          ⟨F, D, U, E, H, C, P, N, hsame_trans (hsame_symm sameRows) sameName,
+            filterRoute, extensionRoute, replayRoute, ledgerRoute⟩
+    }
+    pattern_sound := by
+      intro _row source
+      obtain ⟨F, D, U, E, H, C, P, N, sameName, filterRoute, extensionRoute,
+        replayRoute, ledgerRoute⟩ := source
+      exact
+        ⟨F, D, U, filterRoute, E, H, C, P, N, sameName, extensionRoute,
+          replayRoute, ledgerRoute⟩
+    ledger_sound := by
+      intro _row source
+      obtain ⟨_F, _D, _U, _E, _H, _C, P, N, sameName, _filterRoute,
+        _extensionRoute, _replayRoute, ledgerRoute⟩ := source
+      exact ⟨P, N, sameName, ledgerRoute⟩
+  }
 
 theorem UniformCompletionTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate UniformCompletionUp) ∧
