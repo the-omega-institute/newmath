@@ -249,4 +249,92 @@ theorem RealityConstrainedTruthCertRootLedgerNonescape [AskSetup] [PackageSetup]
     }
   exact ⟨cert, ledgerFailureUnary, failureNameUnary, exportReadUnary⟩
 
+theorem RealityConstrainedTruthCertSiblingHandoffTotality [AskSetup] [PackageSetup]
+    {S Sigma K T U D I L F N openFit objectivity explanation induction tower
+      exportRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedTruthCertCarrier S Sigma K T U D I L F N →
+      Cont S K openFit →
+        Cont I L objectivity →
+          Cont Sigma K explanation →
+            Cont T U induction →
+              Cont D L tower →
+                Cont N tower exportRead →
+                  PkgSig bundle exportRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row openFit ∨ hsame row objectivity ∨
+                            hsame row explanation ∨ hsame row induction ∨
+                              hsame row tower ∨ hsame row exportRead)
+                        (fun row : BHist =>
+                          hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+                        hsame ∧
+                      UnaryHistory openFit ∧
+                        UnaryHistory objectivity ∧
+                          UnaryHistory explanation ∧
+                            UnaryHistory induction ∧
+                              UnaryHistory tower ∧ UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier openFitRoute objectivityRoute explanationRoute inductionRoute towerRoute
+    exportRoute exportPkg
+  obtain ⟨sourceUnary, signatureUnary, towerSourceUnary, stabilityUnary, invariantUnary,
+    ledgerUnary, sourceRoute, towerSourceRoute, invariantRoute, nameRoute⟩ := carrier
+  have classifierUnary : UnaryHistory K :=
+    unary_cont_closed sourceUnary signatureUnary sourceRoute
+  have descentUnary : UnaryHistory D :=
+    unary_cont_closed towerSourceUnary stabilityUnary towerSourceRoute
+  have failureUnary : UnaryHistory F :=
+    unary_cont_closed invariantUnary ledgerUnary invariantRoute
+  have nameUnary : UnaryHistory N :=
+    unary_cont_closed ledgerUnary failureUnary nameRoute
+  have openFitUnary : UnaryHistory openFit :=
+    unary_cont_closed sourceUnary classifierUnary openFitRoute
+  have objectivityUnary : UnaryHistory objectivity :=
+    unary_cont_closed invariantUnary ledgerUnary objectivityRoute
+  have explanationUnary : UnaryHistory explanation :=
+    unary_cont_closed signatureUnary classifierUnary explanationRoute
+  have inductionUnary : UnaryHistory induction :=
+    unary_cont_closed towerSourceUnary stabilityUnary inductionRoute
+  have towerUnary : UnaryHistory tower :=
+    unary_cont_closed descentUnary ledgerUnary towerRoute
+  have exportReadUnary : UnaryHistory exportRead :=
+    unary_cont_closed nameUnary towerUnary exportRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row openFit ∨ hsame row objectivity ∨ hsame row explanation ∨
+            hsame row induction ∨ hsame row tower ∨ hsame row exportRead)
+        (fun row : BHist => hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro exportRead ⟨hsame_refl exportRead, exportReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, exportPkg⟩
+    }
+  exact
+    ⟨cert, openFitUnary, objectivityUnary, explanationUnary, inductionUnary, towerUnary,
+      exportReadUnary⟩
+
 end BEDC.Derived.RealityConstrainedTruthCertUp
