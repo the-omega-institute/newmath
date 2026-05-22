@@ -65,6 +65,7 @@ import BEDC.Derived.AnalyticContinuationSocketUp.ZetaBranchObstructionExactness
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
 import BEDC.Derived.AnchorStabilityCertificateUp.TasteGate
 import BEDC.Derived.ApartnessCompletionUp.TasteGate
+import BEDC.Derived.ApartnessCotransitivityUp.TasteGate
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
