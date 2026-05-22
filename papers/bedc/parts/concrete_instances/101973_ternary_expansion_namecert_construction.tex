@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\TernaryExpansionUp$}
+\label{ch:concrete-instances-ternary-expansion-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Cantor's middle-third construction, the $\TernaryExpansionUp$ packet records finite base-three digit-prefix rows as displayed BEDC readback data. It does not store a host infinite ternary stream, quotient real, endpoint convention selector, or chosen representative. Its role is to route inspected base-three prefixes through the finite stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the base-three rational place-value ledger parallel to \autoref{ch:concrete-instances-decimalexpansion-namecert} and \autoref{ch:concrete-instances-binaryexpansion-namecert}, the dyadic comparison discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the retained-third consumer surface of \autoref{ch:concrete-instances-cantorset-namecert}.
+
+\begin{definition}[TernaryExpansion carrier]\label{def:ternary-expansion-carrier}
+A $\TernaryExpansionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D,W,V,Q,R,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite ternary digit ledger, whose rows record inspected base-three digits together with any local sign or integral-prefix convention carried by the packet.
+\item $W$ is the place-window ledger, listing the finite prefix windows and request precisions exposed to $\StreamNameUp$ consumers.
+\item $V$ is the base-three rational place-value row that evaluates each inspected prefix as a rational sum with denominator a displayed power of three.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance-comparison row that compares the base-three rational place-value row with the dyadic precision language consumed by downstream real readers.
+\item $R$ is the $\RegSeqRatUp$ handoff row reached from the same digit, window, place-value, and dyadic-comparison rows.
+\item $A$ is the optional $\CantorSetUp$ retained-prefix row, present exactly when the inspected digits in $D$ are the retained-third digits used by the Cantor set surface.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after $D,W,V,Q,R$ and, when present, $A$ have been displayed.
+\item $H$ is the componentwise $\hsame$ transport row for ternary digits, prefix windows, base-three place values, dyadic comparisons, regular handoff, retained-prefix handoff, and real-seal coordinates.
+\item $C$ is the displayed $\Cont$ replay row that reads finite ternary windows, place-value rows, dyadic comparisons, handoff rows, retained-prefix rows, and real seals without adding a host stream.
+\item $P$ is the $\Pkg$ provenance over $\TernaryExpansionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CantorSetUp$, $\BHist$, $\hsame$, $\Cont$, and the local naming row.
+\item $N$ is the local $\NameCert_{\TernaryExpansionUp}$ row.
+\end{enumerate}
+The carrier predicate accepts exactly such finite base-three readback packets. It has no coordinate for a completed ternary stream, quotient equality of expansions, endpoint uniqueness convention, selected representative, trichotomy principle, measure-theoretic normality row, or ambient $\RealUp$ completeness witness.
+\end{definition}
+
+\begin{theorem}[TernaryExpansion RegSeqRat readback]\label{thm:ternary-expansion-regseqrat-readback}
+Every $\RealUp$-facing read of an accepted $\TernaryExpansionUp$ carrier factors through the finite route
+$$
+\StreamNameUp,\ \TernaryExpansionUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+Concretely, the consumer first reads a finite ternary window, then the base-three place-value row for that window, then the dyadic comparison row, then the $\RegSeqRatUp$ handoff, and only then the displayed $\RealUp$ seal. The read uses no host infinite stream, quotient equality, selected representative, trichotomy decision, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $T=(D,W,V,Q,R,A,E,H,C,P,N)$. The $\StreamNameUp$ entrance is the finite window row $W$ together with the digit rows of $D$ selected by that window, so a real-facing consumer cannot read a ternary prefix before a finite observation window has been displayed.
+
+The place-value row $V$ evaluates that same finite prefix as a rational sum with base-three denominators. The comparison row $Q$ is the only route from this base-three ledger into the dyadic tolerance discipline used by $\RegSeqRatUp$ and later real-name consumers.
+
+The handoff row $R$ is therefore downstream of $D,W,V,Q$, and the seal row $E$ is downstream of $R$. The rows $H,C,P,N$ transport, replay, package, and locally name the same finite route without adding any external stream or real representative.
+
+Thus every real-facing read factors through the displayed finite window, place-value, dyadic-comparison, regular-handoff, and real-seal rows. The excluded host stream, quotient equality, representative choice, trichotomy, and completeness principles are not coordinates of the carrier.
+\end{proof}
+
+\begin{theorem}[TernaryExpansion CantorSet handoff]\label{thm:ternary-expansion-cantorset-handoff}
+When all inspected digits in a $\TernaryExpansionUp$ prefix are retained-third digits, the finite ternary prefix factors through the $\CantorSetUp$ retained-prefix surface before any $\CantorSetUp$ or Cantor-function consumer reads it. The handoff uses the same digit ledger $D$, window ledger $W$, retained-prefix row $A$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$, and it exports no host subset, selected infinite branch, quotient real equality, endpoint uniqueness convention, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Assume the inspected prefix window of $W$ selects only retained-third digit rows from $D$. By the carrier definition, precisely in this case the optional row $A$ is present as the $\CantorSetUp$ retained-prefix handoff for that same finite window.
+
+The continuation row $C$ reads the digit window before it reads $A$, and the transport row $H$ keeps the digit rows, the window, and the retained-prefix row componentwise attached. Hence a $\CantorSetUp$ consumer receives the same finite prefix, not a separate branch object.
+
+The provenance row $P$ and local certificate row $N$ package the handoff over $\TernaryExpansionUp$ and $\CantorSetUp$. Any later Cantor-set or Cantor-function consumer therefore enters through the retained-prefix row already displayed by the ternary packet.
+
+No host subset, selected infinite branch, quotient equality, endpoint convention, or completeness row is listed in the carrier, so none can be exported by this handoff.
+\end{proof}
+
+\closureat{TernaryExpansionUp}{seedStr}
+
+\begin{closurestatus}{\TernaryExpansionUp}
+  \constructivestory{A $\TernaryExpansionUp$ packet is generated from finite ternary digit rows, place-window rows, base-three rational place-value rows, dyadic-tolerance comparison rows, a $\RegSeqRatUp$ handoff, an optional $\CantorSetUp$ retained-prefix handoff, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ternary-expansion-carrier}, \autoref{thm:ternary-expansion-regseqrat-readback}, and \autoref{thm:ternary-expansion-cantorset-handoff} seed the finite base-three prefix readback surface into $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CantorSetUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host ternary streams, quotient real equality, endpoint uniqueness, selected representatives, trichotomy, RealUp completeness, measure-theoretic normality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, componentwise classifier transport, dyadic comparison, RegSeqRat readback, RealUp seal, retained-prefix handoff, and non-escape targets for BEDC.Derived.TernaryExpansionUp.}
+\end{closurestatus}
