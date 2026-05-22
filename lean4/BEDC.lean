@@ -572,6 +572,7 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedTermBoundaryDependency
 import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
 import BEDC.Derived.BisectionRootIsolationUp.TasteGate
+import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
 import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.TasteGate
@@ -3201,6 +3202,7 @@ import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
+import BEDC.Derived.IsometricEmbeddingUp.TasteGate
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KKTUp
