@@ -510,6 +510,7 @@ import BEDC.Derived.BHistArity14SequenceNameCertUp
 import BEDC.Derived.BHistArity14TupleNameCertUp
 import BEDC.Derived.BHistArity15SequenceNameCertUp
 import BEDC.Derived.BHistArity16EventFlowNameCertUp
+import BEDC.Derived.BHistArity16SequenceNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.NameCertObligations
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
 import BEDC.Derived.BHistDecaSequenceNameCertUp
@@ -1173,6 +1174,7 @@ import BEDC.Derived.CauchySequenceSpaceUp.TerminalPullbackExactness
 import BEDC.Derived.CauchySequenceSpaceUp.UniformCriterionConsumption
 import BEDC.Derived.CauchySequenceSpaceUp.WindowFactorization
 import BEDC.Derived.CauchySharedTailModulusUp.TasteGate
+import BEDC.Derived.CauchySpeedupUp
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyTailComparisonUp.TasteGate
 import BEDC.Derived.CauchyTailConsensusUp.TasteGate
