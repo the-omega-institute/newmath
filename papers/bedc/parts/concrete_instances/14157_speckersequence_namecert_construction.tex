@@ -72,6 +72,18 @@ Now read the monotone and boundedness ledgers. The row $M$ records the displayed
 Only after those rows have been exposed can the finite $\RealUp$ seal row $E$ be consumed. The structural rows $H,C,P,N$ preserve this route and do not add a selected supremum or an ambient completeness witness.
 \end{proof}
 
+\begin{theorem}[SpeckerSequence finite-stage induction]
+\label{thm:speckersequence-finite-stage-induction}
+For every accepted $\SpeckerSequenceUp$ packet $S=(R,W,D,M,B,E,H,C,P,N)$, induction along the displayed finite $\StreamNameUp$ schedule $W$ lets any consumer read only the current finite rational window of $R$, the corresponding dyadic tolerance row of $D$, the monotone ledger prefix of $M$, the boundedness ledger prefix of $B$, and the transported $\BHist$ provenance before the consumer reaches the $\RealUp$ seal row $E$. The induction route introduces no located supremum, selected limit, countable choice, trichotomy, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Induct on the finite schedule prefix displayed by $W$. In the base case, the consumer sees only the initial inspected window of $R$, the matching tolerance and bound row in $D$, the empty or initial monotone and boundedness ledger entries in $M$ and $B$, and the provenance rows carried by $H,C,P,N$.
+
+For the step case, append one visible rational observation and its tolerance row. Componentwise $\hsame$ in $H$ transports the source, schedule, dyadic, monotone, boundedness, and seal coordinates without changing their row types. The displayed $\Cont$ replay in $C$ appends the new dyadic observation before replaying the corresponding monotone comparison in $M$ and the corresponding lower and upper bound in $B$.
+
+Thus each prefix consumer receives exactly the finite window and ledger data already displayed at that stage. Passing from one prefix to the next preserves the route of \autoref{thm:speckersequence-monotone-bounded-ledger}; the $\RealUp$ seal remains downstream of the visible rational, tolerance, monotone, boundedness, and provenance rows. Since no induction clause contains a coordinate for located supremum data, selected limits, countable choice, trichotomy, or ambient completeness, none is introduced before the seal.
+\end{proof}
+
 \begin{theorem}[SpeckerSequence non-located supremum boundary]
 \label{thm:speckersequence-nonlocated-supremum-boundary}
 An accepted $\SpeckerSequenceUp$ packet may certify a monotone bounded computable rational stream, but it does not certify a located supremum. Any downstream route that treats the packet as a located $\RealUp$ datum must supply an external location witness not contained in $R,W,D,M,B,E,H,C,P,N$.
@@ -101,7 +113,7 @@ The excluded principles are absent from every coordinate. Therefore the $\RealUp
 \begin{closurestatus}{\SpeckerSequenceUp}
   \constructivestory{A $\SpeckerSequenceUp$ packet is generated from a $\RegSeqRatUp$ computable rational source, a $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ tolerance and bound rows, a monotone ledger, a boundedness ledger, a finite $\RealUp$ seal boundary, componentwise transport, continuation replay, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:speckersequence-carrier}, \autoref{thm:speckersequence-carrier-exposure}, \autoref{thm:speckersequence-classifier-transport}, \autoref{thm:speckersequence-monotone-bounded-ledger}, \autoref{thm:speckersequence-nonlocated-supremum-boundary}, and \autoref{thm:speckersequence-realup-seal-nonescape} declare the finite Specker-sequence carrier, transport, monotone bounded ledger, non-located supremum boundary, and RealUp seal non-escape surface.}
+  \scopeclosed{\autoref{def:speckersequence-carrier}, \autoref{thm:speckersequence-carrier-exposure}, \autoref{thm:speckersequence-classifier-transport}, \autoref{thm:speckersequence-monotone-bounded-ledger}, \autoref{thm:speckersequence-finite-stage-induction}, \autoref{thm:speckersequence-nonlocated-supremum-boundary}, and \autoref{thm:speckersequence-realup-seal-nonescape} declare the finite Specker-sequence carrier, transport, monotone bounded ledger, finite-stage induction route, non-located supremum boundary, and RealUp seal non-escape surface.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.SpeckerSequenceUp.SpeckerSequenceCarrier\_exposure}
   \bridgestatus{none}
