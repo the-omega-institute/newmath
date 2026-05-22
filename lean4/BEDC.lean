@@ -510,6 +510,7 @@ import BEDC.Derived.BHistArity14SequenceNameCertUp
 import BEDC.Derived.BHistArity14TupleNameCertUp
 import BEDC.Derived.BHistArity15SequenceNameCertUp
 import BEDC.Derived.BHistArity16EventFlowNameCertUp
+import BEDC.Derived.BHistArity16SequenceNameCertUp
 import BEDC.Derived.BHistCellRowEmbeddingUp.NameCertObligations
 import BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate
 import BEDC.Derived.BHistDecaSequenceNameCertUp
