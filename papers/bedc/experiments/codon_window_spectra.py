@@ -2745,6 +2745,121 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     ]
     outside_target_rows.sort(key=lambda row: (-row["probability"], row["class"]))
 
+    def flipped_codon(codon: str, bit_index: int) -> str:
+        word = list(bits(codon))
+        word[bit_index] = "1" if word[bit_index] == "0" else "0"
+        return codon_from_bits("".join(word))
+
+    exit_probability_by_bit: collections.Counter[str] = collections.Counter()
+    outside_target_by_codon: collections.Counter[str] = collections.Counter()
+    boundary_exit_entries = []
+    for codon in median_set:
+        codon_index = median_codon_to_spectral_index[codon]
+        source_mass = median_eigenvector[codon_index] / eigenvector_sum
+        for bit_index, bit_name in enumerate(BIT_COORDINATES):
+            neighbor = flipped_codon(codon, bit_index)
+            if neighbor not in median_set:
+                probability = source_mass * (1.0 / 6.0) / median_exit_probability
+                exit_probability_by_bit[bit_name] += probability
+                outside_target_by_codon[neighbor] += probability
+                boundary_exit_entries.append(
+                    {
+                        "source": codon,
+                        "target": neighbor,
+                        "bit": bit_name,
+                        "target_class": standard[neighbor],
+                        "probability": probability,
+                    }
+                )
+    exit_bit_rows = [
+        {"bit": bit_name, "probability": exit_probability_by_bit.get(bit_name, 0.0)}
+        for bit_name in BIT_COORDINATES
+    ]
+    exit_bit_rows.sort(key=lambda row: (-row["probability"], row["bit"]))
+    outside_target_codon_rows = [
+        {
+            "codon": codon,
+            "class": standard[codon],
+            "probability": probability,
+        }
+        for codon, probability in outside_target_by_codon.items()
+    ]
+    outside_target_codon_rows.sort(key=lambda row: (-row["probability"], row["codon"]))
+
+    median_order = tuple(sorted(median_set))
+    median_order_index = {codon: index for index, codon in enumerate(median_order)}
+    internal_transition_matrix = [
+        [
+            fractions.Fraction(0, 1)
+            for _column in median_order
+        ]
+        for _row in median_order
+    ]
+    for row, codon in enumerate(median_order):
+        for bit_index in range(6):
+            neighbor = flipped_codon(codon, bit_index)
+            if neighbor in median_order_index:
+                internal_transition_matrix[row][median_order_index[neighbor]] += fractions.Fraction(1, 6)
+    first_exit_bit_solutions: dict[str, list[fractions.Fraction]] = {}
+    identity_minus_internal = [
+        [
+            (fractions.Fraction(1, 1) if row == column else fractions.Fraction(0, 1))
+            - internal_transition_matrix[row][column]
+            for column in range(len(median_order))
+        ]
+        for row in range(len(median_order))
+    ]
+    for bit_index, bit_name in enumerate(BIT_COORDINATES):
+        immediate_exit = [
+            fractions.Fraction(1, 6)
+            if flipped_codon(codon, bit_index) not in median_order_index
+            else fractions.Fraction(0, 1)
+            for codon in median_order
+        ]
+        first_exit_bit_solutions[bit_name] = solve_fraction_linear_system(
+            identity_minus_internal,
+            immediate_exit,
+        )
+    eventual_exit_bit_rows = []
+    for state in path_order:
+        codons = tuple(sorted(quotient_state_sets[state]))
+        row = {"state": state}
+        for bit_name in BIT_COORDINATES:
+            row[bit_name] = float(
+                sum(
+                    first_exit_bit_solutions[bit_name][median_order_index[codon]]
+                    for codon in codons
+                )
+                / len(codons)
+            )
+        eventual_exit_bit_rows.append(row)
+    first_exit_channel_summary = {
+        "origin_rows": exit_prestates,
+        "anchor_stopstart_origin_share": sum(
+            row["conditional_probability"]
+            for row in exit_prestates
+            if row["state"] in {"Anchor6", "StopStart6"}
+        ),
+        "cun_tail_origin_share": sum(
+            row["conditional_probability"]
+            for row in exit_prestates
+            if row["state"] in {"CUR", "CUY"}
+        ),
+        "exit_bit_rows": exit_bit_rows,
+        "gate_axis_exit_share": sum(
+            row["probability"]
+            for row in exit_bit_rows
+            if row["bit"] in {"s3", "f1"}
+        ),
+        "f3_exit_probability": exit_probability_by_bit.get("f3", 0.0),
+        "eventual_exit_bit_rows": eventual_exit_bit_rows,
+        "outside_target_class_rows": outside_target_rows,
+        "outside_target_codon_rows": outside_target_codon_rows,
+        "top_outside_target_codon_rows": outside_target_codon_rows[:14],
+        "has_stop_target": any(row["class"] == "*" for row in outside_target_rows),
+        "boundary_exit_entries": tuple(boundary_exit_entries),
+    }
+
     def neighbor_count_in_set(codon: str, codons: set[str]) -> int:
         return sum(
             1
@@ -3885,6 +4000,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 if row["state"] in {"Anchor6", "StopStart6"}
             ),
             "outside_target_rows": outside_target_rows,
+            "first_exit_channels": first_exit_channel_summary,
             "acg_spectral_radius_before": spectral_rows[2]["spectral_radius"],
             "acg_spectral_radius_after": spectral_rows[3]["spectral_radius"],
             "acg_retention_before": spectral_rows[2]["retention_float"],
@@ -5631,6 +5747,72 @@ def assert_expected(summary: dict[str, object]) -> None:
         ("T", 0.0583),
         ("G", 0.0573),
         ("H", 0.0081),
+    ]
+    first_exit = spectral["first_exit_channels"]
+    assert [
+        (row["state"], round(row["conditional_probability"], 4))
+        for row in first_exit["origin_rows"]
+    ] == [
+        ("AGR", 0.1146),
+        ("Anchor6", 0.3497),
+        ("StopStart6", 0.3617),
+        ("UUR", 0.0674),
+        ("CUR", 0.0742),
+        ("CUY", 0.0324),
+    ]
+    assert round(first_exit["anchor_stopstart_origin_share"], 4) == 0.7114
+    assert round(first_exit["cun_tail_origin_share"], 4) == 0.1066
+    assert [
+        (row["bit"], round(row["probability"], 4))
+        for row in first_exit["exit_bit_rows"]
+    ] == [
+        ("s3", 0.4804),
+        ("f1", 0.4211),
+        ("f2", 0.0328),
+        ("s1", 0.0328),
+        ("s2", 0.0328),
+        ("f3", 0.0),
+    ]
+    assert round(first_exit["gate_axis_exit_share"], 4) == 0.9015
+    assert first_exit["f3_exit_probability"] == 0.0
+    assert [
+        (
+            row["state"],
+            round(row["s1"], 4),
+            round(row["f1"], 4),
+            round(row["s2"], 4),
+            round(row["f2"], 4),
+            round(row["s3"], 4),
+            round(row["f3"], 4),
+        )
+        for row in first_exit["eventual_exit_bit_rows"]
+    ] == [
+        ("AGR", 0.0041, 0.4860, 0.0041, 0.0041, 0.5017, 0.0),
+        ("Anchor6", 0.0068, 0.4766, 0.0068, 0.0068, 0.5029, 0.0),
+        ("StopStart6", 0.0151, 0.4486, 0.0151, 0.0151, 0.5063, 0.0),
+        ("UUR", 0.0616, 0.2895, 0.0616, 0.0616, 0.5257, 0.0),
+        ("CUR", 0.2628, 0.1020, 0.2628, 0.2628, 0.1095, 0.0),
+        ("CUY", 0.2526, 0.2204, 0.2526, 0.2526, 0.0219, 0.0),
+    ]
+    assert first_exit["has_stop_target"] is False
+    assert [
+        (row["codon"], row["class"], round(row["probability"], 4))
+        for row in first_exit["top_outside_target_codon_rows"]
+    ] == [
+        ("CAA", "Q", 0.0425),
+        ("CAG", "Q", 0.0425),
+        ("CCA", "P", 0.0425),
+        ("CCG", "P", 0.0425),
+        ("GTA", "V", 0.0425),
+        ("GTG", "V", 0.0425),
+        ("TTC", "F", 0.0377),
+        ("TTT", "F", 0.0377),
+        ("ATC", "I", 0.0301),
+        ("ATT", "I", 0.0301),
+        ("TAC", "Y", 0.0301),
+        ("TAT", "Y", 0.0301),
+        ("TCC", "S", 0.0301),
+        ("TCT", "S", 0.0301),
     ]
     assert round(spectral["acg_spectral_radius_before"], 4) == 0.6422
     assert round(spectral["acg_spectral_radius_after"], 4) == 0.6752
