@@ -15,6 +15,7 @@ Finally read the consumers. $\RegSeqRatUp$ and $\RealUp$ may consume the finite 
 \begin{theorem}[StreamName pointwise map stability]\label{thm:streamname-pointwise-map-stability}
 Let $r$ be a unary reindexing map on finite histories, and let $F$ be a pointwise map on rational-history observations. If $r$ sends every unary window to a unary window, $F$ preserves the $\RatHistoryUp$ carrier, and $F$ preserves the $\RatHistoryUp$ classifier, then the $\StreamNameUp$ carrier and classifier rows are stable both under reindexing by $r$ and under pointwise mapping by $F$. The exported route remains a finite StreamName row: it contains only the StreamName carrier, classifier, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data, and it does not introduce quotient stream equality or real-completeness data.
 \end{theorem}
+\leanvariant{BEDC.Derived.StreamNameUp.RatStreamName\_reindexing\_and\_map\_stability}
 \begin{proof}
 Project the accepted StreamName carrier and classifier rows. For reindexing, a requested unary window $n$ is sent to the unary window $r(n)$, so the original carrier and classifier rows apply directly at the transported observation coordinate.
 
