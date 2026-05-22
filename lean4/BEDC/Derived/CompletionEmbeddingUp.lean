@@ -86,4 +86,30 @@ theorem CompletionEmbeddingCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
     ⟨realSealUnary, hausdorffBoundaryUnary, endpointUnary, denseSeal, realBoundary,
       provenancePkg, endpointPkg⟩
 
+theorem CompletionEmbeddingCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {sourceMetric completionTarget denseImage isometry regularCauchy hausdorffBoundary
+      realSeal transport replay provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionEmbeddingCarrier sourceMetric completionTarget denseImage isometry regularCauchy
+        hausdorffBoundary realSeal transport replay provenance localCert bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+          (fun row : BHist => UnaryHistory row ∧ hsame row localCert)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
+          (fun row row' : BHist => hsame row row') ∧
+        UnaryHistory sourceMetric ∧ UnaryHistory completionTarget ∧ UnaryHistory denseImage ∧
+          UnaryHistory isometry ∧ UnaryHistory regularCauchy ∧
+            UnaryHistory hausdorffBoundary ∧ UnaryHistory realSeal ∧
+              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist NameCert ProbeBundle Pkg
+  intro carrier
+  obtain ⟨sourceMetricUnary, completionTargetUnary, denseImageUnary, isometryUnary,
+    regularCauchyUnary, hausdorffBoundaryUnary, realSealUnary, _transportUnary,
+      _replayUnary, _provenanceUnary, _localCertUnary, _sourceDense, _denseSeal,
+        provenancePkg, localSemantic⟩ := carrier
+  exact
+    ⟨localSemantic, sourceMetricUnary, completionTargetUnary, denseImageUnary,
+      isometryUnary, regularCauchyUnary, hausdorffBoundaryUnary, realSealUnary,
+      provenancePkg⟩
+
 end BEDC.Derived.CompletionEmbeddingUp
