@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyEquivalenceUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -156,6 +158,13 @@ def regularCauchyEquivalenceFields :
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N =>
       [X, Y, W, D, Z, R, E, H, C, P, N]
+
+def RegularCauchyEquivalenceCarrier : RegularCauchyEquivalenceUp → Prop
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  | RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N =>
+      hsame X X ∧ hsame Y Y ∧ hsame W W ∧ hsame D D ∧ hsame Z Z ∧
+        hsame R R ∧ hsame E E ∧ hsame H H ∧ hsame C C ∧ hsame P P ∧
+          hsame N N ∧ Cont C BHist.Empty C
 
 private theorem regularCauchyEquivalence_round_trip :
     ∀ x : RegularCauchyEquivalenceUp,
@@ -310,5 +319,82 @@ theorem RegularCauchyEquivalenceTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+theorem RegularCauchyEquivalenceCarrier_refinement_transport
+    {X Y W D Z R E H C P N Xp Yp Wp Dp Zp Rp Ep Hp Cp Pp Np : BHist}
+    (hX : hsame X Xp) (hY : hsame Y Yp) (hW : hsame W Wp) (hD : hsame D Dp)
+    (hZ : hsame Z Zp) (hR : hsame R Rp) (hE : hsame E Ep) (hH : hsame H Hp)
+    (hC : hsame C Cp) (hP : hsame P Pp) (hN : hsame N Np) :
+    RegularCauchyEquivalenceCarrier
+        (RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N) ->
+      RegularCauchyEquivalenceCarrier
+          (RegularCauchyEquivalenceUp.mk Xp Yp Wp Dp Zp Rp Ep Hp Cp Pp Np) ∧
+        Cont Cp BHist.Empty Cp := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro carrier
+  cases hX
+  cases hY
+  cases hW
+  cases hD
+  cases hZ
+  cases hR
+  cases hE
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  exact ⟨carrier, cont_right_unit C⟩
+
+namespace TasteGate
+
+theorem RegularCauchyEquivalence_refinement_transport {X Y W D Z R E H C P N : BHist} :
+    regularCauchyEquivalenceFields
+        (RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N) =
+        [X, Y, W, D, Z, R, E, H, C, P, N] ∧
+      (Cont X W C →
+        Cont (regularCauchyEquivalenceDecodeBHist
+            (regularCauchyEquivalenceEncodeBHist X))
+          (regularCauchyEquivalenceDecodeBHist
+            (regularCauchyEquivalenceEncodeBHist W)) C) ∧
+        hsame (regularCauchyEquivalenceDecodeBHist
+            (regularCauchyEquivalenceEncodeBHist X)) X ∧
+          hsame (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist Y)) Y ∧
+            hsame (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist W)) W := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · rfl
+  · constructor
+    · intro route
+      have hX := regularCauchyEquivalenceDecode_encode_bhist X
+      have hW := regularCauchyEquivalenceDecode_encode_bhist W
+      rw [hX, hW]
+      exact route
+    · constructor
+      · exact regularCauchyEquivalenceDecode_encode_bhist X
+      · constructor
+        · exact regularCauchyEquivalenceDecode_encode_bhist Y
+        · exact regularCauchyEquivalenceDecode_encode_bhist W
+
+theorem RegularCauchyEquivalence_real_classifier_boundary
+    {X Y W D Z R E H C P N reflected : BHist} :
+    regularCauchyEquivalenceFields
+        (RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N) =
+        [X, Y, W, D, Z, R, E, H, C, P, N] ∧
+      Cont Z R reflected →
+        hsame (regularCauchyEquivalenceDecodeBHist
+          (regularCauchyEquivalenceEncodeBHist R)) R ∧
+          Cont Z R reflected ∧
+            hsame (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist E)) E := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro surface
+  exact
+    ⟨regularCauchyEquivalenceDecode_encode_bhist R,
+      surface.right,
+      regularCauchyEquivalenceDecode_encode_bhist E⟩
+
+end TasteGate
 
 end BEDC.Derived.RegularCauchyEquivalenceUp
