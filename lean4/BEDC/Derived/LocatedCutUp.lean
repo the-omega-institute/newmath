@@ -160,4 +160,31 @@ theorem LocatedCutCarrier_located_window_exactness [AskSetup] [PackageSetup]
   exact ⟨windowUnary, transportUnary, provenanceUnary, sealUnary, lowerUpperWindow,
     windowHandoffTransport, transportRouteProvenance, provenanceLocalCertSeal, provenancePkg⟩
 
+theorem LocatedCutCarrier_window_handoff_totality [AskSetup] [PackageSetup]
+    {lower upper window handoff sealRow transportRow route provenance localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window handoff sealRow transportRow route provenance localCert
+        bundle pkg ->
+      UnaryHistory lower ->
+        UnaryHistory upper ->
+          UnaryHistory handoff ->
+            UnaryHistory route ->
+              UnaryHistory localCert ->
+                Cont handoff route consumer ->
+                  PkgSig bundle consumer pkg ->
+                    UnaryHistory consumer ∧ Cont lower upper window ∧
+                      Cont window handoff transportRow ∧ Cont transportRow route provenance ∧
+                        Cont handoff route consumer ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle consumer pkg ∧ hsame sealRow handoff := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier _lowerUnary _upperUnary handoffUnary routeUnary _localCertUnary handoffRouteConsumer
+    consumerPkg
+  obtain ⟨lowerUpperWindow, windowHandoffTransport, transportRouteProvenance,
+    _provenanceLocalCertSeal, provenancePkg, sameSealHandoff, _sameSealProvenance⟩ :=
+    carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary routeUnary handoffRouteConsumer
+  exact ⟨consumerUnary, lowerUpperWindow, windowHandoffTransport, transportRouteProvenance,
+    handoffRouteConsumer, provenancePkg, consumerPkg, sameSealHandoff⟩
+
 end BEDC.Derived.LocatedCutUp
