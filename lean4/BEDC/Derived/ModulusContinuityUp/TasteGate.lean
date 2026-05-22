@@ -1,5 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ModulusContinuityUp.TasteGate
@@ -210,8 +213,14 @@ end BEDC.Derived.ModulusContinuityUp.TasteGate
 
 namespace BEDC.Derived.ModulusContinuityUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 
 theorem ModulusContinuityTasteGate_single_carrier_alignment :
@@ -234,5 +243,80 @@ theorem ModulusContinuityTasteGate_single_carrier_alignment :
       TasteGate.ModulusContinuityTasteGate_single_carrier_alignment.2.2.2.2.1,
       TasteGate.ModulusContinuityTasteGate_single_carrier_alignment.2.2.2.2.2.1,
       TasteGate.ModulusContinuityTasteGate_single_carrier_alignment.2.2.2.2.2.2⟩
+
+theorem ModulusContinuityRealCompletion_handoff [AskSetup] [PackageSetup]
+    {graph sourceWindow modulus dyadic readback realSeal _transport _replay provenance _localName
+      toleranceRead windowRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory graph →
+      UnaryHistory sourceWindow →
+        UnaryHistory modulus →
+          UnaryHistory dyadic →
+            UnaryHistory readback →
+              UnaryHistory realSeal →
+                UnaryHistory provenance →
+                  Cont dyadic modulus toleranceRead →
+                    Cont toleranceRead sourceWindow windowRead →
+                      Cont windowRead realSeal realRead →
+                        PkgSig bundle provenance pkg →
+                          PkgSig bundle realRead pkg →
+                            SemanticNameCert
+                                (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row graph ∨ hsame row sourceWindow ∨
+                                    hsame row modulus ∨ hsame row dyadic ∨
+                                      hsame row readback ∨ hsame row realSeal ∨
+                                        hsame row realRead)
+                                (fun row : BHist =>
+                                  hsame row realRead ∧ PkgSig bundle realRead pkg)
+                                hsame ∧
+                              UnaryHistory realRead ∧ Cont dyadic modulus toleranceRead ∧
+                                Cont toleranceRead sourceWindow windowRead ∧
+                                  Cont windowRead realSeal realRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro _graphUnary sourceWindowUnary modulusUnary dyadicUnary _readbackUnary realSealUnary
+    _provenanceUnary dyadicModulus toleranceWindow windowSeal _provenancePkg realReadPkg
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed dyadicUnary modulusUnary dyadicModulus
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed toleranceUnary sourceWindowUnary toleranceWindow
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed windowUnary realSealUnary windowSeal
+  have sourceReal :
+      (fun row : BHist => hsame row realRead ∧ UnaryHistory row) realRead := by
+    exact ⟨hsame_refl realRead, realReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row graph ∨ hsame row sourceWindow ∨ hsame row modulus ∨
+              hsame row dyadic ∨ hsame row readback ∨ hsame row realSeal ∨ hsame row realRead)
+          (fun row : BHist => hsame row realRead ∧ PkgSig bundle realRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro realRead sourceReal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, realReadPkg⟩
+  }
+  exact ⟨cert, realReadUnary, dyadicModulus, toleranceWindow, windowSeal⟩
 
 end BEDC.Derived.ModulusContinuityUp
