@@ -1,0 +1,100 @@
+\chapter{Extension by Continuity NameCert Construction}
+\label{ch:concrete-instances-extension-by-continuity-namecert}
+\origin{human}
+
+Bishop and Bridges/Kelley completion language treats extension by continuity as a dense-source construction: a Cauchy-controlled map is first read on explicit dense Cauchy data, then carried through the completion universal property, and only then exposed as a continuous real-facing extension. The $\ExtensionByContinuityUp$ packet records that route as finite NameCert data between the extension surface of \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, the operator boundary of \autoref{ch:concrete-instances-cauchy-extension-operator-namecert}, the Cauchy-continuous map surface of \autoref{ch:concrete-instances-cauchycontinuousmap-namecert}, the finite source windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. It gives later Real and Completion consumers a visible public object for the dense-to-continuous extension route without asserting quotient completions, selected limits, countable choice, host function equality, or ambient real completeness.
+
+\begin{definition}[Extension by continuity carrier]
+\label{def:extension-by-continuity-carrier}
+An $\ExtensionByContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,F,U,L,W,R,T,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the dense-source row, naming the regular Cauchy data on which the source map is initially inspected.
+\item $F$ is the Cauchy-continuous source-map row, read through the surface of \autoref{ch:concrete-instances-cauchycontinuousmap-namecert}.
+\item $U$ is the completion-universal extension row, aligned with \autoref{ch:concrete-instances-completionuniversalproperty-namecert} and the operator handoff of \autoref{ch:concrete-instances-cauchy-extension-operator-namecert}.
+\item $L$ is the uniqueness ledger comparing two extension rows when their dense-source, Cauchy-continuous map, and completion-universal extension coordinates agree.
+\item $W$ is the $\StreamNameUp$ finite-window schedule opened for dense-source observations and extension replay.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational source data carried by $D$ and $W$.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger controlling source closeness, map continuity requests, and completion-facing precision.
+\item $A$ is the terminal $\RealUp$ seal through which the completed extension is read only after $D,F,U,W,R,T$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for $D,F,U,L,W,R,T,A$ and for the structural rows of the packet.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D,W,R,T\longmapsto F\longmapsto U\longmapsto A .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ExtensionByContinuityUp$, $\CompletionUniversalPropertyUp$, $\CauchyExtensionOperatorUp$, $\CauchyContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ExtensionByContinuityUp}$ row.
+\end{enumerate}
+The carrier contains no quotient completion, no selected limit, no countable-choice schedule, no host function equality row, no ambient $\RealUp$ completeness principle, no Lean verification coordinate, and no bridge-checking coordinate.
+\end{definition}
+
+\begin{definition}[Extension by continuity classifier]
+\label{def:extension-by-continuity-classifier}
+Two accepted $\ExtensionByContinuityUp$ carriers
+$$
+E=(D,F,U,L,W,R,T,A,H,C,P,N)
+$$
+and
+$$
+E'=(D',F',U',L',W',R',T',A',H',C',P',N')
+$$
+classify together exactly when the classifier compares the displayed coordinates $D,F,U,L,W,R,T,A,H,C,P,N$ componentwise with $D',F',U',L',W',R',T',A',H',C',P',N'$, and when the displayed $\Cont$ replay route has the same dense-source, map, extension, and real-seal order on both packets. The classifier has no field for quotient representatives, selected limits, countable choice, host function equality, ambient real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Extension by continuity NameCert obligations]
+\label{thm:extension-by-continuity-namecert-obligations}
+For the carrier of \autoref{def:extension-by-continuity-carrier}, the local $\NameCert_{\ExtensionByContinuityUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier display, admitting precisely the packet $E=(D,F,U,L,W,R,T,A,H,C,P,N)$;
+\item classifier stability, requiring the classifier of \autoref{def:extension-by-continuity-classifier} to compare only the displayed coordinates and their replay order;
+\item extension-existence handoff, requiring the Cauchy-continuous source-map row $F$ and the completion-universal row $U$ to be read after the dense-source window, readback, and tolerance rows $D,W,R,T$;
+\item uniqueness, requiring the ledger $L$ to compare candidate extension rows only over the same dense-source, Cauchy-continuous map, and completion-universal coordinates;
+\item $\RealUp$-seal nonescape, requiring every real-facing read to pass through $A$ only after $D,W,R,T,F,U$ have been replayed;
+\item provenance and name rows, requiring $H,C,P,N$ to expose only componentwise transport, displayed continuation replay, package provenance, and the local NameCert row.
+\end{enumerate}
+No obligation for the local certificate is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier display is projection from \autoref{def:extension-by-continuity-carrier}. The accepted packet lists the dense-source row, Cauchy-continuous map row, completion-universal extension row, uniqueness ledger, finite window, regular readback, dyadic tolerance, real seal, and structural rows.
+
+Classifier stability follows from \autoref{def:extension-by-continuity-classifier}. The comparison is componentwise on the displayed coordinates, and the only continuation data compare the same replay order on the two packets.
+
+For extension existence, first read $D,W,R,T$. These rows expose the dense Cauchy source through finite windows, regular rational readback, and dyadic tolerance data. The source-map row $F$ is available only after those rows are present, and the completion-universal row $U$ consumes that map row as its extension handoff.
+
+The uniqueness obligation is the projection to $L$. Since the ledger compares extension rows over the same $D,F,U,W,R,T$ coordinates, it never appeals to equality of host functions or to an external completed object.
+
+Finally inspect $A,H,C,P,N$. The seal row $A$ is downstream of the displayed continuation route, while $H,C,P,N$ record only transport, replay, provenance, and local naming. The excluded principles are absent from the carrier inventory, so the six listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Extension by continuity public export]
+\label{thm:extension-by-continuity-public-export}
+Every accepted $\ExtensionByContinuityUp$ packet exports a public completion-extension surface whose consumers factor through the single route
+$$
+D,W,R,T\longmapsto F\longmapsto U\longmapsto A
+$$
+together with the uniqueness ledger $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, package provenance $P$, and local naming row $N$. The export is visible to $\CompletionUniversalPropertyUp$, $\CauchyExtensionOperatorUp$, $\CauchyContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ consumers only through those coordinates, and it exports no quotient completion, selected limit, countable-choice schedule, host function equality, ambient real completeness, Lean verification, or bridge-checking row.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier. By \autoref{def:extension-by-continuity-carrier}, every public consumer sees the ordered coordinates $D,F,U,L,W,R,T,A,H,C,P,N$ and no other carrier field.
+
+Use the obligation theorem next. The extension-existence handoff forces the dense-source rows $D,W,R,T$ to be read before $F$, and forces the completion-universal extension row $U$ to consume that Cauchy-continuous source-map row.
+
+The real-facing boundary is then the seal coordinate $A$. The displayed continuation route records $A$ as downstream of $D,W,R,T,F,U$, so a $\RealUp$ consumer cannot bypass the dense-source and completion-universal handoff.
+
+The uniqueness and structural surfaces are exactly $L,H,C,P,N$. They compare candidate extensions, transport displayed rows, replay the route, record provenance, and name the local certificate. Since the carrier and obligations contain no coordinate for the excluded principles, the public export cannot expose them.
+\end{proof}
+
+\closureat{ExtensionByContinuityUp}{seedStr}
+
+\begin{closurestatus}{\ExtensionByContinuityUp}
+  \constructivestory{An $\ExtensionByContinuityUp$ packet is generated from a dense-source row, a Cauchy-continuous source-map row, a completion-universal extension row, a uniqueness ledger, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:extension-by-continuity-carrier}, \autoref{def:extension-by-continuity-classifier}, \autoref{thm:extension-by-continuity-namecert-obligations}, and \autoref{thm:extension-by-continuity-public-export} seed the finite dense-source-to-continuous-extension route over the L10 Real and Completion spine.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected limits, countable choice, host function equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier display, classifier stability, extension-existence handoff, uniqueness, Real seal nonescape, provenance rows, and local NameCert rows for BEDC.Derived.ExtensionByContinuityUp.}
+\end{closurestatus}
