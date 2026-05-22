@@ -117,3 +117,57 @@ host function equality, selected limit, countable-choice row, ambient
 $\RealUp$ completeness, or independent completion coordinate is available to
 enter the seal read.
 \end{proof}
+
+\begin{theorem}[RegSeqRat uniform-continuity window modulus composition]
+\label{thm:regseqrat-uniform-continuity-window-modulus-composition}
+Let $S$ be an accepted $\RegSeqRatUp$ readback row with its displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegSeqRatUp}$ rows. Let $M_0$ and
+$M_1$ be uniformly controlled finite-window map rows, each satisfying the
+hypotheses of
+\autoref{thm:regseqrat-uniform-continuity-preservation}. Assume that the output
+four-face packet of $M_0$ is the input four-face packet of $M_1$, with the same
+StreamName, DyadicRatCore, RegSeqRat, Real, history, continuity, package, and
+local NameCert rows exposed on the shared boundary.
+
+Then the composed finite-window row $M_1 \circ M_0$ preserves the accepted
+$\RegSeqRatUp$ readback of $S$ and exports a single Phase $\RealUp$ and
+Completion handoff through exactly the same four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ rows. The composed route introduces no quotient
+stream, selected limit, countable-choice row, host function equality, ambient
+$\RealUp$ completeness, or second Real seal.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-uniform-continuity-preservation} to $S$ and
+$M_0$. This gives an accepted intermediate RegSeqRat readback over the output
+packet of $M_0$, with the transported StreamName windows, DyadicRatCore
+tolerance ledger, RegSeqRat classifier, Real face, $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and local NameCert rows still displayed as finite BEDC data.
+
+Use the boundary hypothesis to read that intermediate output packet as the
+input packet of $M_1$. A second application of
+\autoref{thm:regseqrat-uniform-continuity-preservation} therefore produces the
+accepted readback for $M_1 \circ M_0$. The four-face refinement functoriality
+theorem \autoref{thm:regseqrat-four-face-refinement-functoriality} identifies
+the two finite transports with one composed route rather than two unrelated
+readback choices.
+
+The cover bookkeeping is finite. Apply
+\autoref{thm:regseqrat-audit-threshold-finite-cover-gluing} to glue the
+modulus windows used by $M_0$ and $M_1$ into the single observed finite cover
+seen by the composed row. This keeps the overlap checks inside the displayed
+StreamName, DyadicRatCore, RegSeqRat, and Real faces and does not add a new
+ambient equality principle.
+
+Finally apply \autoref{thm:regseqrat-uniform-continuity-real-seal-handoff} to
+the composed accepted readback. The handoff theorem reads the terminal seal
+only through the displayed four-face packet and its $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and NameCert support. Since both preservation steps and the
+finite-cover gluing are internal row calculations, there is no quotient stream,
+selected limit, countable-choice row, host function equality, ambient
+$\RealUp$ completeness, or second Real seal available for the composed route.
+\end{proof}
