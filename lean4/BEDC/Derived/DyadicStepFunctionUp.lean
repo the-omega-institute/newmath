@@ -176,4 +176,28 @@ theorem DyadicStepFunctionCarrier_endpoint_value_transport_determinacy [AskSetup
     ⟨endpointReadUnary, valueReadUnary, endpointValueRead, valueReadRow, sameRead,
       nameRowPkg⟩
 
+theorem DyadicStepFunctionCarrier_real_seal_window_exactness [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont ledger route realSeal ->
+        PkgSig bundle nameRow pkg ->
+          UnaryHistory cells ∧ UnaryHistory values ∧ UnaryHistory endpointLedger ∧
+            UnaryHistory ledger ∧ UnaryHistory realSeal ∧ Cont partition cells values ∧
+              Cont refinement endpointLedger ledger ∧ Cont ledger route realSeal ∧
+                PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier ledgerRouteSeal nameRowPkg
+  obtain ⟨_partitionUnary, cellsUnary, valuesUnary, _readsUnary, _refinementUnary,
+    endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    partitionCellsValues, _valuesReadsRefinement, refinementEndpointLedger,
+    _routeProvenanceNameRow, _carrierNameRowPkg⟩ := carrier
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed ledgerUnary routeUnary ledgerRouteSeal
+  exact
+    ⟨cellsUnary, valuesUnary, endpointLedgerUnary, ledgerUnary, realSealUnary,
+      partitionCellsValues, refinementEndpointLedger, ledgerRouteSeal, nameRowPkg⟩
+
 end BEDC.Derived.DyadicStepFunctionUp
