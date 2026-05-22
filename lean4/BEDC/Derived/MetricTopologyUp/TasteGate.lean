@@ -13,28 +13,20 @@ inductive MetricTopologyUp : Type where
   | mk (M B T R Q H C P N : BHist) : MetricTopologyUp
   deriving DecidableEq
 
-def MetricTopologyTasteGate_single_carrier_alignment_encodeBHist :
-    BHist → RawEvent
+def metricTopologyEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 ::
-      MetricTopologyTasteGate_single_carrier_alignment_encodeBHist h
-  | BHist.e1 h => BMark.b1 ::
-      MetricTopologyTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: metricTopologyEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: metricTopologyEncodeBHist h
 
-def MetricTopologyTasteGate_single_carrier_alignment_decodeBHist :
-    RawEvent → BHist
+def metricTopologyDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail =>
-      BHist.e0 (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist tail)
-  | BMark.b1 :: tail =>
-      BHist.e1 (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (metricTopologyDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (metricTopologyDecodeBHist tail)
 
-private theorem MetricTopologyTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist,
-      MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-        (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist h) = h := by
+private theorem metricTopology_decode_encode_bhist :
+    ∀ h : BHist, metricTopologyDecodeBHist (metricTopologyEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -42,56 +34,38 @@ private theorem MetricTopologyTasteGate_single_carrier_alignment_decode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def MetricTopologyTasteGate_single_carrier_alignment_fields :
-    MetricTopologyUp → List BHist
+def metricTopologyFields : MetricTopologyUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | MetricTopologyUp.mk M B T R Q H C P N => [M, B, T, R, Q, H, C, P, N]
 
-def MetricTopologyTasteGate_single_carrier_alignment_toEventFlow :
-    MetricTopologyUp → EventFlow :=
+def metricTopologyToEventFlow : MetricTopologyUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (MetricTopologyTasteGate_single_carrier_alignment_fields x).map
-      MetricTopologyTasteGate_single_carrier_alignment_encodeBHist
+  | x => (metricTopologyFields x).map metricTopologyEncodeBHist
 
-private def MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault :
-    Nat → EventFlow → RawEvent
+private def metricTopologyEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault index rest
+  | Nat.succ index, _event :: rest => metricTopologyEventAtDefault index rest
 
-def MetricTopologyTasteGate_single_carrier_alignment_fromEventFlow :
-    EventFlow → Option MetricTopologyUp :=
+def metricTopologyFromEventFlow (ef : EventFlow) : Option MetricTopologyUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (MetricTopologyUp.mk
-        (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-          (MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault 0 ef))
-        (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-          (MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
-        (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-          (MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault 2 ef))
-        (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-          (MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
-        (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-          (MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault 4 ef))
-        (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-          (MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
-        (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-          (MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault 6 ef))
-        (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-          (MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
-        (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-          (MetricTopologyTasteGate_single_carrier_alignment_eventAtDefault 8 ef)))
+  some
+    (MetricTopologyUp.mk
+      (metricTopologyDecodeBHist (metricTopologyEventAtDefault 0 ef))
+      (metricTopologyDecodeBHist (metricTopologyEventAtDefault 1 ef))
+      (metricTopologyDecodeBHist (metricTopologyEventAtDefault 2 ef))
+      (metricTopologyDecodeBHist (metricTopologyEventAtDefault 3 ef))
+      (metricTopologyDecodeBHist (metricTopologyEventAtDefault 4 ef))
+      (metricTopologyDecodeBHist (metricTopologyEventAtDefault 5 ef))
+      (metricTopologyDecodeBHist (metricTopologyEventAtDefault 6 ef))
+      (metricTopologyDecodeBHist (metricTopologyEventAtDefault 7 ef))
+      (metricTopologyDecodeBHist (metricTopologyEventAtDefault 8 ef)))
 
-private theorem MetricTopologyTasteGate_single_carrier_alignment_round_trip :
+private theorem metricTopology_round_trip :
     ∀ x : MetricTopologyUp,
-      MetricTopologyTasteGate_single_carrier_alignment_fromEventFlow
-        (MetricTopologyTasteGate_single_carrier_alignment_toEventFlow x) = some x := by
+      metricTopologyFromEventFlow (metricTopologyToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -99,74 +73,85 @@ private theorem MetricTopologyTasteGate_single_carrier_alignment_round_trip :
       change
         some
           (MetricTopologyUp.mk
-            (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-              (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist M))
-            (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-              (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist B))
-            (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-              (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist T))
-            (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-              (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist R))
-            (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-              (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist Q))
-            (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-              (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist H))
-            (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-              (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist C))
-            (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-              (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist P))
-            (MetricTopologyTasteGate_single_carrier_alignment_decodeBHist
-              (MetricTopologyTasteGate_single_carrier_alignment_encodeBHist N))) =
+            (metricTopologyDecodeBHist (metricTopologyEncodeBHist M))
+            (metricTopologyDecodeBHist (metricTopologyEncodeBHist B))
+            (metricTopologyDecodeBHist (metricTopologyEncodeBHist T))
+            (metricTopologyDecodeBHist (metricTopologyEncodeBHist R))
+            (metricTopologyDecodeBHist (metricTopologyEncodeBHist Q))
+            (metricTopologyDecodeBHist (metricTopologyEncodeBHist H))
+            (metricTopologyDecodeBHist (metricTopologyEncodeBHist C))
+            (metricTopologyDecodeBHist (metricTopologyEncodeBHist P))
+            (metricTopologyDecodeBHist (metricTopologyEncodeBHist N))) =
           some (MetricTopologyUp.mk M B T R Q H C P N)
-      rw [MetricTopologyTasteGate_single_carrier_alignment_decode M,
-        MetricTopologyTasteGate_single_carrier_alignment_decode B,
-        MetricTopologyTasteGate_single_carrier_alignment_decode T,
-        MetricTopologyTasteGate_single_carrier_alignment_decode R,
-        MetricTopologyTasteGate_single_carrier_alignment_decode Q,
-        MetricTopologyTasteGate_single_carrier_alignment_decode H,
-        MetricTopologyTasteGate_single_carrier_alignment_decode C,
-        MetricTopologyTasteGate_single_carrier_alignment_decode P,
-        MetricTopologyTasteGate_single_carrier_alignment_decode N]
+      rw [metricTopology_decode_encode_bhist M,
+        metricTopology_decode_encode_bhist B,
+        metricTopology_decode_encode_bhist T,
+        metricTopology_decode_encode_bhist R,
+        metricTopology_decode_encode_bhist Q,
+        metricTopology_decode_encode_bhist H,
+        metricTopology_decode_encode_bhist C,
+        metricTopology_decode_encode_bhist P,
+        metricTopology_decode_encode_bhist N]
 
-private theorem MetricTopologyTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : MetricTopologyUp} :
-    MetricTopologyTasteGate_single_carrier_alignment_toEventFlow x =
-      MetricTopologyTasteGate_single_carrier_alignment_toEventFlow y → x = y := by
+private theorem metricTopologyToEventFlow_injective {x y : MetricTopologyUp} :
+    metricTopologyToEventFlow x = metricTopologyToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      MetricTopologyTasteGate_single_carrier_alignment_fromEventFlow
-          (MetricTopologyTasteGate_single_carrier_alignment_toEventFlow x) =
-        MetricTopologyTasteGate_single_carrier_alignment_fromEventFlow
-          (MetricTopologyTasteGate_single_carrier_alignment_toEventFlow y) :=
-    congrArg MetricTopologyTasteGate_single_carrier_alignment_fromEventFlow heq
+      metricTopologyFromEventFlow (metricTopologyToEventFlow x) =
+        metricTopologyFromEventFlow (metricTopologyToEventFlow y) :=
+    congrArg metricTopologyFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (MetricTopologyTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (MetricTopologyTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (metricTopology_round_trip x).symm
+      (Eq.trans hread (metricTopology_round_trip y)))
+
+private theorem metricTopology_fields_faithful :
+    ∀ x y : MetricTopologyUp, metricTopologyFields x = metricTopologyFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk M1 B1 T1 R1 Q1 H1 C1 P1 N1 =>
+      cases y with
+      | mk M2 B2 T2 R2 Q2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance metricTopologyBHistCarrier : BHistCarrier MetricTopologyUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := MetricTopologyTasteGate_single_carrier_alignment_toEventFlow
-  fromEventFlow := MetricTopologyTasteGate_single_carrier_alignment_fromEventFlow
+  toEventFlow := metricTopologyToEventFlow
+  fromEventFlow := metricTopologyFromEventFlow
 
-instance metricTopologyChapterTasteGate :
-    ChapterTasteGate MetricTopologyUp where
+instance metricTopologyChapterTasteGate : ChapterTasteGate MetricTopologyUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      MetricTopologyTasteGate_single_carrier_alignment_fromEventFlow
-        (MetricTopologyTasteGate_single_carrier_alignment_toEventFlow x) = some x
-    exact MetricTopologyTasteGate_single_carrier_alignment_round_trip x
+    change metricTopologyFromEventFlow (metricTopologyToEventFlow x) = some x
+    exact metricTopology_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (MetricTopologyTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (metricTopologyToEventFlow_injective heq)
+
+instance metricTopologyFieldFaithful : FieldFaithful MetricTopologyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := metricTopologyFields
+  field_faithful := metricTopology_fields_faithful
+
+def taste_gate : ChapterTasteGate MetricTopologyUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  metricTopologyChapterTasteGate
 
 theorem MetricTopologyTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier MetricTopologyUp) ∧
-      Nonempty (ChapterTasteGate MetricTopologyUp) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact ⟨⟨metricTopologyBHistCarrier⟩, ⟨metricTopologyChapterTasteGate⟩⟩
+    (∀ h : BHist, metricTopologyDecodeBHist (metricTopologyEncodeBHist h) = h) ∧
+      (∀ x : MetricTopologyUp,
+        metricTopologyFromEventFlow (metricTopologyToEventFlow x) = some x) ∧
+        (∀ x y : MetricTopologyUp,
+          metricTopologyToEventFlow x = metricTopologyToEventFlow y → x = y) ∧
+          metricTopologyEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨metricTopology_decode_encode_bhist,
+      metricTopology_round_trip,
+      (fun _ _ heq => metricTopologyToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.MetricTopologyUp.TasteGate
