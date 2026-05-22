@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyDiagonalLimitUp
@@ -41,7 +42,8 @@ private theorem cauchyDiagonalLimit_decode_encode_bhist :
 
 def cauchyDiagonalLimitFields : CauchyDiagonalLimitUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CauchyDiagonalLimitUp.mk R B D V E S Q Y T H C P N => [R, B, D, V, E, S, Q, Y, T, H, C, P, N]
+  | CauchyDiagonalLimitUp.mk R B D V E S Q Y T H C P N =>
+      [R, B, D, V, E, S, Q, Y, T, H, C, P, N]
 
 def cauchyDiagonalLimitToEventFlow : CauchyDiagonalLimitUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
