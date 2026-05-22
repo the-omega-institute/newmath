@@ -152,4 +152,35 @@ theorem IsometricEmbeddingCarrier_distance_preservation_obligation [AskSetup] [P
     ⟨sourceDistanceUnary, targetDistanceUnary, reflectionUnary, reflectedReadUnary,
       distanceReflection, reflectionRoutesRead, pkgReflection⟩
 
+theorem IsometricEmbeddingCarrier_real_distance_route_determinacy [AskSetup] [PackageSetup]
+    {source target graph sourceDistance targetDistance reflection transports routes provenance
+      localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IsometricEmbeddingCarrier source target graph sourceDistance targetDistance reflection
+        transports routes provenance localCert bundle pkg ->
+      Cont reflection routes consumer ->
+        PkgSig bundle consumer pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+              (fun row : BHist => UnaryHistory row ∧ hsame row localCert)
+              (fun row : BHist => UnaryHistory row ∧ PkgSig bundle reflection pkg)
+              (fun row row' : BHist => hsame row row') ∧
+            UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+              UnaryHistory sourceDistance ∧ UnaryHistory targetDistance ∧
+                UnaryHistory reflection ∧ UnaryHistory routes ∧ UnaryHistory consumer ∧
+                  Cont source graph target ∧ Cont sourceDistance targetDistance reflection ∧
+                    Cont reflection routes consumer ∧ PkgSig bundle reflection pkg ∧
+                      PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro carrier reflectionRoutesConsumer consumerPkg
+  obtain ⟨sourceUnary, targetUnary, graphUnary, sourceDistanceUnary, targetDistanceUnary,
+    reflectionUnary, _transportsUnary, routesUnary, _provenanceUnary, _localCertUnary,
+      sourceGraph, distanceReflection, pkgReflection, localSemantic⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed reflectionUnary routesUnary reflectionRoutesConsumer
+  exact
+    ⟨localSemantic, sourceUnary, targetUnary, graphUnary, sourceDistanceUnary,
+      targetDistanceUnary, reflectionUnary, routesUnary, consumerUnary, sourceGraph,
+      distanceReflection, reflectionRoutesConsumer, pkgReflection, consumerPkg⟩
+
 end BEDC.Derived.IsometricEmbeddingUp
