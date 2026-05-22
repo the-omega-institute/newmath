@@ -64,6 +64,7 @@ import BEDC.Derived.AnalyticContinuationSocketUp.VisionConcretization
 import BEDC.Derived.AnalyticContinuationSocketUp.ZetaBranchObstructionExactness
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
 import BEDC.Derived.AnchorStabilityCertificateUp.TasteGate
+import BEDC.Derived.ApartnessCompletionUp.TasteGate
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
@@ -872,6 +873,7 @@ import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
 import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.CauchyCompletionSplitUp.TasteGate
+import BEDC.Derived.CauchyCompletionUnitUp
 import BEDC.Derived.CauchyCondensationUp.TasteGate
 import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
 import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
@@ -3206,6 +3208,7 @@ import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
+import BEDC.Derived.IsometricEmbeddingUp.TasteGate
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KKTUp
@@ -4331,6 +4334,7 @@ import BEDC.Derived.RealSealCongruenceUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
 import BEDC.Derived.RealSequenceAlgebraUp.TasteGate
 import BEDC.Derived.RealSequenceClusterPointUp.TasteGate
+import BEDC.Derived.RealSequenceLimitUp.NameCertObligations
 import BEDC.Derived.RealSequenceLimitUp.TasteGate
 import BEDC.Derived.RealSeriesUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.DyadicWindowExactness
