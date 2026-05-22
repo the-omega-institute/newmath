@@ -3381,6 +3381,119 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "edge_group_ablation_rows": edge_group_ablation_rows,
         "single_edge_top_rows": single_edge_ablation_rows[:12],
     }
+    doob_mu = radial_mu_max + 1.0
+    doob_neighbor_matrix = tuple(
+        tuple(
+            radial_matrix[row][column] + (1 if row == column else 0)
+            for column in range(len(radial_matrix))
+        )
+        for row in range(len(radial_matrix))
+    )
+    doob_transition_matrix = tuple(
+        tuple(
+            doob_neighbor_matrix[row][column] * radial_vector[column] / (doob_mu * radial_vector[row])
+            for column in range(len(radial_matrix))
+        )
+        for row in range(len(radial_matrix))
+    )
+    doob_transition_rows = [
+        {
+            "state": state,
+            "name": radial_state_names[state],
+            "transitions": {
+                target: doob_transition_matrix[row][column]
+                for column, target in enumerate(radial_state_order)
+                if doob_transition_matrix[row][column] > 1e-12
+            },
+            "row_sum": sum(doob_transition_matrix[row]),
+        }
+        for row, state in enumerate(radial_state_order)
+    ]
+    doob_drift_rows = [
+        {
+            "state": state,
+            "name": radial_state_names[state],
+            "drift": sum(
+                (column - row) * doob_transition_matrix[row][column]
+                for column in range(len(radial_state_order))
+            ),
+        }
+        for row, state in enumerate(radial_state_order)
+    ]
+    doob_stationary_denominator = sum(
+        radial_lift_sizes[index] * radial_vector[index] * radial_vector[index]
+        for index in range(len(radial_state_order))
+    )
+    doob_stationary_rows = [
+        {
+            "state": state,
+            "name": radial_state_names[state],
+            "orbit_size": radial_lift_sizes[index],
+            "mass": (
+                radial_lift_sizes[index] * radial_vector[index] * radial_vector[index]
+                / doob_stationary_denominator
+            ),
+        }
+        for index, state in enumerate(radial_state_order)
+    ]
+    doob_qsd_comparison_rows = [
+        {
+            "state": state,
+            "name": radial_state_names[state],
+            "qsd_mass": radial_qsd_rows[index]["mass"],
+            "stationary_mass": doob_stationary_rows[index]["mass"],
+        }
+        for index, state in enumerate(radial_state_order)
+    ]
+    doob_flux_rows = []
+    for index in range(len(radial_state_order) - 1):
+        doob_flux_rows.append(
+            {
+                "edge_group": f"{radial_state_order[index]}-{radial_state_order[index + 1]}",
+                "left": radial_state_order[index],
+                "right": radial_state_order[index + 1],
+                "left_name": radial_state_names[radial_state_order[index]],
+                "right_name": radial_state_names[radial_state_order[index + 1]],
+                "flux": doob_stationary_rows[index]["mass"] * doob_transition_matrix[index][index + 1],
+            }
+        )
+    doob_conductance_rows = []
+    for index, flux_row in enumerate(doob_flux_rows, start=1):
+        prefix_mass = sum(row["mass"] for row in doob_stationary_rows[:index])
+        boundary_flux = flux_row["flux"]
+        doob_conductance_rows.append(
+            {
+                "cut": f"{'-'.join(radial_state_order[:index])}|{'-'.join(radial_state_order[index:])}",
+                "prefix_states": radial_state_order[:index],
+                "suffix_states": radial_state_order[index:],
+                "prefix_mass": prefix_mass,
+                "boundary_flux": boundary_flux,
+                "conductance": boundary_flux / min(prefix_mass, 1.0 - prefix_mass),
+            }
+        )
+    doob_conditioned_summary = {
+        "mu": doob_mu,
+        "neighbor_matrix": doob_neighbor_matrix,
+        "transition_matrix": doob_transition_matrix,
+        "transition_rows": doob_transition_rows,
+        "drift_rows": doob_drift_rows,
+        "stationary_rows": doob_stationary_rows,
+        "qsd_comparison_rows": doob_qsd_comparison_rows,
+        "anchor_stopstart_stationary_mass": sum(
+            row["mass"]
+            for row in doob_stationary_rows
+            if row["state"] in {"X2", "X1"}
+        ),
+        "anchor_stopstart_uur_stationary_mass": sum(
+            row["mass"]
+            for row in doob_stationary_rows
+            if row["state"] in {"X2", "X1", "X0"}
+        ),
+        "flux_rows": doob_flux_rows,
+        "central_flux_row": max(doob_flux_rows, key=lambda row: row["flux"]),
+        "conductance_rows": doob_conductance_rows,
+        "minimum_conductance_row": min(doob_conductance_rows, key=lambda row: row["conductance"]),
+    }
 
     return {
         "support": tuple(sorted(support)),
@@ -3953,6 +4066,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                     "lambda_without_wobble_edge": radial_mu_max / 6.0,
                     "spectral_antenna": spectral_antenna_summary,
                     "spectral_ablation": spectral_ablation_summary,
+                    "doob_conditioned_dynamics": doob_conditioned_summary,
                 },
             },
         },
@@ -5921,6 +6035,73 @@ def assert_expected(summary: dict[str, object]) -> None:
         ("TCA-TTA", ("TCA", "TTA"), ("StopStart6", "UUR"), 0.017432),
         ("TCG-TTG", ("TCG", "TTG"), ("StopStart6", "UUR"), 0.017432),
     ]
+    doob = radial["doob_conditioned_dynamics"]
+    assert round(doob["mu"], 9) == 4.051487585
+    assert [
+        [round(value, 4) for value in row]
+        for row in doob["transition_matrix"]
+    ] == [
+        [0.2468, 0.7532, 0.0, 0.0, 0.0, 0.0],
+        [0.2427, 0.2468, 0.5105, 0.0, 0.0, 0.0],
+        [0.0, 0.4773, 0.2468, 0.2758, 0.0, 0.0],
+        [0.0, 0.0, 0.6626, 0.2468, 0.0906, 0.0],
+        [0.0, 0.0, 0.0, 0.6723, 0.2468, 0.0809],
+        [0.0, 0.0, 0.0, 0.0, 0.7532, 0.2468],
+    ]
+    assert [round(row["drift"], 4) for row in doob["drift_rows"]] == [
+        0.7532,
+        0.2679,
+        -0.2015,
+        -0.5719,
+        -0.5914,
+        -0.7532,
+    ]
+    assert [
+        (row["state"], round(row["mass"], 4))
+        for row in doob["stationary_rows"]
+    ] == [
+        ("X3", 0.1110),
+        ("X2", 0.3444),
+        ("X1", 0.3684),
+        ("X0", 0.1534),
+        ("YR", 0.0207),
+        ("YY", 0.0022),
+    ]
+    assert round(doob["anchor_stopstart_stationary_mass"], 4) == 0.7128
+    assert round(doob["anchor_stopstart_uur_stationary_mass"], 4) == 0.8661
+    assert [
+        (row["state"], round(row["qsd_mass"], 4), round(row["stationary_mass"], 4))
+        for row in doob["qsd_comparison_rows"]
+    ] == [
+        ("X3", 0.1117, 0.1110),
+        ("X2", 0.3407, 0.3444),
+        ("X1", 0.3524, 0.3684),
+        ("X0", 0.1313, 0.1534),
+        ("YR", 0.0482, 0.0207),
+        ("YY", 0.0158, 0.0022),
+    ]
+    assert [
+        (row["edge_group"], round(row["flux"], 4))
+        for row in doob["flux_rows"]
+    ] == [
+        ("X3-X2", 0.0836),
+        ("X2-X1", 0.1758),
+        ("X1-X0", 0.1016),
+        ("X0-YR", 0.0139),
+        ("YR-YY", 0.0017),
+    ]
+    assert doob["central_flux_row"]["edge_group"] == "X2-X1"
+    assert [
+        (row["cut"], round(row["prefix_mass"], 4), round(row["boundary_flux"], 4), round(row["conductance"], 4))
+        for row in doob["conductance_rows"]
+    ] == [
+        ("X3|X2-X1-X0-YR-YY", 0.1110, 0.0836, 0.7532),
+        ("X3-X2|X1-X0-YR-YY", 0.4554, 0.1758, 0.3861),
+        ("X3-X2-X1|X0-YR-YY", 0.8237, 0.1016, 0.5765),
+        ("X3-X2-X1-X0|YR-YY", 0.9771, 0.0139, 0.6071),
+        ("X3-X2-X1-X0-YR|YY", 0.9978, 0.0017, 0.7532),
+    ]
+    assert doob["minimum_conductance_row"]["cut"] == "X3-X2|X1-X0-YR-YY"
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
