@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\FeketeSubadditiveUp$}
+\label{ch:concrete-instances-fekete-subadditive-namecert}
+\origin{human}
+
+Following Fekete and Bishop--Bridges constructive analysis, the $\FeketeSubadditiveUp$ packet records the finite subadditive normalized-average route used by Real and series-facing certificates before a lower-bound readback is handed to regular rational and Real seals. It sits beside the series certificate of \autoref{ch:concrete-instances-series-namecert}, the real-sequence limit route of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational sequence boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real surface of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed finite ledger for subadditive averages; it does not assert an ambient least infimum operator or a host-level completeness theorem.
+
+\begin{definition}[Fekete subadditive carrier]
+\label{def:fekete-subadditive-carrier}
+A $\FeketeSubadditiveUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,A,D,L,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the real sequence source row. It records the inspected source windows and the finite indexing data from which normalized averages are read.
+\item $A$ is the subadditivity witness ledger. Each row records a displayed decomposition $m+n$ together with the finite comparison cell witnessing that the source value at $m+n$ is bounded by the visible sum of the source values at $m$ and $n$.
+\item $D$ is the dyadic normalized-average comparison ledger. It stores the rational denominator windows, dyadic comparison tolerances, and finite average rows used to compare inspected values of $S$.
+\item $L$ is the located lower-bound readback row. It records the finite lower-bound and located-infimum data actually displayed by $D$, without exposing a host-level infimum operator.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained only after the normalized-average ledger and lower-bound readback have been displayed.
+\item $E$ is the $\RealUp$ seal row reached only after the regular rational handoff has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, subadditivity, dyadic average, lower-bound, regular handoff, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through
+$$
+S,A\longmapsto D\longmapsto L\longmapsto R\longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FeketeSubadditiveUp$, $\RealSequenceLimitUp$, $\SeriesUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FeketeSubadditiveUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for ambient completeness, trichotomy, countable choice, quotient stream equality, host real equality, host-level infimum operators, or a selected external limit.
+\end{definition}
+
+\begin{theorem}[Fekete subadditive NameCert obligations]
+\label{thm:fekete-subadditive-namecert-obligations}
+For every accepted $\FeketeSubadditiveUp$ carrier $F=(S,A,D,L,R,E,H,C,P,N)$, the local $\NameCert_{\FeketeSubadditiveUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed ten-row packet;
+\item source-window exposure for $S$, including every index and normalized-average denominator inspected by the certificate;
+\item subadditivity ledger exactness for each decomposition row recorded in $A$;
+\item dyadic normalized-average comparison stability for $D$ under the recorded $\hsame$ transports;
+\item located lower-bound readback, requiring $L$ to be read only from the displayed average comparisons in $D$;
+\item $\RegSeqRatUp$ handoff and $\RealUp$ seal non-escape, requiring $R$ and $E$ to factor through $S,A,D,L$;
+\item transport, continuation replay, provenance, and local naming for exactly the rows recorded in $H,C,P,N$.
+\end{enumerate}
+No Fekete subadditive NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $F=(S,A,D,L,R,E,H,C,P,N)$. The projection exposes the source sequence windows, subadditivity witness ledger, dyadic average comparisons, lower-bound readback, regular rational handoff, Real seal, and structural rows.
+
+The order-theoretic content is finite. The rows $S$ and $A$ list only the inspected source windows and decomposition witnesses, while $D$ stores the normalized-average comparisons that can be replayed for the requested denominator windows.
+
+The lower-bound readback is then forced through $L$. Since $L$ is read from $D$, the certificate does not appeal to a host-level infimum operator, trichotomy, or an ambient completeness theorem.
+
+Finally $R$ and $E$ are downstream of the displayed ledger. Componentwise transport in $H$ preserves the same route, and $C,P,N$ only replay, source, and name that route. Hence the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Fekete subadditive Cauchy route]
+\label{thm:fekete-subadditive-cauchy-route}
+Let $F=(S,A,D,L,R,E,H,C,P,N)$ be an accepted $\FeketeSubadditiveUp$ carrier. Every $\RealUp$-facing read exported by $F$ factors through the finite route
+$$
+S,A\longmapsto D\longmapsto L\longmapsto R\longmapsto E .
+$$
+Consequently a downstream Cauchy, series, or real-sequence-limit consumer receives only the displayed source windows, subadditivity witnesses, dyadic normalized-average comparisons, located lower-bound readback, $\RegSeqRatUp$ handoff, $\RealUp$ seal, transport package, replay route, provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing read. Carrier projection shows that the only available numerical rows are the source windows $S$, the subadditivity witnesses $A$, the dyadic comparison ledger $D$, and the lower-bound readback $L$.
+
+The Cauchy information is produced by the normalized-average route. The ledger $D$ supplies finite dyadic comparisons between inspected averages, and $L$ records the lower-bound readback that those comparisons actually expose.
+
+The handoff to $R$ and $E$ does not add analytic data. It presents the displayed lower-bound route as a $\RegSeqRatUp$ handoff and then as a Real-facing seal.
+
+The structural rows preserve the same route under transport and replay. Therefore a downstream Cauchy, series, or real-sequence-limit consumer cannot read ambient completeness, trichotomy, countable choice, quotient stream equality, host real equality, host-level infimum operators, or an external selected limit from the $\FeketeSubadditiveUp$ packet.
+\end{proof}
+
+\closureat{FeketeSubadditiveUp}{seedStr}
+
+\begin{closurestatus}{\FeketeSubadditiveUp}
+  \constructivestory{A $\FeketeSubadditiveUp$ packet is generated from real sequence source windows, a subadditivity witness ledger, dyadic normalized-average comparison rows, a located lower-bound readback, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fekete-subadditive-carrier}, \autoref{thm:fekete-subadditive-namecert-obligations}, and \autoref{thm:fekete-subadditive-cauchy-route} seed the finite subadditive normalized-average carrier, its local NameCert obligations, and its Cauchy-facing readback boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient completeness, trichotomy, countable choice, quotient stream equality, host real equality, host-level infimum operators, selected external limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subadditivity ledger exactness, dyadic normalized-average comparison stability, located lower-bound readback, and Cauchy-route non-escape for BEDC.Derived.FeketeSubadditiveUp.}
+\end{closurestatus}
