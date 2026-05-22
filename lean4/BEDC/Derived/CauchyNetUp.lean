@@ -85,4 +85,74 @@ theorem CauchyNetCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     ⟨cert, classifierUnary, realHandoffUnary, directedScheduleRegseq, classifierRealRoute,
       provenancePkg⟩
 
+theorem CauchyNetDirectedWindow_localization [AskSetup] [PackageSetup]
+    {directed schedule regseq dyadic classifier realHandoff transport route provenance nameRow
+      restrictedDirected restrictedSchedule restrictedRegseq restrictedDyadic restrictedClassifier
+      restrictedReal restrictedTransport restrictedRoute restrictedProvenance restrictedName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyNetCarrier directed schedule regseq dyadic classifier realHandoff transport route
+        provenance nameRow bundle pkg →
+      CauchyNetCarrier restrictedDirected restrictedSchedule restrictedRegseq restrictedDyadic
+          restrictedClassifier restrictedReal restrictedTransport restrictedRoute
+          restrictedProvenance restrictedName bundle pkg →
+        Cont restrictedRegseq restrictedReal restrictedRoute →
+          PkgSig bundle restrictedProvenance pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row restrictedReal ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row restrictedDirected ∨ hsame row restrictedSchedule ∨
+                    hsame row restrictedRegseq ∨ hsame row restrictedClassifier ∨
+                      hsame row restrictedReal)
+                (fun row : BHist => PkgSig bundle restrictedProvenance pkg ∧
+                  hsame row restrictedReal)
+                hsame ∧
+              UnaryHistory restrictedReal ∧
+                Cont restrictedRegseq restrictedReal restrictedRoute := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro _carrier restrictedCarrier restrictedCont restrictedPkg
+  obtain ⟨_restrictedDirectedUnary, _restrictedScheduleUnary, restrictedRegseqUnary,
+    _restrictedDyadicUnary, _restrictedClassifierUnary, restrictedRealUnary,
+    _restrictedNameUnary, _restrictedDirectedScheduleRegseq,
+    _restrictedClassifierRealRoute, _restrictedRouteTransportProvenance,
+    _restrictedCarrierPkg⟩ := restrictedCarrier
+  have _restrictedRouteUnary : UnaryHistory restrictedRoute :=
+    unary_cont_closed restrictedRegseqUnary restrictedRealUnary restrictedCont
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row restrictedReal ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row restrictedDirected ∨ hsame row restrictedSchedule ∨
+            hsame row restrictedRegseq ∨ hsame row restrictedClassifier ∨
+              hsame row restrictedReal)
+        (fun row : BHist => PkgSig bundle restrictedProvenance pkg ∧
+          hsame row restrictedReal)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro restrictedReal ⟨hsame_refl restrictedReal, restrictedRealUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+      ledger_sound := by
+        intro _row source
+        exact ⟨restrictedPkg, source.left⟩
+    }
+  exact ⟨cert, restrictedRealUnary, restrictedCont⟩
+
 end BEDC.Derived.CauchyNetUp
