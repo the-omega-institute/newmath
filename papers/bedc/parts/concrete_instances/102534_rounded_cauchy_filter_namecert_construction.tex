@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RoundedCauchyFilterUp$}
+\label{ch:concrete-instances-rounded-cauchy-filter-namecert}
+\origin{human}
+
+Following Kelley, Bourbaki, and Bishop--Bridges, the $\RoundedCauchyFilterUp$ packet records the rounded-base presentation of a Cauchy filter as finite NameCert data. A rounded filter base is the constructive surface on which every accepted neighborhood has a smaller displayed neighborhood inside it, so the completion consumer can inspect refinement before reading a limiting real-name seal. The packet sits between the filter-base row of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the filter-refinement route of \autoref{ch:concrete-instances-filter-refinement-namecert}, and the completion handoff of \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert}. It exposes a non-quotient refinement surface for later $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ reads; it does not import quotient equality of filters, an ultrafilter extension, choice-selected cluster points, trichotomy, host completeness, Lean verification, or a standard bridge.
+
+\begin{definition}[Rounded Cauchy filter carrier]\label{def:rounded-cauchy-filter-carrier}
+A $\RoundedCauchyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,F,R,U,W,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\FilterBaseUp$ row whose basic neighborhoods are available only through finite displayed base tokens.
+\item $F$ is the $\CauchyFilterUp$ row carried by the same base tokens and by the displayed Cauchy comparison requests.
+\item $R$ is the rounded-base refinement row: every accepted base token exports a strictly smaller displayed token below it, together with the finite inclusion route witnessing the refinement.
+\item $U$ is the $\CauchyFilterCompletionUp$ handoff row that may be read only after the base, Cauchy, and rounded-refinement rows have been displayed.
+\item $W$ is the $\StreamNameUp$ window family used to inspect the finite base tokens, refinement witnesses, and completion-facing observations.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same windows and to the rational observations exported by the rounded filter route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the requested radii, rounded inclusions, and Cauchy comparison budgets.
+\item $E$ is the $\RealUp$ seal reached only after $B,F,R,U,W,Q,D$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the base row, Cauchy row, rounded refinement row, completion handoff, stream windows, regular readback, dyadic ledger, real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from filter-base tokens to rounded refinements, from rounded refinements to Cauchy comparisons, from Cauchy comparisons to regular readback and dyadic tolerances, and from that route through the completion handoff to the real seal.
+\item $P$ is the $\Pkg$ provenance over $\RoundedCauchyFilterUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\CauchyFilterCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RoundedCauchyFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,F,R,U,W,Q,D,E,H,C,P,N$. It has no coordinate for quotient equality of filters, an ultrafilter extension, selected cluster points, trichotomy, host real completeness, Lean verification, or bridge data.
+\end{definition}
+
+\begin{theorem}[Rounded Cauchy filter NameCert obligations]\label{thm:rounded-cauchy-filter-namecert-obligations}
+For every accepted $\RoundedCauchyFilterUp$ carrier $K=(B,F,R,U,W,Q,D,E,H,C,P,N)$, the local $\NameCert_{\RoundedCauchyFilterUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed filter base, Cauchy filter, rounded refinement, completion handoff, stream-window, regular-readback, dyadic-ledger, real-seal, transport, replay, provenance, and local naming rows;
+\item base alignment, requiring the $\FilterBaseUp$ row $B$ and the $\CauchyFilterUp$ row $F$ to read the same displayed base tokens before any completion-facing observation is accepted;
+\item roundedness, requiring each accepted base token to pass through the row $R$ and receive a displayed smaller token with its finite inclusion route;
+\item Cauchy comparison stability, requiring every tolerance request to use the same rounded base tokens and dyadic ledger $D$ before the completion handoff $U$ is read;
+\item regular readback and real-seal boundary, requiring $W,Q,D$ to mediate the route from rounded filter data to the terminal $\RealUp$ seal $E$;
+\item componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$ for exactly the rows displayed above.
+\end{enumerate}
+No rounded Cauchy filter obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $K=(B,F,R,U,W,Q,D,E,H,C,P,N)$. Carrier admission exposes exactly the filter-base row, Cauchy-filter row, rounded refinement row, completion handoff, stream-window row, regular readback, dyadic ledger, real seal, and structural rows.
+
+Base alignment is finite. The same displayed base tokens feed $B$ and $F$, so a consumer cannot read a Cauchy comparison apart from the filter-base surface that names its neighborhoods.
+
+Roundedness is then read through $R$. For each accepted base token, $R$ supplies the smaller displayed token and the inclusion route that places it below the original token. The Cauchy comparison rows use those rounded tokens and the dyadic ledger $D$ before the handoff $U$ can be consumed.
+
+Finally $W,Q,D,E,H,C,P,N$ provide the observation, readback, tolerance, endpoint, transport, replay, source, and local name of the same route. Since the carrier has no slot for quotient equality, ultrafilter extension, selected cluster points, trichotomy, host completeness, Lean verification, or bridge data, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Rounded Cauchy filter regular readback route]\label{thm:rounded-cauchy-filter-regular-readback-route}
+Every completion-facing read from an accepted $\RoundedCauchyFilterUp$ carrier factors through
+$$
+B \longmapsto F \longmapsto R \longmapsto W \longmapsto Q \longmapsto D \longmapsto U \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the route from filter-base data to a $\RealUp$ completion seal is mediated by the displayed rounded-refinement row and its $\RegSeqRatUp$ readback, not by quotient equality of filters, a selected representative sequence, an ultrafilter extension, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing request. The carrier definition exposes the filter-base row $B$ before the Cauchy row $F$ and the rounded-refinement row $R$ can be used.
+
+The request then opens finite windows through $W$. Those windows inspect the base token, its rounded refinement, and the Cauchy comparison rows attached to that refinement.
+
+Regular readback is forced through $Q$, and the tolerance accounting is forced through $D$. Only after this finite observation route has been displayed may the completion handoff $U$ and the real seal $E$ be consumed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same route. No excluded quotient, representative sequence, ultrafilter, or completeness coordinate appears in the carrier, so the displayed factorization is the only completion-facing read.
+\end{proof}
+
+\falsifiablePrediction{Every $\RoundedCauchyFilterUp$ completion-facing read factors through a FilterBaseUp row, a CauchyFilterUp row, a rounded-base refinement row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a CauchyFilterCompletionUp handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{filterbase, cauchyfilter, filter-refinement, cauchyfiltercompletion, streamname, regseqrat, dyadicratcore, real: $\RoundedCauchyFilterUp$ is not bijective to any listed sibling because it jointly carries a filter base, Cauchy filter comparisons, a rounded-base refinement row, completion handoff, finite windows, regular readback, dyadic tolerance accounting, real sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{RoundedCauchyFilterUp}{seedStr}
+
+\begin{closurestatus}{\RoundedCauchyFilterUp}
+  \constructivestory{A $\RoundedCauchyFilterUp$ packet is generated from a FilterBaseUp row, a CauchyFilterUp row, a rounded-base refinement row, a CauchyFilterCompletionUp handoff, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rounded-cauchy-filter-carrier}, \autoref{thm:rounded-cauchy-filter-namecert-obligations}, and \autoref{thm:rounded-cauchy-filter-regular-readback-route} seed the finite rounded Cauchy filter route from displayed filter-base tokens through rounded refinements, regular readback, dyadic tolerance accounting, completion handoff, and RealUp endpoint sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of filters, ultrafilter extensions, selected representative sequences, selected cluster points, trichotomy, ambient Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, base alignment, roundedness, Cauchy comparison stability, RegSeqRat and DyadicRatCore handoff, Real seal nonescape, and TasteGate field faithfulness for BEDC.Derived.RoundedCauchyFilterUp.}
+\end{closurestatus}
