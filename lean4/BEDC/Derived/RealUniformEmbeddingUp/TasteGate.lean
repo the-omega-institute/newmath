@@ -10,10 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RealUniformEmbeddingUp : Type where
-  | mk
-      (source windows dyadic readback sealRow uniformRow transport route provenance
-        localCert : BHist) :
-      RealUniformEmbeddingUp
+  | mk (S W D Q E U H C P N : BHist) : RealUniformEmbeddingUp
   deriving DecidableEq
 
 def realUniformEmbeddingEncodeBHist : BHist → RawEvent
@@ -34,54 +31,50 @@ private theorem realUniformEmbedding_decode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def realUniformEmbeddingFields : RealUniformEmbeddingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RealUniformEmbeddingUp.mk source windows dyadic readback sealRow uniformRow transport
-      route provenance localCert =>
-      [source, windows, dyadic, readback, sealRow, uniformRow, transport, route, provenance,
-        localCert]
+  | RealUniformEmbeddingUp.mk S W D Q E U H C P N => [S, W, D, Q, E, U, H, C, P, N]
 
 def realUniformEmbeddingToEventFlow : RealUniformEmbeddingUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | RealUniformEmbeddingUp.mk source windows dyadic readback sealRow uniformRow transport
-      route provenance localCert =>
-      [[BMark.b1, BMark.b1, BMark.b0, BMark.b1],
-        realUniformEmbeddingEncodeBHist source,
-        realUniformEmbeddingEncodeBHist windows,
-        realUniformEmbeddingEncodeBHist dyadic,
-        realUniformEmbeddingEncodeBHist readback,
-        realUniformEmbeddingEncodeBHist sealRow,
-        realUniformEmbeddingEncodeBHist uniformRow,
-        realUniformEmbeddingEncodeBHist transport,
-        realUniformEmbeddingEncodeBHist route,
-        realUniformEmbeddingEncodeBHist provenance,
-        realUniformEmbeddingEncodeBHist localCert]
+  | x => (realUniformEmbeddingFields x).map realUniformEmbeddingEncodeBHist
 
-def realUniformEmbeddingFromEventFlow :
-    EventFlow → Option RealUniformEmbeddingUp
+private def realUniformEmbeddingRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [[BMark.b1, BMark.b1, BMark.b0, BMark.b1], source, windows, dyadic, readback,
-      sealRow, uniformRow, transport, route, provenance, localCert] =>
-      some
-        (RealUniformEmbeddingUp.mk
-          (realUniformEmbeddingDecodeBHist source)
-          (realUniformEmbeddingDecodeBHist windows)
-          (realUniformEmbeddingDecodeBHist dyadic)
-          (realUniformEmbeddingDecodeBHist readback)
-          (realUniformEmbeddingDecodeBHist sealRow)
-          (realUniformEmbeddingDecodeBHist uniformRow)
-          (realUniformEmbeddingDecodeBHist transport)
-          (realUniformEmbeddingDecodeBHist route)
-          (realUniformEmbeddingDecodeBHist provenance)
-          (realUniformEmbeddingDecodeBHist localCert))
-  | _ => none
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => realUniformEmbeddingRawAt n rest
+
+private def realUniformEmbeddingLengthEq : Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => realUniformEmbeddingLengthEq n rest
+
+def realUniformEmbeddingFromEventFlow : EventFlow → Option RealUniformEmbeddingUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match realUniformEmbeddingLengthEq 10 flow with
+      | true =>
+          some
+            (RealUniformEmbeddingUp.mk
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 0 flow))
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 1 flow))
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 2 flow))
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 3 flow))
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 4 flow))
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 5 flow))
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 6 flow))
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 7 flow))
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 8 flow))
+              (realUniformEmbeddingDecodeBHist (realUniformEmbeddingRawAt 9 flow)))
+      | false => none
 
 private theorem realUniformEmbedding_round_trip :
     ∀ x : RealUniformEmbeddingUp,
@@ -89,37 +82,33 @@ private theorem realUniformEmbedding_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source windows dyadic readback sealRow uniformRow transport route provenance
-      localCert =>
+  | mk S W D Q E U H C P N =>
       change
         some
           (RealUniformEmbeddingUp.mk
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist source))
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist windows))
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist dyadic))
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist readback))
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist sealRow))
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist uniformRow))
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist transport))
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist route))
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist provenance))
-            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist localCert))) =
-          some
-            (RealUniformEmbeddingUp.mk source windows dyadic readback sealRow uniformRow
-              transport route provenance localCert)
-      rw [realUniformEmbedding_decode_encode_bhist source,
-        realUniformEmbedding_decode_encode_bhist windows,
-        realUniformEmbedding_decode_encode_bhist dyadic,
-        realUniformEmbedding_decode_encode_bhist readback,
-        realUniformEmbedding_decode_encode_bhist sealRow,
-        realUniformEmbedding_decode_encode_bhist uniformRow,
-        realUniformEmbedding_decode_encode_bhist transport,
-        realUniformEmbedding_decode_encode_bhist route,
-        realUniformEmbedding_decode_encode_bhist provenance,
-        realUniformEmbedding_decode_encode_bhist localCert]
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist S))
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist W))
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist D))
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist Q))
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist E))
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist U))
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist H))
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist C))
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist P))
+            (realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist N))) =
+          some (RealUniformEmbeddingUp.mk S W D Q E U H C P N)
+      rw [realUniformEmbedding_decode_encode_bhist S,
+        realUniformEmbedding_decode_encode_bhist W,
+        realUniformEmbedding_decode_encode_bhist D,
+        realUniformEmbedding_decode_encode_bhist Q,
+        realUniformEmbedding_decode_encode_bhist E,
+        realUniformEmbedding_decode_encode_bhist U,
+        realUniformEmbedding_decode_encode_bhist H,
+        realUniformEmbedding_decode_encode_bhist C,
+        realUniformEmbedding_decode_encode_bhist P,
+        realUniformEmbedding_decode_encode_bhist N]
 
-private theorem realUniformEmbeddingToEventFlow_injective
-    {x y : RealUniformEmbeddingUp} :
+private theorem realUniformEmbeddingToEventFlow_injective {x y : RealUniformEmbeddingUp} :
     realUniformEmbeddingToEventFlow x = realUniformEmbeddingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -131,14 +120,12 @@ private theorem realUniformEmbeddingToEventFlow_injective
     (Eq.trans (realUniformEmbedding_round_trip x).symm
       (Eq.trans hread (realUniformEmbedding_round_trip y)))
 
-instance realUniformEmbeddingBHistCarrier :
-    BHistCarrier RealUniformEmbeddingUp where
+instance realUniformEmbeddingBHistCarrier : BHistCarrier RealUniformEmbeddingUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := realUniformEmbeddingToEventFlow
   fromEventFlow := realUniformEmbeddingFromEventFlow
 
-instance realUniformEmbeddingChapterTasteGate :
-    ChapterTasteGate RealUniformEmbeddingUp where
+instance realUniformEmbeddingChapterTasteGate : ChapterTasteGate RealUniformEmbeddingUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -148,41 +135,22 @@ instance realUniformEmbeddingChapterTasteGate :
     intro x y hxy heq
     exact hxy (realUniformEmbeddingToEventFlow_injective heq)
 
-instance realUniformEmbeddingNontrivial :
-    Nontrivial RealUniformEmbeddingUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨RealUniformEmbeddingUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      RealUniformEmbeddingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
 def taste_gate : ChapterTasteGate RealUniformEmbeddingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realUniformEmbeddingChapterTasteGate
 
-theorem RealUniformEmbeddingUpTasteGate_single_carrier_alignment :
-    forall source windows dyadic readback sealRow uniformRow transport route provenance
-      localCert : BHist,
-      realUniformEmbeddingToEventFlow
-          (RealUniformEmbeddingUp.mk source windows dyadic readback sealRow uniformRow
-            transport route provenance localCert) =
-        [[BMark.b1, BMark.b1, BMark.b0, BMark.b1],
-          realUniformEmbeddingEncodeBHist source,
-          realUniformEmbeddingEncodeBHist windows,
-          realUniformEmbeddingEncodeBHist dyadic,
-          realUniformEmbeddingEncodeBHist readback,
-          realUniformEmbeddingEncodeBHist sealRow,
-          realUniformEmbeddingEncodeBHist uniformRow,
-          realUniformEmbeddingEncodeBHist transport,
-          realUniformEmbeddingEncodeBHist route,
-          realUniformEmbeddingEncodeBHist provenance,
-          realUniformEmbeddingEncodeBHist localCert] := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro source windows dyadic readback sealRow uniformRow transport route provenance localCert
-  rfl
+theorem RealUniformEmbeddingUp_single_carrier_alignment :
+    (forall h : BHist, realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist h) = h) ∧
+      (forall x : RealUniformEmbeddingUp,
+        realUniformEmbeddingFromEventFlow (realUniformEmbeddingToEventFlow x) = some x) ∧
+      (forall x y : RealUniformEmbeddingUp,
+        realUniformEmbeddingToEventFlow x = realUniformEmbeddingToEventFlow y -> x = y) ∧
+      realUniformEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨realUniformEmbedding_decode_encode_bhist,
+      realUniformEmbedding_round_trip,
+      (fun _ _ heq => realUniformEmbeddingToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.RealUniformEmbeddingUp
