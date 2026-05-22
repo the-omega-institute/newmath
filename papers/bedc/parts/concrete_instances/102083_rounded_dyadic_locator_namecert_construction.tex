@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RoundedDyadicLocatorUp$}
+\label{ch:concrete-instances-rounded-dyadic-locator-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis and Moore--Kearfott--Cloud interval arithmetic, the $\RoundedDyadicLocatorUp$ packet exposes outward-rounded dyadic locator rows for $\RealUp$ names. It sits after the located comparison route of \autoref{ch:concrete-instances-real-locator-namecert}, the dyadic finite-observation surface of \autoref{ch:concrete-instances-dyadicapproximation-namecert}, the interval enclosure ledger of \autoref{ch:concrete-instances-intervalarithmetic-namecert}, the dyadic request layer of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream window of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives L10 Real and Completion consumers one finite route from a real-name query to an outward-rounded dyadic enclosure, while keeping host trichotomy, quotient real equality, selected representatives, countable choice, and ambient Real completeness outside the carrier.
+
+\begin{definition}[Rounded dyadic locator carrier]
+\label{def:rounded-dyadic-locator-carrier}
+A $\RoundedDyadicLocatorUp$ carrier is a finite $\BHist$ packet
+$$
+W=(X,Q,S,R,D,L,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the terminal $\RealUp$ seal whose finite observation is being located.
+\item $Q$ is the $\DyadicRatCoreUp$ request row, naming the queried dyadic center, scale, and finite precision budget.
+\item $S$ is the $\StreamNameUp$ observation window opened from $X$ for the request $Q$.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the displayed stream window $S$.
+\item $D$ is the dyadic tolerance ledger, recording the radius, endpoint scale, and outward-rounding budget consumed by the locator.
+\item $L$ is the outward-rounded lower locator row, exposing a dyadic lower endpoint certified by the route $Q,S,R,D$.
+\item $U$ is the outward-rounded upper locator row, exposing a dyadic upper endpoint certified by the same route $Q,S,R,D$.
+\item $H$ records componentwise $\hsame$ transport for the Real seal, dyadic request, stream window, regular readback, tolerance ledger, lower and upper locator rows, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a downstream Real, RealLocator, DyadicApproximation, or IntervalArithmetic request through $Q,S,R,D,L,U,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RoundedDyadicLocatorUp$, $\RealLocatorUp$, $\DyadicApproximationUp$, $\IntervalArithmeticUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RoundedDyadicLocatorUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite outward-rounded dyadic locator packet. It has no coordinate for host trichotomy, quotient real equality, selected representatives, countable-choice schedules, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Rounded dyadic locator NameCert obligations]
+\label{thm:rounded-dyadic-locator-namecert-obligations}
+For every accepted $\RoundedDyadicLocatorUp$ carrier
+$$
+W=(X,Q,S,R,D,L,U,H,C,P,N),
+$$
+the local $\NameCert_{\RoundedDyadicLocatorUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the Real seal, dyadic request, stream window, regular readback, dyadic tolerance ledger, outward-rounded lower and upper locator rows, transport, replay, provenance, and local naming data;
+\item rounded-bound exactness, requiring $L$ and $U$ to be read as outward-rounded dyadic endpoints justified by the displayed tolerance ledger $D$ and not by a host real-order comparison;
+\item window-readback compatibility, requiring the stream window $S$ and regular rational readback $R$ to be the only observation route from $X$ to the dyadic endpoints $L$ and $U$;
+\item classifier transport, requiring $H$ and $C$ to preserve the same request, window, readback, tolerance ledger, endpoint rows, provenance, and local name componentwise;
+\item Real-seal non-escape, requiring every downstream locator, approximation, or interval consumer to inspect $X$ only through $Q,S,R,D,L,U,H,C,P,N$.
+\end{enumerate}
+No rounded dyadic locator obligation is stored outside these rows, and no obligation may be replaced by host trichotomy, quotient equality of real names, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $W=(X,Q,S,R,D,L,U,H,C,P,N)$. The carrier exposes exactly one Real seal, one dyadic request, one stream observation window, one regular rational readback, one dyadic tolerance ledger, two outward-rounded endpoint rows, and the structural rows.
+
+Rounded-bound exactness is the route through $D,L,U$. The lower endpoint $L$ and upper endpoint $U$ are not host-order facts about a completed real; they are displayed dyadic rows whose rounding direction and tolerance budget are recorded by $D$.
+
+Window-readback compatibility is forced by the position of $S$ and $R$ in the carrier. A finite observation of $X$ must first open the stream window $S$ and then pass through the regular rational readback $R$ before the dyadic tolerance ledger and endpoint rows are available.
+
+Transport and replay stability are the roles of $H$ and $C$. They preserve the same request, window, readback, tolerance, endpoint, provenance, and naming coordinates under componentwise $\hsame$ transport and displayed continuation replay.
+
+Finally, $P$ and $N$ source and name the same finite packet. Since the carrier inventory contains no host trichotomy coordinate, quotient equality field, representative selector, countable-choice schedule, or ambient completeness witness, none of those objects can appear as a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Rounded dyadic locator window handoff]
+\label{thm:rounded-dyadic-locator-window-handoff}
+Every downstream $\RealUp$, $\RealLocatorUp$, $\DyadicApproximationUp$, or $\IntervalArithmeticUp$ consumer of an accepted $\RoundedDyadicLocatorUp$ carrier reads through the displayed handoff route
+$$
+Q\longmapsto S\longmapsto R\longmapsto D\longmapsto L,U\longmapsto H,C,P,N .
+$$
+The consumer receives only the outward-rounded dyadic lower and upper locator rows certified by that finite route. It cannot replace the route by host trichotomy, quotient equality of real names, a selected representative, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Let a downstream Real, locator, approximation, or interval consumer inspect an accepted packet $W$. The request row $Q$ fixes the dyadic center, scale, and finite precision budget before any observation of the real name is read.
+
+The only observation path from the Real seal is $Q\longmapsto S\longmapsto R$. The stream window $S$ exposes the finite part of the name, and the regular rational readback $R$ supplies the rational data from which the tolerance ledger may be inspected.
+
+The ledger $D$ then records the outward-rounding budget, and the endpoint rows $L$ and $U$ expose the lower and upper dyadic locator bounds. Thus the consumer reaches locator or interval data only after the finite window, readback, and tolerance rows have all been displayed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same handoff route. Because no other analytic coordinate occurs in the carrier, the downstream consumer has no access to host trichotomy, quotient real equality, selected representatives, countable choice, or ambient Real completeness.
+\end{proof}
+
+\closureat{RoundedDyadicLocatorUp}{seedStr}
+
+\begin{closurestatus}{\RoundedDyadicLocatorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rounded-dyadic-locator-carrier}, \autoref{thm:rounded-dyadic-locator-namecert-obligations}, and \autoref{thm:rounded-dyadic-locator-window-handoff} seed the finite outward-rounded dyadic locator route from $\RealUp$ names to locator, approximation, and interval consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or a public bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, rounded-bound exactness, window-readback compatibility, classifier transport, Real-seal non-escape, and window handoff for BEDC.Derived.RoundedDyadicLocatorUp.}
+  \constructivestory{A $\RoundedDyadicLocatorUp$ packet is generated from a $\RealUp$ seal, a $\DyadicRatCoreUp$ request, a $\StreamNameUp$ observation window, a $\RegSeqRatUp$ readback row, a dyadic tolerance ledger, outward-rounded lower and upper locator rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
