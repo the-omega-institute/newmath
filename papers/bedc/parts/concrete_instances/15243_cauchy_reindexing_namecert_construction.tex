@@ -66,10 +66,28 @@ Replay the continuation row $C$. The request first reads the target schedule $I$
 After those rows have been consumed, the dyadic tolerance row $D$ and regularity row $R$ provide the finite readback accepted by the Real seal. The transport, provenance, and local naming rows record the same dependency order, so the packet exports no direct route through quotient streams, selected limits, countable choice, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyReindexing composition stability]
+\label{thm:cauchy-reindexing-composition-stability}
+Let $K_{01}$ be an accepted $\CauchyReindexingUp$ packet from a source schedule $S_0$ to a middle schedule $S_1$, and let $K_{12}$ be an accepted $\CauchyReindexingUp$ packet from $S_1$ to a target schedule $S_2$. Suppose that the two packets display the same middle $\StreamNameUp$ schedule row and that their middle-facing monotone rows, cofinal rows, dyadic tolerance rows, $\RegSeqRatUp$ rows, $\RealUp$ seal rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance rows, and local $\NameCert_{\CauchyReindexingUp}$ rows agree on that shared schedule. Then the finite route obtained by composing the displayed unary index maps from $S_0$ through $S_1$ to $S_2$ is again an accepted $\CauchyReindexingUp$ surface, with carrier rows in the same order
+$$
+S,I,M,Q,D,R,A,H,C,P,N .
+$$
+Its downstream $\RegSeqRatUp$ and $\RealUp$ consumers factor through the composed monotone--cofinal route and acquire no quotient stream, selected limit, countable-choice selector, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The target schedule row of $K_{01}$ and the source schedule row of $K_{12}$ are the same displayed middle schedule, so their endpoint data can be read as one finite route from $S_0$ to $S_2$.
+
+Compose the two unary index routes at the level of the displayed monotone and cofinal rows. Monotonicity is preserved because a target-window request first moves monotonically along the second route and then monotonically along the first route; cofinality is preserved because any source tolerance requested at $S_0$ is reached by the first route and then by the second route through the shared middle schedule.
+
+The shared dyadic tolerance rows and $\RegSeqRatUp$ readback rows are reused along the composed route. Componentwise $\hsame$ transport identifies the common middle schedule and its tolerance, regularity, seal, continuation, package, and local naming rows, while $\Cont$ concatenates the two finite replays without adding a new coordinate.
+
+Finally apply \autoref{thm:cauchy-reindexing-regseqrat-real-handoff} to the repacked route. The Real-facing consumer still reaches the seal only after reading the source schedule, target schedule, composed monotone row, composed cofinal row, dyadic tolerance row, and regularity row, so the composed surface has the same carrier order and the same ledger refusals as an accepted $\CauchyReindexingUp$ packet.
+\end{proof}
+
 \begin{closurestatus}{\CauchyReindexingUp}
   \constructivestory{A $\CauchyReindexingUp$ packet is generated from source and target StreamName schedules, monotone and cofinal unary reindexing rows, a DyadicRatCore tolerance row, a RegSeqRat regularity row, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-reindexing-carrier}, \autoref{thm:cauchy-reindexing-namecert-obligations}, and \autoref{thm:cauchy-reindexing-regseqrat-real-handoff} seed the finite certified reindexing route from regular Cauchy names to the downstream $\RealUp$ seal.}
+  \scopeclosed{\autoref{def:cauchy-reindexing-carrier}, \autoref{thm:cauchy-reindexing-namecert-obligations}, \autoref{thm:cauchy-reindexing-regseqrat-real-handoff}, and \autoref{thm:cauchy-reindexing-composition-stability} seed the finite certified reindexing route from regular Cauchy names to the downstream $\RealUp$ seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient streams, selected limits, countable-choice selectors, host real equality, ambient $\RealUp$ completeness, or Lean verification.}
