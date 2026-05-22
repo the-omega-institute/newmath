@@ -243,7 +243,7 @@ theorem RegularCauchyNegationCarrier_transport [AskSetup] [PackageSetup]
       unary_transport transportUnary (hsame_refl transportRow),
       unary_transport routeUnary (hsame_refl route),
       unary_transport provenanceUnary (hsame_refl provenance),
-      unary_transport nameUnary (hsame_refl name), sourceWindowDyadic, dyadicClassifierFlipped,
-      flippedSealTransport, transportRouteProvenance, sealProvenanceName, provenancePkg, namePkg⟩
+       unary_transport nameUnary (hsame_refl name), sourceWindowDyadic, dyadicClassifierFlipped,
+       flippedSealTransport, transportRouteProvenance, sealProvenanceName, provenancePkg, namePkg⟩
 
 end BEDC.Derived.RegularCauchyNegationUp
