@@ -96,4 +96,29 @@ theorem KleeneTreeNameCert_obligations [AskSetup] [PackageSetup]
     ⟨cert, treeUnary, streamUnary, obstructionUnary, streamPrefix, prefixNode,
       nodeObstruction, provenancePkg, obstructionPkg⟩
 
+theorem KleeneTree_streamname_path_boundary [AskSetup] [PackageSetup]
+    {tree boolLedger listSpine stream obstruction transport traversal provenance localName
+      prefixRead nodeRead obstructionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KleeneTreeCarrier tree boolLedger listSpine stream obstruction transport traversal provenance
+        localName bundle pkg →
+      Cont stream listSpine prefixRead →
+        Cont prefixRead boolLedger nodeRead →
+          Cont nodeRead obstruction obstructionRead →
+            PkgSig bundle provenance pkg →
+              UnaryHistory stream ∧ UnaryHistory prefixRead ∧ UnaryHistory nodeRead ∧
+                UnaryHistory obstructionRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier streamPrefix prefixNode nodeObstruction provenancePkg
+  obtain ⟨_treeUnary, boolUnary, listUnary, streamUnary, obstructionUnary, _transportUnary,
+    _traversalUnary, _provenanceUnary, _localNameUnary, _carrierProvenancePkg,
+      _localNamePkg⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed streamUnary listUnary streamPrefix
+  have nodeUnary : UnaryHistory nodeRead :=
+    unary_cont_closed prefixUnary boolUnary prefixNode
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed nodeUnary obstructionUnary nodeObstruction
+  exact ⟨streamUnary, prefixUnary, nodeUnary, obstructionReadUnary, provenancePkg⟩
+
 end BEDC.Derived.KleeneTreeUp
