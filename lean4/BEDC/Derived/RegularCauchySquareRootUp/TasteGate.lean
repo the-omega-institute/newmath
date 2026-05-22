@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegularCauchySquareRootUp
+namespace BEDC.Derived.RegularCauchySquareRootUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -27,88 +27,19 @@ def regularCauchySquareRootDecodeBHist : RawEvent → BHist
 
 private theorem regularCauchySquareRoot_decode_encode_bhist :
     ∀ h : BHist,
-      regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEncodeBHist h) = h := by
+      regularCauchySquareRootDecodeBHist (regularCauchySquareRootEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
-def regularCauchySquareRootFields :
-    RegularCauchySquareRootUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchySquareRootUp.mk R N W D B T M S E H C P A =>
-      [R, N, W, D, B, T, M, S, E, H, C, P, A]
-
-def regularCauchySquareRootToEventFlow :
-    RegularCauchySquareRootUp → EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (regularCauchySquareRootFields x).map
-        regularCauchySquareRootEncodeBHist
-
-private def regularCauchySquareRootEventAtDefault :
-    Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      regularCauchySquareRootEventAtDefault index rest
-
-def regularCauchySquareRootFromEventFlow
-    (ef : EventFlow) : Option RegularCauchySquareRootUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RegularCauchySquareRootUp.mk
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 0 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 1 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 2 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 3 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 4 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 5 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 6 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 7 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 8 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 9 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 10 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 11 ef))
-      (regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEventAtDefault 12 ef)))
-
-private theorem regularCauchySquareRoot_mk_congr
-    {R R' N N' W W' D D' B B' T T' M M' S S' E E' H H' C C' P P'
-      A A' : BHist}
-    (hR : R' = R)
-    (hN : N' = N)
-    (hW : W' = W)
-    (hD : D' = D)
-    (hB : B' = B)
-    (hT : T' = T)
-    (hM : M' = M)
-    (hS : S' = S)
-    (hE : E' = E)
-    (hH : H' = H)
-    (hC : C' = C)
-    (hP : P' = P)
-    (hA : A' = A) :
+private theorem RegularCauchySquareRootTasteGate_single_carrier_alignment_mk_congr
+    {R R' N N' W W' D D' B B' T T' M M' S S' E E' H H' C C' P P' A A' : BHist}
+    (hR : R' = R) (hN : N' = N) (hW : W' = W) (hD : D' = D) (hB : B' = B)
+    (hT : T' = T) (hM : M' = M) (hS : S' = S) (hE : E' = E) (hH : H' = H)
+    (hC : C' = C) (hP : P' = P) (hA : A' = A) :
     RegularCauchySquareRootUp.mk R' N' W' D' B' T' M' S' E' H' C' P' A' =
       RegularCauchySquareRootUp.mk R N W D B T M S E H C P A := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -127,17 +58,86 @@ private theorem regularCauchySquareRoot_mk_congr
   cases hA
   rfl
 
+def regularCauchySquareRootFields : RegularCauchySquareRootUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchySquareRootUp.mk R N W D B T M S E H C P A =>
+      [R, N, W, D, B, T, M, S, E, H, C, P, A]
+
+def regularCauchySquareRootToEventFlow : RegularCauchySquareRootUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | x => (regularCauchySquareRootFields x).map regularCauchySquareRootEncodeBHist
+
+def regularCauchySquareRootFromEventFlow : EventFlow → Option RegularCauchySquareRootUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | R :: rest0 =>
+      match rest0 with
+      | [] => none
+      | N :: rest1 =>
+          match rest1 with
+          | [] => none
+          | W :: rest2 =>
+              match rest2 with
+              | [] => none
+              | D :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | B :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | T :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | M :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | S :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | E :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | H :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | C :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | P :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | A :: rest12 =>
+                                                      match rest12 with
+                                                      | [] =>
+                                                          some
+                                                            (RegularCauchySquareRootUp.mk
+                                                              (regularCauchySquareRootDecodeBHist R)
+                                                              (regularCauchySquareRootDecodeBHist N)
+                                                              (regularCauchySquareRootDecodeBHist W)
+                                                              (regularCauchySquareRootDecodeBHist D)
+                                                              (regularCauchySquareRootDecodeBHist B)
+                                                              (regularCauchySquareRootDecodeBHist T)
+                                                              (regularCauchySquareRootDecodeBHist M)
+                                                              (regularCauchySquareRootDecodeBHist S)
+                                                              (regularCauchySquareRootDecodeBHist E)
+                                                              (regularCauchySquareRootDecodeBHist H)
+                                                              (regularCauchySquareRootDecodeBHist C)
+                                                              (regularCauchySquareRootDecodeBHist P)
+                                                              (regularCauchySquareRootDecodeBHist
+                                                                A))
+                                                      | _ :: _ => none
+
 private theorem regularCauchySquareRoot_round_trip :
     ∀ x : RegularCauchySquareRootUp,
-      regularCauchySquareRootFromEventFlow
-        (regularCauchySquareRootToEventFlow x) = some x := by
+      regularCauchySquareRootFromEventFlow (regularCauchySquareRootToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk R N W D B T M S E H C P A =>
       exact
         congrArg some
-          (regularCauchySquareRoot_mk_congr
+          (RegularCauchySquareRootTasteGate_single_carrier_alignment_mk_congr
             (regularCauchySquareRoot_decode_encode_bhist R)
             (regularCauchySquareRoot_decode_encode_bhist N)
             (regularCauchySquareRoot_decode_encode_bhist W)
@@ -152,36 +152,30 @@ private theorem regularCauchySquareRoot_round_trip :
             (regularCauchySquareRoot_decode_encode_bhist P)
             (regularCauchySquareRoot_decode_encode_bhist A))
 
-private theorem regularCauchySquareRootToEventFlow_injective
-    {x y : RegularCauchySquareRootUp} :
-    regularCauchySquareRootToEventFlow x =
-      regularCauchySquareRootToEventFlow y → x = y := by
+private theorem regularCauchySquareRootToEventFlow_injective {x y : RegularCauchySquareRootUp} :
+    regularCauchySquareRootToEventFlow x = regularCauchySquareRootToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      regularCauchySquareRootFromEventFlow
-          (regularCauchySquareRootToEventFlow x) =
-        regularCauchySquareRootFromEventFlow
-          (regularCauchySquareRootToEventFlow y) :=
+      regularCauchySquareRootFromEventFlow (regularCauchySquareRootToEventFlow x) =
+        regularCauchySquareRootFromEventFlow (regularCauchySquareRootToEventFlow y) :=
     congrArg regularCauchySquareRootFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (regularCauchySquareRoot_round_trip x).symm
       (Eq.trans hread (regularCauchySquareRoot_round_trip y)))
 
-instance regularCauchySquareRootBHistCarrier :
+instance RegularCauchySquareRootTasteGate_single_carrier_alignment_BHistCarrier :
     BHistCarrier RegularCauchySquareRootUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := regularCauchySquareRootToEventFlow
   fromEventFlow := regularCauchySquareRootFromEventFlow
 
-instance regularCauchySquareRootChapterTasteGate :
+instance RegularCauchySquareRootTasteGate_single_carrier_alignment_ChapterTasteGate :
     ChapterTasteGate RegularCauchySquareRootUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      regularCauchySquareRootFromEventFlow
-        (regularCauchySquareRootToEventFlow x) = some x
+    change regularCauchySquareRootFromEventFlow (regularCauchySquareRootToEventFlow x) = some x
     exact regularCauchySquareRoot_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -189,14 +183,11 @@ instance regularCauchySquareRootChapterTasteGate :
 
 theorem RegularCauchySquareRootTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      regularCauchySquareRootDecodeBHist
-        (regularCauchySquareRootEncodeBHist h) = h) ∧
+      regularCauchySquareRootDecodeBHist (regularCauchySquareRootEncodeBHist h) = h) ∧
       (∀ x : RegularCauchySquareRootUp,
-        regularCauchySquareRootFromEventFlow
-          (regularCauchySquareRootToEventFlow x) = some x) ∧
+        regularCauchySquareRootFromEventFlow (regularCauchySquareRootToEventFlow x) = some x) ∧
         (∀ x y : RegularCauchySquareRootUp,
-          regularCauchySquareRootToEventFlow x =
-            regularCauchySquareRootToEventFlow y → x = y) ∧
+          regularCauchySquareRootToEventFlow x = regularCauchySquareRootToEventFlow y -> x = y) ∧
           regularCauchySquareRootEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
@@ -208,4 +199,4 @@ theorem RegularCauchySquareRootTasteGate_single_carrier_alignment :
         exact regularCauchySquareRootToEventFlow_injective heq
       · rfl
 
-end BEDC.Derived.RegularCauchySquareRootUp
+end BEDC.Derived.RegularCauchySquareRootUp.TasteGate
