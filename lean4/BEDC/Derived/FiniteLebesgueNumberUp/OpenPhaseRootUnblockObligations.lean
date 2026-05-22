@@ -203,4 +203,37 @@ theorem FiniteLebesgueNumberFourFaceRadiusExitDeterminacy [AskSetup] [PackageSet
     ⟨sameEndpoint, sameConsumer, sameExit, endpointLeftUnary, endpointRightUnary,
       consumerLeftUnary, consumerRightUnary, exitLeftUnary, exitRightUnary⟩
 
+theorem FiniteLebesgueNumberOpenPhasePositiveRadiusStability [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow rootRead phaseRead radius'
+      mesh' stabilizedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont route nameRow rootRead ->
+        Cont rootRead radius phaseRead ->
+          hsame radius radius' ->
+            hsame mesh mesh' ->
+              Cont radius' mesh' stabilizedRead ->
+                UnaryHistory rootRead ∧ UnaryHistory phaseRead ∧
+                  UnaryHistory stabilizedRead ∧ Cont rootRead radius phaseRead ∧
+                    Cont radius' mesh' stabilizedRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier routeNameRoot rootRadiusPhase sameRadius sameMesh stabilizedCont
+  obtain ⟨_coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameRoot
+  have phaseUnary : UnaryHistory phaseRead :=
+    unary_cont_closed rootUnary radiusUnary rootRadiusPhase
+  have radiusPrimeUnary : UnaryHistory radius' :=
+    unary_transport radiusUnary sameRadius
+  have meshPrimeUnary : UnaryHistory mesh' :=
+    unary_transport meshUnary sameMesh
+  have stabilizedUnary : UnaryHistory stabilizedRead :=
+    unary_cont_closed radiusPrimeUnary meshPrimeUnary stabilizedCont
+  exact
+    ⟨rootUnary, phaseUnary, stabilizedUnary, rootRadiusPhase, stabilizedCont,
+      provenancePkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
