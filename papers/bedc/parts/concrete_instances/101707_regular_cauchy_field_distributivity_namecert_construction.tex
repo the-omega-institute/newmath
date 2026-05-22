@@ -1,0 +1,106 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFieldDistributivityUp$}
+\label{ch:concrete-instances-regular-cauchy-field-distributivity-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyFieldDistributivityUp$ packet records the finite regular-Cauchy boundary for the distributive-law expression $x\cdot(y+z)$ and $x\cdot y+x\cdot z$ before any completed real consumer reads a field law. It sits over the two-source addition surface of \autoref{ch:concrete-instances-regularcauchysum-namecert}, the two-source product surface of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, and the field-facing operation package of \autoref{ch:concrete-instances-cauchy-real-field-namecert}. The packet gives Real and Completion routes a finite BEDC-internal distributivity obligation; it is not host real equality, quotient Cauchy classes, selected representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+
+\begin{definition}[Regular Cauchy field distributivity carrier]
+\label{def:regular-cauchy-field-distributivity-carrier}
+A $\RegularCauchyFieldDistributivityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,Y,Z,W,D_X,D_Y,D_Z,S_L,M_L,M_Y,M_Z,S_R,E_L,E_R,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X,Y,Z$ are the three $\RegSeqRatUp$ source rows whose regular rational observations are read as the variables $x,y,z$.
+\item $W$ is the synchronized $\StreamNameUp$ window row. It records the finite common request at which the three source rows are inspected, and it provides the shared window discipline for both distributive branches.
+\item $D_X,D_Y,D_Z$ are the $\DyadicRatCoreUp$ endpoint rows read from $X,Y,Z$ through $W$.
+\item $S_L$ is the $\RegularCauchySumUp$ comparison boundary for the displayed source sum $Y+Z$ used by the left branch.
+\item $M_L$ is the first $\RegularCauchyProductUp$ branch, reading $X$ and the readback of $S_L$ as the product route for $x\cdot(y+z)$.
+\item $M_Y$ and $M_Z$ are the two $\RegularCauchyProductUp$ branches for $x\cdot y$ and $x\cdot z$, each consuming the same $X,W,D_X$ row with the corresponding $Y$ or $Z$ row.
+\item $S_R$ is the $\RegularCauchySumUp$ comparison boundary that adds the two product readbacks from $M_Y$ and $M_Z$.
+\item $E_L$ and $E_R$ are finite error-budget ledgers. They record the endpoint addition budget for $Y+Z$, the product budgets for $M_L,M_Y,M_Z$, the final sum budget for $S_R$, and the tolerance comparison between the two readback branches.
+\item $R$ is the terminal $\RegSeqRatUp$ comparison readback row, displayed only after both branches have exposed their regular readbacks and the ledgers have matched the requested tolerance.
+\item $H$ records componentwise $\hsame$ transport for the three source rows, synchronized windows, dyadic endpoint rows, the two product branches on the right, the left product branch, the two sum boundaries, ledger rows, readback row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a distributivity request through $X,Y,Z,W,D_X,D_Y,D_Z,S_L,M_L,M_Y,M_Z,S_R,E_L,E_R,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyFieldDistributivityUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\FiniteErrorBudgetUp$, $\CauchyRealFieldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyFieldDistributivityUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite distributivity packet. It has no coordinate for host real equality, completed-real multiplication, quotient Cauchy classes, selected representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy field distributivity NameCert obligations]
+\label{thm:regular-cauchy-field-distributivity-obligations}
+For every accepted $\RegularCauchyFieldDistributivityUp$ carrier
+$$
+D=(X,Y,Z,W,D_X,D_Y,D_Z,S_L,M_L,M_Y,M_Z,S_R,E_L,E_R,R,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyFieldDistributivityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the three $\RegSeqRatUp$ sources, synchronized $\StreamNameUp$ window row, dyadic endpoint rows, one left $\RegularCauchySumUp$ boundary, three $\RegularCauchyProductUp$ branches, one right $\RegularCauchySumUp$ comparison boundary, finite ledgers, readback, transport, replay, provenance, and local naming;
+\item window synchronization, requiring all four operation rows $S_L,M_L,M_Y,M_Z$ and the final comparison row $S_R$ to read their source endpoints through the same displayed finite window discipline $W$;
+\item left-branch exactness, requiring $S_L$ to expose $Y+Z$ before $M_L$ may expose the product branch $x\cdot(y+z)$;
+\item right-branch exactness, requiring $M_Y$ and $M_Z$ to expose the two products $x\cdot y$ and $x\cdot z$ before $S_R$ may expose the sum branch $x\cdot y+x\cdot z$;
+\item ledger comparison, requiring $E_L$ and $E_R$ to account for every addition, product, magnitude, slack, and tolerance-comparison entry used to place the two branch readbacks inside the same requested regular-Cauchy boundary;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the source rows, windows, endpoint rows, operation rows, ledgers, readback, provenance, and local naming without adding host real equality or completed-real field data;
+\item field consumer confinement, requiring any $\CauchyRealFieldUp$, $\RealUp$, or Completion consumer to read the distributivity obligation only through this finite packet.
+\end{enumerate}
+No distributivity obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-field-distributivity-carrier}. The source, window, dyadic endpoint, operation, ledger, readback, and structural rows are explicit coordinates of the packet.
+
+The branch obligations are inherited from the sibling operation surfaces. Use \autoref{ch:concrete-instances-regularcauchysum-namecert} for $S_L$ and $S_R$, and use \autoref{ch:concrete-instances-regularcauchyproduct-namecert} for $M_L,M_Y,M_Z$. Each operation is read only after its source windows and dyadic endpoint rows have been displayed.
+
+The ledgers compare the two routes at the regular-Cauchy boundary. They record the finite endpoint arithmetic, product magnitude bounds, slack conversions, and output tolerances needed for the common request. The structural rows then transport and replay the same displayed packet. Since no carrier coordinate stores host real equality, quotient classes, selected representatives, countable choice, trichotomy, ambient completeness, Lean verification, or bridge data, none can become a local obligation.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy field distributivity window handoff]
+\label{thm:regular-cauchy-field-distributivity-window-handoff}
+Every accepted $\RegularCauchyFieldDistributivityUp$ carrier routes a distributivity request through the finite handoff
+$$
+X,Y,Z \longmapsto W \longmapsto D_X,D_Y,D_Z \longmapsto S_L,M_L,M_Y,M_Z,S_R \longmapsto E_L,E_R \longmapsto R,H,C,P,N .
+$$
+The left branch reads $Y+Z$ and then multiplies by $X$; the right branch multiplies $X$ by $Y$ and $Z$ separately and then reads the sum comparison boundary. Both branches share the same source windows, dyadic endpoint rows, finite ledgers, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with the three regular sources. The single window coordinate $W$ supplies the synchronized observation request, so every operation branch reads from the same finite source-window boundary.
+
+The left branch first consumes $S_L$ and then $M_L$. The right branch consumes $M_Y$ and $M_Z$ and then $S_R$. These are exactly the operation coordinates listed in the carrier, and they are the only available addition and product routes.
+
+Finally read the two ledger rows and the structural rows. The ledgers account for the visible tolerance comparison between branch readbacks, while $H,C,P,N$ preserve and name the displayed packet. No alternate completed-real multiplication or equality route is exposed.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy field distributivity Real seal boundary]
+\label{thm:regular-cauchy-field-distributivity-real-seal-boundary}
+Every $\CauchyRealFieldUp$, $\RealUp$, or Completion consumer of an accepted $\RegularCauchyFieldDistributivityUp$ packet reaches a field-law read only after the three $\RegSeqRatUp$ sources, synchronized $\StreamNameUp$ windows, dyadic endpoint rows, both $\RegularCauchyProductUp$ branches on the right, the left $\RegularCauchyProductUp$ branch, the $\RegularCauchySumUp$ comparison boundaries, finite error-budget ledgers, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows have been displayed. The consumer receives a finite distributivity obligation and receives no host real equality, quotient stream equality, selected representative, countable-choice selector, trichotomy witness, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Project the consumer read through \autoref{thm:regular-cauchy-field-distributivity-window-handoff}. The consumer cannot reach $R$ before the two branches and the ledger comparison have been displayed.
+
+The field-facing position is supplied by \autoref{ch:concrete-instances-cauchy-real-field-namecert}. That chapter collects regular-Cauchy operation rows for downstream Real and Completion consumers; the present packet adds only the finite distributivity boundary between those operation rows.
+
+The excluded data have no source coordinate. Transport, replay, provenance, and local naming preserve the finite packet, and the packet has no row for host equality, quotient stream equality, selected representatives, countable choice, trichotomy, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy field distributivity NameCert surface]
+\label{thm:regular-cauchy-field-distributivity-namecert-surface}
+The $\RegularCauchyFieldDistributivityUp$ NameCert surface is exactly the finite packet of \autoref{def:regular-cauchy-field-distributivity-carrier} together with the obligation rows of \autoref{thm:regular-cauchy-field-distributivity-obligations}, the window handoff of \autoref{thm:regular-cauchy-field-distributivity-window-handoff}, and the Real seal boundary of \autoref{thm:regular-cauchy-field-distributivity-real-seal-boundary}. It is therefore a paper-side theorem target for a future Lean declaration under $BEDC.Derived.RegularCauchyFieldDistributivityUp$, not a current Lean marker.
+\end{theorem}
+\begin{proof}
+The carrier supplies all data-bearing rows. The obligation theorem identifies the local NameCert clauses, the handoff theorem fixes the finite read order, and the Real seal theorem states the downstream consumer boundary.
+
+These components exhaust the packet because every row named by the local $\NameCert$ is already one of $X,Y,Z,W,D_X,D_Y,D_Z,S_L,M_L,M_Y,M_Z,S_R,E_L,E_R,R,H,C,P,N$. The statement therefore records a finite BEDC distributivity surface without asserting host real equality or adding a Lean-side marker.
+\end{proof}
+
+\closureat{RegularCauchyFieldDistributivityUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFieldDistributivityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-field-distributivity-carrier}, \autoref{thm:regular-cauchy-field-distributivity-obligations}, \autoref{thm:regular-cauchy-field-distributivity-window-handoff}, \autoref{thm:regular-cauchy-field-distributivity-real-seal-boundary}, and \autoref{thm:regular-cauchy-field-distributivity-namecert-surface} seed the finite distributivity boundary over three $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, dyadic endpoint rows, $\RegularCauchyProductUp$ branches, $\RegularCauchySumUp$ comparison boundaries, finite error-budget ledgers, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, completed-real multiplication, quotient Cauchy classes, selected representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized window handoff, left-branch exactness, right-branch exactness, ledger comparison, transport, replay, provenance, local naming, and Real seal boundary for BEDC.Derived.RegularCauchyFieldDistributivityUp.}
+  \constructivestory{A $\RegularCauchyFieldDistributivityUp$ packet is generated from three $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, dyadic endpoint rows, one $\RegularCauchySumUp$ left comparison boundary, three $\RegularCauchyProductUp$ branches, one $\RegularCauchySumUp$ right comparison boundary, finite error-budget ledgers, a $\RegSeqRatUp$ comparison readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
