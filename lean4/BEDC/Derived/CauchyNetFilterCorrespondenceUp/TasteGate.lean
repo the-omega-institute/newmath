@@ -53,6 +53,12 @@ def cauchyNetFilterCorrespondenceToEventFlow :
         cauchyNetFilterCorrespondenceEncodeBHist P,
         cauchyNetFilterCorrespondenceEncodeBHist N]
 
+def cauchyNetFilterCorrespondenceFields :
+    CauchyNetFilterCorrespondenceUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | CauchyNetFilterCorrespondenceUp.mk K F U W R E J H C P N =>
+      [K, F, U, W, R, E, J, H, C, P, N]
+
 private def cauchyNetFilterCorrespondenceEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
@@ -151,6 +157,19 @@ private theorem CauchyNetFilterCorrespondenceTasteGate_toEventFlow_injective
     (Eq.trans (CauchyNetFilterCorrespondenceTasteGate_round_trip x).symm
       (Eq.trans hread (CauchyNetFilterCorrespondenceTasteGate_round_trip y)))
 
+private theorem CauchyNetFilterCorrespondenceTasteGate_fields_faithful :
+    ∀ x y : CauchyNetFilterCorrespondenceUp,
+      cauchyNetFilterCorrespondenceFields x =
+        cauchyNetFilterCorrespondenceFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk K1 F1 U1 W1 R1 E1 J1 H1 C1 P1 N1 =>
+      cases y with
+      | mk K2 F2 U2 W2 R2 E2 J2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance cauchyNetFilterCorrespondenceBHistCarrier :
     BHistCarrier CauchyNetFilterCorrespondenceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -164,6 +183,26 @@ instance cauchyNetFilterCorrespondenceChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (CauchyNetFilterCorrespondenceTasteGate_toEventFlow_injective heq)
+
+instance cauchyNetFilterCorrespondenceFieldFaithful :
+    FieldFaithful CauchyNetFilterCorrespondenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := cauchyNetFilterCorrespondenceFields
+  field_faithful := CauchyNetFilterCorrespondenceTasteGate_fields_faithful
+
+instance cauchyNetFilterCorrespondenceNontrivial :
+    Nontrivial CauchyNetFilterCorrespondenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨CauchyNetFilterCorrespondenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      CauchyNetFilterCorrespondenceUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 def taste_gate : ChapterTasteGate CauchyNetFilterCorrespondenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
