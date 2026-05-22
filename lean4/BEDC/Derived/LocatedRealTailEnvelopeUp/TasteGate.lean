@@ -128,6 +128,22 @@ private theorem locatedRealTailEnvelopeToEventFlow_injective {x y : LocatedRealT
     (Eq.trans (locatedRealTailEnvelope_round_trip x).symm
       (Eq.trans hread (locatedRealTailEnvelope_round_trip y)))
 
+def locatedRealTailEnvelopeFields : LocatedRealTailEnvelopeUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | LocatedRealTailEnvelopeUp.mk R W D A L S H C P N => [R, W, D, A, L, S, H, C, P, N]
+
+private theorem locatedRealTailEnvelope_field_faithful :
+    ∀ x y : LocatedRealTailEnvelopeUp,
+      locatedRealTailEnvelopeFields x = locatedRealTailEnvelopeFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk R1 W1 D1 A1 L1 S1 H1 C1 P1 N1 =>
+      cases y with
+      | mk R2 W2 D2 A2 L2 S2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance locatedRealTailEnvelopeBHistCarrier :
     BHistCarrier LocatedRealTailEnvelopeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -151,6 +167,24 @@ def taste_gate : ChapterTasteGate LocatedRealTailEnvelopeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   locatedRealTailEnvelopeChapterTasteGate
 
+instance locatedRealTailEnvelopeFieldFaithful :
+    FieldFaithful LocatedRealTailEnvelopeUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := locatedRealTailEnvelopeFields
+  field_faithful := locatedRealTailEnvelope_field_faithful
+
+instance locatedRealTailEnvelopeNontrivial :
+    Nontrivial LocatedRealTailEnvelopeUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨LocatedRealTailEnvelopeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      LocatedRealTailEnvelopeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem LocatedRealTailEnvelopeUpTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       locatedRealTailEnvelopeDecodeBHist (locatedRealTailEnvelopeEncodeBHist h) = h) ∧
@@ -164,6 +198,29 @@ theorem LocatedRealTailEnvelopeUpTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨locatedRealTailEnvelopeDecode_encode,
+      locatedRealTailEnvelope_round_trip,
+      fun _ _ heq => locatedRealTailEnvelopeToEventFlow_injective heq,
+      rfl⟩
+
+theorem LocatedRealTailEnvelopeTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate LocatedRealTailEnvelopeUp) ∧
+      Nonempty (FieldFaithful LocatedRealTailEnvelopeUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial LocatedRealTailEnvelopeUp) ∧
+      (∀ h : BHist,
+        locatedRealTailEnvelopeDecodeBHist (locatedRealTailEnvelopeEncodeBHist h) = h) ∧
+      (∀ x : LocatedRealTailEnvelopeUp,
+        locatedRealTailEnvelopeFromEventFlow
+          (locatedRealTailEnvelopeToEventFlow x) = some x) ∧
+      (∀ x y : LocatedRealTailEnvelopeUp,
+        locatedRealTailEnvelopeToEventFlow x =
+          locatedRealTailEnvelopeToEventFlow y → x = y) ∧
+      locatedRealTailEnvelopeEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨Nonempty.intro locatedRealTailEnvelopeChapterTasteGate,
+      Nonempty.intro locatedRealTailEnvelopeFieldFaithful,
+      Nonempty.intro locatedRealTailEnvelopeNontrivial,
+      locatedRealTailEnvelopeDecode_encode,
       locatedRealTailEnvelope_round_trip,
       fun _ _ heq => locatedRealTailEnvelopeToEventFlow_injective heq,
       rfl⟩
