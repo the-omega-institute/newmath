@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceAlgebraUp$}
+\label{ch:concrete-instances-cauchy-sequence-algebra-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchySequenceAlgebraUp$ packet records the finite algebra route by which two regular rational Cauchy source rows are added or multiplied before any $\RealUp$ consumer reads the sealed result. It sits between the regular source surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the addition route of \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}, the product route of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later Real algebra and CauchyRealField consumers one BEDC-native finite dependency for binary Cauchy algebra; it does not import quotient Cauchy classes, host real arithmetic, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchySequenceAlgebra carrier]
+\label{def:cauchy-sequence-algebra-carrier}
+A $\CauchySequenceAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,Y,W,D,A,M,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ source rows whose rational observations supply the left and right inputs.
+\item $W$ is the synchronized $\StreamNameUp$ window row. It records the finite window pairs in which the two source rows are inspected at the same requested tolerance scale.
+\item $D$ is the $\DyadicRatCoreUp$ operation-budget row. It stores the displayed endpoint arithmetic, slack conversions, tolerance comparisons, addition-budget entries, and product-budget entries used by the accepted binary operation request.
+\item $A$ is the $\RegularCauchyAdditionUp$ route row. It may be read only through $X,Y,W,D$ and records the summed endpoint row, finite addition ledger, and resulting regular readback.
+\item $M$ is the $\RegularCauchyProductUp$ route row. It may be read only through $X,Y,W,D$ and records the product endpoint row, product-error ledger, magnitude-budget entries, and resulting regular readback.
+\item $S$ is the terminal $\RealUp$ seal handoff. It is exposed only after the chosen operation row $A$ or $M$ has displayed its regular readback.
+\item $H$ records componentwise $\hsame$ transport for the two source rows, synchronized windows, dyadic budgets, operation rows, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a binary algebra request through $X,Y,W,D,A,M,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchySequenceAlgebraUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequenceAlgebraUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,W,D,A,M,S,H,C,P,N$. The carrier has no coordinate for quotient-stream equality, host real addition or multiplication, a selected limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchySequenceAlgebra NameCert obligations]
+\label{thm:cauchy-sequence-algebra-namecert-obligations}
+For every accepted $\CauchySequenceAlgebraUp$ carrier
+$$
+G=(X,Y,W,D,A,M,S,H,C,P,N),
+$$
+the local $\NameCert_{\CauchySequenceAlgebraUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the two $\RegSeqRatUp$ sources, synchronized $\StreamNameUp$ windows, $\DyadicRatCoreUp$ operation budgets, $\RegularCauchyAdditionUp$ route, $\RegularCauchyProductUp$ route, $\RealUp$ seal, transport, replay, provenance, and local naming;
+\item source-window synchronization, requiring every operation request to inspect $X$ and $Y$ through the same displayed window row $W$ before any endpoint arithmetic is read;
+\item dyadic-budget exactness, requiring every addition or product endpoint row to consume only the displayed tolerance, slack, comparison, and magnitude-budget entries of $D$;
+\item operation-route separation, requiring $A$ to carry only the addition route and $M$ to carry only the product route, while both routes consume the same source, window, and dyadic-budget rows;
+\item Real seal handoff, requiring $S$ to be exposed only after the selected operation route has produced its $\RegSeqRatUp$ readback;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the full route $X,Y,W,D,A,M,S,P,N$ without adding a quotient stream, host operation, selected limit, countable-choice row, trichotomy row, or ambient completeness row.
+\end{enumerate}
+No CauchySequenceAlgebra NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is row projection from \autoref{def:cauchy-sequence-algebra-carrier}. The displayed coordinates are exactly the two source rows $X,Y$, synchronized windows $W$, dyadic budget $D$, operation rows $A,M$, Real seal $S$, and structural rows $H,C,P,N$.
+
+Source-window synchronization is forced by the single window coordinate $W$. Both source reads must pass through that coordinate before the dyadic operation budget is available, so the carrier has no second window service for either input.
+
+Dyadic-budget exactness and operation-route separation are read from $D,A,M$. The row $D$ supplies the finite arithmetic budgets, the row $A$ consumes those budgets for addition, and the row $M$ consumes those budgets for product. Since $A$ and $M$ are distinct rows with the same upstream inputs, neither route can borrow an unrecorded host operation.
+
+Finally, the Real seal and structural rows close the finite route. The seal $S$ is downstream of the operation readback, while $H,C,P,N$ only transport, replay, package, and name the displayed rows. The excluded quotient, host arithmetic, selected-limit, choice, trichotomy, and ambient-completeness data have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[CauchySequenceAlgebra operation route]
+\label{thm:cauchy-sequence-algebra-operation-route}
+Every $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RealUp$, or $\CauchyRealFieldUp$ consumer of an accepted $\CauchySequenceAlgebraUp$ carrier reads binary algebra data only through the displayed route
+$$
+X,Y \longmapsto W \longmapsto D \longmapsto A,M \longmapsto S \longmapsto H,C,P,N .
+$$
+Consequently the consumer obtains the two regular source rows, synchronized stream windows, dyadic operation budgets, the addition route, the product route, the terminal Real seal handoff, transport, replay, provenance, and local naming, and obtains no quotient Cauchy class, host real operation, selected limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a downstream algebra request. By \autoref{def:cauchy-sequence-algebra-carrier}, the only source coordinates are $X$ and $Y$, and the only synchronized window coordinate available to both sources is $W$.
+
+The operation budget is then forced through $D$. Addition reads the route row $A$, product reads the route row $M$, and both rows are displayed downstream of the same sources, windows, and dyadic budgets named in \autoref{thm:cauchy-sequence-algebra-namecert-obligations}.
+
+The Real-facing handoff is last. A $\RealUp$ or $\CauchyRealFieldUp$ consumer can read the seal $S$ only after an operation route has produced its regular readback, and the rows $H,C,P,N$ preserve that same finite route. No coordinate remains from which a quotient Cauchy class, host operation, selected limit, countable choice, trichotomy, or ambient completeness principle could be exported.
+\end{proof}
+
+\begin{theorem}[CauchySequenceAlgebra route non-escape]
+\label{thm:cauchy-sequence-algebra-route-nonescape}
+Let $G=(X,Y,W,D,A,M,S,H,C,P,N)$ be an accepted $\CauchySequenceAlgebraUp$ carrier. Any algebraic fact exported from $G$ is a rowwise consequence of the displayed regular source rows, synchronized windows, dyadic operation budgets, operation routes, Real seal, transport, replay, provenance, and local naming rows. It is not a quotient Cauchy class, host real addition, host real multiplication, selected limit, countable-choice datum, trichotomy datum, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The data-bearing coordinates are exactly $X,Y,W,D,A,M,S$, and the structural coordinates are exactly $H,C,P,N$.
+
+An exported addition fact must use $A$ after the source, window, and dyadic-budget rows have been displayed. An exported product fact must use $M$ after the same upstream rows have been displayed. A Real-facing algebra fact must then pass through the seal row $S$.
+
+The structural rows preserve only that route. Componentwise $\hsame$ transport and displayed $\Cont$ replay cannot create a host operation or a quotient relation, while provenance and local naming record only the finite packet. Thus every exported algebraic fact is confined to the listed rows, and each excluded principle has no entry point.
+\end{proof}
+
+\closureat{CauchySequenceAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceAlgebraUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-algebra-carrier}, \autoref{thm:cauchy-sequence-algebra-namecert-obligations}, \autoref{thm:cauchy-sequence-algebra-operation-route}, and \autoref{thm:cauchy-sequence-algebra-route-nonescape} seed the finite binary algebra route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy classes, host real operations, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, source-window synchronization, dyadic-budget exactness, operation-route separation, Real seal handoff, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.CauchySequenceAlgebraUp.}
+  \constructivestory{A $\CauchySequenceAlgebraUp$ packet is generated from two $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, one $\DyadicRatCoreUp$ operation-budget ledger, $\RegularCauchyAdditionUp$ and $\RegularCauchyProductUp$ route rows, a $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
