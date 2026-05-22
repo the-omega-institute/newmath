@@ -1,0 +1,65 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.CompletionEmbeddingUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def CompletionEmbeddingCarrier [AskSetup] [PackageSetup]
+    (sourceMetric completionTarget denseImage isometry regularCauchy hausdorffBoundary
+      realSeal transport replay provenance localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory sourceMetric ∧ UnaryHistory completionTarget ∧ UnaryHistory denseImage ∧
+    UnaryHistory isometry ∧ UnaryHistory regularCauchy ∧ UnaryHistory hausdorffBoundary ∧
+      UnaryHistory realSeal ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+        UnaryHistory provenance ∧ UnaryHistory localCert ∧
+          Cont sourceMetric regularCauchy denseImage ∧
+            Cont denseImage isometry realSeal ∧ PkgSig bundle provenance pkg ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+                (fun row : BHist => UnaryHistory row ∧ hsame row localCert)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
+                (fun row row' : BHist => hsame row row')
+
+theorem CompletionEmbeddingCarrier_dense_isometric_handoff [AskSetup] [PackageSetup]
+    {sourceMetric completionTarget denseImage isometry regularCauchy hausdorffBoundary
+      realSeal transport replay provenance localCert denseRead isoRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionEmbeddingCarrier sourceMetric completionTarget denseImage isometry regularCauchy
+        hausdorffBoundary realSeal transport replay provenance localCert bundle pkg ->
+      Cont regularCauchy denseImage denseRead ->
+        Cont denseRead isometry isoRead ->
+          Cont isoRead realSeal sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory denseRead ∧ UnaryHistory isoRead ∧ UnaryHistory sealRead ∧
+                Cont regularCauchy denseImage denseRead ∧ Cont denseRead isometry isoRead ∧
+                  Cont isoRead realSeal sealRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro carrier regularDense denseIso isoSeal sealPkg
+  obtain ⟨_sourceMetricUnary, _completionTargetUnary, denseImageUnary, isometryUnary,
+    regularCauchyUnary, _hausdorffBoundaryUnary, realSealUnary, _transportUnary,
+      _replayUnary, _provenanceUnary, _localCertUnary, _sourceDense, _denseSeal,
+        provenancePkg, _localSemantic⟩ := carrier
+  have denseReadUnary : UnaryHistory denseRead :=
+    unary_cont_closed regularCauchyUnary denseImageUnary regularDense
+  have isoReadUnary : UnaryHistory isoRead :=
+    unary_cont_closed denseReadUnary isometryUnary denseIso
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed isoReadUnary realSealUnary isoSeal
+  exact
+    ⟨denseReadUnary, isoReadUnary, sealReadUnary, regularDense, denseIso, isoSeal,
+      provenancePkg, sealPkg⟩
+
+end BEDC.Derived.CompletionEmbeddingUp
