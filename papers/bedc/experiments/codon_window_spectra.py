@@ -3201,6 +3201,71 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     radial_cubic_coefficients = (-9, 26, -12, 1)
     radial_r_max = radial_mu_max * radial_mu_max
     radial_product_lambda = (radial_mu_max + 1.0) / 6.0
+    core_codon_set = set(expand_iupac_motif("WNR"))
+    core_retention = retention_row("wnr_core", core_codon_set)
+    core_spectral_radius = 4.0 / 6.0
+    median_retention = next(row for row in closure_retention_rows if row["name"] == "median_closure")
+
+    def tail_path_matrix(length: int) -> list[list[float]]:
+        size = 4 + length
+        matrix = [[0.0 for _column in range(size)] for _row in range(size)]
+        for index in range(4):
+            if index:
+                matrix[index][index - 1] = float(index)
+            if index < 3:
+                matrix[index][index + 1] = float(3 - index)
+        if length:
+            matrix[0][4] = 1.0
+            matrix[4][0] = 1.0
+            for tail_index in range(4, size - 1):
+                matrix[tail_index][tail_index + 1] = 1.0
+                matrix[tail_index + 1][tail_index] = 1.0
+        return matrix
+
+    tail_length_rows = []
+    for length in range(6):
+        tail_mu, _tail_vector = dominant_symmetric_eigenpair(tail_path_matrix(length))
+        tail_length_rows.append(
+            {
+                "tail_length": length,
+                "mu_max": tail_mu,
+                "lambda_with_wobble": (tail_mu + 1.0) / 6.0,
+            }
+        )
+    tail_limit_mu = tail_length_rows[-1]["mu_max"]
+    tail_gain_capture = (
+        (radial_mu_max - 3.0)
+        / (tail_limit_mu - 3.0)
+    )
+    tail_qsd_mass = sum(
+        row["mass"]
+        for row in radial_qsd_rows
+        if row["state"] in {"YR", "YY"}
+    )
+    spectral_antenna_summary = {
+        "core": {
+            "vertices": len(core_codon_set),
+            "internal_edges": core_retention["internal_edges"],
+            "retention": core_retention["retention"],
+            "retention_float": core_retention["retention_float"],
+            "spectral_radius": core_spectral_radius,
+        },
+        "median": {
+            "vertices": len(median_set),
+            "internal_edges": median_retention["internal_edges"],
+            "retention": median_retention["retention"],
+            "retention_float": median_retention["retention_float"],
+            "spectral_radius": median_spectral_radius,
+        },
+        "retention_drops": median_retention["retention_float"] < core_retention["retention_float"],
+        "spectral_radius_rises": median_spectral_radius > core_spectral_radius,
+        "tail_self_energy_formula": "mu/(mu^2-1)",
+        "tail_self_energy_at_mu_max": radial_mu_max / (radial_mu_max * radial_mu_max - 1.0),
+        "tail_length_rows": tail_length_rows,
+        "tail_gain_capture_against_length_5": tail_gain_capture,
+        "tail_qsd_mass": tail_qsd_mass,
+        "spectral_gain_over_core": radial_product_lambda - core_spectral_radius,
+    }
 
     return {
         "support": tuple(sorted(support)),
@@ -3771,6 +3836,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                     "self_loop_probability_from_f3": "1/6",
                     "wobble_lambda_gain": 1.0 / 6.0,
                     "lambda_without_wobble_edge": radial_mu_max / 6.0,
+                    "spectral_antenna": spectral_antenna_summary,
                 },
             },
         },
@@ -5648,6 +5714,41 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert radial["self_loop_probability_from_f3"] == "1/6"
     assert round(radial["wobble_lambda_gain"], 6) == 0.166667
     assert round(radial["lambda_without_wobble_edge"], 9) == 0.508581264
+    antenna = radial["spectral_antenna"]
+    assert antenna["core"] == {
+        "vertices": 16,
+        "internal_edges": 32,
+        "retention": "2/3",
+        "retention_float": 2 / 3,
+        "spectral_radius": 2 / 3,
+    }
+    assert antenna["median"]["vertices"] == 20
+    assert antenna["median"]["internal_edges"] == 38
+    assert antenna["median"]["retention"] == "19/30"
+    assert round(antenna["median"]["retention_float"], 6) == 0.633333
+    assert round(antenna["median"]["spectral_radius"], 9) == 0.675247931
+    assert antenna["retention_drops"] is True
+    assert antenna["spectral_radius_rises"] is True
+    assert antenna["tail_self_energy_formula"] == "mu/(mu^2-1)"
+    assert round(antenna["tail_self_energy_at_mu_max"], 6) == 0.367137
+    assert [
+        (
+            row["tail_length"],
+            round(row["mu_max"], 6),
+            round(row["lambda_with_wobble"], 6),
+        )
+        for row in antenna["tail_length_rows"]
+    ] == [
+        (0, 3.0, 0.666667),
+        (1, 3.045475, 0.674246),
+        (2, 3.051488, 0.675248),
+        (3, 3.052315, 0.675386),
+        (4, 3.05243, 0.675405),
+        (5, 3.052446, 0.675408),
+    ]
+    assert round(antenna["tail_gain_capture_against_length_5"], 4) == 0.9817
+    assert round(antenna["tail_qsd_mass"], 4) == 0.064
+    assert round(antenna["spectral_gain_over_core"], 6) == 0.008581
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
