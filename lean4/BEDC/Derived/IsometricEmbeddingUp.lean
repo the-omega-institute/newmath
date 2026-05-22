@@ -80,4 +80,25 @@ theorem IsometricEmbeddingCarrier_separated_consumer_route [AskSetup] [PackageSe
     ⟨sourceUnary, targetUnary, graphUnary, reflectionUnary, consumerUnary, sourceGraph,
       distanceReflection, reflectionRoutesConsumer, pkgReflection, consumerPkg⟩
 
+theorem IsometricEmbeddingCarrier_completion_boundary [AskSetup] [PackageSetup]
+    {source target graph sourceDistance targetDistance reflection transports routes provenance
+      localCert completionConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IsometricEmbeddingCarrier source target graph sourceDistance targetDistance reflection
+        transports routes provenance localCert bundle pkg ->
+      Cont target transports completionConsumer ->
+        PkgSig bundle completionConsumer pkg ->
+          UnaryHistory completionConsumer ∧ Cont source graph target ∧
+            Cont target transports completionConsumer ∧ PkgSig bundle reflection pkg ∧
+              PkgSig bundle completionConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro carrier targetTransportsConsumer consumerPkg
+  obtain ⟨_sourceUnary, targetUnary, _graphUnary, _sourceDistanceUnary, _targetDistanceUnary,
+    _reflectionUnary, transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary,
+      sourceGraph, _distanceReflection, pkgReflection, _localSemantic⟩ := carrier
+  have consumerUnary : UnaryHistory completionConsumer :=
+    unary_cont_closed targetUnary transportsUnary targetTransportsConsumer
+  exact
+    ⟨consumerUnary, sourceGraph, targetTransportsConsumer, pkgReflection, consumerPkg⟩
+
 end BEDC.Derived.IsometricEmbeddingUp

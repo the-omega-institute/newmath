@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRateComparisonUp$}
+\label{ch:concrete-instances-cauchy-rate-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyRateComparisonUp$ packet records the finite comparison surface for two effective Cauchy-rate reads before any $\RealUp$ or completion-facing consumer may inspect a seal. It sits over the effective-rate route of \autoref{ch:concrete-instances-cauchyrate-namecert}, the modulus schedule surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the dyadic tail-bound ledger of \autoref{ch:concrete-instances-dyadictailbound-namecert}, the common finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later regular-Cauchy, completion, and phase-exit consumers a named common-refinement certificate instead of requiring each consumer to coordinate two rate rows informally.
+
+\begin{definition}[Cauchy rate comparison carrier]
+\label{def:cauchy-rate-comparison-carrier}
+A $\CauchyRateComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K_{\mathrm{cmp}}=(R_0,R_1,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0$ and $R_1$ are the two accepted $\CauchyRateUp$ rows whose effective reads are compared.
+\item $W$ is the common $\StreamNameUp$ window row through which both rate reads expose the same finite observation schedule.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the shared precision budget, dyadic radius, and tail allowance used by the comparison.
+\item $Q$ is the $\RegSeqRatUp$ readback comparison row obtained after both rate rows have been routed through $W$ and $D$.
+\item $E$ is the $\RealUp$ seal boundary reached only after $R_0,R_1,W,D,Q$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transports for the two rate rows, common window, dyadic tolerance ledger, readback comparison row, seal boundary, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ routes from the two accepted rate reads to the common window, from the window to the dyadic tolerance ledger, from the ledger to the regular rational comparison row, and from that row to the Real seal boundary.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRateComparisonUp$, $\CauchyRateUp$, $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRateComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by the displayed rows $R_0,R_1,W,D,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, host real comparison, selected limits, countable choice, trichotomy, ambient completeness, or an unrecorded completion object.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyRateComparisonUp.CauchyRateComparisonTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy rate comparison NameCert obligations]
+\label{thm:cauchy-rate-comparison-namecert-obligations}
+For every accepted $\CauchyRateComparisonUp$ carrier
+$$
+K_{\mathrm{cmp}}=(R_0,R_1,W,D,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRateComparisonUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the two $\CauchyRateUp$ rows, the common $\StreamNameUp$ window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback comparison row, the $\RealUp$ seal boundary, and the structural rows $H,C,P,N$;
+\item classifier exactness, requiring accepted comparison packets to be compared only by componentwise $\hsame$ transport and displayed $\Cont$ routes over those coordinates;
+\item common-window refinement, requiring both rate reads to expose the same finite observation window $W$ before either read reaches $D$, $Q$, or $E$;
+\item transport, requiring the stored $\hsame$ rows in $H$ to preserve the two rate reads, the common window, the tolerance ledger, the readback row, the seal boundary, provenance, and local naming;
+\item non-escape, requiring every Real-facing or completion-facing read to pass through $R_0,R_1,W,D,Q,E$ and refusing quotient stream equality, host real comparison, selected limits, countable choice, trichotomy, and ambient completeness as NameCert data.
+\end{enumerate}
+No comparison obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its analytic coordinates are exactly the two $\CauchyRateUp$ rows, the common $\StreamNameUp$ window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ comparison readback, and the $\RealUp$ seal boundary.
+
+Read the route in dependency order. The two rate rows must first expose the same finite window $W$; the dyadic ledger $D$ is then read against that shared window, and only then can the regular rational comparison row $Q$ be consumed.
+
+Transport and replay are structural. The rows $H$ and $C$ preserve the displayed route under componentwise sameness and continuation reads, while $P$ and $N$ name exactly the sibling certificate dependencies and the local packet.
+
+Since the carrier has no extra coordinate for quotient stream equality, host real comparison, selected limits, countable choice, trichotomy, ambient completeness, or an unrecorded completion object, none of those principles can enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy rate comparison common refinement]
+\label{thm:cauchy-rate-comparison-common-refinement}
+Let two accepted effective-rate reads be admitted into a $\CauchyRateComparisonUp$ carrier
+$$
+K_{\mathrm{cmp}}=(R_0,R_1,W,D,Q,E,H,C,P,N).
+$$
+If the two reads share the displayed window row $W$, then both reads factor through the same $W,D,Q,E$ route before any $\RealUp$ or completion-facing consumer can read a seal. Thus the comparison exports a common finite refinement of the two $\CauchyRateUp$ rows, not a quotient equality of streams, a selected host limit, an ambient completeness principle, or a host-level real comparison.
+\end{theorem}
+\begin{proof}
+Start from the shared window hypothesis. Both accepted reads are carried by $R_0$ and $R_1$, and the carrier contains a single $\StreamNameUp$ row $W$ as the only finite observation window available to either read.
+
+The tolerance and readback rows are downstream of that window. The displayed route in $C$ sends the shared window to the dyadic ledger $D$ and then to the regular rational comparison row $Q$, so the two reads cannot diverge into separate tolerance ledgers or separate readback rows inside the packet.
+
+The seal boundary is last. The row $E$ is reachable only after $R_0,R_1,W,D,Q$ have been displayed, so any $\RealUp$ or completion-facing consumer reads the same common-refinement route before it can inspect a seal.
+
+Finally apply the classifier and provenance rows. Componentwise transport through $H$ preserves the same route, and $P,N$ name no quotient stream equality, selected limit, ambient completeness principle, or host-level real comparison. The exported object is therefore exactly the finite common refinement of the two effective-rate reads.
+\end{proof}
+
+\closureat{CauchyRateComparisonUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRateComparisonUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-rate-comparison-carrier}, \autoref{thm:cauchy-rate-comparison-namecert-obligations}, and \autoref{thm:cauchy-rate-comparison-common-refinement} seed the finite common-refinement surface for two $\CauchyRateUp$ rows over a shared $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback comparison row, and $\RealUp$ seal boundary.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyRateComparisonUp.CauchyRateComparisonTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real comparison, selected limits, countable choice, trichotomy, ambient completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, common-window refinement, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.CauchyRateComparisonUp.}
+  \constructivestory{A $\CauchyRateComparisonUp$ packet is generated from two $\CauchyRateUp$ rows, a common $\StreamNameUp$ window, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ readback comparison row, a $\RealUp$ seal boundary, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
