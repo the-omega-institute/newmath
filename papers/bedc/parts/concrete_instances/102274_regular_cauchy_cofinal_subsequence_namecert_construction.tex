@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCofinalSubsequenceUp$}
+\label{ch:concrete-instances-regular-cauchy-cofinal-subsequence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyCofinalSubsequenceUp$ packet records the finite route by which a regular Cauchy rational name is replaced by a cofinal subsequence without changing the real-name seal visible to downstream consumers. It sits over the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. It also refines the subsequence route of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert} through the explicit cofinal selector ledger of \autoref{ch:concrete-instances-cofinalsubsequence-namecert}.
+
+\begin{definition}[RegularCauchyCofinalSubsequence carrier]
+\label{def:regular-cauchy-cofinal-subsequence-carrier}
+A $\RegularCauchyCofinalSubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,W,\phi,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the accepted $\RegSeqRatUp$ source row whose regular Cauchy rational observations are being reindexed.
+\item $W$ is the $\StreamNameUp$ observation schedule for the inspected source windows and selected cofinal windows.
+\item $\phi$ is a unary cofinal index map row; it records the selected source index for each displayed request, monotonicity on the inspected requests, and cofinality witnesses for the inspected thresholds.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying dyadic radii, endpoint observations, comparison cells, and slack rows before and after the selected index map is applied.
+\item $R$ is the pulled-back $\RegSeqRatUp$ readback row obtained from the selected windows and their transported dyadic tolerance rows.
+\item $E$ is the inherited $\RealUp$ seal row, reached only after $S,W,\phi,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source row, observation schedule, cofinal map, tolerance ledger, regularity readback, real seal, replay, package, and local name rows.
+\item $C$ records displayed $\Cont$ replay from a subsequence request through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCofinalSubsequenceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\CofinalSubsequenceUp$, $\RegularCauchySubsequenceUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCofinalSubsequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,\phi,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, a host subsequence function, selected ambient limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RegularCauchyCofinalSubsequence NameCert obligations]
+\label{thm:regular-cauchy-cofinal-subsequence-namecert-obligations}
+For every accepted $\RegularCauchyCofinalSubsequenceUp$ carrier
+$$
+K=(S,W,\phi,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyCofinalSubsequenceUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the $\RegSeqRatUp$ source, $\StreamNameUp$ observation schedule, cofinal index map, dyadic tolerance ledger, pulled-back regularity row, inherited $\RealUp$ seal, componentwise transport, replay, provenance, and local name;
+\item cofinal schedule stability, requiring $\phi$ to be unary, monotone on displayed requests, and cofinal on every inspected threshold before any selected window is consumed;
+\item regularity pullback along the cofinal map, requiring the selected $\StreamNameUp$ windows and their $\DyadicRatCoreUp$ tolerance rows to feed the pulled-back $\RegSeqRatUp$ row $R$;
+\item $\RealUp$ seal compatibility, requiring $E$ to be read only after the source, selected schedule, cofinal map, tolerance ledger, and regularity pullback have been displayed;
+\item ledger non-escape, requiring $H,C,P,N$ to exhaust the certificate route and to export no quotient stream, host subsequence function, selected ambient limit, countable choice, ambient completeness, Lean verification, or bridge credential.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-cofinal-subsequence-carrier}. Its displayed rows are exactly the regular rational source, observation schedule, cofinal index map, tolerance ledger, pulled-back regularity row, seal row, and structural provenance.
+
+Cofinal schedule stability is read from the $\phi$ coordinate. Since $\phi$ is the only row that names selected indices, every selected window in $W$ must be reached through its displayed monotone and cofinal checks.
+
+Regularity pullback is then forced by the order of the rows. The dyadic ledger $D$ attaches the selected tolerances to those windows, and the readback row $R$ consumes exactly those selected windows and tolerance rows before any real-facing read can occur.
+
+Seal compatibility follows because $E$ is downstream of $S,W,\phi,D,R$. The componentwise $\hsame$ rows and displayed $\Cont$ replay preserve that order, while the package and local name rows cite only the listed dependencies.
+
+Thus the five obligations exhaust the finite carrier route. With no coordinate for quotient streams, host subsequence functions, selected ambient limits, countable choice, or ambient completeness, no excluded datum can be exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyCofinalSubsequenceUp$ real-facing read factors through the displayed $\RegSeqRatUp$ source, $\StreamNameUp$ schedule, cofinal index map, dyadic tolerance ledger, pulled-back regularity row, and inherited $\RealUp$ seal before any consumer can inspect the seal.}
+
+\closureat{RegularCauchyCofinalSubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCofinalSubsequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-cofinal-subsequence-carrier} and \autoref{thm:regular-cauchy-cofinal-subsequence-namecert-obligations} seed the finite cofinal-subsequence route for regular Cauchy rational names over displayed StreamName windows, dyadic tolerance ledgers, RegSeqRat pullback, and the inherited RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host subsequence functions, selected ambient limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal schedule stability, regularity pullback, RealUp seal compatibility, and ledger non-escape for BEDC.Derived.RegularCauchyCofinalSubsequenceUp.}
+  \constructivestory{A $\RegularCauchyCofinalSubsequenceUp$ packet is generated from a RegSeqRat source row, StreamName observation schedule, unary cofinal index map, DyadicRatCore tolerance ledger, pulled-back regularity row, inherited RealUp seal, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+\end{closurestatus}
