@@ -3401,6 +3401,103 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         == trigger_count_rows[row["added_size"] - 1]["closure_size_counts"]
         for row in rank_distribution_rows[:4]
     )
+    rank_spectral_radius = {
+        row["rank"]: row["spectral_radius"]
+        for row in boolean_lattice_rank_rows
+    }
+    maximum_nontrigger_rank = 3
+    maximum_nontrigger_external_size = 2 * ((2 ** maximum_nontrigger_rank) - 1)
+    maximum_nontrigger_blocker_count = math.comb(4, maximum_nontrigger_rank)
+
+    def rank_count_for_draw(added_size: int, rank: int) -> int:
+        if rank == 0:
+            return 1 if added_size == 0 else 0
+        return trigger_rank_count(added_size, rank)
+
+    def rank_probabilities(added_size: int) -> dict[int, float]:
+        denominator = math.comb(len(y_external_codons), added_size)
+        return {
+            rank: rank_count_for_draw(added_size, rank) / denominator
+            for rank in range(5)
+        }
+
+    random_trigger_probability_rows = []
+    trigger_cdf_by_size = {0: 0.0}
+    for added_size in range(1, 11):
+        candidate_count = math.comb(len(y_external_codons), added_size)
+        full_count = trigger_rank_count(added_size, 4)
+        probability = full_count / candidate_count
+        trigger_cdf_by_size[added_size] = probability
+        random_trigger_probability_rows.append(
+            {
+                "added_size": added_size,
+                "candidate_count": candidate_count,
+                "full_trigger_count": full_count,
+                "full_trigger_probability": probability,
+            }
+        )
+    trigger_time_rows = []
+    for added_size in range(1, 11):
+        probability_mass = trigger_cdf_by_size[added_size] - trigger_cdf_by_size[added_size - 1]
+        survival_before = 1.0 - trigger_cdf_by_size[added_size - 1]
+        trigger_time_rows.append(
+            {
+                "trigger_time": added_size,
+                "probability": probability_mass,
+                "hazard": probability_mass / survival_before,
+            }
+        )
+    expected_trigger_time = sum(
+        1.0 - (
+            trigger_rank_count(added_size, 4) / math.comb(len(y_external_codons), added_size)
+            if added_size > 0
+            else 0.0
+        )
+        for added_size in range(0, maximum_nontrigger_external_size + 1)
+    )
+    trigger_quantile_rows = []
+    for quantile in (0.5, 0.9, 0.95, 0.99):
+        threshold = next(
+            added_size
+            for added_size in range(1, maximum_nontrigger_external_size + 2)
+            if trigger_rank_count(added_size, 4) / math.comb(len(y_external_codons), added_size) >= quantile
+        )
+        trigger_quantile_rows.append(
+            {
+                "quantile": quantile,
+                "threshold": threshold,
+            }
+        )
+    expected_rank_rows = []
+    for added_size in range(1, 8):
+        probabilities = rank_probabilities(added_size)
+        expected_rank = sum(rank * probability for rank, probability in probabilities.items())
+        formula_value = 4.0 * (
+            1.0 - (math.comb(maximum_nontrigger_external_size, added_size) / math.comb(len(y_external_codons), added_size))
+        )
+        expected_rank_rows.append(
+            {
+                "added_size": added_size,
+                "expected_rank": expected_rank,
+                "formula_value": formula_value,
+            }
+        )
+    expected_closure_rows = []
+    expected_spectral_rows = []
+    for added_size in range(0, 11):
+        probabilities = rank_probabilities(added_size)
+        expected_closure_rows.append(
+            {
+                "added_size": added_size,
+                "expected_closure_size": sum((32 + (2 ** (rank + 1))) * probability for rank, probability in probabilities.items()),
+            }
+        )
+        expected_spectral_rows.append(
+            {
+                "added_size": added_size,
+                "expected_spectral_radius": sum(rank_spectral_radius[rank] * probability for rank, probability in probabilities.items()),
+            }
+        )
 
     nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
     quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
@@ -3424,9 +3521,6 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         }
         for trigger_size in range(1, 5)
     ]
-    maximum_nontrigger_rank = 3
-    maximum_nontrigger_external_size = 2 * ((2 ** maximum_nontrigger_rank) - 1)
-    maximum_nontrigger_blocker_count = math.comb(4, maximum_nontrigger_rank)
     antipodal_trigger_summary = {
         "mstar": tuple(sorted(mstar_set)),
         "mstar_size": len(mstar_set),
@@ -3463,6 +3557,13 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "quotient_spectrum_rows": quotient_spectrum_rows,
         "rank_distribution_rows": rank_distribution_rows,
         "trigger_count_formula_matches_enumeration": trigger_count_formula_matches_enumeration,
+        "random_trigger_probability_rows": random_trigger_probability_rows,
+        "trigger_time_rows": trigger_time_rows,
+        "expected_trigger_time": expected_trigger_time,
+        "trigger_quantile_rows": trigger_quantile_rows,
+        "expected_rank_rows": expected_rank_rows,
+        "expected_closure_rows": expected_closure_rows,
+        "expected_spectral_rows": expected_spectral_rows,
         "minimal_trigger_rows": minimal_trigger_rows,
         "minimal_trigger_quotient_total": sum(row["quotient_count"] for row in minimal_trigger_rows),
         "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
@@ -6550,6 +6651,90 @@ def assert_expected(summary: dict[str, object]) -> None:
         (6, 593775, {1: 0, 2: 6, 3: 12000, 4: 581769}, 581769, 0.9798, True),
     ]
     assert antipodal["trigger_count_formula_matches_enumeration"] is True
+    assert [
+        (row["added_size"], row["full_trigger_count"], round(row["full_trigger_probability"], 4))
+        for row in antipodal["random_trigger_probability_rows"]
+    ] == [
+        (1, 2, 0.0667),
+        (2, 157, 0.3609),
+        (3, 2724, 0.6709),
+        (4, 23491, 0.8572),
+        (5, 134534, 0.9441),
+        (6, 581769, 0.9798),
+        (7, 2022072, 0.9933),
+        (8, 5840913, 0.9979),
+        (9, 14299142, 0.9994),
+        (10, 30041011, 0.9999),
+    ]
+    assert [
+        (row["trigger_time"], round(row["probability"], 4), round(row["hazard"], 4))
+        for row in antipodal["trigger_time_rows"]
+    ] == [
+        (1, 0.0667, 0.0667),
+        (2, 0.2943, 0.3153),
+        (3, 0.31, 0.4851),
+        (4, 0.1862, 0.566),
+        (5, 0.0869, 0.6083),
+        (6, 0.0357, 0.6386),
+        (7, 0.0135, 0.6665),
+        (8, 0.0047, 0.6957),
+        (9, 0.0015, 0.7273),
+        (10, 0.0004, 0.7619),
+    ]
+    assert round(antipodal["expected_trigger_time"], 5) == 3.12998
+    assert [
+        (row["quantile"], row["threshold"])
+        for row in antipodal["trigger_quantile_rows"]
+    ] == [
+        (0.5, 3),
+        (0.9, 5),
+        (0.95, 6),
+        (0.99, 7),
+    ]
+    assert [
+        (row["added_size"], round(row["expected_rank"], 4), round(row["formula_value"], 4))
+        for row in antipodal["expected_rank_rows"]
+    ] == [
+        (1, 2.1333, 2.1333),
+        (2, 3.1632, 3.1632),
+        (3, 3.6414, 3.6414),
+        (4, 3.8539, 3.8539),
+        (5, 3.9438, 3.9438),
+        (6, 3.9798, 3.9798),
+        (7, 3.9933, 3.9933),
+    ]
+    assert [
+        (row["added_size"], round(row["expected_closure_size"], 3))
+        for row in antipodal["expected_closure_rows"]
+    ] == [
+        (0, 34.0),
+        (1, 42.667),
+        (2, 52.23),
+        (3, 58.499),
+        (4, 61.689),
+        (5, 63.103),
+        (6, 63.676),
+        (7, 63.892),
+        (8, 63.967),
+        (9, 63.991),
+        (10, 63.998),
+    ]
+    assert [
+        (row["added_size"], round(row["expected_spectral_radius"], 6))
+        for row in antipodal["expected_spectral_rows"]
+    ] == [
+        (0, 0.836111),
+        (1, 0.873927),
+        (2, 0.92872),
+        (3, 0.966502),
+        (4, 0.985904),
+        (5, 0.994527),
+        (6, 0.998025),
+        (7, 0.999342),
+        (8, 0.9998),
+        (9, 0.999945),
+        (10, 0.999987),
+    ]
     assert [
         (row["trigger_size"], row["quotient_count"], row["codon_count"])
         for row in antipodal["minimal_trigger_rows"]
