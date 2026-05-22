@@ -258,4 +258,32 @@ theorem CompletionReflectionPacket_real_seal_extension_coherence [AskSetup] [Pac
     ⟨reflectedUnary, extensionUnary, coherenceUnary, reflectedSame, extensionSame,
       coherenceSame, reflectedRow, extensionRow, coherenceRow, certPkg⟩
 
+theorem CompletionReflectionPacket_universal_real_seal_factorization [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance cert
+      reflected extension : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont diagonal regular reflected ->
+        hsame reflected sealRow ->
+          Cont universal completion extension ->
+            hsame extension package ->
+              UnaryHistory sealRow ∧ UnaryHistory reflected ∧ UnaryHistory extension ∧
+                Cont diagonal regular reflected ∧ Cont universal completion extension ∧
+                  hsame reflected sealRow ∧ hsame extension package ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet reflectedRow reflectedSame extensionRow extensionSame
+  obtain ⟨completionUnary, universalUnary, _separatedUnary, diagonalUnary, regularUnary,
+    _sealUnary, _transportUnary, _routeUnary, _packageUnary, _provenanceUnary, _certUnary,
+    _packageRow, _provenanceRow, certPkg⟩ := packet
+  have reflectedUnary : UnaryHistory reflected :=
+    unary_cont_closed diagonalUnary regularUnary reflectedRow
+  have sealUnary : UnaryHistory sealRow :=
+    unary_transport reflectedUnary reflectedSame
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed universalUnary completionUnary extensionRow
+  exact
+    ⟨sealUnary, reflectedUnary, extensionUnary, reflectedRow, extensionRow, reflectedSame,
+      extensionSame, certPkg⟩
+
 end BEDC.Derived.CompletionReflectionUp
