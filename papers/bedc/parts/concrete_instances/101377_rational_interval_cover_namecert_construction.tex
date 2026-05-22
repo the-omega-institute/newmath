@@ -67,6 +67,28 @@ The window boundary $W$ fixes the StreamName and $\RegSeqRatUp$ requests for whi
 No carrier coordinate contains an arbitrary open cover, a countable selector, a quotient-real equality proof, a selected limit, or a completeness theorem for $\RealUp$. Thus every accepted cover refinement is finite and factors through the displayed rational interval refinement ledger.
 \end{proof}
 
+\begin{theorem}[RationalIntervalCover finite consumer factorization]
+\label{thm:rational-interval-cover-finite-consumer-factorization}
+For every accepted $\RationalIntervalCoverUp$ carrier
+$$
+C=(I,F,R,W,H,K,P,N),
+$$
+every Real or Completion consumer of the cover factors through the displayed route
+$$
+I \to F \to R \to W \to H,K \to P,N.
+$$
+Here $I$ supplies the $\RationalIntervalUp$ rows, $F$ supplies the finite coverage ledger, $R$ supplies the $\RationalIntervalRefinementUp$ rows, and $W$ supplies StreamName and $\RegSeqRatUp$ boundary data before any $\RealUp$ seal is reachable. The factorization route has no coordinate for open-cover compactness, countable choice, quotient real equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:rational-interval-cover-carrier}. The first admissible reads are the rational interval rows in $I$ and the finite coverage ledger $F$, because the NameCert obligations require interval-family exactness and coverage-ledger exactness before a Real or Completion consumer can use the cover.
+
+Next use \autoref{thm:rational-interval-cover-finite-refinement}. Any retained window or consumer-facing narrowed interval is forced through a displayed row of $R$, so the consumer cannot bypass the finite $\RationalIntervalRefinementUp$ ledger when it asks for a narrower cover view.
+
+The window-boundary obligation then orders the StreamName and $\RegSeqRatUp$ data in $W$ before the terminal real-facing seal. The structural rows $H$ and $K$ transport and replay the same displayed data, and $P,N$ bind the route to provenance and local naming.
+
+No coordinate of $C$ stores open-cover compactness, countable choice, quotient real equality, a selected limit, or ambient $\RealUp$ completeness. Hence every accepted Real or Completion consumer reaches the cover only through the finite route $I \to F \to R \to W \to H,K \to P,N$.
+\end{proof}
+
 \falsifiablePrediction{Every $\RationalIntervalCoverUp$ read factors through a finite family of $\RationalIntervalUp$ rows, one finite coverage ledger, one finite $\RationalIntervalRefinementUp$ ledger, one StreamName and $\RegSeqRatUp$ window boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{rational-interval, rational-interval-refinement, located-interval, dyadicratcore, regseqrat, real: $\RationalIntervalCoverUp$ is not bijective to any listed sibling because it jointly carries a finite interval family, finite coverage ledger, finite refinement ledger, stream-window boundary, regular rational readback boundary, and terminal Real-facing provenance as one cover packet.}
@@ -75,7 +97,7 @@ No carrier coordinate contains an arbitrary open cover, a countable selector, a 
 
 \begin{closurestatus}{\RationalIntervalCoverUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:rational-interval-cover-carrier}, \autoref{thm:rational-interval-cover-namecert-obligations}, and \autoref{thm:rational-interval-cover-finite-refinement} seed the finite rational interval cover route from rational interval rows through finite coverage, displayed refinement, StreamName and regular rational windows, transport, replay, provenance, and local naming.}
+  \scopeclosed{\autoref{def:rational-interval-cover-carrier}, \autoref{thm:rational-interval-cover-namecert-obligations}, \autoref{thm:rational-interval-cover-finite-refinement}, and \autoref{thm:rational-interval-cover-finite-consumer-factorization} seed the finite rational interval cover route from rational interval rows through finite coverage, displayed refinement, StreamName and regular rational windows, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close open-cover compactness, countable choice, quotient real equality, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
