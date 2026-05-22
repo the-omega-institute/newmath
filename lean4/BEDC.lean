@@ -3361,7 +3361,6 @@ import BEDC.Derived.LocatedIntervalUp.StdBridge
 import BEDC.Derived.LocatedIntervalUp.TasteGate
 import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedModulusCompletionUp
-import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalUp.TasteGate
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
@@ -4536,6 +4535,7 @@ import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularCauchyInterleavingUp.BridgeReadbackScope
 import BEDC.Derived.RegularCauchyInterleavingUp.TasteGate
+import BEDC.Derived.RegularCauchyInterpolationUp.TasteGate
 import BEDC.Derived.RegularCauchyIntervalSelectorUp
 import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitClassifierUp.BudgetSynchronizerRouteAgreement
@@ -4586,6 +4586,7 @@ import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchyShiftUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySubsequenceUp.TasteGate
+import BEDC.Derived.RegularCauchySubtractionUp.TasteGate
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularCauchySumUp.BudgetAssociativeVisibility
 import BEDC.Derived.RegularCauchySumUp.CauchyLimitSealHandoff
