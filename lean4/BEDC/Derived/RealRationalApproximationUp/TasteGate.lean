@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RealRationalApproximationUp.TasteGate
+namespace BEDC.Derived.RealRationalApproximationUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -212,4 +212,23 @@ theorem RealRationalApproximationTasteGate_single_carrier_alignment :
       (fun _ _ heq => realRationalApproximationToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.RealRationalApproximationUp.TasteGate
+namespace TasteGate
+
+theorem RealRationalApproximationTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate RealRationalApproximationUp) ∧
+      Nonempty (FieldFaithful RealRationalApproximationUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RealRationalApproximationUp) ∧
+      (∀ h : BHist,
+        realRationalApproximationDecodeBHist (realRationalApproximationEncodeBHist h) = h) ∧
+      (∀ x : RealRationalApproximationUp,
+        realRationalApproximationFromEventFlow (realRationalApproximationToEventFlow x) =
+          some x) ∧
+      (∀ x y : RealRationalApproximationUp,
+        realRationalApproximationToEventFlow x = realRationalApproximationToEventFlow y →
+          x = y) ∧
+      realRationalApproximationEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  exact BEDC.Derived.RealRationalApproximationUp.RealRationalApproximationTasteGate_single_carrier_alignment
+
+end TasteGate
+
+end BEDC.Derived.RealRationalApproximationUp
