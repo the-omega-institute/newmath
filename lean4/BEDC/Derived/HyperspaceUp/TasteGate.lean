@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.HyperspaceUp.TasteGate
+namespace BEDC.Derived.HyperspaceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,9 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive HyperspaceUp : Type where
-  | mk
-      (source subsetZero subsetOne netZero netOne directedZero directedOne tolerance
-        transport continuation provenance name : BHist) : HyperspaceUp
+  | mk (X K0 K1 N0 N1 D0 D1 R Hs C P M : BHist) : HyperspaceUp
   deriving DecidableEq
 
 def hyperspaceEncodeBHist : BHist → RawEvent
@@ -32,19 +30,14 @@ private theorem hyperspaceDecode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def hyperspaceFields : HyperspaceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | HyperspaceUp.mk source subsetZero subsetOne netZero netOne directedZero directedOne
-      tolerance transport continuation provenance name =>
-      [source, subsetZero, subsetOne, netZero, netOne, directedZero, directedOne,
-        tolerance, transport, continuation, provenance, name]
+  | HyperspaceUp.mk X K0 K1 N0 N1 D0 D1 R Hs C P M =>
+      [X, K0, K1, N0, N1, D0, D1, R, Hs, C, P, M]
 
 def hyperspaceToEventFlow : HyperspaceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -53,56 +46,56 @@ def hyperspaceToEventFlow : HyperspaceUp → EventFlow
 def hyperspaceFromEventFlow : EventFlow → Option HyperspaceUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | source :: rest0 =>
+  | X :: rest0 =>
       match rest0 with
       | [] => none
-      | subsetZero :: rest1 =>
+      | K0 :: rest1 =>
           match rest1 with
           | [] => none
-          | subsetOne :: rest2 =>
+          | K1 :: rest2 =>
               match rest2 with
               | [] => none
-              | netZero :: rest3 =>
+              | N0 :: rest3 =>
                   match rest3 with
                   | [] => none
-                  | netOne :: rest4 =>
+                  | N1 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | directedZero :: rest5 =>
+                      | D0 :: rest5 =>
                           match rest5 with
                           | [] => none
-                          | directedOne :: rest6 =>
+                          | D1 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | tolerance :: rest7 =>
+                              | R :: rest7 =>
                                   match rest7 with
                                   | [] => none
-                                  | transport :: rest8 =>
+                                  | Hs :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | continuation :: rest9 =>
+                                      | C :: rest9 =>
                                           match rest9 with
                                           | [] => none
-                                          | provenance :: rest10 =>
+                                          | P :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | name :: rest11 =>
+                                              | M :: rest11 =>
                                                   match rest11 with
                                                   | [] =>
                                                       some
                                                         (HyperspaceUp.mk
-                                                          (hyperspaceDecodeBHist source)
-                                                          (hyperspaceDecodeBHist subsetZero)
-                                                          (hyperspaceDecodeBHist subsetOne)
-                                                          (hyperspaceDecodeBHist netZero)
-                                                          (hyperspaceDecodeBHist netOne)
-                                                          (hyperspaceDecodeBHist directedZero)
-                                                          (hyperspaceDecodeBHist directedOne)
-                                                          (hyperspaceDecodeBHist tolerance)
-                                                          (hyperspaceDecodeBHist transport)
-                                                          (hyperspaceDecodeBHist continuation)
-                                                          (hyperspaceDecodeBHist provenance)
-                                                          (hyperspaceDecodeBHist name))
+                                                          (hyperspaceDecodeBHist X)
+                                                          (hyperspaceDecodeBHist K0)
+                                                          (hyperspaceDecodeBHist K1)
+                                                          (hyperspaceDecodeBHist N0)
+                                                          (hyperspaceDecodeBHist N1)
+                                                          (hyperspaceDecodeBHist D0)
+                                                          (hyperspaceDecodeBHist D1)
+                                                          (hyperspaceDecodeBHist R)
+                                                          (hyperspaceDecodeBHist Hs)
+                                                          (hyperspaceDecodeBHist C)
+                                                          (hyperspaceDecodeBHist P)
+                                                          (hyperspaceDecodeBHist M))
                                                   | _ :: _ => none
 
 private theorem hyperspace_round_trip :
@@ -110,38 +103,29 @@ private theorem hyperspace_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source subsetZero subsetOne netZero netOne directedZero directedOne tolerance
-      transport continuation provenance name =>
+  | mk X K0 K1 N0 N1 D0 D1 R Hs C P M =>
       change
         some
           (HyperspaceUp.mk
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist source))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist subsetZero))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist subsetOne))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist netZero))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist netOne))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist directedZero))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist directedOne))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist tolerance))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist transport))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist continuation))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist provenance))
-            (hyperspaceDecodeBHist (hyperspaceEncodeBHist name))) =
-          some
-            (HyperspaceUp.mk source subsetZero subsetOne netZero netOne directedZero
-              directedOne tolerance transport continuation provenance name)
-      rw [hyperspaceDecode_encode_bhist source,
-        hyperspaceDecode_encode_bhist subsetZero,
-        hyperspaceDecode_encode_bhist subsetOne,
-        hyperspaceDecode_encode_bhist netZero,
-        hyperspaceDecode_encode_bhist netOne,
-        hyperspaceDecode_encode_bhist directedZero,
-        hyperspaceDecode_encode_bhist directedOne,
-        hyperspaceDecode_encode_bhist tolerance,
-        hyperspaceDecode_encode_bhist transport,
-        hyperspaceDecode_encode_bhist continuation,
-        hyperspaceDecode_encode_bhist provenance,
-        hyperspaceDecode_encode_bhist name]
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist X))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist K0))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist K1))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist N0))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist N1))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist D0))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist D1))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist R))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist Hs))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist C))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist P))
+            (hyperspaceDecodeBHist (hyperspaceEncodeBHist M))) =
+          some (HyperspaceUp.mk X K0 K1 N0 N1 D0 D1 R Hs C P M)
+      rw [hyperspaceDecode_encode_bhist X, hyperspaceDecode_encode_bhist K0,
+        hyperspaceDecode_encode_bhist K1, hyperspaceDecode_encode_bhist N0,
+        hyperspaceDecode_encode_bhist N1, hyperspaceDecode_encode_bhist D0,
+        hyperspaceDecode_encode_bhist D1, hyperspaceDecode_encode_bhist R,
+        hyperspaceDecode_encode_bhist Hs, hyperspaceDecode_encode_bhist C,
+        hyperspaceDecode_encode_bhist P, hyperspaceDecode_encode_bhist M]
 
 private theorem hyperspaceToEventFlow_injective {x y : HyperspaceUp} :
     hyperspaceToEventFlow x = hyperspaceToEventFlow y → x = y := by
@@ -159,11 +143,9 @@ private theorem hyperspace_fields_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk source subsetZero subsetOne netZero netOne directedZero directedOne tolerance
-      transport continuation provenance name =>
+  | mk X1 K01 K11 N01 N11 D01 D11 R1 Hs1 C1 P1 M1 =>
       cases y with
-      | mk source' subsetZero' subsetOne' netZero' netOne' directedZero' directedOne'
-          tolerance' transport' continuation' provenance' name' =>
+      | mk X2 K02 K12 N02 N12 D02 D12 R2 Hs2 C2 P2 M2 =>
           cases hfields
           rfl
 
@@ -188,6 +170,7 @@ instance hyperspaceFieldFaithful : FieldFaithful HyperspaceUp where
   field_faithful := hyperspace_fields_faithful
 
 instance hyperspaceNontrivial : Nontrivial HyperspaceUp where
+  -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨HyperspaceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
@@ -195,26 +178,27 @@ instance hyperspaceNontrivial : Nontrivial HyperspaceUp where
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty,
       by
-        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate HyperspaceUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  hyperspaceChapterTasteGate
-
 theorem HyperspaceTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate HyperspaceUp) ∧
-      Nonempty (FieldFaithful HyperspaceUp) ∧
+    Nonempty (ChapterTasteGate HyperspaceUp) ∧ Nonempty (FieldFaithful HyperspaceUp) ∧
       Nonempty (Nontrivial HyperspaceUp) ∧
-      (∀ h : BHist, hyperspaceDecodeBHist (hyperspaceEncodeBHist h) = h) ∧
-      (∀ x : HyperspaceUp, hyperspaceFromEventFlow (hyperspaceToEventFlow x) = some x) ∧
-      (∀ x y : HyperspaceUp,
-        hyperspaceToEventFlow x = hyperspaceToEventFlow y → x = y) ∧
-      hyperspaceEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact ⟨⟨hyperspaceChapterTasteGate⟩, ⟨hyperspaceFieldFaithful⟩,
-    ⟨hyperspaceNontrivial⟩, hyperspaceDecode_encode_bhist, hyperspace_round_trip,
-    fun _ _ heq => hyperspaceToEventFlow_injective heq, rfl⟩
+        (∀ h : BHist, hyperspaceDecodeBHist (hyperspaceEncodeBHist h) = h) ∧
+          (∀ x : HyperspaceUp,
+            hyperspaceFromEventFlow (hyperspaceToEventFlow x) = some x) ∧
+            hyperspaceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  constructor
+  · exact ⟨hyperspaceChapterTasteGate⟩
+  · constructor
+    · exact ⟨hyperspaceFieldFaithful⟩
+    · constructor
+      · exact ⟨hyperspaceNontrivial⟩
+      · constructor
+        · exact hyperspaceDecode_encode_bhist
+        · constructor
+          · exact hyperspace_round_trip
+          · rfl
 
-end BEDC.Derived.HyperspaceUp.TasteGate
+end BEDC.Derived.HyperspaceUp

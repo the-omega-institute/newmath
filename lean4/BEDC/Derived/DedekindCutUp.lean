@@ -179,4 +179,27 @@ theorem DedekindCutCarrier_realup_comparison_handoff [AskSetup] [PackageSetup]
     ⟨lowerUnary, upperUnary, embeddingUnary, transportUnary, routesUnary, realSealUnary,
       comparisonReadUnary, realSealRoute, comparisonRoute, provenancePkg⟩
 
+theorem DedekindCutCarrier_quotient_free_boundary [AskSetup] [PackageSetup]
+    {lower upper inhabited rounded located disjoint embedding transport routes provenance nameCert
+      comparisonRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DedekindCutCarrier lower upper inhabited rounded located disjoint embedding transport routes
+        provenance nameCert bundle pkg ->
+      Cont embedding transport comparisonRead ->
+        UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory embedding ∧
+          UnaryHistory transport ∧ UnaryHistory comparisonRead ∧
+            Cont located disjoint embedding ∧ Cont embedding transport comparisonRead ∧
+              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier comparisonCont
+  obtain ⟨lowerUnary, upperUnary, _inhabitedUnary, _roundedUnary, _locatedUnary,
+    _disjointUnary, embeddingUnary, transportUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _lowerUpper, _inhabitedRounded, locatedDisjoint,
+    _embeddingTransport, _routesNameCert, provenancePkg⟩ := carrier
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed embeddingUnary transportUnary comparisonCont
+  exact
+    ⟨lowerUnary, upperUnary, embeddingUnary, transportUnary, comparisonReadUnary,
+      locatedDisjoint, comparisonCont, provenancePkg⟩
+
 end BEDC.Derived.DedekindCutUp

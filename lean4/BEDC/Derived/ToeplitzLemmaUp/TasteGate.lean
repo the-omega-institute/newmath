@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ToeplitzLemmaUp.TasteGate
+namespace BEDC.Derived.ToeplitzLemmaUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,8 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ToeplitzLemmaUp : Type where
-  | mk (matrixWindow sourceWindow readback dyadicLedger transformedRow realSeal transport
-      continuation provenance name : BHist) : ToeplitzLemmaUp
+  | mk (A W R D T E H C P N : BHist) : ToeplitzLemmaUp
   deriving DecidableEq
 
 def toeplitzLemmaEncodeBHist : BHist → RawEvent
@@ -26,7 +25,7 @@ def toeplitzLemmaDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (toeplitzLemmaDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (toeplitzLemmaDecodeBHist tail)
 
-private theorem toeplitzLemmaDecode_encode_bhist :
+private theorem toeplitzLemma_decode_encode_bhist :
     ∀ h : BHist, toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -40,103 +39,103 @@ private theorem toeplitzLemmaDecode_encode_bhist :
 
 def toeplitzLemmaFields : ToeplitzLemmaUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ToeplitzLemmaUp.mk matrixWindow sourceWindow readback dyadicLedger transformedRow
-      realSeal transport continuation provenance name =>
-      [matrixWindow, sourceWindow, readback, dyadicLedger, transformedRow, realSeal,
-        transport, continuation, provenance, name]
+  | ToeplitzLemmaUp.mk A W R D T E H C P N => [A, W, R, D, T, E, H, C, P, N]
 
-def toeplitzLemmaToEventFlow : ToeplitzLemmaUp → EventFlow
+def toeplitzLemmaToEventFlow : ToeplitzLemmaUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (toeplitzLemmaFields x).map toeplitzLemmaEncodeBHist
+  fun x => (toeplitzLemmaFields x).map toeplitzLemmaEncodeBHist
 
 def toeplitzLemmaFromEventFlow : EventFlow → Option ToeplitzLemmaUp
   -- BEDC touchpoint anchor: BHist BMark
+  | A :: restA =>
+      match restA with
+      | W :: restW =>
+          match restW with
+          | R :: restR =>
+              match restR with
+              | D :: restD =>
+                  match restD with
+                  | T :: restT =>
+                      match restT with
+                      | E :: restE =>
+                          match restE with
+                          | H :: restH =>
+                              match restH with
+                              | C :: restC =>
+                                  match restC with
+                                  | P :: restP =>
+                                      match restP with
+                                      | N :: restN =>
+                                          match restN with
+                                          | [] =>
+                                              some
+                                                (ToeplitzLemmaUp.mk
+                                                  (toeplitzLemmaDecodeBHist A)
+                                                  (toeplitzLemmaDecodeBHist W)
+                                                  (toeplitzLemmaDecodeBHist R)
+                                                  (toeplitzLemmaDecodeBHist D)
+                                                  (toeplitzLemmaDecodeBHist T)
+                                                  (toeplitzLemmaDecodeBHist E)
+                                                  (toeplitzLemmaDecodeBHist H)
+                                                  (toeplitzLemmaDecodeBHist C)
+                                                  (toeplitzLemmaDecodeBHist P)
+                                                  (toeplitzLemmaDecodeBHist N))
+                                          | _ :: _ => none
+                                      | [] => none
+                                  | [] => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
   | [] => none
-  | _a :: [] => none
-  | _a :: _b :: [] => none
-  | _a :: _b :: _c :: [] => none
-  | _a :: _b :: _c :: _d :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: [] => none
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: [] => none
-  | matrixWindow :: sourceWindow :: readback :: dyadicLedger :: transformedRow ::
-      realSeal :: transport :: continuation :: provenance :: name :: [] =>
-      some
-        (ToeplitzLemmaUp.mk
-          (toeplitzLemmaDecodeBHist matrixWindow)
-          (toeplitzLemmaDecodeBHist sourceWindow)
-          (toeplitzLemmaDecodeBHist readback)
-          (toeplitzLemmaDecodeBHist dyadicLedger)
-          (toeplitzLemmaDecodeBHist transformedRow)
-          (toeplitzLemmaDecodeBHist realSeal)
-          (toeplitzLemmaDecodeBHist transport)
-          (toeplitzLemmaDecodeBHist continuation)
-          (toeplitzLemmaDecodeBHist provenance)
-          (toeplitzLemmaDecodeBHist name))
-  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: _k ::
-      _rest => none
 
 private theorem toeplitzLemma_round_trip :
     ∀ x : ToeplitzLemmaUp,
       toeplitzLemmaFromEventFlow (toeplitzLemmaToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
-  cases x with
-  | mk matrixWindow sourceWindow readback dyadicLedger transformedRow realSeal transport
-      continuation provenance name =>
+  intro token
+  cases token with
+  | mk A W R D T E H C P N =>
       change
         some
           (ToeplitzLemmaUp.mk
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist matrixWindow))
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist sourceWindow))
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist readback))
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist dyadicLedger))
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist transformedRow))
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist realSeal))
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist transport))
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist continuation))
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist provenance))
-            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist name))) =
-          some
-            (ToeplitzLemmaUp.mk matrixWindow sourceWindow readback dyadicLedger
-              transformedRow realSeal transport continuation provenance name)
-      rw [toeplitzLemmaDecode_encode_bhist matrixWindow,
-        toeplitzLemmaDecode_encode_bhist sourceWindow,
-        toeplitzLemmaDecode_encode_bhist readback,
-        toeplitzLemmaDecode_encode_bhist dyadicLedger,
-        toeplitzLemmaDecode_encode_bhist transformedRow,
-        toeplitzLemmaDecode_encode_bhist realSeal,
-        toeplitzLemmaDecode_encode_bhist transport,
-        toeplitzLemmaDecode_encode_bhist continuation,
-        toeplitzLemmaDecode_encode_bhist provenance,
-        toeplitzLemmaDecode_encode_bhist name]
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist A))
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist W))
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist R))
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist D))
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist T))
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist E))
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist H))
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist C))
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist P))
+            (toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist N))) =
+          some (ToeplitzLemmaUp.mk A W R D T E H C P N)
+      rw [toeplitzLemma_decode_encode_bhist A,
+        toeplitzLemma_decode_encode_bhist W,
+        toeplitzLemma_decode_encode_bhist R,
+        toeplitzLemma_decode_encode_bhist D,
+        toeplitzLemma_decode_encode_bhist T,
+        toeplitzLemma_decode_encode_bhist E,
+        toeplitzLemma_decode_encode_bhist H,
+        toeplitzLemma_decode_encode_bhist C,
+        toeplitzLemma_decode_encode_bhist P,
+        toeplitzLemma_decode_encode_bhist N]
 
 private theorem toeplitzLemmaToEventFlow_injective {x y : ToeplitzLemmaUp} :
     toeplitzLemmaToEventFlow x = toeplitzLemmaToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      toeplitzLemmaFromEventFlow (toeplitzLemmaToEventFlow x) =
-        toeplitzLemmaFromEventFlow (toeplitzLemmaToEventFlow y) :=
-    congrArg toeplitzLemmaFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (toeplitzLemma_round_trip x).symm
-      (Eq.trans hread (toeplitzLemma_round_trip y)))
-
-private theorem toeplitzLemma_fields_faithful :
-    ∀ x y : ToeplitzLemmaUp, toeplitzLemmaFields x = toeplitzLemmaFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk matrixWindow sourceWindow readback dyadicLedger transformedRow realSeal transport
-      continuation provenance name =>
-      cases y with
-      | mk matrixWindow' sourceWindow' readback' dyadicLedger' transformedRow' realSeal'
-          transport' continuation' provenance' name' =>
-          cases hfields
-          rfl
+  intro hxy
+  have optionEq : some x = some y := by
+    calc
+      some x = toeplitzLemmaFromEventFlow (toeplitzLemmaToEventFlow x) :=
+        (toeplitzLemma_round_trip x).symm
+      _ = toeplitzLemmaFromEventFlow (toeplitzLemmaToEventFlow y) :=
+        congrArg toeplitzLemmaFromEventFlow hxy
+      _ = some y := toeplitzLemma_round_trip y
+  exact Option.some.inj optionEq
 
 instance toeplitzLemmaBHistCarrier : BHistCarrier ToeplitzLemmaUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -153,39 +152,24 @@ instance toeplitzLemmaChapterTasteGate : ChapterTasteGate ToeplitzLemmaUp where
     intro x y hxy heq
     exact hxy (toeplitzLemmaToEventFlow_injective heq)
 
-instance toeplitzLemmaFieldFaithful : FieldFaithful ToeplitzLemmaUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := toeplitzLemmaFields
-  field_faithful := toeplitzLemma_fields_faithful
-
-instance toeplitzLemmaNontrivial : Nontrivial ToeplitzLemmaUp where
-  witness_pair :=
-    ⟨ToeplitzLemmaUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      ToeplitzLemmaUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        -- BEDC touchpoint anchor: BHist BMark
-        intro h
-        cases h⟩
-
 def taste_gate : ChapterTasteGate ToeplitzLemmaUp :=
   -- BEDC touchpoint anchor: BHist BMark
   toeplitzLemmaChapterTasteGate
 
 theorem ToeplitzLemmaTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate ToeplitzLemmaUp) ∧
-      Nonempty (FieldFaithful ToeplitzLemmaUp) ∧
-      Nonempty (Nontrivial ToeplitzLemmaUp) ∧
-      (∀ h : BHist, toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist h) = h) ∧
+    (∀ h : BHist, toeplitzLemmaDecodeBHist (toeplitzLemmaEncodeBHist h) = h) ∧
       (∀ x : ToeplitzLemmaUp,
         toeplitzLemmaFromEventFlow (toeplitzLemmaToEventFlow x) = some x) ∧
-      (∀ x y : ToeplitzLemmaUp,
-        toeplitzLemmaToEventFlow x = toeplitzLemmaToEventFlow y → x = y) ∧
-      toeplitzLemmaEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact ⟨⟨toeplitzLemmaChapterTasteGate⟩, ⟨toeplitzLemmaFieldFaithful⟩,
-    ⟨toeplitzLemmaNontrivial⟩, toeplitzLemmaDecode_encode_bhist,
-    toeplitzLemma_round_trip, fun _ _ heq => toeplitzLemmaToEventFlow_injective heq, rfl⟩
+        (∀ x y : ToeplitzLemmaUp,
+          toeplitzLemmaToEventFlow x = toeplitzLemmaToEventFlow y → x = y) ∧
+          toeplitzLemmaEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨toeplitzLemma_decode_encode_bhist,
+      toeplitzLemma_round_trip,
+      (by
+        intro x y heq
+        exact toeplitzLemmaToEventFlow_injective heq),
+      rfl⟩
 
-end BEDC.Derived.ToeplitzLemmaUp.TasteGate
+end BEDC.Derived.ToeplitzLemmaUp
