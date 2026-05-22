@@ -154,6 +154,8 @@ to case-by-case judgment.
 
 - 2026-05-22T03:05:52Z: `resolved` `add_downstream_user` for `BEDC.Derived.BHistCellRowEmbeddingUp.BHistCellRowEmbeddingCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:bhistcellrowembedding:a863696a`). Rationale: The target has real BEDC content: it constructs a SemanticNameCert for the BHist cell-row embedding carrier rather than merely wrapping another theorem. The related CellularVerbRealignmentUp chapter already treats the embedding/readback row as a sibling dependency, so I added a downstream theorem there that consumes the target theorem and ties its SemanticNameCert output to the realignment TasteGate and FieldFaithful boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-05-22T04:24:36Z: `resolved` `add_downstream_user` for `BEDC.Derived.FiniteWindowRealSealAuditUp.FiniteWindowRealSealAuditCarrier_refusal_transport` (flag `isolated_theorem`, finding `isolated_theorem:finitewindowrealsealaudit:90f06f16`). Rationale: The theorem is not a disposable wrapper: the chapter uses it as the transport-stability claim for the finite-window Real-seal audit route, and the Lean statement transports the full carrier across componentwise hsame while preserving the target Cont and PkgSig rows. Grep showed no existing Lean downstream use, so I added FiniteWindowRealSealAuditCarrier_transport_nonescape in the same row family; it uses the flagged theorem to build the transported carrier and then feeds that result into the existing nonescape theorem, tying refusal transport to an actual consumer certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
