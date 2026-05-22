@@ -3167,6 +3167,89 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "internal_edges": retention["internal_edges"],
             }
         )
+    y_external_codons = sorted(full_cube_set - mstar_set)
+
+    def anchor_support(codon: str) -> frozenset[int]:
+        return frozenset(
+            index
+            for index, (left, right) in enumerate(zip(bits(codon)[:4], cuy_bits_prefix))
+            if left != right
+        )
+
+    def span_dimension(codons: set[str]) -> int:
+        support: set[int] = set()
+        for codon in codons:
+            support.update(anchor_support(codon))
+        return len(support)
+
+    def predicted_mstar_closure(codons: set[str]) -> set[str]:
+        support: set[int] = set()
+        for codon in codons:
+            support.update(anchor_support(codon))
+        y_side = {
+            codon
+            for codon in full_cube_set
+            if bits(codon)[4] == "0"
+            and all(
+                (index in support) or (bits(codon)[index] == cuy_bits_prefix[index])
+                for index in range(4)
+            )
+        }
+        return motif_codons("NNR") | y_side
+
+    span_size_rows = [
+        {
+            "span_dimension": dimension,
+            "closure_size": 32 + (2 ** (dimension + 1)),
+        }
+        for dimension in range(5)
+    ]
+    single_span_rows = []
+    for shell_index in range(1, 5):
+        closure_size = 32 + (2 ** (shell_index + 1))
+        single_span_rows.append(
+            {
+                "shell": f"H{shell_index}",
+                "shell_size": len(y_shells[shell_index]),
+                "span_dimension": shell_index,
+                "closure_size": closure_size,
+            }
+        )
+    trigger_count_rows = []
+    for added_size in range(1, 5):
+        counts: collections.Counter[int] = collections.Counter()
+        for subset in itertools.combinations(y_external_codons, added_size):
+            subset_set = set(subset)
+            dimension = span_dimension(subset_set)
+            counts[32 + (2 ** (dimension + 1))] += 1
+        trigger_count_rows.append(
+            {
+                "added_size": added_size,
+                "candidate_count": sum(counts.values()),
+                "closure_size_counts": dict(sorted(counts.items())),
+                "full_cube_count": counts[64],
+            }
+        )
+    support_pattern_verification_rows = []
+    for support_size in range(1, 5):
+        for support_pattern in itertools.combinations(range(4), support_size):
+            representative = next(
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) == frozenset(support_pattern)
+            )
+            subset_set = {representative}
+            closure, _stages = median_closure(mstar_set | subset_set)
+            predicted = predicted_mstar_closure(subset_set)
+            support_pattern_verification_rows.append(
+                {
+                    "support": tuple(BIT_COORDINATES[index] for index in support_pattern),
+                    "representative": representative,
+                    "closure_size": len(closure),
+                    "predicted_size": len(predicted),
+                    "matches_formula": closure == predicted,
+                }
+            )
     antipodal_trigger_summary = {
         "mstar": tuple(sorted(mstar_set)),
         "mstar_size": len(mstar_set),
@@ -3189,6 +3272,13 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "mstar_retention_float": shell_filling_rows[0]["retention_float"],
         "full_cube_spectral_radius": shell_filling_rows[-1]["spectral_radius"],
         "full_cube_retention_float": shell_filling_rows[-1]["retention_float"],
+        "anchor_subcube_formula_verified": all(row["matches_formula"] for row in support_pattern_verification_rows),
+        "span_size_rows": span_size_rows,
+        "single_span_rows": single_span_rows,
+        "trigger_count_rows": trigger_count_rows,
+        "support_pattern_verification_rows": support_pattern_verification_rows,
+        "full_trigger_condition_coordinates": BIT_COORDINATES[:4],
+        "agy_support": tuple(sorted(BIT_COORDINATES[index] for index in anchor_support("AGT"))),
     }
 
     def spectral_expansion_search(
@@ -6184,6 +6274,38 @@ def assert_expected(summary: dict[str, object]) -> None:
         ("S3", 62, "+H3", 0.978349, 0.973118),
         ("S4", 64, "+H4", 1.0, 1.0),
     ]
+    assert antipodal["anchor_subcube_formula_verified"] is True
+    assert [
+        (row["span_dimension"], row["closure_size"])
+        for row in antipodal["span_size_rows"]
+    ] == [
+        (0, 34),
+        (1, 36),
+        (2, 40),
+        (3, 48),
+        (4, 64),
+    ]
+    assert [
+        (row["shell"], row["shell_size"], row["span_dimension"], row["closure_size"])
+        for row in antipodal["single_span_rows"]
+    ] == [
+        ("H1", 8, 1, 36),
+        ("H2", 12, 2, 40),
+        ("H3", 8, 3, 48),
+        ("H4", 2, 4, 64),
+    ]
+    assert [
+        (row["added_size"], row["candidate_count"], row["closure_size_counts"])
+        for row in antipodal["trigger_count_rows"]
+    ] == [
+        (1, 30, {36: 8, 40: 12, 48: 8, 64: 2}),
+        (2, 435, {36: 4, 40: 78, 48: 196, 64: 157}),
+        (3, 4060, {40: 120, 48: 1216, 64: 2724}),
+        (4, 27405, {40: 90, 48: 3824, 64: 23491}),
+    ]
+    assert antipodal["agy_support"] == ("f1", "f2", "s1", "s2")
+    assert len(antipodal["support_pattern_verification_rows"]) == 15
+    assert all(row["matches_formula"] for row in antipodal["support_pattern_verification_rows"])
     assert round(spectral["acg_spectral_radius_before"], 4) == 0.6422
     assert round(spectral["acg_spectral_radius_after"], 4) == 0.6752
     assert round(spectral["acg_retention_before"], 3) == 0.596
