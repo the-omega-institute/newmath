@@ -203,4 +203,25 @@ theorem EffectiveCauchySequenceTasteGate_single_carrier_alignment :
         exact effectiveCauchySequenceToEventFlow_injective heq,
       rfl⟩
 
+namespace TasteGate
+
+theorem EffectiveCauchySequenceUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      effectiveCauchySequenceDecodeBHist
+          (effectiveCauchySequenceEncodeBHist h) =
+        h) ∧
+      (∀ x : EffectiveCauchySequenceUp,
+        effectiveCauchySequenceFromEventFlow
+            (effectiveCauchySequenceToEventFlow x) =
+          some x) ∧
+        (∀ x y : EffectiveCauchySequenceUp,
+          effectiveCauchySequenceToEventFlow x =
+              effectiveCauchySequenceToEventFlow y →
+            x = y) ∧
+          effectiveCauchySequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact EffectiveCauchySequenceTasteGate_single_carrier_alignment
+
+end TasteGate
+
 end BEDC.Derived.EffectiveCauchySequenceUp
