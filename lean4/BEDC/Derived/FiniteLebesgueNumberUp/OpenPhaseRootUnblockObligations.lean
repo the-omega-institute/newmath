@@ -153,4 +153,54 @@ theorem FiniteLebesgueNumberRootRadiusExportExactness [AskSetup] [PackageSetup]
     ⟨cert, rootUnary, phaseUnary, consumerUnary, routeNameRoot, rootRadiusPhase,
       phaseMeshConsumer, provenancePkg, consumerPkg⟩
 
+theorem FiniteLebesgueNumberFourFaceRadiusExitDeterminacy [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow rootRead endpointLeft
+      endpointRight consumerLeft consumerRight exitLeft exitRight : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont route nameRow rootRead ->
+        Cont rootRead radius endpointLeft ->
+          Cont rootRead radius endpointRight ->
+            Cont endpointLeft mesh consumerLeft ->
+              Cont endpointRight mesh consumerRight ->
+                Cont consumerLeft nameRow exitLeft ->
+                  Cont consumerRight nameRow exitRight ->
+                    PkgSig bundle exitLeft pkg ->
+                      PkgSig bundle exitRight pkg ->
+                        hsame endpointLeft endpointRight ∧
+                          hsame consumerLeft consumerRight ∧ hsame exitLeft exitRight ∧
+                            UnaryHistory endpointLeft ∧ UnaryHistory endpointRight ∧
+                              UnaryHistory consumerLeft ∧ UnaryHistory consumerRight ∧
+                                UnaryHistory exitLeft ∧ UnaryHistory exitRight := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier routeNameRoot rootRadiusLeft rootRadiusRight leftConsumer rightConsumer
+    leftExit rightExit _leftPkg _rightPkg
+  obtain ⟨_coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, _provenancePkg⟩ := carrier
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameRoot
+  have sameEndpoint : hsame endpointLeft endpointRight :=
+    cont_deterministic rootRadiusLeft rootRadiusRight
+  have endpointLeftUnary : UnaryHistory endpointLeft :=
+    unary_cont_closed rootUnary radiusUnary rootRadiusLeft
+  have endpointRightUnary : UnaryHistory endpointRight :=
+    unary_transport endpointLeftUnary sameEndpoint
+  have consumerLeftUnary : UnaryHistory consumerLeft :=
+    unary_cont_closed endpointLeftUnary meshUnary leftConsumer
+  have consumerRightUnary : UnaryHistory consumerRight :=
+    unary_cont_closed endpointRightUnary meshUnary rightConsumer
+  have sameConsumer : hsame consumerLeft consumerRight :=
+    cont_respects_hsame sameEndpoint (hsame_refl mesh) leftConsumer rightConsumer
+  have exitLeftUnary : UnaryHistory exitLeft :=
+    unary_cont_closed consumerLeftUnary nameRowUnary leftExit
+  have exitRightUnary : UnaryHistory exitRight :=
+    unary_cont_closed consumerRightUnary nameRowUnary rightExit
+  have sameExit : hsame exitLeft exitRight :=
+    cont_respects_hsame sameConsumer (hsame_refl nameRow) leftExit rightExit
+  exact
+    ⟨sameEndpoint, sameConsumer, sameExit, endpointLeftUnary, endpointRightUnary,
+      consumerLeftUnary, consumerRightUnary, exitLeftUnary, exitRightUnary⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
