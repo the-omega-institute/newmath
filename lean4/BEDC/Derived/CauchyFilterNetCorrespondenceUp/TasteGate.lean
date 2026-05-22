@@ -151,6 +151,25 @@ private theorem CauchyFilterNetCorrespondenceTasteGate_toEventFlow_injective
     (Eq.trans (CauchyFilterNetCorrespondenceTasteGate_round_trip x).symm
       (Eq.trans hread (CauchyFilterNetCorrespondenceTasteGate_round_trip y)))
 
+def CauchyFilterNetCorrespondenceTasteGate_single_carrier_alignment_fields :
+    CauchyFilterNetCorrespondenceUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | CauchyFilterNetCorrespondenceUp.mk F D W R T M U H C P N =>
+      [F, D, W, R, T, M, U, H, C, P, N]
+
+private theorem CauchyFilterNetCorrespondenceTasteGate_single_carrier_alignment_field_faithful :
+    ∀ x y : CauchyFilterNetCorrespondenceUp,
+      CauchyFilterNetCorrespondenceTasteGate_single_carrier_alignment_fields x =
+        CauchyFilterNetCorrespondenceTasteGate_single_carrier_alignment_fields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  intro x y hfields
+  cases x with
+  | mk F D W R T M U H C P N =>
+      cases y with
+      | mk F' D' W' R' T' M' U' H' C' P' N' =>
+          cases hfields
+          rfl
+
 instance cauchyFilterNetCorrespondenceBHistCarrier :
     BHistCarrier CauchyFilterNetCorrespondenceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -164,6 +183,12 @@ instance cauchyFilterNetCorrespondenceChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (CauchyFilterNetCorrespondenceTasteGate_toEventFlow_injective heq)
+
+instance cauchyFilterNetCorrespondenceFieldFaithful :
+    FieldFaithful CauchyFilterNetCorrespondenceUp where
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  fields := CauchyFilterNetCorrespondenceTasteGate_single_carrier_alignment_fields
+  field_faithful := CauchyFilterNetCorrespondenceTasteGate_single_carrier_alignment_field_faithful
 
 def taste_gate : ChapterTasteGate CauchyFilterNetCorrespondenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
