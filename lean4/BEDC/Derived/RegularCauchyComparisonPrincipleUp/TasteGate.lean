@@ -4,6 +4,7 @@ import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyComparisonPrincipleUp
+namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -14,20 +15,20 @@ inductive RegularCauchyComparisonPrincipleUp : Type where
   | mk (X Y W D E T Q R H C K N : BHist) : RegularCauchyComparisonPrincipleUp
   deriving DecidableEq
 
-def regularCauchyComparisonPrincipleEncodeBHist : BHist -> RawEvent
+def regularCauchyComparisonPrincipleEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: regularCauchyComparisonPrincipleEncodeBHist h
   | BHist.e1 h => BMark.b1 :: regularCauchyComparisonPrincipleEncodeBHist h
 
-def regularCauchyComparisonPrincipleDecodeBHist : RawEvent -> BHist
+def regularCauchyComparisonPrincipleDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (regularCauchyComparisonPrincipleDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyComparisonPrincipleDecodeBHist tail)
 
 private theorem RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_decode :
-    forall h : BHist,
+    ∀ h : BHist,
       regularCauchyComparisonPrincipleDecodeBHist
         (regularCauchyComparisonPrincipleEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -38,75 +39,56 @@ private theorem RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignme
   | e1 h ih => exact congrArg BHist.e1 ih
 
 def regularCauchyComparisonPrincipleFields :
-    RegularCauchyComparisonPrincipleUp -> List BHist
+    RegularCauchyComparisonPrincipleUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyComparisonPrincipleUp.mk X Y W D E T Q R H C K N =>
       [X, Y, W, D, E, T, Q, R, H, C, K, N]
 
 def regularCauchyComparisonPrincipleToEventFlow :
-    RegularCauchyComparisonPrincipleUp -> EventFlow
+    RegularCauchyComparisonPrincipleUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x =>
       (regularCauchyComparisonPrincipleFields x).map
         regularCauchyComparisonPrincipleEncodeBHist
 
-def regularCauchyComparisonPrincipleFromEventFlow :
-    EventFlow -> Option RegularCauchyComparisonPrincipleUp
+private def regularCauchyComparisonPrincipleEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | X :: restX =>
-      match restX with
-      | Y :: restY =>
-          match restY with
-          | W :: restW =>
-              match restW with
-              | D :: restD =>
-                  match restD with
-                  | E :: restE =>
-                      match restE with
-                      | T :: restT =>
-                          match restT with
-                          | Q :: restQ =>
-                              match restQ with
-                              | R :: restR =>
-                                  match restR with
-                                  | H :: restH =>
-                                      match restH with
-                                      | C :: restC =>
-                                          match restC with
-                                          | K :: restK =>
-                                              match restK with
-                                              | N :: rest =>
-                                                  match rest with
-                                                  | [] =>
-                                                      some
-                                                        (RegularCauchyComparisonPrincipleUp.mk
-                                                          (regularCauchyComparisonPrincipleDecodeBHist X)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist Y)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist W)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist D)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist E)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist T)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist Q)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist R)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist H)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist C)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist K)
-                                                          (regularCauchyComparisonPrincipleDecodeBHist N))
-                                                  | _ :: _ => none
-                                              | [] => none
-                                          | [] => none
-                                      | [] => none
-                                  | [] => none
-                              | [] => none
-                          | [] => none
-                      | [] => none
-                  | [] => none
-              | [] => none
-          | [] => none
-      | [] => none
-  | [] => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyComparisonPrincipleEventAtDefault index rest
 
-private theorem RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_mk_congr
+def regularCauchyComparisonPrincipleFromEventFlow
+    (ef : EventFlow) : Option RegularCauchyComparisonPrincipleUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (RegularCauchyComparisonPrincipleUp.mk
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 0 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 1 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 2 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 3 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 4 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 5 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 6 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 7 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 8 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 9 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 10 ef))
+      (regularCauchyComparisonPrincipleDecodeBHist
+        (regularCauchyComparisonPrincipleEventAtDefault 11 ef)))
+
+private theorem regularCauchyComparisonPrinciple_mk_congr
     {X X' Y Y' W W' D D' E E' T T' Q Q' R R' H H' C C' K K' N N' : BHist}
     (hX : X' = X) (hY : Y' = Y) (hW : W' = W) (hD : D' = D)
     (hE : E' = E) (hT : T' = T) (hQ : Q' = Q) (hR : R' = R)
@@ -129,7 +111,7 @@ private theorem RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignme
   rfl
 
 private theorem RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_round_trip :
-    forall x : RegularCauchyComparisonPrincipleUp,
+    ∀ x : RegularCauchyComparisonPrincipleUp,
       regularCauchyComparisonPrincipleFromEventFlow
         (regularCauchyComparisonPrincipleToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -138,7 +120,7 @@ private theorem RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignme
   | mk X Y W D E T Q R H C K N =>
       exact
         congrArg some
-          (RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_mk_congr
+          (regularCauchyComparisonPrinciple_mk_congr
             (RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_decode X)
             (RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_decode Y)
             (RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_decode W)
@@ -152,11 +134,10 @@ private theorem RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignme
             (RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_decode K)
             (RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_decode N))
 
-private theorem RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem regularCauchyComparisonPrincipleToEventFlow_injective
     {x y : RegularCauchyComparisonPrincipleUp} :
     regularCauchyComparisonPrincipleToEventFlow x =
-        regularCauchyComparisonPrincipleToEventFlow y ->
-      x = y := by
+      regularCauchyComparisonPrincipleToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -188,32 +169,29 @@ instance regularCauchyComparisonPrincipleChapterTasteGate :
     exact RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_toEventFlow_injective
-        heq)
+    exact hxy (regularCauchyComparisonPrincipleToEventFlow_injective heq)
+
+def taste_gate : ChapterTasteGate RegularCauchyComparisonPrincipleUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  regularCauchyComparisonPrincipleChapterTasteGate
 
 theorem RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment :
-    (forall h : BHist,
+    (∀ h : BHist,
       regularCauchyComparisonPrincipleDecodeBHist
         (regularCauchyComparisonPrincipleEncodeBHist h) = h) ∧
-      (forall x : RegularCauchyComparisonPrincipleUp,
+      (∀ x : RegularCauchyComparisonPrincipleUp,
         regularCauchyComparisonPrincipleFromEventFlow
           (regularCauchyComparisonPrincipleToEventFlow x) = some x) ∧
-        (forall x y : RegularCauchyComparisonPrincipleUp,
+        (∀ x y : RegularCauchyComparisonPrincipleUp,
           regularCauchyComparisonPrincipleToEventFlow x =
-              regularCauchyComparisonPrincipleToEventFlow y ->
-            x = y) ∧
+            regularCauchyComparisonPrincipleToEventFlow y → x = y) ∧
           regularCauchyComparisonPrincipleEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_decode
-  · constructor
-    · exact RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_round_trip
-    · constructor
-      · intro x y heq
-        exact
-          RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_toEventFlow_injective
-            heq
-      · rfl
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_decode,
+      RegularCauchyComparisonPrincipleTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => regularCauchyComparisonPrincipleToEventFlow_injective heq),
+      rfl⟩
 
+end TasteGate
 end BEDC.Derived.RegularCauchyComparisonPrincipleUp

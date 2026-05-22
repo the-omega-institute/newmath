@@ -880,6 +880,7 @@ import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
 import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
+import BEDC.Derived.CauchyCompletionReflectiveSubcategoryUp.TasteGate
 import BEDC.Derived.CauchyCompletionSplitUp.TasteGate
 import BEDC.Derived.CauchyCompletionTraceUp.TasteGate
 import BEDC.Derived.CauchyCompletionTriangleIdentityUp.TasteGate
@@ -3432,6 +3433,7 @@ import BEDC.Derived.LocatedCauchyFilterUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCompactUp.TasteGate
+import BEDC.Derived.LocatedCompletionSealUp.TasteGate
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
@@ -4326,6 +4328,7 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalConsumerExactness
 import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalNormalFormAbsorption
 import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalRoutePullback
 import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalSealDeterminacy
+import BEDC.Derived.RealCompletionReflectionUp
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp
