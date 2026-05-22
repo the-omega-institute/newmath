@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\DyadicMetricUp$}
+\label{ch:concrete-instances-dyadic-metric-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicMetricUp$ packet names the finite dyadic metric ledger read by regular rational streams, real-name seals, and metric-space consumers before any ambient completion can be invoked. It sits over the dyadic endpoint and distance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, reads the nonnegative endpoint surface of \autoref{ch:concrete-instances-dyadicabsolutevalue-namecert}, hands scheduled distance ledgers to \autoref{ch:concrete-instances-regseqrat-namecert}, and presents the resulting finite witness surface to \autoref{ch:concrete-instances-metric-namecert}. The chapter isolates the metric ledger itself: source pairs, dyadic distance, zero boundary, symmetry, triangle bounds, consumer handoff, transport, replay, provenance, and local naming.
+
+\begin{definition}[Dyadic metric carrier]
+\label{def:dyadic-metric-carrier}
+A $\DyadicMetricUp$ carrier is a finite $\BHist$ packet
+$$
+M=(s,d,a,z,u,t,r,h,c,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $s$ is the source-pair row. It records two accepted $\DyadicRatCoreUp$ endpoints together with their visible mantissa, denominator, $\IntUp$, and $\RatUp$ provenance.
+\item $d$ is the dyadic distance ledger for the ordered pair in $s$. It records the common-denominator subtraction window, radius row, and finite comparison data used by distance consumers.
+\item $a$ is the $\DyadicAbsoluteValueUp$ endpoint row attached to $d$, exposing the nonnegative dyadic distance endpoint through the absolute-value packet rather than through a host absolute-value function.
+\item $z$ is the zero-distance boundary row. It states that a displayed zero distance is admitted only by the finite dyadic equality boundary already visible in the source-pair and distance rows.
+\item $u$ is the symmetry row. It swaps the two source endpoints and reuses the same absolute-value endpoint and tolerance ledger with the ordered-pair direction reversed.
+\item $t$ is the triangle-bound row. It records the finite three-source ledger, the two intermediate distance rows, the outer distance row, and the dyadic comparison witnessing the displayed triangle bound.
+\item $r$ is the $\RegSeqRatUp$ and $\RealUp$ consumer handoff row. It exposes the distance ledger as the finite tolerance surface read by regular rational streams, real-name seals, and metric witnesses.
+\item $h$ records componentwise $\hsame$ transport for the source pair, dyadic distance ledger, absolute-value endpoint, zero boundary, symmetry row, triangle-bound row, consumer handoff, replay, provenance, and local naming rows.
+\item $c$ records displayed $\Cont$ replay from the source pair through dyadic distance, absolute value, zero boundary, symmetry, triangle bound, consumer handoff, transport, provenance, and local naming.
+\item $p$ is the $\Pkg$ provenance over $\DyadicMetricUp$, $\DyadicRatCoreUp$, $\DyadicAbsoluteValueUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $n$ is the local $\NameCert_{\DyadicMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $s,d,a,z,u,t,r,h,c,p,n$. It has no coordinate for host metric spaces, quotient rationals, trichotomy, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Dyadic metric NameCert obligations]
+\label{thm:dyadic-metric-namecert-obligations}
+For every accepted $\DyadicMetricUp$ carrier $M=(s,d,a,z,u,t,r,h,c,p,n)$, the local $\NameCert_{\DyadicMetricUp}$ surface consists exactly of carrier admission, dyadic distance-ledger exposure, absolute-value endpoint exposure, zero-distance boundary, symmetry routing, triangle-bound routing, RegSeqRat and Real consumer handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row. No dyadic metric obligation is stored outside those finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-metric-carrier}. The visible packet lists the source pair $s$, dyadic distance ledger $d$, absolute-value endpoint $a$, zero boundary $z$, symmetry row $u$, triangle-bound row $t$, consumer handoff $r$, and structural rows $h,c,p,n$.
+
+The metric-law rows are finite ledger rows, not external laws. The zero boundary reads only the displayed dyadic equality boundary; the symmetry row swaps the source pair and reuses the same absolute-value endpoint; the triangle row reads three displayed sources, the corresponding distance ledgers, and one dyadic comparison row.
+
+The handoff clause is downstream of those ledgers. A $\RegSeqRatUp$, $\RealUp$, or $\MetricSpaceUp$ consumer can read the distance only through $r$ after the source pair, distance ledger, absolute-value endpoint, and metric-law rows have already been displayed.
+
+Transport and replay are componentwise through $h$ and $c$. The provenance and local naming rows package exactly the listed coordinates, so the excluded host metric, quotient-rational, trichotomy, selected-limit, completeness, verification, and bridge data cannot appear as hidden obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic metric RegSeqRat consumer handoff]
+\label{thm:dyadic-metric-regseqrat-consumer-handoff}
+Let $M=(s,d,a,z,u,t,r,h,c,p,n)$ be an accepted $\DyadicMetricUp$ carrier. Every $\RegSeqRatUp$, $\RealUp$, or $\MetricSpaceUp$ consumer of $M$ must read the finite route
+$$
+s \longmapsto d \longmapsto a \longmapsto z,u,t \longmapsto r \longmapsto h,c,p,n
+$$
+before the dyadic distance ledger is available as a regular-rational tolerance, a real-name distance surface, or a metric witness. Consequently the consumer route cannot bypass the dyadic metric packet through a host metric space, quotient rational equality, trichotomy, selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only consumer-facing coordinate is $r$, and $r$ is placed after the source-pair row, dyadic distance ledger, absolute-value endpoint, zero boundary, symmetry row, and triangle-bound row.
+
+For a $\RegSeqRatUp$ consumer, the distance ledger is read as a dyadic tolerance row. Since the tolerance comes from $d$ and $a$, the regular rational route must pass through the displayed source pair and nonnegative endpoint before it can inspect a scheduled finite window.
+
+For a $\RealUp$ or $\MetricSpaceUp$ consumer, the same route is terminal. The real-name seal and the metric witness receive only the distance surface exposed by $r$, while $h,c,p,n$ transport, replay, package, and name that surface without adding a second distance function.
+
+The excluded objects are absent from the carrier. Thus every accepted consumer route factors through the displayed dyadic metric ledger and cannot obtain an ambient host metric, quotient-rational comparison, trichotomy witness, selected limit, or completeness theorem from this packet.
+\end{proof}
+
+\closureat{DyadicMetricUp}{seedStr}
+
+\begin{closurestatus}{\DyadicMetricUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-metric-carrier}, \autoref{thm:dyadic-metric-namecert-obligations}, and \autoref{thm:dyadic-metric-regseqrat-consumer-handoff} seed the finite dyadic metric route from source pairs through distance ledger, absolute-value endpoint, zero boundary, symmetry, triangle bound, RegSeqRat and Real handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host metric spaces, quotient rationals, trichotomy, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic distance-ledger exposure, absolute-value endpoint exposure, zero-distance boundary, symmetry routing, triangle-bound routing, consumer handoff, provenance, transport, replay, and local naming for BEDC.Derived.DyadicMetricUp.}
+  \constructivestory{A $\DyadicMetricUp$ packet is generated from a displayed pair of DyadicRatCore endpoints, a dyadic distance ledger, a DyadicAbsoluteValue endpoint, zero-distance, symmetry, and triangle rows, a RegSeqRat and Real consumer handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

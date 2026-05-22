@@ -271,6 +271,34 @@ def RealCauchyModulusCarrier [AskSetup] [PackageSetup]
               (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
               (fun row row' : BHist => hsame row row')
 
+namespace TasteGate
+
+theorem RealCauchyModulusCarrier_window_modulus_route [AskSetup] [PackageSetup]
+    {modulus windows dyadic readback sealRow transports routes provenance localCert
+      routeConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyModulusCarrier modulus windows dyadic readback sealRow transports routes provenance
+        localCert bundle pkg ->
+      Cont sealRow routes routeConsumer ->
+        PkgSig bundle routeConsumer pkg ->
+          UnaryHistory modulus ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+            UnaryHistory sealRow ∧ UnaryHistory routeConsumer ∧ Cont modulus windows dyadic ∧
+              Cont dyadic readback sealRow ∧ Cont sealRow routes routeConsumer ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle routeConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier routeConsumerCont routeConsumerPkg
+  obtain ⟨modulusUnary, windowsUnary, dyadicUnary, _readbackUnary, sealUnary,
+    _transportsUnary, routesUnary, _provenanceUnary, _localCertUnary, modulusWindowRoute,
+      dyadicReadbackRoute, _sealRoute, provenancePkg, _localSemantic⟩ := carrier
+  have routeConsumerUnary : UnaryHistory routeConsumer :=
+    unary_cont_closed sealUnary routesUnary routeConsumerCont
+  exact
+    ⟨modulusUnary, windowsUnary, dyadicUnary, sealUnary, routeConsumerUnary,
+      modulusWindowRoute, dyadicReadbackRoute, routeConsumerCont, provenancePkg,
+      routeConsumerPkg⟩
+
+end TasteGate
+
 theorem RealCauchyModulusCarrier_threshold_stability [AskSetup] [PackageSetup]
     {modulus windows dyadic readback sealRow transports routes provenance localCert modulus'
       windows' dyadic' readback' sealRow' transports' routes' provenance' localCert' : BHist}
@@ -356,5 +384,38 @@ theorem RealCauchyModulusCarrier_threshold_stability [AskSetup] [PackageSetup]
     ⟨⟨modulusUnary', windowsUnary', dyadicUnary', readbackUnary', sealUnary',
       transportsUnary', routesUnary', provenanceUnary', localCertUnary', routeMod, routeRead,
       routeSeal, pkgProvenance, localSemantic'⟩, sameSeal⟩
+
+theorem RealCauchyModulusCarrier_precision_induction [AskSetup] [PackageSetup]
+    {modulus windows dyadic readback sealRow transports routes provenance localCert
+      precision : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyModulusCarrier modulus windows dyadic readback sealRow transports routes provenance
+        localCert bundle pkg ->
+      UnaryHistory precision ->
+        exists refinedWindows refinedDyadic refinedSeal : BHist,
+          Cont modulus precision refinedWindows ∧ Cont refinedWindows dyadic refinedDyadic ∧
+            Cont refinedDyadic readback refinedSeal ∧ UnaryHistory refinedWindows ∧
+              UnaryHistory refinedDyadic ∧ UnaryHistory refinedSeal ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier precisionUnary
+  obtain ⟨modulusUnary, _windowsUnary, dyadicUnary, readbackUnary, _sealUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, _modulusRoute,
+      _dyadicRoute, _sealRoute, provenancePkg, _localSemantic⟩ := carrier
+  let refinedWindows : BHist := BEDC.FKernel.Cont.append modulus precision
+  let refinedDyadic : BHist := BEDC.FKernel.Cont.append refinedWindows dyadic
+  let refinedSeal : BHist := BEDC.FKernel.Cont.append refinedDyadic readback
+  have windowsCont : Cont modulus precision refinedWindows := rfl
+  have refinedWindowsUnary : UnaryHistory refinedWindows :=
+    unary_cont_closed modulusUnary precisionUnary windowsCont
+  have dyadicCont : Cont refinedWindows dyadic refinedDyadic := rfl
+  have refinedDyadicUnary : UnaryHistory refinedDyadic :=
+    unary_cont_closed refinedWindowsUnary dyadicUnary dyadicCont
+  have sealCont : Cont refinedDyadic readback refinedSeal := rfl
+  have refinedSealUnary : UnaryHistory refinedSeal :=
+    unary_cont_closed refinedDyadicUnary readbackUnary sealCont
+  exact
+    ⟨refinedWindows, refinedDyadic, refinedSeal, windowsCont, dyadicCont, sealCont,
+      refinedWindowsUnary, refinedDyadicUnary, refinedSealUnary, provenancePkg⟩
 
 end BEDC.Derived.RealCauchyModulusUp
