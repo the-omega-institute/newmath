@@ -1094,6 +1094,7 @@ import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
+import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
@@ -5226,6 +5227,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.TerminalSelectorUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowRefinementExactness
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
+import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
 import BEDC.Derived.UniformLimitUp
