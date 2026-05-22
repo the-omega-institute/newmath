@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\ArchimedeanBracketUp$}
+\label{ch:concrete-instances-archimedean-bracket-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\ArchimedeanBracketUp$ packet records the finite integer-window route by which a displayed real name is bracketed before a Real or Completion consumer reads a located approximation. It consumes the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the integer boundary rows of \autoref{ch:concrete-instances-int-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet gives downstream order, fractional-part, located-comparison, and approximation chapters a named bracket surface without importing host floor functions, trichotomy, quotient real equality, selected integer parts, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+
+\begin{definition}[Archimedean bracket carrier]
+\label{def:archimedean-bracket-carrier}
+An $\ArchimedeanBracketUp$ carrier is a finite $\BHist$ packet
+$$
+B=(R,L,U,D,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ source row whose displayed name is being bracketed at the requested precision.
+\item $L$ is the $\IntUp$ lower bracket row, recording the displayed integer bound admitted below the readback window.
+\item $U$ is the $\IntUp$ upper bracket row, recording the displayed integer bound admitted above the readback window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to state the finite dyadic radius and comparison scale for the bracket request.
+\item $S$ is the $\StreamNameUp$ finite-window row opened from $R$ at the tolerance recorded by $D$.
+\item $Q$ is the $\RegSeqRatUp$ readback row that converts the displayed stream samples into rational observations before the integer rows are compared.
+\item $H$ records componentwise $\hsame$ transport for the real source, lower and upper integer rows, dyadic tolerance, stream windows, regular rational readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+R,D,S,Q,L,U \longmapsto \NameCert_{\ArchimedeanBracketUp}.
+$$
+\item $P$ is the $\Pkg$ provenance over $\ArchimedeanBracketUp$, $\RealUp$, $\IntUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ArchimedeanBracketUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,L,U,D,S,Q,H,C,P,N$. It has no coordinate for a host floor operation, trichotomy on real values, quotient real equality, a selected integer part, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Archimedean bracket NameCert obligations]
+\label{thm:archimedean-bracket-namecert-obligations}
+For every accepted $\ArchimedeanBracketUp$ carrier
+$$
+B=(R,L,U,D,S,Q,H,C,P,N),
+$$
+the local $\NameCert_{\ArchimedeanBracketUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the Real source row, lower and upper integer bracket rows, dyadic tolerance row, stream-window row, regular rational readback row, transport, replay, provenance, and local naming row;
+\item source-before-window routing, requiring $S$ to be opened only from the displayed $\RealUp$ row $R$ at the tolerance recorded by $D$;
+\item readback-before-bracket routing, requiring $Q$ to expose the rational observations used by both integer comparisons before either $L$ or $U$ is exported as a bracket endpoint;
+\item lower and upper endpoint exposure, requiring $L$ and $U$ to be the only integer rows visible to downstream bracket consumers;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same row order without adding a second real source or another integer endpoint;
+\item provenance and local naming, requiring $P$ and $N$ to source and name only the displayed packet.
+\end{enumerate}
+No Archimedean bracket obligation is stored outside these rows, and none exports host floor, trichotomy, quotient real equality, selected integer parts, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:archimedean-bracket-carrier}. The accepted packet displays exactly the Real source, lower and upper integer rows, dyadic tolerance, stream windows, regular rational readback, transport, replay, provenance, and local name.
+
+The source and tolerance rows determine the finite window. The row $S$ is opened only from $R$ at the dyadic scale stored in $D$, so a bracket consumer cannot replace the displayed real-name route by a host real value.
+
+The rational readback precedes the integer endpoints. The row $Q$ reads the displayed stream samples before $L$ and $U$ are compared with that observation, making the two integer rows bracket endpoints for the same finite window.
+
+The structural rows preserve the route. Componentwise transport through $H$ and replay through $C$ keep $R,D,S,Q,L,U$ aligned, while $P$ and $N$ provide only provenance and local naming.
+
+Since the excluded principles have no coordinate in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Archimedean bracket Real-window handoff]
+\label{thm:archimedean-bracket-real-window-handoff}
+Every accepted $\ArchimedeanBracketUp$ read exported to a Real or Completion consumer factors through the displayed finite route
+$$
+R \longmapsto D \longmapsto S \longmapsto Q \longmapsto (L,U) \longmapsto H,C,P,N .
+$$
+The consumer receives a single $\RealUp$ source row, one $\DyadicRatCoreUp$ tolerance row, one $\StreamNameUp$ window row, one $\RegSeqRatUp$ readback row, two $\IntUp$ endpoint rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row. The handoff is not a host floor theorem, not real trichotomy, not quotient real equality, not a selected integer part, not ambient $\RealUp$ completeness, and not bridge verification.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $B=(R,L,U,D,S,Q,H,C,P,N)$. The Real-facing read begins with $R$, and the only tolerance visible to the packet is the dyadic row $D$.
+
+Open the finite stream window $S$ at that tolerance. Its regular rational readback is the row $Q$, which supplies the finite observations against which the integer rows are displayed.
+
+The lower and upper bracket rows are then read together. Because $L$ and $U$ are the only integer coordinates in the carrier, every downstream bracket endpoint is one of those two rows and is attached to the same readback $Q$.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same route. No carrier coordinate can supply a host floor, trichotomy, quotient equality, selected integer part, ambient completeness theorem, or bridge credential, so every exported bracket handoff factors through the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every $\ArchimedeanBracketUp$ bracket read factors through one RealUp source row, one DyadicRatCore tolerance row, one StreamName finite-window row, one RegSeqRat readback row, two IntUp endpoint rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{real, int, dyadicratcore, streamname, regseqrat: $\ArchimedeanBracketUp$ is not bijective to any listed sibling because it jointly carries a Real source, a dyadic tolerance, a stream window, a regular rational readback, and lower and upper integer endpoint rows as one bracket certificate.}
+
+\closureat{ArchimedeanBracketUp}{seedStr}
+
+\begin{closurestatus}{\ArchimedeanBracketUp}
+  \constructivestory{An $\ArchimedeanBracketUp$ packet is generated from a Real source row, lower and upper Int rows, a DyadicRatCore tolerance row, a StreamName finite-window row, a RegSeqRat readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:archimedean-bracket-carrier}, \autoref{thm:archimedean-bracket-namecert-obligations}, and \autoref{thm:archimedean-bracket-real-window-handoff} seed the finite integer-window bracket certificate over Real, dyadic tolerance, stream-window, regular rational readback, and integer endpoint rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host floor functions, trichotomy, quotient real equality, selected integer parts, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-before-window routing, readback-before-bracket routing, lower and upper endpoint exposure, transport and replay stability, provenance, and local naming for BEDC.Derived.ArchimedeanBracketUp.}
+\end{closurestatus}
