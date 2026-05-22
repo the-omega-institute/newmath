@@ -7,6 +7,7 @@ import fractions
 import http.client
 import itertools
 import json
+import math
 import pathlib
 import random
 import re
@@ -3182,10 +3183,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             support.update(anchor_support(codon))
         return len(support)
 
-    def predicted_mstar_closure(codons: set[str]) -> set[str]:
-        support: set[int] = set()
-        for codon in codons:
-            support.update(anchor_support(codon))
+    def predicted_mstar_closure_for_support(support: set[int] | frozenset[int]) -> set[str]:
         y_side = {
             codon
             for codon in full_cube_set
@@ -3197,6 +3195,18 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         }
         return motif_codons("NNR") | y_side
 
+    def predicted_mstar_closure(codons: set[str]) -> set[str]:
+        support: set[int] = set()
+        for codon in codons:
+            support.update(anchor_support(codon))
+        return predicted_mstar_closure_for_support(support)
+
+    coordinate_universe = frozenset(range(4))
+    support_patterns = tuple(
+        frozenset(pattern)
+        for support_size in range(5)
+        for pattern in itertools.combinations(range(4), support_size)
+    )
     span_size_rows = [
         {
             "span_dimension": dimension,
@@ -3250,6 +3260,114 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                     "matches_formula": closure == predicted,
                 }
             )
+    trigger_lattice_sets = {
+        support_pattern: predicted_mstar_closure_for_support(support_pattern)
+        for support_pattern in support_patterns
+    }
+    boolean_lattice_intersection_verified = all(
+        (trigger_lattice_sets[left] & trigger_lattice_sets[right])
+        == trigger_lattice_sets[left & right]
+        for left in support_patterns
+        for right in support_patterns
+    )
+    boolean_lattice_median_join_verified = True
+    for left in support_patterns:
+        for right in support_patterns:
+            joined_closure, _joined_stages = median_closure(trigger_lattice_sets[left] | trigger_lattice_sets[right])
+            if joined_closure != trigger_lattice_sets[left | right]:
+                boolean_lattice_median_join_verified = False
+                break
+        if not boolean_lattice_median_join_verified:
+            break
+
+    def cubical_formula_f_vector(rank: int) -> tuple[int, ...]:
+        max_dimension = max(5, rank + 2)
+        return tuple(
+            (
+                (2 ** (5 - cell_dimension)) * math.comb(5, cell_dimension)
+                + (2 ** (rank + 2 - cell_dimension)) * math.comb(rank + 2, cell_dimension)
+                - (2 ** (rank + 1 - cell_dimension)) * math.comb(rank + 1, cell_dimension)
+            )
+            for cell_dimension in range(max_dimension + 1)
+        )
+
+    boolean_lattice_rank_rows = []
+    for rank in range(5):
+        support_pattern = frozenset(range(rank))
+        closure_set = trigger_lattice_sets[support_pattern]
+        complex_summary = cubical_complex_summary(closure_set)
+        f_vector = tuple(value for value in complex_summary["f_vector"] if value)
+        boolean_lattice_rank_rows.append(
+            {
+                "rank": rank,
+                "support": tuple(BIT_COORDINATES[index] for index in support_pattern),
+                "closure_size": len(closure_set),
+                "f_vector": f_vector,
+                "f_vector_formula": cubical_formula_f_vector(rank),
+                "f_vector_matches_formula": f_vector == cubical_formula_f_vector(rank),
+                "spectral_radius": spectral_radius_for_set(closure_set),
+            }
+        )
+
+    def trigger_rank_count(added_size: int, rank: int) -> int:
+        total = 0
+        for omitted in range(rank + 1):
+            total += (
+                ((-1) ** omitted)
+                * math.comb(rank, omitted)
+                * math.comb(2 * ((2 ** (rank - omitted)) - 1), added_size)
+            )
+        return math.comb(4, rank) * total
+
+    rank_distribution_rows = []
+    for added_size in range(1, 7):
+        rank_counts = {
+            rank: trigger_rank_count(added_size, rank)
+            for rank in range(1, 5)
+        }
+        candidate_count = math.comb(len(y_external_codons), added_size)
+        rank_distribution_rows.append(
+            {
+                "added_size": added_size,
+                "candidate_count": candidate_count,
+                "rank_counts": rank_counts,
+                "full_cube_count": rank_counts[4],
+                "full_cube_probability": rank_counts[4] / candidate_count,
+                "counts_sum_to_candidate_count": sum(rank_counts.values()) == candidate_count,
+            }
+        )
+    trigger_count_formula_matches_enumeration = all(
+        {
+            32 + (2 ** (rank + 1)): row["rank_counts"][rank]
+            for rank in range(1, 5)
+            if row["rank_counts"][rank]
+        }
+        == trigger_count_rows[row["added_size"] - 1]["closure_size_counts"]
+        for row in rank_distribution_rows[:4]
+    )
+
+    nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
+    quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
+    for trigger_size in range(1, 5):
+        for family in itertools.combinations(nonempty_support_patterns, trigger_size):
+            union_support = frozenset().union(*family)
+            if union_support != coordinate_universe:
+                continue
+            is_minimal = all(
+                frozenset().union(*(other for index, other in enumerate(family) if index != removed_index))
+                != coordinate_universe
+                for removed_index in range(len(family))
+            )
+            if is_minimal:
+                quotient_minimal_trigger_counts[trigger_size] += 1
+    minimal_trigger_rows = [
+        {
+            "trigger_size": trigger_size,
+            "quotient_count": quotient_minimal_trigger_counts[trigger_size],
+            "codon_count": quotient_minimal_trigger_counts[trigger_size] * (2 ** trigger_size),
+        }
+        for trigger_size in range(1, 5)
+    ]
     antipodal_trigger_summary = {
         "mstar": tuple(sorted(mstar_set)),
         "mstar_size": len(mstar_set),
@@ -3279,6 +3397,15 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "support_pattern_verification_rows": support_pattern_verification_rows,
         "full_trigger_condition_coordinates": BIT_COORDINATES[:4],
         "agy_support": tuple(sorted(BIT_COORDINATES[index] for index in anchor_support("AGT"))),
+        "boolean_lattice_closure_count": len(support_patterns),
+        "boolean_lattice_intersection_verified": boolean_lattice_intersection_verified,
+        "boolean_lattice_median_join_verified": boolean_lattice_median_join_verified,
+        "boolean_lattice_rank_rows": boolean_lattice_rank_rows,
+        "rank_distribution_rows": rank_distribution_rows,
+        "trigger_count_formula_matches_enumeration": trigger_count_formula_matches_enumeration,
+        "minimal_trigger_rows": minimal_trigger_rows,
+        "minimal_trigger_quotient_total": sum(row["quotient_count"] for row in minimal_trigger_rows),
+        "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
     }
 
     def spectral_expansion_search(
@@ -6306,6 +6433,55 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert antipodal["agy_support"] == ("f1", "f2", "s1", "s2")
     assert len(antipodal["support_pattern_verification_rows"]) == 15
     assert all(row["matches_formula"] for row in antipodal["support_pattern_verification_rows"])
+    assert antipodal["boolean_lattice_closure_count"] == 16
+    assert antipodal["boolean_lattice_intersection_verified"] is True
+    assert antipodal["boolean_lattice_median_join_verified"] is True
+    assert [
+        (
+            row["rank"],
+            row["closure_size"],
+            row["f_vector"],
+            round(row["spectral_radius"], 6),
+            row["f_vector_matches_formula"],
+        )
+        for row in antipodal["boolean_lattice_rank_rows"]
+    ] == [
+        (0, 34, (34, 83, 81, 40, 10, 1), 0.836111, True),
+        (1, 36, (36, 88, 85, 41, 10, 1), 0.840912, True),
+        (2, 40, (40, 100, 98, 47, 11, 1), 0.855963, True),
+        (3, 48, (48, 128, 136, 72, 19, 2), 0.902369, True),
+        (4, 64, (64, 192, 240, 160, 60, 12, 1), 1.0, True),
+    ]
+    assert [
+        (
+            row["added_size"],
+            row["candidate_count"],
+            row["rank_counts"],
+            row["full_cube_count"],
+            round(row["full_cube_probability"], 4),
+            row["counts_sum_to_candidate_count"],
+        )
+        for row in antipodal["rank_distribution_rows"]
+    ] == [
+        (1, 30, {1: 8, 2: 12, 3: 8, 4: 2}, 2, 0.0667, True),
+        (2, 435, {1: 4, 2: 78, 3: 196, 4: 157}, 157, 0.3609, True),
+        (3, 4060, {1: 0, 2: 120, 3: 1216, 4: 2724}, 2724, 0.6709, True),
+        (4, 27405, {1: 0, 2: 90, 3: 3824, 4: 23491}, 23491, 0.8572, True),
+        (5, 142506, {1: 0, 2: 36, 3: 7936, 4: 134534}, 134534, 0.9441, True),
+        (6, 593775, {1: 0, 2: 6, 3: 12000, 4: 581769}, 581769, 0.9798, True),
+    ]
+    assert antipodal["trigger_count_formula_matches_enumeration"] is True
+    assert [
+        (row["trigger_size"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["minimal_trigger_rows"]
+    ] == [
+        (1, 1, 2),
+        (2, 25, 100),
+        (3, 22, 176),
+        (4, 1, 16),
+    ]
+    assert antipodal["minimal_trigger_quotient_total"] == 49
+    assert antipodal["minimal_trigger_codon_total"] == 294
     assert round(spectral["acg_spectral_radius_before"], 4) == 0.6422
     assert round(spectral["acg_spectral_radius_after"], 4) == 0.6752
     assert round(spectral["acg_retention_before"], 3) == 0.596
