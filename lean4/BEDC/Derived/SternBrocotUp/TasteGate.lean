@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.SternBrocotUp
+namespace BEDC.Derived.SternBrocotUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def sternBrocotDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (sternBrocotDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (sternBrocotDecodeBHist tail)
 
-theorem SternBrocotTasteGate_single_carrier_alignment_decode_encode :
+private theorem SternBrocotTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, sternBrocotDecodeBHist (sternBrocotEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -40,86 +40,100 @@ def sternBrocotFields : SternBrocotUp → List BHist
 
 def sternBrocotToEventFlow : SternBrocotUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (sternBrocotFields x).map sternBrocotEncodeBHist
+  | x => List.map sternBrocotEncodeBHist (sternBrocotFields x)
 
-def sternBrocotFromEventFlow : EventFlow → Option SternBrocotUp
+def sternBrocotFromEventFlow (ef : EventFlow) : Option SternBrocotUp :=
   -- BEDC touchpoint anchor: BHist BMark
+  match ef with
   | [] => none
-  | _A :: [] => none
-  | _A :: _L :: [] => none
-  | _A :: _L :: _U :: [] => none
-  | _A :: _L :: _U :: _M :: [] => none
-  | _A :: _L :: _U :: _M :: _F :: [] => none
-  | _A :: _L :: _U :: _M :: _F :: _B :: [] => none
-  | _A :: _L :: _U :: _M :: _F :: _B :: _Q :: [] => none
-  | _A :: _L :: _U :: _M :: _F :: _B :: _Q :: _R :: [] => none
-  | _A :: _L :: _U :: _M :: _F :: _B :: _Q :: _R :: _H :: [] => none
-  | _A :: _L :: _U :: _M :: _F :: _B :: _Q :: _R :: _H :: _C :: [] => none
-  | _A :: _L :: _U :: _M :: _F :: _B :: _Q :: _R :: _H :: _C :: _P :: [] => none
-  | A :: L :: U :: M :: F :: B :: Q :: R :: H :: C :: P :: N :: [] =>
-      some
-        (SternBrocotUp.mk
-          (sternBrocotDecodeBHist A)
-          (sternBrocotDecodeBHist L)
-          (sternBrocotDecodeBHist U)
-          (sternBrocotDecodeBHist M)
-          (sternBrocotDecodeBHist F)
-          (sternBrocotDecodeBHist B)
-          (sternBrocotDecodeBHist Q)
-          (sternBrocotDecodeBHist R)
-          (sternBrocotDecodeBHist H)
-          (sternBrocotDecodeBHist C)
-          (sternBrocotDecodeBHist P)
-          (sternBrocotDecodeBHist N))
-  | _A :: _L :: _U :: _M :: _F :: _B :: _Q :: _R :: _H :: _C :: _P :: _N ::
-      _extra :: _rest => none
+  | A :: restA =>
+      match restA with
+      | [] => none
+      | L :: restL =>
+          match restL with
+          | [] => none
+          | U :: restU =>
+              match restU with
+              | [] => none
+              | M :: restM =>
+                  match restM with
+                  | [] => none
+                  | F :: restF =>
+                      match restF with
+                      | [] => none
+                      | B :: restB =>
+                          match restB with
+                          | [] => none
+                          | Q :: restQ =>
+                              match restQ with
+                              | [] => none
+                              | R :: restR =>
+                                  match restR with
+                                  | [] => none
+                                  | H :: restH =>
+                                      match restH with
+                                      | [] => none
+                                      | C :: restC =>
+                                          match restC with
+                                          | [] => none
+                                          | P :: restP =>
+                                              match restP with
+                                              | [] => none
+                                              | N :: restN =>
+                                                  match restN with
+                                                  | [] =>
+                                                      some
+                                                        (SternBrocotUp.mk
+                                                          (sternBrocotDecodeBHist A)
+                                                          (sternBrocotDecodeBHist L)
+                                                          (sternBrocotDecodeBHist U)
+                                                          (sternBrocotDecodeBHist M)
+                                                          (sternBrocotDecodeBHist F)
+                                                          (sternBrocotDecodeBHist B)
+                                                          (sternBrocotDecodeBHist Q)
+                                                          (sternBrocotDecodeBHist R)
+                                                          (sternBrocotDecodeBHist H)
+                                                          (sternBrocotDecodeBHist C)
+                                                          (sternBrocotDecodeBHist P)
+                                                          (sternBrocotDecodeBHist N))
+                                                  | _ :: _ => none
 
-private theorem sternBrocot_mk_congr
-    {A A' L L' U U' M M' F F' B B' Q Q' R R' H H' C C' P P' N N' : BHist}
-    (hA : A' = A) (hL : L' = L) (hU : U' = U) (hM : M' = M)
-    (hF : F' = F) (hB : B' = B) (hQ : Q' = Q) (hR : R' = R)
-    (hH : H' = H) (hC : C' = C) (hP : P' = P) (hN : N' = N) :
-    SternBrocotUp.mk A' L' U' M' F' B' Q' R' H' C' P' N' =
-      SternBrocotUp.mk A L U M F B Q R H C P N := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hA
-  cases hL
-  cases hU
-  cases hM
-  cases hF
-  cases hB
-  cases hQ
-  cases hR
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
-
-theorem SternBrocotTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : SternBrocotUp,
-      sternBrocotFromEventFlow (sternBrocotToEventFlow x) = some x := by
+private theorem SternBrocotTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : SternBrocotUp, sternBrocotFromEventFlow (sternBrocotToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk A L U M F B Q R H C P N =>
-      exact
-        congrArg some
-          (sternBrocot_mk_congr
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode A)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode L)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode U)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode M)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode F)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode B)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode Q)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode R)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode H)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode C)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode P)
-            (SternBrocotTasteGate_single_carrier_alignment_decode_encode N))
+      change
+        some
+          (SternBrocotUp.mk
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist A))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist L))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist U))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist M))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist F))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist B))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist Q))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist R))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist H))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist C))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist P))
+            (sternBrocotDecodeBHist (sternBrocotEncodeBHist N))) =
+          some (SternBrocotUp.mk A L U M F B Q R H C P N)
+      rw [SternBrocotTasteGate_single_carrier_alignment_decode A,
+        SternBrocotTasteGate_single_carrier_alignment_decode L,
+        SternBrocotTasteGate_single_carrier_alignment_decode U,
+        SternBrocotTasteGate_single_carrier_alignment_decode M,
+        SternBrocotTasteGate_single_carrier_alignment_decode F,
+        SternBrocotTasteGate_single_carrier_alignment_decode B,
+        SternBrocotTasteGate_single_carrier_alignment_decode Q,
+        SternBrocotTasteGate_single_carrier_alignment_decode R,
+        SternBrocotTasteGate_single_carrier_alignment_decode H,
+        SternBrocotTasteGate_single_carrier_alignment_decode C,
+        SternBrocotTasteGate_single_carrier_alignment_decode P,
+        SternBrocotTasteGate_single_carrier_alignment_decode N]
 
-theorem SternBrocotTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem SternBrocotTasteGate_single_carrier_alignment_injective
     {x y : SternBrocotUp} :
     sternBrocotToEventFlow x = sternBrocotToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -129,8 +143,10 @@ theorem SternBrocotTasteGate_single_carrier_alignment_toEventFlow_injective
         sternBrocotFromEventFlow (sternBrocotToEventFlow y) :=
     congrArg sternBrocotFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (SternBrocotTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (SternBrocotTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans
+      (SternBrocotTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (SternBrocotTasteGate_single_carrier_alignment_round_trip y)))
 
 instance sternBrocotBHistCarrier : BHistCarrier SternBrocotUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -145,7 +161,7 @@ instance sternBrocotChapterTasteGate : ChapterTasteGate SternBrocotUp where
     exact SternBrocotTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (SternBrocotTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (SternBrocotTasteGate_single_carrier_alignment_injective heq)
 
 def taste_gate : ChapterTasteGate SternBrocotUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -153,19 +169,34 @@ def taste_gate : ChapterTasteGate SternBrocotUp :=
 
 theorem SternBrocotTasteGate_single_carrier_alignment :
     (∀ h : BHist, sternBrocotDecodeBHist (sternBrocotEncodeBHist h) = h) ∧
-      (∀ x : SternBrocotUp,
-        sternBrocotFromEventFlow (sternBrocotToEventFlow x) = some x) ∧
-      (∀ x y : SternBrocotUp,
-        sternBrocotToEventFlow x = sternBrocotToEventFlow y → x = y) ∧
-      sternBrocotEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ x : SternBrocotUp, sternBrocotFromEventFlow (sternBrocotToEventFlow x) = some x) ∧
+        (∀ x y : SternBrocotUp, sternBrocotToEventFlow x = sternBrocotToEventFlow y → x = y) ∧
+          sternBrocotEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact SternBrocotTasteGate_single_carrier_alignment_decode_encode
-  constructor
-  · exact SternBrocotTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact SternBrocotTasteGate_single_carrier_alignment_toEventFlow_injective heq
-  · rfl
+  exact
+    ⟨SternBrocotTasteGate_single_carrier_alignment_decode,
+      SternBrocotTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ h => SternBrocotTasteGate_single_carrier_alignment_injective h),
+      rfl⟩
+
+end BEDC.Derived.SternBrocotUp.TasteGate
+
+namespace BEDC.Derived.SternBrocotUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+
+theorem SternBrocotTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      TasteGate.sternBrocotDecodeBHist (TasteGate.sternBrocotEncodeBHist h) = h) ∧
+      (∀ x : TasteGate.SternBrocotUp,
+        TasteGate.sternBrocotFromEventFlow
+          (TasteGate.sternBrocotToEventFlow x) = some x) ∧
+        (∀ x y : TasteGate.SternBrocotUp,
+          TasteGate.sternBrocotToEventFlow x = TasteGate.sternBrocotToEventFlow y → x = y) ∧
+          TasteGate.sternBrocotEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact TasteGate.SternBrocotTasteGate_single_carrier_alignment
 
 end BEDC.Derived.SternBrocotUp
