@@ -4529,6 +4529,7 @@ import BEDC.Derived.RegSeqRatUp.RealSealRouteExclusionPackage
 import BEDC.Derived.RegSeqRatUp.RealTerminalFourFaceExactness
 import BEDC.Derived.RegSeqRatUp.StreamNameDyadicRealHandoff
 import BEDC.Derived.RegSeqRatUp.TailBudgetTerminalRealSeal
+import BEDC.Derived.RegSeqRatUp.TerminalFourFaceSourceUniqueness
 import BEDC.Derived.RegistryChangeContinuityUp.TasteGate
 import BEDC.Derived.RegistryConsistencyAuditUp.TasteGate
 import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
