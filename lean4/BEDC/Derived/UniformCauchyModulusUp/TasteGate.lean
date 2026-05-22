@@ -230,4 +230,27 @@ theorem UniformCauchyModulusTasteGate_e0_row_round_trip
   exact UniformCauchyModulusTasteGate_single_carrier_alignment_round_trip
     (UniformCauchyModulusUp.mk (BHist.e0 S) R D M W E H C P N)
 
+theorem UniformCauchyModulusUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      UniformCauchyModulusTasteGate_single_carrier_alignment_decodeBHist
+        (UniformCauchyModulusTasteGate_single_carrier_alignment_encodeBHist h) = h) ∧
+      (∀ x : UniformCauchyModulusUp,
+        UniformCauchyModulusTasteGate_single_carrier_alignment_fromEventFlow
+          (UniformCauchyModulusTasteGate_single_carrier_alignment_toEventFlow x) =
+          some x) ∧
+      (∀ x y : UniformCauchyModulusUp,
+        UniformCauchyModulusTasteGate_single_carrier_alignment_toEventFlow x =
+          UniformCauchyModulusTasteGate_single_carrier_alignment_toEventFlow y -> x = y) ∧
+      UniformCauchyModulusTasteGate_single_carrier_alignment_encodeBHist BHist.Empty =
+        ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  constructor
+  · exact UniformCauchyModulusTasteGate_single_carrier_alignment_decode_encode
+  constructor
+  · exact UniformCauchyModulusTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact UniformCauchyModulusTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  · rfl
+
 end BEDC.Derived.UniformCauchyModulusUp
