@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealSequenceUp$}
+\label{ch:concrete-instances-located-real-sequence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\LocatedRealSequenceUp$ packet records a finite sequence of located real names by displaying the sequence windows, located-real envelopes, modulus surface, regular rational handoff, and real-name seal before any consumer can read the sequence as a completed object. It sits after the finite StreamName carrier of \autoref{ch:concrete-instances-streamname-namecert}, the located-real boundary of \autoref{ch:concrete-instances-locatedreal-namecert}, the sequence-modulus surface of \autoref{ch:concrete-instances-located-sequence-modulus-namecert}, the located Cauchy sequence packet of \autoref{ch:concrete-instances-located-cauchy-sequence-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter isolates the finite located-real sequence carrier used by the real and completion route; it does not assume quotient streams, selected limits, countable choice, trichotomy, ambient real completeness, Lean verification, or checked bridge data.
+
+\begin{definition}[Located real sequence source]
+\label{def:located-real-sequence-source}
+A $\LocatedRealSequenceUp$ source is a finite $\BHist$ packet
+$$
+X=(S,L,M,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ index-window row. It names the finite sequence indices and stream windows that a consumer may inspect.
+\item $L$ is the $\LocatedRealUp$ window row. It records the located-real enclosure exposed at each inspected index of $S$.
+\item $M$ is the $\LocatedSequenceModulusUp$ row. It binds finite tolerance requests to the inspected index windows and records the reusable sequence-modulus surface.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It carries the dyadic error budgets used when located-real windows are compared componentwise.
+\item $R$ is the $\RegSeqRatUp$ handoff row. It records the regular rational readback obtained from the displayed sequence windows, located-real rows, modulus row, and dyadic tolerance row.
+\item $E$ is the $\RealUp$ seal row. It is read only after the regular rational handoff has been displayed, and it adds no selected limit or quotient-stream coordinate.
+\item $H$ records componentwise $\hsame$ transport for the index windows, located-real windows, modulus row, dyadic tolerance row, regular rational handoff, real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each sequence precision request through $S,L,M,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealSequenceUp$, $\StreamNameUp$, $\LocatedRealUp$, $\LocatedSequenceModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealSequenceUp}$ row.
+\end{enumerate}
+The source exposes only these finite sequence, locatedness, tolerance, readback, seal, transport, continuation, provenance, and naming rows.
+\end{definition}
+
+\begin{theorem}[Located real sequence NameCert obligations]
+\label{thm:located-real-sequence-namecert-obligations}
+For every accepted $\LocatedRealSequenceUp$ source $X=(S,L,M,D,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedRealSequenceUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $S,L,M,D,R,E,H,C,P,N$ packet;
+\item located-window exposure, requiring each consumer-visible sequence coordinate to pass through the $\StreamNameUp$ index-window row $S$ and the corresponding $\LocatedRealUp$ row $L$;
+\item componentwise classifier transport, requiring sameness of accepted sources to be transported only through the displayed $\hsame$ and $\Cont$ rows over the component windows, tolerance data, handoff, seal, provenance, and local name;
+\item $\RegSeqRatUp$ handoff, requiring the readback row $R$ to be formed only after $S,L,M,D$ have been displayed;
+\item $\RealUp$ seal nonescape, requiring $E,P,N$ to export no quotient stream, selected limit, countable-choice selector, trichotomy branch, ambient $\RealUp$ completeness theorem, Lean verification certificate, or checked bridge.
+\end{enumerate}
+No located-real-sequence obligation is stored outside these five rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-real-sequence-source}. The accepted packet displays exactly the index windows, located-real windows, sequence modulus, dyadic tolerance row, regular rational handoff, real seal, transport, continuation, provenance, and local naming data.
+
+Located-window exposure is forced before any component readback can occur. A consumer starts with the inspected index window $S$ and receives the corresponding located-real row $L$ at that same finite coordinate.
+
+Componentwise classifier transport is structural. The rows $H$ and $C$ move and replay only the displayed rows $S,L,M,D,R,E$, while $P$ and $N$ source and name that same finite route.
+
+The handoff and seal rows are downstream. The row $R$ can be read only after $S,L,M,D$ have been displayed, and the row $E$ can be read only after $R$. Since no listed row stores quotient-stream equality, a selected limit, countable choice, trichotomy, ambient completeness, Lean verification, or bridge data, the five obligation rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located real sequence kernel scope]
+\label{thm:located-real-sequence-kernel-scope}
+Every consumer route out of an accepted $\LocatedRealSequenceUp$ source factors through the finite chain
+$$
+\StreamNameUp\longmapsto\LocatedRealUp\longmapsto\LocatedSequenceModulusUp\longmapsto\RegSeqRatUp\longmapsto\RealUp
+$$
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The route explicitly refuses quotient streams, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{theorem}
+\begin{proof}
+Project the source of \autoref{def:located-real-sequence-source}. The only entry point for a consumer is the finite index-window row $S$, and each inspected coordinate then exposes its located-real window through $L$.
+
+The sequence-level control is the modulus row $M$. It binds the finite tolerance request before the dyadic tolerance row $D$ can be used to compare component windows.
+
+The regular rational and real-facing exits are then fixed. The row $R$ is the only $\RegSeqRatUp$ handoff, and the row $E$ is the only $\RealUp$ seal, so every analytic read factors through the displayed chain from stream windows to the real seal.
+
+The remaining rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport, replay, source, and name the same finite route. They add no coordinate for quotient streams, selected limits, countable choice, trichotomy, ambient real completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\closureat{LocatedRealSequenceUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealSequenceUp}
+  \constructivestory{A $\LocatedRealSequenceUp$ packet is generated from finite StreamName index windows, LocatedReal component windows, a LocatedSequenceModulus row, DyadicRatCore tolerances, a RegSeqRat handoff, a Real seal, componentwise hsame transports, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-sequence-source}, \autoref{thm:located-real-sequence-namecert-obligations}, and \autoref{thm:located-real-sequence-kernel-scope} seed the finite located-real sequence carrier between StreamName, LocatedReal, LocatedSequenceModulus, RegSeqRat, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected limits, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Lean closure requires checked carrier admission for \autoref{def:located-real-sequence-source}, the obligation surface of \autoref{thm:located-real-sequence-namecert-obligations}, and the kernel scope theorem of \autoref{thm:located-real-sequence-kernel-scope} for BEDC.Derived.LocatedRealSequenceUp.}
+\end{closurestatus}
