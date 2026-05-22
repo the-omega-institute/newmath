@@ -7,6 +7,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -84,5 +85,74 @@ theorem FiniteLebesgueNumberOpenPhaseRootUnblockChoiceRefusal [AskSetup] [Packag
     ⟨rootUnary, routeNameRoot, routeNameRoot, provenancePkg, rootPkg,
       fun hostReturn => cont_mutual_extension_right_tail_absurd.left routeNameRoot hostReturn,
       fun hostReturn => cont_mutual_extension_right_tail_absurd.right routeNameRoot hostReturn⟩
+
+theorem FiniteLebesgueNumberPhaseRealRadiusWindowFaceMinimality [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow dyadicRead streamRead realSeal
+      outsideRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont radius mesh dyadicRead →
+        Cont dyadicRead window streamRead →
+          Cont streamRead nameRow realSeal →
+            hsame outsideRead realSeal →
+              PkgSig bundle realSeal pkg →
+                UnaryHistory dyadicRead ∧ UnaryHistory streamRead ∧ UnaryHistory realSeal ∧
+                  UnaryHistory outsideRead ∧ Cont radius mesh dyadicRead ∧
+                    Cont dyadicRead window streamRead ∧ Cont streamRead nameRow realSeal ∧
+                      SemanticNameCert
+                        (fun row : BHist => hsame row realSeal ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row dyadicRead ∨ hsame row streamRead ∨
+                            hsame row realSeal ∨ hsame row outsideRead)
+                        (fun row : BHist => hsame row realSeal ∧ PkgSig bundle realSeal pkg)
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier radiusMeshDyadic dyadicWindowStream streamNameReal sameOutsideReal realPkg
+  obtain ⟨_coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, _provenancePkg⟩ := carrier
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshDyadic
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed dyadicUnary windowUnary dyadicWindowStream
+  have realUnary : UnaryHistory realSeal :=
+    unary_cont_closed streamUnary nameRowUnary streamNameReal
+  have outsideUnary : UnaryHistory outsideRead :=
+    unary_transport_symm realUnary sameOutsideReal
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row realSeal ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row dyadicRead ∨ hsame row streamRead ∨ hsame row realSeal ∨
+            hsame row outsideRead)
+        (fun row : BHist => hsame row realSeal ∧ PkgSig bundle realSeal pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro realSeal ⟨hsame_refl realSeal, realUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        cases same
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inl source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, realPkg⟩
+  }
+  exact
+    ⟨dyadicUnary, streamUnary, realUnary, outsideUnary, radiusMeshDyadic, dyadicWindowStream,
+      streamNameReal, cert⟩
 
 end BEDC.Derived.FiniteLebesgueNumberUp
