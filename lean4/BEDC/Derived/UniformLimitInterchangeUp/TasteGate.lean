@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.UniformLimitInterchangeUp.TasteGate
+namespace BEDC.Derived.UniformLimitInterchangeUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UniformLimitInterchangeUp : Type where
-  | mk (F L M R S T H C P N : BHist) : UniformLimitInterchangeUp
+  | mk
+      (continuousFamily uniformLimitRoute sharedModulus regularReadback realSeal
+        interchangeTransport transports replay provenance localNameCert : BHist) :
+      UniformLimitInterchangeUp
   deriving DecidableEq
 
 def uniformLimitInterchangeEncodeBHist : BHist → RawEvent
@@ -25,161 +28,148 @@ def uniformLimitInterchangeDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (uniformLimitInterchangeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (uniformLimitInterchangeDecodeBHist tail)
 
-private theorem uniformLimitInterchangeDecode_encode_bhist :
-    ∀ h : BHist,
-      uniformLimitInterchangeDecodeBHist
-          (uniformLimitInterchangeEncodeBHist h) =
-        h := by
+private theorem uniformLimitInterchange_decode_encode_bhist :
+    ∀ h : BHist, uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def uniformLimitInterchangeFields : UniformLimitInterchangeUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | UniformLimitInterchangeUp.mk F L M R S T H C P N => [F, L, M, R, S, T, H, C, P, N]
+  | UniformLimitInterchangeUp.mk continuousFamily uniformLimitRoute sharedModulus
+      regularReadback realSeal interchangeTransport transports replay provenance localNameCert =>
+      [continuousFamily, uniformLimitRoute, sharedModulus, regularReadback, realSeal,
+        interchangeTransport, transports, replay, provenance, localNameCert]
 
 def uniformLimitInterchangeToEventFlow : UniformLimitInterchangeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (uniformLimitInterchangeFields x).map uniformLimitInterchangeEncodeBHist
 
-private def uniformLimitInterchangeRawAt : Nat → EventFlow → RawEvent
+private def uniformLimitInterchangeEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => uniformLimitInterchangeRawAt n rest
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => uniformLimitInterchangeEventAtDefault index rest
 
-private def uniformLimitInterchangeLengthEq : Nat → EventFlow → Bool
+def uniformLimitInterchangeFromEventFlow : EventFlow → Option UniformLimitInterchangeUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => uniformLimitInterchangeLengthEq n rest
-
-def uniformLimitInterchangeFromEventFlow :
-    EventFlow → Option UniformLimitInterchangeUp
-  -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match uniformLimitInterchangeLengthEq 10 flow with
-      | true =>
-          some
-            (UniformLimitInterchangeUp.mk
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 0 flow))
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 1 flow))
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 2 flow))
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 3 flow))
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 4 flow))
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 5 flow))
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 6 flow))
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 7 flow))
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 8 flow))
-              (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeRawAt 9 flow)))
-      | false => none
+  fun ef =>
+    some
+      (UniformLimitInterchangeUp.mk
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 0 ef))
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 1 ef))
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 2 ef))
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 3 ef))
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 4 ef))
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 5 ef))
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 6 ef))
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 7 ef))
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 8 ef))
+        (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEventAtDefault 9 ef)))
 
 private theorem uniformLimitInterchange_round_trip :
     ∀ x : UniformLimitInterchangeUp,
-      uniformLimitInterchangeFromEventFlow
-          (uniformLimitInterchangeToEventFlow x) =
-        some x := by
+      uniformLimitInterchangeFromEventFlow (uniformLimitInterchangeToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk F L M R S T H C P N =>
+  | mk continuousFamily uniformLimitRoute sharedModulus regularReadback realSeal
+      interchangeTransport transports replay provenance localNameCert =>
       change
         some
           (UniformLimitInterchangeUp.mk
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist F))
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist L))
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist M))
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist R))
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist S))
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist T))
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist H))
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist C))
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist P))
-            (uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist N))) =
-          some (UniformLimitInterchangeUp.mk F L M R S T H C P N)
-      rw [uniformLimitInterchangeDecode_encode_bhist F,
-        uniformLimitInterchangeDecode_encode_bhist L,
-        uniformLimitInterchangeDecode_encode_bhist M,
-        uniformLimitInterchangeDecode_encode_bhist R,
-        uniformLimitInterchangeDecode_encode_bhist S,
-        uniformLimitInterchangeDecode_encode_bhist T,
-        uniformLimitInterchangeDecode_encode_bhist H,
-        uniformLimitInterchangeDecode_encode_bhist C,
-        uniformLimitInterchangeDecode_encode_bhist P,
-        uniformLimitInterchangeDecode_encode_bhist N]
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist continuousFamily))
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist uniformLimitRoute))
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist sharedModulus))
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist regularReadback))
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist realSeal))
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist interchangeTransport))
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist transports))
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist replay))
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist provenance))
+            (uniformLimitInterchangeDecodeBHist
+              (uniformLimitInterchangeEncodeBHist localNameCert))) =
+          some
+            (UniformLimitInterchangeUp.mk continuousFamily uniformLimitRoute sharedModulus
+              regularReadback realSeal interchangeTransport transports replay provenance
+              localNameCert)
+      rw [uniformLimitInterchange_decode_encode_bhist continuousFamily,
+        uniformLimitInterchange_decode_encode_bhist uniformLimitRoute,
+        uniformLimitInterchange_decode_encode_bhist sharedModulus,
+        uniformLimitInterchange_decode_encode_bhist regularReadback,
+        uniformLimitInterchange_decode_encode_bhist realSeal,
+        uniformLimitInterchange_decode_encode_bhist interchangeTransport,
+        uniformLimitInterchange_decode_encode_bhist transports,
+        uniformLimitInterchange_decode_encode_bhist replay,
+        uniformLimitInterchange_decode_encode_bhist provenance,
+        uniformLimitInterchange_decode_encode_bhist localNameCert]
 
-private theorem uniformLimitInterchangeToEventFlow_injective
-    {x y : UniformLimitInterchangeUp} :
-    uniformLimitInterchangeToEventFlow x =
-        uniformLimitInterchangeToEventFlow y →
-      x = y := by
+private theorem uniformLimitInterchangeToEventFlow_injective {x y : UniformLimitInterchangeUp} :
+    uniformLimitInterchangeToEventFlow x = uniformLimitInterchangeToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      uniformLimitInterchangeFromEventFlow
-          (uniformLimitInterchangeToEventFlow x) =
-        uniformLimitInterchangeFromEventFlow
-          (uniformLimitInterchangeToEventFlow y) :=
+      uniformLimitInterchangeFromEventFlow (uniformLimitInterchangeToEventFlow x) =
+        uniformLimitInterchangeFromEventFlow (uniformLimitInterchangeToEventFlow y) :=
     congrArg uniformLimitInterchangeFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (uniformLimitInterchange_round_trip x).symm
       (Eq.trans hread (uniformLimitInterchange_round_trip y)))
 
 private theorem uniformLimitInterchange_field_faithful :
-    ∀ x y : UniformLimitInterchangeUp,
-      uniformLimitInterchangeFields x = uniformLimitInterchangeFields y →
-        x = y := by
+    ∀ x y : UniformLimitInterchangeUp, uniformLimitInterchangeFields x =
+      uniformLimitInterchangeFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk F1 L1 M1 R1 S1 T1 H1 C1 P1 N1 =>
+  | mk continuousFamily₁ uniformLimitRoute₁ sharedModulus₁ regularReadback₁ realSeal₁
+      interchangeTransport₁ transports₁ replay₁ provenance₁ localNameCert₁ =>
       cases y with
-      | mk F2 L2 M2 R2 S2 T2 H2 C2 P2 N2 =>
+      | mk continuousFamily₂ uniformLimitRoute₂ sharedModulus₂ regularReadback₂ realSeal₂
+          interchangeTransport₂ transports₂ replay₂ provenance₂ localNameCert₂ =>
           cases hfields
           rfl
 
-instance uniformLimitInterchangeBHistCarrier :
-    BHistCarrier UniformLimitInterchangeUp where
+instance uniformLimitInterchangeBHistCarrier : BHistCarrier UniformLimitInterchangeUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := uniformLimitInterchangeToEventFlow
   fromEventFlow := uniformLimitInterchangeFromEventFlow
 
-instance uniformLimitInterchangeChapterTasteGate :
-    ChapterTasteGate UniformLimitInterchangeUp where
+instance uniformLimitInterchangeChapterTasteGate : ChapterTasteGate UniformLimitInterchangeUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      uniformLimitInterchangeFromEventFlow
-          (uniformLimitInterchangeToEventFlow x) =
-        some x
+    change uniformLimitInterchangeFromEventFlow (uniformLimitInterchangeToEventFlow x) = some x
     exact uniformLimitInterchange_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (uniformLimitInterchangeToEventFlow_injective heq)
 
-instance uniformLimitInterchangeFieldFaithful :
-    FieldFaithful UniformLimitInterchangeUp where
+instance uniformLimitInterchangeFieldFaithful : FieldFaithful UniformLimitInterchangeUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := uniformLimitInterchangeFields
   field_faithful := uniformLimitInterchange_field_faithful
 
-instance uniformLimitInterchangeNontrivial :
-    Nontrivial UniformLimitInterchangeUp where
+instance uniformLimitInterchangeNontrivial : Nontrivial UniformLimitInterchangeUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨UniformLimitInterchangeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨UniformLimitInterchangeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      UniformLimitInterchangeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      UniformLimitInterchangeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -189,30 +179,18 @@ def taste_gate : ChapterTasteGate UniformLimitInterchangeUp :=
   uniformLimitInterchangeChapterTasteGate
 
 theorem UniformLimitInterchangeTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate UniformLimitInterchangeUp) ∧
-      Nonempty (FieldFaithful UniformLimitInterchangeUp) ∧
-      Nonempty (Nontrivial UniformLimitInterchangeUp) ∧
-      (∀ h : BHist,
-        uniformLimitInterchangeDecodeBHist
-            (uniformLimitInterchangeEncodeBHist h) =
-          h) ∧
+    (∀ h : BHist,
+      uniformLimitInterchangeDecodeBHist (uniformLimitInterchangeEncodeBHist h) = h) ∧
       (∀ x : UniformLimitInterchangeUp,
-        uniformLimitInterchangeFromEventFlow
-            (uniformLimitInterchangeToEventFlow x) =
-          some x) ∧
-      (∀ x y : UniformLimitInterchangeUp,
-        uniformLimitInterchangeToEventFlow x =
-            uniformLimitInterchangeToEventFlow y ->
-          x = y) ∧
-      uniformLimitInterchangeEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+        uniformLimitInterchangeFromEventFlow (uniformLimitInterchangeToEventFlow x) = some x) ∧
+        (∀ x y : UniformLimitInterchangeUp,
+          uniformLimitInterchangeToEventFlow x = uniformLimitInterchangeToEventFlow y → x = y) ∧
+          uniformLimitInterchangeEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
-    ⟨Nonempty.intro uniformLimitInterchangeChapterTasteGate,
-      Nonempty.intro uniformLimitInterchangeFieldFaithful,
-      Nonempty.intro uniformLimitInterchangeNontrivial,
-      uniformLimitInterchangeDecode_encode_bhist,
+    ⟨uniformLimitInterchange_decode_encode_bhist,
       uniformLimitInterchange_round_trip,
       (fun _ _ heq => uniformLimitInterchangeToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.UniformLimitInterchangeUp.TasteGate
+end BEDC.Derived.UniformLimitInterchangeUp
