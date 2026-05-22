@@ -46,38 +46,75 @@ def limitFields : LimitUp → List BHist
 
 def limitToEventFlow : LimitUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | LimitUp.mk stream readback dyadic realSeal transport continuation history provenance name =>
-      [limitEncodeBHist stream,
-        limitEncodeBHist readback,
-        limitEncodeBHist dyadic,
-        limitEncodeBHist realSeal,
-        limitEncodeBHist transport,
-        limitEncodeBHist continuation,
-        limitEncodeBHist history,
-        limitEncodeBHist provenance,
-        limitEncodeBHist name]
+  | x => (limitFields x).map limitEncodeBHist
 
-private def limitEventAtDefault : Nat → EventFlow → RawEvent
+def limitFromEventFlow : EventFlow → Option LimitUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => limitEventAtDefault index rest
+  | [] => none
+  | stream :: restReadback =>
+      match restReadback with
+      | [] => none
+      | readback :: restDyadic =>
+          match restDyadic with
+          | [] => none
+          | dyadic :: restRealSeal =>
+              match restRealSeal with
+              | [] => none
+              | realSeal :: restTransport =>
+                  match restTransport with
+                  | [] => none
+                  | transport :: restContinuation =>
+                      match restContinuation with
+                      | [] => none
+                      | continuation :: restHistory =>
+                          match restHistory with
+                          | [] => none
+                          | history :: restProvenance =>
+                              match restProvenance with
+                              | [] => none
+                              | provenance :: restName =>
+                                  match restName with
+                                  | [] => none
+                                  | name :: rest =>
+                                      match rest with
+                                      | [] =>
+                                          some
+                                            (LimitUp.mk
+                                              (limitDecodeBHist stream)
+                                              (limitDecodeBHist readback)
+                                              (limitDecodeBHist dyadic)
+                                              (limitDecodeBHist realSeal)
+                                              (limitDecodeBHist transport)
+                                              (limitDecodeBHist continuation)
+                                              (limitDecodeBHist history)
+                                              (limitDecodeBHist provenance)
+                                              (limitDecodeBHist name))
+                                      | _ :: _ => none
 
-def limitFromEventFlow : EventFlow → Option LimitUp :=
+private theorem limit_mk_congr
+    {stream₁ stream₂ readback₁ readback₂ dyadic₁ dyadic₂ realSeal₁ realSeal₂
+      transport₁ transport₂ continuation₁ continuation₂ history₁ history₂
+      provenance₁ provenance₂ name₁ name₂ : BHist} :
+    stream₁ = stream₂ → readback₁ = readback₂ → dyadic₁ = dyadic₂ →
+      realSeal₁ = realSeal₂ → transport₁ = transport₂ →
+        continuation₁ = continuation₂ → history₁ = history₂ →
+          provenance₁ = provenance₂ → name₁ = name₂ →
+            LimitUp.mk stream₁ readback₁ dyadic₁ realSeal₁ transport₁ continuation₁
+                history₁ provenance₁ name₁ =
+              LimitUp.mk stream₂ readback₂ dyadic₂ realSeal₂ transport₂ continuation₂
+                history₂ provenance₂ name₂ := by
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (LimitUp.mk
-        (limitDecodeBHist (limitEventAtDefault 0 ef))
-        (limitDecodeBHist (limitEventAtDefault 1 ef))
-        (limitDecodeBHist (limitEventAtDefault 2 ef))
-        (limitDecodeBHist (limitEventAtDefault 3 ef))
-        (limitDecodeBHist (limitEventAtDefault 4 ef))
-        (limitDecodeBHist (limitEventAtDefault 5 ef))
-        (limitDecodeBHist (limitEventAtDefault 6 ef))
-        (limitDecodeBHist (limitEventAtDefault 7 ef))
-        (limitDecodeBHist (limitEventAtDefault 8 ef)))
+  intro hstream hreadback hdyadic hrealSeal htransport hcontinuation hhistory hprovenance hname
+  cases hstream
+  cases hreadback
+  cases hdyadic
+  cases hrealSeal
+  cases htransport
+  cases hcontinuation
+  cases hhistory
+  cases hprovenance
+  cases hname
+  rfl
 
 private theorem limit_round_trip :
     ∀ x : LimitUp, limitFromEventFlow (limitToEventFlow x) = some x := by
@@ -85,26 +122,18 @@ private theorem limit_round_trip :
   intro x
   cases x with
   | mk stream readback dyadic realSeal transport continuation history provenance name =>
-      change
-        some
-          (LimitUp.mk
-            (limitDecodeBHist (limitEncodeBHist stream))
-            (limitDecodeBHist (limitEncodeBHist readback))
-            (limitDecodeBHist (limitEncodeBHist dyadic))
-            (limitDecodeBHist (limitEncodeBHist realSeal))
-            (limitDecodeBHist (limitEncodeBHist transport))
-            (limitDecodeBHist (limitEncodeBHist continuation))
-            (limitDecodeBHist (limitEncodeBHist history))
-            (limitDecodeBHist (limitEncodeBHist provenance))
-            (limitDecodeBHist (limitEncodeBHist name))) =
-          some
-            (LimitUp.mk stream readback dyadic realSeal transport continuation history provenance
-              name)
-      rw [limitDecodeEncodeBHist stream, limitDecodeEncodeBHist readback,
-        limitDecodeEncodeBHist dyadic, limitDecodeEncodeBHist realSeal,
-        limitDecodeEncodeBHist transport, limitDecodeEncodeBHist continuation,
-        limitDecodeEncodeBHist history, limitDecodeEncodeBHist provenance,
-        limitDecodeEncodeBHist name]
+      exact
+        congrArg some
+          (limit_mk_congr
+            (limitDecodeEncodeBHist stream)
+            (limitDecodeEncodeBHist readback)
+            (limitDecodeEncodeBHist dyadic)
+            (limitDecodeEncodeBHist realSeal)
+            (limitDecodeEncodeBHist transport)
+            (limitDecodeEncodeBHist continuation)
+            (limitDecodeEncodeBHist history)
+            (limitDecodeEncodeBHist provenance)
+            (limitDecodeEncodeBHist name))
 
 private theorem limitToEventFlow_injective {x y : LimitUp} :
     limitToEventFlow x = limitToEventFlow y → x = y := by
