@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\RoundedIntervalUp$}
+\label{ch:concrete-instances-rounded-interval-namecert}
+\origin{human}
+
+Following Moore, Kearfott, and Cloud on interval analysis, the $\RoundedIntervalUp$ packet records finite outward-rounded dyadic interval enclosures before they are handed to regular rational names and sealed as real data. It sits after the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the interval enclosure consumer of \autoref{ch:concrete-instances-intervalarithmetic-namecert}. The packet gives L10 Real and Completion arguments a traditional finite interval carrier for outward rounding, while keeping host real equality, trichotomy, selected representatives, countable choice, and ambient $\RealUp$ completeness outside the certificate.
+
+\begin{definition}[Rounded interval carrier]
+\label{def:rounded-interval-carrier}
+A $\RoundedIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(Q,S,R,D,L,U,O,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\DyadicRatCoreUp$ request row naming the dyadic center, radius, endpoint scale, and precision budget used by the enclosure.
+\item $S$ is the $\StreamNameUp$ finite observation window opened for the same request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream window.
+\item $D$ is the dyadic rounding ledger, recording the downward lower-endpoint rounding rule, the upward upper-endpoint rounding rule, and the tolerance budget consumed by both endpoints.
+\item $L$ is the outward-rounded lower endpoint row, read as a dyadic lower bound justified by $Q,S,R,D$.
+\item $U$ is the outward-rounded upper endpoint row, read as a dyadic upper bound justified by the same $Q,S,R,D$ route.
+\item $O$ is the endpoint-order row, recording that the displayed lower endpoint precedes the displayed upper endpoint at the chosen dyadic scale.
+\item $E$ is the $\RealUp$ seal handoff row, reached only after $Q,S,R,D,L,U,O$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the dyadic request, stream window, regular readback, rounding ledger, endpoint rows, endpoint order, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a downstream RegSeqRat, Real, or interval-arithmetic request through $Q,S,R,D,L,U,O,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RoundedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\IntervalArithmeticUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RoundedIntervalUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite outward-rounded dyadic interval enclosure. It has no coordinate for host real equality, trichotomy, selected representatives, countable-choice schedules, quotient endpoint equality, ambient $\RealUp$ completeness, or a host interval object.
+\end{definition}
+
+\begin{theorem}[Rounded interval NameCert obligations]
+\label{thm:rounded-interval-namecert-obligations}
+For every accepted $\RoundedIntervalUp$ carrier
+$$
+I=(Q,S,R,D,L,U,O,E,H,C,P,N),
+$$
+the local $\NameCert_{\RoundedIntervalUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic request, stream window, regular rational readback, rounding ledger, lower endpoint, upper endpoint, endpoint order, Real seal, transport, replay, provenance, and local naming data;
+\item endpoint order, requiring $O$ to certify that the displayed lower dyadic endpoint $L$ precedes the displayed upper dyadic endpoint $U$ at the selected scale;
+\item outward rounding stability, requiring the lower endpoint to round downward and the upper endpoint to round upward under componentwise $\hsame$ transport and later $\Cont$ replay;
+\item RegSeqRat window handoff, requiring $S$ and $R$ to be the only finite observation route from the dyadic request $Q$ to the endpoint rows $L,U$;
+\item Real seal non-escape, requiring every downstream $\RegSeqRatUp$, $\RealUp$, or $\IntervalArithmeticUp$ consumer to inspect the enclosure only through $Q,S,R,D,L,U,O,E,H,C,P,N$.
+\end{enumerate}
+No rounded interval obligation is stored outside these rows, and no obligation may be replaced by host real equality, trichotomy, selected representatives, countable choice, quotient endpoint equality, ambient $\RealUp$ completeness, or a host interval object.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $I=(Q,S,R,D,L,U,O,E,H,C,P,N)$. The carrier exposes exactly one dyadic request, one finite stream window, one regular rational readback, one dyadic rounding ledger, two endpoint rows, one order row, one Real seal handoff, and the structural rows.
+
+The endpoint-order obligation is the coordinate $O$. It compares only the displayed dyadic endpoints at the selected scale, so the certificate does not appeal to host real trichotomy or quotient endpoint equality.
+
+Outward rounding stability is read through $D,L,U,H,C$. The ledger $D$ fixes the downward and upward rounding directions, the endpoint rows $L$ and $U$ expose the rounded bounds, and the transport and replay rows preserve those directions componentwise.
+
+The RegSeqRat handoff is the route $Q\longmapsto S\longmapsto R\longmapsto D\longmapsto L,U$. Thus all endpoint data are obtained from the displayed finite window and regular readback before the Real seal is visible.
+
+Finally, $E,P,N$ seal, source, and name the same finite packet. Since the carrier contains no host equality, trichotomy, representative selector, choice schedule, quotient endpoint coordinate, ambient completeness witness, or host interval object, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Rounded interval dyadic enclosure stability]
+\label{thm:rounded-interval-dyadic-enclosure-stability}
+Every accepted $\RoundedIntervalUp$ carrier preserves its outward-rounded dyadic enclosure under componentwise $\hsame$ transport and displayed $\Cont$ replay. In particular, any replayed consumer sees the same route
+$$
+Q\longmapsto S\longmapsto R\longmapsto D\longmapsto L,U,O
+$$
+and receives a lower endpoint rounded outward below the inspected readback and an upper endpoint rounded outward above the inspected readback. The stability claim is exhausted by the displayed dyadic rows and does not use host real equality, trichotomy, selected representatives, countable choice, quotient endpoint equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $I$. The dyadic request row $Q$ fixes the scale and tolerance budget, and the stream window $S$ supplies the finite observation consumed by the regular rational readback $R$.
+
+The rounding ledger $D$ is downstream of that readback. It stores the downward rule for $L$ and the upward rule for $U$, so the two endpoint rows are outward-rounded with respect to the same observed window and the same dyadic budget.
+
+Componentwise transport through $H$ preserves $Q,S,R,D,L,U,O$ row by row. Displayed replay through $C$ can only revisit the same rows in the same order, so a downstream consumer cannot exchange the lower endpoint for an inward-rounded row or the upper endpoint for an inward-rounded row.
+
+The endpoint-order row $O$ remains attached to the transported and replayed endpoints. Therefore the enclosure stability statement is entirely finite and dyadic, with no need for any excluded host or completeness data.
+\end{proof}
+
+\begin{theorem}[Rounded interval Real seal handoff]
+\label{thm:rounded-interval-real-seal-handoff}
+Every $\RealUp$ or L10 Completion consumer of an accepted $\RoundedIntervalUp$ carrier reaches the terminal Real seal only through the displayed handoff
+$$
+Q,S,R,D,L,U,O \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a finite outward-rounded dyadic interval enclosure feeding $\RegSeqRatUp$ and $\RealUp$ data, not a host interval, selected real representative, trichotomy witness, countable-choice schedule, quotient endpoint equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Let a downstream Real or Completion consumer inspect an accepted packet. Before the Real seal can be read, the carrier presents the dyadic request, stream window, regular rational readback, rounding ledger, endpoint rows, and endpoint-order row.
+
+The seal row $E$ is placed after those rows in the carrier. Thus a Real-facing handoff must already have displayed the outward-rounded lower and upper dyadic endpoints and their order at the chosen scale.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name that same handoff route. No coordinate in the packet contains a host interval, selected real representative, trichotomy witness, countable-choice schedule, quotient endpoint equality, or ambient completeness theorem, so none of those objects can be exported through the Real seal.
+\end{proof}
+
+\closureat{RoundedIntervalUp}{seedStr}
+
+\begin{closurestatus}{\RoundedIntervalUp}
+  \constructivestory{A $\RoundedIntervalUp$ packet is generated from a $\DyadicRatCoreUp$ request, a $\StreamNameUp$ finite observation window, a $\RegSeqRatUp$ readback row, a dyadic rounding ledger, outward-rounded lower and upper endpoint rows, an endpoint-order row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rounded-interval-carrier}, \autoref{thm:rounded-interval-namecert-obligations}, \autoref{thm:rounded-interval-dyadic-enclosure-stability}, and \autoref{thm:rounded-interval-real-seal-handoff} seed the finite outward-rounded dyadic interval enclosure route for RegSeqRat and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RoundedIntervalUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, trichotomy, selected representatives, countable choice, quotient endpoint equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint order, outward rounding stability, RegSeqRat window handoff, Real seal non-escape, and handoff coverage for BEDC.Derived.RoundedIntervalUp.}
+\end{closurestatus}
