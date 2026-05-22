@@ -25,7 +25,7 @@ def cauchyRealFieldDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyRealFieldDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyRealFieldDecodeBHist tail)
 
-private theorem CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode :
+private theorem CauchyRealFieldTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, cauchyRealFieldDecodeBHist (cauchyRealFieldEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -40,36 +40,37 @@ def cauchyRealFieldFields : CauchyRealFieldUp → List BHist
 
 def cauchyRealFieldToEventFlow : CauchyRealFieldUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (cauchyRealFieldFields x).map cauchyRealFieldEncodeBHist
+  | x => List.map cauchyRealFieldEncodeBHist (cauchyRealFieldFields x)
 
-private def cauchyRealFieldEventAt : Nat → EventFlow → RawEvent
+private def cauchyRealFieldRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
+  | 0, [] => []
+  | 0, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyRealFieldEventAt index rest
+  | Nat.succ index, _event :: rest => cauchyRealFieldRawAt index rest
 
-def cauchyRealFieldFromEventFlow (ef : EventFlow) : Option CauchyRealFieldUp :=
+def cauchyRealFieldFromEventFlow (flow : EventFlow) : Option CauchyRealFieldUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CauchyRealFieldUp.mk
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 0 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 1 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 2 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 3 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 4 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 5 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 6 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 7 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 8 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 9 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 10 ef))
-      (cauchyRealFieldDecodeBHist (cauchyRealFieldEventAt 11 ef)))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 0 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 1 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 2 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 3 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 4 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 5 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 6 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 7 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 8 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 9 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 10 flow))
+      (cauchyRealFieldDecodeBHist (cauchyRealFieldRawAt 11 flow)))
 
-private theorem CauchyRealFieldUpTasteGate_single_carrier_alignment_round_trip
-    (x : CauchyRealFieldUp) :
-    cauchyRealFieldFromEventFlow (cauchyRealFieldToEventFlow x) = some x := by
+private theorem CauchyRealFieldTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : CauchyRealFieldUp,
+      cauchyRealFieldFromEventFlow (cauchyRealFieldToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk R S D Z A M I O H C P N =>
       change
@@ -88,20 +89,20 @@ private theorem CauchyRealFieldUpTasteGate_single_carrier_alignment_round_trip
             (cauchyRealFieldDecodeBHist (cauchyRealFieldEncodeBHist P))
             (cauchyRealFieldDecodeBHist (cauchyRealFieldEncodeBHist N))) =
           some (CauchyRealFieldUp.mk R S D Z A M I O H C P N)
-      rw [CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode R,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode S,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode D,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode Z,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode A,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode M,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode I,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode O,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode H,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode C,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode P,
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode N]
+      rw [CauchyRealFieldTasteGate_single_carrier_alignment_decode R,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode S,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode D,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode Z,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode A,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode M,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode I,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode O,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode H,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode C,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode P,
+        CauchyRealFieldTasteGate_single_carrier_alignment_decode N]
 
-private theorem CauchyRealFieldUpTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem CauchyRealFieldTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyRealFieldUp} :
     cauchyRealFieldToEventFlow x = cauchyRealFieldToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -111,8 +112,8 @@ private theorem CauchyRealFieldUpTasteGate_single_carrier_alignment_toEventFlow_
         cauchyRealFieldFromEventFlow (cauchyRealFieldToEventFlow y) :=
     congrArg cauchyRealFieldFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CauchyRealFieldUpTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (CauchyRealFieldUpTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (CauchyRealFieldTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (CauchyRealFieldTasteGate_single_carrier_alignment_round_trip y)))
 
 instance cauchyRealFieldBHistCarrier : BHistCarrier CauchyRealFieldUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -124,12 +125,16 @@ instance cauchyRealFieldChapterTasteGate : ChapterTasteGate CauchyRealFieldUp wh
   round_trip := by
     intro x
     change cauchyRealFieldFromEventFlow (cauchyRealFieldToEventFlow x) = some x
-    exact CauchyRealFieldUpTasteGate_single_carrier_alignment_round_trip x
+    exact CauchyRealFieldTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CauchyRealFieldUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (CauchyRealFieldTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem CauchyRealFieldUpTasteGate_single_carrier_alignment :
+def taste_gate : ChapterTasteGate CauchyRealFieldUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchyRealFieldChapterTasteGate
+
+theorem CauchyRealFieldTasteGate_single_carrier_alignment :
     (∀ h : BHist, cauchyRealFieldDecodeBHist (cauchyRealFieldEncodeBHist h) = h) ∧
       (∀ x : CauchyRealFieldUp,
         cauchyRealFieldFromEventFlow (cauchyRealFieldToEventFlow x) = some x) ∧
@@ -138,10 +143,11 @@ theorem CauchyRealFieldUpTasteGate_single_carrier_alignment :
           cauchyRealFieldEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨CauchyRealFieldUpTasteGate_single_carrier_alignment_decode_encode,
-      CauchyRealFieldUpTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        CauchyRealFieldUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+    ⟨CauchyRealFieldTasteGate_single_carrier_alignment_decode,
+      CauchyRealFieldTasteGate_single_carrier_alignment_round_trip,
+      by
+        intro x y heq
+        exact CauchyRealFieldTasteGate_single_carrier_alignment_toEventFlow_injective heq,
       rfl⟩
 
 end BEDC.Derived.CauchyRealFieldUp
