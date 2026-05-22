@@ -3574,6 +3574,73 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         )
     ]
 
+    blocker_coordinate_rows = []
+    maximal_blocker_sets: dict[int, set[str]] = {}
+    coordinate_motifs = {
+        0: "YNY",
+        1: "SNY",
+        2: "NYY",
+        3: "NWY",
+    }
+    for coordinate in range(4):
+        blocker = {
+            codon
+            for codon in y_external_codons
+            if coordinate not in anchor_support(codon)
+        }
+        maximal_blocker_sets[coordinate] = blocker
+        blocker_coordinate_rows.append(
+            {
+                "missing_coordinate": BIT_COORDINATES[coordinate],
+                "motif": coordinate_motifs[coordinate],
+                "size": len(blocker),
+            }
+        )
+    blocker_intersection_rows = []
+    for missing_count in range(1, 5):
+        sizes = sorted(
+            len(set.intersection(*(maximal_blocker_sets[coordinate] for coordinate in missing_coordinates)))
+            for missing_coordinates in itertools.combinations(range(4), missing_count)
+        )
+        blocker_intersection_rows.append(
+            {
+                "missing_coordinate_count": missing_count,
+                "intersection_sizes": tuple(sizes),
+                "common_size": sizes[0],
+                "formula_size": 2 * ((2 ** (4 - missing_count)) - 1),
+            }
+        )
+    blocker_nerve = {
+        "vertex_count": 4,
+        "edge_count": math.comb(4, 2),
+        "triangle_count": math.comb(4, 3),
+        "tetrahedron_count": 0,
+        "is_tetrahedron_boundary": all(row["common_size"] > 0 for row in blocker_intersection_rows[:3])
+        and blocker_intersection_rows[3]["common_size"] == 0,
+    }
+    blocker_f_vector = tuple(
+        4 * math.comb(14, face_size)
+        - 6 * math.comb(6, face_size)
+        + 4 * math.comb(2, face_size)
+        for face_size in range(1, 15)
+    )
+    blocker_euler_characteristic = sum(
+        ((-1) ** index) * count
+        for index, count in enumerate(blocker_f_vector)
+    )
+    blocker_probability_tail_rows = []
+    for added_size in range(1, 11):
+        blocker_count = blocker_f_vector[added_size - 1]
+        candidate_count = math.comb(len(y_external_codons), added_size)
+        blocker_probability_tail_rows.append(
+            {
+                "added_size": added_size,
+                "blocker_count": blocker_count,
+                "nontrigger_probability": blocker_count / candidate_count,
+                "full_trigger_probability": 1.0 - (blocker_count / candidate_count),
+            }
+        )
+
     nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
     quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
     for trigger_size in range(1, 5):
@@ -3644,6 +3711,13 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "markov_expected_trigger_time": markov_remaining_mean(0, 0),
         "trigger_time_variance": trigger_time_variance,
         "trigger_time_standard_deviation": trigger_time_variance ** 0.5,
+        "blocker_vertex_count": sum(1 for codon in y_external_codons if len(anchor_support(codon)) < 4),
+        "blocker_coordinate_rows": blocker_coordinate_rows,
+        "blocker_intersection_rows": blocker_intersection_rows,
+        "blocker_nerve": blocker_nerve,
+        "blocker_f_vector": blocker_f_vector,
+        "blocker_euler_characteristic": blocker_euler_characteristic,
+        "blocker_probability_tail_rows": blocker_probability_tail_rows,
         "minimal_trigger_rows": minimal_trigger_rows,
         "minimal_trigger_quotient_total": sum(row["quotient_count"] for row in minimal_trigger_rows),
         "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
@@ -6852,6 +6926,64 @@ def assert_expected(summary: dict[str, object]) -> None:
         ((3, 3), 1.647),
         ((6, 2), 1.941),
         ((6, 3), 1.471),
+    ]
+    assert antipodal["blocker_vertex_count"] == 28
+    assert [
+        (row["missing_coordinate"], row["motif"], row["size"])
+        for row in antipodal["blocker_coordinate_rows"]
+    ] == [
+        ("s1", "YNY", 14),
+        ("f1", "SNY", 14),
+        ("s2", "NYY", 14),
+        ("f2", "NWY", 14),
+    ]
+    assert [
+        (row["missing_coordinate_count"], row["intersection_sizes"], row["formula_size"])
+        for row in antipodal["blocker_intersection_rows"]
+    ] == [
+        (1, (14, 14, 14, 14), 14),
+        (2, (6, 6, 6, 6, 6, 6), 6),
+        (3, (2, 2, 2, 2), 2),
+        (4, (0,), 0),
+    ]
+    assert antipodal["blocker_nerve"] == {
+        "edge_count": 6,
+        "is_tetrahedron_boundary": True,
+        "tetrahedron_count": 0,
+        "triangle_count": 4,
+        "vertex_count": 4,
+    }
+    assert antipodal["blocker_f_vector"] == (
+        28,
+        278,
+        1336,
+        3914,
+        7972,
+        12006,
+        13728,
+        12012,
+        8008,
+        4004,
+        1456,
+        364,
+        56,
+        4,
+    )
+    assert antipodal["blocker_euler_characteristic"] == 2
+    assert [
+        (row["added_size"], row["blocker_count"], round(row["full_trigger_probability"], 4))
+        for row in antipodal["blocker_probability_tail_rows"]
+    ] == [
+        (1, 28, 0.0667),
+        (2, 278, 0.3609),
+        (3, 1336, 0.6709),
+        (4, 3914, 0.8572),
+        (5, 7972, 0.9441),
+        (6, 12006, 0.9798),
+        (7, 13728, 0.9933),
+        (8, 12012, 0.9979),
+        (9, 8008, 0.9994),
+        (10, 4004, 0.9999),
     ]
     assert [
         (row["trigger_size"], row["quotient_count"], row["codon_count"])
