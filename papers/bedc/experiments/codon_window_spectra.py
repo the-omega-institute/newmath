@@ -2958,6 +2958,152 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         codon for codon in all_codons() if median_boolean_formula(codon)
     }
 
+    inverse_base_bits = {value: key for key, value in BASE_BITS.items()}
+
+    def rna_label(text: str) -> str:
+        return text.replace("T", "U")
+
+    def project_without_f3(codon: str) -> str:
+        word = bits(codon)
+        return word[:5]
+
+    def quotient_label(word: str) -> str:
+        first = inverse_base_bits[word[0:2]]
+        second = inverse_base_bits[word[2:4]]
+        third = "R" if word[4] == "1" else "Y"
+        return rna_label(first + second + third)
+
+    def quotient_pair(word: str) -> tuple[str, ...]:
+        return tuple(
+            rna_label(codon)
+            for codon in sorted(
+                codon_from_bits(word + family_bit)
+                for family_bit in "01"
+            )
+        )
+
+    def median_word(left: str, middle: str, right: str) -> str:
+        return "".join(
+            "1" if (int(a) + int(b) + int(c)) >= 2 else "0"
+            for a, b, c in zip(left, middle, right)
+        )
+
+    def median_closure_words(words: set[str]) -> tuple[set[str], list[dict[str, object]]]:
+        closed = set(words)
+        stages: list[dict[str, object]] = []
+        stage_index = 0
+        while True:
+            additions = {
+                median_word(left, middle, right)
+                for left, middle, right in itertools.combinations_with_replacement(sorted(closed), 3)
+            } - closed
+            if not additions:
+                break
+            stage_index += 1
+            closed |= additions
+            stages.append(
+                {
+                    "stage": stage_index,
+                    "added_count": len(additions),
+                    "added": tuple(quotient_label(word) for word in sorted(additions)),
+                    "total_size": len(closed),
+                }
+            )
+        return closed, stages
+
+    def q5_subcube_vertices(free_bits: tuple[int, ...], fixed_values: tuple[str, ...]) -> tuple[str, ...]:
+        fixed = [index for index in range(5) if index not in free_bits]
+        word = [""] * 5
+        for index, value in zip(fixed, fixed_values):
+            word[index] = value
+        vertices: list[str] = []
+        for local in itertools.product("01", repeat=len(free_bits)):
+            candidate = word.copy()
+            for index, value in zip(free_bits, local):
+                candidate[index] = value
+            vertices.append("".join(candidate))
+        return tuple(vertices)
+
+    def q5_cubical_complex(vertices: set[str]) -> dict[str, object]:
+        cells_by_dimension: dict[int, list[dict[str, object]]] = {dimension: [] for dimension in range(6)}
+        for dimension in range(6):
+            for free in itertools.combinations(range(5), dimension):
+                for values in itertools.product("01", repeat=5 - dimension):
+                    cell_vertices = q5_subcube_vertices(free, values)
+                    if set(cell_vertices) <= vertices:
+                        cells_by_dimension[dimension].append(
+                            {
+                                "free_bits": free,
+                                "vertices": cell_vertices,
+                                "labels": tuple(quotient_label(word) for word in cell_vertices),
+                            }
+                        )
+        all_cells = [
+            cell
+            for cells in cells_by_dimension.values()
+            for cell in cells
+        ]
+        maximal_cells = [
+            cell
+            for cell in all_cells
+            if not any(set(cell["vertices"]) < set(other["vertices"]) for other in all_cells)
+        ]
+        maximal_cells.sort(key=lambda cell: (-len(cell["free_bits"]), cell["labels"]))
+        return {
+            "f_vector": tuple(len(cells_by_dimension[dimension]) for dimension in range(6)),
+            "maximal_cells": maximal_cells,
+        }
+
+    def q5_edges(vertices: set[str]) -> tuple[tuple[str, str], ...]:
+        return tuple(
+            (left, right)
+            for left, right in itertools.combinations(sorted(vertices), 2)
+            if sum(a != b for a, b in zip(left, right)) == 1
+        )
+
+    quotient_support = {project_without_f3(codon) for codon in support}
+    quotient_median = {project_without_f3(codon) for codon in median_set}
+    quotient_median_from_support, quotient_median_stages = median_closure_words(quotient_support)
+    quotient_complex = q5_cubical_complex(quotient_median)
+    quotient_support_complex = q5_cubical_complex(quotient_support)
+    quotient_edges = q5_edges(quotient_median)
+    quotient_adjacency_matrix = [[0.0 for _column in quotient_median] for _row in quotient_median]
+    quotient_ordered_words = tuple(sorted(quotient_median))
+    quotient_word_index = {word: index for index, word in enumerate(quotient_ordered_words)}
+    for left, right in quotient_edges:
+        left_index = quotient_word_index[left]
+        right_index = quotient_word_index[right]
+        quotient_adjacency_matrix[left_index][right_index] = 1.0
+        quotient_adjacency_matrix[right_index][left_index] = 1.0
+    quotient_mu_max, _quotient_eigenvector = dominant_symmetric_eigenpair(quotient_adjacency_matrix)
+    quotient_product_spectral_radius = (quotient_mu_max + 1.0) / 6.0
+    quotient_product_f_vector = tuple(
+        2 * quotient_complex["f_vector"][index]
+        + (quotient_complex["f_vector"][index - 1] if index > 0 else 0)
+        for index in range(5)
+    )
+    quotient_label_order = ("UUR", "UCR", "UAR", "UGR", "AUR", "ACR", "AAR", "AGR", "CUR", "CUY")
+    quotient_label_to_word = {
+        quotient_label(word): word
+        for word in quotient_median
+    }
+    quotient_occupancy_rows = [
+        {
+            "quotient": label,
+            "pair": quotient_pair(quotient_label_to_word[label]),
+            "active_occupancy": sum(
+                1
+                for codon in all_codons()
+                if project_without_f3(codon) == quotient_label_to_word[label]
+                and codon in support
+            ),
+        }
+        for label in quotient_label_order
+    ]
+    quotient_preimage = {
+        codon for codon in all_codons() if project_without_f3(codon) in quotient_median
+    }
+
     return {
         "support": tuple(sorted(support)),
         "support_size": len(support),
@@ -3448,6 +3594,60 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "median_boolean_formula_vertices": tuple(sorted(median_boolean_formula_vertices)),
             "median_boolean_formula_matches": median_boolean_formula_vertices == median_set,
             "median_boolean_formula": "(not f1 and s3) or (f1 and not s1 and not s2 and not f2)",
+            "quotient": {
+                "projection": "delete f3",
+                "support": tuple(quotient_label(word) for word in sorted(quotient_support)),
+                "median_closure": tuple(quotient_label(word) for word in sorted(quotient_median)),
+                "support_is_median_minus_acr": quotient_support == quotient_median - {quotient_label_to_word["ACR"]},
+                "missing_support_point": tuple(
+                    quotient_label(word)
+                    for word in sorted(quotient_median - quotient_support)
+                ),
+                "median_closure_of_support": tuple(
+                    quotient_label(word)
+                    for word in sorted(quotient_median_from_support)
+                ),
+                "median_stages": quotient_median_stages,
+                "median_closure_matches_projected_median": quotient_median_from_support == quotient_median,
+                "acr_witness": {
+                    "triple": ("AGR", "AUR", "UCR"),
+                    "median": quotient_label(
+                        median_word(
+                            quotient_label_to_word["AGR"],
+                            quotient_label_to_word["AUR"],
+                            quotient_label_to_word["UCR"],
+                        )
+                    ),
+                },
+                "complex": quotient_complex,
+                "support_complex": quotient_support_complex,
+                "edges": tuple(
+                    (quotient_label(left), quotient_label(right))
+                    for left, right in quotient_edges
+                ),
+                "product_with_f3_preimage_matches_median": quotient_preimage == median_set,
+                "product_f_vector": quotient_product_f_vector,
+                "median_f_vector": median_complex["f_vector"][:5],
+                "quotient_mu_max": quotient_mu_max,
+                "product_spectral_radius": quotient_product_spectral_radius,
+                "median_spectral_radius": median_spectral_radius,
+                "occupancy_rows": quotient_occupancy_rows,
+                "full_active_pairs": tuple(
+                    row["quotient"]
+                    for row in quotient_occupancy_rows
+                    if row["active_occupancy"] == 2
+                ),
+                "half_active_pairs": tuple(
+                    row["quotient"]
+                    for row in quotient_occupancy_rows
+                    if row["active_occupancy"] == 1
+                ),
+                "empty_pairs": tuple(
+                    row["quotient"]
+                    for row in quotient_occupancy_rows
+                    if row["active_occupancy"] == 0
+                ),
+            },
         },
     }
 
@@ -5200,6 +5400,69 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert wobble["median_f3_silent"] is True
     assert wobble["median_boolean_formula_matches"] is True
     assert wobble["median_boolean_formula_vertices"] == summary["support_compression"]["median_closure"]["median_closure"]
+    quotient = wobble["quotient"]
+    assert quotient["support"] == (
+        "UUR",
+        "UCR",
+        "UAR",
+        "UGR",
+        "CUY",
+        "CUR",
+        "AUR",
+        "AAR",
+        "AGR",
+    )
+    assert quotient["median_closure"] == (
+        "UUR",
+        "UCR",
+        "UAR",
+        "UGR",
+        "CUY",
+        "CUR",
+        "AUR",
+        "ACR",
+        "AAR",
+        "AGR",
+    )
+    assert quotient["support_is_median_minus_acr"] is True
+    assert quotient["missing_support_point"] == ("ACR",)
+    assert quotient["median_closure_of_support"] == quotient["median_closure"]
+    assert quotient["median_stages"] == [
+        {"stage": 1, "added_count": 1, "added": ("ACR",), "total_size": 10}
+    ]
+    assert quotient["median_closure_matches_projected_median"] is True
+    assert quotient["acr_witness"] == {"triple": ("AGR", "AUR", "UCR"), "median": "ACR"}
+    assert quotient["complex"]["f_vector"] == (10, 14, 6, 1, 0, 0)
+    assert quotient["support_complex"]["f_vector"] == (9, 11, 3, 0, 0, 0)
+    assert [
+        (tuple(cell["free_bits"]), tuple(cell["labels"]))
+        for cell in quotient["complex"]["maximal_cells"]
+    ] == [
+        ((0, 2, 3), ("UUR", "UCR", "UAR", "UGR", "AUR", "ACR", "AAR", "AGR")),
+        ((4,), ("CUY", "CUR")),
+        ((1,), ("UUR", "CUR")),
+    ]
+    assert quotient["product_with_f3_preimage_matches_median"] is True
+    assert quotient["product_f_vector"] == (20, 38, 26, 8, 1)
+    assert quotient["median_f_vector"] == (20, 38, 26, 8, 1)
+    assert round(quotient["quotient_mu_max"], 9) == 3.051487585
+    assert round(quotient["product_spectral_radius"], 9) == 0.675247931
+    assert round(quotient["median_spectral_radius"], 9) == 0.675247931
+    assert quotient["occupancy_rows"] == [
+        {"quotient": "UUR", "pair": ("UUA", "UUG"), "active_occupancy": 1},
+        {"quotient": "UCR", "pair": ("UCA", "UCG"), "active_occupancy": 1},
+        {"quotient": "UAR", "pair": ("UAA", "UAG"), "active_occupancy": 2},
+        {"quotient": "UGR", "pair": ("UGA", "UGG"), "active_occupancy": 1},
+        {"quotient": "AUR", "pair": ("AUA", "AUG"), "active_occupancy": 1},
+        {"quotient": "ACR", "pair": ("ACA", "ACG"), "active_occupancy": 0},
+        {"quotient": "AAR", "pair": ("AAA", "AAG"), "active_occupancy": 1},
+        {"quotient": "AGR", "pair": ("AGA", "AGG"), "active_occupancy": 2},
+        {"quotient": "CUR", "pair": ("CUA", "CUG"), "active_occupancy": 2},
+        {"quotient": "CUY", "pair": ("CUC", "CUU"), "active_occupancy": 2},
+    ]
+    assert quotient["full_active_pairs"] == ("UAR", "AGR", "CUR", "CUY")
+    assert quotient["half_active_pairs"] == ("UUR", "UCR", "UGR", "AUR", "AAR")
+    assert quotient["empty_pairs"] == ("ACR",)
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
