@@ -124,4 +124,28 @@ theorem LocatednessModulusRealSeal_nonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, realSealUnary, sealUnary, sealPkg⟩
 
+theorem LocatednessModulusCarrier_real_seal_non_escape [AskSetup] [PackageSetup]
+    {request locatedInterval rationalCells dyadicRows streamWindow readback realSeal transport
+      replay provenance localName cellRead windowRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatednessModulusCarrier request locatedInterval rationalCells dyadicRows streamWindow
+        readback realSeal transport replay provenance localName bundle pkg →
+      Cont request locatedInterval cellRead →
+        Cont cellRead streamWindow windowRead →
+          Cont windowRead realSeal sealRead →
+            PkgSig bundle provenance pkg →
+              PkgSig bundle sealRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row request ∨ hsame row locatedInterval ∨
+                        hsame row streamWindow ∨ hsame row realSeal ∨ hsame row sealRead)
+                    (fun row : BHist => hsame row sealRead ∧ PkgSig bundle sealRead pkg)
+                    hsame ∧
+                  UnaryHistory sealRead ∧ PkgSig bundle provenance pkg := by
+  intro carrier requestLocated cellWindow windowSeal provenancePkg sealPkg
+  obtain ⟨cert, _realSealUnary, sealUnary, _sealPkg⟩ :=
+    LocatednessModulusRealSeal_nonescape carrier requestLocated cellWindow windowSeal sealPkg
+  exact ⟨cert, sealUnary, provenancePkg⟩
+
 end BEDC.Derived.LocatednessModulusUp
