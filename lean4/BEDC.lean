@@ -962,6 +962,7 @@ import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.CauchyModulusMeetUp.StdBridge
+import BEDC.Derived.CauchyModulusMonotoneNormalizationUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchyModulusRefinementUp.BHistSourceScope
 import BEDC.Derived.CauchyModulusRefinementUp.BridgeConsumerRouteExhaustion
@@ -3196,6 +3197,7 @@ import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
 import BEDC.Derived.KernelCategoryUp.NameCertRootRouteReadiness
+import BEDC.Derived.KernelCategoryUp.UnitScope
 import BEDC.Derived.KernelInductiveAcceptanceUp.ContinuationRouteTotality
 import BEDC.Derived.KernelInductiveAcceptanceUp.EmittedEliminatorCoverage
 import BEDC.Derived.KernelInductiveAcceptanceUp.EnvironmentEntryDeterminacy
@@ -4634,6 +4636,7 @@ import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMeetUp
 import BEDC.Derived.RegularCauchyTailMeetUp.DyadicAbsoluteValueHandoff
 import BEDC.Derived.RegularCauchyTailMeetUp.SharedThresholdCofinality
+import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.TasteGate
