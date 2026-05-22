@@ -34,36 +34,68 @@ private theorem cauchyRealizer_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+private theorem cauchyRealizer_mk_congr
+    {E E' R R' V V' W W' Q Q' D D' S S' H H' C C' P P' N N' : BHist}
+    (hE : E' = E) (hR : R' = R) (hV : V' = V) (hW : W' = W)
+    (hQ : Q' = Q) (hD : D' = D) (hS : S' = S) (hH : H' = H)
+    (hC : C' = C) (hP : P' = P) (hN : N' = N) :
+    CauchyRealizerUp.mk E' R' V' W' Q' D' S' H' C' P' N' =
+      CauchyRealizerUp.mk E R V W Q D S H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hE
+  cases hR
+  cases hV
+  cases hW
+  cases hQ
+  cases hD
+  cases hS
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
 def cauchyRealizerFields : CauchyRealizerUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CauchyRealizerUp.mk E R V W Q D S H C P N => [E, R, V, W, Q, D, S, H, C, P, N]
 
-def cauchyRealizerToEventFlow : CauchyRealizerUp → EventFlow :=
+def cauchyRealizerToEventFlow : CauchyRealizerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (cauchyRealizerFields x).map cauchyRealizerEncodeBHist
+  | x => (cauchyRealizerFields x).map cauchyRealizerEncodeBHist
 
-private def cauchyRealizerEventAtDefault : Nat → EventFlow → RawEvent
+private def cauchyRealizerRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyRealizerEventAtDefault index rest
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => cauchyRealizerRawAt n rest
 
-def cauchyRealizerFromEventFlow (ef : EventFlow) : Option CauchyRealizerUp :=
+private def cauchyRealizerLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (CauchyRealizerUp.mk
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 0 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 1 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 2 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 3 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 4 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 5 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 6 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 7 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 8 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 9 ef))
-      (cauchyRealizerDecodeBHist (cauchyRealizerEventAtDefault 10 ef)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => cauchyRealizerLengthEq n rest
+
+def cauchyRealizerFromEventFlow : EventFlow → Option CauchyRealizerUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match cauchyRealizerLengthEq 11 flow with
+      | true =>
+          some
+            (CauchyRealizerUp.mk
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 0 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 1 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 2 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 3 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 4 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 5 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 6 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 7 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 8 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 9 flow))
+              (cauchyRealizerDecodeBHist (cauchyRealizerRawAt 10 flow)))
+      | false => none
 
 private theorem cauchyRealizer_round_trip :
     ∀ x : CauchyRealizerUp,
@@ -72,32 +104,20 @@ private theorem cauchyRealizer_round_trip :
   intro x
   cases x with
   | mk E R V W Q D S H C P N =>
-      change
-        some
-          (CauchyRealizerUp.mk
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist E))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist R))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist V))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist W))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist Q))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist D))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist S))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist H))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist C))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist P))
-            (cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist N))) =
-          some (CauchyRealizerUp.mk E R V W Q D S H C P N)
-      rw [cauchyRealizer_decode_encode_bhist E,
-        cauchyRealizer_decode_encode_bhist R,
-        cauchyRealizer_decode_encode_bhist V,
-        cauchyRealizer_decode_encode_bhist W,
-        cauchyRealizer_decode_encode_bhist Q,
-        cauchyRealizer_decode_encode_bhist D,
-        cauchyRealizer_decode_encode_bhist S,
-        cauchyRealizer_decode_encode_bhist H,
-        cauchyRealizer_decode_encode_bhist C,
-        cauchyRealizer_decode_encode_bhist P,
-        cauchyRealizer_decode_encode_bhist N]
+      exact
+        congrArg some
+          (cauchyRealizer_mk_congr
+            (cauchyRealizer_decode_encode_bhist E)
+            (cauchyRealizer_decode_encode_bhist R)
+            (cauchyRealizer_decode_encode_bhist V)
+            (cauchyRealizer_decode_encode_bhist W)
+            (cauchyRealizer_decode_encode_bhist Q)
+            (cauchyRealizer_decode_encode_bhist D)
+            (cauchyRealizer_decode_encode_bhist S)
+            (cauchyRealizer_decode_encode_bhist H)
+            (cauchyRealizer_decode_encode_bhist C)
+            (cauchyRealizer_decode_encode_bhist P)
+            (cauchyRealizer_decode_encode_bhist N))
 
 private theorem cauchyRealizerToEventFlow_injective {x y : CauchyRealizerUp} :
     cauchyRealizerToEventFlow x = cauchyRealizerToEventFlow y → x = y := by
@@ -126,18 +146,14 @@ instance cauchyRealizerChapterTasteGate : ChapterTasteGate CauchyRealizerUp wher
     intro x y hxy heq
     exact hxy (cauchyRealizerToEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate CauchyRealizerUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  cauchyRealizerChapterTasteGate
-
-theorem CauchyRealizerTasteGate_single_carrier_alignment :
+theorem CauchyRealizerUpTasteGate_single_carrier_alignment :
     (∀ h : BHist, cauchyRealizerDecodeBHist (cauchyRealizerEncodeBHist h) = h) ∧
       (∀ x : CauchyRealizerUp,
         cauchyRealizerFromEventFlow (cauchyRealizerToEventFlow x) = some x) ∧
-      (∀ x y : CauchyRealizerUp,
-        cauchyRealizerToEventFlow x = cauchyRealizerToEventFlow y → x = y) ∧
-      cauchyRealizerEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+        (∀ x y : CauchyRealizerUp,
+          cauchyRealizerToEventFlow x = cauchyRealizerToEventFlow y → x = y) ∧
+          cauchyRealizerEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨cauchyRealizer_decode_encode_bhist,
       cauchyRealizer_round_trip,

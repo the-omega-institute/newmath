@@ -26,7 +26,8 @@ def regularCauchyDistanceDecodeBHist : RawEvent → BHist
   | BMark.b1 :: tail => BHist.e1 (regularCauchyDistanceDecodeBHist tail)
 
 private theorem regularCauchyDistance_decode_encode_bhist :
-    ∀ h : BHist, regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist h) = h := by
+    ∀ h : BHist,
+      regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,36 +35,68 @@ private theorem regularCauchyDistance_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+private theorem regularCauchyDistance_mk_congr
+    {X X' Y Y' S S' T T' D D' Q Q' E E' H H' C C' P P' N N' : BHist}
+    (hX : X' = X) (hY : Y' = Y) (hS : S' = S) (hT : T' = T)
+    (hD : D' = D) (hQ : Q' = Q) (hE : E' = E) (hH : H' = H)
+    (hC : C' = C) (hP : P' = P) (hN : N' = N) :
+    RegularCauchyDistanceUp.mk X' Y' S' T' D' Q' E' H' C' P' N' =
+      RegularCauchyDistanceUp.mk X Y S T D Q E H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hX
+  cases hY
+  cases hS
+  cases hT
+  cases hD
+  cases hQ
+  cases hE
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
 def regularCauchyDistanceFields : RegularCauchyDistanceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyDistanceUp.mk X Y S T D Q E H C P N => [X, Y, S, T, D, Q, E, H, C, P, N]
 
-def regularCauchyDistanceToEventFlow : RegularCauchyDistanceUp → EventFlow :=
+def regularCauchyDistanceToEventFlow : RegularCauchyDistanceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (regularCauchyDistanceFields x).map regularCauchyDistanceEncodeBHist
+  | x => (regularCauchyDistanceFields x).map regularCauchyDistanceEncodeBHist
 
-private def regularCauchyDistanceEventAtDefault : Nat → EventFlow → RawEvent
+private def regularCauchyDistanceRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => regularCauchyDistanceEventAtDefault index rest
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => regularCauchyDistanceRawAt n rest
 
-def regularCauchyDistanceFromEventFlow (ef : EventFlow) : Option RegularCauchyDistanceUp :=
+private def regularCauchyDistanceLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RegularCauchyDistanceUp.mk
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 0 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 1 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 2 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 3 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 4 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 5 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 6 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 7 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 8 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 9 ef))
-      (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEventAtDefault 10 ef)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => regularCauchyDistanceLengthEq n rest
+
+def regularCauchyDistanceFromEventFlow : EventFlow → Option RegularCauchyDistanceUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match regularCauchyDistanceLengthEq 11 flow with
+      | true =>
+          some
+            (RegularCauchyDistanceUp.mk
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 0 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 1 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 2 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 3 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 4 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 5 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 6 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 7 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 8 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 9 flow))
+              (regularCauchyDistanceDecodeBHist (regularCauchyDistanceRawAt 10 flow)))
+      | false => none
 
 private theorem regularCauchyDistance_round_trip :
     ∀ x : RegularCauchyDistanceUp,
@@ -72,35 +105,22 @@ private theorem regularCauchyDistance_round_trip :
   intro x
   cases x with
   | mk X Y S T D Q E H C P N =>
-      change
-        some
-          (RegularCauchyDistanceUp.mk
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist X))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist Y))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist S))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist T))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist D))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist Q))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist E))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist H))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist C))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist P))
-            (regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist N))) =
-          some (RegularCauchyDistanceUp.mk X Y S T D Q E H C P N)
-      rw [regularCauchyDistance_decode_encode_bhist X,
-        regularCauchyDistance_decode_encode_bhist Y,
-        regularCauchyDistance_decode_encode_bhist S,
-        regularCauchyDistance_decode_encode_bhist T,
-        regularCauchyDistance_decode_encode_bhist D,
-        regularCauchyDistance_decode_encode_bhist Q,
-        regularCauchyDistance_decode_encode_bhist E,
-        regularCauchyDistance_decode_encode_bhist H,
-        regularCauchyDistance_decode_encode_bhist C,
-        regularCauchyDistance_decode_encode_bhist P,
-        regularCauchyDistance_decode_encode_bhist N]
+      exact
+        congrArg some
+          (regularCauchyDistance_mk_congr
+            (regularCauchyDistance_decode_encode_bhist X)
+            (regularCauchyDistance_decode_encode_bhist Y)
+            (regularCauchyDistance_decode_encode_bhist S)
+            (regularCauchyDistance_decode_encode_bhist T)
+            (regularCauchyDistance_decode_encode_bhist D)
+            (regularCauchyDistance_decode_encode_bhist Q)
+            (regularCauchyDistance_decode_encode_bhist E)
+            (regularCauchyDistance_decode_encode_bhist H)
+            (regularCauchyDistance_decode_encode_bhist C)
+            (regularCauchyDistance_decode_encode_bhist P)
+            (regularCauchyDistance_decode_encode_bhist N))
 
-private theorem regularCauchyDistanceToEventFlow_injective
-    {x y : RegularCauchyDistanceUp} :
+private theorem regularCauchyDistanceToEventFlow_injective {x y : RegularCauchyDistanceUp} :
     regularCauchyDistanceToEventFlow x = regularCauchyDistanceToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -127,18 +147,14 @@ instance regularCauchyDistanceChapterTasteGate : ChapterTasteGate RegularCauchyD
     intro x y hxy heq
     exact hxy (regularCauchyDistanceToEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate RegularCauchyDistanceUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  regularCauchyDistanceChapterTasteGate
-
-theorem RegularCauchyDistanceTasteGate_single_carrier_alignment :
+theorem RegularCauchyDistanceUpTasteGate_single_carrier_alignment :
     (∀ h : BHist, regularCauchyDistanceDecodeBHist (regularCauchyDistanceEncodeBHist h) = h) ∧
       (∀ x : RegularCauchyDistanceUp,
         regularCauchyDistanceFromEventFlow (regularCauchyDistanceToEventFlow x) = some x) ∧
-      (∀ x y : RegularCauchyDistanceUp,
-        regularCauchyDistanceToEventFlow x = regularCauchyDistanceToEventFlow y → x = y) ∧
-      regularCauchyDistanceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+        (∀ x y : RegularCauchyDistanceUp,
+          regularCauchyDistanceToEventFlow x = regularCauchyDistanceToEventFlow y → x = y) ∧
+          regularCauchyDistanceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨regularCauchyDistance_decode_encode_bhist,
       regularCauchyDistance_round_trip,
