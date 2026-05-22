@@ -418,4 +418,31 @@ theorem RealCauchyModulusCarrier_precision_induction [AskSetup] [PackageSetup]
     ⟨refinedWindows, refinedDyadic, refinedSeal, windowsCont, dyadicCont, sealCont,
       refinedWindowsUnary, refinedDyadicUnary, refinedSealUnary, provenancePkg⟩
 
+theorem RealCauchyModulusCarrier_window_monotonicity [AskSetup] [PackageSetup]
+    {modulus windows dyadic readback sealRow transports routes provenance localCert
+      strongerRequest strongerWindows strongerDyadic : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyModulusCarrier modulus windows dyadic readback sealRow transports routes provenance
+        localCert bundle pkg ->
+      UnaryHistory strongerRequest ->
+        Cont windows strongerRequest strongerWindows ->
+          Cont strongerWindows dyadic strongerDyadic ->
+            UnaryHistory windows ∧ UnaryHistory strongerWindows ∧ UnaryHistory dyadic ∧
+              UnaryHistory strongerDyadic ∧ Cont modulus windows dyadic ∧
+                Cont windows strongerRequest strongerWindows ∧
+                  Cont strongerWindows dyadic strongerDyadic ∧
+                    PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier strongerRequestUnary strongerWindowCont strongerDyadicCont
+  obtain ⟨_modulusUnary, windowsUnary, dyadicUnary, _readbackUnary, _sealUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, modulusWindowRoute,
+      _dyadicReadbackRoute, _sealRoute, provenancePkg, _localSemantic⟩ := carrier
+  have strongerWindowsUnary : UnaryHistory strongerWindows :=
+    unary_cont_closed windowsUnary strongerRequestUnary strongerWindowCont
+  have strongerDyadicUnary : UnaryHistory strongerDyadic :=
+    unary_cont_closed strongerWindowsUnary dyadicUnary strongerDyadicCont
+  exact
+    ⟨windowsUnary, strongerWindowsUnary, dyadicUnary, strongerDyadicUnary,
+      modulusWindowRoute, strongerWindowCont, strongerDyadicCont, provenancePkg⟩
+
 end BEDC.Derived.RealCauchyModulusUp
