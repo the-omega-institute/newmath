@@ -78,6 +78,23 @@ The consumer row $E$ is downstream of that ledger. Thus any $\RealCauchyCriterio
 Because Real completeness, quotient streams, selected limits, trichotomy, countable choice, host sequence equality, Lean evidence, and bridge data are absent from the carrier, none of them can be exported by the handoff.
 \end{proof}
 
+\begin{theorem}[Convergent real sequence Cauchy late-pair exhaustion]\label{thm:convergent-real-sequence-cauchy-late-pair-exhaustion}
+Let
+$$
+C=(L,W,Q,D,T,E,H,R,P,N)
+$$
+be an accepted $\ConvergentRealSequenceCauchyUp$ carrier. Every accepted late-pair Cauchy-test ledger $T$ is exhausted by two convergence reads from the same $\RealSequenceLimitUp$ row $L$, the finite $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readbacks $Q$, and one $\DyadicRatCoreUp$ split ledger $D$. No third limit row, alternate window family, selected limit, quotient stream equality, trichotomy principle, countable-choice selector, or ambient $\RealUp$ completeness coordinate can participate in the Cauchy handoff.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only limit coordinate is $L$, the only finite-window coordinate is $W$, the only rational readback coordinate is $Q$, and the only tolerance-split coordinate is $D$.
+
+Apply the limit-row exactness, window and readback alignment, and dyadic split exactness clauses of \autoref{thm:convergent-real-sequence-cauchy-namecert-obligations}. These clauses force $T$ to use two late reads selected by the same tail schedule in $L$, opened through $W$ and $Q$, and compared with the split ledger recorded in $D$.
+
+Now apply the criterion handoff theorem \autoref{thm:convergent-real-sequence-cauchy-criterion-handoff}. The consumer row $E$ is downstream of exactly the displayed route through $L,W,Q,D,T$.
+
+Since the carrier has no coordinate for a third limit row, a second window family, a selected host limit, quotient stream equality, trichotomy, countable choice, or ambient completeness, none of those objects can enter the late-pair ledger or the downstream Cauchy read.
+\end{proof}
+
 \falsifiablePrediction{Every $\ConvergentRealSequenceCauchyUp$ criterion-facing read factors through a displayed RealSequenceLimit row, finite StreamName windows for the sequence and limit, RegSeqRat readback, a DyadicRatCore tolerance split, a late-pair Cauchy-test ledger, a RealCauchyCriterion consumer row, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{real-sequence-limit, real-cauchy-criterion, cauchyoscillation, streamname, regseqrat, dyadicratcore, real: $\ConvergentRealSequenceCauchyUp$ is not bijective to any listed sibling because it jointly carries a displayed convergence row, selected sequence-and-limit windows, regular rational readback, dyadic split accounting, a late-pair Cauchy-test ledger, criterion handoff, transport, replay, provenance, and local naming.}
@@ -87,7 +104,7 @@ Because Real completeness, quotient streams, selected limits, trichotomy, counta
 \begin{closurestatus}{\ConvergentRealSequenceCauchyUp}
   \constructivestory{A $\ConvergentRealSequenceCauchyUp$ packet is generated from a RealSequenceLimit row, finite StreamName windows for the source sequence and displayed limit, RegSeqRat readback, a DyadicRatCore tolerance ledger, a late-pair Cauchy-test ledger, a RealCauchyCriterion consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:convergent-real-sequence-cauchy-carrier}, \autoref{thm:convergent-real-sequence-cauchy-namecert-obligations}, and \autoref{thm:convergent-real-sequence-cauchy-criterion-handoff} seed the finite route from displayed convergence data to Cauchy readiness through late-pair dyadic accounting, readback, criterion handoff, transport, replay, provenance, and local naming.}
+  \scopeclosed{\autoref{def:convergent-real-sequence-cauchy-carrier}, \autoref{thm:convergent-real-sequence-cauchy-namecert-obligations}, \autoref{thm:convergent-real-sequence-cauchy-criterion-handoff}, and \autoref{thm:convergent-real-sequence-cauchy-late-pair-exhaustion} seed the finite route from displayed convergence data to Cauchy readiness through late-pair dyadic accounting, readback, criterion handoff, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient streams, selected limits, trichotomy, countable choice, host sequence equality, Lean verification, or bridge checking.}
