@@ -115,6 +115,16 @@ private theorem CauchyRealFieldTasteGate_single_carrier_alignment_toEventFlow_in
     (Eq.trans (CauchyRealFieldTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (CauchyRealFieldTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem cauchyRealField_field_faithful :
+    ∀ x y : CauchyRealFieldUp,
+      cauchyRealFieldFields x = cauchyRealFieldFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x
+  cases y
+  cases hfields
+  rfl
+
 instance cauchyRealFieldBHistCarrier : BHistCarrier CauchyRealFieldUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := cauchyRealFieldToEventFlow
@@ -130,6 +140,21 @@ instance cauchyRealFieldChapterTasteGate : ChapterTasteGate CauchyRealFieldUp wh
     intro x y hxy heq
     exact hxy (CauchyRealFieldTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+instance cauchyRealFieldFieldFaithful :
+    FieldFaithful CauchyRealFieldUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := cauchyRealFieldFields
+  field_faithful := cauchyRealField_field_faithful
+
+instance cauchyRealFieldNontrivial : Nontrivial CauchyRealFieldUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨CauchyRealFieldUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CauchyRealFieldUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate CauchyRealFieldUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchyRealFieldChapterTasteGate
@@ -141,7 +166,7 @@ theorem CauchyRealFieldTasteGate_single_carrier_alignment :
         (∀ x y : CauchyRealFieldUp,
           cauchyRealFieldToEventFlow x = cauchyRealFieldToEventFlow y → x = y) ∧
           cauchyRealFieldEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
     ⟨CauchyRealFieldTasteGate_single_carrier_alignment_decode,
       CauchyRealFieldTasteGate_single_carrier_alignment_round_trip,
