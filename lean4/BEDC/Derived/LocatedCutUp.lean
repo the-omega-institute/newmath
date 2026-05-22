@@ -197,4 +197,38 @@ theorem LocatedCutCarrier_dyadic_interval_exhaustion [AskSetup] [PackageSetup]
       lowerUpperWindow, windowHandoffTransport, transportRouteProvenance,
       provenanceLocalCertSeal, provenancePkg, sameHandoffProvenance⟩
 
+theorem LocatedCutCarrier_common_window_refinement [AskSetup] [PackageSetup]
+    {lower upper window₁ window₂ handoff sealRow₁ sealRow₂ transportRow₁ transportRow₂
+      route provenance₁ provenance₂ localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window₁ handoff sealRow₁ transportRow₁ route provenance₁
+        localCert bundle pkg ->
+      LocatedCutCarrier lower upper window₂ handoff sealRow₂ transportRow₂ route provenance₂
+          localCert bundle pkg ->
+        hsame window₁ window₂ ∧ hsame transportRow₁ transportRow₂ ∧
+          hsame provenance₁ provenance₂ ∧ hsame sealRow₁ sealRow₂ ∧
+            Cont lower upper window₁ ∧ Cont lower upper window₂ := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier₁ carrier₂
+  obtain ⟨lowerUpperWindow₁, windowHandoffTransport₁, transportRouteProvenance₁,
+    provenanceLocalCertSeal₁, _provenancePkg₁, _sameSealHandoff₁,
+    _sameSealProvenance₁⟩ := carrier₁
+  obtain ⟨lowerUpperWindow₂, windowHandoffTransport₂, transportRouteProvenance₂,
+    provenanceLocalCertSeal₂, _provenancePkg₂, _sameSealHandoff₂,
+    _sameSealProvenance₂⟩ := carrier₂
+  have sameWindow : hsame window₁ window₂ :=
+    cont_respects_hsame (hsame_refl lower) (hsame_refl upper)
+      lowerUpperWindow₁ lowerUpperWindow₂
+  have sameTransport : hsame transportRow₁ transportRow₂ :=
+    cont_respects_hsame sameWindow (hsame_refl handoff)
+      windowHandoffTransport₁ windowHandoffTransport₂
+  have sameProvenance : hsame provenance₁ provenance₂ :=
+    cont_respects_hsame sameTransport (hsame_refl route)
+      transportRouteProvenance₁ transportRouteProvenance₂
+  have sameSeal : hsame sealRow₁ sealRow₂ :=
+    cont_respects_hsame sameProvenance (hsame_refl localCert)
+      provenanceLocalCertSeal₁ provenanceLocalCertSeal₂
+  exact ⟨sameWindow, sameTransport, sameProvenance, sameSeal, lowerUpperWindow₁,
+    lowerUpperWindow₂⟩
+
 end BEDC.Derived.LocatedCutUp
