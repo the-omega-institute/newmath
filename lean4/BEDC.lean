@@ -15,6 +15,7 @@ import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.ActionCommitmentUp.TasteGate
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AddUp
+import BEDC.Derived.AddUp.TasteGate
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AdjointOperatorUp.TasteGate
 import BEDC.Derived.AdjointRepUp
@@ -520,6 +521,7 @@ import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaSequenceNameCertUp
 import BEDC.Derived.BHistOctaTupleNameCertUp
+import BEDC.Derived.BHistPentaSequenceNameCertUp
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
@@ -2684,6 +2686,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseNonchoiceCover
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRadiusWindowExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRootUnblockObligations
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealAuditLedgerReadiness
+import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealFourFaceSourceExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealLocalRadiusDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadius
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusConsumerNonescape
@@ -4644,7 +4647,6 @@ import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMeetUp
 import BEDC.Derived.RegularCauchyTailMeetUp.DyadicAbsoluteValueHandoff
 import BEDC.Derived.RegularCauchyTailMeetUp.SharedThresholdCofinality
-import BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
