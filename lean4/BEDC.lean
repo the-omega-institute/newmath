@@ -4686,6 +4686,7 @@ import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequentialCompactnessUp.TasteGate
+import BEDC.Derived.SequentialCompletionUp.TasteGate
 import BEDC.Derived.SequentialContinuityUp.TasteGate
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
