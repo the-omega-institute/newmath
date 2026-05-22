@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyEquivalenceUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -310,5 +312,39 @@ theorem RegularCauchyEquivalenceTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+namespace TasteGate
+
+theorem RegularCauchyEquivalence_refinement_transport {X Y W D Z R E H C P N : BHist} :
+    regularCauchyEquivalenceFields
+        (RegularCauchyEquivalenceUp.mk X Y W D Z R E H C P N) =
+        [X, Y, W, D, Z, R, E, H, C, P, N] ∧
+      (Cont X W C →
+        Cont (regularCauchyEquivalenceDecodeBHist
+            (regularCauchyEquivalenceEncodeBHist X))
+          (regularCauchyEquivalenceDecodeBHist
+            (regularCauchyEquivalenceEncodeBHist W)) C) ∧
+        hsame (regularCauchyEquivalenceDecodeBHist
+            (regularCauchyEquivalenceEncodeBHist X)) X ∧
+          hsame (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist Y)) Y ∧
+            hsame (regularCauchyEquivalenceDecodeBHist
+              (regularCauchyEquivalenceEncodeBHist W)) W := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · rfl
+  · constructor
+    · intro route
+      have hX := regularCauchyEquivalenceDecode_encode_bhist X
+      have hW := regularCauchyEquivalenceDecode_encode_bhist W
+      rw [hX, hW]
+      exact route
+    · constructor
+      · exact regularCauchyEquivalenceDecode_encode_bhist X
+      · constructor
+        · exact regularCauchyEquivalenceDecode_encode_bhist Y
+        · exact regularCauchyEquivalenceDecode_encode_bhist W
+
+end TasteGate
 
 end BEDC.Derived.RegularCauchyEquivalenceUp
