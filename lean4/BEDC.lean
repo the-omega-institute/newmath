@@ -2783,6 +2783,7 @@ import BEDC.Derived.FpsUp.StabilityFields
 import BEDC.Derived.FpsUp.StdBridge
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
+import BEDC.Derived.FractionalPartUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FreeMonoidUp.TasteGate
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
