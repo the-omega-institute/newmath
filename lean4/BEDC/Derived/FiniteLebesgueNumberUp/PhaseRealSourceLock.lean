@@ -248,4 +248,71 @@ theorem FiniteLebesgueNumberCompactConsumerSourceVerdict [AskSetup] [PackageSetu
       coverWindowRadius, radiusMeshRoute, routeNameAudit, auditTerminalCompact, provenancePkg,
       compactPkg⟩
 
+theorem FiniteLebesgueNumberCompactContinuousNonchoiceExit [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactRead continuousRead
+      exitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont cover window compactRead →
+        Cont compactRead radius continuousRead →
+          Cont continuousRead mesh exitRead →
+            PkgSig bundle exitRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row exitRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row cover ∨ hsame row window ∨ hsame row radius ∨
+                      hsame row mesh ∨ hsame row exitRead)
+                  (fun row : BHist => hsame row exitRead ∧ PkgSig bundle exitRead pkg)
+                  hsame ∧
+                UnaryHistory compactRead ∧ UnaryHistory continuousRead ∧
+                  UnaryHistory exitRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier coverWindowCompact compactRadiusContinuous continuousMeshExit exitPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, _provenancePkg⟩ := carrier
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed coverUnary windowUnary coverWindowCompact
+  have continuousUnary : UnaryHistory continuousRead :=
+    unary_cont_closed compactUnary radiusUnary compactRadiusContinuous
+  have exitUnary : UnaryHistory exitRead :=
+    unary_cont_closed continuousUnary meshUnary continuousMeshExit
+  have sourceExit :
+      (fun row : BHist => hsame row exitRead ∧ UnaryHistory row) exitRead := by
+    exact ⟨hsame_refl exitRead, exitUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exitRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row cover ∨ hsame row window ∨ hsame row radius ∨
+              hsame row mesh ∨ hsame row exitRead)
+          (fun row : BHist => hsame row exitRead ∧ PkgSig bundle exitRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exitRead sourceExit
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, exitPkg⟩
+  }
+  exact ⟨cert, compactUnary, continuousUnary, exitUnary⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
