@@ -1,17 +1,14 @@
-import BEDC.FKernel.Hist
+import BEDC.Derived.RealUniformEmbeddingUp
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealUniformEmbeddingUp
 
+open BEDC.Derived
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
-
-inductive RealUniformEmbeddingUp : Type where
-  | mk (S W D Q E U H C P N : BHist) : RealUniformEmbeddingUp
-  deriving DecidableEq
 
 def realUniformEmbeddingEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -31,9 +28,12 @@ private theorem realUniformEmbedding_decode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def realUniformEmbeddingFields : RealUniformEmbeddingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -120,6 +120,18 @@ private theorem realUniformEmbeddingToEventFlow_injective {x y : RealUniformEmbe
     (Eq.trans (realUniformEmbedding_round_trip x).symm
       (Eq.trans hread (realUniformEmbedding_round_trip y)))
 
+private theorem realUniformEmbedding_field_faithful :
+    ∀ x y : RealUniformEmbeddingUp,
+      realUniformEmbeddingFields x = realUniformEmbeddingFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S1 W1 D1 Q1 E1 U1 H1 C1 P1 N1 =>
+      cases y with
+      | mk S2 W2 D2 Q2 E2 U2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance realUniformEmbeddingBHistCarrier : BHistCarrier RealUniformEmbeddingUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := realUniformEmbeddingToEventFlow
@@ -135,22 +147,78 @@ instance realUniformEmbeddingChapterTasteGate : ChapterTasteGate RealUniformEmbe
     intro x y hxy heq
     exact hxy (realUniformEmbeddingToEventFlow_injective heq)
 
+instance realUniformEmbeddingFieldFaithful : FieldFaithful RealUniformEmbeddingUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := realUniformEmbeddingFields
+  field_faithful := realUniformEmbedding_field_faithful
+
+instance realUniformEmbeddingNontrivial : Nontrivial RealUniformEmbeddingUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RealUniformEmbeddingUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealUniformEmbeddingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate RealUniformEmbeddingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realUniformEmbeddingChapterTasteGate
 
-theorem RealUniformEmbeddingUp_single_carrier_alignment :
-    (forall h : BHist, realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist h) = h) ∧
-      (forall x : RealUniformEmbeddingUp,
+theorem RealUniformEmbeddingTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate RealUniformEmbeddingUp) ∧
+      Nonempty (FieldFaithful RealUniformEmbeddingUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RealUniformEmbeddingUp) ∧
+      (∀ h : BHist,
+        realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist h) = h) ∧
+      (∀ x : RealUniformEmbeddingUp,
         realUniformEmbeddingFromEventFlow (realUniformEmbeddingToEventFlow x) = some x) ∧
-      (forall x y : RealUniformEmbeddingUp,
-        realUniformEmbeddingToEventFlow x = realUniformEmbeddingToEventFlow y -> x = y) ∧
-      realUniformEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ x y : RealUniformEmbeddingUp,
+        realUniformEmbeddingToEventFlow x = realUniformEmbeddingToEventFlow y → x = y) ∧
+      realUniformEmbeddingEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨Nonempty.intro realUniformEmbeddingChapterTasteGate,
+      Nonempty.intro realUniformEmbeddingFieldFaithful,
+      Nonempty.intro realUniformEmbeddingNontrivial,
+      realUniformEmbedding_decode_encode_bhist,
+      realUniformEmbedding_round_trip,
+      (fun _ _ heq => realUniformEmbeddingToEventFlow_injective heq),
+      rfl⟩
+
+theorem RealUniformEmbeddingUp_single_carrier_alignment :
+    (∀ h : BHist,
+      realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist h) = h) ∧
+      (∀ x : RealUniformEmbeddingUp,
+        realUniformEmbeddingFromEventFlow (realUniformEmbeddingToEventFlow x) = some x) ∧
+      (∀ x y : RealUniformEmbeddingUp,
+        realUniformEmbeddingToEventFlow x = realUniformEmbeddingToEventFlow y → x = y) ∧
+      realUniformEmbeddingEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨realUniformEmbedding_decode_encode_bhist,
       realUniformEmbedding_round_trip,
       (fun _ _ heq => realUniformEmbeddingToEventFlow_injective heq),
       rfl⟩
+
+namespace TasteGate
+
+theorem RealUniformEmbeddingTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate RealUniformEmbeddingUp) ∧
+      Nonempty (FieldFaithful RealUniformEmbeddingUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RealUniformEmbeddingUp) ∧
+      (∀ h : BHist,
+        realUniformEmbeddingDecodeBHist (realUniformEmbeddingEncodeBHist h) = h) ∧
+      (∀ x : RealUniformEmbeddingUp,
+        realUniformEmbeddingFromEventFlow (realUniformEmbeddingToEventFlow x) = some x) ∧
+      (∀ x y : RealUniformEmbeddingUp,
+        realUniformEmbeddingToEventFlow x = realUniformEmbeddingToEventFlow y → x = y) ∧
+      realUniformEmbeddingEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  exact
+    BEDC.Derived.RealUniformEmbeddingUp.RealUniformEmbeddingTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.RealUniformEmbeddingUp
