@@ -1,0 +1,116 @@
+\chapter{A Concrete Naming Certificate for $\FanContinuityPrincipleUp$}
+\label{ch:concrete-instances-fan-continuity-principle-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on fan functionals and continuous choice-sequence functionals, the $\FanContinuityPrincipleUp$ packet records the constructive fan-continuity principle as finite NameCert data rather than as host function-space continuity. Its dependency surface joins the finite bar depth of \autoref{ch:concrete-instances-fantheorem-namecert}, the prefix-cylinder context of \autoref{ch:concrete-instances-bairespace-namecert}, the finite observation row of \autoref{ch:concrete-instances-choice-sequence-namecert}, the window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later Real and Completion consumers one finite route for extracting a common prefix modulus from fan-bar data, without asserting open-cover compactness, host equality of functionals, countable choice, quotient streams, selected real limits, trichotomy, or ambient real completeness.
+
+\begin{definition}[Fan continuity principle carrier]
+\label{def:fan-continuity-principle-carrier}
+A $\FanContinuityPrincipleUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,A,Q,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\FanTheoremUp$ finite bar-depth row, carrying a binary spread, a decidable bar classifier, and the displayed depth ledger that bounds the fan read.
+\item $A$ is the $\BaireSpaceUp$ prefix-cylinder row, exposing the finite prefix context in which a Baire-name observation is inspected.
+\item $Q$ is the $\ChoiceSequenceUp$ finite observation row, listing the already displayed choice-sequence answers whose common prefix controls the read.
+\item $S$ is the $\StreamNameUp$ window schedule opened for the fan prefix, Baire prefix, and choice-sequence observation rows.
+\item $R$ is the $\RegSeqRatUp$ readback row used when the finite prefix data are consumed by a regular-rational route.
+\item $E$ is the terminal $\RealUp$ seal reached only after $B,A,Q,S,R$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the bar-depth, prefix-cylinder, finite-observation, stream-window, readback, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+B,A,Q,S \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FanContinuityPrincipleUp$, $\FanTheoremUp$, $\BaireSpaceUp$, $\ChoiceSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FanContinuityPrincipleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,A,Q,S,R,E,H,C,P,N$ and the displayed replay order. It has no coordinate for open-cover compactness, host function equality, countable choice, quotient streams, selected $\RealUp$ limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Fan continuity principle modulus extraction]
+\label{thm:fan-continuity-principle-modulus-extraction}
+Every accepted $\FanContinuityPrincipleUp$ carrier
+$$
+F=(B,A,Q,S,R,E,H,C,P,N)
+$$
+exports a finite prefix modulus for the displayed real-facing read: the modulus is the depth ledger supplied by the $\FanTheoremUp$ row $B$, restricted to the prefix-cylinder row $A$, witnessed by the finite $\ChoiceSequenceUp$ observation row $Q$, scheduled through $S$, and read back through $R$ before reaching the $\RealUp$ seal $E$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only depth datum in the packet is the finite bar-depth row $B$, and the only prefix context is the $\BaireSpaceUp$ row $A$.
+
+Use the displayed choice-sequence observation row $Q$ next. Its entries are finite answers already visible through the stream window schedule $S$, so any two inspected choice sequences agreeing on the displayed $B$-depth have the same $Q$-prefix inside the $A$-cylinder.
+
+The readback step is then forced through $R$. Since the continuation route is displayed as $B,A,Q,S \longmapsto R \longmapsto E$, the real-facing seal $E$ can be reached only after the finite prefix data have been read back.
+
+Thus the depth ledger in $B$, viewed inside $A$ and witnessed by $Q,S,R$, is the exported modulus. No host function-space continuity or selected infinite branch is used.
+\end{proof}
+
+\begin{theorem}[Fan continuity principle bar stability]
+\label{thm:fan-continuity-principle-bar-stability}
+Let
+$$
+F=(B,A,Q,S,R,E,H,C,P,N)
+$$
+and
+$$
+F'=(B',A',Q',S',R',E',H',C',P',N')
+$$
+be accepted $\FanContinuityPrincipleUp$ carriers whose displayed rows are related by componentwise $\hsame$ transport and whose $\Cont$ routes replay the same order. Then the prefix modulus extracted in \autoref{thm:fan-continuity-principle-modulus-extraction} transports from $F$ to $F'$ by carrying the fan bar-depth, Baire prefix-cylinder, choice-sequence observation, StreamName window, RegSeqRat readback, and RealUp seal rows componentwise.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:fan-continuity-principle-modulus-extraction} to $F$. The extracted modulus is exactly the depth row $B$ together with the surrounding prefix-cylinder, observation, window, readback, and seal rows.
+
+Now inspect the transport rows $H$ and $H'$. They compare $B,A,Q,S,R,E$ with $B',A',Q',S',R',E'$ componentwise, so the displayed depth ledger and every row used to read it are carried to the second packet.
+
+Finally use the $\Cont$ replay rows $C$ and $C'$. They preserve the order $B,A,Q,S \longmapsto R \longmapsto E$, so the transported packet still reads the same finite bar before opening the real-facing seal.
+
+Therefore the modulus is stable under the displayed carrier classifier. The argument has no place to introduce open-cover compactness, host function equality, countable choice, quotient streams, selected limits, trichotomy, ambient real completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Fan continuity principle NameCert obligations]
+\label{thm:fan-continuity-principle-namecert}
+For the carrier of \autoref{def:fan-continuity-principle-carrier}, the local $\NameCert_{\FanContinuityPrincipleUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed fan bar-depth, Baire prefix-cylinder, choice-sequence observation, stream-window, readback, real-seal, transport, replay, provenance, and local naming rows;
+\item modulus extraction, requiring the exported prefix modulus to be the finite depth ledger of $B$ read through $A,Q,S,R$ before $E$;
+\item bar stability, requiring componentwise $\hsame$ transport to preserve the same depth ledger and the same replay order;
+\item real-seal nonescape, requiring every $\RealUp$ read to pass through the displayed route $B,A,Q,S \longmapsto R \longmapsto E$;
+\item provenance exactness, requiring $P$ and $N$ to name only the listed sibling chapters and the local certificate row.
+\end{enumerate}
+No local obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:fan-continuity-principle-carrier}. The packet displays precisely the rows $B,A,Q,S,R,E,H,C,P,N$.
+
+For modulus extraction, use \autoref{thm:fan-continuity-principle-modulus-extraction}. It identifies the exported prefix modulus with the finite bar-depth row $B$ after restriction to the prefix and observation rows $A,Q,S,R$.
+
+For stability, use \autoref{thm:fan-continuity-principle-bar-stability}. The componentwise transport rows preserve the depth ledger and every sibling row required for its replay.
+
+The nonescape and provenance obligations are the remaining projections. The continuation row displays the only route to the real seal, and $P,N$ record only package provenance and local naming for the same finite carrier. Since the carrier inventory contains no further coordinates, the five listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Fan continuity principle sibling dependency]
+\label{thm:fan-continuity-principle-sibling-dependency}
+Every accepted $\FanContinuityPrincipleUp$ packet depends on the sibling chapters \autoref{ch:concrete-instances-fantheorem-namecert}, \autoref{ch:concrete-instances-bairespace-namecert}, \autoref{ch:concrete-instances-choice-sequence-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} only through the rows $B,A,Q,S,R,E$ displayed in \autoref{def:fan-continuity-principle-carrier}. It exports no independent compactness principle, function-space equality, countable-choice selector, quotient-stream equality, selected $\RealUp$ limit, trichotomy row, ambient $\RealUp$ completeness row, Lean verification row, or bridge-checking row.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The fan dependency is exactly $B$, the Baire dependency is exactly $A$, the choice-sequence dependency is exactly $Q$, the stream dependency is exactly $S$, the regular-rational dependency is exactly $R$, and the real dependency is exactly $E$.
+
+The structural rows $H,C,P,N$ do not add further sibling mathematics. They transport the displayed rows, replay the displayed route, record package provenance, and name the local certificate.
+
+Thus every sibling reference factors through the listed finite rows. The excluded compactness, equality, choice, quotient, limit, order, completeness, verification, and bridge data cannot be exported because they are absent from the packet.
+\end{proof}
+
+\closureat{FanContinuityPrincipleUp}{seedStr}
+
+\begin{closurestatus}{\FanContinuityPrincipleUp}
+  \constructivestory{A $\FanContinuityPrincipleUp$ packet is generated from a FanTheorem finite bar-depth row, a BaireSpace prefix-cylinder row, a ChoiceSequence finite observation row, a StreamName window schedule, a RegSeqRat readback row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fan-continuity-principle-carrier}, \autoref{thm:fan-continuity-principle-modulus-extraction}, \autoref{thm:fan-continuity-principle-bar-stability}, \autoref{thm:fan-continuity-principle-namecert}, and \autoref{thm:fan-continuity-principle-sibling-dependency} seed the finite fan-continuity route joining fan bars, Baire prefixes, choice-sequence observations, StreamName windows, RegSeqRat readback, and RealUp seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, host function equality, countable choice, quotient streams, selected Real limits, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus extraction, bar stability, real-seal nonescape, provenance exactness, sibling dependency, and local NameCert rows for BEDC.Derived.FanContinuityPrincipleUp.}
+\end{closurestatus}
