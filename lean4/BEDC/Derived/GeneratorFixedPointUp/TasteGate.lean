@@ -225,6 +225,39 @@ instance generatorFixedPointChapterTasteGate : ChapterTasteGate GeneratorFixedPo
 
 def taste_gate : ChapterTasteGate GeneratorFixedPointUp := generatorFixedPointChapterTasteGate
 
+instance generatorFixedPointFieldFaithful : FieldFaithful GeneratorFixedPointUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | GeneratorFixedPointUp.mk generator seed iterate fixedPoint witness route provenance
+        nameCert =>
+        [generator, seed, iterate, fixedPoint, witness, route, provenance, nameCert]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk generator₁ seed₁ iterate₁ fixedPoint₁ witness₁ route₁ provenance₁ nameCert₁ =>
+        cases y with
+        | mk generator₂ seed₂ iterate₂ fixedPoint₂ witness₂ route₂ provenance₂ nameCert₂ =>
+            simp only [] at h
+            injection h with hGenerator rest₁
+            injection rest₁ with hSeed rest₂
+            injection rest₂ with hIterate rest₃
+            injection rest₃ with hFixedPoint rest₄
+            injection rest₄ with hWitness rest₅
+            injection rest₅ with hRoute rest₆
+            injection rest₆ with hProvenance rest₇
+            injection rest₇ with hNameCert _
+            subst hGenerator
+            subst hSeed
+            subst hIterate
+            subst hFixedPoint
+            subst hWitness
+            subst hRoute
+            subst hProvenance
+            subst hNameCert
+            rfl
+
 theorem GeneratorFixedPointTasteGate_single_carrier_alignment :
     (∀ h : BHist, generatorFixedPointDecodeBHist (generatorFixedPointEncodeBHist h) = h) ∧
       (∀ x : GeneratorFixedPointUp,
