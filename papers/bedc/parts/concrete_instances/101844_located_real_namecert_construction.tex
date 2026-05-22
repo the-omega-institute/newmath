@@ -107,14 +107,22 @@ Apply \autoref{thm:located-real-regular-seal} to bind the seal-facing read to th
 The cited interval, comparison, and tail-envelope consumers receive $\LocatedRealUp$ endpoint or source data only through that carrier route. Since the carrier and classifier contain none of the excluded objects, every downstream read is exhausted by $S,R,D,E,Q,H,C,P,N$.
 \end{proof}
 
-\closureat{LocatedRealUp}{seedStr}
+\begin{theorem}[Located real window refinement induction]
+\label{thm:located-real-window-refinement-induction}
+Let $L=(S,R,D,E,Q,H,C,P,N)$ be an accepted $\LocatedRealUp$ carrier. Suppose a finite chain of dyadic-window refinements is indexed by the displayed $\StreamNameUp$ schedule $S$, starts from the original endpoint-radius ledger and enclosure rows $D,E$, preserves the $\RegSeqRatUp$ readback row $R$ on every scheduled observation, and leaves the terminal $\RealUp$ seal row $Q$ unchanged. Then the whole chain preserves the same BEDC located-real packet route.
 
-\begin{closurestatus}{\LocatedRealUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-real-carrier}, \autoref{def:located-real-classifier}, \autoref{thm:located-real-namecert-obligations}, \autoref{thm:located-real-regular-seal}, \autoref{thm:located-real-transport-stability}, and \autoref{thm:located-real-public-route} seed the finite located real-name surface over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close Dedekind cuts, quotient reals, host real equality, trichotomy, countable choice, compactness, metric completion, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, regular seal compatibility, transport stability, public-route exhaustion, and non-escape proofs for BEDC.Derived.LocatedRealUp.}
-  \constructivestory{A $\LocatedRealUp$ packet is generated from a $\StreamNameUp$ finite-observation schedule, a $\RegSeqRatUp$ regular rational readback source, a $\DyadicRatCoreUp$ endpoint and radius ledger, a located enclosure row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-\end{closurestatus}
+More precisely, induction on the finite refinement chain keeps each refined endpoint and radius ledger inside the $\DyadicRatCoreUp$ row family, transports the corresponding enclosure assertion through $H$, replays the transported window through $C$, and repacks the same $\Pkg$ and local $\NameCert_{\LocatedRealUp}$ route. The result is classified by \autoref{def:located-real-classifier} as the same accepted $\LocatedRealUp$ packet route as $L$.
+
+This induction uses only the finite rows $S,R,D,E,Q,H,C,P,N$. It does not use quotient reals, trichotomy of endpoints, selected representatives, countable choice, metric completion, or host equality.
+\end{theorem}
+\begin{proof}
+The induction is on the displayed finite refinement chain. In the base case the chain has no proper refinement, so the endpoint-radius ledger and enclosure are exactly the original $D,E$ rows of \autoref{def:located-real-carrier}. The readback and seal conditions are therefore the original $R$ and $Q$ rows, and \autoref{thm:located-real-public-route} gives the same public route.
+
+For the step, assume the previous finite window has already been repacked along the route $S,R,D,E,Q,H,C,P,N$. A one-step dyadic refinement replaces only the endpoint, radius, and enclosure ledger, while the hypothesis keeps the scheduled $\RegSeqRatUp$ readback $R$ and the $\RealUp$ seal row $Q$ fixed.
+
+Apply \autoref{thm:located-real-transport-stability} to move the refined ledger and enclosure through the componentwise $H$ row, then replay the moved data through $C$. The regular seal compatibility of \autoref{thm:located-real-regular-seal} keeps the seal-facing read tied to the same $S,R$ surface.
+
+Finally, repack with the same provenance and local name rows $P,N$. The classifier of \autoref{def:located-real-classifier} reads common scheduled observations, common regular readback, and common dyadic enclosure refinement, so the refined packet is the same located-real packet route. Since every step is finite and row-local, none of the excluded quotient, choice, completion, trichotomy, representative-selection, or host-equality data can enter the induction.
+\end{proof}
+
+\closureat{LocatedRealUp}{seedStr}
