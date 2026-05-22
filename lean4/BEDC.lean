@@ -880,6 +880,7 @@ import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
 import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
+import BEDC.Derived.CauchyCompletionReflectiveSubcategoryUp.TasteGate
 import BEDC.Derived.CauchyCompletionSplitUp.TasteGate
 import BEDC.Derived.CauchyCompletionTriangleIdentityUp.TasteGate
 import BEDC.Derived.CauchyCompletionUnitUp
@@ -4600,6 +4601,7 @@ import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyClassifierNormalFormUp.TasteGate
 import BEDC.Derived.RegularCauchyCofinalLimitUp.TasteGate
+import BEDC.Derived.RegularCauchyComparisonPrincipleUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.NameCertObligations
