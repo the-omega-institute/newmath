@@ -237,4 +237,28 @@ theorem CollisionKernelCarrier_matrix_readback_totality [AskSetup] [PackageSetup
     ⟨windowUnary, foldUnary, ledgerUnary, matrixUnary, matrixReadUnary, terminalUnary,
       matrixReadRoute, terminalRoute, provenancePkg, terminalPkg⟩
 
+theorem CollisionKernelCarrier_fiber_classifier_composition [AskSetup] [PackageSetup]
+    {window fold ledger matrix moment shadow transport route provenance nameCert matrixRead
+      shadowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelCarrier window fold ledger matrix moment shadow transport route provenance
+        nameCert bundle pkg ->
+      Cont ledger matrix matrixRead ->
+        Cont matrixRead shadow shadowRead ->
+          UnaryHistory matrixRead ∧ UnaryHistory shadowRead ∧
+            Cont ledger matrix matrixRead ∧ Cont matrixRead shadow shadowRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg
+  intro carrier matrixRoute shadowRoute
+  obtain ⟨_windowUnary, _foldUnary, ledgerUnary, matrixUnary, _momentUnary, shadowUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, _windowRoute,
+    _ledgerRoute, _momentRoute, provenancePkg, nameCertPkg⟩ := carrier
+  have matrixReadUnary : UnaryHistory matrixRead :=
+    unary_cont_closed ledgerUnary matrixUnary matrixRoute
+  have shadowReadUnary : UnaryHistory shadowRead :=
+    unary_cont_closed matrixReadUnary shadowUnary shadowRoute
+  exact
+    ⟨matrixReadUnary, shadowReadUnary, matrixRoute, shadowRoute, provenancePkg,
+      nameCertPkg⟩
+
 end BEDC.Derived.CollisionKernelUp
