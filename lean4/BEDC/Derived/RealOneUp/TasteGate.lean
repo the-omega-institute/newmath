@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RealOneUp.TasteGate
+namespace BEDC.Derived.RealOneUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -30,12 +30,9 @@ private theorem realOne_decode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def realOneFields : RealOneUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -103,7 +100,7 @@ private theorem realOne_round_trip :
         realOne_decode_encode_bhist C, realOne_decode_encode_bhist P,
         realOne_decode_encode_bhist N]
 
-private theorem realOneToEventFlow_injective {x y : RealOneUp} :
+private theorem RealOneToEventFlow_injective {x y : RealOneUp} :
     realOneToEventFlow x = realOneToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -112,8 +109,7 @@ private theorem realOneToEventFlow_injective {x y : RealOneUp} :
         realOneFromEventFlow (realOneToEventFlow y) :=
     congrArg realOneFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (realOne_round_trip x).symm
-      (Eq.trans hread (realOne_round_trip y)))
+    (Eq.trans (realOne_round_trip x).symm (Eq.trans hread (realOne_round_trip y)))
 
 private theorem realOne_field_faithful :
     ∀ x y : RealOneUp, realOneFields x = realOneFields y → x = y := by
@@ -139,14 +135,14 @@ instance realOneChapterTasteGate : ChapterTasteGate RealOneUp where
     exact realOne_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (realOneToEventFlow_injective heq)
+    exact hxy (RealOneToEventFlow_injective heq)
 
 instance realOneFieldFaithful : FieldFaithful RealOneUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := realOneFields
   field_faithful := realOne_field_faithful
 
-instance realOneNontrivial : Nontrivial RealOneUp where
+instance realOneNontrivial : BEDC.Meta.TasteGate.Nontrivial RealOneUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨RealOneUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -176,7 +172,7 @@ theorem RealOneTasteGate_single_carrier_alignment :
       Nonempty.intro realOneNontrivial,
       realOne_decode_encode_bhist,
       realOne_round_trip,
-      (fun _ _ heq => realOneToEventFlow_injective heq),
+      (fun _ _ heq => RealOneToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.RealOneUp.TasteGate
+end BEDC.Derived.RealOneUp
