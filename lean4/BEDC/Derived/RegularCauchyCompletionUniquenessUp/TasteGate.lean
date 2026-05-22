@@ -26,7 +26,7 @@ def regularCauchyCompletionUniquenessDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyCompletionUniquenessDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyCompletionUniquenessDecodeBHist tail)
 
-private theorem RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode :
+private theorem regularCauchyCompletionUniqueness_decode_encode_bhist :
     ∀ h : BHist,
       regularCauchyCompletionUniquenessDecodeBHist
           (regularCauchyCompletionUniquenessEncodeBHist h) =
@@ -34,9 +34,12 @@ private theorem RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignm
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def regularCauchyCompletionUniquenessFields :
     RegularCauchyCompletionUniquenessUp → List BHist
@@ -51,49 +54,59 @@ def regularCauchyCompletionUniquenessToEventFlow :
       (regularCauchyCompletionUniquenessFields x).map
         regularCauchyCompletionUniquenessEncodeBHist
 
-private def regularCauchyCompletionUniquenessEventAt :
-    Nat → EventFlow → RawEvent
+private def regularCauchyCompletionUniquenessRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      regularCauchyCompletionUniquenessEventAt index rest
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => regularCauchyCompletionUniquenessRawAt n rest
 
-def regularCauchyCompletionUniquenessFromEventFlow
-    (ef : EventFlow) : Option RegularCauchyCompletionUniquenessUp :=
+private def regularCauchyCompletionUniquenessLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RegularCauchyCompletionUniquenessUp.mk
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 0 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 1 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 2 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 3 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 4 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 5 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 6 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 7 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 8 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 9 ef))
-      (regularCauchyCompletionUniquenessDecodeBHist
-        (regularCauchyCompletionUniquenessEventAt 10 ef)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => regularCauchyCompletionUniquenessLengthEq n rest
 
-private theorem RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_round_trip
-    (x : RegularCauchyCompletionUniquenessUp) :
-    regularCauchyCompletionUniquenessFromEventFlow
-        (regularCauchyCompletionUniquenessToEventFlow x) =
-      some x := by
+def regularCauchyCompletionUniquenessFromEventFlow :
+    EventFlow → Option RegularCauchyCompletionUniquenessUp
   -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match regularCauchyCompletionUniquenessLengthEq 11 flow with
+      | true =>
+          some
+            (RegularCauchyCompletionUniquenessUp.mk
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 0 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 1 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 2 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 3 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 4 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 5 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 6 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 7 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 8 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 9 flow))
+              (regularCauchyCompletionUniquenessDecodeBHist
+                (regularCauchyCompletionUniquenessRawAt 10 flow)))
+      | false => none
+
+private theorem regularCauchyCompletionUniqueness_round_trip :
+    ∀ x : RegularCauchyCompletionUniquenessUp,
+      regularCauchyCompletionUniquenessFromEventFlow
+          (regularCauchyCompletionUniquenessToEventFlow x) =
+        some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk L R D S Q E T H C P N =>
       change
@@ -122,19 +135,19 @@ private theorem RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignm
             (regularCauchyCompletionUniquenessDecodeBHist
               (regularCauchyCompletionUniquenessEncodeBHist N))) =
           some (RegularCauchyCompletionUniquenessUp.mk L R D S Q E T H C P N)
-      rw [RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode L,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode R,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode D,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode S,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode Q,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode E,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode T,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode H,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode C,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode P,
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode N]
+      rw [regularCauchyCompletionUniqueness_decode_encode_bhist L,
+        regularCauchyCompletionUniqueness_decode_encode_bhist R,
+        regularCauchyCompletionUniqueness_decode_encode_bhist D,
+        regularCauchyCompletionUniqueness_decode_encode_bhist S,
+        regularCauchyCompletionUniqueness_decode_encode_bhist Q,
+        regularCauchyCompletionUniqueness_decode_encode_bhist E,
+        regularCauchyCompletionUniqueness_decode_encode_bhist T,
+        regularCauchyCompletionUniqueness_decode_encode_bhist H,
+        regularCauchyCompletionUniqueness_decode_encode_bhist C,
+        regularCauchyCompletionUniqueness_decode_encode_bhist P,
+        regularCauchyCompletionUniqueness_decode_encode_bhist N]
 
-private theorem RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem regularCauchyCompletionUniquenessToEventFlow_injective
     {x y : RegularCauchyCompletionUniquenessUp} :
     regularCauchyCompletionUniquenessToEventFlow x =
         regularCauchyCompletionUniquenessToEventFlow y →
@@ -148,12 +161,10 @@ private theorem RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignm
           (regularCauchyCompletionUniquenessToEventFlow y) :=
     congrArg regularCauchyCompletionUniquenessFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (regularCauchyCompletionUniqueness_round_trip x).symm
+      (Eq.trans hread (regularCauchyCompletionUniqueness_round_trip y)))
 
-private theorem RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_fields :
+private theorem regularCauchyCompletionUniqueness_field_faithful :
     ∀ x y : RegularCauchyCompletionUniquenessUp,
       regularCauchyCompletionUniquenessFields x =
           regularCauchyCompletionUniquenessFields y →
@@ -161,9 +172,9 @@ private theorem RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignm
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk L₁ R₁ D₁ S₁ Q₁ E₁ T₁ H₁ C₁ P₁ N₁ =>
+  | mk L1 R1 D1 S1 Q1 E1 T1 H1 C1 P1 N1 =>
       cases y with
-      | mk L₂ R₂ D₂ S₂ Q₂ E₂ T₂ H₂ C₂ P₂ N₂ =>
+      | mk L2 R2 D2 S2 Q2 E2 T2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -182,53 +193,53 @@ instance regularCauchyCompletionUniquenessChapterTasteGate :
       regularCauchyCompletionUniquenessFromEventFlow
           (regularCauchyCompletionUniquenessToEventFlow x) =
         some x
-    exact RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_round_trip x
+    exact regularCauchyCompletionUniqueness_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_toEventFlow_injective
-        heq)
+    exact hxy (regularCauchyCompletionUniquenessToEventFlow_injective heq)
 
 instance regularCauchyCompletionUniquenessFieldFaithful :
     FieldFaithful RegularCauchyCompletionUniquenessUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := regularCauchyCompletionUniquenessFields
-  field_faithful :=
-    RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_fields
+  field_faithful := regularCauchyCompletionUniqueness_field_faithful
 
 instance regularCauchyCompletionUniquenessNontrivial :
     Nontrivial RegularCauchyCompletionUniquenessUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨RegularCauchyCompletionUniquenessUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+    ⟨RegularCauchyCompletionUniquenessUp.mk BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      RegularCauchyCompletionUniquenessUp.mk (BHist.e1 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty,
+      RegularCauchyCompletionUniquenessUp.mk (BHist.e0 BHist.Empty) BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-theorem RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment :
+def taste_gate : ChapterTasteGate RegularCauchyCompletionUniquenessUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  regularCauchyCompletionUniquenessChapterTasteGate
+
+theorem RegularCauchyCompletionUniquenessUpTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       regularCauchyCompletionUniquenessDecodeBHist
         (regularCauchyCompletionUniquenessEncodeBHist h) = h) ∧
       (∀ x : RegularCauchyCompletionUniquenessUp,
         regularCauchyCompletionUniquenessFromEventFlow
           (regularCauchyCompletionUniquenessToEventFlow x) = some x) ∧
-      (∀ x y : RegularCauchyCompletionUniquenessUp,
-        regularCauchyCompletionUniquenessToEventFlow x =
-            regularCauchyCompletionUniquenessToEventFlow y →
-          x = y) ∧
-      regularCauchyCompletionUniquenessEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+        (∀ x y : RegularCauchyCompletionUniquenessUp,
+          regularCauchyCompletionUniquenessToEventFlow x =
+            regularCauchyCompletionUniquenessToEventFlow y → x = y) ∧
+          regularCauchyCompletionUniquenessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_decode,
-      RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        RegularCauchyCompletionUniquenessTasteGate_single_carrier_alignment_toEventFlow_injective
-          heq),
+    ⟨regularCauchyCompletionUniqueness_decode_encode_bhist,
+      regularCauchyCompletionUniqueness_round_trip,
+      by
+        intro x y heq
+        exact regularCauchyCompletionUniquenessToEventFlow_injective heq,
       rfl⟩
 
 end BEDC.Derived.RegularCauchyCompletionUniquenessUp
