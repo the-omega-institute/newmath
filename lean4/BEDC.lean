@@ -4505,6 +4505,7 @@ import BEDC.Derived.RefuterTraceUp.PermittedRefutationRoute
 import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
+import BEDC.Derived.RegSeqRatUp.AuditThresholdFiniteCoverGluing
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegSeqRatUp.CommonTailRealBoundaryEquivalence
 import BEDC.Derived.RegSeqRatUp.CommonTailWindow
@@ -4611,6 +4612,7 @@ import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchyShiftUp.TasteGate
+import BEDC.Derived.RegularCauchySquareRootUp.TasteGate
 import BEDC.Derived.RegularCauchySquareUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySubsequenceUp.TasteGate
@@ -4643,6 +4645,7 @@ import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMeetUp
 import BEDC.Derived.RegularCauchyTailMeetUp.DyadicAbsoluteValueHandoff
 import BEDC.Derived.RegularCauchyTailMeetUp.SharedThresholdCofinality
+import BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
@@ -5364,6 +5367,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowRefinementExactness
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
 import BEDC.Derived.UniformCauchyFilterUp.TasteGate
+import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
