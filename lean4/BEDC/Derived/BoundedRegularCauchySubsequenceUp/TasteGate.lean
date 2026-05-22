@@ -3,7 +3,6 @@ import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BoundedRegularCauchySubsequenceUp
-namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -46,8 +45,9 @@ def boundedRegularCauchySubsequenceFields :
 def boundedRegularCauchySubsequenceToEventFlow :
     BoundedRegularCauchySubsequenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (boundedRegularCauchySubsequenceFields x).map
-      boundedRegularCauchySubsequenceEncodeBHist
+  | x =>
+      (boundedRegularCauchySubsequenceFields x).map
+        boundedRegularCauchySubsequenceEncodeBHist
 
 def boundedRegularCauchySubsequenceFromEventFlow :
     EventFlow → Option BoundedRegularCauchySubsequenceUp
@@ -176,9 +176,9 @@ private theorem boundedRegularCauchySubsequence_field_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk B T W D Q R F E H C P N =>
+  | mk B₁ T₁ W₁ D₁ Q₁ R₁ F₁ E₁ H₁ C₁ P₁ N₁ =>
       cases y with
-      | mk B' T' W' D' Q' R' F' E' H' C' P' N' =>
+      | mk B₂ T₂ W₂ D₂ Q₂ R₂ F₂ E₂ H₂ C₂ P₂ N₂ =>
           cases hfields
           rfl
 
@@ -193,8 +193,9 @@ instance boundedRegularCauchySubsequenceChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change boundedRegularCauchySubsequenceFromEventFlow
-      (boundedRegularCauchySubsequenceToEventFlow x) = some x
+    change
+      boundedRegularCauchySubsequenceFromEventFlow
+        (boundedRegularCauchySubsequenceToEventFlow x) = some x
     exact BoundedRegularCauchySubsequenceTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -207,15 +208,15 @@ instance boundedRegularCauchySubsequenceFieldFaithful :
   field_faithful := boundedRegularCauchySubsequence_field_faithful
 
 instance boundedRegularCauchySubsequenceNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial BoundedRegularCauchySubsequenceUp where
+    Nontrivial BoundedRegularCauchySubsequenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨BoundedRegularCauchySubsequenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
+    ⟨BoundedRegularCauchySubsequenceUp.mk BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
       BoundedRegularCauchySubsequenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -231,19 +232,15 @@ theorem BoundedRegularCauchySubsequenceTasteGate_single_carrier_alignment :
       (∀ x : BoundedRegularCauchySubsequenceUp,
         boundedRegularCauchySubsequenceFromEventFlow
           (boundedRegularCauchySubsequenceToEventFlow x) = some x) ∧
-      (∀ x y : BoundedRegularCauchySubsequenceUp,
-        boundedRegularCauchySubsequenceToEventFlow x =
-          boundedRegularCauchySubsequenceToEventFlow y → x = y) ∧
-      boundedRegularCauchySubsequenceEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact BoundedRegularCauchySubsequenceTasteGate_single_carrier_alignment_decode
-  constructor
-  · exact BoundedRegularCauchySubsequenceTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact boundedRegularCauchySubsequenceToEventFlow_injective heq
-  · rfl
+        (∀ x y : BoundedRegularCauchySubsequenceUp,
+          boundedRegularCauchySubsequenceToEventFlow x =
+            boundedRegularCauchySubsequenceToEventFlow y → x = y) ∧
+          boundedRegularCauchySubsequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨BoundedRegularCauchySubsequenceTasteGate_single_carrier_alignment_decode,
+      BoundedRegularCauchySubsequenceTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => boundedRegularCauchySubsequenceToEventFlow_injective heq),
+      rfl⟩
 
-end TasteGate
 end BEDC.Derived.BoundedRegularCauchySubsequenceUp

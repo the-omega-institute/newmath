@@ -3,7 +3,6 @@ import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicExponentShiftUp
-namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -137,7 +136,8 @@ private theorem DyadicExponentShiftTasteGate_single_carrier_alignment_round_trip
             (DyadicExponentShiftTasteGate_single_carrier_alignment_decode P)
             (DyadicExponentShiftTasteGate_single_carrier_alignment_decode N))
 
-private theorem dyadicExponentShiftToEventFlow_injective {x y : DyadicExponentShiftUp} :
+private theorem dyadicExponentShiftToEventFlow_injective
+    {x y : DyadicExponentShiftUp} :
     dyadicExponentShiftToEventFlow x = dyadicExponentShiftToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -150,14 +150,14 @@ private theorem dyadicExponentShiftToEventFlow_injective {x y : DyadicExponentSh
       (Eq.trans hread (DyadicExponentShiftTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem dyadicExponentShift_field_faithful :
-    ∀ x y : DyadicExponentShiftUp,
-      dyadicExponentShiftFields x = dyadicExponentShiftFields y → x = y := by
+    ∀ x y : DyadicExponentShiftUp, dyadicExponentShiftFields x = dyadicExponentShiftFields y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk M U K S D T F H C P N =>
+  | mk M₁ U₁ K₁ S₁ D₁ T₁ F₁ H₁ C₁ P₁ N₁ =>
       cases y with
-      | mk M' U' K' S' D' T' F' H' C' P' N' =>
+      | mk M₂ U₂ K₂ S₂ D₂ T₂ F₂ H₂ C₂ P₂ N₂ =>
           cases hfields
           rfl
 
@@ -166,8 +166,7 @@ instance dyadicExponentShiftBHistCarrier : BHistCarrier DyadicExponentShiftUp wh
   toEventFlow := dyadicExponentShiftToEventFlow
   fromEventFlow := dyadicExponentShiftFromEventFlow
 
-instance dyadicExponentShiftChapterTasteGate :
-    ChapterTasteGate DyadicExponentShiftUp where
+instance dyadicExponentShiftChapterTasteGate : ChapterTasteGate DyadicExponentShiftUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -182,8 +181,7 @@ instance dyadicExponentShiftFieldFaithful : FieldFaithful DyadicExponentShiftUp 
   fields := dyadicExponentShiftFields
   field_faithful := dyadicExponentShift_field_faithful
 
-instance dyadicExponentShiftNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial DyadicExponentShiftUp where
+instance dyadicExponentShiftNontrivial : Nontrivial DyadicExponentShiftUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨DyadicExponentShiftUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -202,18 +200,14 @@ theorem DyadicExponentShiftTasteGate_single_carrier_alignment :
     (∀ h : BHist, dyadicExponentShiftDecodeBHist (dyadicExponentShiftEncodeBHist h) = h) ∧
       (∀ x : DyadicExponentShiftUp,
         dyadicExponentShiftFromEventFlow (dyadicExponentShiftToEventFlow x) = some x) ∧
-      (∀ x y : DyadicExponentShiftUp,
-        dyadicExponentShiftToEventFlow x = dyadicExponentShiftToEventFlow y → x = y) ∧
-      dyadicExponentShiftEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact DyadicExponentShiftTasteGate_single_carrier_alignment_decode
-  constructor
-  · exact DyadicExponentShiftTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact dyadicExponentShiftToEventFlow_injective heq
-  · rfl
+        (∀ x y : DyadicExponentShiftUp,
+          dyadicExponentShiftToEventFlow x = dyadicExponentShiftToEventFlow y → x = y) ∧
+          dyadicExponentShiftEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨DyadicExponentShiftTasteGate_single_carrier_alignment_decode,
+      DyadicExponentShiftTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => dyadicExponentShiftToEventFlow_injective heq),
+      rfl⟩
 
-end TasteGate
 end BEDC.Derived.DyadicExponentShiftUp

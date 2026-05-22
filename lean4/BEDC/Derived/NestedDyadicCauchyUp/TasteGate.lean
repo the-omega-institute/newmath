@@ -3,7 +3,6 @@ import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NestedDyadicCauchyUp
-namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -125,7 +124,8 @@ private theorem NestedDyadicCauchyTasteGate_single_carrier_alignment_round_trip 
             (NestedDyadicCauchyTasteGate_single_carrier_alignment_decode P)
             (NestedDyadicCauchyTasteGate_single_carrier_alignment_decode N))
 
-private theorem nestedDyadicCauchyToEventFlow_injective {x y : NestedDyadicCauchyUp} :
+private theorem nestedDyadicCauchyToEventFlow_injective
+    {x y : NestedDyadicCauchyUp} :
     nestedDyadicCauchyToEventFlow x = nestedDyadicCauchyToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -138,14 +138,14 @@ private theorem nestedDyadicCauchyToEventFlow_injective {x y : NestedDyadicCauch
       (Eq.trans hread (NestedDyadicCauchyTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem nestedDyadicCauchy_field_faithful :
-    ∀ x y : NestedDyadicCauchyUp,
-      nestedDyadicCauchyFields x = nestedDyadicCauchyFields y → x = y := by
+    ∀ x y : NestedDyadicCauchyUp, nestedDyadicCauchyFields x = nestedDyadicCauchyFields y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk I B S R E H C P N =>
+  | mk I₁ B₁ S₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
       cases y with
-      | mk I' B' S' R' E' H' C' P' N' =>
+      | mk I₂ B₂ S₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
           cases hfields
           rfl
 
@@ -154,8 +154,7 @@ instance nestedDyadicCauchyBHistCarrier : BHistCarrier NestedDyadicCauchyUp wher
   toEventFlow := nestedDyadicCauchyToEventFlow
   fromEventFlow := nestedDyadicCauchyFromEventFlow
 
-instance nestedDyadicCauchyChapterTasteGate :
-    ChapterTasteGate NestedDyadicCauchyUp where
+instance nestedDyadicCauchyChapterTasteGate : ChapterTasteGate NestedDyadicCauchyUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -170,8 +169,7 @@ instance nestedDyadicCauchyFieldFaithful : FieldFaithful NestedDyadicCauchyUp wh
   fields := nestedDyadicCauchyFields
   field_faithful := nestedDyadicCauchy_field_faithful
 
-instance nestedDyadicCauchyNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial NestedDyadicCauchyUp where
+instance nestedDyadicCauchyNontrivial : Nontrivial NestedDyadicCauchyUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨NestedDyadicCauchyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -190,18 +188,14 @@ theorem NestedDyadicCauchyTasteGate_single_carrier_alignment :
     (∀ h : BHist, nestedDyadicCauchyDecodeBHist (nestedDyadicCauchyEncodeBHist h) = h) ∧
       (∀ x : NestedDyadicCauchyUp,
         nestedDyadicCauchyFromEventFlow (nestedDyadicCauchyToEventFlow x) = some x) ∧
-      (∀ x y : NestedDyadicCauchyUp,
-        nestedDyadicCauchyToEventFlow x = nestedDyadicCauchyToEventFlow y → x = y) ∧
-      nestedDyadicCauchyEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact NestedDyadicCauchyTasteGate_single_carrier_alignment_decode
-  constructor
-  · exact NestedDyadicCauchyTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact nestedDyadicCauchyToEventFlow_injective heq
-  · rfl
+        (∀ x y : NestedDyadicCauchyUp,
+          nestedDyadicCauchyToEventFlow x = nestedDyadicCauchyToEventFlow y → x = y) ∧
+          nestedDyadicCauchyEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨NestedDyadicCauchyTasteGate_single_carrier_alignment_decode,
+      NestedDyadicCauchyTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => nestedDyadicCauchyToEventFlow_injective heq),
+      rfl⟩
 
-end TasteGate
 end BEDC.Derived.NestedDyadicCauchyUp
