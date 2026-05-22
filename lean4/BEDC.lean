@@ -4322,6 +4322,8 @@ import BEDC.Derived.RealEqualityUp
 import BEDC.Derived.RealEqualityUp.TasteGate
 import BEDC.Derived.RealExponentialUp
 import BEDC.Derived.RealFunctionUniformCauchyUp.TasteGate
+import BEDC.Derived.RealIntegerPartUp
+import BEDC.Derived.RealIntegerPartUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessSealUp
 import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate

@@ -58,20 +58,22 @@ Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Si
 
 \begin{theorem}[NestedIntervalReal Cauchy selection route]
 \label{thm:nested-interval-real-cauchy-selection}
-Every accepted $\NestedIntervalRealUp$ carrier $J=(I,B,D,E,W,R,S,H,C,P,N)$ exports a constructive Cauchy selection route:
+For every accepted $\NestedIntervalRealUp$ carrier $J=(I,B,D,E,W,R,S,H,C,P,N)$ and every displayed precision request, the exported rational approximation is valid only through the staged finite obligation
 $$
-I,B,D,E \longmapsto W \longmapsto R \longmapsto S .
+D_{\mathrm{diam}} \longrightarrow B_{\mathrm{path}} \longrightarrow E_{\mathrm{end}} \longrightarrow W_{\mathrm{win}} \longrightarrow R_{\mathrm{reg}} \longrightarrow S .
 $$
-The selected rational approximation at a displayed precision is not chosen from an ambient intersection. It is the row read from the stored interval stage whose dyadic diameter bound in $D$ is below that precision, whose endpoint seals are named in $E$, and whose finite observations pass through $W$ before the $\RegSeqRatUp$ readback $R$ and terminal $\RealUp$ seal $S$ are available.
+That is, the packet must first exhibit a stage row whose dyadic diameter entry in $D$ is below the requested tolerance, then exhibit through $B$ the bisection path from the earlier interval rows in $I$ to that stage, then read the endpoint seals through $E$, then open only the corresponding finite $\StreamNameUp$ windows in $W$, then package the resulting rational approximation by the $\RegSeqRatUp$ readback row $R$, and only then expose the terminal $\RealUp$-facing seal $S$. The approximation is therefore a displayed regular-readback product of the carrier rows, not a point chosen from an ambient intersection.
 \end{theorem}
 \begin{proof}
-Start with an accepted packet and a displayed precision request. The diameter ledger $D$ contains the finite dyadic row that bounds all later intervals below that request, and $B$ records how the needed later interval is reached from the earlier rows in $I$.
+Project the accepted carrier and fix a displayed precision request. The diameter ledger $D$ supplies the tolerance witness: a finite stage row whose dyadic diameter entry is below the requested bound.
 
-The candidate approximation is then read from the named interval stage. Its endpoint information is not a host real point; it is the endpoint $\RealUp$ seal row $E$ attached to the same located interval row.
+The stage is reachable only through the stored interval data. The rows in $I$ display the located interval family, and the bisection ledger $B$ records the finite path from earlier intervals to the chosen stage, so the construction has no separate selection rule for later intervals.
 
-The finite observations are opened through $W$. Once those windows have been replayed, the $\RegSeqRatUp$ row $R$ supplies the regular rational readback demanded by the Cauchy consumer.
+Endpoint access is then ordered through $E$. The candidate rational approximation is read from endpoint seals attached to the same displayed stage, not from a host real point or an unrecorded intersection element.
 
-The terminal seal $S$ is therefore a seal over the displayed Cauchy route. No ambient intersection point, choice-selected subsequence, quotient representative, or independent completeness theorem is used to obtain the approximation.
+Regular readback begins only after those seals have been fixed. The finite observations pass through the matching $\StreamNameUp$ windows in $W$, and the $\RegSeqRatUp$ row $R$ packages the resulting rational read as the Cauchy-facing approximation.
+
+Finally, $S$ seals exactly that read for the $\RealUp$-facing consumer. The transport, replay, provenance, and local naming rows $H,C,P,N$ preserve the staged route under comparison and replay, so no ambient intersection point, choice-selected subsequence, quotient representative, or independent completeness theorem is used to obtain the approximation.
 \end{proof}
 
 \begin{theorem}[NestedIntervalReal ledger nonescape]
