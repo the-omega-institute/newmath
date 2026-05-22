@@ -1,0 +1,156 @@
+\chapter{A Concrete Naming Certificate for $\DecimalNormalityUp$}
+\label{ch:concrete-instances-decimalnormality-namecert}
+\origin{human}
+
+Following Borel on normal numbers, the $\DecimalNormalityUp$ packet records
+only finite decimal digit-frequency evidence as BEDC NameCert data. It consumes
+the finite decimal-prefix readback surface of
+\autoref{ch:concrete-instances-decimalexpansion-namecert}, the terminal
+$\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the finite
+stream-window interface of \autoref{ch:concrete-instances-streamname-namecert},
+the regular rational handoff of
+\autoref{ch:concrete-instances-regseqrat-namecert}, and the probability and
+frequency surfaces of \autoref{ch:concrete-instances-probspace-namecert},
+\autoref{ch:concrete-instances-randomvar-namecert}, and
+\autoref{ch:concrete-instances-measure-namecert} where those rows are explicitly
+displayed. The packet distinguishes decimal digit-frequency certificates from
+plain decimal expansions while refusing to turn Borel's measure-theoretic
+normality theorem into a local finite certificate.
+
+\begin{definition}[Decimal normality carrier]\label{def:decimal-normality-carrier}
+A $\DecimalNormalityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,W,F,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DecimalExpansionUp$ row, carrying the inspected base-ten
+digit prefix and its endpoint-normalized decimal readback route.
+\item $W$ is the finite prefix-window row, listing the displayed prefix lengths,
+subword windows, and digit blocks whose frequencies are being inspected.
+\item $F$ is the digit-frequency ledger, recording for each displayed digit or
+finite digit block the counted occurrences in $W$, the displayed denominator,
+and the rational comparison row for the target frequency.
+\item $R$ is the $\RegSeqRatUp$ readback row reached from the same decimal
+window and frequency ledger.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the
+$D,W,F,R$ rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the decimal expansion,
+prefix-window, frequency, regular-readback, real-seal, continuation,
+provenance, and local naming coordinates.
+\item $C$ records displayed $\Cont$ routes that replay finite prefix-window
+frequency rows without opening an infinite host stream or a measure quotient.
+\item $P$ is the $\Pkg$ provenance over $\DecimalNormalityUp$,
+$\DecimalExpansionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, the displayed
+probability-frequency surfaces, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DecimalNormalityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a measure-theoretic almost-everywhere
+normality theorem, random real selector, quotient stream equality, selected
+host decimal, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Decimal normality NameCert obligations]\label{thm:decimal-normality-namecert-obligations}
+For every accepted $\DecimalNormalityUp$ carrier
+$K=(D,W,F,R,E,H,C,P,N)$, the local $\NameCert_{\DecimalNormalityUp}$ surface
+consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the decimal expansion row, finite prefix-window
+row, digit-frequency ledger, regular rational readback, real seal, transport,
+replay, provenance, and local naming rows;
+\item digit-window frequency stability, requiring each transported frequency
+claim to read the same displayed prefix windows and the same counted digit or
+finite-block rows;
+\item decimal endpoint normalization compatibility, requiring endpoint
+conventions already displayed by $\DecimalExpansionUp$ to be read before any
+frequency row is compared;
+\item $\RealUp$ readback, requiring the terminal real seal to remain downstream
+of the decimal expansion, prefix-window, frequency, and regular-readback rows;
+\item ledger non-escape, requiring every consumer of the packet to read only
+$D,W,F,R,E,H,C,P,N$.
+\end{enumerate}
+No obligation is stored in a hidden infinite decimal stream, an
+almost-everywhere normality theorem, a random real selector, quotient stream
+equality, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:decimal-normality-carrier}. The tuple displays the decimal
+expansion, finite prefix windows, frequency counts, regular readback, real
+seal, transport, replay, provenance, and local naming rows as one finite
+packet.
+
+Frequency stability is componentwise. A transported row in $H$ preserves the
+prefix-window coordinate $W$ and the frequency coordinate $F$, so a digit or
+block count can be compared only against the same displayed finite window data.
+
+Endpoint normalization compatibility follows because the decimal expansion row
+$D$ is read before $F$. Any terminating or repeating endpoint convention must
+therefore be supplied by the decimal-expansion packet before a frequency
+ledger can count the displayed digits.
+
+For real readback, the row $E$ appears only downstream of $D,W,F,R$. The
+continuation and provenance rows replay that same order and add no external
+coordinates. Hence ledger non-escape follows from the carrier list itself.
+\end{proof}
+
+\begin{theorem}[Decimal normality frequency-window stability]\label{thm:decimal-normality-frequency-window-stability}
+Let $K=(D,W,F,R,E,H,C,P,N)$ and $K'=(D',W',F',R',E',H',C',P',N')$ be accepted
+$\DecimalNormalityUp$ carriers. If the displayed $\hsame$ rows in $H,H'$
+identify the decimal-expansion rows, finite prefix-window rows, and
+digit-frequency ledger rows, then every finite prefix-window frequency row
+read from $K$ transports to the corresponding finite prefix-window frequency
+row read from $K'$ through the displayed $\Cont$ routes. The transported read
+uses no host infinite stream, quotient stream equality, random selector,
+measure-completion theorem, or ambient $\RealUp$ completeness field.
+\end{theorem}
+\begin{proof}
+Read the frequency row through the source carrier. By
+\autoref{def:decimal-normality-carrier}, the row is not an isolated predicate:
+it is attached to the decimal expansion row $D$ and the finite prefix-window
+row $W$.
+
+The displayed $\hsame$ data identify the corresponding decimal, window, and
+frequency coordinates in $K'$ componentwise. Transport therefore carries the
+counted digit or block row, its displayed denominator, and its rational
+frequency comparison to the matching $F'$ coordinate.
+
+The continuation row then replays the same finite read on the target side.
+Because the replay route uses only $D',W',F'$ and the structural rows
+$R',E',H',C',P',N'$, none of the excluded external objects can enter the
+transported frequency-window claim.
+\end{proof}
+
+\begin{theorem}[Decimal normality RealUp readback]\label{thm:decimal-normality-real-readback}
+Every $\RealUp$ consumer of an accepted $\DecimalNormalityUp$ packet first
+reads the finite $\DecimalExpansionUp$ windows, then the displayed prefix-window
+frequency ledger, then the $\RegSeqRatUp$ readback row, and only then the
+terminal real seal. The consumer receives no measure-theoretic
+almost-everywhere normality theorem, random real selector, quotient stream
+equality, selected host decimal, or host completeness principle from this
+readback.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(D,W,F,R,E,H,C,P,N)$. The only real-facing
+coordinate is $E$, and the carrier places it after the decimal, window,
+frequency, and regular-readback rows.
+
+A consumer must therefore read $D$ before it can inspect any digit data. The
+finite prefix-window row $W$ bounds the displayed digit positions, and the
+ledger $F$ counts only those displayed positions or finite blocks.
+
+The regular-readback row $R$ is reached from the same finite route, and the
+structural rows $H,C,P,N$ preserve that route under transport, replay,
+provenance, and local naming. Since no excluded object is a coordinate of the
+packet, the terminal real readback cannot export it.
+\end{proof}
+
+\begin{closurestatus}{\DecimalNormalityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decimal-normality-carrier}, \autoref{thm:decimal-normality-namecert-obligations}, \autoref{thm:decimal-normality-frequency-window-stability}, and \autoref{thm:decimal-normality-real-readback} seed the finite decimal digit-frequency certificate surface over $\DecimalExpansionUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure-theoretic Borel normality as a theorem, random real selection, quotient streams, selected host decimals, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, digit-window frequency stability, decimal endpoint normalization compatibility, RealUp readback, and ledger non-escape for BEDC.Derived.DecimalNormalityUp.}
+  \constructivestory{A $\DecimalNormalityUp$ packet is generated from a $\DecimalExpansionUp$ row, finite prefix-window rows, digit-frequency ledger rows, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
