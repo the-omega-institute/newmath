@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionEliminatorUp$}
+\label{ch:concrete-instances-cauchy-completion-eliminator-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive completion and the Mac Lane--Eilenberg--Moore vocabulary of recursion from an algebraic completion object, the $\CauchyCompletionEliminatorUp$ packet records the BEDC eliminator interface for reading out of a Cauchy completion. It sits after the completion monad of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the Kleisli consumer route of \autoref{ch:concrete-instances-cauchy-completion-kleisli-namecert}, the functorial action of \autoref{ch:concrete-instances-cauchy-completion-functoriality-namecert}, and the algebra boundary of \autoref{ch:concrete-instances-cauchy-completion-algebra-namecert}. Its analytic input surface is the finite stream window of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}.
+
+The packet is an eliminator boundary, not a representative selector. It exposes exactly the finite rows needed to extend a dense-source action through regular Cauchy tails and to compare the resulting completed reads by tail agreement.
+
+\begin{definition}[Cauchy completion eliminator carrier]
+\label{def:cauchy-completion-eliminator-carrier}
+A $\CauchyCompletionEliminatorUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,T,M,A,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the dense source data row, displaying the source NameCert, its finite $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback rows, and the $\DyadicRatCoreUp$ tolerance observations before any completed read is inspected.
+\item $T$ is the target NameCert data row, including the codomain carrier surface, its accepted equality classifier, and the local naming row for the target of the eliminator.
+\item $M$ is the Cauchy-continuity modulus row, recording how a finite dyadic tolerance request on the target read is answered by a finite tail request on the dense source data.
+\item $A$ is the extension action row, sending an accepted regular Cauchy tail over $D$ to a target packet over $T$ by the modulus-controlled route $M$.
+\item $U$ is the uniqueness-by-tail-agreement ledger: two extension actions over the same dense-source action and the same modulus are compared by displayed $\hsame$ equivalence of their regular tails.
+\item $H$ records componentwise $\hsame$ transport for the dense source data, target NameCert data, Cauchy-continuity modulus, extension action, uniqueness ledger, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D,T,M \longmapsto A \longmapsto U \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionEliminatorUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionKleisliUp$, $\CauchyCompletionFunctorialityUp$, $\CauchyCompletionAlgebraUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionEliminatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,T,M,A,U,H,C,P,N$. The carrier has no coordinate for quotient representatives, host equality of completed objects, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cauchy completion eliminator NameCert obligations]
+\label{thm:cauchy-completion-eliminator-namecert-obligations}
+For every accepted $\CauchyCompletionEliminatorUp$ carrier
+$$
+E=(D,T,M,A,U,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyCompletionEliminatorUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dense source data, target NameCert data, Cauchy-continuity modulus, extension action, uniqueness ledger, transport, replay, provenance, and local naming row;
+\item dense-source action stability, requiring the action on displayed dense rows to be invariant under the carried $\hsame$ transport of $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ observations;
+\item modulus-controlled extension, requiring every completed-route read to pass through the modulus row $M$ before the extension action row $A$ is inspected;
+\item uniqueness through Cauchy tail agreement, requiring two completed reads over the same dense action and modulus to be compared only through the ledger $U$ and displayed $\hsame$ equivalence of regular tails;
+\item refusal of quotient representatives, host equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking as local obligation data.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-completion-eliminator-carrier}. The accepted packet displays exactly the dense source data, target NameCert data, modulus, action, uniqueness ledger, and structural rows.
+
+Dense-source stability is read from $D$ and $H$. The dense action can inspect only finite stream windows, regular rational readback, and dyadic tolerance observations, and componentwise transport preserves those displayed rows before any target packet is named.
+
+The extension clause is supplied by $M$ and $A$. A completed-route consumer first presents a target tolerance request to the modulus row, receives a finite tail request on the dense source, and then applies the extension action to that displayed tail.
+
+Uniqueness is supplied by $U$. When two accepted actions have the same dense-source action and the same modulus, the only comparison row available is tail agreement of the regular Cauchy presentations through displayed $\hsame$ routes.
+
+The refusal clause is structural. Since no excluded object appears as a coordinate of $E$, the replay, provenance, and local naming rows cannot export quotient representatives, host equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Cauchy completion eliminator uniqueness]
+\label{thm:cauchy-completion-eliminator-uniqueness}
+Let
+$$
+E=(D,T,M,A,U,H,C,P,N)
+\quad\text{and}\quad
+E'=(D',T',M',A',U',H',C',P',N')
+$$
+be accepted $\CauchyCompletionEliminatorUp$ packets. If $E$ and $E'$ display the same dense-source action, the same Cauchy-continuity modulus, and componentwise $\hsame$ transport of the target NameCert rows, then the two eliminator packets are classifier-equal on every completed route whose regular tails are $\hsame$-equivalent. The comparison is exhausted by the uniqueness ledgers $U,U'$ and the displayed tail-agreement rows; it does not pass through quotient representatives, host equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers. The hypotheses identify the dense-source action and the modulus rows, so any completed-route read issued to $E$ and $E'$ produces the same finite tail request on the dense source.
+
+Now compare the regular tails. The assumed $\hsame$ equivalence of those tails is exactly the input consumed by the uniqueness ledgers $U$ and $U'$. These ledgers compare the two target reads through the carried target NameCert transport, not through host equality of completed objects.
+
+The structural rows finish the classifier comparison. Componentwise transport $H,H'$, replay $C,C'$, provenance $P,P'$, and local names $N,N'$ preserve the same dense action, modulus, and tail-agreement route. Since the carriers contain no excluded coordinate, the classifier equality cannot appeal to quotient representatives, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\closureat{CauchyCompletionEliminatorUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionEliminatorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-eliminator-carrier}, \autoref{thm:cauchy-completion-eliminator-namecert-obligations}, and \autoref{thm:cauchy-completion-eliminator-uniqueness} seed the finite eliminator surface for Cauchy-completion reads out of regular tails.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient representatives, host equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense-source action stability, modulus-controlled extension, uniqueness through Cauchy tail agreement, and non-escape proofs for BEDC.Derived.CauchyCompletionEliminatorUp.}
+  \constructivestory{A $\CauchyCompletionEliminatorUp$ packet is generated from dense source data, target NameCert data, a Cauchy-continuity modulus, an extension action, a uniqueness-by-tail-agreement ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
