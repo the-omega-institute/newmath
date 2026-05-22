@@ -4,8 +4,8 @@ namespace BEDC.Derived
 
 open BEDC.FKernel.Hist
 
-inductive DenseUniformEmbeddingUp : Type where
-  | mk (S T I Q M E U H C P N : BHist) : DenseUniformEmbeddingUp
+inductive CompletionExtractorUp : Type where
+  | mk : (g m s d q e H C P N : BHist) -> CompletionExtractorUp
   deriving DecidableEq
 
 end BEDC.Derived

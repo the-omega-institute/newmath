@@ -65,6 +65,7 @@ import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ApartnessRealUp.TasteGate
+import BEDC.Derived.ApartnessTopologyUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
@@ -1982,6 +1983,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DenseUniformEmbeddingUp
+import BEDC.Derived.DenseUniformEmbeddingUp.TasteGate
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.DependentCodomainClosurePreservationUp
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Ledger
@@ -3109,6 +3111,7 @@ import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.IntervalBisectionUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.IshiharaTrickUp
+import BEDC.Derived.IshiharaTrickUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
 import BEDC.Derived.IwasawaUp
@@ -3341,6 +3344,7 @@ import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FiniteSuffix
 import BEDC.Derived.MarkovChainUp.TransitionPacketScope
+import BEDC.Derived.MarkovPrincipleBoundaryUp
 import BEDC.Derived.MartingaleUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.MatrixUp
@@ -3651,6 +3655,7 @@ import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NestedIntervalIntersectionUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
+import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NoAbsoluteBridgeAuditUp.TasteGate
@@ -4185,6 +4190,7 @@ import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RealMetricLocatednessBracketUp.TasteGate
+import BEDC.Derived.RealMetricUp
 import BEDC.Derived.RealMetricUp.TasteGate
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
@@ -4192,6 +4198,7 @@ import BEDC.Derived.RealObservationBudgetUp.NonEscape
 import BEDC.Derived.RealObservationBudgetUp.StdBridge
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.WindowCoverage
+import BEDC.Derived.RealOneUp.TasteGate
 import BEDC.Derived.RealPowerSeriesUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.RealSealAdmissionCutUp.TasteGate
