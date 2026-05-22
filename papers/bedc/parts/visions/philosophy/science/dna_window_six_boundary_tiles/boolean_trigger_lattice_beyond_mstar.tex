@@ -121,6 +121,51 @@ formula. The spectral radii are obtained by the finite killed-walk
 adjacency computation on each rank representative.
 \end{proof}
 
+\begin{theorem}[Quotient spectral equations]
+\label{thm:philosophy-trigger-quotient-spectral-equations}
+Since every $C_{J}$ is saturated in the $f_{3}$ direction, its
+killed-walk radius has the form
+$$
+  \lambda_{r}=\frac{\mu_{r}+1}{6},
+  \qquad r=|J|.
+$$
+The quotient spectral roots are
+$$
+\begin{array}{c|l|r}
+  r & \text{equation for }\mu_{r} & \mu_{r}\\
+  \hline
+  0 & \mu^{6}-21\mu^{4}+80\mu^{2}-24=0 & 4.016667\\
+  1 & \mu^{4}-4\mu^{3}-5\mu^{2}+18\mu+6=0 & 4.045475\\
+  2 & \mu^{4}-8\mu^{3}+19\mu^{2}-12\mu-2=0 & 4.135779\\
+  3 & \mu^{2}-6\mu+7=0 & 4.414214\\
+  4 & \mu-5=0 & 5.000000.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The $f_{3}$-wobble edge contributes one uniform self-neighbor in the
+quotient dynamics, so the six-bit killed-walk eigenvalue is
+$(\mu_{r}+1)/6$. The displayed equations are the characteristic
+equations of the finite quotient adjacency matrices for rank
+$r=0,1,2,3,4$, with the largest positive root selected in each case.
+\end{proof}
+
+\begin{corollary}[Near-global rank]
+\label{cor:philosophy-near-global-rank}
+At rank $3$, the closure has $48$ codons and spectral radius
+$$
+  \lambda_{3}=0.902369.
+$$
+Thus a trigger set covering any three of the four first-two-position
+coordinates already lies in a high-survival regime, while covering the
+last coordinate gives $C_{\{s_{1},f_{1},s_{2},f_{2}\}}=Q_{6}$.
+\end{corollary}
+\begin{proof}
+This is the $r=3$ row of
+\autoref{thm:philosophy-trigger-lattice-rank-table} and
+\autoref{thm:philosophy-trigger-quotient-spectral-equations}.
+\end{proof}
+
 \begin{theorem}[Rank distribution for external codons]
 \label{thm:philosophy-trigger-rank-distribution}
 Among $m$ adjoined codons from $Q_{6}\setminus M^{\star}$, the number
@@ -177,6 +222,29 @@ Divide the $r=4$ column of
 \autoref{thm:philosophy-trigger-rank-distribution} by $\binom{30}{m}$.
 \end{proof}
 
+\begin{theorem}[Maximum non-trigger blockers]
+\label{thm:philosophy-maximum-nontrigger-blockers}
+The largest external subsets that do not trigger the full cube have
+cardinality
+$$
+  2(2^{3}-1)=14.
+$$
+There are four such maximal blockers, one for each omitted coordinate
+in $\{s_{1},f_{1},s_{2},f_{2}\}$. Consequently every
+$B\subseteq Q_{6}\setminus M^{\star}$ with $|B|\geq 15$ satisfies
+$$
+  \operatorname{Med}(M^{\star}\cup B)=Q_{6}.
+$$
+\end{theorem}
+\begin{proof}
+A non-trigger set has rank at most $3$. For fixed three-coordinate
+support $J$, the largest such set contains every nonempty quotient
+support contained in $J$, and each quotient support has two
+$f_{3}$-lifts. This gives $2(2^{3}-1)=14$ codons. There are four choices
+of the missing coordinate. Any subset of size at least $15$ cannot be
+contained in one of these blockers, so its support rank is $4$.
+\end{proof}
+
 \begin{theorem}[Minimal full triggers]
 \label{thm:philosophy-minimal-full-triggers}
 At quotient level, the minimal full triggers have counts
@@ -226,19 +294,22 @@ $\{s_{1},f_{1},s_{2},f_{2}\}$. The unique first-two-position quotient
 point with that support relative to $\mathrm{CU}$ is $\mathrm{AG}$.
 \end{proof}
 
-\begin{theorem}[Post-\texorpdfstring{$M^{\star}$}{M-star} trigger lattice theorem]
-\label{thm:philosophy-post-mstar-trigger-lattice-theorem}
-After $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, all median closures are
-controlled by the Boolean set-cover lattice on the four coordinates
-$s_{1},f_{1},s_{2},f_{2}$. The codon-cube closure is full exactly at
-rank $4$, and $\mathrm{AGY}$ is the unique quotient-level singleton
-case of that rank.
+\begin{theorem}[Rank-spectral trigger lattice theorem]
+\label{thm:philosophy-rank-spectral-trigger-lattice-theorem}
+After $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, every median closure,
+closure size, cubical $f$-vector, killed-walk spectral radius, and
+full-cube threshold is controlled by the Boolean trigger rank on
+$\{s_{1},f_{1},s_{2},f_{2}\}$. The full cube appears exactly at rank
+$4$, the largest non-trigger external set has size $14$, and
+$\mathrm{AGY}$ is the unique quotient-level singleton full trigger.
 \end{theorem}
 \begin{proof}
 The closure classification is \autoref{thm:philosophy-trigger-lattice}.
-The Boolean operations are
-\autoref{thm:philosophy-boolean-lattice-operations}. The rank-four
-criterion is \autoref{cor:philosophy-trigger-rank-size}, and the
-singleton classification is
+The rank size and full-cube criterion are
+\autoref{cor:philosophy-trigger-rank-size}. The cubical and spectral
+rank data are \autoref{thm:philosophy-trigger-lattice-rank-table} and
+\autoref{thm:philosophy-trigger-quotient-spectral-equations}. The
+forced threshold is \autoref{thm:philosophy-maximum-nontrigger-blockers},
+and the singleton classification is
 \autoref{cor:philosophy-antipodal-singleton-trigger}.
 \end{proof}

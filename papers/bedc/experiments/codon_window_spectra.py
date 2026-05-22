@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import collections
+import collections.abc
 import functools
 import fractions
 import http.client
@@ -3292,11 +3293,66 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         )
 
     boolean_lattice_rank_rows = []
+    quotient_spectral_equations = {
+        0: "mu^6 - 21 mu^4 + 80 mu^2 - 24 = 0",
+        1: "mu^4 - 4 mu^3 - 5 mu^2 + 18 mu + 6 = 0",
+        2: "mu^4 - 8 mu^3 + 19 mu^2 - 12 mu - 2 = 0",
+        3: "mu^2 - 6 mu + 7 = 0",
+        4: "mu - 5 = 0",
+    }
+    quotient_spectral_polynomials = {
+        0: lambda value: value**6 - 21 * value**4 + 80 * value**2 - 24,
+        1: lambda value: value**4 - 4 * value**3 - 5 * value**2 + 18 * value + 6,
+        2: lambda value: value**4 - 8 * value**3 + 19 * value**2 - 12 * value - 2,
+        3: lambda value: value**2 - 6 * value + 7,
+        4: lambda value: value - 5,
+    }
+
+    def largest_positive_root(polynomial: collections.abc.Callable[[float], float], upper_bound: float = 6.0) -> float:
+        intervals: list[tuple[float, float]] = []
+        previous_x = 0.0
+        previous_value = polynomial(previous_x)
+        steps = 6000
+        for step in range(1, steps + 1):
+            current_x = upper_bound * step / steps
+            current_value = polynomial(current_x)
+            if current_value == 0.0:
+                intervals.append((current_x, current_x))
+            elif previous_value == 0.0 or previous_value * current_value < 0.0:
+                intervals.append((previous_x, current_x))
+            previous_x = current_x
+            previous_value = current_value
+        lower, upper = intervals[-1]
+        if lower == upper:
+            return lower
+        lower_value = polynomial(lower)
+        for _iteration in range(100):
+            middle = (lower + upper) / 2.0
+            middle_value = polynomial(middle)
+            if lower_value * middle_value <= 0.0:
+                upper = middle
+            else:
+                lower = middle
+                lower_value = middle_value
+        return (lower + upper) / 2.0
+
+    quotient_spectrum_rows = []
     for rank in range(5):
         support_pattern = frozenset(range(rank))
         closure_set = trigger_lattice_sets[support_pattern]
         complex_summary = cubical_complex_summary(closure_set)
         f_vector = tuple(value for value in complex_summary["f_vector"] if value)
+        spectral_radius = spectral_radius_for_set(closure_set)
+        quotient_root = largest_positive_root(quotient_spectral_polynomials[rank])
+        quotient_spectrum_rows.append(
+            {
+                "rank": rank,
+                "equation": quotient_spectral_equations[rank],
+                "mu": quotient_root,
+                "lambda_from_mu": (quotient_root + 1.0) / 6.0,
+                "lambda_matches_rank_radius": abs(((quotient_root + 1.0) / 6.0) - spectral_radius) < 1e-8,
+            }
+        )
         boolean_lattice_rank_rows.append(
             {
                 "rank": rank,
@@ -3305,7 +3361,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "f_vector": f_vector,
                 "f_vector_formula": cubical_formula_f_vector(rank),
                 "f_vector_matches_formula": f_vector == cubical_formula_f_vector(rank),
-                "spectral_radius": spectral_radius_for_set(closure_set),
+                "spectral_radius": spectral_radius,
             }
         )
 
@@ -3368,6 +3424,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         }
         for trigger_size in range(1, 5)
     ]
+    maximum_nontrigger_rank = 3
+    maximum_nontrigger_external_size = 2 * ((2 ** maximum_nontrigger_rank) - 1)
+    maximum_nontrigger_blocker_count = math.comb(4, maximum_nontrigger_rank)
     antipodal_trigger_summary = {
         "mstar": tuple(sorted(mstar_set)),
         "mstar_size": len(mstar_set),
@@ -3401,11 +3460,15 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "boolean_lattice_intersection_verified": boolean_lattice_intersection_verified,
         "boolean_lattice_median_join_verified": boolean_lattice_median_join_verified,
         "boolean_lattice_rank_rows": boolean_lattice_rank_rows,
+        "quotient_spectrum_rows": quotient_spectrum_rows,
         "rank_distribution_rows": rank_distribution_rows,
         "trigger_count_formula_matches_enumeration": trigger_count_formula_matches_enumeration,
         "minimal_trigger_rows": minimal_trigger_rows,
         "minimal_trigger_quotient_total": sum(row["quotient_count"] for row in minimal_trigger_rows),
         "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
+        "maximum_nontrigger_external_size": maximum_nontrigger_external_size,
+        "maximum_nontrigger_blocker_count": maximum_nontrigger_blocker_count,
+        "forced_full_trigger_threshold": maximum_nontrigger_external_size + 1,
     }
 
     def spectral_expansion_search(
@@ -6454,6 +6517,22 @@ def assert_expected(summary: dict[str, object]) -> None:
     ]
     assert [
         (
+            row["rank"],
+            row["equation"],
+            round(row["mu"], 6),
+            round(row["lambda_from_mu"], 6),
+            row["lambda_matches_rank_radius"],
+        )
+        for row in antipodal["quotient_spectrum_rows"]
+    ] == [
+        (0, "mu^6 - 21 mu^4 + 80 mu^2 - 24 = 0", 4.016667, 0.836111, True),
+        (1, "mu^4 - 4 mu^3 - 5 mu^2 + 18 mu + 6 = 0", 4.045475, 0.840912, True),
+        (2, "mu^4 - 8 mu^3 + 19 mu^2 - 12 mu - 2 = 0", 4.135779, 0.855963, True),
+        (3, "mu^2 - 6 mu + 7 = 0", 4.414214, 0.902369, True),
+        (4, "mu - 5 = 0", 5.0, 1.0, True),
+    ]
+    assert [
+        (
             row["added_size"],
             row["candidate_count"],
             row["rank_counts"],
@@ -6482,6 +6561,9 @@ def assert_expected(summary: dict[str, object]) -> None:
     ]
     assert antipodal["minimal_trigger_quotient_total"] == 49
     assert antipodal["minimal_trigger_codon_total"] == 294
+    assert antipodal["maximum_nontrigger_external_size"] == 14
+    assert antipodal["maximum_nontrigger_blocker_count"] == 4
+    assert antipodal["forced_full_trigger_threshold"] == 15
     assert round(spectral["acg_spectral_radius_before"], 4) == 0.6422
     assert round(spectral["acg_spectral_radius_after"], 4) == 0.6752
     assert round(spectral["acg_retention_before"], 3) == 0.596
