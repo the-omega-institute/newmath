@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive LocatedCompletionSealUp : Type where
-  | mk (D S R Q E A T H C P N : BHist) : LocatedCompletionSealUp
+  | mk :
+      (dyadic stream regular locatedSource tailEnvelope completionBoundary realSeal
+        transport replay provenance localName : BHist) →
+      LocatedCompletionSealUp
   deriving DecidableEq
 
 def locatedCompletionSealEncodeBHist : BHist → RawEvent
@@ -25,84 +28,100 @@ def locatedCompletionSealDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (locatedCompletionSealDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (locatedCompletionSealDecodeBHist tail)
 
-private theorem LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode :
+private theorem LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def locatedCompletionSealFields : LocatedCompletionSealUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | LocatedCompletionSealUp.mk D S R Q E A T H C P N =>
-      [D, S, R, Q, E, A, T, H, C, P, N]
+  | LocatedCompletionSealUp.mk dyadic stream regular locatedSource tailEnvelope
+      completionBoundary realSeal transport replay provenance localName =>
+      [dyadic, stream, regular, locatedSource, tailEnvelope, completionBoundary, realSeal,
+        transport, replay, provenance, localName]
 
 def locatedCompletionSealToEventFlow : LocatedCompletionSealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map locatedCompletionSealEncodeBHist (locatedCompletionSealFields x)
-
-private def locatedCompletionSealRawAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => locatedCompletionSealRawAt index rest
+  | x => (locatedCompletionSealFields x).map locatedCompletionSealEncodeBHist
 
 def locatedCompletionSealFromEventFlow : EventFlow → Option LocatedCompletionSealUp
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
+  | [] => none
+  | _a :: [] => none
+  | _a :: _b :: [] => none
+  | _a :: _b :: _c :: [] => none
+  | _a :: _b :: _c :: _d :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: [] => none
+  | dyadic :: stream :: regular :: locatedSource :: tailEnvelope :: completionBoundary ::
+      realSeal :: transport :: replay :: provenance :: localName :: [] =>
       some
         (LocatedCompletionSealUp.mk
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 0 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 1 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 2 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 3 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 4 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 5 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 6 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 7 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 8 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 9 flow))
-          (locatedCompletionSealDecodeBHist (locatedCompletionSealRawAt 10 flow)))
+          (locatedCompletionSealDecodeBHist dyadic)
+          (locatedCompletionSealDecodeBHist stream)
+          (locatedCompletionSealDecodeBHist regular)
+          (locatedCompletionSealDecodeBHist locatedSource)
+          (locatedCompletionSealDecodeBHist tailEnvelope)
+          (locatedCompletionSealDecodeBHist completionBoundary)
+          (locatedCompletionSealDecodeBHist realSeal)
+          (locatedCompletionSealDecodeBHist transport)
+          (locatedCompletionSealDecodeBHist replay)
+          (locatedCompletionSealDecodeBHist provenance)
+          (locatedCompletionSealDecodeBHist localName))
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _i :: _j :: _k :: _l :: _rest =>
+      none
 
-private theorem LocatedCompletionSealUpTasteGate_single_carrier_alignment_round_trip :
+private theorem LocatedCompletionSealTasteGate_single_carrier_alignment_round_trip :
     ∀ x : LocatedCompletionSealUp,
       locatedCompletionSealFromEventFlow (locatedCompletionSealToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk D S R Q E A T H C P N =>
+  | mk dyadic stream regular locatedSource tailEnvelope completionBoundary realSeal
+      transport replay provenance localName =>
       change
         some
           (LocatedCompletionSealUp.mk
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist D))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist S))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist R))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist Q))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist E))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist A))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist T))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist H))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist C))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist P))
-            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist N))) =
-          some (LocatedCompletionSealUp.mk D S R Q E A T H C P N)
-      rw [LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode D,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode S,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode R,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode Q,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode E,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode A,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode T,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode H,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode C,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode P,
-        LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode N]
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist dyadic))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist stream))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist regular))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist locatedSource))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist tailEnvelope))
+            (locatedCompletionSealDecodeBHist
+              (locatedCompletionSealEncodeBHist completionBoundary))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist realSeal))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist transport))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist replay))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist provenance))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist localName))) =
+          some
+            (LocatedCompletionSealUp.mk dyadic stream regular locatedSource tailEnvelope
+              completionBoundary realSeal transport replay provenance localName)
+      rw [LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode dyadic,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode stream,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode regular,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode locatedSource,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode tailEnvelope,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode completionBoundary,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode realSeal,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode transport,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode replay,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode provenance,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode localName]
 
-private theorem LocatedCompletionSealUpTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem LocatedCompletionSealTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : LocatedCompletionSealUp} :
     locatedCompletionSealToEventFlow x = locatedCompletionSealToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -112,9 +131,8 @@ private theorem LocatedCompletionSealUpTasteGate_single_carrier_alignment_toEven
         locatedCompletionSealFromEventFlow (locatedCompletionSealToEventFlow y) :=
     congrArg locatedCompletionSealFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (LocatedCompletionSealUpTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (LocatedCompletionSealUpTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (LocatedCompletionSealTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (LocatedCompletionSealTasteGate_single_carrier_alignment_round_trip y)))
 
 instance locatedCompletionSealBHistCarrier : BHistCarrier LocatedCompletionSealUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -126,25 +144,26 @@ instance locatedCompletionSealChapterTasteGate : ChapterTasteGate LocatedComplet
   round_trip := by
     intro x
     change locatedCompletionSealFromEventFlow (locatedCompletionSealToEventFlow x) = some x
-    exact LocatedCompletionSealUpTasteGate_single_carrier_alignment_round_trip x
+    exact LocatedCompletionSealTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (LocatedCompletionSealUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (LocatedCompletionSealTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem LocatedCompletionSealUpTasteGate_single_carrier_alignment :
+theorem LocatedCompletionSealTasteGate_single_carrier_alignment :
     (∀ h : BHist, locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist h) = h) ∧
       (∀ x : LocatedCompletionSealUp,
         locatedCompletionSealFromEventFlow (locatedCompletionSealToEventFlow x) = some x) ∧
         (∀ x y : LocatedCompletionSealUp,
           locatedCompletionSealToEventFlow x = locatedCompletionSealToEventFlow y → x = y) ∧
           locatedCompletionSealEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨LocatedCompletionSealUpTasteGate_single_carrier_alignment_decode,
-      LocatedCompletionSealUpTasteGate_single_carrier_alignment_round_trip,
-      by
-        intro x y heq
-        exact LocatedCompletionSealUpTasteGate_single_carrier_alignment_toEventFlow_injective heq,
-      rfl⟩
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode
+  · constructor
+    · exact LocatedCompletionSealTasteGate_single_carrier_alignment_round_trip
+    · constructor
+      · intro x y heq
+        exact LocatedCompletionSealTasteGate_single_carrier_alignment_toEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.LocatedCompletionSealUp
