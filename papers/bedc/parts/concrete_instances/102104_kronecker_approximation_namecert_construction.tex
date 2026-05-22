@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\KroneckerApproximationUp$}
+\label{ch:concrete-instances-kronecker-approximation-namecert}
+\origin{human}
+
+Following Hardy--Wright and Cassels on Kronecker approximation, the $\KroneckerApproximationUp$ packet names only the finite orbit-window route by which a displayed multiplier sends a source real name into a target tolerance window. It records finite orbit-window data, rational multiplier ledgers, dyadic tolerance rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealRationalApproximationUp$ handoff, and a terminal $\RealUp$ seal. The packet consumes the denominator-bounded route of \autoref{ch:concrete-instances-dirichlet-approximation-namecert}, the rational-tree witnesses of \autoref{ch:concrete-instances-stern-brocot-namecert} and \autoref{ch:concrete-instances-farey-sequence-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-facing approximation surface of \autoref{ch:concrete-instances-real-rational-approximation-namecert}; it does not import quotient reals, selected infinite orbits, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Kronecker approximation carrier]\label{def:kronecker-approximation-carrier}
+A $\KroneckerApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,W,M,D,T,U,G,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source real-name row. It exposes only the finite $\StreamNameUp$ and $\RegSeqRatUp$ windows of the source point requested by the approximation read.
+\item $W$ is the target orbit-window row. It stores the finite list of requested orbit indices, target rational windows, and comparison slots visible to the certificate.
+\item $M$ is the integer and rational multiplier ledger. It records the inspected integer multiples, rational multiplier presentations, denominator bounds, and visible arithmetic comparisons.
+\item $D$ is the $\DirichletApproximationUp$ handoff row. It supplies the denominator-bounded rational-approximation request from which the multiplier ledger may be read.
+\item $T$ is the Stern--Brocot or Farey witness row. It records the finite branch, mediant, or neighboring-fraction data certifying the rational candidate used by $D$.
+\item $U$ is the $\DyadicRatCoreUp$ tolerance row. It stores the dyadic tolerance, slack ledger, and endpoint comparisons used to accept the finite orbit window.
+\item $G$ is the $\StreamNameUp$ window row for the source and target reads inspected by the orbit request.
+\item $R$ is the $\RegSeqRatUp$ readback row. It converts the displayed StreamName windows into regular rational data before any real-facing approximation handoff is exposed.
+\item $E$ is the $\RealRationalApproximationUp$ handoff row. It packages the multiplier ledger, target window, dyadic tolerance, StreamName windows, and RegSeqRat readback as a finite approximation surface.
+\item $H$ is the terminal $\RealUp$ seal row. It can be read only after $S,W,M,D,T,U,G,R,E$ have been displayed.
+\item $C$ stores componentwise $\hsame$ transport and displayed $\Cont$ replay for the source name, target window, multiplier ledger, Dirichlet handoff, Stern--Brocot or Farey witness, dyadic tolerance, StreamName window, RegSeqRat readback, RealRationalApproximation handoff, Real seal, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\KroneckerApproximationUp$, $\DirichletApproximationUp$, $\SternBrocotUp$, $\FareySequenceUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealRationalApproximationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KroneckerApproximationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,M,D,T,U,G,R,E,H,C,P,N$. It has no coordinate for host real equality, quotient real representatives, trichotomy, countable choice, a selected infinite orbit, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Kronecker approximation NameCert obligations]\label{thm:kronecker-approximation-namecert-obligations}
+For every accepted $\KroneckerApproximationUp$ carrier
+$$
+K=(S,W,M,D,T,U,G,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\KroneckerApproximationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed source real name, target orbit window, multiplier ledger, Dirichlet handoff, Stern--Brocot or Farey witness, dyadic tolerance, StreamName window, RegSeqRat readback, RealRationalApproximation handoff, Real seal, transport and replay ledger, provenance, and local naming row;
+\item orbit-window stability, requiring each accepted target comparison to be read from the finite window $W$ and preserved by the multiplier ledger $M$;
+\item rational multiplier source, requiring every exported integer or rational multiple to pass through $M$ and the denominator-bounded handoff $D$ before it can be used by the orbit window;
+\item diophantine approximation handoff, requiring the rational candidate to be witnessed through $D$ and the Stern--Brocot or Farey row $T$ rather than through an external selector;
+\item real-seal factorization, requiring every real-facing approximation read to pass through $U,G,R,E$ and then the terminal seal $H$;
+\item ledger non-escape, requiring $C,P,N$ to preserve, source, and name only the displayed rows and to exclude host real equality, quotient real representatives, trichotomy, countable choice, selected infinite orbits, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Kronecker approximation finite orbit window]\label{thm:kronecker-approximation-finite-orbit-window}
+Every accepted $\KroneckerApproximationUp$ approximation read reaching a $\RealRationalApproximationUp$ or $\RealUp$ consumer factors through the finite route
+$$
+S,W,M \longmapsto D,T,U,G,R,E,H \longmapsto (C,P,N).
+$$
+Equivalently, the read passes through $\DirichletApproximationUp$, either $\SternBrocotUp$ or $\FareySequenceUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealRationalApproximationUp$, and $\RealUp$ before transport, replay, provenance, or local naming can be inspected. No accepted read exposes host real equality, quotient real representatives, trichotomy, countable choice, a selected infinite orbit, or ambient completeness.
+\end{theorem}
+
+\closureat{KroneckerApproximationUp}{seedStr}
+
+\begin{closurestatus}{\KroneckerApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kronecker-approximation-carrier}, \autoref{thm:kronecker-approximation-namecert-obligations}, and \autoref{thm:kronecker-approximation-finite-orbit-window} seed the finite Kronecker approximation route through orbit windows, rational multipliers, dyadic tolerance, StreamName, RegSeqRat, RealRationalApproximation, and terminal Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real equality, quotient real representatives, trichotomy, countable choice, selected infinite orbits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, orbit-window stability, rational multiplier sourcing, diophantine approximation handoff, real-seal factorization, ledger non-escape, and TasteGate field faithfulness for BEDC.Derived.KroneckerApproximationUp.}
+  \constructivestory{A $\KroneckerApproximationUp$ packet is generated from source real-name windows, a target orbit window, integer and rational multiplier ledgers, a DirichletApproximation handoff, a SternBrocot or FareySequence witness row, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, a RealRationalApproximation handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
