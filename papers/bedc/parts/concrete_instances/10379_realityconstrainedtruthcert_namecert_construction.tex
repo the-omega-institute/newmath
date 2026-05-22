@@ -553,17 +553,7 @@ Apply sibling dependency and classifier stability, \autoref{thm:reality-constrai
 Finally use export readiness. Since $N$ is readable only after field coverage, sibling routing, ledger exactness, classifier stability, and failure-surface exactness have all been read, a changed $F$ must be routed through the open-fit and failure-surface surfaces before export. Otherwise the changed failure row is outside the accepted TruthCert packet.
 \end{proof}
 
-\begin{theorem}[Reality-constrained TruthCert observer-invariant ledger route]
-\label{thm:reality-constrained-truth-cert-observer-invariant-ledger-route}
-Every observer-invariant $\RealityConstrainedTruthCertUp$ truth export must preserve the invariant row $I$ and the ledger row $L$ together. A consumer may not read observer invariance without the compression, idealization, hidden-residue, provenance, and package-descent ledger, and may not read the ledger as public truth without the observer-invariant row.
-\end{theorem}
-\begin{proof}
-Project the carrier through \autoref{def:reality-constrained-truth-cert-carrier}. The invariant row $I$ and ledger row $L$ are separate displayed coordinates, but both are mandatory fields of the same accepted packet.
-
-Use the stability-descent-invariant obligation and ledger exactness, \autoref{thm:reality-constrained-truth-cert-stability-descent-invariant-obligation} and \autoref{thm:reality-constrained-truth-cert-ledger-exactness}. The former keeps observer-anchor transport joined to tower, stability, and descent rows; the latter keeps compression, idealization, hidden residue, provenance, and package descent visible at $L$.
-
-Now apply export readiness. Since the local name $N$ certifies export only after all mandatory rows have been read through the same carrier, $I$ and $L$ cannot be exported as independent authorities. Observer-invariant truth export preserves the invariant and ledger rows as one route through the accepted TruthCert packet.
-\end{proof}
+\input{parts/concrete_instances/realityconstrainedtruthcert/observer_invariant_ledger_route}
 
 \begin{theorem}[Reality-constrained TruthCert failure routing]
 \label{thm:reality-constrained-truth-cert-failure-routing}
