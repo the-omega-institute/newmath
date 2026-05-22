@@ -13,6 +13,7 @@ import BEDC.Derived.AbGroupUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelianCatUp
+import BEDC.Derived.AbsoluteConvergenceUp.TasteGate
 import BEDC.Derived.ActionCommitmentUp.TasteGate
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AddUp
@@ -756,6 +757,7 @@ import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.TasteGate
 import BEDC.Derived.BoundedRealUpperCutUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
+import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedSetUp.TasteGate
 import BEDC.Derived.BoundedUniversalTraceUp.Carrier
@@ -1812,6 +1814,7 @@ import BEDC.Derived.ConvergenceRadiusUp.PublicExport
 import BEDC.Derived.ConvergenceRadiusUp.TailBoundary
 import BEDC.Derived.ConvergenceRadiusUp.TailShift
 import BEDC.Derived.ConvergenceRadiusUp.TailShiftBoundary
+import BEDC.Derived.ConvergentRealSequenceCauchyUp.TasteGate
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
@@ -2451,6 +2454,7 @@ import BEDC.Derived.DyadicEmbeddingUniquenessUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.DyadicEmbeddingUp.TasteGate
 import BEDC.Derived.DyadicErrorBudgetUp.TasteGate
+import BEDC.Derived.DyadicExponentShiftUp.TasteGate
 import BEDC.Derived.DyadicFloorUp.TasteGate
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
@@ -3802,6 +3806,7 @@ import BEDC.Derived.NegativeNameBoundaryUp.NonInternalization
 import BEDC.Derived.NegativeNameBoundaryUp.ObligationClosure
 import BEDC.Derived.NegativeNameBoundaryUp.PublicExport
 import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
+import BEDC.Derived.NestedDyadicCauchyUp.TasteGate
 import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NestedIntervalIntersectionUp.TasteGate
@@ -4346,6 +4351,7 @@ import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealEqualityUp
 import BEDC.Derived.RealEqualityUp.TasteGate
 import BEDC.Derived.RealExponentialUp
+import BEDC.Derived.RealExponentialUp.TasteGate
 import BEDC.Derived.RealFunctionUniformCauchyUp.TasteGate
 import BEDC.Derived.RealIntegerPartUp
 import BEDC.Derived.RealIntegerPartUp.TasteGate
@@ -5472,6 +5478,7 @@ import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
+import BEDC.Derived.UniformHomeomorphismUp.TasteGate
 import BEDC.Derived.UniformLimitContinuityUp
 import BEDC.Derived.UniformLimitContinuityUp.TasteGate
 import BEDC.Derived.UniformLimitContinuousUp.TasteGate
