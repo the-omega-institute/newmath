@@ -5217,6 +5217,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.TerminalSelectorUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowRefinementExactness
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
+import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
 import BEDC.Derived.UniformLimitUp
