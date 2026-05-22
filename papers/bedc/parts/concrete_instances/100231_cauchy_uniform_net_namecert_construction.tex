@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\CauchyUniformNetUp$}
+\label{ch:concrete-instances-cauchy-uniform-net-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform spaces and Moore--Smith nets, the $\CauchyUniformNetUp$ packet records uniform Cauchy-net evidence as finite BEDC rows before any $\RealUp$ seal is consumed. It sits over the uniform entourage surface of \autoref{ch:concrete-instances-uniformspace-namecert}, the directed Cauchy-net boundary of \autoref{ch:concrete-instances-cauchynet-namecert}, the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite uniform-net completion route; it is not a quotient of nets, not a selected limit, not countable choice, not host equality, and not ambient completeness.
+
+\begin{definition}[Cauchy uniform net carrier]
+\label{def:cauchy-uniform-net-carrier}
+A $\CauchyUniformNetUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(I,F,U,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the directed index row, recording the finite preorder and upper-tail witnesses used by the net.
+\item $F$ is the Cauchy-filter-base trace row, naming the finite tail filters generated from the displayed directed windows.
+\item $U$ is the uniform entourage and tolerance row, carrying the selected entourage, its symmetric or composed tolerance cells, and the finite request budget.
+\item $W$ is the $\StreamNameUp$ finite-window row, exposing only the windows of the net that have been requested through $I,F,U$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from those windows and tolerances.
+\item $E$ is the downstream $\RealUp$ seal boundary, reachable only after $I,F,U,W,R$ have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the directed index row, filter-base trace, uniform tolerance row, finite windows, rational readbacks, seal boundary, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite entourage request through the directed tail, then through $F,U,W,R$, and finally to the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\DirectedSetUp$, $\UniformSpaceUp$, $\CauchyNetUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyUniformNetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient net equality, selected limits, countable-choice subnet selection, host equality, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyUniformNetUp.CauchyUniformNetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy uniform net NameCert obligations]
+\label{thm:cauchy-uniform-net-namecert-obligations}
+For every accepted $\CauchyUniformNetUp$ carrier $Q=(I,F,U,W,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyUniformNetUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the directed index row, filter-base trace, uniform tolerance row, finite windows, regular rational readbacks, $\RealUp$ seal boundary, transport, continuation, provenance, and local naming row;
+\item directed-tail stability, requiring every later-window request to pass through the displayed upper-tail witness in $I$ before it can read $F$;
+\item uniform tolerance exactness, requiring the requested entourage and its tolerance cells to be read from $U$ before any window, readback, or seal handoff is exported;
+\item finite-window transport, requiring $H$ and $C$ to preserve the route through $I,F,U,W,R,E$ under componentwise $\hsame$ and displayed replay;
+\item $\RealUp$ seal non-escape, requiring every seal-facing read to pass through $F,U,W,R$ before it reaches $E$;
+\item provenance and name exhaustion, requiring $P$ and $N$ to name only this displayed finite route and to export no quotient nets, selected limits, countable choice, host equality, or ambient completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-uniform-net-carrier}. The displayed packet contains exactly the directed row, filter-base trace, uniform tolerance row, finite windows, regular rational readbacks, seal boundary, and the structural rows $H,C,P,N$.
+
+For directed-tail stability, replay a finite request through $C$. The request first consumes the displayed directed upper-tail witness in $I$, then reads the filter-base trace $F$ attached to that tail. A finite-window induction over the requested window list shows that every inspected window is still downstream of the same $I,F$ route.
+
+Uniform tolerance exactness is read from $U$. Each induction step carries the same selected entourage and tolerance cells from $U$ into the next requested window $W$, and then into the regular rational readback $R$.
+
+Transport is componentwise. The row $H$ identifies corresponding directed, filter, uniform, window, readback, seal, provenance, and local-name coordinates, while $C$ repeats the same ordered route after transport.
+
+Finally, the seal boundary $E$ appears only after $F,U,W,R$. Since the carrier has no row for quotient net equality, selected limits, countable-choice subnet selection, host equality, or ambient completeness, the local certificate is exhausted by the listed finite rows.
+\end{proof}
+
+\begin{theorem}[Cauchy uniform net filter-real route]
+\label{thm:cauchy-uniform-net-filter-real-route}
+Let $Q=(I,F,U,W,R,E,H,C,P,N)$ be an accepted $\CauchyUniformNetUp$ carrier. Every $\RealUp$-facing read of $Q$ factors through the finite route
+$$
+I,F,U,W,R \longmapsto E \longmapsto H,C,P,N .
+$$
+In particular, the read consumes the Cauchy-filter-base trace $F$, the uniform entourage and tolerance row $U$, the finite-window row $W$, and the regular rational readback row $R$ before it reaches $E$. The packet exports no quotient net, selected limit, countable-choice selector, host equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $Q$. Projection from \autoref{def:cauchy-uniform-net-carrier} exposes the seal row $E$ only in the same packet as $I,F,U,W,R,H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-uniform-net-namecert-obligations}. Directed-tail stability forces the request through $I$ and $F$, while uniform tolerance exactness forces the entourage budget through $U$ before any window or readback is available.
+
+The finite-window transport clause then carries the request through $W$ and $R$ under $H$ and $C$. Thus the seal-facing read reaches $E$ only after the filter-base trace, uniform tolerance row, finite windows, and regular rational readbacks have all been consumed.
+
+The provenance and name rows $P,N$ name only that route. Since no excluded quotient, selected limit, countable-choice, host-equality, or completeness row appears in the carrier, no $\RealUp$ consumer can bypass $F,U,W,R$ or replace the finite route by an ambient limit principle.
+\end{proof}
+
+\closureat{CauchyUniformNetUp}{seedStr}
+
+\begin{closurestatus}{\CauchyUniformNetUp}
+  \constructivestory{A $\CauchyUniformNetUp$ packet is generated from a directed index row, Cauchy-filter-base trace, uniform entourage and tolerance row, StreamName finite windows, RegSeqRat readbacks, Real seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-uniform-net-carrier}, \autoref{thm:cauchy-uniform-net-namecert-obligations}, and \autoref{thm:cauchy-uniform-net-filter-real-route} seed the finite uniform Cauchy-net route through directed tails, filter-base traces, uniform tolerance rows, StreamName windows, RegSeqRat readbacks, and the downstream Real seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient net equality, host limits, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-tail stability, uniform tolerance exactness, finite-window transport, Real-seal non-escape, and provenance/name exhaustion for BEDC.Derived.CauchyUniformNetUp.}
+\end{closurestatus}

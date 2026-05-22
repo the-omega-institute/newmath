@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\DyadicSupremumUp$}
+\label{ch:concrete-instances-dyadic-supremum-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive least-upper-bound reasoning, the $\DyadicSupremumUp$ packet records only the finite dyadic upper-bound and lower-approximation ledgers needed before a located supremum or Real-facing consumer reads the boundary. It sits over the dyadic endpoint core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the interval comparison surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the Real seal boundary of \autoref{ch:concrete-instances-real-namecert}, and the located-supremum packet of \autoref{ch:concrete-instances-locatedsupremum-namecert}. The certificate is a finite boundary for dyadic supremum reads; it is not an arbitrary least-upper-bound principle, a quotient-cut construction, a selected supremum, trichotomy, host Real equality, countable choice, or Real completeness.
+
+\begin{definition}[DyadicSupremum carrier]
+\label{def:dyadic-supremum-carrier}
+A $\DyadicSupremumUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,A,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded dyadic family row, recording the displayed family entries and the finite upper-bound ledger through $\DyadicRatCoreUp$ and $\DyadicIntervalUp$ comparison rows.
+\item $A$ is the lower-approximation ledger, recording finite dyadic witnesses that every demanded lower approximation is met by an inspected family entry.
+\item $W$ is the $\StreamNameUp$ window row naming exactly the finite family windows inspected by the upper-bound and lower-approximation ledgers.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic scales at which the bound and approximation comparisons are read.
+\item $R$ is the $\RegSeqRatUp$ handoff row, translating the displayed dyadic ledgers into regular rational approximation data without selecting a completed real.
+\item $E$ is the $\RealUp$ seal boundary reached only after $B,A,W,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bounded family, lower-approximation ledger, StreamName window, DyadicRatCore tolerance, RegSeqRat handoff, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from every dyadic supremum read through $B,A,W,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicSupremumUp$, $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedSupremumUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicSupremumUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary least-upper-bound completeness, quotient cuts, selected suprema, trichotomy, host Real equality, countable choice, or Real completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicSupremumUp.TasteGate.DyadicSupremumTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DyadicSupremum NameCert obligations]
+\label{thm:dyadic-supremum-namecert-obligations}
+For an accepted carrier $S=(B,A,W,D,R,E,H,C,P,N)$ of \autoref{def:dyadic-supremum-carrier}, the local $\NameCert_{\DyadicSupremumUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the bounded dyadic family row $B$, lower-approximation ledger $A$, $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ tolerance row $D$, $\RegSeqRatUp$ handoff row $R$, $\RealUp$ seal boundary $E$, and the structural rows $H,C,P,N$;
+\item upper-bound exposure, stating that every exported upper-bound read of the packet is classified through the displayed dyadic family ledger $B$ and tolerance row $D$ before it reaches the Real seal boundary;
+\item lower-approximation exposure, stating that every exported lower read factors through a displayed witness in $A$ inside one of the windows named by $W$;
+\item finite-window stability, stating that transport through $H$ and replay through $C$ preserve the same inspected windows, dyadic scales, upper-bound rows, and lower-approximation witnesses;
+\item dyadic tolerance exactness, stating that all supremum comparisons use only the dyadic scales and comparison rows displayed in $D$;
+\item regular rational handoff, stating that $R$ is the only row allowed to translate the dyadic ledgers into regular rational approximation data for downstream Real-facing consumers;
+\item Real seal non-escape, stating that $E$ is a boundary row consumed only after $B,A,W,D,R,H,C,P,N$ have been retained;
+\item package provenance and local naming, stating that $P$ names exactly the listed sibling certificates and $N$ names the same finite packet as a local $\NameCert_{\DyadicSupremumUp}$.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $B,A,W,D,R,E$ are the analytic coordinates, while $H,C,P,N$ transport, replay, source, and name the same finite packet.
+
+Read the classifier in dependency order. An upper-bound request first reads the bounded dyadic family row $B$ and the dyadic tolerance ledger $D$. A lower-approximation request first reads the witness ledger $A$, the finite windows $W$, and the same dyadic tolerance row $D$.
+
+The regular rational handoff is downstream of those finite ledgers. The row $R$ can only translate the displayed dyadic comparisons into regular rational approximation data; it does not select a completed supremum or import an order-completeness principle.
+
+The Real-facing row is the final boundary. Since $E$ is stored only after $B,A,W,D,R$, a consumer that bypasses one of those rows has not obtained a read of the packet's Real seal boundary.
+
+The structural rows add no hidden supremum principle. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the displayed route, so the listed rows exhaust the seed NameCert surface.
+\end{proof}
+
+\begin{theorem}[DyadicSupremum located-supremum handoff]
+\label{thm:dyadic-supremum-located-cut-handoff}
+For every accepted $\DyadicSupremumUp$ packet $S=(B,A,W,D,R,E,H,C,P,N)$, every located-supremum or Real-facing read factors through the finite route
+$$
+B,A \longmapsto W,D \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently any consumer from \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-dyadicinterval-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, or \autoref{ch:concrete-instances-locatedsupremum-namecert} receives only the displayed dyadic upper-bound and lower-approximation ledgers, with no arbitrary least-upper-bound completeness, quotient cuts, selected suprema, trichotomy, host Real equality, countable choice, or Real completeness inserted into the route.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $S=(B,A,W,D,R,E,H,C,P,N)$. The only family coordinate is $B$, the only lower-approximation coordinate is $A$, and the only inspected windows and comparison scales are $W$ and $D$.
+
+For an upper-bound read, project $B$ and $D$. The exported bound is read from the displayed dyadic family ledger and the dyadic comparison rows at the named scales. For a lower-approximation read, project $A,W,D$. The witness is one of the inspected family entries named by $W$ and compared at a displayed dyadic scale in $D$.
+
+The row $R$ is the sole handoff to $\RegSeqRatUp$ approximation data, and $E$ is the sole boundary row for $\RealUp$ consumers. A $\LocatedSupremumUp$ reader can consume the same handoff only after the dyadic upper-bound and lower-approximation rows have been displayed.
+
+Finally $H,C,P,N$ package the route. Componentwise transport and continuation replay preserve the same finite ledgers, while provenance records the dependency anchors. Since every exported read is reached through this route, there is no remaining coordinate from which arbitrary least-upper-bound completeness, quotient cuts, selected suprema, trichotomy, host Real equality, countable choice, or Real completeness could be read.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DyadicSupremumUp$ consumer that reaches a located-supremum or Real-facing read without the displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance row, and $\RegSeqRatUp$ handoff refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, dyadicinterval, streamname, regseqrat, real, locatedsupremum: no listed sibling supplies the whole ten-row packet $S=(B,A,W,D,R,E,H,C,P,N)$, because each sibling contributes dyadic comparison rows, interval rows, finite windows, regular rational handoff data, a Real seal boundary, or a located-supremum consumer while this chapter binds the dyadic upper-bound and lower-approximation route with transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\DyadicSupremumUp}
+  \constructivestory{A $\DyadicSupremumUp$ packet is generated from a bounded dyadic family row, a lower-approximation ledger, a $\StreamNameUp$ finite-window row, a $\DyadicRatCoreUp$ tolerance row, a $\RegSeqRatUp$ handoff row, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-supremum-carrier}, \autoref{thm:dyadic-supremum-namecert-obligations}, and \autoref{thm:dyadic-supremum-located-cut-handoff} seed the finite dyadic supremum boundary over DyadicRatCore, DyadicInterval, StreamName, RegSeqRat, Real, and LocatedSupremum consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary least-upper-bound completeness, quotient cuts, selected suprema, trichotomy, host Real equality, countable choice, Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, upper-bound exposure, lower-approximation exposure, finite-window stability, dyadic tolerance exactness, regular rational handoff, Real seal non-escape, package provenance, and local naming for the displayed dyadic supremum packet.}
+\end{closurestatus}
