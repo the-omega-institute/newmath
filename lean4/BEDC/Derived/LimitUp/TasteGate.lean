@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.LimitUp.TasteGate
+namespace BEDC.Derived.LimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive LimitUp : Type where
-  | mk (S R D A T C H P N : BHist) : LimitUp
+  | mk (s r d a t c h p n : BHist) : LimitUp
   deriving DecidableEq
 
 def limitEncodeBHist : BHist → RawEvent
@@ -25,7 +25,7 @@ def limitDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (limitDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (limitDecodeBHist tail)
 
-private theorem LimitTasteGate_single_carrier_alignment_decode_encode :
+private theorem LimitTasteGate_single_carrier_alignment_decode_aux :
     ∀ h : BHist, limitDecodeBHist (limitEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -36,7 +36,7 @@ private theorem LimitTasteGate_single_carrier_alignment_decode_encode :
 
 def limitFields : LimitUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | LimitUp.mk S R D A T C H P N => [S, R, D, A, T, C, H, P, N]
+  | LimitUp.mk s r d a t c h p n => [s, r, d, a, t, c, h, p, n]
 
 def limitToEventFlow : LimitUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -44,50 +44,60 @@ def limitToEventFlow : LimitUp → EventFlow
 
 def limitFromEventFlow : EventFlow → Option LimitUp
   -- BEDC touchpoint anchor: BHist BMark
-  | S :: R :: D :: A :: T :: C :: H :: P :: N :: [] =>
+  | [] => none
+  | _s :: [] => none
+  | _s :: _r :: [] => none
+  | _s :: _r :: _d :: [] => none
+  | _s :: _r :: _d :: _a :: [] => none
+  | _s :: _r :: _d :: _a :: _t :: [] => none
+  | _s :: _r :: _d :: _a :: _t :: _c :: [] => none
+  | _s :: _r :: _d :: _a :: _t :: _c :: _h :: [] => none
+  | _s :: _r :: _d :: _a :: _t :: _c :: _h :: _p :: [] => none
+  | s :: r :: d :: a :: t :: c :: h :: p :: n :: [] =>
       some
         (LimitUp.mk
-          (limitDecodeBHist S)
-          (limitDecodeBHist R)
-          (limitDecodeBHist D)
-          (limitDecodeBHist A)
-          (limitDecodeBHist T)
-          (limitDecodeBHist C)
-          (limitDecodeBHist H)
-          (limitDecodeBHist P)
-          (limitDecodeBHist N))
-  | _ => none
+          (limitDecodeBHist s)
+          (limitDecodeBHist r)
+          (limitDecodeBHist d)
+          (limitDecodeBHist a)
+          (limitDecodeBHist t)
+          (limitDecodeBHist c)
+          (limitDecodeBHist h)
+          (limitDecodeBHist p)
+          (limitDecodeBHist n))
+  | _s :: _r :: _d :: _a :: _t :: _c :: _h :: _p :: _n :: _extra :: _rest => none
 
-private theorem limit_round_trip :
+private theorem LimitTasteGate_single_carrier_alignment_round_trip_aux :
     ∀ x : LimitUp, limitFromEventFlow (limitToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk S R D A T C H P N =>
+  | mk s r d a t c h p n =>
       change
         some
           (LimitUp.mk
-            (limitDecodeBHist (limitEncodeBHist S))
-            (limitDecodeBHist (limitEncodeBHist R))
-            (limitDecodeBHist (limitEncodeBHist D))
-            (limitDecodeBHist (limitEncodeBHist A))
-            (limitDecodeBHist (limitEncodeBHist T))
-            (limitDecodeBHist (limitEncodeBHist C))
-            (limitDecodeBHist (limitEncodeBHist H))
-            (limitDecodeBHist (limitEncodeBHist P))
-            (limitDecodeBHist (limitEncodeBHist N))) =
-          some (LimitUp.mk S R D A T C H P N)
-      rw [LimitTasteGate_single_carrier_alignment_decode_encode S,
-        LimitTasteGate_single_carrier_alignment_decode_encode R,
-        LimitTasteGate_single_carrier_alignment_decode_encode D,
-        LimitTasteGate_single_carrier_alignment_decode_encode A,
-        LimitTasteGate_single_carrier_alignment_decode_encode T,
-        LimitTasteGate_single_carrier_alignment_decode_encode C,
-        LimitTasteGate_single_carrier_alignment_decode_encode H,
-        LimitTasteGate_single_carrier_alignment_decode_encode P,
-        LimitTasteGate_single_carrier_alignment_decode_encode N]
+            (limitDecodeBHist (limitEncodeBHist s))
+            (limitDecodeBHist (limitEncodeBHist r))
+            (limitDecodeBHist (limitEncodeBHist d))
+            (limitDecodeBHist (limitEncodeBHist a))
+            (limitDecodeBHist (limitEncodeBHist t))
+            (limitDecodeBHist (limitEncodeBHist c))
+            (limitDecodeBHist (limitEncodeBHist h))
+            (limitDecodeBHist (limitEncodeBHist p))
+            (limitDecodeBHist (limitEncodeBHist n))) =
+          some (LimitUp.mk s r d a t c h p n)
+      rw [LimitTasteGate_single_carrier_alignment_decode_aux s,
+        LimitTasteGate_single_carrier_alignment_decode_aux r,
+        LimitTasteGate_single_carrier_alignment_decode_aux d,
+        LimitTasteGate_single_carrier_alignment_decode_aux a,
+        LimitTasteGate_single_carrier_alignment_decode_aux t,
+        LimitTasteGate_single_carrier_alignment_decode_aux c,
+        LimitTasteGate_single_carrier_alignment_decode_aux h,
+        LimitTasteGate_single_carrier_alignment_decode_aux p,
+        LimitTasteGate_single_carrier_alignment_decode_aux n]
 
-private theorem limitToEventFlow_injective {x y : LimitUp} :
+private theorem LimitTasteGate_single_carrier_alignment_injective_aux
+    {x y : LimitUp} :
     limitToEventFlow x = limitToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -96,62 +106,18 @@ private theorem limitToEventFlow_injective {x y : LimitUp} :
         limitFromEventFlow (limitToEventFlow y) :=
     congrArg limitFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (limit_round_trip x).symm (Eq.trans hread (limit_round_trip y)))
+    (Eq.trans (LimitTasteGate_single_carrier_alignment_round_trip_aux x).symm
+      (Eq.trans hread (LimitTasteGate_single_carrier_alignment_round_trip_aux y)))
 
-private theorem LimitTasteGate_single_carrier_alignment_encode_injective
-    {h k : BHist} :
-    limitEncodeBHist h = limitEncodeBHist k → h = k := by
+private theorem LimitTasteGate_single_carrier_alignment_fields_aux :
+    ∀ x y : LimitUp, limitFields x = limitFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  calc
-    h = limitDecodeBHist (limitEncodeBHist h) :=
-      (LimitTasteGate_single_carrier_alignment_decode_encode h).symm
-    _ = limitDecodeBHist (limitEncodeBHist k) := congrArg limitDecodeBHist heq
-    _ = k := LimitTasteGate_single_carrier_alignment_decode_encode k
-
-private theorem LimitTasteGate_single_carrier_alignment_direct
-    {x y : LimitUp} :
-    limitToEventFlow x = limitToEventFlow y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro heq
+  intro x y hfields
   cases x with
-  | mk S₁ R₁ D₁ A₁ T₁ C₁ H₁ P₁ N₁ =>
+  | mk s₁ r₁ d₁ a₁ t₁ c₁ h₁ p₁ n₁ =>
       cases y with
-      | mk S₂ R₂ D₂ A₂ T₂ C₂ H₂ P₂ N₂ =>
-          change
-            [limitEncodeBHist S₁, limitEncodeBHist R₁, limitEncodeBHist D₁,
-              limitEncodeBHist A₁, limitEncodeBHist T₁, limitEncodeBHist C₁,
-              limitEncodeBHist H₁, limitEncodeBHist P₁, limitEncodeBHist N₁] =
-              [limitEncodeBHist S₂, limitEncodeBHist R₂, limitEncodeBHist D₂,
-                limitEncodeBHist A₂, limitEncodeBHist T₂, limitEncodeBHist C₂,
-                limitEncodeBHist H₂, limitEncodeBHist P₂, limitEncodeBHist N₂] at heq
-          injection heq with hS tail0
-          injection tail0 with hR tail1
-          injection tail1 with hD tail2
-          injection tail2 with hA tail3
-          injection tail3 with hT tail4
-          injection tail4 with hC tail5
-          injection tail5 with hH tail6
-          injection tail6 with hP tail7
-          injection tail7 with hN _
-          have hs := LimitTasteGate_single_carrier_alignment_encode_injective hS
-          have hr := LimitTasteGate_single_carrier_alignment_encode_injective hR
-          have hd := LimitTasteGate_single_carrier_alignment_encode_injective hD
-          have ha := LimitTasteGate_single_carrier_alignment_encode_injective hA
-          have ht := LimitTasteGate_single_carrier_alignment_encode_injective hT
-          have hc := LimitTasteGate_single_carrier_alignment_encode_injective hC
-          have hh := LimitTasteGate_single_carrier_alignment_encode_injective hH
-          have hp := LimitTasteGate_single_carrier_alignment_encode_injective hP
-          have hn := LimitTasteGate_single_carrier_alignment_encode_injective hN
-          subst hs
-          subst hr
-          subst hd
-          subst ha
-          subst ht
-          subst hc
-          subst hh
-          subst hp
-          subst hn
+      | mk s₂ r₂ d₂ a₂ t₂ c₂ h₂ p₂ n₂ =>
+          cases hfields
           rfl
 
 instance limitBHistCarrier : BHistCarrier LimitUp where
@@ -164,14 +130,42 @@ instance limitChapterTasteGate : ChapterTasteGate LimitUp where
   round_trip := by
     intro x
     change limitFromEventFlow (limitToEventFlow x) = some x
-    exact limit_round_trip x
+    exact LimitTasteGate_single_carrier_alignment_round_trip_aux x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (limitToEventFlow_injective heq)
+    exact hxy (LimitTasteGate_single_carrier_alignment_injective_aux heq)
 
-theorem LimitTasteGate_single_carrier_alignment (x y : LimitUp) :
-    limitToEventFlow x = limitToEventFlow y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact LimitTasteGate_single_carrier_alignment_direct
+instance limitFieldFaithful : FieldFaithful LimitUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := limitFields
+  field_faithful := by
+    intro x y hfields
+    exact LimitTasteGate_single_carrier_alignment_fields_aux x y hfields
 
-end BEDC.Derived.LimitUp.TasteGate
+instance limitNontrivial : Nontrivial LimitUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨LimitUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      LimitUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+theorem LimitTasteGate_single_carrier_alignment :
+    (∀ h : BHist, limitDecodeBHist (limitEncodeBHist h) = h) ∧
+      (∀ x : LimitUp, limitFromEventFlow (limitToEventFlow x) = some x) ∧
+      (∀ x y : LimitUp, limitToEventFlow x = limitToEventFlow y → x = y) ∧
+      limitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact LimitTasteGate_single_carrier_alignment_decode_aux
+  · constructor
+    · exact LimitTasteGate_single_carrier_alignment_round_trip_aux
+    · constructor
+      · intro x y heq
+        exact LimitTasteGate_single_carrier_alignment_injective_aux heq
+      · rfl
+
+end BEDC.Derived.LimitUp
