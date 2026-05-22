@@ -835,9 +835,11 @@ import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CauchyChoiceBoundaryUp.DiagonalBudgetFactorization
 import BEDC.Derived.CauchyChoiceBoundaryUp.NameCertObligationSurface
 import BEDC.Derived.CauchyChoiceBoundaryUp.NoChoiceNonescape
+import BEDC.Derived.CauchyChoiceBoundaryUp.StdBridge
 import BEDC.Derived.CauchyChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionAssociativityUp
+import BEDC.Derived.CauchyCompletionAssociativityUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionFunctorUp.FiniteApproximationRoute
 import BEDC.Derived.CauchyCompletionFunctorUp.RegseqRealEndofunctor
@@ -849,8 +851,11 @@ import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
 import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.CauchyCondensationUp.TasteGate
+import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
+import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
+import BEDC.Derived.CauchyConvergenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyConvergenceModulusUp
 import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyCriterionUp
@@ -2347,6 +2352,7 @@ import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.DyadicEmbeddingUp.TasteGate
 import BEDC.Derived.DyadicFloorUp.TasteGate
+import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
@@ -2847,6 +2853,7 @@ import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GershgorinDiskUp.TasteGate
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.GoldenMeanShiftUp
+import BEDC.Derived.GoldenMeanShiftUp.PrefixTransportScope
 import BEDC.Derived.GoldenMeanShiftUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GraphUp
@@ -3085,6 +3092,7 @@ import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.IntervalBisectionUp.TasteGate
 import BEDC.Derived.IntervalUp
+import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
 import BEDC.Derived.IwasawaUp
@@ -4159,6 +4167,7 @@ import BEDC.Derived.RealLimitUniquenessSealUp
 import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
 import BEDC.Derived.RealLimitUp
+import BEDC.Derived.RealMetricLocatednessBracketUp.TasteGate
 import BEDC.Derived.RealMetricUp.TasteGate
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
@@ -4764,6 +4773,7 @@ import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.SqueezeRealUp.TasteGate
+import BEDC.Derived.StableManifoldUp.TasteGate
 import BEDC.Derived.StableNegationBoundaryUp
 import BEDC.Derived.StableNegationBoundaryUp.CertificateTruthNonEscape
 import BEDC.Derived.StableNegationBoundaryUp.LedgerExhaustion
@@ -5239,12 +5249,14 @@ import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
 import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
 import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
+import BEDC.Derived.UpperSemicontinuousUp.TasteGate
 import BEDC.Derived.UseProcessBoundaryUp.TasteGate
 import BEDC.Derived.UseProcessLimitLedgerUp.TasteGate
 import BEDC.Derived.UseProcessLimitUp.TasteGate
 import BEDC.Derived.UseRuleLedgerUp.TasteGate
 import BEDC.Derived.ValidatedNumericsUp
 import BEDC.Derived.ValidatedNumericsUp.FiniteWindowSealContainment
+import BEDC.Derived.ValidatedNumericsUp.RefinementCompositionContainment
 import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.VectorBundleUp
