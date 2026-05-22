@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $S,Q,T,W,D,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
 \end{definition}
+
 \begin{theorem}[Regular Cauchy tail modulus NameCert obligations]
 \label{thm:regular-cauchy-tail-modulus-namecert-obligations}
 For every accepted $\RegularCauchyTailModulusUp$ carrier $K=(S,Q,T,W,D,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTailModulusUp}$ surface consists exactly of the following finite obligation rows:
@@ -50,11 +51,58 @@ $$
 Thus the consumer sees the regular source, the requested precision, the displayed threshold, the finite window service, the dyadic tolerance row, transport, replay, provenance, and local naming before using the threshold. The route exports no quotient stream equality, selected limit, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
 \end{theorem}
 
+\begin{definition}[Regular Cauchy tail modulus diameter-control carrier]
+\label{def:regular-cauchy-tail-modulus-diameter-control-carrier}
+A diameter-control $\RegularCauchyTailModulusUp$ carrier is a finite $\BHist$ packet
+$$
+K^{\diamondsuit}=(S,Q,T,W,D,B,U,H,C,P,N)
+$$
+whose first five rows are the regular source $S$, precision request $Q$, displayed threshold $T$, finite window $W$, and $\DyadicRatCoreUp$ tolerance $D$ of \autoref{def:regular-cauchy-tail-modulus-carrier}. The row $B$ is a $\CauchyTailDiameterUp$ certificate row over the same $S,Q,T,W,D$ route, and the row $U$ is a $\UniformCauchyModulusUp$ consumer row over the same source, request, threshold, window, tolerance, and diameter-control row. The remaining rows $H,C,P,N$ record componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchyTailModulusUp}$ packaging for exactly these displayed rows.
+
+The classifier compares accepted packets only through $S,Q,T,W,D,B,U,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail modulus diameter control]
+\label{thm:regular-cauchy-tail-modulus-diameter-control}
+If a diameter-control $\RegularCauchyTailModulusUp$ carrier
+$$
+K^{\diamondsuit}=(S,Q,T,W,D,B,U,H,C,P,N)
+$$
+is accepted, then every two displayed tail indices beyond the threshold row $T$ read their diameter bound through the $\CauchyTailDiameterUp$ row $B$ after the shared route $S,Q,T,W,D$ and before the structural rows $H,C,P,N$. Thus the threshold is a concrete finite diameter-control service: the same source, precision request, threshold, finite window, and dyadic tolerance that admit the tail handoff also admit the displayed tail-diameter bound.
+
+The conclusion uses no quotient stream equality, selected limit, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge data.
+\end{theorem}
+
+\begin{proof}
+Read the accepted packet by projection. The first five projections recover the route $S,Q,T,W,D$, and \autoref{thm:regular-cauchy-tail-modulus-window-handoff} forces any consumer of the threshold to pass through that route before the structural rows are available.
+
+Apply the finite-window reading of \autoref{ch:concrete-instances-cauchy-tail-diameter-namecert} to the displayed row $B$. Since $B$ is part of the same accepted packet and its carrier coordinates are exactly $S,Q,T,W,D$, every pair of visible tail indices beyond $T$ obtains its bound from the same finite window and the same $\DyadicRatCoreUp$ tolerance row.
+
+The remaining rows $H,C,P,N$ only transport, replay, package, and name the displayed data. They add no equality of quotient streams, no selected limit, no choice principle, no trichotomy, no compactness principle, no ambient completeness claim, and no bridge datum.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail modulus uniform window consumption]
+\label{thm:regular-cauchy-tail-modulus-uniform-window-consumption}
+Every $\UniformCauchyModulusUp$ consumer using the threshold $T$ of an accepted diameter-control $\RegularCauchyTailModulusUp$ carrier must first consume the same route
+$$
+S,Q,T,W,D,B
+$$
+before reading its local uniform-modulus row $U$ or the structural rows $H,C,P,N$. Consequently the uniform modulus is not a detached schedule: it is a finite-window consumer of the displayed source, request, threshold, window, dyadic tolerance, and $\CauchyTailDiameterUp$ diameter-control row.
+\end{theorem}
+
+\begin{proof}
+Project the accepted packet to the threshold route and then to the diameter-control row. The preceding theorem supplies the finite tail-diameter service through $B$, so any consumer that claims to use the same threshold already has the route $S,Q,T,W,D,B$ in view.
+
+Apply the shared-window budget described by \autoref{ch:concrete-instances-uniform-cauchy-modulus-namecert}. The $\UniformCauchyModulusUp$ row $U$ is admitted only as a consumer over the displayed route, so its scheduling data is read after the diameter-control row and cannot be separated from the finite window that witnesses the tail bound.
+
+The structural rows preserve this dependency by transport, replay, provenance, and local naming. They do not introduce quotient stream equality, selected limits, choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge data.
+\end{proof}
+
 \closureat{RegularCauchyTailModulusUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyTailModulusUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-tail-modulus-carrier}, \autoref{thm:regular-cauchy-tail-modulus-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-modulus-window-handoff} seed the finite precision-to-tail threshold packet over RegSeqRat source rows, dyadic precision requests, displayed thresholds, finite StreamName window services, DyadicRatCore tolerances, transport, replay, provenance, and local naming.}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-modulus-carrier}, \autoref{thm:regular-cauchy-tail-modulus-namecert-obligations}, \autoref{thm:regular-cauchy-tail-modulus-window-handoff}, \autoref{def:regular-cauchy-tail-modulus-diameter-control-carrier}, \autoref{thm:regular-cauchy-tail-modulus-diameter-control}, and \autoref{thm:regular-cauchy-tail-modulus-uniform-window-consumption} seed the finite precision-to-tail threshold packet over RegSeqRat source rows, dyadic precision requests, displayed thresholds, finite StreamName window services, DyadicRatCore tolerances, CauchyTailDiameter rows, UniformCauchyModulus rows, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
