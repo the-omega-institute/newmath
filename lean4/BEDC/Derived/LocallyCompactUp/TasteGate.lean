@@ -169,3 +169,33 @@ theorem LocallyCompactTasteGate_single_carrier_alignment :
       rfl⟩
 
 end BEDC.Derived.LocallyCompactUp.TasteGate
+
+namespace BEDC.Derived.LocallyCompactUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+open BEDC.Derived.LocallyCompactUp.TasteGate
+
+theorem LocallyCompactUpTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate LocallyCompactUp) ∧
+      Nonempty (FieldFaithful LocallyCompactUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial LocallyCompactUp) ∧
+      (∀ h : BHist, locallyCompactDecodeBHist (locallyCompactEncodeBHist h) = h) ∧
+      (∀ x : LocallyCompactUp,
+        locallyCompactFromEventFlow (locallyCompactToEventFlow x) = some x) ∧
+        (∀ x y : LocallyCompactUp,
+          locallyCompactToEventFlow x = locallyCompactToEventFlow y → x = y) ∧
+          locallyCompactEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨⟨locallyCompactChapterTasteGate⟩,
+      ⟨locallyCompactFieldFaithful⟩,
+      ⟨locallyCompactNontrivial⟩,
+      LocallyCompactTasteGate_single_carrier_alignment.1,
+      LocallyCompactTasteGate_single_carrier_alignment.2.1,
+      LocallyCompactTasteGate_single_carrier_alignment.2.2.1,
+      LocallyCompactTasteGate_single_carrier_alignment.2.2.2⟩
+
+end BEDC.Derived.LocallyCompactUp
