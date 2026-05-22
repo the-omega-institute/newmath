@@ -166,4 +166,55 @@ theorem LocatedCompletionSealTasteGate_single_carrier_alignment :
         exact LocatedCompletionSealTasteGate_single_carrier_alignment_toEventFlow_injective heq
       · rfl
 
+theorem LocatedCompletionSealNameCert_obligation_rows_exact
+    (D S R Q E A T H C P N : BHist) :
+    locatedCompletionSealFields (LocatedCompletionSealUp.mk D S R Q E A T H C P N) =
+        [D, S, R, Q, E, A, T, H, C, P, N] ∧
+      locatedCompletionSealToEventFlow (LocatedCompletionSealUp.mk D S R Q E A T H C P N) =
+        [locatedCompletionSealEncodeBHist D, locatedCompletionSealEncodeBHist S,
+          locatedCompletionSealEncodeBHist R, locatedCompletionSealEncodeBHist Q,
+          locatedCompletionSealEncodeBHist E, locatedCompletionSealEncodeBHist A,
+          locatedCompletionSealEncodeBHist T, locatedCompletionSealEncodeBHist H,
+          locatedCompletionSealEncodeBHist C, locatedCompletionSealEncodeBHist P,
+          locatedCompletionSealEncodeBHist N] ∧
+        locatedCompletionSealFromEventFlow
+            [locatedCompletionSealEncodeBHist D, locatedCompletionSealEncodeBHist S,
+              locatedCompletionSealEncodeBHist R, locatedCompletionSealEncodeBHist Q,
+              locatedCompletionSealEncodeBHist E, locatedCompletionSealEncodeBHist A,
+              locatedCompletionSealEncodeBHist T, locatedCompletionSealEncodeBHist H,
+              locatedCompletionSealEncodeBHist C, locatedCompletionSealEncodeBHist P,
+              locatedCompletionSealEncodeBHist N] =
+          some (LocatedCompletionSealUp.mk D S R Q E A T H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · change
+        some
+          (LocatedCompletionSealUp.mk
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist D))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist S))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist R))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist Q))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist E))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist A))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist T))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist H))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist C))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist P))
+            (locatedCompletionSealDecodeBHist (locatedCompletionSealEncodeBHist N))) =
+          some (LocatedCompletionSealUp.mk D S R Q E A T H C P N)
+      rw [LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode D,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode S,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode R,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode Q,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode E,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode A,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode T,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode H,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode C,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode P,
+        LocatedCompletionSealTasteGate_single_carrier_alignment_decode_encode N]
+
 end BEDC.Derived.LocatedCompletionSealUp
