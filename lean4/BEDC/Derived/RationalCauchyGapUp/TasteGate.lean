@@ -26,7 +26,7 @@ def rationalCauchyGapDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (rationalCauchyGapDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (rationalCauchyGapDecodeBHist tail)
 
-private theorem rationalCauchyGap_decode_encode_bhist :
+private theorem RationalCauchyGapTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -34,25 +34,6 @@ private theorem rationalCauchyGap_decode_encode_bhist :
   | Empty => rfl
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
-
-private theorem rationalCauchyGap_mk_congr
-    {Q Q' D D' W W' R R' E E' H H' C C' P P' N N' : BHist}
-    (hQ : Q' = Q) (hD : D' = D) (hW : W' = W) (hR : R' = R)
-    (hE : E' = E) (hH : H' = H) (hC : C' = C) (hP : P' = P)
-    (hN : N' = N) :
-    RationalCauchyGapUp.mk Q' D' W' R' E' H' C' P' N' =
-      RationalCauchyGapUp.mk Q D W R E H C P N := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hQ
-  cases hD
-  cases hW
-  cases hR
-  cases hE
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
 
 def rationalCauchyGapFields : RationalCauchyGapUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -62,48 +43,37 @@ def rationalCauchyGapToEventFlow : RationalCauchyGapUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (rationalCauchyGapFields x).map rationalCauchyGapEncodeBHist
 
+private def rationalCauchyGapRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => rationalCauchyGapRawAt n rest
+
+private def rationalCauchyGapLengthEq : Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => rationalCauchyGapLengthEq n rest
+
 def rationalCauchyGapFromEventFlow : EventFlow → Option RationalCauchyGapUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | Q :: rest0 =>
-      match rest0 with
-      | [] => none
-      | D :: rest1 =>
-          match rest1 with
-          | [] => none
-          | W :: rest2 =>
-              match rest2 with
-              | [] => none
-              | R :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | E :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | H :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | C :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | P :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | N :: rest8 =>
-                                      match rest8 with
-                                      | [] =>
-                                          some
-                                            (RationalCauchyGapUp.mk
-                                              (rationalCauchyGapDecodeBHist Q)
-                                              (rationalCauchyGapDecodeBHist D)
-                                              (rationalCauchyGapDecodeBHist W)
-                                              (rationalCauchyGapDecodeBHist R)
-                                              (rationalCauchyGapDecodeBHist E)
-                                              (rationalCauchyGapDecodeBHist H)
-                                              (rationalCauchyGapDecodeBHist C)
-                                              (rationalCauchyGapDecodeBHist P)
-                                              (rationalCauchyGapDecodeBHist N))
-                                      | _ :: _ => none
+  | flow =>
+      match rationalCauchyGapLengthEq 9 flow with
+      | true =>
+          some
+            (RationalCauchyGapUp.mk
+              (rationalCauchyGapDecodeBHist (rationalCauchyGapRawAt 0 flow))
+              (rationalCauchyGapDecodeBHist (rationalCauchyGapRawAt 1 flow))
+              (rationalCauchyGapDecodeBHist (rationalCauchyGapRawAt 2 flow))
+              (rationalCauchyGapDecodeBHist (rationalCauchyGapRawAt 3 flow))
+              (rationalCauchyGapDecodeBHist (rationalCauchyGapRawAt 4 flow))
+              (rationalCauchyGapDecodeBHist (rationalCauchyGapRawAt 5 flow))
+              (rationalCauchyGapDecodeBHist (rationalCauchyGapRawAt 6 flow))
+              (rationalCauchyGapDecodeBHist (rationalCauchyGapRawAt 7 flow))
+              (rationalCauchyGapDecodeBHist (rationalCauchyGapRawAt 8 flow)))
+      | false => none
 
 private theorem rationalCauchyGap_round_trip :
     ∀ x : RationalCauchyGapUp,
@@ -112,18 +82,28 @@ private theorem rationalCauchyGap_round_trip :
   intro x
   cases x with
   | mk Q D W R E H C P N =>
-      exact
-        congrArg some
-          (rationalCauchyGap_mk_congr
-            (rationalCauchyGap_decode_encode_bhist Q)
-            (rationalCauchyGap_decode_encode_bhist D)
-            (rationalCauchyGap_decode_encode_bhist W)
-            (rationalCauchyGap_decode_encode_bhist R)
-            (rationalCauchyGap_decode_encode_bhist E)
-            (rationalCauchyGap_decode_encode_bhist H)
-            (rationalCauchyGap_decode_encode_bhist C)
-            (rationalCauchyGap_decode_encode_bhist P)
-            (rationalCauchyGap_decode_encode_bhist N))
+      change
+        some
+          (RationalCauchyGapUp.mk
+            (rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist Q))
+            (rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist D))
+            (rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist W))
+            (rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist R))
+            (rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist E))
+            (rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist H))
+            (rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist C))
+            (rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist P))
+            (rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist N))) =
+          some (RationalCauchyGapUp.mk Q D W R E H C P N)
+      rw [RationalCauchyGapTasteGate_single_carrier_alignment_decode Q,
+        RationalCauchyGapTasteGate_single_carrier_alignment_decode D,
+        RationalCauchyGapTasteGate_single_carrier_alignment_decode W,
+        RationalCauchyGapTasteGate_single_carrier_alignment_decode R,
+        RationalCauchyGapTasteGate_single_carrier_alignment_decode E,
+        RationalCauchyGapTasteGate_single_carrier_alignment_decode H,
+        RationalCauchyGapTasteGate_single_carrier_alignment_decode C,
+        RationalCauchyGapTasteGate_single_carrier_alignment_decode P,
+        RationalCauchyGapTasteGate_single_carrier_alignment_decode N]
 
 private theorem rationalCauchyGapToEventFlow_injective {x y : RationalCauchyGapUp} :
     rationalCauchyGapToEventFlow x = rationalCauchyGapToEventFlow y → x = y := by
@@ -136,6 +116,18 @@ private theorem rationalCauchyGapToEventFlow_injective {x y : RationalCauchyGapU
   exact Option.some.inj
     (Eq.trans (rationalCauchyGap_round_trip x).symm
       (Eq.trans hread (rationalCauchyGap_round_trip y)))
+
+private theorem rationalCauchyGap_field_faithful :
+    ∀ x y : RationalCauchyGapUp,
+      rationalCauchyGapFields x = rationalCauchyGapFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk Q1 D1 W1 R1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk Q2 D2 W2 R2 E2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance rationalCauchyGapBHistCarrier : BHistCarrier RationalCauchyGapUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -152,25 +144,44 @@ instance rationalCauchyGapChapterTasteGate : ChapterTasteGate RationalCauchyGapU
     intro x y hxy heq
     exact hxy (rationalCauchyGapToEventFlow_injective heq)
 
-namespace TasteGate
+instance rationalCauchyGapFieldFaithful : FieldFaithful RationalCauchyGapUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := rationalCauchyGapFields
+  field_faithful := rationalCauchyGap_field_faithful
+
+instance rationalCauchyGapNontrivial : Nontrivial RationalCauchyGapUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RationalCauchyGapUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RationalCauchyGapUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate RationalCauchyGapUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  rationalCauchyGapChapterTasteGate
 
 theorem RationalCauchyGapTasteGate_single_carrier_alignment :
-    (∀ h : BHist, rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate RationalCauchyGapUp) ∧
+      Nonempty (FieldFaithful RationalCauchyGapUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RationalCauchyGapUp) ∧
+      (∀ h : BHist, rationalCauchyGapDecodeBHist (rationalCauchyGapEncodeBHist h) = h) ∧
       (∀ x : RationalCauchyGapUp,
         rationalCauchyGapFromEventFlow (rationalCauchyGapToEventFlow x) = some x) ∧
-        (∀ x y : RationalCauchyGapUp,
-          rationalCauchyGapToEventFlow x = rationalCauchyGapToEventFlow y → x = y) ∧
-          rationalCauchyGapEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact rationalCauchyGap_decode_encode_bhist
-  · constructor
-    · exact rationalCauchyGap_round_trip
-    · constructor
-      · intro x y heq
-        exact rationalCauchyGapToEventFlow_injective heq
-      · rfl
-
-end TasteGate
+      (∀ x y : RationalCauchyGapUp,
+        rationalCauchyGapToEventFlow x = rationalCauchyGapToEventFlow y → x = y) ∧
+      rationalCauchyGapEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨Nonempty.intro rationalCauchyGapChapterTasteGate,
+      Nonempty.intro rationalCauchyGapFieldFaithful,
+      Nonempty.intro rationalCauchyGapNontrivial,
+      RationalCauchyGapTasteGate_single_carrier_alignment_decode,
+      rationalCauchyGap_round_trip,
+      (fun _ _ heq => rationalCauchyGapToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.RationalCauchyGapUp
