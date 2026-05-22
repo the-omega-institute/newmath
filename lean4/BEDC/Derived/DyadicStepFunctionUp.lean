@@ -200,4 +200,37 @@ theorem DyadicStepFunctionCarrier_real_seal_window_exactness [AskSetup] [Package
     ⟨cellsUnary, valuesUnary, endpointLedgerUnary, ledgerUnary, realSealUnary,
       partitionCellsValues, refinementEndpointLedger, ledgerRouteSeal, nameRowPkg⟩
 
+theorem DyadicStepFunctionCarrier_product_closure [AskSetup] [PackageSetup]
+    {partitionS cellsS valuesS readsS refinementS endpointLedgerS ledgerS routeS provenanceS
+      nameRowS partitionT cellsT valuesT readsT refinementT endpointLedgerT ledgerT routeT
+      provenanceT nameRowT productRead productSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partitionS cellsS valuesS readsS refinementS endpointLedgerS
+        ledgerS routeS provenanceS nameRowS bundle pkg ->
+      DyadicStepFunctionCarrier partitionT cellsT valuesT readsT refinementT endpointLedgerT
+        ledgerT routeT provenanceT nameRowT bundle pkg ->
+        Cont valuesS valuesT productRead ->
+          Cont productRead ledgerS productSeal ->
+            PkgSig bundle productSeal pkg ->
+              UnaryHistory productRead ∧ UnaryHistory productSeal ∧
+                Cont valuesS valuesT productRead ∧ Cont productRead ledgerS productSeal ∧
+                  PkgSig bundle nameRowS pkg ∧ PkgSig bundle productSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrierS carrierT valuesProduct productLedgerSeal productSealPkg
+  obtain ⟨_partitionSUnary, _cellsSUnary, valuesSUnary, _readsSUnary, _refinementSUnary,
+    _endpointLedgerSUnary, ledgerSUnary, _routeSUnary, _provenanceSUnary, _nameRowSUnary,
+    _partitionCellsValuesS, _valuesReadsRefinementS, _refinementEndpointLedgerS,
+    _routeProvenanceNameRowS, nameRowSPkg⟩ := carrierS
+  obtain ⟨_partitionTUnary, _cellsTUnary, valuesTUnary, _readsTUnary, _refinementTUnary,
+    _endpointLedgerTUnary, _ledgerTUnary, _routeTUnary, _provenanceTUnary, _nameRowTUnary,
+    _partitionCellsValuesT, _valuesReadsRefinementT, _refinementEndpointLedgerT,
+    _routeProvenanceNameRowT, _nameRowTPkg⟩ := carrierT
+  have productReadUnary : UnaryHistory productRead :=
+    unary_cont_closed valuesSUnary valuesTUnary valuesProduct
+  have productSealUnary : UnaryHistory productSeal :=
+    unary_cont_closed productReadUnary ledgerSUnary productLedgerSeal
+  exact
+    ⟨productReadUnary, productSealUnary, valuesProduct, productLedgerSeal, nameRowSPkg,
+      productSealPkg⟩
+
 end BEDC.Derived.DyadicStepFunctionUp
