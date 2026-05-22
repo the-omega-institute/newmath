@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyTailEquivalenceUp.TasteGate
+namespace BEDC.Derived.CauchyTailEquivalenceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -161,7 +161,11 @@ instance cauchyTailEquivalenceChapterTasteGate : ChapterTasteGate CauchyTailEqui
     intro x y hxy heq
     exact hxy (CauchyTailEquivalenceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem CauchyTailEquivalenceTasteGate_single_carrier_alignment :
+def taste_gate : ChapterTasteGate CauchyTailEquivalenceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchyTailEquivalenceChapterTasteGate
+
+theorem CauchyTailEquivalenceUpTasteGate_single_carrier_alignment :
     (∀ h : BHist, cauchyTailEquivalenceDecodeBHist (cauchyTailEquivalenceEncodeBHist h) = h) ∧
       (∀ x : CauchyTailEquivalenceUp,
         cauchyTailEquivalenceFromEventFlow (cauchyTailEquivalenceToEventFlow x) = some x) ∧
@@ -178,4 +182,22 @@ theorem CauchyTailEquivalenceTasteGate_single_carrier_alignment :
         exact CauchyTailEquivalenceTasteGate_single_carrier_alignment_toEventFlow_injective heq
       · rfl
 
-end BEDC.Derived.CauchyTailEquivalenceUp.TasteGate
+namespace TasteGate
+
+theorem CauchyTailEquivalenceTasteGate_single_carrier_alignment :
+    (∀ h : BHist, cauchyTailEquivalenceDecodeBHist (cauchyTailEquivalenceEncodeBHist h) = h) ∧
+      (∀ x : CauchyTailEquivalenceUp,
+        cauchyTailEquivalenceFromEventFlow (cauchyTailEquivalenceToEventFlow x) = some x) ∧
+        (∀ x y : CauchyTailEquivalenceUp,
+          cauchyTailEquivalenceToEventFlow x = cauchyTailEquivalenceToEventFlow y -> x = y) ∧
+          cauchyTailEquivalenceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact CauchyTailEquivalenceUpTasteGate_single_carrier_alignment
+
+def taste_gate : ChapterTasteGate CauchyTailEquivalenceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  BEDC.Derived.CauchyTailEquivalenceUp.taste_gate
+
+end TasteGate
+
+end BEDC.Derived.CauchyTailEquivalenceUp
