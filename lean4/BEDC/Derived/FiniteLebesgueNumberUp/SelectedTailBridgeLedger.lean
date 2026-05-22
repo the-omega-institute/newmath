@@ -194,4 +194,43 @@ theorem FiniteLebesgueNumberTotalBoundedRadiusSourceLock [AskSetup] [PackageSetu
       windowRadiusTail, tailMeshStream, streamRouteRegular, regularTransportTolerance,
       toleranceNameReal, realProvenanceTotal, provenancePkg, totalPkg⟩
 
+theorem FiniteLebesgueNumberSelectedTailUniformConsumerRoute [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow tailAdmission streamTail
+      regularTail toleranceTail realTail uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont window radius tailAdmission →
+        Cont tailAdmission mesh streamTail →
+          Cont streamTail route regularTail →
+            Cont regularTail transport toleranceTail →
+              Cont toleranceTail nameRow realTail →
+                Cont realTail mesh uniformRead →
+                  PkgSig bundle uniformRead pkg →
+                    UnaryHistory realTail ∧ UnaryHistory uniformRead ∧
+                      Cont toleranceTail nameRow realTail ∧ Cont realTail mesh uniformRead ∧
+                        PkgSig bundle provenance pkg ∧
+                          PkgSig bundle uniformRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier windowRadiusTail tailMeshStream streamRouteRegular regularTransportTolerance
+    toleranceNameReal realMeshUniform uniformPkg
+  obtain ⟨_coverUnary, windowUnary, radiusUnary, meshUnary, transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailAdmission :=
+    unary_cont_closed windowUnary radiusUnary windowRadiusTail
+  have streamUnary : UnaryHistory streamTail :=
+    unary_cont_closed tailUnary meshUnary tailMeshStream
+  have regularUnary : UnaryHistory regularTail :=
+    unary_cont_closed streamUnary routeUnary streamRouteRegular
+  have toleranceUnary : UnaryHistory toleranceTail :=
+    unary_cont_closed regularUnary transportUnary regularTransportTolerance
+  have realUnary : UnaryHistory realTail :=
+    unary_cont_closed toleranceUnary nameRowUnary toleranceNameReal
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed realUnary meshUnary realMeshUniform
+  exact
+    ⟨realUnary, uniformUnary, toleranceNameReal, realMeshUniform, provenancePkg,
+      uniformPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
