@@ -134,6 +134,37 @@ private theorem regularCauchyInterpolationToEventFlow_injective
     (Eq.trans (regularCauchyInterpolation_round_trip x).symm
       (Eq.trans hread (regularCauchyInterpolation_round_trip y)))
 
+private theorem regularCauchyInterpolation_fields_faithful :
+    ∀ x y : RegularCauchyInterpolationUp,
+      regularCauchyInterpolationFields x = regularCauchyInterpolationFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk R₁ D₁ M₁ W₁ S₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk R₂ D₂ M₂ W₂ S₂ E₂ H₂ C₂ P₂ N₂ =>
+          injection hfields with hR tail0
+          injection tail0 with hD tail1
+          injection tail1 with hM tail2
+          injection tail2 with hW tail3
+          injection tail3 with hS tail4
+          injection tail4 with hE tail5
+          injection tail5 with hH tail6
+          injection tail6 with hC tail7
+          injection tail7 with hP tail8
+          injection tail8 with hN _
+          subst hR
+          subst hD
+          subst hM
+          subst hW
+          subst hS
+          subst hE
+          subst hH
+          subst hC
+          subst hP
+          subst hN
+          rfl
+
 instance regularCauchyInterpolationBHistCarrier :
     BHistCarrier RegularCauchyInterpolationUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -153,6 +184,24 @@ instance regularCauchyInterpolationChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (regularCauchyInterpolationToEventFlow_injective heq)
+
+instance regularCauchyInterpolationFieldFaithful :
+    FieldFaithful RegularCauchyInterpolationUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchyInterpolationFields
+  field_faithful := regularCauchyInterpolation_fields_faithful
+
+instance regularCauchyInterpolationNontrivial :
+    Nontrivial RegularCauchyInterpolationUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchyInterpolationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RegularCauchyInterpolationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 def taste_gate : ChapterTasteGate RegularCauchyInterpolationUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -179,6 +228,36 @@ theorem RegularCauchyInterpolationTasteGate_single_carrier_alignment :
       by
         intro x y heq
         exact regularCauchyInterpolationToEventFlow_injective heq,
+      rfl⟩
+
+theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyInterpolationDecodeBHist
+          (regularCauchyInterpolationEncodeBHist h) =
+        h) ∧
+      (∀ x : RegularCauchyInterpolationUp,
+        regularCauchyInterpolationToEventFlow x =
+          List.map regularCauchyInterpolationEncodeBHist
+            (regularCauchyInterpolationFields x)) ∧
+        (∀ x y : RegularCauchyInterpolationUp,
+          regularCauchyInterpolationFields x = regularCauchyInterpolationFields y → x = y) ∧
+          (∃ x y : RegularCauchyInterpolationUp, x ≠ y) ∧
+            regularCauchyInterpolationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨regularCauchyInterpolation_decode_encode,
+      by
+        intro x
+        cases x
+        rfl,
+      regularCauchyInterpolation_fields_faithful,
+      ⟨RegularCauchyInterpolationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        RegularCauchyInterpolationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩,
       rfl⟩
 
 end BEDC.Derived.RegularCauchyInterpolationUp
