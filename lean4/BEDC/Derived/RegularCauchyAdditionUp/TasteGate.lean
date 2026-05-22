@@ -210,4 +210,16 @@ theorem RegularCauchyAdditionUp_single_carrier_alignment :
     exact regularCauchyAdditionToEventFlow_injective heq
   · rfl
 
+theorem RegularCauchyAdditionTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyAdditionDecodeBHist (regularCauchyAdditionEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyAdditionUp,
+        regularCauchyAdditionFromEventFlow (regularCauchyAdditionToEventFlow x) = some x) ∧
+      (∀ x y : RegularCauchyAdditionUp,
+        regularCauchyAdditionToEventFlow x = regularCauchyAdditionToEventFlow y →
+          x = y) ∧
+      regularCauchyAdditionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact RegularCauchyAdditionUp_single_carrier_alignment
+
 end BEDC.Derived.RegularCauchyAdditionUp
