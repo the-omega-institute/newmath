@@ -25,10 +25,11 @@ def regularCauchyInterpolationDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyInterpolationDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyInterpolationDecodeBHist tail)
 
-private theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode :
+private theorem regularCauchyInterpolation_decode_encode :
     ∀ h : BHist,
       regularCauchyInterpolationDecodeBHist
-          (regularCauchyInterpolationEncodeBHist h) = h := by
+          (regularCauchyInterpolationEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -36,35 +37,47 @@ private theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_d
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def regularCauchyInterpolationFields : RegularCauchyInterpolationUp → List BHist
+def regularCauchyInterpolationFields :
+    RegularCauchyInterpolationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyInterpolationUp.mk R D M W S E H C P N => [R, D, M, W, S, E, H, C, P, N]
+  | RegularCauchyInterpolationUp.mk R D M W S E H C P N =>
+      [R, D, M, W, S, E, H, C, P, N]
 
-def regularCauchyInterpolationToEventFlow : RegularCauchyInterpolationUp → EventFlow
+def regularCauchyInterpolationToEventFlow :
+    RegularCauchyInterpolationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (regularCauchyInterpolationFields x).map regularCauchyInterpolationEncodeBHist
+  | x =>
+      List.map regularCauchyInterpolationEncodeBHist
+        (regularCauchyInterpolationFields x)
 
-def regularCauchyInterpolationFromEventFlow : EventFlow → Option RegularCauchyInterpolationUp
+private def regularCauchyInterpolationRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | R :: D :: M :: W :: S :: E :: H :: C :: P :: N :: [] =>
-      some
-        (RegularCauchyInterpolationUp.mk
-          (regularCauchyInterpolationDecodeBHist R)
-          (regularCauchyInterpolationDecodeBHist D)
-          (regularCauchyInterpolationDecodeBHist M)
-          (regularCauchyInterpolationDecodeBHist W)
-          (regularCauchyInterpolationDecodeBHist S)
-          (regularCauchyInterpolationDecodeBHist E)
-          (regularCauchyInterpolationDecodeBHist H)
-          (regularCauchyInterpolationDecodeBHist C)
-          (regularCauchyInterpolationDecodeBHist P)
-          (regularCauchyInterpolationDecodeBHist N))
-  | _ => none
+  | 0, [] => []
+  | 0, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyInterpolationRawAt index rest
 
-private theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_round_trip :
+def regularCauchyInterpolationFromEventFlow
+    (flow : EventFlow) : Option RegularCauchyInterpolationUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (RegularCauchyInterpolationUp.mk
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 0 flow))
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 1 flow))
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 2 flow))
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 3 flow))
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 4 flow))
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 5 flow))
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 6 flow))
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 7 flow))
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 8 flow))
+      (regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationRawAt 9 flow)))
+
+private theorem regularCauchyInterpolation_round_trip :
     ∀ x : RegularCauchyInterpolationUp,
       regularCauchyInterpolationFromEventFlow
-          (regularCauchyInterpolationToEventFlow x) = some x := by
+          (regularCauchyInterpolationToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -93,34 +106,35 @@ private theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_r
             (regularCauchyInterpolationDecodeBHist
               (regularCauchyInterpolationEncodeBHist N))) =
           some (RegularCauchyInterpolationUp.mk R D M W S E H C P N)
-      rw [RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode R,
-        RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode D,
-        RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode M,
-        RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode W,
-        RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode S,
-        RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode E,
-        RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode H,
-        RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode C,
-        RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode P,
-        RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode N]
+      rw [regularCauchyInterpolation_decode_encode R,
+        regularCauchyInterpolation_decode_encode D,
+        regularCauchyInterpolation_decode_encode M,
+        regularCauchyInterpolation_decode_encode W,
+        regularCauchyInterpolation_decode_encode S,
+        regularCauchyInterpolation_decode_encode E,
+        regularCauchyInterpolation_decode_encode H,
+        regularCauchyInterpolation_decode_encode C,
+        regularCauchyInterpolation_decode_encode P,
+        regularCauchyInterpolation_decode_encode N]
 
-private theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem regularCauchyInterpolationToEventFlow_injective
     {x y : RegularCauchyInterpolationUp} :
-    regularCauchyInterpolationToEventFlow x = regularCauchyInterpolationToEventFlow y →
+    regularCauchyInterpolationToEventFlow x =
+        regularCauchyInterpolationToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      regularCauchyInterpolationFromEventFlow (regularCauchyInterpolationToEventFlow x) =
-        regularCauchyInterpolationFromEventFlow (regularCauchyInterpolationToEventFlow y) :=
+      regularCauchyInterpolationFromEventFlow
+          (regularCauchyInterpolationToEventFlow x) =
+        regularCauchyInterpolationFromEventFlow
+          (regularCauchyInterpolationToEventFlow y) :=
     congrArg regularCauchyInterpolationFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (regularCauchyInterpolation_round_trip x).symm
+      (Eq.trans hread (regularCauchyInterpolation_round_trip y)))
 
-private theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_fields_faithful :
+private theorem regularCauchyInterpolation_fields_faithful :
     ∀ x y : RegularCauchyInterpolationUp,
       regularCauchyInterpolationFields x = regularCauchyInterpolationFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -151,7 +165,8 @@ private theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_f
           subst hN
           rfl
 
-instance regularCauchyInterpolationBHistCarrier : BHistCarrier RegularCauchyInterpolationUp where
+instance regularCauchyInterpolationBHistCarrier :
+    BHistCarrier RegularCauchyInterpolationUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := regularCauchyInterpolationToEventFlow
   fromEventFlow := regularCauchyInterpolationFromEventFlow
@@ -162,21 +177,22 @@ instance regularCauchyInterpolationChapterTasteGate :
   round_trip := by
     intro x
     change
-      regularCauchyInterpolationFromEventFlow (regularCauchyInterpolationToEventFlow x) =
+      regularCauchyInterpolationFromEventFlow
+          (regularCauchyInterpolationToEventFlow x) =
         some x
-    exact RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_round_trip x
+    exact regularCauchyInterpolation_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (regularCauchyInterpolationToEventFlow_injective heq)
 
-instance regularCauchyInterpolationFieldFaithful : FieldFaithful RegularCauchyInterpolationUp where
+instance regularCauchyInterpolationFieldFaithful :
+    FieldFaithful RegularCauchyInterpolationUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := regularCauchyInterpolationFields
-  field_faithful :=
-    RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_fields_faithful
+  field_faithful := regularCauchyInterpolation_fields_faithful
 
-instance regularCauchyInterpolationNontrivial : Nontrivial RegularCauchyInterpolationUp where
+instance regularCauchyInterpolationNontrivial :
+    Nontrivial RegularCauchyInterpolationUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨RegularCauchyInterpolationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -191,9 +207,34 @@ def taste_gate : ChapterTasteGate RegularCauchyInterpolationUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyInterpolationChapterTasteGate
 
+theorem RegularCauchyInterpolationTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyInterpolationDecodeBHist
+          (regularCauchyInterpolationEncodeBHist h) =
+        h) ∧
+      (∀ x : RegularCauchyInterpolationUp,
+        regularCauchyInterpolationFromEventFlow
+            (regularCauchyInterpolationToEventFlow x) =
+          some x) ∧
+        (∀ x y : RegularCauchyInterpolationUp,
+          regularCauchyInterpolationToEventFlow x =
+              regularCauchyInterpolationToEventFlow y →
+            x = y) ∧
+          regularCauchyInterpolationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨regularCauchyInterpolation_decode_encode,
+      regularCauchyInterpolation_round_trip,
+      by
+        intro x y heq
+        exact regularCauchyInterpolationToEventFlow_injective heq,
+      rfl⟩
+
 theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      regularCauchyInterpolationDecodeBHist (regularCauchyInterpolationEncodeBHist h) = h) ∧
+      regularCauchyInterpolationDecodeBHist
+          (regularCauchyInterpolationEncodeBHist h) =
+        h) ∧
       (∀ x : RegularCauchyInterpolationUp,
         regularCauchyInterpolationToEventFlow x =
           List.map regularCauchyInterpolationEncodeBHist
@@ -204,12 +245,12 @@ theorem RegularCauchyInterpolationUpTasteGate_single_carrier_alignment :
             regularCauchyInterpolationEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_decode_encode,
+    ⟨regularCauchyInterpolation_decode_encode,
       by
         intro x
         cases x
         rfl,
-      RegularCauchyInterpolationUpTasteGate_single_carrier_alignment_fields_faithful,
+      regularCauchyInterpolation_fields_faithful,
       ⟨RegularCauchyInterpolationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
           BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
         RegularCauchyInterpolationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
