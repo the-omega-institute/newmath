@@ -2918,6 +2918,164 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         radius, _vector = dominant_symmetric_eigenpair(matrix)
         return radius
 
+    def permute_s3_c2(codon: str, permutation: tuple[int, int, int], flip_f3: bool) -> str:
+        word = bits(codon)
+        bit_values = {
+            "s1": word[0],
+            "f1": word[1],
+            "s2": word[2],
+            "f2": word[3],
+            "s3": word[4],
+            "f3": word[5],
+        }
+        source_names = ("s1", "s2", "f2")
+        target_names = ("s1", "s2", "f2")
+        transformed = bit_values.copy()
+        for target, source_index in zip(target_names, permutation):
+            transformed[target] = bit_values[source_names[source_index]]
+        if flip_f3:
+            transformed["f3"] = "1" if transformed["f3"] == "0" else "0"
+        return codon_from_bits(
+            "".join(transformed[name] for name in ("s1", "f1", "s2", "f2", "s3", "f3"))
+        )
+
+    def gamma_orbit(codon: str) -> tuple[str, ...]:
+        return tuple(
+            sorted(
+                {
+                    permute_s3_c2(codon, permutation, flip_f3)
+                    for permutation in itertools.permutations((0, 1, 2))
+                    for flip_f3 in (False, True)
+                }
+            )
+        )
+
+    external_codons = set(all_codons()) - median_set
+    post_median_single_rows = []
+    for codon in sorted(external_codons):
+        radius = spectral_radius_for_set(median_set | {codon})
+        post_median_single_rows.append(
+            {
+                "codon": codon,
+                "class": standard[codon],
+                "spectral_radius": radius,
+                "gain": radius - median_spectral_radius,
+                "first_exit_probability": outside_target_by_codon.get(codon, 0.0),
+            }
+        )
+    post_median_single_rows.sort(key=lambda row: (-row["spectral_radius"], row["codon"]))
+    post_median_best_single_radius = post_median_single_rows[0]["spectral_radius"]
+    post_median_best_single_rows = [
+        row
+        for row in post_median_single_rows
+        if abs(row["spectral_radius"] - post_median_best_single_radius) < 1e-12
+    ]
+    gate_shell = set(row["codon"] for row in post_median_best_single_rows)
+    gate_shell_plus = median_set | gate_shell
+    gate_shell_radius = spectral_radius_for_set(gate_shell_plus)
+    median_retention_for_gate_shell = retention_row("median_closure", median_set)
+    gate_shell_retention = retention_row("post_median_gate_shell", gate_shell_plus)
+    external_orbits = sorted({gamma_orbit(codon) for codon in external_codons})
+    post_median_orbit_rows = []
+    for orbit in external_orbits:
+        orbit_set = set(orbit)
+        radius = spectral_radius_for_set(median_set | orbit_set)
+        post_median_orbit_rows.append(
+            {
+                "orbit": orbit,
+                "size": len(orbit),
+                "spectral_radius": radius,
+                "gain": radius - median_spectral_radius,
+                "first_exit_probability": sum(outside_target_by_codon.get(codon, 0.0) for codon in orbit),
+            }
+        )
+    post_median_orbit_rows.sort(key=lambda row: (-row["spectral_radius"], row["orbit"]))
+    f3_pair_seen: set[tuple[str, ...]] = set()
+    f3_pair_rows = []
+    for codon in sorted(external_codons):
+        pair = tuple(sorted({codon, flipped_codon(codon, BIT_COORDINATES.index("f3"))}))
+        if pair in f3_pair_seen or not set(pair) <= external_codons:
+            continue
+        f3_pair_seen.add(pair)
+        radius = spectral_radius_for_set(median_set | set(pair))
+        f3_pair_rows.append(
+            {
+                "pair": pair,
+                "spectral_radius": radius,
+                "gain": radius - median_spectral_radius,
+                "first_exit_probability": sum(outside_target_by_codon.get(codon, 0.0) for codon in pair),
+            }
+        )
+    f3_pair_rows.sort(key=lambda row: (-row["spectral_radius"], row["pair"]))
+
+    def leakage_by_state(codons: set[str], states: dict[str, set[str]]) -> dict[str, float]:
+        result: dict[str, float] = {}
+        codon_set = set(codons)
+        for state, state_codons in states.items():
+            outside_half_edges = 0
+            total_half_edges = 6 * len(state_codons)
+            for codon in state_codons:
+                for bit_index in range(6):
+                    if flipped_codon(codon, bit_index) not in codon_set:
+                        outside_half_edges += 1
+            result[state] = outside_half_edges / total_half_edges
+        return result
+
+    gate_shell_edge_groups: collections.Counter[str] = collections.Counter()
+    gate_state_sets = dict(quotient_state_sets)
+    gate_state_sets["GateShell"] = gate_shell
+    gate_state_by_codon = {
+        codon: state
+        for state, codons in gate_state_sets.items()
+        for codon in codons
+    }
+    gate_state_order = path_order + ("GateShell",)
+    gate_state_position = {state: index for index, state in enumerate(gate_state_order)}
+    for left, right, _direction in hamming_edges():
+        if left in gate_shell_plus and right in gate_shell_plus:
+            left_state = gate_state_by_codon[left]
+            right_state = gate_state_by_codon[right]
+            if left_state == right_state:
+                group = f"{left_state}_internal"
+            elif gate_state_position[left_state] <= gate_state_position[right_state]:
+                group = f"{left_state}-{right_state}"
+            else:
+                group = f"{right_state}-{left_state}"
+            gate_shell_edge_groups[group] += 1
+    post_median_gate_shell_summary = {
+        "gate_shell": tuple(sorted(gate_shell)),
+        "gate_shell_iupac": ("CAR", "CCR", "GTR"),
+        "single_point_candidate_count": len(external_codons),
+        "best_single_rows": post_median_best_single_rows,
+        "best_single_spectral_radius": post_median_best_single_radius,
+        "best_single_gain": post_median_best_single_radius - median_spectral_radius,
+        "top_single_rows": post_median_single_rows[:12],
+        "external_gamma_orbit_count": len(external_orbits),
+        "orbit_rows": post_median_orbit_rows,
+        "best_orbit": post_median_orbit_rows[0],
+        "f3_pair_rows": f3_pair_rows,
+        "best_f3_pair_rows": [
+            row for row in f3_pair_rows if abs(row["spectral_radius"] - f3_pair_rows[0]["spectral_radius"]) < 1e-12
+        ],
+        "post_median_vertices": len(gate_shell_plus),
+        "post_median_internal_edges": gate_shell_retention["internal_edges"],
+        "post_median_retention": gate_shell_retention["retention"],
+        "post_median_retention_float": gate_shell_retention["retention_float"],
+        "post_median_spectral_radius": gate_shell_radius,
+        "post_median_spectral_gain": gate_shell_radius - median_spectral_radius,
+        "median_retention_float": median_retention_for_gate_shell["retention_float"],
+        "median_spectral_radius": median_spectral_radius,
+        "leakage_before": leakage_by_state(median_set, quotient_state_sets),
+        "leakage_after": leakage_by_state(gate_shell_plus, quotient_state_sets),
+        "edge_group_counts": dict(sorted(gate_shell_edge_groups.items())),
+        "cur_neighbors_after": {
+            codon: tuple(sorted(flipped_codon(codon, bit_index) for bit_index in range(6)))
+            for codon in sorted(quotient_state_sets["CUR"])
+        },
+        "stopstart_gate_edges": gate_shell_edge_groups["StopStart6-GateShell"],
+        "gate_cur_edges": gate_shell_edge_groups["CUR-GateShell"],
+    }
+
     def spectral_expansion_search(
         base: set[str],
         added_size: int,
@@ -4001,6 +4159,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             ),
             "outside_target_rows": outside_target_rows,
             "first_exit_channels": first_exit_channel_summary,
+            "post_median_gate_shell": post_median_gate_shell_summary,
             "acg_spectral_radius_before": spectral_rows[2]["spectral_radius"],
             "acg_spectral_radius_after": spectral_rows[3]["spectral_radius"],
             "acg_retention_before": spectral_rows[2]["retention_float"],
@@ -5814,6 +5973,47 @@ def assert_expected(summary: dict[str, object]) -> None:
         ("TCC", "S", 0.0301),
         ("TCT", "S", 0.0301),
     ]
+    gate_shell = spectral["post_median_gate_shell"]
+    assert gate_shell["gate_shell"] == ("CAA", "CAG", "CCA", "CCG", "GTA", "GTG")
+    assert gate_shell["single_point_candidate_count"] == 44
+    assert [
+        (row["codon"], row["class"], round(row["spectral_radius"], 9), round(row["gain"], 9))
+        for row in gate_shell["best_single_rows"]
+    ] == [
+        ("CAA", "Q", 0.681004866, 0.005756935),
+        ("CAG", "Q", 0.681004866, 0.005756935),
+        ("CCA", "P", 0.681004866, 0.005756935),
+        ("CCG", "P", 0.681004866, 0.005756935),
+        ("GTA", "V", 0.681004866, 0.005756935),
+        ("GTG", "V", 0.681004866, 0.005756935),
+    ]
+    assert gate_shell["external_gamma_orbit_count"] == 10
+    assert gate_shell["best_orbit"]["orbit"] == ("CAA", "CAG", "CCA", "CCG", "GTA", "GTG")
+    assert gate_shell["best_orbit"]["size"] == 6
+    assert round(gate_shell["best_orbit"]["spectral_radius"], 9) == 0.727773877
+    assert round(gate_shell["best_orbit"]["gain"], 9) == 0.052525946
+    assert [
+        (row["pair"], round(row["spectral_radius"], 9), round(row["gain"], 9))
+        for row in gate_shell["best_f3_pair_rows"]
+    ] == [
+        (("CAA", "CAG"), 0.691331504, 0.016083573),
+        (("CCA", "CCG"), 0.691331504, 0.016083573),
+        (("GTA", "GTG"), 0.691331504, 0.016083573),
+    ]
+    assert gate_shell["post_median_vertices"] == 26
+    assert gate_shell["post_median_internal_edges"] == 53
+    assert gate_shell["post_median_retention"] == "53/78"
+    assert round(gate_shell["post_median_retention_float"], 6) == 0.679487
+    assert round(gate_shell["post_median_spectral_radius"], 9) == 0.727773877
+    assert round(gate_shell["post_median_spectral_gain"], 9) == 0.052525946
+    assert round(gate_shell["leakage_before"]["CUR"], 6) == 0.5
+    assert gate_shell["leakage_after"]["CUR"] == 0.0
+    assert gate_shell["stopstart_gate_edges"] == 6
+    assert gate_shell["gate_cur_edges"] == 6
+    assert gate_shell["cur_neighbors_after"] == {
+        "CTA": ("CAA", "CCA", "CTG", "CTT", "GTA", "TTA"),
+        "CTG": ("CAG", "CCG", "CTA", "CTC", "GTG", "TTG"),
+    }
     assert round(spectral["acg_spectral_radius_before"], 4) == 0.6422
     assert round(spectral["acg_spectral_radius_after"], 4) == 0.6752
     assert round(spectral["acg_retention_before"], 3) == 0.596
