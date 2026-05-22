@@ -216,4 +216,79 @@ theorem FiniteLebesgueNumberPhaseRealRadiusConsumerExhaustion [AskSetup] [Packag
   }
   exact ⟨outsideUnary, cert⟩
 
+theorem FiniteLebesgueNumberPhaseRealRadiusConsumerStability [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactRow continuousRow
+      uniformRow compactRow' continuousRow' uniformRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont radius mesh compactRow →
+        Cont compactRow route continuousRow →
+          Cont continuousRow nameRow uniformRow →
+            hsame compactRow' compactRow →
+              hsame continuousRow' continuousRow →
+                hsame uniformRow' uniformRow →
+                  PkgSig bundle uniformRow pkg →
+                    UnaryHistory compactRow' ∧ UnaryHistory continuousRow' ∧
+                      UnaryHistory uniformRow' ∧
+                        SemanticNameCert
+                          (fun row : BHist => hsame row uniformRow' ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row compactRow' ∨ hsame row continuousRow' ∨
+                              hsame row uniformRow')
+                          (fun row : BHist =>
+                            hsame row uniformRow' ∧ PkgSig bundle uniformRow pkg)
+                          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier radiusMeshCompact compactRouteContinuous continuousNameUniform
+    sameCompact sameContinuous sameUniform uniformPkg
+  obtain ⟨_coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, _provenancePkg⟩ := carrier
+  have compactUnary : UnaryHistory compactRow :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshCompact
+  have continuousUnary : UnaryHistory continuousRow :=
+    unary_cont_closed compactUnary routeUnary compactRouteContinuous
+  have uniformUnary : UnaryHistory uniformRow :=
+    unary_cont_closed continuousUnary nameRowUnary continuousNameUniform
+  have compactPrimeUnary : UnaryHistory compactRow' :=
+    unary_transport_symm compactUnary sameCompact
+  have continuousPrimeUnary : UnaryHistory continuousRow' :=
+    unary_transport_symm continuousUnary sameContinuous
+  have uniformPrimeUnary : UnaryHistory uniformRow' :=
+    unary_transport_symm uniformUnary sameUniform
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row uniformRow' ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row compactRow' ∨ hsame row continuousRow' ∨ hsame row uniformRow')
+        (fun row : BHist => hsame row uniformRow' ∧ PkgSig bundle uniformRow pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro uniformRow' ⟨hsame_refl uniformRow',
+        uniformPrimeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, uniformPkg⟩
+  }
+  exact ⟨compactPrimeUnary, continuousPrimeUnary, uniformPrimeUnary, cert⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
