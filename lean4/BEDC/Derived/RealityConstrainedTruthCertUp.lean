@@ -2,12 +2,18 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.RealityConstrainedTruthCertUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def RealityConstrainedTruthCertCarrier
@@ -98,5 +104,149 @@ theorem RealityConstrainedTruthCertNonescape
       exact
         ⟨S, Sigma, K, T, U, D, I, L, F, N, append L F, append F N,
           append (append L F) N, rfl, rfl, rfl, rfl, rfl⟩
+
+theorem RealityConstrainedTruthCertRootDefeatProjection [AskSetup] [PackageSetup]
+    {S Sigma K T U D I L F N changedF failureRead openFitRoute classifierRead ledgerRead
+      exportRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedTruthCertCarrier S Sigma K T U D I L F N ->
+      Cont F N failureRead ->
+        Cont changedF failureRead openFitRoute ->
+          Cont openFitRoute K classifierRead ->
+            Cont classifierRead L ledgerRead ->
+              Cont ledgerRead N exportRead ->
+                UnaryHistory changedF ->
+                  PkgSig bundle exportRead pkg ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row F ∨ hsame row changedF ∨ hsame row N ∨
+                            hsame row exportRead)
+                        (fun row : BHist =>
+                          hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+                        hsame ∧
+                      UnaryHistory openFitRoute ∧
+                        UnaryHistory classifierRead ∧
+                          UnaryHistory ledgerRead ∧ UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier failureRoute openFitRouteRoute classifierRoute ledgerRoute exportRoute
+    changedFUnary exportPkg
+  obtain ⟨sourceUnary, signatureUnary, towerUnary, stabilityUnary, invariantUnary,
+    ledgerUnary, sourceRoute, _towerRoute, invariantRoute, nameRoute⟩ := carrier
+  have classifierUnary : UnaryHistory K :=
+    unary_cont_closed sourceUnary signatureUnary sourceRoute
+  have failureUnary : UnaryHistory F :=
+    unary_cont_closed invariantUnary ledgerUnary invariantRoute
+  have nameUnary : UnaryHistory N :=
+    unary_cont_closed ledgerUnary failureUnary nameRoute
+  have failureReadUnary : UnaryHistory failureRead :=
+    unary_cont_closed failureUnary nameUnary failureRoute
+  have openFitRouteUnary : UnaryHistory openFitRoute :=
+    unary_cont_closed changedFUnary failureReadUnary openFitRouteRoute
+  have classifierReadUnary : UnaryHistory classifierRead :=
+    unary_cont_closed openFitRouteUnary classifierUnary classifierRoute
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed classifierReadUnary ledgerUnary ledgerRoute
+  have exportReadUnary : UnaryHistory exportRead :=
+    unary_cont_closed ledgerReadUnary nameUnary exportRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row F ∨ hsame row changedF ∨ hsame row N ∨ hsame row exportRead)
+        (fun row : BHist => hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro exportRead ⟨hsame_refl exportRead, exportReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr source.left))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, exportPkg⟩
+    }
+  exact ⟨cert, openFitRouteUnary, classifierReadUnary, ledgerReadUnary, exportReadUnary⟩
+
+theorem RealityConstrainedTruthCertRootLedgerNonescape [AskSetup] [PackageSetup]
+    {S Sigma K T U D I L F N ledgerFailure failureName exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedTruthCertCarrier S Sigma K T U D I L F N ->
+      Cont L F ledgerFailure ->
+        Cont F N failureName ->
+          Cont ledgerFailure failureName exportRead ->
+            PkgSig bundle exportRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row L ∨ hsame row F ∨ hsame row N ∨ hsame row exportRead)
+                  (fun row : BHist =>
+                    hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+                  hsame ∧
+                UnaryHistory ledgerFailure ∧
+                  UnaryHistory failureName ∧ UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier ledgerFailureRoute failureNameRoute exportRoute exportPkg
+  obtain ⟨_sourceUnary, _signatureUnary, _towerUnary, _stabilityUnary, invariantUnary,
+    ledgerUnary, _sourceRoute, _towerRoute, invariantRoute, nameRoute⟩ := carrier
+  have failureUnary : UnaryHistory F :=
+    unary_cont_closed invariantUnary ledgerUnary invariantRoute
+  have nameUnary : UnaryHistory N :=
+    unary_cont_closed ledgerUnary failureUnary nameRoute
+  have ledgerFailureUnary : UnaryHistory ledgerFailure :=
+    unary_cont_closed ledgerUnary failureUnary ledgerFailureRoute
+  have failureNameUnary : UnaryHistory failureName :=
+    unary_cont_closed failureUnary nameUnary failureNameRoute
+  have exportReadUnary : UnaryHistory exportRead :=
+    unary_cont_closed ledgerFailureUnary failureNameUnary exportRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row L ∨ hsame row F ∨ hsame row N ∨ hsame row exportRead)
+        (fun row : BHist => hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro exportRead ⟨hsame_refl exportRead, exportReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr source.left))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, exportPkg⟩
+    }
+  exact ⟨cert, ledgerFailureUnary, failureNameUnary, exportReadUnary⟩
 
 end BEDC.Derived.RealityConstrainedTruthCertUp
