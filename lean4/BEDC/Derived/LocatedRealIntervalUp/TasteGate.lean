@@ -174,3 +174,26 @@ theorem LocatedRealIntervalTasteGate_single_carrier_alignment :
       rfl⟩
 
 end BEDC.Derived.LocatedRealIntervalUp.TasteGate
+
+namespace BEDC.Derived.LocatedRealIntervalUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+
+theorem LocatedRealIntervalTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      TasteGate.locatedRealIntervalDecodeBHist
+          (TasteGate.locatedRealIntervalEncodeBHist h) =
+        h) ∧
+      (∀ x : TasteGate.LocatedRealIntervalUp,
+        TasteGate.locatedRealIntervalFromEventFlow
+            (TasteGate.locatedRealIntervalToEventFlow x) =
+          some x) ∧
+        (∀ x y : TasteGate.LocatedRealIntervalUp,
+          TasteGate.locatedRealIntervalToEventFlow x =
+              TasteGate.locatedRealIntervalToEventFlow y →
+            x = y) ∧
+          TasteGate.locatedRealIntervalEncodeBHist BHist.Empty = ([] : List BMark) := by
+  exact TasteGate.LocatedRealIntervalTasteGate_single_carrier_alignment
+
+end BEDC.Derived.LocatedRealIntervalUp
