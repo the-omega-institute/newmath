@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealCauchyModulusUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -244,5 +256,105 @@ theorem RealCauchyModulusTasteGate_single_carrier_alignment :
                     (realCauchyModulusEncodeBHist_injective hP)
                     (realCauchyModulusEncodeBHist_injective hN)
       · rfl
+
+def RealCauchyModulusCarrier [AskSetup] [PackageSetup]
+    (modulus windows dyadic readback sealRow transports routes provenance localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory modulus ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+    UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory transports ∧
+      UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+        Cont modulus windows dyadic ∧ Cont dyadic readback sealRow ∧
+          Cont sealRow routes provenance ∧ PkgSig bundle provenance pkg ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+              (fun row : BHist => UnaryHistory row ∧ hsame row localCert)
+              (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
+              (fun row row' : BHist => hsame row row')
+
+theorem RealCauchyModulusCarrier_threshold_stability [AskSetup] [PackageSetup]
+    {modulus windows dyadic readback sealRow transports routes provenance localCert modulus'
+      windows' dyadic' readback' sealRow' transports' routes' provenance' localCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyModulusCarrier modulus windows dyadic readback sealRow transports routes provenance
+        localCert bundle pkg →
+      hsame modulus modulus' →
+        hsame windows windows' →
+          hsame dyadic dyadic' →
+            hsame readback readback' →
+              hsame sealRow sealRow' →
+                hsame transports transports' →
+                  hsame routes routes' →
+                    hsame provenance provenance' →
+                      hsame localCert localCert' →
+                        Cont modulus' windows' dyadic' →
+                          Cont dyadic' readback' sealRow' →
+                            Cont sealRow' routes' provenance' →
+                              PkgSig bundle provenance' pkg →
+                                RealCauchyModulusCarrier modulus' windows' dyadic' readback'
+                                    sealRow' transports' routes' provenance' localCert' bundle
+                                    pkg ∧
+                                  hsame sealRow sealRow' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg SemanticNameCert
+  intro carrier sameModulus sameWindows sameDyadic sameReadback sameSeal sameTransports
+  intro sameRoutes sameProvenance sameLocalCert routeMod routeRead routeSeal pkgProvenance
+  obtain ⟨modulusUnary, windowsUnary, dyadicUnary, readbackUnary, sealUnary,
+    transportsUnary, routesUnary, provenanceUnary, localCertUnary, _routeMod, _routeRead,
+      _routeSeal, _pkgProvenance, _localSemantic⟩ := carrier
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport modulusUnary sameModulus
+  have windowsUnary' : UnaryHistory windows' :=
+    unary_transport windowsUnary sameWindows
+  have dyadicUnary' : UnaryHistory dyadic' :=
+    unary_transport dyadicUnary sameDyadic
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_transport readbackUnary sameReadback
+  have sealUnary' : UnaryHistory sealRow' :=
+    unary_transport sealUnary sameSeal
+  have transportsUnary' : UnaryHistory transports' :=
+    unary_transport transportsUnary sameTransports
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport routesUnary sameRoutes
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have localCertUnary' : UnaryHistory localCert' :=
+    unary_transport localCertUnary sameLocalCert
+  have localSourceWitness :
+      hsame localCert' localCert' ∧ UnaryHistory localCert' :=
+    ⟨hsame_refl localCert', localCertUnary'⟩
+  have localSemantic' :
+      SemanticNameCert
+        (fun row : BHist => hsame row localCert' ∧ UnaryHistory row)
+        (fun row : BHist => UnaryHistory row ∧ hsame row localCert')
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance' pkg)
+        (fun row row' : BHist => hsame row row') :=
+    {
+      core := {
+        carrier_inhabited := ⟨localCert', localSourceWitness⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row row' same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row row' row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact ⟨source.right, source.left⟩
+      ledger_sound := by
+        intro row source
+        exact ⟨source.right, pkgProvenance⟩
+    }
+  exact
+    ⟨⟨modulusUnary', windowsUnary', dyadicUnary', readbackUnary', sealUnary',
+      transportsUnary', routesUnary', provenanceUnary', localCertUnary', routeMod, routeRead,
+      routeSeal, pkgProvenance, localSemantic'⟩, sameSeal⟩
 
 end BEDC.Derived.RealCauchyModulusUp
