@@ -56,6 +56,23 @@ Transport, replay, provenance, and local naming do not add an endpoint object. T
 Thus every $\RealUp$ or completion-facing read must pass through the finite carrier surface before reaching $E$. Since the carrier has no coordinate for the excluded principles, no such principle can be extracted from this handoff.
 \end{proof}
 
+\begin{theorem}[UniformCauchyModulus shared-window budget]\label{thm:uniform-cauchy-modulus-shared-window-budget}
+For every accepted $\UniformCauchyModulusUp$ carrier $U=(S,R,D,M,W,E,H,C,P,N)$, a finite precision request must first read the selected $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readbacks $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the shared modulus row $M$, and the finite witness row $W$. If two endpoint-facing consumers share $M$ and $W$, then their $\RealUp$ handoff row $E$ is reached through the same displayed budget route
+$$
+S \longrightarrow R \longrightarrow D \longrightarrow M \longrightarrow W \longrightarrow E
+$$
+as replayed by $H$ and $C$. No quotient stream, selected limit, countable choice, ambient completeness row, host real equality, open-cover compactness, or trichotomy coordinate can enter this budget.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only rows available before the endpoint handoff are the selected-window row $S$, regular readback row $R$, dyadic tolerance row $D$, shared modulus row $M$, finite witness row $W$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$.
+
+Induct over the displayed witness row $W$. The empty witness route exposes no endpoint-facing read, so no consumer can reach $E$ without the selected windows, readbacks, tolerance ledger, and shared modulus already displayed. In the step case, the next witness cell is read only after its selected windows have been transported through $H$ and replayed through $C$ along the route from $S$ to $R$, from $R$ to $D$, and from $D$ to $M$.
+
+Now take two endpoint-facing consumers that share $M$ and $W$. The induction gives the same finite witness route for both consumers, and the carrier has only one handoff row $E$ downstream of that route. Hence both consumers reach $E$ through the displayed shared-window budget.
+
+The excluded principles are not coordinates of $U$ and are not produced by $H$ or $C$. Therefore the finite budget cannot import quotient stream equality, a selected limit, countable choice, ambient completeness, host real equality, open-cover compactness, or trichotomy.
+\end{proof}
+
 \falsifiablePrediction{Every $\UniformCauchyModulusUp$ endpoint-facing read factors through selected StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, one shared Cauchy-window modulus row, finite witness replay, a RealUp handoff row, hsame transport, Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, cauchymodulusmeet, uniformcauchyfilter, real: $\UniformCauchyModulusUp$ is not bijective to any listed sibling because it jointly carries selected windows, regular rational readbacks, dyadic tolerance accounting, one shared finite Cauchy-window budget, witness replay, endpoint handoff, transport, continuation, provenance, and local naming.}
@@ -65,7 +82,7 @@ Thus every $\RealUp$ or completion-facing read must pass through the finite carr
 \begin{closurestatus}{\UniformCauchyModulusUp}
   \constructivestory{A $\UniformCauchyModulusUp$ packet is generated from selected StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, one shared finite Cauchy-window modulus row, finite witness replay, a RealUp handoff row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:uniform-cauchy-modulus-carrier}, \autoref{thm:uniform-cauchy-modulus-namecert-obligations}, and \autoref{thm:uniform-cauchy-modulus-real-handoff} seed the finite shared Cauchy-window budget route for Real and completion consumers.}
+  \scopeclosed{\autoref{def:uniform-cauchy-modulus-carrier}, \autoref{thm:uniform-cauchy-modulus-namecert-obligations}, \autoref{thm:uniform-cauchy-modulus-real-handoff}, and \autoref{thm:uniform-cauchy-modulus-shared-window-budget} seed the finite shared Cauchy-window budget route for Real and completion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, open-cover compactness, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
