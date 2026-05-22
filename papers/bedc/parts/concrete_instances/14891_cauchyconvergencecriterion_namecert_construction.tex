@@ -67,12 +67,28 @@ Next pass to regular-rational data and the seal. The row $R$ is the only $\RegSe
 The route has no extra coordinate after $E$. Thus compatibility with the $\CauchyLimitSealUp$ boundary is witnessed by the same finite handoff, and the read cannot export host completeness, quotient streams, selected limits, trichotomy, open-cover compactness, or a detached seal.
 \end{proof}
 
+\begin{theorem}[Cauchy convergence criterion NullSequence factorization]
+\label{thm:cauchy-convergence-criterion-nullsequence-factorization}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Any $\RealUp$-facing convergence read of $G$ whose comparison row is a zero-difference read factors through a displayed $\NullSequenceUp$ packet before the $\CauchyLimitSealUp$ boundary may consume it.
+
+The displayed $\NullSequenceUp$ packet uses the same $\RegSeqRatUp$ difference row $R$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\StreamNameUp$ window schedule $S$, $\CauchyModulusUp$ threshold row $M$, $\RealUp$ seal row $E$, and provenance rows $H,C,P,N$ already carried by $G$. No second stream representative, quotient stream, host limit, trichotomy row, choice principle, open-cover compactness object, or ambient completeness coordinate is introduced by this zero-difference handoff.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $G$. The coordinates $S,M,D,R$ give the finite tolerance-window route: stream observations are read only through $S$, tolerance requests are bounded by $M$, dyadic scales and comparisons are recorded by $D$, and the regular-rational comparison row is $R$.
+
+Now impose the zero-difference condition on the comparison read. By \autoref{thm:null-sequence-window-threshold-exactness}, the tolerance request must pass through the displayed dyadic tolerance row, observation window, and threshold row before any $\RealUp$ seal read. In the present carrier these rows are exactly $D,S,M$, with $R$ as the displayed difference row.
+
+Apply \autoref{thm:null-sequence-real-seal-factorization}. It makes the $\NullSequenceUp$ packet the finite consumer boundary for the $\RealUp$ equality read, so the seal row $E$ is reached only through the same difference, tolerance, window, threshold, transport, continuation, package, and local certificate rows.
+
+Finally return to the remaining coordinates of $G$. The rows $H,C,P,N$ record componentwise transport, continuation replay, provenance, and local naming for the same packet, while the $\CauchyLimitSealUp$ boundary can consume only the finite handoff already displayed. Since the carrier has no coordinate for a quotient stream, host limit, trichotomy, choice, open-cover compactness, or ambient completeness theorem, the zero-difference read factors through $\NullSequenceUp$ and exports nothing beyond that route.
+\end{proof}
+
 \closureat{CauchyConvergenceCriterionUp}{seedStr}
 
 \begin{closurestatus}{\CauchyConvergenceCriterionUp}
   \constructivestory{A $\CauchyConvergenceCriterionUp$ packet is generated from a finite $\StreamNameUp$ schedule, a $\CauchyModulusUp$ threshold row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-convergence-criterion-carrier}, \autoref{thm:cauchy-convergence-criterion-namecert-obligations}, and \autoref{thm:cauchy-convergence-criterion-real-seal-handoff} seed the finite convergence-criterion route from StreamName windows through Cauchy modulus and dyadic ledger rows to the RegSeqRat handoff and Real seal.}
+  \scopeclosed{\autoref{def:cauchy-convergence-criterion-carrier}, \autoref{thm:cauchy-convergence-criterion-namecert-obligations}, \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}, and \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization} seed the finite convergence-criterion route from StreamName windows through Cauchy modulus and dyadic ledger rows to the RegSeqRat handoff, NullSequence zero-difference package, and Real seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close ambient completeness, quotient-stream equality, selected host limits, trichotomy, open-cover compactness, Lean verification, or bridge checking.}
