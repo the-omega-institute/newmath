@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\DyadicBinarySearchUp$}
+\label{ch:concrete-instances-dyadic-binary-search-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\DyadicBinarySearchUp$ packet records finite bisection search over located dyadic intervals before any Real-and-Completion consumer receives a bracket. It sits on the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite bisection route of \autoref{ch:concrete-instances-located-interval-bisection-namecert}, the located interval surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names a bounded controller for interval refinement; it does not decide global trichotomy, select an infinite limit, identify quotient real names, or invoke ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic binary search carrier]
+\label{def:dyadic-binary-search-carrier}
+A $\DyadicBinarySearchUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,T,K,M,L,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the initial $\LocatedIntervalUp$ row, containing the left endpoint, right endpoint, dyadic radius, and locatedness data from which the search begins.
+\item $T$ is the finite test row. It records the decidable inspected predicate or sign comparison available at each displayed midpoint, but only on the finite rows opened by the packet.
+\item $K$ is the unary depth row, bounding the number of bisection decisions made by the controller.
+\item $M$ is the midpoint row, computed through $\DyadicRatCoreUp$ arithmetic from the current retained interval at every depth below $K$.
+\item $L$ is the retained-half ledger, recording for each stage whether the left or right dyadic half is kept and which located interval row results.
+\item $W$ is the $\StreamNameUp$ window family through which the inspected endpoint, midpoint, and retained-half data are exposed to downstream consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite stream windows and dyadic midpoint ledger.
+\item $E$ is the $\RealUp$ bracket seal handed off only after the retained interval, stream windows, and regular rational readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval, test, depth, midpoint, retained-half, stream-window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every consumer request through
+$$
+I,T,K\longmapsto M,L\longmapsto W\longmapsto R\longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicBinarySearchUp$, $\DyadicRatCoreUp$, $\LocatedIntervalBisectionUp$, $\LocatedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicBinarySearchUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for real trichotomy, quotient real equality, countable choice, a selected infinite refinement, ambient $\RealUp$ completeness, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Dyadic binary search NameCert obligations]
+\label{thm:dyadic-binary-search-namecert-obligations}
+For every accepted $\DyadicBinarySearchUp$ carrier $B=(I,T,K,M,L,W,R,E,H,C,P,N)$, the local $\NameCert_{\DyadicBinarySearchUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed twelve-row packet;
+\item initial located-interval exposure for $I$ and finite test exposure for $T$;
+\item unary depth coverage for $K$ and midpoint arithmetic exactness for $M$ through $\DyadicRatCoreUp$;
+\item retained-half ledger exactness for $L$ through the $\LocatedIntervalBisectionUp$ route;
+\item stream-window coverage for $W$, regular rational readback for $R$, and $\RealUp$ bracket non-escape for $E$;
+\item componentwise transport, continuation replay, provenance, and local naming for exactly the rows recorded in $H,C,P,N$.
+\end{enumerate}
+No dyadic binary-search NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $B=(I,T,K,M,L,W,R,E,H,C,P,N)$. The projection exposes the initial located interval, finite test row, unary depth, midpoint ledger, retained-half ledger, stream windows, regular readback, Real bracket seal, and the structural rows.
+
+The numerical part is finite. The row $K$ bounds the number of midpoint computations, while $M$ records each midpoint through $\DyadicRatCoreUp$ arithmetic and $L$ records the retained half through the $\LocatedIntervalBisectionUp$ route.
+
+The observation part is also finite. The test row $T$ can inspect only the displayed midpoint and endpoint data, and the window row $W$ is the only stream surface available to the readback row $R$.
+
+Finally $E$ is downstream of $R$. The rows $H,C,P,N$ preserve, replay, source, and name the same route, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic binary search bisection step]
+\label{thm:dyadic-binary-search-bisection-step}
+Let $B=(I,T,K,M,L,W,R,E,H,C,P,N)$ be an accepted $\DyadicBinarySearchUp$ carrier. For every displayed stage strictly below the unary depth $K$, the next retained interval is obtained by the finite route
+$$
+I,T,M\longmapsto L .
+$$
+The retained interval is one of the two dyadic halves certified by the $\LocatedIntervalBisectionUp$ row, and its midpoint computation is the one displayed by the $\DyadicRatCoreUp$ ledger.
+\end{theorem}
+\begin{proof}
+Proceed by finite induction on the displayed prefix of $K$. In the base stage, the current interval is the initial row $I$, and the midpoint row $M$ computes its dyadic midpoint from the endpoints already displayed in $I$.
+
+For the step stage, assume the retained interval has been obtained from the previous prefix through $L$. The next midpoint is again read from $M$, and the finite test row $T$ supplies the only branch datum permitted at that midpoint.
+
+Apply the $\LocatedIntervalBisectionUp$ retained-half row recorded in $L$. It stores exactly one of the two dyadic halves, with the corresponding located interval data, and componentwise transport in $H$ preserves that row under the displayed classifier.
+
+The induction therefore produces no extra analytic coordinate. Each stage is obtained by repeating the same finite midpoint, test, and retained-half route below the bound $K$.
+\end{proof}
+
+\begin{theorem}[Dyadic binary search Real bracket handoff]
+\label{thm:dyadic-binary-search-real-bracket-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\DyadicBinarySearchUp$ carrier factors through the finite route
+$$
+\LocatedIntervalUp,\ \DyadicRatCoreUp,\ \LocatedIntervalBisectionUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+Concretely, the consumer must read $I,T,K,M,L,W,R,H,C,P,N$ before the bracket seal $E$ is exposed.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for the bracket seal. Carrier projection shows that the only terminal Real-facing coordinate is $E$, and the continuation row $C$ routes access to $E$ through the displayed packet.
+
+The route first reads the initial located interval $I$, the finite test row $T$, and the unary depth $K$. The midpoint ledger $M$ and retained-half ledger $L$ then provide the bounded bisection data through $\DyadicRatCoreUp$ and $\LocatedIntervalBisectionUp$.
+
+Next the request passes through the stream windows $W$ and the regular rational readback $R$. These rows are the only observation and readback surfaces connected to the terminal bracket.
+
+The structural rows $H,P,N$ bind the same route under transport, provenance, and local naming. Since the carrier contains no coordinate for trichotomy, quotient real equality, selected limits, countable choice, or ambient $\RealUp$ completeness, the handoff exports none of those principles.
+\end{proof}
+
+\closureat{DyadicBinarySearchUp}{seedStr}
+
+\begin{closurestatus}{\DyadicBinarySearchUp}
+  \constructivestory{A $\DyadicBinarySearchUp$ packet is generated from an initial LocatedInterval row, a finite test row, a unary depth row, a DyadicRatCore midpoint ledger, a LocatedIntervalBisection retained-half ledger, StreamName windows, a RegSeqRat readback, a Real bracket seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-binary-search-carrier}, \autoref{thm:dyadic-binary-search-namecert-obligations}, \autoref{thm:dyadic-binary-search-bisection-step}, and \autoref{thm:dyadic-binary-search-real-bracket-handoff} seed the finite dyadic bisection-search controller over located intervals, dyadic midpoint arithmetic, retained-half ledgers, stream windows, regular rational readback, and Real bracket seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim trichotomy, quotient real equality, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the twelve-row carrier and prove the finite NameCert obligation surface, bisection-step theorem, and Real-bracket handoff theorem for BEDC.Derived.DyadicBinarySearchUp.}
+\end{closurestatus}
