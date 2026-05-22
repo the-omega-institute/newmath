@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\DoublingMetricUp$}
+\label{ch:concrete-instances-doubling-metric-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive metric analysis and Kelley's finite-cover regularity language, the $\DoublingMetricUp$ packet records the standard bounded-overlap cover control used before total-bounded, compact-metric, and dimension-facing consumers read a metric space at smaller scales. It sits over the displayed metric source of \autoref{ch:concrete-instances-metric-namecert}, hands finite center ledgers to \autoref{ch:concrete-instances-finite-epsilon-net-namecert} and \autoref{ch:concrete-instances-totallybounded-namecert}, and supplies scale-local cover data usable by \autoref{ch:concrete-instances-compactmetric-namecert}. The packet names only finite ball-cover rows, positive radius rows, scale-halving ledgers, transport, replay, provenance, and local naming; it does not import open-cover compactness, a choice-selected cover family, or an ambient semantic doubling theorem.
+
+\begin{definition}[Doubling metric carrier]
+\label{def:doubling-metric-carrier}
+A $\DoublingMetricUp$ carrier is a finite $\BHist$ packet
+$$
+D=(M,\rho,B,K,E,T,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\MetricUp$ row, including the point classifier, distance rows, ball membership reads, and metric-law ledger through which every cover request is inspected.
+\item $\rho$ is the positive radius ledger. Each row stores a positive rational or dyadic radius request together with the displayed half-radius request used by the next scale.
+\item $B$ is the ball request row. It names the inspected center, the radius row from $\rho$, and the parent metric ball whose coverage is being certified.
+\item $K$ is the center-bundle row, a closed finite $\mathsf{ProbeBundle}$ of candidate centers admitted by the same metric source $M$.
+\item $E$ is the ball-cover coverage ledger. For every displayed point row admitted by $B$, it records an admitted center in $K$ and the half-radius distance read witnessing membership in the corresponding smaller ball.
+\item $T$ is the $\FiniteEpsilonNetUp$ and $\TotallyBoundedUp$ handoff row, exposing only the finite center bundle, tolerance read, and coverage witnesses computed from $M,\rho,B,K,E$.
+\item $S$ is the scale-halving ledger. It records that every consumer step from radius $r$ to radius $r/2$ reuses the same metric source, the corresponding positive-radius row, and a finite center bundle of the displayed bounded size.
+\item $H$ records componentwise $\hsame$ transport for the metric source, positive radius ledger, ball request, center bundle, coverage ledger, finite-net handoff, scale-halving ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,\rho,B \longmapsto K \longmapsto E \longmapsto T \longmapsto S .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DoublingMetricUp$, $\MetricUp$, $\FiniteEpsilonNetUp$, $\TotallyBoundedUp$, $\CompactMetricUp$, $\RatUp$, $\DyadicRatCoreUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DoublingMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,\rho,B,K,E,T,S,H,C,P,N$. It has no coordinate for an open cover, a selected subcover, a global compactness principle, a choice-selected family of centers, ambient real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Doubling metric NameCert obligations]
+\label{thm:doubling-metric-namecert-obligations}
+For every accepted $\DoublingMetricUp$ carrier
+$$
+D=(M,\rho,B,K,E,T,S,H,C,P,N),
+$$
+the local $\NameCert_{\DoublingMetricUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the metric source, positive radius ledger, ball request, center bundle, coverage ledger, finite-net handoff, scale-halving ledger, transport, replay, provenance, and local naming rows;
+\item ball-cover coverage, requiring each displayed point in the parent ball $B$ to be covered by one of the centers in $K$ through the half-radius metric read recorded in $E$;
+\item scale monotonicity, requiring the ledger $S$ to relate every radius row to its half-radius row without changing the source $\MetricUp$ carrier or escaping the displayed positive-radius ledger;
+\item finite-net handoff, requiring $T$ to expose the center bundle and coverage rows only as $\FiniteEpsilonNetUp$ and $\TotallyBoundedUp$ data over the same metric source;
+\item transport stability, requiring $H$ and $C$ to preserve and replay the metric, radius, bundle, coverage, handoff, and scale rows componentwise;
+\item non-escape, requiring every $\CompactMetricUp$ or covering-dimension consumer to read only $M,\rho,B,K,E,T,S,H,C,P,N$ and no open-cover compactness or choice-selected cover family.
+\end{enumerate}
+No local certificate obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:doubling-metric-carrier}. The accepted packet displays the metric source, positive radius ledger, ball request, finite center bundle, coverage ledger, finite-net handoff, scale-halving ledger, and the four structural rows.
+
+Ball-cover coverage is the projection to $E$. Each inspected point in the parent ball named by $B$ is paired with a center from $K$, and the metric distance row from $M$ witnesses that the point lies in the corresponding half-radius ball.
+
+Scale monotonicity is local to $\rho$ and $S$. The ledger records the passage from $r$ to $r/2$ as a displayed positive-radius step over the same source metric row, so a consumer cannot replace the metric carrier, alter the ball source, or introduce a hidden real-number choice.
+
+The finite-net handoff is the projection to $T$. It repackages the same center bundle and coverage rows as $\FiniteEpsilonNetUp$ and $\TotallyBoundedUp$ data, which a $\CompactMetricUp$ consumer may later read only through the visible finite route.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly this route. Since the carrier has no row for open covers, selected subcovers, global compactness, ambient real completeness, or choice-selected center families, the listed non-escape boundary is part of the local certificate surface.
+\end{proof}
+
+\falsifiablePrediction{Every $\DoublingMetricUp$ cover read factors through one MetricUp source row, one positive radius ledger, one parent ball request, one finite ProbeBundle of centers, one half-radius coverage ledger, one FiniteEpsilonNet and TotallyBounded handoff, one scale-halving ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{metric, finite-epsilon-net, totallybounded, compactmetric: $\DoublingMetricUp$ is not bijective to any listed sibling because it jointly carries the parent-ball request, bounded center-bundle coverage, scale-halving ledger, finite-net handoff, and transport/replay/provenance rows binding them into a finite metric regularity certificate.}
+
+\closureat{DoublingMetricUp}{seedStr}
+
+\begin{closurestatus}{\DoublingMetricUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:doubling-metric-carrier} and \autoref{thm:doubling-metric-namecert-obligations} seed the finite scale-halving cover certificate over a displayed $\MetricUp$ source and its $\FiniteEpsilonNetUp$, $\TotallyBoundedUp$, and $\CompactMetricUp$ consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected subcovers, global compactness, choice-selected center families, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ball-cover coverage, scale monotonicity, finite-net handoff, transport stability, non-escape, provenance, and local NameCert rows for BEDC.Derived.DoublingMetricUp.}
+  \constructivestory{A $\DoublingMetricUp$ packet is generated from a MetricUp source row, positive radius rows, a parent ball request, a finite ProbeBundle of centers, a half-radius coverage ledger, a FiniteEpsilonNetUp and TotallyBoundedUp handoff, a scale-halving ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
