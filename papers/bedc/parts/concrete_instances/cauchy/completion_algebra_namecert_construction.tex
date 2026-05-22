@@ -2,116 +2,134 @@
 \label{ch:concrete-instances-cauchy-completion-algebra-namecert}
 \origin{human}
 
-Following Mac Lane and Eilenberg--Moore on algebras for monads, and Bishop--Bridges on constructive Cauchy completion, the $\CauchyCompletionAlgebraUp$ packet records the finite BEDC surface by which the L10 completion monad exposes an algebra action without turning completed points into quotient representatives. It consumes the completion-monad route of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the Kleisli consumer boundary of \autoref{ch:concrete-instances-cauchy-completion-kleisli-namecert}, the counit return of \autoref{ch:concrete-instances-cauchy-completion-counit-namecert}, the triangle ledger of \autoref{ch:concrete-instances-cauchy-completion-triangle-identity-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names an Eilenberg--Moore algebra surface for displayed completion routes only; it does not assert quotient completion equality, selected representatives, host equality of completed objects, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+Following Mac Lane and Eilenberg--Moore on algebras for monads, and Bishop--Bridges on constructive Cauchy completion, the $\CauchyCompletionAlgebraUp$ packet records the finite BEDC surface by which the L10 completion monad exposes an algebra action without turning completed points into quotient representatives. It consumes the completion-monad route of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the complete-metric boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the universal-property route of \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, the real completion seal of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names an Eilenberg--Moore algebra surface for displayed completion routes only; it does not assert quotient completion equality, selected representatives, host equality of completed objects, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
 
 \begin{definition}[CauchyCompletionAlgebra carrier]
 \label{def:cauchy-completion-algebra-carrier}
 A $\CauchyCompletionAlgebraUp$ carrier is a finite $\BHist$ packet
 $$
-A=(M,K,V,G,S,R,D,E,H,C,P,N)
+A=(M,Q,U,L,H,C,P,N)
 $$
 with the following displayed rows:
 \begin{enumerate}
 \item $M$ is the $\CauchyCompletionMonadUp$ route carrying the unit, bind, and multiplication-facing data of the L10 completion monad.
-\item $K$ is the $\CauchyCompletionKleisliUp$ handoff row through which monadic consumers enter the algebra-facing boundary.
-\item $V$ is the $\CauchyCompletionCounitUp$ return row sending already displayed completion reads back toward the finite Real-facing route.
-\item $G$ is the $\CauchyCompletionTriangleIdentityUp$ ledger comparing the Kleisli-then-counit route with the displayed direct route.
-\item $S$ is the finite $\StreamNameUp$ window family inspected before the algebra action may expose any rational observation.
-\item $R$ is the $\RegSeqRatUp$ readback row reached after the displayed stream windows and completion route have been fixed.
-\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the stream windows, regular readback, and triangle comparison.
-\item $E$ is the terminal $\RealUp$ seal row reached only after $M,K,V,G,S,R,D$ have been displayed.
-\item $H$ records componentwise $\hsame$ transport for the monad route, Kleisli handoff, counit return, triangle ledger, finite windows, readback, tolerance, Real seal, replay, provenance, and local naming rows.
+\item $Q$ is the $\CompleteMetricUp$ boundary on which the algebra action is displayed.
+\item $U$ is the $\CompletionUniversalPropertyUp$ route that constrains algebra-facing maps through the displayed completion surface.
+\item $L$ is the $\RealCauchyCompletionUp$ seal reached after the monad route, complete-metric boundary, and universal-property route have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the monad route, complete-metric boundary, universal-property route, real completion seal, replay, provenance, and local naming rows.
 \item $C$ records displayed $\Cont$ replay of the algebra route
 $$
-M,K \longmapsto V,G \longmapsto S,R,D \longmapsto E .
+M,Q \longmapsto U \longmapsto L .
 $$
-\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionAlgebraUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionKleisliUp$, $\CauchyCompletionCounitUp$, $\CauchyCompletionTriangleIdentityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionAlgebraUp$, $\CauchyCompletionMonadUp$, $\CompleteMetricUp$, $\CompletionUniversalPropertyUp$, $\RealCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
 \item $N$ is the local $\NameCert_{\CauchyCompletionAlgebraUp}$ row.
 \end{enumerate}
-The classifier compares accepted packets only through $M,K,V,G,S,R,D,E,H,C,P,N$. It has no coordinate for quotient completion equality, selected representatives, host equality of completed objects, countable-choice schedules, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+The classifier compares accepted packets only through $M,Q,U,L,H,C,P,N$. It has no coordinate for quotient completion equality, selected representatives, host equality of completed objects, countable-choice schedules, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
 \end{definition}
 
 \begin{theorem}[CauchyCompletionAlgebra NameCert obligations]
-\label{thm:cauchy-completion-algebra-namecert-obligations}
+\label{thm:cauchy-completion-algebra-obligations}
 For every accepted $\CauchyCompletionAlgebraUp$ carrier
 $$
-A=(M,K,V,G,S,R,D,E,H,C,P,N),
+A=(M,Q,U,L,H,C,P,N),
 $$
 the local $\NameCert_{\CauchyCompletionAlgebraUp}$ surface consists exactly of the following finite obligation rows:
 \begin{enumerate}
-\item carrier admission for the monad route, Kleisli handoff, counit return, triangle ledger, stream windows, regular readback, dyadic tolerance ledger, Real seal, transport, replay, provenance, and local naming row;
-\item algebra-action exposure, requiring every algebra-facing completion read to enter through $M$ and $K$ before any return or Real-facing observation can be consumed;
-\item counit return, requiring already displayed completion reads to pass through $V$ before the finite observation route $S,R,D,E$ is inspected;
-\item triangle coherence, requiring $G$ to compare the Kleisli-then-counit route with the direct displayed route to the same Real seal;
+\item carrier admission for the monad route, complete-metric boundary, universal-property route, real completion seal, transport, replay, provenance, and local naming row;
+\item algebra-action exposure, requiring every algebra-facing completion read to enter through $M$ and $Q$ before the universal-property route or real completion seal can be consumed;
+\item universal-property discipline, requiring $U$ to mediate every public map out of the displayed completion surface;
+\item real-completion sealing, requiring $L$ to remain downstream of $M,Q,U$ and never to stand as a selected quotient representative;
 \item classifier stability, requiring transported packets with componentwise matching rows to replay the same algebra route through $H$ and $C$;
 \item provenance and non-escape, requiring $P,N$ to source and name exactly the displayed rows, with no quotient completion equality, selected representative, host equality of completed objects, countable-choice schedule, ambient $\RealUp$ completeness theorem, Lean verification, or bridge credential.
 \end{enumerate}
 No $\CauchyCompletionAlgebraUp$ obligation is stored outside these rows.
 \end{theorem}
 \begin{proof}
-Project the accepted packet $A=(M,K,V,G,S,R,D,E,H,C,P,N)$. Carrier admission exposes exactly the monad route, Kleisli handoff, counit return, triangle ledger, finite windows, regular readback, dyadic tolerance ledger, Real seal, and structural rows.
+Project the accepted packet $A=(M,Q,U,L,H,C,P,N)$. Carrier admission exposes exactly the monad route, complete-metric boundary, universal-property route, real completion seal, and structural rows.
 
-The algebra-action obligation is the projection to $M$ and $K$. A completion-facing consumer does not receive an ambient completed carrier; it first reads the displayed monad route and then the Kleisli handoff row that presents the algebra action as finite BEDC data.
+The algebra-action obligation is the projection to $M$ and $Q$. A completion-facing consumer does not receive an ambient completed carrier; it first reads the displayed monad route and then the complete-metric boundary on which the action is finite BEDC data.
 
-The counit and triangle obligations are then the projections to $V$ and $G$. The counit row returns already displayed completion reads toward $S,R,D,E$, while the triangle ledger compares the Kleisli-then-counit route with the direct route to the same terminal seal.
+The universal-property obligation is the projection to $U$. It constrains every public map out of the displayed completion surface to pass through the same finite route rather than through a host completion object.
 
-The observation route is finite. Stream windows $S$, regular readback $R$, and dyadic tolerances $D$ are displayed before the seal $E$ can be inspected by a Real-facing consumer.
+The real-completion seal is the projection to $L$. It is downstream of $M,Q,U$, so it cannot be consumed as a selected quotient representative or as host equality of completed objects.
 
 Finally, $H,C,P,N$ exhaust transport, replay, provenance, and naming. These rows preserve the displayed coordinates and add no quotient completion equality, selected representative, host equality, countable-choice schedule, ambient completeness theorem, Lean verification, or bridge credential, so the listed rows are exactly the local NameCert surface.
 \end{proof}
 
-\begin{theorem}[CauchyCompletionAlgebra Kleisli handoff]
-\label{thm:cauchy-completion-algebra-kleisli-handoff}
+\begin{theorem}[CauchyCompletionAlgebra complete-metric handoff]
+\label{thm:cauchy-completion-algebra-complete-metric-handoff}
 For every accepted $\CauchyCompletionAlgebraUp$ carrier
 $$
-A=(M,K,V,G,S,R,D,E,H,C,P,N),
+A=(M,Q,U,L,H,C,P,N),
 $$
-every $\CauchyCompletionKleisliUp$ consumer read exported by $A$ factors through the finite route
+every $\CompleteMetricUp$ consumer read exported by $A$ factors through the finite route
 $$
-\CauchyCompletionMonadUp \longrightarrow \CauchyCompletionKleisliUp \longrightarrow \CauchyCompletionCounitUp \longrightarrow \CauchyCompletionTriangleIdentityUp \longrightarrow \StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp \longrightarrow \RealUp .
+\CauchyCompletionMonadUp \longrightarrow \CompleteMetricUp \longrightarrow \CompletionUniversalPropertyUp \longrightarrow \RealCauchyCompletionUp .
 $$
-The handoff preserves the displayed algebra route and exports no quotient completion equality, selected representative, host equality of completed objects, countable-choice schedule, ambient $\RealUp$ completeness theorem, Lean verification, or bridge credential.
+The handoff preserves the displayed algebra route and exports no quotient completion equality, selected representative, host equality of completed objects, countable-choice schedule, ambient completeness theorem, Lean verification, or bridge credential.
 \end{theorem}
 \begin{proof}
-Begin with a Kleisli consumer and project the carrier. The only Kleisli-facing row is $K$, and it is downstream of the monad route $M$.
+Begin with a complete-metric consumer and project the carrier. The only complete-metric row is $Q$, and it is downstream of the monad route $M$.
 
-The return route is forced through $V$ and $G$. The counit row sends the already displayed completion read toward the finite observation route, while the triangle ledger keeps the Kleisli composite aligned with the direct displayed route.
+The public map route is forced through $U$. The universal-property row keeps the complete-metric boundary attached to the displayed completion algebra rather than to an ambient completed carrier.
 
-The consumer then reaches the observation rows $S,R,D,E$. These rows expose only finite stream windows, regular rational readback, dyadic tolerances, and the terminal Real seal.
+The consumer then reaches the completion seal $L$. This seal exposes only the displayed real Cauchy completion route fixed by $M,Q,U$.
 
 Transport by $H$ and replay by $C$ preserve this route componentwise, and $P,N$ only source and name the same packet. Since the carrier has no further coordinate, the handoff cannot produce quotient equality, representatives, host equality, choice, ambient completeness, Lean verification, or bridge data.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionAlgebra public handoff]
+\label{thm:cauchy-completion-algebra-public-handoff}
+For every accepted $\CauchyCompletionAlgebraUp$ carrier
+$$
+A=(M,Q,U,L,H,C,P,N),
+$$
+any public completion-algebra consumer receives the finite certificate route
+$$
+\CauchyCompletionMonadUp \longrightarrow \CompleteMetricUp \longrightarrow \CompletionUniversalPropertyUp \longrightarrow \RealCauchyCompletionUp
+$$
+together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The handoff exports no quotient completion equality, selected limit, host equality of completed objects, ambient completeness theorem, Lean verification, or bridge credential.
+\end{theorem}
+\begin{proof}
+Begin with a public completion-algebra consumer and project the carrier. The visible algebra action is sourced by $M$ and is displayed over the complete-metric boundary $Q$.
+
+The public mapping discipline is then forced through $U$. A consumer can use the universal-property route only as part of this same packet, so no separate host completion object or selected quotient representative is introduced.
+
+The terminal completion read is the seal $L$. Since $L$ is downstream of $M,Q,U$, it records the displayed real completion route rather than ambient completeness or equality in a host model.
+
+The structural rows $H,C,P,N$ preserve and name this route. They add transport, replay, provenance, and local certification, but no extra coordinate from which quotient equality, selected limits, host equality, Lean verification, or bridge data could be exported.
 \end{proof}
 
 \begin{theorem}[CauchyCompletionAlgebra Real-seal nonescape]
 \label{thm:cauchy-completion-algebra-real-seal-nonescape}
 For every accepted $\CauchyCompletionAlgebraUp$ carrier
 $$
-A=(M,K,V,G,S,R,D,E,H,C,P,N),
+A=(M,Q,U,L,H,C,P,N),
 $$
-every $\RealUp$ consumer of the terminal seal $E$ receives only the displayed algebra route
+every $\RealUp$ consumer of the terminal seal $L$ receives only the displayed algebra route
 $$
-M,K,V,G,S,R,D,E,H,C,P,N .
+M,Q,U,L,H,C,P,N .
 $$
 The seal is not quotient completion equality, not a selected representative, not host equality of completed objects, not countable choice, not ambient $\RealUp$ completeness, not Lean verification, and not a bridge credential.
 \end{theorem}
 \begin{proof}
-Start from the terminal seal $E$. In the carrier, $E$ is downstream of the displayed monad, Kleisli, counit, triangle, stream, readback, and dyadic rows rather than an independent completed-object coordinate.
+Start from the terminal seal $L$. In the carrier, $L$ is downstream of the displayed monad route, complete-metric boundary, and universal-property route rather than an independent completed-object coordinate.
 
-Trace the route backward. A Real-facing read reaches $E$ only after $S,R,D$ have been displayed, and those rows are available to the algebra action only through $M,K,V,G$.
+Trace the route backward. A Real-facing read reaches $L$ only after $U$ has been displayed, and $U$ is available to the algebra action only through $M,Q$.
 
 The structural rows do not add a second seal source. The transport row $H$ is componentwise, the replay row $C$ displays the same route order, and the provenance and local certificate rows $P,N$ name this packet without importing an ambient completion principle.
 
-Thus every Real-facing consumer is confined to $M,K,V,G,S,R,D,E,H,C,P,N$. The excluded quotient, representative, host-equality, countable-choice, ambient-completeness, Lean-verification, and bridge readings are outside the carrier inventory.
+Thus every Real-facing consumer is confined to $M,Q,U,L,H,C,P,N$. The excluded quotient, representative, host-equality, countable-choice, ambient-completeness, Lean-verification, and bridge readings are outside the carrier inventory.
 \end{proof}
 
 \closureat{CauchyCompletionAlgebraUp}{seedStr}
 
 \begin{closurestatus}{\CauchyCompletionAlgebraUp}
-  \constructivestory{A $\CauchyCompletionAlgebraUp$ packet is generated from the CauchyCompletionMonad route, CauchyCompletionKleisli handoff, CauchyCompletionCounit return, CauchyCompletionTriangleIdentity ledger, StreamName finite windows, RegSeqRat readback, DyadicRatCore tolerance ledger, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \constructivestory{A $\CauchyCompletionAlgebraUp$ packet is generated from the CauchyCompletionMonad route, CompleteMetric boundary, CompletionUniversalProperty route, RealCauchyCompletion seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-algebra-carrier}, \autoref{thm:cauchy-completion-algebra-namecert-obligations}, \autoref{thm:cauchy-completion-algebra-kleisli-handoff}, and \autoref{thm:cauchy-completion-algebra-real-seal-nonescape} seed the finite Eilenberg--Moore algebra surface for the L10 completion monad over displayed BEDC rows.}
+  \scopeclosed{\autoref{def:cauchy-completion-algebra-carrier}, \autoref{thm:cauchy-completion-algebra-obligations}, \autoref{thm:cauchy-completion-algebra-complete-metric-handoff}, \autoref{thm:cauchy-completion-algebra-public-handoff}, and \autoref{thm:cauchy-completion-algebra-real-seal-nonescape} seed the finite Eilenberg--Moore algebra surface for the L10 completion monad over displayed BEDC rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected representatives, host equality of completed objects, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, algebra-action exposure, counit return, triangle coherence, classifier stability, Kleisli handoff, Real-seal non-escape, and a Lean carrier/obligation formalization for BEDC.Derived.CauchyCompletionAlgebraUp.}
+  \upgradepath{Obligation closure requires checked carrier admission, algebra-action exposure, complete-metric boundary discipline, universal-property discipline, RealCauchyCompletion sealing, classifier stability, public handoff, Real-seal non-escape, and a Lean carrier/obligation formalization for BEDC.Derived.CauchyCompletionAlgebraUp.}
 \end{closurestatus}
