@@ -101,12 +101,68 @@ Apply \autoref{thm:null-sequence-real-seal-factorization}. It makes the $\NullSe
 Finally return to the remaining coordinates of $G$. The rows $H,C,P,N$ record componentwise transport, continuation replay, provenance, and local naming for the same packet, while the $\CauchyLimitSealUp$ boundary can consume only the finite handoff already displayed. Since the carrier has no coordinate for a quotient stream, host limit, trichotomy, choice, open-cover compactness, or ambient completeness theorem, the zero-difference read factors through $\NullSequenceUp$ and exports nothing beyond that route.
 \end{proof}
 
+\begin{theorem}[Cauchy convergence criterion source-triad exhaustion]
+\label{thm:cauchy-convergence-criterion-source-triad-exhaustion}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Every $\RealUp$- or $\CauchyLimitSealUp$-facing read of $G$ factors through the displayed source triad
+$$
+S,M,D,R
+$$
+before the $\RealUp$ seal row $E$ is available.
+
+The read has no bypass through quotient streams, host completeness, selected limits, trichotomy, or open-cover compactness. In particular, every convergence-facing consumer sees the stream schedule, modulus threshold row, dyadic tolerance ledger, and regular-rational handoff before it can consume a seal boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:cauchy-convergence-criterion-carrier}. The only sequence observations are the finite windows named by $S$, the only tolerance thresholds are carried by $M$, the only scale and comparison ledger is $D$, and the only regular-rational handoff is $R$.
+
+Apply \autoref{thm:cauchy-convergence-criterion-namecert-obligations}. Its finite-window classification, modulus stability, $\RegSeqRatUp$ handoff, Real-seal nonescape, and ledger-exhaustion rows require the consumer to traverse $S,M,D,R$ before any convergence-facing seal read.
+
+For a $\RealUp$ consumer, \autoref{thm:cauchy-convergence-criterion-real-seal-handoff} identifies the displayed route from the stream schedule through the threshold, ledger, and handoff rows to $E$. For a $\CauchyLimitSealUp$ consumer, \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy} reads the same boundary data and admits no second seal route.
+
+The final exclusion is structural. The carrier definition contains no coordinate for quotient streams, host completeness, selected limits, trichotomy, or open-cover compactness, and \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization} keeps zero-difference reads inside the same finite packet. Hence every accepted read is exhausted by the displayed source triad before $E$.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion window-threshold coverage]
+\label{thm:cauchy-convergence-criterion-window-threshold-coverage}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Every finite $\StreamNameUp$ window consumed by the convergence criterion has a matching $\CauchyModulusUp$ threshold in $M$ and a $\DyadicRatCoreUp$ tolerance row in $D$ in the same packet. Thus no unbounded stream read is accepted by the local classifier route.
+\end{theorem}
+\begin{proof}
+Start from a finite window read admitted by the local classifier. By \autoref{def:cauchy-convergence-criterion-carrier}, the window can only come from the displayed $\StreamNameUp$ schedule $S$.
+
+The threshold and tolerance data are then forced by the same carrier projection. The row $M$ assigns the relevant $\CauchyModulusUp$ threshold for the tolerance request, while $D$ records the dyadic scale, rational comparison, and exhaustion budget consumed by that threshold.
+
+Apply \autoref{thm:cauchy-convergence-criterion-namecert-obligations}. Finite-window classification keeps the read on $S$, modulus stability preserves the threshold row under $H$ and $C$, and ledger exhaustion accounts for the request in $D$ and $P$ before the handoff $R$ or seal row $E$ can be consumed.
+
+The handoff and seal results do not add a stream source. By \autoref{thm:cauchy-convergence-criterion-real-seal-handoff} and \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, downstream $\RealUp$, $\CauchyLimitSealUp$, and zero-difference consumers reuse the same $S,M,D$ rows. Since the carrier has no unbounded stream coordinate, the classifier accepts only covered finite windows.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion ledger-classifier exactness]
+\label{thm:cauchy-convergence-criterion-ledger-classifier-exactness}
+Let
+$$
+G=(S,M,D,R,E,H,C,P,N)
+$$
+and
+$$
+G'=(S,M,D,R,E',H,C,P,N)
+$$
+be accepted $\CauchyConvergenceCriterionUp$ carriers with the same displayed $\StreamNameUp$ schedule, $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, componentwise transport, continuation replay, provenance, and local name rows. If their $\RealUp$ and $\CauchyLimitSealUp$ boundary reads are compatible, then the two carriers determine the same local classifier route.
+\end{theorem}
+\begin{proof}
+Project both carriers. The displayed classifier data agree on $S,M,D,R,H,C,P,N$, so their finite windows, threshold assignments, dyadic tolerance rows, regular-rational handoff, transports, replays, provenance, and local names are the same.
+
+Apply \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}. Any $\RealUp$- or $\CauchyLimitSealUp$-facing read from either carrier must pass through the same source triad $S,M,D,R$ before reaching its seal row.
+
+Next use \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}. The shared ledger covers exactly the stream windows accepted by the classifier, so there is no residual unbounded stream read that could distinguish the two carriers.
+
+The compatible boundary reads identify the remaining endpoint. By \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}, compatible $\CauchyLimitSealUp$ boundaries over the same displayed schedule, handoff, dyadic ledger, seal boundary, transport, continuation, provenance, and name rows determine the same seal route. The Real handoff theorem supplies the corresponding $\RealUp$ route, and the NullSequence factorization theorem keeps zero-difference comparisons inside the same packet. Therefore the accepted carriers determine the same local classifier route.
+\end{proof}
+
 \closureat{CauchyConvergenceCriterionUp}{seedStr}
 
 \begin{closurestatus}{\CauchyConvergenceCriterionUp}
   \constructivestory{A $\CauchyConvergenceCriterionUp$ packet is generated from a finite $\StreamNameUp$ schedule, a $\CauchyModulusUp$ threshold row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-convergence-criterion-carrier}, \autoref{thm:cauchy-convergence-criterion-namecert-obligations}, \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}, \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}, and \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization} seed the finite convergence-criterion route from StreamName windows through Cauchy modulus and dyadic ledger rows to the RegSeqRat handoff, CauchyLimitSeal route, NullSequence zero-difference package, and Real seal.}
+  \scopeclosed{\autoref{def:cauchy-convergence-criterion-carrier}, \autoref{thm:cauchy-convergence-criterion-namecert-obligations}, \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}, \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}, \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}, \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}, and \autoref{thm:cauchy-convergence-criterion-ledger-classifier-exactness} seed the finite convergence-criterion route from StreamName windows through Cauchy modulus and dyadic ledger rows to the RegSeqRat handoff, CauchyLimitSeal route, NullSequence zero-difference package, and Real seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close ambient completeness, quotient-stream equality, selected host limits, trichotomy, open-cover compactness, Lean verification, or bridge checking.}
