@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusPullbackUp$}
+\label{ch:concrete-instances-cauchy-modulus-pullback-namecert}
+\origin{human}
+
+Following Bishop and Bridges on explicit moduli and cofinal subsequences, the $\CauchyModulusPullbackUp$ packet records the finite certificate by which a displayed Cauchy modulus is read along a cofinal reindexing route before any regular rational or real-name consumer may use its threshold. It sits between the source and target schedule discipline of \autoref{ch:concrete-instances-cauchy-reindexing-namecert}, the explicit threshold surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite observation rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite pullback route; it is not a quotient of streams, not a selected subsequence limit, not countable choice, not host real equality, not trichotomy, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy modulus pullback carrier]
+\label{def:cauchy-modulus-pullback-carrier}
+A $\CauchyModulusPullbackUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,I,K,M,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ schedule whose original explicit Cauchy modulus is already displayed.
+\item $I$ is the reindexed $\StreamNameUp$ schedule obtained by reading $S$ along the cofinal route.
+\item $K$ is the $\CauchyReindexingUp$ route row, containing the monotone and cofinal unary index data that connect $I$ back to $S$.
+\item $M$ is the original $\CauchyModulusUp$ threshold row on $S$, read only after $K$ has turned a target tolerance request into a source-window request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare the target request, the source threshold selected by $M$, and the slack introduced by the route $K$.
+\item $R$ is the $\RegSeqRatUp$ readback row showing that the reindexed schedule remains a regular rational name after $K,M,D$ have been consumed.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the reindexing, modulus, dyadic tolerance, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source schedule, target schedule, reindexing route, modulus threshold, dyadic tolerance, regular readback, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route from a target precision request through $I,K,S,M,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusPullbackUp$, $\CauchyReindexingUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusPullbackUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected limits, countable-choice selectors, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus pullback NameCert obligations]
+\label{thm:cauchy-modulus-pullback-namecert-obligations}
+For every accepted $\CauchyModulusPullbackUp$ carrier
+$$
+B=(S,I,K,M,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyModulusPullbackUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source schedule $S$, reindexed schedule $I$, reindexing route $K$, original modulus row $M$, dyadic tolerance row $D$, regular readback row $R$, Real seal row $E$, and structural rows $H,C,P,N$;
+\item route-before-threshold discipline, requiring each target precision request to replay through $I$ and $K$ before it can consult the original modulus row $M$ on $S$;
+\item cofinal threshold pullback, requiring the threshold selected by $M$ to be converted into a target-window bound only by the monotone and cofinal rows inside $K$;
+\item dyadic tolerance compatibility, requiring $D$ to record the source tolerance, target tolerance, and route slack used by the pulled-back threshold;
+\item regular rational transport, requiring $R$ to consume $K,M,D$ before it exports any $\RegSeqRatUp$ readback;
+\item terminal seal routing, requiring $E$ to remain downstream of $I,K,S,M,D,R$ and the structural replay rows;
+\item ledger refusal for quotient streams, selected limits, countable choice, host real equality, trichotomy, and ambient Real completeness.
+\end{enumerate}
+No local pullback obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-pullback-carrier}. The analytic coordinates are exactly the source schedule, target schedule, reindexing route, original modulus threshold, dyadic tolerance ledger, regular readback, and terminal seal.
+
+Read the request in dependency order. A target precision request first exposes $I$, then the route $K$ back to $S$, and only then the original modulus row $M$ can be consulted.
+
+The cofinal and monotone data inside $K$ convert the source threshold into a target-window bound. The dyadic row $D$ stores the tolerance comparison used during that conversion, and the row $R$ consumes the converted window before any regular rational readback is exported.
+
+Finally the seal row $E$ is downstream of $R$. The transport, continuation, provenance, and naming rows replay and package the same finite route, so no excluded analytic coordinate remains available.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus pullback reindex threshold]
+\label{thm:cauchy-modulus-pullback-reindex-threshold}
+Let $B=(S,I,K,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyModulusPullbackUp$ carrier. Every pulled-back threshold consumed by the reindexed schedule $I$ is read only after the $\CauchyReindexingUp$ route $K$ has displayed the monotone and cofinal connection from $I$ to $S$. Thus the original modulus row $M$ cannot be used as a target-schedule threshold before the reindexing route has been replayed through $C$.
+\end{theorem}
+\begin{proof}
+Start with a target-schedule threshold request. The carrier projection gives the target schedule row $I$, but the threshold row $M$ is a modulus row for the source schedule $S$.
+
+Replay the continuation row $C$. The request must pass from $I$ through $K$ before it reaches $S$; the monotone row inside $K$ controls the direction of target-window reads, while the cofinal row supplies the source-window reach needed for the requested tolerance.
+
+Only after that route is displayed can $M$ choose a source threshold. The dyadic row $D$ then records the comparison that turns the source threshold into a target-window bound, and $R,E,H,P,N$ consume only the resulting pulled-back row.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus pullback Real seal nonescape]
+\label{thm:cauchy-modulus-pullback-real-seal-nonescape}
+For every accepted $\CauchyModulusPullbackUp$ carrier $B=(S,I,K,M,D,R,E,H,C,P,N)$, every $\RealUp$-facing read factors through the finite route
+$$
+I\longmapsto K\longmapsto S\longmapsto M\longmapsto D\longmapsto R\longmapsto E
+$$
+together with the structural rows $H,C,P,N$. The exported route contains no quotient stream, selected limit, countable-choice row, host real equality, trichotomy row, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing consumer. Carrier admission exposes $E$ only as a terminal row downstream of the regular readback row $R$.
+
+Trace $R$ backward through the packet. The regular readback consumes the dyadic tolerance row $D$, which in turn records the comparison between the reindexed request and the source threshold obtained from $M$.
+
+The modulus row $M$ is attached to the source schedule $S$, so the target schedule $I$ reaches it only through the reindexing route $K$. This gives the displayed route from $I$ to $K$, then to $S,M,D,R,E$.
+
+The structural rows $H,C,P,N$ preserve and name that route without adding an analytic source. Since the carrier of \autoref{def:cauchy-modulus-pullback-carrier} has no coordinate for quotient streams, selected limits, countable choice, host real equality, trichotomy, or ambient Real completeness, none of those objects can be exported by the Real-facing read.
+\end{proof}
+
+\closureat{CauchyModulusPullbackUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusPullbackUp}
+  \constructivestory{A $\CauchyModulusPullbackUp$ packet is generated from a source StreamName schedule, a reindexed StreamName schedule, a CauchyReindexing route, an original CauchyModulus threshold row, DyadicRatCore tolerance rows, a RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-pullback-carrier}, \autoref{thm:cauchy-modulus-pullback-namecert-obligations}, \autoref{thm:cauchy-modulus-pullback-reindex-threshold}, and \autoref{thm:cauchy-modulus-pullback-real-seal-nonescape} seed the finite certificate for moving explicit Cauchy modulus schedules across cofinal reindexing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, threshold pullback, transport, replay, and ledger non-escape for the finite Cauchy modulus pullback surface.}
+\end{closurestatus}
