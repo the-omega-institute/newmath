@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.IntermediateValueUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -333,5 +335,46 @@ theorem IntermediateValueTasteGate_single_carrier_alignment :
   · constructor
     · rfl
     · rfl
+
+theorem IntermediateValueCarrier_dyadic_bisection_obligations
+    {locatedInterval endpointNegative endpointPositive continuousMap modulusBudget
+      bisectionLedger nestedWindow realSeal transports routes provenance localNameCert :
+        BHist} :
+    SemanticNameCert (fun row : BHist => hsame row realSeal)
+        (fun row : BHist => hsame row realSeal)
+        (fun row : BHist => hsame row realSeal) hsame ∧
+      IntermediateValueTasteGate_single_carrier_alignment_fields
+          (IntermediateValueUp.mk locatedInterval endpointNegative endpointPositive continuousMap
+            modulusBudget bisectionLedger nestedWindow realSeal transports routes provenance
+            localNameCert) =
+        [locatedInterval, endpointNegative, endpointPositive, continuousMap, modulusBudget,
+          bisectionLedger, nestedWindow, realSeal, transports, routes, provenance,
+          localNameCert] := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro realSeal (hsame_refl realSeal)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows sourceRow
+          exact hsame_trans (hsame_symm sameRows) sourceRow
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact sourceRow
+      ledger_sound := by
+        intro _row sourceRow
+        exact sourceRow
+    }
+  · rfl
 
 end BEDC.Derived.IntermediateValueUp
