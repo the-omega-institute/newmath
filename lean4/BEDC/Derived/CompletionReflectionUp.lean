@@ -226,4 +226,36 @@ theorem CompletionReflectionPacket_stream_regseq_real_factor [AskSetup] [Package
       provenanceUnary, auditUnary, reflectedRow, extensionRow, auditRow, reflectedSame,
       extensionSame, certPkg, auditPkg⟩
 
+theorem CompletionReflectionPacket_real_seal_extension_coherence [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance cert
+      reflected extension coherence : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont diagonal regular reflected ->
+        hsame reflected sealRow ->
+          Cont universal completion extension ->
+            hsame extension package ->
+              Cont reflected extension coherence ->
+                hsame coherence provenance ->
+                  UnaryHistory reflected ∧ UnaryHistory extension ∧ UnaryHistory coherence ∧
+                    hsame reflected sealRow ∧ hsame extension package ∧
+                      hsame coherence provenance ∧ Cont diagonal regular reflected ∧
+                        Cont universal completion extension ∧ Cont reflected extension coherence ∧
+                          PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet reflectedRow reflectedSame extensionRow extensionSame coherenceRow coherenceSame
+  obtain ⟨completionUnary, universalUnary, _separatedUnary, diagonalUnary, regularUnary,
+    _sealUnary, _transportUnary, _routeUnary, _packageUnary, _provenanceUnary, _certUnary,
+    _packageRow, _provenanceRow, certPkg⟩ := packet
+  have reflectedUnary : UnaryHistory reflected :=
+    unary_cont_closed diagonalUnary regularUnary reflectedRow
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed universalUnary completionUnary extensionRow
+  have coherenceUnary : UnaryHistory coherence :=
+    unary_cont_closed reflectedUnary extensionUnary coherenceRow
+  exact
+    ⟨reflectedUnary, extensionUnary, coherenceUnary, reflectedSame, extensionSame,
+      coherenceSame, reflectedRow, extensionRow, coherenceRow, certPkg⟩
+
 end BEDC.Derived.CompletionReflectionUp
