@@ -218,6 +218,16 @@ def taste_gate : ChapterTasteGate RegularCauchyDiagonalExtractionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyDiagonalExtractionChapterTasteGate
 
+private theorem RegularCauchyDiagonalExtractionTasteGate_single_carrier_alignment_instances :
+    Nonempty (ChapterTasteGate RegularCauchyDiagonalExtractionUp) ∧
+      Nonempty (FieldFaithful RegularCauchyDiagonalExtractionUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial RegularCauchyDiagonalExtractionUp) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨⟨regularCauchyDiagonalExtractionChapterTasteGate⟩,
+      ⟨regularCauchyDiagonalExtractionFieldFaithful⟩,
+      ⟨regularCauchyDiagonalExtractionNontrivial⟩⟩
+
 theorem RegularCauchyDiagonalExtractionTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate RegularCauchyDiagonalExtractionUp) ∧
       Nonempty (FieldFaithful RegularCauchyDiagonalExtractionUp) ∧
@@ -235,10 +245,12 @@ theorem RegularCauchyDiagonalExtractionTasteGate_single_carrier_alignment :
                   regularCauchyDiagonalExtractionToEventFlow y → x = y) ∧
                 regularCauchyDiagonalExtractionEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  have hinstances :=
+    RegularCauchyDiagonalExtractionTasteGate_single_carrier_alignment_instances
   exact
-    ⟨⟨regularCauchyDiagonalExtractionChapterTasteGate⟩,
-      ⟨regularCauchyDiagonalExtractionFieldFaithful⟩,
-      ⟨regularCauchyDiagonalExtractionNontrivial⟩,
+    ⟨hinstances.1,
+      hinstances.2.1,
+      hinstances.2.2,
       regularCauchyDiagonalExtraction_decode_encode_bhist,
       regularCauchyDiagonalExtraction_round_trip,
       (fun _ _ heq => regularCauchyDiagonalExtractionToEventFlow_injective heq),
