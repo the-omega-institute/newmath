@@ -24,6 +24,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import verification_axis
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
@@ -316,6 +318,18 @@ def _deterministic_theory_rejections(
         reasons.append(reason)
 
     envs = _body_env_names(text)
+    axis_hits = verification_axis.verification_axis_hits(
+        " ".join([target_title or "", text]),
+        allow_negated_sentences=True,
+    )
+    if axis_hits:
+        reject(
+            "verification_axis_surface",
+            "Stage 2 paper-content writeback rejects Lean / verification-axis "
+            "surface text; this lane must deepen BEDC-native content only "
+            f"({', '.join(axis_hits[:6])}).",
+        )
+
     if len(envs) > 1:
         reject(
             "not_minimal_multiple_surfaces",

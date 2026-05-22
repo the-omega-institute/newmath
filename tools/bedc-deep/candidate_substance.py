@@ -6,6 +6,8 @@ from __future__ import annotations
 import re
 from typing import Any
 
+import verification_axis
+
 
 SUBSTANCE_ECHO_RE = re.compile(
     r"local obligation row projection|"
@@ -70,7 +72,8 @@ STRUCTURAL_MINER_SOURCES = {
 }
 SUBSTANCE_REJECTION_RE = re.compile(
     r"substance_echo_not_board_ready|structural_miner_requires_positive_substance|"
-    r"weak_surface_target|strict_obstruction_requires_negative_evidence",
+    r"weak_surface_target|strict_obstruction_requires_negative_evidence|"
+    r"verification_axis_surface",
     re.IGNORECASE,
 )
 
@@ -170,6 +173,8 @@ def substance_rejection(candidate: dict[str, Any]) -> str:
     """Reject candidates that only restate local row visibility."""
     text = packet_text(candidate)
     source = str(candidate.get("source") or "").strip()
+    if verification_axis.has_verification_axis_surface(text, allow_negated_sentences=True):
+        return "verification_axis_surface"
     if (
         STRICT_OBSTRUCTION_CANDIDATE_RE.search(text)
         and not STRICT_OBSTRUCTION_EVIDENCE_RE.search(

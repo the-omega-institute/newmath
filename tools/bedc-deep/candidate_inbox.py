@@ -15,6 +15,7 @@ from typing import Any
 import board_archive
 import candidate_substance
 import paper_index
+import verification_axis
 from dispatch_bedc_target import REPO_ROOT, SCRIPT_DIR
 from locks import file_lock
 
@@ -23,7 +24,8 @@ INBOX_PATH = SCRIPT_DIR / "state" / "candidate_inbox.jsonl"
 FORBIDDEN_AXIS_RE = re.compile(
     r"closurestatus|theoryclosure|formalstatus|leantarget|leanchecked|"
     r"leanvariant|leansorry|leanstmt|leandef|marker-only|verification-axis|"
-    r"chapter retirement",
+    r"chapter retirement|Lean[- ]target|lean4/|formal[- ]target|formal[- ]readiness|"
+    r"single[-_ ]carrier[-_ ]alignment|taste[-_ ]gate|BEDC\.Derived\.",
     re.IGNORECASE,
 )
 NEGATED_FORBIDDEN_AXIS_RE = re.compile(
@@ -105,6 +107,8 @@ def _claim(candidate: dict[str, Any]) -> str:
 
 def _has_forbidden_axis_marker(title: str, claim: str, rationale: str) -> bool:
     """Reject marker-axis targets without punishing negated evidence notes."""
+    if verification_axis.has_verification_axis_surface(" ".join([title, claim])):
+        return True
     if FORBIDDEN_AXIS_RE.search(" ".join([title, claim])):
         return True
     for segment in re.split(r"(?<=[.!?])\s+|\n+", rationale):

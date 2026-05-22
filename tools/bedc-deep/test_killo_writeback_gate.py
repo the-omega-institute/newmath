@@ -64,6 +64,22 @@ def test_append_after_closurestatus_rejected_for_theorem_like_content() -> None:
     assert any("closurestatus" in reason for reason in reasons)
 
 
+def test_verification_axis_surface_rejected_before_codex_gate() -> None:
+    content = (
+        "\\begin{theorem}[Closed-term substitution boundary downstream Lean-target coverage]\n"
+        "\\label{thm:closed-term-substitution-boundary-downstream-lean-target-coverage}\n"
+        "For the Lean target $\\mathsf{BEDC.Derived.X.single\\_carrier\\_alignment}$, every consumer is local.\n"
+        "\\end{theorem}\n"
+    )
+    reasons, codes = killo_golden_writeback._deterministic_theory_rejections(
+        content,
+        target_title="Closed term substitution boundary Lean target downstream coverage lemma",
+        target_tex_file="papers/bedc/parts/concrete_instances/example.tex",
+    )
+    assert "verification_axis_surface" in codes
+    assert any("verification-axis" in reason for reason in reasons)
+
+
 def test_normalizer_discovers_preamble_input_macros() -> None:
     result = hygiene_normalize.normalize(
         "The witness is $\\mathsf{UnaryHistory}$ and $\\mathsf{BHist}$.\n",
@@ -127,6 +143,7 @@ def test_writeback_uses_codex_gate_directly() -> None:
 if __name__ == "__main__":
     test_multiple_body_envs_rejected_as_not_minimal()
     test_append_after_closurestatus_rejected_for_theorem_like_content()
+    test_verification_axis_surface_rejected_before_codex_gate()
     test_normalizer_discovers_preamble_input_macros()
     test_writeback_uses_codex_gate_directly()
     print("test_killo_writeback_gate: ok")

@@ -224,6 +224,29 @@ def test_candidate_inbox_rejects_structural_row_echo_before_judge() -> None:
     ], screen
 
 
+def test_candidate_inbox_rejects_verification_axis_surface_before_judge() -> None:
+    candidate = _candidate(
+        source="research_lane:burden_candidate_miner",
+        title="Polynomial finite witness Lean target regression surface",
+        claim=(
+            "Using \\autoref{thm:polynomial-finite-witness-lean-target-regression}, "
+            "prove downstream coverage for the Lean target single_carrier_alignment surface."
+        ),
+        resource_trace="Primary support is a BEDC.Derived closed-term substitution target.",
+        oracle_mode="proof_search",
+    )
+    screen = board_spawn.candidate_inbox.screen_candidates(
+        [candidate],
+        source="codex",
+        fit_threshold=7,
+        novelty_threshold=6,
+    )
+    assert screen.accepted == [], screen
+    assert [item.get("reason") for item in screen.rejected] == [
+        "forbidden_axis_or_marker_candidate"
+    ], screen
+
+
 def test_legacy_board_surface_target_is_not_executable() -> None:
     target = BedcTarget(
         target_id="B-test",
@@ -396,6 +419,7 @@ if __name__ == "__main__":
     test_deterministic_fallback_allows_low_score_local_packet()
     test_board_substance_gate_rejects_structural_row_echo()
     test_candidate_inbox_rejects_structural_row_echo_before_judge()
+    test_candidate_inbox_rejects_verification_axis_surface_before_judge()
     test_legacy_board_surface_target_is_not_executable()
     test_legacy_board_surface_template_without_burden_is_not_executable()
     test_board_surface_target_with_real_burden_remains_executable()

@@ -17,6 +17,7 @@ from typing import Any
 
 import board_archive
 import paper_index
+import verification_axis
 
 from dispatch_bedc_target import REPO_ROOT
 
@@ -79,6 +80,13 @@ SURFACE_ONLY_RE = re.compile(
     r"row scope|surface)\b",
     re.IGNORECASE,
 )
+
+
+def _verification_axis_item(rel: str, labels: list[dict[str, Any]], text: str) -> bool:
+    label_surface = " ".join(_label_text(rec) for rec in labels)
+    return verification_axis.has_verification_axis_surface(
+        " ".join([rel, label_surface, text[:12000]])
+    )
 
 
 def _read(rel: str) -> str:
@@ -270,7 +278,7 @@ def _base_packet(
             f"Burden miner selected {family} because `{primary_label}` already "
             f"carries nontrivial local support in `{rel}`. The BOARD target is "
             "one appendable existing-chapter theorem and is intentionally not a "
-            "row-projection, marker, Lean, or closurestatus task."
+            "row-projection, marker-axis, or closurestatus task."
         ),
     }
 
@@ -285,6 +293,8 @@ def _candidate_for_item(item: dict[str, Any]) -> dict[str, Any] | None:
     if len(burden_labels) < 2:
         return None
     text = _read(rel)
+    if _verification_axis_item(rel, labels, text):
+        return None
     haystack = " ".join([rel, text[:12000], *(_label_text(rec) for rec in labels)])
     obj = _object_from_file(rel, labels)
 

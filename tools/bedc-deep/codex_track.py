@@ -34,6 +34,7 @@ from dispatch_bedc_target import (
     REPO_ROOT,
 )
 import codex_orchestrator
+import verification_axis
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -325,6 +326,16 @@ def _substance_rejection(target: BedcTarget, parsed: dict) -> str:
     """Reject Codex closes that only repackage existing carrier fields."""
     content = str(parsed.get("content") or "")
     title = target.title or ""
+    axis_hits = verification_axis.verification_axis_hits(
+        " ".join([title, content]),
+        allow_negated_sentences=True,
+    )
+    if axis_hits:
+        return (
+            "invalid_verification_axis_surface: codex close discusses Lean, "
+            "verification-axis, formal-target, taste-gate, or carrier-alignment "
+            f"surface in the paper-content lane ({', '.join(axis_hits[:5])})"
+        )
     if PARAMETER_ECHO_RE.search(title) or PARAMETER_ECHO_RE.search(content):
         return (
             "invalid_parameter_echo_target: close path only repackages an "
