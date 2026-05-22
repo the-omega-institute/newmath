@@ -2506,7 +2506,6 @@ import BEDC.Derived.DyadicWindowSealUp.TasteGate
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.EffectiveCauchySequenceUp
 import BEDC.Derived.EffectiveCauchySequenceUp.TasteGate
-import BEDC.Derived.EffectiveCompletionUp
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.EigenUp
