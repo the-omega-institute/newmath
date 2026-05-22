@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\RealSequenceAlgebraUp$}
+\label{ch:concrete-instances-real-sequence-algebra-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealSequenceAlgebraUp$ packet records the finite pointwise algebra surface for displayed $\RealUp$ sequences. It sits between the limit interface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the limit-law consumers of \autoref{ch:concrete-instances-real-sequence-limit-laws-namecert}, the bounded-source surface of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, and the regular Cauchy addition route of \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}. The packet names the finite sequence-algebra carrier used by later limit and boundedness consumers; it is not host sequence equality, a quotient stream construction, a selected limit, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real sequence algebra carrier]\label{def:real-sequence-algebra-carrier}
+A $\RealSequenceAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S_X,S_Y,W_X,W_Y,R_X,R_Y,D,O,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_X$ and $S_Y$ are the two source $\RealUp$ sequence rows. Each source term is offered only through a displayed sequence route, not through host sequence equality.
+\item $W_X$ and $W_Y$ are finite $\StreamNameUp$ window rows for the two sources at the requested index and precision scale.
+\item $R_X$ and $R_Y$ are the $\RegSeqRatUp$ readback rows attached to the displayed source windows.
+\item $D$ is the $\DyadicRatCoreUp$ operation and error ledger. It records source tolerances, the operation tolerance, output tolerance, and the displayed budget for sum or product under the supplied bounds.
+\item $O$ is the pointwise operation row. It records whether the public read is a pointwise sum or a pointwise product under displayed bounds, and it cites the rows $S_X,S_Y,W_X,W_Y,R_X,R_Y,D$ before exposing an output readback.
+\item $E$ is the output $\RealUp$ seal reached only after the two source rows, finite windows, regular readbacks, dyadic ledger, and operation row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two source sequence rows, both finite-window rows, both readback rows, the dyadic ledger, the operation row, the output seal, continuation replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a sequence-algebra request through the source rows, finite windows, readbacks, ledger, operation row, output seal, transport, package provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\RealSequenceAlgebraUp$, $\RealSequenceLimitUp$, $\RealSequenceLimitLawsUp$, $\BoundedRealSequenceUp$, $\RegularCauchyAdditionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealSequenceAlgebraUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite pointwise algebra packet. It has no coordinate for host equality of real sequences, quotient streams, selected limits, trichotomy, ambient $\RealUp$ completeness, or a detached host operation on sequences.
+\end{definition}
+\leanchecked{BEDC.Derived.RealSequenceAlgebraUp.RealSequenceAlgebraTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Real sequence algebra NameCert obligations]\label{thm:real-sequence-algebra-namecert-obligations}
+For every accepted $\RealSequenceAlgebraUp$ carrier
+$$
+A=(S_X,S_Y,W_X,W_Y,R_X,R_Y,D,O,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealSequenceAlgebraUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two displayed source sequence rows, two finite window rows, two regular readback rows, dyadic operation and error ledger, pointwise operation row, output $\RealUp$ seal, transport, replay, provenance, and local naming;
+\item classifier stability, requiring componentwise $\hsame$ transport to move the two source rows, windows, readbacks, ledger, operation row, output seal, and structural rows together;
+\item operation-row exactness, requiring every pointwise sum or bounded pointwise product read to cite the dyadic budget stored in $D$ and the operation choice stored in $O$;
+\item seal handoff, requiring $E$ to be read only after $S_X,S_Y,W_X,W_Y,R_X,R_Y,D,O$ have been displayed;
+\item nonescape, excluding host sequence equality, quotient streams, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking from the local packet.
+\end{enumerate}
+No pointwise sequence-algebra obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic coordinates are the two source sequence rows, two finite windows, two regular rational readbacks, dyadic operation ledger, pointwise operation row, and output seal. The structural coordinates are the componentwise transport, continuation replay, package provenance, and local naming rows.
+
+Classifier stability is componentwise. The row $H$ transports exactly the displayed coordinates of the carrier, so a classified packet cannot exchange one source sequence, window, readback, ledger, or output seal while keeping the same public sequence-algebra read.
+
+Operation-row exactness is the role of $D$ and $O$. The ledger stores the source and output tolerances, while the operation row records whether the read is a pointwise sum or a pointwise product under displayed bounds. Thus every arithmetic read is mediated by the finite dyadic budget before an output seal is exposed.
+
+Finally, $C,P,N$ replay, source, and name the same route. Since no carrier coordinate stores host sequence equality, quotient streams, selected limits, trichotomy, ambient completeness, Lean verification, or bridge data, none of those objects can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Real sequence algebra limit consumer]\label{thm:real-sequence-algebra-limit-consumer}
+Every $\RealSequenceLimitLawsUp$ consumer that uses pointwise algebra on displayed $\RealUp$ sequences factors through an accepted $\RealSequenceAlgebraUp$ carrier. In the notation of \autoref{def:real-sequence-algebra-carrier}, the consumer reads the finite route
+$$
+(S_X,S_Y)\longmapsto(W_X,W_Y)\longmapsto(R_X,R_Y)\longmapsto D\longmapsto O\longmapsto E\longmapsto H,C,P,N
+$$
+before it invokes the limit-law handoff. The route exports no host sequence equality, quotient stream, selected limit, trichotomy, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with a limit-law consumer that asks for a pointwise algebra row. The source data visible to that consumer are the displayed sequence rows $S_X,S_Y$, not host functions on an ambient sequence type.
+
+The finite windows and readbacks are opened next. The rows $W_X,W_Y$ select the requested finite observations, while $R_X,R_Y$ supply the regular rational readbacks used by the operation ledger.
+
+The operation route then passes through $D$ and $O$. These rows determine the tolerance accounting and the selected pointwise operation before the output seal $E$ is available.
+
+The remaining rows $H,C,P,N$ transport, replay, source, and name this same finite packet. Thus the consumer reaches the $\RealSequenceLimitLawsUp$ handoff only through the sequence-algebra carrier, with no coordinate from which to read host sequence equality, quotient streams, selected limits, trichotomy, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Real sequence algebra bounded consumer]\label{thm:real-sequence-algebra-bounded-consumer}
+Every $\BoundedRealSequenceUp$ consumer of pointwise algebra reads bounds only through the displayed bounded-sequence surface and the regular Cauchy rows named by an accepted $\RealSequenceAlgebraUp$ carrier. In particular, a bounded pointwise product read must pass through the source sequence rows, finite windows, regular readbacks, dyadic bound ledger, operation row, output seal, and componentwise structural rows of \autoref{def:real-sequence-algebra-carrier}.
+\end{theorem}
+\begin{proof}
+Begin with a bounded-sequence consumer of a pointwise algebra read. The boundedness information available to the consumer is the displayed $\BoundedRealSequenceUp$ row and the regular rational readback data attached to the finite windows.
+
+For a pointwise sum, the consumer reads the same source windows and regular readbacks before the dyadic ledger records the output tolerance. For a pointwise product, the consumer additionally reads the displayed bound entries through $D$ and $O$ before any output seal is exposed.
+
+The output remains a $\RealUp$ seal named by $E$ and transported through $H,C,P,N$. Since the carrier has no host sequence equality, quotient stream, selected limit, trichotomy, ambient completeness, Lean verification, or bridge coordinate, the bounded consumer can obtain bounds only from the displayed bounded-sequence and regular-Cauchy rows.
+\end{proof}
+
+\closureat{RealSequenceAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\RealSequenceAlgebraUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-sequence-algebra-carrier}, \autoref{thm:real-sequence-algebra-namecert-obligations}, \autoref{thm:real-sequence-algebra-limit-consumer}, and \autoref{thm:real-sequence-algebra-bounded-consumer} seed the finite pointwise sequence-algebra surface over displayed $\RealUp$ sequence rows, finite windows, regular readbacks, dyadic operation ledgers, bounded operation rows, and output seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host sequence equality, quotient streams, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, operation-row exactness, seal handoff, nonescape, limit-law consumer factoring, and bounded-consumer bound routing for BEDC.Derived.RealSequenceAlgebraUp.}
+  \constructivestory{A $\RealSequenceAlgebraUp$ packet is generated from two displayed $\RealUp$ sequence rows, two finite $\StreamNameUp$ windows, two $\RegSeqRatUp$ readbacks, a $\DyadicRatCoreUp$ operation and error ledger, a pointwise sum or bounded-product operation row, an output $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
