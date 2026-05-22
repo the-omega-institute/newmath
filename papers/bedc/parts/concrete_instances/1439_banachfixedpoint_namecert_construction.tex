@@ -128,6 +128,24 @@ Next apply \autoref{thm:banach-fixed-point-cauchy-handoff}. The ratio ledger and
 The endpoint row $E$ is reached only after this handoff route is present. By \autoref{thm:banach-fixed-point-public-export}, there is no exported coordinate for host fixed-point equality, selected limits, or an ambient completeness theorem, so the completion handoff remains confined to the displayed BEDC rows.
 \end{proof}
 
+\begin{theorem}[BanachFixedPoint endpoint fixedness]
+\label{thm:banach-fixed-point-endpoint-fixedness}
+Let
+$$
+F=(B,d,T,\lambda,I,M,R,E,H,C,P,N)
+$$
+be an accepted $\BanachFixedPointUp$ carrier. The endpoint row $E$ is classifier-fixed under the carried contraction row $T$: reading $T$ at the endpoint route supplied by the completion handoff $R$, and then sealing the result through the displayed rows $R,E,H,C,P,N$, returns the same $\RealUp$ seal-facing endpoint classifier as $E$. This is a fixed-point statement internal to the BEDC classifier; it does not assert host fixed-point equality or select a limit outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start from the finite contraction surface. By \autoref{thm:banach-fixed-point-iteration-ledger}, every application row in the Picard ledger is read through the same carried contraction row $T$, with distance comparisons read only through $d$ and $\lambda$.
+
+Use \autoref{thm:banach-fixed-point-cauchy-handoff} to pass from the finite ledger to the displayed modulus $M$ and the handoff row $R$. The route to $E$ is therefore already a route through the contraction ledger, the modulus, and the carried complete-metric surface rather than through an ambient convergence object.
+
+Now compare the endpoint route with the route obtained by one more displayed read of $T$ at that endpoint. The uniqueness boundary of \autoref{thm:banach-fixed-point-uniqueness-boundary} identifies these two seal-facing routes inside the classifier, because they share the same $B,d,T,\lambda,M,R$ data and the recorded componentwise transports.
+
+Finally apply \autoref{thm:banach-fixed-point-completion-handoff-scope}. The sealing operation can pass only through $R,E,H,C,P,N$, so the comparison returns the same $\RealUp$ endpoint classifier and cannot be upgraded into host equality, a choice-selected limit, or an external completeness assertion.
+\end{proof}
+
 \closureat{BanachFixedPointUp}{seedStr}
 \closureat{BanachFixedPointUp}{obligationStr}
 \closureat{BanachFixedPointUp}{scopedStr}
