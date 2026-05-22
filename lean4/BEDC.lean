@@ -4216,7 +4216,6 @@ import BEDC.Derived.RatUp.StdBridge
 import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RationalBallUp
 import BEDC.Derived.RationalBallUp.TasteGate
-import BEDC.Derived.RationalCauchyGapUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
 import BEDC.Derived.RationalEmbeddingUp.TasteGate
 import BEDC.Derived.RationalIntervalRefinementUp.TasteGate
