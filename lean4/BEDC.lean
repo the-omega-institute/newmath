@@ -1145,6 +1145,7 @@ import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductUp
+import BEDC.Derived.CauchyProductUp.TasteGate
 import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
@@ -1814,6 +1815,7 @@ import BEDC.Derived.ConvergenceRadiusUp.PublicExport
 import BEDC.Derived.ConvergenceRadiusUp.TailBoundary
 import BEDC.Derived.ConvergenceRadiusUp.TailShift
 import BEDC.Derived.ConvergenceRadiusUp.TailShiftBoundary
+import BEDC.Derived.ConvergentRealSequenceCauchyUp.TasteGate
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
@@ -2045,6 +2047,8 @@ import BEDC.Derived.CurvatureUp.TensorialSectionTransport
 import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.CyclotomicUp.SplittingPolynomial
+import BEDC.Derived.DarbouxIntegralUp
+import BEDC.Derived.DarbouxIntegralUp.TasteGate
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.BridgeInputSource
