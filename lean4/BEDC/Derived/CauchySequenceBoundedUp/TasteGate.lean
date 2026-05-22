@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchySequenceBoundedUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -167,5 +177,37 @@ theorem CauchySequenceBoundedTasteGate_single_carrier_alignment :
           []] := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   exact ⟨cauchySequenceBoundedDecode_encode_bhist, rfl, rfl⟩
+
+def CauchySequenceBoundedCarrier [AskSetup] [PackageSetup]
+    (schedule modulus tolerance readback realSeal bound transport route provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory schedule ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+    UnaryHistory bound ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+      Cont schedule modulus tolerance ∧ Cont tolerance bound readback ∧
+        Cont readback route realSeal ∧ Cont provenance transport name ∧ PkgSig bundle name pkg
+
+theorem CauchySequenceBoundedCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {schedule modulus tolerance readback realSeal bound transport route provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceBoundedCarrier schedule modulus tolerance readback realSeal bound transport route
+        provenance name bundle pkg ->
+      UnaryHistory schedule ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+        UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory bound ∧
+          Cont schedule modulus tolerance ∧ Cont tolerance bound readback ∧
+            Cont readback route realSeal ∧ hsame name (append provenance transport) ∧
+              PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory PkgSig
+  intro carrier
+  obtain ⟨scheduleUnary, modulusUnary, toleranceUnary, boundUnary, routeUnary,
+    _provenanceUnary, scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal,
+    provenanceTransportName, namePkg⟩ := carrier
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed toleranceUnary boundUnary toleranceBoundReadback
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed readbackUnary routeUnary readbackRouteSeal
+  exact
+    ⟨scheduleUnary, modulusUnary, toleranceUnary, readbackUnary, realSealUnary, boundUnary,
+      scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal, provenanceTransportName,
+      namePkg⟩
 
 end BEDC.Derived.CauchySequenceBoundedUp
