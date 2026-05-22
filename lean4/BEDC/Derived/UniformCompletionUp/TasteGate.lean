@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.UniformCompletionUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -190,6 +192,27 @@ theorem UniformCompletionTasteGate_single_carrier_alignment :
             · intro x y heq
               exact uniformCompletionToEventFlow_injective heq
             · rfl
+
+theorem UniformCompletion_cauchy_filter_factorization {F D U E H C P N : BHist} :
+    uniformCompletionFields (UniformCompletionUp.mk F D U E H C P N) =
+        [F, D, U, E, H, C, P, N] ∧
+      (Cont F D C →
+        Cont (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist F))
+          (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist D)) C) ∧
+        hsame (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist F)) F ∧
+          hsame (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist D)) D := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · rfl
+  · constructor
+    · intro route
+      have hF := uniformCompletionDecode_encode_bhist F
+      have hD := uniformCompletionDecode_encode_bhist D
+      rw [hF, hD]
+      exact route
+    · constructor
+      · exact uniformCompletionDecode_encode_bhist F
+      · exact uniformCompletionDecode_encode_bhist D
 
 def taste_gate : ChapterTasteGate UniformCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark

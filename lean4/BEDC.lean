@@ -1105,6 +1105,7 @@ import BEDC.Derived.CauchyNetUp.TasteGate
 import BEDC.Derived.CauchyNullEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
+import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
@@ -4268,7 +4269,6 @@ import BEDC.Derived.RealObservationBudgetUp.WindowCoverage
 import BEDC.Derived.RealOneUp.TasteGate
 import BEDC.Derived.RealOscillationUp
 import BEDC.Derived.RealPlaneUp
-import BEDC.Derived.RealPolynomialUp.TasteGate
 import BEDC.Derived.RealPowerSeriesUp.TasteGate
 import BEDC.Derived.RealRationalApproximationUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
