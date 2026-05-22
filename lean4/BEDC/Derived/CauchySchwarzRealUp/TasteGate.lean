@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchySchwarzRealUp
+namespace BEDC.Derived.CauchySchwarzRealUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,11 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CauchySchwarzRealUp : Type where
-  | mk (V X Y I A B D Q S E H T P N : BHist) : CauchySchwarzRealUp
+  | mk :
+      (vectorSource vectorLeft vectorRight innerProduct normSquareLeft normSquareRight
+        dyadicLedger readback streamWindow realSeal transport replay provenance localCert : BHist) →
+      CauchySchwarzRealUp
+  deriving DecidableEq
 
 def cauchySchwarzRealEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -24,62 +28,53 @@ def cauchySchwarzRealDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchySchwarzRealDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchySchwarzRealDecodeBHist tail)
 
-private theorem cauchySchwarzReal_decode_encode_bhist :
+private theorem cauchySchwarzRealDecode_encode_bhist :
     ∀ h : BHist, cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
+
+def cauchySchwarzRealFields : CauchySchwarzRealUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | CauchySchwarzRealUp.mk vectorSource vectorLeft vectorRight innerProduct normSquareLeft
+      normSquareRight dyadicLedger readback streamWindow realSeal transport replay provenance
+      localCert =>
+      [vectorSource, vectorLeft, vectorRight, innerProduct, normSquareLeft, normSquareRight,
+        dyadicLedger, readback, streamWindow, realSeal, transport, replay, provenance, localCert]
 
 def cauchySchwarzRealToEventFlow : CauchySchwarzRealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | CauchySchwarzRealUp.mk V X Y I A B D Q S E H T P N =>
-      [cauchySchwarzRealEncodeBHist V,
-        cauchySchwarzRealEncodeBHist X,
-        cauchySchwarzRealEncodeBHist Y,
-        cauchySchwarzRealEncodeBHist I,
-        cauchySchwarzRealEncodeBHist A,
-        cauchySchwarzRealEncodeBHist B,
-        cauchySchwarzRealEncodeBHist D,
-        cauchySchwarzRealEncodeBHist Q,
-        cauchySchwarzRealEncodeBHist S,
-        cauchySchwarzRealEncodeBHist E,
-        cauchySchwarzRealEncodeBHist H,
-        cauchySchwarzRealEncodeBHist T,
-        cauchySchwarzRealEncodeBHist P,
-        cauchySchwarzRealEncodeBHist N]
+  | x => List.map cauchySchwarzRealEncodeBHist (cauchySchwarzRealFields x)
 
-private def cauchySchwarzRealEventAt : Nat → EventFlow → RawEvent
+private def cauchySchwarzRealEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchySchwarzRealEventAt index rest
+  | Nat.succ index, _event :: rest => cauchySchwarzRealEventAtDefault index rest
 
-def cauchySchwarzRealFromEventFlow : EventFlow → Option CauchySchwarzRealUp
+def cauchySchwarzRealFromEventFlow : EventFlow → Option CauchySchwarzRealUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (CauchySchwarzRealUp.mk
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 0 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 1 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 2 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 3 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 4 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 5 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 6 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 7 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 8 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 9 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 10 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 11 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 12 ef))
-          (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAt 13 ef)))
+  fun ef =>
+    some
+      (CauchySchwarzRealUp.mk
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 0 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 1 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 2 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 3 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 4 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 5 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 6 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 7 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 8 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 9 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 10 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 11 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 12 ef))
+        (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEventAtDefault 13 ef)))
 
 private theorem cauchySchwarzReal_round_trip :
     ∀ x : CauchySchwarzRealUp,
@@ -87,42 +82,45 @@ private theorem cauchySchwarzReal_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk V X Y I A B D Q S E H T P N =>
+  | mk vectorSource vectorLeft vectorRight innerProduct normSquareLeft normSquareRight
+      dyadicLedger readback streamWindow realSeal transport replay provenance localCert =>
       change
         some
-            (CauchySchwarzRealUp.mk
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist V))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist X))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist Y))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist I))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist A))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist B))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist D))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist Q))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist S))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist E))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist H))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist T))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist P))
-              (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist N))) =
-          some (CauchySchwarzRealUp.mk V X Y I A B D Q S E H T P N)
-      rw [cauchySchwarzReal_decode_encode_bhist V,
-        cauchySchwarzReal_decode_encode_bhist X,
-        cauchySchwarzReal_decode_encode_bhist Y,
-        cauchySchwarzReal_decode_encode_bhist I,
-        cauchySchwarzReal_decode_encode_bhist A,
-        cauchySchwarzReal_decode_encode_bhist B,
-        cauchySchwarzReal_decode_encode_bhist D,
-        cauchySchwarzReal_decode_encode_bhist Q,
-        cauchySchwarzReal_decode_encode_bhist S,
-        cauchySchwarzReal_decode_encode_bhist E,
-        cauchySchwarzReal_decode_encode_bhist H,
-        cauchySchwarzReal_decode_encode_bhist T,
-        cauchySchwarzReal_decode_encode_bhist P,
-        cauchySchwarzReal_decode_encode_bhist N]
+          (CauchySchwarzRealUp.mk
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist vectorSource))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist vectorLeft))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist vectorRight))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist innerProduct))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist normSquareLeft))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist normSquareRight))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist dyadicLedger))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist readback))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist streamWindow))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist realSeal))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist transport))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist replay))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist provenance))
+            (cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist localCert))) =
+          some
+            (CauchySchwarzRealUp.mk vectorSource vectorLeft vectorRight innerProduct
+              normSquareLeft normSquareRight dyadicLedger readback streamWindow realSeal
+              transport replay provenance localCert)
+      rw [cauchySchwarzRealDecode_encode_bhist vectorSource,
+        cauchySchwarzRealDecode_encode_bhist vectorLeft,
+        cauchySchwarzRealDecode_encode_bhist vectorRight,
+        cauchySchwarzRealDecode_encode_bhist innerProduct,
+        cauchySchwarzRealDecode_encode_bhist normSquareLeft,
+        cauchySchwarzRealDecode_encode_bhist normSquareRight,
+        cauchySchwarzRealDecode_encode_bhist dyadicLedger,
+        cauchySchwarzRealDecode_encode_bhist readback,
+        cauchySchwarzRealDecode_encode_bhist streamWindow,
+        cauchySchwarzRealDecode_encode_bhist realSeal,
+        cauchySchwarzRealDecode_encode_bhist transport,
+        cauchySchwarzRealDecode_encode_bhist replay,
+        cauchySchwarzRealDecode_encode_bhist provenance,
+        cauchySchwarzRealDecode_encode_bhist localCert]
 
-private theorem cauchySchwarzRealToEventFlow_injective
-    {x y : CauchySchwarzRealUp} :
+private theorem cauchySchwarzRealToEventFlow_injective {x y : CauchySchwarzRealUp} :
     cauchySchwarzRealToEventFlow x = cauchySchwarzRealToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -149,18 +147,28 @@ instance cauchySchwarzRealChapterTasteGate : ChapterTasteGate CauchySchwarzRealU
     intro x y hxy heq
     exact hxy (cauchySchwarzRealToEventFlow_injective heq)
 
-theorem CauchySchwarzRealTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate CauchySchwarzRealUp) ∧
-      (∀ h : BHist,
-        cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist h) = h) ∧
-        (∀ x : CauchySchwarzRealUp,
-          cauchySchwarzRealFromEventFlow (cauchySchwarzRealToEventFlow x) = some x) ∧
-          cauchySchwarzRealEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨⟨cauchySchwarzRealChapterTasteGate⟩,
-      cauchySchwarzReal_decode_encode_bhist,
-      cauchySchwarzReal_round_trip,
-      rfl⟩
+def taste_gate : ChapterTasteGate CauchySchwarzRealUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchySchwarzRealChapterTasteGate
 
-end BEDC.Derived.CauchySchwarzRealUp
+theorem CauchySchwarzRealTasteGate_single_carrier_alignment :
+    (∀ h : BHist, cauchySchwarzRealDecodeBHist (cauchySchwarzRealEncodeBHist h) = h) ∧
+      (∀ x : CauchySchwarzRealUp,
+        cauchySchwarzRealFromEventFlow (cauchySchwarzRealToEventFlow x) = some x) ∧
+      (∀ x y : CauchySchwarzRealUp,
+        cauchySchwarzRealToEventFlow x = cauchySchwarzRealToEventFlow y → x = y) ∧
+      Nonempty (ChapterTasteGate CauchySchwarzRealUp) ∧
+      cauchySchwarzRealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact cauchySchwarzRealDecode_encode_bhist
+  · constructor
+    · exact cauchySchwarzReal_round_trip
+    · constructor
+      · intro x y heq
+        exact cauchySchwarzRealToEventFlow_injective heq
+      · constructor
+        · exact ⟨cauchySchwarzRealChapterTasteGate⟩
+        · rfl
+
+end BEDC.Derived.CauchySchwarzRealUp.TasteGate
