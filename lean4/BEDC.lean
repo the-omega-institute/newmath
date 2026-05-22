@@ -2059,6 +2059,7 @@ import BEDC.Derived.DedekindUp
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DenseImageCompletionUp.TasteGate
 import BEDC.Derived.DenseUniformEmbeddingUp
 import BEDC.Derived.DenseUniformEmbeddingUp.TasteGate
 import BEDC.Derived.DensityMatrixUp
@@ -4596,6 +4597,7 @@ import BEDC.Derived.RegularCauchyApartnessOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyClassifierNormalFormUp.TasteGate
 import BEDC.Derived.RegularCauchyCofinalLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonUp
+import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniquenessUp.TasteGate
@@ -5083,6 +5085,7 @@ import BEDC.Derived.SubjectReductionDischargeUp
 import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteClassifierUp
+import BEDC.Derived.SubjectReductionRouteClassifierUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteTriangleUp
 import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
