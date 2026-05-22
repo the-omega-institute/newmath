@@ -1100,6 +1100,7 @@ import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
 import BEDC.Derived.CauchyRateRealizationUp
+import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
@@ -3239,6 +3240,7 @@ import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.LieGroupUp.AdjointRep
 import BEDC.Derived.LimitSelectorUp
+import BEDC.Derived.LimitUp.TasteGate
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.LinearMapUp.CompContinuation
 import BEDC.Derived.LinearMapUp.ContextContinuation
@@ -4674,6 +4676,7 @@ import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequentialCompactnessUp.TasteGate
+import BEDC.Derived.SequentialCompletionUp.TasteGate
 import BEDC.Derived.SequentialContinuityUp.TasteGate
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
