@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
+namespace BEDC.Derived.RegularCauchyAffineCombinationUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RegularCauchyAffineCombinationUp : Type where
-  | mk (Q X Y WX WY DQ DQbar SX SY Sigma E R Z H C P N : BHist) :
+  | mk (q x y wx wy dq dbarq sx sy sum e r z h c p n : BHist) :
       RegularCauchyAffineCombinationUp
   deriving DecidableEq
 
@@ -26,11 +26,10 @@ def regularCauchyAffineCombinationDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyAffineCombinationDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyAffineCombinationDecodeBHist tail)
 
-theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode :
+private theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux :
     ∀ h : BHist,
       regularCauchyAffineCombinationDecodeBHist
-          (regularCauchyAffineCombinationEncodeBHist h) =
-        h := by
+        (regularCauchyAffineCombinationEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -38,76 +37,68 @@ theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode 
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+def regularCauchyAffineCombinationFields :
+    RegularCauchyAffineCombinationUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchyAffineCombinationUp.mk q x y wx wy dq dbarq sx sy sum e r z h c p n =>
+      [q, x, y, wx, wy, dq, dbarq, sx, sy, sum, e, r, z, h, c, p, n]
+
 def regularCauchyAffineCombinationToEventFlow :
     RegularCauchyAffineCombinationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyAffineCombinationUp.mk Q X Y WX WY DQ DQbar SX SY Sigma E R Z H C P N =>
-      [regularCauchyAffineCombinationEncodeBHist Q,
-        regularCauchyAffineCombinationEncodeBHist X,
-        regularCauchyAffineCombinationEncodeBHist Y,
-        regularCauchyAffineCombinationEncodeBHist WX,
-        regularCauchyAffineCombinationEncodeBHist WY,
-        regularCauchyAffineCombinationEncodeBHist DQ,
-        regularCauchyAffineCombinationEncodeBHist DQbar,
-        regularCauchyAffineCombinationEncodeBHist SX,
-        regularCauchyAffineCombinationEncodeBHist SY,
-        regularCauchyAffineCombinationEncodeBHist Sigma,
-        regularCauchyAffineCombinationEncodeBHist E,
-        regularCauchyAffineCombinationEncodeBHist R,
-        regularCauchyAffineCombinationEncodeBHist Z,
-        regularCauchyAffineCombinationEncodeBHist H,
-        regularCauchyAffineCombinationEncodeBHist C,
-        regularCauchyAffineCombinationEncodeBHist P,
-        regularCauchyAffineCombinationEncodeBHist N]
+  | x => (regularCauchyAffineCombinationFields x).map regularCauchyAffineCombinationEncodeBHist
 
-def regularCauchyAffineCombinationEventAtDefault : Nat → EventFlow → RawEvent
+def regularCauchyAffineCombinationFromEventFlow :
+    EventFlow → Option RegularCauchyAffineCombinationUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => regularCauchyAffineCombinationEventAtDefault index rest
+  | [] => none
+  | _q :: [] => none
+  | _q :: _x :: [] => none
+  | _q :: _x :: _y :: [] => none
+  | _q :: _x :: _y :: _wx :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: _sy :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: _sy :: _sum :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: _sy :: _sum ::
+      _e :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: _sy :: _sum ::
+      _e :: _r :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: _sy :: _sum ::
+      _e :: _r :: _z :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: _sy :: _sum ::
+      _e :: _r :: _z :: _h :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: _sy :: _sum ::
+      _e :: _r :: _z :: _h :: _c :: [] => none
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: _sy :: _sum ::
+      _e :: _r :: _z :: _h :: _c :: _p :: [] => none
+  | q :: x :: y :: wx :: wy :: dq :: dbarq :: sx :: sy :: sum :: e ::
+      r :: z :: h :: c :: p :: n :: [] =>
+      some
+        (RegularCauchyAffineCombinationUp.mk
+          (regularCauchyAffineCombinationDecodeBHist q)
+          (regularCauchyAffineCombinationDecodeBHist x)
+          (regularCauchyAffineCombinationDecodeBHist y)
+          (regularCauchyAffineCombinationDecodeBHist wx)
+          (regularCauchyAffineCombinationDecodeBHist wy)
+          (regularCauchyAffineCombinationDecodeBHist dq)
+          (regularCauchyAffineCombinationDecodeBHist dbarq)
+          (regularCauchyAffineCombinationDecodeBHist sx)
+          (regularCauchyAffineCombinationDecodeBHist sy)
+          (regularCauchyAffineCombinationDecodeBHist sum)
+          (regularCauchyAffineCombinationDecodeBHist e)
+          (regularCauchyAffineCombinationDecodeBHist r)
+          (regularCauchyAffineCombinationDecodeBHist z)
+          (regularCauchyAffineCombinationDecodeBHist h)
+          (regularCauchyAffineCombinationDecodeBHist c)
+          (regularCauchyAffineCombinationDecodeBHist p)
+          (regularCauchyAffineCombinationDecodeBHist n))
+  | _q :: _x :: _y :: _wx :: _wy :: _dq :: _dbarq :: _sx :: _sy :: _sum ::
+      _e :: _r :: _z :: _h :: _c :: _p :: _n :: _extra :: _rest => none
 
-def regularCauchyAffineCombinationFromEventFlow
-    (ef : EventFlow) : Option RegularCauchyAffineCombinationUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RegularCauchyAffineCombinationUp.mk
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 0 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 1 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 2 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 3 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 4 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 5 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 6 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 7 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 8 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 9 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 10 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 11 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 12 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 13 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 14 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 15 ef))
-      (regularCauchyAffineCombinationDecodeBHist
-        (regularCauchyAffineCombinationEventAtDefault 16 ef)))
-
-theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip :
+private theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip_aux :
     ∀ x : RegularCauchyAffineCombinationUp,
       regularCauchyAffineCombinationFromEventFlow
           (regularCauchyAffineCombinationToEventFlow x) =
@@ -115,68 +106,67 @@ theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_t
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk Q X Y WX WY DQ DQbar SX SY Sigma E R Z H C P N =>
+  | mk q x y wx wy dq dbarq sx sy sum e r z h c p n =>
       change
         some
           (RegularCauchyAffineCombinationUp.mk
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist Q))
+              (regularCauchyAffineCombinationEncodeBHist q))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist X))
+              (regularCauchyAffineCombinationEncodeBHist x))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist Y))
+              (regularCauchyAffineCombinationEncodeBHist y))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist WX))
+              (regularCauchyAffineCombinationEncodeBHist wx))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist WY))
+              (regularCauchyAffineCombinationEncodeBHist wy))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist DQ))
+              (regularCauchyAffineCombinationEncodeBHist dq))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist DQbar))
+              (regularCauchyAffineCombinationEncodeBHist dbarq))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist SX))
+              (regularCauchyAffineCombinationEncodeBHist sx))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist SY))
+              (regularCauchyAffineCombinationEncodeBHist sy))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist Sigma))
+              (regularCauchyAffineCombinationEncodeBHist sum))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist E))
+              (regularCauchyAffineCombinationEncodeBHist e))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist R))
+              (regularCauchyAffineCombinationEncodeBHist r))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist Z))
+              (regularCauchyAffineCombinationEncodeBHist z))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist H))
+              (regularCauchyAffineCombinationEncodeBHist h))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist C))
+              (regularCauchyAffineCombinationEncodeBHist c))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist P))
+              (regularCauchyAffineCombinationEncodeBHist p))
             (regularCauchyAffineCombinationDecodeBHist
-              (regularCauchyAffineCombinationEncodeBHist N))) =
-          some (RegularCauchyAffineCombinationUp.mk Q X Y WX WY DQ DQbar SX SY Sigma E R Z H C P N)
-      rw [RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode Q,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode X,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode Y,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode WX,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode WY,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode DQ,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode DQbar,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode SX,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode SY,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode Sigma,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode E,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode R,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode Z,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode H,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode C,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode P,
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode N]
+              (regularCauchyAffineCombinationEncodeBHist n))) =
+          some (RegularCauchyAffineCombinationUp.mk q x y wx wy dq dbarq sx sy sum e r z h c p n)
+      rw [RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux q,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux x,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux y,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux wx,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux wy,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux dq,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux dbarq,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux sx,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux sy,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux sum,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux e,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux r,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux z,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux h,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux c,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux p,
+        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux n]
 
-theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_injective_aux
     {x y : RegularCauchyAffineCombinationUp} :
     regularCauchyAffineCombinationToEventFlow x =
-        regularCauchyAffineCombinationToEventFlow y →
-      x = y := by
+      regularCauchyAffineCombinationToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -187,26 +177,19 @@ theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_toEvent
     congrArg regularCauchyAffineCombinationFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
-      (RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip x).symm
+      (RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip_aux x).symm
       (Eq.trans hread
-        (RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip y)))
+        (RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip_aux y)))
 
-def regularCauchyAffineCombinationFields :
-    RegularCauchyAffineCombinationUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyAffineCombinationUp.mk Q X Y WX WY DQ DQbar SX SY Sigma E R Z H C P N =>
-      [Q, X, Y, WX, WY, DQ, DQbar, SX, SY, Sigma, E, R, Z, H, C, P, N]
-
-theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_fields :
+private theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_fields_aux :
     ∀ x y : RegularCauchyAffineCombinationUp,
-      regularCauchyAffineCombinationFields x = regularCauchyAffineCombinationFields y →
-        x = y := by
+      regularCauchyAffineCombinationFields x = regularCauchyAffineCombinationFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk Q1 X1 Y1 WX1 WY1 DQ1 DQbar1 SX1 SY1 Sigma1 E1 R1 Z1 H1 C1 P1 N1 =>
+  | mk q₁ x₁ y₁ wx₁ wy₁ dq₁ dbarq₁ sx₁ sy₁ sum₁ e₁ r₁ z₁ h₁ c₁ p₁ n₁ =>
       cases y with
-      | mk Q2 X2 Y2 WX2 WY2 DQ2 DQbar2 SX2 SY2 Sigma2 E2 R2 Z2 H2 C2 P2 N2 =>
+      | mk q₂ x₂ y₂ wx₂ wy₂ dq₂ dbarq₂ sx₂ sy₂ sum₂ e₂ r₂ z₂ h₂ c₂ p₂ n₂ =>
           cases hfields
           rfl
 
@@ -225,20 +208,21 @@ instance regularCauchyAffineCombinationChapterTasteGate :
       regularCauchyAffineCombinationFromEventFlow
           (regularCauchyAffineCombinationToEventFlow x) =
         some x
-    exact RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip x
+    exact RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip_aux x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_injective_aux heq)
 
 instance regularCauchyAffineCombinationFieldFaithful :
     FieldFaithful RegularCauchyAffineCombinationUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := regularCauchyAffineCombinationFields
-  field_faithful := RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_fields
+  field_faithful := by
+    intro x y hfields
+    exact RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_fields_aux x y hfields
 
 instance regularCauchyAffineCombinationNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial RegularCauchyAffineCombinationUp where
+    Nontrivial RegularCauchyAffineCombinationUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨RegularCauchyAffineCombinationUp.mk BHist.Empty BHist.Empty BHist.Empty
@@ -251,36 +235,26 @@ instance regularCauchyAffineCombinationNontrivial :
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate RegularCauchyAffineCombinationUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  regularCauchyAffineCombinationChapterTasteGate
-
 theorem RegularCauchyAffineCombinationTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate RegularCauchyAffineCombinationUp) ∧
-      Nonempty (FieldFaithful RegularCauchyAffineCombinationUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial RegularCauchyAffineCombinationUp) ∧
-          (∀ h : BHist,
-            regularCauchyAffineCombinationDecodeBHist
-                (regularCauchyAffineCombinationEncodeBHist h) =
-              h) ∧
-            (∀ x : RegularCauchyAffineCombinationUp,
-              regularCauchyAffineCombinationFromEventFlow
-                  (regularCauchyAffineCombinationToEventFlow x) =
-                some x) ∧
-              (∀ x y : RegularCauchyAffineCombinationUp,
-                regularCauchyAffineCombinationToEventFlow x =
-                    regularCauchyAffineCombinationToEventFlow y →
-                  x = y) ∧
-                regularCauchyAffineCombinationEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨⟨regularCauchyAffineCombinationChapterTasteGate⟩,
-      ⟨regularCauchyAffineCombinationFieldFaithful⟩,
-      ⟨regularCauchyAffineCombinationNontrivial⟩,
-      RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode,
-      RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+    (∀ h : BHist,
+      regularCauchyAffineCombinationDecodeBHist
+        (regularCauchyAffineCombinationEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyAffineCombinationUp,
+        regularCauchyAffineCombinationFromEventFlow
+            (regularCauchyAffineCombinationToEventFlow x) =
+          some x) ∧
+      (∀ x y : RegularCauchyAffineCombinationUp,
+        regularCauchyAffineCombinationToEventFlow x =
+          regularCauchyAffineCombinationToEventFlow y → x = y) ∧
+      regularCauchyAffineCombinationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_decode_aux
+  · constructor
+    · exact RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_round_trip_aux
+    · constructor
+      · intro x y heq
+        exact RegularCauchyAffineCombinationTasteGate_single_carrier_alignment_injective_aux heq
+      · rfl
 
-end BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
+end BEDC.Derived.RegularCauchyAffineCombinationUp
