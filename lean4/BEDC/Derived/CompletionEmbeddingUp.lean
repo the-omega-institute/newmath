@@ -62,4 +62,28 @@ theorem CompletionEmbeddingCarrier_dense_isometric_handoff [AskSetup] [PackageSe
     ⟨denseReadUnary, isoReadUnary, sealReadUnary, regularDense, denseIso, isoSeal,
       provenancePkg, sealPkg⟩
 
+theorem CompletionEmbeddingCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
+    {sourceMetric completionTarget denseImage isometry regularCauchy hausdorffBoundary
+      realSeal transport replay provenance localCert endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionEmbeddingCarrier sourceMetric completionTarget denseImage isometry regularCauchy
+        hausdorffBoundary realSeal transport replay provenance localCert bundle pkg ->
+      Cont realSeal hausdorffBoundary endpointRead ->
+        PkgSig bundle endpointRead pkg ->
+          UnaryHistory realSeal ∧ UnaryHistory hausdorffBoundary ∧
+            UnaryHistory endpointRead ∧ Cont denseImage isometry realSeal ∧
+              Cont realSeal hausdorffBoundary endpointRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro carrier realBoundary endpointPkg
+  obtain ⟨_sourceMetricUnary, _completionTargetUnary, denseImageUnary, isometryUnary,
+    _regularCauchyUnary, hausdorffBoundaryUnary, realSealUnary, _transportUnary,
+      _replayUnary, _provenanceUnary, _localCertUnary, _sourceDense, denseSeal,
+        provenancePkg, _localSemantic⟩ := carrier
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed realSealUnary hausdorffBoundaryUnary realBoundary
+  exact
+    ⟨realSealUnary, hausdorffBoundaryUnary, endpointUnary, denseSeal, realBoundary,
+      provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.CompletionEmbeddingUp
