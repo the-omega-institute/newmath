@@ -278,6 +278,10 @@ instance metricCompletionUniquenessChapterTasteGate :
     exact hxy
       (MetricCompletionUniquenessTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate MetricCompletionUniquenessUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  metricCompletionUniquenessChapterTasteGate
+
 theorem MetricCompletionUniquenessTasteGate_single_carrier_alignment :
     (∀ h : BHist, metricCompletionUniquenessDecodeBHist
       (metricCompletionUniquenessEncodeBHist h) = h) ∧
@@ -295,5 +299,30 @@ theorem MetricCompletionUniquenessTasteGate_single_carrier_alignment :
       fun _ _ heq =>
         MetricCompletionUniquenessTasteGate_single_carrier_alignment_toEventFlow_injective heq,
       rfl⟩
+
+namespace TasteGate
+
+def taste_gate : ChapterTasteGate MetricCompletionUniquenessUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  metricCompletionUniquenessChapterTasteGate
+
+theorem MetricCompletionUniquenessTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate MetricCompletionUniquenessUp) ∧
+      (∀ h : BHist,
+        metricCompletionUniquenessDecodeBHist
+          (metricCompletionUniquenessEncodeBHist h) = h) ∧
+        (∀ x : MetricCompletionUniquenessUp,
+          metricCompletionUniquenessFromEventFlow
+            (metricCompletionUniquenessToEventFlow x) = some x) ∧
+          (∀ x y : MetricCompletionUniquenessUp,
+            metricCompletionUniquenessToEventFlow x =
+              metricCompletionUniquenessToEventFlow y → x = y) ∧
+            metricCompletionUniquenessEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨⟨metricCompletionUniquenessChapterTasteGate⟩,
+      BEDC.Derived.MetricCompletionUniquenessUp.MetricCompletionUniquenessTasteGate_single_carrier_alignment⟩
+
+end TasteGate
 
 end BEDC.Derived.MetricCompletionUniquenessUp
