@@ -2886,6 +2886,78 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         },
     ]
 
+    def flip_bit(codon: str, direction: int) -> str:
+        word = list(bits(codon))
+        word[direction] = "1" if word[direction] == "0" else "0"
+        return codon_from_bits("".join(word))
+
+    def directional_saturation(codons: set[str], direction: int) -> set[str]:
+        return codons | {flip_bit(codon, direction) for codon in codons}
+
+    def directional_boundary_counts(codons: set[str]) -> tuple[int, ...]:
+        return tuple(
+            sum(1 for codon in codons if flip_bit(codon, direction) not in codons)
+            for direction in range(6)
+        )
+
+    directional_saturation_rows = []
+    for direction, name in enumerate(BIT_COORDINATES):
+        saturated = directional_saturation(support, direction)
+        added = saturated - support
+        leaks = added - median_set
+        directional_saturation_rows.append(
+            {
+                "direction": name,
+                "direction_index": direction,
+                "added_count": len(added),
+                "added": tuple(sorted(added)),
+                "leaks_outside_median": tuple(sorted(leaks)),
+                "contained_in_median": saturated <= median_set,
+            }
+        )
+
+    f3_index = BIT_COORDINATES.index("f3")
+    f3_saturation = directional_saturation(support, f3_index)
+    f3_completion_points = tuple(
+        sorted(
+            codon
+            for codon in set(all_codons()) - support
+            if directional_saturation(support | {codon}, f3_index) == median_set
+        )
+    )
+    direction_boundary_sets = (
+        ("support", support),
+        ("anchor_closure", anchor_closure),
+        ("median_stage_one", median_stage_one),
+        ("median_closure", median_set),
+    )
+    direction_boundary_rows = [
+        {
+            "set": name,
+            "counts": dict(zip(BIT_COORDINATES, directional_boundary_counts(codons))),
+            "total": sum(directional_boundary_counts(codons)),
+        }
+        for name, codons in direction_boundary_sets
+    ]
+    stage_one_f3_boundary_edges = tuple(
+        sorted(
+            tuple(sorted((codon, flip_bit(codon, f3_index))))
+            for codon in median_stage_one
+            if flip_bit(codon, f3_index) not in median_stage_one
+        )
+    )
+
+    def median_boolean_formula(codon: str) -> bool:
+        word = bits(codon)
+        s1, f1, s2, f2, s3, _f3 = (int(bit) for bit in word)
+        return (f1 == 0 and s3 == 1) or (
+            f1 == 1 and s1 == 0 and s2 == 0 and f2 == 0
+        )
+
+    median_boolean_formula_vertices = {
+        codon for codon in all_codons() if median_boolean_formula(codon)
+    }
+
     return {
         "support": tuple(sorted(support)),
         "support_size": len(support),
@@ -3359,6 +3431,23 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "budget_2_subset_budget_3": set(support_pair_spectral_search["best_added"])
                 <= set(anchor_triple_spectral_search["best_added"]),
             },
+        },
+        "wobble_saturation": {
+            "bit_coordinates": BIT_COORDINATES,
+            "directional_saturation_rows": directional_saturation_rows,
+            "f3_saturation": tuple(sorted(f3_saturation)),
+            "f3_saturation_added_over_support": tuple(sorted(f3_saturation - support)),
+            "f3_saturation_missing_from_median": tuple(sorted(median_set - f3_saturation)),
+            "f3_saturation_equals_median_minus_thr_pair": f3_saturation == median_set - {"ACA", "ACG"},
+            "f3_completion_points": f3_completion_points,
+            "sat_f3_support_aca_equals_median": directional_saturation(support | {"ACA"}, f3_index) == median_set,
+            "sat_f3_support_acg_equals_median": directional_saturation(support | {"ACG"}, f3_index) == median_set,
+            "direction_boundary_rows": direction_boundary_rows,
+            "stage_one_f3_boundary_edges": stage_one_f3_boundary_edges,
+            "median_f3_silent": directional_boundary_counts(median_set)[f3_index] == 0,
+            "median_boolean_formula_vertices": tuple(sorted(median_boolean_formula_vertices)),
+            "median_boolean_formula_matches": median_boolean_formula_vertices == median_set,
+            "median_boolean_formula": "(not f1 and s3) or (f1 and not s1 and not s2 and not f2)",
         },
     }
 
@@ -5054,6 +5143,63 @@ def assert_expected(summary: dict[str, object]) -> None:
         0.068849,
         0.033066,
     ]
+    wobble = summary["support_compression"]["wobble_saturation"]
+    assert wobble["bit_coordinates"] == ("s1", "f1", "s2", "f2", "s3", "f3")
+    assert [
+        (
+            row["direction"],
+            row["added_count"],
+            row["added"],
+            row["contained_in_median"],
+        )
+        for row in wobble["directional_saturation_rows"]
+    ] == [
+        ("s1", 7, ("AAG", "ACA", "GTA", "GTC", "GTG", "GTT", "TGG"), False),
+        ("f1", 11, ("CAA", "CAG", "CCA", "CGA", "GAA", "GGA", "GGG", "GTA", "TTC", "TTG", "TTT"), False),
+        ("s2", 7, ("ACA", "ACG", "CAA", "CAC", "CAG", "CAT", "TTG"), False),
+        ("f2", 7, ("AAG", "ACA", "CCA", "CCC", "CCG", "CCT", "TGG"), False),
+        ("s3", 9, ("AAT", "AGC", "AGT", "ATT", "TAC", "TAT", "TCT", "TGT", "TTT"), False),
+        ("f3", 5, ("AAG", "ATG", "TCG", "TGG", "TTG"), True),
+    ]
+    assert wobble["f3_saturation"] == (
+        "AAA",
+        "AAG",
+        "AGA",
+        "AGG",
+        "ATA",
+        "ATG",
+        "CTA",
+        "CTC",
+        "CTG",
+        "CTT",
+        "TAA",
+        "TAG",
+        "TCA",
+        "TCG",
+        "TGA",
+        "TGG",
+        "TTA",
+        "TTG",
+    )
+    assert wobble["f3_saturation_added_over_support"] == ("AAG", "ATG", "TCG", "TGG", "TTG")
+    assert wobble["f3_saturation_missing_from_median"] == ("ACA", "ACG")
+    assert wobble["f3_saturation_equals_median_minus_thr_pair"] is True
+    assert wobble["f3_completion_points"] == ("ACA", "ACG")
+    assert wobble["sat_f3_support_aca_equals_median"] is True
+    assert wobble["sat_f3_support_acg_equals_median"] is True
+    assert [
+        (row["set"], tuple(row["counts"][coordinate] for coordinate in wobble["bit_coordinates"]), row["total"])
+        for row in wobble["direction_boundary_rows"]
+    ] == [
+        ("support", (7, 11, 7, 7, 9, 5), 46),
+        ("anchor_closure", (4, 14, 8, 4, 12, 4), 46),
+        ("median_stage_one", (5, 15, 5, 5, 15, 1), 46),
+        ("median_closure", (4, 16, 4, 4, 16, 0), 44),
+    ]
+    assert wobble["stage_one_f3_boundary_edges"] == (("ACA", "ACG"),)
+    assert wobble["median_f3_silent"] is True
+    assert wobble["median_boolean_formula_matches"] is True
+    assert wobble["median_boolean_formula_vertices"] == summary["support_compression"]["median_closure"]["median_closure"]
     assert summary["reassignment"]["q3_reassignment_scores"][0] == {
         "score": 52,
         "vertices": ("TAA", "TAG", "TGA", "TGG", "AAA", "AAG", "AGA", "AGG"),
