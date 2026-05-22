@@ -233,4 +233,72 @@ theorem FiniteLebesgueNumberSelectedTailUniformConsumerRoute [AskSetup] [Package
     ⟨realUnary, uniformUnary, toleranceNameReal, realMeshUniform, provenancePkg,
       uniformPkg⟩
 
+def FiniteLebesgueNumberSelectedTailBridgeLedger [AskSetup] [PackageSetup]
+    (cover window radius mesh transport route provenance nameRow tailAdmission streamTail
+      regularTail toleranceTail realTail : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+      bundle pkg ∧
+    Cont window radius tailAdmission ∧ Cont tailAdmission mesh streamTail ∧
+      Cont streamTail route regularTail ∧ Cont regularTail transport toleranceTail ∧
+        Cont toleranceTail nameRow realTail ∧ PkgSig bundle realTail pkg
+
+theorem FiniteLebesgueNumberSelectedTailBridgeLedger_certificate [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow tailAdmission streamTail
+      regularTail toleranceTail realTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberSelectedTailBridgeLedger cover window radius mesh transport route
+        provenance nameRow tailAdmission streamTail regularTail toleranceTail realTail bundle pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row realTail ∧
+              FiniteLebesgueNumberSelectedTailBridgeLedger cover window radius mesh transport
+                route provenance nameRow tailAdmission streamTail regularTail toleranceTail
+                realTail bundle pkg)
+          (fun row : BHist =>
+            hsame row tailAdmission ∨ hsame row streamTail ∨ hsame row regularTail ∨
+              hsame row toleranceTail ∨ hsame row realTail)
+          (fun row : BHist => hsame row realTail ∧ PkgSig bundle realTail pkg)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro ledger
+  have ledgerPacket :
+      FiniteLebesgueNumberSelectedTailBridgeLedger cover window radius mesh transport route
+        provenance nameRow tailAdmission streamTail regularTail toleranceTail realTail bundle
+        pkg :=
+    ledger
+  obtain ⟨_carrier, _windowRadiusTail, _tailMeshStream, _streamRouteRegular,
+    _regularTransportTolerance, _toleranceNameReal, realPkg⟩ := ledger
+  have sourceReal :
+      (fun row : BHist =>
+        hsame row realTail ∧
+          FiniteLebesgueNumberSelectedTailBridgeLedger cover window radius mesh transport route
+            provenance nameRow tailAdmission streamTail regularTail toleranceTail realTail
+            bundle pkg) realTail := by
+    exact ⟨hsame_refl realTail, ledgerPacket⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro realTail sourceReal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, realPkg⟩
+  }
+
 end BEDC.Derived.FiniteLebesgueNumberUp
