@@ -3201,6 +3201,7 @@ import BEDC.Derived.KernelCategoryUp.EndpointTransportClosure
 import BEDC.Derived.KernelCategoryUp.FunctorContinuationHandoff
 import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
 import BEDC.Derived.KernelCategoryUp.NameCertRootRouteReadiness
+import BEDC.Derived.KernelCategoryUp.UnitScope
 import BEDC.Derived.KernelInductiveAcceptanceUp.ContinuationRouteTotality
 import BEDC.Derived.KernelInductiveAcceptanceUp.EmittedEliminatorCoverage
 import BEDC.Derived.KernelInductiveAcceptanceUp.EnvironmentEntryDeterminacy
@@ -5366,6 +5367,8 @@ import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
 import BEDC.Derived.UniformLimitContinuityUp
 import BEDC.Derived.UniformLimitContinuityUp.TasteGate
+import BEDC.Derived.UniformLimitContinuousUp.TasteGate
+import BEDC.Derived.UniformLimitInterchangeUp.TasteGate
 import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.CompactContinuousHandoff
