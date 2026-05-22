@@ -1128,6 +1128,7 @@ import BEDC.Derived.CauchyNetFilterCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyNetUp
 import BEDC.Derived.CauchyNetUp.ObligationSurface
 import BEDC.Derived.CauchyNetUp.TasteGate
+import BEDC.Derived.CauchyNullDifferenceUp.TasteGate
 import BEDC.Derived.CauchyNullEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
@@ -4319,6 +4320,8 @@ import BEDC.Derived.RealEqualityUp
 import BEDC.Derived.RealEqualityUp.TasteGate
 import BEDC.Derived.RealExponentialUp
 import BEDC.Derived.RealFunctionUniformCauchyUp.TasteGate
+import BEDC.Derived.RealIntegerPartUp
+import BEDC.Derived.RealIntegerPartUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessSealUp
 import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
@@ -4703,6 +4706,7 @@ import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMeetUp
 import BEDC.Derived.RegularCauchyTailMeetUp.DyadicAbsoluteValueHandoff
 import BEDC.Derived.RegularCauchyTailMeetUp.SharedThresholdCofinality
+import BEDC.Derived.RegularCauchyTailModulusReuseUp.TasteGate
 import BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
