@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\IrrationalWitnessUp$}
+\label{ch:concrete-instances-irrational-witness-namecert}
+\origin{human}
+
+Following Euclid's parity proof for the irrationality of $\sqrt{2}$ and Bishop--Bridges constructive analysis, the $\IrrationalWitnessUp$ packet records a finite contradiction route from rational-candidate data to a Real-facing refusal seal. It reads rational numerator and denominator rows through \autoref{ch:concrete-instances-rat-namecert} and \autoref{ch:concrete-instances-int-namecert}, checks dyadic tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, routes square-root existence through \autoref{ch:concrete-instances-regular-cauchy-square-root-namecert} and \autoref{ch:concrete-instances-real-root-existence-namecert}, and exposes only a terminal Real seal from \autoref{ch:concrete-instances-real-namecert}. The packet is evidence for a finite irrationality obstruction inside the BEDC carrier discipline; it is not quotient real equality, a completeness theorem for $\RealUp$, a trichotomy principle, a selected real representative, or a host theorem that $\sqrt{2}$ is irrational.
+
+\begin{definition}[IrrationalWitness carrier]
+\label{def:irrational-witness-carrier}
+An $\IrrationalWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(Q,D,S,O,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the rational-candidate row, recording the inspected numerator and denominator data inherited from $\RatUp$ and $\IntUp$.
+\item $D$ is the denominator-positivity row, recording that the displayed denominator data are admitted before any square or root comparison may be read.
+\item $S$ is the square and root handoff row, routing the candidate equation through $\RegularCauchySquareRootUp$ and $\RealRootExistenceUp$ before a Real-facing seal is exposed.
+\item $O$ is the parity or square-obstruction ledger, storing the finite divisibility, parity, or square-comparison rows used to contradict the displayed rational candidate.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance row, recording dyadic radii and comparison budgets for the rational and square-root reads.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $Q,D,S,O,T$ have been displayed.
+\item $H$ is the componentwise $\hsame$ transport row for the rational candidate, denominator-positivity, square/root handoff, obstruction ledger, dyadic tolerance, Real seal, replay, provenance, and naming rows.
+\item $C$ is the displayed $\Cont$ replay row from a Real-facing irrationality request back through the square/root handoff, dyadic tolerance ledger, obstruction ledger, and rational-candidate rows.
+\item $P$ is the $\Pkg$ provenance over $\IrrationalWitnessUp$, $\RatUp$, $\IntUp$, $\DyadicRatCoreUp$, $\RegularCauchySquareRootUp$, $\RealRootExistenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\IrrationalWitnessUp}$ row.
+\end{enumerate}
+The carrier predicate accepts exactly these finite irrationality-witness packets. It has no coordinate for quotient real equality, ambient $\RealUp$ completeness, trichotomy, selected representatives, or host irrationality theorems.
+\end{definition}
+
+\begin{theorem}[IrrationalWitness NameCert obligations]
+\label{thm:irrational-witness-namecert-obligations}
+For every accepted $\IrrationalWitnessUp$ carrier
+$$
+W=(Q,D,S,O,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\IrrationalWitnessUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed rational-candidate row, denominator-positivity row, square/root handoff row, obstruction ledger, dyadic tolerance row, Real seal, and structural rows $H,C,P,N$;
+\item rational-candidate exposure, requiring every contradiction read to display the numerator and denominator data in $Q$ and the positivity row $D$ before square data are consumed;
+\item square/root route, requiring the row $S$ to factor through $\RegularCauchySquareRootUp$ and $\RealRootExistenceUp$ before any $\RealUp$ seal is visible;
+\item contradiction ledger, requiring the obstruction row $O$ to store only the finite parity, divisibility, or square-comparison rows attached to $Q,D,S,T$;
+\item Real-seal nonescape, requiring $E$ to be downstream of $Q,D,S,O,T$ and to expose no quotient real equality, full $\RealUp$ completeness, trichotomy branch, selected representative, or host irrationality theorem;
+\item transport, replay, provenance, and naming, requiring $H,C,P,N$ to preserve, replay, source, and name exactly the displayed route.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:irrational-witness-carrier}. The accepted packet displays exactly the rational-candidate row, denominator-positivity row, square/root handoff, obstruction ledger, dyadic tolerance row, terminal Real seal, and structural rows.
+
+Rational-candidate exposure is finite. The row $Q$ records the numerator and denominator data, while $D$ records the positivity condition needed before the candidate can enter the square comparison route.
+
+The square/root route is then forced by $S$ and $T$. The handoff row passes through the regular-Cauchy square-root and root-existence packets, and the tolerance row records the dyadic budgets used by those reads.
+
+The contradiction ledger is local to $O$. Its entries are parity, divisibility, or square-comparison rows attached to the displayed candidate and tolerance data, so it cannot import quotient equality, trichotomy, selected representatives, or ambient completeness.
+
+Finally, $E,H,C,P,N$ exhaust the Real-facing boundary. The seal $E$ is downstream of the displayed route, and the structural rows transport, replay, source, and name only that route. Since the carrier has no further coordinate, the six listed clauses exhaust the local $\NameCert_{\IrrationalWitnessUp}$ surface.
+\end{proof}
+
+\begin{theorem}[IrrationalWitness square-root handoff]
+\label{thm:irrational-witness-square-root-handoff}
+For every accepted $\IrrationalWitnessUp$ carrier
+$$
+W=(Q,D,S,O,T,E,H,C,P,N),
+$$
+every Real-facing irrationality read exported by $W$ factors through the displayed route
+$$
+\RatUp,\IntUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegularCauchySquareRootUp,\RealRootExistenceUp \longrightarrow \RealUp
+$$
+by reading the finite rows $Q,D,T,S,O,H,C,P,N$ before the seal $E$. In particular, the read cannot bypass the rational, integer, dyadic-tolerance, square-root, and root-existence route by invoking quotient real equality, full $\RealUp$ completeness, trichotomy, a selected representative, or a host irrationality theorem.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing irrationality consumer. Carrier projection exposes the terminal seal $E$ only after the rational-candidate, denominator-positivity, dyadic-tolerance, square/root, and obstruction rows have been displayed.
+
+The rational and integer data are read first through $Q$ and $D$. The dyadic tolerance row $T$ supplies the comparison budgets needed before the square-root route is inspected.
+
+The row $S$ then routes the read through the regular-Cauchy square-root packet and the real-root-existence packet. The obstruction ledger $O$ records the finite contradiction rows attached to that route, not an external real-number theorem.
+
+The structural rows do not add a second exit. The transport row $H$, replay row $C$, provenance row $P$, and local certificate row $N$ preserve the same ordered route, so every Real-facing read factors through the displayed Rat/Int/DyadicRatCore and square-root/root-existence path before reaching $E$.
+\end{proof}
+
+\closureat{IrrationalWitnessUp}{seedStr}
+
+\begin{closurestatus}{\IrrationalWitnessUp}
+  \constructivestory{An $\IrrationalWitnessUp$ packet is generated from rational-candidate rows, denominator positivity, square/root handoff rows, a parity or square-obstruction ledger, dyadic tolerance rows, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:irrational-witness-carrier}, \autoref{thm:irrational-witness-namecert-obligations}, and \autoref{thm:irrational-witness-square-root-handoff} seed the finite route from rational-candidate evidence through dyadic and square-root data to a terminal RealUp irrationality refusal seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, full $\RealUp$ completeness, trichotomy, selected representatives, host irrationality theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational-candidate exposure, square/root routing, contradiction-ledger exactness, Real-seal nonescape, transport/replay/provenance coverage, and naming for BEDC.Derived.IrrationalWitnessUp.}
+\end{closurestatus}
