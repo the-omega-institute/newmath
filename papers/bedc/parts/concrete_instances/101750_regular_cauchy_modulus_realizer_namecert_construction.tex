@@ -73,6 +73,30 @@ Once $A$ and $M$ are fixed, the selected window $W$ is the finite stream row con
 Finally the seal $E$ and structural rows $H,C,P,N$ close the finite route. They preserve and name the displayed path, but they introduce none of the excluded completeness, quotient, choice, order, verification, or bridge data.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus realizer request transport determinacy]
+\label{thm:regular-cauchy-modulus-realizer-request-transport-determinacy}
+Let
+$$
+R=(A,M,W,D,Q,E,H,C,P,N)
+$$
+and
+$$
+R'=(A',M',W',D',Q',E',H',C',P',N')
+$$
+be accepted $\RegularCauchyModulusRealizerUp$ carriers. Suppose the precision request rows $A,A'$ and Cauchy-modulus threshold rows $M,M'$ are carried to one another by the displayed componentwise $\hsame$ rows in $H,H'$, and suppose the displayed $\Cont$ replays in $C,C'$ read the same request-to-threshold route. Then the selected $\StreamNameUp$ tail-window rows $W,W'$, the $\DyadicRatCoreUp$ tolerance ledgers $D,D'$, the $\RegSeqRatUp$ readbacks $Q,Q'$, and the terminal $\RealUp$ seal rows $E,E'$ are the same classifier-facing finite route. The determinacy result exports no selected limit, quotient stream equality, host real equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the two carrier presentations of \autoref{def:regular-cauchy-modulus-realizer-carrier}. In each accepted packet the only entrance for a precision demand is the request row, and the only threshold source downstream of it is the Cauchy-modulus row.
+
+Use the ordering supplied by \autoref{thm:regular-cauchy-modulus-realizer-tail-realization}. Both displayed replays read the route from $A$ to $M$ and from $A'$ to $M'$ before any window, ledger, readback, or seal row is exposed. The hypotheses identify the request and threshold rows through the componentwise $\hsame$ data in $H,H'$.
+
+After that identification, the accepted carrier has a single downstream window coordinate for the fixed request-threshold pair: $W$ in $R$ and $W'$ in $R'$. The dyadic tolerance ledger is then the single row downstream of the selected window, so the classifier-facing ledger route is $D,D'$.
+
+The readback and seal rows are forced in the same way. The only $\RegSeqRatUp$ readback downstream of the ledger is $Q,Q'$, and the only terminal $\RealUp$ seal downstream of that readback is $E,E'$.
+
+Finally apply the non-escape boundary of \autoref{thm:regular-cauchy-modulus-realizer-nonescape}. Since neither carrier contains any coordinate for selected limits, quotient stream equality, host real equality, countable choice, trichotomy, ambient completeness, Lean evidence, or a standard bridge, the transported request can select only the finite route through $W,D,Q,E$ and its counterpart $W',D',Q',E'$.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy modulus realizer Real seal nonescape]
 \label{thm:regular-cauchy-modulus-realizer-nonescape}
 Let $R=(A,M,W,D,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyModulusRealizerUp$ carrier. Any downstream use of the terminal $\RealUp$ seal $E$ must pass through the precision request row, Cauchy-modulus threshold, selected finite tail window, dyadic tolerance ledger, regular rational readback, and structural rows of the same carrier. Thus the seal cannot be used as a hidden endpoint for Real completeness, quotient stream equality, host real equality, countable choice, a selected limit, trichotomy, open-cover compactness, Lean verification, or a standard bridge.
@@ -94,7 +118,7 @@ Therefore a downstream read that bypasses one of $A,M,W,D,Q,H,C,P,N$ is not a re
 \begin{closurestatus}{\RegularCauchyModulusRealizerUp}
   \constructivestory{A $\RegularCauchyModulusRealizerUp$ packet is generated from a precision request row, a Cauchy-modulus threshold row, a selected finite StreamName tail window, a DyadicRatCore tolerance ledger, a RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-modulus-realizer-carrier}, \autoref{thm:regular-cauchy-modulus-realizer-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-realizer-tail-realization}, and \autoref{thm:regular-cauchy-modulus-realizer-nonescape} seed the finite request-to-tail-window realization route for L10 Real and Completion consumers.}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-realizer-carrier}, \autoref{thm:regular-cauchy-modulus-realizer-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-realizer-tail-realization}, \autoref{thm:regular-cauchy-modulus-realizer-request-transport-determinacy}, and \autoref{thm:regular-cauchy-modulus-realizer-nonescape} seed the finite request-to-tail-window realization route for L10 Real and Completion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, countable choice, selected limits, trichotomy, open-cover compactness, Lean verification, or bridge checking.}
