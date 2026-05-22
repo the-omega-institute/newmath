@@ -306,4 +306,50 @@ theorem FiniteLebesgueNumberPhaseRealRadiusAuditClassifier [AskSetup] [PackageSe
     }
   exact ⟨uniformUnary, uniformUnary', cert, cert'⟩
 
+theorem FiniteLebesgueNumberPhaseRealAuditLedgerScope [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow auditRead phaseRead compactRead
+      continuousRead uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow bundle
+        pkg →
+      Cont route nameRow auditRead →
+        Cont auditRead radius phaseRead →
+          Cont phaseRead mesh compactRead →
+            Cont compactRead route continuousRead →
+              Cont continuousRead nameRow uniformRead →
+                PkgSig bundle uniformRead pkg →
+                  UnaryHistory cover ∧ UnaryHistory window ∧ UnaryHistory radius ∧
+                    UnaryHistory mesh ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+                      UnaryHistory provenance ∧ UnaryHistory nameRow ∧
+                        UnaryHistory auditRead ∧ UnaryHistory phaseRead ∧
+                          UnaryHistory compactRead ∧ UnaryHistory continuousRead ∧
+                            UnaryHistory uniformRead ∧ Cont route nameRow auditRead ∧
+                              Cont auditRead radius phaseRead ∧
+                                Cont phaseRead mesh compactRead ∧
+                                  Cont compactRead route continuousRead ∧
+                                    Cont continuousRead nameRow uniformRead ∧
+                                      PkgSig bundle provenance pkg ∧
+                                        PkgSig bundle uniformRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier routeAudit auditPhase phaseCompact compactContinuous continuousUniform
+    uniformPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, transportUnary, routeUnary,
+    provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed routeUnary nameRowUnary routeAudit
+  have phaseUnary : UnaryHistory phaseRead :=
+    unary_cont_closed auditUnary radiusUnary auditPhase
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed phaseUnary meshUnary phaseCompact
+  have continuousUnary : UnaryHistory continuousRead :=
+    unary_cont_closed compactUnary routeUnary compactContinuous
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed continuousUnary nameRowUnary continuousUniform
+  exact
+    ⟨coverUnary, windowUnary, radiusUnary, meshUnary, transportUnary, routeUnary,
+      provenanceUnary, nameRowUnary, auditUnary, phaseUnary, compactUnary,
+      continuousUnary, uniformUnary, routeAudit, auditPhase, phaseCompact,
+      compactContinuous, continuousUniform, provenancePkg, uniformPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
