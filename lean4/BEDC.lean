@@ -1185,7 +1185,7 @@ import BEDC.Derived.CauchyProductUp.L10DependencyLattice
 import BEDC.Derived.CauchyProductUp.LimitSealSiblingDependency
 import BEDC.Derived.CauchyProductUp.PairedWindowLedgerClassifier
 import BEDC.Derived.CauchyProductUp.RealBudgetSealBoundary
-import BEDC.Derived.CauchyProductUp.RealRegseqratStreamnameHandoff
+import BEDC.Derived.CauchyProductUp.RealRegSeqRatStreamNameHandoff
 import BEDC.Derived.CauchyProductUp.RealSealSelector
 import BEDC.Derived.CauchyProductUp.RealSealUpstreamDependency
 import BEDC.Derived.CauchyProductUp.RealTailAgreementHandoff
@@ -4245,6 +4245,7 @@ import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PicardContractionUp.RootUnblockPackage
 import BEDC.Derived.PicardContractionUp.SourceReadback
 import BEDC.Derived.PicardContractionUp.SourceWindow
+import BEDC.Derived.PicardLindelofUp.TasteGate
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.PinGroupUp.CliffordConjugationLedger
 import BEDC.Derived.PinGroupUp.ReflectionExtension
@@ -5659,6 +5660,7 @@ import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
+import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
@@ -5718,6 +5720,7 @@ import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VietorisRipsComplexUp
 import BEDC.Derived.VonneumannalgebraUp
+import BEDC.Derived.WeaklyCauchySequenceUp.TasteGate
 import BEDC.Derived.WeierstrassApproximationUp.TasteGate
 import BEDC.Derived.WeierstrassMTestUp
 import BEDC.Derived.WeierstrassMTestUp.MajorantDominationPackage
