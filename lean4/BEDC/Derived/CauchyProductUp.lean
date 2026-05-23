@@ -274,4 +274,29 @@ theorem CauchyProductPacket_budget_product_consumer_boundary [AskSetup] [Package
       productRoute, classifierRoute, classifierBudget, budgetSealRoute, sealConsumerRead, namePkg,
       consumerReadPkg⟩
 
+theorem CauchyProductPacket_streamname_handoff [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name streamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont transport routes streamRead ->
+        PkgSig bundle streamRead pkg ->
+          UnaryHistory windowA ∧ UnaryHistory windowB ∧ UnaryHistory transport ∧
+            UnaryHistory streamRead ∧ Cont windowA windowB transport ∧
+              Cont transport routes streamRead ∧ PkgSig bundle name pkg ∧
+                PkgSig bundle streamRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet transportRoutesStreamRead streamReadPkg
+  obtain ⟨_sourceAUnary, _sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, _observationAUnary, _observationBUnary, routesUnary, _ledgerUnary,
+    windowTransport, _productRoute, _classifierRoute, namePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed windowAUnary windowBUnary windowTransport
+  have streamReadUnary : UnaryHistory streamRead :=
+    unary_cont_closed transportUnary routesUnary transportRoutesStreamRead
+  exact
+    ⟨windowAUnary, windowBUnary, transportUnary, streamReadUnary, windowTransport,
+      transportRoutesStreamRead, namePkg, streamReadPkg⟩
+
 end BEDC.Derived.CauchyProductUp
