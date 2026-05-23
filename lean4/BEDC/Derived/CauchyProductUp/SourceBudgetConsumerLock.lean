@@ -43,4 +43,38 @@ theorem CauchyProductPacket_shared_budget_radius_exhaustion [AskSetup] [PackageS
       classifierUnary, budgetClassifierUnary, budgetSealUnary, productRoute,
       classifierRoute, classifierBudget, budgetSealRoute, namePkg, budgetSealPkg⟩
 
+theorem CauchyProductPacket_source_window_bilinear_synchronization [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name sourceWindowA sourceWindowB
+      synchronizedProduct : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont sourceA windowA sourceWindowA ->
+        Cont sourceB windowB sourceWindowB ->
+          Cont sourceWindowA sourceWindowB synchronizedProduct ->
+            PkgSig bundle synchronizedProduct pkg ->
+              UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+                UnaryHistory windowB ∧ UnaryHistory sourceWindowA ∧
+                  UnaryHistory sourceWindowB ∧ UnaryHistory synchronizedProduct ∧
+                    Cont sourceA windowA sourceWindowA ∧
+                      Cont sourceB windowB sourceWindowB ∧
+                        Cont sourceWindowA sourceWindowB synchronizedProduct ∧
+                          PkgSig bundle name pkg ∧ PkgSig bundle synchronizedProduct pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet sourceWindowRouteA sourceWindowRouteB synchronizedRoute synchronizedPkg
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, _observationAUnary, _observationBUnary, _routesUnary, _ledgerUnary,
+    _windowTransport, _productRoute, _classifierRoute, namePkg⟩ := packet
+  have sourceWindowAUnary : UnaryHistory sourceWindowA :=
+    unary_cont_closed sourceAUnary windowAUnary sourceWindowRouteA
+  have sourceWindowBUnary : UnaryHistory sourceWindowB :=
+    unary_cont_closed sourceBUnary windowBUnary sourceWindowRouteB
+  have synchronizedProductUnary : UnaryHistory synchronizedProduct :=
+    unary_cont_closed sourceWindowAUnary sourceWindowBUnary synchronizedRoute
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, sourceWindowAUnary,
+      sourceWindowBUnary, synchronizedProductUnary, sourceWindowRouteA, sourceWindowRouteB,
+      synchronizedRoute, namePkg, synchronizedPkg⟩
+
 end BEDC.Derived.CauchyProductUp
