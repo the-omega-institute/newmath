@@ -1,0 +1,216 @@
+\begin{definition}[Private coordinate]
+\label{def:philosophy-private-trigger-coordinate}
+Let $A=\{S_{1},\ldots,S_{m}\}$ be a quotient-level support family on an
+$n$-element trigger coordinate set $\Omega$. A coordinate $a\in\Omega$
+is private to $S_{i}$ if
+$$
+  a\in S_{i}
+  \quad\text{and}\quad
+  a\notin S_{j}\text{ for }j\neq i.
+$$
+\end{definition}
+
+\begin{theorem}[Private-coordinate criterion]
+\label{thm:philosophy-private-coordinate-criterion}
+A quotient-level support family
+$$
+  A=\{S_{1},\ldots,S_{m}\}
+$$
+is a minimal full trigger if and only if
+$$
+  \bigcup_{i=1}^{m}S_{i}=\Omega
+$$
+and every $S_{i}$ has at least one private coordinate.
+\end{theorem}
+\begin{proof}
+If $A$ is a minimal full trigger, deleting $S_{i}$ destroys the cover of
+$\Omega$. Hence some coordinate is covered by $S_{i}$ and by no other
+member of the family; this is a private coordinate for $S_{i}$.
+
+Conversely, if every $S_{i}$ has a private coordinate, deleting $S_{i}$
+misses that coordinate. Since the full family covers $\Omega$, the
+family is a minimal full trigger.
+\end{proof}
+
+\begin{theorem}[Private-coordinate enumeration]
+\label{thm:philosophy-private-coordinate-enumeration}
+Let $C(n,m)$ be the number of quotient-level minimal full triggers of
+size $m$ on an $n$-coordinate trigger set. Then
+$$
+  C(n,m)
+  =
+  \frac{1}{m!}
+  \sum_{j=0}^{m}
+  (-1)^{j}
+  \binom{m}{j}
+  (2^{m}-1-j)^{n}.
+$$
+\end{theorem}
+\begin{proof}
+First count ordered tuples $(S_{1},\ldots,S_{m})$. Each coordinate
+$a\in\Omega$ determines a nonempty incidence pattern
+$$
+  \phi(a)=\{i:a\in S_{i}\}\subseteq[m].
+$$
+There are $2^{m}-1$ nonempty patterns. By
+\autoref{thm:philosophy-private-coordinate-criterion}, minimality is
+equivalent to requiring each singleton pattern $\{i\}$ to appear at
+least once. Inclusion-exclusion over the missing singleton patterns
+gives the ordered count
+$$
+  \sum_{j=0}^{m}
+  (-1)^{j}
+  \binom{m}{j}
+  (2^{m}-1-j)^{n}.
+$$
+Every support $S_{i}$ has a private coordinate, so the $S_{i}$ are
+pairwise distinct. Hence each unordered family is counted $m!$ times.
+\end{proof}
+
+\begin{corollary}[Codon minimal-trigger counts]
+\label{cor:philosophy-private-coordinate-codon-counts}
+For the codon terminal system $n=4$ and $\ell=2$,
+$$
+\begin{array}{c|r|r}
+  m & C(4,m) & 2^{m}C(4,m)\\
+  \hline
+  1 & 1 & 2\\
+  2 & 25 & 100\\
+  3 & 22 & 176\\
+  4 & 1 & 16.
+\end{array}
+$$
+Thus the codon-level minimal full-trigger polynomial is
+$$
+  2z+100z^{2}+176z^{3}+16z^{4}.
+$$
+\end{corollary}
+\begin{proof}
+Evaluate \autoref{thm:philosophy-private-coordinate-enumeration} at
+$n=4$:
+$$
+  C(4,1)=1,
+$$
+$$
+  C(4,2)=\frac{3^{4}-2\cdot2^{4}+1}{2}=25,
+$$
+$$
+  C(4,3)=
+  \frac{7^{4}-3\cdot6^{4}+3\cdot5^{4}-4^{4}}{6}
+  =
+  22,
+$$
+and $C(4,4)=1$. The codon layer has two $f_{3}$-lifts for each support,
+so a size-$m$ quotient trigger has $2^{m}$ codon lifts.
+\end{proof}
+
+\begin{theorem}[Energy-refined private-coordinate formula]
+\label{thm:philosophy-energy-refined-private-coordinate-formula}
+Let $C_{n,m}(y)$ be the quotient-level energy generating polynomial for
+size-$m$ minimal full triggers on $n$ trigger coordinates, where
+$$
+  E(A)=\sum_{S\in A}|S|.
+$$
+Then
+$$
+  C_{n,m}(y)
+  =
+  \frac{1}{m!}
+  \sum_{j=0}^{m}
+  (-1)^{j}
+  \binom{m}{j}
+  \left((1+y)^{m}-1-jy\right)^{n}.
+$$
+\end{theorem}
+\begin{proof}
+An incidence pattern $T\subseteq[m]$ contributes $y^{|T|}$ to the
+energy. The weight enumerator of all nonempty patterns is
+$$
+  \sum_{\varnothing\neq T\subseteq[m]}y^{|T|}
+  =
+  (1+y)^{m}-1.
+$$
+Forbidding $j$ singleton patterns removes $jy$ from this enumerator.
+Inclusion-exclusion over missing singleton patterns gives the ordered
+energy enumerator. Division by $m!$ removes the ordering of the
+support family.
+\end{proof}
+
+\begin{corollary}[Codon energy refinement]
+\label{cor:philosophy-private-coordinate-codon-energy-refinement}
+For $n=4$ and $\ell=2$, the codon-level bivariate polynomial is
+$$
+  T_{c}(z,y)
+  =
+  2zy^{4}
+  +
+  z^{2}(28y^{4}+48y^{5}+24y^{6})
+$$
+$$
+  \qquad
+  +
+  z^{3}(48y^{4}+96y^{5}+32y^{6})
+  +
+  16z^{4}y^{4}.
+$$
+Consequently
+$$
+  T_{c}(z,1)=2z+100z^{2}+176z^{3}+16z^{4},
+$$
+and
+$$
+  T_{c}(1,y)=94y^{4}+144y^{5}+56y^{6}.
+$$
+\end{corollary}
+\begin{proof}
+Evaluate
+\autoref{thm:philosophy-energy-refined-private-coordinate-formula} at
+$n=4$, multiply the size-$m$ quotient terms by $2^{m}$, and collect by
+trigger size and energy.
+\end{proof}
+
+\begin{corollary}[Energy-minimal partition subclass]
+\label{cor:philosophy-private-coordinate-energy-minimal-partitions}
+For $n$ trigger coordinates and $\ell$ lifts per support, the
+energy-minimal trigger polynomial is
+$$
+  y^{n}\sum_{m=1}^{n}\ell^{m}S(n,m)z^{m},
+$$
+where $S(n,m)$ is the Stirling number of the second kind.
+\end{corollary}
+\begin{proof}
+The minimum possible energy of a full trigger is $n$. Equality holds
+exactly when the supports form a set partition of $\Omega$, by
+\autoref{thm:philosophy-trigger-energy-partition-criterion}. There are
+$S(n,m)$ set partitions with $m$ blocks, and the lift layer contributes
+$\ell^{m}$ choices.
+\end{proof}
+
+\begin{theorem}[Private-coordinate trigger enumeration theorem]
+\label{thm:philosophy-private-coordinate-trigger-enumeration-theorem}
+In the post-$M^{\star}$ terminal trigger algebra, minimal full triggers
+are enumerated by private-coordinate inclusion-exclusion. For $n$
+trigger coordinates and $\ell$ lifts per support, the size-$m$ lifted
+count is
+$$
+  \ell^{m}
+  \frac{1}{m!}
+  \sum_{j=0}^{m}
+  (-1)^{j}
+  \binom{m}{j}
+  (2^{m}-1-j)^{n},
+$$
+and the energy-refined quotient formula is
+$$
+  \frac{1}{m!}
+  \sum_{j=0}^{m}
+  (-1)^{j}
+  \binom{m}{j}
+  \left((1+y)^{m}-1-jy\right)^{n}.
+$$
+\end{theorem}
+\begin{proof}
+The first formula is \autoref{thm:philosophy-private-coordinate-enumeration}
+with the lift factor $\ell^{m}$. The second formula is
+\autoref{thm:philosophy-energy-refined-private-coordinate-formula}.
+\end{proof}

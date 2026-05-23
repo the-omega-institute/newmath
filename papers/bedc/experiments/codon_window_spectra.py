@@ -3989,6 +3989,49 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     hochster_p1_coefficients_desc = (6, 60, 278, 784, 1491, 2002, 1928, 1320, 617, 178, 22)
     quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
     quotient_minimal_trigger_type_counts: collections.Counter[tuple[int, ...]] = collections.Counter()
+
+    def private_coordinate_count(trigger_coordinate_count: int, trigger_size: int) -> int:
+        ordered_count = sum(
+            ((-1) ** missing_singletons)
+            * math.comb(trigger_size, missing_singletons)
+            * ((2 ** trigger_size) - 1 - missing_singletons) ** trigger_coordinate_count
+            for missing_singletons in range(trigger_size + 1)
+        )
+        return ordered_count // math.factorial(trigger_size)
+
+    def multiply_polynomials(left: dict[int, int], right: dict[int, int]) -> dict[int, int]:
+        product: dict[int, int] = collections.Counter()
+        for left_degree, left_coefficient in left.items():
+            for right_degree, right_coefficient in right.items():
+                product[left_degree + right_degree] += left_coefficient * right_coefficient
+        return dict(product)
+
+    def polynomial_power(base: dict[int, int], exponent: int) -> dict[int, int]:
+        result = {0: 1}
+        for _ in range(exponent):
+            result = multiply_polynomials(result, base)
+        return result
+
+    def private_coordinate_energy_counts(trigger_coordinate_count: int, trigger_size: int) -> dict[int, int]:
+        ordered_energy_counts: dict[int, int] = collections.Counter()
+        for missing_singletons in range(trigger_size + 1):
+            base = {
+                pattern_size: math.comb(trigger_size, pattern_size)
+                for pattern_size in range(1, trigger_size + 1)
+            }
+            base[1] -= missing_singletons
+            power = polynomial_power(base, trigger_coordinate_count)
+            sign = (-1) ** missing_singletons
+            scale = sign * math.comb(trigger_size, missing_singletons)
+            for energy, coefficient in power.items():
+                ordered_energy_counts[energy] += scale * coefficient
+        divisor = math.factorial(trigger_size)
+        return {
+            energy: coefficient // divisor
+            for energy, coefficient in sorted(ordered_energy_counts.items())
+            if coefficient
+        }
+
     for trigger_size in range(1, 5):
         for family in itertools.combinations(nonempty_support_patterns, trigger_size):
             union_support = frozenset().union(*family)
@@ -4079,6 +4122,18 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "codon_count": row["codon_count"],
         }
         for row in minimal_trigger_rows
+    ]
+    private_coordinate_formula_rows = [
+        {
+            "trigger_size": trigger_size,
+            "quotient_count": private_coordinate_count(len(coordinate_universe), trigger_size),
+            "codon_count": (2 ** trigger_size) * private_coordinate_count(len(coordinate_universe), trigger_size),
+            "energy_terms": tuple(
+                (energy, quotient_count, quotient_count * (2 ** trigger_size))
+                for energy, quotient_count in private_coordinate_energy_counts(len(coordinate_universe), trigger_size).items()
+            ),
+        }
+        for trigger_size in range(1, 5)
     ]
     rank_enumerator_rows = [
         {
@@ -4585,6 +4640,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "minimal_trigger_polynomial_quotient": minimal_trigger_polynomial_quotient,
         "minimal_trigger_polynomial_codon": minimal_trigger_polynomial_codon,
         "minimal_trigger_homology_core_rows": minimal_trigger_homology_core_rows,
+        "private_coordinate_minimal_trigger_formula": "1/m! sum_j (-1)^j binom(m,j) (2^m-1-j)^n",
+        "private_coordinate_energy_refined_formula": "1/m! sum_j (-1)^j binom(m,j) ((1+y)^m-1-jy)^n",
+        "private_coordinate_formula_rows": private_coordinate_formula_rows,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
         "trigger_energy_minimum": trigger_energy_minimum,
         "trigger_energy_minimum_condition": "support partition of Omega",
@@ -8366,6 +8424,22 @@ def assert_expected(summary: dict[str, object]) -> None:
         (2, 0, "S^0", 25, 100),
         (3, 1, "S^1", 22, 176),
         (4, 2, "S^2", 1, 16),
+    ]
+    assert antipodal["private_coordinate_minimal_trigger_formula"] == "1/m! sum_j (-1)^j binom(m,j) (2^m-1-j)^n"
+    assert antipodal["private_coordinate_energy_refined_formula"] == "1/m! sum_j (-1)^j binom(m,j) ((1+y)^m-1-jy)^n"
+    assert [
+        (
+            row["trigger_size"],
+            row["quotient_count"],
+            row["codon_count"],
+            row["energy_terms"],
+        )
+        for row in antipodal["private_coordinate_formula_rows"]
+    ] == [
+        (1, 1, 2, ((4, 1, 2),)),
+        (2, 25, 100, ((4, 7, 28), (5, 12, 48), (6, 6, 24))),
+        (3, 22, 176, ((4, 6, 48), (5, 12, 96), (6, 4, 32))),
+        (4, 1, 16, ((4, 1, 16),)),
     ]
     assert antipodal["rank_enumerator_formula"] == "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))"
     assert [
