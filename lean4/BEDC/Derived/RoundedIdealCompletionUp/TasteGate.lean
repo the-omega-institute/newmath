@@ -10,10 +10,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RoundedIdealCompletionUp : Type where
-  | mk
-      (metric formalBall dyadic stream rounded directed transport replay provenance name :
-        BHist) :
-      RoundedIdealCompletionUp
+  | mk (M F D S R E T C P N : BHist) : RoundedIdealCompletionUp
+  deriving DecidableEq
 
 def roundedIdealCompletionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -37,44 +35,9 @@ private theorem roundedIdealCompletionDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private theorem roundedIdealCompletion_mk_congr
-    {metric metric' formalBall formalBall' dyadic dyadic' stream stream' rounded rounded' :
-      BHist}
-    {directed directed' transport transport' replay replay' provenance provenance' name name' :
-      BHist}
-    (hMetric : metric' = metric)
-    (hFormalBall : formalBall' = formalBall)
-    (hDyadic : dyadic' = dyadic)
-    (hStream : stream' = stream)
-    (hRounded : rounded' = rounded)
-    (hDirected : directed' = directed)
-    (hTransport : transport' = transport)
-    (hReplay : replay' = replay)
-    (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    RoundedIdealCompletionUp.mk metric' formalBall' dyadic' stream' rounded' directed'
-        transport' replay' provenance' name' =
-      RoundedIdealCompletionUp.mk metric formalBall dyadic stream rounded directed transport
-        replay provenance name := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hMetric
-  cases hFormalBall
-  cases hDyadic
-  cases hStream
-  cases hRounded
-  cases hDirected
-  cases hTransport
-  cases hReplay
-  cases hProvenance
-  cases hName
-  rfl
-
 def roundedIdealCompletionFields : RoundedIdealCompletionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RoundedIdealCompletionUp.mk metric formalBall dyadic stream rounded directed transport
-      replay provenance name =>
-      [metric, formalBall, dyadic, stream, rounded, directed, transport, replay, provenance,
-        name]
+  | RoundedIdealCompletionUp.mk M F D S R E T C P N => [M, F, D, S, R, E, T, C, P, N]
 
 def roundedIdealCompletionToEventFlow : RoundedIdealCompletionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -83,34 +46,49 @@ def roundedIdealCompletionToEventFlow : RoundedIdealCompletionUp → EventFlow
 def roundedIdealCompletionFromEventFlow : EventFlow → Option RoundedIdealCompletionUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | _metric :: [] => none
-  | _metric :: _formalBall :: [] => none
-  | _metric :: _formalBall :: _dyadic :: [] => none
-  | _metric :: _formalBall :: _dyadic :: _stream :: [] => none
-  | _metric :: _formalBall :: _dyadic :: _stream :: _rounded :: [] => none
-  | _metric :: _formalBall :: _dyadic :: _stream :: _rounded :: _directed :: [] => none
-  | _metric :: _formalBall :: _dyadic :: _stream :: _rounded :: _directed ::
-      _transport :: [] => none
-  | _metric :: _formalBall :: _dyadic :: _stream :: _rounded :: _directed ::
-      _transport :: _replay :: [] => none
-  | _metric :: _formalBall :: _dyadic :: _stream :: _rounded :: _directed ::
-      _transport :: _replay :: _provenance :: [] => none
-  | metric :: formalBall :: dyadic :: stream :: rounded :: directed :: transport ::
-      replay :: provenance :: name :: [] =>
-      some
-        (RoundedIdealCompletionUp.mk
-          (roundedIdealCompletionDecodeBHist metric)
-          (roundedIdealCompletionDecodeBHist formalBall)
-          (roundedIdealCompletionDecodeBHist dyadic)
-          (roundedIdealCompletionDecodeBHist stream)
-          (roundedIdealCompletionDecodeBHist rounded)
-          (roundedIdealCompletionDecodeBHist directed)
-          (roundedIdealCompletionDecodeBHist transport)
-          (roundedIdealCompletionDecodeBHist replay)
-          (roundedIdealCompletionDecodeBHist provenance)
-          (roundedIdealCompletionDecodeBHist name))
-  | _metric :: _formalBall :: _dyadic :: _stream :: _rounded :: _directed :: _transport ::
-      _replay :: _provenance :: _name :: _extra :: _rest => none
+  | M :: restF =>
+      match restF with
+      | [] => none
+      | F :: restD =>
+          match restD with
+          | [] => none
+          | D :: restS =>
+              match restS with
+              | [] => none
+              | S :: restR =>
+                  match restR with
+                  | [] => none
+                  | R :: restE =>
+                      match restE with
+                      | [] => none
+                      | E :: restT =>
+                          match restT with
+                          | [] => none
+                          | T :: restC =>
+                              match restC with
+                              | [] => none
+                              | C :: restP =>
+                                  match restP with
+                                  | [] => none
+                                  | P :: restN =>
+                                      match restN with
+                                      | [] => none
+                                      | N :: rest =>
+                                          match rest with
+                                          | [] =>
+                                              some
+                                                (RoundedIdealCompletionUp.mk
+                                                  (roundedIdealCompletionDecodeBHist M)
+                                                  (roundedIdealCompletionDecodeBHist F)
+                                                  (roundedIdealCompletionDecodeBHist D)
+                                                  (roundedIdealCompletionDecodeBHist S)
+                                                  (roundedIdealCompletionDecodeBHist R)
+                                                  (roundedIdealCompletionDecodeBHist E)
+                                                  (roundedIdealCompletionDecodeBHist T)
+                                                  (roundedIdealCompletionDecodeBHist C)
+                                                  (roundedIdealCompletionDecodeBHist P)
+                                                  (roundedIdealCompletionDecodeBHist N))
+                                          | _ :: _ => none
 
 private theorem roundedIdealCompletion_round_trip :
     ∀ x : RoundedIdealCompletionUp,
@@ -118,20 +96,31 @@ private theorem roundedIdealCompletion_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk metric formalBall dyadic stream rounded directed transport replay provenance name =>
-      exact
-        congrArg some
-          (roundedIdealCompletion_mk_congr
-            (roundedIdealCompletionDecode_encode_bhist metric)
-            (roundedIdealCompletionDecode_encode_bhist formalBall)
-            (roundedIdealCompletionDecode_encode_bhist dyadic)
-            (roundedIdealCompletionDecode_encode_bhist stream)
-            (roundedIdealCompletionDecode_encode_bhist rounded)
-            (roundedIdealCompletionDecode_encode_bhist directed)
-            (roundedIdealCompletionDecode_encode_bhist transport)
-            (roundedIdealCompletionDecode_encode_bhist replay)
-            (roundedIdealCompletionDecode_encode_bhist provenance)
-            (roundedIdealCompletionDecode_encode_bhist name))
+  | mk M F D S R E T C P N =>
+      change
+        some
+          (RoundedIdealCompletionUp.mk
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist M))
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist F))
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist D))
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist S))
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist R))
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist E))
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist T))
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist C))
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist P))
+            (roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist N))) =
+          some (RoundedIdealCompletionUp.mk M F D S R E T C P N)
+      rw [roundedIdealCompletionDecode_encode_bhist M,
+        roundedIdealCompletionDecode_encode_bhist F,
+        roundedIdealCompletionDecode_encode_bhist D,
+        roundedIdealCompletionDecode_encode_bhist S,
+        roundedIdealCompletionDecode_encode_bhist R,
+        roundedIdealCompletionDecode_encode_bhist E,
+        roundedIdealCompletionDecode_encode_bhist T,
+        roundedIdealCompletionDecode_encode_bhist C,
+        roundedIdealCompletionDecode_encode_bhist P,
+        roundedIdealCompletionDecode_encode_bhist N]
 
 private theorem roundedIdealCompletionToEventFlow_injective
     {x y : RoundedIdealCompletionUp} :
@@ -146,20 +135,20 @@ private theorem roundedIdealCompletionToEventFlow_injective
     (Eq.trans (roundedIdealCompletion_round_trip x).symm
       (Eq.trans hread (roundedIdealCompletion_round_trip y)))
 
-private theorem roundedIdealCompletion_field_faithful :
+private theorem roundedIdealCompletionFields_faithful :
     ∀ x y : RoundedIdealCompletionUp,
       roundedIdealCompletionFields x = roundedIdealCompletionFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
+  intro x y h
   cases x with
-  | mk metric formalBall dyadic stream rounded directed transport replay provenance name =>
+  | mk M1 F1 D1 S1 R1 E1 T1 C1 P1 N1 =>
       cases y with
-      | mk metric' formalBall' dyadic' stream' rounded' directed' transport' replay'
-          provenance' name' =>
-          cases hfields
+      | mk M2 F2 D2 S2 R2 E2 T2 C2 P2 N2 =>
+          cases h
           rfl
 
-instance roundedIdealCompletionBHistCarrier : BHistCarrier RoundedIdealCompletionUp where
+instance roundedIdealCompletionBHistCarrier :
+    BHistCarrier RoundedIdealCompletionUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := roundedIdealCompletionToEventFlow
   fromEventFlow := roundedIdealCompletionFromEventFlow
@@ -175,27 +164,63 @@ instance roundedIdealCompletionChapterTasteGate :
     intro x y hxy heq
     exact hxy (roundedIdealCompletionToEventFlow_injective heq)
 
-instance roundedIdealCompletionFieldFaithful : FieldFaithful RoundedIdealCompletionUp where
+instance roundedIdealCompletionFieldFaithful :
+    FieldFaithful RoundedIdealCompletionUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := roundedIdealCompletionFields
-  field_faithful := roundedIdealCompletion_field_faithful
+  field_faithful := roundedIdealCompletionFields_faithful
+
+instance roundedIdealCompletionNontrivial : Nontrivial RoundedIdealCompletionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RoundedIdealCompletionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RoundedIdealCompletionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 def taste_gate : ChapterTasteGate RoundedIdealCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   roundedIdealCompletionChapterTasteGate
 
+namespace TasteGate
+
 theorem RoundedIdealCompletionTasteGate_single_carrier_alignment :
-    (∀ h : BHist, roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist h) = h) ∧
-      (∀ x : RoundedIdealCompletionUp,
-        roundedIdealCompletionFromEventFlow (roundedIdealCompletionToEventFlow x) = some x) ∧
-      (∀ x y : RoundedIdealCompletionUp,
-        roundedIdealCompletionToEventFlow x = roundedIdealCompletionToEventFlow y → x = y) ∧
-      roundedIdealCompletionEncodeBHist BHist.Empty = ([] : List BMark) := by
+    Nonempty (ChapterTasteGate RoundedIdealCompletionUp) ∧
+      Nonempty (FieldFaithful RoundedIdealCompletionUp) ∧
+        Nonempty (Nontrivial RoundedIdealCompletionUp) ∧
+          (∀ h : BHist,
+            roundedIdealCompletionDecodeBHist (roundedIdealCompletionEncodeBHist h) = h) ∧
+            (∀ x : RoundedIdealCompletionUp,
+              roundedIdealCompletionFromEventFlow
+                (roundedIdealCompletionToEventFlow x) = some x) ∧
+              (∀ x y : RoundedIdealCompletionUp,
+                roundedIdealCompletionToEventFlow x =
+                    roundedIdealCompletionToEventFlow y →
+                  x = y) ∧
+                roundedIdealCompletionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  constructor
+  · exact ⟨roundedIdealCompletionChapterTasteGate⟩
+  · constructor
+    · exact ⟨roundedIdealCompletionFieldFaithful⟩
+    · constructor
+      · exact ⟨roundedIdealCompletionNontrivial⟩
+      · constructor
+        · exact roundedIdealCompletionDecode_encode_bhist
+        · constructor
+          · exact roundedIdealCompletion_round_trip
+          · constructor
+            · intro x y heq
+              exact roundedIdealCompletionToEventFlow_injective heq
+            · rfl
+
+def taste_gate : ChapterTasteGate RoundedIdealCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨roundedIdealCompletionDecode_encode_bhist,
-      roundedIdealCompletion_round_trip,
-      (fun _ _ heq => roundedIdealCompletionToEventFlow_injective heq),
-      rfl⟩
+  BEDC.Derived.RoundedIdealCompletionUp.taste_gate
+
+end TasteGate
 
 end BEDC.Derived.RoundedIdealCompletionUp
