@@ -595,6 +595,7 @@ import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
+import BEDC.Derived.BishopRealComparisonUp
 import BEDC.Derived.BishopRealComparisonUp.CauchyDedekindBoundary
 import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
@@ -3885,6 +3886,7 @@ import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
 import BEDC.Derived.NormalFormConsistencySealUp
+import BEDC.Derived.NormalSpaceUp.TasteGate
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.NullSequenceUp
 import BEDC.Derived.NullSequenceUp.TasteGate
@@ -4783,6 +4785,7 @@ import BEDC.Derived.RegularCauchyShiftUp.TasteGate
 import BEDC.Derived.RegularCauchySquareRootUp.TasteGate
 import BEDC.Derived.RegularCauchySquareUp.TasteGate
 import BEDC.Derived.RegularCauchySqueezeUp.TasteGate
+import BEDC.Derived.RegularCauchySubsequenceLimitUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchySubtractionUp.TasteGate
@@ -5041,6 +5044,7 @@ import BEDC.Derived.SignedDigitStreamUp.PrefixStability
 import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.Tail
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
+import BEDC.Derived.SignedDyadicNormalFormUp.TasteGate
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.SimplicialSetUp.TasteGate
@@ -5594,6 +5598,7 @@ import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
 import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
 import BEDC.Derived.UpperSemicontinuousUp.TasteGate
+import BEDC.Derived.UrysohnLemmaUp.TasteGate
 import BEDC.Derived.UseProcessBoundaryUp.TasteGate
 import BEDC.Derived.UseProcessLimitLedgerUp.TasteGate
 import BEDC.Derived.UseProcessLimitUp.TasteGate
