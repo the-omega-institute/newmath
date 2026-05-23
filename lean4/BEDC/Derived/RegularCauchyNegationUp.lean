@@ -428,4 +428,35 @@ theorem RegularCauchyNegationCarrier_apartness_nonescape [AskSetup] [PackageSetu
       dyadicClassifierFlipped, flippedSealTransport, flippedClassifierApartness,
       apartnessSealRoute, provenancePkg, apartnessSealPkg⟩
 
+theorem RegularCauchyNegationCarrier_additive_inverse_boundary [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name
+      algebraRead realBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg ->
+      Cont flipped classifier algebraRead ->
+        Cont name route realBoundary ->
+          PkgSig bundle algebraRead pkg ->
+            PkgSig bundle realBoundary pkg ->
+              UnaryHistory flipped ∧ UnaryHistory classifier ∧ UnaryHistory sealRow ∧
+                UnaryHistory algebraRead ∧ UnaryHistory realBoundary ∧
+                  Cont dyadic classifier flipped ∧ Cont flipped classifier algebraRead ∧
+                    Cont sealRow provenance name ∧ Cont name route realBoundary ∧
+                      PkgSig bundle name pkg ∧ PkgSig bundle algebraRead pkg ∧
+                        PkgSig bundle realBoundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier flippedClassifierAlgebra nameRouteBoundary algebraPkg boundaryPkg
+  obtain ⟨_sourceUnary, _windowUnary, _dyadicUnary, classifierUnary, flippedUnary,
+    sealUnary, _transportUnary, routeUnary, _provenanceUnary, nameUnary,
+    _sourceWindowDyadic, dyadicClassifierFlipped, _flippedSealTransport,
+    _transportRouteProvenance, sealProvenanceName, _provenancePkg, namePkg⟩ := carrier
+  have algebraUnary : UnaryHistory algebraRead :=
+    unary_cont_closed flippedUnary classifierUnary flippedClassifierAlgebra
+  have boundaryUnary : UnaryHistory realBoundary :=
+    unary_cont_closed nameUnary routeUnary nameRouteBoundary
+  exact
+    ⟨flippedUnary, classifierUnary, sealUnary, algebraUnary, boundaryUnary,
+      dyadicClassifierFlipped, flippedClassifierAlgebra, sealProvenanceName,
+      nameRouteBoundary, namePkg, algebraPkg, boundaryPkg⟩
+
 end BEDC.Derived.RegularCauchyNegationUp

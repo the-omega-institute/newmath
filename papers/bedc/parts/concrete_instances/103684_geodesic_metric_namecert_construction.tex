@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\GeodesicMetricUp$}
+\label{ch:concrete-instances-geodesic-metric-namecert}
+\origin{human}
+
+Following Burago--Burago--Ivanov and Bridson--Haefliger on geodesic metric spaces, the $\GeodesicMetricUp$ packet records a displayed finite segment witness inside a metric carrier. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, reads closed-ball membership through \autoref{ch:concrete-instances-metricclosedball-namecert}, and remains adjacent to the completion and compactness frontiers of \autoref{ch:concrete-instances-completemetric-namecert}, \autoref{ch:concrete-instances-propermetric-namecert}, and \autoref{ch:concrete-instances-doubling-metric-namecert}. The packet names a finite segment handoff for later compactness and completion consumers; it is not a host path space, not a selected geodesic object, not a quotient path-equality principle, and not an ambient completeness assertion.
+
+\begin{definition}[GeodesicMetric carrier]
+\label{def:geodesic-metric-carrier}
+A $\GeodesicMetricUp$ carrier is a finite $\BHist$ packet
+$$
+G=(M,E,T,S,A,C,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the accepted $\MetricUp$ row, including the point classifier, displayed endpoint-distance request, and the metric comparison rows used by every segment read.
+\item $E$ records the two endpoint histories over $M$, together with the endpoint classifier rows used to transport the segment request.
+\item $T$ is the finite segment-parameter row, a bounded rational or dyadic address ledger for the visible subsegment reads.
+\item $S$ is the displayed segment witness row: for the endpoint pair in $E$, it lists the finite intermediate point reads and the source-distance observations through $M$.
+\item $A$ is the distance-additivity or midpoint-budget ledger. It records either that the displayed subsegment distances add to the endpoint distance within the visible tolerance budget, or that the displayed midpoint windows split the endpoint budget into the two certified subreads requested by the consumer.
+\item $C$ records componentwise $\hsame$ transport for the metric row, endpoint rows, parameter row, segment witness, additivity or midpoint ledger, replay, provenance, and local naming rows.
+\item $R$ is the displayed $\Cont$ replay row, requiring every segment read to be regenerated from $M,E,T,S,A,C$ before any consumer may inspect it.
+\item $P$ is the $\Pkg$ provenance over $\GeodesicMetricUp$, $\MetricUp$, $\MetricClosedBallUp$, $\CompleteMetricUp$, $\ProperMetricUp$, $\DoublingMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GeodesicMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,E,T,S,A,C,R,P,N$. It has no coordinate for host path spaces, selected geodesics, quotient path equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[GeodesicMetric NameCert obligations]
+\label{thm:geodesic-metric-namecert-obligations}
+For an accepted $\GeodesicMetricUp$ carrier
+$$
+G=(M,E,T,S,A,C,R,P,N),
+$$
+the local $\NameCert_{\GeodesicMetricUp}$ surface consists exactly of carrier admission, endpoint compatibility over the displayed $\MetricUp$ row, finite parameter admission, segment-witness exactness, additivity or midpoint-budget exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming over the rows of \autoref{def:geodesic-metric-carrier}. No obligation row asserts a host path object, a globally selected geodesic, quotient equality of paths, or completeness of the ambient metric space.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:geodesic-metric-carrier}. The accepted packet displays the metric source, the two endpoint rows, the finite parameter ledger, the segment witness, and the additivity or midpoint-budget row before the transport and naming rows are read.
+
+Endpoint compatibility is metric-local. The row $E$ may be transported only along the point classifier exposed by $M$, so every endpoint-distance request remains inside the same $\MetricUp$ source.
+
+Segment exactness is finite. The rows $T$ and $S$ list only the visible parameter windows, intermediate point reads, and distance observations required by the current witness. The row $A$ then records the visible additivity or midpoint-budget comparison through those same distance observations.
+
+Transport and replay are structural. Componentwise $\hsame$ in $C$ preserves the metric source, endpoints, parameter row, segment witness, and budget ledger, while $R$, $P$, and $N$ replay and name exactly that finite route.
+
+The excluded objects are absent from the carrier inventory. Since no row stores host paths, selected geodesics, quotient path equality, or ambient completeness, no local NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[GeodesicMetric segment handoff]
+\label{thm:geodesic-metric-segment-handoff}
+Every completion-facing, compactness-facing, or closed-ball-facing read of an accepted $\GeodesicMetricUp$ carrier factors through the finite route
+$$
+M,E,T,S,A \longmapsto C,R,P,N .
+$$
+Thus a later $\MetricClosedBallUp$, $\CompleteMetricUp$, $\ProperMetricUp$, or $\DoublingMetricUp$ consumer receives only the displayed metric row, endpoint rows, finite segment-parameter row, segment witness, additivity or midpoint-budget ledger, componentwise transport, replay, provenance, and local naming rows. The handoff does not import host path spaces, selected geodesics, quotient path equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The metric source is $M$, and every endpoint or closed-ball query first reads the endpoint rows in $E$ through that source.
+
+The segment data are $T,S,A$. The parameter row $T$ bounds the visible requests, $S$ supplies the displayed intermediate point and distance observations, and $A$ exposes the finite additivity or midpoint-budget comparison that a consumer may use.
+
+The remaining rows do not enlarge the analytic object. The transport row $C$ preserves the same coordinates componentwise, and the replay, provenance, and naming rows $R,P,N$ require the consumer to regenerate the same finite route before accepting the segment handoff.
+
+Therefore completion, properness, doubling, and closed-ball consumers can use the displayed witness only through those rows. The carrier contains no path-space object, selected geodesic, path quotient, or completeness row from which a stronger conclusion could be read.
+\end{proof}
+
+\closureat{GeodesicMetricUp}{seedStr}
+
+\begin{closurestatus}{\GeodesicMetricUp}
+  \constructivestory{A $\GeodesicMetricUp$ packet is generated from a MetricUp source, endpoint rows, a finite segment-parameter row, a displayed segment witness, an additivity or midpoint-budget ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:geodesic-metric-carrier}, \autoref{thm:geodesic-metric-namecert-obligations}, and \autoref{thm:geodesic-metric-segment-handoff} seed the finite segment-witness surface for later metric closed-ball, completion, properness, and doubling consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host path spaces, selected geodesics, quotient path equality, ambient metric completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint compatibility, finite parameter admission, segment-witness exactness, additivity or midpoint-budget exactness, transport stability, replay stability, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.GeodesicMetricUp.}
+\end{closurestatus}
