@@ -86,11 +86,27 @@ Embedding reads are confined to $E$, and numerical tolerance reads are confined 
 The support rows $H,C,P,N$ preserve and name that same finite ledger. Because the carrier lists no coordinate for quotient equality, representative selection, countable choice, open-cover compactness, host equality, ambient completeness, or $\RealUp$ completeness, those principles cannot be exported by the packet.
 \end{proof}
 
+\begin{theorem}[LocatedMetricCompletion modulus pair stability]
+\label{thm:located-metric-completion-modulus-pair-stability}
+Let $L=(X,M,F,D,E,R,S,H,C,P,N)$ be an accepted $\LocatedMetricCompletionUp$ packet. Suppose two accepted completion-facing reads share the same located source row $X$, and suppose their displayed Cauchy evidence is carried either by the filter branch $F$ or by the directed-window branch $D$, transported through $H$, and replayed through $C$. Then the embedding row $E$, the finite $\RegSeqRatUp$ or $\RealUp$ readback row $R$, and the separatedness row $S$ preserve the same displayed completion-facing comparison.
+
+In particular, paired reads with the same source and replayed evidence branch cannot be separated by quotient completion equality, selected representatives, countable choice, host equality, an ambient complete metric space, or detached $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-metric-completion-carrier}. The two reads share the row $X$, so their source observations, locatedness evidence, and metric-distance rows are already the same displayed source data.
+
+Apply \autoref{thm:located-metric-completion-source-handoff}. Each completion-facing read must pass from $X$ to $M$, then through the visible evidence branch $F$ or $D$, and then through the embedding and readback rows $E$ and $R$.
+
+Use the stated transport and replay through $H$ and $C$. These structural rows preserve the displayed branch evidence while moving it into the completion-facing route, so the comparison reaching $E$ and $R$ is still the one generated from the common source row.
+
+Finally apply \autoref{thm:located-metric-completion-nonescape}. The separatedness row $S$ is the only row that can compare displayed completion reads after the source, evidence, embedding, and readback rows have been replayed. Since the carrier has no coordinate for quotient completion equality, selected representatives, countable choice, host equality, ambient complete metric spaces, or detached $\RealUp$ completeness, no external comparison can replace the displayed one.
+\end{proof}
+
 \closureat{LocatedMetricCompletionUp}{seedStr}
 
 \begin{closurestatus}{\LocatedMetricCompletionUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-metric-completion-carrier}, \autoref{thm:located-metric-completion-namecert-obligations}, \autoref{thm:located-metric-completion-source-handoff}, and \autoref{thm:located-metric-completion-nonescape} seed the finite located metric completion packet over located source data, metric-completion evidence, Cauchy-filter or Cauchy-net branches, completion embedding, finite readback, and separated uniqueness.}
+  \scopeclosed{\autoref{def:located-metric-completion-carrier}, \autoref{thm:located-metric-completion-namecert-obligations}, \autoref{thm:located-metric-completion-source-handoff}, \autoref{thm:located-metric-completion-nonescape}, and \autoref{thm:located-metric-completion-modulus-pair-stability} seed the finite located metric completion packet over located source data, metric-completion evidence, Cauchy-filter or Cauchy-net branches, completion embedding, finite readback, separated uniqueness, and paired modulus/readback stability.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected representatives, countable choice, open-cover compactness, host equality, ambient complete metric spaces, $\RealUp$ completeness, or Lean verification.}
