@@ -1,0 +1,268 @@
+\begin{definition}[Private and shared coordinates]
+\label{def:philosophy-private-shared-coordinates}
+Let $A=\{S_{1},\ldots,S_{m}\}$ be a quotient-level support family on
+$\Omega$. The private coordinate set of $S_{i}$ is
+$$
+  P_{i}
+  =
+  S_{i}\setminus\bigcup_{j\neq i}S_{j}.
+$$
+The shared coordinate set is
+$$
+  H
+  =
+  \Omega\setminus\bigcup_{i=1}^{m}P_{i}.
+$$
+For $a\in H$, write
+$$
+  R_{a}=\{i:a\in S_{i}\}.
+$$
+\end{definition}
+
+\begin{theorem}[Private-shared decomposition]
+\label{thm:philosophy-private-shared-decomposition}
+A quotient-level minimal full trigger of size $m$ is equivalently the
+following data:
+$$
+  H\subseteq\Omega,
+$$
+a partition of the complement into nonempty private blocks
+$$
+  \Omega\setminus H=P_{1}\sqcup\cdots\sqcup P_{m},
+$$
+and, for each $a\in H$, a row set
+$$
+  R_{a}\subseteq\{P_{1},\ldots,P_{m}\},
+  \qquad
+  |R_{a}|\geq2.
+$$
+The support corresponding to a private block $P$ is recovered by
+$$
+  S_{P}
+  =
+  P
+  \cup
+  \{a\in H:P\in R_{a}\}.
+$$
+This decomposition is unique.
+\end{theorem}
+\begin{proof}
+Given a minimal full trigger, every coordinate has a well-defined
+multiplicity among the supports. If the multiplicity is one, the
+coordinate belongs to the unique private block attached to its support.
+If the
+multiplicity is at least two, the coordinate lies in $H$ and has the
+unique set of private blocks whose supports contain it. Minimality gives
+every private block nonempty by
+\autoref{thm:philosophy-private-coordinate-criterion}.
+
+Conversely, the displayed data define supports $S_{P}$ whose union is
+$\Omega$. Since every $P_{i}$ is nonempty, each $S_{i}$ has a private
+coordinate, so the family is a minimal full trigger. The construction
+also proves uniqueness.
+\end{proof}
+
+\begin{theorem}[Decoration enumeration]
+\label{thm:philosophy-private-shared-decoration-enumeration}
+The number of quotient-level size-$m$ minimal full triggers on $n$
+trigger coordinates is
+$$
+  C(n,m)
+  =
+  \sum_{h=0}^{n-m}
+  \binom{n}{h}
+  S(n-h,m)
+  (2^{m}-m-1)^{h},
+$$
+where $S(n-h,m)$ is the Stirling number of the second kind.
+\end{theorem}
+\begin{proof}
+Choose the $h$ shared coordinates in $\binom{n}{h}$ ways. Partition the
+remaining $n-h$ private coordinates into $m$ nonempty private blocks in
+$S(n-h,m)$ ways. For each shared coordinate, choose a row set of size at
+least two. The number of such row sets is
+$$
+  \sum_{r=2}^{m}\binom{m}{r}
+  =
+  2^{m}-m-1.
+$$
+Summing over all possible $h$ gives the formula.
+\end{proof}
+
+\begin{corollary}[Codon counts from decorated partitions]
+\label{cor:philosophy-codon-counts-decorated-partitions}
+For $n=4$, the decoration formula gives
+$$
+  C(4,1)=1,
+  \qquad
+  C(4,2)=25,
+  \qquad
+  C(4,3)=22,
+  \qquad
+  C(4,4)=1.
+$$
+With two $f_{3}$-lifts per support, the codon-level counts are
+$$
+  2,\quad100,\quad176,\quad16.
+$$
+\end{corollary}
+\begin{proof}
+For $m=2$, the shared coordinate has only one possible row set, so
+$$
+  C(4,2)
+  =
+  S(4,2)+4S(3,2)+6S(2,2)
+  =
+  7+12+6.
+$$
+For $m=3$, one shared coordinate has four possible row sets, giving
+$$
+  C(4,3)
+  =
+  S(4,3)+4S(3,3)\cdot4
+  =
+  6+16.
+$$
+The cases $m=1$ and $m=4$ have no shared coordinates. Multiplying the
+size-$m$ quotient count by $2^{m}$ gives the codon counts.
+\end{proof}
+
+\begin{theorem}[Defect from shared coordinates]
+\label{thm:philosophy-defect-from-shared-coordinates}
+For a minimal full trigger with private-shared decomposition, the
+overlap defect is
+$$
+  \delta(A)
+  =
+  \sum_{a\in H}(|R_{a}|-1).
+$$
+\end{theorem}
+\begin{proof}
+Private coordinates contribute one occurrence and hence no excess over
+the four-coordinate cover. A shared coordinate $a$ appears in $|R_{a}|$
+supports, while one occurrence would suffice for coverage. Its excess
+contribution is therefore $|R_{a}|-1$. Summing over shared coordinates
+gives the formula.
+\end{proof}
+
+\begin{theorem}[Defect-refined decoration polynomial]
+\label{thm:philosophy-defect-refined-decoration-polynomial}
+Put
+$$
+  A_{m}(y)
+  =
+  \sum_{r=2}^{m}\binom{m}{r}y^{r-1}.
+$$
+Then the quotient-level defect polynomial for size-$m$ minimal triggers
+on $n$ coordinates is
+$$
+  D_{n,m}(y)
+  =
+  \sum_{h=0}^{n-m}
+  \binom{n}{h}
+  S(n-h,m)
+  A_{m}(y)^{h}.
+$$
+\end{theorem}
+\begin{proof}
+For a shared coordinate, choosing a row set of size $r$ contributes
+defect $r-1$ and can be done in $\binom{m}{r}$ ways. Thus the defect
+enumerator for one shared coordinate is $A_{m}(y)$. The remaining
+choices are exactly those counted in
+\autoref{thm:philosophy-private-shared-decoration-enumeration}.
+\end{proof}
+
+\begin{corollary}[Codon defect polynomials]
+\label{cor:philosophy-codon-defect-polynomials}
+For $n=4$,
+$$
+  D_{4,2}(y)=7+12y+6y^{2},
+$$
+and
+$$
+  D_{4,3}(y)=6+12y+4y^{2}.
+$$
+Together with the $m=1$ and $m=4$ singleton terms, this gives quotient
+defect counts
+$$
+  \delta=0:15,
+  \qquad
+  \delta=1:24,
+  \qquad
+  \delta=2:10.
+$$
+After the two-lift codon factor, the counts are
+$$
+  94,\quad144,\quad56.
+$$
+\end{corollary}
+\begin{proof}
+For $m=2$, $A_{2}(y)=y$, so
+$$
+  D_{4,2}(y)=7+12y+6y^{2}.
+$$
+For $m=3$, $A_{3}(y)=3y+y^{2}$, so
+$$
+  D_{4,3}(y)=6+4(3y+y^{2}).
+$$
+The codon counts are obtained by multiplying the size-$m$ quotient
+terms by $2^{m}$.
+\end{proof}
+
+\begin{corollary}[Orbit decoration table]
+\label{cor:philosophy-orbit-decoration-table}
+The nine orbit normal forms have the following private and shared
+decoration data:
+$$
+\begin{array}{c|c|c}
+  \text{normal form} & \text{private blocks} & \text{shared data}\\
+  \hline
+  \{1234\} & \{1234\} & \varnothing\\
+  \{1,234\} & \{1\},\{234\} & \varnothing\\
+  \{12,34\} & \{12\},\{34\} & \varnothing\\
+  \{12,234\} & \{1\},\{34\} & 2:\{1,2\}\\
+  \{123,124\} & \{3\},\{4\} & 1:\{1,2\},\ 2:\{1,2\}\\
+  \{1,2,34\} & \{1\},\{2\},\{34\} & \varnothing\\
+  \{1,24,34\} & \{1\},\{2\},\{3\} & 4:\{2,3\}\\
+  \{14,24,34\} & \{1\},\{2\},\{3\} & 4:\{1,2,3\}\\
+  \{1,2,3,4\} & \{1\},\{2\},\{3\},\{4\} & \varnothing.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+For each normal form, read off coordinates of multiplicity one as
+private blocks and coordinates of multiplicity at least two as shared
+decorations with their row sets.
+\end{proof}
+
+\begin{theorem}[Private-shared decoration theorem]
+\label{thm:philosophy-private-shared-decoration-theorem}
+Post-$M^{\star}$ quotient-level minimal full triggers are decorated set
+partitions: a nonempty private partition of the non-shared coordinates,
+plus shared coordinates decorated by row sets of size at least two.
+For $n$ coordinates and $\ell$ lifts per support, the lifted size-$m$
+count is
+$$
+  \ell^{m}
+  \sum_{h=0}^{n-m}
+  \binom{n}{h}
+  S(n-h,m)
+  (2^{m}-m-1)^{h}.
+$$
+The defect-refined quotient polynomial is
+$$
+  \sum_{h=0}^{n-m}
+  \binom{n}{h}
+  S(n-h,m)
+  \left(\sum_{r=2}^{m}\binom{m}{r}y^{r-1}\right)^{h}.
+$$
+\end{theorem}
+\begin{proof}
+The decomposition is
+\autoref{thm:philosophy-private-shared-decomposition}; the enumeration
+and defect formulas are
+\autoref{thm:philosophy-private-shared-decoration-enumeration} and
+\autoref{thm:philosophy-defect-refined-decoration-polynomial}. The lift
+factor is $\ell^{m}$ because each support in a size-$m$ quotient trigger
+has $\ell$ independent lift choices.
+\end{proof}

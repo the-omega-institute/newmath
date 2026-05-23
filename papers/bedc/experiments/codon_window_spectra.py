@@ -4032,6 +4032,43 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             if coefficient
         }
 
+    def stirling_second_kind(item_count: int, block_count: int) -> int:
+        if item_count == 0 and block_count == 0:
+            return 1
+        if item_count == 0 or block_count == 0 or block_count > item_count:
+            return 0
+        return sum(
+            ((-1) ** (block_count - selected))
+            * math.comb(block_count, selected)
+            * (selected ** item_count)
+            for selected in range(block_count + 1)
+        ) // math.factorial(block_count)
+
+    def decoration_count(trigger_coordinate_count: int, trigger_size: int) -> int:
+        shared_choices = (2 ** trigger_size) - trigger_size - 1
+        return sum(
+            math.comb(trigger_coordinate_count, shared_count)
+            * stirling_second_kind(trigger_coordinate_count - shared_count, trigger_size)
+            * (shared_choices ** shared_count)
+            for shared_count in range(trigger_coordinate_count - trigger_size + 1)
+        )
+
+    def shared_defect_atom(trigger_size: int) -> dict[int, int]:
+        return {
+            row_size - 1: math.comb(trigger_size, row_size)
+            for row_size in range(2, trigger_size + 1)
+        }
+
+    def decoration_defect_counts(trigger_coordinate_count: int, trigger_size: int) -> dict[int, int]:
+        atom = shared_defect_atom(trigger_size)
+        counts: dict[int, int] = collections.Counter()
+        for shared_count in range(trigger_coordinate_count - trigger_size + 1):
+            atom_power = polynomial_power(atom, shared_count)
+            scale = math.comb(trigger_coordinate_count, shared_count) * stirling_second_kind(trigger_coordinate_count - shared_count, trigger_size)
+            for defect, coefficient in atom_power.items():
+                counts[defect] += scale * coefficient
+        return dict(sorted(counts.items()))
+
     def support_family_representation(family: tuple[frozenset[int], ...], permutation: tuple[int, ...]) -> str:
         support_labels = []
         for support in family:
@@ -4206,6 +4243,64 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         for row in minimal_trigger_rows
     ]
     minimal_trigger_lift_flip_edge_total = sum(row["lift_flip_edges"] for row in minimal_trigger_lift_bundle_rows)
+    private_shared_decoration_rows = [
+        {
+            "trigger_size": trigger_size,
+            "decoration_count": decoration_count(len(coordinate_universe), trigger_size),
+            "defect_terms": tuple(
+                (defect, quotient_count, quotient_count * (2 ** trigger_size))
+                for defect, quotient_count in decoration_defect_counts(len(coordinate_universe), trigger_size).items()
+            ),
+        }
+        for trigger_size in range(1, 5)
+    ]
+    private_shared_orbit_rows = [
+        {
+            "normal_form": "{1234}",
+            "private_blocks": ("{1,2,3,4}",),
+            "shared_coordinates": (),
+        },
+        {
+            "normal_form": "{1,234}",
+            "private_blocks": ("{1}", "{2,3,4}"),
+            "shared_coordinates": (),
+        },
+        {
+            "normal_form": "{12,34}",
+            "private_blocks": ("{1,2}", "{3,4}"),
+            "shared_coordinates": (),
+        },
+        {
+            "normal_form": "{12,234}",
+            "private_blocks": ("{1}", "{3,4}"),
+            "shared_coordinates": ("2:{1,2}",),
+        },
+        {
+            "normal_form": "{123,124}",
+            "private_blocks": ("{3}", "{4}"),
+            "shared_coordinates": ("1:{1,2}", "2:{1,2}"),
+        },
+        {
+            "normal_form": "{1,2,34}",
+            "private_blocks": ("{1}", "{2}", "{3,4}"),
+            "shared_coordinates": (),
+        },
+        {
+            "normal_form": "{1,24,34}",
+            "private_blocks": ("{1}", "{2}", "{3}"),
+            "shared_coordinates": ("4:{2,3}",),
+        },
+        {
+            "normal_form": "{14,24,34}",
+            "private_blocks": ("{1}", "{2}", "{3}"),
+            "shared_coordinates": ("4:{1,2,3}",),
+        },
+        {
+            "normal_form": "{1,2,3,4}",
+            "private_blocks": ("{1}", "{2}", "{3}", "{4}"),
+            "shared_coordinates": (),
+        },
+    ]
 
     def graph_metrics(vertices: list[tuple[frozenset[int], ...]], edges: set[tuple[int, int]]) -> tuple[int, int]:
         adjacency = {index: set() for index in range(len(vertices))}
@@ -4784,6 +4879,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "minimal_trigger_defect_rows": minimal_trigger_defect_rows,
         "minimal_trigger_lift_bundle_rows": minimal_trigger_lift_bundle_rows,
         "minimal_trigger_lift_flip_edge_total": minimal_trigger_lift_flip_edge_total,
+        "private_shared_decoration_formula": "sum_h binom(n,h) S(n-h,m) (2^m-m-1)^h",
+        "private_shared_defect_formula": "sum_h binom(n,h) S(n-h,m) (sum_{r=2}^m binom(m,r) y^(r-1))^h",
+        "private_shared_decoration_rows": private_shared_decoration_rows,
+        "private_shared_orbit_rows": private_shared_orbit_rows,
         "quotient_flip_graph_rows": quotient_flip_graph_rows,
         "quotient_flip_orbit_edge_rows": quotient_flip_orbit_edge_rows,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
@@ -8630,6 +8729,31 @@ def assert_expected(summary: dict[str, object]) -> None:
         (4, 1, "Q_4", 16, 32, 32),
     ]
     assert antipodal["minimal_trigger_lift_flip_edge_total"] == 397
+    assert antipodal["private_shared_decoration_formula"] == "sum_h binom(n,h) S(n-h,m) (2^m-m-1)^h"
+    assert antipodal["private_shared_defect_formula"] == "sum_h binom(n,h) S(n-h,m) (sum_{r=2}^m binom(m,r) y^(r-1))^h"
+    assert [
+        (row["trigger_size"], row["decoration_count"], row["defect_terms"])
+        for row in antipodal["private_shared_decoration_rows"]
+    ] == [
+        (1, 1, ((0, 1, 2),)),
+        (2, 25, ((0, 7, 28), (1, 12, 48), (2, 6, 24))),
+        (3, 22, ((0, 6, 48), (1, 12, 96), (2, 4, 32))),
+        (4, 1, ((0, 1, 16),)),
+    ]
+    assert [
+        (row["normal_form"], row["private_blocks"], row["shared_coordinates"])
+        for row in antipodal["private_shared_orbit_rows"]
+    ] == [
+        ("{1234}", ("{1,2,3,4}",), ()),
+        ("{1,234}", ("{1}", "{2,3,4}"), ()),
+        ("{12,34}", ("{1,2}", "{3,4}"), ()),
+        ("{12,234}", ("{1}", "{3,4}"), ("2:{1,2}",)),
+        ("{123,124}", ("{3}", "{4}"), ("1:{1,2}", "2:{1,2}")),
+        ("{1,2,34}", ("{1}", "{2}", "{3,4}"), ()),
+        ("{1,24,34}", ("{1}", "{2}", "{3}"), ("4:{2,3}",)),
+        ("{14,24,34}", ("{1}", "{2}", "{3}"), ("4:{1,2,3}",)),
+        ("{1,2,3,4}", ("{1}", "{2}", "{3}", "{4}"), ()),
+    ]
     assert [
         (row["trigger_size"], row["vertices"], row["edges"], row["connected_components"], row["diameter"])
         for row in antipodal["quotient_flip_graph_rows"]
