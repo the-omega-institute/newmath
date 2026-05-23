@@ -72,6 +72,20 @@ Thus the dependency route is exhausted by $\ProbSpaceUp$, $\RandomVarUp$, $\Cond
 \end{proof}
 \leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingMartingaleRoute}
 
+\begin{theorem}[Upcrossing inequality handoff to martingale convergence]
+\label{thm:upcrossing-inequality-martingale-convergence-handoff}
+Every accepted $\UpcrossingUp$ packet exports exactly the finite rows later consumed by a $\MartingaleConvergenceUp$ packet: displayed lower and upper $\RealUp$ boundary rows, finite martingale endpoint rows, lower and upper decision ledgers, bounded $\OptionalStoppingUp$ stopped-window rows, and the crossing-count ledger. The handoff is a finite dependency route, not a martingale convergence theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:upcrossing-carrier}. The boundary endpoints are $a$ and $b$, the finite martingale endpoint family is $V$, the lower and upper decision ledgers are $L$ and $S$, and the crossing-count read is computed from those displayed ledgers.
+
+Apply \autoref{thm:upcrossing-namecert-obligations}. The certificate surface exposes the boundary-decision stability, martingale-window handoff, and ledger exactness rows required by any downstream convergence-preparation packet.
+
+Apply \autoref{thm:upcrossing-martingale-route}. Every stopped-window read factors through the finite $\OptionalStoppingUp$ route over the consumed $\MartingaleUp$ packet, and no host stochastic process or limiting event is exported.
+
+Thus the only data passed to $\MartingaleConvergenceUp$ is the displayed finite upcrossing handoff. Since no convergence coordinate is present in the carrier, the theorem records a dependency route rather than a convergence result.
+\end{proof}
+
 \begin{theorem}[Upcrossing no-escape boundary]
 \label{thm:upcrossing-nonescape}
 The public boundary of $\UpcrossingUp$ exports only the finite crossing-count ledger for a displayed martingale window and fixed boundary pair $a<_R b$. It exports no martingale convergence theorem, no almost-sure quotient equality, no unbounded stopping principle, no measure completion, and no standard bridge beyond the finite rows explicitly carried by \autoref{def:upcrossing-carrier}.
