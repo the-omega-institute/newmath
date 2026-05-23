@@ -4064,6 +4064,101 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         {"left_size": 2, "right_size": 3, "activity": 7.0 / 12.0},
         {"left_size": 3, "right_size": 4, "activity": 3.0},
     ]
+
+    def stirling_second_kind(total: int, blocks: int) -> int:
+        if total == 0 and blocks == 0:
+            return 1
+        if total == 0 or blocks == 0:
+            return 0
+        table = [[0 for _block in range(blocks + 1)] for _item in range(total + 1)]
+        table[0][0] = 1
+        for item in range(1, total + 1):
+            for block in range(1, blocks + 1):
+                table[item][block] = table[item - 1][block - 1] + block * table[item - 1][block]
+        return table[total][blocks]
+
+    def universal_coverage_trigger_summary(coordinate_count: int, lift_count: int) -> dict[str, object]:
+        external_size = lift_count * ((2 ** coordinate_count) - 1)
+        closure_size_by_rank = [
+            {
+                "rank": rank,
+                "external_closure_size": lift_count * ((2 ** rank) - 1),
+            }
+            for rank in range(coordinate_count + 1)
+        ]
+        maximal_blocker_size = lift_count * ((2 ** (coordinate_count - 1)) - 1)
+        blocker_intersection_formula_rows = [
+            {
+                "missing_coordinate_count": missing_count,
+                "intersection_size": lift_count * ((2 ** (coordinate_count - missing_count)) - 1),
+            }
+            for missing_count in range(1, coordinate_count + 1)
+        ]
+        blocker_count_rows = [
+            {
+                "added_size": added_size,
+                "blocker_count": sum(
+                    ((-1) ** (missing_count + 1))
+                    * math.comb(coordinate_count, missing_count)
+                    * math.comb(lift_count * ((2 ** (coordinate_count - missing_count)) - 1), added_size)
+                    for missing_count in range(1, coordinate_count + 1)
+                ),
+            }
+            for added_size in range(1, min(maximal_blocker_size, 10) + 1)
+        ]
+        reliability_term_rows = [
+            {
+                "missing_coordinate_count": missing_count,
+                "coefficient": ((-1) ** (missing_count + 1)) * math.comb(coordinate_count, missing_count),
+                "exponent": lift_count * ((2 ** coordinate_count) - (2 ** (coordinate_count - missing_count))),
+            }
+            for missing_count in range(1, coordinate_count + 1)
+        ]
+        markov_transition_rows = [
+            {
+                "rank_increase": increase,
+                "numerator_factor": lift_count * (2 ** 0) * math.comb(coordinate_count, increase),
+            }
+            for increase in range(1, coordinate_count + 1)
+        ]
+        alexander_dual_shift_rows = [
+            {
+                "subset_size": subset_size,
+                "multiplicity": math.comb(coordinate_count, subset_size),
+                "shift": lift_count * ((2 ** coordinate_count) - (2 ** (coordinate_count - subset_size))),
+            }
+            for subset_size in range(1, coordinate_count + 1)
+        ]
+        energy_minimal_rows = [
+            {
+                "trigger_size": trigger_size,
+                "stirling_count": stirling_second_kind(coordinate_count, trigger_size),
+                "lifted_count": (lift_count ** trigger_size) * stirling_second_kind(coordinate_count, trigger_size),
+            }
+            for trigger_size in range(1, coordinate_count + 1)
+        ]
+        return {
+            "coordinate_count": coordinate_count,
+            "lift_count": lift_count,
+            "external_size": external_size,
+            "closure_lattice_size": 2 ** coordinate_count,
+            "closure_size_by_rank": closure_size_by_rank,
+            "blocker_homotopy_sphere_dimension": coordinate_count - 2,
+            "maximal_blocker_size": maximal_blocker_size,
+            "forced_trigger_threshold": maximal_blocker_size + 1,
+            "blocker_intersection_formula_rows": blocker_intersection_formula_rows,
+            "blocker_count_rows": blocker_count_rows,
+            "reliability_term_rows": reliability_term_rows,
+            "markov_drift_numerator_factor": lift_count * (2 ** (coordinate_count - 1)),
+            "markov_initial_transition_rows": markov_transition_rows,
+            "alexander_dual_generator_count": coordinate_count,
+            "alexander_dual_shift_rows": alexander_dual_shift_rows,
+            "energy_minimum": coordinate_count,
+            "energy_minimal_rows": energy_minimal_rows,
+            "energy_minimal_total": sum(row["lifted_count"] for row in energy_minimal_rows),
+        }
+
+    universal_trigger_summary = universal_coverage_trigger_summary(4, 2)
     antipodal_trigger_summary = {
         "mstar": tuple(sorted(mstar_set)),
         "mstar_size": len(mstar_set),
@@ -4170,6 +4265,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "low_energy_partition_distribution_formula": "a_m t^m / (2t+28t^2+48t^3+16t^4)",
         "low_energy_partition_rows": low_energy_partition_rows,
         "low_energy_partition_crossover_rows": low_energy_partition_crossover_rows,
+        "universal_coverage_trigger": universal_trigger_summary,
         "maximum_nontrigger_external_size": maximum_nontrigger_external_size,
         "maximum_nontrigger_blocker_count": maximum_nontrigger_blocker_count,
         "forced_full_trigger_threshold": maximum_nontrigger_external_size + 1,
@@ -7711,6 +7807,82 @@ def assert_expected(summary: dict[str, object]) -> None:
         (2, 3, 7.0 / 12.0),
         (3, 4, 3.0),
     ]
+    universal = antipodal["universal_coverage_trigger"]
+    assert universal["coordinate_count"] == 4
+    assert universal["lift_count"] == 2
+    assert universal["external_size"] == 30
+    assert universal["closure_lattice_size"] == 16
+    assert [
+        (row["rank"], row["external_closure_size"])
+        for row in universal["closure_size_by_rank"]
+    ] == [
+        (0, 0),
+        (1, 2),
+        (2, 6),
+        (3, 14),
+        (4, 30),
+    ]
+    assert universal["blocker_homotopy_sphere_dimension"] == 2
+    assert universal["maximal_blocker_size"] == 14
+    assert universal["forced_trigger_threshold"] == 15
+    assert [
+        (row["missing_coordinate_count"], row["intersection_size"])
+        for row in universal["blocker_intersection_formula_rows"]
+    ] == [
+        (1, 14),
+        (2, 6),
+        (3, 2),
+        (4, 0),
+    ]
+    assert [
+        (row["added_size"], row["blocker_count"])
+        for row in universal["blocker_count_rows"][:4]
+    ] == [
+        (1, 28),
+        (2, 278),
+        (3, 1336),
+        (4, 3914),
+    ]
+    assert [
+        (row["missing_coordinate_count"], row["coefficient"], row["exponent"])
+        for row in universal["reliability_term_rows"]
+    ] == [
+        (1, 4, 16),
+        (2, -6, 24),
+        (3, 4, 28),
+        (4, -1, 30),
+    ]
+    assert universal["markov_drift_numerator_factor"] == 16
+    assert [
+        (row["rank_increase"], row["numerator_factor"])
+        for row in universal["markov_initial_transition_rows"]
+    ] == [
+        (1, 8),
+        (2, 12),
+        (3, 8),
+        (4, 2),
+    ]
+    assert universal["alexander_dual_generator_count"] == 4
+    assert [
+        (row["subset_size"], row["multiplicity"], row["shift"])
+        for row in universal["alexander_dual_shift_rows"]
+    ] == [
+        (1, 4, 16),
+        (2, 6, 24),
+        (3, 4, 28),
+        (4, 1, 30),
+    ]
+    assert universal["energy_minimum"] == 4
+    assert [
+        (row["trigger_size"], row["stirling_count"], row["lifted_count"])
+        for row in universal["energy_minimal_rows"]
+    ] == [
+        (1, 1, 2),
+        (2, 7, 28),
+        (3, 6, 48),
+        (4, 1, 16),
+    ]
+    assert universal["energy_minimal_total"] == 94
     assert antipodal["maximum_nontrigger_external_size"] == 14
     assert antipodal["maximum_nontrigger_blocker_count"] == 4
     assert antipodal["forced_full_trigger_threshold"] == 15
