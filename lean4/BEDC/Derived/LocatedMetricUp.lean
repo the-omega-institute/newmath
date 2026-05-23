@@ -126,6 +126,50 @@ theorem LocatedMetricCarrier_completion_handoff [AskSetup] [PackageSetup]
       provenancePkg,
       exportPkg⟩
 
+theorem LocatedMetricCarrier_real_seal_readback [AskSetup] [PackageSetup]
+    {point metric located stream regseq real separated transport replay provenance name
+      metricRead locatedRead regseqRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedMetricCarrier point metric located stream regseq real separated transport replay
+        provenance name bundle pkg →
+      Cont point metric metricRead →
+        Cont metric located locatedRead →
+          Cont located stream regseqRead →
+            Cont regseq real realRead →
+              PkgSig bundle realRead pkg →
+                UnaryHistory metricRead ∧ UnaryHistory locatedRead ∧
+                  UnaryHistory regseqRead ∧ UnaryHistory realRead ∧
+                    Cont point metric metricRead ∧ Cont metric located locatedRead ∧
+                      Cont located stream regseqRead ∧ Cont regseq real realRead ∧
+                        Cont transport replay provenance ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle name pkg ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier pointMetricRead metricLocatedRead locatedStreamRead regseqRealRead realReadPkg
+  obtain ⟨pointUnary, metricUnary, locatedUnary, streamUnary, regseqUnary, realUnary,
+    _separatedUnary, _transportUnary, _replayUnary, _provenanceUnary, _nameUnary,
+    transportReplayProvenance, provenancePkg, namePkg⟩ := carrier
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed pointUnary metricUnary pointMetricRead
+  have locatedReadUnary : UnaryHistory locatedRead :=
+    unary_cont_closed metricUnary locatedUnary metricLocatedRead
+  have regseqReadUnary : UnaryHistory regseqRead :=
+    unary_cont_closed locatedUnary streamUnary locatedStreamRead
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed regseqUnary realUnary regseqRealRead
+  exact
+    ⟨metricReadUnary,
+      locatedReadUnary,
+      regseqReadUnary,
+      realReadUnary,
+      pointMetricRead,
+      metricLocatedRead,
+      locatedStreamRead,
+      regseqRealRead,
+      transportReplayProvenance,
+      provenancePkg,
+      namePkg,
+      realReadPkg⟩
+
 theorem LocatedMetricCarrier_dyadic_radius_localization [AskSetup] [PackageSetup]
     {point metric located stream regseq real separated transport replay provenance name
       metricRead locatedRead regseqRead : BHist}
