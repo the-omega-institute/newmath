@@ -1166,6 +1166,7 @@ import BEDC.Derived.CauchyPrecompletionUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductUp
+import BEDC.Derived.CauchyProductUp.SourceWindowTailAgreement
 import BEDC.Derived.CauchyProductUp.TasteGate
 import BEDC.Derived.CauchyProductUp.WindowProductReadback
 import BEDC.Derived.CauchyQuotientBoundaryUp
@@ -3367,7 +3368,6 @@ import BEDC.Derived.KnotUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
-import BEDC.Derived.KuratowskiCompletionNaturalityUp
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.LPDualityUp
