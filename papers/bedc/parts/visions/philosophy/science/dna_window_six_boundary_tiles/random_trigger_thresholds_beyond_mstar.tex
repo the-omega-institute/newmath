@@ -1,0 +1,195 @@
+\begin{definition}[Random trigger time]
+\label{def:philosophy-random-trigger-time}
+Let $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$. Draw codons without
+replacement from the $30$ codons of $Q_{6}\setminus M^{\star}$, and
+write
+$$
+  B_{m}=\{p_{1},\ldots,p_{m}\}.
+$$
+The full-cube trigger time is
+$$
+  T=\min\{m:\operatorname{Med}(M^{\star}\cup B_{m})=Q_{6}\}.
+$$
+Equivalently, $T$ is the first time at which the anchor supports of
+$B_{m}$ cover all four coordinates $s_{1},f_{1},s_{2},f_{2}$.
+\end{definition}
+
+\begin{theorem}[Random rank distribution]
+\label{thm:philosophy-random-rank-distribution}
+For $m$ external codons and trigger rank $d$, the number of $m$-element
+subsets with rank exactly $d$ is
+$$
+  N(m,d)
+  =
+  \binom{4}{d}
+  \sum_{j=0}^{d}
+  (-1)^{j}
+  \binom{d}{j}
+  \binom{2(2^{d-j}-1)}{m}.
+$$
+Thus
+$$
+  \Pr(r(B_{m})=d)=\frac{N(m,d)}{\binom{30}{m}}.
+$$
+\end{theorem}
+\begin{proof}
+This is the set-cover count of
+\autoref{thm:philosophy-trigger-rank-distribution}, normalized by the
+number of $m$-codon subsets of the external set.
+\end{proof}
+
+\begin{theorem}[Full-trigger distribution]
+\label{thm:philosophy-full-trigger-distribution}
+The cumulative full-trigger probabilities are
+$$
+  \Pr(T\leq m)=\Pr(r(B_{m})=4)=\frac{N(m,4)}{\binom{30}{m}}.
+$$
+For $m\leq 10$:
+$$
+\begin{array}{c|r}
+  m & \Pr(T\leq m)\\
+  \hline
+  1 & 0.0667\\
+  2 & 0.3609\\
+  3 & 0.6709\\
+  4 & 0.8572\\
+  5 & 0.9441\\
+  6 & 0.9798\\
+  7 & 0.9933\\
+  8 & 0.9979\\
+  9 & 0.9994\\
+  10 & 0.9999.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Full triggering is the rank-four event by
+\autoref{cor:philosophy-trigger-rank-size}. Substitute $d=4$ into
+\autoref{thm:philosophy-random-rank-distribution}.
+\end{proof}
+
+\begin{theorem}[Trigger time law]
+\label{thm:philosophy-trigger-time-law}
+The trigger time satisfies
+$$
+  \Pr(T=m)=\Pr(T\leq m)-\Pr(T\leq m-1).
+$$
+Its first values, together with the conditional trigger rate
+$h_{m}=\Pr(T=m\mid T\geq m)$, are
+$$
+\begin{array}{c|r|r}
+  m & \Pr(T=m) & h_{m}\\
+  \hline
+  1 & 0.0667 & 0.0667\\
+  2 & 0.2943 & 0.3153\\
+  3 & 0.3100 & 0.4851\\
+  4 & 0.1862 & 0.5660\\
+  5 & 0.0869 & 0.6083\\
+  6 & 0.0357 & 0.6386\\
+  7 & 0.0135 & 0.6665\\
+  8 & 0.0047 & 0.6957\\
+  9 & 0.0015 & 0.7273\\
+  10 & 0.0004 & 0.7619.
+\end{array}
+$$
+The mode is $T=3$.
+\end{theorem}
+\begin{proof}
+The probability mass formula follows by differencing the cumulative
+distribution in \autoref{thm:philosophy-full-trigger-distribution}. The
+hazard is the same mass divided by survival before the $m$th draw.
+\end{proof}
+
+\begin{corollary}[Mean and quantiles]
+\label{cor:philosophy-random-trigger-mean-quantiles}
+The expected full-cube trigger time is
+$$
+  \mathbb{E}[T]=3.12998.
+$$
+The median, $90\%$, $95\%$, and $99\%$ thresholds are
+$$
+\begin{array}{c|r}
+  \text{quantile} & \text{codons}\\
+  \hline
+  50\% & 3\\
+  90\% & 5\\
+  95\% & 6\\
+  99\% & 7.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Use the finite identity
+$$
+  \mathbb{E}[T]=\sum_{m\geq 0}\Pr(T>m),
+$$
+with the deterministic cutoff supplied by
+\autoref{thm:philosophy-maximum-nontrigger-blockers}. The quantiles are
+read from the cumulative distribution.
+\end{proof}
+
+\begin{theorem}[Expected rank, closure size, and spectrum]
+\label{thm:philosophy-expected-rank-closure-spectrum}
+After $m$ random external codons, the expected trigger rank is
+$$
+  \mathbb{E}[r_{m}]
+  =
+  4\left(1-\frac{\binom{14}{m}}{\binom{30}{m}}\right).
+$$
+For $m\leq 7$:
+$$
+\begin{array}{c|r}
+  m & \mathbb{E}[r_{m}]\\
+  \hline
+  1 & 2.1333\\
+  2 & 3.1632\\
+  3 & 3.6414\\
+  4 & 3.8539\\
+  5 & 3.9438\\
+  6 & 3.9798\\
+  7 & 3.9933.
+\end{array}
+$$
+The corresponding expected closure sizes and expected spectral radii
+are
+$$
+\begin{array}{c|r|r}
+  m & \mathbb{E}|\operatorname{Med}(M^{\star}\cup B_{m})| &
+  \mathbb{E}[\lambda]\\
+  \hline
+  0 & 34.000 & 0.836111\\
+  1 & 42.667 & 0.873927\\
+  2 & 52.230 & 0.928720\\
+  3 & 58.499 & 0.966502\\
+  4 & 61.689 & 0.985904\\
+  5 & 63.103 & 0.994527\\
+  6 & 63.676 & 0.998025\\
+  7 & 63.892 & 0.999342\\
+  8 & 63.967 & 0.999800\\
+  9 & 63.991 & 0.999945\\
+  10 & 63.998 & 0.999987.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+A fixed coordinate is absent precisely when all $m$ codons lie in the
+fourteen external codons whose supports do not contain that coordinate.
+Linearity of expectation gives the displayed rank formula. The expected
+closure size and spectral radius are obtained by summing the rank-size
+and rank-spectral tables against the rank distribution.
+\end{proof}
+
+\begin{theorem}[Random trigger threshold theorem]
+\label{thm:philosophy-random-trigger-threshold-theorem}
+For the random external process beyond
+$M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, the average full-cube trigger
+time is $3.12998$ codons. The deterministic worst-case threshold is
+$15$ codons, while the median and $99\%$ random thresholds are $3$ and
+$7$ codons respectively.
+\end{theorem}
+\begin{proof}
+The mean and quantiles are
+\autoref{cor:philosophy-random-trigger-mean-quantiles}. The
+deterministic threshold is
+\autoref{thm:philosophy-maximum-nontrigger-blockers}.
+\end{proof}
