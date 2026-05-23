@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalAuditSocketUp$}
+\label{ch:concrete-instances-metacic-normal-audit-socket-namecert}
+\origin{ai}
+
+The $\MetaCICNormalAuditSocketUp$ packet realizes the candidate-mediated boundary of \autoref{ch:metacic-normalization-audit-map} as a finite obstruction socket. It is narrower than the normalization router of \autoref{ch:concrete-instances-metacicnormalizationcertificaterouter-namecert}: the socket records exactly where public strong-normalization reads must carry Candidate, ClosedCandidate, or CandidateSet evidence, and where the frontier refuses an evidence-free closed typed term route.
+
+\begin{definition}[MetaCIC normal audit socket carrier]
+\label{def:metacic-normal-audit-socket-carrier}
+A $\MetaCICNormalAuditSocketUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,K,L,S,O,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed term row: it records the empty-context typed term whose public normalization read is being audited.
+\item $K$ is the Candidate evidence row consumed by the direct candidate-to-strong-normalization route.
+\item $L$ is the ClosedCandidate evidence row consumed by the closed-candidate projection route.
+\item $S$ is the CandidateSet evidence row consumed by the candidate-set projection route.
+\item $O$ is the obstruction row recording that the public route is blocked when $K,L,S$ are all absent.
+\item $F$ is the frontier row tying the socket to $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\NormalFormConsistencySealUp$, and $\MetaCICDecidableBoundaryUp$ consumers.
+\item $H$ records componentwise $\hsame$ transport for the closed typed term, candidate evidence, obstruction, frontier, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from candidate evidence to strong-normalization reads and from obstruction rows to refusal reads.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalAuditSocketUp$, Candidate, ClosedCandidate, CandidateSet, closed typed term rows, obstruction rows, frontier rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICNormalAuditSocketUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unconditional strong normalization of every closed typed term, evidence-free application normalization, host reduction normalization, quotient reduction equality, or a normalization oracle outside the displayed socket.
+\end{definition}
+
+\begin{theorem}[MetaCIC normal audit socket NameCert obligations]
+\label{thm:metacic-normal-audit-socket-namecert-obligations}
+For an accepted $\MetaCICNormalAuditSocketUp$ carrier $A=(T,K,L,S,O,F,H,C,P,N)$, the local $\NameCert_{\MetaCICNormalAuditSocketUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the closed typed term row, Candidate row, ClosedCandidate row, CandidateSet row, obstruction row, frontier row, componentwise transport, replay, provenance, and local naming rows;
+\item positive route admission, requiring any public strong-normalization read to consume at least one of $K,L,S$ before leaving the socket;
+\item obstruction exactness, requiring $O$ to refuse the public route when the closed typed term row $T$ has no displayed Candidate, ClosedCandidate, or CandidateSet evidence;
+\item frontier handoff, requiring $F$ to expose the obstruction to the MetaCIC critical path, normalization frontier, normal-form consistency seal, and decidable-boundary consumers;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same evidence-or-obstruction branch componentwise;
+\item ledger non-escape, stating that $P$ and $N$ export no evidence-free strong-normalization theorem, no quotient reduction equality, and no host normalization oracle.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metacic-normal-audit-socket-carrier}. The tuple lists the closed typed term, three evidence rows, obstruction row, frontier row, transport, replay, provenance, and local naming coordinates.
+
+For the positive route, inspect $K,L,S$. Each is a displayed candidate-mediated evidence row, and the socket has no other coordinate from which a public strong-normalization read can be obtained.
+
+For the refusal route, inspect $O$. When the three evidence rows are absent from the displayed route, $O$ is the only normalization-facing row attached to the closed typed term, so the public route records obstruction rather than a theorem.
+
+The frontier handoff and stability clauses follow through $F,H,C,P,N$. These rows expose, transport, replay, source, and name the same evidence-or-obstruction branch, so no evidence-free closed-term normalization principle can escape the socket.
+\end{proof}
+
+\begin{theorem}[MetaCIC normal audit socket frontier handoff]
+\label{thm:metacic-normal-audit-socket-frontier-handoff}
+Let $A=(T,K,L,S,O,F,H,C,P,N)$ be an accepted $\MetaCICNormalAuditSocketUp$ carrier. Any $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\NormalFormConsistencySealUp$, or $\MetaCICDecidableBoundaryUp$ consumer receives the finite route
+$$
+T \longmapsto K,L,S \ \text{or}\ O \longmapsto F \longmapsto H,C,P,N .
+$$
+Thus the public normalization route is preserved as candidate-mediated evidence or as an explicit obstruction socket, not as a hidden unconditional strong-normalization theorem.
+\end{theorem}
+\begin{proof}
+Start with the closed typed term row $T$. A consumer can leave the socket on the positive side only by reading one of the evidence rows $K,L,S$, corresponding to Candidate, ClosedCandidate, or CandidateSet evidence.
+
+If those evidence rows are absent from the displayed route, the obstruction row $O$ is read instead. This keeps the public route candidate-mediated and blocks the evidence-free closed-term claim at the same boundary named by the normalization audit map.
+
+The frontier row $F$ then hands the branch to the four downstream consumers, while $H,C,P,N$ preserve the finite route. Since neither branch contains a host normalization oracle or quotient reduction equality, the handoff records an auditable socket rather than a global theorem.
+\end{proof}
+
+\falsifiablePrediction{Deleting Candidate, ClosedCandidate, and CandidateSet evidence from the carrier blocks the public strong-normalization route at the obstruction row $O$.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, normalformconsistencyseal, metacicdecidableboundary: the socket carries the closed typed term, three candidate-evidence rows, obstruction row, frontier row, transport, replay, provenance, and local NameCert rows, so no listed sibling is row-bijective with it.}
+
+\closureat{MetaCICNormalAuditSocketUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalAuditSocketUp}
+  \constructivestory{A $\MetaCICNormalAuditSocketUp$ packet is generated from a closed typed term row, Candidate evidence, ClosedCandidate evidence, CandidateSet evidence, an obstruction row, a frontier row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normal-audit-socket-carrier}, \autoref{thm:metacic-normal-audit-socket-namecert-obligations}, and \autoref{thm:metacic-normal-audit-socket-frontier-handoff} seed the finite candidate-mediated normalization obstruction socket.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim evidence-free strong normalization, unconditional application normalization, host normalization, quotient reduction equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive-route admission, obstruction exactness, frontier handoff, transport replay, and ledger non-escape for BEDC.Derived.MetaCICNormalAuditSocketUp.}
+\end{closurestatus}

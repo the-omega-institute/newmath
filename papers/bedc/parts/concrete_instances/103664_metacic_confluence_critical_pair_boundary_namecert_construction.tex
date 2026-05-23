@@ -138,6 +138,18 @@ No row in the carrier is a global confluence theorem, full parallel diamond, or
 unchecked subject-reduction proof.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence critical-pair local join]
+\label{thm:metacic-confluence-critical-pair-local-join}
+Let $B=(R,K,J,E,D,S,U,H,C,P,N)$ be an accepted $\MetaCICConfluenceCriticalPairBoundaryUp$ carrier. Any displayed critical pair listed by $K$ may be consumed as joinable only through a corresponding common-reduct row in $J$, then through the bounded normal-equality checker row $E$ or the closed-normal fragment row $D$. It may not be consumed as arbitrary closed-term Church--Rosser evidence, full parallel diamond evidence, or residual-substitution compatibility.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-critical-pair-boundary-carrier}. The critical-pair table is the row $K$, and the only row that can name a join candidate for an entry of $K$ is the common-reduct table $J$.
+
+Apply \autoref{thm:metacic-confluence-critical-pair-common-reduct-boundary}. It forces every confluence audit read through $R,K,J$ before the bounded checker $E$ or closed-normal fragment $D$ is consumed.
+
+The rows $S$ and $U$ record the non-claim separation. They keep subject-reduction discharge, arbitrary closed-term Church--Rosser, full parallel diamond, and residual-substitution compatibility outside the local critical-pair packet, while $H,C,P,N$ only transport, replay, source, and name the displayed finite route.
+\end{proof}
+
 The Lean obligation for this packet is to provide
 \texttt{Nontrivial MetaCICConfluenceCriticalPairBoundaryUp} and
 \texttt{FieldFaithful MetaCICConfluenceCriticalPairBoundaryUp} TasteGate
