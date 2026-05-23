@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\MetricCompletionMonadUp$}
+\label{ch:concrete-instances-metric-completion-monad-namecert}
+\origin{human}
+
+Following Mac Lane's monad formulation together with Kelley and Bishop-style metric completion, the $\MetricCompletionMonadUp$ packet records the L10 unit-and-flattening interface for displayed metric completions. It consumes the completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, the extension route of \autoref{ch:concrete-instances-metric-completion-universal-property-namecert}, the finite completion monad surface of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, and the regular-window monad of \autoref{ch:concrete-instances-regular-cauchy-completion-monad-namecert}. The packet gives later completion functoriality and complete-metric consumers a single monadic handoff without quotient Cauchy-name equality, selected representatives, countable choice, or an ambient completeness assumption.
+
+\begin{definition}[MetricCompletionMonad carrier]
+\label{def:metric-completion-monad-carrier}
+A $\MetricCompletionMonadUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,Q,U,F,V,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricUp$ source row, including the point classifier, metric-distance evidence, and finite observation histories consumed by the completion interface.
+\item $Q$ is the $\MetricCompletionUp$ completion-object row. It names the displayed Cauchy-filter or Cauchy-net completion packet over $X$.
+\item $U$ is the unit-embedding row. It inserts a displayed point of $X$ into $Q$ by copying the source metric observations into the completion-facing route.
+\item $F$ is the multiplication or flattening row. It flattens a completion object whose entries are themselves displayed completion rows by replaying their finite Cauchy evidence through the same metric source.
+\item $V$ is the $\MetricCompletionUniversalPropertyUp$ replay row. It records that unit and flattening consumers may be read through the displayed extension-and-uniqueness surface, rather than through a host quotient of Cauchy names.
+\item $S$ is the separated-comparison row. It compares two monadic handoffs only through the zero-distance classifier route already displayed by the completion packet.
+\item $H$ records componentwise $\hsame$ transport for the metric source, completion object, unit row, flattening row, universal-property replay, separated comparison, package row, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+X,Q \longmapsto U,F \longmapsto V \longmapsto S .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetricCompletionMonadUp$, $\MetricUp$, $\MetricCompletionUp$, $\MetricCompletionUniversalPropertyUp$, $\CauchyCompletionMonadUp$, $\RegularCauchyCompletionMonadUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricCompletionMonadUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these ten rows. Its classifier compares accepted packets only through $X,Q,U,F,V,S,H,C,P,N$ and has no coordinate for quotient Cauchy-name equality, selected representatives, countable choice, host completion equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[MetricCompletionMonad NameCert obligations]
+\label{thm:metric-completion-monad-namecert-obligations}
+For an accepted $\MetricCompletionMonadUp$ carrier
+$$
+M=(X,Q,U,F,V,S,H,C,P,N),
+$$
+the local $\NameCert_{\MetricCompletionMonadUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed metric source $X$ and completion object $Q$;
+\item monadic row display for the unit embedding $U$ and flattening route $F$;
+\item universal-property replay through $V$ and separated comparison through $S$;
+\item structural stability by componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$;
+\item provenance and local naming through $P$ and $N$, with no exported quotient, selector, choice, or ambient-completeness coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:metric-completion-monad-carrier}. The projection exposes the metric source, completion object, unit row, flattening row, universal-property replay, separated comparison, transport, replay, provenance, and local naming rows.
+
+The five obligations are grouped from those displayed rows. The first two obligations read the carrier and monadic data, the third reads the extension and comparison surfaces, the fourth reads stability, and the fifth reads provenance and local naming.
+
+Because the carrier contains no additional coordinate, a consumer cannot obtain quotient Cauchy-name equality, a selected representative, countable choice, host completion equality, or ambient completeness from the certificate.
+\end{proof}
+
+\begin{theorem}[MetricCompletionMonad unit and multiplication handoff]
+\label{thm:metric-completion-monad-unit-multiplication}
+For every accepted $\MetricCompletionMonadUp$ carrier $M=(X,Q,U,F,V,S,H,C,P,N)$, the unit row $U$ and multiplication row $F$ hand completion-facing consumers through the displayed metric-completion rows. The left-unit, right-unit, and associativity comparisons are comparisons of the finite route
+$$
+X,Q,U,F,V,S,H,C,P,N ,
+$$
+not comparisons of quotient Cauchy names or selected representatives.
+\end{theorem}
+\begin{proof}
+The unit handoff starts with $X$ and $Q$. The row $U$ copies the displayed source observations into the completion object before any universal-property or separated-comparison read is available.
+
+The multiplication handoff starts with a completion row whose entries are themselves displayed completion rows. The row $F$ flattens that packet by replaying the same metric source and completion-object rows, then routes the result through $V$ and $S$.
+
+Left unit, right unit, and associativity are therefore checked by comparing the displayed route before and after replay. The rows $H,C,P,N$ preserve the route componentwise and record that no quotient equality, selected representative, countable-choice schedule, or ambient completeness witness is present.
+\end{proof}
+
+\begin{theorem}[MetricCompletionMonad non-escape]
+\label{thm:metric-completion-monad-nonescape}
+Every public consumer route exported by an accepted $\MetricCompletionMonadUp$ carrier is exhausted by the source metric row, completion-object row, unit embedding, flattening route, universal-property replay, separated comparison, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The packet exports no quotient Cauchy-name equality, selected representatives, countable choice, host completion equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Read an accepted carrier through its displayed tuple. The only rows available to a public consumer are $X,Q,U,F,V,S,H,C,P,N$.
+
+The monadic rows $U$ and $F$ are downstream of the metric source and completion object. The universal-property row $V$ and separated-comparison row $S$ are downstream of those same monadic rows, so they cannot introduce an independent completion object.
+
+Finally, the structural rows transport, replay, package, and name the same finite packet. Since none of the excluded principles appears as a row of the carrier, no public route can export such a principle.
+\end{proof}
+
+\closureat{MetricCompletionMonadUp}{seedStr}
+
+\begin{closurestatus}{\MetricCompletionMonadUp}
+  \constructivestory{A $\MetricCompletionMonadUp$ packet is generated from a MetricUp source row, a MetricCompletionUp completion-object row, unit embedding, multiplication or flattening, MetricCompletionUniversalProperty replay, separated comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-completion-monad-carrier}, \autoref{thm:metric-completion-monad-namecert-obligations}, \autoref{thm:metric-completion-monad-unit-multiplication}, and \autoref{thm:metric-completion-monad-nonescape} seed the finite monadic completion interface over displayed metric source, completion object, unit, flattening, universal-property, separated-comparison, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy-name equality, selected representatives, countable choice, host completion equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, five-row NameCert surface, unit and multiplication handoff, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.MetricCompletionMonadUp.}
+\end{closurestatus}
