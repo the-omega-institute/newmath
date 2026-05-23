@@ -220,6 +220,63 @@ theorem RegularCauchyProductCarrier_source_window_transport [AskSetup] [PackageS
     ⟨transportSame, sourceAUnary', sourceBUnary', windowAUnary', windowBUnary',
       windowTransportRow, transportedWindow⟩
 
+theorem RegularCauchyProductCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name sourceA' sourceB' endpointA' endpointB' product' budget' readback'
+      stableRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product
+        budget readback transport route provenance name bundle pkg ->
+      hsame sourceA sourceA' ->
+        hsame sourceB sourceB' ->
+          hsame endpointA endpointA' ->
+            hsame endpointB endpointB' ->
+              hsame budget budget' ->
+                Cont endpointA' endpointB' product' ->
+                  Cont product' budget' readback' ->
+                    Cont readback' provenance stableRead ->
+                      PkgSig bundle stableRead pkg ->
+                        UnaryHistory sourceA' ∧ UnaryHistory sourceB' ∧
+                          UnaryHistory endpointA' ∧ UnaryHistory endpointB' ∧
+                            UnaryHistory product' ∧ UnaryHistory budget' ∧
+                              UnaryHistory readback' ∧ UnaryHistory stableRead ∧
+                                hsame product product' ∧ hsame readback readback' ∧
+                                  Cont endpointA' endpointB' product' ∧
+                                    Cont product' budget' readback' ∧
+                                      Cont readback' provenance stableRead ∧
+                                        PkgSig bundle name pkg ∧
+                                          PkgSig bundle stableRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory PkgSig
+  intro carrier sameSourceA sameSourceB sameEndpointA sameEndpointB sameBudget
+    transportedProduct transportedReadback stableReadRow stableReadPkg
+  obtain ⟨sourceAUnary, sourceBUnary, _windowAUnary, _windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, _routeUnary, provenanceUnary, _windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have sourceAUnary' : UnaryHistory sourceA' :=
+    unary_transport sourceAUnary sameSourceA
+  have sourceBUnary' : UnaryHistory sourceB' :=
+    unary_transport sourceBUnary sameSourceB
+  have endpointAUnary' : UnaryHistory endpointA' :=
+    unary_transport endpointAUnary sameEndpointA
+  have endpointBUnary' : UnaryHistory endpointB' :=
+    unary_transport endpointBUnary sameEndpointB
+  have budgetUnary' : UnaryHistory budget' :=
+    unary_transport budgetUnary sameBudget
+  have productUnary' : UnaryHistory product' :=
+    unary_cont_closed endpointAUnary' endpointBUnary' transportedProduct
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_cont_closed productUnary' budgetUnary' transportedReadback
+  have stableReadUnary : UnaryHistory stableRead :=
+    unary_cont_closed readbackUnary' provenanceUnary stableReadRow
+  have sameProduct : hsame product product' :=
+    cont_respects_hsame sameEndpointA sameEndpointB endpointProductRow transportedProduct
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameProduct sameBudget productBudgetRow transportedReadback
+  exact
+    ⟨sourceAUnary', sourceBUnary', endpointAUnary', endpointBUnary', productUnary',
+      budgetUnary', readbackUnary', stableReadUnary, sameProduct, sameReadback,
+      transportedProduct, transportedReadback, stableReadRow, namePkg, stableReadPkg⟩
+
 theorem RegularCauchyProductCarrier_downstream_source_lock [AskSetup] [PackageSetup]
     {sourceA sourceB windowA windowB endpointA endpointB product budget readback
       transport route provenance name regConsumer realConsumer : BHist}
