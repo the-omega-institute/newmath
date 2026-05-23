@@ -93,3 +93,19 @@ Apply \autoref{thm:regseqrat-tail-budget-finite-window-refusal-localization} to 
 
 Finally use \autoref{thm:regseqrat-tail-budget-exit-status-product} together with the two-axis discipline of \autoref{sec:roadmap-closure-and-verification-axes}. Aggregate verification tokens and bridge rows are not component rows of the status product, and neither quotient equality, host equality, selected limits, choice principles, completeness data, nor $\RealUp$ completeness can promote into the missing face or support row. Thus no displayed row can be dropped.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-window stability]
+\label{thm:regseqrat-tail-window-stability}
+Let an accepted $\RegSeqRatUp$ tail-budget packet expose a finite tail window as a Phase Real and Completion four-face exit consumer. If that finite tail window is replaced by a certified finer tail window with the same displayed request and support rows, then the public exit read preserves the $\DyadicRatCoreUp$ tolerance ledger, the $\StreamNameUp$ window row, the $\RegSeqRatUp$ classifier row, and the $\RealUp$ seal row.
+
+The stability read exports no quotient stream equality, selected limit, countable-choice selector, $\RealUp$ completeness datum, metric-completion datum, aggregate $\mathsf{formalstatus}$ token, or bridge row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regseqrat-tail-budget-exhaustion}. The original accepted request is already exhausted by the displayed tail budget before the public $\RealUp$ seal can consume it.
+
+Apply \autoref{thm:regseqrat-tail-budget-exit-status-product}. The public read is componentwise: the DyadicRatCore tolerance ledger, StreamName finite-window row, RegSeqRat regularity and classifier row, and Real seal row remain separate faces over the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Now use \autoref{thm:regseqrat-four-face-exit-consumer-normal-form}. A certified finer tail window with the same displayed support rows exposes the same four-face consumer normal form, so it has the same L10 public exit read as the original window.
+
+Finally apply \autoref{thm:regseqrat-tail-budget-support-minimality}. Since the four face rows and shared support rows are exactly the support-minimal packet, the refinement can neither drop a displayed row nor replace one by quotient stream equality, a selected limit, countable choice, $\RealUp$ completeness, metric completeness, an aggregate status token, or a bridge row.
+\end{proof}
