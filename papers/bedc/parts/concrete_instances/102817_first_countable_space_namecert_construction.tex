@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\FirstCountableSpaceUp$}
+\label{ch:concrete-instances-first-countable-space-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on countability axioms in topology, the $\FirstCountableSpaceUp$ packet records the local countable-neighbourhood interface needed between generated-open topology data and metric-completion consumers. It sits over the generated-open classifier of \autoref{ch:concrete-instances-topology-namecert}, the metric-ball basis route of \autoref{ch:concrete-instances-metric-topology-namecert}, the countable-base surface of \autoref{ch:concrete-instances-second-countable-namecert}, and the complete-separable metric consumer route of \autoref{ch:concrete-instances-polishspace-namecert}. The packet names only displayed point windows, local neighbourhood-base rows, refinement rows, radius ledgers, transport, replay, provenance, and local naming; it does not select neighbourhood bases by choice, assert open-cover compactness, identify quotient points, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[First-countable-space carrier]
+\label{def:first-countable-space-carrier}
+A $\FirstCountableSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,T,M,L,D,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the point or source carrier row whose finite histories are the only points inspected by the packet.
+\item $T$ is the $\TopologyUp$ generated-open classifier row; every open-neighbourhood read passes through this row before it reaches a consumer.
+\item $M$ is the $\MetricTopologyUp$ or metric-ball basis route when the local base is metric-presented; if no metric route is displayed, $M$ is the explicit empty witness row.
+\item $L$ is the local countable-neighbourhood ledger, recording for each accepted point-window the finite index windows and neighbourhood cells exposed at that point.
+\item $D$ is the dyadic radius and precision ledger used by metric-presented neighbourhood cells and completion-facing boundary reads.
+\item $S$ is the $\StreamNameUp$ row for finite inspection of the local countable schedule at a displayed point-window.
+\item $R$ is the $\RealUp$ boundary and seal row used only when a radius, metric-topology, or completion-facing read requires a real-valued boundary.
+\item $H$ stores componentwise $\hsame$ transport for the source, topology classifier, optional metric-topology route, local schedule, dyadic ledger, stream windows, real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a point-window through the topology classifier, local schedule, optional metric route, precision ledger, stream window, real seal, transport, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance row over $\FirstCountableSpaceUp$, $\TopologyUp$, $\MetricTopologyUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FirstCountableSpaceUp}$ row.
+\end{enumerate}
+The carrier exports a displayed local countable base at each accepted point-window. It has no coordinate for a host family of all neighbourhoods, a choice-selected basis, quotient point equality, arbitrary open covers, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[First-countable-space NameCert obligations]
+\label{thm:first-countable-space-namecert-obligations}
+For an accepted $\FirstCountableSpaceUp$ carrier
+$$
+F=(X,T,M,L,D,S,R,H,C,P,N),
+$$
+the local $\NameCert_{\FirstCountableSpaceUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the point or source row, topology classifier, optional metric-topology route, local countable-neighbourhood ledger, dyadic ledger, stream windows, real seal, transport, replay, provenance, and local name;
+\item pointwise local-basis coverage, requiring every accepted point-window and generated-open neighbourhood read to meet a displayed neighbourhood cell from $L$ through the same source row $X$ and topology row $T$;
+\item pointwise refinement closure, requiring any two displayed local neighbourhood cells accepted at the same point-window to refine through another displayed local cell indexed by the same ledger $L$;
+\item metric-topology handoff, requiring every metric-presented local cell to pass through $M,D,S,R$ before it is exported to a completion-facing consumer;
+\item ledger nonescape, requiring every point, open-neighbourhood, radius, stream-window, real-boundary, transport, replay, provenance, and local-naming read to remain inside $X,T,M,L,D,S,R,H,C,P,N$.
+\end{enumerate}
+No first-countability obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:first-countable-space-carrier}. The accepted packet displays one source row, one topology classifier, one optional metric-topology route, one local countable-neighbourhood ledger, and the structural rows needed to replay and name the packet.
+
+Pointwise local-basis coverage is read from $X,T,L$. A consumer opens a point-window in $X$, reads a generated-open neighbourhood through $T$, and receives only a displayed local cell from $L$ at the same finite point-window.
+
+Pointwise refinement is also internal to $L$. When two local cells are accepted at one point-window, the refinement witness is another displayed entry of the same local ledger, not a selected neighbourhood from a host family.
+
+Metric-presented cells use the route through $M,D,S,R$. The optional metric-topology row supplies the ball-basis handoff, the dyadic ledger supplies the radius precision, the stream row supplies the finite inspection window, and the real row supplies only the boundary seal requested by the consumer.
+
+Finally $H,C,P,N$ transport, replay, source, and name the displayed rows. Since the packet contains no host neighbourhood family, choice-selected local base, quotient point equality, open-cover compactness proof, or ambient $\RealUp$ completeness field, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[First-countable to second-countable handoff]
+\label{thm:first-countable-space-second-countable-handoff}
+Every accepted $\SecondCountableUp$ packet induces a $\FirstCountableSpaceUp$ read by restricting the displayed countable-base enumeration to the accepted point-window. The induced first-countable read uses the same source row, topology classifier, optional metric witness, dyadic ledger, stream windows, real seal, componentwise transport, replay, provenance, and local name; only the global base enumeration is read pointwise as the local ledger $L$.
+\end{theorem}
+\begin{proof}
+Start with the accepted $\SecondCountableUp$ carrier. Its source row, topology classifier, optional metric witness, dyadic ledger, stream row, real seal, transport, replay, provenance, and local name already have the same BEDC roles required by \autoref{def:first-countable-space-carrier}.
+
+At a displayed point-window, read the second-countable base enumeration through its stream schedule. The local ledger $L$ is the finite list of displayed basic cells from that enumeration that are witnessed at the same point-window.
+
+Coverage and refinement are inherited pointwise. A generated-open neighbourhood first receives a displayed basic cell from the second-countable coverage row, and two such cells refine through the second-countable refinement row before being re-read as local entries of $L$.
+
+The remaining rows are unchanged. No selected global basis, host open family, countable-choice principle, quotient point equality, open-cover compactness theorem, or ambient $\RealUp$ completeness field is introduced by the pointwise restriction.
+\end{proof}
+
+\begin{theorem}[First-countable-space nonescape]
+\label{thm:first-countable-space-nonescape}
+Let $F=(X,T,M,L,D,S,R,H,C,P,N)$ be an accepted $\FirstCountableSpaceUp$ carrier. Any topology, metric-topology, completion-facing, or Polish-space consumer read of the local countable-neighbourhood surface factors through the displayed route
+$$
+X,T,M,L,D,S,R,H,C,P,N
+$$
+before it exports a neighbourhood, radius, stream window, or boundary seal. Consequently the packet cannot export open-cover compactness, a choice-selected neighbourhood basis, quotient point equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a topology consumer. It has no open-neighbourhood coordinate except $T$, and no local countable-neighbourhood coordinate except $L$, so the read starts at the source row $X$, passes through the topology classifier $T$, and then through the displayed local ledger $L$.
+
+A metric-topology or completion-facing consumer additionally reads the optional metric route $M$. Radius and precision requests must pass through $D$, finite schedule requests through $S$, and real-boundary requests through $R$ before the consumer can observe a local cell.
+
+The structural rows keep the same route fixed under transport and replay. Componentwise transport is recorded in $H$, replay in $C$, provenance in $P$, and local naming in $N$.
+
+No other coordinate is available. Since the carrier omits arbitrary open covers, selected neighbourhood bases, quotient point representatives, and ambient real-completeness fields, every exported read remains inside the displayed packet.
+\end{proof}
+
+\closureat{FirstCountableSpaceUp}{seedStr}
+
+\begin{closurestatus}{\FirstCountableSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:first-countable-space-carrier}, \autoref{thm:first-countable-space-namecert-obligations}, \autoref{thm:first-countable-space-second-countable-handoff}, and \autoref{thm:first-countable-space-nonescape} seed the local countable-neighbourhood interface over displayed source rows, topology classifiers, optional metric-topology routes, local schedules, dyadic ledgers, stream windows, real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.FirstCountableSpaceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected neighbourhood bases by choice, quotient point equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, pointwise local-basis coverage, pointwise refinement, second-countable handoff, metric-topology handoff, nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FirstCountableSpaceUp.}
+  \constructivestory{A $\FirstCountableSpaceUp$ packet is generated from one point or source carrier row, one Topology classifier row, an optional MetricTopology route, one local countable-neighbourhood ledger, one DyadicRatCore precision ledger, one StreamName finite-inspection row, one Real boundary row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
