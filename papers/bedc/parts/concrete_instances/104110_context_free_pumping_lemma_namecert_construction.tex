@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\ContextFreePumpingLemmaUp$}
+\label{ch:concrete-instances-context-free-pumping-lemma-namecert}
+\origin{human}
+
+Following Bar-Hillel--Perles--Shamir and Hopcroft--Ullman, the $\ContextFreePumpingLemmaUp$ packet records the finite derivation-window evidence behind the context-free pumping lemma as NameCert data. It consumes the grammar surface of \autoref{ch:concrete-instances-contextfreegrammar-namecert}, the regular-language comparison boundary of \autoref{ch:concrete-instances-regularlanguage-namecert}, the finite automaton prefix surface of \autoref{ch:concrete-instances-finiteprefixautomaton-namecert}, the word rows of \autoref{ch:concrete-instances-list-namecert}, and the bound rows of \autoref{ch:concrete-instances-nat-namecert}. The packet names the pumping certificate, not host language equality, infinite parse trees, grammar quotients, or a semantic closure theorem over all languages.
+
+\begin{definition}[Context-free pumping lemma carrier]
+\label{def:context-free-pumping-lemma-namecert-carrier}
+A $\ContextFreePumpingLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+P=(G,W,D,A,E,I,Y,H,C,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\ContextFreeGrammarUp$ grammar packet, including terminal alphabet, nonterminal carrier, start row, and production ledger.
+\item $W$ is the terminal $\ListUp$ word row whose length comparison is read through $\NatUp$.
+\item $D$ is the finite parse or derivation ledger yielding $W$ from $G$.
+\item $A$ is the repeated-nonterminal row, recording the two derivation-prefix positions and the common nonterminal exposed inside the finite window.
+\item $E$ is the decomposition row, displaying the word factorization $W=u v x y z$ with the repeated-nonterminal window attached to $v,x,y$.
+\item $I$ is the pump-index row, read as a $\NatUp$ input for the requested finite replay.
+\item $Y$ is the yielded-word row, displaying the pumped terminal word $u v^I x y^I z$ as a $\ListUp$ row.
+\item $H$ records componentwise $\hsame$ transport for grammar rows, derivation prefixes, repeated-nonterminal evidence, decomposition rows, pump indices, and yielded words.
+\item $C$ records displayed $\Cont$ replay from a derivation prefix and pump index through the finite pump window.
+\item $R$ is the regular-language or finite-prefix consumer boundary, used only to compare the yielded word with sibling language-recognition packets.
+\item $Q$ is the $\Pkg$ provenance over $\ContextFreePumpingLemmaUp$, $\ContextFreeGrammarUp$, $\RegularLanguageUp$, $\FinitePrefixAutomatonUp$, $\ListUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ContextFreePumpingLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $G,W,D,A,E,I,Y,H,C,R,Q,N$. It contains no coordinate for host language equality, infinite derivation trees, grammar quotient semantics, countable choice over derivations, or semantic membership in an ambient language set.
+\end{definition}
+
+\begin{theorem}[Context-free pumping lemma NameCert obligations]
+\label{thm:context-free-pumping-lemma-namecert-obligations}
+For every accepted $\ContextFreePumpingLemmaUp$ carrier $P=(G,W,D,A,E,I,Y,H,C,R,Q,N)$, the local $\NameCert_{\ContextFreePumpingLemmaUp}$ surface consists exactly of finite grammar admission through $G$; terminal-word and length admission through $W$; derivation-ledger admission through $D$; repeated-nonterminal exposure through $A$; decomposition through $E$; pump-index reading through $I$; yielded-word display through $Y$; componentwise transport through $H$; replay through $C$; sibling language-recognition boundary through $R$; provenance through $Q$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:context-free-pumping-lemma-namecert-carrier}. The finite packet displays the grammar, word, derivation ledger, repeated nonterminal, decomposition, pump index, yielded word, transport, replay, consumer boundary, provenance, and local name.
+
+The positive route begins at the finite derivation ledger $D$. The repeated nonterminal row $A$ is read inside that ledger before the decomposition row $E$ may expose the factors $u,v,x,y,z$.
+
+The pump index $I$ is then replayed through $C$ to produce the yielded word row $Y$. The structural rows $H,Q,N$ preserve and name that same finite route, while $R$ only offers a sibling boundary for later regular-language or finite-prefix consumers.
+
+Since the classifier has no coordinate for host language equality, infinite derivation trees, grammar quotient semantics, or semantic language membership, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Context-free pumping window boundary]
+\label{thm:contextfreegrammar-pumping-window-boundary}
+Let $P=(G,W,D,A,E,I,Y,H,C,R,Q,N)$ be an accepted $\ContextFreePumpingLemmaUp$ carrier. Every pumpable-yield read of $P$ factors through the finite derivation-prefix rows $D,A,E,I,Y$ before reaching transport, replay, provenance, local naming, or a sibling language-recognition boundary. No accepted read factors through host language equality, infinite derivation trees, grammar quotient semantics, or semantic membership in an ambient language set.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:context-free-pumping-lemma-namecert-carrier}. The only rows capable of producing a pumped yield are the finite derivation ledger $D$, the repeated-nonterminal row $A$, the decomposition row $E$, the pump-index row $I$, and the yielded-word row $Y$.
+
+Transport and replay preserve this displayed window. The $\hsame$ row $H$ changes no grammar or word coordinate, and the $\Cont$ row $C$ replays the same derivation prefix at the requested index.
+
+The provenance and local naming rows close the packet, while $R$ only places the yielded word at a regular-language or finite-prefix boundary. Because the absent host and quotient semantics are not carrier coordinates, they cannot supply another pumpable-yield route.
+\end{proof}
+
+\begin{closurestatus}{\ContextFreePumpingLemmaUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:context-free-pumping-lemma-namecert-carrier}, \autoref{thm:context-free-pumping-lemma-namecert-obligations}, and \autoref{thm:contextfreegrammar-pumping-window-boundary} seed the finite context-free pumping certificate over grammar, word, derivation-prefix, repeated-nonterminal, decomposition, pump-index, yielded-word, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full pumping lemma as a Lean theorem, host language equality, infinite derivation trees, grammar quotient semantics, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, repeated-nonterminal exposure, decomposition exactness, pump replay, yielded-word boundary, and ledger non-escape for BEDC.Derived.ContextFreePumpingLemmaUp.}
+  \constructivestory{A $\ContextFreePumpingLemmaUp$ packet is generated from finite grammar data, a terminal word, a finite derivation ledger, repeated-nonterminal evidence, a decomposition row, a pump index, a yielded word, componentwise hsame transport, Cont replay, sibling-recognition provenance, and local naming.}
+\end{closurestatus}
