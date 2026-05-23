@@ -1,0 +1,535 @@
+\begin{theorem}[Thickened tetrahedral blocker boundary]
+\label{thm:philosophy-thickened-tetrahedral-blocker-boundary}
+For the post-$M^{\star}$ blocker complex
+$$
+  \mathcal{B}
+  =
+  \{B\subseteq E:\bigcup_{p\in B}\sigma(p)\subsetneq\Omega\},
+$$
+one has
+$$
+  \mathcal{B}
+  =
+  B_{\neg s_{1}}
+  \cup
+  B_{\neg f_{1}}
+  \cup
+  B_{\neg s_{2}}
+  \cup
+  B_{\neg f_{2}},
+$$
+where $B_{\neg i}=\{p\in E:i\notin\sigma(p)\}$. The intersection
+profile is
+$$
+\begin{array}{c|r|r|r}
+  \text{intersection type} & \text{multiplicity} & \text{vertices} & \text{simplex dimension}\\
+  \hline
+  \text{facet} & 4 & 14 & 13\\
+  \text{pair} & 6 & 6 & 5\\
+  \text{triple} & 4 & 2 & 1\\
+  \text{quadruple} & 1 & 0 & -1.
+\end{array}
+$$
+Thus the nerve is $\partial\Delta^{3}$.
+\end{theorem}
+\begin{proof}
+Missing one trigger coordinate leaves the nonempty supports inside a
+three-coordinate set, hence $2(2^{3}-1)=14$ codons. Missing two
+coordinates leaves $2(2^{2}-1)=6$ codons, and missing three coordinates
+leaves $2(2^{1}-1)=2$ codons. Missing all four trigger coordinates
+leaves no nonempty support. These are exactly the intersection numbers
+of the four maximal blockers, so their nerve is the tetrahedral
+boundary.
+\end{proof}
+
+\begin{corollary}[Dimension and homotopy type]
+\label{cor:philosophy-blocker-thickened-sphere-dimension}
+The blocker complex satisfies
+$$
+  \mathcal{B}\simeq S^{2},
+  \qquad
+  \dim\mathcal{B}=13,
+  \qquad
+  \widetilde{H}_{2}(\mathcal{B};k)\cong k.
+$$
+\end{corollary}
+\begin{proof}
+All nonempty members of the cover in
+\autoref{thm:philosophy-thickened-tetrahedral-blocker-boundary} and all
+their nonempty intersections are simplices. The nerve theorem gives
+$\mathcal{B}\simeq\partial\Delta^{3}\simeq S^{2}$. Since every maximal
+blocker has $14$ vertices, the facets of $\mathcal{B}$ are
+$13$-simplices.
+\end{proof}
+
+\begin{theorem}[Blocker face polynomial]
+\label{thm:philosophy-blocker-face-polynomial}
+The face polynomial of $\mathcal{B}$ is
+$$
+  I_{\mathcal{B}}(t)
+  =
+  \sum_{B\in\mathcal{B}}t^{|B|}
+  =
+  4(1+t)^{14}-6(1+t)^{6}+4(1+t)^{2}-1.
+$$
+Its positive-dimensional face counts are
+$$
+  (28,278,1336,3914,7972,12006,13728,
+  12012,8008,4004,1456,364,56,4).
+$$
+The Euler characteristic is $2$.
+\end{theorem}
+\begin{proof}
+The four facets contribute $4(1+t)^{14}$. Their six pairwise
+intersections contribute $6(1+t)^{6}$ and are subtracted. Their four
+triple intersections contribute $4(1+t)^{2}$ and are added. The
+quadruple intersection is empty, whose face polynomial is $1$, and is
+subtracted. Expanding gives the stated face counts, and their
+alternating sum is $2$.
+\end{proof}
+
+\begin{theorem}[Hilbert series of the blocker ring]
+\label{thm:philosophy-blocker-hilbert-series}
+Let $R_{0}=k[x_{p}:p\in E]$ and let $k[\mathcal{B}]=R_{0}/I_{\mathcal{B}}$.
+Then
+$$
+  H_{k[\mathcal{B}]}(z)
+  =
+  \frac{4}{(1-z)^{14}}
+  -
+  \frac{6}{(1-z)^{6}}
+  +
+  \frac{4}{(1-z)^{2}}
+  -
+  1.
+$$
+\end{theorem}
+\begin{proof}
+For a simplex on $m$ vertices,
+$$
+  \sum_{F}
+  \left(\frac{z}{1-z}\right)^{|F|}
+  =
+  \left(1+\frac{z}{1-z}\right)^{m}
+  =
+  \frac{1}{(1-z)^{m}}.
+$$
+Applying the same inclusion-exclusion pattern as in
+\autoref{thm:philosophy-blocker-face-polynomial} to the four
+$14$-vertex facets, the six $6$-vertex intersections, the four
+$2$-vertex intersections, and the empty total intersection gives the
+displayed Hilbert series.
+\end{proof}
+
+\begin{theorem}[$h$-polynomial]
+\label{thm:philosophy-blocker-h-polynomial}
+Since $\dim k[\mathcal{B}]=14$, write
+$$
+  H_{k[\mathcal{B}]}(z)=\frac{h_{\mathcal{B}}(z)}{(1-z)^{14}}.
+$$
+Then
+$$
+  h_{\mathcal{B}}(z)
+  =
+  4-6(1-z)^{8}+4(1-z)^{12}-(1-z)^{14}.
+$$
+Equivalently, the $h$-vector is
+$$
+  (1,14,5,-180,559,-830,525,312,
+  -1029,1122,-737,316,-87,14,-1).
+$$
+\end{theorem}
+\begin{proof}
+Multiplying the Hilbert series in
+\autoref{thm:philosophy-blocker-hilbert-series} by $(1-z)^{14}$ gives
+the stated numerator. The coefficient vector is the binomial expansion
+of that numerator.
+\end{proof}
+
+\begin{theorem}[Non-Cohen--Macaulay blocker ring]
+\label{thm:philosophy-blocker-ring-non-cohen-macaulay}
+The Stanley-Reisner ring $k[\mathcal{B}]$ is not Cohen--Macaulay.
+\end{theorem}
+\begin{proof}
+The complex has dimension $13$, while
+\autoref{cor:philosophy-blocker-thickened-sphere-dimension} gives
+nonzero reduced homology in degree $2$. A Cohen--Macaulay
+$13$-dimensional simplicial complex over $k$ has no such lower-degree
+reduced homology in its global Reisner condition. Equivalently, the
+$h$-vector in \autoref{thm:philosophy-blocker-h-polynomial} contains
+negative entries, which is incompatible with Cohen--Macaulay
+nonnegativity for a standard Stanley-Reisner ring.
+\end{proof}
+
+\begin{theorem}[Hochster witness]
+\label{thm:philosophy-blocker-hochster-witness}
+For the Stanley-Reisner ring $k[\mathcal{B}]$, Hochster's formula
+detects the full-vertex Betti number
+$$
+  \beta_{27,30}(k[\mathcal{B}])=1.
+$$
+\end{theorem}
+\begin{proof}
+Hochster's formula gives
+$$
+  \beta_{i,j}(k[\mathcal{B}])
+  =
+  \sum_{|W|=j}
+  \dim_{k}\widetilde{H}_{j-i-1}(\mathcal{B}_{W};k).
+$$
+Take $W=E$, so $j=30$ and $\mathcal{B}_{W}=\mathcal{B}$. By
+\autoref{cor:philosophy-blocker-thickened-sphere-dimension},
+$\widetilde{H}_{2}(\mathcal{B};k)\cong k$. The equation
+$j-i-1=2$ with $j=30$ gives $i=27$, hence the displayed Betti number.
+\end{proof}
+
+\begin{theorem}[Depth and regularity]
+\label{thm:philosophy-blocker-depth-regularity}
+The blocker Stanley-Reisner ring satisfies
+$$
+  \operatorname{pd}_{R_{0}}k[\mathcal{B}]=27,
+  \qquad
+  \operatorname{depth}k[\mathcal{B}]=3,
+  \qquad
+  \operatorname{reg}k[\mathcal{B}]=3.
+$$
+\end{theorem}
+\begin{proof}
+The Hochster witness in
+\autoref{thm:philosophy-blocker-hochster-witness} gives
+$\operatorname{pd}_{R_{0}}k[\mathcal{B}]\geq27$. On the Alexander-dual
+side, \autoref{thm:philosophy-alexander-dual-minimal-taylor-resolution}
+has shifts $16,24,28,30$, so
+$$
+  \operatorname{reg}(I_{\mathcal{B}}^{\vee})
+  =
+  \max\{16-1,24-2,28-3,30-4\}
+  =
+  27.
+$$
+Terai duality gives
+$$
+  \operatorname{pd}_{R_{0}}k[\mathcal{B}]
+  =
+  \operatorname{reg}(I_{\mathcal{B}}^{\vee}),
+$$
+hence the projective dimension is $27$. Since $R_{0}$ has $30$
+variables, Auslander--Buchsbaum gives
+$$
+  \operatorname{depth}k[\mathcal{B}]=30-27=3.
+$$
+Terai duality also gives
+$$
+  \operatorname{reg}k[\mathcal{B}]
+  =
+  \operatorname{pd}(I_{\mathcal{B}}^{\vee}).
+$$
+The four-generator dual ideal has minimal Taylor resolution of length
+$3$ as an ideal, so $\operatorname{reg}k[\mathcal{B}]=3$. This is also
+realized by the Hochster Betti number, where $30-27=3$.
+\end{proof}
+
+\begin{corollary}[Cohen--Macaulay defect]
+\label{cor:philosophy-blocker-cohen-macaulay-defect}
+The Cohen--Macaulay defect of $k[\mathcal{B}]$ is
+$$
+  \dim k[\mathcal{B}]-\operatorname{depth}k[\mathcal{B}]
+  =
+  14-3
+  =
+  11.
+$$
+\end{corollary}
+\begin{proof}
+The dimension is $14$ by
+\autoref{thm:philosophy-blocker-h-polynomial}, and the depth is $3$ by
+\autoref{thm:philosophy-blocker-depth-regularity}.
+\end{proof}
+
+\begin{theorem}[Homological invariants for coverage blockers]
+\label{thm:philosophy-universal-coverage-blocker-homological-invariants}
+For the coverage blocker complex $\mathcal{B}_{n,\ell}$, let
+$$
+  N=\ell(2^{n}-1).
+$$
+Then
+$$
+  \dim k[\mathcal{B}_{n,\ell}]
+  =
+  \ell(2^{n-1}-1),
+$$
+and
+$$
+  \operatorname{depth}k[\mathcal{B}_{n,\ell}]
+  =
+  n-1,
+  \qquad
+  \operatorname{reg}k[\mathcal{B}_{n,\ell}]
+  =
+  n-1,
+$$
+$$
+  \operatorname{pd}k[\mathcal{B}_{n,\ell}]
+  =
+  N-(n-1).
+$$
+The full-vertex Hochster witness is
+$$
+  \beta_{N-(n-1),\,N}(k[\mathcal{B}_{n,\ell}])=1.
+$$
+\end{theorem}
+\begin{proof}
+The maximal blocker has $\ell(2^{n-1}-1)$ vertices, giving the
+Stanley-Reisner dimension. By
+\autoref{thm:philosophy-universal-blocker-topology},
+$\mathcal{B}_{n,\ell}\simeq S^{n-2}$; applying Hochster's formula to
+the full vertex set gives $j=N$ and $j-i-1=n-2$, hence
+$i=N-(n-1)$. The Alexander-dual ideal has $n$ generators by
+\autoref{thm:philosophy-universal-alexander-dual}, and its Taylor
+resolution has ideal projective dimension $n-1$. Terai duality and
+Auslander--Buchsbaum give the displayed projective dimension, depth,
+and regularity.
+\end{proof}
+
+\begin{definition}[Saturated blocker faces]
+\label{def:philosophy-saturated-blocker-faces}
+For $J\subsetneq\Omega$, define the saturated face
+$$
+  F_{J}=\{p\in E:\sigma(p)\subseteq J\}.
+$$
+It has size
+$$
+  |F_{J}|=2(2^{|J|}-1).
+$$
+\end{definition}
+
+\begin{theorem}[Link of a saturated face]
+\label{thm:philosophy-saturated-face-link}
+Let $J\subsetneq\Omega$, set $r=|J|$, and put
+$U=\Omega\setminus J$ with $u=|U|=4-r$. Then
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})
+  \cong
+  \mathcal{B}_{u,\,2\cdot2^{r}}.
+$$
+Consequently
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})
+  \simeq
+  S^{u-2}
+  =
+  S^{2-r}.
+$$
+\end{theorem}
+\begin{proof}
+The face $F_{J}$ already covers exactly the coordinates in $J$. A
+codon outside $F_{J}$ contributes to the link through the nonempty
+projection of its support to $U$. For each nonempty $A\subseteq U$, the
+original support can be $A\cup B$ with arbitrary $B\subseteq J$, giving
+$2^{r}$ choices, and each support has two third-position lifts. Hence
+each nonempty support over $U$ has $2\cdot2^{r}$ lifts in the link. The
+condition for remaining in $\mathcal{B}$ is precisely that these
+projected supports do not cover all of $U$, so the link is the
+coverage blocker complex $\mathcal{B}_{u,\,2\cdot2^{r}}$. Its homotopy
+type is $S^{u-2}$ by
+\autoref{thm:philosophy-universal-blocker-topology}.
+\end{proof}
+
+\begin{corollary}[Codon local sphere strata]
+\label{cor:philosophy-codon-local-sphere-strata}
+The saturated faces of rank $r=|J|$ have the following local links:
+$$
+\begin{array}{c|r|r|r|c}
+  r & \text{number of }J & |F_{J}| & \text{link model} & \text{link homotopy}\\
+  \hline
+  0 & 1 & 0 & \mathcal{B}_{4,2} & S^{2}\\
+  1 & 4 & 2 & \mathcal{B}_{3,4} & S^{1}\\
+  2 & 6 & 6 & \mathcal{B}_{2,8} & S^{0}\\
+  3 & 4 & 14 & \mathcal{B}_{1,16} & S^{-1}.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Substitute $r=0,1,2,3$ in
+\autoref{thm:philosophy-saturated-face-link}. The number of saturated
+faces of rank $r$ is $\binom{4}{r}$, and
+Definition~\ref{def:philosophy-saturated-blocker-faces} gives
+$|F_{J}|=2(2^{r}-1)$.
+\end{proof}
+
+\begin{corollary}[Coordinate examples]
+\label{cor:philosophy-local-link-coordinate-examples}
+For $J=\{s_{1}\}$, the saturated face is
+$$
+  F_{J}=\mathrm{GUY}=\{\mathrm{GUU},\mathrm{GUC}\},
+$$
+and
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})\simeq S^{1}.
+$$
+For $J=\{s_{1},f_{1}\}$, the saturated face is
+$$
+  F_{J}
+  =
+  \{\mathrm{UUY},\mathrm{AUY},\mathrm{GUY}\},
+$$
+with two $Y$ lifts in each displayed family, and
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})\simeq S^{0}.
+$$
+\end{corollary}
+\begin{proof}
+The anchor is $\mathrm{CUY}$. Flipping only $s_{1}$ changes the first
+base from $\mathrm{C}$ to $\mathrm{G}$, giving $\mathrm{GUY}$. Allowing
+both first-base bits to vary while the second base stays $\mathrm{U}$
+gives $\mathrm{UUY},\mathrm{CUY},\mathrm{AUY},\mathrm{GUY}$, but
+$\mathrm{CUY}$ lies in $M^{\star}$ rather than $E$. The link homotopy
+types are the $r=1$ and $r=2$ rows of
+\autoref{cor:philosophy-codon-local-sphere-strata}.
+\end{proof}
+
+\begin{theorem}[Non-saturated links are cones]
+\label{thm:philosophy-non-saturated-links-are-cones}
+Let $F\in\mathcal{B}$ and set
+$$
+  J(F)=\bigcup_{p\in F}\sigma(p).
+$$
+If $F\neq F_{J(F)}$, then
+$\operatorname{Lk}_{\mathcal{B}}(F)$ is a cone and is therefore
+contractible.
+\end{theorem}
+\begin{proof}
+Choose $q\in F_{J(F)}\setminus F$. For every
+$G\in\operatorname{Lk}_{\mathcal{B}}(F)$, the face
+$F\cup G$ is still a blocker. Adding $q$ cannot enlarge the covered
+coordinate set, because $\sigma(q)\subseteq J(F)$. Hence
+$F\cup G\cup\{q\}\in\mathcal{B}$ for every link face $G$, so $q$ is a
+cone vertex of the link.
+\end{proof}
+
+\begin{corollary}[Local obstruction support]
+\label{cor:philosophy-local-obstruction-support}
+Every nontrivial local reduced homology group of $\mathcal{B}$ occurs
+in the link of a saturated face. The saturated stratum $F_{J}$ carries
+the local sphere
+$$
+  F_{J}\longmapsto S^{2-|J|}.
+$$
+\end{corollary}
+\begin{proof}
+Saturated links are the spheres of
+\autoref{thm:philosophy-saturated-face-link}. Non-saturated links are
+contractible by \autoref{thm:philosophy-non-saturated-links-are-cones}.
+\end{proof}
+
+\begin{theorem}[Failure of Buchsbaum property]
+\label{thm:philosophy-blocker-not-buchsbaum}
+The blocker complex $\mathcal{B}$ is not Buchsbaum.
+\end{theorem}
+\begin{proof}
+A pure Buchsbaum complex has Cohen--Macaulay links at every nonempty
+face. Take $F_{\{s_{1}\}}=\mathrm{GUY}$. Its link is
+$\mathcal{B}_{3,4}$ by
+\autoref{thm:philosophy-saturated-face-link}; this link has dimension
+$$
+  4(2^{2}-1)-1=11
+$$
+but has the homotopy type $S^{1}$. Thus it has lower-degree homology
+relative to its dimension and is not Cohen--Macaulay.
+\end{proof}
+
+\begin{theorem}[Universal link stratification]
+\label{thm:philosophy-universal-link-stratification}
+For the coverage blocker complex $\mathcal{B}_{n,\ell}$ and
+$J\subsetneq[n]$, set
+$$
+  F_{J}=\{e:\sigma(e)\subseteq J\}.
+$$
+If $r=|J|$ and $u=n-r$, then
+$$
+  |F_{J}|=\ell(2^{r}-1),
+  \qquad
+  \operatorname{Lk}(F_{J})
+  \cong
+  \mathcal{B}_{u,\,\ell2^{r}}
+  \simeq
+  S^{n-r-2}.
+$$
+Every non-saturated face has contractible link.
+\end{theorem}
+\begin{proof}
+The proof of \autoref{thm:philosophy-saturated-face-link} does not use
+the codon-specific values $n=4$ and $\ell=2$. For a projected nonempty
+support $A\subseteq[n]\setminus J$, the old-coordinate part can be any
+subset of $J$, giving $2^{r}$ choices, and each is multiplied by the
+original $\ell$ lifts. The cone argument for non-saturated faces is
+identical to \autoref{thm:philosophy-non-saturated-links-are-cones}.
+\end{proof}
+
+\begin{theorem}[Hilbert--Alexander structure theorem]
+\label{thm:philosophy-hilbert-alexander-structure-theorem}
+The post-$M^{\star}$ blocker system is a thickened tetrahedral
+boundary with
+$$
+  \mathcal{B}\simeq S^{2},
+  \qquad
+  \dim\mathcal{B}=13,
+  \qquad
+  \operatorname{depth}k[\mathcal{B}]
+  =
+  \operatorname{reg}k[\mathcal{B}]
+  =
+  3.
+$$
+Its projective dimension over the $30$-variable ring is $27$, and its
+Cohen--Macaulay defect is $11$.
+Its face polynomial is
+$$
+  4(1+t)^{14}-6(1+t)^{6}+4(1+t)^{2}-1,
+$$
+its Hilbert series is
+$$
+  \frac{4}{(1-z)^{14}}
+  -
+  \frac{6}{(1-z)^{6}}
+  +
+  \frac{4}{(1-z)^{2}}
+  -
+  1,
+$$
+and its $h$-polynomial is
+$$
+  4-6(1-z)^{8}+4(1-z)^{12}-(1-z)^{14}.
+$$
+At the same time, the Alexander dual ideal has only four generators,
+with lcm degrees $16,24,28,30$, and the non-trigger reliability
+polynomial is
+$$
+  4q^{16}-6q^{24}+4q^{28}-q^{30}.
+$$
+The local links are stratified by saturated faces:
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})
+  \simeq
+  S^{2-|J|},
+  \qquad
+  J\subsetneq\Omega,
+$$
+while non-saturated faces have contractible links. In particular,
+$\mathcal{B}$ is not Buchsbaum.
+\end{theorem}
+\begin{proof}
+The thickened boundary, Hilbert series, and $h$-polynomial are the
+preceding theorems. The depth, regularity, projective dimension, and
+Cohen--Macaulay defect are
+\autoref{thm:philosophy-blocker-depth-regularity} and
+\autoref{cor:philosophy-blocker-cohen-macaulay-defect}. The
+four-generator Alexander-dual description and the lcm degrees are
+\autoref{thm:philosophy-alexander-dual-blocker-ideal} and
+\autoref{thm:philosophy-alexander-dual-lcm-degrees}. The reliability
+identity is \autoref{thm:philosophy-reliability-from-lcm-lattice}. The
+local link stratification is
+\autoref{thm:philosophy-saturated-face-link} and
+\autoref{thm:philosophy-non-saturated-links-are-cones}; the Buchsbaum
+obstruction is \autoref{thm:philosophy-blocker-not-buchsbaum}.
+\end{proof}

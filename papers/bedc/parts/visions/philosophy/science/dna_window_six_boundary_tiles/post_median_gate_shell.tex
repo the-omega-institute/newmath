@@ -1,0 +1,255 @@
+\begin{definition}[Post-median gate shell]
+\label{def:philosophy-post-median-gate-shell}
+Let
+$$
+  M=\operatorname{Med}(\mathcal R).
+$$
+The first post-median gate shell is the external $f_{3}$-saturated set
+$$
+  \mathcal G_{1}
+  =
+  \{\mathrm{CAA},\mathrm{CAG},
+    \mathrm{CCA},\mathrm{CCG},
+    \mathrm{GUA},\mathrm{GUG}\}.
+$$
+Equivalently,
+$$
+  \mathcal G_{1}
+  =
+  \mathrm{CAR}\cup\mathrm{CCR}\cup\mathrm{GUR}.
+$$
+Write
+$$
+  M^{+}=M\cup\mathcal G_{1}.
+$$
+\end{definition}
+
+\begin{theorem}[Post-median single-point spectral optimum]
+\label{thm:philosophy-post-median-single-point-spectral-optimum}
+Among all single codons $p\in Q_{6}\setminus M$, the maximum of
+$$
+  \lambda(M\cup\{p\})
+$$
+is attained exactly at
+$$
+  \mathrm{CAA},\mathrm{CAG},
+  \mathrm{CCA},\mathrm{CCG},
+  \mathrm{GUA},\mathrm{GUG}.
+$$
+For each of these six codons,
+$$
+  \lambda(M\cup\{p\})=0.681004866\ldots,
+$$
+so the single-point gain over $M$ is
+$$
+  0.005756935\ldots.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $44$ codons in $Q_{6}\setminus M$ and compute the Perron
+root of the killed transition matrix on $M\cup\{p\}$. The six displayed
+codons are the complete maximizer set.
+\end{proof}
+
+\begin{corollary}[Gate shell and first-exit targets]
+\label{cor:philosophy-gate-shell-first-exit-targets}
+The codons of $\mathcal G_{1}$ are exactly the highest-probability
+outside codon targets of
+\autoref{thm:philosophy-outside-codon-targets}.
+\end{corollary}
+\begin{proof}
+\autoref{thm:philosophy-outside-codon-targets} lists the same six codons
+at probability $0.0425$ each. By
+\autoref{thm:philosophy-post-median-single-point-spectral-optimum}, the
+same six codons are the post-median single-point spectral maximizers.
+\end{proof}
+
+\begin{theorem}[Boolean form of the gate shell]
+\label{thm:philosophy-gate-shell-boolean-form}
+In the two-axis bit coordinates, $\mathcal G_{1}$ is the set
+$$
+  f_{1}=1,\qquad
+  s_{3}=1,\qquad
+  \operatorname{wt}(s_{1},s_{2},f_{2})=1,
+$$
+with $f_{3}$ free.
+\end{theorem}
+\begin{proof}
+The three quotient fibers are
+$$
+  \mathrm{CAR},\qquad \mathrm{CCR},\qquad \mathrm{GUR}.
+$$
+They all have first-position family bit $f_{1}=1$ and third-position
+shape bit $s_{3}=1$. Among the three symmetric coordinates
+$s_{1},s_{2},f_{2}$, exactly one is $1$ for each of the three quotient
+fibers. The third-position family bit $f_{3}$ distinguishes the two
+lifts inside each fiber.
+\end{proof}
+
+\begin{theorem}[Gate shell as a full external orbit]
+\label{thm:philosophy-gate-shell-full-external-orbit}
+Under
+$$
+  \Gamma=\operatorname{Stab}(M)\cong S_{3}\times C_{2},
+$$
+the set $\mathcal G_{1}$ is a full orbit in $Q_{6}\setminus M$.
+\end{theorem}
+\begin{proof}
+The $S_{3}$ factor permutes the three coordinates
+$s_{1},s_{2},f_{2}$, and the condition
+$$
+  \operatorname{wt}(s_{1},s_{2},f_{2})=1
+$$
+is a single $S_{3}$ orbit. The $C_{2}$ factor flips $f_{3}$, making each
+quotient point into its full $f_{3}$ pair. Hence the orbit has
+$3\cdot2=6$ codons, namely $\mathcal G_{1}$.
+\end{proof}
+
+\begin{theorem}[Best symmetric post-median orbit]
+\label{thm:philosophy-best-symmetric-post-median-orbit}
+Among the $10$ external $\Gamma$-orbits in $Q_{6}\setminus M$, adjoining
+$\mathcal G_{1}$ gives the largest spectral radius:
+$$
+  \lambda(M\cup\mathcal G_{1})
+  =
+  0.727773877\ldots.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the external orbits of the action of
+$\Gamma=\operatorname{Stab}(M)$ on $Q_{6}\setminus M$. For each orbit
+$O$, compute $\lambda(M\cup O)$. The maximum is attained by the orbit
+of \autoref{thm:philosophy-gate-shell-full-external-orbit}.
+\end{proof}
+
+\begin{theorem}[Geometry of the post-median shell]
+\label{thm:philosophy-post-median-shell-geometry}
+The extension
+$$
+  M^{+}=M\cup\mathcal G_{1}
+$$
+has
+$$
+  |M^{+}|=26,\qquad |E(M^{+})|=53.
+$$
+Thus its uniform one-step retention is
+$$
+  \rho(M^{+})
+  =
+  \frac{2|E(M^{+})|}{6|M^{+}|}
+  =
+  \frac{53}{78}
+  =
+  0.679487\ldots.
+$$
+Its killed-walk spectral radius is
+$$
+  \lambda(M^{+})=0.727773877\ldots.
+$$
+\end{theorem}
+\begin{proof}
+Directly count the induced Hamming edges after adjoining the six codons
+of $\mathcal G_{1}$. The retention formula is
+$2|E|/(6|V|)$, and the spectral value is the Perron root of the killed
+transition matrix on $M^{+}$.
+\end{proof}
+
+\begin{theorem}[CUR exit closure]
+\label{thm:philosophy-cur-exit-closure}
+In $M^{+}$, the state
+$$
+  \mathrm{CUR}=\{\mathrm{CUA},\mathrm{CUG}\}
+$$
+has no one-bit exit:
+$$
+  P_{\mathrm{out}}(\mathrm{CUR};M^{+})=0.
+$$
+\end{theorem}
+\begin{proof}
+The six one-bit neighbors of $\mathrm{CUA}$ are
+$$
+  \mathrm{UUA},\mathrm{CUG},\mathrm{CCA},
+  \mathrm{CAA},\mathrm{GUA},\mathrm{CUU}.
+$$
+The codons $\mathrm{UUA},\mathrm{CUG},\mathrm{CUU}$ lie in $M$, while
+$\mathrm{CCA},\mathrm{CAA},\mathrm{GUA}$ lie in $\mathcal G_{1}$. The
+six one-bit neighbors of $\mathrm{CUG}$ are handled identically, with
+the outside neighbors $\mathrm{CCG},\mathrm{CAG},\mathrm{GUG}$ supplied
+by $\mathcal G_{1}$.
+\end{proof}
+
+\begin{corollary}[CUN tail exit shell]
+\label{cor:philosophy-cun-tail-exit-shell}
+The set $\mathcal G_{1}$ is the first exit-closing shell for the
+$\mathrm{CUR}$ part of the CUN tail.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-cur-exit-closure}, adjoining
+$\mathcal G_{1}$ changes the $\mathrm{CUR}$ leakage probability from
+$1/2$ in $M$ to $0$ in $M^{+}$.
+\end{proof}
+
+\begin{theorem}[Gate-shell bypass]
+\label{thm:philosophy-gate-shell-bypass}
+In the state graph of $M^{+}$, the gate shell supplies a two-step bypass
+$$
+  \mathrm{StopStart}_{6}
+  -
+  \mathcal G_{1}
+  -
+  \mathrm{CUR}.
+$$
+There are $6$ edges from $\mathrm{StopStart}_{6}$ to $\mathcal G_{1}$
+and $6$ edges from $\mathcal G_{1}$ to $\mathrm{CUR}$.
+\end{theorem}
+\begin{proof}
+Group the Hamming edges of $M^{+}$ by the six original radial states
+and the added shell state $\mathcal G_{1}$. The cross-edge counts are
+exactly $6$ for
+$\mathrm{StopStart}_{6}$--$\mathcal G_{1}$ and $6$ for
+$\mathcal G_{1}$--$\mathrm{CUR}$.
+\end{proof}
+
+\begin{theorem}[Best wobble-pair expansion]
+\label{thm:philosophy-best-wobble-pair-expansion}
+If the added set must be a full $f_{3}$ pair outside $M$, the spectral
+maximizers are exactly
+$$
+  \mathrm{CAR},\qquad
+  \mathrm{CCR},\qquad
+  \mathrm{GUR}.
+$$
+Each gives
+$$
+  \lambda(M\cup \text{pair})=0.691331504\ldots.
+$$
+Their union is $\mathcal G_{1}$.
+\end{theorem}
+\begin{proof}
+Enumerate the external $f_{3}$ pairs and compute the killed-walk Perron
+root after adjoining each pair. The three displayed pairs are the
+complete maximizer set; their union is the shell of
+\autoref{def:philosophy-post-median-gate-shell}.
+\end{proof}
+
+\begin{theorem}[Post-median gate shell]
+\label{thm:philosophy-post-median-gate-shell}
+The set
+$$
+  \mathcal G_{1}
+  =
+  \mathrm{CAR}\cup\mathrm{CCR}\cup\mathrm{GUR}
+$$
+is simultaneously the top first-exit target layer, the complete
+post-median external orbit selected by $\Gamma$, the best symmetric
+spectral extension of $M$, and the exit-closing shell for
+$\mathrm{CUR}$.
+\end{theorem}
+\begin{proof}
+The first-exit identification is
+\autoref{cor:philosophy-gate-shell-first-exit-targets}. The orbit
+statement is \autoref{thm:philosophy-gate-shell-full-external-orbit}.
+The symmetric spectral optimality is
+\autoref{thm:philosophy-best-symmetric-post-median-orbit}. The exit
+closure is \autoref{cor:philosophy-cun-tail-exit-shell}.
+\end{proof}
