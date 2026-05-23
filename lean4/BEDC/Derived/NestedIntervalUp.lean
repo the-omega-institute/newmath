@@ -775,3 +775,14 @@ theorem NestedIntervalFiniteCarrier_public_window_boundary [AskSetup] [PackageSe
       sealFaceUnary, endpointRow, widthRow, regReadRow, ledgerPkg, regReadPkg⟩
 
 end BEDC.Derived.NestedIntervalUp
+
+namespace BEDC.Derived
+
+structure NestedIntervalTheoremUp where
+  nestedWindow : BEDC.Derived.NestedIntervalUp.NestedIntervalUp
+  dyadicLedger : BHist
+  streamWindow : BHist
+  regularReadback : BHist
+  realSeal : BHist
+
+end BEDC.Derived
