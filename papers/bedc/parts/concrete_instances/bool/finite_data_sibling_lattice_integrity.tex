@@ -1,0 +1,11 @@
+\begin{theorem}[Bool finite-data sibling lattice integrity]
+\label{thm:bool-finite-data-sibling-lattice-integrity}
+The $\BoolUp$ finite-data surface supplies endpoint discriminator rows consumed by \autoref{ch:concrete-instances-option-namecert}, \autoref{ch:concrete-instances-sum-namecert}, \autoref{ch:concrete-instances-prod-namecert}, and \autoref{ch:concrete-instances-list-namecert}. The discriminator is the two-endpoint row already named by the $\BoolUp$ carrier: $\OptionUp$ reads it as the absent/present branch, $\SumUp$ reads it as the left/right branch, $\ProdUp$ reads it only as a coordinate-facing Boolean component when a product field is Boolean, and $\ListUp$ reads it only as a finite spine or payload tag when a list cell is Boolean. The $\BoolUp$ chapter itself does not own option payload rows, product-coordinate pairing rows, coproduct-injection rows, or list-spine recursion rows.
+\end{theorem}
+\begin{proof}
+Project the $\BoolUp$ endpoint classifier through \autoref{thm:bool-carrier-classifier-endpoint-exactness}. Its exported data are exactly the two endpoint discriminators and their classifier separation.
+
+The sibling chapters then consume that row in distinct positions. $\OptionUp$ and $\SumUp$ use it as a branch discriminator, while $\ProdUp$ and $\ListUp$ can only import it as a Boolean component row inside their own product or spine carriers.
+
+Because payload, coordinate-pairing, coproduct-injection, and list-recursion rows are supplied by the respective sibling carriers, no accepted $\BoolUp$ packet can claim ownership of them. Thus the sibling lattice is visible precisely as a dependency of those finite-data constructors on the Bool endpoint discriminator.
+\end{proof}
