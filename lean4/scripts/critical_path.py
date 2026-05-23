@@ -800,6 +800,10 @@ def load_objective_formal_grades() -> dict[str, str]:
             data = json.loads(cache_path.read_text(encoding="utf-8"))
             if isinstance(data, dict):
                 _objective_grades_cache = data
+                # Opportunistic LRU prune (cheap when under cap: only
+                # glob + len-check). Runs on every critical_path call so
+                # exact-HEAD cache hits also keep the temp dir bounded.
+                _prune_objective_grades_cache_files(tmp_dir, keep=50)
                 return data
         except Exception:
             pass
@@ -829,6 +833,7 @@ def load_objective_formal_grades() -> dict[str, str]:
             cache_path.write_text(json.dumps(data), encoding="utf-8")
         except Exception:
             pass
+        _prune_objective_grades_cache_files(tmp_dir, keep=50)
         return data
 
     AXIOM_PURITY_BUDGET_SECONDS = 300
@@ -871,11 +876,43 @@ def load_objective_formal_grades() -> dict[str, str]:
             grades[qn] = "formalTargetV"
 
     _objective_grades_cache = grades
+    # Always persist — even an empty/partial result spares the next worker
+    # from repeating the 5-min axiom-purity attempt under the same HEAD.
     try:
         cache_path.write_text(json.dumps(grades), encoding="utf-8")
     except Exception:
         pass
+    _prune_objective_grades_cache_files(tmp_dir, keep=50)
     return grades
+
+
+def _prune_objective_grades_cache_files(tmp_dir: Path, keep: int = 50) -> None:
+    """LRU eviction for `bedc_objective_grades_<HEAD>.json` files.
+
+    codex-auto-dev advances HEAD every 1-2 minutes; each new HEAD that
+    misses the exact cache writes a fresh ~2.5MB file. Without eviction
+    the temp dir accumulates GBs (observed 1299 files / 3.3GB) over a
+    24h pipeline run. Keep the `keep` newest files (ample stale-fallback
+    supply within the 6h window) and delete the rest. Best-effort:
+    failures (e.g. file deleted by sibling worker between listdir and
+    unlink) are silently ignored.
+    """
+    try:
+        files = list(tmp_dir.glob("bedc_objective_grades_*.json"))
+    except OSError:
+        return
+    if len(files) <= keep:
+        return
+    try:
+        files.sort(key=lambda p: p.stat().st_mtime if p.exists() else 0,
+                   reverse=True)
+    except OSError:
+        return
+    for stale in files[keep:]:
+        try:
+            stale.unlink()
+        except OSError:
+            pass
 
 
 def normalize_name(stem: str) -> str:
