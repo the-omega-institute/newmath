@@ -1,0 +1,166 @@
+\begin{theorem}[Support-to-nerve realization]
+\label{thm:philosophy-support-to-nerve-realization}
+The assignment
+$$
+  A\subseteq\mathcal{S}
+  \longmapsto
+  N_{A}
+  =
+  \bigcup_{S\in A}2^{\Omega\setminus S}
+$$
+has image exactly the set of subcomplexes of the tetrahedron boundary
+$\partial\Delta^{3}$, with both the void complex and the complex
+consisting only of the empty face included.
+\end{theorem}
+\begin{proof}
+For every nonempty support $S\subseteq\Omega$, the complement
+$\Omega\setminus S$ is a proper face of $\Delta^{3}$. Hence $N_{A}$ is
+the downward closure of a family of proper faces, and therefore is a
+subcomplex of $\partial\Delta^{3}$.
+
+Conversely, let $K\subseteq\partial\Delta^{3}$ be a subcomplex. For
+each maximal face $F$ of $K$, set $S_{F}=\Omega\setminus F$. These
+supports are nonempty. If $A=\{S_{F}:F\in\operatorname{Facets}(K)\}$,
+then
+$$
+  N_{A}
+  =
+  \bigcup_{F\in\operatorname{Facets}(K)}2^{F}
+  =
+  K.
+$$
+Thus every subcomplex of $\partial\Delta^{3}$ is realized.
+\end{proof}
+
+\begin{theorem}[Support-family fiber]
+\label{thm:philosophy-support-family-fiber}
+Let $K\subseteq\partial\Delta^{3}$ be a subcomplex, and let $|K|$
+denote its number of faces, including the empty face. The generating
+function for support families $A$ with $N_{A}=K$ is
+$$
+  G_{K}(z)
+  =
+  z^{|\operatorname{Facets}(K)|}
+  (1+z)^{|K|-|\operatorname{Facets}(K)|}.
+$$
+\end{theorem}
+\begin{proof}
+Write
+$$
+  C_{A}=\{\Omega\setminus S:S\in A\}.
+$$
+Then $N_{A}$ is the downward closure of $C_{A}$. The equality $N_{A}=K$
+holds exactly when $C_{A}\subseteq K$ and $C_{A}$ contains every maximal
+face of $K$. The maximal faces are forced, and the remaining
+$|K|-|\operatorname{Facets}(K)|$ faces may be chosen independently.
+\end{proof}
+
+\begin{corollary}[Subcomplex-weighted support polynomials]
+\label{cor:philosophy-subcomplex-weighted-support-polynomials}
+For $q=-1,0,1,2$,
+$$
+  Q_{q}(z)
+  =
+  \sum_{K\subseteq\partial\Delta^{3}}
+  \dim_{k}\widetilde{H}_{q}(K;k)
+  z^{|\operatorname{Facets}(K)|}
+  (1+z)^{|K|-|\operatorname{Facets}(K)|}.
+$$
+\end{corollary}
+\begin{proof}
+Group the defining sum for $Q_{q}(z)$ by the realized subcomplex
+$K=N_{A}$ and apply \autoref{thm:philosophy-support-family-fiber}.
+\end{proof}
+
+\begin{theorem}[Tetrahedron-boundary subcomplex census]
+\label{thm:philosophy-tetrahedron-boundary-subcomplex-census}
+The boundary $\partial\Delta^{3}$ has $167$ subcomplexes under the
+convention of \autoref{thm:philosophy-support-to-nerve-realization}.
+Their reduced Betti signatures are:
+$$
+\begin{array}{c|r}
+  \text{signature} & \text{subcomplex count}\\
+  \hline
+  (1,0,0,0) & 2\\
+  (0,0,0,0) & 64\\
+  (0,1,0,0) & 37\\
+  (0,2,0,0) & 10\\
+  (0,3,0,0) & 1\\
+  (0,0,1,0) & 37\\
+  (0,0,2,0) & 10\\
+  (0,0,3,0) & 1\\
+  (0,1,1,0) & 4\\
+  (0,0,0,1) & 1.
+\end{array}
+$$
+Moreover,
+$$
+  \sum_{K\subseteq\partial\Delta^{3}}
+  2^{|K|-|\operatorname{Facets}(K)|}
+  =
+  32768.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the downward-closed families of proper faces of a four-vertex
+simplex and compute reduced homology for each subcomplex. The displayed
+rows sum to $167$. The final identity is the specialization
+$G_{K}(1)$ summed over all realized subcomplexes; by
+\autoref{thm:philosophy-support-family-fiber}, it counts all
+$2^{15}$ support families.
+\end{proof}
+
+\begin{theorem}[Support-to-nerve Betti formula]
+\label{thm:philosophy-support-to-nerve-betti-formula}
+The complete Hochster diagonal series of $k[\mathcal{B}]$ satisfy
+$$
+  B_{q}(x)
+  =
+  \sum_{K\subseteq\partial\Delta^{3}}
+  \dim_{k}\widetilde{H}_{q}(K;k)
+  (2x+x^{2})^{|\operatorname{Facets}(K)|}
+  (1+2x+x^{2})^{|K|-|\operatorname{Facets}(K)|}.
+$$
+Equivalently,
+$$
+  B_{q}(x)
+  =
+  \sum_{K\subseteq\partial\Delta^{3}}
+  \dim_{k}\widetilde{H}_{q}(K;k)
+  x^{|\operatorname{Facets}(K)|}
+  (x+2)^{|\operatorname{Facets}(K)|}
+  (1+x)^{2(|K|-|\operatorname{Facets}(K)|)}.
+$$
+\end{theorem}
+\begin{proof}
+Combine
+\autoref{cor:philosophy-subcomplex-weighted-support-polynomials} with
+the codon lift substitution of
+\autoref{thm:philosophy-support-lift-betti-transform}. The two displayed
+forms are identical because $2x+x^{2}=x(x+2)$ and
+$1+2x+x^{2}=(1+x)^{2}$.
+\end{proof}
+
+\begin{corollary}[Top diagonal from the boundary complex]
+\label{cor:philosophy-top-diagonal-from-boundary-complex}
+The top Hochster diagonal is contributed by the single subcomplex
+$K=\partial\Delta^{3}$. Since this complex has four facets and fifteen
+proper faces,
+$$
+  B_{2}(x)
+  =
+  (2x+x^{2})^{4}(1+2x+x^{2})^{11}
+  =
+  x^{4}(x+2)^{4}(1+x)^{22}.
+$$
+In particular,
+$$
+  \beta_{27,30}=1.
+$$
+\end{corollary}
+\begin{proof}
+Among subcomplexes of $\partial\Delta^{3}$, nonzero
+$\widetilde{H}_{2}$ occurs only for $\partial\Delta^{3}$ itself. The
+formula is the $q=2$ specialization of
+\autoref{thm:philosophy-support-to-nerve-betti-formula}.
+\end{proof}

@@ -3876,6 +3876,45 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     hochster_diagonal_coefficients = {-1: [0 for _degree in range(31)], 0: [0 for _degree in range(31)], 1: [0 for _degree in range(31)], 2: [0 for _degree in range(31)]}
     support_level_betti_coefficients = {-1: [0 for _degree in range(16)], 0: [0 for _degree in range(16)], 1: [0 for _degree in range(16)], 2: [0 for _degree in range(16)]}
     support_nerve_signature_counts: collections.Counter[tuple[int, int, int, int]] = collections.Counter()
+    boundary_face_masks = tuple(range(15))
+
+    def is_boundary_subcomplex(face_family: set[int]) -> bool:
+        for face in face_family:
+            subface = face
+            while True:
+                if subface not in face_family:
+                    return False
+                if subface == 0:
+                    break
+                subface = (subface - 1) & face
+        return True
+
+    def maximal_faces(face_family: set[int]) -> set[int]:
+        return {
+            face
+            for face in face_family
+            if not any(face != other and (face & ~other) == 0 for other in face_family)
+        }
+
+    support_to_nerve_subcomplex_signature_counts: collections.Counter[tuple[int, int, int, int]] = collections.Counter()
+    support_to_nerve_fiber_total = 0
+    support_to_nerve_h2_subcomplex_count = 0
+    for subcomplex_bits in range(1 << len(boundary_face_masks)):
+        subcomplex_faces = {
+            face
+            for face_index, face in enumerate(boundary_face_masks)
+            if (subcomplex_bits >> face_index) & 1
+        }
+        if not is_boundary_subcomplex(subcomplex_faces):
+            continue
+        subcomplex_nonempty_faces = {face for face in subcomplex_faces if face}
+        reduced_betti = simplicial_reduced_betti(subcomplex_nonempty_faces, 4)
+        signature = tuple(reduced_betti.get(homology_degree, 0) for homology_degree in (-1, 0, 1, 2))
+        subcomplex_facets = maximal_faces(subcomplex_faces)
+        support_to_nerve_subcomplex_signature_counts[signature] += 1
+        support_to_nerve_fiber_total += 2 ** (len(subcomplex_faces) - len(subcomplex_facets))
+        if signature == (0, 0, 0, 1):
+            support_to_nerve_h2_subcomplex_count += 1
     for support_type_size in range(len(nonempty_support_patterns) + 1):
         lift_coefficients = [
             math.comb(support_type_size, double_lift_count) * (2 ** (support_type_size - double_lift_count))
@@ -3906,6 +3945,14 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     support_nerve_census_total = sum(support_nerve_signature_counts.values())
     support_nerve_contractible_count = support_nerve_signature_counts[(0, 0, 0, 0)]
     support_nerve_h2_count = support_nerve_signature_counts[(0, 0, 0, 1)]
+    support_to_nerve_subcomplex_signature_rows = [
+        {
+            "signature": signature,
+            "subcomplex_count": count,
+        }
+        for signature, count in sorted(support_to_nerve_subcomplex_signature_counts.items())
+    ]
+    support_to_nerve_subcomplex_total = sum(support_to_nerve_subcomplex_signature_counts.values())
     support_level_betti_rows = [
         {
             "homology_degree": homology_degree,
@@ -4506,6 +4553,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "support_nerve_census_total": support_nerve_census_total,
         "support_nerve_contractible_count": support_nerve_contractible_count,
         "support_nerve_h2_count": support_nerve_h2_count,
+        "support_to_nerve_subcomplex_signature_rows": support_to_nerve_subcomplex_signature_rows,
+        "support_to_nerve_subcomplex_total": support_to_nerve_subcomplex_total,
+        "support_to_nerve_fiber_total": support_to_nerve_fiber_total,
+        "support_to_nerve_h2_subcomplex_count": support_to_nerve_h2_subcomplex_count,
         "hochster_p0_coefficients_desc": hochster_p0_coefficients_desc,
         "hochster_p1_coefficients_desc": hochster_p1_coefficients_desc,
         "blocker_euler_characteristic": blocker_euler_characteristic,
@@ -8062,6 +8113,24 @@ def assert_expected(summary: dict[str, object]) -> None:
         ((0, 1, 1, 0), 64),
         ((0, 2, 0, 0), 56),
         ((0, 3, 0, 0), 2),
+        ((1, 0, 0, 0), 2),
+    ]
+    assert antipodal["support_to_nerve_subcomplex_total"] == 167
+    assert antipodal["support_to_nerve_fiber_total"] == 32768
+    assert antipodal["support_to_nerve_h2_subcomplex_count"] == 1
+    assert [
+        (row["signature"], row["subcomplex_count"])
+        for row in antipodal["support_to_nerve_subcomplex_signature_rows"]
+    ] == [
+        ((0, 0, 0, 0), 64),
+        ((0, 0, 0, 1), 1),
+        ((0, 0, 1, 0), 37),
+        ((0, 0, 2, 0), 10),
+        ((0, 0, 3, 0), 1),
+        ((0, 1, 0, 0), 37),
+        ((0, 1, 1, 0), 4),
+        ((0, 2, 0, 0), 10),
+        ((0, 3, 0, 0), 1),
         ((1, 0, 0, 0), 2),
     ]
     assert antipodal["hochster_p0_coefficients_desc"] == (
