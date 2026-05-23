@@ -1155,6 +1155,7 @@ import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
 import BEDC.Derived.CauchyRateDominanceUp.TasteGate
+import BEDC.Derived.CauchyRateLatticeUp.TasteGate
 import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
@@ -3206,6 +3207,7 @@ import BEDC.Derived.IdealUp.QuotientKernelScope
 import BEDC.Derived.IdealUp.RingMapZeroFiber
 import BEDC.Derived.IdealUp.StdBridge
 import BEDC.Derived.IdealUp.SumClosure
+import BEDC.Derived.ImplicitFunctionUp.TasteGate
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
@@ -4688,6 +4690,7 @@ import BEDC.Derived.RegularCauchyMaxUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
+import BEDC.Derived.RegularCauchyMinimumUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BridgeObstructionBoundary
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BudgetPullbackExhaustion
