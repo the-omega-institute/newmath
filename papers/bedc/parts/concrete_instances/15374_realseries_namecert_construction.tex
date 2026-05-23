@@ -318,6 +318,46 @@ Finally apply \autoref{thm:realseries-root-ledger-exactness}. The endpoint seal 
 Thus every endpoint-facing route factors through $W',R,T',B\longmapsto U,G\longmapsto H',C',P',N'$ before reaching the base $\RealUp$ seal. No excluded host-side principle has a carrier coordinate from which it could escape.
 \end{proof}
 
+\begin{theorem}[RealSeries shared majorant threshold coherence]
+\label{thm:realseries-shared-majorant-threshold-coherence}
+For an accepted $\RealSeriesUp$ tail-majorant carrier
+$$
+J=(W',R,T',B,U,G,H',C',P',N'),
+$$
+every $\UniformCauchySeriesUp$, $\RealSeriesCauchyCriterionUp$, and $\CauchyMajorantSeriesUp$ consumer reads the same displayed $W',R,T',B$ threshold surface before its handoff row. The consumer may route through $U$, $G$, or the majorant handoff, but it cannot substitute a different tail selector, majorant ledger, host infinite sum, selected limit, quotient equality, countable-choice witness, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Read $J$ through \autoref{def:realseries-tail-majorant-carrier}. The rows $W',R,T',B$ are the unique finite windows, regular readback, inherited tail-request ledger, and displayed majorant bounds in the accepted tail-majorant carrier.
+
+For the uniform route, apply \autoref{thm:realseries-uniform-cauchy-budget}. For the criterion route, apply \autoref{thm:realseries-cauchy-criterion-route}. For the majorant route, apply \autoref{thm:realseries-cauchy-majorant-handoff}. Each cited handoff consumes the same $W',R,T',B$ surface before exposing its consumer-specific row.
+
+The structural rows $H',C',P',N'$ transport, replay, source, and locally name that displayed surface. They do not create another threshold or another majorant source, so the three consumer routes remain coherent over the same finite BEDC rows.
+\end{proof}
+
+\begin{theorem}[RealSeries endpoint majorant factorization]
+\label{thm:realseries-endpoint-majorant-factorization}
+Let $I=(S,D,M,E,H,C,P,N)$ be an accepted $\RealSeriesUp$ carrier and let $J=(W',R,T',B,U,G,H',C',P',N')$ be an accepted tail-majorant carrier for the same displayed series route. The $\RealUp$ endpoint row $E$ of $I$ factors first through $S,D,M$ and then, whenever a majorant consumer is present, through the shared $W',R,T',B$ surface before any downstream endpoint-facing read may cite the seal.
+\end{theorem}
+\begin{proof}
+Project $I$ through \autoref{def:real-series-carrier}. The stream row $S$, dyadic ledger $D$, and shared threshold row $M$ are read before the endpoint seal $E$ is available.
+
+Now project $J$ through \autoref{def:realseries-tail-majorant-carrier}. The rows $W',R,T',B$ display the finite windows, regular readback, inherited tail requests, and majorant bounds that a majorant consumer must inspect.
+
+Use \autoref{thm:real-series-tail-threshold-stability} to identify the threshold side of the base route, and use \autoref{thm:realseries-cauchy-majorant-handoff} for the majorant side. The endpoint row cannot bypass either route because \autoref{thm:realseries-majorant-endpoint-nonescape} excludes host infinite sums, selected limits, quotient equality, countable choice, and ambient $\RealUp$ completeness from the carrier inventory.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy consumer readiness]
+\label{thm:realseries-cauchy-consumer-readiness}
+The shared threshold coherence of \autoref{thm:realseries-shared-majorant-threshold-coherence} and the endpoint factorization of \autoref{thm:realseries-endpoint-majorant-factorization} supply the finite Cauchy surface consumed by the downstream $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, and $\CauchyMajorantSeriesUp$ chapters. The ready surface consists exactly of the base $S,D,M,E$ route, the tail-majorant $W',R,T',B$ route, the consumer rows $U,G$, and the structural rows $H,C,P,N,H',C',P',N'$.
+\end{theorem}
+\begin{proof}
+The coherence theorem fixes the threshold and majorant rows shared by the three Cauchy consumers. Thus every consumer begins from the same $W',R,T',B$ surface rather than from a parameter chosen outside the packet.
+
+The endpoint-factorization theorem ties that surface back to the base $S,D,M,E$ route. Consequently a downstream endpoint read sees the real-series stream, dyadic ledger, shared threshold, endpoint seal, tail windows, regular readback, inherited tail requests, and displayed majorant bounds in one finite route.
+
+Apply \autoref{thm:realseries-root-ledger-exactness} to identify the remaining structural rows. These rows provide transport, continuation replay, provenance, and local naming for the same route, which is precisely the finite Cauchy surface needed by the realseriescauchycriterion, uniformcauchyseries, and cauchymajorantseries consumers.
+\end{proof}
+
 \falsifiablePrediction{Every $\RealSeriesUp$ endpoint-facing read factors through a real-valued term stream, finite partial-sum window, selected StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a shared Cauchy-tail threshold, a RealUp endpoint seal, transport, continuation, provenance, and local naming.}
 
 \independenceWitness{real, real-sequence-limit, cauchy-sequence-bounded, regseqrat, streamname, dyadicratcore: $\RealSeriesUp$ is not bijective to any listed sibling because it jointly carries term-stream access, finite partial-sum windows, selected stream windows, regular readback, dyadic tolerance accounting, shared tail thresholding, endpoint sealing, transport, continuation, provenance, and local naming.}
