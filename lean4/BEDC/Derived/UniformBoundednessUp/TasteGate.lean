@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.UniformBoundednessUp.TasteGate
+namespace BEDC.Derived.UniformBoundednessUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,52 +10,40 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UniformBoundednessUp : Type where
-  | mk :
-      (family pointwise baire norm regseq stream transport history replay provenance nameRow :
-        BHist) →
-        UniformBoundednessUp
+  | mk (F W B N R S Q H C P L : BHist) : UniformBoundednessUp
   deriving DecidableEq
 
-def uniformBoundednessEncodeBHist : BHist → RawEvent
+def uniformBoundednessEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: uniformBoundednessEncodeBHist h
   | BHist.e1 h => BMark.b1 :: uniformBoundednessEncodeBHist h
 
-def uniformBoundednessDecodeBHist : RawEvent → BHist
+def uniformBoundednessDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (uniformBoundednessDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (uniformBoundednessDecodeBHist tail)
 
-private theorem UniformBoundednessTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist, uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist h) = h := by
+private theorem UniformBoundednessUpTasteGate_single_carrier_alignment_decode :
+    forall h : BHist,
+      uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
-def uniformBoundednessFields : UniformBoundednessUp → List BHist
+def uniformBoundednessFields : UniformBoundednessUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | UniformBoundednessUp.mk family pointwise baire norm regseq stream transport history replay
-      provenance nameRow =>
-      [family, pointwise, baire, norm, regseq, stream, transport, history, replay, provenance,
-        nameRow]
+  | UniformBoundednessUp.mk F W B N R S Q H C P L => [F, W, B, N, R, S, Q, H, C, P, L]
 
-def uniformBoundednessToEventFlow : UniformBoundednessUp → EventFlow
+def uniformBoundednessToEventFlow : UniformBoundednessUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | UniformBoundednessUp.mk family pointwise baire norm regseq stream transport history replay
-      provenance nameRow =>
-      (uniformBoundednessFields
-          (UniformBoundednessUp.mk family pointwise baire norm regseq stream transport history
-            replay provenance nameRow)).map uniformBoundednessEncodeBHist
+  | x => List.map uniformBoundednessEncodeBHist (uniformBoundednessFields x)
 
-def uniformBoundednessEventAtDefault : Nat → EventFlow → RawEvent
+private def uniformBoundednessEventAtDefault : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -78,44 +66,43 @@ def uniformBoundednessFromEventFlow (ef : EventFlow) : Option UniformBoundedness
       (uniformBoundednessDecodeBHist (uniformBoundednessEventAtDefault 9 ef))
       (uniformBoundednessDecodeBHist (uniformBoundednessEventAtDefault 10 ef)))
 
-private theorem UniformBoundednessTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : UniformBoundednessUp,
+private theorem UniformBoundednessUpTasteGate_single_carrier_alignment_round_trip :
+    forall x : UniformBoundednessUp,
       uniformBoundednessFromEventFlow (uniformBoundednessToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk family pointwise baire norm regseq stream transport history replay provenance nameRow =>
+  | mk F W B N R S Q H C P L =>
       change
         some
           (UniformBoundednessUp.mk
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist family))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist pointwise))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist baire))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist norm))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist regseq))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist stream))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist transport))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist history))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist replay))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist provenance))
-            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist nameRow))) =
-          some
-            (UniformBoundednessUp.mk family pointwise baire norm regseq stream transport history
-              replay provenance nameRow)
-      rw [UniformBoundednessTasteGate_single_carrier_alignment_decode family,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode pointwise,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode baire,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode norm,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode regseq,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode stream,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode transport,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode history,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode replay,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode provenance,
-        UniformBoundednessTasteGate_single_carrier_alignment_decode nameRow]
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist F))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist W))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist B))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist N))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist R))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist S))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist Q))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist H))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist C))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist P))
+            (uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist L))) =
+          some (UniformBoundednessUp.mk F W B N R S Q H C P L)
+      rw [UniformBoundednessUpTasteGate_single_carrier_alignment_decode F,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode W,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode B,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode N,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode R,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode S,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode Q,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode H,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode C,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode P,
+        UniformBoundednessUpTasteGate_single_carrier_alignment_decode L]
 
-private theorem uniformBoundednessToEventFlow_injective {x y : UniformBoundednessUp} :
-    uniformBoundednessToEventFlow x = uniformBoundednessToEventFlow y → x = y := by
+private theorem UniformBoundednessUpTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : UniformBoundednessUp} :
+    uniformBoundednessToEventFlow x = uniformBoundednessToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -123,42 +110,20 @@ private theorem uniformBoundednessToEventFlow_injective {x y : UniformBoundednes
         uniformBoundednessFromEventFlow (uniformBoundednessToEventFlow y) :=
     congrArg uniformBoundednessFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (UniformBoundednessTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (UniformBoundednessTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans
+      (UniformBoundednessUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (UniformBoundednessUpTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem UniformBoundednessTasteGate_single_carrier_alignment_fields :
-    ∀ x y : UniformBoundednessUp, uniformBoundednessFields x = uniformBoundednessFields y →
-      x = y := by
+private theorem UniformBoundednessUpTasteGate_single_carrier_alignment_fields :
+    forall x y : UniformBoundednessUp,
+      uniformBoundednessFields x = uniformBoundednessFields y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk family₁ pointwise₁ baire₁ norm₁ regseq₁ stream₁ transport₁ history₁ replay₁
-      provenance₁ nameRow₁ =>
+  | mk F1 W1 B1 N1 R1 S1 Q1 H1 C1 P1 L1 =>
       cases y with
-      | mk family₂ pointwise₂ baire₂ norm₂ regseq₂ stream₂ transport₂ history₂ replay₂
-          provenance₂ nameRow₂ =>
-          injection hfields with hFamily tail0
-          injection tail0 with hPointwise tail1
-          injection tail1 with hBaire tail2
-          injection tail2 with hNorm tail3
-          injection tail3 with hRegseq tail4
-          injection tail4 with hStream tail5
-          injection tail5 with hTransport tail6
-          injection tail6 with hHistory tail7
-          injection tail7 with hReplay tail8
-          injection tail8 with hProvenance tail9
-          injection tail9 with hNameRow _
-          subst hFamily
-          subst hPointwise
-          subst hBaire
-          subst hNorm
-          subst hRegseq
-          subst hStream
-          subst hTransport
-          subst hHistory
-          subst hReplay
-          subst hProvenance
-          subst hNameRow
+      | mk F2 W2 B2 N2 R2 S2 Q2 H2 C2 P2 L2 =>
+          cases hfields
           rfl
 
 instance uniformBoundednessBHistCarrier : BHistCarrier UniformBoundednessUp where
@@ -171,15 +136,15 @@ instance uniformBoundednessChapterTasteGate : ChapterTasteGate UniformBoundednes
   round_trip := by
     intro x
     change uniformBoundednessFromEventFlow (uniformBoundednessToEventFlow x) = some x
-    exact UniformBoundednessTasteGate_single_carrier_alignment_round_trip x
+    exact UniformBoundednessUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (uniformBoundednessToEventFlow_injective heq)
+    exact hxy (UniformBoundednessUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance uniformBoundednessFieldFaithful : FieldFaithful UniformBoundednessUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := uniformBoundednessFields
-  field_faithful := UniformBoundednessTasteGate_single_carrier_alignment_fields
+  field_faithful := UniformBoundednessUpTasteGate_single_carrier_alignment_fields
 
 instance uniformBoundednessNontrivial : Nontrivial UniformBoundednessUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -192,33 +157,20 @@ instance uniformBoundednessNontrivial : Nontrivial UniformBoundednessUp where
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate UniformBoundednessUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  uniformBoundednessChapterTasteGate
-
-theorem UniformBoundednessTasteGate_single_carrier_alignment :
-    (∀ h : BHist, uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist h) = h) ∧
-      (∀ x : UniformBoundednessUp,
-        uniformBoundednessFromEventFlow (uniformBoundednessToEventFlow x) = some x) ∧
-        (∀ x y : UniformBoundednessUp,
-          uniformBoundednessToEventFlow x = uniformBoundednessToEventFlow y → x = y) ∧
-          uniformBoundednessEncodeBHist BHist.Empty = ([] : List BMark) ∧
-            (∀ x y : UniformBoundednessUp, uniformBoundednessFields x =
-              uniformBoundednessFields y → x = y) ∧
-              (∃ x y : UniformBoundednessUp, x ≠ y) := by
-  -- BEDC touchpoint anchor: BHist BMark
+theorem UniformBoundednessUpTasteGate_single_carrier_alignment :
+    (forall h : BHist,
+      uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist h) = h) /\
+      (forall x : UniformBoundednessUp,
+        uniformBoundednessFromEventFlow (uniformBoundednessToEventFlow x) = some x) /\
+        (forall x y : UniformBoundednessUp,
+          uniformBoundednessToEventFlow x = uniformBoundednessToEventFlow y -> x = y) /\
+          uniformBoundednessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨UniformBoundednessTasteGate_single_carrier_alignment_decode,
-      UniformBoundednessTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => uniformBoundednessToEventFlow_injective heq),
-      rfl,
-      UniformBoundednessTasteGate_single_carrier_alignment_fields,
-      ⟨UniformBoundednessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-        UniformBoundednessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-        by
-          intro h
-          cases h⟩⟩
+    ⟨UniformBoundednessUpTasteGate_single_carrier_alignment_decode,
+      UniformBoundednessUpTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        UniformBoundednessUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
-end BEDC.Derived.UniformBoundednessUp.TasteGate
+end BEDC.Derived.UniformBoundednessUp
