@@ -49,22 +49,26 @@ def metaCICFrontierDependencyMatrixToEventFlow :
 
 def metaCICFrontierDependencyMatrixFromEventFlow :
     EventFlow → Option MetaCICFrontierDependencyMatrixUp
-  | B :: A :: L :: P :: Q :: N :: D :: J :: R :: H :: C :: K :: [] =>
+  | ef =>
+      let rec eventAt : Nat → EventFlow → RawEvent
+        | Nat.zero, [] => []
+        | Nat.zero, event :: _rest => event
+        | Nat.succ _index, [] => []
+        | Nat.succ index, _event :: rest => eventAt index rest
       some
         (MetaCICFrontierDependencyMatrixUp.mk
-          (metaCICFrontierDependencyMatrixDecodeBHist B)
-          (metaCICFrontierDependencyMatrixDecodeBHist A)
-          (metaCICFrontierDependencyMatrixDecodeBHist L)
-          (metaCICFrontierDependencyMatrixDecodeBHist P)
-          (metaCICFrontierDependencyMatrixDecodeBHist Q)
-          (metaCICFrontierDependencyMatrixDecodeBHist N)
-          (metaCICFrontierDependencyMatrixDecodeBHist D)
-          (metaCICFrontierDependencyMatrixDecodeBHist J)
-          (metaCICFrontierDependencyMatrixDecodeBHist R)
-          (metaCICFrontierDependencyMatrixDecodeBHist H)
-          (metaCICFrontierDependencyMatrixDecodeBHist C)
-          (metaCICFrontierDependencyMatrixDecodeBHist K))
-  | _ => none
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 0 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 1 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 2 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 3 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 4 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 5 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 6 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 7 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 8 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 9 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 10 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist (eventAt 11 ef)))
 
 private theorem metaCICFrontierDependencyMatrix_round_trip :
     ∀ x : MetaCICFrontierDependencyMatrixUp,
