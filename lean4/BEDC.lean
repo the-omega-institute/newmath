@@ -50,6 +50,7 @@ import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationSocketUp
+import BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketLedgerExactnessObligation
 import BEDC.Derived.AnalyticContinuationSocketUp.BranchObstructionConsumerLock
 import BEDC.Derived.AnalyticContinuationSocketUp.CarrierAdmission
 import BEDC.Derived.AnalyticContinuationSocketUp.CarrierSourceObligation
@@ -528,6 +529,7 @@ import BEDC.Derived.BHistHendecaTupleNameCertUp.TasteGate
 import BEDC.Derived.BHistHeptaSequenceNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistHexaSequenceNameCertUp
+import BEDC.Derived.BHistHexaTupleNameCertUp
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaSequenceNameCertUp
@@ -1452,6 +1454,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerNonescape
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootUnblockObligationPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
@@ -4804,6 +4807,7 @@ import BEDC.Derived.RegularCauchyLimitClassifierUp.SynchronizerFactorization
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitTransportUp
+import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyMaxUp.TasteGate
