@@ -1,0 +1,120 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionKleisliAdjunctionUp$}
+\label{ch:concrete-instances-cauchy-completion-kleisli-adjunction-namecert}
+\origin{human}
+
+Following Mac Lane on Kleisli categories, Kelley on completion, and Bishop--Bridges constructive analysis, the $\CauchyCompletionKleisliAdjunctionUp$ packet names the finite L10 boundary where the completion monad's unit-and-bind route is compared with the completion adjunction's universal handoff. It sits after the monad packet of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the Kleisli consumer packet of \autoref{ch:concrete-instances-cauchy-completion-kleisli-namecert}, and the universal-mapping packet of \autoref{ch:concrete-instances-cauchy-completion-adjunction-namecert}. Its analytic readback is the same finite route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+The packet is a boundary certificate, not a construction of quotient completion. It records only the displayed rows by which a downstream Real or Completion consumer can see that a Kleisli bind read and an adjunction extension read share the same finite source, window, tolerance, readback, seal, transport, replay, provenance, and local naming route.
+
+\begin{definition}[Cauchy completion Kleisli-adjunction carrier]
+\label{def:cauchy-completion-kleisli-adjunction-carrier}
+A $\CauchyCompletionKleisliAdjunctionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(U,B,L,A,V,S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the unit row inherited from $\CauchyCompletionMonadUp$, displaying the source packet before any Kleisli consumer or adjunction comparison is read.
+\item $B$ is the bind row inherited from $\CauchyCompletionMonadUp$, displaying the completion-facing source family consumed by a single Kleisli request.
+\item $L$ is the $\CauchyCompletionKleisliUp$ consumer row, recording the finite consumer request that reads the unit and bind rows through the same downstream completion surface.
+\item $A$ is the $\CauchyCompletionAdjunctionUp$ comparison row, aligning the Kleisli consumer read with the adjunction's source-side and completion-side observations.
+\item $V$ is the universal handoff row, exposing the adjunction extension surface only after $U,B,L,A$ have been displayed.
+\item $S$ is the finite $\StreamNameUp$ window row used by the shared completion read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached to the same finite window.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row for the displayed window and tolerance data.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $S,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the unit, bind, Kleisli consumer, adjunction comparison, universal handoff, window, tolerance, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+U,B \longmapsto L \longmapsto A,V \longmapsto S,D,R,E \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionKleisliAdjunctionUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionKleisliUp$, $\CauchyCompletionAdjunctionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionKleisliAdjunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,B,L,A,V,S,D,R,E,H,C,P,N$. The carrier has no coordinate for quotient completions, selected limits, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cauchy completion Kleisli-adjunction obligations]
+\label{thm:cauchy-completion-kleisli-adjunction-obligations}
+For every accepted $\CauchyCompletionKleisliAdjunctionUp$ carrier
+$$
+K=(U,B,L,A,V,S,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyCompletionKleisliAdjunctionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the unit row, bind row, Kleisli consumer row, adjunction comparison row, universal handoff row, StreamName window, DyadicRatCore tolerance, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming row;
+\item unit and bind exposure, requiring every Kleisli or adjunction consumer to display $U$ and $B$ before it can inspect the shared downstream route;
+\item Kleisli consumer exactness, requiring $L$ to consume only the displayed unit-and-bind data before opening the adjunction comparison;
+\item adjunction comparison exactness, requiring $A$ and $V$ to compare the Kleisli consumer with the universal handoff over the same finite source route;
+\item analytic readback exactness, requiring $S,D,R,E$ to supply the only StreamName, DyadicRatCore, RegSeqRat, and Real rows visible to the consumer;
+\item structural exhaustion, requiring $H,C,P,N$ to preserve, replay, source, and name the listed route without adding quotient completions, selected limits, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-completion-kleisli-adjunction-carrier}. The accepted packet displays exactly the unit, bind, Kleisli consumer, adjunction comparison, universal handoff, finite analytic readback, and structural rows.
+
+Unit and bind exposure is read from $U$ and $B$. Since both rows are inherited from the completion monad surface, every consumer starts with the same displayed source packet and source family before any Kleisli or adjunction row is available.
+
+Kleisli exactness is read from $L$. The row records the consumer request downstream of $U$ and $B$, so it cannot introduce a second source family, selected limit, or quotient representative before the comparison row is opened.
+
+Adjunction comparison and universal handoff are read from $A$ and $V$. These rows align the Kleisli consumer with the adjunction boundary only over the displayed $U,B,L$ route, and the handoff is exposed only after that comparison has been recorded.
+
+The analytic readback rows are $S,D,R,E$. They give the finite StreamName window, dyadic tolerance ledger, regular rational readback, and terminal Real seal used by both sides of the comparison.
+
+Finally $H,C,P,N$ add no analytic or quotient coordinate. They transport, replay, source, and name the same finite route, so the excluded completion, choice, host-equality, ambient-completeness, Lean, and bridge objects have no row from which a consumer could read them.
+\end{proof}
+
+\begin{theorem}[Cauchy completion Kleisli-adjunction route]
+\label{thm:cauchy-completion-kleisli-adjunction-route}
+For every accepted $\CauchyCompletionKleisliAdjunctionUp$ carrier
+$$
+K=(U,B,L,A,V,S,D,R,E,H,C,P,N),
+$$
+every L10 Completion or Real consumer that compares a Kleisli bind read with an adjunction handoff factors through the finite route
+$$
+U,B \longmapsto L \longmapsto A,V \longmapsto S,D,R,E \longmapsto H,C,P,N .
+$$
+Thus the comparison is a displayed NameCert route over the completion monad, Kleisli consumer, completion adjunction, StreamName window, DyadicRatCore tolerance, RegSeqRat readback, Real seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming rows. It is not quotient completion equality, not a selected limit, not countable choice, not host equality, not ambient $\RealUp$ completeness, and not a bridge credential.
+\end{theorem}
+\begin{proof}
+Fix an L10 consumer that compares a Kleisli bind read with an adjunction handoff. Projection of the accepted carrier supplies the unit row $U$ and bind row $B$, so the comparison begins at the displayed completion monad data.
+
+The Kleisli consumer row $L$ is the next coordinate. It reads only the already displayed unit-and-bind route before the adjunction comparison is opened.
+
+The adjunction comparison and universal handoff are then forced through $A$ and $V$. These rows compare the Kleisli consumer with the completion adjunction over the same finite source route, so no separate completion object is inserted between them.
+
+The analytic readback is downstream of that comparison. The rows $S,D,R,E$ provide the finite stream window, dyadic tolerance, regular rational readback, and Real seal that both the Kleisli side and the adjunction side must share.
+
+Transport, replay, provenance, and naming close the route. The rows $H,C,P,N$ preserve exactly the listed coordinates, so the consumer receives only the displayed NameCert route and none of the excluded quotient, selection, choice, host-equality, ambient-completeness, or bridge data.
+\end{proof}
+
+\begin{theorem}[Cauchy completion Kleisli-adjunction Real non-escape]
+\label{thm:cauchy-completion-kleisli-adjunction-real-nonescape}
+For every accepted $\CauchyCompletionKleisliAdjunctionUp$ carrier
+$$
+K=(U,B,L,A,V,S,D,R,E,H,C,P,N),
+$$
+every $\RealUp$-facing read that uses the Kleisli-adjunction comparison reaches the terminal Real seal only through the displayed route of \autoref{thm:cauchy-completion-kleisli-adjunction-route}. In particular, the Real read cannot export a quotient completion, selected limit, countable-choice selector, host equality of completion names, ambient $\RealUp$ completeness theorem, Lean verification credential, or bridge-checked surface.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing read of the packet. The route theorem forces the read through $U,B,L,A,V$ before any analytic row can be inspected.
+
+The only analytic rows after that comparison are $S,D,R,E$. The stream window $S$, dyadic tolerance row $D$, and regular rational readback $R$ are displayed before the terminal Real seal $E$ is available.
+
+Now inspect the structural rows. Componentwise transport $H$ and continuation replay $C$ preserve the same finite route, while $P$ and $N$ source and name only the listed completion monad, Kleisli, adjunction, StreamName, DyadicRatCore, RegSeqRat, and Real rows.
+
+Since the carrier contains no quotient-completion coordinate, selected-limit coordinate, countable-choice selector, host-equality row, ambient-completeness theorem, Lean verification row, or bridge row, no Real-facing consumer can export any of those objects from the packet.
+\end{proof}
+
+\closureat{CauchyCompletionKleisliAdjunctionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionKleisliAdjunctionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-kleisli-adjunction-carrier}, \autoref{thm:cauchy-completion-kleisli-adjunction-obligations}, \autoref{thm:cauchy-completion-kleisli-adjunction-route}, and \autoref{thm:cauchy-completion-kleisli-adjunction-real-nonescape} seed the finite comparison route between Cauchy-completion Kleisli consumers and adjunction handoffs.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected limits, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, unit and bind exposure, Kleisli consumer exactness, adjunction comparison exactness, universal handoff exactness, analytic readback exactness, structural replay, and Real non-escape for BEDC.Derived.CauchyCompletionKleisliAdjunctionUp.}
+  \constructivestory{A $\CauchyCompletionKleisliAdjunctionUp$ packet is generated from a completion monad unit row, bind row, Kleisli consumer row, completion adjunction comparison row, universal handoff row, StreamName window, DyadicRatCore tolerance, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
