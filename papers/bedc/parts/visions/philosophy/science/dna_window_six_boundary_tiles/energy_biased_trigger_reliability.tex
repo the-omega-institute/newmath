@@ -1,0 +1,224 @@
+\begin{definition}[Energy-biased trigger weights]
+\label{def:philosophy-energy-biased-trigger-weights}
+Let $E=Q_{6}\setminus M^{\star}$ and let
+$e(p)=|\sigma(p)|$ be the trigger energy of $p\in E$. For parameters
+$t>0$ and $0<y\leq 1$, assign each external codon the weight
+$$
+  w(p)=t y^{e(p)}.
+$$
+For $B\subseteq E$, set
+$$
+  W(B)=t^{|B|}y^{\mathcal{E}(B)}.
+$$
+The parameter $t$ is the activity of external activation, while $y$
+penalizes distance from the anchor $\mathrm{CUY}$.
+\end{definition}
+
+\begin{definition}[Energy partition factors]
+\label{def:philosophy-energy-partition-factors}
+For $0\leq d\leq 4$, define
+$$
+  A_{d}(t,y)
+  =
+  \prod_{k=1}^{d}
+  (1+t y^{k})^{2\binom{d}{k}}.
+$$
+Thus
+$$
+  A_{4}(t,y)
+  =
+  (1+ty)^{8}
+  (1+ty^{2})^{12}
+  (1+ty^{3})^{8}
+  (1+ty^{4})^{2}
+$$
+is the partition function of all external subsets.
+\end{definition}
+
+\begin{theorem}[Energy-biased blocker partition function]
+\label{thm:philosophy-energy-biased-blocker-partition}
+The partition function of non-trigger external sets is
+$$
+  Z_{\mathrm{block}}(t,y)
+  =
+  4A_{3}(t,y)-6A_{2}(t,y)+4A_{1}(t,y)-1.
+$$
+\end{theorem}
+\begin{proof}
+Non-triggering means that at least one coordinate of
+$\Omega=\{s_{1},f_{1},s_{2},f_{2}\}$ is absent. If a fixed set of
+$4-d$ coordinates is absent, the allowed supports lie inside a fixed
+$d$-coordinate set, whose weighted partition function is $A_{d}(t,y)$.
+Inclusion-exclusion over the four omitted-coordinate events gives the
+displayed expression; the final $-1$ accounts for the empty four-fold
+intersection.
+\end{proof}
+
+\begin{theorem}[Energy-biased reliability]
+\label{thm:philosophy-energy-biased-reliability}
+The full-trigger reliability in the energy-biased model is
+$$
+  R(t,y)
+  =
+  1-
+  \frac{
+  4A_{3}(t,y)-6A_{2}(t,y)+4A_{1}(t,y)-1
+  }{
+  A_{4}(t,y)
+  }.
+$$
+\end{theorem}
+\begin{proof}
+The numerator in the fraction is the non-trigger partition function of
+\autoref{thm:philosophy-energy-biased-blocker-partition}, and the
+denominator is the all-external partition function from
+\autoref{def:philosophy-energy-partition-factors}. Their ratio is the
+non-trigger probability under the product measure induced by the
+weights $w(p)$.
+\end{proof}
+
+\begin{corollary}[Uniform reliability as a specialization]
+\label{cor:philosophy-energy-biased-uniform-specialization}
+At $y=1$,
+$$
+  A_{d}(t,1)=(1+t)^{2(2^{d}-1)}.
+$$
+With $t=p/(1-p)$, the energy-biased reliability specializes to
+$$
+  R(p)
+  =
+  1-4(1-p)^{16}
+  +6(1-p)^{24}
+  -4(1-p)^{28}
+  +(1-p)^{30}.
+$$
+\end{corollary}
+\begin{proof}
+Substitute $y=1$ in
+\autoref{thm:philosophy-energy-biased-reliability}. Multiplying the
+resulting blocker ratio by the common Bernoulli factor
+$(1-p)^{30}$ gives the polynomial of
+\autoref{thm:philosophy-bernoulli-reliability-polynomial}.
+\end{proof}
+
+\begin{corollary}[Low-energy expansion]
+\label{cor:philosophy-energy-biased-low-energy-expansion}
+As $y\to 0$, the full-trigger partition function satisfies
+$$
+  Z_{\mathrm{trig}}(t,y)
+  =
+  y^{4}(2t+28t^{2}+48t^{3}+16t^{4})
+  +
+  O(y^{5}).
+$$
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-trigger-energy-lower-bound}, the lowest
+full-trigger energy is $4$. By
+\autoref{thm:philosophy-energy-minimal-trigger-counts}, the
+energy-four codon-level triggers have counts $2,28,48,16$ in
+cardinalities $1,2,3,4$, respectively.
+\end{proof}
+
+\begin{theorem}[Energy-biased threshold table]
+\label{thm:philosophy-energy-biased-threshold-table}
+For target reliability $\alpha$, let $t_{\alpha}(y)$ be the activity
+solving $R(t_{\alpha}(y),y)=\alpha$. The expected external-codon count
+at that activity is
+$$
+  \mathbb{E}_{t,y}[|B|]
+  =
+  \sum_{k=1}^{4}
+  2\binom{4}{k}
+  \frac{t y^{k}}{1+t y^{k}}.
+$$
+For $\alpha=0.50$, the thresholds are
+$$
+\begin{array}{c|r|r}
+  y & t_{0.50}(y) & \mathbb{E}[|B|]\\
+  \hline
+  1.00 & 0.0962 & 2.63\\
+  0.75 & 0.2008 & 3.01\\
+  0.50 & 0.5108 & 3.53\\
+  0.25 & 1.9830 & 4.23\\
+  0.10 & 8.5128 & 4.69.
+\end{array}
+$$
+For $\alpha=0.90$, they are
+$$
+\begin{array}{c|r|r}
+  y & t_{0.90}(y) & \mathbb{E}[|B|]\\
+  \hline
+  1.00 & 0.2415 & 5.84\\
+  0.75 & 0.4903 & 6.39\\
+  0.50 & 1.2207 & 7.04\\
+  0.25 & 4.7581 & 7.69\\
+  0.10 & 21.7497 & 7.80.
+\end{array}
+$$
+For $\alpha=0.95$, they are
+$$
+\begin{array}{c|r|r}
+  y & t_{0.95}(y) & \mathbb{E}[|B|]\\
+  \hline
+  1.00 & 0.3022 & 6.96\\
+  0.75 & 0.6114 & 7.55\\
+  0.50 & 1.5224 & 8.22\\
+  0.25 & 6.0003 & 8.80\\
+  0.10 & 28.2281 & 8.77.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The thresholds are the unique positive solutions of
+\autoref{thm:philosophy-energy-biased-reliability}. The expectation
+formula follows from the independent inclusion probability of an
+energy-$k$ codon, namely $t y^{k}/(1+t y^{k})$, and the fact that there
+are $2\binom{4}{k}$ such codons.
+\end{proof}
+
+\begin{corollary}[Energy-biased trigger regimes]
+\label{cor:philosophy-energy-biased-trigger-regimes}
+At low activity, the cardinality-one term $2ty^{4}$ favors the two
+antipodal codon triggers $\mathrm{AGU}$ and $\mathrm{AGC}$. At higher
+activity under energy penalty, the terms
+$$
+  28t^{2}y^{4},\qquad
+  48t^{3}y^{4},\qquad
+  16t^{4}y^{4}
+$$
+express the increasing contribution of partition-minimal multi-codon
+triggers.
+\end{corollary}
+\begin{proof}
+These are the four terms in the low-energy expansion of
+\autoref{cor:philosophy-energy-biased-low-energy-expansion}. The power
+of $t$ records the trigger cardinality, while the common $y^{4}$ records
+minimal trigger energy.
+\end{proof}
+
+\begin{theorem}[Energy-biased trigger reliability theorem]
+\label{thm:philosophy-energy-biased-trigger-reliability-theorem}
+Beyond $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, the Boolean trigger
+lattice admits the explicit two-parameter reliability function
+$$
+  R(t,y)
+  =
+  1-
+  \frac{
+  4A_{3}(t,y)-6A_{2}(t,y)+4A_{1}(t,y)-1
+  }{
+  A_{4}(t,y)
+  }.
+$$
+The specialization $y=1$ recovers the uniform Bernoulli reliability,
+while the limit $y\to0$ is governed by the $94$ partition-minimal full
+triggers.
+\end{theorem}
+\begin{proof}
+The formula is \autoref{thm:philosophy-energy-biased-reliability}. The
+uniform specialization is
+\autoref{cor:philosophy-energy-biased-uniform-specialization}, and the
+low-energy leading term is
+\autoref{cor:philosophy-energy-biased-low-energy-expansion}.
+\end{proof}

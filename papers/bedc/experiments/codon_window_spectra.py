@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import collections
+import collections.abc
 import functools
 import fractions
 import http.client
 import itertools
 import json
+import math
 import pathlib
 import random
 import re
@@ -2725,7 +2727,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         )
 
     outside_target_by_class: collections.Counter[str] = collections.Counter()
-    for codon in median_set:
+    for codon in sorted(median_set):
         codon_index = median_codon_to_spectral_index[codon]
         word = bits(codon)
         for bit_index in range(6):
@@ -2753,7 +2755,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     exit_probability_by_bit: collections.Counter[str] = collections.Counter()
     outside_target_by_codon: collections.Counter[str] = collections.Counter()
     boundary_exit_entries = []
-    for codon in median_set:
+    for codon in sorted(median_set):
         codon_index = median_codon_to_spectral_index[codon]
         source_mass = median_eigenvector[codon_index] / eigenvector_sum
         for bit_index, bit_name in enumerate(BIT_COORDINATES):
@@ -2771,6 +2773,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                         "probability": probability,
                     }
                 )
+    boundary_exit_entries.sort(key=lambda row: (row["source"], row["target"], row["bit"]))
     exit_bit_rows = [
         {"bit": bit_name, "probability": exit_probability_by_bit.get(bit_name, 0.0)}
         for bit_name in BIT_COORDINATES
@@ -3167,6 +3170,1147 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "internal_edges": retention["internal_edges"],
             }
         )
+    y_external_codons = sorted(full_cube_set - mstar_set)
+
+    def anchor_support(codon: str) -> frozenset[int]:
+        return frozenset(
+            index
+            for index, (left, right) in enumerate(zip(bits(codon)[:4], cuy_bits_prefix))
+            if left != right
+        )
+
+    def span_dimension(codons: set[str]) -> int:
+        support: set[int] = set()
+        for codon in codons:
+            support.update(anchor_support(codon))
+        return len(support)
+
+    def predicted_mstar_closure_for_support(support: set[int] | frozenset[int]) -> set[str]:
+        y_side = {
+            codon
+            for codon in full_cube_set
+            if bits(codon)[4] == "0"
+            and all(
+                (index in support) or (bits(codon)[index] == cuy_bits_prefix[index])
+                for index in range(4)
+            )
+        }
+        return motif_codons("NNR") | y_side
+
+    def predicted_mstar_closure(codons: set[str]) -> set[str]:
+        support: set[int] = set()
+        for codon in codons:
+            support.update(anchor_support(codon))
+        return predicted_mstar_closure_for_support(support)
+
+    coordinate_universe = frozenset(range(4))
+    support_patterns = tuple(
+        frozenset(pattern)
+        for support_size in range(5)
+        for pattern in itertools.combinations(range(4), support_size)
+    )
+    external_closure_sets = {
+        support_pattern: frozenset(
+            codon
+            for codon in y_external_codons
+            if anchor_support(codon) <= support_pattern
+        )
+        for support_pattern in support_patterns
+    }
+    coverage_closure_rows = [
+        {
+            "rank": len(support_pattern),
+            "support": tuple(BIT_COORDINATES[index] for index in support_pattern),
+            "external_closure_size": len(external_closure_sets[support_pattern]),
+            "external_closure_formula_size": 2 * ((2 ** len(support_pattern)) - 1),
+            "median_closure_size": len(mstar_set) + len(external_closure_sets[support_pattern]),
+        }
+        for support_pattern in support_patterns
+    ]
+    coverage_closure_formula_verified = all(
+        row["external_closure_size"] == row["external_closure_formula_size"]
+        and row["median_closure_size"] == 32 + (2 ** (row["rank"] + 1))
+        for row in coverage_closure_rows
+    )
+    coverage_closure_lattice_verified = all(
+        (external_closure_sets[left] & external_closure_sets[right])
+        == external_closure_sets[left & right]
+        and external_closure_sets[left] | external_closure_sets[right]
+        <= external_closure_sets[left | right]
+        for left in support_patterns
+        for right in support_patterns
+    )
+    span_size_rows = [
+        {
+            "span_dimension": dimension,
+            "closure_size": 32 + (2 ** (dimension + 1)),
+        }
+        for dimension in range(5)
+    ]
+    single_span_rows = []
+    for shell_index in range(1, 5):
+        closure_size = 32 + (2 ** (shell_index + 1))
+        single_span_rows.append(
+            {
+                "shell": f"H{shell_index}",
+                "shell_size": len(y_shells[shell_index]),
+                "span_dimension": shell_index,
+                "closure_size": closure_size,
+            }
+        )
+    trigger_count_rows = []
+    for added_size in range(1, 5):
+        counts: collections.Counter[int] = collections.Counter()
+        for subset in itertools.combinations(y_external_codons, added_size):
+            subset_set = set(subset)
+            dimension = span_dimension(subset_set)
+            counts[32 + (2 ** (dimension + 1))] += 1
+        trigger_count_rows.append(
+            {
+                "added_size": added_size,
+                "candidate_count": sum(counts.values()),
+                "closure_size_counts": dict(sorted(counts.items())),
+                "full_cube_count": counts[64],
+            }
+        )
+    support_pattern_verification_rows = []
+    for support_size in range(1, 5):
+        for support_pattern in itertools.combinations(range(4), support_size):
+            representative = next(
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) == frozenset(support_pattern)
+            )
+            subset_set = {representative}
+            closure, _stages = median_closure(mstar_set | subset_set)
+            predicted = predicted_mstar_closure(subset_set)
+            support_pattern_verification_rows.append(
+                {
+                    "support": tuple(BIT_COORDINATES[index] for index in support_pattern),
+                    "representative": representative,
+                    "closure_size": len(closure),
+                    "predicted_size": len(predicted),
+                    "matches_formula": closure == predicted,
+                }
+            )
+    trigger_lattice_sets = {
+        support_pattern: predicted_mstar_closure_for_support(support_pattern)
+        for support_pattern in support_patterns
+    }
+    boolean_lattice_intersection_verified = all(
+        (trigger_lattice_sets[left] & trigger_lattice_sets[right])
+        == trigger_lattice_sets[left & right]
+        for left in support_patterns
+        for right in support_patterns
+    )
+    boolean_lattice_median_join_verified = True
+    for left in support_patterns:
+        for right in support_patterns:
+            joined_closure, _joined_stages = median_closure(trigger_lattice_sets[left] | trigger_lattice_sets[right])
+            if joined_closure != trigger_lattice_sets[left | right]:
+                boolean_lattice_median_join_verified = False
+                break
+        if not boolean_lattice_median_join_verified:
+            break
+
+    def cubical_formula_f_vector(rank: int) -> tuple[int, ...]:
+        max_dimension = max(5, rank + 2)
+        return tuple(
+            (
+                (2 ** (5 - cell_dimension)) * math.comb(5, cell_dimension)
+                + (2 ** (rank + 2 - cell_dimension)) * math.comb(rank + 2, cell_dimension)
+                - (2 ** (rank + 1 - cell_dimension)) * math.comb(rank + 1, cell_dimension)
+            )
+            for cell_dimension in range(max_dimension + 1)
+        )
+
+    boolean_lattice_rank_rows = []
+    quotient_spectral_equations = {
+        0: "mu^6 - 21 mu^4 + 80 mu^2 - 24 = 0",
+        1: "mu^4 - 4 mu^3 - 5 mu^2 + 18 mu + 6 = 0",
+        2: "mu^4 - 8 mu^3 + 19 mu^2 - 12 mu - 2 = 0",
+        3: "mu^2 - 6 mu + 7 = 0",
+        4: "mu - 5 = 0",
+    }
+    quotient_spectral_polynomials = {
+        0: lambda value: value**6 - 21 * value**4 + 80 * value**2 - 24,
+        1: lambda value: value**4 - 4 * value**3 - 5 * value**2 + 18 * value + 6,
+        2: lambda value: value**4 - 8 * value**3 + 19 * value**2 - 12 * value - 2,
+        3: lambda value: value**2 - 6 * value + 7,
+        4: lambda value: value - 5,
+    }
+
+    def largest_positive_root(polynomial: collections.abc.Callable[[float], float], upper_bound: float = 6.0) -> float:
+        intervals: list[tuple[float, float]] = []
+        previous_x = 0.0
+        previous_value = polynomial(previous_x)
+        steps = 6000
+        for step in range(1, steps + 1):
+            current_x = upper_bound * step / steps
+            current_value = polynomial(current_x)
+            if current_value == 0.0:
+                intervals.append((current_x, current_x))
+            elif previous_value == 0.0 or previous_value * current_value < 0.0:
+                intervals.append((previous_x, current_x))
+            previous_x = current_x
+            previous_value = current_value
+        lower, upper = intervals[-1]
+        if lower == upper:
+            return lower
+        lower_value = polynomial(lower)
+        for _iteration in range(100):
+            middle = (lower + upper) / 2.0
+            middle_value = polynomial(middle)
+            if lower_value * middle_value <= 0.0:
+                upper = middle
+            else:
+                lower = middle
+                lower_value = middle_value
+        return (lower + upper) / 2.0
+
+    quotient_spectrum_rows = []
+    for rank in range(5):
+        support_pattern = frozenset(range(rank))
+        closure_set = trigger_lattice_sets[support_pattern]
+        complex_summary = cubical_complex_summary(closure_set)
+        f_vector = tuple(value for value in complex_summary["f_vector"] if value)
+        spectral_radius = spectral_radius_for_set(closure_set)
+        quotient_root = largest_positive_root(quotient_spectral_polynomials[rank])
+        quotient_spectrum_rows.append(
+            {
+                "rank": rank,
+                "equation": quotient_spectral_equations[rank],
+                "mu": quotient_root,
+                "lambda_from_mu": (quotient_root + 1.0) / 6.0,
+                "lambda_matches_rank_radius": abs(((quotient_root + 1.0) / 6.0) - spectral_radius) < 1e-8,
+            }
+        )
+        boolean_lattice_rank_rows.append(
+            {
+                "rank": rank,
+                "support": tuple(BIT_COORDINATES[index] for index in support_pattern),
+                "closure_size": len(closure_set),
+                "f_vector": f_vector,
+                "f_vector_formula": cubical_formula_f_vector(rank),
+                "f_vector_matches_formula": f_vector == cubical_formula_f_vector(rank),
+                "spectral_radius": spectral_radius,
+            }
+        )
+
+    def trigger_rank_count(added_size: int, rank: int) -> int:
+        total = 0
+        for omitted in range(rank + 1):
+            total += (
+                ((-1) ** omitted)
+                * math.comb(rank, omitted)
+                * math.comb(2 * ((2 ** (rank - omitted)) - 1), added_size)
+            )
+        return math.comb(4, rank) * total
+
+    rank_distribution_rows = []
+    for added_size in range(1, 7):
+        rank_counts = {
+            rank: trigger_rank_count(added_size, rank)
+            for rank in range(1, 5)
+        }
+        candidate_count = math.comb(len(y_external_codons), added_size)
+        rank_distribution_rows.append(
+            {
+                "added_size": added_size,
+                "candidate_count": candidate_count,
+                "rank_counts": rank_counts,
+                "full_cube_count": rank_counts[4],
+                "full_cube_probability": rank_counts[4] / candidate_count,
+                "counts_sum_to_candidate_count": sum(rank_counts.values()) == candidate_count,
+            }
+        )
+    trigger_count_formula_matches_enumeration = all(
+        {
+            32 + (2 ** (rank + 1)): row["rank_counts"][rank]
+            for rank in range(1, 5)
+            if row["rank_counts"][rank]
+        }
+        == trigger_count_rows[row["added_size"] - 1]["closure_size_counts"]
+        for row in rank_distribution_rows[:4]
+    )
+    rank_spectral_radius = {
+        row["rank"]: row["spectral_radius"]
+        for row in boolean_lattice_rank_rows
+    }
+    maximum_nontrigger_rank = 3
+    maximum_nontrigger_external_size = 2 * ((2 ** maximum_nontrigger_rank) - 1)
+    maximum_nontrigger_blocker_count = math.comb(4, maximum_nontrigger_rank)
+
+    def rank_count_for_draw(added_size: int, rank: int) -> int:
+        if rank == 0:
+            return 1 if added_size == 0 else 0
+        return trigger_rank_count(added_size, rank)
+
+    def rank_probabilities(added_size: int) -> dict[int, float]:
+        denominator = math.comb(len(y_external_codons), added_size)
+        return {
+            rank: rank_count_for_draw(added_size, rank) / denominator
+            for rank in range(5)
+        }
+
+    random_trigger_probability_rows = []
+    trigger_cdf_by_size = {0: 0.0}
+    for added_size in range(1, 11):
+        candidate_count = math.comb(len(y_external_codons), added_size)
+        full_count = trigger_rank_count(added_size, 4)
+        probability = full_count / candidate_count
+        trigger_cdf_by_size[added_size] = probability
+        random_trigger_probability_rows.append(
+            {
+                "added_size": added_size,
+                "candidate_count": candidate_count,
+                "full_trigger_count": full_count,
+                "full_trigger_probability": probability,
+            }
+        )
+    trigger_time_rows = []
+    for added_size in range(1, 11):
+        probability_mass = trigger_cdf_by_size[added_size] - trigger_cdf_by_size[added_size - 1]
+        survival_before = 1.0 - trigger_cdf_by_size[added_size - 1]
+        trigger_time_rows.append(
+            {
+                "trigger_time": added_size,
+                "probability": probability_mass,
+                "hazard": probability_mass / survival_before,
+            }
+        )
+    expected_trigger_time = sum(
+        1.0 - (
+            trigger_rank_count(added_size, 4) / math.comb(len(y_external_codons), added_size)
+            if added_size > 0
+            else 0.0
+        )
+        for added_size in range(0, maximum_nontrigger_external_size + 1)
+    )
+    trigger_quantile_rows = []
+    for quantile in (0.5, 0.9, 0.95, 0.99):
+        threshold = next(
+            added_size
+            for added_size in range(1, maximum_nontrigger_external_size + 2)
+            if trigger_rank_count(added_size, 4) / math.comb(len(y_external_codons), added_size) >= quantile
+        )
+        trigger_quantile_rows.append(
+            {
+                "quantile": quantile,
+                "threshold": threshold,
+            }
+        )
+    expected_rank_rows = []
+    for added_size in range(1, 8):
+        probabilities = rank_probabilities(added_size)
+        expected_rank = sum(rank * probability for rank, probability in probabilities.items())
+        formula_value = 4.0 * (
+            1.0 - (math.comb(maximum_nontrigger_external_size, added_size) / math.comb(len(y_external_codons), added_size))
+        )
+        expected_rank_rows.append(
+            {
+                "added_size": added_size,
+                "expected_rank": expected_rank,
+                "formula_value": formula_value,
+            }
+        )
+    expected_closure_rows = []
+    expected_spectral_rows = []
+    for added_size in range(0, 11):
+        probabilities = rank_probabilities(added_size)
+        expected_closure_rows.append(
+            {
+                "added_size": added_size,
+                "expected_closure_size": sum((32 + (2 ** (rank + 1))) * probability for rank, probability in probabilities.items()),
+            }
+        )
+        expected_spectral_rows.append(
+            {
+                "added_size": added_size,
+                "expected_spectral_radius": sum(rank_spectral_radius[rank] * probability for rank, probability in probabilities.items()),
+            }
+        )
+
+    def markov_transition_probabilities(added_size: int, rank: int) -> dict[int, float]:
+        if rank == 4:
+            return {4: 1.0}
+        denominator = len(y_external_codons) - added_size
+        transitions: dict[int, float] = {}
+        same_count = 2 * ((2 ** rank) - 1) - added_size
+        if same_count:
+            transitions[rank] = same_count / denominator
+        for increase in range(1, 5 - rank):
+            target_rank = rank + increase
+            transitions[target_rank] = (
+                2 * (2 ** rank) * math.comb(4 - rank, increase) / denominator
+            )
+        return transitions
+
+    markov_transition_state_rows = []
+    for added_size, rank in ((0, 0), (1, 1), (1, 2), (1, 3), (2, 2), (3, 3), (6, 3)):
+        transitions = markov_transition_probabilities(added_size, rank)
+        markov_transition_state_rows.append(
+            {
+                "state": (added_size, rank),
+                "transitions": transitions,
+                "direct_trigger_probability": transitions.get(4, 0.0),
+                "expected_rank_increment": sum((target_rank - rank) * probability for target_rank, probability in transitions.items()),
+                "drift_formula_value": 16 * (4 - rank) / (len(y_external_codons) - added_size),
+                "probability_sum": sum(transitions.values()),
+            }
+        )
+
+    @functools.cache
+    def markov_remaining_mean(added_size: int, rank: int) -> float:
+        if rank == 4:
+            return 0.0
+        transitions = markov_transition_probabilities(added_size, rank)
+        return 1.0 + sum(
+            probability * markov_remaining_mean(added_size + 1, target_rank)
+            for target_rank, probability in transitions.items()
+        )
+
+    @functools.cache
+    def markov_remaining_second_moment(added_size: int, rank: int) -> float:
+        if rank == 4:
+            return 0.0
+        transitions = markov_transition_probabilities(added_size, rank)
+        return sum(
+            probability
+            * (
+                1.0
+                + 2.0 * markov_remaining_mean(added_size + 1, target_rank)
+                + markov_remaining_second_moment(added_size + 1, target_rank)
+            )
+            for target_rank, probability in transitions.items()
+        )
+
+    trigger_time_variance = markov_remaining_second_moment(0, 0) - (markov_remaining_mean(0, 0) ** 2)
+    markov_remaining_time_rows = [
+        {
+            "state": state,
+            "expected_remaining_steps": markov_remaining_mean(*state),
+        }
+        for state in (
+            (0, 0),
+            (1, 1),
+            (1, 2),
+            (1, 3),
+            (2, 1),
+            (2, 2),
+            (2, 3),
+            (3, 2),
+            (3, 3),
+            (6, 2),
+            (6, 3),
+        )
+    ]
+
+    blocker_coordinate_rows = []
+    maximal_blocker_sets: dict[int, set[str]] = {}
+    coordinate_motifs = {
+        0: "YNY",
+        1: "SNY",
+        2: "NYY",
+        3: "NWY",
+    }
+    for coordinate in range(4):
+        blocker = {
+            codon
+            for codon in y_external_codons
+            if coordinate not in anchor_support(codon)
+        }
+        maximal_blocker_sets[coordinate] = blocker
+        blocker_coordinate_rows.append(
+            {
+                "missing_coordinate": BIT_COORDINATES[coordinate],
+                "motif": coordinate_motifs[coordinate],
+                "size": len(blocker),
+            }
+        )
+    blocker_intersection_rows = []
+    for missing_count in range(1, 5):
+        sizes = sorted(
+            len(set.intersection(*(maximal_blocker_sets[coordinate] for coordinate in missing_coordinates)))
+            for missing_coordinates in itertools.combinations(range(4), missing_count)
+        )
+        blocker_intersection_rows.append(
+            {
+                "missing_coordinate_count": missing_count,
+                "intersection_sizes": tuple(sizes),
+                "common_size": sizes[0],
+                "formula_size": 2 * ((2 ** (4 - missing_count)) - 1),
+            }
+        )
+    blocker_nerve = {
+        "vertex_count": 4,
+        "edge_count": math.comb(4, 2),
+        "triangle_count": math.comb(4, 3),
+        "tetrahedron_count": 0,
+        "is_tetrahedron_boundary": all(row["common_size"] > 0 for row in blocker_intersection_rows[:3])
+        and blocker_intersection_rows[3]["common_size"] == 0,
+    }
+    blocker_f_vector = tuple(
+        4 * math.comb(14, face_size)
+        - 6 * math.comb(6, face_size)
+        + 4 * math.comb(2, face_size)
+        for face_size in range(1, 15)
+    )
+    blocker_independence_coefficients = (1,) + blocker_f_vector
+    blocker_dimension = 13
+    stanley_reisner_dimension = blocker_dimension + 1
+    thickened_sphere_rows = (
+        {"intersection_kind": "facet", "vertex_count": 14, "simplex_dimension": 13, "multiplicity": 4},
+        {"intersection_kind": "pair", "vertex_count": 6, "simplex_dimension": 5, "multiplicity": 6},
+        {"intersection_kind": "triple", "vertex_count": 2, "simplex_dimension": 1, "multiplicity": 4},
+        {
+            "intersection_kind": "quadruple",
+            "vertex_count": 0,
+            "simplex_dimension": -1,
+            "multiplicity": 1,
+        },
+    )
+    blocker_hilbert_series = "4/(1-z)^14 - 6/(1-z)^6 + 4/(1-z)^2 - 1"
+    blocker_h_polynomial = "4 - 6(1-z)^8 + 4(1-z)^12 - (1-z)^14"
+    blocker_h_vector = [0 for _degree in range(stanley_reisner_dimension + 1)]
+    blocker_h_vector[0] += 4
+    for degree in range(9):
+        blocker_h_vector[degree] -= 6 * ((-1) ** degree) * math.comb(8, degree)
+    for degree in range(13):
+        blocker_h_vector[degree] += 4 * ((-1) ** degree) * math.comb(12, degree)
+    for degree in range(15):
+        blocker_h_vector[degree] -= ((-1) ** degree) * math.comb(14, degree)
+    blocker_h_vector = tuple(blocker_h_vector)
+    blocker_is_cohen_macaulay = False
+    blocker_non_cm_witness = {
+        "complex_dimension": blocker_dimension,
+        "homology_degree": 2,
+        "reduced_homology_rank": 1,
+    }
+    blocker_projective_dimension = len(y_external_codons) - 3
+    blocker_depth = 3
+    blocker_regularity = 3
+    blocker_cohen_macaulay_defect = stanley_reisner_dimension - blocker_depth
+    blocker_hochster_witness = {
+        "betti_i": blocker_projective_dimension,
+        "betti_j": len(y_external_codons),
+        "homology_degree": 2,
+        "betti_value": 1,
+    }
+    local_link_stratification_rows = []
+    for rank in range(4):
+        saturated_face_sizes = set()
+        link_lift_counts = set()
+        link_sphere_dimensions = set()
+        saturated_face_count = 0
+        for coordinate_subset in itertools.combinations(range(4), rank):
+            coordinate_set = frozenset(coordinate_subset)
+            saturated_face = {
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) <= coordinate_set
+            }
+            saturated_face_count += 1
+            saturated_face_sizes.add(len(saturated_face))
+            link_lift_counts.add(2 * (2 ** rank))
+            link_sphere_dimensions.add((4 - rank) - 2)
+        local_link_stratification_rows.append(
+            {
+                "support_rank": rank,
+                "saturated_face_count": saturated_face_count,
+                "saturated_face_sizes": tuple(sorted(saturated_face_sizes)),
+                "link_coordinate_count": 4 - rank,
+                "link_lift_count": tuple(sorted(link_lift_counts))[0],
+                "link_sphere_dimension": tuple(sorted(link_sphere_dimensions))[0],
+            }
+        )
+    local_link_examples = {
+        "unit_s1_face": tuple(
+            sorted(
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) <= frozenset({0})
+            )
+        ),
+        "unit_s1_link_sphere_dimension": 1,
+        "first_base_face": tuple(
+            sorted(
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) <= frozenset({0, 1})
+            )
+        ),
+        "first_base_link_sphere_dimension": 0,
+    }
+    local_link_non_saturated_links_are_cones = True
+    blocker_is_buchsbaum = False
+    blocker_buchsbaum_obstruction = {
+        "face_support_rank": 1,
+        "link_complex_dimension": 11,
+        "link_homology_dimension": 1,
+    }
+    hochster_nerve_vertex_count = 4
+    hochster_possible_homology_degrees = (-1, 0, 1, 2)
+    hochster_betti_diagonals = (0, 1, 2, 3)
+    top_betti_strand_rows = [
+        {
+            "j": degree,
+            "i": degree - 3,
+            "betti": sum(
+                math.comb(4, singleton_double_lift_count)
+                * (2 ** (4 - singleton_double_lift_count))
+                * math.comb(22, degree - 4 - singleton_double_lift_count)
+                for singleton_double_lift_count in range(5)
+                if 0 <= degree - 4 - singleton_double_lift_count <= 22
+            ),
+        }
+        for degree in range(4, 31)
+    ]
+    top_betti_strand_generating_function = "(2x+x^2)^4(1+x)^22"
+    betti_table_diagonal_rows = (
+        {"diagonal": 0, "homology_degree": -1, "nonzero_count": 3},
+        {"diagonal": 1, "homology_degree": 0, "nonzero_count": 17},
+        {"diagonal": 2, "homology_degree": 1, "nonzero_count": 24},
+        {"diagonal": 3, "homology_degree": 2, "nonzero_count": 27},
+    )
+    blocker_euler_characteristic = sum(
+        ((-1) ** index) * count
+        for index, count in enumerate(blocker_f_vector)
+    )
+    blocker_probability_tail_rows = []
+    for added_size in range(1, 11):
+        blocker_count = blocker_f_vector[added_size - 1]
+        candidate_count = math.comb(len(y_external_codons), added_size)
+        blocker_probability_tail_rows.append(
+            {
+                "added_size": added_size,
+                "blocker_count": blocker_count,
+                "nontrigger_probability": blocker_count / candidate_count,
+                "full_trigger_probability": 1.0 - (blocker_count / candidate_count),
+            }
+        )
+    alexander_dual_generator_rows = []
+    for coordinate in range(4):
+        generator_codons = tuple(
+            sorted(codon for codon in y_external_codons if coordinate in anchor_support(codon))
+        )
+        alexander_dual_generator_rows.append(
+            {
+                "coordinate": BIT_COORDINATES[coordinate],
+                "degree": len(generator_codons),
+                "codons": generator_codons,
+            }
+        )
+    alexander_dual_lcm_rows = []
+    for subset_size in range(1, 5):
+        degrees = []
+        for coordinate_subset in itertools.combinations(range(4), subset_size):
+            lcm_codons = {
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) & frozenset(coordinate_subset)
+            }
+            degrees.append(len(lcm_codons))
+        alexander_dual_lcm_rows.append(
+            {
+                "subset_size": subset_size,
+                "subset_count": math.comb(4, subset_size),
+                "lcm_degrees": tuple(sorted(degrees)),
+                "formula_degree": 32 - (2 ** (5 - subset_size)),
+                "reliability_coefficient": ((-1) ** (subset_size + 1)) * math.comb(4, subset_size),
+            }
+        )
+    alexander_dual_resolution_rows = [
+        {
+            "homological_position": subset_size,
+            "rank": math.comb(4, subset_size),
+            "shift": 32 - (2 ** (5 - subset_size)),
+        }
+        for subset_size in range(1, 5)
+    ]
+    alexander_dual_betti_pattern = (1, 4, 6, 4, 1)
+    alexander_dual_reliability_terms = tuple(
+        (
+            row["subset_size"],
+            row["reliability_coefficient"],
+            row["formula_degree"],
+        )
+        for row in alexander_dual_lcm_rows
+    )
+
+    nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
+    quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
+    quotient_minimal_trigger_type_counts: collections.Counter[tuple[int, ...]] = collections.Counter()
+    for trigger_size in range(1, 5):
+        for family in itertools.combinations(nonempty_support_patterns, trigger_size):
+            union_support = frozenset().union(*family)
+            if union_support != coordinate_universe:
+                continue
+            is_minimal = all(
+                frozenset().union(*(other for index, other in enumerate(family) if index != removed_index))
+                != coordinate_universe
+                for removed_index in range(len(family))
+            )
+            if is_minimal:
+                quotient_minimal_trigger_counts[trigger_size] += 1
+                support_size_type = tuple(sorted(len(support) for support in family))
+                quotient_minimal_trigger_type_counts[support_size_type] += 1
+    minimal_trigger_rows = [
+        {
+            "trigger_size": trigger_size,
+            "quotient_count": quotient_minimal_trigger_counts[trigger_size],
+            "codon_count": quotient_minimal_trigger_counts[trigger_size] * (2 ** trigger_size),
+        }
+        for trigger_size in range(1, 5)
+    ]
+    minimal_trigger_type_rows = [
+        {
+            "trigger_size": len(support_size_type),
+            "support_size_type": support_size_type,
+            "energy": sum(support_size_type),
+            "quotient_count": quotient_count,
+            "codon_count": quotient_count * (2 ** len(support_size_type)),
+        }
+        for support_size_type, quotient_count in sorted(
+            quotient_minimal_trigger_type_counts.items(),
+            key=lambda item: (len(item[0]), item[0]),
+        )
+    ]
+    quotient_minimal_trigger_energy_counts: collections.Counter[int] = collections.Counter()
+    codon_minimal_trigger_energy_counts: collections.Counter[int] = collections.Counter()
+    for row in minimal_trigger_type_rows:
+        quotient_minimal_trigger_energy_counts[row["energy"]] += row["quotient_count"]
+        codon_minimal_trigger_energy_counts[row["energy"]] += row["codon_count"]
+    minimal_trigger_energy_rows = [
+        {
+            "energy": energy,
+            "quotient_count": quotient_minimal_trigger_energy_counts[energy],
+            "codon_count": codon_minimal_trigger_energy_counts[energy],
+        }
+        for energy in sorted(quotient_minimal_trigger_energy_counts)
+    ]
+    energy_minimal_trigger_rows = [
+        {
+            "trigger_size": trigger_size,
+            "partition_type": partition_type,
+            "quotient_count": quotient_count,
+            "codon_count": quotient_count * (2 ** trigger_size),
+        }
+        for trigger_size, partition_type, quotient_count in (
+            (1, "4", 1),
+            (2, "1+3 or 2+2", 7),
+            (3, "1+1+2", 6),
+            (4, "1+1+1+1", 1),
+        )
+    ]
+    trigger_energy_minimum = len(coordinate_universe)
+    energy_minimal_quotient_total = sum(row["quotient_count"] for row in energy_minimal_trigger_rows)
+    energy_minimal_codon_total = sum(row["codon_count"] for row in energy_minimal_trigger_rows)
+    quotient_bivariate_minimal_trigger_terms = tuple(
+        (row["trigger_size"], row["energy"], row["quotient_count"])
+        for row in minimal_trigger_type_rows
+    )
+    codon_bivariate_minimal_trigger_terms = tuple(
+        (row["trigger_size"], row["energy"], row["codon_count"])
+        for row in minimal_trigger_type_rows
+    )
+    minimal_trigger_polynomial_quotient = tuple(
+        (row["trigger_size"], row["quotient_count"])
+        for row in minimal_trigger_rows
+    )
+    minimal_trigger_polynomial_codon = tuple(
+        (row["trigger_size"], row["codon_count"])
+        for row in minimal_trigger_rows
+    )
+    rank_enumerator_rows = [
+        {
+            "added_size": added_size,
+            "rank_counts": {
+                rank: (
+                    1
+                    if added_size == 0 and rank == 0
+                    else (
+                        trigger_rank_count(added_size, rank)
+                        if added_size > 0 and rank > 0
+                        else 0
+                    )
+                )
+                for rank in range(5)
+            },
+        }
+        for added_size in range(0, 5)
+    ]
+    rank_enumerator_rows = [
+        {
+            **row,
+            "candidate_count": math.comb(len(y_external_codons), row["added_size"]),
+            "counts_sum_to_candidate_count": sum(row["rank_counts"].values())
+            == math.comb(len(y_external_codons), row["added_size"]),
+        }
+        for row in rank_enumerator_rows
+    ]
+    coverage_rank_singleton_witnesses = tuple(
+        sorted(codon for codon in y_external_codons if len(anchor_support(codon)) == 4)
+    )
+    stanley_reisner_degree_rows = tuple(
+        {
+            "degree": row["trigger_size"],
+            "minimal_generator_count": row["codon_count"],
+        }
+        for row in minimal_trigger_rows
+    )
+    stanley_reisner_degree_one_generators = tuple(
+        sorted(codon for codon in y_external_codons if anchor_support(codon) == coordinate_universe)
+    )
+
+    def reliability_probability(activation_probability: float) -> float:
+        omission_probability = 1.0 - activation_probability
+        return (
+            1.0
+            - 4.0 * (omission_probability ** 16)
+            + 6.0 * (omission_probability ** 24)
+            - 4.0 * (omission_probability ** 28)
+            + omission_probability ** 30
+        )
+
+    def reliability_threshold(target_probability: float) -> float:
+        lower = 0.0
+        upper = 1.0
+        for _iteration in range(100):
+            midpoint = (lower + upper) / 2.0
+            if reliability_probability(midpoint) >= target_probability:
+                upper = midpoint
+            else:
+                lower = midpoint
+        return (lower + upper) / 2.0
+
+    def energy_partition_factor(coordinate_count: int, activity: float, energy_factor: float) -> float:
+        total = 1.0
+        for support_size in range(1, coordinate_count + 1):
+            total *= (1.0 + activity * (energy_factor ** support_size)) ** (
+                2 * math.comb(coordinate_count, support_size)
+            )
+        return total
+
+    def energy_biased_blocker_partition(activity: float, energy_factor: float) -> float:
+        return (
+            4.0 * energy_partition_factor(3, activity, energy_factor)
+            - 6.0 * energy_partition_factor(2, activity, energy_factor)
+            + 4.0 * energy_partition_factor(1, activity, energy_factor)
+            - 1.0
+        )
+
+    def energy_biased_total_partition(activity: float, energy_factor: float) -> float:
+        return energy_partition_factor(4, activity, energy_factor)
+
+    def energy_biased_reliability(activity: float, energy_factor: float) -> float:
+        return 1.0 - (
+            energy_biased_blocker_partition(activity, energy_factor)
+            / energy_biased_total_partition(activity, energy_factor)
+        )
+
+    def energy_partition_log_activity_derivative(coordinate_count: int, activity: float, energy_factor: float) -> float:
+        return sum(
+            2.0
+            * math.comb(coordinate_count, support_size)
+            * (
+                (activity * (energy_factor ** support_size))
+                / (1.0 + activity * (energy_factor ** support_size))
+            )
+            for support_size in range(1, coordinate_count + 1)
+        )
+
+    def energy_partition_log_energy_derivative(coordinate_count: int, activity: float, energy_factor: float) -> float:
+        return sum(
+            2.0
+            * math.comb(coordinate_count, support_size)
+            * support_size
+            * (
+                (activity * (energy_factor ** support_size))
+                / (1.0 + activity * (energy_factor ** support_size))
+            )
+            for support_size in range(1, coordinate_count + 1)
+        )
+
+    def energy_biased_trigger_partition(activity: float, energy_factor: float) -> float:
+        return (
+            energy_biased_total_partition(activity, energy_factor)
+            - energy_biased_blocker_partition(activity, energy_factor)
+        )
+
+    def energy_biased_trigger_activity_derivative(activity: float, energy_factor: float) -> float:
+        total = energy_biased_total_partition(activity, energy_factor)
+        blocker_derivative = (
+            4.0
+            * energy_partition_factor(3, activity, energy_factor)
+            * energy_partition_log_activity_derivative(3, activity, energy_factor)
+            - 6.0
+            * energy_partition_factor(2, activity, energy_factor)
+            * energy_partition_log_activity_derivative(2, activity, energy_factor)
+            + 4.0
+            * energy_partition_factor(1, activity, energy_factor)
+            * energy_partition_log_activity_derivative(1, activity, energy_factor)
+        )
+        return (
+            total * energy_partition_log_activity_derivative(4, activity, energy_factor)
+            - blocker_derivative
+        )
+
+    def energy_biased_trigger_energy_derivative(activity: float, energy_factor: float) -> float:
+        total = energy_biased_total_partition(activity, energy_factor)
+        blocker_derivative = (
+            4.0
+            * energy_partition_factor(3, activity, energy_factor)
+            * energy_partition_log_energy_derivative(3, activity, energy_factor)
+            - 6.0
+            * energy_partition_factor(2, activity, energy_factor)
+            * energy_partition_log_energy_derivative(2, activity, energy_factor)
+            + 4.0
+            * energy_partition_factor(1, activity, energy_factor)
+            * energy_partition_log_energy_derivative(1, activity, energy_factor)
+        )
+        return (
+            total * energy_partition_log_energy_derivative(4, activity, energy_factor)
+            - blocker_derivative
+        )
+
+    def conditional_trigger_expected_size(activity: float, energy_factor: float) -> float:
+        return (
+            energy_biased_trigger_activity_derivative(activity, energy_factor)
+            / energy_biased_trigger_partition(activity, energy_factor)
+        )
+
+    def conditional_trigger_expected_energy(activity: float, energy_factor: float) -> float:
+        return (
+            energy_biased_trigger_energy_derivative(activity, energy_factor)
+            / energy_biased_trigger_partition(activity, energy_factor)
+        )
+
+    def energy_biased_expected_selected(activity: float, energy_factor: float) -> float:
+        return sum(
+            2.0
+            * math.comb(4, support_size)
+            * (
+                (activity * (energy_factor ** support_size))
+                / (1.0 + activity * (energy_factor ** support_size))
+            )
+            for support_size in range(1, 5)
+        )
+
+    def energy_biased_activity_threshold(target_probability: float, energy_factor: float) -> float:
+        lower = 0.0
+        upper = 1.0
+        while energy_biased_reliability(upper, energy_factor) < target_probability:
+            upper *= 2.0
+        for _iteration in range(100):
+            midpoint = (lower + upper) / 2.0
+            if energy_biased_reliability(midpoint, energy_factor) >= target_probability:
+                upper = midpoint
+            else:
+                lower = midpoint
+        return (lower + upper) / 2.0
+
+    reliability_threshold_rows = []
+    for target_probability in (0.5, 0.9, 0.95, 0.99):
+        threshold = reliability_threshold(target_probability)
+        reliability_threshold_rows.append(
+            {
+                "target_probability": target_probability,
+                "activation_probability": threshold,
+                "expected_selected_codons": len(y_external_codons) * threshold,
+            }
+        )
+    energy_biased_threshold_rows = []
+    for target_probability in (0.5, 0.9, 0.95):
+        for energy_factor in (1.0, 0.75, 0.5, 0.25, 0.1):
+            activity = energy_biased_activity_threshold(target_probability, energy_factor)
+            energy_biased_threshold_rows.append(
+                {
+                    "target_probability": target_probability,
+                    "energy_factor": energy_factor,
+                    "activity": activity,
+                    "expected_selected_codons": energy_biased_expected_selected(activity, energy_factor),
+                    "reliability": energy_biased_reliability(activity, energy_factor),
+                }
+            )
+    energy_biased_low_energy_terms = tuple(
+        (row["trigger_size"], row["codon_count"])
+        for row in energy_minimal_trigger_rows
+    )
+    conditional_trigger_rows = []
+    for target_probability in (0.5, 0.9):
+        for energy_factor in (1.0, 0.75, 0.5, 0.25, 0.1):
+            activity = energy_biased_activity_threshold(target_probability, energy_factor)
+            conditional_trigger_rows.append(
+                {
+                    "target_probability": target_probability,
+                    "energy_factor": energy_factor,
+                    "activity": activity,
+                    "conditional_expected_size": conditional_trigger_expected_size(activity, energy_factor),
+                    "conditional_expected_energy": conditional_trigger_expected_energy(activity, energy_factor),
+                }
+            )
+
+    def low_energy_partition_distribution(activity: float) -> dict[int, float]:
+        weights = {
+            row["trigger_size"]: row["codon_count"] * (activity ** row["trigger_size"])
+            for row in energy_minimal_trigger_rows
+        }
+        total = sum(weights.values())
+        return {
+            trigger_size: weight / total
+            for trigger_size, weight in weights.items()
+        }
+
+    low_energy_partition_rows = []
+    for activity in (0.1, 0.25, 0.5, 1.0, 2.0, 5.0, 10.0):
+        distribution = low_energy_partition_distribution(activity)
+        low_energy_partition_rows.append(
+            {
+                "activity": activity,
+                "size_probabilities": distribution,
+                "expected_size": sum(
+                    trigger_size * probability
+                    for trigger_size, probability in distribution.items()
+                ),
+            }
+        )
+    low_energy_partition_crossover_rows = [
+        {"left_size": 1, "right_size": 2, "activity": 1.0 / 14.0},
+        {"left_size": 2, "right_size": 3, "activity": 7.0 / 12.0},
+        {"left_size": 3, "right_size": 4, "activity": 3.0},
+    ]
+
+    def stirling_second_kind(total: int, blocks: int) -> int:
+        if total == 0 and blocks == 0:
+            return 1
+        if total == 0 or blocks == 0:
+            return 0
+        table = [[0 for _block in range(blocks + 1)] for _item in range(total + 1)]
+        table[0][0] = 1
+        for item in range(1, total + 1):
+            for block in range(1, blocks + 1):
+                table[item][block] = table[item - 1][block - 1] + block * table[item - 1][block]
+        return table[total][blocks]
+
+    def universal_coverage_trigger_summary(coordinate_count: int, lift_count: int) -> dict[str, object]:
+        external_size = lift_count * ((2 ** coordinate_count) - 1)
+        closure_size_by_rank = [
+            {
+                "rank": rank,
+                "external_closure_size": lift_count * ((2 ** rank) - 1),
+            }
+            for rank in range(coordinate_count + 1)
+        ]
+        maximal_blocker_size = lift_count * ((2 ** (coordinate_count - 1)) - 1)
+        blocker_intersection_formula_rows = [
+            {
+                "missing_coordinate_count": missing_count,
+                "intersection_size": lift_count * ((2 ** (coordinate_count - missing_count)) - 1),
+            }
+            for missing_count in range(1, coordinate_count + 1)
+        ]
+        blocker_count_rows = [
+            {
+                "added_size": added_size,
+                "blocker_count": sum(
+                    ((-1) ** (missing_count + 1))
+                    * math.comb(coordinate_count, missing_count)
+                    * math.comb(lift_count * ((2 ** (coordinate_count - missing_count)) - 1), added_size)
+                    for missing_count in range(1, coordinate_count + 1)
+                ),
+            }
+            for added_size in range(1, min(maximal_blocker_size, 10) + 1)
+        ]
+        reliability_term_rows = [
+            {
+                "missing_coordinate_count": missing_count,
+                "coefficient": ((-1) ** (missing_count + 1)) * math.comb(coordinate_count, missing_count),
+                "exponent": lift_count * ((2 ** coordinate_count) - (2 ** (coordinate_count - missing_count))),
+            }
+            for missing_count in range(1, coordinate_count + 1)
+        ]
+        markov_transition_rows = [
+            {
+                "rank_increase": increase,
+                "numerator_factor": lift_count * (2 ** 0) * math.comb(coordinate_count, increase),
+            }
+            for increase in range(1, coordinate_count + 1)
+        ]
+        alexander_dual_shift_rows = [
+            {
+                "subset_size": subset_size,
+                "multiplicity": math.comb(coordinate_count, subset_size),
+                "shift": lift_count * ((2 ** coordinate_count) - (2 ** (coordinate_count - subset_size))),
+            }
+            for subset_size in range(1, coordinate_count + 1)
+        ]
+        energy_minimal_rows = [
+            {
+                "trigger_size": trigger_size,
+                "stirling_count": stirling_second_kind(coordinate_count, trigger_size),
+                "lifted_count": (lift_count ** trigger_size) * stirling_second_kind(coordinate_count, trigger_size),
+            }
+            for trigger_size in range(1, coordinate_count + 1)
+        ]
+        stanley_reisner_dimension_formula = maximal_blocker_size
+        homological_core_dimension = coordinate_count - 2
+        depth_formula = coordinate_count - 1
+        regularity_formula = coordinate_count - 1
+        projective_dimension_formula = external_size - depth_formula
+        cohen_macaulay_defect_formula = stanley_reisner_dimension_formula - depth_formula
+        local_link_formula_rows = [
+            {
+                "support_rank": rank,
+                "saturated_face_size": lift_count * ((2 ** rank) - 1),
+                "link_coordinate_count": coordinate_count - rank,
+                "link_lift_count": lift_count * (2 ** rank),
+                "link_sphere_dimension": coordinate_count - rank - 2,
+            }
+            for rank in range(coordinate_count)
+        ]
+        top_betti_generating_function = (
+            f"((1+x)^{lift_count}-1)^{coordinate_count}"
+            f"(1+x)^{lift_count * ((2 ** coordinate_count) - 1 - coordinate_count)}"
+        )
+        return {
+            "coordinate_count": coordinate_count,
+            "lift_count": lift_count,
+            "external_size": external_size,
+            "closure_lattice_size": 2 ** coordinate_count,
+            "closure_size_by_rank": closure_size_by_rank,
+            "blocker_homotopy_sphere_dimension": coordinate_count - 2,
+            "maximal_blocker_size": maximal_blocker_size,
+            "forced_trigger_threshold": maximal_blocker_size + 1,
+            "blocker_intersection_formula_rows": blocker_intersection_formula_rows,
+            "blocker_count_rows": blocker_count_rows,
+            "reliability_term_rows": reliability_term_rows,
+            "markov_drift_numerator_factor": lift_count * (2 ** (coordinate_count - 1)),
+            "markov_initial_transition_rows": markov_transition_rows,
+            "alexander_dual_generator_count": coordinate_count,
+            "alexander_dual_shift_rows": alexander_dual_shift_rows,
+            "stanley_reisner_dimension_formula": stanley_reisner_dimension_formula,
+            "homological_core_dimension": homological_core_dimension,
+            "depth_formula": depth_formula,
+            "regularity_formula": regularity_formula,
+            "projective_dimension_formula": projective_dimension_formula,
+            "cohen_macaulay_defect_formula": cohen_macaulay_defect_formula,
+            "hochster_full_vertex_witness": {
+                "betti_i": projective_dimension_formula,
+                "betti_j": external_size,
+                "homology_degree": homological_core_dimension,
+                "betti_value": 1,
+            },
+            "local_link_formula_rows": local_link_formula_rows,
+            "top_betti_strand_formula": top_betti_generating_function,
+            "top_betti_singleton_support_count": coordinate_count,
+            "top_betti_free_element_count": lift_count * ((2 ** coordinate_count) - 1 - coordinate_count),
+            "energy_minimum": coordinate_count,
+            "energy_minimal_rows": energy_minimal_rows,
+            "energy_minimal_total": sum(row["lifted_count"] for row in energy_minimal_rows),
+        }
+
+    universal_trigger_summary = universal_coverage_trigger_summary(4, 2)
     antipodal_trigger_summary = {
         "mstar": tuple(sorted(mstar_set)),
         "mstar_size": len(mstar_set),
@@ -3189,6 +4333,118 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "mstar_retention_float": shell_filling_rows[0]["retention_float"],
         "full_cube_spectral_radius": shell_filling_rows[-1]["spectral_radius"],
         "full_cube_retention_float": shell_filling_rows[-1]["retention_float"],
+        "anchor_subcube_formula_verified": all(row["matches_formula"] for row in support_pattern_verification_rows),
+        "span_size_rows": span_size_rows,
+        "single_span_rows": single_span_rows,
+        "trigger_count_rows": trigger_count_rows,
+        "support_pattern_verification_rows": support_pattern_verification_rows,
+        "coverage_closure_rows": coverage_closure_rows,
+        "coverage_closure_formula_verified": coverage_closure_formula_verified,
+        "coverage_closure_lattice_verified": coverage_closure_lattice_verified,
+        "coverage_rank_coordinates": BIT_COORDINATES[:4],
+        "coverage_rank_is_submodular_formula": "r(B)=sum_i 1[i in J(B)]",
+        "coverage_rank_singleton_witnesses": coverage_rank_singleton_witnesses,
+        "full_trigger_condition_coordinates": BIT_COORDINATES[:4],
+        "agy_support": tuple(sorted(BIT_COORDINATES[index] for index in anchor_support("AGT"))),
+        "boolean_lattice_closure_count": len(support_patterns),
+        "boolean_lattice_intersection_verified": boolean_lattice_intersection_verified,
+        "boolean_lattice_median_join_verified": boolean_lattice_median_join_verified,
+        "boolean_lattice_rank_rows": boolean_lattice_rank_rows,
+        "quotient_spectrum_rows": quotient_spectrum_rows,
+        "rank_distribution_rows": rank_distribution_rows,
+        "trigger_count_formula_matches_enumeration": trigger_count_formula_matches_enumeration,
+        "random_trigger_probability_rows": random_trigger_probability_rows,
+        "trigger_time_rows": trigger_time_rows,
+        "expected_trigger_time": expected_trigger_time,
+        "trigger_quantile_rows": trigger_quantile_rows,
+        "expected_rank_rows": expected_rank_rows,
+        "expected_closure_rows": expected_closure_rows,
+        "expected_spectral_rows": expected_spectral_rows,
+        "markov_transition_state_rows": markov_transition_state_rows,
+        "markov_remaining_time_rows": markov_remaining_time_rows,
+        "markov_expected_trigger_time": markov_remaining_mean(0, 0),
+        "trigger_time_variance": trigger_time_variance,
+        "trigger_time_standard_deviation": trigger_time_variance ** 0.5,
+        "blocker_vertex_count": sum(1 for codon in y_external_codons if len(anchor_support(codon)) < 4),
+        "blocker_coordinate_rows": blocker_coordinate_rows,
+        "blocker_intersection_rows": blocker_intersection_rows,
+        "blocker_nerve": blocker_nerve,
+        "blocker_dimension": blocker_dimension,
+        "stanley_reisner_dimension": stanley_reisner_dimension,
+        "thickened_sphere_rows": thickened_sphere_rows,
+        "blocker_f_vector": blocker_f_vector,
+        "blocker_independence_polynomial": "4(1+t)^14 - 6(1+t)^6 + 4(1+t)^2 - 1",
+        "blocker_independence_coefficients": blocker_independence_coefficients,
+        "blocker_hilbert_series": blocker_hilbert_series,
+        "blocker_h_polynomial": blocker_h_polynomial,
+        "blocker_h_vector": blocker_h_vector,
+        "blocker_is_cohen_macaulay": blocker_is_cohen_macaulay,
+        "blocker_non_cm_witness": blocker_non_cm_witness,
+        "blocker_projective_dimension": blocker_projective_dimension,
+        "blocker_depth": blocker_depth,
+        "blocker_regularity": blocker_regularity,
+        "blocker_cohen_macaulay_defect": blocker_cohen_macaulay_defect,
+        "blocker_hochster_witness": blocker_hochster_witness,
+        "local_link_stratification_rows": local_link_stratification_rows,
+        "local_link_examples": local_link_examples,
+        "local_link_non_saturated_links_are_cones": local_link_non_saturated_links_are_cones,
+        "blocker_is_buchsbaum": blocker_is_buchsbaum,
+        "blocker_buchsbaum_obstruction": blocker_buchsbaum_obstruction,
+        "hochster_nerve_vertex_count": hochster_nerve_vertex_count,
+        "hochster_possible_homology_degrees": hochster_possible_homology_degrees,
+        "hochster_betti_diagonals": hochster_betti_diagonals,
+        "top_betti_strand_generating_function": top_betti_strand_generating_function,
+        "top_betti_strand_rows": top_betti_strand_rows,
+        "betti_table_diagonal_rows": betti_table_diagonal_rows,
+        "blocker_euler_characteristic": blocker_euler_characteristic,
+        "blocker_probability_tail_rows": blocker_probability_tail_rows,
+        "alexander_dual_generator_count": len(alexander_dual_generator_rows),
+        "alexander_dual_generator_rows": alexander_dual_generator_rows,
+        "alexander_dual_lcm_rows": alexander_dual_lcm_rows,
+        "alexander_dual_betti_pattern": alexander_dual_betti_pattern,
+        "alexander_dual_resolution_rows": alexander_dual_resolution_rows,
+        "alexander_dual_resolution_string": "0 -> R0(-30) -> R0(-28)^4 -> R0(-24)^6 -> R0(-16)^4 -> J -> 0",
+        "alexander_dual_reliability_terms": alexander_dual_reliability_terms,
+        "alexander_dual_reliability_polynomial": "4q^16 - 6q^24 + 4q^28 - q^30",
+        "minimal_trigger_rows": minimal_trigger_rows,
+        "minimal_trigger_quotient_total": sum(row["quotient_count"] for row in minimal_trigger_rows),
+        "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
+        "minimal_trigger_polynomial_quotient": minimal_trigger_polynomial_quotient,
+        "minimal_trigger_polynomial_codon": minimal_trigger_polynomial_codon,
+        "minimal_trigger_type_rows": minimal_trigger_type_rows,
+        "trigger_energy_minimum": trigger_energy_minimum,
+        "trigger_energy_minimum_condition": "support partition of Omega",
+        "energy_minimal_trigger_rows": energy_minimal_trigger_rows,
+        "energy_minimal_quotient_total": energy_minimal_quotient_total,
+        "energy_minimal_codon_total": energy_minimal_codon_total,
+        "minimal_trigger_energy_rows": minimal_trigger_energy_rows,
+        "quotient_bivariate_minimal_trigger_terms": quotient_bivariate_minimal_trigger_terms,
+        "codon_bivariate_minimal_trigger_terms": codon_bivariate_minimal_trigger_terms,
+        "quotient_bivariate_minimal_trigger_polynomial": "z y^4 + z^2(7y^4+12y^5+6y^6) + z^3(6y^4+12y^5+4y^6) + z^4 y^4",
+        "codon_bivariate_minimal_trigger_polynomial": "2z y^4 + z^2(28y^4+48y^5+24y^6) + z^3(48y^4+96y^5+32y^6) + 16z^4 y^4",
+        "rank_enumerator_formula": "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))",
+        "rank_enumerator_rows": rank_enumerator_rows,
+        "stanley_reisner_generator_count": sum(row["codon_count"] for row in minimal_trigger_rows),
+        "stanley_reisner_degree_rows": stanley_reisner_degree_rows,
+        "stanley_reisner_degree_one_generators": stanley_reisner_degree_one_generators,
+        "reliability_polynomial": "1 - 4q^16 + 6q^24 - 4q^28 + q^30",
+        "reliability_threshold_rows": reliability_threshold_rows,
+        "energy_biased_total_partition": "(1+ty)^8 (1+ty^2)^12 (1+ty^3)^8 (1+ty^4)^2",
+        "energy_biased_blocker_partition": "4A3(t,y) - 6A2(t,y) + 4A1(t,y) - 1",
+        "energy_biased_reliability_formula": "1 - (4A3(t,y)-6A2(t,y)+4A1(t,y)-1)/A4(t,y)",
+        "energy_biased_low_energy_terms": energy_biased_low_energy_terms,
+        "energy_biased_low_energy_polynomial": "y^4(2t+28t^2+48t^3+16t^4)",
+        "energy_biased_threshold_rows": energy_biased_threshold_rows,
+        "conditional_trigger_size_formula": "t d_t log Z_trig(t,y)",
+        "conditional_trigger_energy_formula": "y d_y log Z_trig(t,y)",
+        "conditional_trigger_rows": conditional_trigger_rows,
+        "low_energy_partition_distribution_formula": "a_m t^m / (2t+28t^2+48t^3+16t^4)",
+        "low_energy_partition_rows": low_energy_partition_rows,
+        "low_energy_partition_crossover_rows": low_energy_partition_crossover_rows,
+        "universal_coverage_trigger": universal_trigger_summary,
+        "maximum_nontrigger_external_size": maximum_nontrigger_external_size,
+        "maximum_nontrigger_blocker_count": maximum_nontrigger_blocker_count,
+        "forced_full_trigger_threshold": maximum_nontrigger_external_size + 1,
     }
 
     def spectral_expansion_search(
@@ -6184,6 +7440,787 @@ def assert_expected(summary: dict[str, object]) -> None:
         ("S3", 62, "+H3", 0.978349, 0.973118),
         ("S4", 64, "+H4", 1.0, 1.0),
     ]
+    assert antipodal["anchor_subcube_formula_verified"] is True
+    assert [
+        (row["span_dimension"], row["closure_size"])
+        for row in antipodal["span_size_rows"]
+    ] == [
+        (0, 34),
+        (1, 36),
+        (2, 40),
+        (3, 48),
+        (4, 64),
+    ]
+    assert [
+        (row["shell"], row["shell_size"], row["span_dimension"], row["closure_size"])
+        for row in antipodal["single_span_rows"]
+    ] == [
+        ("H1", 8, 1, 36),
+        ("H2", 12, 2, 40),
+        ("H3", 8, 3, 48),
+        ("H4", 2, 4, 64),
+    ]
+    assert [
+        (row["added_size"], row["candidate_count"], row["closure_size_counts"])
+        for row in antipodal["trigger_count_rows"]
+    ] == [
+        (1, 30, {36: 8, 40: 12, 48: 8, 64: 2}),
+        (2, 435, {36: 4, 40: 78, 48: 196, 64: 157}),
+        (3, 4060, {40: 120, 48: 1216, 64: 2724}),
+        (4, 27405, {40: 90, 48: 3824, 64: 23491}),
+    ]
+    assert antipodal["agy_support"] == ("f1", "f2", "s1", "s2")
+    assert len(antipodal["support_pattern_verification_rows"]) == 15
+    assert all(row["matches_formula"] for row in antipodal["support_pattern_verification_rows"])
+    assert antipodal["coverage_closure_formula_verified"] is True
+    assert antipodal["coverage_closure_lattice_verified"] is True
+    assert [
+        (
+            row["rank"],
+            row["external_closure_size"],
+            row["external_closure_formula_size"],
+            row["median_closure_size"],
+        )
+        for row in antipodal["coverage_closure_rows"]
+        if row["support"] in ((), ("s1",), ("s1", "f1"), ("s1", "f1", "s2"), ("s1", "f1", "s2", "f2"))
+    ] == [
+        (0, 0, 0, 34),
+        (1, 2, 2, 36),
+        (2, 6, 6, 40),
+        (3, 14, 14, 48),
+        (4, 30, 30, 64),
+    ]
+    assert antipodal["coverage_rank_coordinates"] == ("s1", "f1", "s2", "f2")
+    assert antipodal["coverage_rank_is_submodular_formula"] == "r(B)=sum_i 1[i in J(B)]"
+    assert antipodal["coverage_rank_singleton_witnesses"] == ("AGC", "AGT")
+    assert antipodal["boolean_lattice_closure_count"] == 16
+    assert antipodal["boolean_lattice_intersection_verified"] is True
+    assert antipodal["boolean_lattice_median_join_verified"] is True
+    assert [
+        (
+            row["rank"],
+            row["closure_size"],
+            row["f_vector"],
+            round(row["spectral_radius"], 6),
+            row["f_vector_matches_formula"],
+        )
+        for row in antipodal["boolean_lattice_rank_rows"]
+    ] == [
+        (0, 34, (34, 83, 81, 40, 10, 1), 0.836111, True),
+        (1, 36, (36, 88, 85, 41, 10, 1), 0.840912, True),
+        (2, 40, (40, 100, 98, 47, 11, 1), 0.855963, True),
+        (3, 48, (48, 128, 136, 72, 19, 2), 0.902369, True),
+        (4, 64, (64, 192, 240, 160, 60, 12, 1), 1.0, True),
+    ]
+    assert [
+        (
+            row["rank"],
+            row["equation"],
+            round(row["mu"], 6),
+            round(row["lambda_from_mu"], 6),
+            row["lambda_matches_rank_radius"],
+        )
+        for row in antipodal["quotient_spectrum_rows"]
+    ] == [
+        (0, "mu^6 - 21 mu^4 + 80 mu^2 - 24 = 0", 4.016667, 0.836111, True),
+        (1, "mu^4 - 4 mu^3 - 5 mu^2 + 18 mu + 6 = 0", 4.045475, 0.840912, True),
+        (2, "mu^4 - 8 mu^3 + 19 mu^2 - 12 mu - 2 = 0", 4.135779, 0.855963, True),
+        (3, "mu^2 - 6 mu + 7 = 0", 4.414214, 0.902369, True),
+        (4, "mu - 5 = 0", 5.0, 1.0, True),
+    ]
+    assert [
+        (
+            row["added_size"],
+            row["candidate_count"],
+            row["rank_counts"],
+            row["full_cube_count"],
+            round(row["full_cube_probability"], 4),
+            row["counts_sum_to_candidate_count"],
+        )
+        for row in antipodal["rank_distribution_rows"]
+    ] == [
+        (1, 30, {1: 8, 2: 12, 3: 8, 4: 2}, 2, 0.0667, True),
+        (2, 435, {1: 4, 2: 78, 3: 196, 4: 157}, 157, 0.3609, True),
+        (3, 4060, {1: 0, 2: 120, 3: 1216, 4: 2724}, 2724, 0.6709, True),
+        (4, 27405, {1: 0, 2: 90, 3: 3824, 4: 23491}, 23491, 0.8572, True),
+        (5, 142506, {1: 0, 2: 36, 3: 7936, 4: 134534}, 134534, 0.9441, True),
+        (6, 593775, {1: 0, 2: 6, 3: 12000, 4: 581769}, 581769, 0.9798, True),
+    ]
+    assert antipodal["trigger_count_formula_matches_enumeration"] is True
+    assert [
+        (row["added_size"], row["full_trigger_count"], round(row["full_trigger_probability"], 4))
+        for row in antipodal["random_trigger_probability_rows"]
+    ] == [
+        (1, 2, 0.0667),
+        (2, 157, 0.3609),
+        (3, 2724, 0.6709),
+        (4, 23491, 0.8572),
+        (5, 134534, 0.9441),
+        (6, 581769, 0.9798),
+        (7, 2022072, 0.9933),
+        (8, 5840913, 0.9979),
+        (9, 14299142, 0.9994),
+        (10, 30041011, 0.9999),
+    ]
+    assert [
+        (row["trigger_time"], round(row["probability"], 4), round(row["hazard"], 4))
+        for row in antipodal["trigger_time_rows"]
+    ] == [
+        (1, 0.0667, 0.0667),
+        (2, 0.2943, 0.3153),
+        (3, 0.31, 0.4851),
+        (4, 0.1862, 0.566),
+        (5, 0.0869, 0.6083),
+        (6, 0.0357, 0.6386),
+        (7, 0.0135, 0.6665),
+        (8, 0.0047, 0.6957),
+        (9, 0.0015, 0.7273),
+        (10, 0.0004, 0.7619),
+    ]
+    assert round(antipodal["expected_trigger_time"], 5) == 3.12998
+    assert [
+        (row["quantile"], row["threshold"])
+        for row in antipodal["trigger_quantile_rows"]
+    ] == [
+        (0.5, 3),
+        (0.9, 5),
+        (0.95, 6),
+        (0.99, 7),
+    ]
+    assert [
+        (row["added_size"], round(row["expected_rank"], 4), round(row["formula_value"], 4))
+        for row in antipodal["expected_rank_rows"]
+    ] == [
+        (1, 2.1333, 2.1333),
+        (2, 3.1632, 3.1632),
+        (3, 3.6414, 3.6414),
+        (4, 3.8539, 3.8539),
+        (5, 3.9438, 3.9438),
+        (6, 3.9798, 3.9798),
+        (7, 3.9933, 3.9933),
+    ]
+    assert [
+        (row["added_size"], round(row["expected_closure_size"], 3))
+        for row in antipodal["expected_closure_rows"]
+    ] == [
+        (0, 34.0),
+        (1, 42.667),
+        (2, 52.23),
+        (3, 58.499),
+        (4, 61.689),
+        (5, 63.103),
+        (6, 63.676),
+        (7, 63.892),
+        (8, 63.967),
+        (9, 63.991),
+        (10, 63.998),
+    ]
+    assert [
+        (row["added_size"], round(row["expected_spectral_radius"], 6))
+        for row in antipodal["expected_spectral_rows"]
+    ] == [
+        (0, 0.836111),
+        (1, 0.873927),
+        (2, 0.92872),
+        (3, 0.966502),
+        (4, 0.985904),
+        (5, 0.994527),
+        (6, 0.998025),
+        (7, 0.999342),
+        (8, 0.9998),
+        (9, 0.999945),
+        (10, 0.999987),
+    ]
+    assert [
+        (
+            row["state"],
+            {rank: round(probability, 4) for rank, probability in row["transitions"].items()},
+            round(row["direct_trigger_probability"], 4),
+            round(row["expected_rank_increment"], 4),
+            round(row["drift_formula_value"], 4),
+            round(row["probability_sum"], 4),
+        )
+        for row in antipodal["markov_transition_state_rows"]
+    ] == [
+        ((0, 0), {1: 0.2667, 2: 0.4, 3: 0.2667, 4: 0.0667}, 0.0667, 2.1333, 2.1333, 1.0),
+        ((1, 1), {1: 0.0345, 2: 0.4138, 3: 0.4138, 4: 0.1379}, 0.1379, 1.6552, 1.6552, 1.0),
+        ((1, 2), {2: 0.1724, 3: 0.5517, 4: 0.2759}, 0.2759, 1.1034, 1.1034, 1.0),
+        ((1, 3), {3: 0.4483, 4: 0.5517}, 0.5517, 0.5517, 0.5517, 1.0),
+        ((2, 2), {2: 0.1429, 3: 0.5714, 4: 0.2857}, 0.2857, 1.1429, 1.1429, 1.0),
+        ((3, 3), {3: 0.4074, 4: 0.5926}, 0.5926, 0.5926, 0.5926, 1.0),
+        ((6, 3), {3: 0.3333, 4: 0.6667}, 0.6667, 0.6667, 0.6667, 1.0),
+    ]
+    assert round(antipodal["markov_expected_trigger_time"], 5) == 3.12998
+    assert round(antipodal["trigger_time_variance"], 5) == 1.81588
+    assert round(antipodal["trigger_time_standard_deviation"], 5) == 1.34755
+    assert [
+        (row["state"], round(row["expected_remaining_steps"], 3))
+        for row in antipodal["markov_remaining_time_rows"]
+    ] == [
+        ((0, 0), 3.13),
+        ((1, 1), 2.729),
+        ((1, 2), 2.329),
+        ((1, 3), 1.765),
+        ((2, 1), 2.638),
+        ((2, 2), 2.252),
+        ((2, 3), 1.706),
+        ((3, 2), 2.174),
+        ((3, 3), 1.647),
+        ((6, 2), 1.941),
+        ((6, 3), 1.471),
+    ]
+    assert antipodal["blocker_vertex_count"] == 28
+    assert [
+        (row["missing_coordinate"], row["motif"], row["size"])
+        for row in antipodal["blocker_coordinate_rows"]
+    ] == [
+        ("s1", "YNY", 14),
+        ("f1", "SNY", 14),
+        ("s2", "NYY", 14),
+        ("f2", "NWY", 14),
+    ]
+    assert [
+        (row["missing_coordinate_count"], row["intersection_sizes"], row["formula_size"])
+        for row in antipodal["blocker_intersection_rows"]
+    ] == [
+        (1, (14, 14, 14, 14), 14),
+        (2, (6, 6, 6, 6, 6, 6), 6),
+        (3, (2, 2, 2, 2), 2),
+        (4, (0,), 0),
+    ]
+    assert antipodal["blocker_nerve"] == {
+        "edge_count": 6,
+        "is_tetrahedron_boundary": True,
+        "tetrahedron_count": 0,
+        "triangle_count": 4,
+        "vertex_count": 4,
+    }
+    assert antipodal["blocker_f_vector"] == (
+        28,
+        278,
+        1336,
+        3914,
+        7972,
+        12006,
+        13728,
+        12012,
+        8008,
+        4004,
+        1456,
+        364,
+        56,
+        4,
+    )
+    assert antipodal["blocker_independence_polynomial"] == "4(1+t)^14 - 6(1+t)^6 + 4(1+t)^2 - 1"
+    assert antipodal["blocker_independence_coefficients"] == (
+        1,
+        28,
+        278,
+        1336,
+        3914,
+        7972,
+        12006,
+        13728,
+        12012,
+        8008,
+        4004,
+        1456,
+        364,
+        56,
+        4,
+    )
+    assert antipodal["blocker_dimension"] == 13
+    assert antipodal["stanley_reisner_dimension"] == 14
+    assert [
+        (
+            row["intersection_kind"],
+            row["vertex_count"],
+            row["simplex_dimension"],
+            row["multiplicity"],
+        )
+        for row in antipodal["thickened_sphere_rows"]
+    ] == [
+        ("facet", 14, 13, 4),
+        ("pair", 6, 5, 6),
+        ("triple", 2, 1, 4),
+        ("quadruple", 0, -1, 1),
+    ]
+    assert antipodal["blocker_hilbert_series"] == (
+        "4/(1-z)^14 - 6/(1-z)^6 + 4/(1-z)^2 - 1"
+    )
+    assert antipodal["blocker_h_polynomial"] == (
+        "4 - 6(1-z)^8 + 4(1-z)^12 - (1-z)^14"
+    )
+    assert antipodal["blocker_h_vector"] == (
+        1,
+        14,
+        5,
+        -180,
+        559,
+        -830,
+        525,
+        312,
+        -1029,
+        1122,
+        -737,
+        316,
+        -87,
+        14,
+        -1,
+    )
+    assert antipodal["blocker_is_cohen_macaulay"] is False
+    assert antipodal["blocker_non_cm_witness"] == {
+        "complex_dimension": 13,
+        "homology_degree": 2,
+        "reduced_homology_rank": 1,
+    }
+    assert antipodal["blocker_projective_dimension"] == 27
+    assert antipodal["blocker_depth"] == 3
+    assert antipodal["blocker_regularity"] == 3
+    assert antipodal["blocker_cohen_macaulay_defect"] == 11
+    assert antipodal["blocker_hochster_witness"] == {
+        "betti_i": 27,
+        "betti_j": 30,
+        "homology_degree": 2,
+        "betti_value": 1,
+    }
+    assert [
+        (
+            row["support_rank"],
+            row["saturated_face_count"],
+            row["saturated_face_sizes"],
+            row["link_coordinate_count"],
+            row["link_lift_count"],
+            row["link_sphere_dimension"],
+        )
+        for row in antipodal["local_link_stratification_rows"]
+    ] == [
+        (0, 1, (0,), 4, 2, 2),
+        (1, 4, (2,), 3, 4, 1),
+        (2, 6, (6,), 2, 8, 0),
+        (3, 4, (14,), 1, 16, -1),
+    ]
+    assert antipodal["local_link_examples"] == {
+        "unit_s1_face": ("GTC", "GTT"),
+        "unit_s1_link_sphere_dimension": 1,
+        "first_base_face": ("ATC", "ATT", "GTC", "GTT", "TTC", "TTT"),
+        "first_base_link_sphere_dimension": 0,
+    }
+    assert antipodal["local_link_non_saturated_links_are_cones"] is True
+    assert antipodal["blocker_is_buchsbaum"] is False
+    assert antipodal["blocker_buchsbaum_obstruction"] == {
+        "face_support_rank": 1,
+        "link_complex_dimension": 11,
+        "link_homology_dimension": 1,
+    }
+    assert antipodal["hochster_nerve_vertex_count"] == 4
+    assert antipodal["hochster_possible_homology_degrees"] == (-1, 0, 1, 2)
+    assert antipodal["hochster_betti_diagonals"] == (0, 1, 2, 3)
+    assert antipodal["top_betti_strand_generating_function"] == "(2x+x^2)^4(1+x)^22"
+    assert [
+        (row["j"], row["i"], row["betti"])
+        for row in antipodal["top_betti_strand_rows"]
+    ] == [
+        (4, 1, 16),
+        (5, 2, 384),
+        (6, 3, 4424),
+        (7, 4, 32568),
+        (8, 5, 172041),
+        (9, 6, 694254),
+        (10, 7, 2224607),
+        (11, 8, 5808396),
+        (12, 9, 12582427),
+        (13, 10, 22907654),
+        (14, 11, 35377221),
+        (15, 12, 46646368),
+        (16, 13, 52738794),
+        (17, 14, 51252348),
+        (18, 15, 42843366),
+        (19, 16, 30778024),
+        (20, 17, 18951702),
+        (21, 18, 9957596),
+        (22, 19, 4434562),
+        (23, 20, 1658184),
+        (24, 21, 513821),
+        (25, 22, 129558),
+        (26, 23, 25899),
+        (27, 24, 3948),
+        (28, 25, 431),
+        (29, 26, 30),
+        (30, 27, 1),
+    ]
+    assert [
+        (row["diagonal"], row["homology_degree"], row["nonzero_count"])
+        for row in antipodal["betti_table_diagonal_rows"]
+    ] == [
+        (0, -1, 3),
+        (1, 0, 17),
+        (2, 1, 24),
+        (3, 2, 27),
+    ]
+    assert antipodal["blocker_euler_characteristic"] == 2
+    assert [
+        (row["added_size"], row["blocker_count"], round(row["full_trigger_probability"], 4))
+        for row in antipodal["blocker_probability_tail_rows"]
+    ] == [
+        (1, 28, 0.0667),
+        (2, 278, 0.3609),
+        (3, 1336, 0.6709),
+        (4, 3914, 0.8572),
+        (5, 7972, 0.9441),
+        (6, 12006, 0.9798),
+        (7, 13728, 0.9933),
+        (8, 12012, 0.9979),
+        (9, 8008, 0.9994),
+        (10, 4004, 0.9999),
+    ]
+    assert antipodal["alexander_dual_generator_count"] == 4
+    assert [
+        (row["coordinate"], row["degree"])
+        for row in antipodal["alexander_dual_generator_rows"]
+    ] == [
+        ("s1", 16),
+        ("f1", 16),
+        ("s2", 16),
+        ("f2", 16),
+    ]
+    assert [
+        (row["subset_size"], row["subset_count"], row["lcm_degrees"], row["formula_degree"], row["reliability_coefficient"])
+        for row in antipodal["alexander_dual_lcm_rows"]
+    ] == [
+        (1, 4, (16, 16, 16, 16), 16, 4),
+        (2, 6, (24, 24, 24, 24, 24, 24), 24, -6),
+        (3, 4, (28, 28, 28, 28), 28, 4),
+        (4, 1, (30,), 30, -1),
+    ]
+    assert antipodal["alexander_dual_betti_pattern"] == (1, 4, 6, 4, 1)
+    assert [
+        (row["homological_position"], row["rank"], row["shift"])
+        for row in antipodal["alexander_dual_resolution_rows"]
+    ] == [
+        (1, 4, 16),
+        (2, 6, 24),
+        (3, 4, 28),
+        (4, 1, 30),
+    ]
+    assert antipodal["alexander_dual_resolution_string"] == "0 -> R0(-30) -> R0(-28)^4 -> R0(-24)^6 -> R0(-16)^4 -> J -> 0"
+    assert antipodal["alexander_dual_reliability_terms"] == (
+        (1, 4, 16),
+        (2, -6, 24),
+        (3, 4, 28),
+        (4, -1, 30),
+    )
+    assert antipodal["alexander_dual_reliability_polynomial"] == "4q^16 - 6q^24 + 4q^28 - q^30"
+    assert [
+        (row["trigger_size"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["minimal_trigger_rows"]
+    ] == [
+        (1, 1, 2),
+        (2, 25, 100),
+        (3, 22, 176),
+        (4, 1, 16),
+    ]
+    assert antipodal["minimal_trigger_quotient_total"] == 49
+    assert antipodal["minimal_trigger_codon_total"] == 294
+    assert antipodal["minimal_trigger_polynomial_quotient"] == (
+        (1, 1),
+        (2, 25),
+        (3, 22),
+        (4, 1),
+    )
+    assert antipodal["minimal_trigger_polynomial_codon"] == (
+        (1, 2),
+        (2, 100),
+        (3, 176),
+        (4, 16),
+    )
+    assert antipodal["rank_enumerator_formula"] == "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))"
+    assert [
+        (row["added_size"], row["rank_counts"], row["counts_sum_to_candidate_count"])
+        for row in antipodal["rank_enumerator_rows"]
+    ] == [
+        (0, {0: 1, 1: 0, 2: 0, 3: 0, 4: 0}, True),
+        (1, {0: 0, 1: 8, 2: 12, 3: 8, 4: 2}, True),
+        (2, {0: 0, 1: 4, 2: 78, 3: 196, 4: 157}, True),
+        (3, {0: 0, 1: 0, 2: 120, 3: 1216, 4: 2724}, True),
+        (4, {0: 0, 1: 0, 2: 90, 3: 3824, 4: 23491}, True),
+    ]
+    assert [
+        (row["support_size_type"], row["energy"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["minimal_trigger_type_rows"]
+    ] == [
+        ((4,), 4, 1, 2),
+        ((1, 3), 4, 4, 16),
+        ((2, 2), 4, 3, 12),
+        ((2, 3), 5, 12, 48),
+        ((3, 3), 6, 6, 24),
+        ((1, 1, 2), 4, 6, 48),
+        ((1, 2, 2), 5, 12, 96),
+        ((2, 2, 2), 6, 4, 32),
+        ((1, 1, 1, 1), 4, 1, 16),
+    ]
+    assert antipodal["trigger_energy_minimum"] == 4
+    assert antipodal["trigger_energy_minimum_condition"] == "support partition of Omega"
+    assert [
+        (row["trigger_size"], row["partition_type"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["energy_minimal_trigger_rows"]
+    ] == [
+        (1, "4", 1, 2),
+        (2, "1+3 or 2+2", 7, 28),
+        (3, "1+1+2", 6, 48),
+        (4, "1+1+1+1", 1, 16),
+    ]
+    assert antipodal["energy_minimal_quotient_total"] == 15
+    assert antipodal["energy_minimal_codon_total"] == 94
+    assert [
+        (row["energy"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["minimal_trigger_energy_rows"]
+    ] == [
+        (4, 15, 94),
+        (5, 24, 144),
+        (6, 10, 56),
+    ]
+    assert antipodal["quotient_bivariate_minimal_trigger_terms"] == (
+        (1, 4, 1),
+        (2, 4, 4),
+        (2, 4, 3),
+        (2, 5, 12),
+        (2, 6, 6),
+        (3, 4, 6),
+        (3, 5, 12),
+        (3, 6, 4),
+        (4, 4, 1),
+    )
+    assert antipodal["codon_bivariate_minimal_trigger_terms"] == (
+        (1, 4, 2),
+        (2, 4, 16),
+        (2, 4, 12),
+        (2, 5, 48),
+        (2, 6, 24),
+        (3, 4, 48),
+        (3, 5, 96),
+        (3, 6, 32),
+        (4, 4, 16),
+    )
+    assert antipodal["quotient_bivariate_minimal_trigger_polynomial"] == "z y^4 + z^2(7y^4+12y^5+6y^6) + z^3(6y^4+12y^5+4y^6) + z^4 y^4"
+    assert antipodal["codon_bivariate_minimal_trigger_polynomial"] == "2z y^4 + z^2(28y^4+48y^5+24y^6) + z^3(48y^4+96y^5+32y^6) + 16z^4 y^4"
+    assert antipodal["stanley_reisner_generator_count"] == 294
+    assert [
+        (row["degree"], row["minimal_generator_count"])
+        for row in antipodal["stanley_reisner_degree_rows"]
+    ] == [
+        (1, 2),
+        (2, 100),
+        (3, 176),
+        (4, 16),
+    ]
+    assert antipodal["stanley_reisner_degree_one_generators"] == ("AGC", "AGT")
+    assert antipodal["reliability_polynomial"] == "1 - 4q^16 + 6q^24 - 4q^28 + q^30"
+    assert [
+        (
+            row["target_probability"],
+            round(row["activation_probability"], 5),
+            round(row["expected_selected_codons"], 2),
+        )
+        for row in antipodal["reliability_threshold_rows"]
+    ] == [
+        (0.5, 0.08779, 2.63),
+        (0.9, 0.19455, 5.84),
+        (0.95, 0.23206, 6.96),
+        (0.99, 0.30934, 9.28),
+    ]
+    assert antipodal["energy_biased_total_partition"] == "(1+ty)^8 (1+ty^2)^12 (1+ty^3)^8 (1+ty^4)^2"
+    assert antipodal["energy_biased_blocker_partition"] == "4A3(t,y) - 6A2(t,y) + 4A1(t,y) - 1"
+    assert antipodal["energy_biased_reliability_formula"] == "1 - (4A3(t,y)-6A2(t,y)+4A1(t,y)-1)/A4(t,y)"
+    assert antipodal["energy_biased_low_energy_terms"] == (
+        (1, 2),
+        (2, 28),
+        (3, 48),
+        (4, 16),
+    )
+    assert antipodal["energy_biased_low_energy_polynomial"] == "y^4(2t+28t^2+48t^3+16t^4)"
+    assert [
+        (
+            row["target_probability"],
+            row["energy_factor"],
+            round(row["activity"], 4),
+            round(row["expected_selected_codons"], 2),
+        )
+        for row in antipodal["energy_biased_threshold_rows"]
+    ] == [
+        (0.5, 1.0, 0.0962, 2.63),
+        (0.5, 0.75, 0.2008, 3.01),
+        (0.5, 0.5, 0.5108, 3.53),
+        (0.5, 0.25, 1.983, 4.23),
+        (0.5, 0.1, 8.5128, 4.69),
+        (0.9, 1.0, 0.2415, 5.84),
+        (0.9, 0.75, 0.4903, 6.39),
+        (0.9, 0.5, 1.2207, 7.04),
+        (0.9, 0.25, 4.7581, 7.69),
+        (0.9, 0.1, 21.7497, 7.8),
+        (0.95, 1.0, 0.3022, 6.96),
+        (0.95, 0.75, 0.6114, 7.55),
+        (0.95, 0.5, 1.5224, 8.22),
+        (0.95, 0.25, 6.0003, 8.8),
+        (0.95, 0.1, 28.2281, 8.77),
+    ]
+    assert antipodal["conditional_trigger_size_formula"] == "t d_t log Z_trig(t,y)"
+    assert antipodal["conditional_trigger_energy_formula"] == "y d_y log Z_trig(t,y)"
+    assert [
+        (
+            row["target_probability"],
+            row["energy_factor"],
+            round(row["activity"], 4),
+            round(row["conditional_expected_size"], 3),
+            round(row["conditional_expected_energy"], 3),
+        )
+        for row in antipodal["conditional_trigger_rows"]
+    ] == [
+        (0.5, 1.0, 0.0962, 3.596, 8.184),
+        (0.5, 0.75, 0.2008, 4.013, 8.294),
+        (0.5, 0.5, 0.5108, 4.58, 8.308),
+        (0.5, 0.25, 1.983, 5.318, 8.008),
+        (0.5, 0.1, 8.5128, 5.751, 7.296),
+        (0.9, 1.0, 0.2415, 6.144, 13.237),
+        (0.9, 0.75, 0.4903, 6.699, 13.271),
+        (0.9, 0.5, 1.2207, 7.354, 13.06),
+        (0.9, 0.25, 4.7581, 7.989, 12.201),
+        (0.9, 0.1, 21.7497, 8.07, 10.71),
+    ]
+    assert antipodal["low_energy_partition_distribution_formula"] == "a_m t^m / (2t+28t^2+48t^3+16t^4)"
+    assert [
+        (
+            row["activity"],
+            tuple(round(row["size_probabilities"][trigger_size], 4) for trigger_size in (1, 2, 3, 4)),
+            round(row["expected_size"], 3),
+        )
+        for row in antipodal["low_energy_partition_rows"]
+    ] == [
+        (0.1, (0.3776, 0.5287, 0.0906, 0.003), 1.719),
+        (0.25, (0.1633, 0.5714, 0.2449, 0.0204), 2.122),
+        (0.5, (0.0667, 0.4667, 0.4, 0.0667), 2.467),
+        (1.0, (0.0213, 0.2979, 0.5106, 0.1702), 2.83),
+        (2.0, (0.0053, 0.1481, 0.5079, 0.3386), 3.18),
+        (5.0, (0.0006, 0.0419, 0.3591, 0.5984), 3.555),
+        (10.0, (0.0001, 0.0133, 0.2277, 0.7589), 3.745),
+    ]
+    assert [
+        (row["left_size"], row["right_size"], row["activity"])
+        for row in antipodal["low_energy_partition_crossover_rows"]
+    ] == [
+        (1, 2, 1.0 / 14.0),
+        (2, 3, 7.0 / 12.0),
+        (3, 4, 3.0),
+    ]
+    universal = antipodal["universal_coverage_trigger"]
+    assert universal["coordinate_count"] == 4
+    assert universal["lift_count"] == 2
+    assert universal["external_size"] == 30
+    assert universal["closure_lattice_size"] == 16
+    assert [
+        (row["rank"], row["external_closure_size"])
+        for row in universal["closure_size_by_rank"]
+    ] == [
+        (0, 0),
+        (1, 2),
+        (2, 6),
+        (3, 14),
+        (4, 30),
+    ]
+    assert universal["blocker_homotopy_sphere_dimension"] == 2
+    assert universal["maximal_blocker_size"] == 14
+    assert universal["forced_trigger_threshold"] == 15
+    assert [
+        (row["missing_coordinate_count"], row["intersection_size"])
+        for row in universal["blocker_intersection_formula_rows"]
+    ] == [
+        (1, 14),
+        (2, 6),
+        (3, 2),
+        (4, 0),
+    ]
+    assert [
+        (row["added_size"], row["blocker_count"])
+        for row in universal["blocker_count_rows"][:4]
+    ] == [
+        (1, 28),
+        (2, 278),
+        (3, 1336),
+        (4, 3914),
+    ]
+    assert [
+        (row["missing_coordinate_count"], row["coefficient"], row["exponent"])
+        for row in universal["reliability_term_rows"]
+    ] == [
+        (1, 4, 16),
+        (2, -6, 24),
+        (3, 4, 28),
+        (4, -1, 30),
+    ]
+    assert universal["markov_drift_numerator_factor"] == 16
+    assert [
+        (row["rank_increase"], row["numerator_factor"])
+        for row in universal["markov_initial_transition_rows"]
+    ] == [
+        (1, 8),
+        (2, 12),
+        (3, 8),
+        (4, 2),
+    ]
+    assert universal["alexander_dual_generator_count"] == 4
+    assert [
+        (row["subset_size"], row["multiplicity"], row["shift"])
+        for row in universal["alexander_dual_shift_rows"]
+    ] == [
+        (1, 4, 16),
+        (2, 6, 24),
+        (3, 4, 28),
+        (4, 1, 30),
+    ]
+    assert universal["stanley_reisner_dimension_formula"] == 14
+    assert universal["homological_core_dimension"] == 2
+    assert universal["depth_formula"] == 3
+    assert universal["regularity_formula"] == 3
+    assert universal["projective_dimension_formula"] == 27
+    assert universal["cohen_macaulay_defect_formula"] == 11
+    assert universal["hochster_full_vertex_witness"] == {
+        "betti_i": 27,
+        "betti_j": 30,
+        "homology_degree": 2,
+        "betti_value": 1,
+    }
+    assert [
+        (
+            row["support_rank"],
+            row["saturated_face_size"],
+            row["link_coordinate_count"],
+            row["link_lift_count"],
+            row["link_sphere_dimension"],
+        )
+        for row in universal["local_link_formula_rows"]
+    ] == [
+        (0, 0, 4, 2, 2),
+        (1, 2, 3, 4, 1),
+        (2, 6, 2, 8, 0),
+        (3, 14, 1, 16, -1),
+    ]
+    assert universal["top_betti_strand_formula"] == "((1+x)^2-1)^4(1+x)^22"
+    assert universal["top_betti_singleton_support_count"] == 4
+    assert universal["top_betti_free_element_count"] == 22
+    assert universal["energy_minimum"] == 4
+    assert [
+        (row["trigger_size"], row["stirling_count"], row["lifted_count"])
+        for row in universal["energy_minimal_rows"]
+    ] == [
+        (1, 1, 2),
+        (2, 7, 28),
+        (3, 6, 48),
+        (4, 1, 16),
+    ]
+    assert universal["energy_minimal_total"] == 94
+    assert antipodal["maximum_nontrigger_external_size"] == 14
+    assert antipodal["maximum_nontrigger_blocker_count"] == 4
+    assert antipodal["forced_full_trigger_threshold"] == 15
     assert round(spectral["acg_spectral_radius_before"], 4) == 0.6422
     assert round(spectral["acg_spectral_radius_after"], 4) == 0.6752
     assert round(spectral["acg_retention_before"], 3) == 0.596

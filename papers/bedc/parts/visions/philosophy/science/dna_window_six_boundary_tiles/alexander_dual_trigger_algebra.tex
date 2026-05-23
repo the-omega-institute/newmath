@@ -1,0 +1,173 @@
+\begin{definition}[Alexander-dual coordinate monomials]
+\label{def:philosophy-alexander-dual-coordinate-monomials}
+Let $R_{0}=k[x_{p}:p\in E]$ be the squarefree polynomial ring on the
+external codons. For each trigger coordinate $i\in\Omega$, define
+$$
+  U_{i}=\prod_{\sigma(p)\ni i}x_{p}.
+$$
+Since a fixed coordinate lies in $2^{3}$ quotient supports and each
+support has two $f_{3}$-lifts, every $U_{i}$ has degree $16$.
+\end{definition}
+
+\begin{theorem}[Alexander-dual blocker ideal]
+\label{thm:philosophy-alexander-dual-blocker-ideal}
+Let $\mathcal{B}$ be the blocker complex. Its Alexander-dual ideal is
+$$
+  I_{\mathcal{B}}^{\vee}
+  =
+  \langle
+  U_{s_{1}},U_{f_{1}},U_{s_{2}},U_{f_{2}}
+  \rangle.
+$$
+\end{theorem}
+\begin{proof}
+The facets of $\mathcal{B}$ are the four maximal blockers
+$B_{\neg i}=\{p\in E:i\notin\sigma(p)\}$. Alexander duality sends each
+facet to its complement in $E$:
+$$
+  E\setminus B_{\neg i}=\{p\in E:i\in\sigma(p)\}.
+$$
+The squarefree monomial on this complement is precisely $U_{i}$.
+\end{proof}
+
+\begin{theorem}[LCM degrees]
+\label{thm:philosophy-alexander-dual-lcm-degrees}
+For $S\subseteq\Omega$ with $|S|=k$,
+$$
+  \deg\operatorname{lcm}(U_{i}:i\in S)
+  =
+  32-2^{5-k}.
+$$
+Thus the lcm degrees are
+$$
+\begin{array}{c|r|r}
+  |S| & \text{number of subsets} & \text{lcm degree}\\
+  \hline
+  1 & 4 & 16\\
+  2 & 6 & 24\\
+  3 & 4 & 28\\
+  4 & 1 & 30.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The lcm contains exactly those external codons whose support intersects
+$S$. Among the $15$ nonempty quotient supports, the supports disjoint
+from $S$ are the nonempty subsets of $\Omega\setminus S$, hence number
+$2^{4-k}-1$. Therefore the quotient supports meeting $S$ number
+$15-(2^{4-k}-1)=16-2^{4-k}$, and each has two $f_{3}$-lifts.
+\end{proof}
+
+\begin{theorem}[Minimal Taylor resolution]
+\label{thm:philosophy-alexander-dual-minimal-taylor-resolution}
+For
+$$
+  J=I_{\mathcal{B}}^{\vee},
+$$
+the Taylor resolution is minimal, with graded shifts
+$$
+  0
+  \to
+  R_{0}(-30)
+  \to
+  R_{0}(-28)^{4}
+  \to
+  R_{0}(-24)^{6}
+  \to
+  R_{0}(-16)^{4}
+  \to
+  J
+  \to
+  0.
+$$
+Equivalently, the quotient $R_{0}/J$ has the resolution
+$$
+  0
+  \to
+  R_{0}(-30)
+  \to
+  R_{0}(-28)^{4}
+  \to
+  R_{0}(-24)^{6}
+  \to
+  R_{0}(-16)^{4}
+  \to
+  R_{0}
+  \to
+  R_{0}/J
+  \to
+  0.
+$$
+\end{theorem}
+\begin{proof}
+The four generators have lcms whose degrees depend only on the size of
+the chosen coordinate subset and strictly increase with that size.
+Hence no Taylor differential can cancel equal multidegrees. The ranks
+of the Taylor modules are $\binom{4}{1},\binom{4}{2},\binom{4}{3}$ and
+$\binom{4}{4}$, and the shifts are those of
+\autoref{thm:philosophy-alexander-dual-lcm-degrees}.
+\end{proof}
+
+\begin{corollary}[Dual compression of the trigger hypergraph]
+\label{cor:philosophy-dual-compression-trigger-hypergraph}
+The Stanley-Reisner ideal $I_{\mathcal{B}}$ has $294$ minimal
+squarefree generators, but its Alexander dual has only four. The Betti
+rank pattern of the dual resolution is
+$$
+  1,\ 4,\ 6,\ 4,\ 1.
+$$
+\end{corollary}
+\begin{proof}
+The $294$ generators of $I_{\mathcal{B}}$ are the minimal full triggers
+from \autoref{thm:philosophy-stanley-reisner-trigger-ideal}. The
+dual ideal has the four generators of
+\autoref{thm:philosophy-alexander-dual-blocker-ideal}; its Taylor ranks
+are the binomial coefficients in four variables.
+\end{proof}
+
+\begin{theorem}[Reliability from the lcm lattice]
+\label{thm:philosophy-reliability-from-lcm-lattice}
+For $q=1-p$, the non-trigger reliability polynomial is
+$$
+  P_{\mathrm{non}}(p)
+  =
+  \sum_{\emptyset\neq S\subseteq\Omega}
+  (-1)^{|S|+1}
+  q^{\deg\operatorname{lcm}(U_{i}:i\in S)}
+  =
+  4q^{16}-6q^{24}+4q^{28}-q^{30}.
+$$
+\end{theorem}
+\begin{proof}
+The event $U_{i}$ is absent is the event that coordinate $i$ is missed.
+Inclusion-exclusion over the four missed-coordinate events uses exactly
+the lcm degrees of \autoref{thm:philosophy-alexander-dual-lcm-degrees}.
+The coefficients are $4,-6,4,-1$ according to subset size.
+\end{proof}
+
+\begin{theorem}[Alexander-dual trigger algebra theorem]
+\label{thm:philosophy-alexander-dual-trigger-algebra-theorem}
+Beyond $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, the trigger side has
+$294$ codon-level minimal full triggers, while the blocker-dual side is
+the four-generator squarefree monomial ideal
+$$
+  I_{\mathcal{B}}^{\vee}
+  =
+  \langle
+  U_{s_{1}},U_{f_{1}},U_{s_{2}},U_{f_{2}}
+  \rangle.
+$$
+Its lcm degrees are $16,24,28,30$, its minimal Taylor ranks are
+$1,4,6,4,1$, and its lcm-lattice inclusion-exclusion is exactly
+$$
+  4q^{16}-6q^{24}+4q^{28}-q^{30}.
+$$
+\end{theorem}
+\begin{proof}
+The four-generator description is
+\autoref{thm:philosophy-alexander-dual-blocker-ideal}. The shifts and
+Betti pattern are
+\autoref{thm:philosophy-alexander-dual-minimal-taylor-resolution}. The
+probability polynomial is
+\autoref{thm:philosophy-reliability-from-lcm-lattice}.
+\end{proof}
