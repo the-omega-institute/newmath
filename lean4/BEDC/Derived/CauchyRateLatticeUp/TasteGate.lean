@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyRateLatticeUp
@@ -25,7 +26,7 @@ def cauchyRateLatticeDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyRateLatticeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyRateLatticeDecodeBHist tail)
 
-private theorem CauchyRateLatticeTasteGate_single_carrier_alignment_decode :
+private theorem CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, cauchyRateLatticeDecodeBHist (cauchyRateLatticeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -40,38 +41,36 @@ def cauchyRateLatticeFields : CauchyRateLatticeUp → List BHist
 
 def cauchyRateLatticeToEventFlow : CauchyRateLatticeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map cauchyRateLatticeEncodeBHist (cauchyRateLatticeFields x)
+  | x => (cauchyRateLatticeFields x).map cauchyRateLatticeEncodeBHist
 
-private def cauchyRateLatticeRawAt : Nat → EventFlow → RawEvent
+private def cauchyRateLatticeEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, event :: _rest => event
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyRateLatticeRawAt index rest
+  | Nat.succ index, _event :: rest => cauchyRateLatticeEventAt index rest
 
-def cauchyRateLatticeFromEventFlow : EventFlow → Option CauchyRateLatticeUp
+def cauchyRateLatticeFromEventFlow (ef : EventFlow) : Option CauchyRateLatticeUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      some
-        (CauchyRateLatticeUp.mk
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 0 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 1 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 2 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 3 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 4 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 5 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 6 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 7 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 8 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 9 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 10 flow))
-          (cauchyRateLatticeDecodeBHist (cauchyRateLatticeRawAt 11 flow)))
+  some
+    (CauchyRateLatticeUp.mk
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 0 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 1 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 2 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 3 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 4 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 5 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 6 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 7 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 8 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 9 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 10 ef))
+      (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEventAt 11 ef)))
 
-private theorem CauchyRateLatticeTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : CauchyRateLatticeUp,
-      cauchyRateLatticeFromEventFlow (cauchyRateLatticeToEventFlow x) = some x := by
+private theorem CauchyRateLatticeTasteGate_single_carrier_alignment_round_trip
+    (x : CauchyRateLatticeUp) :
+    cauchyRateLatticeFromEventFlow (cauchyRateLatticeToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk A B M J D S R E H C P N =>
       change
@@ -90,18 +89,18 @@ private theorem CauchyRateLatticeTasteGate_single_carrier_alignment_round_trip :
             (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEncodeBHist P))
             (cauchyRateLatticeDecodeBHist (cauchyRateLatticeEncodeBHist N))) =
           some (CauchyRateLatticeUp.mk A B M J D S R E H C P N)
-      rw [CauchyRateLatticeTasteGate_single_carrier_alignment_decode A,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode B,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode M,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode J,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode D,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode S,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode R,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode E,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode H,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode C,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode P,
-        CauchyRateLatticeTasteGate_single_carrier_alignment_decode N]
+      rw [CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode A,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode B,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode M,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode J,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode D,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode S,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode R,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode E,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode H,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode C,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode P,
+        CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode N]
 
 private theorem CauchyRateLatticeTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyRateLatticeUp} :
@@ -114,17 +113,19 @@ private theorem CauchyRateLatticeTasteGate_single_carrier_alignment_toEventFlow_
     congrArg cauchyRateLatticeFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (CauchyRateLatticeTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (CauchyRateLatticeTasteGate_single_carrier_alignment_round_trip y)))
+      (Eq.trans hread
+        (CauchyRateLatticeTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem cauchyRateLattice_field_faithful :
-    ∀ x y : CauchyRateLatticeUp, cauchyRateLatticeFields x = cauchyRateLatticeFields y →
-      x = y := by
+private theorem CauchyRateLatticeTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : CauchyRateLatticeUp, cauchyRateLatticeFields x = cauchyRateLatticeFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
-  cases x
-  cases y
-  cases hfields
-  rfl
+  cases x with
+  | mk A₁ B₁ M₁ J₁ D₁ S₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk A₂ B₂ M₂ J₂ D₂ S₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance cauchyRateLatticeBHistCarrier : BHistCarrier CauchyRateLatticeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -144,16 +145,18 @@ instance cauchyRateLatticeChapterTasteGate : ChapterTasteGate CauchyRateLatticeU
 instance cauchyRateLatticeFieldFaithful : FieldFaithful CauchyRateLatticeUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := cauchyRateLatticeFields
-  field_faithful := cauchyRateLattice_field_faithful
+  field_faithful := CauchyRateLatticeTasteGate_single_carrier_alignment_fields_faithful
 
-instance cauchyRateLatticeNontrivial : Nontrivial CauchyRateLatticeUp where
+instance cauchyRateLatticeNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial CauchyRateLatticeUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CauchyRateLatticeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CauchyRateLatticeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
+    ⟨CauchyRateLatticeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      CauchyRateLatticeUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -162,20 +165,30 @@ def taste_gate : ChapterTasteGate CauchyRateLatticeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchyRateLatticeChapterTasteGate
 
+def CauchyRateLatticeTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate CauchyRateLatticeUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchyRateLatticeChapterTasteGate
+
 theorem CauchyRateLatticeTasteGate_single_carrier_alignment :
-    (∀ h : BHist, cauchyRateLatticeDecodeBHist (cauchyRateLatticeEncodeBHist h) = h) ∧
-      (∀ x : CauchyRateLatticeUp,
-        cauchyRateLatticeFromEventFlow (cauchyRateLatticeToEventFlow x) = some x) ∧
-        (∀ x y : CauchyRateLatticeUp,
-          cauchyRateLatticeToEventFlow x = cauchyRateLatticeToEventFlow y → x = y) ∧
-          cauchyRateLatticeEncodeBHist BHist.Empty = ([] : List BMark) := by
+    Nonempty (ChapterTasteGate CauchyRateLatticeUp) ∧
+      Nonempty (FieldFaithful CauchyRateLatticeUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial CauchyRateLatticeUp) ∧
+          (∀ h : BHist, cauchyRateLatticeDecodeBHist (cauchyRateLatticeEncodeBHist h) = h) ∧
+            (∀ x : CauchyRateLatticeUp,
+              cauchyRateLatticeFromEventFlow (cauchyRateLatticeToEventFlow x) = some x) ∧
+              (∀ x y : CauchyRateLatticeUp,
+                cauchyRateLatticeToEventFlow x = cauchyRateLatticeToEventFlow y → x = y) ∧
+                cauchyRateLatticeEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨CauchyRateLatticeTasteGate_single_carrier_alignment_decode,
+    ⟨⟨cauchyRateLatticeChapterTasteGate⟩,
+      ⟨cauchyRateLatticeFieldFaithful⟩,
+      ⟨cauchyRateLatticeNontrivial⟩,
+      CauchyRateLatticeTasteGate_single_carrier_alignment_decode_encode,
       CauchyRateLatticeTasteGate_single_carrier_alignment_round_trip,
-      by
-        intro x y heq
-        exact CauchyRateLatticeTasteGate_single_carrier_alignment_toEventFlow_injective heq,
+      (fun _ _ heq =>
+        CauchyRateLatticeTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.CauchyRateLatticeUp
