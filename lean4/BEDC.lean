@@ -883,6 +883,7 @@ import BEDC.Derived.CategoryUp.UnaryTailZero
 import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CauchyApproximationSequenceUp.TasteGate
+import BEDC.Derived.CauchyBornologyUp.TasteGate
 import BEDC.Derived.CauchyCarrierNameCertUp
 import BEDC.Derived.CauchyChoiceBoundaryUp.DiagonalBudgetFactorization
 import BEDC.Derived.CauchyChoiceBoundaryUp.NameCertObligationSurface
@@ -1191,6 +1192,7 @@ import BEDC.Derived.CauchyProductUp.RootBudgetProductLock
 import BEDC.Derived.CauchyProductUp.RootBudgetRoutePackage
 import BEDC.Derived.CauchyProductUp.RootBudgetTriangle
 import BEDC.Derived.CauchyProductUp.RootClassifierStability
+import BEDC.Derived.CauchyProductUp.RootRealSealObligations
 import BEDC.Derived.CauchyProductUp.RootSealLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootUnblockCertificate
@@ -1214,8 +1216,6 @@ import BEDC.Derived.CauchyRateLatticeUp.TasteGate
 import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
-import BEDC.Derived.CauchyRealApartnessUp
-import BEDC.Derived.CauchyRealApartnessUp.TasteGate
 import BEDC.Derived.CauchyRealCompletionInterfaceUp.TasteGate
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
