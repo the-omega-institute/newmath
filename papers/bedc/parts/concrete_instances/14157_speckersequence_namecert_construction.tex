@@ -110,10 +110,61 @@ Apply the monotone bounded ledger theorem and the non-located supremum boundary.
 The excluded principles are absent from every coordinate. Therefore the $\RealUp$ seal cannot escape to Real completeness, located supremum data, Dedekind cuts, countable choice, trichotomy, bridge checking, or selected limits.
 \end{proof}
 
+\begin{definition}[Specker sequence obligation surface]
+\label{def:specker-sequence-obligation-surface}
+The $\SpeckerSequenceUp$ obligation surface is the finite subpacket
+$$
+O=(R_{\leq W},D_{\leq W},M_{\leq W},B_{\leq W},E,H,C,P,N)
+$$
+read from an accepted carrier $S=(R,W,D,M,B,E,H,C,P,N)$. The row $R_{\leq W}$ is the finite rational stream window selected by the $\StreamNameUp$ schedule $W$; $D_{\leq W}$ is the matching dyadic tolerance and bound ledger; $M_{\leq W}$ and $B_{\leq W}$ are the monotone and bounded ledger prefixes for the same displayed stages; and $E$ is the terminal $\RealUp$ seal row reached only after those prefixes.
+
+The structural rows are unchanged: $H$ gives componentwise $\hsame$ transport, $C$ gives displayed $\Cont$ replay, $P$ gives package provenance, and $N$ gives the local $\NameCert_{\SpeckerSequenceUp}$ row. The surface contains no located supremum row, countable-choice selector, trichotomy branch, Dedekind-cut representation, host-selected limit, or ambient completeness field.
+\end{definition}
+
+\begin{theorem}[Specker sequence regular-Cauchy obligation]
+\label{thm:specker-sequence-regular-cauchy-obligation}
+Every accepted $\SpeckerSequenceUp$ packet discharges its regular-Cauchy obligation through finite-stage induction over the displayed schedule $W$. At each inspected stage the consumer receives only the current rational window $R_{\leq W}$, the dyadic tolerance row $D_{\leq W}$, the monotone prefix $M_{\leq W}$, the boundedness prefix $B_{\leq W}$, and the $\BHist$ provenance transported through $H,C,P,N$ before the packet reaches the terminal $\RealUp$ seal row $E$.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{def:specker-sequence-obligation-surface}. Its visible analytic data are the finite rational stream window, the dyadic tolerance and bound ledger, and the two finite ledger prefixes.
+
+Use the finite-stage induction route of \autoref{thm:speckersequence-finite-stage-induction}. The base prefix exposes the initial rational observation and its matching ledger rows. The step prefix appends one displayed observation, transports the rows through $H$, and replays the dyadic, monotone, and boundedness entries through $C$.
+
+The regular-Cauchy obligation is therefore local to each displayed finite prefix. The seal row $E$ is downstream of those rows by \autoref{thm:speckersequence-realup-seal-nonescape}, so no located supremum, selected limit, countable choice, trichotomy, Dedekind cut, or ambient completeness coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[Specker sequence no-choice boundary]
+\label{thm:specker-sequence-no-choice-boundary}
+The $\SpeckerSequenceUp$ obligation surface is stable under componentwise $\hsame$ transport and displayed $\Cont$ replay without adding any selector that chooses a supremum, a limiting real, a trichotomy branch, or a countable family of witnesses. Any downstream proof that needs one of those objects must supply it outside the packet.
+\end{theorem}
+\begin{proof}
+Project the transported packet through \autoref{thm:speckersequence-classifier-transport}. The classifier shape is preserved on the regular-source row, stream schedule, dyadic ledger, monotone ledger, boundedness ledger, finite seal row, provenance row, and local naming row.
+
+Now restrict to the obligation surface. The rows $R_{\leq W},D_{\leq W},M_{\leq W},B_{\leq W},E,H,C,P,N$ are exactly the finite rows of \autoref{def:specker-sequence-obligation-surface}; transport and replay do not create a new coordinate.
+
+The no-choice boundary follows from the missing coordinate. Since no row stores a supremum selector, limiting real selector, trichotomy decision, countable family choice, Dedekind cut, or completeness witness, no consumer can extract such data from the packet.
+\end{proof}
+
+\begin{theorem}[Specker sequence Real handoff]
+\label{thm:specker-sequence-real-handoff}
+Every $\RealUp$-facing consumer of a $\SpeckerSequenceUp$ packet factors through the obligation surface and then through the finite seal row $E$. The handoff route is
+$$
+R_{\leq W},D_{\leq W},M_{\leq W},B_{\leq W},H,C,P,N\longmapsto E,
+$$
+so the exported real-facing information is a sealed finite-window read rather than a located supremum or a host-selected limit.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:speckersequence-monotone-bounded-ledger} to order the route. The source and schedule determine the inspected rational windows, the dyadic ledger supplies tolerance and bound rows, and the monotone and boundedness ledgers are read before $E$.
+
+Use \autoref{def:specker-sequence-obligation-surface} to package exactly those finite rows as the public obligation surface. The structural rows $H,C,P,N$ preserve and replay the route but do not extend it.
+
+Finally apply \autoref{thm:speckersequence-realup-seal-nonescape}. The $\RealUp$ handoff remains a finite seal read, so it refuses located supremum data, countable choice, trichotomy, Dedekind cuts, host-selected limits, and ambient completeness.
+\end{proof}
+
 \begin{closurestatus}{\SpeckerSequenceUp}
   \constructivestory{A $\SpeckerSequenceUp$ packet is generated from a $\RegSeqRatUp$ computable rational source, a $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ tolerance and bound rows, a monotone ledger, a boundedness ledger, a finite $\RealUp$ seal boundary, componentwise transport, continuation replay, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:speckersequence-carrier}, \autoref{thm:speckersequence-carrier-exposure}, \autoref{thm:speckersequence-classifier-transport}, \autoref{thm:speckersequence-monotone-bounded-ledger}, \autoref{thm:speckersequence-finite-stage-induction}, \autoref{thm:speckersequence-nonlocated-supremum-boundary}, and \autoref{thm:speckersequence-realup-seal-nonescape} declare the finite Specker-sequence carrier, transport, monotone bounded ledger, finite-stage induction route, non-located supremum boundary, and RealUp seal non-escape surface.}
+  \scopeclosed{\autoref{def:speckersequence-carrier}, \autoref{thm:speckersequence-carrier-exposure}, \autoref{thm:speckersequence-classifier-transport}, \autoref{thm:speckersequence-monotone-bounded-ledger}, \autoref{thm:speckersequence-finite-stage-induction}, \autoref{thm:speckersequence-nonlocated-supremum-boundary}, \autoref{thm:speckersequence-realup-seal-nonescape}, \autoref{def:specker-sequence-obligation-surface}, \autoref{thm:specker-sequence-regular-cauchy-obligation}, \autoref{thm:specker-sequence-no-choice-boundary}, and \autoref{thm:specker-sequence-real-handoff} declare the finite Specker-sequence carrier, transport, monotone bounded ledger, finite-stage induction route, non-located supremum boundary, RealUp seal non-escape surface, obligation surface, regular-Cauchy obligation, no-choice boundary, and Real handoff.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.SpeckerSequenceUp.SpeckerSequenceCarrier\_exposure}
   \bridgestatus{none}
