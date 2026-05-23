@@ -85,6 +85,94 @@ theorem CauchyNetCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     ⟨cert, classifierUnary, realHandoffUnary, directedScheduleRegseq, classifierRealRoute,
       provenancePkg⟩
 
+theorem CauchyNetCarrier_transport_semanticNameCert [AskSetup] [PackageSetup]
+    {directed schedule regseq dyadic classifier realHandoff transport route provenance
+      nameRow transportedReal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyNetCarrier directed schedule regseq dyadic classifier realHandoff transport route
+        provenance nameRow bundle pkg →
+      UnaryHistory transportedReal →
+        hsame transportedReal realHandoff →
+          SemanticNameCert
+            (fun row : BHist => hsame row transportedReal ∧ UnaryHistory row)
+            (fun row : BHist => hsame row classifier ∨ hsame row transportedReal)
+            (fun row : BHist => PkgSig bundle provenance pkg ∧ hsame row transportedReal)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier transportedUnary _transportedMatchesReal
+  obtain ⟨_directedUnary, _scheduleUnary, _regseqUnary, _dyadicUnary,
+    _classifierUnary, _realHandoffUnary, _nameRowUnary, _directedScheduleRegseq,
+    _classifierRealRoute, _routeTransportProvenance, provenancePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro transportedReal ⟨hsame_refl transportedReal, transportedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, source.left⟩
+  }
+
+theorem CauchyNetCarrier_commonWindow_semanticNameCert [AskSetup] [PackageSetup]
+    {directed schedule regseq dyadic classifier realHandoff transport route provenance
+      nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyNetCarrier directed schedule regseq dyadic classifier realHandoff transport route
+        provenance nameRow bundle pkg →
+      SemanticNameCert
+        (fun row : BHist => hsame row classifier ∧ UnaryHistory row)
+        (fun row : BHist => hsame row directed ∨ hsame row schedule ∨ hsame row classifier)
+        (fun row : BHist => PkgSig bundle provenance pkg ∧ hsame row classifier)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier
+  obtain ⟨_directedUnary, _scheduleUnary, _regseqUnary, _dyadicUnary, classifierUnary,
+    _realHandoffUnary, _nameRowUnary, _directedScheduleRegseq, _classifierRealRoute,
+    _routeTransportProvenance, provenancePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro classifier ⟨hsame_refl classifier, classifierUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, source.left⟩
+  }
+
 theorem CauchyNetDirectedWindow_localization [AskSetup] [PackageSetup]
     {directed schedule regseq dyadic classifier realHandoff transport route provenance nameRow
       restrictedDirected restrictedSchedule restrictedRegseq restrictedDyadic restrictedClassifier
