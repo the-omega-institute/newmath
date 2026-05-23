@@ -151,23 +151,59 @@ instance regularCauchySubsequenceLimitChapterTasteGate :
     exact hxy
       (RegularCauchySubsequenceLimitTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+instance regularCauchySubsequenceLimitFieldFaithful :
+    FieldFaithful RegularCauchySubsequenceLimitUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchySubsequenceLimitFields
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk S L W R D E H C P N =>
+        cases y with
+        | mk S' L' W' R' D' E' H' C' P' N' =>
+            cases hfields
+            rfl
+
+instance regularCauchySubsequenceLimitNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial RegularCauchySubsequenceLimitUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchySubsequenceLimitUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RegularCauchySubsequenceLimitUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem RegularCauchySubsequenceLimitTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      regularCauchySubsequenceLimitDecodeBHist
-        (regularCauchySubsequenceLimitEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate RegularCauchySubsequenceLimitUp) ∧
+      Nonempty (FieldFaithful RegularCauchySubsequenceLimitUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RegularCauchySubsequenceLimitUp) ∧
+      (∀ h : BHist,
+        regularCauchySubsequenceLimitDecodeBHist
+          (regularCauchySubsequenceLimitEncodeBHist h) = h) ∧
       (∀ x : RegularCauchySubsequenceLimitUp,
         regularCauchySubsequenceLimitFromEventFlow
           (regularCauchySubsequenceLimitToEventFlow x) = some x) ∧
-        (∀ x y : RegularCauchySubsequenceLimitUp,
-          regularCauchySubsequenceLimitToEventFlow x =
-            regularCauchySubsequenceLimitToEventFlow y → x = y) ∧
-          regularCauchySubsequenceLimitEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ x y : RegularCauchySubsequenceLimitUp,
+        regularCauchySubsequenceLimitToEventFlow x =
+          regularCauchySubsequenceLimitToEventFlow y → x = y) ∧
+      regularCauchySubsequenceLimitEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨RegularCauchySubsequenceLimitTasteGate_single_carrier_alignment_decode_encode,
-      RegularCauchySubsequenceLimitTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        RegularCauchySubsequenceLimitTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+  constructor
+  · exact ⟨regularCauchySubsequenceLimitChapterTasteGate⟩
+  constructor
+  · exact ⟨regularCauchySubsequenceLimitFieldFaithful⟩
+  constructor
+  · exact ⟨regularCauchySubsequenceLimitNontrivial⟩
+  constructor
+  · exact RegularCauchySubsequenceLimitTasteGate_single_carrier_alignment_decode_encode
+  constructor
+  · exact RegularCauchySubsequenceLimitTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact RegularCauchySubsequenceLimitTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  · rfl
 
 end BEDC.Derived.RegularCauchySubsequenceLimitUp
