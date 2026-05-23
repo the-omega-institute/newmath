@@ -2179,6 +2179,50 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         print("[bedc-ci] axiom-purity: no BEDC theorems found", file=sys.stderr)
         return 0
 
+    # Race-safe tmp-dir handling. Default --tmp-dir is LEAN_ROOT, which is a
+    # worker worktree directory under .worktrees/round_R<N>/lean4/ during
+    # recovery. Worktree cleanup can race the audit subprocess: orchestrator
+    # may remove the worktree (or its parent dir) between argparse and
+    # tempfile.NamedTemporaryFile creation, causing FileNotFoundError that
+    # marks the recovery ticket "unrecoverable" even though the round's
+    # commit was already produced. Two-step guard:
+    #   1. mkdir(parents=True, exist_ok=True) on tmp_dir before any tempfile
+    #      creation — handles the common case where the dir was removed but
+    #      can be re-created.
+    #   2. If the dir is unreachable (parent gone, permission denied),
+    #      fall back to the system tempfile dir. `lake env lean` accepts an
+    #      absolute path to the source file; its import resolution is set
+    #      by `cwd=LEAN_ROOT` and the lake project's manifest, not by the
+    #      tempfile's location.
+    tmp_dir_path = Path(args.tmp_dir)
+    try:
+        tmp_dir_path.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        import tempfile as _tempfile
+        tmp_dir_path = Path(_tempfile.gettempdir())
+    args.tmp_dir = tmp_dir_path
+
+    # Startup sweep: tempfile cleanup. Each chunk's `try/finally:
+    # tmp_path.unlink()` below works for normal exit, but a SIGKILL'd
+    # axiom-purity (e.g. cooldown burst, recovery worker killed) leaves
+    # stale axiom_audit_*.lean files in tmp_dir. Sweep files older than
+    # 1h to bound accumulation without racing concurrent audits (a
+    # sibling audit's chunk file written less than 1h ago is safe).
+    # Observed in production: 918 leftover files accumulated under
+    # `lean4/axiom_audit_*.lean` over 2 weeks of high-concurrency runs.
+    import time as _time
+    sweep_now = _time.time()
+    sweep_cutoff = sweep_now - 3600  # 1h
+    try:
+        for stale in tmp_dir_path.glob("axiom_audit_*.lean"):
+            try:
+                if stale.stat().st_mtime < sweep_cutoff:
+                    stale.unlink()
+            except OSError:
+                pass
+    except OSError:
+        pass
+
     # Walk every .lean file under BEDC/ so that every theorem in `theorems`
     # is in scope. Root `BEDC.lean` cannot re-export all sub-files because
     # the project uses a parent-hub + namespace-extension pattern: sub-files
@@ -2212,16 +2256,34 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         lean_lines.extend(f"#print axioms {name}" for name in chunk)
         lean_source = "\n".join(lean_lines) + "\n"
 
-        with tempfile.NamedTemporaryFile(
-            mode="w",
-            suffix=".lean",
-            prefix=f"axiom_audit_{idx:03d}_",
-            dir=str(args.tmp_dir),
-            delete=False,
-            encoding="utf-8",
-        ) as tmp:
+        # Race-safe tempfile creation. The tmp_dir may disappear between
+        # the entry-point mkdir and this call when worktree cleanup races
+        # the audit; retry once after re-creating it, then fall back to
+        # the system tempdir.
+        def _make_tempfile(dir_path: Path):
+            return tempfile.NamedTemporaryFile(
+                mode="w",
+                suffix=".lean",
+                prefix=f"axiom_audit_{idx:03d}_",
+                dir=str(dir_path),
+                delete=False,
+                encoding="utf-8",
+            )
+
+        try:
+            tmp = _make_tempfile(args.tmp_dir)
+        except FileNotFoundError:
+            try:
+                args.tmp_dir.mkdir(parents=True, exist_ok=True)
+                tmp = _make_tempfile(args.tmp_dir)
+            except (OSError, FileNotFoundError):
+                args.tmp_dir = Path(tempfile.gettempdir())
+                tmp = _make_tempfile(args.tmp_dir)
+        try:
             tmp.write(lean_source)
             tmp_path = Path(tmp.name)
+        finally:
+            tmp.close()
 
         try:
             result = subprocess.run(
