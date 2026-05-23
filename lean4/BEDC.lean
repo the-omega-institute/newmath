@@ -1213,6 +1213,8 @@ import BEDC.Derived.CauchyRateLatticeUp.TasteGate
 import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
+import BEDC.Derived.CauchyRealApartnessUp
+import BEDC.Derived.CauchyRealApartnessUp.TasteGate
 import BEDC.Derived.CauchyRealCompletionInterfaceUp.TasteGate
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
