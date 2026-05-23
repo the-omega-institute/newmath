@@ -3721,6 +3721,7 @@ import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.AuditSealConsumerRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.BoundaryDisjointness
+import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateConfluenceBudget
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEvidenceBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateFinishedBoundaryTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
@@ -4470,6 +4471,7 @@ import BEDC.Derived.RealAlgOrderUp.TasteGate
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.RealApartnessCompletionUp.TasteGate
+import BEDC.Derived.RealApartnessOrderBridgeUp.TasteGate
 import BEDC.Derived.RealApproximationEnvelopeUp
 import BEDC.Derived.RealBaireCylinderUp.TasteGate
 import BEDC.Derived.RealBallUp
