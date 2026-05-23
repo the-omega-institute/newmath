@@ -10,9 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ExtendedRealLineUp : Type where
-  | mk :
-      (tag finiteReal lower upper positiveBound nonChoice transport replay provenance name : BHist) →
-        ExtendedRealLineUp
+  | mk (T R L U P B H C K N : BHist) : ExtendedRealLineUp
   deriving DecidableEq
 
 def extendedRealLineEncodeBHist : BHist → RawEvent
@@ -27,7 +25,7 @@ def extendedRealLineDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (extendedRealLineDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (extendedRealLineDecodeBHist tail)
 
-private theorem ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode :
+private theorem extendedRealLineDecode_encode_bhist :
     ∀ h : BHist, extendedRealLineDecodeBHist (extendedRealLineEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,10 +36,7 @@ private theorem ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode
 
 def extendedRealLineFields : ExtendedRealLineUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ExtendedRealLineUp.mk tag finiteReal lower upper positiveBound nonChoice transport replay
-      provenance name =>
-      [tag, finiteReal, lower, upper, positiveBound, nonChoice, transport, replay, provenance,
-        name]
+  | ExtendedRealLineUp.mk T R L U P B H C K N => [T, R, L, U, P, B, H, C, K, N]
 
 def extendedRealLineToEventFlow : ExtendedRealLineUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -49,58 +44,79 @@ def extendedRealLineToEventFlow : ExtendedRealLineUp → EventFlow
 
 def extendedRealLineFromEventFlow : EventFlow → Option ExtendedRealLineUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [tag, finiteReal, lower, upper, positiveBound, nonChoice, transport, replay, provenance,
-      name] =>
-      some
-        (ExtendedRealLineUp.mk
-          (extendedRealLineDecodeBHist tag)
-          (extendedRealLineDecodeBHist finiteReal)
-          (extendedRealLineDecodeBHist lower)
-          (extendedRealLineDecodeBHist upper)
-          (extendedRealLineDecodeBHist positiveBound)
-          (extendedRealLineDecodeBHist nonChoice)
-          (extendedRealLineDecodeBHist transport)
-          (extendedRealLineDecodeBHist replay)
-          (extendedRealLineDecodeBHist provenance)
-          (extendedRealLineDecodeBHist name))
-  | _ => none
+  | [] => none
+  | T :: restR =>
+      match restR with
+      | [] => none
+      | R :: restL =>
+          match restL with
+          | [] => none
+          | L :: restU =>
+              match restU with
+              | [] => none
+              | U :: restP =>
+                  match restP with
+                  | [] => none
+                  | P :: restB =>
+                      match restB with
+                      | [] => none
+                      | B :: restH =>
+                          match restH with
+                          | [] => none
+                          | H :: restC =>
+                              match restC with
+                              | [] => none
+                              | C :: restK =>
+                                  match restK with
+                                  | [] => none
+                                  | K :: restN =>
+                                      match restN with
+                                      | [] => none
+                                      | N :: rest =>
+                                          match rest with
+                                          | [] =>
+                                              some
+                                                (ExtendedRealLineUp.mk
+                                                  (extendedRealLineDecodeBHist T)
+                                                  (extendedRealLineDecodeBHist R)
+                                                  (extendedRealLineDecodeBHist L)
+                                                  (extendedRealLineDecodeBHist U)
+                                                  (extendedRealLineDecodeBHist P)
+                                                  (extendedRealLineDecodeBHist B)
+                                                  (extendedRealLineDecodeBHist H)
+                                                  (extendedRealLineDecodeBHist C)
+                                                  (extendedRealLineDecodeBHist K)
+                                                  (extendedRealLineDecodeBHist N))
+                                          | _ :: _ => none
 
-private theorem ExtendedRealLineTasteGate_single_carrier_alignment_round_trip :
+private theorem extendedRealLine_round_trip :
     ∀ x : ExtendedRealLineUp,
       extendedRealLineFromEventFlow (extendedRealLineToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk tag finiteReal lower upper positiveBound nonChoice transport replay provenance name =>
+  | mk T R L U P B H C K N =>
       change
         some
           (ExtendedRealLineUp.mk
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist tag))
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist finiteReal))
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist lower))
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist upper))
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist positiveBound))
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist nonChoice))
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist transport))
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist replay))
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist provenance))
-            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist name))) =
-          some
-            (ExtendedRealLineUp.mk tag finiteReal lower upper positiveBound nonChoice
-              transport replay provenance name)
-      rw [ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode tag,
-        ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode finiteReal,
-        ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode lower,
-        ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode upper,
-        ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode positiveBound,
-        ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode nonChoice,
-        ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode transport,
-        ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode replay,
-        ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode provenance,
-        ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode name]
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist T))
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist R))
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist L))
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist U))
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist P))
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist B))
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist H))
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist C))
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist K))
+            (extendedRealLineDecodeBHist (extendedRealLineEncodeBHist N))) =
+          some (ExtendedRealLineUp.mk T R L U P B H C K N)
+      rw [extendedRealLineDecode_encode_bhist T, extendedRealLineDecode_encode_bhist R,
+        extendedRealLineDecode_encode_bhist L, extendedRealLineDecode_encode_bhist U,
+        extendedRealLineDecode_encode_bhist P, extendedRealLineDecode_encode_bhist B,
+        extendedRealLineDecode_encode_bhist H, extendedRealLineDecode_encode_bhist C,
+        extendedRealLineDecode_encode_bhist K, extendedRealLineDecode_encode_bhist N]
 
-private theorem ExtendedRealLineTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : ExtendedRealLineUp} :
+private theorem extendedRealLineToEventFlow_injective {x y : ExtendedRealLineUp} :
     extendedRealLineToEventFlow x = extendedRealLineToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -109,19 +125,18 @@ private theorem ExtendedRealLineTasteGate_single_carrier_alignment_toEventFlow_i
         extendedRealLineFromEventFlow (extendedRealLineToEventFlow y) :=
     congrArg extendedRealLineFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (ExtendedRealLineTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (ExtendedRealLineTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (extendedRealLine_round_trip x).symm
+      (Eq.trans hread (extendedRealLine_round_trip y)))
 
-private theorem ExtendedRealLineTasteGate_single_carrier_alignment_fields_faithful :
+private theorem extendedRealLineFields_faithful :
     ∀ x y : ExtendedRealLineUp, extendedRealLineFields x = extendedRealLineFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
+  intro x y h
   cases x with
-  | mk tag finiteReal lower upper positiveBound nonChoice transport replay provenance name =>
+  | mk T1 R1 L1 U1 P1 B1 H1 C1 K1 N1 =>
       cases y with
-      | mk tag' finiteReal' lower' upper' positiveBound' nonChoice' transport' replay'
-          provenance' name' =>
-          cases hfields
+      | mk T2 R2 L2 U2 P2 B2 H2 C2 K2 N2 =>
+          cases h
           rfl
 
 instance extendedRealLineBHistCarrier : BHistCarrier ExtendedRealLineUp where
@@ -134,15 +149,15 @@ instance extendedRealLineChapterTasteGate : ChapterTasteGate ExtendedRealLineUp 
   round_trip := by
     intro x
     change extendedRealLineFromEventFlow (extendedRealLineToEventFlow x) = some x
-    exact ExtendedRealLineTasteGate_single_carrier_alignment_round_trip x
+    exact extendedRealLine_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (ExtendedRealLineTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (extendedRealLineToEventFlow_injective heq)
 
 instance extendedRealLineFieldFaithful : FieldFaithful ExtendedRealLineUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := extendedRealLineFields
-  field_faithful := ExtendedRealLineTasteGate_single_carrier_alignment_fields_faithful
+  field_faithful := extendedRealLineFields_faithful
 
 instance extendedRealLineNontrivial : Nontrivial ExtendedRealLineUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -152,9 +167,12 @@ instance extendedRealLineNontrivial : Nontrivial ExtendedRealLineUp where
       ExtendedRealLineUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
-        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
+
+def taste_gate : ChapterTasteGate ExtendedRealLineUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  extendedRealLineChapterTasteGate
 
 theorem ExtendedRealLineTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate ExtendedRealLineUp) ∧
@@ -163,12 +181,46 @@ theorem ExtendedRealLineTasteGate_single_carrier_alignment :
           (∀ h : BHist, extendedRealLineDecodeBHist (extendedRealLineEncodeBHist h) = h) ∧
             (∀ x : ExtendedRealLineUp,
               extendedRealLineFromEventFlow (extendedRealLineToEventFlow x) = some x) ∧
-              extendedRealLineEncodeBHist BHist.Empty = ([] : List BMark) := by
+              extendedRealLineEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
     ⟨⟨extendedRealLineChapterTasteGate⟩, ⟨extendedRealLineFieldFaithful⟩,
       ⟨extendedRealLineNontrivial⟩,
-      ExtendedRealLineTasteGate_single_carrier_alignment_decode_encode,
-      ExtendedRealLineTasteGate_single_carrier_alignment_round_trip, rfl⟩
+      extendedRealLineDecode_encode_bhist,
+      extendedRealLine_round_trip, rfl⟩
+
+namespace TasteGate
+
+theorem ExtendedRealLineTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate ExtendedRealLineUp) ∧
+      Nonempty (FieldFaithful ExtendedRealLineUp) ∧
+        Nonempty (Nontrivial ExtendedRealLineUp) ∧
+          (∀ h : BHist, extendedRealLineDecodeBHist (extendedRealLineEncodeBHist h) = h) ∧
+            (∀ x : ExtendedRealLineUp,
+              extendedRealLineFromEventFlow (extendedRealLineToEventFlow x) = some x) ∧
+              (∀ x y : ExtendedRealLineUp,
+                extendedRealLineToEventFlow x = extendedRealLineToEventFlow y → x = y) ∧
+                extendedRealLineEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  constructor
+  · exact ⟨extendedRealLineChapterTasteGate⟩
+  · constructor
+    · exact ⟨extendedRealLineFieldFaithful⟩
+    · constructor
+      · exact ⟨extendedRealLineNontrivial⟩
+      · constructor
+        · exact extendedRealLineDecode_encode_bhist
+        · constructor
+          · exact extendedRealLine_round_trip
+          · constructor
+            · intro x y heq
+              exact extendedRealLineToEventFlow_injective heq
+            · rfl
+
+def taste_gate : ChapterTasteGate ExtendedRealLineUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  BEDC.Derived.ExtendedRealLineUp.taste_gate
+
+end TasteGate
 
 end BEDC.Derived.ExtendedRealLineUp
