@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\BishopRealLineInterfaceUp$}
+\label{ch:concrete-instances-bishop-real-line-interface-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\BishopRealLineInterfaceUp$ packet records the traditional real-line interface boundary as finite NameCert data rather than as a host real object. It consumes the dyadic endpoint and tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular Cauchy readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-facing boundary of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. The packet is an interface surface for Real and Completion consumers; it does not assert completeness of $\RealUp$, identify quotient streams, compare host real values, select limits, invoke countable choice, or supply trichotomy.
+
+\begin{definition}[Bishop real-line interface carrier]
+\label{def:bishop-real-line-interface-carrier}
+A $\BishopRealLineInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+I=(D,W,R,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and tolerance ledger, recording admitted dyadic endpoints, positive tolerances, and comparison budgets before any real-line consumer reads a value-shaped claim.
+\item $W$ is the $\StreamNameUp$ finite-window row, exposing only bounded observation windows of the named stream.
+\item $R$ is the $\RegSeqRatUp$ regular Cauchy readback row attached to $W$ and to the dyadic tolerance ledger $D$.
+\item $E$ is the terminal $\RealUp$ seal row, reached only after $D,W,R$ have been displayed.
+\item $Q$ is the classifier-comparison row for accepted interface packets; it compares endpoint ledgers, finite windows, regular readback, and terminal seals without adding quotient stream equality or host real equality.
+\item $H$ records componentwise $\hsame$ transport for the dyadic ledger, stream windows, regular readback, terminal Real seal, classifier comparison, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real-line interface request through $D,W,R,E,Q,H$.
+\item $P$ is the $\Pkg$ provenance over $\BishopRealLineInterfaceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopRegularCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRealLineInterfaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,R,E,Q,H,C,P,N$. The carrier has no coordinate for $\RealUp$ completeness, quotient stream equality, host real equality, trichotomy, countable choice, selected limits, metric completeness, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Bishop real-line interface NameCert obligations]
+\label{thm:bishop-real-line-interface-namecert-obligations}
+For every accepted $\BishopRealLineInterfaceUp$ carrier $I=(D,W,R,E,Q,H,C,P,N)$, the local $\NameCert_{\BishopRealLineInterfaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic endpoint and tolerance ledger, finite stream windows, regular Cauchy readback, terminal Real seal, classifier comparison, transport, continuation, package provenance, and local naming row;
+\item dyadic-to-window admission, requiring every real-line request to expose its endpoint and tolerance budget in $D$ before reading a finite window in $W$;
+\item regular readback admission, requiring the regular Cauchy row $R$ to be read from the displayed stream windows and dyadic ledger before the terminal $\RealUp$ seal $E$ is consumed;
+\item classifier transport, requiring $Q,H,C$ to preserve the displayed route $D,W,R,E$ under componentwise $\hsame$ and displayed $\Cont$ replay;
+\item package provenance, requiring $P$ to route the packet through the already displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\BishopRegularCauchyCompletionUp$ surfaces;
+\item ledger non-escape, requiring $P$ and $N$ to export no $\RealUp$ completeness, quotient stream equality, host real equality, trichotomy, countable choice, selected limit, metric completeness, or bridge-checking row.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-real-line-interface-carrier}. The projection exposes exactly the dyadic ledger $D$, finite windows $W$, regular readback $R$, terminal seal $E$, classifier row $Q$, and the structural rows $H,C,P,N$.
+
+The dyadic-to-window and regular-readback obligations are inherited from the four L10 source surfaces. The dyadic endpoint and tolerance budget is the public source row of \autoref{ch:concrete-instances-dyadicratcore-namecert}; finite observation windows are read through \autoref{ch:concrete-instances-streamname-namecert}; and the regular Cauchy row is the readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+The terminal Real seal is downstream of those rows. A consumer reaches $E$ only after the $D,W,R$ route has been replayed, matching the Real seal boundary of \autoref{ch:concrete-instances-real-namecert} and the completion-facing discipline of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}.
+
+Classifier transport is exhausted by $Q,H,C$. The classifier compares only displayed rows, $H$ transports them componentwise under $\hsame$, and $C$ replays the same route under $\Cont$.
+
+Finally, provenance and local naming add no mathematical coordinate. Since the excluded objects are absent from $I$, the listed rows exhaust the local $\NameCert_{\BishopRealLineInterfaceUp}$ obligation surface.
+\end{proof}
+
+\begin{theorem}[Bishop real-line interface four-face route]
+\label{thm:bishop-real-line-interface-four-face-route}
+Every Real or Completion consumer of an accepted $\BishopRealLineInterfaceUp$ carrier reads the interface through the ordered four-face route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The consumer may then inspect classifier comparison, componentwise transport, continuation replay, package provenance, and local naming data, but it receives no extra route through quotient stream equality, selected limits, countable choice, host real equality, trichotomy, metric completeness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $I=(D,W,R,E,Q,H,C,P,N)$. Projection gives a consumer the dyadic row $D$, the stream-window row $W$, the regular readback row $R$, and the terminal seal $E$ in the displayed order of the carrier.
+
+The first face is dyadic. The endpoint and tolerance budget in $D$ is read through the $\DyadicRatCoreUp$ chapter, so the route begins with finite dyadic comparisons rather than a host real value.
+
+The second and third faces are the finite stream window and regular rational readback. The row $W$ exposes only bounded observations from $\StreamNameUp$, and the row $R$ consumes those observations as the $\RegSeqRatUp$ regular Cauchy reading.
+
+The fourth face is the terminal Real seal. The row $E$ is reached only after $D,W,R$ have been displayed, exactly as in the $\RealUp$ and $\BishopRegularCauchyCompletionUp$ sibling routes.
+
+The remaining rows $Q,H,C,P,N$ compare, transport, replay, source, and name the same route. None of them contains quotient stream equality, selected limits, countable choice, host real equality, trichotomy, metric completeness, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Bishop real-line interface nonescape]
+\label{thm:bishop-real-line-interface-nonescape}
+Every accepted $\BishopRealLineInterfaceUp$ carrier $I=(D,W,R,E,Q,H,C,P,N)$ is exhausted by the displayed rows $D,W,R,E,Q,H,C,P,N$. Thus the interface exports only dyadic endpoints and tolerances, finite stream windows, regular Cauchy readback, the terminal Real seal, classifier comparison, transport, continuation, package provenance, and local naming data.
+
+In particular, the packet exports no $\RealUp$ completeness theorem, quotient stream equality, host real equality, trichotomy, countable-choice schedule, selected limit, metric-completeness assertion, or bridge-checking evidence.
+\end{theorem}
+\begin{proof}
+The carrier tuple lists every coordinate available to a local consumer. Projection from \autoref{def:bishop-real-line-interface-carrier} therefore gives exactly $D,W,R,E,Q,H,C,P,N$ and no hidden coordinate.
+
+The mathematical rows are already bounded by the four-face route. The dyadic ledger, finite stream windows, regular readback, and terminal seal are the only value-facing rows; classifier comparison is a comparison of those displayed rows, not a second equality principle.
+
+The structural rows do not enlarge the packet. The $\hsame$ row transports displayed coordinates, the $\Cont$ row replays the displayed route, $P$ records provenance for the named interface, and $N$ records the local NameCert row.
+
+Since no excluded object occurs in any carrier coordinate, no accepted read can escape to Real completeness, quotient stream equality, host real equality, trichotomy, countable choice, selected limits, metric completeness, or bridge checking.
+\end{proof}
+
+\closureat{BishopRealLineInterfaceUp}{seedStr}
+
+\begin{closurestatus}{\BishopRealLineInterfaceUp}
+  \constructivestory{A $\BishopRealLineInterfaceUp$ packet is generated from a DyadicRatCore endpoint and tolerance ledger, finite StreamName windows, RegSeqRat regular readback, a terminal Real seal, classifier comparison, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-real-line-interface-carrier}, \autoref{thm:bishop-real-line-interface-namecert-obligations}, \autoref{thm:bishop-real-line-interface-four-face-route}, and \autoref{thm:bishop-real-line-interface-nonescape} seed the traditional constructive real-line interface boundary over the displayed L10 dyadic, stream, regular-readback, Real-seal, classifier, transport, continuation, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.BishopRealLineInterfaceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, host real equality, trichotomy, countable choice, selected limits, metric completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-face route preservation, classifier transport, package provenance, and non-escape proofs for BEDC.Derived.BishopRealLineInterfaceUp over the same displayed BEDC primitives.}
+\end{closurestatus}
