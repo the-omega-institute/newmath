@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\FastConvergentRealSequenceUp$}
+\label{ch:concrete-instances-fast-convergent-real-sequence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Weihrauch-style computable analysis, the $\FastConvergentRealSequenceUp$ packet records a real sequence whose convergence is carried by an explicit displayed rate. It sits on the open Real and Completion route after the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the explicit rate surface of \autoref{ch:concrete-instances-real-convergence-rate-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It is distinct from the sibling $\FastConvergentSeriesUp$ certificate of \autoref{ch:concrete-instances-fastconvergentseries-namecert}: this chapter names a rate-bearing sequence route, not a partial-sum and tail-sum route.
+
+\begin{definition}[Fast convergent real sequence carrier]
+\label{def:fast-convergent-real-sequence-carrier}
+A $\FastConvergentRealSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,R,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the stream schedule. It records the finite $\StreamNameUp$ windows through which requested sequence positions and precision rows are observed.
+\item $R$ is the regular rational readback. It stores the $\RegSeqRatUp$ observations attached to the scheduled windows and records the regularity checks available to downstream real-name consumers.
+\item $D$ is the dyadic tolerance ledger. It lists the $\DyadicRatCoreUp$ tolerances, comparison cells, denominator budgets, and refinement rows used by the regular readback.
+\item $M$ is the explicit convergence-rate row. It gives the finite modulus or rate schedule by which each tolerance request is assigned a displayed tail window.
+\item $E$ is the $\RealUp$ seal handoff. It is exposed only after $S,R,D,$ and $M$ have been displayed and replayed.
+\item $H$ stores componentwise $\hsame$ transport for the stream schedule, regular rational readback, dyadic tolerance ledger, rate row, real seal, continuation replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a finite precision request through $S,R,D,M,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FastConvergentRealSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealConvergenceRateUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FastConvergentRealSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the rows $S,R,D,M,E,H,C,P,N$. The carrier has no coordinate for quotient stream equality, a selected limit, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Fast real sequence rate exposure]
+\label{thm:fast-convergent-real-sequence-rate-exposure}
+For every accepted $\FastConvergentRealSequenceUp$ carrier
+$$
+F=(S,R,D,M,E,H,C,P,N),
+$$
+each precision request reaches the explicit convergence-rate row $M$ before it may read a tail window, dyadic tolerance comparison, regular rational readback, or terminal $\RealUp$ seal. Thus the rate-bearing sequence surface exposes a displayed modulus route rather than a host convergence predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:fast-convergent-real-sequence-carrier}. The row $M$ is a named coordinate of the accepted packet, while $S$, $R$, and $D$ are the scheduled observation, regular readback, and tolerance rows to which the rate is applied.
+
+Replay the finite request route stored in $C$. A precision request first selects the displayed rate threshold in $M$, then opens the corresponding finite StreamName window in $S$ and the dyadic tolerance cells in $D$.
+
+Only after those rows have been displayed can the regular rational row $R$ be read as a tail-controlled observation surface. Since the rate is a coordinate of the packet and the route uses only $S,R,D,M,H,C,P,N$, no host convergence predicate is introduced.
+\end{proof}
+
+\begin{theorem}[Fast real sequence Real seal handoff]
+\label{thm:fast-convergent-real-sequence-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\FastConvergentRealSequenceUp$ packet factors through the displayed route
+$$
+S,M,D,R,H,C,P,N \longmapsto E.
+$$
+The terminal seal $E$ is therefore downstream of the stream schedule, explicit rate, dyadic tolerance ledger, regular rational readback, transport, replay, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $F=(S,R,D,M,E,H,C,P,N)$. The seal row $E$ appears in the carrier only as the terminal handoff coordinate, not as an independent real endpoint.
+
+Use \autoref{thm:fast-convergent-real-sequence-rate-exposure}. Every precision request reads $M$ before it opens the finite tail window and tolerance ledger. The rows $S$ and $D$ therefore determine the observations and comparisons that the regular rational row $R$ may expose.
+
+The handoff to $E$ is then a projection of the displayed carrier route. Componentwise transport in $H$, replay in $C$, provenance in $P$, and local naming in $N$ bind the same rows to the terminal Real seal. No separate limit selector or ambient completeness coordinate is available.
+\end{proof}
+
+\begin{theorem}[Fast real sequence non-escape]
+\label{thm:fast-convergent-real-sequence-nonescape}
+An accepted $\FastConvergentRealSequenceUp$ packet exports only its displayed stream schedule, regular rational readback, dyadic tolerance ledger, convergence-rate row, Real seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. It exports no quotient stream equality, selected limit, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. Its complete coordinate list is $S,R,D,M,E,H,C,P,N$, and every classifier comparison is restricted to those rows.
+
+The rate exposure theorem identifies the only convergence control available to a consumer: the displayed row $M$ together with the scheduled windows and tolerance ledger. The Real seal handoff theorem identifies the only terminal real-facing route: the composite through $S,M,D,R,H,C,P,N$ into $E$.
+
+The excluded objects are not coordinates of the packet and are not produced by the finite replay route. Therefore no consumer of the accepted packet can extract quotient stream equality, a selected limit, trichotomy, countable choice, ambient completeness, Lean verification, or bridge checking from this NameCert surface.
+\end{proof}
+
+\closureat{FastConvergentRealSequenceUp}{seedStr}
+
+\begin{closurestatus}{\FastConvergentRealSequenceUp}
+  \constructivestory{A $\FastConvergentRealSequenceUp$ packet is generated from a finite StreamName schedule, RegSeqRat readback rows, a DyadicRatCore tolerance ledger, an explicit RealConvergenceRate row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fast-convergent-real-sequence-carrier}, \autoref{thm:fast-convergent-real-sequence-rate-exposure}, \autoref{thm:fast-convergent-real-sequence-real-seal-handoff}, and \autoref{thm:fast-convergent-real-sequence-nonescape} seed the rate-bearing real-sequence route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, rate-to-tail routing, dyadic tolerance accounting, RegSeqRat readback, Real seal handoff, transport, replay, provenance, and non-escape for BEDC.Derived.FastConvergentRealSequenceUp.}
+\end{closurestatus}
