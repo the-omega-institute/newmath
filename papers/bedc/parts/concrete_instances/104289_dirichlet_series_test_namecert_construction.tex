@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\DirichletSeriesTestUp$}
+\label{ch:concrete-instances-dirichlet-series-test-namecert}
+\origin{human}
+
+Following Dirichlet and Bishop--Bridges constructive analysis, the $\DirichletSeriesTestUp$ packet records the finite cancellation surface for a real series whose partial sums are bounded and whose coefficient stream is monotone null. It consumes the $\RealSeriesUp$ root surface of \autoref{ch:concrete-instances-realseries-namecert}, the uniform Cauchy handoff of \autoref{ch:concrete-instances-uniform-cauchy-series-namecert}, the real sequence limit interface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the endpoint seal of \autoref{ch:concrete-instances-real-namecert}. The packet names convergence only through finite Abel-summation windows and shared Cauchy thresholds; it does not import host infinite sums, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dirichlet series test carrier]
+\label{def:dirichlet-series-test-carrier}
+A $\DirichletSeriesTestUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,U,L,Q,W,D,E,A,B,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealSeriesUp$ carrier of \autoref{def:real-series-carrier}, including finite term access, partial-sum windows, the shared threshold, and the endpoint seal route.
+\item $U$ is the $\UniformCauchySeriesUp$ handoff row consumed only after the Dirichlet cancellation surface is displayed.
+\item $L$ is the $\RealSequenceLimitUp$ limit-interface row for the coefficient stream, read only as a null ledger and not as a selected series limit.
+\item $Q$ is the $\RegSeqRatUp$ readback row for coefficient comparisons.
+\item $W$ is the $\StreamNameUp$ finite-window row for term, coefficient, and Abel-difference indices.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger.
+\item $E$ is the $\RealUp$ endpoint seal inherited from the real-series row.
+\item $A$ is the bounded partial-sum ledger.
+\item $B$ is the monotone null coefficient ledger.
+\item $V$ is the Abel-summation finite-difference variation ledger.
+\item $H,C,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\DirichletSeriesTestUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Dirichlet series test NameCert obligations]
+\label{thm:dirichlet-series-test-namecert-obligations}
+For every accepted $\DirichletSeriesTestUp$ carrier $K=(R,U,L,Q,W,D,E,A,B,V,H,C,P,N)$, the local $\NameCert_{\DirichletSeriesTestUp}$ surface consists exactly of five obligations: carrier admission for the displayed rows, bounded partial-sum ledger visibility through $A$, monotone null coefficient ledger visibility through $B$ and $L$, Abel summation route visibility through $V$, and tail-cancellation Cauchy readiness through $D,E,U,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dirichlet-series-test-carrier}. Each listed obligation names one displayed row group of the finite packet and no external analytic object.
+
+Use the $\RealSeriesUp$ Dirichlet cancellation surface of \autoref{def:realseries-dirichlet-cancellation-surface}. It supplies the bounded partial-sum, monotone null coefficient, Abel-difference, dyadic tolerance, shared threshold, and endpoint rows already required by the carrier.
+
+The support rows $H,C,P,N$ preserve, replay, source, and name the same finite route. Since the packet has no host infinite sum, selected limit, quotient equality, countable-choice schedule, or ambient completeness coordinate, the five obligations exhaust the accepted surface.
+\end{proof}
+
+\begin{theorem}[Dirichlet series test Abel summation route]
+\label{thm:dirichlet-series-test-abel-summation-route}
+Every accepted $\DirichletSeriesTestUp$ carrier exports its cancellation claim through the finite Abel-summation route
+$$
+R \longmapsto A \longmapsto (B,L,Q,W) \longmapsto V \longmapsto D \longmapsto E \longmapsto U .
+$$
+The route first reads bounded partial sums from the $\RealSeriesUp$ row, then reads monotone null coefficients through $\RealSequenceLimitUp$, $\RegSeqRatUp$, and $\StreamNameUp$, then reads Abel finite differences through $V$, and only then reaches dyadic tolerance, endpoint sealing, and the $\UniformCauchySeriesUp$ handoff.
+\end{theorem}
+\begin{proof}
+Start with the bounded partial-sum and variation route of \autoref{thm:realseries-dirichlet-partial-sum-bounded-variation}. It places the finite partial-sum ledger before coefficient variation and dyadic tolerance.
+
+Apply the tail-cancellation theorem \autoref{thm:realseries-dirichlet-tail-cancellation}. The endpoint seal is downstream of the bounded partial-sum ledger, coefficient ledger, Abel-difference ledger, dyadic tolerance ledger, and shared threshold.
+
+Finally use the Cauchy-readiness theorem \autoref{thm:realseries-dirichlet-cauchy-readiness}. The $\UniformCauchySeriesUp$ row is a consumer of the same finite cancellation surface, so the handoff cannot bypass the displayed Abel route.
+\end{proof}
+
+\begin{theorem}[Dirichlet series test Cauchy consumer surface]
+\label{thm:dirichlet-series-test-cauchy-consumer-surface}
+The downstream Cauchy consumer of an accepted $\DirichletSeriesTestUp$ carrier receives only
+$$
+\RealSeriesUp,\ \UniformCauchySeriesUp,\ \RealSequenceLimitUp,\ \RegSeqRatUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Its convergence read is the tail-cancellation Cauchy readiness of \autoref{thm:realseries-dirichlet-cauchy-readiness} and the Abel route of \autoref{thm:dirichlet-series-test-abel-summation-route}; no stronger host-side convergence principle is exported.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory in \autoref{def:dirichlet-series-test-carrier}. The visible rows are exactly the real-series carrier, uniform Cauchy handoff, real sequence limit interface, regular rational readback, stream windows, dyadic tolerance, endpoint seal, cancellation ledgers, and support rows.
+
+Use \autoref{thm:dirichlet-series-test-namecert-obligations}. It partitions those rows into carrier admission, bounded partial sums, monotone null coefficients, Abel summation, and Cauchy readiness.
+
+The named consumer route then follows from \autoref{thm:dirichlet-series-test-abel-summation-route}. Because every step is a displayed finite row, the consumer cannot recover a host infinite sum, selected series limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\DirichletSeriesTestUp$ convergence read factors through a RealSeries bounded partial-sum ledger, a monotone null coefficient ledger, Abel finite differences, dyadic tolerance, a shared Cauchy threshold, an endpoint RealUp seal, uniform Cauchy handoff, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{realseries, uniform-cauchy-series, real-sequence-limit, regseqrat, streamname, dyadicratcore, real: $\DirichletSeriesTestUp$ is not bijective to any listed sibling because it jointly carries bounded partial sums, monotone null coefficients, Abel finite differences, Cauchy readiness, endpoint sealing, uniform handoff, transport, continuation, provenance, and local naming.}
+
+\closureat{DirichletSeriesTestUp}{seedStr}
+
+\begin{closurestatus}{\DirichletSeriesTestUp}
+  \constructivestory{A $\DirichletSeriesTestUp$ packet is generated from a $\RealSeriesUp$ carrier, $\UniformCauchySeriesUp$ handoff, $\RealSequenceLimitUp$ coefficient limit interface, $\RegSeqRatUp$ readback, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ endpoint seal, bounded partial-sum ledger, monotone null coefficient ledger, Abel finite-difference variation ledger, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dirichlet-series-test-carrier}, \autoref{thm:dirichlet-series-test-namecert-obligations}, \autoref{thm:dirichlet-series-test-abel-summation-route}, and \autoref{thm:dirichlet-series-test-cauchy-consumer-surface} seed the constructive Dirichlet series test surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, selected limits, quotient equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded partial-sum ledger visibility, monotone null coefficient visibility, Abel finite-difference accounting, Cauchy readiness, and TasteGate field faithfulness for BEDC.Derived.DirichletSeriesTestUp.}
+\end{closurestatus}
