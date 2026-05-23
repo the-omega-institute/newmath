@@ -251,6 +251,46 @@ Thus the extension ledger can compare displayed reads only through the universal
 Finally apply \autoref{thm:uniform-completion-real-regseqrat-handoff}. The Real-facing route remains a finite RegSeqRat-to-Real handoff named by the provenance row, with transport and replay preserving the same carrier coordinates. The listed quotient, representative-selection, ambient-completeness, compactness, and choice data are outside the carrier and outside every continuation route.
 \end{proof}
 
+\begin{theorem}[UniformCompletion root source admission]
+\label{thm:uniform-completion-root-source-admission}
+Every accepted $\UniformCompletionUp$ carrier admits its root source through the displayed $\CauchyFilterUp$ row $F$, the $\CauchyNetUp$ row $D$, and the $\CompletionUniversalPropertyUp$ row $U$ before any extension consumer can read the structural rows $H,C,P,N$ for $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Equivalently, a $\BHist$ read into the $\UniformCompletionUp$ packet is root-admissible only when its source route is witnessed by
+$$
+F,D,U \longmapsto H,C,P,N .
+$$
+No root source is admitted through a quotient completion, a selected representative, or an ambient complete uniform space.
+\end{theorem}
+\begin{proof}
+Project the carrier and begin with an arbitrary root read. The only source rows able to expose completion data are $F$, $D$, and $U$, so the read must first pass through the displayed Cauchy filter, Cauchy net, and universal-property coordinates.
+
+The structural rows are downstream. The $\hsame$ transports $H$ preserve the same source coordinates, the $\Cont$ replay $C$ exposes only those finite routes, and $P,N$ source and name the resulting packet.
+
+Since the carrier has no coordinate for quotient completion, representative selection, or an ambient complete uniform space, none of those objects can discharge root admission. The displayed route is therefore the complete admission boundary.
+\end{proof}
+
+\begin{theorem}[UniformCompletion root branch coverage]
+\label{thm:uniform-completion-root-branch-coverage}
+For an accepted $\UniformCompletionUp$ packet, every root branch relevant to extension data is covered by one of the displayed $\CauchyFilterUp$ or $\CauchyNetUp$ entries before the $\CompletionUniversalPropertyUp$ row $U$ is read. In BEDC rows, each branch read in $\BHist$ is classified through $F$ or $D$, transported by $\hsame$ in $H$, replayed by $\Cont$ in $C$, sourced by $\Pkg$ in $P$, and named by $\NameCert$ in $N$; no extension datum may bypass the filter-net branch coverage.
+\end{theorem}
+\begin{proof}
+Read a branch request in the packet. If it is filter-shaped, the classifier sends it to $F$; if it is directed-net-shaped, the classifier sends it to $D$. These are exactly the two branch sources displayed before the universal-property row.
+
+The universal row $U$ can compare extension data only after one of those branch witnesses is present. Transport and replay through $H$ and $C$ preserve the selected filter or net coordinate rather than adding a third branch.
+
+The provenance row $P$ and naming row $N$ record the same two-branch boundary. Thus extension data has no route around the displayed filter-net coverage surface.
+\end{proof}
+
+\begin{theorem}[UniformCompletion root readback nonescape]
+\label{thm:uniform-completion-root-readback-nonescape}
+Every $\RegSeqRatUp$ or $\RealUp$ readback from an accepted $\UniformCompletionUp$ carrier is confined to the displayed finite route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already named by $F,D,U,H,C,P,N$. The readback ledger excludes quotient completion, selected representatives, an ambient complete uniform space, open-cover compactness, and choice: none of those data types is a carrier coordinate, a classifier branch, a continuation target, or a provenance source for the packet.
+\end{theorem}
+\begin{proof}
+Start with a RegSeqRat-facing read. By the filter-net scope theorem, it is sourced by the displayed Cauchy-filter and Cauchy-net rows and then replayed through the same structural transport and continuation rows.
+
+The Real-facing read is downstream of that ledger. It can only consume the regular rational handoff already named by the packet, so it cannot introduce a quotient completion or a selected representative.
+
+Finally inspect the remaining excluded data. Ambient complete uniform spaces, open-cover compactness principles, and choice operators occur neither as carrier coordinates nor as classifier branches, continuation targets, or provenance sources. The readback therefore stays inside the finite BEDC ledger.
+\end{proof}
+
 \begin{closurestatus}{\UniformCompletionUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:uniform-completion-carrier}, \autoref{thm:uniform-completion-namecert-obligation-surface}, \autoref{thm:uniform-completion-cauchy-filter-factorization}, \autoref{thm:uniform-completion-directed-net-witness}, \autoref{thm:uniform-completion-universal-extension-uniqueness}, \autoref{thm:uniform-completion-ledger-nonescape}, \autoref{thm:uniform-completion-filter-net-obligations}, \autoref{thm:uniform-completion-universal-ledger-nonescape}, \autoref{thm:uniform-completion-real-regseqrat-handoff}, and \autoref{thm:uniform-completion-scope-lock} close the local obligation surface and scoped filter-net boundary for carrier admission, filter-net factorization, directed-net witness extraction, universal-extension uniqueness, Real-RegSeqRat handoff, and ledger non-escape.}

@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\FiniteBracketingIntervalUp$}
+\label{ch:concrete-instances-finite-bracketing-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive interval methods, the $\FiniteBracketingIntervalUp$ packet records the finite BEDC surface at which a real approximation route is bracketed by dyadic endpoints before any $\RealUp$ read is exported. It sits on the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the finite density route of \autoref{ch:concrete-instances-real-separability-namecert}. The packet is a bracketing certificate for displayed endpoint windows; it is not a quotient real interval, selected host limit, trichotomy row, ambient completeness principle, or open-cover compactness argument.
+
+\begin{definition}[Finite bracketing interval carrier]
+\label{def:finite-bracketing-interval-carrier}
+A $\FiniteBracketingIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,D,W,R,E,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are the lower and upper endpoint rows, both named inside the $\DyadicRatCoreUp$ ledger.
+\item $D$ is the dyadic-radius containment row, recording the requested tolerance and the finite comparison budget for $L \leq U$.
+\item $W$ is the $\StreamNameUp$ observation window inspected under the same tolerance request.
+\item $R$ is the $\RegSeqRatUp$ finite-window handoff row that reads $W$ as regular rational data between the endpoint rows.
+\item $E$ is the terminal $\RealUp$ seal row available only after $L,U,D,W,R$ have been displayed.
+\item $S$ is the $\RealSeparabilityUp$ density-support row, recording that a finite rational candidate can be inspected inside the same bracket when a density consumer requests one.
+\item $H$ stores componentwise $\hsame$ transport for endpoint, radius, window, readback, seal, density-support, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a bracketing request through $L,U,D,W,R,E,S$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteBracketingIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealSeparabilityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteBracketingIntervalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host real equality, quotient stream equality, selected limits, countable choice, ambient completeness, trichotomy, open-cover compactness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Finite bracketing endpoint order]
+\label{thm:finite-bracketing-interval-endpoint-order}
+For every accepted $\FiniteBracketingIntervalUp$ carrier
+$$
+I=(L,U,D,W,R,E,S,H,C,P,N),
+$$
+the endpoint order read is exhausted by the displayed $\DyadicRatCoreUp$ rows $L,U,D$. A consumer may read the bracket only after the same finite comparison budget has recorded $L \leq U$, and no host order on $\RealUp$, trichotomy row, quotient stream equality, selected midpoint, or ambient completeness datum can replace that dyadic endpoint ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-bracketing-interval-carrier}. The only endpoint rows are $L$ and $U$, and the only comparison budget attached to them is $D$.
+
+Read these rows through the dyadic tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The comparison is therefore a finite ledger entry over named dyadic endpoints, not an external order assertion about host reals.
+
+The remaining rows $W,R,E,S,H,C,P,N$ preserve, replay, source, and name the same endpoint packet. Since none of them contains host real equality, quotient stream equality, selected midpoint data, trichotomy, or ambient completeness, the endpoint order is exhausted by $L,U,D$.
+\end{proof}
+
+\begin{theorem}[Finite bracketing dyadic-radius containment]
+\label{thm:finite-bracketing-interval-dyadic-radius-containment}
+Every accepted $\FiniteBracketingIntervalUp$ containment read is witnessed by the same finite dyadic-radius row $D$ together with the endpoint rows $L,U$ and the opened $\StreamNameUp$ window $W$. The read states that the inspected window is contained in the displayed bracket at the requested dyadic radius before the $\RegSeqRatUp$ handoff or $\RealUp$ seal is available.
+\end{theorem}
+\begin{proof}
+Begin with an accepted containment read. By \autoref{def:finite-bracketing-interval-carrier}, the tolerance request has only one dyadic-radius row $D$, and it is tied to the endpoint rows $L,U$.
+
+The finite window stage is then $W$. The StreamName surface of \autoref{ch:concrete-instances-streamname-namecert} supplies exactly the inspected observations at the requested radius, so containment is checked before regular rational readback.
+
+Only after $L,U,D,W$ are displayed may the route pass to $R$ and then $E$. Thus the containment read cannot be supplied by a quotient stream, selected host limit, countable choice, ambient completeness, or a detached $\RealUp$ equality.
+\end{proof}
+
+\begin{theorem}[Finite bracketing RegSeqRat handoff]
+\label{thm:finite-bracketing-interval-regseqrat-handoff}
+Every finite-window consumer of an accepted $\FiniteBracketingIntervalUp$ packet factors through the route
+$$
+\DyadicRatCoreUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+Concretely, the consumer first reads $L,U,D$, then the finite window $W$, then the regular rational handoff $R$, and only then the terminal seal $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The dyadic endpoint and radius rows $L,U,D$ precede the finite observation row $W$, and $W$ precedes the readback row $R$.
+
+Use the RegSeqRat chapter \autoref{ch:concrete-instances-regseqrat-namecert}. Its public handoff reads finite StreamName windows as regular rational data before any Real-facing seal can consume them.
+
+The terminal row is $E$, the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The route has no coordinate for quotient stream equality, selected limits, countable choice, or $\RealUp$ completeness, so the displayed handoff is the whole public consumer surface.
+\end{proof}
+
+\begin{theorem}[Finite bracketing RealUp seal non-escape]
+\label{thm:finite-bracketing-interval-real-seal-nonescape}
+An accepted $\FiniteBracketingIntervalUp$ packet exports a $\RealUp$ read only through the terminal seal row $E$ after the endpoint order, dyadic-radius containment, finite-window read, RegSeqRat handoff, and RealSeparability density-support rows have already been displayed. No consumer can escape from the bracket into host real equality, selected limits, quotient streams, countable choice, ambient completeness, open-cover compactness, or a detached dense subset.
+\end{theorem}
+\begin{proof}
+Apply the preceding endpoint, containment, and handoff theorems. They force a Real-facing read to pass through $L,U,D,W,R$ before $E$ is available.
+
+The density-support row $S$ is read through \autoref{ch:concrete-instances-real-separability-namecert}. It supplies only the finite rational-window support for a density request inside the same bracket, not an externally chosen dense point.
+
+Finally inspect the structural rows $H,C,P,N$. They transport, replay, source, and name the displayed packet, and the carrier contains no coordinate for host real equality, selected limits, quotient streams, countable choice, ambient completeness, open-cover compactness, or detached dense subsets. Therefore the terminal seal row is a non-escape boundary.
+\end{proof}
+
+\closureat{FiniteBracketingIntervalUp}{seedStr}
+
+\begin{closurestatus}{\FiniteBracketingIntervalUp}
+  \constructivestory{A $\FiniteBracketingIntervalUp$ packet is generated from lower and upper DyadicRatCore endpoint rows, a dyadic-radius containment ledger, a StreamName finite observation window, a RegSeqRat handoff row, a RealUp terminal seal, a RealSeparability density-support row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-bracketing-interval-carrier}, \autoref{thm:finite-bracketing-interval-endpoint-order}, \autoref{thm:finite-bracketing-interval-dyadic-radius-containment}, \autoref{thm:finite-bracketing-interval-regseqrat-handoff}, and \autoref{thm:finite-bracketing-interval-real-seal-nonescape} seed the finite bracketing route over dyadic endpoints, StreamName windows, RegSeqRat readback, RealUp seal, and RealSeparability density support.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, quotient stream equality, selected limits, countable choice, ambient completeness, trichotomy, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint order, dyadic-radius containment, finite-window RegSeqRat handoff, and RealUp seal non-escape for BEDC.Derived.FiniteBracketingIntervalUp.}
+\end{closurestatus}
