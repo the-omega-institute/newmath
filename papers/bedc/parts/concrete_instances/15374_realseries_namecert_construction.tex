@@ -439,6 +439,42 @@ Next use \autoref{thm:realseries-uniform-majorant-tail-coherence}. The uniform C
 Finally apply \autoref{thm:realseries-regseqrat-endpoint-seal-route}. The endpoint seal $E$ is downstream of the shared readback and tolerance ledger, and the rows $H,C,P,N$ carry only transport, replay, provenance, and local naming. This exhausts the Cauchy majorant threshold route without importing quotient equality, selected limits, host infinite sums, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[RealSeries root tail majorant window]
+\label{thm:realseries-root-tail-majorant-window}
+Any root-unblock $\RealSeriesUp$ consumer reading a tail-majorant row factors through finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, the shared threshold $M$, and the endpoint seal $E$. In particular, a consumer of the accepted carrier
+$$
+K=(T,S,W,Q,D,M,E,H,C,P,N)
+$$
+may cite a tail-majorant row only after the finite window route of $W$, the regular readback route of $Q$, the dyadic tolerance ledger $D$, the shared threshold $M$, and the endpoint seal $E$ have all been retained in the same transported packet.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier in \autoref{def:real-series-carrier}. The displayed rows $T,S,W,Q,D,M,E,H,C,P,N$ are the only route available to a root-unblock consumer.
+
+Use the tail-majorant carrier of \autoref{def:realseries-tail-majorant-carrier}. Its majorant read is finite because it exposes windows and readback data before any Cauchy-facing consumer is served.
+
+Apply \autoref{thm:realseries-cauchy-consumer-readiness}. The readiness surface ties the downstream Cauchy criterion, uniform Cauchy, and majorant consumers to the same base route.
+
+Then apply \autoref{thm:realseries-uniform-majorant-tail-coherence} and \autoref{thm:realseries-cauchy-majorant-threshold-exhaustion}. These theorems identify the shared threshold $M$ and force every requested tail bound through $W,Q,D,M$ before the endpoint seal $E$ is cited.
+\end{proof}
+
+\begin{theorem}[RealSeries root tail threshold exhaustion]
+\label{thm:realseries-root-tail-threshold-exhaustion}
+All downstream $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, and $\CauchyMajorantSeriesUp$ reads of an accepted $\RealSeriesUp$ root-unblock carrier are exhausted by the displayed rows
+$$
+T,S,W,Q,D,M,E,H,C,P,N.
+$$
+No such read may introduce host infinite sums, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness outside the finite carrier and the tail-majorant rows of \autoref{def:realseries-tail-majorant-carrier}.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:realseries-cauchy-consumer-readiness}. It identifies the downstream Cauchy criterion, uniform Cauchy, and majorant consumers as readers of the same finite surface rather than as independent sources of convergence data.
+
+Next use \autoref{thm:realseries-uniform-majorant-tail-coherence}. The three consumer routes agree on $T,S,W,Q,D,M,E,H,C,P,N$, with $W,Q,D,M$ carrying the finite window, regular readback, dyadic tolerance, and shared-threshold part of the route.
+
+Finally apply \autoref{thm:realseries-cauchy-majorant-threshold-exhaustion} together with \autoref{thm:realseries-root-tail-majorant-window}. The first exhausts the majorant request through the existing threshold surface, and the second locks root-unblock reads to the same finite windows and endpoint seal.
+
+The excluded host principles are absent from both displayed carriers. Since neither the base carrier nor the tail-majorant carrier has a coordinate for host infinite sums, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness, no downstream read can export one.
+\end{proof}
+
 \falsifiablePrediction{Every $\RealSeriesUp$ endpoint-facing read factors through a real-valued term stream, finite partial-sum window, selected StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a shared Cauchy-tail threshold, a RealUp endpoint seal, transport, continuation, provenance, and local naming.}
 
 \independenceWitness{real, real-sequence-limit, cauchy-sequence-bounded, regseqrat, streamname, dyadicratcore: $\RealSeriesUp$ is not bijective to any listed sibling because it jointly carries term-stream access, finite partial-sum windows, selected stream windows, regular readback, dyadic tolerance accounting, shared tail thresholding, endpoint sealing, transport, continuation, provenance, and local naming.}
