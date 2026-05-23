@@ -1,0 +1,11 @@
+\begin{theorem}[ZetaContinuationWitness critical-strip consumer scope]
+\label{thm:zeta-continuation-witness-critical-strip-consumer-scope}
+Every critical-strip consumer of an accepted $\ZetaContinuationWitnessUp$ packet receives only the finite packet rows $B,E,A,P,F,T,G,H,C,R,N$. In particular, the consumer receives no RH predicate, non-trivial-zero locator, completed Gamma certificate, or off-packet analytic-continuation branch.
+\end{theorem}
+\begin{proof}
+Use the critical-strip handoff theorem first. It requires the consumer to read the displayed witness packet before any critical-strip-facing conclusion is available.
+
+Apply the scoped route package to enumerate the packet surface. The only rows passed to the consumer are $B,E,A,P,F,T,G,H,C,R,N$, together with their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure.
+
+Finally combine source-lock coverage and Gamma ledger exhaustion. Source-facing reads are confined to $B,E,A,H,C,R,N$, Gamma-facing reads are confined to $P,F,G,H,C,R,N$, and their union is the finite packet already displayed. No RH predicate or zero-location witness is a packet coordinate.
+\end{proof}
