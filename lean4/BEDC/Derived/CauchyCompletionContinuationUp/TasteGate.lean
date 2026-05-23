@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyCompletionContinuationUp.TasteGate
+namespace BEDC.Derived.CauchyCompletionContinuationUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,23 +11,26 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CauchyCompletionContinuationUp : Type where
-  | mk (Q B S W D R E H C P N : BHist) : CauchyCompletionContinuationUp
+  | mk :
+      (request bindSource schedule window dyadic readback realSeal transport replay provenance
+        localName : BHist) →
+        CauchyCompletionContinuationUp
   deriving DecidableEq
 
-def cauchyCompletionContinuationEncodeBHist : BHist -> RawEvent
+def cauchyCompletionContinuationEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cauchyCompletionContinuationEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cauchyCompletionContinuationEncodeBHist h
 
-def cauchyCompletionContinuationDecodeBHist : RawEvent -> BHist
+def cauchyCompletionContinuationDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cauchyCompletionContinuationDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyCompletionContinuationDecodeBHist tail)
 
-private theorem cauchyCompletionContinuation_decode_encode_bhist :
-    forall h : BHist,
+private theorem CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist,
       cauchyCompletionContinuationDecodeBHist
         (cauchyCompletionContinuationEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -39,160 +43,133 @@ private theorem cauchyCompletionContinuation_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem cauchyCompletionContinuationEncodeBHist_injective {h k : BHist} :
-    cauchyCompletionContinuationEncodeBHist h =
-        cauchyCompletionContinuationEncodeBHist k ->
-      h = k := by
+def cauchyCompletionContinuationFields : CauchyCompletionContinuationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      cauchyCompletionContinuationDecodeBHist
-          (cauchyCompletionContinuationEncodeBHist h) =
-        cauchyCompletionContinuationDecodeBHist
-          (cauchyCompletionContinuationEncodeBHist k) :=
-    congrArg cauchyCompletionContinuationDecodeBHist heq
-  exact
-    Eq.trans (cauchyCompletionContinuation_decode_encode_bhist h).symm
-      (Eq.trans hread (cauchyCompletionContinuation_decode_encode_bhist k))
+  | CauchyCompletionContinuationUp.mk request bindSource schedule window dyadic readback realSeal
+      transport replay provenance localName =>
+      [request, bindSource, schedule, window, dyadic, readback, realSeal, transport, replay,
+        provenance, localName]
 
-private theorem cauchyCompletionContinuation_mk_congr
-    {Q1 Q2 B1 B2 S1 S2 W1 W2 D1 D2 R1 R2 E1 E2 H1 H2 C1 C2 P1 P2
-      N1 N2 : BHist}
-    (hQ : Q1 = Q2) (hB : B1 = B2) (hS : S1 = S2) (hW : W1 = W2)
-    (hD : D1 = D2) (hR : R1 = R2) (hE : E1 = E2) (hH : H1 = H2)
-    (hC : C1 = C2) (hP : P1 = P2) (hN : N1 = N2) :
-    CauchyCompletionContinuationUp.mk Q1 B1 S1 W1 D1 R1 E1 H1 C1 P1 N1 =
-      CauchyCompletionContinuationUp.mk Q2 B2 S2 W2 D2 R2 E2 H2 C2 P2 N2 := by
+def cauchyCompletionContinuationToEventFlow : CauchyCompletionContinuationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  cases hQ
-  cases hB
-  cases hS
-  cases hW
-  cases hD
-  cases hR
-  cases hE
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
-
-def cauchyCompletionContinuationFields : CauchyCompletionContinuationUp -> List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | CauchyCompletionContinuationUp.mk Q B S W D R E H C P N =>
-      [Q, B, S, W, D, R, E, H, C, P, N]
-
-def cauchyCompletionContinuationToEventFlow : CauchyCompletionContinuationUp -> EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map cauchyCompletionContinuationEncodeBHist
-      (cauchyCompletionContinuationFields x)
+  | x => (cauchyCompletionContinuationFields x).map cauchyCompletionContinuationEncodeBHist
 
 def cauchyCompletionContinuationFromEventFlow :
-    EventFlow -> Option CauchyCompletionContinuationUp
+    EventFlow → Option CauchyCompletionContinuationUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | Q :: rest0 =>
+  | request :: rest0 =>
       match rest0 with
       | [] => none
-      | B :: rest1 =>
+      | bindSource :: rest1 =>
           match rest1 with
           | [] => none
-          | S :: rest2 =>
+          | schedule :: rest2 =>
               match rest2 with
               | [] => none
-              | W :: rest3 =>
+              | window :: rest3 =>
                   match rest3 with
                   | [] => none
-                  | D :: rest4 =>
+                  | dyadic :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | R :: rest5 =>
+                      | readback :: rest5 =>
                           match rest5 with
                           | [] => none
-                          | E :: rest6 =>
+                          | realSeal :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | H :: rest7 =>
+                              | transport :: rest7 =>
                                   match rest7 with
                                   | [] => none
-                                  | C :: rest8 =>
+                                  | replay :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | P :: rest9 =>
+                                      | provenance :: rest9 =>
                                           match rest9 with
                                           | [] => none
-                                          | N :: rest10 =>
+                                          | localName :: rest10 =>
                                               match rest10 with
                                               | [] =>
                                                   some
                                                     (CauchyCompletionContinuationUp.mk
-                                                      (cauchyCompletionContinuationDecodeBHist Q)
-                                                      (cauchyCompletionContinuationDecodeBHist B)
-                                                      (cauchyCompletionContinuationDecodeBHist S)
-                                                      (cauchyCompletionContinuationDecodeBHist W)
-                                                      (cauchyCompletionContinuationDecodeBHist D)
-                                                      (cauchyCompletionContinuationDecodeBHist R)
-                                                      (cauchyCompletionContinuationDecodeBHist E)
-                                                      (cauchyCompletionContinuationDecodeBHist H)
-                                                      (cauchyCompletionContinuationDecodeBHist C)
-                                                      (cauchyCompletionContinuationDecodeBHist P)
-                                                      (cauchyCompletionContinuationDecodeBHist N))
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        request)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        bindSource)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        schedule)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        window)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        dyadic)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        readback)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        realSeal)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        transport)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        replay)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        provenance)
+                                                      (cauchyCompletionContinuationDecodeBHist
+                                                        localName))
                                               | _ :: _ => none
 
-private theorem cauchyCompletionContinuation_round_trip :
-    forall x : CauchyCompletionContinuationUp,
+private theorem CauchyCompletionContinuationTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : CauchyCompletionContinuationUp,
       cauchyCompletionContinuationFromEventFlow
         (cauchyCompletionContinuationToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk Q B S W D R E H C P N =>
+  | mk request bindSource schedule window dyadic readback realSeal transport replay provenance
+      localName =>
       change
         some
           (CauchyCompletionContinuationUp.mk
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist Q))
+              (cauchyCompletionContinuationEncodeBHist request))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist B))
+              (cauchyCompletionContinuationEncodeBHist bindSource))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist S))
+              (cauchyCompletionContinuationEncodeBHist schedule))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist W))
+              (cauchyCompletionContinuationEncodeBHist window))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist D))
+              (cauchyCompletionContinuationEncodeBHist dyadic))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist R))
+              (cauchyCompletionContinuationEncodeBHist readback))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist E))
+              (cauchyCompletionContinuationEncodeBHist realSeal))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist H))
+              (cauchyCompletionContinuationEncodeBHist transport))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist C))
+              (cauchyCompletionContinuationEncodeBHist replay))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist P))
+              (cauchyCompletionContinuationEncodeBHist provenance))
             (cauchyCompletionContinuationDecodeBHist
-              (cauchyCompletionContinuationEncodeBHist N))) =
-          some (CauchyCompletionContinuationUp.mk Q B S W D R E H C P N)
-      exact
-        congrArg some
-          (cauchyCompletionContinuation_mk_congr
-            (cauchyCompletionContinuation_decode_encode_bhist Q)
-            (cauchyCompletionContinuation_decode_encode_bhist B)
-            (cauchyCompletionContinuation_decode_encode_bhist S)
-            (cauchyCompletionContinuation_decode_encode_bhist W)
-            (cauchyCompletionContinuation_decode_encode_bhist D)
-            (cauchyCompletionContinuation_decode_encode_bhist R)
-            (cauchyCompletionContinuation_decode_encode_bhist E)
-            (cauchyCompletionContinuation_decode_encode_bhist H)
-            (cauchyCompletionContinuation_decode_encode_bhist C)
-            (cauchyCompletionContinuation_decode_encode_bhist P)
-            (cauchyCompletionContinuation_decode_encode_bhist N))
+              (cauchyCompletionContinuationEncodeBHist localName))) =
+          some
+            (CauchyCompletionContinuationUp.mk request bindSource schedule window dyadic readback
+              realSeal transport replay provenance localName)
+      rw [CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode request,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode bindSource,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode schedule,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode window,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode dyadic,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode readback,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode realSeal,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode transport,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode replay,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode provenance,
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode localName]
 
-private theorem cauchyCompletionContinuationToEventFlow_injective
+private theorem CauchyCompletionContinuationTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyCompletionContinuationUp} :
     cauchyCompletionContinuationToEventFlow x =
-        cauchyCompletionContinuationToEventFlow y ->
-      x = y := by
+      cauchyCompletionContinuationToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -202,8 +179,44 @@ private theorem cauchyCompletionContinuationToEventFlow_injective
           (cauchyCompletionContinuationToEventFlow y) :=
     congrArg cauchyCompletionContinuationFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (cauchyCompletionContinuation_round_trip x).symm
-      (Eq.trans hread (cauchyCompletionContinuation_round_trip y)))
+    (Eq.trans (CauchyCompletionContinuationTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (CauchyCompletionContinuationTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem CauchyCompletionContinuationTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : CauchyCompletionContinuationUp,
+      cauchyCompletionContinuationFields x = cauchyCompletionContinuationFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk request₁ bindSource₁ schedule₁ window₁ dyadic₁ readback₁ realSeal₁ transport₁ replay₁
+      provenance₁ localName₁ =>
+      cases y with
+      | mk request₂ bindSource₂ schedule₂ window₂ dyadic₂ readback₂ realSeal₂ transport₂ replay₂
+          provenance₂ localName₂ =>
+          injection hfields with hRequest tail0
+          injection tail0 with hBindSource tail1
+          injection tail1 with hSchedule tail2
+          injection tail2 with hWindow tail3
+          injection tail3 with hDyadic tail4
+          injection tail4 with hReadback tail5
+          injection tail5 with hRealSeal tail6
+          injection tail6 with hTransport tail7
+          injection tail7 with hReplay tail8
+          injection tail8 with hProvenance tail9
+          injection tail9 with hLocalName _
+          subst hRequest
+          subst hBindSource
+          subst hSchedule
+          subst hWindow
+          subst hDyadic
+          subst hReadback
+          subst hRealSeal
+          subst hTransport
+          subst hReplay
+          subst hProvenance
+          subst hLocalName
+          rfl
 
 instance cauchyCompletionContinuationBHistCarrier :
     BHistCarrier CauchyCompletionContinuationUp where
@@ -218,14 +231,21 @@ instance cauchyCompletionContinuationChapterTasteGate :
     intro x
     change
       cauchyCompletionContinuationFromEventFlow
-        (cauchyCompletionContinuationToEventFlow x) = some x
-    exact cauchyCompletionContinuation_round_trip x
+          (cauchyCompletionContinuationToEventFlow x) = some x
+    exact CauchyCompletionContinuationTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (cauchyCompletionContinuationToEventFlow_injective heq)
+    exact hxy
+      (CauchyCompletionContinuationTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-instance cauchyCompletionContinuationNontrivial :
-    Nontrivial CauchyCompletionContinuationUp where
+instance cauchyCompletionContinuationFieldFaithful :
+    FieldFaithful CauchyCompletionContinuationUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := cauchyCompletionContinuationFields
+  field_faithful :=
+    CauchyCompletionContinuationTasteGate_single_carrier_alignment_fields_faithful
+
+instance cauchyCompletionContinuationNontrivial : Nontrivial CauchyCompletionContinuationUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨CauchyCompletionContinuationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -242,22 +262,23 @@ def taste_gate : ChapterTasteGate CauchyCompletionContinuationUp :=
   cauchyCompletionContinuationChapterTasteGate
 
 theorem CauchyCompletionContinuationTasteGate_single_carrier_alignment :
-    (forall h : BHist,
+    (∀ h : BHist,
       cauchyCompletionContinuationDecodeBHist
         (cauchyCompletionContinuationEncodeBHist h) = h) ∧
-      (forall x : CauchyCompletionContinuationUp,
+      (∀ x : CauchyCompletionContinuationUp,
         cauchyCompletionContinuationFromEventFlow
           (cauchyCompletionContinuationToEventFlow x) = some x) ∧
-        (forall x y : CauchyCompletionContinuationUp,
+        (∀ x y : CauchyCompletionContinuationUp,
           cauchyCompletionContinuationToEventFlow x =
-              cauchyCompletionContinuationToEventFlow y ->
-            x = y) ∧
+            cauchyCompletionContinuationToEventFlow y → x = y) ∧
           cauchyCompletionContinuationEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨cauchyCompletionContinuation_decode_encode_bhist,
-      cauchyCompletionContinuation_round_trip,
-      (fun _ _ heq => cauchyCompletionContinuationToEventFlow_injective heq),
+    ⟨CauchyCompletionContinuationTasteGate_single_carrier_alignment_decode,
+      CauchyCompletionContinuationTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        CauchyCompletionContinuationTasteGate_single_carrier_alignment_toEventFlow_injective
+          heq),
       rfl⟩
 
-end BEDC.Derived.CauchyCompletionContinuationUp.TasteGate
+end BEDC.Derived.CauchyCompletionContinuationUp
