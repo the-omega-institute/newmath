@@ -128,6 +128,38 @@ The provenance row $P$ and local certificate row $Q$ bind this route to one $\Na
 \end{proof}
 \leanchecked{BEDC.Derived.IntermediateValueUp.IntermediateValueCarrier\_bisection\_nesting}
 
+\begin{theorem}[IntermediateValue located-sign window exactness]
+\label{thm:intermediate-value-located-sign-window-exactness}
+Let $V=(J,A,B,F,M,D,N,E,H,C,P,Q)$ be an accepted $\IntermediateValueUp$ carrier. Every endpoint sign read exported by $V$ factors through the same $\LocatedIntervalUp$ row $J$, the same $\ContinuousMapUp$ modulus row $F,M$, the same $\DyadicBisectionUp$ branch ledger $D$, and the same $\NestedIntervalUp$ retained window $N$ before any $\RealUp$ seal is reachable. The factorization is stable under the displayed $\BHist$ packet, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\IntermediateValueUp}$ route.
+
+Thus the two endpoint signs are exact reads of one located-sign window rather than independent host predicates, selected roots, quotient real equalities, trichotomy decisions, compactness witnesses, or ambient $\RealUp$ completeness data.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and project the rows listed in \autoref{def:intermediate-value-located-sign-carrier}. The endpoint sign rows $A$ and $B$ are attached to the located interval row $J$, and \autoref{thm:intermediate-value-sign-bracket-carrier} identifies this attachment as the displayed sign-bracket surface.
+
+The function and modulus data are read through $F$ and $M$. By the dyadic bisection obligations of \autoref{thm:intermediate-value-dyadic-bisection-obligations}, every sign inspection used by the branch ledger remains attached to that same located interval and continuous-map route.
+
+Apply \autoref{thm:intermediate-value-bisection-nesting}. The retained branch read then passes through $D$ and $N$ before the seal row $E$ can be consumed, with $H$ and $C$ preserving the same rows componentwise.
+
+Finally use \autoref{thm:intermediate-value-real-seal-handoff}. The real-facing route includes the provenance row $P$ and local naming row $Q$, so there is no coordinate from which a selected root, quotient equality, trichotomy oracle, compactness theorem, or ambient completeness principle can alter the located-sign window.
+\end{proof}
+
+\begin{theorem}[IntermediateValue modulus branch transport]
+\label{thm:intermediate-value-modulus-branch-transport}
+Let $V=(J,A,B,F,M,D,N,E,H,C,P,Q)$ be an accepted $\IntermediateValueUp$ carrier. Transporting the continuous-map modulus row $F,M$ along the displayed $\hsame$ data preserves the retained branch ledger $D$ and its nested-window image $N$. Consequently every transported root-location request still reads the same $\LocatedIntervalUp$ endpoint cells, the same dyadic midpoint choices, the same retained branch window, and the same $\RealUp$ handoff route.
+
+The transport does not introduce a selected root, quotient real equality, trichotomy, compactness, or ambient $\RealUp$ completeness; it only replays the existing finite branch packet through $H$, $C$, $P$, and $Q$.
+\end{theorem}
+\begin{proof}
+Read the transport row $H$ of the carrier. Its component for $F,M$ is stored with the same located interval row $J$ and the same endpoint sign rows $A,B$, so a transported modulus request cannot detach the sign test from the source window.
+
+The dyadic branch ledger is already bound to those sign tests by \autoref{thm:intermediate-value-dyadic-bisection-obligations}. Therefore transporting the modulus row preserves the branch choices recorded in $D$ rather than recomputing them from host-level sign predicates.
+
+Next apply \autoref{thm:intermediate-value-bisection-nesting}. The retained branch prefix is repacked as $N$ through the same continuation route $C$, and the route to the seal row $E$ still passes through $D$ followed by $N$.
+
+Finally \autoref{thm:intermediate-value-real-seal-handoff} identifies the only real-facing export. Since the carrier has no coordinate for a root selector, quotient equality, trichotomy, compactness, or completeness, modulus transport cannot add any of these objects to the retained branch packet.
+\end{proof}
+
 \begin{theorem}[IntermediateValue NameCert obligations]
 \label{thm:intermediate-value-namecert-obligations}
 The local $\NameCert_{\IntermediateValueUp}$ obligation surface for the carrier of \autoref{def:intermediate-value-located-sign-carrier} consists exactly of:
