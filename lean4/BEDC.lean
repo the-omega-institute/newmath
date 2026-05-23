@@ -3975,6 +3975,7 @@ import BEDC.Derived.NegativeNameBoundaryUp.NonInternalization
 import BEDC.Derived.NegativeNameBoundaryUp.ObligationClosure
 import BEDC.Derived.NegativeNameBoundaryUp.PublicExport
 import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
+import BEDC.Derived.NestedClosedIntervalUp
 import BEDC.Derived.NestedDyadicCauchyUp.TasteGate
 import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.NestedIntervalCompactnessUp.TasteGate
@@ -5696,6 +5697,7 @@ import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
+import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionSeparationKernelUp
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
