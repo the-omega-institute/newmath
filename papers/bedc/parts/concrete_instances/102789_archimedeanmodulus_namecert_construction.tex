@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\ArchimedeanModulusUp$}
+\label{ch:concrete-instances-archimedeanmodulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\ArchimedeanModulusUp$ packet records the finite precision modulus by which an explicit Archimedean bound is turned into a bounded Real-facing observation route. It sits over the dyadic tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the Real-facing modulus route of \autoref{ch:concrete-instances-realcauchymodulus-namecert}, and the explicit rational-bound surface of \autoref{ch:concrete-instances-archimedeanreal-namecert}. The packet is a bridge object for L10 Real and Completion work: it supplies a displayed bound-to-window schedule without reading host real equality, trichotomy, selected limits, quotient representatives, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Archimedean modulus carrier]
+\label{def:archimedean-modulus-carrier}
+An $\ArchimedeanModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(P,D,S,Q,E,A,H,C,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the unary precision request. It names the requested observation depth as finite successor data rather than as an external real-valued tolerance.
+\item $D$ is the $\DyadicRatCoreUp$ bound/tolerance row. It records the dyadic comparison budget attached to the requested precision and to the displayed Archimedean bound.
+\item $S$ is the $\StreamNameUp$ finite-window schedule selected by $P$ and $D$.
+\item $Q$ is the $\RegSeqRatUp$ readback row inspected on the windows named by $S$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $P,D,S,Q$ have been consumed.
+\item $A$ is the $\ArchimedeanRealUp$ rational-bound witness attached to the same displayed real name as $E$.
+\item $H$ records componentwise $\hsame$ transport for the precision request, dyadic row, finite windows, regular readback, Real seal, Archimedean witness, continuation, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from each unary precision request through $P,D,S,Q,E,A,H,N$.
+\item $N$ is the local $\NameCert_{\ArchimedeanModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host real equality, trichotomy, selected limits, quotient representatives, countable choice, ambient $\RealUp$ completeness, or a hidden unbounded stream read.
+\end{definition}
+
+\begin{theorem}[Archimedean modulus NameCert obligations]
+\label{thm:archimedean-modulus-namecert-obligations}
+For an accepted $\ArchimedeanModulusUp$ carrier $M=(P,D,S,Q,E,A,H,C,N)$, the local $\NameCert_{\ArchimedeanModulusUp}$ surface consists exactly of carrier admission, unary precision exposure, dyadic bound/tolerance exposure, finite-window exposure, regular rational readback, Real seal exposure, Archimedean rational-bound handoff, componentwise transport, displayed continuation replay, and local naming. Each accepted precision request is classified only through the displayed route
+$$
+P \longmapsto D \longmapsto S \longmapsto Q \longmapsto E,A \longmapsto H,C,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier tuple in \autoref{def:archimedean-modulus-carrier}. Its coordinates are exactly the unary precision request, dyadic bound/tolerance row, finite-window schedule, regular readback, Real seal, Archimedean bound witness, transport, continuation, and local naming rows.
+
+Induct over the displayed unary precision request $P$. The zero request consumes the bound/tolerance row $D$ only at the base observation depth and then names the corresponding finite window in $S$. The successor request repeats the same finite step after exposing one more unary layer, so the read never becomes an unbounded stream request.
+
+After the window is named, the readback row $Q$ and the seal row $E$ are downstream of $D$ and $S$, while $A$ supplies only the already displayed Archimedean rational-bound witness. The rows $H,C,N$ transport, replay, and name the same route. Since none of host real equality, trichotomy, selected limits, quotient representatives, countable choice, ambient $\RealUp$ completeness, or a hidden selector has a coordinate in $M$, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Archimedean modulus window bound]
+\label{thm:archimedean-modulus-window-bound}
+Every accepted $\ArchimedeanModulusUp$ packet $M=(P,D,S,Q,E,A,H,C,N)$ binds each unary precision request to a finite $\StreamNameUp$ window before any $\RegSeqRatUp$ readback or $\RealUp$ seal is available. The selected window is bounded by the displayed $\DyadicRatCoreUp$ row $D$ together with the $\ArchimedeanRealUp$ witness $A$; it is not selected by real trichotomy, a host supremum, quotient representatives, countable choice, a chosen limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the unary request $P$. By \autoref{thm:archimedean-modulus-namecert-obligations}, every accepted read must expose $D$ before $S$, so the dyadic bound/tolerance row is available before the finite window is named.
+
+Induct on $P$. The base request uses the first displayed tolerance row and the Archimedean witness $A$ to name the corresponding finite window. In the successor step, the previous finite route is replayed and the next tolerance row is read through the same $D,A$ surface before the next finite window is admitted.
+
+Now inspect the downstream rows. The regular readback $Q$ and Real seal $E$ are read only after the window in $S$ is displayed, while $H,C,N$ preserve and name that route. Thus the window bound is internal to the displayed dyadic and Archimedean rows and cannot be supplied by host real equality, trichotomy, a host supremum, quotient representatives, countable choice, selected limits, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Archimedean modulus Real handoff]
+\label{thm:archimedean-modulus-real-handoff}
+Every Real-and-Completion consumer of an accepted $\ArchimedeanModulusUp$ packet factors through
+$$
+P \longmapsto D \longmapsto S \longmapsto Q \longmapsto E \longmapsto A \longmapsto H,C,N
+$$
+before reading the bounded precision-modulus surface. In particular, $\RealCauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, and bounded lower-cut consumers receive the displayed dyadic tolerance, finite-window, regular readback, Real seal, and Archimedean witness rows, and receive no host real equality, trichotomy, selected limit, quotient representative, countable-choice row, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The Real-facing rows are $Q$ and $E$, but they are unavailable until the unary precision request $P$, dyadic row $D$, and finite-window schedule $S$ have been read.
+
+Apply the window-bound theorem. It binds every window request to the displayed dyadic tolerance row and Archimedean rational-bound witness, so downstream consumers inherit an explicit finite modulus surface rather than a host completeness argument.
+
+Finally replay the continuation row $C$ and transport row $H$. These rows preserve the same route for $\RealCauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, and bounded lower-cut consumers, while $N$ names the packet locally. The carrier inventory excludes host real equality, trichotomy, selected limits, quotient representatives, countable choice, and ambient $\RealUp$ completeness, so none of those sources can enter the Real handoff.
+\end{proof}
+
+\closureat{ArchimedeanModulusUp}{seedStr}
+
+\begin{closurestatus}{\ArchimedeanModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:archimedean-modulus-carrier}, \autoref{thm:archimedean-modulus-namecert-obligations}, \autoref{thm:archimedean-modulus-window-bound}, and \autoref{thm:archimedean-modulus-real-handoff} seed the finite Archimedean precision-modulus surface from unary precision requests through dyadic tolerances, finite stream windows, regular rational readback, Real seals, Archimedean rational bounds, transport, continuation, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real equality, trichotomy, selected limits, quotient representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, window-bound exactness, dyadic stability, RegSeqRat handoff, and Real seal nonescape for BEDC.Derived.ArchimedeanModulusUp.}
+  \constructivestory{An $\ArchimedeanModulusUp$ packet is generated from a unary precision request, DyadicRatCore bound/tolerance row, StreamName finite-window schedule, RegSeqRat readback row, RealUp seal row, ArchimedeanReal rational-bound witness, componentwise hsame transport, displayed Cont replay, and a local NameCert row.}
+\end{closurestatus}
