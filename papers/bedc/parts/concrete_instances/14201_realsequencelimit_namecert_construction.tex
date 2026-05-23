@@ -85,6 +85,41 @@ Next apply \autoref{thm:real-sequence-limit-namecert-obligation-surface}. The co
 The continuation row $C$ replays the same scheduled comparison for consumers, and $P,N$ record provenance and local naming for that route. The transport row $H$ preserves the packet componentwise, so every replayed comparison remains attached to the same finite tail-window schedule before the $\RealUp$ seal is consumed.
 \end{proof}
 
+\begin{theorem}[RealSequenceLimit modulus extraction]\label{thm:real-sequence-limit-modulus-extraction}
+For an accepted $\RealSequenceLimitUp$ carrier $(S,L,W,D,E,H,C,P,N)$, the rows $W,D,E$ expose a $\CauchyModulusUp$-compatible tail threshold for the displayed sequence-to-limit claim. A tolerance request is first read through the $\DyadicRatCoreUp$ ledger $D$, then matched with a scheduled tail window in $W$, and finally admitted by the convergence classifier $E$ before any $\RealUp$ seal is consumed.
+\end{theorem}
+\begin{proof}
+Use the carrier projection of \autoref{def:real-sequence-limit-carrier}. The schedule row $W$ lists the tail windows visible to the packet, $D$ lists the dyadic tolerance requests attached to those windows, and $E$ records the displayed convergence classifier over the same rows.
+
+Apply the NameCert surface of \autoref{thm:real-sequence-limit-namecert-obligation-surface}. Its convergence-classification row forces every sequence-to-limit read to pass through $W$ and $D$, while its real-seal boundary prevents a consumer from replacing that finite threshold by an ambient completeness argument.
+
+The resulting threshold is compatible with $\CauchyModulusUp$ because it is a displayed tail-window response to a dyadic tolerance request. It supplies only the scheduled tail index and the associated readback windows, not a host-level modulus function or a choice-selected tail.
+\end{proof}
+
+\begin{theorem}[RealSequenceLimit tail refinement ledger]\label{thm:real-sequence-limit-tail-refinement-ledger}
+For an accepted $\RealSequenceLimitUp$ carrier $(S,L,W,D,E,H,C,P,N)$, refining a dyadic tolerance request remains inside the same $\StreamNameUp/\RegSeqRatUp/\DyadicRatCoreUp$ route. The refined request may shrink the scheduled windows recorded in $W$ and the tolerance row recorded in $D$, but its classifier read still factors through $E,H,C,P,N$ before the $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start with a displayed tolerance request already admitted by $D$. A refinement is another dyadic request in the same $\DyadicRatCoreUp$ ledger, so it changes the requested precision but not the packet coordinates that are available to the consumer.
+
+The finite window route is fixed by \autoref{thm:realsequencelimit-tail-window-transport}. The sequence and limit observations still pass through $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks selected by $W$, and the classifier row $E$ still compares only those scheduled observations.
+
+Transport and replay do not add new routes. The rows $H$ and $C$ preserve the same componentwise schedule, while $P$ and $N$ record provenance and naming for that schedule. Thus refinement stays inside the displayed finite ledger and cannot introduce host sequence equality, quotient limits, choice, trichotomy, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RealSequenceLimit limit uniqueness route]\label{thm:real-sequence-limit-limit-uniqueness-route}
+Let $(S,L,W,D,E,H,C,P,N)$ and $(S,L',W',D',E',H',C',P',N')$ be accepted $\RealSequenceLimitUp$ candidate-limit rows for the same displayed sequence row $S$. If their scheduled tail windows are compared through a common refinement of the displayed $\StreamNameUp/\RegSeqRatUp/\DyadicRatCoreUp$ route, then every equality-facing comparison between $L$ and $L'$ factors through $\RegularCauchyEquivalenceUp$ before either $\RealUp$ seal is read.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers. The two candidate limits expose only their scheduled finite observations, dyadic tolerance rows, convergence classifiers, transport rows, replay rows, provenance, and local names.
+
+Use the common refinement of the tail-window routes. By \autoref{thm:real-sequence-limit-tail-refinement-ledger}, both candidates are read through the same kind of $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ data, so the comparison between their scheduled limit observations is still finite-window data.
+
+Apply the real-seal boundary in \autoref{thm:real-sequence-limit-namecert-obligation-surface}. Equality-facing reads cannot jump directly to either $\RealUp$ seal; they must first pass through the nonquotient finite-window comparison boundary named by $\RegularCauchyEquivalenceUp$.
+
+Hence uniqueness is a route statement: two accepted candidate-limit rows compared through the same scheduled tails meet at the regular-Cauchy comparison boundary before either terminal real seal is consumed. The packet does not assert host uniqueness of limits outside that displayed route.
+\end{proof}
+
 \begin{closurestatus}{\RealSequenceLimitUp}
   \constructivestory{A $\RealSequenceLimitUp$ packet is generated from a displayed sequence of RealUp names, a candidate limit RealUp row, finite StreamName windows and RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a finite convergence classifier, componentwise transport, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
