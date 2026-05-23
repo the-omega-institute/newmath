@@ -241,4 +241,42 @@ theorem NestedIntervalCompactnessTasteGate_single_carrier_alignment :
   · exact nestedIntervalCompactness_decode_encode
   · rfl
 
+theorem NestedIntervalCompactnessCarrier_stream_real_route
+    (x : NestedIntervalCompactnessUp) :
+    ∃ I L D W R E H C P N : BHist,
+      x = NestedIntervalCompactnessUp.mk I L D W R E H C P N ∧
+        nestedIntervalCompactnessFields x = [I, L, D, W, R, E, H, C, P, N] ∧
+          hsame
+            (nestedIntervalCompactnessDecodeBHist
+              (nestedIntervalCompactnessEncodeBHist W))
+            W ∧
+            hsame
+              (nestedIntervalCompactnessDecodeBHist
+                (nestedIntervalCompactnessEncodeBHist R))
+              R ∧
+              hsame
+                (nestedIntervalCompactnessDecodeBHist
+                  (nestedIntervalCompactnessEncodeBHist E))
+                E ∧
+                nestedIntervalCompactnessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  cases x with
+  | mk I L D W R E H C P N =>
+      refine ⟨I, L, D, W, R, E, H, C, P, N, rfl, rfl, ?_, ?_, ?_, rfl⟩
+      · change
+          nestedIntervalCompactnessDecodeBHist
+              (nestedIntervalCompactnessEncodeBHist W) =
+            W
+        exact nestedIntervalCompactness_decode_encode W
+      · change
+          nestedIntervalCompactnessDecodeBHist
+              (nestedIntervalCompactnessEncodeBHist R) =
+            R
+        exact nestedIntervalCompactness_decode_encode R
+      · change
+          nestedIntervalCompactnessDecodeBHist
+              (nestedIntervalCompactnessEncodeBHist E) =
+            E
+        exact nestedIntervalCompactness_decode_encode E
+
 end BEDC.Derived.NestedIntervalCompactnessUp
