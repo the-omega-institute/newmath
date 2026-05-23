@@ -59,6 +59,7 @@ S \longmapsto M \longmapsto D \longmapsto R \longmapsto E
 $$
 together with the stored $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. Before reaching the $\RealUp$ seal, the read is compatible with the $\CauchyLimitSealUp$ boundary and exports no host completeness theorem, quotient stream, selected limit, trichotomy row, open-cover compactness row, or detached seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_real\_seal\_handoff}
 \begin{proof}
 Start with an accepted Real-facing convergence read. Carrier admission gives only the finite schedule $S$ as sequence data, so the read first factors through the displayed stream windows.
 
@@ -135,6 +136,46 @@ The threshold and tolerance data are then forced by the same carrier projection.
 Apply \autoref{thm:cauchy-convergence-criterion-namecert-obligations}. Finite-window classification keeps the read on $S$, modulus stability preserves the threshold row under $H$ and $C$, and ledger exhaustion accounts for the request in $D$ and $P$ before the handoff $R$ or seal row $E$ can be consumed.
 
 The handoff and seal results do not add a stream source. By \autoref{thm:cauchy-convergence-criterion-real-seal-handoff} and \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, downstream $\RealUp$, $\CauchyLimitSealUp$, and zero-difference consumers reuse the same $S,M,D$ rows. Since the carrier has no unbounded stream coordinate, the classifier accepts only covered finite windows.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion tail-diameter scope]
+\label{thm:cauchy-convergence-criterion-tail-diameter-scope}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Every tail-diameter request consumed by a convergence-facing read factors through the same finite route
+$$
+S \longmapsto M \longmapsto D \longmapsto R
+$$
+before the $\RealUp$ seal row $E$ is available. The request is therefore scoped by the displayed $\StreamNameUp$ windows, $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ tolerance ledger, and $\RegSeqRatUp$ handoff of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-cauchylimitseal-namecert}; it does not introduce a second tail classifier, detached limit seal, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. By \autoref{def:cauchy-convergence-criterion-carrier}, the only stream observations are the finite windows in $S$, the only thresholds are in $M$, the only tolerance ledger is $D$, and the only regular handoff is $R$.
+
+Apply \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}. A tail-diameter request must be covered by a window and a matching threshold in the same packet, so the request cannot leave $S,M,D$ before the handoff row is formed.
+
+Now use \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion} and \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}. These force every convergence-facing read through $S,M,D,R$ before $E$, while \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy} keeps the $\CauchyLimitSealUp$ consumer on the same finite boundary.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion null-sequence scope]
+\label{thm:cauchy-convergence-criterion-null-sequence-scope}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. If a convergence-facing comparison is a zero-difference read, then the read uses the existing $\NullSequenceUp$ factorization route over $S,M,D,R,E,H,C,P,N$ and not a second stream representative. In particular, the zero-difference consumer remains inside the finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchyLimitSealUp$ route recorded by the carrier.
+\end{theorem}
+\begin{proof}
+Start from the zero-difference comparison. The carrier has one stream schedule $S$ and one regular-rational comparison row $R$, so there is no separate stream representative available for the comparison.
+
+Apply \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}. The zero-difference read factors through the displayed $\NullSequenceUp$ packet using the same difference row $R$, tolerance ledger $D$, stream schedule $S$, threshold row $M$, Real seal row $E$, and structural rows $H,C,P,N$.
+
+Finally combine \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage} with \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}. The finite window-threshold ledger and the limit-seal boundary are already fixed by the carrier, so the null-sequence route cannot introduce quotient streams, selected host limits, or a second pre-seal representation.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion regular-seal handoff]
+\label{thm:cauchy-convergence-criterion-regular-seal-handoff}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. The $\RegSeqRatUp$ row $R$ is the unique pre-seal route available to any $\CauchyLimitSealUp$ consumer of $G$: every such consumer first reads the $\StreamNameUp$ windows $S$, $\CauchyModulusUp$ thresholds $M$, $\DyadicRatCoreUp$ ledger $D$, and then $R$, before it can consume the $\RealUp$ seal row $E$. The route is preserved by $H,C,P,N$ and contains no quotient-stream equality, selected host limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the consumer-facing rows of $G$. The regular-rational handoff coordinate is exactly $R$, and the seal row $E$ is downstream of it by \autoref{def:cauchy-convergence-criterion-carrier}.
+
+Apply \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}. Every $\RealUp$- or $\CauchyLimitSealUp$-facing read must pass through the displayed source triad $S,M,D,R$ before any seal row is visible.
+
+The uniqueness claim follows from \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}. Once the displayed $\StreamNameUp$ windows, $\RegSeqRatUp$ row, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal boundary, transport, continuation, provenance, and name rows agree, no second seal route remains for the consumer. The structural rows $H,C,P,N$ only preserve and name this route.
 \end{proof}
 
 \begin{theorem}[Cauchy convergence criterion ledger-classifier exactness]
