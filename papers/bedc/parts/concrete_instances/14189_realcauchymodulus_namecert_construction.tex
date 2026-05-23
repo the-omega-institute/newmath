@@ -349,6 +349,24 @@ Use threshold stability, cofinal refinement handoff, uniform tail extraction, bo
 Finally apply ledger exhaustion. Since the dyadic ledger is already exhausted before the readback and terminal seal are consumed, there is no remaining carrier coordinate for Real completeness, quotient streams, host equality, countable choice, trichotomy, selected limits, or open-cover compactness.
 \end{proof}
 
+\begin{theorem}[Real Cauchy modulus finite modulus-index induction]
+\label{thm:real-cauchy-modulus-finite-modulus-index-induction}
+Let $B=(M,S,D,Q,E,H,C,P,N)$ be an accepted $\RealCauchyModulusUp$ packet. Every finite family of precision requests indexed by a unary finite window is handled by induction on the displayed modulus-index spine. At each successor step the same route
+$$
+M \to S \to D \to Q \to E \to H,C,P,N
+$$
+is preserved, and the induction exposes no unbounded stream read, choice schedule, quotient stream equality, selected limit, or Real completeness row.
+\end{theorem}
+\begin{proof}
+Start with precision induction from \autoref{thm:real-cauchy-modulus-precision-induction}. The base request reads the displayed modulus row $M$, the finite window row $S$, the dyadic ledger $D$, the regular readback $Q$, and the terminal seal $E$ through the transported and replayed rows $H,C,P,N$.
+
+For the successor step, apply window monotonicity from \autoref{thm:real-cauchy-modulus-window-monotonicity}. Enlarging the unary finite window preserves the earlier request rows and moves only to a later displayed modulus index on the same spine.
+
+Use uniform tail extraction from \autoref{thm:real-cauchy-modulus-uniform-tail-extraction} to reuse the later finite tail for the whole indexed family. This is finite induction on the BEDC request spine, not a host choice over all precisions.
+
+Finally apply ledger exhaustion from \autoref{thm:real-cauchy-modulus-ledger-exhaustion}. Since every step is already routed through $M,S,D,Q,E,H,C,P,N$, there is no coordinate for an unbounded stream read, quotient stream equality, selected limit, countable-choice schedule, or ambient Real-completeness argument.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\RealCauchyModulusUp$ consumer that reads a terminal Real seal without the explicit modulus threshold, finite StreamName window, DyadicRatCore tolerance ledger, and RegSeqRat readback refutes the carrier surface.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchymodulus: no listed sibling supplies the whole nine-row packet $B=(M,S,D,Q,E,H,C,P,N)$, because each sibling contributes only a window, readback, tolerance, seal, or generic schedule surface while this chapter binds all five analytic faces with transport, replay, provenance, and local naming.}
