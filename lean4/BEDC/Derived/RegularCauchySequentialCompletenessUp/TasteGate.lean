@@ -26,7 +26,7 @@ def regularCauchySequentialCompletenessDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchySequentialCompletenessDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchySequentialCompletenessDecodeBHist tail)
 
-private theorem RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode :
+private theorem RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       regularCauchySequentialCompletenessDecodeBHist
         (regularCauchySequentialCompletenessEncodeBHist h) = h := by
@@ -44,98 +44,47 @@ def regularCauchySequentialCompletenessFields :
       [D, S, R, M, L, U, H, C, P, N]
 
 def regularCauchySequentialCompletenessToEventFlow :
-    RegularCauchySequentialCompletenessUp → EventFlow :=
+    RegularCauchySequentialCompletenessUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (regularCauchySequentialCompletenessFields x).map
-      regularCauchySequentialCompletenessEncodeBHist
+  | x =>
+      List.map regularCauchySequentialCompletenessEncodeBHist
+        (regularCauchySequentialCompletenessFields x)
+
+private def regularCauchySequentialCompletenessRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchySequentialCompletenessRawAt index rest
 
 def regularCauchySequentialCompletenessFromEventFlow :
     EventFlow → Option RegularCauchySequentialCompletenessUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | D :: restD =>
-      match restD with
-      | [] => none
-      | S :: restS =>
-          match restS with
-          | [] => none
-          | R :: restR =>
-              match restR with
-              | [] => none
-              | M :: restM =>
-                  match restM with
-                  | [] => none
-                  | L :: restL =>
-                      match restL with
-                      | [] => none
-                      | U :: restU =>
-                          match restU with
-                          | [] => none
-                          | H :: restH =>
-                              match restH with
-                              | [] => none
-                              | C :: restC =>
-                                  match restC with
-                                  | [] => none
-                                  | P :: restP =>
-                                      match restP with
-                                      | [] => none
-                                      | N :: restN =>
-                                          match restN with
-                                          | [] =>
-                                              some
-                                                (RegularCauchySequentialCompletenessUp.mk
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    D)
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    S)
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    R)
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    M)
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    L)
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    U)
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    H)
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    C)
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    P)
-                                                  (regularCauchySequentialCompletenessDecodeBHist
-                                                    N))
-                                          | _ :: _ => none
+  | flow =>
+      some
+        (RegularCauchySequentialCompletenessUp.mk
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 0 flow))
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 1 flow))
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 2 flow))
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 3 flow))
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 4 flow))
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 5 flow))
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 6 flow))
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 7 flow))
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 8 flow))
+          (regularCauchySequentialCompletenessDecodeBHist
+            (regularCauchySequentialCompletenessRawAt 9 flow)))
 
-private theorem RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_mk_congr
-    {D D' S S' R R' M M' L L' U U' H H' C C' P P' N N' : BHist}
-    (hD : D' = D)
-    (hS : S' = S)
-    (hR : R' = R)
-    (hM : M' = M)
-    (hL : L' = L)
-    (hU : U' = U)
-    (hH : H' = H)
-    (hC : C' = C)
-    (hP : P' = P)
-    (hN : N' = N) :
-    RegularCauchySequentialCompletenessUp.mk D' S' R' M' L' U' H' C' P' N' =
-      RegularCauchySequentialCompletenessUp.mk D S R M L U H C P N := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hD
-  cases hS
-  cases hR
-  cases hM
-  cases hL
-  cases hU
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
-
-private theorem RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_round_trip :
+private theorem RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_round_trip :
     ∀ x : RegularCauchySequentialCompletenessUp,
       regularCauchySequentialCompletenessFromEventFlow
         (regularCauchySequentialCompletenessToEventFlow x) = some x := by
@@ -145,43 +94,40 @@ private theorem RegularCauchySequentialCompletenessTasteGate_single_carrier_alig
   | mk D S R M L U H C P N =>
       change
         some
-            (RegularCauchySequentialCompletenessUp.mk
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist D))
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist S))
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist R))
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist M))
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist L))
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist U))
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist H))
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist C))
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist P))
-              (regularCauchySequentialCompletenessDecodeBHist
-                (regularCauchySequentialCompletenessEncodeBHist N))) =
+          (RegularCauchySequentialCompletenessUp.mk
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist D))
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist S))
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist R))
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist M))
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist L))
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist U))
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist H))
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist C))
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist P))
+            (regularCauchySequentialCompletenessDecodeBHist
+              (regularCauchySequentialCompletenessEncodeBHist N))) =
           some (RegularCauchySequentialCompletenessUp.mk D S R M L U H C P N)
-      exact
-        congrArg some
-          (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_mk_congr
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode D)
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode S)
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode R)
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode M)
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode L)
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode U)
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode H)
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode C)
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode P)
-            (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode N))
+      rw [RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode D,
+        RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode S,
+        RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode R,
+        RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode M,
+        RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode L,
+        RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode U,
+        RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode H,
+        RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode C,
+        RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode P,
+        RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode N]
 
-private theorem RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RegularCauchySequentialCompletenessUp} :
     regularCauchySequentialCompletenessToEventFlow x =
       regularCauchySequentialCompletenessToEventFlow y → x = y := by
@@ -195,9 +141,9 @@ private theorem RegularCauchySequentialCompletenessTasteGate_single_carrier_alig
     congrArg regularCauchySequentialCompletenessFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
-      (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_round_trip x).symm
+      (RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
-        (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_round_trip y)))
+        (RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_round_trip y)))
 
 instance regularCauchySequentialCompletenessBHistCarrier :
     BHistCarrier RegularCauchySequentialCompletenessUp where
@@ -213,18 +159,14 @@ instance regularCauchySequentialCompletenessChapterTasteGate :
     change
       regularCauchySequentialCompletenessFromEventFlow
         (regularCauchySequentialCompletenessToEventFlow x) = some x
-    exact RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_round_trip x
+    exact RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_toEventFlow_injective
+      (RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_toEventFlow_injective
         heq)
 
-def taste_gate : ChapterTasteGate RegularCauchySequentialCompletenessUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  regularCauchySequentialCompletenessChapterTasteGate
-
-theorem RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment :
+theorem RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       regularCauchySequentialCompletenessDecodeBHist
         (regularCauchySequentialCompletenessEncodeBHist h) = h) ∧
@@ -237,11 +179,13 @@ theorem RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment :
           regularCauchySequentialCompletenessEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_decode,
-      RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        RegularCauchySequentialCompletenessTasteGate_single_carrier_alignment_toEventFlow_injective
-          heq),
+    ⟨RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_decode,
+      RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_round_trip,
+      by
+        intro x y heq
+        exact
+          RegularCauchySequentialCompletenessUpTasteGate_single_carrier_alignment_toEventFlow_injective
+            heq,
       rfl⟩
 
 end BEDC.Derived.RegularCauchySequentialCompletenessUp
