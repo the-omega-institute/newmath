@@ -1,0 +1,193 @@
+\begin{definition}[Median iteration layers]
+\label{def:philosophy-median-iteration-layers}
+For $S\subset Q_{6}$, define $\operatorname{Med}_{0}(S)=S$ and
+$$
+  \operatorname{Med}_{n+1}(S)
+  =
+  \operatorname{Med}_{n}(S)
+  \cup
+  \{m(x,y,z):x,y,z\in \operatorname{Med}_{n}(S)\}.
+$$
+Here $m(x,y,z)$ is the coordinatewise majority vertex of
+\autoref{def:philosophy-median-closure}.
+\end{definition}
+
+\begin{theorem}[Median closure depth of the reassigned support]
+\label{thm:philosophy-median-depth-sealing}
+The median iteration of the reassigned support stabilizes after two
+nontrivial layers. The first layer adds
+$$
+  \Delta_{1}
+  =
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{AUG},
+    \mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\},
+$$
+and the second layer adds
+$$
+  \Delta_{2}=\{\mathrm{ACG}\}.
+$$
+Thus
+$$
+\begin{aligned}
+  \operatorname{Med}_{1}(\mathcal{R})
+  &=
+  \mathcal{R}\cup\Delta_{1},
+  &
+  |\operatorname{Med}_{1}(\mathcal{R})|
+  &=19,\\
+  \operatorname{Med}_{2}(\mathcal{R})
+  &=
+  \operatorname{Med}(\mathcal{R})
+  =
+  \operatorname{Med}_{1}(\mathcal{R})\cup\{\mathrm{ACG}\},
+  &
+  |\operatorname{Med}_{2}(\mathcal{R})|
+  &=20.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all triples in $\mathcal{R}$ and apply coordinatewise
+majority. The codons outside $\mathcal{R}$ are exactly the six codons in $\Delta_{1}$.
+Repeating the same operation on $\operatorname{Med}_{1}(\mathcal{R})$
+produces the single additional codon $\mathrm{ACG}$. A further pass
+produces no additional vertex, so the second layer is the full median
+closure.
+\end{proof}
+
+\begin{corollary}[Inactive median levels]
+\label{cor:philosophy-inactive-median-levels}
+The inactive codons in the median closure split into three structural
+levels:
+$$
+\begin{gathered}
+  \text{anchor inactive codons: }
+  \mathrm{AAG},\mathrm{ACA},\mathrm{UGG},\\
+  \text{first median codons: }
+  \mathrm{AUG},\mathrm{UCG},\mathrm{UUG},\\
+  \text{sealing codon: }
+  \mathrm{ACG}.
+\end{gathered}
+$$
+\end{corollary}
+\begin{proof}
+The first line is the inactive-anchor set of
+\autoref{def:philosophy-inactive-anchor-closure}. The second and third
+lines are the remaining elements of $\Delta_{1}$ and $\Delta_{2}$ in
+\autoref{thm:philosophy-median-depth-sealing}.
+\end{proof}
+
+\begin{theorem}[Punctured median $Q_{4}$]
+\label{thm:philosophy-punctured-median-q4}
+The first median layer is
+$$
+  \operatorname{Med}_{1}(\mathcal{R})
+  =
+  (\mathrm{WNR}\setminus\{\mathrm{ACG}\})\cup\mathrm{CUN}.
+$$
+Consequently $\mathrm{ACG}$ is the unique missing vertex of the main
+$\mathrm{WNR}$ $4$-cube at the first median layer.
+\end{theorem}
+\begin{proof}
+The full median closure is
+$\operatorname{Med}(\mathcal{R})=\mathrm{WNR}\cup\mathrm{CUN}$ by
+\autoref{thm:philosophy-reassignment-median-closure}. By
+\autoref{thm:philosophy-median-depth-sealing}, the only vertex of this
+median closure absent from $\operatorname{Med}_{1}(\mathcal{R})$ is
+$\mathrm{ACG}$.
+\end{proof}
+
+\begin{theorem}[Sealing-corner f-vector transition]
+\label{thm:philosophy-sealing-corner-f-vector}
+The cubical f-vector changes from
+$$
+  f(K(\operatorname{Med}_{1}(\mathcal{R})))
+  =
+  (19,34,20,4,0,0,\ldots)
+$$
+to
+$$
+  f(K(\operatorname{Med}(\mathcal{R})))
+  =
+  (20,38,26,8,1,0,\ldots).
+$$
+The difference is
+$$
+  (1,4,6,4,1,0,\ldots).
+$$
+\end{theorem}
+\begin{proof}
+At the first median layer, the main $\mathrm{WNR}$ cell is a $4$-cube
+with one vertex, $\mathrm{ACG}$, removed, together with the unchanged
+CUN module. Restoring one missing corner of a $4$-cube contributes
+$\binom{4}{k}$ $k$-cells for $k=0,1,2,3,4$, hence the difference vector
+$(1,4,6,4,1)$. Direct enumeration of all internal cubical cells gives
+the two displayed f-vectors.
+\end{proof}
+
+\begin{corollary}[Top-dimensional sealing corner]
+\label{cor:philosophy-top-dimensional-sealing-corner}
+The codon $\mathrm{ACG}$ is not an active reassignment codon and is not
+one of the three inactive-anchor codons. Its median role is
+top-dimensional: it seals the punctured $\mathrm{WNR}$ $4$-cube into a
+complete $Q_{4}$ cell.
+\end{corollary}
+\begin{proof}
+The codon $\mathrm{ACG}$ is absent from $\mathcal{R}$ and from the
+inactive-anchor set $\{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}$. Its
+cellular contribution is the top-dimensional transition of
+\autoref{thm:philosophy-sealing-corner-f-vector}.
+\end{proof}
+
+\begin{theorem}[Median witnesses for the two layers]
+\label{thm:philosophy-median-layer-witnesses}
+The first-layer inactive codons have active median witnesses
+$$
+\begin{gathered}
+  \mathrm{ACA}=m(\mathrm{AGA},\mathrm{AUA},\mathrm{UCA}),\\
+  \mathrm{UGG}=m(\mathrm{AGG},\mathrm{UAG},\mathrm{UGA}),\\
+  \mathrm{AAG}=m(\mathrm{AAA},\mathrm{AGG},\mathrm{UAG}),\\
+  \mathrm{AUG}=m(\mathrm{AGG},\mathrm{AUA},\mathrm{CUG}),\\
+  \mathrm{UCG}=m(\mathrm{AGG},\mathrm{UCA},\mathrm{CUC}),\\
+  \mathrm{UUG}=m(\mathrm{AUA},\mathrm{CUG},\mathrm{UAG}).
+\end{gathered}
+$$
+The sealing codon has a second-layer witness
+$$
+  \mathrm{ACG}=m(\mathrm{UGG},\mathrm{AUG},\mathrm{ACA}).
+$$
+Moreover, $\mathrm{ACG}$ is not the median of any three active codons
+from $\mathcal{R}$.
+\end{theorem}
+\begin{proof}
+Each displayed equality is checked by applying coordinatewise majority
+in the two-axis coding
+$\mathrm{U}=00$, $\mathrm{C}=01$, $\mathrm{A}=10$, $\mathrm{G}=11$.
+The exhaustive active-triple enumeration over $\mathcal{R}$ produces
+exactly $\Delta_{1}$ as the points outside $\mathcal{R}$, and therefore omits
+$\mathrm{ACG}$. The next enumeration over
+$\operatorname{Med}_{1}(\mathcal{R})$ adds only $\mathrm{ACG}$.
+\end{proof}
+
+\begin{theorem}[Median depth and sealing corner]
+\label{thm:philosophy-median-depth-and-sealing-corner}
+The median-stabilized envelope is obtained through the chain
+$$
+  \mathcal{R}
+  \longrightarrow
+  (\mathrm{WNR}\setminus\{\mathrm{ACG}\})\cup\mathrm{CUN}
+  \longrightarrow
+  \mathrm{WNR}\cup\mathrm{CUN}.
+$$
+The only strict second-layer median point is $\mathrm{ACG}$, and its
+addition converts the punctured main $Q_{4}$ into the complete
+$\mathrm{WNR}$ cell.
+\end{theorem}
+\begin{proof}
+The chain is
+\autoref{thm:philosophy-median-depth-sealing} together with
+\autoref{thm:philosophy-punctured-median-q4}. The strict second-layer
+property is \autoref{thm:philosophy-median-layer-witnesses}; the
+cellular sealing statement is
+\autoref{thm:philosophy-sealing-corner-f-vector}.
+\end{proof}
