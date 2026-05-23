@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\RealSeriesRatioTestUp$}
+\label{ch:concrete-instances-real-series-ratio-test-namecert}
+\origin{human}
+
+Following d'Alembert and Cauchy's ratio-test tradition, the $\RealSeriesRatioTestUp$ packet records a finite convergence-test surface over the $\RealSeriesUp$ corridor rather than a host limit of ratios. It consumes successive real-series term rows from \autoref{ch:concrete-instances-realseries-namecert}, regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, finite stream windows from \autoref{ch:concrete-instances-streamname-namecert}, dyadic ratio-bound rows, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed eventual-ratio bound for downstream Real and Completion consumers; it does not choose an infinite ratio limit, compare quotient real values, select a convergence witness by countable choice, or assert ambient completeness of $\RealUp$.
+
+\begin{definition}[RealSeriesRatioTest carrier]
+\label{def:real-series-ratio-test-carrier}
+A $\RealSeriesRatioTestUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,B,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealSeriesUp$ source row, exposing the inspected term stream and finite partial-sum windows.
+\item $T$ is the successive-term row, listing adjacent nonzero term windows $a_{n}$ and $a_{n+1}$ only through displayed real-name observations.
+\item $B$ is the dyadic ratio-bound row. It records a dyadic $q<1$, a finite threshold, and the displayed comparison that every inspected tail ratio is bounded by $q$.
+\item $W$ is the $\StreamNameUp$ finite-window schedule used to read the adjacent terms and the bound comparisons.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the term windows, ratio-bound rows, and partial-sum windows.
+\item $E$ is the $\RealUp$ seal row reached only after $S,T,B,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the real-series source, adjacent-term row, dyadic bound, finite windows, regular readback, endpoint seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a consumer request through $S,T,B,W,R$ and then to $E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealSeriesRatioTestUp$, $\RealSeriesUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, dyadic bound data, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealSeriesRatioTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten displayed rows. It has no coordinate for a host ratio limit, quotient equality of real-name streams, a selected infinite sum, countable choice, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[RealSeriesRatioTest NameCert obligations]
+\label{thm:real-series-ratio-test-obligation-package}
+For every accepted $\RealSeriesRatioTestUp$ carrier $K=(S,T,B,W,R,E,H,C,P,N)$, the local $\NameCert_{\RealSeriesRatioTestUp}$ surface consists exactly of carrier admission, $\RealSeriesUp$ source exposure, successive-term window exactness, dyadic ratio-bound exactness, $\StreamNameUp$ finite-window service, $\RegSeqRatUp$ readback, $\RealUp$ seal exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every convergence-test consumer must read the finite route
+$$
+S,T,B,W \longmapsto R \longmapsto E
+$$
+together with $H,C,P,N$ before using the packet as ratio-test evidence.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source row $S$ provides only the displayed real-series terms and partial-sum windows already exposed by the $\RealSeriesUp$ packet.
+
+The successive-term row $T$ and dyadic bound row $B$ are the analytic core of the carrier. They name adjacent tail terms, the dyadic bound $q<1$, and the finite comparisons visible in the selected windows; they do not name a limit of ratios.
+
+The rows $W$ and $R$ supply the finite observation schedule and regular rational readback through which the comparisons are inspected. The endpoint row $E$ can be read only after those finite rows have been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and locally name the same route. Since no omitted row carries quotient real equality, selected sums, countable choice, or ambient completeness, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RealSeriesRatioTestUp$ packet that reaches a $\RealUp$ convergence seal without displaying adjacent term windows, one dyadic ratio bound below $1$, finite $\StreamNameUp$ windows, and $\RegSeqRatUp$ readback fails the carrier surface.}
+
+\independenceWitness{RealSeries, RegSeqRat, StreamName, Real, dyadic ratio-bound rows: none is bijective to $\RealSeriesRatioTestUp$, because the listed siblings separately supply source terms, finite windows, readback, or endpoint sealing while this packet binds them to one eventual-ratio-test route with transport, replay, provenance, and local naming.}
+
+The Lean TasteGate follow-up is \texttt{BEDC.Derived.RealSeriesRatioTestUp}, with explicit $\Nontrivial\ \RealSeriesRatioTestUp$ and $\FieldFaithful\ \RealSeriesRatioTestUp$ instances preserving $S,T,B,W,R,E,H,C,P,N$ as separate displayed fields.
+
+\closureat{RealSeriesRatioTestUp}{seedStr}
+
+\begin{closurestatus}{\RealSeriesRatioTestUp}
+  \constructivestory{A $\RealSeriesRatioTestUp$ packet is generated from a $\RealSeriesUp$ source row, successive real-term windows, one dyadic ratio-bound row below one, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a terminal $\RealUp$ seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-series-ratio-test-carrier} and \autoref{thm:real-series-ratio-test-obligation-package} seed the finite ratio-test carrier and its NameCert obligation package over $\RealSeriesUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host ratio limits, quotient real equality, selected infinite sums, countable choice, Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the ten-row carrier and prove the finite ratio-bound obligation surface for BEDC.Derived.RealSeriesRatioTestUp.}
+\end{closurestatus}
