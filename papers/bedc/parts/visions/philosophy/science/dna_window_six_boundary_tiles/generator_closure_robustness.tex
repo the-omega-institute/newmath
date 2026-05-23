@@ -1,0 +1,209 @@
+\begin{definition}[Active median generator]
+\label{def:philosophy-active-median-generator}
+Let $M=\operatorname{Med}(\mathcal{R})$. A subset
+$G\subseteq\mathcal{R}$ is an active median generator when
+$$
+  \operatorname{Med}(G)=M.
+$$
+It is minimal when no smaller subset of $\mathcal{R}$ has the same
+median closure.
+\end{definition}
+
+\begin{theorem}[Minimal active median generators]
+\label{thm:philosophy-minimal-active-median-generators}
+The minimum size of an active median generator is $7$. There are exactly
+two generators of this size:
+$$
+\begin{gathered}
+  \{\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},
+    \mathrm{CUU},\mathrm{UAA},\mathrm{UCA}\},\\
+  \{\mathrm{AGG},\mathrm{AUA},\mathrm{CUC},\mathrm{CUG},
+    \mathrm{CUU},\mathrm{UAA},\mathrm{UCA}\}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all subsets $G\subseteq\mathcal{R}$ and compute
+$\operatorname{Med}(G)$ by iterating coordinatewise majority. No subset
+of size at most $6$ generates $M$, and the two displayed subsets are
+exactly the size-$7$ subsets that generate $M$.
+\end{proof}
+
+\begin{corollary}[Rigid median skeleton]
+\label{cor:philosophy-rigid-median-skeleton}
+The common part of the two minimum generators is
+$$
+  \{\mathrm{AGG},\mathrm{AUA},\mathrm{CUC},
+    \mathrm{CUU},\mathrm{UAA},\mathrm{UCA}\}.
+$$
+The only choice is between $\mathrm{CUA}$ and $\mathrm{CUG}$.
+\end{corollary}
+\begin{proof}
+Intersect the two generators in
+\autoref{thm:philosophy-minimal-active-median-generators}.
+\end{proof}
+
+\begin{definition}[Median-essential codon]
+\label{def:philosophy-median-essential-codon}
+A codon $c\in\mathcal{R}$ is median-essential when
+$$
+  \operatorname{Med}(\mathcal{R}\setminus\{c\})
+  \neq
+  \operatorname{Med}(\mathcal{R}).
+$$
+Otherwise it is median-redundant.
+\end{definition}
+
+\begin{theorem}[Median-essential codons]
+\label{thm:philosophy-median-essential-codons}
+The median-essential codons are exactly
+$$
+  \mathrm{AGG},\quad \mathrm{AUA},\quad
+  \mathrm{CUC},\quad \mathrm{CUU},\quad \mathrm{UCA}.
+$$
+The remaining active codons are median-redundant.
+\end{theorem}
+\begin{proof}
+For each codon $c\in\mathcal{R}$ compute
+$\operatorname{Med}(\mathcal{R}\setminus\{c\})$ and compare it with
+$M$. The closure sizes are
+$$
+\begin{array}{c|c|c}
+  c & |\operatorname{Med}(\mathcal{R}\setminus\{c\})| & \text{preserves }M\\
+  \hline
+  \mathrm{AAA} & 20 & \text{yes}\\
+  \mathrm{AGA} & 20 & \text{yes}\\
+  \mathrm{AGG} & 14 & \text{no}\\
+  \mathrm{AUA} & 16 & \text{no}\\
+  \mathrm{CUA} & 20 & \text{yes}\\
+  \mathrm{CUC} & 19 & \text{no}\\
+  \mathrm{CUG} & 20 & \text{yes}\\
+  \mathrm{CUU} & 19 & \text{no}\\
+  \mathrm{UAA} & 20 & \text{yes}\\
+  \mathrm{UAG} & 20 & \text{yes}\\
+  \mathrm{UCA} & 16 & \text{no}\\
+  \mathrm{UGA} & 20 & \text{yes}\\
+  \mathrm{UUA} & 20 & \text{yes}.
+\end{array}
+$$
+\end{proof}
+
+\begin{theorem}[Median deletion losses]
+\label{thm:philosophy-median-deletion-losses}
+The median-essential codons have the following closure losses:
+$$
+\begin{array}{c|l}
+  c & M\setminus\operatorname{Med}(\mathcal{R}\setminus\{c\})\\
+  \hline
+  \mathrm{AGG} &
+    \mathrm{AAG},\mathrm{ACG},\mathrm{AGG},
+    \mathrm{AUG},\mathrm{UCG},\mathrm{UGG}\\
+  \mathrm{AUA} &
+    \mathrm{ACA},\mathrm{ACG},\mathrm{AUA},\mathrm{AUG}\\
+  \mathrm{UCA} &
+    \mathrm{ACA},\mathrm{ACG},\mathrm{UCA},\mathrm{UCG}\\
+  \mathrm{CUC} &
+    \mathrm{CUC}\\
+  \mathrm{CUU} &
+    \mathrm{CUU}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Subtract each deletion closure from $M$ for the five
+median-essential codons of
+\autoref{thm:philosophy-median-essential-codons}.
+\end{proof}
+
+\begin{corollary}[Weight and median generation differ]
+\label{cor:philosophy-weight-median-generation-differ}
+High reassignment weight is not the same as median-generating
+importance. In particular $\mathrm{UGA}$, $\mathrm{UAA}$,
+$\mathrm{UAG}$, $\mathrm{AGA}$, and $\mathrm{AAA}$ are
+median-redundant, even though several of them have high reassignment
+weight.
+\end{corollary}
+\begin{proof}
+This is the redundant part of the deletion table in
+\autoref{thm:philosophy-median-essential-codons}.
+\end{proof}
+
+\begin{theorem}[Complementary active pairs]
+\label{thm:philosophy-complementary-active-pairs}
+The reassigned support contains exactly two complementary pairs:
+$$
+  \{\mathrm{CUC},\mathrm{AGA}\},
+  \qquad
+  \{\mathrm{CUU},\mathrm{AGG}\}.
+$$
+Each pair has Hamming distance $6$ in $Q_{6}$.
+\end{theorem}
+\begin{proof}
+Using $U=00$, $C=01$, $A=10$, and $G=11$, the bit words of
+$\mathrm{CUC}$ and $\mathrm{AGA}$ are complementary, and the same holds
+for $\mathrm{CUU}$ and $\mathrm{AGG}$. No other pair in
+$\mathcal{R}$ has all six bits opposite.
+\end{proof}
+
+\begin{corollary}[Convex hull is too coarse]
+\label{cor:philosophy-convex-hull-too-coarse}
+The geodesic convex hull of $\mathcal{R}$ is all of $Q_{6}$, already
+witnessed by either complementary pair in
+\autoref{thm:philosophy-complementary-active-pairs}.
+\end{corollary}
+\begin{proof}
+In a hypercube, the interval between complementary vertices is the
+whole cube.
+\end{proof}
+
+\begin{definition}[$Q_{2}$ completion closure]
+\label{def:philosophy-q2-completion-closure}
+For $S\subseteq Q_{6}$, define $\operatorname{Comp}_{Q_{2}}(S)$ by
+iterating the rule that whenever a $Q_{2}$ face contains at least three
+current vertices, the whole face is adjoined.
+\end{definition}
+
+\begin{theorem}[Single-deletion completion robustness]
+\label{thm:philosophy-single-deletion-completion-robustness}
+For every active codon $c\in\mathcal{R}$,
+$$
+  \operatorname{Comp}_{Q_{2}}(\mathcal{R}\setminus\{c\})=Q_{6}.
+$$
+\end{theorem}
+\begin{proof}
+Delete each of the $13$ active codons and run the finite
+$Q_{2}$-completion iteration. Every deletion case reaches all $64$
+vertices.
+\end{proof}
+
+\begin{theorem}[Minimal percolating seeds]
+\label{thm:philosophy-minimal-percolating-seeds}
+Among subsets of $\mathcal{R}$, the minimum size of a
+$Q_{2}$-completion seed that percolates to $Q_{6}$ is $7$. There are
+$484$ such size-$7$ seeds.
+\end{theorem}
+\begin{proof}
+Enumerate all subsets $G\subseteq\mathcal{R}$ and compute
+$\operatorname{Comp}_{Q_{2}}(G)$. No subset of size at most $6$
+percolates to $Q_{6}$, while $484$ subsets of size $7$ do.
+\end{proof}
+
+\begin{theorem}[Generator-closure robustness]
+\label{thm:philosophy-generator-closure-robustness}
+The reassigned support is rigid in median generation and robust in
+$Q_{2}$-completion:
+$$
+\begin{gathered}
+  \text{minimum active median generators: }2\text{ subsets of size }7,\\
+  \text{minimum }Q_{2}\text{-percolating seeds: }484\text{ subsets of size }7.
+\end{gathered}
+$$
+Thus the median closure identifies a small rigid generating skeleton,
+whereas $Q_{2}$-completion records a broad percolation capacity.
+\end{theorem}
+\begin{proof}
+Combine
+\autoref{thm:philosophy-minimal-active-median-generators},
+\autoref{thm:philosophy-single-deletion-completion-robustness}, and
+\autoref{thm:philosophy-minimal-percolating-seeds}.
+\end{proof}
