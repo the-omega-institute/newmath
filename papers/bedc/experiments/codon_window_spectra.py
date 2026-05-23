@@ -4446,6 +4446,54 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "quotient_core_incidence": sum(row["quotient_core_incidence"] for row in defect_flow_orbit_rows),
         "codon_core_incidence": sum(row["codon_core_incidence"] for row in defect_flow_orbit_rows),
     }
+    partition_type_rows = [
+        {"partition_type": "4", "block_sizes": (4,), "trigger_size": 1, "quotient_partitions": 1},
+        {"partition_type": "3+1", "block_sizes": (3, 1), "trigger_size": 2, "quotient_partitions": 4},
+        {"partition_type": "2+2", "block_sizes": (2, 2), "trigger_size": 2, "quotient_partitions": 3},
+        {"partition_type": "2+1+1", "block_sizes": (2, 1, 1), "trigger_size": 3, "quotient_partitions": 6},
+        {"partition_type": "1+1+1+1", "block_sizes": (1, 1, 1, 1), "trigger_size": 4, "quotient_partitions": 1},
+    ]
+    partition_basin_rows = []
+    for row in partition_type_rows:
+        trigger_size = row["trigger_size"]
+        basin_per_core = math.prod(
+            (2 ** (trigger_size - 1)) ** block_size - (2 ** (trigger_size - 1) - 1) ** block_size
+            for block_size in row["block_sizes"]
+        )
+        codon_cores = row["quotient_partitions"] * (2 ** trigger_size)
+        partition_basin_rows.append(
+            {
+                **row,
+                "basin_per_core": basin_per_core,
+                "codon_cores": codon_cores,
+                "quotient_incidence": row["quotient_partitions"] * basin_per_core,
+                "codon_incidence": codon_cores * basin_per_core,
+            }
+        )
+    partition_basin_summary = {
+        "quotient_incidence": sum(row["quotient_incidence"] for row in partition_basin_rows),
+        "codon_incidence": sum(row["codon_incidence"] for row in partition_basin_rows),
+        "max_basin_partition_type": max(partition_basin_rows, key=lambda row: row["basin_per_core"])["partition_type"],
+        "max_basin_per_core": max(row["basin_per_core"] for row in partition_basin_rows),
+    }
+    descending_path_orbit_rows = []
+    for row in defect_flow_orbit_rows:
+        paths_per_trigger = math.factorial(row["defect"]) * row["partition_core_count"]
+        descending_path_orbit_rows.append(
+            {
+                "normal_form": row["normal_form"],
+                "defect": row["defect"],
+                "quotient_count": row["quotient_count"],
+                "codon_count": row["codon_count"],
+                "paths_per_trigger": paths_per_trigger,
+                "quotient_path_contribution": row["quotient_count"] * paths_per_trigger,
+                "codon_path_contribution": row["codon_count"] * paths_per_trigger,
+            }
+        )
+    descending_path_summary = {
+        "quotient_paths": sum(row["quotient_path_contribution"] for row in descending_path_orbit_rows),
+        "codon_paths": sum(row["codon_path_contribution"] for row in descending_path_orbit_rows),
+    }
     codon_level_lift_orbit_rows = []
     for normal_form in orbit_order:
         quotient_count = quotient_minimal_trigger_orbit_counts[normal_form]
@@ -5150,6 +5198,12 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "defect_flow_orbit_rows": defect_flow_orbit_rows,
         "defect_flow_edge_rows": defect_flow_edge_rows,
         "defect_flow_summary": defect_flow_summary,
+        "partition_basin_formula": "prod_i ((2^(m-1))^s_i - (2^(m-1)-1)^s_i)",
+        "partition_basin_rows": partition_basin_rows,
+        "partition_basin_summary": partition_basin_summary,
+        "descending_path_formula": "delta! prod_a |R_a|",
+        "descending_path_orbit_rows": descending_path_orbit_rows,
+        "descending_path_summary": descending_path_summary,
         "codon_level_lift_orbit_group": "S_4 x C_2^(f_3)",
         "codon_level_lift_orbit_count_rows": codon_level_lift_orbit_count_rows,
         "codon_level_lift_orbit_rows": codon_level_lift_orbit_rows,
@@ -9079,6 +9133,59 @@ def assert_expected(summary: dict[str, object]) -> None:
         "codon_sinks": 94,
         "quotient_core_incidence": 99,
         "codon_core_incidence": 574,
+    }
+    assert antipodal["partition_basin_formula"] == "prod_i ((2^(m-1))^s_i - (2^(m-1)-1)^s_i)"
+    assert [
+        (
+            row["partition_type"],
+            row["block_sizes"],
+            row["trigger_size"],
+            row["quotient_partitions"],
+            row["basin_per_core"],
+            row["codon_cores"],
+            row["quotient_incidence"],
+            row["codon_incidence"],
+        )
+        for row in antipodal["partition_basin_rows"]
+    ] == [
+        ("4", (4,), 1, 1, 1, 2, 1, 2),
+        ("3+1", (3, 1), 2, 4, 7, 16, 28, 112),
+        ("2+2", (2, 2), 2, 3, 9, 12, 27, 108),
+        ("2+1+1", (2, 1, 1), 3, 6, 7, 48, 42, 336),
+        ("1+1+1+1", (1, 1, 1, 1), 4, 1, 1, 16, 1, 16),
+    ]
+    assert antipodal["partition_basin_summary"] == {
+        "quotient_incidence": 99,
+        "codon_incidence": 574,
+        "max_basin_partition_type": "2+2",
+        "max_basin_per_core": 9,
+    }
+    assert antipodal["descending_path_formula"] == "delta! prod_a |R_a|"
+    assert [
+        (
+            row["normal_form"],
+            row["defect"],
+            row["quotient_count"],
+            row["codon_count"],
+            row["paths_per_trigger"],
+            row["quotient_path_contribution"],
+            row["codon_path_contribution"],
+        )
+        for row in antipodal["descending_path_orbit_rows"]
+    ] == [
+        ("{1234}", 0, 1, 2, 1, 1, 2),
+        ("{1,234}", 0, 4, 16, 1, 4, 16),
+        ("{12,34}", 0, 3, 12, 1, 3, 12),
+        ("{12,234}", 1, 12, 48, 2, 24, 96),
+        ("{123,124}", 2, 6, 24, 8, 48, 192),
+        ("{1,2,34}", 0, 6, 48, 1, 6, 48),
+        ("{1,24,34}", 1, 12, 96, 2, 24, 192),
+        ("{14,24,34}", 2, 4, 32, 6, 24, 192),
+        ("{1,2,3,4}", 0, 1, 16, 1, 1, 16),
+    ]
+    assert antipodal["descending_path_summary"] == {
+        "quotient_paths": 135,
+        "codon_paths": 766,
     }
     assert antipodal["codon_level_lift_orbit_group"] == "S_4 x C_2^(f_3)"
     assert [
