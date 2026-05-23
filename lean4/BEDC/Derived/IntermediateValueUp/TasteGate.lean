@@ -1,13 +1,21 @@
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Ask
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.IntermediateValueUp
 
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -376,5 +384,54 @@ theorem IntermediateValueCarrier_dyadic_bisection_obligations
         exact sourceRow
     }
   · rfl
+
+theorem IntermediateValueBisectionConvergenceHandoff [AskSetup] [PackageSetup]
+    {locatedInterval endpointNegative endpointPositive continuousMap modulusBudget
+      bisectionLedger nestedWindow realSeal transports routes provenance localNameCert
+      bisectionRead streamRead regseqRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont bisectionLedger nestedWindow bisectionRead →
+      Cont bisectionRead routes streamRead →
+        Cont streamRead regseqRead realRead →
+          PkgSig bundle realRead pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row realRead ∧ Cont bisectionLedger nestedWindow bisectionRead)
+                (fun row : BHist =>
+                  hsame row realRead ∧ Cont bisectionLedger nestedWindow bisectionRead ∧
+                    Cont bisectionRead routes streamRead ∧
+                      Cont streamRead regseqRead realRead)
+                (fun row : BHist => hsame row realRead ∧ PkgSig bundle realRead pkg)
+                hsame ∧
+              hsame realRead realRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro ledgerWindow routeStream streamRegseq realPkg
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro realRead (And.intro (hsame_refl realRead) ledgerWindow)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows sourceRow
+          exact And.intro (hsame_trans (hsame_symm sameRows) sourceRow.left)
+            sourceRow.right
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, sourceRow.right, routeStream, streamRegseq⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, realPkg⟩
+    }
+  · exact hsame_refl realRead
 
 end BEDC.Derived.IntermediateValueUp
