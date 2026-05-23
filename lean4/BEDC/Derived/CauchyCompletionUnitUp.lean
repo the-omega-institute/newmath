@@ -153,4 +153,88 @@ theorem CauchyCompletionUnitCarrier_real_completion_consumer_boundary [AskSetup]
       realConsumerCont, completionConsumerCont, provenancePkg, realConsumerPkg,
       completionConsumerPkg⟩
 
+theorem CauchyCompletionUnitCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {source source' window window' tolerance tolerance' readback readback' sealRow sealRow'
+      completion completion' transport transport' route route' provenance provenance' name name' :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionUnitCarrier source window tolerance readback sealRow completion transport route
+        provenance name bundle pkg ->
+      hsame source source' ->
+        hsame window window' ->
+          hsame tolerance tolerance' ->
+            hsame readback readback' ->
+              hsame sealRow sealRow' ->
+                hsame completion completion' ->
+                  hsame transport transport' ->
+                    hsame route route' ->
+                      hsame provenance provenance' ->
+                        hsame name name' ->
+                          Cont source' window' tolerance' ->
+                            Cont tolerance' readback' sealRow' ->
+                              Cont sealRow' route' completion' ->
+                                PkgSig bundle provenance' pkg ->
+                                  PkgSig bundle name' pkg ->
+                                    CauchyCompletionUnitCarrier source' window' tolerance'
+                                      readback' sealRow' completion' transport' route'
+                                      provenance' name' bundle pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory PkgSig
+  intro carrier sameSource sameWindow sameTolerance sameReadback sameSeal sameCompletion
+    sameTransport sameRoute sameProvenance sameName sourceWindow' toleranceReadback'
+      sealCompletion' provenancePkg' namePkg'
+  obtain ⟨sourceUnary, windowUnary, toleranceUnary, readbackUnary, sealUnary,
+    completionUnary, transportUnary, routeUnary, provenanceUnary, nameUnary,
+      _sourceWindowRoute, _toleranceReadbackRoute, _sealCompletionRoute, transportEmpty,
+        _provenancePkg, _namePkg⟩ := carrier
+  have sourceUnary' : UnaryHistory source' := unary_transport sourceUnary sameSource
+  have windowUnary' : UnaryHistory window' := unary_transport windowUnary sameWindow
+  have toleranceUnary' : UnaryHistory tolerance' := unary_transport toleranceUnary sameTolerance
+  have readbackUnary' : UnaryHistory readback' := unary_transport readbackUnary sameReadback
+  have sealUnary' : UnaryHistory sealRow' := unary_transport sealUnary sameSeal
+  have completionUnary' : UnaryHistory completion' :=
+    unary_transport completionUnary sameCompletion
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have routeUnary' : UnaryHistory route' := unary_transport routeUnary sameRoute
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have nameUnary' : UnaryHistory name' := unary_transport nameUnary sameName
+  have transportEmpty' : hsame transport' BHist.Empty :=
+    hsame_trans (hsame_symm sameTransport) transportEmpty
+  exact
+    ⟨sourceUnary', windowUnary', toleranceUnary', readbackUnary', sealUnary',
+      completionUnary', transportUnary', routeUnary', provenanceUnary', nameUnary',
+      sourceWindow', toleranceReadback', sealCompletion', transportEmpty',
+      provenancePkg', namePkg'⟩
+
+theorem CauchyCompletionUnitCarrier_dense_embedding_universal_route [AskSetup] [PackageSetup]
+    {source window tolerance readback sealRow completion transport route provenance name
+      denseRead universalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionUnitCarrier source window tolerance readback sealRow completion transport route
+        provenance name bundle pkg ->
+      Cont completion route denseRead ->
+        Cont denseRead route universalRead ->
+          PkgSig bundle denseRead pkg ->
+            PkgSig bundle universalRead pkg ->
+              UnaryHistory source ∧ UnaryHistory completion ∧ UnaryHistory denseRead ∧
+                UnaryHistory universalRead ∧ Cont source window tolerance ∧
+                  Cont tolerance readback sealRow ∧ Cont sealRow route completion ∧
+                    Cont completion route denseRead ∧ Cont denseRead route universalRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle universalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier denseRoute universalRoute _densePkg universalPkg
+  obtain ⟨sourceUnary, _windowUnary, _toleranceUnary, _readbackUnary, _sealUnary,
+    completionUnary, _transportUnary, routeUnary, _provenanceUnary, _nameUnary,
+      sourceWindowRoute, toleranceReadbackRoute, sealCompletionRoute, _transportEmpty,
+        provenancePkg, _namePkg⟩ := carrier
+  have denseUnary : UnaryHistory denseRead :=
+    unary_cont_closed completionUnary routeUnary denseRoute
+  have universalUnary : UnaryHistory universalRead :=
+    unary_cont_closed denseUnary routeUnary universalRoute
+  exact
+    ⟨sourceUnary, completionUnary, denseUnary, universalUnary, sourceWindowRoute,
+      toleranceReadbackRoute, sealCompletionRoute, denseRoute, universalRoute, provenancePkg,
+      universalPkg⟩
+
 end BEDC.Derived.CauchyCompletionUnitUp

@@ -210,4 +210,34 @@ theorem CauchySequenceBoundedCarrier_namecert_obligations [AskSetup] [PackageSet
       scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal, provenanceTransportName,
       namePkg⟩
 
+theorem CauchySequenceBoundedCarrier_window_bound_handoff [AskSetup] [PackageSetup]
+    {schedule modulus tolerance readback realSeal bound transport route provenance name
+      boundedConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceBoundedCarrier schedule modulus tolerance readback realSeal bound transport
+        route provenance name bundle pkg ->
+      Cont realSeal bound boundedConsumer ->
+        PkgSig bundle boundedConsumer pkg ->
+          UnaryHistory schedule ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+            UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory bound ∧
+              UnaryHistory boundedConsumer ∧ Cont schedule modulus tolerance ∧
+                Cont tolerance bound readback ∧ Cont readback route realSeal ∧
+                  Cont realSeal bound boundedConsumer ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle boundedConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier realSealBoundConsumer boundedConsumerPkg
+  obtain ⟨scheduleUnary, modulusUnary, toleranceUnary, boundUnary, routeUnary,
+    _provenanceUnary, scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal,
+    _provenanceTransportName, namePkg⟩ := carrier
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed toleranceUnary boundUnary toleranceBoundReadback
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed readbackUnary routeUnary readbackRouteSeal
+  have boundedConsumerUnary : UnaryHistory boundedConsumer :=
+    unary_cont_closed realSealUnary boundUnary realSealBoundConsumer
+  exact
+    ⟨scheduleUnary, modulusUnary, toleranceUnary, readbackUnary, realSealUnary, boundUnary,
+      boundedConsumerUnary, scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal,
+      realSealBoundConsumer, namePkg, boundedConsumerPkg⟩
+
 end BEDC.Derived.CauchySequenceBoundedUp

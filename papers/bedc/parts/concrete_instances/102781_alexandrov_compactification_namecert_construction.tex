@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\AlexandrovCompactificationUp$}
+\label{ch:concrete-instances-alexandrov-compactification-namecert}
+\origin{human}
+
+From Alexandroff/Engelking-style one-point compactification, the $\AlexandrovCompactificationUp$ packet records the finite route by which locally compact Hausdorff data are read as a compact one-point boundary without importing a host compact space. It consumes the local compactness interface of \autoref{ch:concrete-instances-locallycompact-namecert}, the separation rows of \autoref{ch:concrete-instances-hausdorffspace-namecert}, the compact certificate boundary of \autoref{ch:concrete-instances-compact-namecert}, and the topology ledger of \autoref{ch:concrete-instances-topology-namecert}. Downstream compactness consumers see only the displayed carrier, the added point, compact-complement neighbourhood rows, Hausdorff separation rows, topology transport rows, continuation routes, provenance, and a local NameCert.
+
+\begin{definition}[AlexandrovCompactification carrier]
+\label{def:alexandrov-compactification-carrier}
+An $\AlexandrovCompactificationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,\infty,K,S,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the locally compact Hausdorff source carrier whose finite open, compact, and separation data are being compactified.
+\item $\infty$ is the distinguished boundary point added to $X$; it is a named point row, not a quotient class and not a selected limit.
+\item $K$ is the compact-complement neighbourhood ledger. Each infinity-neighbourhood request is displayed as a finite row naming an open neighbourhood of $\infty$ by a compact subset of $X$ whose complement is exposed as the neighbourhood trace on $X$.
+\item $S$ is the Hausdorff separation ledger. It records point--point separation inside $X$, point--boundary separation between $x\in X$ and $\infty$, and the compatibility of those rows with the compact-complement ledger.
+\item $T$ records topology transport rows for source opens, infinity-neighbourhood rows, finite intersections, finite unions, and componentwise $\hsame$ movement of the carrier, boundary point, compact-complement ledger, separation ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every compactification-facing consumer route through
+$$
+X,\infty,K,S,T \longmapsto P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\AlexandrovCompactificationUp$, $\LocallyCompactUp$, $\HausdorffSpaceUp$, $\CompactUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AlexandrovCompactificationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,\infty,K,S,T,C,P,N$. It has no coordinate for open-cover compactness, host topological compactness, choice, quotient equality, selected limits, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[AlexandrovCompactification NameCert obligations]
+\label{thm:alexandrov-compactification-namecert-obligations}
+For every accepted $\AlexandrovCompactificationUp$ carrier
+$$
+A=(X,\infty,K,S,T,C,P,N),
+$$
+the local $\NameCert_{\AlexandrovCompactificationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the locally compact Hausdorff source $X$, the added boundary point $\infty$, the compact-complement ledger $K$, the separation ledger $S$, topology transport $T$, continuation replay $C$, provenance $P$, and local naming row $N$;
+\item source exactness, requiring every compactification read to begin with the displayed locally compact Hausdorff carrier $X$ and not with an ambient compact host;
+\item boundary-neighbourhood exactness, requiring every neighbourhood of $\infty$ to be read through a displayed compact-complement row of $K$;
+\item Hausdorff compatibility, requiring point--point and point--boundary separation reads to pass through $S$ and to preserve the same compact-complement row used by the boundary neighbourhood;
+\item ledger exhaustion, requiring $T,C,P,N$ to transport, replay, source, and name only the listed rows, with no open-cover compactness, host topological compactness, choice, quotient equality, selected limit, Lean verification, or bridge credential.
+\end{enumerate}
+No AlexandrovCompactification NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:alexandrov-compactification-carrier}. The accepted packet displays the source carrier, boundary point, compact-complement ledger, separation ledger, topology transport rows, continuation replay, provenance, and local name.
+
+Source exactness is the placement of $X$ at the start of every replay route. Since the packet has no compact host coordinate, a compactification-facing read cannot replace the locally compact Hausdorff source by an already compact ambient space.
+
+Boundary-neighbourhood exactness is the role of $K$. A neighbourhood of $\infty$ is admitted only as a compact-complement row, so its trace on $X$ is read from the displayed compact subset and its complement rather than from an open-cover compactness principle.
+
+Hausdorff compatibility is supplied by $S$. Point--point separation remains inside the displayed source, while point--boundary separation shares the same compact-complement row used by the infinity-neighbourhood request.
+
+Finally, $T,C,P,N$ only transport, replay, source, and name the displayed rows. Because the excluded compactness, choice, quotient, selected-limit, verification, and bridge data are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[AlexandrovCompactification infinity filter boundary]
+\label{thm:alexandrov-compactification-neighborhood-filter-boundary}
+Let $A=(X,\infty,K,S,T,C,P,N)$ be an accepted $\AlexandrovCompactificationUp$ carrier. Every read of the neighbourhood filter at $\infty$ factors through a displayed compact-complement row of $K$. The factorization uses the route
+$$
+X,\infty,K \longmapsto S,T \longmapsto C,P,N
+$$
+and does not factor through open-cover compactness, choice, quotient equality, selected limits, or host topological compactness.
+\end{theorem}
+\begin{proof}
+Start with an infinity-neighbourhood read of the accepted packet. Projection from \autoref{def:alexandrov-compactification-carrier} gives the boundary point $\infty$ and the compact-complement ledger $K$ as the only neighbourhood data attached to that point.
+
+Opening the read selects a displayed row of $K$. That row names the compact subset of $X$ and the complementary trace on $X$ that defines the neighbourhood of $\infty$ inside the packet.
+
+The separation and topology rows then preserve this same compact-complement row. The Hausdorff ledger $S$ supplies the point--boundary separation route, and $T$ transports finite open, union, and intersection reads without adding a second compactness source.
+
+The continuation and provenance rows close the route. Since $C,P,N$ replay, source, and name only the displayed rows, the infinity filter cannot be read through open-cover compactness, choice, quotient equality, selected limits, or host topological compactness.
+\end{proof}
+
+\closureat{AlexandrovCompactificationUp}{seedStr}
+
+\begin{closurestatus}{\AlexandrovCompactificationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:alexandrov-compactification-carrier}, \autoref{thm:alexandrov-compactification-namecert-obligations}, and \autoref{thm:alexandrov-compactification-neighborhood-filter-boundary} seed the finite one-point compactification route from locally compact Hausdorff source data to the compact-complement boundary filter.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, host topological compactness, choice, quotient equality, selected limits, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, source exactness, boundary-neighbourhood exactness, Hausdorff compatibility, ledger exhaustion, and infinity-filter boundary for BEDC.Derived.AlexandrovCompactificationUp.}
+  \constructivestory{An $\AlexandrovCompactificationUp$ packet is generated from a locally compact Hausdorff carrier, a named boundary point, a compact-complement neighbourhood ledger, Hausdorff separation rows, topology transport rows, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
