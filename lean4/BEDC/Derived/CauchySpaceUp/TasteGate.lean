@@ -137,6 +137,17 @@ instance cauchySpaceFieldFaithful : FieldFaithful CauchySpaceUp where
   fields := cauchySpaceFields
   field_faithful := CauchySpaceTasteGate_single_carrier_alignment_fields
 
+instance cauchySpaceNontrivial : Nontrivial CauchySpaceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨CauchySpaceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CauchySpaceUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate CauchySpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchySpaceChapterTasteGate

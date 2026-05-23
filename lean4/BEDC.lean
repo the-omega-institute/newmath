@@ -963,6 +963,7 @@ import BEDC.Derived.CauchyDiagonalBudgetUp
 import BEDC.Derived.CauchyDiagonalBudgetUp.SharedTailWindowExhaustion
 import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
 import BEDC.Derived.CauchyDiagonalLimitUp.TasteGate
+import BEDC.Derived.CauchyDifferenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyErrorCertificateUp
@@ -1167,8 +1168,11 @@ import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyProductUp.RootAdmission
+import BEDC.Derived.CauchyProductUp.RootBudgetProductLock
+import BEDC.Derived.CauchyProductUp.RootWindowObligations
 import BEDC.Derived.CauchyProductUp.RootWindowReadStability
 import BEDC.Derived.CauchyProductUp.SourceWindowTailAgreement
+import BEDC.Derived.CauchyProductUp.StreamnameRegseqratSourceLock
 import BEDC.Derived.CauchyProductUp.TasteGate
 import BEDC.Derived.CauchyProductUp.WindowProductReadback
 import BEDC.Derived.CauchyQuotientBoundaryUp
@@ -1216,6 +1220,7 @@ import BEDC.Derived.CauchySpaceUp
 import BEDC.Derived.CauchySpaceUp.TasteGate
 import BEDC.Derived.CauchySpeedupUp
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
+import BEDC.Derived.CauchyTailBasisUp.TasteGate
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyTailComparisonUp.TasteGate
 import BEDC.Derived.CauchyTailConsensusUp.TasteGate
@@ -1865,6 +1870,7 @@ import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
 import BEDC.Derived.CountableDenseSubsetUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.CousinLemmaUp
+import BEDC.Derived.CousinLemmaUp.TasteGate
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CriticalLineWitnessUp
@@ -2500,6 +2506,7 @@ import BEDC.Derived.DyadicEmbeddingUp.TasteGate
 import BEDC.Derived.DyadicErrorBudgetUp.TasteGate
 import BEDC.Derived.DyadicExponentShiftUp.TasteGate
 import BEDC.Derived.DyadicFloorUp.TasteGate
+import BEDC.Derived.DyadicGeometricTailUp.TasteGate
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
@@ -3235,6 +3242,7 @@ import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.HostDelegationSocketUp
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
+import BEDC.Derived.HurwitzApproximationUp.TasteGate
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HypothesisTestUp
@@ -4238,6 +4246,7 @@ import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.Typed
+import BEDC.Derived.ProductFilterUp.TasteGate
 import BEDC.Derived.ProductMetricUp
 import BEDC.Derived.ProductRegularCauchyLimitUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
