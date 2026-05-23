@@ -155,12 +155,28 @@ Apply \autoref{thm:regular-cauchy-filter-basis-factorization}. The rows $B,T,D,M
 Apply \autoref{thm:regular-cauchy-filter-real-seal-route} and \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}. The Real-facing endpoint is reached only after the StreamName, DyadicRatCore, RegSeqRat, and Real seal rows have been displayed. Since the carrier has no coordinate for quotient filters, hidden tails, selected limits, countable choice, host real equality, or ambient completeness, no consumer branch can export any of them.
 \end{proof}
 
+\begin{theorem}[RegularCauchyFilter tail-window exactness]
+\label{thm:regular-cauchy-filter-tail-window-exactness}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. Each accepted tail window in the $\StreamNameUp$ schedule $T$, together with its $\DyadicRatCoreUp$ tolerance row in $D$, determines the same $\RegSeqRatUp$ readback row $R$ and the same $\RealUp$ seal $E$ through the displayed $\CauchyFilterBasisUp$ route over $B$.
+
+Equivalently, the finite tail-window read is exact at the packet boundary: the consumer may inspect the StreamName tail schedule, dyadic tolerance ledger, basis handoff, directed meet, regular readback, and Real seal rows, but it receives no quotient filter, selected limit, hidden cofinal tail, host real equality, countable-choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only tail-window schedule is $T$, the only dyadic tolerance ledger for those windows is $D$, and the only regular readback and Real seal rows are $R$ and $E$.
+
+Apply \autoref{thm:regular-cauchy-filter-tail-meet} to the requested windows. The meet row $M$ supplies the displayed later base packet inside the same source row $B$, so the tail read stays inside the finite Cauchy filterbase rather than passing to an unrecorded cofinal tail.
+
+Apply \autoref{thm:regular-cauchy-filter-basis-factorization}. The rows $B,T,D,M,H,C,P,N$ determine the visible $\CauchyFilterBasisUp$ route, and downstream readback along that route reproduces the same $R$ and $E$.
+
+Now use \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}, and \autoref{thm:regular-cauchy-filter-branch-exhaustion}. These rows exhaust every accepted filter-to-regular-name consumer branch, so the excluded quotient, choice, hidden-tail, host-equality, and completeness coordinates are not available at the packet boundary.
+\end{proof}
+
 \closureat{RegularCauchyFilterUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyFilterUp}
   \constructivestory{A $\RegularCauchyFilterUp$ packet is generated from a displayed CauchyFilter finite-filterbase row, a RegSeqRat readback row, StreamName tail windows, a DyadicRatCore tolerance ledger, a directed tail-meet row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local NameCert naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-basis-factorization}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}, and \autoref{thm:regular-cauchy-filter-branch-exhaustion} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis factorization, the scoped obligation package, the tail-basis exhaustion route, the branch-exhaustion route, and the Real seal route.}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-basis-factorization}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}, \autoref{thm:regular-cauchy-filter-branch-exhaustion}, and \autoref{thm:regular-cauchy-filter-tail-window-exactness} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis factorization, the scoped obligation package, the tail-basis exhaustion route, the branch-exhaustion route, the tail-window exactness route, and the Real seal route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient filters, selected host limits, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
