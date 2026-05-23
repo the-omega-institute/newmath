@@ -236,4 +236,34 @@ theorem BoundedRealSequenceFiniteWindow_bound
     unary_cont_closed boundUnary transportUnary consumerRoute
   exact ⟨readbackUnary, sealUnary, boundUnary, consumerUnary, rfl⟩
 
+theorem BoundedRealSequenceBolzanoWeierstrass_handoff
+    {S W Q R I H C P N clusterRead boundRead handoffRead : BHist} :
+    UnaryHistory S ->
+      UnaryHistory W ->
+        UnaryHistory R ->
+          UnaryHistory I ->
+            UnaryHistory H ->
+              Cont S W Q ->
+                Cont Q R clusterRead ->
+                  Cont clusterRead I boundRead ->
+                    Cont boundRead H handoffRead ->
+                      UnaryHistory Q ∧ UnaryHistory clusterRead ∧ UnaryHistory boundRead ∧
+                        UnaryHistory handoffRead ∧
+                          BHistCarrier.toEventFlow
+                              (BoundedRealSequenceUp.mk S W Q R I H C P N) =
+                            BoundedRealSequenceTasteGate_single_carrier_alignment_to_event_flow
+                              (BoundedRealSequenceUp.mk S W Q R I H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  intro sourceUnary windowUnary realUnary intervalUnary transportUnary sourceWindow
+    clusterRoute boundRoute handoffRoute
+  have readbackUnary : UnaryHistory Q :=
+    unary_cont_closed sourceUnary windowUnary sourceWindow
+  have clusterUnary : UnaryHistory clusterRead :=
+    unary_cont_closed readbackUnary realUnary clusterRoute
+  have boundUnary : UnaryHistory boundRead :=
+    unary_cont_closed clusterUnary intervalUnary boundRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed boundUnary transportUnary handoffRoute
+  exact ⟨readbackUnary, clusterUnary, boundUnary, handoffUnary, rfl⟩
+
 end BEDC.Derived.BoundedRealSequenceUp
