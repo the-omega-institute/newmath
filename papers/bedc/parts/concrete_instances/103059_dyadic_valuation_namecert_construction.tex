@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\DyadicValuationUp$}
+\label{ch:concrete-instances-dyadic-valuation-namecert}
+\origin{human}
+
+Following Bourbaki and standard valuation theory, the $\DyadicValuationUp$ packet records the finite dyadic valuation data needed before scale normalization and tolerance comparison may be consumed by the Real and Completion route. It sits over the dyadic arithmetic carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the signed mantissa and unary exponent boundary of \autoref{ch:concrete-instances-signed-dyadic-normal-form-namecert}, the finite scale-domination route of \autoref{ch:concrete-instances-dyadic-archimedean-namecert}, and the precision handoff surface of \autoref{ch:concrete-instances-dyadic-tolerance-scale-namecert}. The packet isolates the valuation row as finite data: downstream $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers may read scale order and tolerance bounds without quotient rational equality, host integer normal forms, trichotomy, selected representatives, countable choice, or $\RealUp$ completeness.
+
+\begin{definition}[Dyadic valuation carrier]
+\label{def:dyadic-valuation-carrier}
+A $\DyadicValuationUp$ carrier is a finite $\BHist$ packet
+$$
+D=(M,E,Z,V,C,T,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the signed mantissa row, read through the $\SignedDyadicNormalFormUp$ surface and not through a host integer normal form.
+\item $E$ is the unary exponent row, recording the denominator scale and successor ledger used by the valuation comparison.
+\item $Z$ is the zero/nonzero branch row, separating the displayed zero case from the displayed nonzero valuation route without invoking trichotomy.
+\item $V$ is the valuation row, recording the finite exponent count exposed after $M,E,Z$ have been projected.
+\item $C$ is the common-scale replay row, transporting compared dyadic packets to the same displayed scale before valuation comparison is read.
+\item $T$ is the $\DyadicToleranceScaleUp$ handoff row, exposing the valuation scale to tolerance consumers after the common-scale replay has been displayed.
+\item $H$ records componentwise $\hsame$ transport for mantissa, exponent, zero/nonzero branch, valuation, common-scale replay, tolerance handoff, continuation, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from signed dyadic inspection through exponent reading, zero/nonzero branching, valuation exposure, common-scale replay, tolerance handoff, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\DyadicValuationUp$, $\DyadicRatCoreUp$, $\SignedDyadicNormalFormUp$, $\DyadicArchimedeanUp$, $\DyadicToleranceScaleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicValuationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,E,Z,V,C,T,H,R,P,N$. It has no coordinate for quotient rational equality, host integer normal forms, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Dyadic valuation NameCert obligations]
+\label{thm:dyadic-valuation-namecert-obligations}
+For every accepted $\DyadicValuationUp$ carrier $D=(M,E,Z,V,C,T,H,R,P,N)$, the local $\NameCert_{\DyadicValuationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the signed mantissa, unary exponent, zero/nonzero branch, valuation row, common-scale replay, tolerance handoff, transport, replay, provenance, and local naming rows;
+\item branch exactness, requiring $Z$ to expose the displayed zero case and the displayed nonzero route before $V$ can be consumed;
+\item unary valuation induction, requiring $V$ to be read by finite induction over the exponent row $E$ and the branch row $Z$;
+\item common-scale stability, requiring $C$ to replay compared dyadic packets at one displayed scale before valuation comparison or tolerance handoff is exported;
+\item tolerance handoff locality, requiring $T$ to consume only the displayed valuation and common-scale rows;
+\item classifier transport and replay, requiring $H$ and $R$ to preserve $M,E,Z,V,C,T,P,N$ componentwise;
+\item ledger non-escape, excluding quotient rational equality, host integer normal forms, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No dyadic valuation obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are $M,E,Z,V,C,T$, while $H,R,P,N$ transport, replay, source, and name the same finite packet.
+
+Branch exactness is read from $Z$. The zero side exposes the displayed zero row, and the nonzero side opens the route in which the signed mantissa and unary exponent rows can be inspected. The carrier has no trichotomy row, so this split is only the displayed finite branch.
+
+Unary valuation induction is then performed over $E$. In the base case the exponent ledger has no successor step, so $V$ records the current valuation row after the branch has been fixed. In the successor step the induction hypothesis is transported through the next exponent row, and the valuation count is extended by that single displayed successor.
+
+The common-scale and tolerance clauses are projections from $C$ and $T$. The row $C$ is the only common-scale replay, so valuation comparison between packets must pass through it before the tolerance handoff $T$ can be read.
+
+Finally $H$ and $R$ preserve the displayed rows componentwise, while $P$ and $N$ record provenance and local naming. Since the excluded objects do not occur in the carrier, no local NameCert obligation can be stored outside $M,E,Z,V,C,T,H,R,P,N$.
+\end{proof}
+
+\begin{theorem}[Dyadic valuation common-scale stability]
+\label{thm:dyadic-valuation-common-scale-stability}
+Let $D=(M,E,Z,V,C,T,H,R,P,N)$ be an accepted $\DyadicValuationUp$ carrier. Every valuation comparison exported by $D$ factors through the finite route
+$$
+M,E,Z,V \longmapsto C \longmapsto H,R,P,N .
+$$
+Thus two accepted replays with componentwise $\hsame$ rows expose the same common-scale valuation surface, and the comparison does not use quotient rational equality, host integer normal forms, trichotomy, selected representatives, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an exported valuation comparison. Carrier admission places the only valuation coordinate at $V$, and $V$ is downstream of the signed mantissa row $M$, unary exponent row $E$, and branch row $Z$.
+
+The common-scale row $C$ is then the only replay coordinate available for comparing two dyadic packets. It transports the displayed valuation data to a shared scale before any comparison surface is exported.
+
+For stability, read componentwise transport through $H$ and continuation replay through $R$. These rows preserve $M,E,Z,V,C$ exactly as displayed rows, while $P$ and $N$ only source and name the same route.
+
+Hence an accepted replay exposes the same finite common-scale valuation surface. The conclusion is internal to the packet and has no coordinate for the excluded quotient, host, choice, or completeness principles.
+\end{proof}
+
+\begin{theorem}[Dyadic valuation tolerance handoff]
+\label{thm:dyadic-valuation-tolerance-handoff}
+Every $\DyadicToleranceScaleUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer named by an accepted $\DyadicValuationUp$ carrier reads the route
+$$
+M,E,Z,V,C \longmapsto T \longmapsto H,R,P,N .
+$$
+Consequently the consumer receives finite valuation and common-scale data before any tolerance-scale comparison is available, with no quotient rational equality, host integer normal form, trichotomy, selected representative, countable-choice row, or $\RealUp$ completeness witness inserted into the route.
+\end{theorem}
+\begin{proof}
+Project the tolerance handoff row $T$. It is the sole row whose purpose is to expose valuation data to $\DyadicToleranceScaleUp$ and to the downstream stream, regular-rational, and real-name consumers.
+
+The handoff is downstream of $M,E,Z,V,C$. Therefore a consumer first reads the signed mantissa, unary exponent, zero/nonzero branch, valuation row, and common-scale replay before it can inspect tolerance-scale data.
+
+The route is preserved by $H$ and replayed by $R$. Provenance and local naming through $P,N$ source the same packet and do not add a second route to tolerance data.
+
+Thus every listed consumer receives a finite valuation handoff. Since no excluded coordinate is present in the carrier, the handoff cannot import quotient rational equality, host integer normal forms, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{DyadicValuationUp}{seedStr}
+
+\begin{closurestatus}{\DyadicValuationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-valuation-carrier}, \autoref{thm:dyadic-valuation-namecert-obligations}, \autoref{thm:dyadic-valuation-common-scale-stability}, and \autoref{thm:dyadic-valuation-tolerance-handoff} seed the finite dyadic valuation surface from signed mantissa, unary exponent, zero/nonzero branch, valuation row, common-scale replay, tolerance handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DyadicValuationUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient rational equality, host integer normal forms, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, branch exactness, unary valuation induction, common-scale stability, tolerance handoff locality, classifier transport, replay, provenance, and local naming for BEDC.Derived.DyadicValuationUp.}
+  \constructivestory{A $\DyadicValuationUp$ packet is generated from a signed mantissa row, unary exponent row, zero/nonzero branch row, valuation row, common-scale replay, DyadicToleranceScale handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
