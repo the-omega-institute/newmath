@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\DirichletKernelUp$}
+\label{ch:concrete-instances-dirichlet-kernel-namecert}
+\origin{human}
+
+Following Zygmund and Katznelson on trigonometric series, the $\DirichletKernelUp$ packet records the finite symmetric Fourier kernel that evaluates one displayed partial-sum window before any convergence-facing consumer may read a series or limit handoff. It sits over the Fourier coefficient interface of \autoref{ch:concrete-instances-fourier-namecert}, the positive averaging sibling $\FejerKernelUp$ of \autoref{ch:concrete-instances-fejer-kernel-namecert}, the complex arithmetic carrier of \autoref{ch:concrete-instances-complex-namecert}, the circle-source samples of \autoref{ch:concrete-instances-s1-namecert}, and the real-series partial-sum corridor of \autoref{ch:concrete-instances-realseries-namecert}. The chapter names a finite trigonometric partial-sum kernel; it does not import host pointwise limits, ambient Fourier convergence, quotient function spaces, countable choice, or a selected infinite sum.
+
+\begin{definition}[DirichletKernel carrier]\label{def:dirichlet-kernel-carrier}
+A $\DirichletKernelUp$ carrier is a finite $\BHist$ packet
+$$
+K=(W,A,S,Z,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the frequency-window row, recording the symmetric finite interval of integer frequencies and the endpoint truncation bound read by the partial-sum request.
+\item $A$ is the trigonometric coefficient ledger, recording the displayed coefficient attached to each frequency in $W$ together with its opposite-frequency mate.
+\item $S$ is the $\SOneUp$ evaluation route, exposing only the finite circle samples and phase rows at which the kernel is inspected.
+\item $Z$ is the $\ComplexUp$ summation row, recording the displayed complex additions and multiplications used to accumulate the finite trigonometric polynomial.
+\item $F$ is the $\FourierUp$ partial-sum handoff row, presenting the same frequency window and coefficient ledger to a Fourier partial-sum consumer.
+\item $R$ is the $\RealSeriesUp$ and $\ComplexSeriesUp$ provenance row, recording which real or complex partial-sum corridor may read the displayed finite sum.
+\item $H$ records componentwise $\hsame$ transport for frequency windows, coefficient ledgers, circle evaluations, complex summation, Fourier handoff, series provenance, replay, package provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a phase and coefficient request through $W,A,S,Z,F,R$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\DirichletKernelUp$, $\FourierUp$, $\FejerKernelUp$, $\ComplexUp$, $\SOneUp$, $\RealSeriesUp$, $\ComplexSeriesUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DirichletKernelUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $W,A,S,Z,F,R,H,C,P,N$. It has no coordinate for a host pointwise limit, an external convergence theorem, an ambient quotient of functions, countable choice, or a selected infinite-series value.
+\end{definition}
+
+\begin{theorem}[DirichletKernel NameCert obligations]\label{thm:dirichlet-kernel-namecert-obligations}
+For every accepted $\DirichletKernelUp$ carrier $K=(W,A,S,Z,F,R,H,C,P,N)$, the local $\NameCert_{\DirichletKernelUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed frequency window, trigonometric coefficient ledger, circle-evaluation route, complex summation row, Fourier partial-sum handoff, real and complex series provenance, transport, replay, package provenance, and local naming;
+\item finite-window stability, requiring every transported or replayed kernel read to preserve the same symmetric frequency interval and endpoint truncation bound in $W$;
+\item coefficient symmetry, requiring the ledger $A$ to pair each displayed frequency with its opposite-frequency mate before the summation row is consumed;
+\item convolution and summation handoff, requiring the $\ComplexUp$ row $Z$ and the $\FourierUp$ row $F$ to expose only the finite trigonometric polynomial determined by $W,A,S$;
+\item $\SOneUp$, $\ComplexUp$, $\RealSeriesUp$, and $\ComplexSeriesUp$ routing, requiring every phase, arithmetic, and partial-sum consumer to factor through $S,Z,F,R$;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the ordered route through the same carrier coordinates;
+\item ledger refusal, requiring the packet to export no host pointwise limit, external Fourier convergence principle, quotient function equality, countable-choice selector, or selected infinite-series value.
+\end{enumerate}
+No Dirichlet-kernel obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dirichlet-kernel-carrier}. The displayed tuple exposes exactly the frequency window, coefficient ledger, circle evaluation, complex summation, Fourier handoff, series provenance, transport, replay, package provenance, and local naming rows.
+
+Finite-window stability is read from $W$. Since the carrier stores one symmetric frequency interval and one endpoint truncation bound, every transported or replayed kernel read names the same finite window before any coefficient or phase row is inspected.
+
+Coefficient symmetry is read from $A$. The ledger pairs displayed frequencies with their opposite-frequency mates, so the summation row may form the finite trigonometric polynomial without appealing to a host Fourier basis or an ambient function-space quotient.
+
+The handoff rows are then forced through $S,Z,F,R$. Circle samples enter through $\SOneUp$, arithmetic accumulation enters through $\ComplexUp$, the partial-sum consumer enters through $\FourierUp$, and series-facing provenance enters only through the named real and complex series corridors.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Because the packet has no coordinate for pointwise limits, external convergence, quotient function equality, countable choice, or selected infinite sums, the refusal clause is exhausted by the carrier inventory.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DirichletKernelUp$ partial-sum read factors through a frequency window, trigonometric coefficient ledger, $\SOneUp$ evaluation route, $\ComplexUp$ summation row, $\FourierUp$ handoff, $\RealSeriesUp$ or $\ComplexSeriesUp$ provenance, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{fourier, fejer-kernel, complex, s1, realseries: $\DirichletKernelUp$ is not bijective to any listed sibling because it jointly carries a symmetric frequency window, opposite-frequency coefficient ledger, circle evaluation route, complex finite summation row, Fourier partial-sum handoff, real and complex series provenance, transport, replay, provenance, and local naming.}
+
+\closureat{DirichletKernelUp}{seedStr}
+
+\begin{closurestatus}{\DirichletKernelUp}
+  \constructivestory{A $\DirichletKernelUp$ packet is generated from a symmetric finite frequency window, a trigonometric coefficient ledger, displayed $\SOneUp$ phase samples, a $\ComplexUp$ finite summation row, a $\FourierUp$ partial-sum handoff, $\RealSeriesUp$ and $\ComplexSeriesUp$ provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dirichlet-kernel-carrier} and \autoref{thm:dirichlet-kernel-namecert-obligations} seed the finite Dirichlet-kernel partial-sum surface for Fourier and series consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host pointwise Fourier convergence, quotient function equality, selected infinite sums, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window stability, coefficient symmetry, summation handoff, routing, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
