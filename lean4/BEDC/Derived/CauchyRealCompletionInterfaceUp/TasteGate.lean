@@ -13,20 +13,20 @@ inductive CauchyRealCompletionInterfaceUp : Type where
   | mk (D S R B T H C P N : BHist) : CauchyRealCompletionInterfaceUp
   deriving DecidableEq
 
-def cauchyRealCompletionInterfaceEncodeBHist : BHist → RawEvent
+def cauchyRealCompletionInterfaceEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cauchyRealCompletionInterfaceEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cauchyRealCompletionInterfaceEncodeBHist h
 
-def cauchyRealCompletionInterfaceDecodeBHist : RawEvent → BHist
+def cauchyRealCompletionInterfaceDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cauchyRealCompletionInterfaceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyRealCompletionInterfaceDecodeBHist tail)
 
-private theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
+private theorem CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode :
+    forall h : BHist,
       cauchyRealCompletionInterfaceDecodeBHist
         (cauchyRealCompletionInterfaceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -36,44 +36,53 @@ private theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cauchyRealCompletionInterfaceFields :
-    CauchyRealCompletionInterfaceUp → List BHist
+def cauchyRealCompletionInterfaceFields : CauchyRealCompletionInterfaceUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CauchyRealCompletionInterfaceUp.mk D S R B T H C P N => [D, S, R, B, T, H, C, P, N]
 
 def cauchyRealCompletionInterfaceToEventFlow :
-    CauchyRealCompletionInterfaceUp → EventFlow
+    CauchyRealCompletionInterfaceUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (cauchyRealCompletionInterfaceFields x).map cauchyRealCompletionInterfaceEncodeBHist
+  | x => List.map cauchyRealCompletionInterfaceEncodeBHist
+      (cauchyRealCompletionInterfaceFields x)
 
-private def cauchyRealCompletionInterfaceEventAt : Nat → EventFlow → RawEvent
+private def cauchyRealCompletionInterfaceEventAtDefault : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyRealCompletionInterfaceEventAt index rest
+  | Nat.succ index, _event :: rest => cauchyRealCompletionInterfaceEventAtDefault index rest
 
-def cauchyRealCompletionInterfaceFromEventFlow (ef : EventFlow) :
-    Option CauchyRealCompletionInterfaceUp :=
+def cauchyRealCompletionInterfaceFromEventFlow
+    (ef : EventFlow) : Option CauchyRealCompletionInterfaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CauchyRealCompletionInterfaceUp.mk
-      (cauchyRealCompletionInterfaceDecodeBHist (cauchyRealCompletionInterfaceEventAt 0 ef))
-      (cauchyRealCompletionInterfaceDecodeBHist (cauchyRealCompletionInterfaceEventAt 1 ef))
-      (cauchyRealCompletionInterfaceDecodeBHist (cauchyRealCompletionInterfaceEventAt 2 ef))
-      (cauchyRealCompletionInterfaceDecodeBHist (cauchyRealCompletionInterfaceEventAt 3 ef))
-      (cauchyRealCompletionInterfaceDecodeBHist (cauchyRealCompletionInterfaceEventAt 4 ef))
-      (cauchyRealCompletionInterfaceDecodeBHist (cauchyRealCompletionInterfaceEventAt 5 ef))
-      (cauchyRealCompletionInterfaceDecodeBHist (cauchyRealCompletionInterfaceEventAt 6 ef))
-      (cauchyRealCompletionInterfaceDecodeBHist (cauchyRealCompletionInterfaceEventAt 7 ef))
-      (cauchyRealCompletionInterfaceDecodeBHist (cauchyRealCompletionInterfaceEventAt 8 ef)))
+      (cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEventAtDefault 0 ef))
+      (cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEventAtDefault 1 ef))
+      (cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEventAtDefault 2 ef))
+      (cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEventAtDefault 3 ef))
+      (cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEventAtDefault 4 ef))
+      (cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEventAtDefault 5 ef))
+      (cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEventAtDefault 6 ef))
+      (cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEventAtDefault 7 ef))
+      (cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEventAtDefault 8 ef)))
 
-private theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_round_trip
-    (x : CauchyRealCompletionInterfaceUp) :
-    cauchyRealCompletionInterfaceFromEventFlow
-        (cauchyRealCompletionInterfaceToEventFlow x) =
-      some x := by
+private theorem CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_round_trip :
+    forall x : CauchyRealCompletionInterfaceUp,
+      cauchyRealCompletionInterfaceFromEventFlow
+        (cauchyRealCompletionInterfaceToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk D S R B T H C P N =>
       change
@@ -98,21 +107,20 @@ private theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_
             (cauchyRealCompletionInterfaceDecodeBHist
               (cauchyRealCompletionInterfaceEncodeBHist N))) =
           some (CauchyRealCompletionInterfaceUp.mk D S R B T H C P N)
-      rw [CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode D,
-        CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode S,
-        CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode R,
-        CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode B,
-        CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode T,
-        CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode H,
-        CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode C,
-        CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode P,
-        CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode N]
+      rw [CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode D,
+        CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode S,
+        CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode R,
+        CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode B,
+        CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode T,
+        CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode H,
+        CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode C,
+        CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode P,
+        CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode N]
 
-private theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyRealCompletionInterfaceUp} :
     cauchyRealCompletionInterfaceToEventFlow x =
-        cauchyRealCompletionInterfaceToEventFlow y →
-      x = y := by
+      cauchyRealCompletionInterfaceToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -122,19 +130,21 @@ private theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_
           (cauchyRealCompletionInterfaceToEventFlow y) :=
     congrArg cauchyRealCompletionInterfaceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_round_trip x).symm
+    (Eq.trans
+      (CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
-        (CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_round_trip y)))
+        (CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : CauchyRealCompletionInterfaceUp,
-      cauchyRealCompletionInterfaceFields x = cauchyRealCompletionInterfaceFields y → x = y := by
+private theorem CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_fields :
+    forall x y : CauchyRealCompletionInterfaceUp,
+      cauchyRealCompletionInterfaceFields x = cauchyRealCompletionInterfaceFields y ->
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk D₁ S₁ R₁ B₁ T₁ H₁ C₁ P₁ N₁ =>
+  | mk D1 S1 R1 B1 T1 H1 C1 P1 N1 =>
       cases y with
-      | mk D₂ S₂ R₂ B₂ T₂ H₂ C₂ P₂ N₂ =>
+      | mk D2 S2 R2 B2 T2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -151,52 +161,63 @@ instance cauchyRealCompletionInterfaceChapterTasteGate :
     intro x
     change
       cauchyRealCompletionInterfaceFromEventFlow
-          (cauchyRealCompletionInterfaceToEventFlow x) =
-        some x
-    exact CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_round_trip x
+        (cauchyRealCompletionInterfaceToEventFlow x) = some x
+    exact CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+      (CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq)
 
 instance cauchyRealCompletionInterfaceFieldFaithful :
     FieldFaithful CauchyRealCompletionInterfaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := cauchyRealCompletionInterfaceFields
-  field_faithful :=
-    CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_fields_faithful
+  field_faithful := CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_fields
 
 instance cauchyRealCompletionInterfaceNontrivial :
     Nontrivial CauchyRealCompletionInterfaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CauchyRealCompletionInterfaceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CauchyRealCompletionInterfaceUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+    ⟨CauchyRealCompletionInterfaceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CauchyRealCompletionInterfaceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
+theorem CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment :
+    (forall h : BHist,
       cauchyRealCompletionInterfaceDecodeBHist
-        (cauchyRealCompletionInterfaceEncodeBHist h) = h) ∧
-      (∀ x : CauchyRealCompletionInterfaceUp,
+        (cauchyRealCompletionInterfaceEncodeBHist h) = h) /\
+      (forall x : CauchyRealCompletionInterfaceUp,
         cauchyRealCompletionInterfaceFromEventFlow
-          (cauchyRealCompletionInterfaceToEventFlow x) = some x) ∧
-        (∀ x y : CauchyRealCompletionInterfaceUp,
+          (cauchyRealCompletionInterfaceToEventFlow x) = some x) /\
+        (forall x y : CauchyRealCompletionInterfaceUp,
           cauchyRealCompletionInterfaceToEventFlow x =
-              cauchyRealCompletionInterfaceToEventFlow y →
-            x = y) ∧
+            cauchyRealCompletionInterfaceToEventFlow y -> x = y) /\
           cauchyRealCompletionInterfaceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_decode_encode,
-      CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_round_trip,
+    ⟨CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_decode,
+      CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq =>
-        CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment_toEventFlow_injective
+        CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment_toEventFlow_injective
           heq),
       rfl⟩
+
+theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment :
+    (forall h : BHist,
+      cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEncodeBHist h) = h) /\
+      (forall x : CauchyRealCompletionInterfaceUp,
+        cauchyRealCompletionInterfaceFromEventFlow
+          (cauchyRealCompletionInterfaceToEventFlow x) = some x) /\
+        (forall x y : CauchyRealCompletionInterfaceUp,
+          cauchyRealCompletionInterfaceToEventFlow x =
+            cauchyRealCompletionInterfaceToEventFlow y -> x = y) /\
+          cauchyRealCompletionInterfaceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  exact CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment
 
 end BEDC.Derived.CauchyRealCompletionInterfaceUp
