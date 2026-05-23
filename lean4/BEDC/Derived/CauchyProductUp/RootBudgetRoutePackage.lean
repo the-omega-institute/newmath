@@ -85,4 +85,43 @@ theorem CauchyProductPacket_public_budget_route_export [AskSetup] [PackageSetup]
       limitSealUnary, finalReadUnary, productRoute, classifierRoute, classifierFinite,
       finiteObservation, observationLimit, limitFinal, namePkg, finalPkg⟩
 
+theorem CauchyProductPacket_real_handoff_nonescape [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name finiteApproxRead observationBudgetRead
+      realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont classifier routes finiteApproxRead ->
+        Cont finiteApproxRead ledger observationBudgetRead ->
+          Cont observationBudgetRead routes realSeal ->
+            PkgSig bundle realSeal pkg ->
+              UnaryHistory product ∧ UnaryHistory classifier ∧
+                UnaryHistory finiteApproxRead ∧ UnaryHistory observationBudgetRead ∧
+                  UnaryHistory realSeal ∧ Cont observationA observationB product ∧
+                    Cont product ledger classifier ∧
+                      Cont classifier routes finiteApproxRead ∧
+                        Cont finiteApproxRead ledger observationBudgetRead ∧
+                          Cont observationBudgetRead routes realSeal ∧
+                            PkgSig bundle name pkg ∧ PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: CauchyProductPacket BHist Cont UnaryHistory ProbeBundle Pkg
+  intro packet classifierFinite finiteObservation observationReal realPkg
+  obtain ⟨_sourceAUnary, _sourceBUnary, _windowAUnary, _windowBUnary, _radiusAUnary,
+    _radiusBUnary, observationAUnary, observationBUnary, routesUnary, ledgerUnary,
+    _windowTransport, productRoute, classifierRoute, namePkg⟩ := packet
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed observationAUnary observationBUnary productRoute
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed productUnary ledgerUnary classifierRoute
+  have finiteApproxUnary : UnaryHistory finiteApproxRead :=
+    unary_cont_closed classifierUnary routesUnary classifierFinite
+  have observationBudgetUnary : UnaryHistory observationBudgetRead :=
+    unary_cont_closed finiteApproxUnary ledgerUnary finiteObservation
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed observationBudgetUnary routesUnary observationReal
+  exact
+    ⟨productUnary, classifierUnary, finiteApproxUnary, observationBudgetUnary,
+      realSealUnary, productRoute, classifierRoute, classifierFinite, finiteObservation,
+      observationReal, namePkg, realPkg⟩
+
 end BEDC.Derived.CauchyProductUp
