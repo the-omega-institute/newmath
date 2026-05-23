@@ -4802,6 +4802,7 @@ import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
 import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
 import BEDC.Derived.RegistryNoSmugglingPredicateUp.TasteGate
+import BEDC.Derived.RegularCauchyAbsUp.NameCert
 import BEDC.Derived.RegularCauchyAbsUp.TasteGate
 import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
