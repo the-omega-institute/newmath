@@ -391,6 +391,22 @@ The endpoint-factorization theorem ties that surface back to the base $S,D,M,E$ 
 Apply \autoref{thm:realseries-root-ledger-exactness} to identify the remaining structural rows. These rows provide transport, continuation replay, provenance, and local naming for the same route, which is precisely the finite Cauchy surface needed by the realseriescauchycriterion, uniformcauchyseries, and cauchymajorantseries consumers.
 \end{proof}
 
+\begin{theorem}[RealSeries majorant-threshold readiness]
+\label{thm:realseries-majorant-threshold-readiness}
+Any $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, or $\CauchyMajorantSeriesUp$ consumer that treats an accepted $\RealSeriesUp$ endpoint as series-ready must first read the same finite tuple
+$$
+S,D,M,E,W',R,T',B,U,G,H,C,P,N,H',C',P',N' .
+$$
+Here $S,D,M,E$ are the base stream, dyadic ledger, shared threshold, and endpoint seal rows; $W',R,T',B$ are the majorant-window, regular-readback, inherited tail-request, and displayed bound rows; $U,G$ are the uniform and criterion-facing consumer rows; and $H,C,P,N,H',C',P',N'$ are the transport, replay, provenance, and local naming rows for the base and tail-majorant packets. No consumer may certify readiness by appealing to a host infinite sum, a selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realseries-shared-majorant-threshold-coherence}. It forces the $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, and $\CauchyMajorantSeriesUp$ routes to read the same $W',R,T',B$ threshold surface before their consumer-specific rows are visible.
+
+Next apply \autoref{thm:realseries-endpoint-majorant-factorization}. The endpoint seal $E$ is downstream of the base rows $S,D,M$ and, in the presence of a majorant consumer, downstream of the shared $W',R,T',B$ surface.
+
+Finally apply \autoref{thm:realseries-cauchy-consumer-readiness}. It attaches the rows $U,G$ and the structural rows $H,C,P,N,H',C',P',N'$ to the same finite route. Thus endpoint readiness is exactly the displayed tuple, with no coordinate for host infinite sums, selected limits, quotient equality, countable choice, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[RealSeries uniform majorant tail coherence]
 \label{thm:realseries-uniform-majorant-tail-coherence}
 Let
