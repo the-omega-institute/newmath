@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\TypedExampleReductionTraceUp$}
+\label{ch:concrete-instances-typed-example-reduction-trace-namecert}
+\origin{ai}
+
+The $\TypedExampleReductionTraceUp$ packet realizes the MetaCIC typed-example gallery as a finite NameCert carrier. It reads the audit map of \autoref{ch:metacic-typedexamples-audit-map} as a concrete route connecting a displayed typed term, its type, a selected reduction step, the checker result, closedness evidence, transport, replay, provenance, and local naming.
+
+\begin{definition}[TypedExampleReductionTrace carrier]
+\label{def:typed-example-reduction-trace-carrier}
+A $\TypedExampleReductionTraceUp$ carrier is a finite packet
+$$
+T=(E,A,R,K,Z,H,C,P,L)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $E$ is the MetaCIC typed-example term row, naming one Church, identity, application, beta-redex, projection, Pi, constant, or sort-context example from the gallery.
+\item $A$ is the displayed type row accepted for $E$ by the represented typing relation.
+\item $R$ is the reduction-step row, recording the selected beta or computation step when the gallery example has one.
+\item $K$ is the checker-result row, linking the displayed term and type to the option-valued checker or inference result used by the decidability gallery.
+\item $Z$ is the closedness row, exposing the finite context seal needed before the reduction or checker result is read.
+\item $H$ is componentwise $\hsame$ transport for $E,A,R,K,Z$.
+\item $C$ is the displayed $\Cont$ replay from typed-example admission through reduction, checker acceptance, closedness, and downstream audit use.
+\item $P$ is the $\Pkg$ provenance over $\TypedExampleReductionTraceUp$, the MetaCIC typed-example gallery, checker rows, reduction rows, closedness rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\TypedExampleReductionTraceUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[TypedExampleReductionTrace NameCert obligations]
+\label{thm:typed-example-reduction-trace-namecert-obligations}
+For an accepted carrier $T=(E,A,R,K,Z,H,C,P,L)$, the local $\NameCert_{\TypedExampleReductionTraceUp}$ surface consists of carrier admission, typed-term and type visibility, reduction-step visibility, checker-result agreement, closedness exposure, componentwise transport, continuation replay, provenance, and local naming. Every read factors through the finite route
+$$
+E \to A \to R \to K \to Z \to H,C,P,L .
+$$
+The packet does not claim subject reduction, strong normalization, confluence, global conversion decidability, or an arbitrary closed-term theorem.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the rows of \autoref{def:typed-example-reduction-trace-carrier}. The term row $E$ and type row $A$ expose the gallery example before any computation or checker result is consumed.
+
+The reduction row $R$ and checker row $K$ are then read as displayed MetaCIC evidence. They record a selected worked-example computation and its checker-facing result; they do not range over all terms or all reductions.
+
+Closedness is exposed by $Z$ before transport and replay. This keeps the route tied to the finite context seal required by the gallery and prevents the carrier from asserting an unbounded subject-reduction principle.
+
+Finally $H,C,P,L$ preserve the same row-local route under hsame transport, continuation replay, provenance, and local naming. The public read remains a finite typed-example trace rather than a global metatheorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\TypedExampleReductionTraceUp$ read factors through a displayed MetaCIC typed-example term, type, reduction, checker-result, closedness, hsame, Cont, Pkg, and NameCert route.}
+
+\independenceWitness{metacic-subject-reduction-obstruction, betasubstitutionpreservation, subjectreductiondischarge, closedtermcontextseal: none is bijective with $\TypedExampleReductionTraceUp$ because the packet jointly carries a typed-example term, type row, reduction row, checker-result row, closedness row, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate work for this packet must provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for $\TypedExampleReductionTraceUp$ preserving $E,A,R,K,Z,H,C,P,L$.
+
+\closureat{TypedExampleReductionTraceUp}{seedStr}
+
+\begin{closurestatus}{\TypedExampleReductionTraceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typed-example-reduction-trace-carrier} and \autoref{thm:typed-example-reduction-trace-namecert-obligations} seed the finite typed-example reduction-trace route over MetaCIC typed terms, displayed types, reduction rows, checker results, closedness, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.TypedExampleReductionTraceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close subject reduction, strong normalization, confluence, global conversion decidability, arbitrary closed-term normalization, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, typed-term visibility, type visibility, reduction-step visibility, checker-result agreement, closedness exposure, transport, replay, provenance, and local naming.}
+  \constructivestory{A $\TypedExampleReductionTraceUp$ packet is generated from a displayed MetaCIC typed-example term, its type row, a reduction-step row, a checker-result row, a closedness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
