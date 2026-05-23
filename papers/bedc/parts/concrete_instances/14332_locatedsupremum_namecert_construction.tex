@@ -62,6 +62,42 @@ The upper side of the read is supplied by $U$: it records the finite comparison 
 The rows $R$ and $E$ then give the regular-rational and real-name handoff for exactly those displayed observations. The transport and continuation rows can replay this route but cannot add a quotient cut, chosen supremum, trichotomy oracle, host equality test, or order-completeness principle, because none of those rows occurs in the accepted packet.
 \end{proof}
 
+\begin{theorem}[LocatedSupremum upper-bound ledger stability]
+\label{thm:located-supremum-upper-bound-ledger-stability}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Every upper-bound read exported by $S$ is stable under the componentwise transports recorded in $H$: transporting the located family row, upper-bound ledger, precision window, regular handoff, Real seal, continuation route, provenance, and local naming row preserves the same finite upper-bound ledger reads through $U$ and no additional order-completeness coordinate is exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-supremum-carrier}. The upper-bound information is stored only in $U$, and the transport row $H$ lists the componentwise transports for $L,U,A,W,R,E,C,P,N$.
+
+Apply \autoref{thm:located-supremum-namecert-obligations}. Its located upper-bound stability and classifier transport rows state that replacing the displayed carrier coordinates along $H$ preserves the same upper-bound ledger reads through the comparison surface.
+
+The real-seal boundary \autoref{thm:located-supremum-real-seal-boundary} keeps those reads downstream of $U,W,R,E$ and excludes quotient cuts, selected suprema, trichotomy, host equality, and ambient completeness. Thus the transported packet exports the same finite upper-bound ledger surface.
+\end{proof}
+
+\begin{theorem}[LocatedSupremum lower-approximation cofinality]
+\label{thm:located-supremum-lower-approximation-cofinality}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. For every precision request displayed in the $\StreamNameUp$ window row $W$, the lower-approximation ledger $A$ contains a displayed approximation row at that precision, and the approximation is read through the same regular-rational handoff $R$ before the terminal $\RealUp$ seal $E$ is exposed.
+\end{theorem}
+\begin{proof}
+Inspect a precision request in $W$. The carrier makes $W$ the only precision-window coordinate and makes $A$ the only lower-approximation ledger coordinate.
+
+Apply the lower-approximation cofinality row of \autoref{thm:located-supremum-namecert-obligations}. It supplies the displayed approximation row in $A$ for the requested precision and binds that row to the same bound surface.
+
+Finally use \autoref{thm:located-supremum-real-seal-boundary}. The theorem forces every Real-facing read to pass from $A$ through $W,R,E$ together with the structural rows, so the approximation cannot bypass the regular-rational handoff or introduce a selected supremum.
+\end{proof}
+
+\begin{theorem}[LocatedSupremum RegSeqRat Real handoff stability]
+\label{thm:located-supremum-regseqrat-real-handoff-stability}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Every exported real-facing approximation from $S$ factors through the $\RegSeqRatUp$ handoff row $R$ before it reaches the $\RealUp$ seal $E$, and this factorization is stable under the continuation routes in $C$ and the componentwise transports in $H$.
+\end{theorem}
+\begin{proof}
+Start with a real-facing approximation read. By \autoref{def:located-supremum-carrier}, the terminal real coordinate is $E$, and it appears only after the located family, upper-bound ledger, approximation ledger, precision window, and regular handoff rows have been displayed.
+
+Apply \autoref{thm:located-supremum-real-seal-boundary}. It identifies the exact route into $E$ as the route through $U,A,W,R$ together with $H,C,P,N$.
+
+The continuation row $C$ replays only that route, and the componentwise transports in $H$ preserve each displayed coordinate. Therefore every exported approximation factors through $R$ before $E$, with no detached real object, quotient cut, selected supremum, or ambient order-completeness principle.
+\end{proof}
+
 \begin{closurestatus}{\LocatedSupremumUp}
   \constructivestory{A $\LocatedSupremumUp$ packet is generated from a located family row, an upper-bound ledger, a lower-approximation ledger, a StreamName precision window, a RegSeqRat handoff, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
