@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\AbelPartialSummationUp$}
+\label{ch:concrete-instances-abel-partial-summation-namecert}
+\origin{human}
+
+Following Abel and Hardy, the $\AbelPartialSummationUp$ packet records the finite summation-by-parts route by which a real series source, a finite coefficient window, and a displayed coefficient-difference ledger determine every endpoint-facing partial-summation read. It sits after the $\RealSeriesUp$ carrier of \autoref{ch:concrete-instances-realseries-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite summation-by-parts evidence only through displayed partial sums, adjacent coefficient differences, and boundary terms; it does not import a host infinite sum, a convergence theorem for Abel means, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Abel partial summation carrier]
+\label{def:abel-partial-summation-carrier}
+An $\AbelPartialSummationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,A,S,\Delta,B,W,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealSeriesUp$ source row. It exposes the real-valued term stream only through the finite partial-sum surface already named for real series.
+\item $A$ is the finite coefficient window. It records the inspected coefficients $a_m,\ldots,a_n$ and the endpoint coefficients used by the summation-by-parts formula.
+\item $S$ is the finite partial-sum window. It records the displayed partial sums of the source row over the same index interval and the shifted partial sums needed by the coefficient differences.
+\item $\Delta$ is the coefficient-difference ledger. It records every adjacent difference $a_k-a_{k+1}$ used inside the finite summation-by-parts read.
+\item $B$ is the boundary-term ledger. It records the two endpoint products between displayed coefficients and displayed partial sums, together with the sign and index orientation used by the read.
+\item $W$ is the $\StreamNameUp$ window family for the inspected source terms, coefficients, partial sums, coefficient differences, and boundary terms.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the same displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for finite addition, subtraction, multiplication, difference, and boundary-term comparisons.
+\item $E$ is the $\RealUp$ endpoint seal reached only after $R,A,S,\Delta,B,W,Q,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the real series source, coefficient window, partial-sum window, difference ledger, boundary ledger, stream windows, readback, tolerance ledger, endpoint seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+R,A,S,\Delta,B,W,Q,D \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\AbelPartialSummationUp$, $\RealSeriesUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AbelPartialSummationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,A,S,\Delta,B,W,Q,D,E,H,C,P,N$. It has no coordinate for a host infinite sum, an Abel convergence theorem, a hidden coefficient limit, quotient stream equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Abel partial summation NameCert obligations]
+\label{thm:abel-partial-summation-namecert-obligations}
+For every accepted $\AbelPartialSummationUp$ carrier
+$$
+K=(R,A,S,\Delta,B,W,Q,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\AbelPartialSummationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the real series source, coefficient window, partial-sum window, coefficient-difference ledger, boundary-term ledger, stream windows, readback, dyadic ledger, endpoint seal, transport, replay, provenance, and local naming rows;
+\item partial-sum exposure, requiring every series read used by the packet to pass through $R$ and the displayed finite partial-sum window $S$;
+\item coefficient-difference stability, requiring $\Delta$ to store the adjacent differences read from $A$ and to preserve them under the componentwise $\hsame$ transport row $H$;
+\item boundary ledger accounting, requiring $B$ to display the endpoint products and their signs before any endpoint seal can be exported;
+\item endpoint non-escape, requiring $E$ to remain downstream of $R,A,S,\Delta,B,W,Q,D$ and to export no host infinite sum, Abel convergence theorem, hidden coefficient limit, quotient stream equality, countable choice, trichotomy, or ambient $\RealUp$ completeness;
+\item provenance closure, requiring $C,P,N$ to replay, source, and name only the displayed finite route.
+\end{enumerate}
+No Abel partial-summation obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted packet $K=(R,A,S,\Delta,B,W,Q,D,E,H,C,P,N)$. The carrier exposes exactly the real series source, coefficient window, finite partial sums, coefficient differences, boundary terms, window and readback rows, dyadic ledger, endpoint seal, and structural rows.
+
+The partial-sum exposure is forced by $R$ and $S$. The source row supplies only the finite series surface of $\RealSeriesUp$, and the partial-sum window lists the displayed sums available for the summation-by-parts read.
+
+The coefficient side is finite. The row $A$ displays the inspected coefficients, while $\Delta$ records the adjacent differences and $B$ records the endpoint products with their signs and index orientation. The transport row $H$ preserves those same displayed coordinates.
+
+The rows $W,Q,D$ read the source, coefficient, difference, and boundary data through finite windows, regular rational readback, and dyadic tolerance accounting. Only after those rows are present does $E$ expose a $\RealUp$ endpoint seal.
+
+Finally $C,P,N$ replay, source, and name the same finite route. Since the carrier has no excluded coordinate for host summation, Abel convergence, hidden coefficient limits, quotient equality, choice, trichotomy, or ambient real completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Abel partial summation by-parts route]
+\label{thm:abel-partial-summation-by-parts-route}
+Every accepted $\AbelPartialSummationUp$ packet factors each summation-by-parts read through the displayed finite route
+$$
+R,A \longmapsto S,\Delta,B \longmapsto W,Q,D \longmapsto E,H,C,P,N .
+$$
+Thus the read reaches the $\RealUp$ endpoint seal only after the finite partial sums, coefficient-difference ledger, and boundary-term ledger have been displayed. It does not read a host infinite sum, an Abel convergence theorem, a hidden coefficient limit, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+
+\begin{proof}
+Begin with an endpoint-facing summation-by-parts request. By \autoref{def:abel-partial-summation-carrier}, the request first projects the source series row $R$ and the coefficient window $A$.
+
+The finite by-parts data are then fixed. The row $S$ supplies the partial sums of the source row over the displayed interval, $\Delta$ supplies the adjacent coefficient differences, and $B$ supplies the endpoint products that close the finite identity.
+
+The readback stage is shared. The rows $W,Q,D$ expose exactly the finite windows, regular rational reads, and dyadic tolerance comparisons needed to combine the displayed partial sums, differences, and boundary terms.
+
+Only after this finite route is displayed can $E$ provide the endpoint seal, and the structural rows $H,C,P,N$ transport, replay, source, and name that same route. Hence every accepted packet factors the summation-by-parts read through the displayed finite ledgers before any $\RealUp$ endpoint seal is available.
+\end{proof}
+
+\closureat{AbelPartialSummationUp}{seedStr}
+
+\begin{closurestatus}{\AbelPartialSummationUp}
+  \constructivestory{An $\AbelPartialSummationUp$ packet is generated from a RealSeriesUp source, a finite coefficient window, a finite partial-sum window, a coefficient-difference ledger, a boundary-term ledger, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:abel-partial-summation-carrier}, \autoref{thm:abel-partial-summation-namecert-obligations}, and \autoref{thm:abel-partial-summation-by-parts-route} seed the finite summation-by-parts certificate surface between RealSeriesUp partial sums, coefficient differences, boundary ledgers, and RealUp endpoint seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, Abel convergence theorems, hidden coefficient limits, quotient stream equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partial-sum exposure, coefficient-difference stability, boundary ledger accounting, endpoint non-escape, and provenance closure for BEDC.Derived.AbelPartialSummationUp.}
+\end{closurestatus}

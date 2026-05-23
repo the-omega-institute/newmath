@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RiemannRearrangementUp$}
+\label{ch:concrete-instances-riemann-rearrangement-namecert}
+\origin{human}
+
+Following Riemann's rearrangement theorem and Bishop--Bridges constructive analysis, the $\RiemannRearrangementUp$ packet records the finite certificate surface by which a real series source, a displayed finite schedule, and signed tail ledgers determine every rearrangement-facing endpoint read. It sits after the $\RealSeriesUp$ carrier of \autoref{ch:concrete-instances-realseries-namecert}, the separation supplied by $\AbsoluteConvergenceUp$ in \autoref{ch:concrete-instances-absolute-convergence-namecert}, the regular Cauchy comparison discipline of \autoref{ch:concrete-instances-regular-cauchy-comparison-test-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the endpoint seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite rearrangement certificates over displayed rows; it does not import host infinite rearranged sums, selected limits, quotient equality, countable choice, trichotomy, absolute convergence, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann rearrangement carrier]\label{def:riemann-rearrangement-carrier}
+A $\RiemannRearrangementUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,P,M,N,W,Q,D,E,H,C,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealSeriesUp$ source row. It exposes the term stream and finite partial-sum surface only through the real-series certificate already named for $S$.
+\item $R$ is the finite rearrangement schedule. It records the displayed source indices, their scheduled order, and the finite coverage check that every endpoint-facing read uses exactly the listed schedule entries.
+\item $P$ is the positive signed tail ledger. It records the displayed positive terms, their scheduled appearances, and the finite partial-sum contributions that remain visible before the endpoint seal.
+\item $M$ is the negative signed tail ledger. It records the displayed negative terms, their scheduled appearances, and the finite partial-sum contributions that remain visible before the endpoint seal.
+\item $N$ is the neutral or zero-tail ledger. It records displayed zero terms and neutral entries whose contribution is routed through the schedule without changing the signed tail accounting.
+\item $W$ is the finite partial-sum window row. It records the source partial sums, scheduled partial sums, and endpoint-facing comparison windows requested by the packet.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the displayed source terms, scheduled terms, signed tail ledgers, partial-sum windows, and endpoint comparisons.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance accounting row for finite addition, subtraction, sign separation, schedule coverage, and endpoint comparison tolerances.
+\item $E$ is the $\RealUp$ endpoint seal reached only after $S,R,P,M,N,W,Q,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source row, schedule, signed ledgers, neutral ledger, partial-sum windows, readback, dyadic ledger, endpoint seal, continuation, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,R,P,M,N,W,Q,D \longmapsto E .
+$$
+\item $L$ is the local $\NameCert_{\RiemannRearrangementUp}$ row, sourced over $\RiemannRearrangementUp$, $\RealSeriesUp$, $\AbsoluteConvergenceUp$, $\RegularCauchyComparisonTestUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,P,M,N,W,Q,D,E,H,C,L$. It has no coordinate for a host infinite rearranged sum, a selected limit, quotient equality of series, countable choice, trichotomy, absolute convergence as a conclusion, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Riemann rearrangement NameCert obligations]\label{thm:riemann-rearrangement-namecert-obligations}
+For every accepted $\RiemannRearrangementUp$ carrier
+$$
+K=(S,R,P,M,N,W,Q,D,E,H,C,L),
+$$
+the local $\NameCert_{\RiemannRearrangementUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the real series source, finite rearrangement schedule, signed tail ledgers, neutral ledger, partial-sum windows, readback, dyadic ledger, endpoint seal, transport, continuation, and local naming rows;
+\item schedule exactness, requiring every endpoint-facing read to expose the finite schedule $R$ before it reads a scheduled term or scheduled partial sum;
+\item positive and negative tail separation, requiring the positive ledger $P$, negative ledger $M$, and neutral ledger $N$ to remain distinct under $H$ and to be compared only through the displayed readback row $Q$ and dyadic ledger $D$;
+\item partial-sum window stability, requiring the source and scheduled partial-sum windows stored in $W$ to be replayed by $C$ through the same finite route;
+\item endpoint nonescape, requiring $E$ to remain downstream of $S,R,P,M,N,W,Q,D$ and to export no host infinite rearranged sum, selected limit, quotient equality, countable choice, trichotomy, absolute convergence, or ambient $\RealUp$ completeness.
+\end{enumerate}
+No rearrangement obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted packet $K=(S,R,P,M,N,W,Q,D,E,H,C,L)$. The carrier exposes exactly the real series source, finite schedule, signed and neutral ledgers, partial-sum windows, readback, tolerance ledger, endpoint seal, and structural rows.
+
+Schedule exactness is forced by $R$. Every scheduled term or scheduled partial sum is read through the finite list of displayed source indices, so the packet has no hidden permutation or countable-choice selector.
+
+The signed accounting is separated by construction. The row $P$ contains the positive displayed tail data, the row $M$ contains the negative displayed tail data, and the row $N$ contains neutral entries. The transport row $H$ preserves those coordinates componentwise, while $Q$ and $D$ are the only comparison rows.
+
+The partial-sum window row $W$ and continuation row $C$ replay the same finite route from source terms to scheduled windows. Only after this route is displayed may $E$ expose the $\RealUp$ endpoint seal.
+
+Since the carrier has no excluded coordinate for host infinite rearranged sums, selected limits, quotient equality, countable choice, trichotomy, absolute convergence, or ambient real completeness, the five listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Riemann rearrangement positive-negative ledger]\label{thm:riemann-rearrangement-positive-negative-ledger}
+Every endpoint-facing read from an accepted $\RiemannRearrangementUp$ carrier must display both signed tail ledgers and the finite rearrangement schedule before the $\RealUp$ seal. More precisely, each such read factors through
+$$
+S,R,P,M,W,Q,D \longmapsto E
+$$
+together with $H,C,L$, and it may use the neutral row $N$ only as displayed zero-tail bookkeeping along the same scheduled route.
+\end{theorem}
+
+\begin{proof}
+Begin with an endpoint-facing request from an accepted carrier. By \autoref{def:riemann-rearrangement-carrier}, the request first projects the source row $S$ and the finite schedule row $R$.
+
+The signed ledger stage is then visible. The positive row $P$ and negative row $M$ must both be present before the packet can compare a scheduled partial sum with an endpoint, because the carrier stores the two signed tail surfaces as separate coordinates. The neutral row $N$ can only add displayed zero-tail bookkeeping to that same route.
+
+The finite window and readback stage follows. The row $W$ displays the source and scheduled partial-sum windows, $Q$ reads them through $\RegSeqRatUp$, and $D$ records the dyadic tolerance accounting for the same displayed data.
+
+Only after $S,R,P,M,W,Q,D$ have been displayed can $E$ provide the endpoint seal. The rows $H,C,L$ transport, replay, and name the same route, so no endpoint-facing read can bypass the signed tail ledgers or the finite rearrangement schedule.
+\end{proof}
+
+\closureat{RiemannRearrangementUp}{seedStr}
+
+\begin{closurestatus}{\RiemannRearrangementUp}
+  \constructivestory{A $\RiemannRearrangementUp$ packet is generated from a RealSeriesUp source, a finite rearrangement schedule, positive and negative signed tail ledgers, a neutral ledger, finite partial-sum windows, RegSeqRat readback, DyadicRatCore tolerance accounting, a RealUp endpoint seal, componentwise hsame transport, displayed Cont replay, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-rearrangement-carrier}, \autoref{thm:riemann-rearrangement-namecert-obligations}, and \autoref{thm:riemann-rearrangement-positive-negative-ledger} seed the finite rearrangement certificate surface over RealSeriesUp with separated signed tail ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite rearranged sums, selected limits, quotient equality, countable choice, trichotomy, absolute convergence, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, schedule exactness, positive and negative tail separation, partial-sum window stability, endpoint nonescape, and TasteGate field faithfulness for BEDC.Derived.RiemannRearrangementUp.}
+\end{closurestatus}

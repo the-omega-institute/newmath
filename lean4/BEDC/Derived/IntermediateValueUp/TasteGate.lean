@@ -1,13 +1,23 @@
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Ask
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.IntermediateValueUp
 
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -376,5 +386,103 @@ theorem IntermediateValueCarrier_dyadic_bisection_obligations
         exact sourceRow
     }
   · rfl
+
+def IntermediateValueCarrier [AskSetup] [PackageSetup]
+    (locatedInterval endpointNegative endpointPositive continuousMap modulusBudget
+      bisectionLedger nestedWindow realSeal transports routes provenance localNameCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory locatedInterval ∧ UnaryHistory endpointNegative ∧
+    UnaryHistory endpointPositive ∧ UnaryHistory continuousMap ∧
+      UnaryHistory modulusBudget ∧ UnaryHistory bisectionLedger ∧
+        UnaryHistory transports ∧ UnaryHistory routes ∧
+          UnaryHistory provenance ∧ UnaryHistory localNameCert ∧
+            Cont modulusBudget bisectionLedger nestedWindow ∧
+              Cont bisectionLedger nestedWindow realSeal ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle localNameCert pkg
+
+theorem IntermediateValueBisectionConvergenceHandoff [AskSetup] [PackageSetup]
+    {locatedInterval endpointNegative endpointPositive continuousMap modulusBudget
+      bisectionLedger nestedWindow realSeal transports routes provenance localNameCert
+      bisectionRead streamRead regseqRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont bisectionLedger nestedWindow bisectionRead →
+      Cont bisectionRead routes streamRead →
+        Cont streamRead regseqRead realRead →
+          PkgSig bundle realRead pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row realRead ∧ Cont bisectionLedger nestedWindow bisectionRead)
+                (fun row : BHist =>
+                  hsame row realRead ∧ Cont bisectionLedger nestedWindow bisectionRead ∧
+                    Cont bisectionRead routes streamRead ∧
+                      Cont streamRead regseqRead realRead)
+                (fun row : BHist => hsame row realRead ∧ PkgSig bundle realRead pkg)
+                hsame ∧
+              hsame realRead realRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro ledgerWindow routeStream streamRegseq realPkg
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro realRead (And.intro (hsame_refl realRead) ledgerWindow)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows sourceRow
+          exact And.intro (hsame_trans (hsame_symm sameRows) sourceRow.left)
+            sourceRow.right
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, sourceRow.right, routeStream, streamRegseq⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, realPkg⟩
+    }
+  · exact hsame_refl realRead
+
+theorem IntermediateValueCarrier_bisection_convergence_handoff [AskSetup] [PackageSetup]
+    {locatedInterval endpointNegative endpointPositive continuousMap modulusBudget bisectionLedger
+      nestedWindow realSeal transports routes provenance localNameCert bisectionSeal consumer :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntermediateValueCarrier locatedInterval endpointNegative endpointPositive continuousMap
+        modulusBudget bisectionLedger nestedWindow realSeal transports routes provenance
+        localNameCert bundle pkg ->
+      Cont nestedWindow provenance bisectionSeal ->
+        Cont bisectionSeal localNameCert consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory nestedWindow ∧ UnaryHistory bisectionSeal ∧
+              UnaryHistory consumer ∧ Cont bisectionLedger nestedWindow realSeal ∧
+                Cont nestedWindow provenance bisectionSeal ∧
+                  Cont bisectionSeal localNameCert consumer ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier convergenceRoute consumerRoute consumerPkg
+  obtain ⟨_locatedUnary, _endpointNegativeUnary, _endpointPositiveUnary, _continuousUnary,
+    modulusUnary, bisectionUnary, _transportsUnary, _routesUnary, provenanceUnary,
+    localNameCertUnary, modulusBisectionNested, bisectionLedgerRoute, _provenancePkg,
+    _localNameCertPkg⟩ := carrier
+  have nestedUnary : UnaryHistory nestedWindow :=
+    unary_cont_closed modulusUnary bisectionUnary modulusBisectionNested
+  have bisectionSealUnary : UnaryHistory bisectionSeal :=
+    unary_cont_result_closed
+      (And.intro nestedUnary (And.intro provenanceUnary convergenceRoute))
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_result_closed
+      (And.intro bisectionSealUnary (And.intro localNameCertUnary consumerRoute))
+  exact
+    And.intro nestedUnary
+      (And.intro bisectionSealUnary
+        (And.intro consumerUnary
+          (And.intro bisectionLedgerRoute
+            (And.intro convergenceRoute (And.intro consumerRoute consumerPkg)))))
 
 end BEDC.Derived.IntermediateValueUp
