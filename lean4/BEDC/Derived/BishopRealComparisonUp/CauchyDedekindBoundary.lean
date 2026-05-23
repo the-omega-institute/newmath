@@ -54,4 +54,29 @@ theorem BishopRealComparisonCarrier_cauchy_dedekind_boundary [AskSetup] [Package
     ⟨bishopUnary, readbackUnary, dedekindUnary, cutBoundaryUnary, cauchyReadbackRoute,
       boundaryRoute, provenancePkg⟩
 
+theorem BishopRealComparisonCarrier_located_readback [AskSetup] [PackageSetup]
+    {bishop completion located dedekind realSeal readback transport provenance name
+      locatedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopRealComparisonCarrier bishop completion located dedekind realSeal readback transport
+        provenance name bundle pkg ->
+      Cont bishop readback realSeal ->
+        Cont realSeal located locatedRead ->
+          PkgSig bundle locatedRead pkg ->
+            UnaryHistory bishop ∧ UnaryHistory located ∧ UnaryHistory realSeal ∧
+              UnaryHistory locatedRead ∧ Cont bishop readback realSeal ∧
+                Cont realSeal located locatedRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle locatedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont SemanticNameCert hsame
+  intro carrier bishopReadSeal locatedRoute locatedPkg
+  obtain ⟨bishopUnary, _completionUnary, locatedUnary, _dedekindUnary, realSealUnary,
+    _readbackUnary, _transportUnary, _provenanceUnary, _nameUnary, _bishopSealRoute,
+      _completionSealRoute, _locatedSealRoute, _dedekindSealRoute, provenancePkg,
+        _semanticCert⟩ := carrier
+  have locatedReadUnary : UnaryHistory locatedRead :=
+    unary_cont_closed realSealUnary locatedUnary locatedRoute
+  exact
+    ⟨bishopUnary, locatedUnary, realSealUnary, locatedReadUnary, bishopReadSeal,
+      locatedRoute, provenancePkg, locatedPkg⟩
+
 end BEDC.Derived.BishopRealComparisonUp
