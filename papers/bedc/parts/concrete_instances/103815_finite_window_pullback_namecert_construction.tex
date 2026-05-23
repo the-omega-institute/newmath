@@ -50,6 +50,18 @@ Package those four readings as $S,R,D,E$. The structural rows $H,C,P,N$ record t
 The resulting packet is exactly a $\FiniteWindowPullbackUp$ carrier, so the stationary diagonal route has been pulled back to finite BEDC data.
 \end{proof}
 
+\begin{theorem}[FiniteWindowPullback StreamName route]
+\label{thm:finite-window-pullback-streamname-route}
+Every accepted $\FiniteWindowPullbackUp$ seal-facing read must pass through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} before the local $\NameCert_{\FiniteWindowPullbackUp}$ row is read. Equivalently, the read order exposes the $\StreamNameUp$ window $S$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ ledger $D$, and the $\RealUp$ seal row $E$ before the transport, replay, provenance, and local naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier $F=(S,R,D,E,H,C,P,N)$ of \autoref{def:finite-window-pullback-carrier}. The first four rows are precisely the sibling surfaces for the stream window, regular readback, dyadic ledger, and Real seal.
+
+The remaining rows cannot supply an alternative analytic route. The row $H$ only transports the displayed components, $C$ only replays the displayed request, $P$ only records provenance, and $N$ only names the already assembled local packet.
+
+Thus any accepted seal-facing read reaches the local $\NameCert_{\FiniteWindowPullbackUp}$ row only after passing through the four sibling chapters and their displayed rows.
+\end{proof}
+
 \falsifiablePrediction{Every $\RealUp$ finite-window seal read admitted by a $\FiniteWindowPullbackUp$ packet factors through exactly one displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ pullback packet.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, real, and cauchylimitseal: no listed sibling is bijective to $\FiniteWindowPullbackUp$ because this packet jointly stores the finite window, regular readback, dyadic ledger, Real seal, transport, replay, provenance, and local naming rows for one pullback route.}
