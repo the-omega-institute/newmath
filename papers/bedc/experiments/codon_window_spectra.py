@@ -4453,28 +4453,88 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         {"partition_type": "2+1+1", "block_sizes": (2, 1, 1), "trigger_size": 3, "quotient_partitions": 6},
         {"partition_type": "1+1+1+1", "block_sizes": (1, 1, 1, 1), "trigger_size": 4, "quotient_partitions": 1},
     ]
+
+    def polynomial_add(left: dict[int, int], right: dict[int, int]) -> dict[int, int]:
+        result: collections.Counter[int] = collections.Counter(left)
+        for exponent, coefficient in right.items():
+            result[exponent] += coefficient
+        return dict(sorted((exponent, coefficient) for exponent, coefficient in result.items() if coefficient))
+
+    def polynomial_mul(left: dict[int, int], right: dict[int, int]) -> dict[int, int]:
+        result: collections.Counter[int] = collections.Counter()
+        for left_exponent, left_coefficient in left.items():
+            for right_exponent, right_coefficient in right.items():
+                result[left_exponent + right_exponent] += left_coefficient * right_coefficient
+        return dict(sorted((exponent, coefficient) for exponent, coefficient in result.items() if coefficient))
+
+    def polynomial_scale(polynomial: dict[int, int], scale: int) -> dict[int, int]:
+        return {exponent: coefficient * scale for exponent, coefficient in polynomial.items() if coefficient * scale}
+
+    def basin_defect_polynomial(block_sizes: tuple[int, ...]) -> dict[int, int]:
+        trigger_size = len(block_sizes)
+        polynomial = {0: 1}
+        for block_size in block_sizes:
+            block_polynomial: collections.Counter[int] = collections.Counter()
+            for choices in itertools.product(range(trigger_size), repeat=block_size):
+                if 0 not in choices:
+                    continue
+                block_polynomial[sum(choices)] += math.prod(
+                    math.comb(trigger_size - 1, extra_rows)
+                    for extra_rows in choices
+                )
+            polynomial = polynomial_mul(polynomial, dict(block_polynomial))
+        return polynomial
+
+    def polynomial_terms(polynomial: dict[int, int]) -> tuple[tuple[int, int], ...]:
+        return tuple(sorted(polynomial.items()))
+
     partition_basin_rows = []
+    quotient_incidence_polynomial: dict[int, int] = {}
+    codon_incidence_polynomial: dict[int, int] = {}
     for row in partition_type_rows:
         trigger_size = row["trigger_size"]
+        defect_polynomial = basin_defect_polynomial(row["block_sizes"])
         basin_per_core = math.prod(
             (2 ** (trigger_size - 1)) ** block_size - (2 ** (trigger_size - 1) - 1) ** block_size
             for block_size in row["block_sizes"]
         )
+        assert basin_per_core == sum(defect_polynomial.values())
         codon_cores = row["quotient_partitions"] * (2 ** trigger_size)
+        quotient_incidence_polynomial = polynomial_add(
+            quotient_incidence_polynomial,
+            polynomial_scale(defect_polynomial, row["quotient_partitions"]),
+        )
+        codon_incidence_polynomial = polynomial_add(
+            codon_incidence_polynomial,
+            polynomial_scale(defect_polynomial, codon_cores),
+        )
         partition_basin_rows.append(
             {
                 **row,
+                "basin_defect_terms": polynomial_terms(defect_polynomial),
                 "basin_per_core": basin_per_core,
                 "codon_cores": codon_cores,
                 "quotient_incidence": row["quotient_partitions"] * basin_per_core,
                 "codon_incidence": codon_cores * basin_per_core,
             }
         )
+    quotient_path_polynomial = {
+        defect: coefficient * math.factorial(defect)
+        for defect, coefficient in quotient_incidence_polynomial.items()
+    }
+    codon_path_polynomial = {
+        defect: coefficient * math.factorial(defect)
+        for defect, coefficient in codon_incidence_polynomial.items()
+    }
     partition_basin_summary = {
         "quotient_incidence": sum(row["quotient_incidence"] for row in partition_basin_rows),
         "codon_incidence": sum(row["codon_incidence"] for row in partition_basin_rows),
         "max_basin_partition_type": max(partition_basin_rows, key=lambda row: row["basin_per_core"])["partition_type"],
         "max_basin_per_core": max(row["basin_per_core"] for row in partition_basin_rows),
+        "quotient_incidence_terms": polynomial_terms(quotient_incidence_polynomial),
+        "codon_incidence_terms": polynomial_terms(codon_incidence_polynomial),
+        "quotient_path_terms": polynomial_terms(quotient_path_polynomial),
+        "codon_path_terms": polynomial_terms(codon_path_polynomial),
     }
     descending_path_orbit_rows = []
     for row in defect_flow_orbit_rows:
@@ -5199,6 +5259,11 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "defect_flow_edge_rows": defect_flow_edge_rows,
         "defect_flow_summary": defect_flow_summary,
         "partition_basin_formula": "prod_i ((2^(m-1))^s_i - (2^(m-1)-1)^s_i)",
+        "partition_basin_defect_polynomial_formula": "prod_i ((1+q)^((m-1)s_i) - ((1+q)^(m-1)-1)^s_i)",
+        "partition_basin_quotient_incidence_polynomial": "15 + 48q + 36q^2",
+        "partition_basin_codon_incidence_polynomial": "94 + 288q + 192q^2",
+        "partition_basin_quotient_path_polynomial": "15 + 48q + 72q^2",
+        "partition_basin_codon_path_polynomial": "94 + 288q + 384q^2",
         "partition_basin_rows": partition_basin_rows,
         "partition_basin_summary": partition_basin_summary,
         "descending_path_formula": "delta! prod_a |R_a|",
@@ -9135,12 +9200,18 @@ def assert_expected(summary: dict[str, object]) -> None:
         "codon_core_incidence": 574,
     }
     assert antipodal["partition_basin_formula"] == "prod_i ((2^(m-1))^s_i - (2^(m-1)-1)^s_i)"
+    assert antipodal["partition_basin_defect_polynomial_formula"] == "prod_i ((1+q)^((m-1)s_i) - ((1+q)^(m-1)-1)^s_i)"
+    assert antipodal["partition_basin_quotient_incidence_polynomial"] == "15 + 48q + 36q^2"
+    assert antipodal["partition_basin_codon_incidence_polynomial"] == "94 + 288q + 192q^2"
+    assert antipodal["partition_basin_quotient_path_polynomial"] == "15 + 48q + 72q^2"
+    assert antipodal["partition_basin_codon_path_polynomial"] == "94 + 288q + 384q^2"
     assert [
         (
             row["partition_type"],
             row["block_sizes"],
             row["trigger_size"],
             row["quotient_partitions"],
+            row["basin_defect_terms"],
             row["basin_per_core"],
             row["codon_cores"],
             row["quotient_incidence"],
@@ -9148,17 +9219,21 @@ def assert_expected(summary: dict[str, object]) -> None:
         )
         for row in antipodal["partition_basin_rows"]
     ] == [
-        ("4", (4,), 1, 1, 1, 2, 1, 2),
-        ("3+1", (3, 1), 2, 4, 7, 16, 28, 112),
-        ("2+2", (2, 2), 2, 3, 9, 12, 27, 108),
-        ("2+1+1", (2, 1, 1), 3, 6, 7, 48, 42, 336),
-        ("1+1+1+1", (1, 1, 1, 1), 4, 1, 1, 16, 1, 16),
+        ("4", (4,), 1, 1, ((0, 1),), 1, 2, 1, 2),
+        ("3+1", (3, 1), 2, 4, ((0, 1), (1, 3), (2, 3)), 7, 16, 28, 112),
+        ("2+2", (2, 2), 2, 3, ((0, 1), (1, 4), (2, 4)), 9, 12, 27, 108),
+        ("2+1+1", (2, 1, 1), 3, 6, ((0, 1), (1, 4), (2, 2)), 7, 48, 42, 336),
+        ("1+1+1+1", (1, 1, 1, 1), 4, 1, ((0, 1),), 1, 16, 1, 16),
     ]
     assert antipodal["partition_basin_summary"] == {
         "quotient_incidence": 99,
         "codon_incidence": 574,
         "max_basin_partition_type": "2+2",
         "max_basin_per_core": 9,
+        "quotient_incidence_terms": ((0, 15), (1, 48), (2, 36)),
+        "codon_incidence_terms": ((0, 94), (1, 288), (2, 192)),
+        "quotient_path_terms": ((0, 15), (1, 48), (2, 72)),
+        "codon_path_terms": ((0, 94), (1, 288), (2, 384)),
     }
     assert antipodal["descending_path_formula"] == "delta! prod_a |R_a|"
     assert [
