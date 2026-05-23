@@ -4076,11 +4076,103 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             support_labels.append("".join(str(label) for label in relabeled))
         return "{" + ",".join(sorted(support_labels, key=lambda item: (len(item), item))) + "}"
 
+    def parse_support_family(normal_form: str) -> tuple[frozenset[int], ...]:
+        body = normal_form.strip("{}")
+        if not body:
+            return ()
+        return tuple(
+            frozenset(int(label) - 1 for label in support_label)
+            for support_label in body.split(",")
+        )
+
     def canonical_support_family(family: tuple[frozenset[int], ...]) -> str:
         return min(
             support_family_representation(family, permutation)
             for permutation in itertools.permutations(range(len(coordinate_universe)))
         )
+
+    def stabilizer_row_permutations(normal_form: str) -> tuple[tuple[int, ...], ...]:
+        supports = parse_support_family(normal_form)
+        support_index = {support: index for index, support in enumerate(supports)}
+        row_permutations = set()
+        for coordinate_permutation in itertools.permutations(range(len(coordinate_universe))):
+            image_indices = []
+            for support in supports:
+                image = frozenset(coordinate_permutation[coordinate] for coordinate in support)
+                if image not in support_index:
+                    break
+                image_indices.append(support_index[image])
+            else:
+                row_permutations.add(tuple(image_indices))
+        return tuple(sorted(row_permutations))
+
+    def apply_row_permutation(bits: tuple[int, ...], row_permutation: tuple[int, ...]) -> tuple[int, ...]:
+        image = [0] * len(bits)
+        for source_index, target_index in enumerate(row_permutation):
+            image[target_index] = bits[source_index]
+        return tuple(image)
+
+    def complement_bits(bits: tuple[int, ...]) -> tuple[int, ...]:
+        return tuple(1 - bit for bit in bits)
+
+    def lift_coloring_orbits(normal_form: str) -> list[tuple[tuple[int, ...], ...]]:
+        supports = parse_support_family(normal_form)
+        row_permutations = stabilizer_row_permutations(normal_form)
+        remaining = set(itertools.product((0, 1), repeat=len(supports)))
+        orbits = []
+        while remaining:
+            start = min(remaining)
+            orbit = set()
+            for row_permutation in row_permutations:
+                row_image = apply_row_permutation(start, row_permutation)
+                orbit.add(row_image)
+                orbit.add(complement_bits(row_image))
+            changed = True
+            while changed:
+                changed = False
+                for bits in tuple(orbit):
+                    for row_permutation in row_permutations:
+                        row_image = apply_row_permutation(bits, row_permutation)
+                        for image in (row_image, complement_bits(row_image)):
+                            if image not in orbit:
+                                orbit.add(image)
+                                changed = True
+            orbits.append(tuple(sorted(orbit)))
+            remaining -= orbit
+        return sorted(orbits, key=lambda orbit: (min(min(sum(bits) for bits in orbit), len(supports) - max(sum(bits) for bits in orbit)), len(orbit), orbit))
+
+    def bit_string(bits: tuple[int, ...]) -> str:
+        return "".join(str(bit) for bit in bits)
+
+    def lift_pattern_label(normal_form: str, orbit: tuple[tuple[int, ...], ...]) -> str:
+        supports = parse_support_family(normal_form)
+        trigger_size = len(supports)
+        weights = sorted(set(sum(bits) for bits in orbit))
+        if trigger_size == 1:
+            return "0/1"
+        if trigger_size == 2:
+            return "same" if weights == [0, 2] else "opposite"
+        if normal_form == "{1,2,34}":
+            if weights == [0, 3]:
+                return "all same"
+            if all(bits[0] == bits[1] for bits in orbit):
+                return "pair same, block opposite"
+            return "singleton split"
+        if normal_form == "{1,24,34}":
+            if weights == [0, 3]:
+                return "all same"
+            if all(bits[1] == bits[2] for bits in orbit):
+                return "shared-pair same, singleton opposite"
+            return "shared-pair split"
+        if normal_form == "{14,24,34}":
+            return "all same" if weights == [0, 3] else "mixed"
+        if normal_form == "{1,2,3,4}":
+            if weights == [0, 4]:
+                return "all same"
+            if weights == [1, 3]:
+                return "one-vs-three"
+            return "two-vs-two"
+        return "lift pattern"
 
     chosen_orbit_representatives = {
         "{1234}": "{1234}",
@@ -4301,6 +4393,38 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "shared_coordinates": (),
         },
     ]
+    codon_level_lift_orbit_rows = []
+    for normal_form in orbit_order:
+        quotient_count = quotient_minimal_trigger_orbit_counts[normal_form]
+        orbit_sizes = []
+        for lift_orbit in lift_coloring_orbits(normal_form):
+            lift_pattern = lift_pattern_label(normal_form, lift_orbit)
+            lift_orbit_size = len(lift_orbit)
+            codon_orbit_size = quotient_count * lift_orbit_size
+            orbit_sizes.append(codon_orbit_size)
+            codon_level_lift_orbit_rows.append(
+                {
+                    "normal_form": normal_form,
+                    "trigger_size": normal_form.count(",") + 1,
+                    "quotient_count": quotient_count,
+                    "lift_pattern": lift_pattern,
+                    "pattern_representatives": tuple(bit_string(bits) for bits in lift_orbit),
+                    "lift_orbit_size": lift_orbit_size,
+                    "codon_orbit_size": codon_orbit_size,
+                    "lift_imbalance": min(sum(lift_orbit[0]), len(lift_orbit[0]) - sum(lift_orbit[0])),
+                }
+            )
+        assert sum(orbit_sizes) == quotient_count * (2 ** (normal_form.count(",") + 1))
+    codon_level_lift_orbit_count_rows = [
+        {
+            "normal_form": normal_form,
+            "quotient_count": quotient_minimal_trigger_orbit_counts[normal_form],
+            "lift_orbit_count": sum(1 for row in codon_level_lift_orbit_rows if row["normal_form"] == normal_form),
+        }
+        for normal_form in orbit_order
+    ]
+    codon_level_lift_orbit_total = sum(row["lift_orbit_count"] for row in codon_level_lift_orbit_count_rows)
+    codon_level_lift_orbit_size_total = sum(row["codon_orbit_size"] for row in codon_level_lift_orbit_rows)
 
     def graph_metrics(vertices: list[tuple[frozenset[int], ...]], edges: set[tuple[int, int]]) -> tuple[int, int]:
         adjacency = {index: set() for index in range(len(vertices))}
@@ -4883,6 +5007,11 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "private_shared_defect_formula": "sum_h binom(n,h) S(n-h,m) (sum_{r=2}^m binom(m,r) y^(r-1))^h",
         "private_shared_decoration_rows": private_shared_decoration_rows,
         "private_shared_orbit_rows": private_shared_orbit_rows,
+        "codon_level_lift_orbit_group": "S_4 x C_2^(f_3)",
+        "codon_level_lift_orbit_count_rows": codon_level_lift_orbit_count_rows,
+        "codon_level_lift_orbit_rows": codon_level_lift_orbit_rows,
+        "codon_level_lift_orbit_total": codon_level_lift_orbit_total,
+        "codon_level_lift_orbit_size_total": codon_level_lift_orbit_size_total,
         "quotient_flip_graph_rows": quotient_flip_graph_rows,
         "quotient_flip_orbit_edge_rows": quotient_flip_orbit_edge_rows,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
@@ -8754,6 +8883,55 @@ def assert_expected(summary: dict[str, object]) -> None:
         ("{14,24,34}", ("{1}", "{2}", "{3}"), ("4:{1,2,3}",)),
         ("{1,2,3,4}", ("{1}", "{2}", "{3}", "{4}"), ()),
     ]
+    assert antipodal["codon_level_lift_orbit_group"] == "S_4 x C_2^(f_3)"
+    assert [
+        (row["normal_form"], row["quotient_count"], row["lift_orbit_count"])
+        for row in antipodal["codon_level_lift_orbit_count_rows"]
+    ] == [
+        ("{1234}", 1, 1),
+        ("{1,234}", 4, 2),
+        ("{12,34}", 3, 2),
+        ("{12,234}", 12, 2),
+        ("{123,124}", 6, 2),
+        ("{1,2,34}", 6, 3),
+        ("{1,24,34}", 12, 3),
+        ("{14,24,34}", 4, 2),
+        ("{1,2,3,4}", 1, 3),
+    ]
+    assert [
+        (
+            row["normal_form"],
+            row["lift_pattern"],
+            row["pattern_representatives"],
+            row["lift_orbit_size"],
+            row["codon_orbit_size"],
+            row["lift_imbalance"],
+        )
+        for row in antipodal["codon_level_lift_orbit_rows"]
+    ] == [
+        ("{1234}", "0/1", ("0", "1"), 2, 2, 0),
+        ("{1,234}", "same", ("00", "11"), 2, 8, 0),
+        ("{1,234}", "opposite", ("01", "10"), 2, 8, 1),
+        ("{12,34}", "same", ("00", "11"), 2, 6, 0),
+        ("{12,34}", "opposite", ("01", "10"), 2, 6, 1),
+        ("{12,234}", "same", ("00", "11"), 2, 24, 0),
+        ("{12,234}", "opposite", ("01", "10"), 2, 24, 1),
+        ("{123,124}", "same", ("00", "11"), 2, 12, 0),
+        ("{123,124}", "opposite", ("01", "10"), 2, 12, 1),
+        ("{1,2,34}", "all same", ("000", "111"), 2, 12, 0),
+        ("{1,2,34}", "pair same, block opposite", ("001", "110"), 2, 12, 1),
+        ("{1,2,34}", "singleton split", ("010", "011", "100", "101"), 4, 24, 1),
+        ("{1,24,34}", "all same", ("000", "111"), 2, 24, 0),
+        ("{1,24,34}", "shared-pair same, singleton opposite", ("011", "100"), 2, 24, 1),
+        ("{1,24,34}", "shared-pair split", ("001", "010", "101", "110"), 4, 48, 1),
+        ("{14,24,34}", "all same", ("000", "111"), 2, 8, 0),
+        ("{14,24,34}", "mixed", ("001", "010", "011", "100", "101", "110"), 6, 24, 1),
+        ("{1,2,3,4}", "all same", ("0000", "1111"), 2, 2, 0),
+        ("{1,2,3,4}", "one-vs-three", ("0001", "0010", "0100", "0111", "1000", "1011", "1101", "1110"), 8, 8, 1),
+        ("{1,2,3,4}", "two-vs-two", ("0011", "0101", "0110", "1001", "1010", "1100"), 6, 6, 2),
+    ]
+    assert antipodal["codon_level_lift_orbit_total"] == 20
+    assert antipodal["codon_level_lift_orbit_size_total"] == 294
     assert [
         (row["trigger_size"], row["vertices"], row["edges"], row["connected_components"], row["diameter"])
         for row in antipodal["quotient_flip_graph_rows"]
