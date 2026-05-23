@@ -2829,6 +2829,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRootUnblockPackage
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PositiveRadiusCompactNetExport
+import BEDC.Derived.FiniteLebesgueNumberUp.PositiveRadiusTotality
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusClassifierStability
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumers

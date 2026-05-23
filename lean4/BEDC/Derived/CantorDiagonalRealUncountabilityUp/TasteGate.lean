@@ -25,11 +25,10 @@ def cantorDiagonalRealUncountabilityDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cantorDiagonalRealUncountabilityDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cantorDiagonalRealUncountabilityDecodeBHist tail)
 
-private theorem cantorDiagonalRealUncountabilityDecode_encode :
+private theorem CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       cantorDiagonalRealUncountabilityDecodeBHist
-          (cantorDiagonalRealUncountabilityEncodeBHist h) =
-        h := by
+        (cantorDiagonalRealUncountabilityEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,72 +36,77 @@ private theorem cantorDiagonalRealUncountabilityDecode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cantorDiagonalRealUncountabilityFields :
-    CantorDiagonalRealUncountabilityUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | CantorDiagonalRealUncountabilityUp.mk E W B Q R S H K P N =>
-      [E, W, B, Q, R, S, H, K, P, N]
-
 def cantorDiagonalRealUncountabilityToEventFlow :
     CantorDiagonalRealUncountabilityUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (cantorDiagonalRealUncountabilityFields x).map
-        cantorDiagonalRealUncountabilityEncodeBHist
+  | CantorDiagonalRealUncountabilityUp.mk E W B Q R S H K P N =>
+      [[BMark.b1, BMark.b1, BMark.b0, BMark.b1],
+        cantorDiagonalRealUncountabilityEncodeBHist E,
+        cantorDiagonalRealUncountabilityEncodeBHist W,
+        cantorDiagonalRealUncountabilityEncodeBHist B,
+        cantorDiagonalRealUncountabilityEncodeBHist Q,
+        cantorDiagonalRealUncountabilityEncodeBHist R,
+        cantorDiagonalRealUncountabilityEncodeBHist S,
+        cantorDiagonalRealUncountabilityEncodeBHist H,
+        cantorDiagonalRealUncountabilityEncodeBHist K,
+        cantorDiagonalRealUncountabilityEncodeBHist P,
+        cantorDiagonalRealUncountabilityEncodeBHist N]
 
 def cantorDiagonalRealUncountabilityFromEventFlow :
     EventFlow → Option CantorDiagonalRealUncountabilityUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | E :: rest0 =>
-      match rest0 with
+  | _tag :: restE =>
+      match restE with
       | [] => none
-      | W :: rest1 =>
-          match rest1 with
+      | E :: restW =>
+          match restW with
           | [] => none
-          | B :: rest2 =>
-              match rest2 with
+          | W :: restB =>
+              match restB with
               | [] => none
-              | Q :: rest3 =>
-                  match rest3 with
+              | B :: restQ =>
+                  match restQ with
                   | [] => none
-                  | R :: rest4 =>
-                      match rest4 with
+                  | Q :: restR =>
+                      match restR with
                       | [] => none
-                      | S :: rest5 =>
-                          match rest5 with
+                      | R :: restS =>
+                          match restS with
                           | [] => none
-                          | H :: rest6 =>
-                              match rest6 with
+                          | S :: restH =>
+                              match restH with
                               | [] => none
-                              | K :: rest7 =>
-                                  match rest7 with
+                              | H :: restK =>
+                                  match restK with
                                   | [] => none
-                                  | P :: rest8 =>
-                                      match rest8 with
+                                  | K :: restP =>
+                                      match restP with
                                       | [] => none
-                                      | N :: rest9 =>
-                                          match rest9 with
-                                          | [] =>
-                                              some
-                                                (CantorDiagonalRealUncountabilityUp.mk
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist E)
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist W)
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist B)
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist Q)
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist R)
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist S)
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist H)
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist K)
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist P)
-                                                  (cantorDiagonalRealUncountabilityDecodeBHist N))
-                                          | _ :: _ => none
+                                      | P :: restN =>
+                                          match restN with
+                                          | [] => none
+                                          | N :: rest =>
+                                              match rest with
+                                              | [] =>
+                                                  some
+                                                    (CantorDiagonalRealUncountabilityUp.mk
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist E)
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist W)
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist B)
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist Q)
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist R)
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist S)
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist H)
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist K)
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist P)
+                                                      (cantorDiagonalRealUncountabilityDecodeBHist N))
+                                              | _ :: _ => none
 
-private theorem cantorDiagonalRealUncountability_round_trip :
+private theorem CantorDiagonalRealUncountabilityUp_single_carrier_alignment_round_trip :
     ∀ x : CantorDiagonalRealUncountabilityUp,
       cantorDiagonalRealUncountabilityFromEventFlow
-          (cantorDiagonalRealUncountabilityToEventFlow x) =
-        some x := by
+        (cantorDiagonalRealUncountabilityToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -131,50 +135,34 @@ private theorem cantorDiagonalRealUncountability_round_trip :
             (cantorDiagonalRealUncountabilityDecodeBHist
               (cantorDiagonalRealUncountabilityEncodeBHist N))) =
           some (CantorDiagonalRealUncountabilityUp.mk E W B Q R S H K P N)
-      rw [cantorDiagonalRealUncountabilityDecode_encode E,
-        cantorDiagonalRealUncountabilityDecode_encode W,
-        cantorDiagonalRealUncountabilityDecode_encode B,
-        cantorDiagonalRealUncountabilityDecode_encode Q,
-        cantorDiagonalRealUncountabilityDecode_encode R,
-        cantorDiagonalRealUncountabilityDecode_encode S,
-        cantorDiagonalRealUncountabilityDecode_encode H,
-        cantorDiagonalRealUncountabilityDecode_encode K,
-        cantorDiagonalRealUncountabilityDecode_encode P,
-        cantorDiagonalRealUncountabilityDecode_encode N]
+      rw [CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode E,
+        CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode W,
+        CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode B,
+        CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode Q,
+        CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode R,
+        CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode S,
+        CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode H,
+        CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode K,
+        CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode P,
+        CantorDiagonalRealUncountabilityUp_single_carrier_alignment_decode_encode N]
 
-private theorem cantorDiagonalRealUncountabilityToEventFlow_injective
+private theorem CantorDiagonalRealUncountabilityUp_single_carrier_alignment_toEventFlow_injective
     {x y : CantorDiagonalRealUncountabilityUp} :
     cantorDiagonalRealUncountabilityToEventFlow x =
-        cantorDiagonalRealUncountabilityToEventFlow y →
-      x = y := by
+      cantorDiagonalRealUncountabilityToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          cantorDiagonalRealUncountabilityFromEventFlow
-            (cantorDiagonalRealUncountabilityToEventFlow x) :=
-        (cantorDiagonalRealUncountability_round_trip x).symm
-      _ =
-          cantorDiagonalRealUncountabilityFromEventFlow
-            (cantorDiagonalRealUncountabilityToEventFlow y) :=
-        congrArg cantorDiagonalRealUncountabilityFromEventFlow hxy
-      _ = some y := cantorDiagonalRealUncountability_round_trip y
-  exact Option.some.inj optionEq
-
-private theorem cantorDiagonalRealUncountability_field_faithful :
-    ∀ x y : CantorDiagonalRealUncountabilityUp,
-      cantorDiagonalRealUncountabilityFields x =
-          cantorDiagonalRealUncountabilityFields y →
-        x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk E₁ W₁ B₁ Q₁ R₁ S₁ H₁ K₁ P₁ N₁ =>
-      cases y with
-      | mk E₂ W₂ B₂ Q₂ R₂ S₂ H₂ K₂ P₂ N₂ =>
-          cases hfields
-          rfl
+  intro heq
+  have hread :
+      cantorDiagonalRealUncountabilityFromEventFlow
+          (cantorDiagonalRealUncountabilityToEventFlow x) =
+        cantorDiagonalRealUncountabilityFromEventFlow
+          (cantorDiagonalRealUncountabilityToEventFlow y) :=
+    congrArg cantorDiagonalRealUncountabilityFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans
+      (CantorDiagonalRealUncountabilityUp_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (CantorDiagonalRealUncountabilityUp_single_carrier_alignment_round_trip y)))
 
 instance cantorDiagonalRealUncountabilityBHistCarrier :
     BHistCarrier CantorDiagonalRealUncountabilityUp where
@@ -189,45 +177,19 @@ instance cantorDiagonalRealUncountabilityChapterTasteGate :
     intro x
     change
       cantorDiagonalRealUncountabilityFromEventFlow
-          (cantorDiagonalRealUncountabilityToEventFlow x) =
-        some x
-    exact cantorDiagonalRealUncountability_round_trip x
+        (cantorDiagonalRealUncountabilityToEventFlow x) = some x
+    exact CantorDiagonalRealUncountabilityUp_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (cantorDiagonalRealUncountabilityToEventFlow_injective heq)
+    exact hxy
+      (CantorDiagonalRealUncountabilityUp_single_carrier_alignment_toEventFlow_injective heq)
 
-instance cantorDiagonalRealUncountabilityFieldFaithful :
-    FieldFaithful CantorDiagonalRealUncountabilityUp where
+theorem CantorDiagonalRealUncountabilityUp_single_carrier_alignment :
+    Nonempty (BHistCarrier CantorDiagonalRealUncountabilityUp) ∧
+      Nonempty (ChapterTasteGate CantorDiagonalRealUncountabilityUp) := by
   -- BEDC touchpoint anchor: BHist BMark
-  fields := cantorDiagonalRealUncountabilityFields
-  field_faithful := cantorDiagonalRealUncountability_field_faithful
-
-def taste_gate : ChapterTasteGate CantorDiagonalRealUncountabilityUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  cantorDiagonalRealUncountabilityChapterTasteGate
-
-theorem CantorDiagonalRealUncountabilityTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      cantorDiagonalRealUncountabilityDecodeBHist
-          (cantorDiagonalRealUncountabilityEncodeBHist h) =
-        h) ∧
-      (∀ x : CantorDiagonalRealUncountabilityUp,
-        cantorDiagonalRealUncountabilityFromEventFlow
-            (cantorDiagonalRealUncountabilityToEventFlow x) =
-          some x) ∧
-        (∀ x y : CantorDiagonalRealUncountabilityUp,
-          cantorDiagonalRealUncountabilityToEventFlow x =
-              cantorDiagonalRealUncountabilityToEventFlow y →
-            x = y) ∧
-          cantorDiagonalRealUncountabilityEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
-  constructor
-  · exact cantorDiagonalRealUncountabilityDecode_encode
-  · constructor
-    · exact cantorDiagonalRealUncountability_round_trip
-    · constructor
-      · intro x y heq
-        exact cantorDiagonalRealUncountabilityToEventFlow_injective heq
-      · rfl
+  exact
+    ⟨Nonempty.intro cantorDiagonalRealUncountabilityBHistCarrier,
+      Nonempty.intro cantorDiagonalRealUncountabilityChapterTasteGate⟩
 
 end BEDC.Derived.CantorDiagonalRealUncountabilityUp
