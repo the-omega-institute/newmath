@@ -155,4 +155,14 @@ theorem LowerRealTasteGate_single_carrier_alignment :
           intro h
           cases h⟩⟩
 
+theorem LowerRealCarrier_namecert_obligations (x : LowerRealUp) :
+    ∃ L0 W R E H C P N : BHist,
+      x = LowerRealUp.mk L0 W R E H C P N ∧
+        lowerRealFields x = [L0, W, R, E, H, C, P, N] ∧
+          lowerRealEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark NameCert
+  cases x with
+  | mk L0 W R E H C P N =>
+      exact ⟨L0, W, R, E, H, C, P, N, rfl, rfl, rfl⟩
+
 end BEDC.Derived.LowerRealUp
