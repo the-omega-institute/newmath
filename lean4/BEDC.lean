@@ -1190,6 +1190,7 @@ import BEDC.Derived.CauchyProductUp.RootBudgetTriangle
 import BEDC.Derived.CauchyProductUp.RootClassifierStability
 import BEDC.Derived.CauchyProductUp.RootSealLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
+import BEDC.Derived.CauchyProductUp.RootUnblockCertificate
 import BEDC.Derived.CauchyProductUp.RootWindowObligations
 import BEDC.Derived.CauchyProductUp.RootWindowReadStability
 import BEDC.Derived.CauchyProductUp.SharedTailSelectorFactorization
@@ -2524,6 +2525,7 @@ import BEDC.Derived.DyadicCompactnessUp
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
+import BEDC.Derived.DyadicCoverRefinementUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.DyadicCoverUp.FiniteCoverConsumerDeterminacy
 import BEDC.Derived.DyadicCoverUp.FiniteSubcoverExhaustion
@@ -3099,6 +3101,7 @@ import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GoldenMeanShiftUp.PrefixTransportScope
 import BEDC.Derived.GoldenMeanShiftUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
+import BEDC.Derived.GramSchmidtUp.TasteGate
 import BEDC.Derived.GraphUp
 import BEDC.Derived.GroundCompilerAuditMapUp
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
@@ -4579,6 +4582,7 @@ import BEDC.Derived.RealUp.SelectedTransportReadback
 import BEDC.Derived.RealUp.SemanticCertificate
 import BEDC.Derived.RealUp.StdBridge
 import BEDC.Derived.RealUp.StreamBridge
+import BEDC.Derived.RealUp.StreamNameFiniteWindowLedgerBoundary
 import BEDC.Derived.RealUp.StreamNameTransport
 import BEDC.Derived.RealUp.StreamReadback
 import BEDC.Derived.RealUp.SynchronizedSelectedTransport
@@ -5789,6 +5793,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.PublicRootCompletion
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicSourceLockExport
 import BEDC.Derived.ZetaContinuationWitnessUp.PublicZeroRouteFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.RHBoundaryExhaustion
+import BEDC.Derived.ZetaContinuationWitnessUp.RootCarrierExposure
 import BEDC.Derived.ZetaContinuationWitnessUp.RootPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.RootReadinessSourceSeal
 import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroFacingFormalSurface
