@@ -1636,6 +1636,7 @@ import BEDC.Derived.ConsciousObserverStateUp.RoutePackageExactness
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
+import BEDC.Derived.ConstructiveCompletionModulusUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ContactUp.TasteGate
@@ -2093,7 +2094,6 @@ import BEDC.Derived.DependentCodomainClosurePreservationUp.Nonescape
 import BEDC.Derived.DependentCodomainClosurePreservationUp.TasteGate
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
 import BEDC.Derived.DerivativeUp
-import BEDC.Derived.DerivativeUp.TasteGate
 import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.DerivedFunctorUp
 import BEDC.Derived.DeterminantUp
@@ -3542,7 +3542,6 @@ import BEDC.Derived.MatroidUp
 import BEDC.Derived.MaxCausalRateUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
 import BEDC.Derived.MaxRateReadGateUp.TasteGate
-import BEDC.Derived.MeanErgodicUp.TasteGate
 import BEDC.Derived.MeasureUp
 import BEDC.Derived.MeasureUp.CarrierSurface
 import BEDC.Derived.MeasureUp.CertificateSurface
@@ -4143,7 +4142,6 @@ import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PontryaginDualityUp
 import BEDC.Derived.PositiveRealUp.TasteGate
 import BEDC.Derived.PreSheafUp
-import BEDC.Derived.PrecompactCompletionUp.TasteGate
 import BEDC.Derived.PredictiveDescentUp.StabilityScope
 import BEDC.Derived.PredictiveDescentUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
