@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompletionMonadUp$}
+\label{ch:concrete-instances-regular-cauchy-completion-monad-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the regular Cauchy completion is read here as a finite-window completion interface rather than as a quotient object. The $\RegularCauchyCompletionMonadUp$ packet consumes the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It packages unit and bind rows for the L10 completion route while excluding quotient stream equality, selected limits, host real equality, countable choice, and ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy completion monad carrier]
+\label{def:regular-cauchy-completion-monad-carrier}
+A $\RegularCauchyCompletionMonadUp$ carrier is a finite $\BHist$ packet
+$$
+M=(W,R,D,U,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window family. It records the source windows, unit windows, bind-request windows, and seal-facing observation cuts inspected by the packet.
+\item $R$ is the $\RegSeqRatUp$ readback family attached to $W$. It contains the regular rational rows read from source windows and the intermediate readbacks produced by unit or bind requests.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the requested scale, composition slack, triangle-budget rows, and exhausted dyadic windows used by unit, bind, and seal handoffs.
+\item $U$ is the unit row. It embeds a displayed regular rational input into the completion interface by copying the relevant window and tolerance rows into a one-stage completion name.
+\item $B$ is the bind row. It composes an accepted completion name with a displayed finite-window Kleisli request by replaying the source windows, readbacks, and dyadic budget before exposing the composed row.
+\item $E$ is the $\RealUp$ seal handoff row. It is reachable only after the displayed $W,R,D,U,B$ route has been read.
+\item $H$ records componentwise $\hsame$ transport for windows, readbacks, dyadic ledgers, unit rows, bind rows, seal rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+W,D \longmapsto R \longmapsto U,B \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCompletionMonadUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCompletionMonadUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these ten rows. Its classifier compares accepted packets only through $W,R,D,U,B,E,H,C,P,N$ and has no coordinate for quotient stream equality, selected limits, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy completion unit laws]
+\label{thm:regular-cauchy-completion-monad-unit-laws}
+For every accepted $\RegularCauchyCompletionMonadUp$ carrier
+$$
+M=(W,R,D,U,B,E,H,C,P,N),
+$$
+the unit row $U$ is a finite-window identity for the displayed completion interface. A source regular rational read through $W,R,D$ is admitted into the completion packet without changing its inspected windows, readback row, dyadic scale, componentwise transport row, replay row, provenance row, or local naming row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $M$. The projection exposes the finite-window row $W$, the regular rational readback family $R$, the dyadic ledger $D$, and the unit row $U$ before any seal-facing row is visible.
+
+The unit row is checked by finite-window induction on $W$. In the empty-window case, there is no observation to alter, and the displayed readback and dyadic ledger are the unique empty rows carried by the packet.
+
+For a successor window, the induction hypothesis identifies the previous inspected segment. The next observation is copied by $U$ with the same readback row and the same dyadic scale entry, so the extended window remains the displayed source route rather than a selected limit.
+
+The structural rows $H,C,P,N$ preserve this copied route componentwise. Since the carrier has no quotient stream, host equality, countable-choice selector, or ambient completeness coordinate, the unit law is exactly the finite identity of the displayed rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy completion bind laws]
+\label{thm:regular-cauchy-completion-monad-bind-laws}
+For every accepted $\RegularCauchyCompletionMonadUp$ carrier
+$$
+M=(W,R,D,U,B,E,H,C,P,N),
+$$
+the bind row $B$ composes completion-facing finite-window requests by replaying the source windows, $\RegSeqRatUp$ readbacks, and $\DyadicRatCoreUp$ tolerances before exporting the composed row. The left-unit, right-unit, and associativity comparisons are therefore comparisons of displayed $W,R,D,U,B,H,C,P,N$ rows, not comparisons of quotient streams or selected limits.
+\end{theorem}
+\begin{proof}
+Open the bind row $B$. A bind request is admitted only after the relevant source window in $W$, the matching readback in $R$, and the requested dyadic budget in $D$ have been displayed.
+
+For left unit, first read the unit row $U$. The preceding theorem identifies the unit route with the displayed source window, so applying $B$ to that route consumes the same $W,R,D$ rows as the original request.
+
+For right unit, start from an accepted completion-facing row and then apply the unit request as the second stage. The finite-window induction on $W$ again keeps every inspected observation, readback, and dyadic scale entry unchanged.
+
+For associativity, compare the two finite replays of a three-stage request. Both sides enumerate the same source windows, intermediate readbacks, and dyadic composition ledgers; regrouping changes only the order in which the already displayed bind rows are read.
+
+The transport, replay, provenance, and local naming rows identify these displayed packets componentwise. No step appeals to quotient equality of streams, a selected limit, host real equality, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy completion Real seal handoff]
+\label{thm:regular-cauchy-completion-monad-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyCompletionMonadUp$ carrier reads the terminal seal only through the finite route
+$$
+W,D \longmapsto R \longmapsto U,B \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer receives finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerance ledgers, unit and bind rows, the terminal $\RealUp$ seal, componentwise transport, continuation replay, package provenance, and local naming. It receives no quotient completion, selected limit, host real equality, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier and project the seal row $E$. The carrier definition places $E$ downstream of the displayed window family $W$, readback family $R$, dyadic ledger $D$, unit row $U$, and bind row $B$.
+
+The handoff is therefore finite. A $\RealUp$ consumer must first read the inspected windows, then the regular rational readbacks, then the dyadic tolerances that justify the unit and bind requests.
+
+Only after those rows are present may the seal row $E$ be consumed. The seal is consequently attached to the displayed regular Cauchy completion route rather than to a quotient completion object or a host-selected real representative.
+
+Finally $H,C,P,N$ preserve the route under componentwise transport, continuation replay, provenance, and local naming. Because the carrier contains no excluded coordinate, the terminal handoff cannot export quotient completion, selected limits, host equality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{RegularCauchyCompletionMonadUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCompletionMonadUp}
+  \constructivestory{A $\RegularCauchyCompletionMonadUp$ packet is generated from finite StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, unit rows, bind rows, a terminal RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-completion-monad-carrier}, \autoref{thm:regular-cauchy-completion-monad-unit-laws}, \autoref{thm:regular-cauchy-completion-monad-bind-laws}, and \autoref{thm:regular-cauchy-completion-monad-real-seal-handoff} seed the finite-window completion interface from StreamName windows through RegSeqRat readbacks, DyadicRatCore tolerances, unit and bind rows, RealUp seal handoff, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full $\RealUp$ completeness, quotient completion, quotient stream equality, selected limits, host real equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window unit identity, bind composition, tolerance replay, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyCompletionMonadUp.}
+\end{closurestatus}
