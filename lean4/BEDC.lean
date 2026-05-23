@@ -1166,6 +1166,7 @@ import BEDC.Derived.CauchyPrecompletionUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductUp
+import BEDC.Derived.CauchyProductUp.RootWindowReadStability
 import BEDC.Derived.CauchyProductUp.SourceWindowTailAgreement
 import BEDC.Derived.CauchyProductUp.TasteGate
 import BEDC.Derived.CauchyProductUp.WindowProductReadback
@@ -1396,6 +1397,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuthorizedRecursorAuditRout
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderBudgetDepthLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedSourceBudgetSurface
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueRouteDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessConsumerExport
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessLedgerCoverage
@@ -4233,6 +4235,7 @@ import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.Typed
+import BEDC.Derived.ProductFilterUp.TasteGate
 import BEDC.Derived.ProductMetricUp
 import BEDC.Derived.ProductRegularCauchyLimitUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
