@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\ClosedParallelDiamondPremiseLedgerUp$}
+\label{ch:concrete-instances-closed-parallel-diamond-premise-ledger-namecert}
+\origin{ai}
+
+The $\ClosedParallelDiamondPremiseLedgerUp$ packet realizes the closed parallel diamond premise boundary of \autoref{ch:metacic-confluence-audit-map} as finite BEDC data. It sits beside the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the closed-normal seal of \autoref{ch:concrete-instances-closednormalconfluenceseal-namecert}, the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, and the parallel confluence audit of \autoref{ch:concrete-instances-parallelconfluenceaudit-namecert}. The packet records the premise ledger consumed by the conditional MetaCIC confluence bridge without asserting the missing diamond proof.
+
+\begin{definition}[Closed parallel diamond premise ledger carrier]
+\label{def:closed-parallel-diamond-premise-ledger-carrier}
+A $\ClosedParallelDiamondPremiseLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(P,S,D,C,N,R,A,H,K,Q,G)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the closed parallel-step source row for the two displayed $\mathsf{BetaParallel}$ branches.
+\item $S$ is the residual-substitution premise row, read through $\MetaCICResidualSubstitutionBoundaryUp$, that keeps substitution compatibility visible as an input.
+\item $D$ is the closed parallel diamond premise row naming $\mathrm{BetaParallelDiamondClosed}$ as a ledger entry rather than as a theorem proved by this packet.
+\item $C$ is the conditional closed-star confluence handoff row consumed by the MetaCIC confluence bridge after $S$ and $D$ are present.
+\item $N$ is the closed-normal seal row read through $\ClosedNormalConfluenceSealUp$ for the unconditional normal-source fragment.
+\item $R$ is the confluence audit packet row read through $\MetaCICConfluenceAuditPacketUp$ as the larger consumer of the conditional boundary.
+\item $A$ is the parallel confluence audit row read through $\ParallelConfluenceAuditUp$ to keep the parallel-step, substitution, diamond, and star-confluence handoffs in one audit map.
+\item $H$ records componentwise $\hsame$ transport for the premise, sibling, audit, handoff, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay
+$$
+P,S,D \longmapsto C \longmapsto R,A,N
+$$
+for consumers of the conditional confluence bridge.
+\item $Q$ is the $\Pkg$ provenance over $\ClosedParallelDiamondPremiseLedgerUp$, $\MetaCICConfluenceAuditPacketUp$, $\ClosedNormalConfluenceSealUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\ParallelConfluenceAuditUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $G$ is the local $\NameCert_{\ClosedParallelDiamondPremiseLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,S,D,C,N,R,A,H,K,Q,G$. It has no coordinate proving $\mathrm{BetaParallelDiamondClosed}$, no proof of $\mathrm{BetaParallelSubstitutionCompatibility}$, no arbitrary closed Church--Rosser theorem, no host residual semantics, and no unchecked bridge discharge.
+\end{definition}
+
+\begin{theorem}[Closed parallel diamond premise ledger obligations]
+\label{thm:closed-parallel-diamond-premise-ledger-obligations}
+For every accepted $\ClosedParallelDiamondPremiseLedgerUp$ carrier $L=(P,S,D,C,N,R,A,H,K,Q,G)$, the local $\NameCert_{\ClosedParallelDiamondPremiseLedgerUp}$ surface consists exactly of carrier admission for the displayed eleven-row packet, closed parallel-step source exposure through $P$, residual-substitution premise visibility through $S$, closed parallel diamond premise visibility through $D$, conditional closed-star handoff visibility through $C$, closed-normal fragment separation through $N$, confluence audit consumption through $R$, parallel audit consumption through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, $\Pkg$ provenance through $Q$, local naming through $G$, and non-escape from premise-free closed confluence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-parallel-diamond-premise-ledger-carrier}. The rows $P,S,D,C,N,R,A,H,K,Q,G$ are the whole ledger, so every local obligation is read from a displayed row.
+
+The premise boundary is $S,D$. Row $S$ keeps residual substitution compatibility visible, and row $D$ names the closed parallel diamond premise as a ledger entry rather than as a discharged theorem.
+
+The consumer-facing bridge row is $C$. It may be read only after the premise rows are present, and the audit rows $R$ and $A$ record that this conditional handoff is consumed by the confluence audit map and the parallel audit map.
+
+The closed-normal row $N$ remains a sibling fragment rather than a replacement for the premise ledger. The structural rows $H,K,Q,G$ transport, replay, source, and name the same finite packet, so no hidden proof of the diamond, substitution compatibility, or arbitrary closed Church--Rosser can enter the certificate.
+\end{proof}
+
+\falsifiablePrediction{A conditional MetaCIC confluence bridge that consumes $\ClosedParallelDiamondPremiseLedgerUp$ must display closed parallel-step source rows, residual-substitution premise rows, the closed parallel diamond premise row, closed-star handoff rows, closed-normal seal rows, confluence audit rows, parallel audit rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{metacicconfluenceauditpacket, closednormalconfluenceseal, metacicresidualsubstitutionboundary, parallelconfluenceaudit: $\ClosedParallelDiamondPremiseLedgerUp$ is not bijective to any listed sibling because it jointly carries the closed parallel-step source, the residual-substitution premise row, the closed parallel diamond premise row, the conditional closed-star handoff, sibling audit consumers, transport, replay, provenance, and local NameCert rows.}
+
+The proposed Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{lean4/BEDC/Derived/ClosedParallelDiamondPremiseLedgerUp/TasteGate.lean} by giving two explicit ledger packets, one with the closed parallel diamond premise row present and one refused by that row, and by matching on the fields $P,S,D,C,N,R,A,H,K,Q,G$.
+
+\closureat{ClosedParallelDiamondPremiseLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ClosedParallelDiamondPremiseLedgerUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-parallel-diamond-premise-ledger-carrier} and \autoref{thm:closed-parallel-diamond-premise-ledger-obligations} seed the finite closed parallel diamond premise ledger consumed by the conditional MetaCIC confluence bridge.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove $\mathrm{BetaParallelDiamondClosed}$, $\mathrm{BetaParallelSubstitutionCompatibility}$, arbitrary closed Church--Rosser, host residual semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed parallel-step exposure, residual-substitution premise visibility, closed parallel diamond premise visibility, conditional handoff exactness, sibling audit separation, transport and replay stability, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.ClosedParallelDiamondPremiseLedgerUp.}
+  \constructivestory{A $\ClosedParallelDiamondPremiseLedgerUp$ packet is generated from closed parallel-step source rows, residual-substitution premise rows, a closed parallel diamond premise row, a conditional closed-star confluence handoff, closed-normal seal rows, confluence audit rows, parallel audit rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
