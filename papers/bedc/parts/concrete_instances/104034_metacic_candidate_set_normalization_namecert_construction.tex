@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-metacic-candidate-set-normalization-namecert}
 \origin{ai}
 
-The $\CandidateSetNormalizationUp$ packet realizes the candidate-set reading of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It records candidate evidence, closed-term projection, Pi and application adequacy, no-infinite-reduction, obstruction, transport, continuation, provenance, and local naming rows. The packet is deliberately a candidate-set surface: it does not claim unconditional strong normalization for every closed typed MetaCIC term.
+The $\CandidateSetNormalizationUp$ packet realizes the candidate-set reading of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It records candidate evidence, closed-term projection, Pi and application adequacy, no-infinite-reduction, obstruction, transport, continuation, provenance, and local naming rows. The packet is deliberately a candidate-set surface: it does not claim unconditional strong normalization for every closed typed MetaCIC term. Its candidate-evidence and bounded-normal checking route is read through the sibling surfaces of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert} and \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}.
 
 \begin{definition}[MetaCIC candidate-set normalization carrier]
 \label{def:metacic-candidate-set-normalization-carrier}
@@ -39,6 +39,18 @@ The closed-term projection is $T$, and the application and Pi adequacy route is 
 The no-infinite-reduction row $I$ is downstream of that evidence. If $K$ is absent, $O$ records the obstruction, so the packet refuses an evidence-free theorem over all closed typed terms.
 
 Finally $H,C,P,N$ transport, replay, source, and name the same finite branch. Since no global normalization oracle or quotient reduction equality is present in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-set normalization idempotence]
+\label{thm:metacic-candidate-set-normalization-idempotence}
+Let $S=(K,T,A,I,O,H,C,P,N)$ be an accepted $\CandidateSetNormalizationUp$ carrier whose candidate-set packet has already been normalized through the displayed frontier-dependency rows. Applying the same normalization route again exposes the same accepted candidate rows, the same closed-term projection, the same application and Pi adequacy rows, and no additional spectral-trigger row.
+\end{theorem}
+\begin{proof}
+Use the carrier and obligation surface of \autoref{def:metacic-candidate-set-normalization-carrier} and \autoref{thm:metacic-candidate-set-normalization-obligations}. The first normalization pass can read only $K,T,A,I,O,H,C,P,N$, and the accepted candidate-set evidence is already attached to the displayed no-infinite-reduction and obstruction rows.
+
+The frontier-dependency rows of \autoref{ch:concrete-instances-metacic-frontier-dependency-matrix-namecert} determine which candidate rows may be exposed before the closed-term projection and adequacy rows are replayed. Running the same route again therefore reuses the same dependency rows rather than introducing a new candidate branch.
+
+Finally compare with the spectral-trigger surface of \autoref{ch:concrete-instances-wobble-quotient-spectral-trigger-namecert}. A trigger row would have to be present as an additional obstruction or replay coordinate, but the $\CandidateSetNormalizationUp$ classifier contains no such coordinate beyond $O$ and $C$. The second pass is therefore idempotent on accepted candidate rows and creates no further spectral-trigger row.
 \end{proof}
 
 The Lean-side TasteGate surface for this packet requires future $\mathsf{Nontrivial}\ \CandidateSetNormalizationUp$ and $\mathsf{FieldFaithful}\ \CandidateSetNormalizationUp$ instances in \texttt{lean4/BEDC/Derived/CandidateSetNormalizationUp/TasteGate.lean}. Those instances must distinguish candidate-set evidence, closed-term projection, adequacy, no-infinite-reduction, obstruction, transport, replay, provenance, and local naming as separate fields.
