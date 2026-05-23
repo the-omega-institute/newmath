@@ -25,6 +25,19 @@ def LipschitzMapCarrier [AskSetup] [PackageSetup]
       Cont graph bound modulus ∧ Cont modulus routes provenance ∧
         PkgSig bundle provenance pkg
 
+def LipschitzMapClassifier [AskSetup] [PackageSetup]
+    (source target bound graph modulus transports routes provenance localCert source' target'
+      bound' graph' modulus' transports' routes' provenance' localCert' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+      bundle pkg ∧
+    LipschitzMapCarrier source' target' bound' graph' modulus' transports' routes'
+        provenance' localCert' bundle pkg ∧
+      hsame source source' ∧ hsame target target' ∧ hsame bound bound' ∧
+        hsame graph graph' ∧ hsame modulus modulus' ∧ Cont graph bound modulus ∧
+          Cont graph' bound' modulus' ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle provenance' pkg
+
 theorem LipschitzMapCarrier_uniform_modulus_boundary [AskSetup] [PackageSetup]
     {source target bound graph modulus transports routes provenance localCert consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
