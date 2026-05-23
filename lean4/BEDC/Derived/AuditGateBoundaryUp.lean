@@ -537,4 +537,13 @@ theorem AuditGateBoundaryCarrier_marker_resolution_nonescape [AskSetup] [Package
     }
   exact ⟨cert, markerUnary, routeUnary, markerConsumerUnary, markerRoute⟩
 
+theorem AuditGateBoundaryTasteGate_single_carrier_alignment :
+    (AuditGateBoundaryUp.mk BHist.Empty (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+      (AuditGateBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  cases h
+
 end BEDC.Derived.AuditGateBoundaryUp
