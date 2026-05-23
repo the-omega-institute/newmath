@@ -1,0 +1,200 @@
+\begin{definition}[BEDC local suffix support rank]
+\label{def:philosophy-bedc-local-support-rank}
+On the stop face
+$$
+  \mathsf{StopTrpFace}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\},
+$$
+use $\mathrm{UAA}$ as the local basepoint and read only the family
+coordinates of the second and third positions. Thus the suffix coordinate
+map is
+$$
+\begin{array}{c|c|c|r}
+  \text{codon} & \text{family suffix} & \text{support} &
+  \rho_{\mathrm{BEDC}}\\
+  \hline
+  \mathrm{UAA} & 00 & \varnothing & 0\\
+  \mathrm{UAG} & 01 & \{f_{3}\} & 1\\
+  \mathrm{UGA} & 10 & \{f_{2}\} & 1\\
+  \mathrm{UGG} & 11 & \{f_{2},f_{3}\} & 2.
+\end{array}
+$$
+The local BEDC rank is the support size
+$$
+  \rho_{\mathrm{BEDC}}(c)
+  =
+  |\{i\in\{f_{2},f_{3}\}:c_{i}\text{ differs from the }\mathrm{UAA}
+  \text{ suffix coordinate}\}|.
+$$
+\end{definition}
+
+\begin{theorem}[Stop L-shape as rank deficiency]
+\label{thm:philosophy-bedc-stop-rank-deficiency}
+Under the two-axis readback and the standard-code biological bridge, the
+stop class in the $\mathrm{U}+\mathrm{RR}$ face is the proper-support part
+of the local two-coordinate square:
+$$
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}
+  =
+  \mathsf{StopTrpFace}\cap
+  \{c:\rho_{\mathrm{BEDC}}(c)<2\}.
+$$
+Equivalently, the local BEDC legality condition is
+$$
+  \operatorname{supp}_{\mathrm{BEDC}}(c)\subsetneq\{f_{2},f_{3}\}.
+$$
+\end{theorem}
+\begin{proof}
+The suffix table in
+\autoref{def:philosophy-bedc-local-support-rank} identifies
+$\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$ with supports
+$\varnothing$, $\{f_{3}\}$, and $\{f_{2}\}$, respectively. These are
+exactly the proper subsets of $\{f_{2},f_{3}\}$. The remaining corner
+$\mathrm{UGG}$ has full support $\{f_{2},f_{3}\}$. The standard-code bridge
+labels the proper-support vertices as $\mathrm{Stop}$ and the full-support
+corner as $\mathrm{Trp}$ by
+\autoref{thm:philosophy-stop-trp-boundary-tile}.
+\end{proof}
+
+\begin{theorem}[Completion of the stop L-shape in the median closure]
+\label{thm:philosophy-bedc-l-shape-completion}
+Let
+$$
+  S_{\mathrm{BEDC}}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+$$
+Then
+$$
+  S_{\mathrm{BEDC}}\subset \mathcal{R},
+  \qquad
+  \mathrm{UGG}\notin\mathcal{R},
+$$
+but
+$$
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\}
+  \subset
+  \operatorname{Med}(\mathcal{R}).
+$$
+In particular,
+$$
+  \operatorname{Med}(\mathcal{R})\cap \mathsf{StopTrpFace}
+  =
+  \mathsf{StopTrpFace}.
+$$
+\end{theorem}
+\begin{proof}
+The inclusion $S_{\mathrm{BEDC}}\subset \mathcal{R}$ and the exclusion
+$\mathrm{UGG}\notin\mathcal{R}$ are read from
+\autoref{thm:philosophy-reassigned-support}. By
+\autoref{thm:philosophy-reassignment-median-closure},
+$$
+  \operatorname{Med}(\mathcal{R})=\mathrm{WNR}\cup\mathrm{CUN}.
+$$
+Since $\mathsf{StopTrpFace}=\mathrm{URR}$ and
+$\mathrm{URR}\subset\mathrm{WNR}$, the whole four-point face lies in
+$\operatorname{Med}(\mathcal{R})$.
+\end{proof}
+
+\begin{corollary}[Full-support corners have separated bridge roles]
+\label{cor:philosophy-full-support-corner-roles}
+The full-support corner of the BEDC stop face is a retained sense corner:
+$$
+  \mathrm{UGG}\in \operatorname{Med}(\mathcal{R})\setminus\mathcal{R}.
+$$
+The full-support corner of the post-$M^{\star}$ terminal trigger algebra is
+a global median trigger:
+$$
+  \operatorname{Med}(M^{\star}\cup\{\mathrm{AGU}\})=Q_{6},
+  \qquad
+  \operatorname{Med}(M^{\star}\cup\{\mathrm{AGC}\})=Q_{6}.
+$$
+\end{corollary}
+\begin{proof}
+The first statement follows from
+\autoref{thm:philosophy-bedc-l-shape-completion}. For the second, the two
+codons $\mathrm{AGU}$ and $\mathrm{AGC}$ have anchor support
+$\{s_{1},f_{1},s_{2},f_{2}\}$ relative to $\mathrm{CUY}$. Thus
+\autoref{cor:philosophy-trigger-rank-size} gives full-cube median closure.
+\end{proof}
+
+\begin{theorem}[Rank-deficiency prototype]
+\label{thm:philosophy-bedc-rank-deficiency-prototype}
+The local BEDC no-$11$ stop rule and the post-$M^{\star}$ blocker rule are
+the same proper-support law in two dimensions. Under the support
+identification $00\leftrightarrow\varnothing$,
+$01\leftrightarrow\{f_{3}\}$, $10\leftrightarrow\{f_{2}\}$, and
+$11\leftrightarrow\{f_{2},f_{3}\}$,
+$$
+  n=2:\qquad
+  X_{2}
+  =
+  \{S:S\subsetneq\{f_{2},f_{3}\}\},
+$$
+and
+$$
+  n=4:\qquad
+  \mathcal{B}
+  =
+  \{B\subseteq Q_{6}\setminus M^{\star}:J(B)\subsetneq
+  \{s_{1},f_{1},s_{2},f_{2}\}\}.
+$$
+Thus the BEDC stop L-shape is the two-coordinate local prototype of the
+four-coordinate terminal trigger blocker algebra.
+\end{theorem}
+\begin{proof}
+The $n=2$ equality is
+\autoref{thm:philosophy-bedc-stop-rank-deficiency}. The $n=4$ equality is
+the definition of the blocker complex in
+\autoref{def:philosophy-blocker-complex}. Both say that proper supports are
+non-triggering or legal at their respective scale, while full support is
+the separated corner.
+\end{proof}
+
+\begin{corollary}[Local and terminal blocker spheres]
+\label{cor:philosophy-bedc-terminal-blocker-spheres}
+The local proper-support blocker for two coordinates has nerve
+$\partial\Delta^{1}\cong S^{0}$, while the post-$M^{\star}$ blocker complex
+has homotopy type $S^{2}$:
+$$
+  n=2:\ S^{0},
+  \qquad
+  n=4:\ S^{2}.
+$$
+\end{corollary}
+\begin{proof}
+For $n=2$, the two maximal proper-support blockers omit $f_{2}$ and
+$f_{3}$, and their intersection is empty; the nerve is therefore two
+points. For $n=4$, use
+\autoref{cor:philosophy-blocker-homotopy-type}.
+\end{proof}
+
+\begin{theorem}[BEDC rank-deficiency theorem]
+\label{thm:philosophy-bedc-rank-deficiency-theorem}
+The BEDC stop-tile reading supplies a local rank-deficiency grammar:
+$$
+  \text{proper support in }\{f_{2},f_{3}\}
+  \Longleftrightarrow
+  \mathrm{UAA},\mathrm{UAG},\mathrm{UGA}.
+$$
+The post-$M^{\star}$ terminal trigger lattice supplies the global
+four-coordinate form:
+$$
+  B\text{ is a non-trigger}
+  \Longleftrightarrow
+  J(B)\subsetneq\{s_{1},f_{1},s_{2},f_{2}\}.
+$$
+This is a conditional structural reconstruction inside the chosen
+two-axis readback and the external standard-code bridge. It is not a
+claim that Zeckendorf legality alone determines biological stop codons or
+that a full-support codon is biologically absent.
+\end{theorem}
+\begin{proof}
+The local statement is
+\autoref{thm:philosophy-bedc-stop-rank-deficiency}. The global statement
+is the trigger/blocker criterion of
+\autoref{thm:philosophy-trigger-blocker-duality-theorem}. The final
+restriction is the cannot-claim boundary of
+\autoref{thm:philosophy-boundary-tile-cannot-claim-boundary}.
+\end{proof}

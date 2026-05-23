@@ -3206,6 +3206,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         )
     y_external_codons = sorted(full_cube_set - mstar_set)
 
+    def rna_label(codon: str) -> str:
+        return codon.replace("T", "U")
+
     def anchor_support(codon: str) -> frozenset[int]:
         return frozenset(
             index
@@ -3274,6 +3277,28 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         for left in support_patterns
         for right in support_patterns
     )
+    bedc_stop_square = ("TAA", "TAG", "TGA", "TGG")
+    bedc_rank_deficiency_rows = []
+    for codon in bedc_stop_square:
+        word = bits(codon)
+        suffix_bits = word[3] + word[5]
+        local_support = tuple(
+            coordinate
+            for bit, coordinate in zip(suffix_bits, ("f2", "f3"))
+            if bit == "1"
+        )
+        bedc_rank_deficiency_rows.append(
+            {
+                "codon": rna_label(codon),
+                "suffix": suffix_bits,
+                "support": local_support,
+                "rank": len(local_support),
+                "bedc_legal": len(local_support) < 2,
+                "standard_role": "Stop" if standard[codon] == "*" else "Trp",
+                "in_reassignment_support": codon in support,
+                "in_median_closure": codon in median_set,
+            }
+        )
     span_size_rows = [
         {
             "span_dimension": dimension,
@@ -5149,6 +5174,15 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "mstar_retention_float": shell_filling_rows[0]["retention_float"],
         "full_cube_spectral_radius": shell_filling_rows[-1]["spectral_radius"],
         "full_cube_retention_float": shell_filling_rows[-1]["retention_float"],
+        "bedc_rank_deficiency_rows": bedc_rank_deficiency_rows,
+        "bedc_rank_deficiency_legal_codons": tuple(
+            row["codon"] for row in bedc_rank_deficiency_rows if row["bedc_legal"]
+        ),
+        "bedc_rank_deficiency_full_corner": "UGG",
+        "bedc_rank_deficiency_local_dimension": 2,
+        "bedc_rank_deficiency_terminal_dimension": 4,
+        "bedc_rank_deficiency_median_completion": tuple(rna_label(codon) for codon in bedc_stop_square),
+        "bedc_rank_deficiency_principle": "proper support",
         "anchor_subcube_formula_verified": all(row["matches_formula"] for row in support_pattern_verification_rows),
         "span_size_rows": span_size_rows,
         "single_span_rows": single_span_rows,
@@ -8316,6 +8350,30 @@ def assert_expected(summary: dict[str, object]) -> None:
         ("S3", 62, "+H3", 0.978349, 0.973118),
         ("S4", 64, "+H4", 1.0, 1.0),
     ]
+    assert [
+        (
+            row["codon"],
+            row["suffix"],
+            row["support"],
+            row["rank"],
+            row["bedc_legal"],
+            row["standard_role"],
+            row["in_reassignment_support"],
+            row["in_median_closure"],
+        )
+        for row in antipodal["bedc_rank_deficiency_rows"]
+    ] == [
+        ("UAA", "00", (), 0, True, "Stop", True, True),
+        ("UAG", "01", ("f3",), 1, True, "Stop", True, True),
+        ("UGA", "10", ("f2",), 1, True, "Stop", True, True),
+        ("UGG", "11", ("f2", "f3"), 2, False, "Trp", False, True),
+    ]
+    assert antipodal["bedc_rank_deficiency_legal_codons"] == ("UAA", "UAG", "UGA")
+    assert antipodal["bedc_rank_deficiency_full_corner"] == "UGG"
+    assert antipodal["bedc_rank_deficiency_local_dimension"] == 2
+    assert antipodal["bedc_rank_deficiency_terminal_dimension"] == 4
+    assert antipodal["bedc_rank_deficiency_median_completion"] == ("UAA", "UAG", "UGA", "UGG")
+    assert antipodal["bedc_rank_deficiency_principle"] == "proper support"
     assert antipodal["anchor_subcube_formula_verified"] is True
     assert [
         (row["span_dimension"], row["closure_size"])
