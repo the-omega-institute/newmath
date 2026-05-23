@@ -2490,6 +2490,7 @@ import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
+import BEDC.Derived.DyadicLipschitzModulusUp.TasteGate
 import BEDC.Derived.DyadicMaxUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicMeshUp.EnclosureExport
@@ -3505,6 +3506,7 @@ import BEDC.Derived.LocatedSequenceModulusUp.TasteGate
 import BEDC.Derived.LocatedSpaceUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
+import BEDC.Derived.LocatedUniformContinuityUp.TasteGate
 import BEDC.Derived.LocatednessModulusUp
 import BEDC.Derived.LocatednessModulusUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
@@ -5621,6 +5623,7 @@ import BEDC.Derived.ZeckendorfCarryValueUp.ValuePublicRead
 import BEDC.Derived.ZeckendorfCarryValueUp.VisionRealization
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeroKnowledgeUp
+import BEDC.Derived.ZeroSetUp.TasteGate
 import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationApplicationUp.AnalyticOperationBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.BoundaryExhaustion
