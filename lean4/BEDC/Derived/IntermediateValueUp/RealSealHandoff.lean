@@ -14,18 +14,6 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def IntermediateValueCarrier [AskSetup] [PackageSetup]
-    (locatedInterval endpointNegative endpointPositive continuousMap modulusBudget
-      bisectionLedger nestedWindow realSeal transports routes provenance localNameCert : BHist)
-    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory locatedInterval ∧ UnaryHistory endpointNegative ∧
-    UnaryHistory endpointPositive ∧ UnaryHistory continuousMap ∧
-      UnaryHistory modulusBudget ∧ UnaryHistory bisectionLedger ∧
-        UnaryHistory transports ∧ UnaryHistory routes ∧
-          Cont modulusBudget bisectionLedger nestedWindow ∧
-            Cont bisectionLedger nestedWindow realSeal ∧
-              PkgSig bundle provenance pkg ∧ PkgSig bundle localNameCert pkg
-
 theorem IntermediateValueCarrier_real_seal_handoff [AskSetup] [PackageSetup]
     {locatedInterval endpointNegative endpointPositive continuousMap modulusBudget
       bisectionLedger nestedWindow realSeal transports routes provenance localNameCert
@@ -45,8 +33,9 @@ theorem IntermediateValueCarrier_real_seal_handoff [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
   intro carrier nestedSealConsumer consumerPkg
   obtain ⟨locatedUnary, _endpointNegativeUnary, _endpointPositiveUnary, _continuousUnary,
-    modulusUnary, bisectionUnary, _transportsUnary, _routesUnary, modulusBisectionNested,
-    bisectionNestedSeal, provenancePkg, _localNameCertPkg⟩ := carrier
+    modulusUnary, bisectionUnary, _transportsUnary, _routesUnary, _provenanceUnary,
+    _localNameCertUnary, modulusBisectionNested, bisectionNestedSeal, provenancePkg,
+    _localNameCertPkg⟩ := carrier
   have nestedUnary : UnaryHistory nestedWindow :=
     unary_cont_closed modulusUnary bisectionUnary modulusBisectionNested
   have realSealUnary : UnaryHistory realSeal :=
