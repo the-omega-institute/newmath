@@ -1641,6 +1641,7 @@ import BEDC.Derived.ConsciousObserverStateUp.RoutePackageExactness
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
+import BEDC.Derived.ConstructiveCompletionModulusUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ContactUp.TasteGate
