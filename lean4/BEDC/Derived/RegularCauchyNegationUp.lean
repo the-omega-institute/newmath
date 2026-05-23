@@ -277,6 +277,34 @@ theorem RegularCauchyNegationCarrier_transport [AskSetup] [PackageSetup]
        unary_transport nameUnary (hsame_refl name), sourceWindowDyadic, dyadicClassifierFlipped,
        flippedSealTransport, transportRouteProvenance, sealProvenanceName, provenancePkg, namePkg⟩
 
+theorem RegularCauchyNegationCarrier_sign_flip_ledger_stability [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name
+      signRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg ->
+      Cont dyadic classifier flipped ->
+        Cont flipped sealRow transportRow ->
+          Cont flipped classifier signRead ->
+            PkgSig bundle signRead pkg ->
+              UnaryHistory dyadic ∧ UnaryHistory classifier ∧ UnaryHistory flipped ∧
+                UnaryHistory signRead ∧ Cont source window dyadic ∧
+                  Cont dyadic classifier flipped ∧ Cont flipped sealRow transportRow ∧
+                    Cont flipped classifier signRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle signRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier dyadicClassifierFlipped' flippedSealTransport' flippedClassifierSign signPkg
+  obtain ⟨_sourceUnary, _windowUnary, dyadicUnary, classifierUnary, flippedUnary,
+    _sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    sourceWindowDyadic, _dyadicClassifierFlipped, _flippedSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have signUnary : UnaryHistory signRead :=
+    unary_cont_closed flippedUnary classifierUnary flippedClassifierSign
+  exact
+    ⟨dyadicUnary, classifierUnary, flippedUnary, signUnary, sourceWindowDyadic,
+      dyadicClassifierFlipped', flippedSealTransport', flippedClassifierSign, provenancePkg,
+      signPkg⟩
+
 theorem RegularCauchyNegationCarrier_real_algebra_bridge_certificate [AskSetup] [PackageSetup]
     {source window dyadic classifier flipped sealRow transportRow route provenance name
       algebraRead bridgeRead : BHist}
