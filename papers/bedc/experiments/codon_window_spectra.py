@@ -3749,6 +3749,30 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "link_complex_dimension": 11,
         "link_homology_dimension": 1,
     }
+    hochster_nerve_vertex_count = 4
+    hochster_possible_homology_degrees = (-1, 0, 1, 2)
+    hochster_betti_diagonals = (0, 1, 2, 3)
+    top_betti_strand_rows = [
+        {
+            "j": degree,
+            "i": degree - 3,
+            "betti": sum(
+                math.comb(4, singleton_double_lift_count)
+                * (2 ** (4 - singleton_double_lift_count))
+                * math.comb(22, degree - 4 - singleton_double_lift_count)
+                for singleton_double_lift_count in range(5)
+                if 0 <= degree - 4 - singleton_double_lift_count <= 22
+            ),
+        }
+        for degree in range(4, 31)
+    ]
+    top_betti_strand_generating_function = "(2x+x^2)^4(1+x)^22"
+    betti_table_diagonal_rows = (
+        {"diagonal": 0, "homology_degree": -1, "nonzero_count": 3},
+        {"diagonal": 1, "homology_degree": 0, "nonzero_count": 17},
+        {"diagonal": 2, "homology_degree": 1, "nonzero_count": 24},
+        {"diagonal": 3, "homology_degree": 2, "nonzero_count": 27},
+    )
     blocker_euler_characteristic = sum(
         ((-1) ** index) * count
         for index, count in enumerate(blocker_f_vector)
@@ -4245,6 +4269,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             }
             for rank in range(coordinate_count)
         ]
+        top_betti_generating_function = (
+            f"((1+x)^{lift_count}-1)^{coordinate_count}"
+            f"(1+x)^{lift_count * ((2 ** coordinate_count) - 1 - coordinate_count)}"
+        )
         return {
             "coordinate_count": coordinate_count,
             "lift_count": lift_count,
@@ -4274,6 +4302,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "betti_value": 1,
             },
             "local_link_formula_rows": local_link_formula_rows,
+            "top_betti_strand_formula": top_betti_generating_function,
+            "top_betti_singleton_support_count": coordinate_count,
+            "top_betti_free_element_count": lift_count * ((2 ** coordinate_count) - 1 - coordinate_count),
             "energy_minimum": coordinate_count,
             "energy_minimal_rows": energy_minimal_rows,
             "energy_minimal_total": sum(row["lifted_count"] for row in energy_minimal_rows),
@@ -4359,6 +4390,12 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "local_link_non_saturated_links_are_cones": local_link_non_saturated_links_are_cones,
         "blocker_is_buchsbaum": blocker_is_buchsbaum,
         "blocker_buchsbaum_obstruction": blocker_buchsbaum_obstruction,
+        "hochster_nerve_vertex_count": hochster_nerve_vertex_count,
+        "hochster_possible_homology_degrees": hochster_possible_homology_degrees,
+        "hochster_betti_diagonals": hochster_betti_diagonals,
+        "top_betti_strand_generating_function": top_betti_strand_generating_function,
+        "top_betti_strand_rows": top_betti_strand_rows,
+        "betti_table_diagonal_rows": betti_table_diagonal_rows,
         "blocker_euler_characteristic": blocker_euler_characteristic,
         "blocker_probability_tail_rows": blocker_probability_tail_rows,
         "alexander_dual_generator_count": len(alexander_dual_generator_rows),
@@ -7776,6 +7813,51 @@ def assert_expected(summary: dict[str, object]) -> None:
         "link_complex_dimension": 11,
         "link_homology_dimension": 1,
     }
+    assert antipodal["hochster_nerve_vertex_count"] == 4
+    assert antipodal["hochster_possible_homology_degrees"] == (-1, 0, 1, 2)
+    assert antipodal["hochster_betti_diagonals"] == (0, 1, 2, 3)
+    assert antipodal["top_betti_strand_generating_function"] == "(2x+x^2)^4(1+x)^22"
+    assert [
+        (row["j"], row["i"], row["betti"])
+        for row in antipodal["top_betti_strand_rows"]
+    ] == [
+        (4, 1, 16),
+        (5, 2, 384),
+        (6, 3, 4424),
+        (7, 4, 32568),
+        (8, 5, 172041),
+        (9, 6, 694254),
+        (10, 7, 2224607),
+        (11, 8, 5808396),
+        (12, 9, 12582427),
+        (13, 10, 22907654),
+        (14, 11, 35377221),
+        (15, 12, 46646368),
+        (16, 13, 52738794),
+        (17, 14, 51252348),
+        (18, 15, 42843366),
+        (19, 16, 30778024),
+        (20, 17, 18951702),
+        (21, 18, 9957596),
+        (22, 19, 4434562),
+        (23, 20, 1658184),
+        (24, 21, 513821),
+        (25, 22, 129558),
+        (26, 23, 25899),
+        (27, 24, 3948),
+        (28, 25, 431),
+        (29, 26, 30),
+        (30, 27, 1),
+    ]
+    assert [
+        (row["diagonal"], row["homology_degree"], row["nonzero_count"])
+        for row in antipodal["betti_table_diagonal_rows"]
+    ] == [
+        (0, -1, 3),
+        (1, 0, 17),
+        (2, 1, 24),
+        (3, 2, 27),
+    ]
     assert antipodal["blocker_euler_characteristic"] == 2
     assert [
         (row["added_size"], row["blocker_count"], round(row["full_trigger_probability"], 4))
@@ -8122,6 +8204,9 @@ def assert_expected(summary: dict[str, object]) -> None:
         (2, 6, 2, 8, 0),
         (3, 14, 1, 16, -1),
     ]
+    assert universal["top_betti_strand_formula"] == "((1+x)^2-1)^4(1+x)^22"
+    assert universal["top_betti_singleton_support_count"] == 4
+    assert universal["top_betti_free_element_count"] == 22
     assert universal["energy_minimum"] == 4
     assert [
         (row["trigger_size"], row["stirling_count"], row["lifted_count"])
