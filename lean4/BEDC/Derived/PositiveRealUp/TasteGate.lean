@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PositiveRealUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -183,5 +187,39 @@ theorem PositiveRealTasteGate_single_carrier_alignment :
           BHist.Empty, BHist.Empty, BHist.Empty] := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact ⟨positiveReal_decode_encode_bhist, rfl⟩
+
+theorem PositiveRealNameCert_obligations (x : PositiveRealUp) :
+    SemanticNameCert
+      (fun row : BHist => List.Mem row (positiveRealFields x))
+      (fun row : BHist => List.Mem row (positiveRealFields x) ∧ Cont row BHist.Empty row)
+      (fun row : BHist =>
+        List.Mem row (positiveRealFields x) ∧ hsame (append row BHist.Empty) row)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  refine
+    { core :=
+        { carrier_inhabited := ?carrier_inhabited
+          equiv_refl := ?equiv_refl
+          equiv_symm := ?equiv_symm
+          equiv_trans := ?equiv_trans
+          carrier_respects_equiv := ?carrier_respects_equiv }
+      pattern_sound := ?pattern_sound
+      ledger_sound := ?ledger_sound }
+  · cases x with
+    | mk R A D W Q H C P N =>
+        exact ⟨R, List.Mem.head _⟩
+  · intro h _source
+    exact hsame_refl h
+  · intro h k same
+    exact hsame_symm same
+  · intro h k r sameHK sameKR
+    exact hsame_trans sameHK sameKR
+  · intro h k same source
+    cases same
+    exact source
+  · intro h source
+    exact ⟨source, cont_right_unit h⟩
+  · intro h source
+    exact ⟨source, append_empty_right h⟩
 
 end BEDC.Derived.PositiveRealUp
