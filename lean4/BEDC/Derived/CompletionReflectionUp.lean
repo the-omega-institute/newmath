@@ -317,4 +317,65 @@ theorem CompletionReflectionPacket_standard_bridge_boundary [AskSetup] [PackageS
     ⟨reflectedUnary, extensionUnary, bridgeUnary, reflectedSame, extensionSame,
       reflectedRow, extensionRow, bridgeRow, certPkg⟩
 
+theorem CompletionReflectionPacket_classifier_scope [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance
+      cert completion' universal' separated' diagonal' regular' sealRow' transport' route'
+      package' provenance' cert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      hsame completion completion' ->
+        hsame universal universal' ->
+          hsame separated separated' ->
+            hsame diagonal diagonal' ->
+              hsame regular regular' ->
+                hsame sealRow sealRow' ->
+                  hsame transport transport' ->
+                    hsame route route' ->
+                      hsame cert cert' ->
+                        Cont completion' universal' package' ->
+                          Cont transport' route' provenance' ->
+                            PkgSig bundle cert' pkg ->
+                              CompletionReflectionPacket completion' universal' separated'
+                                  diagonal' regular' sealRow' transport' route' package'
+                                  provenance' cert' bundle pkg ∧
+                                hsame package package' ∧ hsame provenance provenance' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet sameCompletion sameUniversal sameSeparated sameDiagonal sameRegular sameSeal
+    sameTransport sameRoute sameCert packageRow' provenanceRow' certPkg'
+  obtain ⟨completionUnary, universalUnary, separatedUnary, diagonalUnary, regularUnary,
+    sealUnary, transportUnary, routeUnary, packageUnary, provenanceUnary, certUnary,
+    packageRow, provenanceRow, _certPkg⟩ := packet
+  have completionUnary' : UnaryHistory completion' :=
+    unary_transport completionUnary sameCompletion
+  have universalUnary' : UnaryHistory universal' :=
+    unary_transport universalUnary sameUniversal
+  have separatedUnary' : UnaryHistory separated' :=
+    unary_transport separatedUnary sameSeparated
+  have diagonalUnary' : UnaryHistory diagonal' :=
+    unary_transport diagonalUnary sameDiagonal
+  have regularUnary' : UnaryHistory regular' :=
+    unary_transport regularUnary sameRegular
+  have sealUnary' : UnaryHistory sealRow' :=
+    unary_transport sealUnary sameSeal
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have routeUnary' : UnaryHistory route' :=
+    unary_transport routeUnary sameRoute
+  have certUnary' : UnaryHistory cert' :=
+    unary_transport certUnary sameCert
+  have packageUnary' : UnaryHistory package' :=
+    unary_cont_closed completionUnary' universalUnary' packageRow'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed transportUnary' routeUnary' provenanceRow'
+  have samePackage : hsame package package' :=
+    cont_respects_hsame sameCompletion sameUniversal packageRow packageRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport sameRoute provenanceRow provenanceRow'
+  exact
+    ⟨⟨completionUnary', universalUnary', separatedUnary', diagonalUnary', regularUnary',
+        sealUnary', transportUnary', routeUnary', packageUnary', provenanceUnary', certUnary',
+        packageRow', provenanceRow', certPkg'⟩,
+      samePackage, sameProvenance⟩
+
 end BEDC.Derived.CompletionReflectionUp
