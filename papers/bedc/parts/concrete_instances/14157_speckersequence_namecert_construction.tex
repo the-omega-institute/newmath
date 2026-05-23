@@ -180,24 +180,6 @@ Use \autoref{def:specker-sequence-obligation-surface} to package exactly those f
 Finally apply \autoref{thm:speckersequence-realup-seal-nonescape}. The $\RealUp$ handoff remains a finite seal read, so it refuses located supremum data, countable choice, trichotomy, Dedekind cuts, host-selected limits, and ambient completeness.
 \end{proof}
 
-\begin{theorem}[Specker sequence bounded-window exhaustion]
-\label{thm:specker-sequence-bounded-window-exhaustion}
-For every accepted $\SpeckerSequenceUp$ packet $S=(R,W,D,M,B,E,H,C,P,N)$ and every bounded-window consumer admitted by the displayed $\StreamNameUp$ schedule $W$, the consumer exhausts the finite obligation surface
-$$
-R_{\leq W},D_{\leq W},M_{\leq W},B_{\leq W},H,C,P,N
-$$
-before it can consume the seal row $E$. The exhaustion is by induction on $W$: each displayed stage reads the current rational window, its dyadic tolerance and bound rows, its monotone ledger prefix, its boundedness ledger prefix, and the structural transport, replay, provenance, and naming rows, and only then reaches the finite $\RealUp$ handoff.
-\end{theorem}
-\begin{proof}
-Start with the obligation surface of \autoref{def:specker-sequence-obligation-surface}. It identifies the bounded-window data as $R_{\leq W},D_{\leq W},M_{\leq W},B_{\leq W}$ together with $H,C,P,N$ before the terminal row $E$.
-
-Induct on the displayed $\StreamNameUp$ schedule using \autoref{thm:speckersequence-finite-stage-induction}. The base prefix exposes the first available rational window in $R_{\leq W}$, the matching dyadic row in $D_{\leq W}$, the initial monotone and boundedness rows in $M_{\leq W}$ and $B_{\leq W}$, and the structural rows $H,C,P,N$.
-
-For the step prefix, the next scheduled observation extends the same four finite windows. Componentwise transport and displayed continuation replay preserve the row order, so the consumer cannot skip from a rational observation to $E$ without reading the corresponding dyadic, monotone, boundedness, transport, replay, provenance, and naming rows.
-
-The no-choice boundary of \autoref{thm:specker-sequence-no-choice-boundary} blocks any hidden selector from replacing this induction by an external supremum or host-selected limit. Finally \autoref{thm:specker-sequence-real-handoff} places the $\RealUp$ seal after the exhausted bounded-window surface, completing the stated route.
-\end{proof}
-
 \begin{closurestatus}{\SpeckerSequenceUp}
   \constructivestory{A $\SpeckerSequenceUp$ packet is generated from a $\RegSeqRatUp$ computable rational source, a $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ tolerance and bound rows, a monotone ledger, a boundedness ledger, a finite $\RealUp$ seal boundary, componentwise transport, continuation replay, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
