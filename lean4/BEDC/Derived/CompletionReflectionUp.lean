@@ -286,4 +286,35 @@ theorem CompletionReflectionPacket_universal_real_seal_factorization [AskSetup] 
     ⟨sealUnary, reflectedUnary, extensionUnary, reflectedRow, extensionRow, reflectedSame,
       extensionSame, certPkg⟩
 
+theorem CompletionReflectionPacket_standard_bridge_boundary [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance cert
+      reflected extension bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg →
+      Cont diagonal regular reflected →
+        hsame reflected sealRow →
+          Cont universal completion extension →
+            hsame extension package →
+              Cont reflected extension bridge →
+                PkgSig bundle cert pkg →
+                  UnaryHistory reflected ∧ UnaryHistory extension ∧ UnaryHistory bridge ∧
+                    hsame reflected sealRow ∧ hsame extension package ∧
+                      Cont diagonal regular reflected ∧ Cont universal completion extension ∧
+                        Cont reflected extension bridge ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet reflectedRow reflectedSame extensionRow extensionSame bridgeRow certPkg
+  obtain ⟨completionUnary, universalUnary, _separatedUnary, diagonalUnary, regularUnary,
+    _sealUnary, _transportUnary, _routeUnary, _packageUnary, _provenanceUnary, _certUnary,
+    _packageRow, _provenanceRow, _packetCertPkg⟩ := packet
+  have reflectedUnary : UnaryHistory reflected :=
+    unary_cont_closed diagonalUnary regularUnary reflectedRow
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed universalUnary completionUnary extensionRow
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed reflectedUnary extensionUnary bridgeRow
+  exact
+    ⟨reflectedUnary, extensionUnary, bridgeUnary, reflectedSame, extensionSame,
+      reflectedRow, extensionRow, bridgeRow, certPkg⟩
+
 end BEDC.Derived.CompletionReflectionUp
