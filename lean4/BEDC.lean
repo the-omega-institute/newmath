@@ -50,6 +50,7 @@ import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationSocketUp
+import BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketLedgerExactnessObligation
 import BEDC.Derived.AnalyticContinuationSocketUp.BranchObstructionConsumerLock
 import BEDC.Derived.AnalyticContinuationSocketUp.CarrierAdmission
 import BEDC.Derived.AnalyticContinuationSocketUp.CarrierSourceObligation
@@ -2877,6 +2878,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.TerminalRadiusExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalRadiusStability
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadinessExitHandoff
+import BEDC.Derived.FiniteLebesgueNumberUp.WindowCoverageExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusLedgerCoherence
 import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteMapUp
