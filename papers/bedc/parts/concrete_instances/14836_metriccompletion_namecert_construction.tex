@@ -172,6 +172,24 @@ Separated comparison is performed at $S$. The separated-limit uniqueness theorem
 Since no carrier coordinate stores quotient equality or a selected representative, the filter-net comparison is exhausted by the listed rows.
 \end{proof}
 
+\begin{theorem}[MetricCompletion source-branch readback]
+\label{thm:metric-completion-source-branch-readback}
+Every accepted $\MetricCompletionUp$ read factors through the common source metric row $X$, exactly one displayed Cauchy branch $F$ or $D$, the finite $\RegSeqRatUp$ or $\RealUp$ readback row $R$, the separatedness row $S$, and the structural rows $H,C,P,N$. In carrier notation the route is
+$$
+X,(F\ \text{or}\ D),R,S,H,C,P,N .
+$$
+The readback cannot be replaced by quotient completion equality, selected representatives, countable choice, open-cover compactness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-completion-carrier}. The visible source row is $X$, the only Cauchy evidence rows are the filter branch $F$ and the net branch $D$, and the only numerical readback coordinate is $R$.
+
+Use branch coverage from \autoref{thm:metric-completion-branch-coverage}. A completion-facing request must choose one of the displayed branches before it can read the finite $\RegSeqRatUp$ or $\RealUp$ row.
+
+Use filter-net compatibility from \autoref{thm:metric-completion-filter-net-compatibility}. It keeps the selected branch attached to the same source metric, the same readback row, the same separatedness row, and the same transport, replay, provenance, and naming route.
+
+Finally apply the finite-readback ledger non-escape theorem, \autoref{thm:metric-completion-finite-readback-ledger-nonescape}. Since quotient equality, selected representatives, countable choice, open-cover compactness, and ambient $\RealUp$ completeness have no coordinate in the packet, no source-branch readback can be replaced by any of those objects.
+\end{proof}
+
 \begin{theorem}[MetricCompletion filter-net branch exhaustion]
 \label{thm:metric-completion-filter-net-branch-exhaustion}
 For an accepted $\MetricCompletionUp$ carrier $M=(X,F,D,R,S,H,C,P,N)$, every completion-facing consumer reads exactly one of the displayed Cauchy evidence branches before readback: either the $\CauchyFilterUp$ branch $F$ or the $\CauchyNetUp$ branch $D$. The remaining rows $R,S,H,C,P,N$ can transport, replay, compare, package, and name the selected route, but they cannot introduce a third completion evidence route.
