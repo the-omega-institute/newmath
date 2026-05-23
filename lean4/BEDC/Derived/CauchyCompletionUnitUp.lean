@@ -25,6 +25,22 @@ def CauchyCompletionUnitCarrier [AskSetup] [PackageSetup]
           Cont sealRow route completion ∧ hsame transport BHist.Empty ∧
             PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
 
+def CauchyCompletionUnitClassifier [AskSetup] [PackageSetup]
+    (source window tolerance readback sealRow completion transport route provenance name source'
+      window' tolerance' readback' sealRow' completion' transport' route' provenance' name' :
+        BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  CauchyCompletionUnitCarrier source window tolerance readback sealRow completion transport
+      route provenance name bundle pkg ∧
+    CauchyCompletionUnitCarrier source' window' tolerance' readback' sealRow' completion'
+        transport' route' provenance' name' bundle pkg ∧
+      hsame source source' ∧ hsame window window' ∧ hsame tolerance tolerance' ∧
+        hsame readback readback' ∧ hsame sealRow sealRow' ∧ hsame completion completion' ∧
+          hsame transport transport' ∧ hsame route route' ∧
+            Cont source window tolerance ∧ Cont tolerance readback sealRow ∧
+              Cont sealRow route completion ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle provenance' pkg
+
 theorem CauchyCompletionUnitCarrier_dense_embedding_handoff [AskSetup] [PackageSetup]
     {source window tolerance readback sealRow completion transport route provenance name
       denseRead : BHist}
