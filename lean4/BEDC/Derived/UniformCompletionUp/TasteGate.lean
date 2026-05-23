@@ -300,6 +300,28 @@ theorem UniformCompletion_namecert_obligation_surface
       surface.right.left,
       surface.right.right⟩
 
+theorem UniformCompletion_universal_extension_uniqueness
+    {F D U E H C P N route route' : BHist} :
+    UniformCompletionCarrier N →
+      Cont U E route →
+        Cont U E route' →
+          hsame route H →
+            hsame route' H →
+              UniformCompletionClassifier route route' ∧
+                UniformCompletionLedgerPolicy N ∧
+                  UniformCompletionCauchyFilterPattern N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro carrier routeLeft routeRight sameRoute sameRoute'
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    extensionRoute, replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact hsame_trans sameRoute (hsame_symm sameRoute')
+  · constructor
+    · exact ⟨P0, N0, sameName, ledgerRoute⟩
+    · exact
+        ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+          extensionRoute, replayRoute, ledgerRoute⟩
+
 def taste_gate : ChapterTasteGate UniformCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   BEDC.Derived.UniformCompletionUp.taste_gate
