@@ -251,9 +251,63 @@ Thus the extension ledger can compare displayed reads only through the universal
 Finally apply \autoref{thm:uniform-completion-real-regseqrat-handoff}. The Real-facing route remains a finite RegSeqRat-to-Real handoff named by the provenance row, with transport and replay preserving the same carrier coordinates. The listed quotient, representative-selection, ambient-completeness, compactness, and choice data are outside the carrier and outside every continuation route.
 \end{proof}
 
+\begin{theorem}[UniformCompletion public NameCert export]
+\label{thm:uniform-completion-public-namecert-export}
+The public $\UniformCompletionUp$ export surface for downstream completion consumers is the finite package
+$$
+F,D,U,E,H,C,P,N
+$$
+of \autoref{def:uniform-completion-carrier} together with the filter-net obligations, universal ledger non-escape, Real-RegSeqRat handoff, and scope lock of
+\autoref{thm:uniform-completion-filter-net-obligations},
+\autoref{thm:uniform-completion-universal-ledger-nonescape},
+\autoref{thm:uniform-completion-real-regseqrat-handoff}, and
+\autoref{thm:uniform-completion-scope-lock}. Every public read of uniform completion factors through those displayed rows and exports no quotient completion, selected representative, ambient complete uniform space, open-cover compactness principle, or choice coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $F,D,U,E,H,C,P,N$ are the only rows admitted by \autoref{def:uniform-completion-carrier}, and the local NameCert surface already requires carrier admission and ledger non-escape.
+
+Apply the filter-net obligations and the scope lock. They force completion-facing consumers to read the Cauchy-filter row $F$ and directed-net row $D$ before the universal-property, RegSeqRat, or Real handoff rows are visible.
+
+Apply universal ledger non-escape and the Real-RegSeqRat handoff. The universal read is confined to $U,E,H,C,P,N$, while the Real-facing read is confined to the RegSeqRat-to-Real route named by $P$.
+
+The public package is therefore exactly the displayed carrier with its existing obligation rows. Since the carrier contains no further coordinate, none of the excluded quotient, selection, ambient-completeness, open-cover, or choice data can be exported.
+\end{proof}
+
+\begin{theorem}[UniformCompletion filter-net extension uniqueness]
+\label{thm:uniform-completion-filter-net-extension-uniqueness}
+Let two public extension reads of an accepted $\UniformCompletionUp$ carrier share the same Cauchy-filter row $F$, directed-net row $D$, and RegSeqRat-to-Real handoff rows named by $P$. If both reads pass through the displayed universal-extension row $U$, then their comparison is determined by the classifier row $E$ and replayed through $H$ and $C$. No host equality of completion objects, selected-limit equality, quotient representative, or ambient complete-uniform-space uniqueness theorem is available to strengthen that comparison.
+\end{theorem}
+\begin{proof}
+Begin with the shared filter-net boundary. By \autoref{thm:uniform-completion-cauchy-filter-factorization}, both extension reads first consume $F$ and $D$, so the source request and directed witness rows are identical within the displayed packet.
+
+The universal-extension read is the row $U$. The uniqueness theorem of \autoref{thm:uniform-completion-universal-extension-uniqueness} says that extension comparisons over the same RegSeqRat and Real seal rows are comparisons under the displayed classifier $E$.
+
+Transport and replay use $H$ and $C$. These rows are componentwise over the same finite carrier, so they preserve the classifier comparison without creating a second equality principle.
+
+Finally apply the public NameCert export of \autoref{thm:uniform-completion-public-namecert-export}. It identifies the whole public surface as $F,D,U,E,H,C,P,N$, which excludes host completion equality, selected-limit equality, quotient representatives, and ambient uniqueness data.
+\end{proof}
+
+\begin{theorem}[UniformCompletion Real-RegSeqRat consumer boundary]
+\label{thm:uniform-completion-real-regseqrat-consumer-boundary}
+Every $\RealUp$ or $\RegSeqRatUp$ consumer of the public $\UniformCompletionUp$ export must enter through the same finite route
+$$
+F,D \longmapsto \RegSeqRatUp \longmapsto \RealUp \longmapsto H,C,P,N
+$$
+named by \autoref{thm:uniform-completion-real-regseqrat-handoff}. The consumer may cite the public NameCert package and the filter-net extension uniqueness theorem, but it cannot read a host completed-real object, quotient stream equality, selected representative, ambient complete uniform space, open-cover compactness principle, or choice principle.
+\end{theorem}
+\begin{proof}
+Start from a Real-facing or RegSeqRat-facing consumer. The handoff theorem forces the read through the Cauchy-filter row $F$, the directed-net row $D$, the regular rational handoff, and the terminal Real seal named by $P$.
+
+Use the public NameCert export to identify the available completion package. It contains $F,D,U,E,H,C,P,N$ and the existing filter-net, universal, handoff, and scope-lock obligations, with no additional carrier coordinate.
+
+If the consumer compares two extension reads, apply filter-net extension uniqueness. The comparison remains inside $U,E,H,C,P,N$ and does not become host completion equality or quotient equality.
+
+The boundary for Real and RegSeqRat consumers is therefore the displayed finite route. The excluded completed-real, quotient, representative-selection, ambient-completeness, compactness, and choice data are absent from the carrier and from every public continuation row.
+\end{proof}
+
 \begin{closurestatus}{\UniformCompletionUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:uniform-completion-carrier}, \autoref{thm:uniform-completion-namecert-obligation-surface}, \autoref{thm:uniform-completion-cauchy-filter-factorization}, \autoref{thm:uniform-completion-directed-net-witness}, \autoref{thm:uniform-completion-universal-extension-uniqueness}, \autoref{thm:uniform-completion-ledger-nonescape}, \autoref{thm:uniform-completion-filter-net-obligations}, \autoref{thm:uniform-completion-universal-ledger-nonescape}, \autoref{thm:uniform-completion-real-regseqrat-handoff}, and \autoref{thm:uniform-completion-scope-lock} close the local obligation surface and scoped filter-net boundary for carrier admission, filter-net factorization, directed-net witness extraction, universal-extension uniqueness, Real-RegSeqRat handoff, and ledger non-escape.}
+  \scopeclosed{\autoref{def:uniform-completion-carrier}, \autoref{thm:uniform-completion-namecert-obligation-surface}, \autoref{thm:uniform-completion-cauchy-filter-factorization}, \autoref{thm:uniform-completion-directed-net-witness}, \autoref{thm:uniform-completion-universal-extension-uniqueness}, \autoref{thm:uniform-completion-ledger-nonescape}, \autoref{thm:uniform-completion-filter-net-obligations}, \autoref{thm:uniform-completion-universal-ledger-nonescape}, \autoref{thm:uniform-completion-real-regseqrat-handoff}, \autoref{thm:uniform-completion-scope-lock}, \autoref{thm:uniform-completion-public-namecert-export}, \autoref{thm:uniform-completion-filter-net-extension-uniqueness}, and \autoref{thm:uniform-completion-real-regseqrat-consumer-boundary} close the local obligation surface, scoped filter-net boundary, public NameCert export, filter-net extension uniqueness boundary, Real-RegSeqRat consumer boundary, and ledger non-escape.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close quotient completions, selected representatives, ambient complete uniform spaces, open-cover compactness, or choice principles.}
