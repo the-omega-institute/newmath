@@ -1167,13 +1167,16 @@ import BEDC.Derived.CauchyPrecompletionUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductUp
+import BEDC.Derived.CauchyProductUp.RealSealUpstreamDependency
 import BEDC.Derived.CauchyProductUp.RootAdmission
 import BEDC.Derived.CauchyProductUp.RootBudgetProductLock
 import BEDC.Derived.CauchyProductUp.RootWindowObligations
 import BEDC.Derived.CauchyProductUp.RootWindowReadStability
+import BEDC.Derived.CauchyProductUp.SharedTailSelectorFactorization
 import BEDC.Derived.CauchyProductUp.SourceWindowTailAgreement
 import BEDC.Derived.CauchyProductUp.StreamnameRegseqratSourceLock
 import BEDC.Derived.CauchyProductUp.TasteGate
+import BEDC.Derived.CauchyProductUp.WindowBudgetNameCertLedger
 import BEDC.Derived.CauchyProductUp.WindowProductReadback
 import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
@@ -4364,6 +4367,7 @@ import BEDC.Derived.RationalIntervalUp.Refinement
 import BEDC.Derived.RationalIntervalUp.RefinementNormalForm
 import BEDC.Derived.RationalIntervalUp.TerminalSeal
 import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
+import BEDC.Derived.RationalRealEmbeddingUp.TasteGate
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RealAlgOrderUp
