@@ -1,0 +1,11 @@
+\begin{theorem}[Bool finite-data outbound lattice]
+\label{thm:bool-finite-data-outbound-lattice}
+The $\BoolUp$ endpoint rows are consumed by $\OptionUp$ in \autoref{ch:concrete-instances-option-namecert}, $\SumUp$ in \autoref{ch:concrete-instances-sum-namecert}, $\ProdUp$ in \autoref{ch:concrete-instances-prod-namecert}, and $\ListUp$ in \autoref{ch:concrete-instances-list-namecert} only as finite branch or coordinate discriminators. Payload rows, pairing rows, coproduct branch rows, and spine-recursion rows remain owned by those sibling chapters, so the outbound lattice exports the visible binary endpoint surface without manufacturing a payload, product, sum, or list classifier inside $\BoolUp$.
+\end{theorem}
+\begin{proof}
+Project the endpoint exactness supplied by the $\BoolUp$ carrier. Its public rows distinguish the two finite endpoint cases and do not contain payload data, ordered-pair coordinates, coproduct contents, or recursive spine cells.
+
+The four sibling consumers read this endpoint distinction in different positions. $\OptionUp$ uses it as absent/present branch data, $\SumUp$ as left/right branch data, $\ProdUp$ as finite coordinate-facing discriminator data, and $\ListUp$ as branch information at the list spine boundary.
+
+Each sibling then supplies its own carrier rows after the boolean discriminator has been read. Therefore the outbound lattice is a route from $\BoolUp$ to finite-data siblings, not a transfer of sibling-owned payload, pairing, coproduct, or recursion obligations back into the Bool chapter.
+\end{proof}
