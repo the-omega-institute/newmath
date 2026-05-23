@@ -100,4 +100,36 @@ theorem FilterRefinement_cauchy_preservation [AskSetup] [PackageSetup]
     ⟨cert, sourceReadUnary, targetReadUnary, targetCofinalSourceRead,
       sourceReadSourceTargetRead, provenancePkg⟩
 
+theorem FilterRefinementCauchyPreservation [AskSetup] [PackageSetup]
+    {source target cofinal _reverse _transport replay provenance _localName refinedRead sourceRead
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source →
+      UnaryHistory target →
+        UnaryHistory cofinal →
+          UnaryHistory replay →
+            PkgSig bundle provenance pkg →
+              Cont target cofinal refinedRead →
+                Cont refinedRead source sourceRead →
+                  Cont sourceRead replay completionRead →
+                    PkgSig bundle completionRead pkg →
+                      UnaryHistory refinedRead ∧ UnaryHistory sourceRead ∧
+                        UnaryHistory completionRead ∧ Cont target cofinal refinedRead ∧
+                          Cont refinedRead source sourceRead ∧
+                            Cont sourceRead replay completionRead ∧
+                              PkgSig bundle provenance pkg ∧
+                                PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro sourceUnary targetUnary cofinalUnary replayUnary provenancePkg targetCofinalRefined
+    refinedSourceRead sourceReplayCompletion completionPkg
+  have refinedUnary : UnaryHistory refinedRead :=
+    unary_cont_closed targetUnary cofinalUnary targetCofinalRefined
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed refinedUnary sourceUnary refinedSourceRead
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed sourceReadUnary replayUnary sourceReplayCompletion
+  exact
+    ⟨refinedUnary, sourceReadUnary, completionReadUnary, targetCofinalRefined,
+      refinedSourceRead, sourceReplayCompletion, provenancePkg, completionPkg⟩
+
 end BEDC.Derived.FilterRefinementUp
