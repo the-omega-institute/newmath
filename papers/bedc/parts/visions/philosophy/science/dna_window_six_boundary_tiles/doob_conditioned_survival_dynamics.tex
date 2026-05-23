@@ -1,0 +1,259 @@
+\begin{definition}[Doob-conditioned survival dynamics]
+\label{def:philosophy-doob-conditioned-survival-dynamics}
+Let $Q_{M}$ be the killed one-bit transition matrix on
+$M=\operatorname{Med}(\mathcal R)$, and let
+$$
+  Q_{M}h=\lambda(M)h
+$$
+be its positive Perron eigenvector. The Doob-conditioned survival chain
+on $M$ is
+$$
+  P^{h}(x,y)=
+  \frac{Q_{M}(x,y)h(y)}{\lambda(M)h(x)}.
+$$
+It is the Markov chain obtained from the killed walk by conditioning on
+asymptotic survival inside the median closure.
+\end{definition}
+
+\begin{theorem}[Six-state Doob transition matrix]
+\label{thm:philosophy-six-state-doob-transition-matrix}
+In the radial state order
+$$
+  S_{0}=\mathrm{AGR},\quad
+  S_{1}=\mathrm{Anchor}_{6},\quad
+  S_{2}=\mathrm{StopStart}_{6},\quad
+  S_{3}=\mathrm{UUR},\quad
+  S_{4}=\mathrm{CUR},\quad
+  S_{5}=\mathrm{CUY},
+$$
+the Doob-conditioned chain has transition matrix
+$$
+\begin{array}{c|rrrrrr}
+  & S_{0}&S_{1}&S_{2}&S_{3}&S_{4}&S_{5}\\
+  \hline
+  S_{0} & 0.2468&0.7532&0&0&0&0\\
+  S_{1} & 0.2427&0.2468&0.5105&0&0&0\\
+  S_{2} & 0&0.4773&0.2468&0.2758&0&0\\
+  S_{3} & 0&0&0.6626&0.2468&0.0906&0\\
+  S_{4} & 0&0&0&0.6723&0.2468&0.0809\\
+  S_{5} & 0&0&0&0&0.7532&0.2468.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The radial quotient of $P=\pi(M)$ has neighbor matrix
+$A_{\mathrm{rad}}$ from
+\autoref{thm:philosophy-radial-adjacency-matrix}. The $f_{3}$ wobble
+edge adds one self-loop to every radial state, so the neighbor-count
+matrix for the six-state conditioned chain is
+$$
+\begin{pmatrix}
+  1&3&0&0&0&0\\
+  1&1&2&0&0&0\\
+  0&2&1&1&0&0\\
+  0&0&3&1&1&0\\
+  0&0&0&1&1&1\\
+  0&0&0&0&1&1
+\end{pmatrix}.
+$$
+If $\mu=6\lambda(M)=4.051487585\ldots$, then the radial Doob formula is
+$$
+  P^{h}_{ij}=\frac{N_{ij}h_{j}}{\mu h_{i}}.
+$$
+Substituting the Perron vector of
+\autoref{thm:philosophy-radial-quasi-stationary-data} gives the
+displayed matrix; each row sums to $1$.
+\end{proof}
+
+\begin{corollary}[Central drift of conditioned survival]
+\label{cor:philosophy-conditioned-survival-central-drift}
+The mean radial drift of the Doob chain is
+$$
+\begin{array}{c|r}
+  \text{state} & \text{drift}\\
+  \hline
+  S_{0} & 0.7532\\
+  S_{1} & 0.2679\\
+  S_{2} & -0.2015\\
+  S_{3} & -0.5719\\
+  S_{4} & -0.5914\\
+  S_{5} & -0.7532.
+\end{array}
+$$
+Thus the drift reverses at the
+$\mathrm{Anchor}_{6}$--$\mathrm{StopStart}_{6}$ interface.
+\end{corollary}
+\begin{proof}
+Assign positions $0,\ldots,5$ to $S_{0},\ldots,S_{5}$ and compute the
+expected one-step displacement from the rows of
+\autoref{thm:philosophy-six-state-doob-transition-matrix}.
+\end{proof}
+
+\begin{theorem}[Doob stationary distribution]
+\label{thm:philosophy-doob-stationary-distribution}
+The stationary distribution of the Doob-conditioned chain satisfies
+$$
+  \pi^{h}_{i}\propto |S_{i}|h_{i}^{2}.
+$$
+Numerically,
+$$
+\begin{array}{c|r}
+  \text{state} & \pi^{h}\\
+  \hline
+  S_{0}=\mathrm{AGR} & 0.1110\\
+  S_{1}=\mathrm{Anchor}_{6} & 0.3444\\
+  S_{2}=\mathrm{StopStart}_{6} & 0.3684\\
+  S_{3}=\mathrm{UUR} & 0.1534\\
+  S_{4}=\mathrm{CUR} & 0.0207\\
+  S_{5}=\mathrm{CUY} & 0.0022.
+\end{array}
+$$
+In particular,
+$$
+  \pi^{h}(\mathrm{Anchor}_{6}\cup\mathrm{StopStart}_{6})
+  =
+  0.7128\ldots,
+$$
+and including the $\mathrm{UUR}$ bridge gives about $86.6\%$ of the
+conditioned stationary mass.
+\end{theorem}
+\begin{proof}
+For a symmetric killed matrix, the Doob transform is reversible with
+stationary weights proportional to $h(x)^{2}$. Collapsing over a radial
+state multiplies by its lift size $|S_{i}|$. The displayed values are
+obtained from the Perron vector of
+\autoref{thm:philosophy-radial-quasi-stationary-data}.
+\end{proof}
+
+\begin{theorem}[QSD and Doob residence differ]
+\label{thm:philosophy-qsd-doob-residence-differ}
+The quasi-stationary radial mass and the Doob stationary radial mass are
+$$
+\begin{array}{c|r|r}
+  \text{state} & \text{QSD} & \pi^{h}\\
+  \hline
+  S_{0}=\mathrm{AGR} & 0.1117 & 0.1110\\
+  S_{1}=\mathrm{Anchor}_{6} & 0.3407 & 0.3444\\
+  S_{2}=\mathrm{StopStart}_{6} & 0.3524 & 0.3684\\
+  S_{3}=\mathrm{UUR} & 0.1313 & 0.1534\\
+  S_{4}=\mathrm{CUR} & 0.0482 & 0.0207\\
+  S_{5}=\mathrm{CUY} & 0.0158 & 0.0022.
+\end{array}
+$$
+The Doob chain suppresses the terminal CUN states more strongly than the
+quasi-stationary distribution.
+\end{theorem}
+\begin{proof}
+The quasi-stationary radial mass is proportional to $|S_{i}|h_{i}$, as
+in \autoref{thm:philosophy-radial-quasi-stationary-data}. The Doob
+stationary mass is proportional to $|S_{i}|h_{i}^{2}$ by
+\autoref{thm:philosophy-doob-stationary-distribution}. Squaring the
+small tail potentials lowers the $\mathrm{CUR}$ and $\mathrm{CUY}$
+masses.
+\end{proof}
+
+\begin{definition}[Perron edge flux]
+\label{def:philosophy-perron-edge-flux}
+For adjacent radial states $S_{i}$ and $S_{j}$, define the stationary
+Perron flux of the Doob chain by
+$$
+  \Phi_{ij}=\pi^{h}_{i}P^{h}_{ij}.
+$$
+The reversibility of the Doob chain gives
+$$
+  \pi^{h}_{i}P^{h}_{ij}=\pi^{h}_{j}P^{h}_{ji}.
+$$
+\end{definition}
+
+\begin{theorem}[Perron flux concentration]
+\label{thm:philosophy-perron-flux-concentration}
+The radial edge fluxes are
+$$
+\begin{array}{c|r}
+  \text{edge group} & \Phi\\
+  \hline
+  S_{0}-S_{1} & 0.0836\\
+  S_{1}-S_{2} & 0.1758\\
+  S_{2}-S_{3} & 0.1016\\
+  S_{3}-S_{4} & 0.0139\\
+  S_{4}-S_{5} & 0.0017.
+\end{array}
+$$
+The largest Perron flux crosses the
+$\mathrm{Anchor}_{6}$--$\mathrm{StopStart}_{6}$ interface.
+\end{theorem}
+\begin{proof}
+Multiply the stationary masses from
+\autoref{thm:philosophy-doob-stationary-distribution} by the transition
+probabilities of
+\autoref{thm:philosophy-six-state-doob-transition-matrix}. The maximum
+entry is the $S_{1}-S_{2}$ flux.
+\end{proof}
+
+\begin{corollary}[The CUN tail is not a residence core]
+\label{cor:philosophy-cun-tail-not-residence-core}
+The CUN input flux $S_{3}-S_{4}$ is only $0.0139$, and the terminal tail
+flux $S_{4}-S_{5}$ is only $0.0017$. Thus the CUN tail is a spectral
+antenna in the sense of \autoref{thm:philosophy-cun-spectral-antenna},
+but not a residence core for the conditioned survival chain.
+\end{corollary}
+\begin{proof}
+These are the final two rows of
+\autoref{thm:philosophy-perron-flux-concentration}. They are much
+smaller than the central flux $0.1758$.
+\end{proof}
+
+\begin{definition}[Prefix conductance]
+\label{def:philosophy-doob-prefix-conductance}
+For the prefix
+$$
+  A_{k}=\{S_{0},\ldots,S_{k-1}\}
+$$
+of the radial path, define the Doob-chain conductance by
+$$
+  \phi(A_{k})=
+  \frac{\Phi(A_{k},A_{k}^{c})}
+       {\min(\pi^{h}(A_{k}),1-\pi^{h}(A_{k}))}.
+$$
+\end{definition}
+
+\begin{theorem}[Balanced central bottleneck]
+\label{thm:philosophy-balanced-central-bottleneck}
+The prefix cuts have conductance
+$$
+\begin{array}{c|r|r|r}
+  \text{cut} & \pi^{h}(A) & \Phi(A,A^{c}) & \phi(A)\\
+  \hline
+  S_{0}\mid S_{1}\cdots S_{5} & 0.1110 & 0.0836 & 0.7532\\
+  S_{0}S_{1}\mid S_{2}\cdots S_{5} & 0.4554 & 0.1758 & 0.3861\\
+  S_{0}S_{1}S_{2}\mid S_{3}\cdots S_{5} & 0.8237 & 0.1016 & 0.5765\\
+  S_{0}\cdots S_{3}\mid S_{4}S_{5} & 0.9771 & 0.0139 & 0.6071\\
+  S_{0}\cdots S_{4}\mid S_{5} & 0.9978 & 0.0017 & 0.7532.
+\end{array}
+$$
+The minimum occurs at the central cut through
+$S_{1}-S_{2}$.
+\end{theorem}
+\begin{proof}
+For each prefix, the boundary flux is the corresponding path flux from
+\autoref{thm:philosophy-perron-flux-concentration}. Dividing by the
+smaller side mass gives the displayed conductance values.
+\end{proof}
+
+\begin{theorem}[Doob-conditioned median-closure dynamics]
+\label{thm:philosophy-doob-conditioned-median-closure-dynamics}
+The conditioned survival dynamics of the median closure concentrates its
+stationary mass, Perron flux, and balanced bottleneck at the
+$\mathrm{Anchor}_{6}$--$\mathrm{StopStart}_{6}$ interface. The
+$\mathrm{UUR}$ state acts as the adjacent survival bridge, while the CUN
+tail has low conditioned residence and low conditioned flux.
+\end{theorem}
+\begin{proof}
+Mass concentration is
+\autoref{thm:philosophy-doob-stationary-distribution}; drift reversal is
+\autoref{cor:philosophy-conditioned-survival-central-drift}; flux
+concentration is \autoref{thm:philosophy-perron-flux-concentration};
+and the balanced bottleneck is
+\autoref{thm:philosophy-balanced-central-bottleneck}. The low-tail
+claim is \autoref{cor:philosophy-cun-tail-not-residence-core}.
+\end{proof}
