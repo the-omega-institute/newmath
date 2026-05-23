@@ -1177,6 +1177,7 @@ import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyProductUp.BudgetSelectorDistributiveLock
 import BEDC.Derived.CauchyProductUp.L10DependencyLattice
 import BEDC.Derived.CauchyProductUp.LimitSealSiblingDependency
+import BEDC.Derived.CauchyProductUp.PairedWindowLedgerClassifier
 import BEDC.Derived.CauchyProductUp.RealSealSelector
 import BEDC.Derived.CauchyProductUp.RealSealUpstreamDependency
 import BEDC.Derived.CauchyProductUp.RightFactorClassifierCongruence
@@ -1186,6 +1187,7 @@ import BEDC.Derived.CauchyProductUp.RootBudgetProductLock
 import BEDC.Derived.CauchyProductUp.RootBudgetRoutePackage
 import BEDC.Derived.CauchyProductUp.RootClassifierStability
 import BEDC.Derived.CauchyProductUp.RootSealLedgerExactness
+import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootWindowObligations
 import BEDC.Derived.CauchyProductUp.RootWindowReadStability
 import BEDC.Derived.CauchyProductUp.SharedTailSelectorFactorization
