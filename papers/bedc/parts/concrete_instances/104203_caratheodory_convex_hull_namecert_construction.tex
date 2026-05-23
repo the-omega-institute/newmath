@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\CaratheodoryConvexHullUp$}
+\label{ch:concrete-instances-caratheodory-convex-hull-namecert}
+\origin{human}
+
+Following Caratheodory and standard finite-dimensional convex geometry, the $\CaratheodoryConvexHullUp$ packet records finite convex-hull certificates as BEDC naming data. It sits over the ambient affine carrier of \autoref{ch:concrete-instances-affinespace-namecert}, the convex membership surface of \autoref{ch:concrete-instances-convexset-namecert}, the finite face and witness rows of \autoref{ch:concrete-instances-polytope-namecert}, and the finite subfamily handoff of \autoref{ch:concrete-instances-helly-theorem-namecert}. The packet names only finite support rows, coefficient ledgers, hull-membership witnesses, boundary faces, transport, replay, provenance, and local naming; it does not assert a host separation theorem, a selected minimal simplex, quotient convex-hull equality, or ambient real-vector completeness.
+
+\begin{definition}[Caratheodory convex-hull carrier]
+\label{def:caratheodory-convex-hull-carrier}
+A $\CaratheodoryConvexHullUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,C,S,W,F,L,B,Y,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite-dimensional $\AffineSpaceUp$ ambient row through which every point and affine combination is read;
+\item $C$ is the $\ConvexSetUp$ source row for the displayed finite generator family;
+\item $S$ is a finite support row, listing the selected generator histories and exposing the support bound used by the Caratheodory read;
+\item $W$ is the coefficient ledger, recording nonnegative scalar rows, the finite-sum-one row, and the displayed affine-combination replay;
+\item $F$ is the $\PolytopeUp$ face-boundary row that stores the simplex, face, or exposed-hull witness used by the finite support;
+\item $L$ is the local hull classifier, accepting exactly those point rows that are replayed from $S,W,F$ inside the ambient affine row $A$ and the convex source row $C$;
+\item $B$ is the Helly handoff row naming the finite subfamily boundary of \autoref{ch:concrete-instances-helly-theorem-namecert};
+\item $Y$ is the exported hull-membership row, available only after $A,C,S,W,F,L,B$ have been displayed;
+\item $H$ is the componentwise $\hsame$ transport for ambient, convex, support, coefficient, face, Helly, and membership rows;
+\item $T$ is the displayed $\Cont$ route that replays the finite affine-combination certificate without adding host convexity data;
+\item $P$ is the $\Pkg$ provenance over $\CaratheodoryConvexHullUp$, $\AffineSpaceUp$, $\ConvexSetUp$, $\PolytopeUp$, $\HellyTheoremUp$, $\BHist$, $\hsame$, $\Cont$, and local $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CaratheodoryConvexHullUp}$ row.
+\end{enumerate}
+The carrier exposes no ambient convex-hull operator, no quotient equality of hulls, no selected minimal support, no host dimension theorem, and no standard bridge row.
+\end{definition}
+
+\begin{theorem}[Caratheodory convex-hull NameCert obligations]
+\label{thm:caratheodory-convex-hull-namecert-obligations}
+For the carrier of \autoref{def:caratheodory-convex-hull-carrier}, the local $\NameCert_{\CaratheodoryConvexHullUp}$ surface consists exactly of carrier admission for the ambient affine row, convex source row, finite support row, coefficient ledger, polytope face-boundary row, local hull classifier, Helly handoff row, exported membership row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. Classifier stability is tested only by replaying the same finite support, coefficient ledger, face boundary, and Helly handoff through transported ambient and convex rows. Ledger exactness says that every accepted membership read exposes precisely $A,C,S,W,F,L,B,Y,H,T,P,N$ and no external convex-hull datum.
+\end{theorem}
+
+\begin{theorem}[Caratheodory convex-hull Helly handoff]
+\label{thm:caratheodory-convex-hull-helly-handoff}
+Every accepted $\CaratheodoryConvexHullUp$ packet routes a finite convex-hull membership request through
+$$
+\AffineSpaceUp,\ \ConvexSetUp,\ \PolytopeUp,\ \HellyTheoremUp .
+$$
+The affine and convex rows fix the ambient source, the finite support and coefficient ledger display the affine combination, the polytope face row records the boundary witness, and the Helly row records the finite subfamily boundary consumed by downstream convexity arguments. A consumer that omits any of those rows is outside the accepted $\CaratheodoryConvexHullUp$ carrier.
+\end{theorem}
+
+\closureat{CaratheodoryConvexHullUp}{seedStr}
+
+\begin{closurestatus}{\CaratheodoryConvexHullUp}
+  \constructivestory{A $\CaratheodoryConvexHullUp$ packet is generated from finite-dimensional affine ambient data, a convex source row, a finite support row, nonnegative coefficient and finite-sum-one ledgers, a polytope face-boundary witness, a local hull classifier, a Helly handoff row, an exported membership row, componentwise transport, continuation replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:caratheodory-convex-hull-carrier}, \autoref{thm:caratheodory-convex-hull-namecert-obligations}, and \autoref{thm:caratheodory-convex-hull-helly-handoff} bind the finite support, coefficient, polytope-face, Helly-handoff, transport, replay, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host convex-hull equality, minimal-support selection, ambient dimension theorems, Real completeness, separation, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, support replay, coefficient exactness, face-boundary routing, Helly handoff, transport, provenance, and local naming for BEDC.Derived.CaratheodoryConvexHullUp.}
+\end{closurestatus}
