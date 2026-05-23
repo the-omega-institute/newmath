@@ -1,0 +1,158 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICConfluenceCriticalPairBoundaryUp$}
+\label{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICConfluenceCriticalPairBoundaryUp$ packet realizes the finite
+critical-pair boundary suggested by
+\autoref{ch:metacic-confluence-audit-map}. It sits between the redex-frontier
+surface of \autoref{ch:concrete-instances-metacic-redex-frontier-namecert},
+the closed-normal confluence fragment of
+\autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}, the
+bounded equality checker of
+\autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, and
+the subject-reduction route classifier of
+\autoref{ch:concrete-instances-subject-reduction-route-classifier-namecert}.
+The packet names displayed critical-pair and common-reduct rows; it is not a
+global confluence theorem.
+
+\falsifiablePrediction{Any accepted $\MetaCICConfluenceCriticalPairBoundaryUp$ packet exports only displayed critical-pair and common-reduct rows, together with redex-frontier, normal-fragment, bounded-checker, route-classifier, transport, replay, provenance, and local naming data. It exports no global confluence theorem.}
+
+\independenceWitness{$\MetaCICRedexFrontierUp$, $\MetaCICConfluenceNormalFragmentUp$, $\BoundedNormalEqualityCheckerUp$, and $\SubjectReductionRouteClassifierUp$: these siblings respectively expose redex-frontier rows, closed-normal confluence fragments, bounded normal-equality checking, and subject-reduction route classification; none is bijective with a packet that jointly records critical-pair enumeration and common-reduct boundary rows.}
+
+\begin{definition}[MetaCIC confluence critical-pair boundary carrier]
+\label{def:metacic-confluence-critical-pair-boundary-carrier}
+A $\MetaCICConfluenceCriticalPairBoundaryUp$ carrier is a finite $\BHist$
+packet
+$$
+B=(R,K,J,E,D,S,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\MetaCICRedexFrontierUp$ row from which beta-redex,
+application, lambda-domain, and Pi-domain frontier cells are read.
+\item $K$ is the critical-pair table row, listing the finite overlapping
+frontier cases inspected by the packet.
+\item $J$ is the common-reduct table row, listing the displayed join candidates
+for the accepted critical-pair rows.
+\item $E$ is the $\BoundedNormalEqualityCheckerUp$ row used to compare bounded
+normal forms when a join candidate is checked by bounded normal equality.
+\item $D$ is the $\MetaCICConfluenceNormalFragmentUp$ row used for closed
+normal and atom-shaped source cases.
+\item $S$ is the $\SubjectReductionRouteClassifierUp$ separation row, recording
+that subject-reduction discharge routes are named separately from confluence
+critical-pair rows.
+\item $U$ is the boundary row stating that the packet does not prove arbitrary
+closed-term Church--Rosser, full parallel diamond, or residual-substitution
+compatibility.
+\item $H$ records componentwise $\hsame$ transport for the frontier,
+critical-pair table, common-reduct table, bounded-checker, normal-fragment,
+route-classifier, boundary, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay by which audit consumers read the
+critical-pair table and common-reduct table before any bounded checker or
+normal-fragment handoff.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICConfluenceCriticalPairBoundaryUp$,
+$\MetaCICRedexFrontierUp$, $\MetaCICConfluenceNormalFragmentUp$,
+$\BoundedNormalEqualityCheckerUp$, $\SubjectReductionRouteClassifierUp$,
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local
+$\NameCert_{\MetaCICConfluenceCriticalPairBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no
+coordinate for a global confluence theorem, arbitrary closed-term
+Church--Rosser, full parallel diamond, residual-substitution compatibility, or
+unchecked subject-reduction discharge.
+\end{definition}
+
+\begin{theorem}[MetaCIC confluence critical-pair boundary obligations]
+\label{thm:metacic-confluence-critical-pair-boundary-obligations}
+For every accepted $\MetaCICConfluenceCriticalPairBoundaryUp$ carrier
+$B=(R,K,J,E,D,S,U,H,C,P,N)$, the local
+$\NameCert_{\MetaCICConfluenceCriticalPairBoundaryUp}$ surface consists
+exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the redex-frontier row, critical-pair table,
+common-reduct table, bounded equality checker, closed-normal fragment,
+subject-reduction route classifier, boundary row, transport, replay,
+provenance, and local naming row;
+\item critical-pair display, requiring each accepted pair to be read from the
+finite frontier cases in $R$ and $K$;
+\item common-reduct display, requiring each accepted join candidate to be read
+from $J$ before any bounded checker or normal-fragment row is consumed;
+\item bounded and normal handoff, requiring $E$ and $D$ to consume only the
+displayed critical-pair and common-reduct rows;
+\item subject-reduction separation, requiring $S$ to keep typing-discharge
+routes outside the confluence boundary;
+\item ledger non-escape, requiring $U,P,N$ to export no global confluence
+theorem, arbitrary closed-term Church--Rosser, full parallel diamond, or
+residual-substitution compatibility.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:metacic-confluence-critical-pair-boundary-carrier}. The projection
+exposes exactly $R,K,J,E,D,S,U,H,C,P,N$.
+
+The critical-pair display obligation reads $R$ and $K$ first. Thus the packet
+can only enumerate finite frontier overlaps that are explicitly recorded in
+the carrier.
+
+The common-reduct display obligation is downstream of that enumeration. The
+row $J$ supplies the join candidates before the bounded checker $E$ or the
+closed-normal fragment $D$ may be consulted.
+
+The subject-reduction row $S$ separates typing-discharge routes from the
+confluence boundary, and $U$ records the non-claim surface. Since the remaining
+rows $H,C,P,N$ only transport, replay, source, and name the displayed route,
+the packet cannot export global confluence or residual-substitution
+compatibility.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence critical-pair common-reduct boundary]
+\label{thm:metacic-confluence-critical-pair-common-reduct-boundary}
+Let $B=(R,K,J,E,D,S,U,H,C,P,N)$ be an accepted
+$\MetaCICConfluenceCriticalPairBoundaryUp$ carrier. Every confluence audit read
+from $B$ factors through the displayed route
+$$
+R \longmapsto K \longmapsto J \longmapsto E,D \longmapsto S,U \longmapsto H,C,P,N .
+$$
+Consequently the packet supplies a finite critical-pair and common-reduct
+boundary, not a proof of arbitrary closed-term Church--Rosser, full parallel
+diamond, residual-substitution compatibility, or subject-reduction discharge.
+\end{theorem}
+\begin{proof}
+Start with an audit consumer of the packet. The consumer first reads the
+redex-frontier row $R$ and then the critical-pair table $K$, so the inspected
+cases are finite displayed rows.
+
+The common-reduct table $J$ is read next. Any bounded normal-equality check or
+closed-normal confluence fragment receives only the join candidates already
+displayed by $J$.
+
+The route-classifier row $S$ and boundary row $U$ then fix the non-claim
+surface. They keep subject-reduction discharge and residual-substitution
+compatibility outside the packet.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route.
+No row in the carrier is a global confluence theorem, full parallel diamond, or
+unchecked subject-reduction proof.
+\end{proof}
+
+The Lean obligation for this packet is to provide
+\texttt{Nontrivial MetaCICConfluenceCriticalPairBoundaryUp} and
+\texttt{FieldFaithful MetaCICConfluenceCriticalPairBoundaryUp} TasteGate
+instances when the carrier is formalized. Those instances must check that the
+critical-pair table and common-reduct table are genuine fields of the carrier,
+not aliases for the global confluence boundary.
+
+\closureat{MetaCICConfluenceCriticalPairBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICConfluenceCriticalPairBoundaryUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-confluence-critical-pair-boundary-carrier}, \autoref{thm:metacic-confluence-critical-pair-boundary-obligations}, and \autoref{thm:metacic-confluence-critical-pair-common-reduct-boundary} seed the finite MetaCIC critical-pair and common-reduct boundary over redex-frontier, normal-fragment, bounded-checker, route-classifier, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary closed-term Church--Rosser, full parallel diamond, residual-substitution compatibility, subject-reduction discharge, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, critical-pair display, common-reduct display, bounded and normal handoff, subject-reduction separation, ledger non-escape, and TasteGate nontriviality and field faithfulness for BEDC.Derived.MetaCICConfluenceCriticalPairBoundaryUp.}
+  \constructivestory{A $\MetaCICConfluenceCriticalPairBoundaryUp$ packet is generated from a MetaCICRedexFrontier row, a finite critical-pair table, a common-reduct table, BoundedNormalEqualityChecker and MetaCICConfluenceNormalFragment rows, a SubjectReductionRouteClassifier separation row, a boundary row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
