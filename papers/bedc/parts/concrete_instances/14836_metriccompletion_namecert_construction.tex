@@ -93,9 +93,57 @@ By the meaning of $S$, zero distance between the two displayed limit readings yi
 No quotient class, host equality, selected representative, ambient completeness row, countable-choice schedule, or $\RealUp$ completeness theorem appears among the fields of $M$, so the uniqueness conclusion remains a local classifier identification.
 \end{proof}
 
+\begin{theorem}[MetricCompletion Cauchy-net handoff]
+\label{thm:metric-completion-cauchy-net-handoff}
+Let $M=(X,F,D,R,S,H,C,P,N)$ be an accepted $\MetricCompletionUp$ packet whose cofinal evidence is presented by the $\CauchyNetUp$ branch $D$. Then every completion-facing consumer of $M$ factors first through the source metric row $X$, then through the displayed directed Cauchy-net row $D$, then through the finite readback row $R$ when numerical tolerance data are requested, and only then through the separatedness row $S$ for comparison of displayed limit readings.
+
+The handoff is therefore the finite route
+$$
+X\longmapsto D\longmapsto R\longmapsto S\longmapsto H,C,P,N ,
+$$
+not a quotient completion, not a selected representative, not an ambient complete metric space, and not an appeal to countable choice or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and choose the net branch. The source metric row $X$ supplies the displayed point classifier, metric-distance witness surface, and finite observation histories before any completion-facing read is available.
+
+The next row is $D$. It is already the $\CauchyNetUp$ directed-window packet, so cofinality is consumed as visible net evidence rather than as a chosen representative of a completion class.
+
+When a consumer requests tolerance data, the route passes through $R$. The replay row $C$ then carries the same source, net, and readback rows to $S$, where separated-limit comparison is performed through the local zero-distance classifier route.
+
+The rows $H,P,N$ transport, package, and name the same finite packet. Since none of the carrier coordinates is a quotient-completion equality, a selected limit, a countable-choice schedule, an ambient completeness witness, or a $\RealUp$ completeness theorem, the net handoff exports none of those principles.
+\end{proof}
+
+\begin{theorem}[MetricCompletion filter-net branch determinacy]
+\label{thm:metric-completion-filter-net-branch-determinacy}
+Let $M=(X,F,D,R,S,H,C,P,N)$ be an accepted $\MetricCompletionUp$ packet. Every completion-facing read of $M$ uses exactly one visible cofinal branch, either the $\CauchyFilterUp$ row $F$ or the $\CauchyNetUp$ row $D$. A downstream read cannot mix filter evidence and net evidence unless an additional branch-conversion row is added, and no such row occurs in the carrier of \autoref{def:metric-completion-carrier}.
+\end{theorem}
+\begin{proof}
+The classifier of \autoref{def:metric-completion-classifier} reads the cofinal evidence from the single displayed branch recorded in the packet, written there as $F$ or $D$. Thus the accepted route selects one branch before the finite readback row $R$ and separatedness row $S$ are inspected.
+
+In the filter case, every downstream comparison factors through the row $F$ named in the finite route. In the net case, the corresponding route factors through $D$ in the same position.
+
+A mixed read would require a new row relating the filter and net evidence before $R$ and $S$ could be shared as one classifier path. The carrier has no coordinate for such a row, so the classifier route cannot manufacture it downstream.
+\end{proof}
+
+\begin{theorem}[MetricCompletion finite-readback ledger non-escape]
+\label{thm:metric-completion-finite-readback-ledger-nonescape}
+For an accepted $\MetricCompletionUp$ carrier $M=(X,F,D,R,S,H,C,P,N)$, every tolerance read, readback request, and limit-comparison read exported by $M$ is exhausted by the rows
+$$
+X,F,D,R,S,H,C,P,N .
+$$
+Consequently the packet cannot introduce quotient classes, host equality, selected limits, open-cover compactness, countable choice, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Tolerance-facing reads pass through the finite readback row $R$ after the source metric row $X$ and the chosen cofinal branch $F$ or $D$ have been displayed. The componentwise transport row $H$ and replay row $C$ preserve that same route.
+
+Limit-comparison reads then pass through $S$. The separatedness row supplies only local zero-distance classifier evidence, so it compares displayed limit readings without changing the carrier into a host equality or quotient equality.
+
+The provenance row $P$ and local naming row $N$ close the ledger at exactly the listed rows. Since no remaining coordinate names quotient classes, selected limits, open-cover compactness, countable choice, host equality, ambient completeness, or $\RealUp$ completeness, none of those data can escape from the finite readback ledger.
+\end{proof}
+
 \begin{closurestatus}{\MetricCompletionUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metric-completion-carrier}, \autoref{def:metric-completion-classifier}, \autoref{thm:metric-completion-namecert-obligations}, \autoref{thm:metric-completion-cauchy-filter-handoff}, and \autoref{thm:metric-completion-separated-limit-uniqueness} seed the finite L10 metric-completion interface over metric, Cauchy-filter, Cauchy-net, readback, and separatedness rows.}
+  \scopeclosed{\autoref{def:metric-completion-carrier}, \autoref{def:metric-completion-classifier}, \autoref{thm:metric-completion-namecert-obligations}, \autoref{thm:metric-completion-cauchy-filter-handoff}, \autoref{thm:metric-completion-separated-limit-uniqueness}, \autoref{thm:metric-completion-cauchy-net-handoff}, \autoref{thm:metric-completion-filter-net-branch-determinacy}, and \autoref{thm:metric-completion-finite-readback-ledger-nonescape} seed the finite L10 metric-completion interface over metric, Cauchy-filter, Cauchy-net, readback, and separatedness rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, selected representatives, ambient complete metric spaces, open-cover compactness, countable choice, or $\RealUp$ completeness.}
