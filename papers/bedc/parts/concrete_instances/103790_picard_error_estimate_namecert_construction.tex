@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\PicardErrorEstimateUp$}
+\label{ch:concrete-instances-picard-error-estimate-namecert}
+\origin{human}
+
+Following Banach's contraction principle and Bishop--Bridges constructive analysis, this packet records the a posteriori Picard error estimate as finite BEDC NameCert data. It sits between the map-level contraction surface of \autoref{ch:concrete-instances-contractionmapping-namecert}, the finite iteration route of \autoref{ch:concrete-instances-picardcontraction-namecert}, and the fixed-point endpoint discipline of \autoref{ch:concrete-instances-banach-fixed-point-namecert}. The packet names only the displayed residual, contraction ratio, Cauchy handoff, and endpoint seal rows; it does not select a host fixed point or import ambient completeness outside the carried rows.
+
+\begin{definition}[Picard error-estimate carrier]\label{def:picard-error-estimate-carrier}
+A $\PicardErrorEstimateUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,d,T,\lambda,I,r,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the complete metric row whose carried histories contain the displayed Picard iterates.
+\item $d$ is the metric-distance row used to read adjacent iterate distances and endpoint-facing error estimates.
+\item $T$ is the contraction-map row, read through the $\ContractionMappingUp$ packet and never as an untracked host function.
+\item $\lambda$ is the rational contraction-ratio ledger with a displayed row below the unit bound.
+\item $I$ is the adjacent Picard-iterate ledger supplied by $\PicardContractionUp$, recording the visible rows $x_k,x_{k+1}$ and the application route $x_{k+1}=T(x_k)$.
+\item $r$ is the residual distance row, reading $d(x_{k+1},x_k)$ from the adjacent ledger.
+\item $M$ is the $\CauchyModulusUp$ row obtained from the residual row and the rational ratio ledger.
+\item $R$ is the $\RegSeqRatUp$ handoff row that exposes the regular rational name consumed by the completion route.
+\item $E$ is the $\RealUp$ seal-facing error-bound row reached only after $r,\lambda,M,R$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the complete metric, distance, map, ratio, Picard ledger, residual, modulus, handoff, seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from contraction application to adjacent residual read, from residual and ratio to the modulus row, and from the modulus row to the regular and real seal rows.
+\item $P$ is the $\Pkg$ provenance over $\PicardErrorEstimateUp$, $\ContractionMappingUp$, $\PicardContractionUp$, $\CompleteMetricUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PicardErrorEstimateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,d,T,\lambda,I,r,M,R,E,H,C,P,N$. It has no coordinate for a selected host fixed point, quotient equality, ambient completeness, global nonlinear analysis, or choice-selected endpoint.
+\end{definition}
+
+\begin{theorem}[Picard error-estimate NameCert obligations]\label{thm:picard-error-estimate-namecert-obligations}
+For every accepted $\PicardErrorEstimateUp$ carrier $Q=(X,d,T,\lambda,I,r,M,R,E,H,C,P,N)$, the local $\NameCert_{\PicardErrorEstimateUp}$ surface consists exactly of carrier admission for the displayed rows, contraction-map compatibility through $T$, rational-ratio visibility through $\lambda$, adjacent Picard ledger access through $I$, residual-distance readback through $r$, Cauchy-modulus construction through $M$, regular-rational handoff through $R$, $\RealUp$ seal access through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:picard-error-estimate-carrier}. The only metric and contraction data available to the classifier are the complete-metric row $X$, the distance row $d$, the contraction-map row $T$, and the rational ratio ledger $\lambda$.
+
+The adjacent Picard ledger $I$ exposes the visible pair whose residual distance is read by $r$. The modulus row $M$ is downstream of that residual and ratio data, and the handoff row $R$ is downstream of the modulus row.
+
+The endpoint-facing row $E$ is therefore a seal after the displayed residual, ratio, modulus, and regular-rational handoff. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Picard a posteriori error-bound route]\label{thm:picard-error-estimate-aposteriori-bound}
+Every endpoint error read from an accepted $\PicardErrorEstimateUp$ packet factors through the internal classifier route
+$$
+I\longmapsto r\longmapsto \lambda\longmapsto M\longmapsto R\longmapsto E
+$$
+together with $X,d,T,H,C,P,N$. Thus the a posteriori error estimate is read first from the adjacent residual row and the contraction ratio before any Cauchy, regular-rational, or real seal row is exposed. The route supplies no selected host fixed point, quotient equality, ambient completeness principle, or choice-selected endpoint.
+\end{theorem}
+\begin{proof}
+Start with an endpoint error request. The carrier permits such a request only after the adjacent Picard ledger $I$ has displayed the two consecutive iterates and the contraction application route through $T$.
+
+The residual row $r$ reads the distance between those adjacent iterates through $d$. The ratio row $\lambda$ is the only contraction-bound coordinate, so the a posteriori estimate can use no other numerical source before the Cauchy-modulus row $M$ is formed.
+
+The regular handoff $R$ and the seal row $E$ are downstream of $M$. Componentwise transport and replay through $H$ and $C$, with provenance and naming through $P$ and $N$, preserve this same route and do not create a host fixed-point coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every $\PicardErrorEstimateUp$ endpoint error read factors through one complete metric row, one contraction-map row, one rational ratio below one, one adjacent Picard ledger, one residual distance row, one CauchyModulus row, one RegSeqRat handoff, one RealUp seal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{contractionmapping, picardcontraction, banachfixedpoint: $\PicardErrorEstimateUp$ is not bijective to any listed sibling because it jointly carries the residual distance row and the ratio-to-modulus error-bound route before the completion and endpoint seal rows are read.}
+
+\closureat{PicardErrorEstimateUp}{seedStr}
+
+\begin{closurestatus}{\PicardErrorEstimateUp}
+  \constructivestory{A $\PicardErrorEstimateUp$ packet is generated from a complete metric row, a metric-distance row, a contraction-map row, a rational contraction ratio below one, an adjacent Picard ledger, a residual distance row, a CauchyModulus row, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:picard-error-estimate-carrier}, \autoref{thm:picard-error-estimate-namecert-obligations}, and \autoref{thm:picard-error-estimate-aposteriori-bound} bind the finite a posteriori contraction error-bound route through the displayed residual, ratio, modulus, handoff, and seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host fixed-point equality, selected fixed points, quotient equality, ambient completeness, bridge checking, Lean verification, or general nonlinear analysis.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual readback, ratio-to-modulus routing, regular-rational handoff, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.PicardErrorEstimateUp.}
+\end{closurestatus}
