@@ -155,4 +155,35 @@ theorem CantorSpaceCarrier_streamname_prefix_consumer_exhaustion [AskSetup] [Pac
       publicPkg,
       endpointPkg⟩
 
+theorem CantorSpaceCarrier_bool_cylinder_endpoint_determinacy [AskSetup] [PackageSetup]
+    {schedule window boolLedger listSpine endpointExclusion transport replay provenance
+      localName endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CantorSpaceCarrier schedule window boolLedger listSpine endpointExclusion transport replay
+        provenance localName bundle pkg ->
+      Cont boolLedger listSpine endpoint ->
+        Cont boolLedger listSpine endpoint' ->
+          PkgSig bundle endpoint pkg ->
+            PkgSig bundle endpoint' pkg ->
+              UnaryHistory boolLedger ∧ UnaryHistory listSpine ∧ UnaryHistory endpoint ∧
+                UnaryHistory endpoint' ∧ hsame endpoint endpoint' ∧
+                  Cont boolLedger listSpine endpoint ∧ Cont boolLedger listSpine endpoint' ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle endpoint' pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory hsame
+  intro carrier endpointCont endpointCont' endpointPkg endpointPkg'
+  obtain ⟨_scheduleUnary, _windowUnary, boolLedgerUnary, listSpineUnary,
+    _endpointExclusionUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _scheduleWindowBoolLedger, _boolListEndpointExclusion,
+    _transportReplayProvenance, provenancePkg, _localNamePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed boolLedgerUnary listSpineUnary endpointCont
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed boolLedgerUnary listSpineUnary endpointCont'
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_deterministic endpointCont endpointCont'
+  exact
+    ⟨boolLedgerUnary, listSpineUnary, endpointUnary, endpointUnary', endpointSame,
+      endpointCont, endpointCont', provenancePkg, endpointPkg, endpointPkg'⟩
+
 end BEDC.Derived.CantorSpaceUp
