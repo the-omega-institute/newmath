@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LowerRealUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -164,5 +167,31 @@ theorem LowerRealCarrier_namecert_obligations (x : LowerRealUp) :
   cases x with
   | mk L0 W R E H C P N =>
       exact ⟨L0, W, R, E, H, C, P, N, rfl, rfl, rfl⟩
+
+theorem LowerRealCarrier_realup_handoff
+    {L0 W R E H C P N windowRead sealRead : BHist} :
+    lowerRealFields (LowerRealUp.mk L0 W R E H C P N) = [L0, W, R, E, H, C, P, N] →
+      UnaryHistory W →
+        UnaryHistory R →
+          UnaryHistory E →
+            Cont W R windowRead →
+              Cont windowRead E sealRead →
+                UnaryHistory windowRead ∧
+                  UnaryHistory sealRead ∧
+                    Cont W R windowRead ∧
+                      Cont windowRead E sealRead ∧
+                        hsame (lowerRealDecodeBHist (lowerRealEncodeBHist E)) E := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro fieldRows windowUnary handoffUnary sealUnary windowRoute sealRoute
+  cases fieldRows
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowUnary handoffUnary windowRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowReadUnary sealUnary sealRoute
+  have sealDecode :
+      hsame (lowerRealDecodeBHist (lowerRealEncodeBHist E)) E := by
+    change lowerRealDecodeBHist (lowerRealEncodeBHist E) = E
+    exact LowerRealTasteGate_single_carrier_alignment_decode_encode E
+  exact ⟨windowReadUnary, sealReadUnary, windowRoute, sealRoute, sealDecode⟩
 
 end BEDC.Derived.LowerRealUp
