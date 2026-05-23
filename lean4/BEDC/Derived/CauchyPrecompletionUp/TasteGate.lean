@@ -138,7 +138,8 @@ instance cauchyPrecompletionFieldFaithful : FieldFaithful CauchyPrecompletionUp 
   fields := cauchyPrecompletionFields
   field_faithful := CauchyPrecompletionTasteGate_single_carrier_alignment_fields_faithful
 
-instance cauchyPrecompletionNontrivial : BEDC.Meta.TasteGate.Nontrivial CauchyPrecompletionUp where
+instance cauchyPrecompletionNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial CauchyPrecompletionUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨CauchyPrecompletionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
@@ -156,27 +157,22 @@ def taste_gate : ChapterTasteGate CauchyPrecompletionUp :=
 theorem CauchyPrecompletionTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate CauchyPrecompletionUp) ∧
       Nonempty (FieldFaithful CauchyPrecompletionUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial CauchyPrecompletionUp) ∧
-      (∀ h : BHist, cauchyPrecompletionDecodeBHist (cauchyPrecompletionEncodeBHist h) = h) ∧
-      (∀ x : CauchyPrecompletionUp,
-        cauchyPrecompletionFromEventFlow (cauchyPrecompletionToEventFlow x) = some x) ∧
-      (∀ x y : CauchyPrecompletionUp,
-        cauchyPrecompletionToEventFlow x = cauchyPrecompletionToEventFlow y → x = y) ∧
-      cauchyPrecompletionEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact Nonempty.intro cauchyPrecompletionChapterTasteGate
-  · constructor
-    · exact Nonempty.intro cauchyPrecompletionFieldFaithful
-    · constructor
-      · exact Nonempty.intro cauchyPrecompletionNontrivial
-      · constructor
-        · exact CauchyPrecompletionTasteGate_single_carrier_alignment_decode_encode
-        · constructor
-          · exact CauchyPrecompletionTasteGate_single_carrier_alignment_round_trip
-          · constructor
-            · intro x y heq
-              exact CauchyPrecompletionTasteGate_single_carrier_alignment_toEventFlow_injective heq
-            · rfl
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial CauchyPrecompletionUp) ∧
+          (∀ h : BHist, cauchyPrecompletionDecodeBHist (cauchyPrecompletionEncodeBHist h) = h) ∧
+            (∀ x : CauchyPrecompletionUp,
+              cauchyPrecompletionFromEventFlow (cauchyPrecompletionToEventFlow x) = some x) ∧
+              (∀ x y : CauchyPrecompletionUp,
+                cauchyPrecompletionToEventFlow x = cauchyPrecompletionToEventFlow y → x = y) ∧
+                cauchyPrecompletionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨cauchyPrecompletionChapterTasteGate⟩,
+      ⟨cauchyPrecompletionFieldFaithful⟩,
+      ⟨cauchyPrecompletionNontrivial⟩,
+      CauchyPrecompletionTasteGate_single_carrier_alignment_decode_encode,
+      CauchyPrecompletionTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        CauchyPrecompletionTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.CauchyPrecompletionUp.TasteGate
