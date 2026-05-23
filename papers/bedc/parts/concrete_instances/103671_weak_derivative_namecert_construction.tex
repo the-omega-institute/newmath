@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\WeakDerivativeUp$}
+\label{ch:concrete-instances-weak-derivative-namecert}
+\origin{human}
+
+Following Evans and standard distribution theory, the $\WeakDerivativeUp$ packet records the finite test-action surface by which a distribution-facing derivative is named without importing host differentiation. It sits after the distribution endpoint interface of \autoref{ch:concrete-instances-distribution-namecert}, the Sobolev weak-gradient ledger of \autoref{ch:concrete-instances-sobolev-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}. The chapter records only the finite carrier, its naming obligations, and the Sobolev handoff boundary.
+
+\begin{definition}[Weak derivative carrier]
+\label{def:weak-derivative-carrier}
+A $\WeakDerivativeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,D,E,Q,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the test-action row, listing the finite test probes, their displayed support windows, the sign convention for the chosen coordinate direction, and the source action values requested from the input object.
+\item $D$ is the $\DistributionUp$ row for the input distribution or locally integrable object, read only through the test actions named in $A$.
+\item $E$ is the candidate derivative row, giving a second distribution-facing action on the same displayed tests.
+\item $Q$ is the shared $\RealUp$ and $\RegSeqRatUp$ readback row for every displayed test action and candidate derivative action.
+\item $W$ is the $\StreamNameUp$ window family that selects the finite test probes, readback windows, and comparison tolerances visible to this packet.
+\item $H$ stores componentwise $\hsame$ transport for the test-action, distribution, derivative, readback, window, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay for the route from test selection to distribution action, from distribution action to candidate derivative action, and from both actions to the shared readback row.
+\item $P$ is the $\Pkg$ provenance over $\WeakDerivativeUp$, $\DistributionUp$, $\SobolevUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WeakDerivativeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,D,E,Q,W,H,C,P,N$. It has no coordinate for a host derivative operator, a completed test-function space, quotient equality of distributions, density of smooth functions, integration by parts outside the displayed tests, or ambient Sobolev completeness.
+\end{definition}
+
+\begin{theorem}[Weak derivative NameCert obligations]
+\label{thm:weak-derivative-namecert-obligations}
+For every accepted $\WeakDerivativeUp$ carrier $K=(A,D,E,Q,W,H,C,P,N)$, the local $\NameCert_{\WeakDerivativeUp}$ surface consists exactly of carrier admission for the nine displayed rows, test-action coverage through $A$, input distribution access through $D$, candidate derivative access through $E$, shared $\RealUp$ and $\RegSeqRatUp$ readback through $Q$, finite window selection through $W$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:weak-derivative-carrier}. The test-facing data available to the classifier are exactly the selected tests in $A$, the distribution action in $D$, the candidate derivative action in $E$, the readback row $Q$, and the stream windows $W$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route. Since the classifier has no coordinate for a host derivative operator, completed test-function space, quotient equality, density theorem, or ambient Sobolev completeness, those objects cannot discharge a local NameCert obligation.
+
+Thus the obligation surface is exactly the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Weak derivative Sobolev handoff]
+\label{thm:weak-derivative-sobolev-handoff}
+Every $\SobolevUp$ consumer read exported by an accepted $\WeakDerivativeUp$ carrier factors through the finite route
+$$
+A\longmapsto D,E\longmapsto Q\longmapsto W\longmapsto H,C,P,N.
+$$
+The handoff supplies only the displayed test-action ledger, distribution and candidate derivative actions, real and regular-rational readback, finite stream windows, transport, replay, provenance, and local naming. It does not supply a completed Sobolev space, quotient equality of functions, density of smooth tests, trace theory, compact embedding, or a host weak-gradient operator.
+\end{theorem}
+\begin{proof}
+Start with a Sobolev-facing request for weak-derivative data. The carrier first fixes the test-action row $A$, so the request is constrained to the displayed finite probes and support windows.
+
+The rows $D$ and $E$ then expose the input distribution action and the candidate derivative action on those same tests. The shared readback row $Q$ and the window row $W$ are the only places where real or regular-rational observations can be inspected.
+
+Finally read $H,C,P,N$. These rows preserve and name the same finite route for the $\SobolevUp$ handoff, and no absent analytic object can be recovered from the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every $\WeakDerivativeUp$ Sobolev-facing read factors through a displayed test-action row, distribution action row, candidate derivative row, shared RealUp and RegSeqRatUp readback, StreamName windows, hsame transport, Cont replay, package provenance, and local naming row.}
+
+\independenceWitness{distribution, sobolev, real, regseqrat, streamname: $\WeakDerivativeUp$ is not bijective to any listed sibling because it jointly carries the test-action ledger, the input distribution action, the candidate derivative action, shared readback, finite windows, transport, replay, provenance, and local naming.}
+
+\closureat{WeakDerivativeUp}{seedStr}
+
+\begin{closurestatus}{\WeakDerivativeUp}
+  \constructivestory{A $\WeakDerivativeUp$ packet is generated from finite test-action rows, an input DistributionUp row, a candidate derivative row, shared RealUp and RegSeqRatUp readback, StreamName windows, componentwise transports, displayed replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:weak-derivative-carrier}, \autoref{thm:weak-derivative-namecert-obligations}, and \autoref{thm:weak-derivative-sobolev-handoff} bind the finite weak-action surface over $\DistributionUp$, $\SobolevUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed test-function spaces, quotient equality of distributions, density of smooth functions, integration by parts beyond displayed tests, Sobolev completeness, compact embedding, trace theory, bridge checking, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, test-action exactness, readback stability, Sobolev handoff nonescape, and TasteGate field faithfulness for BEDC.Derived.WeakDerivativeUp.}
+\end{closurestatus}
