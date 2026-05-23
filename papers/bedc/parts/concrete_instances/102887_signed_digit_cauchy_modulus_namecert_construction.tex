@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\SignedDigitCauchyModulusUp$}
+\label{ch:concrete-instances-signed-digit-cauchy-modulus-namecert}
+\origin{human}
+
+Following Avizienis signed-digit arithmetic and Bishop--Bridges constructive analysis, the $\SignedDigitCauchyModulusUp$ packet names the finite route from signed-digit observation windows to explicit regular Cauchy modulus data. It sits over the signed-digit window surface of \autoref{ch:concrete-instances-signeddigitstream-namecert}, the real-facing signed-digit seal of \autoref{ch:concrete-instances-signeddigitreal-namecert}, the dyadic endpoint rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the scheduled finite observations of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the explicit threshold surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}. The packet records a displayed modulus for the signed-digit route; it is not a quotient of streams, a selected representative, or an ambient completeness principle.
+
+\begin{definition}[SignedDigitCauchyModulus carrier]
+\label{def:signed-digit-cauchy-modulus-carrier}
+A $\SignedDigitCauchyModulusUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+M=(S,W,E,T,R,L,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $S$ is an accepted $\SignedDigitStreamUp$ row, carrying signed-digit finite windows, carry ledgers, and normalized prefix data;
+\item $W$ is the displayed $\StreamNameUp$ schedule of finite signed-digit windows requested by downstream consumers;
+\item $E$ assigns to every scheduled window a normalized $\DyadicRatCoreUp$ endpoint row and dyadic radius ledger;
+\item $T$ is a monotone threshold modulus row: for each requested precision it displays a finite index after which all scheduled endpoint reads satisfy the stated dyadic tolerance;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the endpoint rows $E$ and the threshold row $T$;
+\item $L$ is the $\RealUp$ seal boundary reached from the same regular Cauchy readback;
+\item $H$ records componentwise $\hsame$ transport for signed-digit windows, endpoint normalization, threshold rows, regular readback rows, and real-seal rows;
+\item $C$ records the $\Cont$ replay routes from window requests to normalized endpoints, from endpoints to the threshold check, from the threshold check to $R$, and from $R$ to $L$;
+\item $P$ is the $\Pkg$ provenance naming $\SignedDigitStreamUp$, $\SignedDigitRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$ as dependency anchors;
+\item $N$ is the local $\NameCert_{\SignedDigitCauchyModulusUp}$ provenance row.
+\end{enumerate}
+The carrier predicate accepts exactly those packets whose signed-digit windows normalize to the displayed dyadic endpoints, whose threshold row is monotone in the requested precision, and whose regular readback and real seal consume that same threshold row through the recorded $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data.
+\end{definition}
+
+\begin{theorem}[SignedDigitCauchyModulus NameCert obligations]
+\label{thm:signed-digit-cauchy-modulus-namecert-obligations}
+The local $\NameCert_{\SignedDigitCauchyModulusUp}$ seed surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: the packet is the finite tuple of \autoref{def:signed-digit-cauchy-modulus-carrier};
+\item window normalization: every displayed signed-digit window in $W$ decodes to its named $\DyadicRatCoreUp$ endpoint row in $E$;
+\item threshold monotonicity: the modulus row $T$ is monotone in precision and is read from the same finite window schedule;
+\item regular readback exactness: the $\RegSeqRatUp$ row $R$ consumes exactly the endpoint rows $E$ and threshold row $T$;
+\item seal and provenance policy: the $\RealUp$ seal row $L$ and the rows $H,C,P,N$ transport only the displayed signed-digit, dyadic, threshold, regular readback, and seal data.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:signed-digit-cauchy-modulus-carrier}. Its coordinates already separate the signed-digit source, finite window schedule, dyadic endpoint normalization, threshold modulus, regular readback, real seal, transport, replay, provenance, and local certificate rows.
+
+The window-normalization obligation is the signed-digit finite-window route: $S$ and $W$ determine the finite prefixes, and $E$ records the normalized dyadic endpoints for those prefixes. The threshold obligation is read from $T$, whose entries are indexed by requested precisions and transported through the same schedule.
+
+The regular readback obligation uses only $E$ and $T$. The row $R$ therefore cannot read an endpoint outside the displayed signed-digit windows or a modulus outside the displayed threshold ledger.
+
+Finally $L,H,C,P,N$ provide the public seal, componentwise transport, replay, dependency package, and local naming rows. Since these rows are listed as coordinates of the same finite packet, the five obligations exhaust the seed surface.
+\end{proof}
+
+\begin{theorem}[SignedDigitCauchyModulus regular readback]
+\label{thm:signed-digit-cauchy-modulus-regular-readback}
+Every accepted $\SignedDigitCauchyModulusUp$ packet exposes a regular Cauchy readback through its explicit modulus. For each requested precision, the threshold row $T$ supplies a finite bound after which all scheduled signed-digit windows normalize to dyadic endpoint rows in $E$ whose pairwise tolerance is accepted by the $\RegSeqRatUp$ row $R$; the $\RealUp$ seal row $L$ can read the packet only through this regular readback route.
+\end{theorem}
+\begin{proof}
+Fix an accepted packet $M=(S,W,E,T,R,L,H,C,P,N)$ and a displayed precision request. The row $T$ gives the corresponding finite threshold, and monotonicity keeps later precision requests on the same or later finite window surface.
+
+Read any two scheduled windows past that threshold through $W$. The signed-digit row $S$ and the endpoint ledger $E$ normalize both finite prefixes to displayed $\DyadicRatCoreUp$ endpoint rows.
+
+The regular readback row $R$ consumes exactly those endpoint rows together with the threshold row $T$. Thus the late-pair tolerance required by the regular Cauchy readback is witnessed inside the finite packet.
+
+The real seal row $L$ is downstream of $R$ in the recorded $\Cont$ replay. Componentwise $\hsame$ transport can move the displayed rows, but it cannot introduce a second modulus, an unobserved endpoint, or a host real limit. Therefore the public readback is the explicit-modulus regular Cauchy readback named by $T$ and $R$.
+\end{proof}
+
+\begin{theorem}[SignedDigitCauchyModulus non-escape]
+\label{thm:signed-digit-cauchy-modulus-nonescape}
+An accepted $\SignedDigitCauchyModulusUp$ packet gives no countable choice, quotient stream equality, ambient $\RealUp$ completeness, or general compactness principle. Its consumers can read only the displayed signed-digit windows, normalized dyadic endpoints, monotone threshold row, regular Cauchy readback, real seal boundary, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The only source rows are finite signed-digit windows, scheduled observations, normalized endpoints, one monotone threshold ledger, one regular readback row, one real-seal row, and the structural transport and provenance rows.
+
+Countable choice would require a family of independent selections outside the finite ledger; no such coordinate appears. Quotient stream equality would require an equality object for infinite signed-digit tails; the classifier surface reads only finite windows and normalized endpoint rows.
+
+Ambient $\RealUp$ completeness and general compactness would require a completed object or covering principle not present in $L,H,C,P,N$. The seal row $L$ is merely the terminal consumer of the explicit regular readback and does not export a completion theorem.
+
+Every consumer route therefore factors through the rows listed in \autoref{def:signed-digit-cauchy-modulus-carrier} and through the readback theorem \autoref{thm:signed-digit-cauchy-modulus-regular-readback}. The excluded principles have no source coordinate from which they could be projected or transported.
+\end{proof}
+
+\closureat{SignedDigitCauchyModulusUp}{seedStr}
+
+\begin{closurestatus}{\SignedDigitCauchyModulusUp}
+  \constructivestory{A $\SignedDigitCauchyModulusUp$ packet is generated from signed-digit finite windows, normalized $\DyadicRatCoreUp$ endpoints, a monotone threshold modulus, $\RegSeqRatUp$ readback, $\RealUp$ seal boundary, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-digit-cauchy-modulus-carrier}, \autoref{thm:signed-digit-cauchy-modulus-namecert-obligations}, \autoref{thm:signed-digit-cauchy-modulus-regular-readback}, and \autoref{thm:signed-digit-cauchy-modulus-nonescape} seed the finite signed-digit route from normalized windows to explicit regular Cauchy modulus data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, countable choice, quotient equality of streams, ambient $\RealUp$ completeness, general compactness, selected representatives, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, signed-digit normalization, monotone threshold replay, regular readback exactness, non-escape, and a Lean carrier/obligation formalization for BEDC.Derived.SignedDigitCauchyModulusUp.}
+\end{closurestatus}
