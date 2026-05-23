@@ -76,6 +76,47 @@ Use \autoref{thm:closed-bounded-interval-net-dyadic-coverage}. It identifies the
 The $\CompactUniformContinuityUp$ consumer reads only the resulting Real-facing packet. The structural rows $H,C,P,N$ preserve the same finite route through transport, replay, provenance, and local naming, and no carrier coordinate supplies quotient streams, host real equality, or ambient completeness data.
 \end{proof}
 
+\begin{definition}[Closed bounded interval net scope ledger]
+\label{def:closed-bounded-interval-net-scope-ledger}
+The scoped $\ClosedBoundedIntervalNetUp$ ledger is the displayed row family
+$$
+L,M,Q,D,Z,F,S,R,E,H,C,P,N
+$$
+of \autoref{def:closed-bounded-interval-net-carrier}, read with the following scope assignments: $L$ is the $\LocatedIntervalUp$ source row, $M$ is the unary dyadic mesh scale, $Q$ is the $\RationalIntervalUp$ cell ledger, $D$ is the $\DyadicIntervalUp$ refinement ledger, $Z$ is the displayed center ledger, $F$ is finite coverage, $S$ is the $\StreamNameUp$ window row, $R$ is the $\RegSeqRatUp$ readback row, $E$ is the $\RealUp$ seal, $H$ is componentwise transport, $C$ is displayed replay, $P$ is provenance, and $N$ is the local NameCert row. The scope ledger is visible exactly to $\RealUp$ and $\CompactUniformContinuityUp$ consumers and does not add an open-cover compactness row, selected subcover, quotient stream, host real equality, or ambient Real completeness principle.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval net RegSeqRat window exactness]
+\label{thm:closed-bounded-interval-net-regseqrat-window-exactness}
+For every accepted $\ClosedBoundedIntervalNetUp$ packet, the finite rows
+$$
+L,M,Q,D,Z,F,S,R,E,H,C,P,N
+$$
+make the $\RegSeqRatUp$ readback exact for the displayed interval net: the $\LocatedIntervalUp$ source row $L$, mesh row $M$, $\RationalIntervalUp$ cells $Q$, $\DyadicIntervalUp$ refinements $D$, center row $Z$, and coverage row $F$ determine the $\StreamNameUp$ windows $S$ that the $\RegSeqRatUp$ row $R$ may read before the $\RealUp$ seal $E$ is exposed. The transport, replay, provenance, and local naming rows $H,C,P,N$ preserve that route for $\RealUp$ consumers and for the downstream $\CompactUniformContinuityUp$ handoff.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:closed-bounded-interval-net-scope-ledger}. It assigns each of the rows $L,M,Q,D,Z,F,S,R,E,H,C,P,N$ to a concrete BEDC scope surface and places $S$ and $R$ after the interval, mesh, rational-cell, dyadic-refinement, center, and coverage rows.
+
+The readback exactness is therefore row-order exactness. A $\RegSeqRatUp$ request cannot inspect a window until the $\StreamNameUp$ row $S$ has been selected from the displayed mesh data $L,M,Q,D,Z,F$.
+
+Finally the $\RealUp$ seal $E$ and the structural rows $H,C,P,N$ are downstream of that readback. They preserve the same route for $\CompactUniformContinuityUp$ consumers and introduce no additional analytic coordinate.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval net compact-uniform consumer handoff]
+\label{thm:closed-bounded-interval-net-compactuniformconsumer-handoff}
+Every $\CompactUniformContinuityUp$ consumer of an accepted $\ClosedBoundedIntervalNetUp$ packet must read the interval through the scoped row family
+$$
+L,M,Q,D,Z,F,S,R,E,H,C,P,N.
+$$
+The consumer receives a $\LocatedIntervalUp$ source row, a mesh row, $\RationalIntervalUp$ cells, $\DyadicIntervalUp$ refinements, displayed centers, finite coverage, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\RealUp$ seal, transport, replay, provenance, and local naming. It receives no open-cover compactness principle, selected subcover, quotient stream, host real equality, hidden center chooser, or ambient Real completeness row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:closed-bounded-interval-net-real-seal-nonescape}. It already confines every $\RealUp$ or $\CompactUniformContinuityUp$ consumer to the finite route $L,M,Q,D,Z,F,S,R,E,H,C,P,N$.
+
+Apply \autoref{thm:closed-bounded-interval-net-regseqrat-window-exactness}. The $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks used by the consumer are determined by the displayed located interval, mesh, rational cells, dyadic refinements, centers, and coverage rows.
+
+The handoff is therefore the same scoped ledger, not a stronger compactness object. Since the carrier contains no open-cover compactness row, selected subcover, quotient stream, host real equality, hidden center chooser, or ambient completeness coordinate, the compact-uniform consumer receives none of them.
+\end{proof}
+
 \falsifiablePrediction{Every compact-uniform-continuity read of a ClosedBoundedIntervalNetUp packet factors through the displayed finite dyadic mesh, not through an open-cover compactness row.}
 
 \independenceWitness{locatedinterval, dyadicinterval, rationalinterval, real, compactuniformcontinuity: ClosedBoundedIntervalNetUp is not bijective to any listed sibling because it jointly carries located endpoints, a unary mesh scale, rational and dyadic cell ledgers, ProbeBundle centers, finite coverage rows, StreamName and RegSeqRat readback, a RealUp seal, and the compact-uniform-continuity handoff route.}
@@ -85,8 +126,8 @@ The $\CompactUniformContinuityUp$ consumer reads only the resulting Real-facing 
 
 \begin{closurestatus}{\ClosedBoundedIntervalNetUp}
   \constructivestory{A $\ClosedBoundedIntervalNetUp$ packet is generated from located interval endpoints, a unary dyadic mesh scale, rational cells, dyadic refinements, ProbeBundle centers, finite coverage rows, StreamName windows, RegSeqRat readbacks, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:closed-bounded-interval-net-carrier}, \autoref{thm:closed-bounded-interval-net-namecert-obligations}, \autoref{thm:closed-bounded-interval-net-dyadic-coverage}, and \autoref{thm:closed-bounded-interval-net-real-seal-nonescape} bind finite dyadic mesh coverage for located closed bounded RealUp intervals.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:closed-bounded-interval-net-carrier}, \autoref{thm:closed-bounded-interval-net-namecert-obligations}, \autoref{thm:closed-bounded-interval-net-dyadic-coverage}, \autoref{thm:closed-bounded-interval-net-real-seal-nonescape}, \autoref{def:closed-bounded-interval-net-scope-ledger}, \autoref{thm:closed-bounded-interval-net-regseqrat-window-exactness}, and \autoref{thm:closed-bounded-interval-net-compactuniformconsumer-handoff} bind the scoped finite dyadic mesh route for located closed bounded RealUp intervals and compact-uniform consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, quotient streams, host real equality, selected host limits, or ambient Real completeness.}
