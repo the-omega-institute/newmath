@@ -592,6 +592,7 @@ import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
 import BEDC.Derived.BishopRealComparisonUp
+import BEDC.Derived.BishopRealComparisonUp.CauchyDedekindBoundary
 import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
 import BEDC.Derived.BishopRealUniformCompletionUp.TasteGate
@@ -885,6 +886,7 @@ import BEDC.Derived.CauchyCompletionFunctorUp.RegseqRealEndofunctor
 import BEDC.Derived.CauchyCompletionFunctorUp.SelectorBudgetDeterminacy
 import BEDC.Derived.CauchyCompletionFunctorUp.TailBudgetCoherenceFactorization
 import BEDC.Derived.CauchyCompletionFunctorUp.TasteGate
+import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
@@ -1847,6 +1849,7 @@ import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
 import BEDC.Derived.CountableDenseSubsetUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.CousinLemmaUp
+import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CriticalLineWitnessUp
 import BEDC.Derived.CriticalLineWitnessUp.BoundaryObligationSurface
@@ -5104,6 +5107,7 @@ import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
+import BEDC.Derived.StreamMapUp.TasteGate
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.StreamNameUp.CertifiedObservationDeterminacy
 import BEDC.Derived.StreamNameUp.CommonRefinementTerminalRealSeal
