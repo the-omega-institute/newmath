@@ -78,6 +78,7 @@ through $H,K,P,N$ before it reaches a downstream L10 consumer;
 completed infinite products, choice-selected branches, and compactness claims.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CantorSpaceUp.CantorSpaceCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 Carrier admission is projection of the nine displayed coordinates in
 \autoref{def:cantor-space-carrier}. The schedule, prefix window, Boolean
@@ -125,6 +126,42 @@ infinite tail, quotient equality, host-function extensionality, or compactness
 data.
 \end{proof}
 
+\begin{theorem}[CantorSpace prefix projection stability]
+\label{thm:cantor-space-prefix-projection-stability}
+Let $K=(S,W,B,L,E,H,K_0,P,N)$ be an accepted $\CantorSpaceUp$ carrier. Any restriction of a public read to a shorter finite prefix is again a read through the displayed rows $S,W,B,L,E,H,K_0,P,N$: the schedule row $S$ and window row $W$ choose the visible positions, the $\BoolUp$ row $B$ supplies endpoint values, and the $\ListUp$ spine $L$ records the prefix order. The projection contains no host infinite stream, no quotient equality of functions, no branch choice, and no compactness principle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and project its finite prefix spine. The shorter prefix is obtained by reading an initial segment of $L$ and the corresponding entries of $S$ and $W$.
+
+For each retained position, the endpoint value is still read from $B$. Componentwise transport by $H$ and replay through $K_0$ preserve only the retained rows, while $P$ and $N$ keep the same provenance and local certificate.
+
+Thus prefix projection is closed inside the displayed carrier. Since no coordinate names an infinite stream, a quotient-function equality, a branch selector, or compactness data, none of those objects can appear in the projected read.
+\end{proof}
+
+\begin{theorem}[CantorSpace Bool cylinder endpoint determinacy]
+\label{thm:cantor-space-bool-cylinder-endpoint-determinacy}
+For an accepted $\CantorSpaceUp$ carrier $K=(S,W,B,L,E,H,K_0,P,N)$, each cylinder endpoint visible to a downstream consumer is determined by the finite $\BoolUp$ ledger $B$ along the positions ordered by $L$. If two consumer reads inspect the same prefix coordinates through $S,W,L$ and transport by the same $H,K_0,P,N$ rows, then their endpoint rows agree exactly as displayed by $B$; no endpoint is chosen from an ambient infinite product.
+\end{theorem}
+\begin{proof}
+Read the shared prefix coordinates from $S,W,L$. These rows specify which positions are visible and in which finite order they are consumed.
+
+The endpoint value at each visible position is then the corresponding row of $B$. If two reads use the same visible coordinates and the same transport and replay data, they reach the same finite Bool ledger entries.
+
+The structural rows $H,K_0,P,N$ preserve this ledger route. There is no carrier coordinate for an infinite product endpoint, a choice-selected branch, or a host stream function, so endpoint determinacy is the finite determinacy of $B$ over $L$.
+\end{proof}
+
+\begin{theorem}[CantorSpace StreamName prefix consumer exhaustion]
+\label{thm:cantor-space-streamname-prefix-consumer-exhaustion}
+Every $\StreamNameUp$ or $\ListUp$ consumer of an accepted $\CantorSpaceUp$ carrier factors through the finite rows $S,W,B,L,E,H,K_0,P,N$. The consumer may restrict, transport, and replay a displayed prefix cylinder, but after the rows $S,W,B,L,E,H,K_0,P,N$ are exhausted it has no further route to an infinite stream tail, a quotient of branches, a fan-theorem compactness object, or countable-choice data.
+\end{theorem}
+\begin{proof}
+Project the consumer read through the $\StreamNameUp$ rows $S,W$ and the $\ListUp$ row $L$. These rows are the only coordinates that expose positions and prefix order.
+
+The Bool observations are then consumed through $B$, with any endpoint and cylinder data carried by $E$. Transport and continuation replay remain componentwise through $H$ and $K_0$.
+
+Once $P$ and $N$ record provenance and local naming, every carrier coordinate has been inspected. The consumer is therefore exhausted by the displayed finite packet and cannot continue to an unlisted stream tail, quotient branch, compactness object, or choice schedule.
+\end{proof}
+
 \begin{theorem}[CantorSpace StreamName-Bool scope]
 \label{thm:cantor-space-streamname-bool-scope}
 Every public read exported by an accepted $\CantorSpaceUp$ carrier reaches the
@@ -137,6 +174,7 @@ local certificate before any downstream consumer may inspect the packet. It
 does not claim Real completeness, quotient stream completeness, open-cover
 compactness, fan-theorem compactness, or choice of an infinite branch.
 \end{theorem}
+\leanchecked{BEDC.Derived.CantorSpaceUp.CantorSpaceStreamNameBoolScope}
 \begin{proof}
 Project a public consumer read from the accepted carrier. The requested
 positions are first visible in the $\StreamNameUp$ schedule row $S$ and prefix
