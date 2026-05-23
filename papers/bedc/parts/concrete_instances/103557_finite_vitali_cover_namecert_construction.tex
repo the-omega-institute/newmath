@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\FiniteVitaliCoverUp$}
+\label{ch:concrete-instances-finite-vitali-cover-namecert}
+\origin{human}
+
+Following Vitali's finite covering argument, Bishop--Bridges located interval reasoning, and the dyadic-radius bookkeeping used by constructive real analysis, the $\FiniteVitaliCoverUp$ packet records the finite subcover-selection surface as BEDC NameCert data. It sits after the located interval carrier of \autoref{ch:concrete-instances-locatedinterval-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-value seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite interval rows, radius rows, a disjoint selected subfamily, shadow-coverage rows, componentwise transport, replay, provenance, and local naming only; it does not import measure, arbitrary open-cover compactness, countable choice, or host set equality.
+
+\begin{definition}[FiniteVitaliCover carrier]\label{def:finite-vitali-cover-carrier}
+A $\FiniteVitaliCoverUp$ carrier is a finite $\BHist$ packet
+$$
+V=(I,R,S,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite located-interval row. It lists the candidate intervals by their $\LocatedIntervalUp$ endpoints and records the displayed membership windows through which a later real consumer may inspect each interval.
+\item $R$ is the dyadic radius row. It records the positive $\DyadicRatCoreUp$ radius attached to each interval, together with the finite comparison windows used to order candidate radii.
+\item $S$ is the selected subfamily row. It records a finite list of chosen interval indices and the pairwise disjointness checks between the selected located intervals.
+\item $W$ is the shadow-coverage row. It records, for every candidate interval not selected, a selected interval with comparable or larger dyadic radius whose controlled enlargement covers the candidate's displayed located window.
+\item $H$ records componentwise $\hsame$ transport for the located-interval row, dyadic radius row, selected disjoint subfamily row, shadow-coverage row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+I,R \longmapsto S,W \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteVitaliCoverUp$, $\LocatedIntervalUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteVitaliCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,R,S,W,H,C,P,N$. It has no coordinate for Lebesgue measure, a countable choice sequence, open-cover compactness, a host set equality predicate, or a global family of balls.
+\end{definition}
+
+\begin{theorem}[FiniteVitaliCover NameCert obligations]\label{thm:finite-vitali-cover-namecert-obligations}
+For every accepted $\FiniteVitaliCoverUp$ carrier
+$$
+V=(I,R,S,W,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteVitaliCoverUp}$ surface consists exactly of carrier admission for the finite located-interval row, dyadic radius row, selected disjoint subfamily row, shadow-coverage row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The shadow row must witness that every unselected candidate interval is covered by the controlled enlargement of a selected interval whose dyadic radius is comparable or larger, and every public cover read must pass through the route displayed by $C$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier in \autoref{def:finite-vitali-cover-carrier}. The only mathematical data exposed to a cover consumer are the located interval row $I$, dyadic radius row $R$, selected subfamily row $S$, and shadow-coverage row $W$.
+
+The selected row records pairwise disjointness directly, while the shadow row records the finite witness from each unselected interval to a selected controlling interval. Thus the usual finite Vitali conclusion is read as a bounded finite shadow of the selected subfamily rather than as a measure-theoretic covering theorem.
+
+The rows $H,C,P,N$ transport, replay, source, and name exactly this finite surface. Since the carrier contains no coordinate for measure, countable choice, arbitrary open-cover compactness, host set equality, or an infinite ball family, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{FiniteVitaliCoverUp}{seedStr}
+
+\begin{closurestatus}{\FiniteVitaliCoverUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-vitali-cover-carrier} and \autoref{thm:finite-vitali-cover-namecert-obligations} seed the finite Vitali-cover packet over located interval, dyadic radius, selected disjoint subfamily, shadow coverage, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure estimates, open-cover compactness, countable choice, host set equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic radius ordering, selected-subfamily disjointness, shadow coverage, componentwise transport, provenance, and local naming for BEDC.Derived.FiniteVitaliCoverUp.}
+  \constructivestory{A $\FiniteVitaliCoverUp$ packet is generated from finite LocatedInterval, DyadicRatCore, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+\end{closurestatus}
