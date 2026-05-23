@@ -501,4 +501,30 @@ theorem RealCauchyModulusCarrier_seal_handoff [AskSetup] [PackageSetup]
     ⟨sealUnary, routesUnary, routeConsumerUnary, modulusWindowRoute, dyadicReadbackRoute,
       routeConsumerCont, provenancePkg, routeConsumerPkg⟩
 
+theorem RealCauchyModulusCarrier_ledger_exhaustion [AskSetup] [PackageSetup]
+    {modulus windows dyadic readback sealRow transports routes provenance localCert
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyModulusCarrier modulus windows dyadic readback sealRow transports routes
+        provenance localCert bundle pkg ->
+      Cont sealRow routes consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory modulus ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+            UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory transports ∧
+              UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+                UnaryHistory consumer ∧ Cont modulus windows dyadic ∧
+                  Cont dyadic readback sealRow ∧ Cont sealRow routes consumer ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier sealRouteConsumer consumerPkg
+  obtain ⟨modulusUnary, windowsUnary, dyadicUnary, readbackUnary, sealUnary,
+    transportsUnary, routesUnary, provenanceUnary, localCertUnary, modulusWindowDyadic,
+      dyadicReadbackSeal, _sealRouteProvenance, provenancePkg, _localSemantic⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealUnary routesUnary sealRouteConsumer
+  exact
+    ⟨modulusUnary, windowsUnary, dyadicUnary, readbackUnary, sealUnary, transportsUnary,
+      routesUnary, provenanceUnary, localCertUnary, consumerUnary, modulusWindowDyadic,
+      dyadicReadbackSeal, sealRouteConsumer, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.RealCauchyModulusUp
