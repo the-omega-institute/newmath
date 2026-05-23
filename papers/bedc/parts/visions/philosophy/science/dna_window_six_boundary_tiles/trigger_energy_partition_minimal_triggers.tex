@@ -1,0 +1,186 @@
+\begin{definition}[Trigger energy]
+\label{def:philosophy-trigger-energy}
+Let $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$ and
+$E=Q_{6}\setminus M^{\star}$. For an external codon $p\in E$, define
+$$
+  e(p)=|\sigma(p)|.
+$$
+For $B\subseteq E$, define its trigger energy by
+$$
+  \mathcal{E}(B)=\sum_{p\in B}|\sigma(p)|.
+$$
+This is the total first-two-position Hamming distance from the anchor
+$\mathrm{CUY}$, counted over the selected external codons.
+\end{definition}
+
+\begin{theorem}[Energy lower bound]
+\label{thm:philosophy-trigger-energy-lower-bound}
+If $B\subseteq E$ is a full trigger, then
+$$
+  \mathcal{E}(B)\geq 4.
+$$
+\end{theorem}
+\begin{proof}
+Full triggering means $J(B)=\Omega$, where
+$\Omega=\{s_{1},f_{1},s_{2},f_{2}\}$. Hence each of the four trigger
+coordinates appears in at least one support $\sigma(p)$. Counting
+appearances of coordinates across the selected supports gives
+$\mathcal{E}(B)\geq|\Omega|=4$.
+\end{proof}
+
+\begin{theorem}[Partition criterion]
+\label{thm:philosophy-trigger-energy-partition-criterion}
+For a full trigger $B$, equality
+$$
+  \mathcal{E}(B)=4
+$$
+holds if and only if the family of supports
+$$
+  \{\sigma(p):p\in B\}
+$$
+is a set partition of $\Omega$.
+\end{theorem}
+\begin{proof}
+If $\mathcal{E}(B)=4$, then the four coordinates of $\Omega$ are
+covered with exactly four total coordinate appearances. Since full
+triggering requires all four coordinates to appear, each coordinate
+appears exactly once; the supports are therefore pairwise disjoint and
+their union is $\Omega$. Conversely, if the supports partition
+$\Omega$, each coordinate is counted exactly once, so
+$\mathcal{E}(B)=4$.
+\end{proof}
+
+\begin{theorem}[Energy-minimal trigger counts]
+\label{thm:philosophy-energy-minimal-trigger-counts}
+At quotient level, the full triggers of minimal energy are the set
+partitions of the four-coordinate set $\Omega$. Thus there are $15$ of
+them. By trigger size they are
+$$
+\begin{array}{c|l|r|r}
+  \text{trigger size} & \text{partition type} & \text{quotient count} & \text{codon count}\\
+  \hline
+  1 & 4 & 1 & 2\\
+  2 & 1+3\text{ or }2+2 & 7 & 28\\
+  3 & 1+1+2 & 6 & 48\\
+  4 & 1+1+1+1 & 1 & 16\\
+  \hline
+  \text{total} & & 15 & 94.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-trigger-energy-partition-criterion},
+energy-minimal full triggers correspond exactly to set partitions of a
+four-element set. The four partition types have counts
+$1,7,6,1$. At codon level, a trigger of size $m$ has $2^{m}$
+independent $f_{3}$-lift choices.
+\end{proof}
+
+\begin{theorem}[Minimal triggers by energy]
+\label{thm:philosophy-minimal-triggers-by-energy}
+The codon-level minimal full triggers have energy distribution
+$$
+  94y^{4}+144y^{5}+56y^{6}.
+$$
+Equivalently,
+$$
+\begin{array}{c|r|r}
+  \text{energy} & \text{quotient count} & \text{codon count}\\
+  \hline
+  4 & 15 & 94\\
+  5 & 24 & 144\\
+  6 & 10 & 56.
+\end{array}
+$$
+Thus $94$ of the $294$ codon-level minimal full triggers are
+energy-minimal.
+\end{theorem}
+\begin{proof}
+Combine the support-size type enumeration of
+\autoref{thm:philosophy-minimal-trigger-support-types} by total support
+size. The energy-four rows are precisely the partition rows; the
+energy-five rows come from overlapping types $(2,3)$ and $(1,2,2)$;
+the energy-six rows come from $(3,3)$ and $(2,2,2)$. Multiplying each
+quotient trigger of size $m$ by $2^{m}$ gives the codon counts.
+\end{proof}
+
+\begin{theorem}[Bivariate minimal-trigger polynomial]
+\label{thm:philosophy-bivariate-minimal-trigger-polynomial}
+Let
+$$
+  T_{q}(z,y)=\sum_{T}z^{|T|}y^{\mathcal{E}(T)}
+$$
+sum over quotient-level minimal full triggers. Then
+$$
+  T_{q}(z,y)
+  =
+  zy^{4}
+  +
+  z^{2}(7y^{4}+12y^{5}+6y^{6})
+  +
+  z^{3}(6y^{4}+12y^{5}+4y^{6})
+  +
+  z^{4}y^{4}.
+$$
+At codon level,
+$$
+  T_{c}(z,y)
+  =
+  2zy^{4}
+  +
+  z^{2}(28y^{4}+48y^{5}+24y^{6})
+  +
+  z^{3}(48y^{4}+96y^{5}+32y^{6})
+  +
+  16z^{4}y^{4}.
+$$
+Setting $y=1$ recovers
+$$
+  T_{c}(z,1)=2z+100z^{2}+176z^{3}+16z^{4},
+$$
+and setting $z=1$ gives
+$$
+  T_{c}(1,y)=94y^{4}+144y^{5}+56y^{6}.
+$$
+\end{theorem}
+\begin{proof}
+The terms are obtained by grouping the minimal-trigger support types
+from \autoref{thm:philosophy-minimal-trigger-support-types} by trigger
+size and total support size. Passing from quotient level to codon level
+multiplies every size-$m$ term by $2^{m}$.
+\end{proof}
+
+\begin{corollary}[Energy and cardinality]
+\label{cor:philosophy-trigger-energy-cardinality}
+Energy-minimal full triggers exist at every cardinality
+$1,2,3,4$. The cardinality-one case is the antipodal trigger
+$\mathrm{AGY}$, while the cardinality-four case consists of one
+unit-support codon in each trigger coordinate.
+\end{corollary}
+\begin{proof}
+These are the four partition types in
+\autoref{thm:philosophy-energy-minimal-trigger-counts}. The one-block
+partition is $\Omega$ itself, realized by $\mathrm{AGY}$. The
+four-block partition is the decomposition of $\Omega$ into singleton
+coordinates.
+\end{proof}
+
+\begin{theorem}[Trigger-energy theorem]
+\label{thm:philosophy-trigger-energy-theorem}
+Beyond $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, every full trigger has
+energy at least $4$, and equality is exactly the set-partition case.
+There are $15$ quotient-level and $94$ codon-level energy-minimal full
+triggers, while the full minimal-trigger energy distribution at codon
+level is
+$$
+  94y^{4}+144y^{5}+56y^{6}.
+$$
+\end{theorem}
+\begin{proof}
+The lower bound is
+\autoref{thm:philosophy-trigger-energy-lower-bound}, and the equality
+case is \autoref{thm:philosophy-trigger-energy-partition-criterion}.
+The enumerative statements are
+\autoref{thm:philosophy-energy-minimal-trigger-counts} and
+\autoref{thm:philosophy-minimal-triggers-by-energy}.
+\end{proof}
