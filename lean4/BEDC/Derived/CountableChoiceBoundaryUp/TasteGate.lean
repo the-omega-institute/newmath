@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CountableChoiceBoundaryUp
+namespace BEDC.Derived.CountableChoiceBoundaryUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -183,17 +183,26 @@ def taste_gate : ChapterTasteGate CountableChoiceBoundaryUp :=
   countableChoiceBoundaryChapterTasteGate
 
 theorem CountableChoiceBoundaryTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier CountableChoiceBoundaryUp) ∧
-      Nonempty (ChapterTasteGate CountableChoiceBoundaryUp) ∧
-        countableChoiceBoundaryEncodeBHist BHist.Empty = ([] : List BMark) ∧
-          (∀ x : CountableChoiceBoundaryUp,
-            countableChoiceBoundaryFromEventFlow
-              (countableChoiceBoundaryToEventFlow x) = some x) := by
+    (forall h : BHist,
+      countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist h) = h) ∧
+      (forall x : CountableChoiceBoundaryUp,
+        countableChoiceBoundaryFromEventFlow (countableChoiceBoundaryToEventFlow x) = some x) ∧
+      (forall x y : CountableChoiceBoundaryUp,
+        countableChoiceBoundaryToEventFlow x = countableChoiceBoundaryToEventFlow y -> x = y) ∧
+      countableChoiceBoundaryFields
+        (CountableChoiceBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty) =
+        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+          BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨⟨countableChoiceBoundaryBHistCarrier⟩,
-      ⟨countableChoiceBoundaryChapterTasteGate⟩,
-      rfl,
-      countableChoiceBoundary_round_trip⟩
+  constructor
+  · exact countableChoiceBoundary_decode_encode_bhist
+  constructor
+  · exact countableChoiceBoundary_round_trip
+  constructor
+  · intro x y heq
+    exact countableChoiceBoundaryToEventFlow_injective heq
+  · rfl
 
-end BEDC.Derived.CountableChoiceBoundaryUp
+end BEDC.Derived.CountableChoiceBoundaryUp.TasteGate
