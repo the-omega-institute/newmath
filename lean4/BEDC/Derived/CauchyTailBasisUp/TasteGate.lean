@@ -171,4 +171,29 @@ theorem CauchyTailBasisTasteGate_single_carrier_alignment :
         CauchyTailBasisTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
+namespace TasteGate
+
+theorem CauchyTailBasisTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate CauchyTailBasisUp) ∧
+      Nonempty (FieldFaithful CauchyTailBasisUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial CauchyTailBasisUp) ∧
+          (∀ h : BHist, cauchyTailBasisDecodeBHist (cauchyTailBasisEncodeBHist h) = h) ∧
+            (∀ x : CauchyTailBasisUp,
+              cauchyTailBasisFromEventFlow (cauchyTailBasisToEventFlow x) = some x) ∧
+              (∀ x y : CauchyTailBasisUp,
+                cauchyTailBasisToEventFlow x = cauchyTailBasisToEventFlow y → x = y) ∧
+                cauchyTailBasisEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨⟨cauchyTailBasisChapterTasteGate⟩,
+      ⟨cauchyTailBasisFieldFaithful⟩,
+      ⟨cauchyTailBasisNontrivial⟩,
+      CauchyTailBasisTasteGate_single_carrier_alignment_decode_encode,
+      CauchyTailBasisTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        CauchyTailBasisTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
+
+end TasteGate
+
 end BEDC.Derived.CauchyTailBasisUp
