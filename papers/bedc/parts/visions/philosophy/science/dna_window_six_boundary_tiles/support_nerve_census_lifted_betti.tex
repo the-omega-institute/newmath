@@ -1,0 +1,107 @@
+\begin{theorem}[Support-nerve census]
+\label{thm:philosophy-support-nerve-census}
+The $2^{15}$ support families $A\subseteq\mathcal{S}$ have the
+following reduced Betti signatures
+$$
+  (\widetilde{\beta}_{-1},\widetilde{\beta}_{0},
+  \widetilde{\beta}_{1},\widetilde{\beta}_{2})
+$$
+for their support nerves $N_{A}$:
+$$
+\begin{array}{c|r}
+  \text{signature} & \text{support-family count}\\
+  \hline
+  (1,0,0,0) & 2\\
+  (0,0,0,0) & 18680\\
+  (0,1,0,0) & 908\\
+  (0,2,0,0) & 56\\
+  (0,3,0,0) & 2\\
+  (0,0,1,0) & 9760\\
+  (0,0,2,0) & 1216\\
+  (0,0,3,0) & 32\\
+  (0,1,1,0) & 64\\
+  (0,0,0,1) & 2048.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each of the $2^{15}$ subsets
+$A\subseteq2^{\Omega}\setminus\{\varnothing\}$, form the four-vertex
+nerve
+$$
+  N_{A}=\bigcup_{S\in A}2^{\Omega\setminus S}.
+$$
+Computing reduced homology of these four-vertex complexes gives the
+displayed census. The total count is
+$$
+  2+18680+908+56+2+9760+1216+32+64+2048=32768.
+$$
+\end{proof}
+
+\begin{corollary}[Support-level homology distribution]
+\label{cor:philosophy-support-level-homology-distribution}
+Among the support nerves, $18680$ are acyclic, $2048=2^{11}$ have
+top reduced homology $\widetilde{H}_{2}$, and all nonzero support-level
+homology appears in degrees $-1,0,1,2$.
+\end{corollary}
+\begin{proof}
+This is the census of
+\autoref{thm:philosophy-support-nerve-census}. The degree range also
+follows from the fact that every $N_{A}$ has at most four vertices.
+\end{proof}
+
+\begin{theorem}[Top support nerve criterion]
+\label{thm:philosophy-top-support-nerve-criterion}
+The support nerve $N_{A}$ has nonzero $\widetilde{H}_{2}$ if and only
+if $A$ contains the four singleton supports
+$$
+  \{s_{1}\},\quad \{f_{1}\},\quad \{s_{2}\},\quad \{f_{2}\}.
+$$
+Consequently exactly $2^{11}$ support families have
+$\widetilde{H}_{2}(N_{A})\neq0$, and
+$$
+  Q_{2}(z)=z^{4}(1+z)^{11}.
+$$
+\end{theorem}
+\begin{proof}
+For a four-vertex nerve to have $\widetilde{H}_{2}$, it must be the
+tetrahedron boundary. The three-face $\Omega\setminus\{i\}$ appears
+precisely when $A$ contains a support contained in $\{i\}$, namely the
+singleton support $\{i\}$. Thus all four singleton supports are
+necessary and sufficient. The other $15-4=11$ support types may be
+chosen freely.
+\end{proof}
+
+\begin{theorem}[Support-nerve census theorem]
+\label{thm:philosophy-support-nerve-census-theorem}
+The post-$M^{\star}$ Betti table is determined by the following three
+finite layers:
+$$
+  N_{A}
+  \quad
+  (A\subseteq\mathcal{S},\ |\mathcal{S}|=15),
+$$
+$$
+  Q_{q}(z)
+  =
+  \sum_{A\subseteq\mathcal{S}}
+  \dim_{k}\widetilde{H}_{q}(N_{A};k)z^{|A|},
+$$
+and the codon lift substitution
+$$
+  z\mapsto (1+x)^{2}-1=2x+x^{2}.
+$$
+Thus
+$$
+  B_{q}(x)=Q_{q}(2x+x^{2}).
+$$
+\end{theorem}
+\begin{proof}
+The nerve reduction is
+\autoref{thm:philosophy-hochster-nerve-reduction}. The support-level
+polynomials are
+\autoref{thm:philosophy-support-level-betti-polynomials}, and the
+lift transform is \autoref{thm:philosophy-support-lift-betti-transform}.
+The census in \autoref{thm:philosophy-support-nerve-census} records
+the finite homology types from which the four polynomials are formed.
+\end{proof}

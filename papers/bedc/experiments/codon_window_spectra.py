@@ -3875,6 +3875,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
     hochster_diagonal_coefficients = {-1: [0 for _degree in range(31)], 0: [0 for _degree in range(31)], 1: [0 for _degree in range(31)], 2: [0 for _degree in range(31)]}
     support_level_betti_coefficients = {-1: [0 for _degree in range(16)], 0: [0 for _degree in range(16)], 1: [0 for _degree in range(16)], 2: [0 for _degree in range(16)]}
+    support_nerve_signature_counts: collections.Counter[tuple[int, int, int, int]] = collections.Counter()
     for support_type_size in range(len(nonempty_support_patterns) + 1):
         lift_coefficients = [
             math.comb(support_type_size, double_lift_count) * (2 ** (support_type_size - double_lift_count))
@@ -3888,11 +3889,23 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                     if any(support.isdisjoint(coordinate_subset) for support in support_type_subset):
                         nerve_faces.add(coordinate_mask)
             reduced_betti = simplicial_reduced_betti(nerve_faces, 4)
+            signature = tuple(reduced_betti.get(homology_degree, 0) for homology_degree in (-1, 0, 1, 2))
+            support_nerve_signature_counts[signature] += 1
             for homology_degree, betti_value in reduced_betti.items():
                 support_level_betti_coefficients[homology_degree][support_type_size] += betti_value
                 for double_lift_count, coefficient in enumerate(lift_coefficients):
                     total_degree = support_type_size + double_lift_count
                     hochster_diagonal_coefficients[homology_degree][total_degree] += betti_value * coefficient
+    support_nerve_signature_rows = [
+        {
+            "signature": signature,
+            "support_family_count": count,
+        }
+        for signature, count in sorted(support_nerve_signature_counts.items())
+    ]
+    support_nerve_census_total = sum(support_nerve_signature_counts.values())
+    support_nerve_contractible_count = support_nerve_signature_counts[(0, 0, 0, 0)]
+    support_nerve_h2_count = support_nerve_signature_counts[(0, 0, 0, 1)]
     support_level_betti_rows = [
         {
             "homology_degree": homology_degree,
@@ -4489,6 +4502,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "support_level_betti_rows": support_level_betti_rows,
         "support_level_betti_generating_functions": support_level_betti_generating_functions,
         "support_lift_substitution": support_lift_substitution,
+        "support_nerve_signature_rows": support_nerve_signature_rows,
+        "support_nerve_census_total": support_nerve_census_total,
+        "support_nerve_contractible_count": support_nerve_contractible_count,
+        "support_nerve_h2_count": support_nerve_h2_count,
         "hochster_p0_coefficients_desc": hochster_p0_coefficients_desc,
         "hochster_p1_coefficients_desc": hochster_p1_coefficients_desc,
         "blocker_euler_characteristic": blocker_euler_characteristic,
@@ -8028,6 +8045,24 @@ def assert_expected(summary: dict[str, object]) -> None:
             12,
             2048,
         ),
+    ]
+    assert antipodal["support_nerve_census_total"] == 32768
+    assert antipodal["support_nerve_contractible_count"] == 18680
+    assert antipodal["support_nerve_h2_count"] == 2048
+    assert [
+        (row["signature"], row["support_family_count"])
+        for row in antipodal["support_nerve_signature_rows"]
+    ] == [
+        ((0, 0, 0, 0), 18680),
+        ((0, 0, 0, 1), 2048),
+        ((0, 0, 1, 0), 9760),
+        ((0, 0, 2, 0), 1216),
+        ((0, 0, 3, 0), 32),
+        ((0, 1, 0, 0), 908),
+        ((0, 1, 1, 0), 64),
+        ((0, 2, 0, 0), 56),
+        ((0, 3, 0, 0), 2),
+        ((1, 0, 0, 0), 2),
     ]
     assert antipodal["hochster_p0_coefficients_desc"] == (
         4,
