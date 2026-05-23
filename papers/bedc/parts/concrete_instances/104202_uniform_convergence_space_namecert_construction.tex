@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\UniformConvergenceSpaceUp$}
+\label{ch:concrete-instances-uniform-convergence-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\UniformConvergenceSpaceUp$ packet records uniform convergence over displayed real-valued function packets by finite domain rows, function-family windows, uniform tail ledgers, regular rational readbacks, and terminal real seals. It consumes the uniform-limit route of \autoref{ch:concrete-instances-uniformlimit-namecert}, the graph surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet names the convergence-space interface itself, not a quotient function space, an ambient supremum norm, a host-selected limit function, or an external completeness principle.
+
+\begin{definition}[Uniform convergence space carrier]\label{def:uniform-convergence-space-carrier}
+A $\UniformConvergenceSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+(D,F,W,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the displayed domain row, exposing only the finite observation coordinates and equality tests consumed by the function packets.
+\item $F$ is the displayed real-valued function family row, read through $\StreamNameUp$ windows and $\ContinuousMapUp$ graph data over the same domain row.
+\item $W$ is the $\StreamNameUp$ window schedule that binds each finite domain observation to the function-family window inspected for a requested tolerance.
+\item $T$ is the uniform tail ledger, assigning each requested tolerance to a single family-wide threshold and recording the accepted window comparisons beyond that threshold.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same domain observations, function windows, and uniform tail ledger.
+\item $E$ is the $\RealUp$ endpoint seal row reached only after the regular rational readback has displayed the scheduled tail comparisons.
+\item $H$ records componentwise $\hsame$ transports for the domain row, function family, window schedule, uniform tail ledger, readback, endpoint seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ routes from any convergence-space consumer request through $D,F,W,T,R,E$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\UniformConvergenceSpaceUp$, $\UniformLimitUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformConvergenceSpaceUp}$ row.
+\end{enumerate}
+The classifier admits only finite packets with these ten rows. No coordinate stores a quotient function space, ambient supremum metric, selected limit function, pointwise-only convergence witness, choice principle, or external completeness theorem.
+\end{definition}
+
+\begin{theorem}[Uniform convergence space NameCert obligations]\label{thm:uniform-convergence-space-namecert-obligations}
+For every accepted $\UniformConvergenceSpaceUp$ carrier $(D,F,W,T,R,E,H,C,P,N)$, the local $\NameCert_{\UniformConvergenceSpaceUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed domain row, function-family row, $\StreamNameUp$ window schedule, uniform tail ledger, $\RegSeqRatUp$ readback, $\RealUp$ endpoint seal, transports, continuations, provenance, and local naming;
+\item uniform-window classifier stability, requiring transported and replayed consumers to inspect the same domain observations, function-family windows, and scheduled tolerance rows before a convergence-space read is exposed;
+\item tail-modulus exactness, requiring every endpoint-facing read to use the single family-wide threshold recorded in $T$ rather than a pointwise threshold or an ambient supremum argument;
+\item endpoint-seal handoff, requiring the route from $D,F,W,T$ through $R$ and then $E$ before any $\RealUp$ endpoint row is consumed;
+\item ledger non-escape, excluding quotient function spaces, ambient supremum metrics, selected limit functions, pointwise-only convergence witnesses, choice, and external completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-convergence-space-carrier}. The domain row, function-family row, window schedule, uniform tail ledger, readback, endpoint seal, transport, continuation, provenance, and local naming are exactly the displayed packet coordinates.
+
+Uniform-window classifier stability is componentwise. The row $H$ transports the domain observations, function windows, and tail ledger without changing which finite windows are named, while $C$ replays the same route from the consumer request through $D,F,W,T,R,E$.
+
+Tail-modulus exactness follows from the role of $T$. A requested tolerance is assigned one family-wide threshold before the readback row $R$ can be consumed, so a pointwise threshold or an ambient supremum argument has no carrier coordinate.
+
+The endpoint-seal handoff is forced by the packet order. The regular rational readback $R$ is the only row between the uniform tail ledger and the endpoint seal $E$, and the $\RealUp$ endpoint is exposed only after that readback has displayed the scheduled comparisons.
+
+The refusal clause is an inventory check on the carrier. Since none of the ten coordinates is a quotient function space, ambient supremum metric, selected limit function, pointwise-only convergence witness, choice row, or external completeness theorem, the local certificate exports none of those principles.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\UniformConvergenceSpaceUp$ consumer that reaches a $\RegSeqRatUp$ readback, $\RealUp$ endpoint seal, $\UniformLimitUp$ handoff, or $\MetricCompletionUp$ boundary without first reading the domain row, function-family row, $\StreamNameUp$ window schedule, and uniform tail ledger refutes the carrier surface.}
+
+\independenceWitness{uniformlimit, continuousmap, real, regseqrat, streamname, metriccompletion: none is bijective to $\UniformConvergenceSpaceUp$ because this packet jointly carries a domain row, displayed real-valued function-family row, StreamName window schedule, uniform tail ledger, regular readback, endpoint sealing, transport, replay, provenance, and local naming.}
+
+\closureat{UniformConvergenceSpaceUp}{seedStr}
+
+\begin{closurestatus}{\UniformConvergenceSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-convergence-space-carrier} and \autoref{thm:uniform-convergence-space-namecert-obligations} seed the finite uniform convergence space certificate over displayed domain rows, real-valued function-family windows, uniform tail ledgers, regular rational readbacks, endpoint seals, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient function spaces, ambient supremum metrics, selected limit functions, pointwise-only convergence witnesses, choice, external completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-window classifier stability, tail-modulus exactness, endpoint-seal handoff, and ledger non-escape for BEDC.Derived.UniformConvergenceSpaceUp.}
+  \constructivestory{A $\UniformConvergenceSpaceUp$ packet is generated from a displayed domain row, displayed real-valued function-family row, StreamNameUp window schedule, uniform tail ledger, RegSeqRatUp readback, RealUp endpoint seal, componentwise hsame transport, Cont replay, provenance, and local naming.}
+\end{closurestatus}
