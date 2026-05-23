@@ -174,6 +174,21 @@ def taste_gate : ChapterTasteGate ExtendedRealLineUp :=
   -- BEDC touchpoint anchor: BHist BMark
   extendedRealLineChapterTasteGate
 
+theorem ExtendedRealLineTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate ExtendedRealLineUp) ∧
+      Nonempty (FieldFaithful ExtendedRealLineUp) ∧
+        Nonempty (Nontrivial ExtendedRealLineUp) ∧
+          (∀ h : BHist, extendedRealLineDecodeBHist (extendedRealLineEncodeBHist h) = h) ∧
+            (∀ x : ExtendedRealLineUp,
+              extendedRealLineFromEventFlow (extendedRealLineToEventFlow x) = some x) ∧
+              extendedRealLineEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨extendedRealLineChapterTasteGate⟩, ⟨extendedRealLineFieldFaithful⟩,
+      ⟨extendedRealLineNontrivial⟩,
+      extendedRealLineDecode_encode_bhist,
+      extendedRealLine_round_trip, rfl⟩
+
 namespace TasteGate
 
 theorem ExtendedRealLineTasteGate_single_carrier_alignment :
