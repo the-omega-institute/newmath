@@ -56,6 +56,22 @@ The read cannot bypass $M,S,D$. The modulus row records which finite stages answ
 The seal row $R$ is downstream of that route. The structural rows then transport, replay, source, and name the same packet, so every exported regular-rational read has the stated factorization and no hidden completion coordinate.
 \end{proof}
 
+\begin{theorem}[Bishop Cauchy real regular readback seal]
+\label{thm:bishop-cauchy-real-regular-readback-seal}
+Any $\RealUp$-facing seal read from an accepted $\BishopCauchyRealUp$ carrier $B=(Q,M,S,D,R,H,C,P,N)$ must first expose the $\RegSeqRatUp$ source row $Q$, the $\CauchyModulusUp$ ledger $M$, the $\StreamNameUp$ finite window $S$, and the $\DyadicRatCoreUp$ tolerance row $D$. The terminal seal $R$ may then be read only as the endpoint of the displayed route
+$$
+Q,M,S,D \longmapsto R \longmapsto H,C,P,N .
+$$
+Thus a Real-facing consumer receives the regular-readback-to-seal dependency as finite BEDC data, not as a quotient completion, a chosen representative, a host limit equality, or an ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:bishop-cauchy-real-carrier}. The rows $Q,M,S,D$ precede the terminal seal $R$ and are the only displayed source, modulus, window, and tolerance coordinates available to a Real-facing read.
+
+Apply the obligation surface of \autoref{thm:bishop-cauchy-real-namecert-obligations}. It identifies carrier admission, source exposure, modulus exposure, stream-window routing, dyadic comparison, terminal sealing, transport, replay, provenance, and local naming as the complete local NameCert surface.
+
+Finally use the RegSeqRat handoff of \autoref{thm:bishop-cauchy-real-regseqrat-handoff}. It forces every regular-rational read through the same $Q,M,S,D,R,H,C,P,N$ route, so the $\RealUp$ seal is terminal for that route and cannot hide quotient completion or host real equality.
+\end{proof}
+
 \begin{theorem}[Bishop Cauchy real seal boundary]
 \label{thm:bishop-cauchy-real-real-seal-boundary}
 The $\RealUp$ seal of an accepted $\BishopCauchyRealUp$ carrier is public only as the endpoint of the displayed route

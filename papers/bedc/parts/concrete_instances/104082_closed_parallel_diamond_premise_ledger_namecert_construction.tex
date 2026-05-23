@@ -45,6 +45,22 @@ The consumer-facing bridge row is $C$. It may be read only after the premise row
 The closed-normal row $N$ remains a sibling fragment rather than a replacement for the premise ledger. The structural rows $H,K,Q,G$ transport, replay, source, and name the same finite packet, so no hidden proof of the diamond, substitution compatibility, or arbitrary closed Church--Rosser can enter the certificate.
 \end{proof}
 
+\begin{theorem}[Closed parallel diamond premise conditional boundary]
+\label{thm:closed-parallel-diamond-premise-conditional-boundary}
+Every conditional closed-star confluence read through an accepted $\ClosedParallelDiamondPremiseLedgerUp$ carrier $L=(P,S,D,C,N,R,A,H,K,Q,G)$ must expose both the residual-substitution premise row $S$ and the closed parallel diamond premise row $D$. The packet may be cited only as the finite route
+$$
+P,S,D,C,N,R,A,H,K,Q,G
+$$
+for a conditional handoff; it is not an unconditional diamond proof, an unconditional confluence proof, or a premise-free closed Church--Rosser certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-parallel-diamond-premise-ledger-carrier}. The rows $P,S,D,C,N,R,A,H,K,Q,G$ are displayed explicitly, and the conditional handoff row $C$ is downstream of the premise rows $S$ and $D$.
+
+Apply the obligation theorem \autoref{thm:closed-parallel-diamond-premise-ledger-obligations}. It states that residual-substitution premise visibility and closed parallel diamond premise visibility are part of the exact local NameCert surface, alongside the closed parallel-step source, sibling audit rows, transport, replay, provenance, and local naming.
+
+Therefore a consumer reading closed-star confluence through this packet must carry $S$ and $D$ as premises. Since the carrier has no row proving either premise and no row for arbitrary closed confluence, the packet cannot be cited as an unconditional diamond or confluence proof.
+\end{proof}
+
 \falsifiablePrediction{A conditional MetaCIC confluence bridge that consumes $\ClosedParallelDiamondPremiseLedgerUp$ must display closed parallel-step source rows, residual-substitution premise rows, the closed parallel diamond premise row, closed-star handoff rows, closed-normal seal rows, confluence audit rows, parallel audit rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{metacicconfluenceauditpacket, closednormalconfluenceseal, metacicresidualsubstitutionboundary, parallelconfluenceaudit: $\ClosedParallelDiamondPremiseLedgerUp$ is not bijective to any listed sibling because it jointly carries the closed parallel-step source, the residual-substitution premise row, the closed parallel diamond premise row, the conditional closed-star handoff, sibling audit consumers, transport, replay, provenance, and local NameCert rows.}

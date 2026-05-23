@@ -20,8 +20,10 @@ def metaCICFrontierDependencyMatrixEncodeBHist : BHist → RawEvent
 
 def metaCICFrontierDependencyMatrixDecodeBHist : RawEvent → BHist
   | [] => BHist.Empty
-  | BMark.b0 :: tail => metaCICFrontierDependencyMatrixDecodeBHist tail |> BHist.e0
-  | BMark.b1 :: tail => metaCICFrontierDependencyMatrixDecodeBHist tail |> BHist.e1
+  | BMark.b0 :: tail =>
+      BHist.e0 (metaCICFrontierDependencyMatrixDecodeBHist tail)
+  | BMark.b1 :: tail =>
+      BHist.e1 (metaCICFrontierDependencyMatrixDecodeBHist tail)
 
 private theorem metaCICFrontierDependencyMatrixDecode_encode_bhist :
     ∀ h : BHist,
@@ -43,28 +45,57 @@ def metaCICFrontierDependencyMatrixFields :
 
 def metaCICFrontierDependencyMatrixToEventFlow :
     MetaCICFrontierDependencyMatrixUp → EventFlow
-  | x =>
-      (metaCICFrontierDependencyMatrixFields x).map
-        metaCICFrontierDependencyMatrixEncodeBHist
+  | MetaCICFrontierDependencyMatrixUp.mk B A L P Q N D J R H C K =>
+      [metaCICFrontierDependencyMatrixEncodeBHist B,
+        metaCICFrontierDependencyMatrixEncodeBHist A,
+        metaCICFrontierDependencyMatrixEncodeBHist L,
+        metaCICFrontierDependencyMatrixEncodeBHist P,
+        metaCICFrontierDependencyMatrixEncodeBHist Q,
+        metaCICFrontierDependencyMatrixEncodeBHist N,
+        metaCICFrontierDependencyMatrixEncodeBHist D,
+        metaCICFrontierDependencyMatrixEncodeBHist J,
+        metaCICFrontierDependencyMatrixEncodeBHist R,
+        metaCICFrontierDependencyMatrixEncodeBHist H,
+        metaCICFrontierDependencyMatrixEncodeBHist C,
+        metaCICFrontierDependencyMatrixEncodeBHist K]
+
+private def metaCICFrontierDependencyMatrixEventAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => metaCICFrontierDependencyMatrixEventAt index rest
 
 def metaCICFrontierDependencyMatrixFromEventFlow :
     EventFlow → Option MetaCICFrontierDependencyMatrixUp
-  | B :: A :: L :: P :: Q :: N :: D :: J :: R :: H :: C :: K :: [] =>
+  -- BEDC touchpoint anchor: BHist BMark
+  | ef =>
       some
         (MetaCICFrontierDependencyMatrixUp.mk
-          (metaCICFrontierDependencyMatrixDecodeBHist B)
-          (metaCICFrontierDependencyMatrixDecodeBHist A)
-          (metaCICFrontierDependencyMatrixDecodeBHist L)
-          (metaCICFrontierDependencyMatrixDecodeBHist P)
-          (metaCICFrontierDependencyMatrixDecodeBHist Q)
-          (metaCICFrontierDependencyMatrixDecodeBHist N)
-          (metaCICFrontierDependencyMatrixDecodeBHist D)
-          (metaCICFrontierDependencyMatrixDecodeBHist J)
-          (metaCICFrontierDependencyMatrixDecodeBHist R)
-          (metaCICFrontierDependencyMatrixDecodeBHist H)
-          (metaCICFrontierDependencyMatrixDecodeBHist C)
-          (metaCICFrontierDependencyMatrixDecodeBHist K))
-  | _ => none
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 0 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 1 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 2 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 3 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 4 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 5 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 6 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 7 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 8 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 9 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 10 ef))
+          (metaCICFrontierDependencyMatrixDecodeBHist
+            (metaCICFrontierDependencyMatrixEventAt 11 ef)))
 
 private theorem metaCICFrontierDependencyMatrix_round_trip :
     ∀ x : MetaCICFrontierDependencyMatrixUp,
@@ -138,7 +169,30 @@ private theorem metaCICFrontierDependencyMatrix_fields_faithful :
   | mk B A L P Q N D J R H C K =>
       cases y with
       | mk B' A' L' P' Q' N' D' J' R' H' C' K' =>
-          cases hfields
+          injection hfields with hB tail0
+          injection tail0 with hA tail1
+          injection tail1 with hL tail2
+          injection tail2 with hP tail3
+          injection tail3 with hQ tail4
+          injection tail4 with hN tail5
+          injection tail5 with hD tail6
+          injection tail6 with hJ tail7
+          injection tail7 with hR tail8
+          injection tail8 with hH tail9
+          injection tail9 with hC tail10
+          injection tail10 with hK _
+          subst hB
+          subst hA
+          subst hL
+          subst hP
+          subst hQ
+          subst hN
+          subst hD
+          subst hJ
+          subst hR
+          subst hH
+          subst hC
+          subst hK
           rfl
 
 instance metaCICFrontierDependencyMatrixBHistCarrier :
@@ -187,9 +241,73 @@ theorem MetaCICFrontierDependencyMatrixTasteGate_single_carrier_alignment :
         metaCICFrontierDependencyMatrixToEventFlow x =
           metaCICFrontierDependencyMatrixToEventFlow y → x = y) ∧
       metaCICFrontierDependencyMatrixEncodeBHist BHist.Empty = ([] : List BMark) := by
-  exact ⟨metaCICFrontierDependencyMatrixDecode_encode_bhist,
-    metaCICFrontierDependencyMatrix_round_trip,
-    fun _ _ heq => metaCICFrontierDependencyMatrixToEventFlow_injective heq,
-    rfl⟩
+  have decodeEncode :
+      ∀ h : BHist,
+        metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have roundTrip :
+      ∀ x : MetaCICFrontierDependencyMatrixUp,
+        metaCICFrontierDependencyMatrixFromEventFlow
+          (metaCICFrontierDependencyMatrixToEventFlow x) = some x := by
+    intro x
+    cases x with
+    | mk B A L P Q N D J R H C K =>
+        change
+          some
+            (MetaCICFrontierDependencyMatrixUp.mk
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist B))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist A))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist L))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist P))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist Q))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist N))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist D))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist J))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist R))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist H))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist C))
+              (metaCICFrontierDependencyMatrixDecodeBHist
+                (metaCICFrontierDependencyMatrixEncodeBHist K))) =
+            some (MetaCICFrontierDependencyMatrixUp.mk B A L P Q N D J R H C K)
+        rw [decodeEncode B, decodeEncode A, decodeEncode L, decodeEncode P,
+          decodeEncode Q, decodeEncode N, decodeEncode D, decodeEncode J,
+          decodeEncode R, decodeEncode H, decodeEncode C, decodeEncode K]
+  have injective :
+      ∀ x y : MetaCICFrontierDependencyMatrixUp,
+        metaCICFrontierDependencyMatrixToEventFlow x =
+          metaCICFrontierDependencyMatrixToEventFlow y → x = y := by
+    intro x y heq
+    have hread :
+        metaCICFrontierDependencyMatrixFromEventFlow
+            (metaCICFrontierDependencyMatrixToEventFlow x) =
+          metaCICFrontierDependencyMatrixFromEventFlow
+            (metaCICFrontierDependencyMatrixToEventFlow y) :=
+      congrArg metaCICFrontierDependencyMatrixFromEventFlow heq
+    exact Option.some.inj
+      (Eq.trans (roundTrip x).symm (Eq.trans hread (roundTrip y)))
+  constructor
+  · exact decodeEncode
+  · constructor
+    · exact roundTrip
+    · constructor
+      · intro x y heq
+        exact injective x y heq
+      · rfl
 
 end BEDC.Derived.MetaCICFrontierDependencyMatrixUp

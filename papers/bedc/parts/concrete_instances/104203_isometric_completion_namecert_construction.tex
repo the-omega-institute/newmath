@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\IsometricCompletionUp$}
+\label{ch:concrete-instances-isometric-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley-style metric completion, the $\IsometricCompletionUp$ packet records the finite L10 route by which a source metric space embeds isometrically into a separated completion while Cauchy filters, Cauchy nets, uniform completion data, and Real-facing tolerance rows remain visible. It sits after the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the metric-completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, the separated comparison boundary of \autoref{ch:concrete-instances-separatedmetric-namecert}, the Cauchy-filter carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the Cauchy-net carrier of \autoref{ch:concrete-instances-cauchynet-namecert}, the uniform-completion route of \autoref{ch:concrete-instances-uniformcompletion-namecert}, and the terminal Real boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the completion route without quotient representatives, selected limits, countable choice, or host equality of completion points.
+
+\begin{definition}[Isometric completion carrier]
+\label{def:isometric-completion-carrier}
+An $\IsometricCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(M,K,S,F,T,U,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\MetricUp$ row whose distance comparisons are available only through the public metric surface.
+\item $K$ is the $\MetricCompletionUp$ completion carrier row consumed by completion-facing readers.
+\item $S$ is the $\SeparatedMetricUp$ row used to compare completed reads by separated zero-distance data rather than by host equality.
+\item $F$ is the $\CauchyFilterUp$ row recording filter-style Cauchy requests over the same metric source.
+\item $T$ is the $\CauchyNetUp$ row recording net-style Cauchy requests and directed observation data.
+\item $U$ is the $\UniformCompletionUp$ row exposing the entourage-facing completion presentation.
+\item $E$ is the isometric-embedding row, recording that each displayed source point is sent to a completion point whose distance reads agree with the source $\MetricUp$ row after the $\RealUp$ tolerance seal.
+\item $R$ is the terminal $\RealUp$ comparison row used for distance preservation and Cauchy tolerance comparisons already exposed by $M,F,T,U$.
+\item $H$ records componentwise $\hsame$ transport for $M,K,S,F,T,U,E,R$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay of metric admission, filter-net handoff, uniform completion, isometric embedding, separated comparison, and Real tolerance sealing.
+\item $P$ is the $\Pkg$ provenance over $\IsometricCompletionUp$, $\MetricUp$, $\MetricCompletionUp$, $\SeparatedMetricUp$, $\CauchyFilterUp$, $\CauchyNetUp$, $\UniformCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\IsometricCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for quotient completion equality, a selected Cauchy representative, a selected convergent subnet, countable choice, host equality of limits, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.IsometricCompletionUp}
+
+\begin{theorem}[IsometricCompletion NameCert obligations]
+\label{thm:isometric-completion-namecert-obligations}
+For every accepted $\IsometricCompletionUp$ carrier $I=(M,K,S,F,T,U,E,R,H,C,P,N)$, the local $\NameCert_{\IsometricCompletionUp}$ surface consists exactly of carrier exposure for the displayed tuple, metric source exposure through $M$, completion exposure through $K$, separated uniqueness routing through $S$, filter and net Cauchy exposure through $F,T$, uniform-completion handoff through $U$, isometric embedding and Real-tolerance preservation through $E,R$, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, local naming, and non-escape of quotient representatives, selected limits, countable choice, host equality of completion points, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:isometric-completion-carrier}. The tuple displays the metric source, completion carrier, separated comparison boundary, Cauchy-filter row, Cauchy-net row, uniform-completion row, isometric embedding row, Real comparison row, transport, replay, provenance, and local naming row.
+
+The completion-facing rows are read before any equality or limit comparison. Rows $M,F,T,U$ keep metric, filter, net, and uniform Cauchy evidence inside the same finite packet, while $K$ records the completion carrier reached by those rows.
+
+The equality-facing part is forced through $S,E,R$. The separated row supplies the only comparison boundary for completed reads, and the embedding row may claim distance preservation only through the already displayed $\RealUp$ tolerance row.
+
+Finally $H,C,P,N$ preserve that route under transport, replay, provenance, and local naming. Since the carrier has no remaining row, quotient representatives, selected limits, countable choice, host equality, and ambient completeness cannot be exported.
+\end{proof}
+
+\begin{theorem}[IsometricCompletion universal route]
+\label{thm:isometric-completion-universal-route}
+Every completion consumer that reads an accepted $\IsometricCompletionUp$ carrier factors through the finite route
+$$
+\MetricUp,\ \MetricCompletionUp,\ \SeparatedMetricUp,\ \CauchyFilterUp,\ \CauchyNetUp,\ \UniformCompletionUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+In particular, an isometric embedding read must expose the source metric row, the completion carrier, the separated comparison row, at least one of the filter or net Cauchy rows demanded by the consumer, the uniform-completion handoff when entourage data are used, and the terminal Real tolerance row before it can compare completed points.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $I=(M,K,S,F,T,U,E,R,H,C,P,N)$. The source metric row $M$ and completion row $K$ are stored in the same carrier, so a consumer cannot reach a completed point without first reading the displayed metric-completion route.
+
+The Cauchy evidence is then exposed through $F$ and $T$, with $U$ supplying the uniform-completion handoff whenever the consumer asks for entourage-facing data. These rows are siblings in the same packet, so no selected filter, selected subnet, or quotient representative is introduced.
+
+The isometric and uniqueness read is terminal. Row $E$ records distance preservation only through the Real comparison row $R$, and row $S$ supplies separated comparison for completed reads. The transport, replay, provenance, and local naming rows keep that terminal read attached to the original finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\IsometricCompletionUp$ consumer of an isometric completion read factors through $\MetricUp$, $\MetricCompletionUp$, $\SeparatedMetricUp$, $\CauchyFilterUp$ or $\CauchyNetUp$, $\UniformCompletionUp$ when entourage data are requested, $\RealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{metric, metriccompletion, separatedmetric, cauchyfilter, cauchynet, uniformcompletion, real: $\IsometricCompletionUp$ is not bijective to any listed sibling because it jointly carries source metric data, completion carrier data, separated comparison, filter and net Cauchy rows, uniform-completion handoff, isometric embedding, Real tolerance comparison, transport, replay, provenance, and local NameCert rows in one packet.}
+
+\closureat{IsometricCompletionUp}{seedStr}
+
+\begin{closurestatus}{\IsometricCompletionUp}
+  \constructivestory{An $\IsometricCompletionUp$ packet is generated from a source MetricUp row, a MetricCompletionUp carrier row, a SeparatedMetricUp comparison boundary, CauchyFilterUp and CauchyNetUp Cauchy evidence, a UniformCompletionUp handoff, an isometric embedding row, a RealUp tolerance row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:isometric-completion-carrier}, \autoref{thm:isometric-completion-namecert-obligations}, and \autoref{thm:isometric-completion-universal-route} seed the finite isometric completion route over metric, separated, filter, net, uniform, and Real tolerance rows.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.IsometricCompletionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, selected subnets, countable choice, host equality of limits, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source metric exposure, completion carrier routing, separated uniqueness routing, filter-net Cauchy exposure, uniform handoff, Real tolerance preservation, transport and replay stability, provenance non-escape, and TasteGate field faithfulness for BEDC.Derived.IsometricCompletionUp.}
+\end{closurestatus}

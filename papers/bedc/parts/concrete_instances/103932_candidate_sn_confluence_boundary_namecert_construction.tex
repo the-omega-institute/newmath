@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CandidateSNConfluenceBoundaryUp$}
+\label{ch:concrete-instances-candidate-sn-confluence-boundary-namecert}
+\origin{ai}
+
+The $\CandidateSNConfluenceBoundaryUp$ packet realizes the normalization and confluence frontier of \autoref{ch:metacic-open-problems} as one finite MetaCIC NameCert row. It sits beside the critical-path carrier of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalisation frontier, the redex frontier, and the bounded normal-equality checker, and records exactly where candidate-mediated strong-normalization evidence can be consumed before confluence claims must stop. The packet names candidate evidence, bounded normal checks, critical-pair or redex-frontier handoff rows, and nonescape rows; it is not a closed subject-reduction theorem, arbitrary Church--Rosser theorem, or closed consistency theorem.
+
+\falsifiablePrediction{Any consumer of an accepted $\CandidateSNConfluenceBoundaryUp$ packet still cannot export closed subject reduction or arbitrary Church--Rosser unless it also supplies the displayed subject-reduction discharge rows, confluence-boundary rows, and candidate-interface admission rows of the carrier.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacicredexfrontier, boundednormalequalitychecker: the critical path records the global frontier, the normalization frontier records candidate-mediated strong-normalization boundaries, the redex frontier records local reduction cases, and the bounded checker records finite normal-equality comparison; none is bijective to the packet that stores all four rows with one confluence nonescape boundary.}
+
+\begin{definition}[CandidateSNConfluenceBoundary carrier]
+\label{def:candidate-sn-confluence-boundary-carrier}
+A $\CandidateSNConfluenceBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(K,N,R,E,S,J,U,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the MetaCIC critical-path row naming the subject-reduction, normalization, confluence, decidability, and consistency frontier being read.
+\item $N$ is the candidate strong-normalization row, admitting only terms already inside the candidate interface.
+\item $R$ is the redex-frontier row through which local reduction and critical-pair cases are inspected.
+\item $E$ is the bounded normal-equality checker row used when a finite normal comparison is requested.
+\item $S$ is the subject-reduction discharge row, recording which subject-reduction inputs are present and which remain outside the packet.
+\item $J$ is the confluence-boundary row, recording displayed join, common-reduct, or normal-fragment handoffs without promoting them to arbitrary Church--Rosser.
+\item $U$ is the nonescape row excluding closed subject reduction, arbitrary closed confluence, full closed consistency, and candidate-free strong normalization.
+\item $H$ records componentwise $\hsame$ transport for $K,N,R,E,S,J,U$ and the local naming rows.
+\item $C$ records displayed $\Cont$ replay from a consumer request through candidate admission, redex-frontier inspection, bounded normal comparison, subject-reduction discharge, and confluence-boundary handoff.
+\item $P$ is the $\Pkg$ provenance over $\CandidateSNConfluenceBoundaryUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICRedexFrontierUp$, $\BoundedNormalEqualityCheckerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CandidateSNConfluenceBoundaryUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only by these rows. It has no coordinate for closed subject reduction, arbitrary Church--Rosser, unrestricted parallel diamond, candidate-free strong normalization, closed consistency, or a completed MetaCIC audit map.
+\end{definition}
+
+\begin{theorem}[CandidateSNConfluenceBoundary NameCert obligations]
+\label{thm:candidate-sn-confluence-boundary-namecert-obligations}
+For every accepted $\CandidateSNConfluenceBoundaryUp$ carrier $B=(K,N,R,E,S,J,U,H,C,P,L)$, the local $\NameCert_{\CandidateSNConfluenceBoundaryUp}$ surface consists exactly of carrier admission for the critical-path, candidate-SN, redex-frontier, bounded-checker, subject-reduction discharge, confluence-boundary, nonescape, transport, replay, provenance, and local naming rows; candidate-interface admission through $N$; redex-frontier inspection through $R$; bounded normal-equality comparison through $E$; explicit subject-reduction discharge through $S$; confluence-boundary handoff through $J$; and ledger refusal through $U$ for closed subject reduction, arbitrary Church--Rosser, unrestricted parallel diamond, candidate-free strong normalization, closed consistency, and completed audit-map closure.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:candidate-sn-confluence-boundary-carrier}. The accepted packet exposes the critical-path row, candidate strong-normalization row, redex frontier, bounded checker, subject-reduction discharge row, confluence-boundary row, nonescape row, transport, replay, provenance, and local naming row.
+
+Candidate-mediated strong normalization is read only through $N$. This keeps the strong-normalization evidence inside the candidate interface named by the packet.
+
+Confluence consumption then passes through the displayed redex-frontier and bounded-checker rows $R$ and $E$, followed by the discharge and boundary rows $S$ and $J$. These rows distinguish local join or normal-fragment evidence from arbitrary closed Church--Rosser.
+
+The nonescape row $U$ and structural rows $H,C,P,L$ preserve the same finite boundary. Since no coordinate provides closed subject reduction, unrestricted parallel diamond, candidate-free strong normalization, closed consistency, or completed audit-map closure, none can be exported by the packet.
+\end{proof}
+
+\begin{theorem}[Candidate-mediated SN confluence boundary route]
+\label{thm:candidate-sn-confluence-boundary-route}
+Every MetaCIC consumer of an accepted $\CandidateSNConfluenceBoundaryUp$ packet factors through candidate admission, redex-frontier inspection, bounded normal-equality comparison, subject-reduction discharge, and confluence-boundary handoff before any conclusion is replayed:
+$$
+K \longmapsto N \longmapsto R,E \longmapsto S,J \longmapsto U \longmapsto H,C,P,L .
+$$
+Consequently the packet is a finite boundary witness between candidate-mediated strong normalization and confluence claims, not evidence for closed subject reduction, arbitrary Church--Rosser, candidate-free strong normalization, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the carrier $B=(K,N,R,E,S,J,U,H,C,P,L)$. The critical-path row $K$ locates the consumer at the MetaCIC frontier, but the first positive normalization input is still the candidate row $N$.
+
+Any confluence-facing read must then inspect the local frontier rows $R$ and $E$. These rows expose redex cases and bounded normal comparisons only at the finite window recorded by the packet.
+
+The discharge row $S$ and confluence-boundary row $J$ determine which subject-reduction and join inputs are actually present. The nonescape row $U$ records that all stronger endpoints remain outside the carrier.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same finite route. They do not add closed subject reduction, arbitrary Church--Rosser, candidate-free strong normalization, or closed consistency evidence.
+\end{proof}
+
+The Lean follow-up for this packet is to provide \texttt{Nontrivial CandidateSNConfluenceBoundaryUp} and \texttt{FieldFaithful CandidateSNConfluenceBoundaryUp} instances in \texttt{TasteGate.lean}. Those instances must check that candidate admission, redex-frontier inspection, bounded equality checking, subject-reduction discharge, and confluence-boundary handoff are genuine carrier fields rather than aliases for a closed consistency endpoint.
+
+\closureat{CandidateSNConfluenceBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\CandidateSNConfluenceBoundaryUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:candidate-sn-confluence-boundary-carrier}, \autoref{thm:candidate-sn-confluence-boundary-namecert-obligations}, and \autoref{thm:candidate-sn-confluence-boundary-route} seed the finite MetaCIC packet separating candidate-mediated strong normalization from confluence and subject-reduction endpoints.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, closed subject reduction, arbitrary Church--Rosser, unrestricted parallel diamond, candidate-free strong normalization, closed consistency, or completed MetaCIC audit-map closure.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-interface admission, redex-frontier inspection, bounded equality checking, subject-reduction discharge, confluence-boundary handoff, nonescape, structural transport, replay, and provenance for BEDC.Derived.CandidateSNConfluenceBoundaryUp.}
+  \constructivestory{A $\CandidateSNConfluenceBoundaryUp$ packet is generated from MetaCIC critical-path rows, candidate strong-normalization evidence, redex-frontier rows, bounded normal-equality checker rows, subject-reduction discharge rows, confluence-boundary rows, nonescape data, componentwise hsame transport, displayed Cont replay, package provenance, and local NameCert evidence.}
+\end{closurestatus}
