@@ -769,6 +769,7 @@ import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedSetUp.TasteGate
 import BEDC.Derived.BoundedUniversalTraceUp.Carrier
 import BEDC.Derived.BoundedUniversalTraceUp.TasteGate
+import BEDC.Derived.BoundedVariationCompletionUp
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
