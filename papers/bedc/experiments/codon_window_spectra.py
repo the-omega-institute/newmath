@@ -1183,6 +1183,40 @@ def cubical_complex_summary(vertices: set[str]) -> dict[str, object]:
     }
 
 
+def simplicial_reduced_betti(face_masks: set[int], vertex_count: int) -> dict[int, int]:
+    if not face_masks:
+        return {-1: 1}
+    faces_by_dim: dict[int, list[int]] = {}
+    for mask in face_masks:
+        dimension = mask.bit_count() - 1
+        faces_by_dim.setdefault(dimension, []).append(mask)
+    max_dimension = max(faces_by_dim)
+    boundary_ranks: dict[int, int] = {}
+    for dimension in range(1, max_dimension + 1):
+        domain_faces = sorted(faces_by_dim.get(dimension, []))
+        row_faces = {face: index for index, face in enumerate(sorted(faces_by_dim.get(dimension - 1, [])))}
+        columns = []
+        for face in domain_faces:
+            column = 0
+            for vertex in range(vertex_count):
+                if face & (1 << vertex):
+                    boundary_face = face ^ (1 << vertex)
+                    column ^= 1 << row_faces[boundary_face]
+            columns.append(column)
+        boundary_ranks[dimension] = gf2_rank(columns)
+    reduced: dict[int, int] = {}
+    for dimension in range(max_dimension + 1):
+        chain_count = len(faces_by_dim.get(dimension, []))
+        boundary_rank = boundary_ranks.get(dimension, 0)
+        coboundary_rank = boundary_ranks.get(dimension + 1, 0)
+        betti = chain_count - boundary_rank - coboundary_rank
+        if dimension == 0:
+            betti -= 1
+        if betti:
+            reduced[dimension] = betti
+    return reduced
+
+
 def edge_isoperimetric_max_edges(dimension: int, size: int) -> int:
     memo: dict[tuple[int, int], int] = {}
 
@@ -3839,6 +3873,42 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     )
 
     nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
+    hochster_diagonal_coefficients = {-1: [0 for _degree in range(31)], 0: [0 for _degree in range(31)], 1: [0 for _degree in range(31)], 2: [0 for _degree in range(31)]}
+    for support_type_size in range(len(nonempty_support_patterns) + 1):
+        lift_coefficients = [
+            math.comb(support_type_size, double_lift_count) * (2 ** (support_type_size - double_lift_count))
+            for double_lift_count in range(support_type_size + 1)
+        ]
+        for support_type_subset in itertools.combinations(nonempty_support_patterns, support_type_size):
+            nerve_faces: set[int] = set()
+            for face_size in range(1, 5):
+                for coordinate_subset in itertools.combinations(range(4), face_size):
+                    coordinate_mask = sum(1 << coordinate for coordinate in coordinate_subset)
+                    if any(support.isdisjoint(coordinate_subset) for support in support_type_subset):
+                        nerve_faces.add(coordinate_mask)
+            reduced_betti = simplicial_reduced_betti(nerve_faces, 4)
+            for homology_degree, betti_value in reduced_betti.items():
+                for double_lift_count, coefficient in enumerate(lift_coefficients):
+                    total_degree = support_type_size + double_lift_count
+                    hochster_diagonal_coefficients[homology_degree][total_degree] += betti_value * coefficient
+    hochster_diagonal_rows = [
+        {
+            "homology_degree": homology_degree,
+            "diagonal": homology_degree + 1,
+            "coefficients": tuple(coefficients),
+            "nonzero_count": sum(1 for coefficient in coefficients if coefficient),
+            "total_betti_mass": sum(coefficients),
+        }
+        for homology_degree, coefficients in sorted(hochster_diagonal_coefficients.items())
+    ]
+    hochster_diagonal_generating_functions = {
+        -1: "(1+x)^2",
+        0: "x^2(x+1)^2(x+2)^2P0(x)",
+        1: "x^3(x+1)^10(x+2)^3P1(x)",
+        2: "x^4(x+1)^22(x+2)^4",
+    }
+    hochster_p0_coefficients_desc = (4, 48, 268, 920, 2167, 3704, 4736, 4592, 3373, 1844, 720, 184, 25)
+    hochster_p1_coefficients_desc = (6, 60, 278, 784, 1491, 2002, 1928, 1320, 617, 178, 22)
     quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
     quotient_minimal_trigger_type_counts: collections.Counter[tuple[int, ...]] = collections.Counter()
     for trigger_size in range(1, 5):
@@ -4396,6 +4466,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "top_betti_strand_generating_function": top_betti_strand_generating_function,
         "top_betti_strand_rows": top_betti_strand_rows,
         "betti_table_diagonal_rows": betti_table_diagonal_rows,
+        "hochster_diagonal_rows": hochster_diagonal_rows,
+        "hochster_diagonal_generating_functions": hochster_diagonal_generating_functions,
+        "hochster_p0_coefficients_desc": hochster_p0_coefficients_desc,
+        "hochster_p1_coefficients_desc": hochster_p1_coefficients_desc,
         "blocker_euler_characteristic": blocker_euler_characteristic,
         "blocker_probability_tail_rows": blocker_probability_tail_rows,
         "alexander_dual_generator_count": len(alexander_dual_generator_rows),
@@ -7857,6 +7931,144 @@ def assert_expected(summary: dict[str, object]) -> None:
         (1, 0, 17),
         (2, 1, 24),
         (3, 2, 27),
+    ]
+    assert antipodal["hochster_diagonal_generating_functions"] == {
+        -1: "(1+x)^2",
+        0: "x^2(x+1)^2(x+2)^2P0(x)",
+        1: "x^3(x+1)^10(x+2)^3P1(x)",
+        2: "x^4(x+1)^22(x+2)^4",
+    }
+    assert antipodal["hochster_p0_coefficients_desc"] == (
+        4,
+        48,
+        268,
+        920,
+        2167,
+        3704,
+        4736,
+        4592,
+        3373,
+        1844,
+        720,
+        184,
+        25,
+    )
+    assert antipodal["hochster_p1_coefficients_desc"] == (
+        6,
+        60,
+        278,
+        784,
+        1491,
+        2002,
+        1928,
+        1320,
+        617,
+        178,
+        22,
+    )
+    assert [
+        (
+            row["homology_degree"],
+            row["diagonal"],
+            tuple((degree, coefficient) for degree, coefficient in enumerate(row["coefficients"]) if coefficient),
+            row["nonzero_count"],
+            row["total_betti_mass"],
+        )
+        for row in antipodal["hochster_diagonal_rows"]
+    ] == [
+        (-1, 0, ((0, 1), (1, 2), (2, 1)), 3, 4),
+        (
+            0,
+            1,
+            (
+                (2, 100),
+                (3, 1036),
+                (4, 5413),
+                (5, 18558),
+                (6, 46109),
+                (7, 87320),
+                (8, 129681),
+                (9, 153426),
+                (10, 145609),
+                (11, 110844),
+                (12, 67243),
+                (13, 32074),
+                (14, 11763),
+                (15, 3200),
+                (16, 608),
+                (17, 72),
+                (18, 4),
+            ),
+            17,
+            813060,
+        ),
+        (
+            1,
+            2,
+            (
+                (3, 176),
+                (4, 3448),
+                (5, 32004),
+                (6, 188174),
+                (7, 789384),
+                (8, 2519871),
+                (9, 6368866),
+                (10, 13082137),
+                (11, 22229268),
+                (12, 31625809),
+                (13, 37973894),
+                (14, 38665653),
+                (15, 33455728),
+                (16, 24590925),
+                (17, 15312666),
+                (18, 8035009),
+                (19, 3523300),
+                (20, 1275351),
+                (21, 374462),
+                (22, 86941),
+                (23, 15360),
+                (24, 1940),
+                (25, 156),
+                (26, 6),
+            ),
+            24,
+            240150528,
+        ),
+        (
+            2,
+            3,
+            (
+                (4, 16),
+                (5, 384),
+                (6, 4424),
+                (7, 32568),
+                (8, 172041),
+                (9, 694254),
+                (10, 2224607),
+                (11, 5808396),
+                (12, 12582427),
+                (13, 22907654),
+                (14, 35377221),
+                (15, 46646368),
+                (16, 52738794),
+                (17, 51252348),
+                (18, 42843366),
+                (19, 30778024),
+                (20, 18951702),
+                (21, 9957596),
+                (22, 4434562),
+                (23, 1658184),
+                (24, 513821),
+                (25, 129558),
+                (26, 25899),
+                (27, 3948),
+                (28, 431),
+                (29, 30),
+                (30, 1),
+            ),
+            27,
+            339738624,
+        ),
     ]
     assert antipodal["blocker_euler_characteristic"] == 2
     assert [
