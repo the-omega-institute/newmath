@@ -1,0 +1,215 @@
+\begin{definition}[Module-value monotone path]
+\label{def:philosophy-module-value-monotone-path}
+Let a module-value state be written as
+$$
+  X=(S,U,N,R,I).
+$$
+For a target state $T=(S_{T},U_{T},N_{T},R_{T},I_{T})$, a path from the
+standard state to $T$ is target-monotone when each step changes exactly
+one module from its standard value to its target value, and no step
+changes a module away from its target value.
+\end{definition}
+
+\begin{theorem}[Observed monotone-path exceptions]
+\label{thm:philosophy-observed-monotone-path-exceptions}
+Among the $22$ observed module-value states, exactly $19$ admit a
+target-monotone path from the standard state using only observed states.
+The three exceptions are represented by table identifiers
+$$
+  9,\qquad 14,\qquad 28.
+$$
+Their module-value states are
+$$
+\begin{gathered}
+  (*,*)/W/N/(S,S)/I,\\
+  (Y,*)/W/N/(S,S)/I,\\
+  (Q|*,Q|*)/*|W/K/(R,R)/I.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+For each observed target, enumerate all orders in which its nonstandard
+modules can be changed from their standard values to their target
+values. A target is accepted exactly when at least one such prefix path
+lies entirely in the observed state set. The finite enumeration rejects
+exactly the three displayed states.
+\end{proof}
+
+\begin{definition}[Candidate latent states]
+\label{def:philosophy-latent-completion-states}
+The deep-branch candidate latent states are
+$$
+  L_{SS}=(*,*)/W/K/(S,S)/I
+$$
+and
+$$
+  L_{N}=(*,*)/W/N/(R,R)/I.
+$$
+The partial-boundary candidate latent states are
+$$
+  L_{*|W}=(*,*)/*|W/K/(R,R)/I
+$$
+and
+$$
+  L_{Q|*}=(Q|*,Q|*)/*/K/(R,R)/I.
+$$
+They are not observed table states in the comparison family; they are
+prefix states implied by the target-monotone support geometry.
+\end{definition}
+
+\begin{theorem}[Minimal latent completions]
+\label{thm:philosophy-two-state-latent-completion}
+The minimum latent completion size is $2$. There are exactly four
+minimum completions:
+$$
+\begin{gathered}
+  \{L_{SS},L_{*|W}\},\qquad
+  \{L_{SS},L_{Q|*}\},\\
+  \{L_{N},L_{*|W}\},\qquad
+  \{L_{N},L_{Q|*}\}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+The three exceptions in
+\autoref{thm:philosophy-observed-monotone-path-exceptions} split into
+two independent missing squares. Tables $9$ and $14$ require one
+deep-branch prefix, either $L_{SS}$ or $L_{N}$. Table $28$ requires one
+partial-boundary prefix, either $L_{*|W}$ or $L_{Q|*}$. A single latent
+state cannot be a prefix for both missing squares, so size $1$ is
+insufficient. The Cartesian product of the two binary choices gives the
+four displayed size-$2$ completions, and each removes all three
+target-monotone exceptions.
+\end{proof}
+
+\begin{definition}[Canonical latent completion]
+\label{def:philosophy-canonical-latent-completion}
+The canonical latent completion is
+$$
+  \mathcal L_{\mathrm{can}}=\{L_{SS},L_{*|W}\}.
+$$
+It is the minimum completion selected by the value-direction readings
+$U=W\to R=(S,S)\to N=N$ and $U=*|W\to S=(Q|*,Q|*)$.
+\end{definition}
+
+\begin{theorem}[Canonical target-monotone completion]
+\label{thm:philosophy-canonical-target-monotone-completion}
+After adjoining the canonical latent completion to the observed
+module-value state set, every observed state admits a target-monotone
+path from the standard state.
+\end{theorem}
+\begin{proof}
+For the deep branch, $L_{SS}$ supplies the path
+$$
+\begin{gathered}
+  (*,*)/*/K/(R,R)/I
+  \to
+  (*,*)/W/K/(R,R)/I
+  \to
+  L_{SS}\\
+  \to
+  (*,*)/W/N/(S,S)/I
+  \to
+  (Y,*)/W/N/(S,S)/I.
+\end{gathered}
+$$
+For the partial-boundary branch, $L_{*|W}$ supplies the path
+$$
+\begin{gathered}
+  (*,*)/*/K/(R,R)/I
+  \to
+  L_{*|W}\\
+  \to
+  (Q|*,Q|*)/*|W/K/(R,R)/I.
+\end{gathered}
+$$
+The remaining $19$ observed states already have target-monotone paths by
+\autoref{thm:philosophy-observed-monotone-path-exceptions}.
+\end{proof}
+
+\begin{theorem}[Latent completion graph compression]
+\label{thm:philosophy-latent-completion-graph-compression}
+The observed module-value graph has $22$ nodes, $42$ edges, diameter
+$9$, and maximum distance $6$ from the standard state to an observed
+state. After adjoining $L_{SS}$, the graph has $23$ nodes, $46$ edges,
+diameter $7$, and maximum standard-to-observed distance $4$. After also
+adjoining $L_{*|W}$, the graph has $24$ nodes, $52$ edges, diameter $5$,
+and maximum standard-to-observed distance $4$.
+\end{theorem}
+\begin{proof}
+In each graph, connect two states exactly when they differ in one module
+value. Compute all-pairs shortest-path distances and the distances from
+the standard state to the observed vertices. The finite graph
+enumeration gives the displayed node counts, edge counts, diameters, and
+standard-source radii.
+\end{proof}
+
+\begin{corollary}[Observed states as sampled endpoints]
+\label{cor:philosophy-observed-states-as-sampled-endpoints}
+The comparison family should not be read as a complete smooth state
+space. It is better read as a finite sample of stable or recorded
+endpoints, while the module-value grammar also identifies prefix states
+that are not present as named observed tables.
+\end{corollary}
+\begin{proof}
+The missing target-monotone prefixes are precisely the latent states of
+\autoref{def:philosophy-latent-completion-states}, and their addition
+removes all target-monotone exceptions by
+\autoref{thm:philosophy-canonical-target-monotone-completion}.
+\end{proof}
+
+\begin{corollary}[AUA detour is not a forced premise]
+\label{cor:philosophy-aua-detour-not-forced-premise}
+The observed graph alone can route some paths toward $N=N$ through
+states with $I=M$, but the latent-completed graph gives a direct
+target-monotone route
+$$
+  U=W,\qquad R=(S,S),\qquad N=N
+$$
+without passing through $I=M$. Thus the stable implication is
+$$
+  N=N\Rightarrow R=(S,S)\Rightarrow U=W,
+$$
+not a requirement that $I=M$ precede $N=N$.
+\end{corollary}
+\begin{proof}
+The direct route is the $L_{SS}$ route in
+\autoref{thm:philosophy-canonical-target-monotone-completion}. It reaches the
+table-$9$ state before any change in the $I$ module.
+\end{proof}
+
+\begin{definition}[Canonical rewrite edge]
+\label{def:philosophy-canonical-rewrite-edge}
+In the canonical completed state set, a directed rewrite edge
+$X\to Y$ exists when $X$ and $Y$ differ in exactly one module, $X$ has
+the standard value in that module, and $Y$ has a nonstandard value there.
+\end{definition}
+
+\begin{theorem}[Canonical rewrite reachability]
+\label{thm:philosophy-canonical-rewrite-reachability}
+The canonical completed state set has $24$ states. Its directed rewrite
+graph has $26$ edges, and every state in the completed set is reachable
+from the standard state. In particular, all $22$ observed states are
+reachable.
+\end{theorem}
+\begin{proof}
+Enumerate the $22$ observed states together with $L_{SS}$ and
+$L_{*|W}$. Add directed edges according to
+\autoref{def:philosophy-canonical-rewrite-edge}. The finite enumeration
+gives $26$ directed edges, and graph search from the standard state
+reaches all $24$ states.
+\end{proof}
+
+\begin{theorem}[Latent-completed grammar boundary]
+\label{thm:philosophy-latent-completed-grammar-boundary}
+The latent-completed graph does not claim that the two latent states are
+currently observed biological codes, that every target-monotone edge is
+a biochemical transition, or that the comparison family contains every
+stable biological endpoint.
+\end{theorem}
+\begin{proof}
+The construction uses finite module-value states and graph completion
+under a target-monotone prefix criterion. It supplies a structural
+completion of the observed state set, not a temporal or mechanistic
+biological assertion.
+\end{proof}
