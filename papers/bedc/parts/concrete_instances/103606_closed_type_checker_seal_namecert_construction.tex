@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\ClosedTypeCheckerSealUp$}
+\label{ch:concrete-instances-closed-type-checker-seal-namecert}
+\origin{ai}
+
+The $\ClosedTypeCheckerSealUp$ packet realizes the MetaCIC decidability audit map of \autoref{ch:metacic-decidable-audit-map} as a finite checker seal. It sits beside the subject-reduction obstruction of \autoref{ch:metacic-subject-reduction-obstruction} and the confluence audit map of \autoref{ch:metacic-confluence-audit-map}: those maps expose preservation and residual-substitution boundaries, while this packet records the closed typing-checker surface that can be consumed without promoting bounded normal equality into unrestricted beta-conversion decidability.
+
+\begin{definition}[Closed type-checker seal carrier]
+\label{def:closed-type-checker-seal-carrier}
+A $\ClosedTypeCheckerSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(C,T,Q,E,N,R,O,H,K,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the closed input row, carrying the represented closed MetaCIC term and the displayed closed context boundary;
+\item $T$ is the \texttt{inferTypeCtxClosed} checker row, including the soundness and completeness surfaces for the represented \texttt{HasType} relation;
+\item $Q$ is the structural \texttt{Term.eq} and \texttt{checkSameTerm} row used by the checker;
+\item $E$ is the checker-exactness row tying successful checking to the represented typing judgement and tying represented typing back to checker success;
+\item $N$ is the bounded normal-equality row over \texttt{normalizeBounded} and \texttt{decideClosedBetaConv};
+\item $R$ is the finished-normalization boundary row required before a bounded-normal comparison is read as a statement about named finished normal forms;
+\item $O$ is the non-escape row excluding unrestricted closed beta-conversion decidability and any standalone closedness-decision theorem not displayed in the packet;
+\item $H$ records componentwise $\hsame$ transport across the closed input, checker, equality, exactness, bounded-normal, boundary, obstruction, replay, provenance, and local naming rows;
+\item $K$ records displayed $\Cont$ routes for closed typing checks, structural equality readback, bounded-normal comparison, finished-boundary replay, and non-escape readback;
+\item $P$ is the $\Pkg$ provenance over the decidability audit map, the checker seal of \autoref{ch:concrete-instances-metacicdecidablecheckerseal-namecert}, the decidability audit packet of \autoref{ch:concrete-instances-metacicdecidableauditpacket-namecert}, the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\ClosedTypeCheckerSealUp}$ row.
+\end{enumerate}
+The carrier exposes closed typing-checker exactness and bounded normal-equality data only through the displayed rows. It has no coordinate for unrestricted beta-conversion decidability, no hidden normalization endpoint, and no host-side closed-term oracle.
+\end{definition}
+
+\begin{theorem}[Closed type-checker seal NameCert obligations]
+\label{thm:closed-type-checker-seal-namecert-obligations}
+The local $\NameCert_{\ClosedTypeCheckerSealUp}$ surface consists of six obligation rows:
+\begin{enumerate}
+\item carrier: formation of the finite packet of \autoref{def:closed-type-checker-seal-carrier};
+\item checker exactness: the \texttt{inferTypeCtxClosed} row exposes soundness and completeness for the represented typing relation through $T$ and $E$;
+\item equality readback: structural term equality and same-term checking are read only through $Q$;
+\item bounded normal equality: bounded-normal comparison is read only through $N$ and the finished-normalization boundary row $R$;
+\item non-escape: unrestricted closed beta-conversion decidability and standalone closedness decidability are refused by $O$;
+\item ledger exactness: every transport, replay, provenance, and local naming read factors through $H,K,P,L$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:closed-type-checker-seal-carrier}. The visible checker data are $C,T,Q,E,N,R,O$, and the structural replay data are $H,K,P,L$.
+
+The checker-exactness row uses the positive part of \autoref{ch:metacic-decidable-audit-map}. The closed wrapper \texttt{inferTypeCtxClosed} supplies the typing-checker soundness and completeness surface, while $E$ records that this surface is the exact public route for represented typing.
+
+The equality and bounded-normal rows stay separate. Structural term equality and same-term checking are consumed through $Q$, while bounded normal equality is consumed through $N$ and becomes a finished-normal statement only when $R$ is displayed.
+
+The non-escape row $O$ records the missing endpoint. Because \autoref{ch:metacic-subject-reduction-obstruction} and \autoref{ch:metacic-confluence-audit-map} keep their own preservation and residual-substitution boundaries visible, this seal cannot erase those boundaries by citing a checker row.
+
+Finally $H,K,P,L$ transport, replay, source, and name exactly the displayed rows. No additional carrier coordinate exists, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Closed type-checker seal bounded endpoint boundary]
+\label{thm:closed-type-checker-seal-bounded-endpoint-boundary}
+Every accepted $\ClosedTypeCheckerSealUp$ carrier permits downstream consumers to read checked closed typing, structural term equality, same-term checking, bounded normal equality, finished-normalization consequences when their witness row is displayed, and the corresponding transport, replay, provenance, and naming rows. It does not permit a consumer to export unrestricted closed beta-conversion decidability without a finished-normalization witness.
+\end{theorem}
+\begin{proof}
+Read the positive checker routes first. Rows $C,T,Q,E$ expose the closed input boundary, the closed type-checker result, the structural equality row, and the exactness relation between checking and represented typing.
+
+Next read the bounded-normal route. Row $N$ compares bounded normalizer outputs, and row $R$ is the only route that turns the bounded comparison into a finished-normal statement.
+
+The obstruction row $O$ is part of the same carrier. It refuses any consumer route that omits $R$ while claiming unrestricted closed beta-conversion decidability.
+
+Thus the seal separates checked typing decidability from the bounded conversion boundary. The public endpoint is the finite checker packet, not a global conversion oracle.
+\end{proof}
+
+\begin{theorem}[Closed type-checker seal non-escape]
+\label{thm:closed-type-checker-seal-nonescape}
+The public boundary of $\ClosedTypeCheckerSealUp$ exports only the finite rows
+$$
+C,T,Q,E,N,R,O,H,K,P,L.
+$$
+It exports no subject-reduction theorem, no confluence theorem, no residual-substitution discharge, no unrestricted closed beta-conversion decider, no hidden normalization endpoint, and no host equality oracle.
+\end{theorem}
+\begin{proof}
+Inspect the accepted carrier. Its checker-facing rows are $C,T,Q,E,N,R,O$, and its structural rows are $H,K,P,L$.
+
+Apply \autoref{thm:closed-type-checker-seal-namecert-obligations}. Every public read projects through the carrier, checker-exactness, equality-readback, bounded-normal, non-escape, or ledger-exactness rows.
+
+Apply \autoref{thm:closed-type-checker-seal-bounded-endpoint-boundary}. The bounded-normal route reaches a finished-normal statement only when the witness row is displayed, and the same route refuses unrestricted beta-conversion decidability without that witness.
+
+Since no coordinate names subject reduction, confluence, residual-substitution discharge, a hidden normalizer endpoint, or a host equality oracle, none of those objects can escape the seal.
+\end{proof}
+
+\falsifiablePrediction{The seal has no carrier route exporting unrestricted closed beta-conversion decidability without a finished-normalization witness.}
+
+\independenceWitness{metacicdecidableboundary, metacicdecidableauditpacket, metacicdecidablecheckerseal, metacic-residual-substitution-boundary: the closed type-checker seal is not bijective to any listed sibling because it binds the closed input row, inferTypeCtxClosed exactness row, structural equality readback, bounded-normal row, finished-normalization boundary, and non-escape row in one finite carrier.}
+
+The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{lean4/BEDC/Derived/ClosedTypeCheckerSealUp/TasteGate.lean} by exhibiting distinct accepted and refused closed checker packets and by matching on the rows $C,T,Q,E,N,R,O,H,K,P,L$.
+
+\closureat{ClosedTypeCheckerSealUp}{seedStr}
+
+\begin{closurestatus}{\ClosedTypeCheckerSealUp}
+  \constructivestory{A $\ClosedTypeCheckerSealUp$ packet is generated from a closed input row, inferTypeCtxClosed checker row, structural Term.eq and checkSameTerm row, checker-exactness row, bounded normal-equality row, finished-normalization boundary row, non-escape row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-type-checker-seal-carrier}, \autoref{thm:closed-type-checker-seal-namecert-obligations}, \autoref{thm:closed-type-checker-seal-bounded-endpoint-boundary}, and \autoref{thm:closed-type-checker-seal-nonescape} seed the finite closed type-checker seal and its bounded conversion boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, confluence, residual-substitution discharge, unrestricted closed beta-conversion decidability, global normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, inferTypeCtxClosed exactness routing, equality readback, bounded-normal boundary routing, non-escape, and TasteGate nontriviality with field faithfulness for BEDC.Derived.ClosedTypeCheckerSealUp.}
+\end{closurestatus}
