@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CauchyOscillationCriterionUp$}
+\label{ch:concrete-instances-cauchy-oscillation-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyOscillationCriterionUp$ packet records the finite identification between a Cauchy oscillation ledger and a two-point tail-diameter witness. It consumes the oscillation surface of \autoref{ch:concrete-instances-cauchyoscillation-namecert}, the tail-diameter surface of \autoref{ch:concrete-instances-cauchy-tail-diameter-namecert}, the criterion consumers of \autoref{ch:concrete-instances-cauchycriterion-namecert} and \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}, the dyadic tolerance row of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal discipline of \autoref{ch:concrete-instances-real-namecert}. The packet gives RegSeqRat, Real, and Completion consumers one finite criterion object rather than two unrelated tail tests; it is not a real-completeness theorem, a selected limit, quotient stream equality, host real equality, or a choice principle.
+
+\begin{definition}[Cauchy oscillation criterion carrier]
+\label{def:cauchy-oscillation-criterion-carrier}
+A $\CauchyOscillationCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+X=(O,K,A,U,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the accepted $\CauchyOscillationUp$ ledger row, exposing the finite tail window, threshold schedule, dyadic tolerance, and oscillation comparisons read by the criterion.
+\item $K$ is the accepted $\CauchyTailDiameterUp$ witness row, exposing the same source tail through one threshold, two visible tail indices, one tolerance, and the displayed diameter bound.
+\item $A$ is the $\CauchyCriterionUp$ consumer row that reads the single-sequence criterion boundary from the shared ledger and diameter witness.
+\item $U$ is the $\UniformCauchyCriterionUp$ family row that reads the same finite route when the criterion is presented as a singleton or fixed finite family.
+\item $Q$ is the shared $\DyadicRatCoreUp$ tolerance row whose dyadic budget is used by both the oscillation comparisons in $O$ and the two-point bound in $K$.
+\item $R$ is the terminal $\RealUp$ seal handoff reached only after the common finite criterion route has been accepted.
+\item $H$ records componentwise $\hsame$ transport for the oscillation ledger, tail-diameter witness, criterion row, uniform-family row, dyadic tolerance, real seal, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+O,K,Q \longmapsto A,U \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyOscillationCriterionUp$, $\CauchyOscillationUp$, $\CauchyTailDiameterUp$, $\CauchyCriterionUp$, $\UniformCauchyCriterionUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyOscillationCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,K,A,U,Q,R,H,C,P,N$. It has no coordinate for a quotient stream, selected limit, host equality, choice datum, ambient Real completeness, or detached completion object.
+\end{definition}
+
+\begin{theorem}[Cauchy oscillation criterion NameCert obligations]
+\label{thm:cauchy-oscillation-criterion-namecert-obligations}
+For every accepted $\CauchyOscillationCriterionUp$ carrier $X=(O,K,A,U,Q,R,H,C,P,N)$, the local $\NameCert_{\CauchyOscillationCriterionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the oscillation ledger, tail-diameter witness, single-sequence criterion consumer, finite-family criterion consumer, shared dyadic tolerance, Real seal, transport, replay, provenance, and local naming rows;
+\item oscillation-to-diameter projection, requiring every accepted oscillation comparison used by $O$ to expose the same finite source tail, threshold discipline, and dyadic tolerance from which the two visible tail-index comparison in $K$ is read;
+\item diameter-to-oscillation reconstruction, requiring the two-point bound recorded by $K$ to replay as a finite oscillation-ledger entry over the same displayed source tail and tolerance row;
+\item consumer handoff through $\CauchyCriterionUp$ and $\UniformCauchyCriterionUp$, requiring both consumer rows $A$ and $U$ to read the shared $O,K,Q$ route before exposing the terminal $\RealUp$ seal row $R$;
+\item non-escape from quotient streams, selected limits, host equality, choice, Real completeness, and detached completion data.
+\end{enumerate}
+No Cauchy oscillation criterion obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted packet $X=(O,K,A,U,Q,R,H,C,P,N)$. The projection exposes exactly one oscillation ledger, one tail-diameter witness, two criterion consumer rows, one shared dyadic tolerance, one Real seal handoff, and the structural transport, replay, provenance, and naming rows.
+
+For the oscillation-to-diameter direction, read the ledger row $O$ through its finite tail window, threshold schedule, dyadic tolerance, and displayed comparisons. The tail-diameter row $K$ uses the same source tail and tolerance but focuses the read to two visible tail indices beyond the displayed threshold, so every two-point comparison consumed by the criterion is a projection of the finite oscillation route.
+
+For the diameter-to-oscillation direction, replay the two visible indices and bound stored in $K$ as one ledger entry over the same source tail. The shared tolerance row $Q$ fixes the dyadic budget, so the reconstructed ledger entry cannot alter the radius, threshold discipline, or source observations.
+
+The consumer rows then read the common route. The $\CauchyCriterionUp$ row $A$ and the $\UniformCauchyCriterionUp$ row $U$ both consume $O,K,Q$ before exposing $R$, and the replay row $C$ records this order as a displayed continuation.
+
+Finally, $H,P,N$ transport, source, and name only the displayed finite rows. Since the carrier contains no coordinate for quotient streams, selected limits, host equality, choice, Real completeness, or detached completion data, none of those principles can be part of the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Cauchy oscillation and tail-diameter equivalence]
+\label{thm:cauchy-oscillation-criterion-tail-diameter-equivalence}
+Every accepted $\CauchyOscillationCriterionUp$ packet makes the $\CauchyOscillationUp$ ledger and the $\CauchyTailDiameterUp$ witness the same finite tail-bound route for $\RegSeqRatUp$ and $\RealUp$ consumers. More explicitly, a consumer that reads the criterion packet through $A$ or $U$ must factor through the common route
+$$
+O,K,Q \longmapsto A,U \longmapsto R,
+$$
+where $O$ and $K$ expose the same displayed source tail, threshold discipline, dyadic tolerance, and finite two-point comparison data. The equivalence exports no Real completeness, selected limit, quotient stream equality, host equality, choice datum, or detached completion object.
+\end{theorem}
+
+\begin{proof}
+Start with an accepted packet $X=(O,K,A,U,Q,R,H,C,P,N)$ and a $\RegSeqRatUp$ or $\RealUp$ consumer route that reads the criterion through $A$ or $U$. Carrier admission gives the consumer no analytic coordinates except the oscillation ledger $O$, the tail-diameter witness $K$, the shared tolerance row $Q$, and the terminal seal $R$.
+
+Use the NameCert obligations in \autoref{thm:cauchy-oscillation-criterion-namecert-obligations}. The oscillation-to-diameter projection says that the tail-diameter read is obtained by selecting the two visible tail positions inside the finite oscillation ledger. The diameter-to-oscillation reconstruction says that the same two-point bound replays as an oscillation-ledger entry over the same displayed source tail and tolerance.
+
+The consumer handoff fixes the downstream route. Both $A$ and $U$ must read the shared $O,K,Q$ route before exposing $R$, so the single-sequence criterion and the finite-family criterion cannot distinguish the oscillation ledger from the tail-diameter witness as separate completion data.
+
+The remaining structural rows preserve this identification. Componentwise transport in $H$ and displayed replay in $C$ keep the source tail, threshold discipline, tolerance row, and comparison data aligned, while $P$ and $N$ source and name the same finite packet.
+
+Therefore the oscillation ledger and the tail-diameter witness are the same finite tail-bound route for the displayed RegSeqRat and Real consumers. The non-escape row excludes Real completeness, selected limits, quotient stream equality, host equality, choice, and detached completion objects from the equivalence.
+\end{proof}
+
+\closureat{CauchyOscillationCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyOscillationCriterionUp}
+  \constructivestory{A $\CauchyOscillationCriterionUp$ packet is generated from a CauchyOscillationUp ledger, a CauchyTailDiameterUp witness, CauchyCriterionUp and UniformCauchyCriterionUp consumer rows, a shared DyadicRatCore tolerance, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-oscillation-criterion-carrier}, \autoref{thm:cauchy-oscillation-criterion-namecert-obligations}, and \autoref{thm:cauchy-oscillation-criterion-tail-diameter-equivalence} seed the finite criterion packet identifying the oscillation ledger with the two-point tail-diameter witness for RegSeqRat and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, selected limits, quotient stream equality, host equality, choice, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, oscillation-to-diameter projection, diameter-to-oscillation reconstruction, consumer handoff, and non-escape for BEDC.Derived.CauchyOscillationCriterionUp.}
+\end{closurestatus}
