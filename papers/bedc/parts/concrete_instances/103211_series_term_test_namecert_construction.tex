@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for $\SeriesTermTestUp$}
+\label{ch:concrete-instances-series-term-test-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\SeriesTermTestUp$ packet records the finite necessary condition for a real series endpoint: adjacent partial-sum differences are displayed term rows that must factor through the same Cauchy-tail threshold before a zero $\RealUp$ seal is read. It sits after the $\RealSeriesUp$ carrier of \autoref{ch:concrete-instances-realseries-namecert}, the real-series Cauchy criterion of \autoref{ch:concrete-instances-real-series-cauchy-criterion-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite displayed term rows, adjacent partial-sum differences, shared tail-threshold evidence, and a zero-seal read; it does not import a host infinite sum, a selected limit, quotient equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Series term test carrier]
+\label{def:series-term-test-carrier}
+A $\SeriesTermTestUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,S,A,D,R,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the real-valued term stream, exposed only through the inspected term rows already available to $\RealSeriesUp$.
+\item $S$ is the partial-sum window, listing the displayed partial sums whose adjacent differences are inspected by the current tail request.
+\item $A$ is the adjacent-difference row, recording the equality of each inspected term row with the corresponding displayed difference between successive partial sums.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, assigning the same tail request a finite threshold and the rational radii used to compare adjacent partial sums.
+\item $R$ is the $\RegSeqRatUp$ readback row for the inspected terms, partial sums, and adjacent differences.
+\item $Z$ is the zero $\RealUp$ seal reached only after $T,S,A,D,R$ have been displayed through the common Cauchy-tail threshold.
+\item $H$ stores componentwise $\hsame$ transport for the term stream, partial-sum window, adjacent-difference row, dyadic ledger, readback, zero seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay of the route
+$$
+T,S,A,D,R \longmapsto Z .
+$$
+\item $P$ is the $\Pkg$ provenance over $\SeriesTermTestUp$, $\RealSeriesUp$, $\RealSeriesCauchyCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SeriesTermTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,S,A,D,R,Z,H,C,P,N$. It has no coordinate for a host infinite sum, selected limit, quotient equality of real streams, countable-choice selector, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Series term test NameCert obligations]
+\label{thm:series-term-test-namecert-obligations}
+For every accepted $\SeriesTermTestUp$ carrier
+$$
+K=(T,S,A,D,R,Z,H,C,P,N),
+$$
+the local $\NameCert_{\SeriesTermTestUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the term stream, partial-sum window, adjacent-difference row, dyadic tolerance ledger, regular rational readback, zero $\RealUp$ seal, transport, replay, provenance, and local naming rows;
+\item term-row exposure, requiring every inspected term to pass through $T$ and the finite stream windows consumed by the source $\RealSeriesUp$ row;
+\item adjacent-difference exactness, requiring $A$ to identify each inspected term row with the displayed difference of neighboring partial sums in $S$;
+\item shared tail-threshold routing, requiring the same Cauchy-tail threshold used by $\RealSeriesCauchyCriterionUp$ to govern the dyadic ledger $D$ before any zero seal is exported;
+\item readback and zero-seal nonescape, requiring $R$ and then $Z$ to remain downstream of $T,S,A,D$;
+\item provenance closure, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed finite route.
+\end{enumerate}
+No series term-test obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted carrier $K=(T,S,A,D,R,Z,H,C,P,N)$. The carrier exposes exactly the term stream, partial-sum window, adjacent-difference row, dyadic ledger, readback, zero seal, and structural rows.
+
+The term-row clause is forced by $T$ and $S$. The source row supplies only displayed terms, while the partial-sum window supplies the two neighboring partial sums needed to read each inspected adjacent difference.
+
+The adjacent-difference row $A$ records the finite equality between the inspected term and the displayed partial-sum difference. The dyadic ledger $D$ attaches those same rows to the shared Cauchy-tail threshold rather than to a separate host convergence assertion.
+
+The readback and zero-seal stage is downstream. The row $R$ reads the displayed term, partial sums, and difference through regular rational data, and $Z$ is available only after that readback has passed through $D$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no excluded coordinate for host summation, selected limits, quotient equality, choice, trichotomy, or ambient real completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Series term test adjacent-difference route]
+\label{thm:series-term-test-adjacent-difference-route}
+Every accepted $\SeriesTermTestUp$ packet factors each inspected term read through the displayed finite route
+$$
+T,S \longmapsto A \longmapsto D,R \longmapsto Z,H,C,P,N .
+$$
+Thus a term row reaches the zero $\RealUp$ seal only as an adjacent partial-sum difference governed by the shared Cauchy-tail threshold. It does not read a host infinite sum, selected limit, quotient equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+
+\begin{proof}
+Begin with an inspected term request. By \autoref{def:series-term-test-carrier}, the request first projects the term stream row $T$ and the finite partial-sum window $S$.
+
+The adjacent-difference row $A$ then identifies the inspected term with the displayed difference between neighboring partial sums in $S$. This is a finite row calculation, not an appeal to a completed infinite series.
+
+The shared threshold is read through $D$. The same tail request that makes the partial sums Cauchy supplies the dyadic tolerance data for the adjacent difference, and the regular rational readback $R$ records the displayed comparison.
+
+Only after this route is displayed can $Z$ provide the zero $\RealUp$ seal. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so every accepted term read factors through the adjacent-difference surface before the zero seal is available.
+\end{proof}
+
+\begin{theorem}[Series term test zero-seal nonescape]
+\label{thm:series-term-test-zero-seal-nonescape}
+Every zero-seal read from an accepted $\SeriesTermTestUp$ carrier factors through
+$$
+T,S,A,D,R,Z,H,C,P,N .
+$$
+Consequently the packet exports only the necessary-condition statement that displayed terms tend to zero through the same Cauchy-tail threshold used by the partial sums. It exports no host infinite sum, selected limit, quotient equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+
+\begin{proof}
+Use \autoref{thm:series-term-test-adjacent-difference-route} to place every inspected term on the finite route through $T,S,A,D,R$. The route already contains the displayed neighboring partial sums and the dyadic threshold data attached to the Cauchy-tail request.
+
+The zero seal $Z$ consumes this route. It is a $\RealUp$ seal for the displayed term rows tending to zero, not a separate completion principle for the whole sequence of partial sums.
+
+The transport, replay, provenance, and local naming rows $H,C,P,N$ preserve the same coordinates. Because the carrier has no coordinate for host infinite sums, selected limits, quotient stream equality, countable choice, trichotomy, or ambient real completeness, none of those principles can escape through the zero-seal boundary.
+\end{proof}
+
+\closureat{SeriesTermTestUp}{seedStr}
+
+\begin{closurestatus}{\SeriesTermTestUp}
+  \constructivestory{A $\SeriesTermTestUp$ packet is generated from a real-valued term stream, finite partial-sum windows, adjacent-difference rows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a zero RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:series-term-test-carrier}, \autoref{thm:series-term-test-namecert-obligations}, \autoref{thm:series-term-test-adjacent-difference-route}, and \autoref{thm:series-term-test-zero-seal-nonescape} seed the finite necessary-condition certificate route from real-series Cauchy tails to displayed terms tending to zero.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, selected limits, quotient equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean theorems for carrier admission, adjacent-difference exactness, shared tail-threshold routing, readback and zero-seal nonescape, and transport, replay, provenance, and local naming discipline for BEDC.Derived.SeriesTermTestUp.}
+\end{closurestatus}
