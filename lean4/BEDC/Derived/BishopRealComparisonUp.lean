@@ -118,4 +118,26 @@ theorem BishopRealComparisonPacket_located_cut_transport [AskSetup] [PackageSetu
     ⟨locatedUnary, cutUnary, realSealUnary, readbackUnary, locatedReadUnary, cutReadUnary,
       realLocated, readbackCut, provenancePkg, locatedReadPkg, cutReadPkg⟩
 
+theorem BishopRealComparisonPacket_nonescape [AskSetup] [PackageSetup]
+    {bishop completion located cut realSeal readback transports provenance localCert
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopRealComparisonPacket bishop completion located cut realSeal readback transports
+        provenance localCert bundle pkg ->
+      Cont realSeal readback consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory bishop ∧ UnaryHistory completion ∧ UnaryHistory located ∧
+            UnaryHistory cut ∧ UnaryHistory realSeal ∧ UnaryHistory readback ∧
+              UnaryHistory consumer ∧ Cont realSeal readback consumer ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet sealReadback consumerPkg
+  obtain ⟨bishopUnary, completionUnary, locatedUnary, cutUnary, realSealUnary, readbackUnary,
+    _transportsUnary, _provenanceUnary, _localCertUnary, provenancePkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed realSealUnary readbackUnary sealReadback
+  exact
+    ⟨bishopUnary, completionUnary, locatedUnary, cutUnary, realSealUnary, readbackUnary,
+      consumerUnary, sealReadback, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.BishopRealComparisonUp
