@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\IntervalFiniteCoverCertificateUp$}
+\label{ch:concrete-instances-interval-finite-cover-certificate-namecert}
+\origin{human}
+
+Following the Bishop--Bridges finite-cover reading, the $\IntervalFiniteCoverCertificateUp$ packet records the finite dyadic cover data used by interval compactness arguments without asserting a general open-cover compactness principle. It consumes the closed interval base of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the finite net surface of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, the dyadic arithmetic rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite name windows of \autoref{ch:concrete-instances-streamname-namecert}, the rational readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the downstream finite-net consumer route of \autoref{ch:concrete-instances-compactuniformcontinuity-namecert}. The packet is a displayed certificate for one closed bounded interval row, one mesh scale, rational and dyadic cells, displayed centers, finite coverage rows, StreamName windows, RegSeqRat readback, RealUp sealing, transport, replay, provenance, and local naming.
+
+\begin{definition}[Interval finite cover certificate carrier]
+\label{def:interval-finite-cover-certificate-carrier}
+An $\IntervalFiniteCoverCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+J=(I,M,C,D,Z,F,S,R,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the accepted $\ClosedBoundedIntervalUp$ row, including its endpoint-order and containment ledgers;
+\item $M$ is the unary mesh scale naming the dyadic precision at which the cover is read;
+\item $C$ is the finite rational cell ledger attached to $I$ at scale $M$;
+\item $D$ is the finite $\DyadicRatCoreUp$ cell ledger refining the rational cells of $C$;
+\item $Z$ is the displayed center row, with one rational or dyadic center for each accepted cell;
+\item $F$ is the finite coverage row saying that every displayed interval containment read enters one of the cells in $C$ together with its dyadic refinement in $D$;
+\item $S$ is the $\StreamNameUp$ window row used to read the endpoints, centers, and cell boundaries at the mesh scale;
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same windows;
+\item $E$ is the $\RealUp$ seal row reached only after $I,M,C,D,Z,F,S,R$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport for the interval row, mesh row, rational cells, dyadic cells, centers, coverage row, windows, readbacks, and Real seal;
+\item $K$ records displayed $\Cont$ replay from the closed interval row through mesh selection, cell coverage, finite windows, rational readback, and RealUp sealing;
+\item $P$ is the $\Pkg$ provenance over $\IntervalFiniteCoverCertificateUp$, $\ClosedBoundedIntervalUp$, $\ClosedBoundedIntervalNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\IntervalFiniteCoverCertificateUp}$ row.
+\end{enumerate}
+The carrier exports no arbitrary open cover, selected subcover, quotient real equality, trichotomy row, hidden point selector, or ambient Real completeness principle. Its public data are exactly the finite interval, mesh, cell, center, coverage, readback, seal, transport, replay, provenance, and local naming rows.
+\end{definition}
+
+\begin{definition}[Interval finite cover certificate classifier]
+\label{def:interval-finite-cover-certificate-classifier}
+Two accepted $\IntervalFiniteCoverCertificateUp$ carriers
+$$
+J=(I,M,C,D,Z,F,S,R,E,H,K,P,N)
+$$
+and
+$$
+J'=(I',M',C',D',Z',F',S',R',E',H',K',P',N')
+$$
+are classified together exactly when the displayed $\hsame$ rows transport $I$ to $I'$, $M$ to $M'$, $C$ to $C'$, $D$ to $D'$, $Z$ to $Z'$, $F$ to $F'$, $S$ to $S'$, $R$ to $R'$, and $E$ to $E'$, and the displayed $\Cont$ rows replay the same interval-to-mesh-to-cover-to-seal route on both packets. The classifier has no coordinate for equality of ambient subsets of $\RealUp$, general cover refinement, choice of a finite subcover from an arbitrary family, trichotomy, or completed real-line compactness.
+\end{definition}
+
+\begin{theorem}[Interval finite cover certificate NameCert obligations]
+\label{thm:interval-finite-cover-certificate-namecert-obligations}
+For the carrier of \autoref{def:interval-finite-cover-certificate-carrier}, the local $\NameCert_{\IntervalFiniteCoverCertificateUp}$ surface consists exactly of carrier admission for $J=(I,M,C,D,Z,F,S,R,E,H,K,P,N)$, closed bounded interval admission through $I$, unary mesh admission through $M$, rational cell admission through $C$, dyadic cell admission through $D$, center-row admission through $Z$, finite coverage admission through $F$, StreamName and RegSeqRat readback through $S$ and $R$, RealUp sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its rows display the closed interval, mesh scale, rational cells, dyadic cells, centers, finite coverage, windows, readbacks, Real seal, transport, replay, provenance, and local name as one finite packet.
+
+Read the analytic rows before the seal. The interval row $I$, mesh row $M$, cell rows $C,D$, center row $Z$, and coverage row $F$ are all exposed before the $\RealUp$ seal $E$, while $S$ and $R$ record the finite name windows and rational readbacks used by the same cells.
+
+The remaining rows close the naming surface. The transport row $H$, replay row $K$, provenance row $P$, and local name $N$ preserve exactly this finite route, so there is no additional NameCert obligation outside the listed rows.
+\end{proof}
+
+\begin{theorem}[Interval finite cover certificate nonescape]
+\label{thm:interval-finite-cover-certificate-nonescape}
+Every accepted $\IntervalFiniteCoverCertificateUp$ consumer reads interval coverage through the finite route
+$$
+I,M,C,D,Z,F,S,R,E,H,K,P,N.
+$$
+The read receives a closed bounded interval row, a unary mesh scale, rational cells, dyadic refinements, displayed centers, a finite coverage ledger, StreamName windows, RegSeqRat readback, and a RealUp seal. It receives no general open-cover compactness theorem, arbitrary subcover choice, quotient real equality, order trichotomy, or ambient Real completeness row.
+\end{theorem}
+\begin{proof}
+Start with the displayed route. The carrier admits coverage only through the rows $I,M,C,D,Z,F$, so an interval read must pass through the accepted closed interval, the mesh scale, the rational and dyadic cells, the centers, and the finite coverage row.
+
+The name-facing rows do not add escape coordinates. The StreamName windows, RegSeqRat readbacks, and RealUp seal are downstream of the finite cover rows, and the structural rows $H,K,P,N$ only transport, replay, source, and name the same packet.
+
+Since the carrier and classifier contain no coordinate for an arbitrary open cover, selected subcover, quotient real equality, trichotomy, or ambient completeness principle, a consumer cannot extract any such datum from an accepted packet.
+\end{proof}
+
+\begin{theorem}[Interval finite cover certificate compact-uniform handoff]
+\label{thm:interval-finite-cover-certificate-compact-uniform-handoff}
+Every $\CompactUniformContinuityUp$ consumer of an accepted $\IntervalFiniteCoverCertificateUp$ packet receives the finite handoff
+$$
+I,M,C,D,Z,F,S,R,E,H,K,P,N
+$$
+as a dyadic interval cover certificate. The handoff may be read as closed-bounded interval data from $I$, mesh and cell data from $M,C,D,Z,F$, finite name data from $S,R$, and a Real-facing seal from $E$, all transported and sourced by $H,K,P,N$. It does not assert Heine--Borel open-cover compactness, choose a subcover from an arbitrary family, identify quotient real names, decide trichotomy, or supply ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations. They identify the accepted packet with the rows $I,M,C,D,Z,F,S,R,E,H,K,P,N$, so a downstream consumer receives the same finite route rather than an ambient interval object.
+
+Use the nonescape theorem. It prevents the handoff from being reinterpreted as a general open-cover compactness row, a selected subcover, quotient real equality, trichotomy, or Real completeness.
+
+The compact-uniform-continuity consumer therefore sees exactly a finite dyadic cover certificate: interval base rows, mesh and cell rows, centers, coverage, finite name windows, rational readback, a Real-facing seal, transport, replay, provenance, and local naming.
+\end{proof}
+
+\falsifiablePrediction{Every compact-uniform-continuity read of an IntervalFiniteCoverCertificateUp packet factors through the displayed finite dyadic cover route and not through an open-cover compactness row.}
+
+\independenceWitness{closedboundedinterval, closedboundedintervalnet, dyadicratcore, streamname, regseqrat, real, compactuniformcontinuity: $\IntervalFiniteCoverCertificateUp$ is not bijective to any listed sibling because it jointly carries a closed bounded interval row, unary mesh scale, rational and dyadic cells, displayed centers, finite coverage rows, StreamName windows, RegSeqRat readback, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\closureat{IntervalFiniteCoverCertificateUp}{seedStr}
+
+\begin{closurestatus}{\IntervalFiniteCoverCertificateUp}
+  \constructivestory{An $\IntervalFiniteCoverCertificateUp$ packet is generated from a closed bounded interval row, unary mesh scale, rational and dyadic cells, displayed centers, finite coverage rows, StreamName windows, RegSeqRat readbacks, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:interval-finite-cover-certificate-carrier}, \autoref{def:interval-finite-cover-certificate-classifier}, \autoref{thm:interval-finite-cover-certificate-namecert-obligations}, \autoref{thm:interval-finite-cover-certificate-nonescape}, and \autoref{thm:interval-finite-cover-certificate-compact-uniform-handoff} bind the finite dyadic interval-cover certificate used by compact-uniform-continuity consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, general open-cover compactness, arbitrary subcover choice, quotient real equality, trichotomy, or ambient Real completeness.}
+  \upgradepath{Lean closure requires carrier admission, classifier preservation, finite coverage nonescape, and compact-uniform handoff for BEDC.Derived.IntervalFiniteCoverCertificateUp.}
+\end{closurestatus}

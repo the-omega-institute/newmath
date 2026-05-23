@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\DedekindMacNeilleCompletionUp$}
+\label{ch:concrete-instances-dedekind-macneille-completion-namecert}
+\origin{human}
+
+Following Birkhoff and Davey--Priestley on order completion, the $\DedekindMacNeilleCompletionUp$ packet names the finite two-sided cut-closure surface that compares lower-row and upper-row observations without constructing $\RealUp$ by Dedekind cuts. It sits between the one-sided $\LowerRealUp$ and $\UpperRealUp$ ledgers, the located-cut boundary of \autoref{ch:concrete-instances-locatedcut-namecert}, the representation comparison of \autoref{ch:concrete-instances-dedekind-cauchy-comparison-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a finite order-completion comparison boundary for Real and Completion consumers; it is not a quotient-cut carrier, not a host supremum principle, and not a construction of $\RealUp$.
+
+\begin{definition}[Dedekind--MacNeille completion carrier]
+\label{def:dedekind-macneille-completion-carrier}
+A $\DedekindMacNeilleCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(L,U,K,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the finite lower-row closure ledger. It records the displayed $\LowerRealUp$ observations, their downward stability, and the finite meet requests allowed by the packet.
+\item $U$ is the finite upper-row closure ledger. It records the displayed $\UpperRealUp$ observations, their upward stability, and the finite join requests allowed by the packet.
+\item $K$ is the $\LocatedCutUp$ handoff row. It ties the lower and upper ledgers by located separation data and records only the displayed gap witnesses used by finite consumers.
+\item $Q$ is the $\DedekindCauchyComparisonUp$ boundary row. It compares cut-shaped observations from $L,U,K$ with the regular Cauchy readback route accepted at the representation boundary.
+\item $E$ is the $\RealUp$ seal route. It is reached only after the lower closure, upper closure, located-cut handoff, and comparison boundary have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the lower ledger, upper ledger, located-cut handoff, comparison boundary, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a two-sided cut request through $L,U,K,Q,E$.
+\item $P$ is the $\Pkg$ provenance over $\DedekindMacNeilleCompletionUp$, $\LowerRealUp$, $\UpperRealUp$, $\LocatedCutUp$, $\DedekindCauchyComparisonUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DedekindMacNeilleCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,K,Q,E,H,C,P,N$. The carrier has no coordinate for quotient cuts, host suprema, arbitrary complete lattices, selected cuts, or a Dedekind construction of $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.DedekindMacNeilleCompletionUp.DedekindMacNeilleCompletionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dedekind--MacNeille completion NameCert obligations]
+\label{thm:dedekind-macneille-completion-namecert-obligations}
+For every accepted $\DedekindMacNeilleCompletionUp$ carrier $D=(L,U,K,Q,E,H,C,P,N)$, the local $\NameCert_{\DedekindMacNeilleCompletionUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed lower closure ledger, upper closure ledger, located-cut handoff, comparison boundary, Real seal, transport, replay, provenance, and local naming row;
+\item two-sided closure compatibility, requiring every finite lower-row request in $L$ and every finite upper-row request in $U$ to meet only through the located separation witnesses recorded in $K$;
+\item representation-boundary factorization, requiring every cut-shaped observation exposed by $L,U,K$ to pass through $Q$ before any $\RealUp$-facing read is available;
+\item transport and replay stability, requiring $\hsame$ transport $H$ and $\Cont$ replay $C$ to preserve the ordered route $L,U,K,Q,E$ componentwise;
+\item ledger non-escape, requiring $P$ and $N$ to export no quotient cut, no host supremum, no arbitrary complete-lattice closure, no selected cut, and no Dedekind construction of $\RealUp$.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dedekind-macneille-completion-carrier}. The accepted packet exposes exactly the lower ledger, upper ledger, located-cut handoff, representation comparison, Real seal, and structural rows $H,C,P,N$.
+
+The two-sided closure compatibility row is finite. A lower request reads only the displayed rows in $L$, an upper request reads only the displayed rows in $U$, and their common comparison is the located separation information stored in $K$.
+
+Representation-boundary factorization is forced by the row order. Cut-shaped observations from $L,U,K$ cannot reach a Real-facing seal directly; they first pass through the $\DedekindCauchyComparisonUp$ row $Q$.
+
+Transport and replay are structural. Componentwise $\hsame$ in $H$ preserves each displayed coordinate, and $\Cont$ replay in $C$ repeats the same route $L,U,K,Q,E$ for every accepted two-sided request.
+
+Finally, provenance and naming are exhausted by $P$ and $N$. Since quotient cuts, host suprema, arbitrary complete-lattice closure, selected cuts, and a Dedekind construction of $\RealUp$ are not coordinates of $D$, the local NameCert surface cannot export them.
+\end{proof}
+
+\begin{theorem}[Dedekind--MacNeille finite cut closure]
+\label{thm:dedekind-macneille-completion-cut-closure}
+Let $D=(L,U,K,Q,E,H,C,P,N)$ be an accepted $\DedekindMacNeilleCompletionUp$ carrier. Every finite two-sided cut-closure read exported by $D$ factors through the route
+$$
+L,U \longmapsto K \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the packet supplies only the displayed lower-row closure, upper-row closure, located-cut handoff, representation comparison, and terminal Real-seal route. It supplies no quotient cut, no host supremum, no arbitrary Dedekind--MacNeille completion object, no selected cut, and no construction of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Begin with a two-sided cut-closure read. The lower face is the finite ledger $L$, and the upper face is the finite ledger $U$; no ambient poset completion or host lattice is consulted.
+
+The two faces meet only through $K$. This row records the located separation handoff, so a consumer may inspect the displayed gap witnesses but cannot form a quotient cut or selected cut from them.
+
+The representation boundary is $Q$. Every cut-shaped observation from the displayed rows is compared with the regular Cauchy readback route before the terminal $\RealUp$ seal $E$ is available.
+
+The rows $H,C,P,N$ then transport, replay, source, and name exactly this route. Because the packet contains no coordinate for host suprema, arbitrary complete lattices, quotient cuts, selected cuts, or a Dedekind construction of $\RealUp$, none of those objects can be exported by the cut-closure read.
+\end{proof}
+
+\begin{closurestatus}{\DedekindMacNeilleCompletionUp}
+  \constructivestory{A $\DedekindMacNeilleCompletionUp$ packet is generated from finite lower-row closure data, finite upper-row closure data, a LocatedCut handoff, a DedekindCauchyComparison boundary, a RealUp seal route, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dedekind-macneille-completion-carrier}, \autoref{thm:dedekind-macneille-completion-namecert-obligations}, and \autoref{thm:dedekind-macneille-completion-cut-closure} seed the finite two-sided cut-closure comparison boundary for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim RealUp completeness, quotient cuts, host suprema, arbitrary complete lattices, selected cuts, Lean verification, a standard bridge, or Dedekind construction of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-sided closure compatibility, LocatedCut handoff, DedekindCauchyComparison factorization, Real seal non-escape, transport stability, replay stability, and ledger non-escape for BEDC.Derived.DedekindMacNeilleCompletionUp.}
+\end{closurestatus}

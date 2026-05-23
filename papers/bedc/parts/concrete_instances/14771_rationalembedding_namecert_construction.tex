@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\RationalEmbeddingUp$}
+\label{ch:concrete-instances-rationalembedding-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive rational constants as real names, the $\RationalEmbeddingUp$ packet records the standard constant rational route from a $\RatUp$ row into a $\RealUp$ seal without turning host rational equality, quotient streams, selected limits, trichotomy, or ambient completeness into primitive coordinates. It sits between the rational source surface of \autoref{ch:concrete-instances-rat-namecert}, the constant finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real seal boundary of \autoref{ch:concrete-instances-real-namecert}, and the dyadic constant-name route of \autoref{ch:concrete-instances-dyadicembedding-namecert}.
+
+\begin{definition}[RationalEmbedding carrier surface]
+\label{def:rational-embedding-carrier-surface}
+A $\RationalEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(q,S,R,D,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $q$ is the $\RatUp$ source row naming the accepted rational point;
+\item $S$ is the constant $\StreamNameUp$ schedule whose admitted windows all read the same rational source row $q$;
+\item $R$ is the stationary $\RegSeqRatUp$ readback obtained from the constant schedule $S$;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and observation row used to compare the stationary rational reads at the displayed finite precisions;
+\item $E$ is the $\RealUp$ seal row reached only after $q,S,R,D$ have been exposed;
+\item $H$ stores componentwise $\hsame$ transports for the rational source, constant schedule, stationary readback, dyadic tolerance row, real seal, package provenance, and local naming row;
+\item $C$ stores the displayed $\Cont$ routes from $q$ to $S$, from $S$ to $R$, from $R$ to $D$, and from $D$ to $E$;
+\item $P$ is the $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RationalEmbeddingUp}$ row.
+\end{enumerate}
+The carrier is a finite certificate for rational constants as real names. It contains no quotient stream, no host real equality row, no selected limit, no trichotomy principle, no host rational equality oracle, and no ambient completeness coordinate.
+\end{definition}
+\leanchecked{BEDC.Derived.RationalEmbeddingUp.RationalEmbeddingTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RationalEmbedding constant sequence route]
+\label{thm:rational-embedding-constant-sequence-route}
+Every accepted $\RationalEmbeddingUp$ packet routes its $\RatUp$ source row $q$ through the constant $\StreamNameUp$ schedule $S$ and the stationary $\RegSeqRatUp$ readback $R$ before any $\RealUp$ read is available. Thus a consumer of the real seal first sees the rational source, then the constant finite-window schedule, then the stationary regular-rational row, and only then the dyadic observation row and seal.
+\end{theorem}
+\begin{proof}
+Project the coordinates of \autoref{def:rational-embedding-carrier-surface}. The continuation row $C$ displays the route from $q$ to $S$ and the route from $S$ to $R$, while $H$ records that these coordinates are transported componentwise with the same package provenance.
+
+The constant schedule $S$ has no independent stream seed: each admitted window is read from $q$. The stationary row $R$ is therefore the regular-rational readback of that constant schedule, not a separate rational sequence.
+
+Only after $R$ is displayed can the packet expose the dyadic observation row $D$ and then the real seal $E$. Hence every real-facing consumer reads $q,S,R$ in that order before reaching any $\RealUp$ coordinate.
+\end{proof}
+
+\begin{theorem}[RationalEmbedding RealUp seal boundary]
+\label{thm:rational-embedding-real-seal-boundary}
+For every accepted $\RationalEmbeddingUp$ carrier $K=(q,S,R,D,E,H,C,P,N)$, the $\RealUp$ seal row $E$ factors through the displayed dependency chain
+$$
+\RatUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \NameCert_{\RationalEmbeddingUp}.
+$$
+The seal exports only the local rows $q,S,R,D,H,C,P,N$ as its boundary data. It does not export a quotient stream, host real equality, a selected limit, trichotomy, host rational equality as an oracle, or ambient completeness for arbitrary Cauchy names.
+\end{theorem}
+\begin{proof}
+Start with a read of the real seal $E$. By the carrier definition, $E$ is reachable only through the route entries in $C$ whose predecessors are $D$, $R$, $S$, and $q$, and the same predecessors are named in the package row $P$ and local certificate row $N$.
+
+Apply \autoref{thm:rational-embedding-constant-sequence-route}. It identifies the route to $R$ as the constant rational schedule read from $q$ through $S$. The dyadic row $D$ then supplies only the finite tolerance and observation data attached to that stationary readback.
+
+The remaining rows $H,C,P,N$ are transport, continuation, provenance, and local naming rows for the same finite route. Since the carrier contains no coordinate for a quotient stream, host real equality, selected limit, trichotomy, host rational equality oracle, or ambient completeness, the $\RealUp$ seal boundary is exactly the displayed finite dependency chain.
+\end{proof}
+
+\begin{closurestatus}{\RationalEmbeddingUp}
+  \constructivestory{A $\RationalEmbeddingUp$ packet is generated from a RatUp source row, constant StreamName schedule, stationary RegSeqRat readback, DyadicRatCore tolerance and observation row, RealUp seal, componentwise transports, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-embedding-carrier-surface}, \autoref{thm:rational-embedding-constant-sequence-route}, and \autoref{thm:rational-embedding-real-seal-boundary} seed the finite rational-constant embedding route from $\RatUp$ to $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, host rational equality as an oracle, trichotomy, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires checked carrier admission, constant StreamName routing, stationary RegSeqRat readback, DyadicRatCore observation exactness, RealUp seal factorization, and non-escape.}
+\end{closurestatus}

@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\RationalRealEmbeddingUp$}
+\label{ch:concrete-instances-rational-real-embedding-namecert}
+\origin{human}
+
+Following Bishop and Bridges' construction of reals from rational Cauchy data, the $\RationalRealEmbeddingUp$ packet names the constant-rational route from the arithmetic source $\RatUp$ to the regular Cauchy and terminal real-name layers. It sits over the rational certificate of \autoref{ch:concrete-instances-rat-namecert}, the finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is the finite source boundary for rational constants inside the L10 completion route; it does not quotient streams, select limits, assert host real equality, invoke countable choice, or prove ambient completeness of $\RealUp$.
+
+\begin{definition}[Rational-real embedding carrier]
+\label{def:rational-real-embedding-carrier}
+A $\RationalRealEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(Q,S,R,D,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ source row, containing the rational constant together with the finite arithmetic source data allowed to be read by the embedding packet.
+\item $S$ is the constant $\StreamNameUp$ window row: each displayed window reads the same rational source $Q$ and contains no varying tail schedule.
+\item $R$ is the $\RegSeqRatUp$ constant readback row, recording that every regular rational name coordinate is read back as the rational source from $Q$ through the windows in $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the zero-tail and dyadic comparison budget used to certify that the constant readback satisfies every displayed regularity request.
+\item $T$ is the $\RealUp$ seal row reached from $Q,S,R,D$, naming the terminal real-facing certificate for the rational constant.
+\item $H$ records componentwise $\hsame$ transport for the rational source, constant windows, regular readback, dyadic tolerance ledger, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a rational-real embedding request through $Q,S,R,D,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RationalRealEmbeddingUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalRealEmbeddingUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $Q,S,R,D,T,H,C,P,N$. It has no coordinate for quotient streams, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RationalRealEmbeddingUp.RationalRealEmbeddingTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Rational-real embedding NameCert obligations]
+\label{thm:rational-real-embedding-namecert-obligations}
+For every accepted $\RationalRealEmbeddingUp$ carrier $E=(Q,S,R,D,T,H,C,P,N)$, the local $\NameCert_{\RationalRealEmbeddingUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the rational source, constant stream windows, regular rational constant readback, dyadic tolerance ledger, terminal real seal, transport, replay, provenance, and local naming rows;
+\item rational-source admission, requiring every exported constant to pass through the displayed $\RatUp$ row $Q$;
+\item constant-window admission, requiring every $\StreamNameUp$ window in $S$ to replay the same rational source and no independent tail schedule;
+\item regular-readback admission, requiring $R$ to expose the constant rational name through the displayed windows in $S$;
+\item tolerance admission, requiring $D$ to discharge the regularity requests by the zero-tail dyadic ledger attached to $Q,S,R$;
+\item seal admission, requiring the $\RealUp$ row $T$ to be read only after $Q,S,R,D$ have been fixed;
+\item non-escape, requiring $H,C,P,N$ to export no quotient-stream equality, selected limit, countable-choice selector, host real equality, trichotomy datum, ambient completeness theorem, Lean verification credential, or bridge credential.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rational-real-embedding-carrier}. The accepted packet displays exactly the rational source, constant windows, regular readback, dyadic tolerance ledger, terminal real seal, and structural rows.
+
+The rational-source and constant-window obligations are then forced by row order. A constant exported by the packet first reads $Q$, and every window in $S$ is attached to that same rational source rather than to a separate stream tail.
+
+The regular-readback and tolerance obligations use the next two rows. The row $R$ reads the constant rational name through $S$, while $D$ supplies the dyadic zero-tail ledger that answers the finite regularity tests.
+
+The terminal seal obligation is downstream. The $\RealUp$ row $T$ can be cited only after $Q,S,R,D$ are already displayed, so the real-facing name is a seal of the finite constant route rather than a selected host limit.
+
+The remaining rows are structural. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve and source the same displayed packet; none contains a quotient stream, selected limit, choice selector, host equality, trichotomy datum, ambient completeness theorem, Lean credential, or bridge credential.
+\end{proof}
+
+\begin{theorem}[Rational-real embedding real-seal factorization]
+\label{thm:rational-real-embedding-real-seal-factorization}
+Every $\RealUp$ seal exported by an accepted $\RationalRealEmbeddingUp$ carrier $E=(Q,S,R,D,T,H,C,P,N)$ factors through the finite route
+$$
+Q,S,R,D \longmapsto T
+$$
+before transport, replay, provenance, or local naming can be read. Consequently the embedding of a rational constant into the real-name layer is witnessed by a displayed constant StreamName route and a RegSeqRat readback, not by quotienting streams or selecting a limit.
+\end{theorem}
+\begin{proof}
+Start with an exported real seal. The carrier has only one real-facing coordinate, namely $T$, and that row is listed after the rational source, constant-window, regular-readback, and dyadic-ledger rows.
+
+The source row $Q$ fixes the rational constant. The stream row $S$ then opens only constant windows over $Q$, so no later step can introduce a variable Cauchy tail or an independent schedule.
+
+The regular readback row $R$ reads those windows as a constant regular rational name. The dyadic ledger $D$ records the zero-tail tolerance facts needed by the displayed regularity requests.
+
+Only after these four rows are fixed may $T$ be read as a $\RealUp$ seal. Transport, replay, provenance, and local naming preserve that same order, so the exported seal factors through $Q,S,R,D$ and never through a quotient stream or selected limit.
+\end{proof}
+
+\begin{theorem}[Rational-real embedding constant-window coherence]
+\label{thm:rational-real-embedding-constant-window-coherence}
+For every accepted $\RationalRealEmbeddingUp$ carrier $E=(Q,S,R,D,T,H,C,P,N)$, any two finite $\StreamNameUp$ window reads exposed by $S$ over inspected unary indices are classifier-equal through the same rational source row $Q$. The $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ tolerance row $D$, and the terminal $\RealUp$ seal row $T$ may consume only that constant-window surface.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. By the carrier definition, the row $S$ is the constant $\StreamNameUp$ window row attached to the rational source $Q$, and it contains no coordinate for a varying tail schedule.
+
+Now compare two inspected unary-index windows in $S$. Each window reads the same displayed rational source row $Q$, so their classifier comparison is mediated by that source row rather than by an external stream representative.
+
+Transport preserves the comparison componentwise through $H$. Replay through $C$ can only cite the displayed route $Q,S,R,D,T,H,P,N$, so it reuses the same constant-window surface instead of creating a second tail schedule.
+
+The downstream rows are therefore constrained by source order. The readback row $R$ reads the constant windows already exposed by $S$, the tolerance row $D$ evaluates the zero-tail ledger attached to that readback, and the seal row $T$ is reached only after those rows have been fixed.
+\end{proof}
+
+\begin{theorem}[Rational-real embedding nonescape]
+\label{thm:rational-real-embedding-nonescape}
+Every rational-source, stream-window, regular-readback, dyadic-tolerance, or real-seal read of an accepted $\RationalRealEmbeddingUp$ carrier $E=(Q,S,R,D,T,H,C,P,N)$ is exhausted by the displayed rows $Q,S,R,D,T,H,C,P,N$. Thus the local $\NameCert_{\RationalRealEmbeddingUp}$ boundary exports only the rational source, constant StreamName windows, RegSeqRat constant readback, DyadicRatCore tolerance ledger, RealUp seal row, componentwise transport, continuation replay, provenance, and local naming data.
+
+It exports no quotient-stream equality, selected limit, countable-choice selector, host real equality, trichotomy datum, ambient $\RealUp$ completeness theorem, Lean verification credential, or bridge credential.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple $E=(Q,S,R,D,T,H,C,P,N)$ lists every coordinate admitted by the local $\NameCert_{\RationalRealEmbeddingUp}$ surface.
+
+The analytic route is $Q,S,R,D,T$. It fixes a rational source, opens constant finite windows, reads them as a regular rational name, supplies the dyadic tolerance ledger, and then seals the result as a $\RealUp$ name.
+
+The structural route is $H,C,P,N$. These rows transport, replay, source, and name the same displayed carrier; they do not add analytic coordinates or external equality principles.
+
+Since no excluded object occurs as a coordinate or replay target, no read can escape to quotient-stream equality, selected limits, countable choice, host real equality, trichotomy, ambient Real completeness, Lean verification, or a bridge credential.
+\end{proof}
+
+\closureat{RationalRealEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\RationalRealEmbeddingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-real-embedding-carrier}, \autoref{thm:rational-real-embedding-namecert-obligations}, \autoref{thm:rational-real-embedding-real-seal-factorization}, \autoref{thm:rational-real-embedding-constant-window-coherence}, and \autoref{thm:rational-real-embedding-nonescape} seed the finite rational-constant embedding route from $\RatUp$ through constant $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, and the terminal $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational-source admission, constant-window admission, regular-readback admission, dyadic-tolerance admission, real-seal factorization, transport stability, and non-escape proofs for BEDC.Derived.RationalRealEmbeddingUp.}
+  \constructivestory{A $\RationalRealEmbeddingUp$ packet is generated from a RatUp source row, constant StreamName windows, RegSeqRat constant readback, a DyadicRatCore tolerance ledger, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

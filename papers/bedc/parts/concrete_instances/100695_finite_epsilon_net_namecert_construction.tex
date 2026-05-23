@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\FiniteEpsilonNetUp$}
+\label{ch:concrete-instances-finite-epsilon-net-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FiniteEpsilonNetUp$ packet records the finite epsilon-net witness used before total-bounded, compact-metric, and continuous-map consumers read a metric handoff. It sits over the displayed metric source of \autoref{ch:concrete-instances-metric-namecert}, the tolerance-indexed total-boundedness surface of \autoref{ch:concrete-instances-totallybounded-namecert}, the compact-metric consumer row of \autoref{ch:concrete-instances-compactmetric-namecert}, and the finite rational tolerance route supplied by $\RatUp$ and $\DyadicRatCoreUp$. The packet keeps centers, coverage witnesses, and transport ledgers as finite BEDC rows rather than as a host-level finite subset or an open-cover compactness assertion.
+
+\begin{definition}[Finite epsilon-net carrier]
+\label{def:finite-epsilon-net-carrier}
+A $\FiniteEpsilonNetUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,\varepsilon,P,C,D,H,R,S,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricUp$ source row, carrying the point classifier, distance classifier, and metric-law ledger read by the packet.
+\item $\varepsilon$ is the positive tolerance row, read as a $\RatUp$ or $\DyadicRatCoreUp$ tolerance cell together with the displayed positivity witness used by downstream coverage claims.
+\item $P$ is the closed $\mathsf{ProbeBundle}$ of centers. Its membership rows are the only center-admission data exported by the packet.
+\item $C$ is the center-carrier ledger, recording for each accepted center of $P$ the corresponding point-classifier admission in $X$.
+\item $D$ is the distance and coverage ledger. For each accepted source point inspected by the packet it displays an admitted center of $P$ and a metric-distance row in $X$ bounded by $\varepsilon$.
+\item $H$ records componentwise $\hsame$ transport for the metric source, tolerance row, center bundle, center-carrier ledger, distance and coverage ledger, replay row, provenance row, and local naming row.
+\item $R$ records displayed $\Cont$ replay from a coverage request through $X,\varepsilon,P,C,D,H,S,N$.
+\item $S$ is the $\Pkg$ provenance over $\FiniteEpsilonNetUp$, $\MetricUp$, $\TotallyBoundedUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\RatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteEpsilonNetUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $X,\varepsilon,P,C,D,H,R,S,N$. It has no coordinate for an ambient finite subset, a host enumeration, an open cover, a selected compactness proof, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite epsilon-net NameCert obligations]
+\label{thm:finite-epsilon-net-namecert-obligations}
+For every accepted $\FiniteEpsilonNetUp$ carrier $Q=(X,\varepsilon,P,C,D,H,R,S,N)$, the local $\NameCert_{\FiniteEpsilonNetUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric source, positive tolerance, closed center bundle, center-carrier ledger, coverage-distance ledger, transport, replay, provenance, and local naming rows;
+\item center visibility, requiring every center used by a coverage witness to enter through the displayed $\mathsf{ProbeBundle}$ row $P$ and the center-carrier ledger $C$;
+\item finite coverage, requiring each inspected source point to be paired by $D$ with an admitted center and a displayed distance row bounded by $\varepsilon$;
+\item tolerance transport, requiring the same $\RatUp$ or $\DyadicRatCoreUp$ tolerance row to be preserved by $H$ before any coverage conclusion is exported;
+\item metric-distance handoff, requiring every coverage distance to be read through the point and distance classifiers carried by $X$;
+\item ledger nonescape, excluding ambient finite subsets, host enumerations, open covers, selected compactness proofs, countable choice, and ambient $\RealUp$ completeness as local certificate data.
+\end{enumerate}
+No finite epsilon-net obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:finite-epsilon-net-carrier}. The analytic rows are exactly the metric source $X$, positive tolerance $\varepsilon$, closed center bundle $P$, center-carrier ledger $C$, and coverage-distance ledger $D$.
+
+Carrier admission and center visibility are rowwise. A center can be used only after it is visible in $P$ and admitted by $C$ as a point of the metric source $X$.
+
+The coverage claim is then forced by $D$. Each inspected source point is paired with one displayed center and one distance comparison, and that distance comparison is read through the metric classifiers of $X$ before it is bounded by $\varepsilon$.
+
+The transport and replay rows preserve the same route. The row $H$ moves no coordinate beyond $X,\varepsilon,P,C,D,R,S,N$, and $R$ replays coverage requests through the same ordered data.
+
+The refusal clauses follow from absence of coordinates. Since the carrier has no host finite subset, host enumeration, open-cover family, compactness selector, choice schedule, or ambient Real-completeness row, none of those objects can become a local NameCert obligation.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteEpsilonNetUp.FiniteEpsilonNetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Finite epsilon-net totally-bounded handoff]
+\label{thm:finite-epsilon-net-totally-bounded-handoff}
+Every $\TotallyBoundedUp$ or $\CompactMetricUp$ consumer of an accepted $\FiniteEpsilonNetUp$ carrier reads the finite route
+$$
+X,\varepsilon \longmapsto P,C,D \longmapsto H,R,S,N .
+$$
+Thus the consumer receives the finite center bundle, positive tolerance row, coverage witnesses, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before any total-bounded conclusion is available. The handoff exports no ambient finite subset, host enumeration, open cover, selected compactness proof, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a total-bounded or compact-metric consumer of $Q$. By \autoref{def:finite-epsilon-net-carrier}, the consumer can enter the packet only through the metric source $X$ and the displayed tolerance row $\varepsilon$.
+
+The finite center data are opened next. The closed bundle $P$ names the centers, $C$ admits those centers as points of $X$, and $D$ supplies the corresponding distance and coverage witnesses.
+
+The structural rows then package exactly that finite route. Componentwise transport $H$ preserves the same tolerance and center data, replay $R$ exposes the route to downstream consumers, provenance $S$ records the package lineage, and $N$ names the local certificate.
+
+Therefore the total-bounded handoff factors through the displayed finite-net route before any consumer can use total boundedness. Applying \autoref{thm:finite-epsilon-net-namecert-obligations}, the consumer cannot replace the route by a host finite subset, host enumeration, open-cover argument, selected compactness proof, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{FiniteEpsilonNetUp}{seedStr}
+
+\begin{closurestatus}{\FiniteEpsilonNetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-epsilon-net-carrier}, \autoref{thm:finite-epsilon-net-namecert-obligations}, and \autoref{thm:finite-epsilon-net-totally-bounded-handoff} seed the finite epsilon-net packet over displayed metric sources, positive rational or dyadic tolerances, closed center bundles, coverage ledgers, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full total boundedness, compact metric completeness, uniform continuity, open-cover compactness, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, center visibility, finite coverage, tolerance transport, metric-distance handoff, ledger nonescape, and total-bounded consumer handoff for BEDC.Derived.FiniteEpsilonNetUp.}
+  \constructivestory{A $\FiniteEpsilonNetUp$ packet is generated from a MetricUp source row, a positive RatUp or DyadicRatCoreUp tolerance, a closed ProbeBundle of centers, a center-carrier ledger, distance and coverage rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

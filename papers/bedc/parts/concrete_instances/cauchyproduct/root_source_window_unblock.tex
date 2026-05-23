@@ -14,6 +14,7 @@ Finally use the root window obligations together with \autoref{ch:concrete-insta
 \label{thm:cauchy-product-root-budget-product-lock}
 For every accepted $\CauchyProductUp$ packet, the dyadic product row $P$ is locked by the two source modulus rows $M_X,M_Y$ and the product budget ledger $L$ before the $\RegSeqRatUp$ classifier row $E$ is read. The lock is the finite route supplied by the carrier, the local NameCert obligations, the StreamName handoff, the root window obligations, the root budget obligations, and the budget triangle package.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_root\_budget\_product\_lock}
 \begin{proof}
 Start from the paired source-window route. By source-window totality, $W_X,W_Y$ expose the two regular Cauchy sources before the dyadic observations and product row are available.
 
@@ -66,6 +67,7 @@ Finally use \autoref{thm:cauchy-product-root-unblock-certificate}. The root cert
 \label{thm:cauchyproduct-window-product-readback}
 For every accepted $\CauchyProductUp$ packet, the product row $P$ is read back from $M_X,M_Y,Q_X,Q_Y$ before the $\RegSeqRatUp$ classifier row $E$ is consumed. The readback is the finite product route through $X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,L,E$, not a route through host multiplication or a selected product limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductWindowProductReadback}
 \begin{proof}
 Begin with source-window admission. It fixes the source rows behind $W_X,W_Y$ before any modulus, dyadic, product, or classifier row can be read.
 
@@ -98,6 +100,7 @@ X,Y \to W_X,W_Y \to M_X,M_Y,Q_X,Q_Y,P,L \to E .
 $$
 It exports no unpaired source row, quotient stream, selected product limit, host multiplication primitive, or ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_streamname\_regseqrat\_source\_lock}
 \begin{proof}
 First use \autoref{thm:cauchy-product-root-source-window-totality}. It places the two source rows behind the paired $\StreamNameUp$ windows, so a product read cannot inspect $X$ or $Y$ independently of $W_X,W_Y$.
 
@@ -124,6 +127,7 @@ The excluded alternatives are absent from both packets. Therefore a product-tail
 \label{thm:cauchy-product-paired-window-tail-agreement-exhaustion}
 For every accepted $\CauchyProductUp$ packet, if a product-tail consumer reaches a $\RealUp$ seal, then its paired tail-agreement comparison is exhausted by the finite route through $W_X,W_Y$, $M_X,M_Y,Q_X,Q_Y,P,L$, the $\RegSeqRatUp$ classifier row $E$, and the sibling $\RealTailAgreementSealUp$ packet. The route is the one supplied by the $\StreamNameUp$ source lock, the product budget lock, the RealTailAgreementSeal handoff, and the sibling surfaces of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-realtailagreementseal-namecert}. It exports no quotient stream, host multiplication primitive, host equality, selected limit, trichotomy row, or ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_source\_window\_tail\_agreement\_exhaustion}
 \begin{proof}
 First apply \autoref{thm:cauchy-product-streamname-regseqrat-source-lock}. This fixes the two source rows behind the paired $\StreamNameUp$ windows $W_X,W_Y$ before any $\RegSeqRatUp$ classifier or product read is available.
 

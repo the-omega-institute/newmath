@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\LimsupUp$}
+\label{ch:concrete-instances-limsup-namecert}
+\origin{human}
+
+Following Hardy and Bishop--Bridges, $\LimsupUp$ records the finite tail-upper-cut and tail-lower-cut surface of a bounded real sequence. The packet consumes the bounded sequence rows of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, the upper-cut observation discipline of \autoref{ch:concrete-instances-bounded-real-upper-cut-namecert}, the lower-cut observation discipline of \autoref{ch:concrete-instances-bounded-real-lower-cut-namecert}, the displayed sequence-limit interface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. It gives Real-and-Completion consumers a finite limsup boundary without importing completeness, a host supremum, or selected subsequences.
+
+\begin{definition}[Limsup carrier]
+\label{def:limsup-carrier}
+A $\LimsupUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,U,D,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the bounded $\BoundedRealSequenceUp$ row whose finite windows, bound ledger, and displayed $\RealUp$ entries are being inspected.
+\item $U$ is the tail upper-cut schedule, recording for each displayed tail index the bounded upper-cut observations read through $\BoundedRealUpperCutUp$.
+\item $D$ is the dyadic tolerance ledger, recording the finite rational tolerances used to compare tail upper cuts with the lower observation surface.
+\item $T$ is the terminal $\RealUp$ seal row named as the limsup candidate exposed by the packet.
+\item $H$ records componentwise $\hsame$ transports for $S,U,D,T$ and the structural rows.
+\item $C$ records the displayed $\Cont$ routes by which consumers replay the bounded sequence row, tail upper-cut schedule, dyadic tolerance ledger, terminal real seal, transports, provenance, and local naming row.
+\item $P$ is the $\Pkg$ provenance over $\LimsupUp$, $\BoundedRealSequenceUp$, $\BoundedRealUpperCutUp$, $\BoundedRealLowerCutUp$, $\RealSequenceLimitUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LimsupUp}$ row.
+\end{enumerate}
+The carrier stores a finite tail-cut surface for a bounded real sequence. It has no coordinate for Real completeness, trichotomy, a host supremum, quotient stream equality, selected subsequences, or open-cover compactness.
+\end{definition}
+
+\begin{definition}[Limsup classifier]
+\label{def:limsup-classifier}
+Two $\LimsupUp$ carriers
+$$
+L=(S,U,D,T,H,C,P,N)
+\qquad\text{and}\qquad
+L'=(S',U',D',T',H',C',P',N')
+$$
+are classified as the same displayed limsup packet exactly when the bounded sequence rows match componentwise, the tail upper-cut schedules expose the same finite tail observations, the dyadic tolerance ledgers carry the same rational comparison budgets, the terminal $\RealUp$ seals are transported by the displayed $\hsame$ data, the continuation replays preserve the same consumer routes, and the provenance and local NameCert rows name the same $\LimsupUp$ surface. The classifier is therefore rowwise over $S,U,D,T,H,C,P,N$ and does not identify carriers by host sequence equality, quotient streams, selected cofinal subsequences, or a completed supremum construction.
+\end{definition}
+
+\begin{theorem}[Limsup NameCert obligations]
+\label{thm:limsup-namecert-obligations}
+For an accepted $\LimsupUp$ carrier $L=(S,U,D,T,H,C,P,N)$, the local $\NameCert_{\LimsupUp}$ surface consists of six finite obligation rows:
+\begin{enumerate}
+\item carrier formation for the bounded real sequence row, tail upper-cut schedule, dyadic tolerance ledger, terminal $\RealUp$ seal, transports, continuations, provenance, and local naming data;
+\item classifier stability for the componentwise comparison of \autoref{def:limsup-classifier};
+\item tail upper-cut exactness, stating that every upper observation in $U$ is read from a finite tail of $S$ through the bounded upper-cut surface;
+\item lower-cut compatibility, stating that every tolerance row in $D$ compares the same tail data against the bounded lower-cut observation surface;
+\item terminal seal routing, stating that the candidate row $T$ is consumed only as a $\RealUp$ seal after the displayed tail-cut checks have been replayed;
+\item ledger non-escape, excluding Real completeness, trichotomy, host supremum selection, quotient stream equality, selected subsequences, and open-cover compactness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier formation is projection from \autoref{def:limsup-carrier}. The packet displays exactly the bounded sequence row, tail upper-cut schedule, dyadic tolerance ledger, terminal real seal, componentwise transports, continuation routes, provenance, and local name.
+
+Classifier stability is the componentwise comparison of \autoref{def:limsup-classifier}. Transport along $H$ may replace the visible rows only by rows with the same scheduled tail observations, the same dyadic budgets, and the same terminal seal route, while $C$ preserves the consumer replay order.
+
+Tail upper-cut exactness is supplied by $U$ together with the bounded sequence row $S$. Each accepted upper observation names the finite tail index, the inspected sequence windows, and the bounded upper-cut certificate through which the read is made.
+
+Lower-cut compatibility is supplied by $D$ and the sibling bounded lower-cut discipline. The tolerance ledger records only finite dyadic comparisons between the same tail data and the lower observation surface, so it does not become a host infimum or a completeness witness.
+
+Terminal seal routing is the role of $T$. A consumer may read the candidate limsup only after the sequence tail, upper-cut, lower-cut, and tolerance rows have been replayed; the terminal coordinate remains a $\RealUp$ seal rather than a completed supremum object.
+
+The non-escape row follows from the carrier inventory. No displayed field carries Real completeness, trichotomy, a host supremum, quotient stream equality, selected subsequences, or open-cover compactness.
+\end{proof}
+\leanchecked{BEDC.Derived.LimsupUp.LimsupTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Limsup tail-cut route]
+\label{thm:limsup-tail-cut-route}
+Every Real-and-Completion consumer of an accepted $\LimsupUp$ packet factors through the finite route
+$$
+S\longmapsto U\longmapsto D\longmapsto T\longmapsto H\longmapsto C\longmapsto P\longmapsto N
+$$
+before using the displayed limsup surface.
+\end{theorem}
+\begin{proof}
+Begin with the bounded sequence row $S$. It supplies the only displayed source of sequence entries, finite windows, and boundedness evidence available to the packet.
+
+The tail upper-cut schedule $U$ then names which tails and upper observations are inspected. The dyadic ledger $D$ records the tolerance comparisons that align those tail-upper observations with the bounded lower-cut surface.
+
+Only after those rows are replayed can a consumer inspect the terminal real seal $T$. The structural rows $H,C,P,N$ then transport, replay, source, and name the same finite route, so the consumer cannot bypass the tail-cut surface by reading a host supremum or a selected subsequence.
+\end{proof}
+
+\begin{theorem}[Limsup Real seal non-escape]
+\label{thm:limsup-real-seal-nonescape}
+An accepted $\LimsupUp$ packet exposes its candidate value only as the terminal $\RealUp$ row $T$ reached through the displayed tail-cut route. In particular, it does not export Real completeness, trichotomy, a host supremum, quotient stream equality, selected subsequences, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+The only value-facing coordinate in the carrier is $T$. All sequence-facing information is confined to $S,U,D$, and all structural access is confined to $H,C,P,N$.
+
+A consumer that asks for the candidate value must therefore follow the continuation replay from the bounded sequence row through the tail upper-cut and tolerance ledgers before reaching $T$. The replay exposes a sealed real name, not a construction by supremum, compactness, or subsequence selection.
+
+Since no carrier field stores the excluded principles, componentwise transport and continuation replay cannot introduce them. The $\RealUp$ seal remains terminal for the packet, and the limsup surface remains a finite tail-cut certificate.
+\end{proof}
+
+\begin{closurestatus}{\LimsupUp}
+  \constructivestory{A $\LimsupUp$ packet is generated from a bounded RealUp sequence row, a finite tail upper-cut schedule, a dyadic tolerance ledger, a terminal RealUp seal, componentwise hsame transports, Cont replay routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:limsup-carrier}, \autoref{def:limsup-classifier}, \autoref{thm:limsup-namecert-obligations}, \autoref{thm:limsup-tail-cut-route}, and \autoref{thm:limsup-real-seal-nonescape} seed the finite tail-cut limsup surface for bounded real sequences.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, trichotomy, a host supremum, quotient stream equality, selected subsequences, open-cover compactness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier formation, classifier stability, tail upper-cut exactness, lower-cut compatibility, terminal seal routing, tail-cut route ordering, and Real seal non-escape for the displayed packet.}
+\end{closurestatus}

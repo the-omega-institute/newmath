@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\BisectionRootIsolationUp$}
+\label{ch:concrete-instances-bisectionrootisolation-namecert}
+\origin{human}
+
+Following Bishop and Bridges, constructive root isolation is read here as a finite sign-change bisection packet over located intervals rather than as a host root-existence theorem. The $\BisectionRootIsolationUp$ surface binds endpoint windows, sign rows, branch choices, regular rational readback, and real-name seal rows into one local $\NameCert$ packet. It consumes the located interval and dyadic bisection certificates of \autoref{ch:concrete-instances-locatedinterval-namecert} and \autoref{ch:concrete-instances-dyadicbisection-namecert}, with tolerance and readback rows supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Bisection root-isolation carrier]
+\label{def:bisection-root-isolation-carrier}
+A $\BisectionRootIsolationUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+Q=(J,B,F,E,W,R,S,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $J$ is the $\LocatedIntervalUp$ endpoint packet, exposing the lower and upper endpoint windows, rational cell ledger, optional dyadic refinements, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, and $\RealUp$ seal-facing rows;
+\item $B$ is the $\DyadicBisectionUp$ branch ledger whose retained interval rows refine the endpoint packet of $J$ by finite midpoint comparisons;
+\item $F$ is the function-inspection ledger, consisting only of finite rational and dyadic reads used to evaluate the displayed sign rows at the retained endpoints and midpoints;
+\item $E$ records the sign rows at the retained lower and upper endpoints, together with the midpoint sign rows used to choose each branch;
+\item $W$ is the $\StreamNameUp$ endpoint-window ledger exposed to downstream consumers after the retained interval is selected;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the retained endpoint windows and the dyadic tolerance rows supplied through $\DyadicRatCoreUp$;
+\item $S$ is the $\RealUp$ seal surface for the retained lower and upper endpoint names and for any real-facing consumer of the isolating window;
+\item $H$ stores the componentwise $\hsame$ transports for the located interval packet, bisection ledger, sign rows, stream windows, regular rational readbacks, real seal rows, and local certificate row;
+\item $C$ stores the displayed $\Cont$ replay routes for endpoint inspection, midpoint inspection, branch selection, retained-window readback, regular-sequence handoff, and real-name seal consumption;
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalUp$, $\DyadicBisectionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\BisectionRootIsolationUp}$ registration row.
+\end{enumerate}
+The carrier predicate says that these rows form one finite sign-change bisection packet. It has no coordinate for a host root, a general intermediate value theorem, trichotomy on reals, a completed intersection of nested intervals, or a completeness theorem for $\RealUp$.
+\end{definition}
+\leandef{BEDC.Derived.BisectionRootIsolationUp.BisectionRootIsolationUp}
+\leanchecked{BEDC.Derived.BisectionRootIsolationUp.BisectionRootIsolationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bisection root-isolation NameCert obligations]
+\label{thm:bisection-root-isolation-namecert-obligations}
+For every accepted $\BisectionRootIsolationUp$ carrier $Q=(J,B,F,E,W,R,S,H,C,P,N)$, the local $\NameCert_{\BisectionRootIsolationUp}$ surface consists exactly of:
+\begin{enumerate}
+\item carrier admission for the displayed finite packet of \autoref{def:bisection-root-isolation-carrier};
+\item endpoint-window admission through the $\LocatedIntervalUp$ rows of $J$ and the retained interval rows of $B$;
+\item sign-ledger exactness, requiring each branch choice in $B$ to be justified by one displayed sign row in $E$ read through $F$;
+\item retained-window handoff through $W$, $R$, and $S$;
+\item componentwise transport and replay through $H$ and $C$;
+\item package provenance and local naming through $P$ and $N$.
+\end{enumerate}
+No further analytic obligation is part of the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bisection-root-isolation-carrier}. The endpoint packet $J$ supplies the located lower and upper endpoint windows, while the bisection ledger $B$ supplies the finite retained-interval chain.
+
+The sign-ledger obligation is local to $F$ and $E$. Each midpoint inspection reads a finite rational or dyadic approximation row, records the displayed sign row, and then selects the corresponding branch row in $B$.
+
+The retained-window handoff is the route already available from \autoref{ch:concrete-instances-dyadicbisection-namecert} after the endpoints are read through \autoref{ch:concrete-instances-locatedinterval-namecert}. The tolerance rows come from \autoref{ch:concrete-instances-dyadicratcore-namecert}; the window, readback, and seal rows are then routed through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Finally, $H,C,P$, and $N$ account for transport, replay, provenance, and local naming. Since the carrier stores only these finite rows, it cannot export host root existence, an intermediate value theorem, real trichotomy, a completed interval intersection, or completeness for $\RealUp$.
+\end{proof}
+
+\begin{theorem}[Bisection root-isolation RegSeqRat window handoff]
+\label{thm:bisection-root-isolation-regseqrat-window-handoff}
+For every accepted $\BisectionRootIsolationUp$ carrier and every unary precision request $n$, the $\RegSeqRatUp$ readback exposed by the isolating window factors through the $\LocatedIntervalUp$ endpoint packet, the $\DyadicBisectionUp$ branch prefix that reaches the retained window at tolerance $2^{-n}$, the displayed sign rows at retained endpoints, the $\DyadicRatCoreUp$ tolerance row, the $\StreamNameUp$ endpoint windows, and the replay rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the unary request $n$. The dyadic tolerance row $2^{-n}$ is read through the $\DyadicRatCoreUp$ provenance, and the branch prefix in the $\DyadicBisectionUp$ ledger selects the retained interval window at that tolerance.
+
+The located endpoint packet then supplies the lower and upper endpoint windows for that retained interval. The sign ledger contributes only the displayed endpoint signs and midpoint signs already used to select the branch prefix; it does not introduce a root object.
+
+Route the retained endpoint windows through the $\StreamNameUp$ rows and then through the $\RegSeqRatUp$ readback row. The replay remains inside $H,C,P$, and $N$, so every rational read exposed to the regular-sequence consumer is one of the retained finite endpoint windows.
+\end{proof}
+
+\begin{theorem}[Bisection root-isolation Real seal nonescape]
+\label{thm:bisection-root-isolation-real-seal-nonescape}
+Every $\RealUp$ seal read exported by an accepted $\BisectionRootIsolationUp$ carrier is reached only after the retained $\LocatedIntervalUp$ endpoint windows, the $\DyadicBisectionUp$ branch ledger, the displayed endpoint sign rows, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback, and the rows $H,C,P,N$ have been read. The seal exposes the finite isolating window and exports no host root existence, general intermediate value theorem, real trichotomy, completed interval intersection, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Read the real-facing coordinate $S$ in \autoref{def:bisection-root-isolation-carrier}. It is not an independent real object; it is stored with the endpoint packet, branch ledger, sign rows, stream windows, regular readback, transport rows, replay routes, provenance, and local certificate.
+
+Apply \autoref{thm:bisection-root-isolation-regseqrat-window-handoff}. The retained endpoint windows first pass through the $\StreamNameUp$ and $\RegSeqRatUp$ surfaces at the requested dyadic tolerance.
+
+Only after that route is fixed can the $\RealUp$ seal be read. The seal therefore records the same finite isolating window and no additional analytic witness. Because no coordinate of $Q$ stores a host root, an intermediate value theorem, trichotomy data, a completed intersection, or completeness for $\RealUp$, the real-facing consumer cannot escape to any of those objects.
+\end{proof}
+
+\closureat{BisectionRootIsolationUp}{seedStr}
+
+\begin{closurestatus}{\BisectionRootIsolationUp}
+  \constructivestory{A $\BisectionRootIsolationUp$ packet is generated from a $\LocatedIntervalUp$ endpoint packet, a $\DyadicBisectionUp$ branch ledger, finite sign rows at retained endpoints and midpoints, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seal rows, displayed $\hsame$ and $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bisection-root-isolation-carrier}, \autoref{thm:bisection-root-isolation-namecert-obligations}, \autoref{thm:bisection-root-isolation-regseqrat-window-handoff}, and \autoref{thm:bisection-root-isolation-real-seal-nonescape} bind constructive root isolation to a finite sign-change bisection certificate over located intervals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host root existence, a general intermediate value theorem, real trichotomy, completed interval intersection, or $\RealUp$ completeness.}
+  \upgradepath{Lean closure requires a BEDC.Derived.BisectionRootIsolationUp carrier and theorem surface matching the displayed finite packet.}
+\end{closurestatus}

@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySpreadUp$}
+\label{ch:concrete-instances-regular-cauchy-spread-namecert}
+\origin{human}
+
+Following Brouwer on spreads and Bishop--Bridges on regular Cauchy real names, the $\RegularCauchySpreadUp$ packet records the finite spread-law windows from which a $\RegSeqRatUp$ consumer and then a $\RealUp$ seal may be read. It is downstream of the finite-prefix discipline of \autoref{ch:concrete-instances-brouwer-spread-namecert}, the finite request schedule of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal discipline of \autoref{ch:concrete-instances-real-namecert}. The packet names finite spread observations and regular Cauchy handoff data; it is not a completed branch, quotient stream, selected limit, countable-choice route, host real equality, open-cover compactness, or ambient $\RealUp$ completeness principle.
+
+\begin{definition}[Regular Cauchy spread carrier]
+\label{def:regular-cauchy-spread-carrier}
+A $\RegularCauchySpreadUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,W,T,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the spread-law row. It records the decidable admitted-prefix tree and the finite extension checks inherited from the $\BrouwerSpreadUp$ surface.
+\item $W$ is the finite window row. Each displayed request is a StreamName-scheduled spread prefix and carries only the observations listed in the packet.
+\item $T$ is the dyadic tolerance row. It records the requested precision, denominator budget, comparison witnesses, and tolerance refinements through $\DyadicRatCoreUp$.
+\item $R$ is the $\RegSeqRatUp$ readback row. It turns each accepted finite spread window and tolerance row into the corresponding regular rational observation without selecting an infinite branch.
+\item $L$ is the $\RealUp$ seal row. It records the terminal finite-window seal exposed after the $\RegSeqRatUp$ row has been displayed and after the dyadic tolerance checks have been replayed.
+\item $H$ stores componentwise $\hsame$ transport for the spread law, finite windows, dyadic tolerances, regular rational readback, Real seal, continuation replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a finite precision request through $S,W,T,R,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySpreadUp$, $\BrouwerSpreadUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySpreadUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $S,W,T,R,L,H,C,P,N$. The carrier has no coordinate for quotient streams, selected branches, countable choice, host real equality, open-cover compactness, ambient Real completeness, or equality of unseen tails.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy spread NameCert obligations]
+\label{thm:regular-cauchy-spread-namecert-obligations}
+For every accepted $\RegularCauchySpreadUp$ carrier
+$$
+G=(S,W,T,R,L,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchySpreadUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the spread law, finite windows, dyadic tolerance ledger, regular rational readback, Real seal, transport, replay, provenance, and local naming;
+\item spread-window admissibility, requiring every window in $W$ to be licensed by the finite spread-law row $S$ and by the StreamName schedule visible in the packet;
+\item dyadic regularity, requiring every precision request in $T$ to provide the finite denominator budget and comparison witnesses needed by the $\RegSeqRatUp$ row $R$;
+\item seal handoff, requiring every public $\RealUp$ seal in $L$ to be read only after $S,W,T$ and $R$ have been displayed and replayed;
+\item structural non-escape, requiring $H,C,P,N$ to preserve the same finite route under $\hsame$, replay it under $\Cont$, record exact provenance, and export no quotient stream, selected branch, countable-choice selector, host real equality, open-cover compactness, ambient Real completeness, Lean verification, or standard bridge.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection from \autoref{def:regular-cauchy-spread-carrier}. The accepted packet exposes exactly the rows $S,W,T,R,L,H,C,P,N$.
+
+Spread-window admissibility is internal to $S$ and $W$. A displayed request first checks the decidable spread-law row, then opens only the finite StreamName-scheduled observations present in the window row.
+
+Dyadic regularity is internal to $T$ and $R$. The tolerance row supplies the denominator budget, comparison data, and refinements that the regular rational readback uses; no infinite branch or quotient stream is introduced.
+
+The seal handoff is downstream of those rows. A public $\RealUp$ consumer reaches $L$ only after the spread window, tolerance ledger, and $\RegSeqRatUp$ readback have been replayed.
+
+The remaining clauses are structural. The row $H$ transports each displayed coordinate componentwise, $C$ replays the same finite route, and $P,N$ source and name the packet. Since the excluded objects are not coordinates of $G$, the five rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy spread RegSeqRat--Real handoff]
+\label{thm:regular-cauchy-spread-regseqrat-real-handoff}
+Every accepted $\RegularCauchySpreadUp$ packet exposes a $\RegSeqRatUp$ consumer through the displayed finite spread windows and dyadic tolerance rows
+$$
+S,W,T,H,C,P,N,
+$$
+and exposes a downstream $\RealUp$ seal only through the already displayed regular rational readback row $R$ and seal row $L$. Consequently the packet cannot export a quotient stream, selected branch, countable-choice selector, host real equality, open-cover compactness, ambient Real completeness, Lean verification, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $G=(S,W,T,R,L,H,C,P,N)$. The only route to a regular rational observation is through the spread-law row $S$, the finite window row $W$, and the dyadic tolerance row $T$.
+
+Replay the continuation row $C$. It checks the admitted spread prefix, opens the finite StreamName-scheduled window, and then reads the denominator budget and comparison witnesses recorded in $T$.
+
+The $\RegSeqRatUp$ row $R$ is therefore a consumer of displayed finite data rather than a selector for an infinite branch. Componentwise transport in $H$ preserves that route under $\hsame$.
+
+The $\RealUp$ seal is later in the packet. A public seal read reaches $L$ only after the regular rational row $R$ has been displayed, and provenance through $P,N$ names the same finite route. There is no separate coordinate from which the excluded quotient, choice, equality, compactness, completeness, verification, or bridge principles can be read.
+\end{proof}
+
+\closureat{RegularCauchySpreadUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySpreadUp}
+  \constructivestory{A $\RegularCauchySpreadUp$ packet is generated from a spread-law row, finite StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a Real seal row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-spread-carrier}, \autoref{thm:regular-cauchy-spread-namecert-obligations}, and \autoref{thm:regular-cauchy-spread-regseqrat-real-handoff} seed the finite-window route from Brouwer spread laws to regular rational reads and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected branches, countable choice, host real equality, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or standard bridges.}
+  \upgradepath{Obligation closure requires checked carrier admission, spread-window admissibility, dyadic regularity, RegSeqRat readback, Real seal handoff, transport, replay, provenance, and non-escape for BEDC.Derived.RegularCauchySpreadUp.}
+\end{closurestatus}

@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\RationalCauchyGapUp$}
+\label{ch:concrete-instances-rational-cauchy-gap-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RationalCauchyGapUp$ packet records a finite rational Cauchy-gap witness that must pass through the rational, dyadic, stream-window, regular-sequence, and real-name route before any Completion consumer treats it as a completed real. It sits over the rational source schedule of \autoref{ch:concrete-instances-rat-namecert}, the late-pair dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter supplies the current-state witness that rational Cauchy information is not already a completed real object: the completion route is visible as finite NameCert data rather than quotient equality, a selected limit, countable choice, or host completeness.
+
+\begin{definition}[Rational Cauchy gap carrier]
+\label{def:rational-cauchy-gap-carrier}
+A $\RationalCauchyGapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(Q,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ source schedule, recording the rational observations and precision requests that generate the candidate Cauchy gap.
+\item $D$ is the $\DyadicRatCoreUp$ late-pair tolerance ledger, storing the dyadic bounds, slack rows, and comparison budgets used to test the source schedule at later stages.
+\item $W$ is the $\StreamNameUp$ finite-window row opened by $Q$ and budgeted by $D$.
+\item $R$ is the $\RegSeqRatUp$ handoff row, recording the regular rational readback obtained from the displayed windows and dyadic late-pair ledger.
+\item $E$ is the terminal $\RealUp$ seal row, readable only after $Q,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the rational source schedule, dyadic tolerance ledger, finite windows, regular rational handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the rational precision request through $Q,D,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RationalCauchyGapUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalCauchyGapUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,D,W,R,E,H,C,P,N$. It has no coordinate for quotient equality of rational streams, a selected real limit, countable choice, host real comparison, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RationalCauchyGapUp.RationalCauchyGapTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Rational Cauchy gap NameCert obligations]
+\label{thm:rational-cauchy-gap-namecert-obligations}
+For every accepted $\RationalCauchyGapUp$ carrier
+$$
+G=(Q,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RationalCauchyGapUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the $\RatUp$ source schedule, $\DyadicRatCoreUp$ late-pair tolerance ledger, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ handoff, terminal $\RealUp$ seal, transport, replay, provenance, and local naming rows;
+\item rational-source exactness, requiring $Q$ to display the rational observations and precision requests that the gap read is allowed to inspect;
+\item late-pair tolerance exactness, requiring $D$ to store the dyadic bounds and slack rows used when later elements of the rational schedule are compared;
+\item finite-window compatibility, requiring $W$ to expose only the StreamName observations opened by the source schedule and budgeted by the late-pair ledger;
+\item regular handoff exactness, requiring $R$ to consume $Q,D,W$ before any Real seal is visible;
+\item Real-seal nonescape, requiring $E$ to be terminal with respect to the route $Q,D,W,R$ and to export no quotient stream equality, selected limit, countable-choice schedule, host comparison, ambient completeness theorem, Lean verification, or bridge data;
+\item componentwise transport, displayed replay, provenance, and local naming for the same displayed rows through $H,C,P,N$.
+\end{enumerate}
+No rational Cauchy-gap obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rational-cauchy-gap-carrier}. The accepted packet displays exactly the rational source schedule, dyadic late-pair tolerance ledger, finite windows, regular rational handoff, terminal Real seal, transport, replay, provenance, and local naming rows.
+
+The source and tolerance clauses are then forced by the route. The row $Q$ is the only coordinate that carries rational observations and precision requests, while $D$ is the only coordinate that carries the late-pair dyadic comparison budget.
+
+The finite-window and regular handoff clauses are downstream. The row $W$ reads only the observations opened by $Q$ and budgeted by $D$, and $R$ is the first row that repacks those finite observations as regular rational readback.
+
+Finally, $E,H,C,P,N$ seal, transport, replay, and name the same finite route. Since quotient stream equality, selected limits, countable choice, host comparison, ambient completeness, Lean verification, and bridge data are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Rational Cauchy gap Real handoff]
+\label{thm:rational-cauchy-gap-real-handoff}
+Every accepted rational Cauchy gap read that reaches a $\RealUp$ consumer must factor through the finite route
+$$
+Q \longmapsto D \longmapsto W \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer receives the rational source schedule, dyadic late-pair tolerance ledger, finite StreamName windows, regular rational handoff, terminal Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The consumer receives no quotient equality of rational streams, selected limit, countable-choice schedule, host real comparison, ambient $\RealUp$ completeness theorem, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $G=(Q,D,W,R,E,H,C,P,N)$. The rational gap data starts in $Q$, and the only late-pair tolerance data available to the read is the dyadic ledger $D$.
+
+The observation route is finite. The StreamName row $W$ exposes the bounded windows licensed by $Q$ and $D$, and the RegSeqRat row $R$ is the first point where those windows are repacked as regular rational readback.
+
+The Real consumer reaches the terminal seal only through $E$ and then through the structural rows $H,C,P,N$. These rows preserve and replay the same route; they do not add quotient stream equality, a selected limit, countable choice, host real comparison, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\falsifiablePrediction{Every $\RationalCauchyGapUp$ read into Real or Completion factors through one RatUp source schedule, one DyadicRatCore late-pair tolerance ledger, one StreamName finite-window row, one RegSeqRat handoff row, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{rat, dyadicratcore, streamname, regseqrat, real: $\RationalCauchyGapUp$ is not bijective to any listed sibling because it jointly carries a rational source schedule, late-pair dyadic tolerance ledger, finite stream windows, regular rational readback, and the terminal RealUp seal that witnesses why completion is a genuine route rather than an already available rational object.}
+
+\closureat{RationalCauchyGapUp}{seedStr}
+
+\begin{closurestatus}{\RationalCauchyGapUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-cauchy-gap-carrier}, \autoref{thm:rational-cauchy-gap-namecert-obligations}, and \autoref{thm:rational-cauchy-gap-real-handoff} seed the finite rational Cauchy-gap route through RatUp source schedule, DyadicRatCore late-pair tolerance ledger, StreamName finite windows, RegSeqRat handoff, Real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of rational streams, selected limits, countable choice, host real comparison, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational-source exactness, late-pair tolerance exactness, finite-window compatibility, regular handoff exactness, Real-seal nonescape, transport, replay, provenance, and Real-consumer factorization for BEDC.Derived.RationalCauchyGapUp.}
+  \constructivestory{A $\RationalCauchyGapUp$ packet is generated from one RatUp source schedule, one DyadicRatCore late-pair tolerance ledger, one StreamName finite-window row, one RegSeqRat handoff row, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

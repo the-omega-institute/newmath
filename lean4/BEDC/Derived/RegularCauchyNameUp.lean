@@ -137,9 +137,10 @@ def RegularCauchyNameCarrier [AskSetup] [PackageSetup]
     (schedule observation radius ledger sealRow provenance namecert endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory schedule ∧ UnaryHistory observation ∧ UnaryHistory radius ∧
-    UnaryHistory ledger ∧ UnaryHistory sealRow ∧ UnaryHistory namecert ∧
-      Cont schedule observation radius ∧ Cont radius ledger sealRow ∧
-        Cont sealRow provenance endpoint ∧ PkgSig bundle endpoint pkg
+    UnaryHistory ledger ∧ UnaryHistory sealRow ∧ UnaryHistory provenance ∧
+      UnaryHistory namecert ∧ Cont schedule observation radius ∧
+        Cont radius ledger sealRow ∧ Cont sealRow provenance endpoint ∧
+          PkgSig bundle endpoint pkg
 
 theorem RegularCauchyNameCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
     {schedule observation radius ledger sealRow provenance namecert endpoint : BHist}
@@ -205,8 +206,8 @@ theorem RegularCauchyNameCarrier_classifier_transport_stability [AskSetup] [Pack
   intro carrier scheduleSame observationSame ledgerSame provenanceSame namecertSame
     scheduleObservationRow radiusLedgerRow sealProvenanceRow endpointPkg
   obtain ⟨scheduleUnary, observationUnary, _radiusUnary, ledgerUnary, _sealUnary,
-    namecertUnary, scheduleObservationRadius, radiusLedgerSeal, sealProvenanceEndpoint,
-    _endpointPkg⟩ := carrier
+    provenanceUnary, namecertUnary, scheduleObservationRadius, radiusLedgerSeal,
+    sealProvenanceEndpoint, _endpointPkg⟩ := carrier
   have scheduleUnary' : UnaryHistory schedule' :=
     unary_transport scheduleUnary scheduleSame
   have observationUnary' : UnaryHistory observation' :=
@@ -217,6 +218,8 @@ theorem RegularCauchyNameCarrier_classifier_transport_stability [AskSetup] [Pack
     unary_transport ledgerUnary ledgerSame
   have sealUnary' : UnaryHistory sealRow' :=
     unary_cont_closed radiusUnary' ledgerUnary' radiusLedgerRow
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary provenanceSame
   have namecertUnary' : UnaryHistory namecert' :=
     unary_transport namecertUnary namecertSame
   have radiusSame : hsame radius radius' :=
@@ -228,8 +231,8 @@ theorem RegularCauchyNameCarrier_classifier_transport_stability [AskSetup] [Pack
     cont_respects_hsame sealSame provenanceSame sealProvenanceEndpoint sealProvenanceRow
   exact
     ⟨⟨scheduleUnary', observationUnary', radiusUnary', ledgerUnary', sealUnary',
-      namecertUnary', scheduleObservationRow, radiusLedgerRow, sealProvenanceRow,
-      endpointPkg⟩, radiusSame, sealSame, endpointSame⟩
+      provenanceUnary', namecertUnary', scheduleObservationRow, radiusLedgerRow,
+      sealProvenanceRow, endpointPkg⟩, radiusSame, sealSame, endpointSame⟩
 
 theorem RegularCauchyNameCarrier_realup_seal_boundary [AskSetup] [PackageSetup]
     {schedule observation radius ledger sealRow provenance namecert endpoint sealRow'
@@ -246,8 +249,8 @@ theorem RegularCauchyNameCarrier_realup_seal_boundary [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
   intro carrier sameSeal radiusLedgerSeal' sealProvenanceEndpoint' endpointPkg'
   obtain ⟨scheduleUnary, observationUnary, radiusUnary, ledgerUnary, sealUnary,
-    namecertUnary, scheduleObservationRadius, radiusLedgerSeal, sealProvenanceEndpoint,
-    _endpointPkg⟩ := carrier
+    provenanceUnary, namecertUnary, scheduleObservationRadius, radiusLedgerSeal,
+    sealProvenanceEndpoint, _endpointPkg⟩ := carrier
   have sealUnary' : UnaryHistory sealRow' :=
     unary_transport sealUnary sameSeal
   have sameEndpoint : hsame endpoint endpoint' :=
@@ -257,8 +260,8 @@ theorem RegularCauchyNameCarrier_realup_seal_boundary [AskSetup] [PackageSetup]
       RegularCauchyNameCarrier schedule observation radius ledger sealRow' provenance
         namecert endpoint' bundle pkg := by
     exact ⟨scheduleUnary, observationUnary, radiusUnary, ledgerUnary, sealUnary',
-      namecertUnary, scheduleObservationRadius, radiusLedgerSeal', sealProvenanceEndpoint',
-      endpointPkg'⟩
+      provenanceUnary, namecertUnary, scheduleObservationRadius, radiusLedgerSeal',
+      sealProvenanceEndpoint', endpointPkg'⟩
   exact ⟨transported, sameEndpoint⟩
 
 theorem RegularCauchyNameCarrier_seal_readback_exhaustion [AskSetup] [PackageSetup]
@@ -276,8 +279,8 @@ theorem RegularCauchyNameCarrier_seal_readback_exhaustion [AskSetup] [PackageSet
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
   intro carrier radiusLedgerSeal' sealProvenanceEndpoint' endpointPkg'
   obtain ⟨_scheduleUnary, _observationUnary, radiusUnary, ledgerUnary, sealUnary,
-    _namecertUnary, _scheduleObservationRadius, radiusLedgerSeal, sealProvenanceEndpoint,
-    endpointPkg⟩ := carrier
+    _provenanceUnary, _namecertUnary, _scheduleObservationRadius, radiusLedgerSeal,
+    sealProvenanceEndpoint, endpointPkg⟩ := carrier
   have sameSeal : hsame sealRow sealRow' :=
     cont_deterministic radiusLedgerSeal radiusLedgerSeal'
   have sameEndpoint : hsame endpoint endpoint' :=
@@ -302,7 +305,7 @@ theorem RegularCauchyNameCarrier_schedule_radius_lock [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
   intro carrier scheduleObservationWindow windowRadiusReadback readbackPkg
   obtain ⟨scheduleUnary, observationUnary, radiusUnary, _ledgerUnary, _sealUnary,
-    _namecertUnary, scheduleObservationRadius, _radiusLedgerSeal,
+    _provenanceUnary, _namecertUnary, scheduleObservationRadius, _radiusLedgerSeal,
     _sealProvenanceEndpoint, endpointPkg⟩ := carrier
   have radiusSameWindow : hsame radius window :=
     cont_deterministic scheduleObservationRadius scheduleObservationWindow
@@ -335,7 +338,7 @@ theorem RegularCauchyNameCarrier_common_window_transport_triad [AskSetup] [Packa
   intro carrier scheduleObservationWindow scheduleObservationWindow'
     windowRadiusReadback windowRadiusReadback' readbackPkg readbackPkg'
   obtain ⟨scheduleUnary, observationUnary, radiusUnary, _ledgerUnary, _sealUnary,
-    _namecertUnary, scheduleObservationRadius, _radiusLedgerSeal,
+    _provenanceUnary, _namecertUnary, scheduleObservationRadius, _radiusLedgerSeal,
     _sealProvenanceEndpoint, endpointPkg⟩ := carrier
   have sameWindow : hsame window window' :=
     cont_deterministic scheduleObservationWindow scheduleObservationWindow'
@@ -377,7 +380,7 @@ theorem RegularCauchyNameCarrier_dyadic_radius_transport_composition [AskSetup]
   intro carrier scheduleObservationWindow windowRadiusReadback sealProvenanceEndpoint'
     readbackPkg endpointPkg'
   obtain ⟨scheduleUnary, observationUnary, radiusUnary, _ledgerUnary, _sealUnary,
-    _namecertUnary, scheduleObservationRadius, _radiusLedgerSeal,
+    _provenanceUnary, _namecertUnary, scheduleObservationRadius, _radiusLedgerSeal,
     sealProvenanceEndpoint, endpointPkg⟩ := carrier
   have radiusSameWindow : hsame radius window :=
     cont_deterministic scheduleObservationRadius scheduleObservationWindow
@@ -401,8 +404,8 @@ theorem RegularCauchyNameCarrier_completion_handoff_non_escape [AskSetup] [Packa
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
   intro carrier
   obtain ⟨_scheduleUnary, _observationUnary, _radiusUnary, _ledgerUnary,
-    _sealUnary, _namecertUnary, scheduleObservationRadius, radiusLedgerSeal,
-    sealProvenanceEndpoint, _endpointPkg⟩ := carrier
+    _sealUnary, _provenanceUnary, _namecertUnary, scheduleObservationRadius,
+    radiusLedgerSeal, sealProvenanceEndpoint, _endpointPkg⟩ := carrier
   have scheduleToSeal : Cont schedule (append observation ledger) sealRow := by
     cases scheduleObservationRadius
     cases radiusLedgerSeal
@@ -434,7 +437,7 @@ theorem RegularCauchyNameCarrier_constant_seal_embedding [AskSetup] [PackageSetu
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
   intro carrier stationaryRow constantReadRow constantReadPkg
   obtain ⟨scheduleUnary, observationUnary, _radiusUnary, _ledgerUnary, _sealUnary,
-    _namecertUnary, _scheduleObservationRadius, _radiusLedgerSeal,
+    _provenanceUnary, _namecertUnary, _scheduleObservationRadius, _radiusLedgerSeal,
     _sealProvenanceEndpoint, endpointPkg⟩ := carrier
   have stationaryUnary : UnaryHistory stationary :=
     unary_cont_closed scheduleUnary unary_empty stationaryRow
@@ -466,7 +469,7 @@ theorem RegularCauchyNameCarrier_common_window_refinement [AskSetup] [PackageSet
   intro carrier scheduleObservationWindow windowRadiusReadback windowRadiusReadback'
     sealProvenanceEndpoint' readbackPkg readbackPkg' endpointPkg'
   obtain ⟨scheduleUnary, observationUnary, radiusUnary, _ledgerUnary, _sealUnary,
-    _namecertUnary, _scheduleObservationRadius, _radiusLedgerSeal,
+    _provenanceUnary, _namecertUnary, _scheduleObservationRadius, _radiusLedgerSeal,
     sealProvenanceEndpoint, endpointPkg⟩ := carrier
   have sameReadback : hsame readback readback' :=
     cont_deterministic windowRadiusReadback windowRadiusReadback'
@@ -502,7 +505,7 @@ theorem RegularCauchyNameCarrier_synchronized_precision_pullback [AskSetup] [Pac
   intro carrier scheduleObservationWindow scheduleObservationWindow'
     windowRadiusReadback windowRadiusReadback' readbackPkg readbackPkg'
   obtain ⟨scheduleUnary, observationUnary, radiusUnary, _ledgerUnary, _sealUnary,
-    _namecertUnary, _scheduleObservationRadius, _radiusLedgerSeal,
+    _provenanceUnary, _namecertUnary, _scheduleObservationRadius, _radiusLedgerSeal,
     _sealProvenanceEndpoint, endpointPkg⟩ := carrier
   have sameWindow : hsame window window' :=
     cont_deterministic scheduleObservationWindow scheduleObservationWindow'
@@ -536,8 +539,8 @@ theorem RegularCauchyNameCarrier_real_seal_factorization [AskSetup] [PackageSetu
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
   intro carrier radiusLedgerSeal' sealProvenanceEndpoint' endpointPkg'
   obtain ⟨scheduleUnary, observationUnary, radiusUnary, ledgerUnary, _sealUnary,
-    namecertUnary, scheduleObservationRadius, radiusLedgerSeal, sealProvenanceEndpoint,
-    _endpointPkg⟩ := carrier
+    provenanceUnary, namecertUnary, scheduleObservationRadius, radiusLedgerSeal,
+    sealProvenanceEndpoint, _endpointPkg⟩ := carrier
   have sameSeal : hsame sealRow sealRow' :=
     cont_deterministic radiusLedgerSeal radiusLedgerSeal'
   have sameEndpoint : hsame endpoint endpoint' :=
@@ -547,8 +550,8 @@ theorem RegularCauchyNameCarrier_real_seal_factorization [AskSetup] [PackageSetu
     unary_cont_closed radiusUnary ledgerUnary radiusLedgerSeal'
   exact
     ⟨⟨scheduleUnary, observationUnary, radiusUnary, ledgerUnary, sealUnary',
-      namecertUnary, scheduleObservationRadius, radiusLedgerSeal', sealProvenanceEndpoint',
-      endpointPkg'⟩, sameSeal, sameEndpoint⟩
+      provenanceUnary, namecertUnary, scheduleObservationRadius, radiusLedgerSeal',
+      sealProvenanceEndpoint', endpointPkg'⟩, sameSeal, sameEndpoint⟩
 
 theorem RegularCauchyNameCarrier_finite_window_readback_exactness [AskSetup]
     [PackageSetup]
@@ -567,7 +570,7 @@ theorem RegularCauchyNameCarrier_finite_window_readback_exactness [AskSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
   intro carrier scheduleObservationWindow windowRadiusReadback readbackPkg
   obtain ⟨scheduleUnary, observationUnary, radiusUnary, _ledgerUnary, _sealUnary,
-    _namecertUnary, scheduleObservationRadius, _radiusLedgerSeal,
+    _provenanceUnary, _namecertUnary, scheduleObservationRadius, _radiusLedgerSeal,
     _sealProvenanceEndpoint, endpointPkg⟩ := carrier
   have windowUnary : UnaryHistory window :=
     unary_cont_closed scheduleUnary observationUnary scheduleObservationWindow

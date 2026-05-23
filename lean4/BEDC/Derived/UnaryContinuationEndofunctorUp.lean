@@ -124,4 +124,31 @@ theorem UnaryContinuationEndofunctor_namecert_obligations [AskSetup] [PackageSet
   }
   exact ⟨cert, objectReadUnary, identityReadUnary, compositionReadUnary⟩
 
+theorem UnaryContinuationEndofunctorCarrier_identity_stability
+    {object hom action identity composition transport route provenance localName a imageObject e
+      imageE : BHist} :
+    UnaryContinuationEndofunctorCarrier object hom action identity composition transport route
+        provenance localName →
+      CategoryHomCarrier a a e →
+        Cont action a imageObject →
+          Cont action e imageE →
+            hsame imageE BHist.Empty →
+              UnaryHistory imageObject ∧ UnaryHistory imageE ∧
+                CategoryHomCarrier imageObject imageObject BHist.Empty ∧
+                  Cont action e imageE ∧ hsame imageE BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist Cont hsame CategoryHomCarrier UnaryHistory
+  intro carrier identityHom objectAction homAction sameImageEmpty
+  obtain ⟨_objectUnary, _homUnary, actionUnary, _identityUnary, _compositionUnary,
+    _objectActionTransport, _homIdentityRoute, _compositionTransportProvenance,
+    _sameProvenanceName⟩ := carrier
+  have unaryA : UnaryHistory a := identityHom.left
+  have unaryE : UnaryHistory e := identityHom.right.right.left
+  have imageObjectUnary : UnaryHistory imageObject :=
+    unary_cont_closed actionUnary unaryA objectAction
+  have imageEUnary : UnaryHistory imageE :=
+    unary_cont_closed actionUnary unaryE homAction
+  have imageIdentity : CategoryHomCarrier imageObject imageObject BHist.Empty :=
+    CategoryHomCarrier_empty_identity imageObjectUnary
+  exact ⟨imageObjectUnary, imageEUnary, imageIdentity, homAction, sameImageEmpty⟩
+
 end BEDC.Derived.UnaryContinuationEndofunctorUp

@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\LimitUp$}
+\label{ch:concrete-instances-limit-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley's finite-neighborhood reading of convergence, the $\LimitUp$ packet names the generic finite limit surface used by the Real and Completion chapters. It is not a host limit operator and not a quotient of convergent streams. It is the visible route through finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, a $\DyadicRatCoreUp$ tolerance ledger, and a downstream $\RealUp$ seal row, with transport, continuation replay, provenance, and local naming retained as BEDC rows.
+
+The sibling dependency route is deliberately shared with the specialized limit chapters. The $\RealLimitUp$ packet of \autoref{ch:concrete-instances-reallimit-namecert} and the $\CauchyLimitSealUp$ boundary of \autoref{ch:concrete-instances-cauchylimitseal-namecert} consume the same finite faces supplied by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The generic $\LimitUp$ carrier records that common surface before any specialized real-limit or completion-facing packet chooses a narrower role.
+
+\begin{definition}[Limit carrier]
+\label{def:limit-carrier}
+A $\LimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,R,D,A,T,C,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window row that supplies the finite observation schedule for the limit request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from those displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the requested radius, slack, and comparison budget for each finite observation.
+\item $A$ is the downstream $\RealUp$ seal row, read only after $S,R,D$ have been replayed.
+\item $T$ is the limit transport row binding the same $S,R,D,A$ surface to any specialized $\RealLimitUp$ or $\CauchyLimitSealUp$ consumer.
+\item $C$ records displayed $\Cont$ replay from a finite limit request through the window row, rational readback, tolerance ledger, seal row, and transport row.
+\item $H$ stores componentwise $\hsame$ transport for the window, readback, tolerance ledger, seal, limit transport, continuation, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RealLimitUp$, $\CauchyLimitSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows, their displayed transports, their continuation replay, package provenance, and local naming provenance. The carrier has no coordinate for quotient stream equality, selected representatives, host real equality, trichotomy, countable choice, ambient completeness, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.LimitUp.LimitTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Limit NameCert obligations]
+\label{thm:limit-namecert-obligations}
+For every accepted $\LimitUp$ carrier $L=(S,R,D,A,T,C,H,P,N)$, the local $\NameCert_{\LimitUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed window, readback, tolerance ledger, seal, transport, continuation, provenance, and local naming rows;
+\item finite-window exactness, requiring every limit-facing read to inspect $S$ before it can reach the regular rational readback row $R$;
+\item tolerance-ledger exactness, requiring every readback comparison to pass through the same $\DyadicRatCoreUp$ ledger $D$ before the $\RealUp$ seal row $A$ is exposed;
+\item specialized-consumer handoff, requiring every $\RealLimitUp$ or $\CauchyLimitSealUp$ consumer to reuse the same $S,R,D,A$ route through $T,C,H,P,N$;
+\item non-escape from quotient stream equality, selected representatives, host real equality, trichotomy, countable choice, ambient completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:limit-carrier}. The projection exposes exactly the finite window row, regular rational readback, dyadic tolerance ledger, Real seal, limit transport, continuation replay, componentwise transport, package provenance, and local naming row.
+
+Finite-window exactness follows from the route order stored in $C$. A limit-facing request enters through $S$ before it can obtain $R$, and the comparison budget is then read from $D$ before the seal row $A$ can be consumed.
+
+The specialized handoff is supplied by $T,H,P,N$. These rows retain the same displayed route for $\RealLimitUp$ and $\CauchyLimitSealUp$ consumers, so the packet has no remaining coordinate from which quotient equality, selected representatives, host equality, trichotomy, choice, completeness, Lean verification, or bridge checking could be exported.
+\end{proof}
+\leanchecked{BEDC.Derived.LimitUp.LimitUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Limit Real and Completion handoff]
+\label{thm:limit-real-completion-handoff}
+Every Real-facing or Completion-facing consumer of an accepted $\LimitUp$ carrier factors through the finite route
+$$
+\StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RealUp
+$$
+as displayed by the packet rows $S,R,D,A$, then through the transport, continuation, provenance, and local naming rows $T,C,H,P,N$. Consequently the generic limit surface can be cited by $\RealLimitUp$ and $\CauchyLimitSealUp$ chapters without claiming quotient stream equality, selected representatives, host real equality, trichotomy, countable choice, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing or Completion-facing consumer. Carrier admission gives access to the seal row $A$ only as a row downstream of the finite window, readback, and tolerance rows.
+
+Replay the continuation row $C$. The consumer first reads $S$, obtains the regular rational observations through $R$, consults the dyadic tolerance ledger $D$, and only then reaches the $\RealUp$ seal row $A$.
+
+Finally apply the handoff row $T$ together with the structural rows $H,P,N$. They repack the same finite route for $\RealLimitUp$ and $\CauchyLimitSealUp$ consumers, while adding no quotient, representative selector, host equality, trichotomy, choice, completeness, Lean target, or bridge row.
+\end{proof}
+
+\begin{closurestatus}{\LimitUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:limit-carrier}, \autoref{thm:limit-namecert-obligations}, and \autoref{thm:limit-real-completion-handoff} seed the generic finite limit surface shared by Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected representatives, host real equality, trichotomy, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exactness, tolerance-ledger exactness, specialized-consumer handoff, and non-escape proofs for the same finite packet.}
+  \constructivestory{A $\LimitUp$ packet is generated from StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a RealUp seal row, a limit transport row for RealLimitUp and CauchyLimitSealUp consumers, continuation replay, componentwise transport, package provenance, and local naming.}
+\end{closurestatus}

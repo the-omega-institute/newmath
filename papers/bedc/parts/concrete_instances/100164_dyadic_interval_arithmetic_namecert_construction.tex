@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalArithmeticUp$}
+\label{ch:concrete-instances-dyadic-interval-arithmetic-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicIntervalArithmeticUp$ packet names the finite interval-operation surface obtained when both endpoints are displayed $\DyadicRatCoreUp$ rows and every enclosure claim is routed through rational and real interval packets already present in the BEDC library. It sits after the dyadic endpoint core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rational interval carrier of \autoref{ch:concrete-instances-rationalinterval-namecert}, the metric-ball observation surface of \autoref{ch:concrete-instances-metricball-namecert}, the located interval boundary of \autoref{ch:concrete-instances-locatedinterval-namecert}, and the real interval enclosure route of \autoref{ch:concrete-instances-real-interval-enclosure-namecert}. The packet records addition, multiplication, refinement, and containment comparison as finite endpoint ledgers; it is not a quotient interval type, a selected real representative, a trichotomy service, a countable-choice construction, an open-cover compactness argument, or an appeal to Real completeness.
+
+\begin{definition}[Dyadic interval arithmetic carrier]
+\label{def:dyadic-interval-arithmetic-carrier}
+A $\DyadicIntervalArithmeticUp$ carrier is a finite $\BHist$ packet
+$$
+A=(L,U,O,+_\Delta,\cdot_\Delta,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are lower and upper endpoint rows accepted by $\DyadicRatCoreUp$.
+\item $O$ is the endpoint-order ledger, recording that the lower endpoint row is below the upper endpoint row through the same dyadic comparison surface.
+\item $+_\Delta$ is the addition-operation row, whose lower and upper outputs are computed from the displayed dyadic endpoint additions with outward endpoint witnesses.
+\item $\cdot_\Delta$ is the multiplication-operation row, whose four endpoint products and selected lower and upper dyadic bounds are displayed as finite rows.
+\item $R$ is the refinement row, recording that a later dyadic endpoint pair tightens the current pair through endpoint comparisons over the same scale ledger.
+\item $E$ is the enclosure-comparison row, relating the dyadic endpoint pair to the $\RationalIntervalUp$ and $\RealIntervalEnclosureUp$ containment rows consumed by downstream readers.
+\item $H$ records componentwise $\hsame$ transport for the endpoint, order, operation, refinement, enclosure, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the endpoint rows through the operation and enclosure rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalArithmeticUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\MetricBallUp$, $\LocatedIntervalUp$, $\RealIntervalEnclosureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicIntervalArithmeticUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one finite dyadic endpoint interval-operation packet. It has no coordinate for quotient intervals, host real endpoints, selected real representatives, trichotomy, countable choice, open-cover compactness, or Real completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicIntervalArithmeticUp.DyadicIntervalArithmeticTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic interval arithmetic NameCert obligations]
+\label{thm:dyadic-interval-arithmetic-namecert-obligations}
+For every accepted $\DyadicIntervalArithmeticUp$ carrier $A=(L,U,O,+_\Delta,\cdot_\Delta,R,E,H,C,P,N)$, the local $\NameCert_{\DyadicIntervalArithmeticUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two endpoint rows, endpoint-order ledger, addition row, multiplication row, refinement row, enclosure-comparison row, componentwise transport, continuation replay, provenance, and local naming row;
+\item endpoint order stability, requiring $O$ to transport along the displayed $\hsame$ and $\Cont$ rows without replacing the dyadic comparison by host order on reals;
+\item operation enclosure soundness, requiring $+_\Delta$ and $\cdot_\Delta$ to compute their exported lower and upper endpoint rows from the displayed dyadic endpoint rows and outward comparison witnesses;
+\item refinement monotonicity, requiring $R$ to preserve containment when lower endpoints move upward and upper endpoints move downward through named dyadic comparison rows;
+\item classifier transport, requiring every accepted operation and refinement row to remain accepted after componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item ledger non-escape, excluding quotient intervals, selected real representatives, trichotomy, countable choice, open-cover compactness, Real completeness, and hidden host endpoint arithmetic.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-arithmetic-carrier}. The projection exposes exactly the two dyadic endpoint rows, endpoint-order ledger, operation rows, refinement row, enclosure-comparison row, and structural rows $H,C,P,N$.
+
+Endpoint order stability is the row $O$ transported by $H$ and replayed by $C$. Since $O$ is a dyadic comparison row, transport can only move the displayed endpoint histories and cannot insert an external order relation.
+
+Operation enclosure soundness is read from $+_\Delta$ and $\cdot_\Delta$. The addition row uses the two endpoint additions with outward witnesses, while the multiplication row displays the four dyadic endpoint products and the selected lower and upper dyadic bounds. Each output endpoint is therefore read from the visible dyadic arithmetic ledger.
+
+Refinement monotonicity is the row $R$. It records the tightening comparisons between the old and later endpoint rows, so containment can only be weakened along the displayed dyadic order witnesses.
+
+Classifier transport follows by applying $H$ and $C$ componentwise to the same finite rows. The exclusions are immediate from the carrier inventory: there is no coordinate for quotient intervals, selected real representatives, trichotomy, countable choice, open-cover compactness, Real completeness, or hidden host endpoint arithmetic.
+\end{proof}
+
+\begin{theorem}[Dyadic interval arithmetic enclosure soundness]
+\label{thm:dyadic-interval-arithmetic-enclosure-soundness}
+Every exported operation of an accepted $\DyadicIntervalArithmeticUp$ carrier factors through the displayed dyadic endpoint rows and preserves the containment interfaces of $\RationalIntervalUp$ and $\RealIntervalEnclosureUp$. More precisely, if an accepted packet exports an addition, multiplication, or refinement result, then every downstream $\RationalIntervalUp$, $\MetricBallUp$, $\LocatedIntervalUp$, or $\RealIntervalEnclosureUp$ consumer reaches that result through the finite route
+$$
+L,U,O \longmapsto +_\Delta,\cdot_\Delta,R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a dyadic endpoint enclosure whose rational and real containment rows are the displayed rows in $E$, with no quotient interval, selected real representative, trichotomy, countable-choice row, open-cover compactness row, or $\RealUp$ completeness witness inserted into the route.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $A=(L,U,O,+_\Delta,\cdot_\Delta,R,E,H,C,P,N)$. The only endpoint coordinates are the two $\DyadicRatCoreUp$ rows $L$ and $U$, and the only order coordinate between them is $O$.
+
+For addition, project $+_\Delta$. Its output lower and upper endpoint rows are formed from the displayed dyadic endpoint additions and outward comparison witnesses. For multiplication, project $\cdot_\Delta$. Its output bounds are chosen from the four displayed dyadic endpoint products by the finite comparison ledger. For refinement, project $R$, which names the tightening comparisons between endpoint pairs.
+
+The enclosure-comparison row $E$ is the sole handoff to $\RationalIntervalUp$ and $\RealIntervalEnclosureUp$. A $\MetricBallUp$ or $\LocatedIntervalUp$ reader can consume the same handoff only after the dyadic endpoints and operation rows have been displayed.
+
+Finally $H,C,P,N$ package the route. Componentwise transport and continuation replay preserve the same endpoint and enclosure rows, while provenance records the dependency anchors. Since every exported operation is reached through this route, there is no remaining coordinate from which a quotient interval, selected real representative, trichotomy, countable-choice row, open-cover compactness row, or $\RealUp$ completeness witness could be read.
+\end{proof}
+
+\closureat{DyadicIntervalArithmeticUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalArithmeticUp}
+  \constructivestory{A $\DyadicIntervalArithmeticUp$ packet is generated from lower and upper $\DyadicRatCoreUp$ endpoint rows, an endpoint-order ledger, displayed addition and multiplication rows, a refinement row, an enclosure-comparison row, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-arithmetic-carrier}, \autoref{thm:dyadic-interval-arithmetic-namecert-obligations}, and \autoref{thm:dyadic-interval-arithmetic-enclosure-soundness} seed the finite dyadic endpoint interval-operation surface over DyadicRatCore, RationalInterval, MetricBall, LocatedInterval, and RealIntervalEnclosure consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient interval semantics, selected real representatives, trichotomy, countable choice, open-cover compactness, Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint order stability, operation enclosure soundness, refinement monotonicity, classifier transport, and ledger non-escape proofs for BEDC.Derived.DyadicIntervalArithmeticUp.}
+\end{closurestatus}

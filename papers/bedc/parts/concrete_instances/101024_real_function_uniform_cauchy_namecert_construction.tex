@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\RealFunctionUniformCauchyUp$}
+\label{ch:concrete-instances-real-function-uniform-cauchy-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RealFunctionUniformCauchyUp$ packet records uniformly Cauchy real-valued function data as a finite BEDC route rather than as host function equality or a completed function space. It sits over the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the uniform Cauchy modulus surface of \autoref{ch:concrete-instances-uniform-cauchy-modulus-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later uniform-limit and compact-continuity consumers one named route for real-valued function families before any quotient stream, selected pointwise limit, countable-choice schedule, host function equality, or ambient $\RealUp$ completeness principle is available.
+
+\begin{definition}[Real-function uniform Cauchy carrier]\label{def:real-function-uniform-cauchy-carrier}
+A $\RealFunctionUniformCauchyUp$ carrier is a finite $\BHist$ packet
+$$
+F=(A,S,M,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the real-valued function source row. It stores only the displayed argument window, the displayed function-value row, and the local classifier for the finite function observation.
+\item $S$ is the finite source-window ledger. For each accepted tolerance request it records the finite argument windows and the paired value-observation rows that will be compared.
+\item $M$ is the $\UniformCauchyModulusUp$ row. It assigns one displayed modulus request to all source-window rows in $S$ and never selects a host-level pointwise limit.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the requested tolerance, the smaller dyadic tolerance supplied by $M$, and the finite descent route used by the paired value comparisons.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational observations exposed by $S,M,D$.
+\item $E$ is the terminal $\RealUp$ seal reached only after the source windows, uniform modulus row, dyadic tolerance ledger, and regular rational readback have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the function source row, source-window ledger, modulus row, dyadic ledger, readback row, seal row, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a uniform Cauchy request through $A,S,M,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealFunctionUniformCauchyUp$, $\UniformCauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealFunctionUniformCauchyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $A,S,M,D,R,E,H,C,P,N$. The carrier has no coordinate for host function equality, quotient streams, selected pointwise limits, countable-choice selectors, ambient real completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RealFunctionUniformCauchyUp.TasteGate.RealFunctionUniformCauchyTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Real-function uniform Cauchy NameCert obligations]\label{thm:real-function-uniform-cauchy-namecert-obligations}
+For every accepted $\RealFunctionUniformCauchyUp$ carrier
+$$
+F=(A,S,M,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealFunctionUniformCauchyUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed real-valued function row, finite source-window ledger, uniform Cauchy modulus row, dyadic tolerance ledger, regular rational readback, terminal real seal, transport, replay, provenance, and local name;
+\item finite-window stability, requiring every comparison of function values to be read from the windows listed in $S$;
+\item uniform-modulus transport, requiring the same modulus row $M$ to serve all accepted source-window rows for the requested tolerance;
+\item dyadic tolerance descent, requiring the comparison tolerance used by the value rows to be obtained from the dyadic ledger $D$;
+\item regular rational readback, requiring every numeric observation consumed by the packet to pass through $R$ before the terminal seal is inspected;
+\item Real-seal non-escape, requiring $E$ to remain downstream of $A,S,M,D,R$ and the structural rows;
+\item provenance exhaustion, requiring $P$ to source only the listed rows and to export no host function equality, quotient stream, selected pointwise limit, countable-choice schedule, or ambient real completeness principle;
+\item local naming, requiring $N$ to name exactly this finite surface and no external function-space object.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+
+\begin{theorem}[Real-function uniform Cauchy Real-completion handoff]\label{thm:real-function-uniform-cauchy-real-completion-handoff}
+Let $F=(A,S,M,D,R,E,H,C,P,N)$ be an accepted $\RealFunctionUniformCauchyUp$ carrier. Every $\RealUp$-facing read of $F$ factors through the finite route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp
+$$
+as exposed by the source windows $S$, the readback row $R$, the tolerance ledger $D$, and the terminal seal $E$. In particular, a completion-facing consumer can inspect real-valued function data only through the displayed finite windows, regular rational observations, dyadic tolerance descent, uniform modulus transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. It cannot read host function equality, quotient streams, countable choice, selected pointwise limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+
+\closureat{RealFunctionUniformCauchyUp}{seedStr}
+
+\begin{closurestatus}{\RealFunctionUniformCauchyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-function-uniform-cauchy-carrier}, \autoref{thm:real-function-uniform-cauchy-namecert-obligations}, and \autoref{thm:real-function-uniform-cauchy-real-completion-handoff} seed the finite route from uniform Cauchy real-valued function data to StreamName, RegSeqRat, DyadicRatCore, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, quotient streams, countable choice, selected pointwise limits, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window stability, uniform-modulus transport, dyadic tolerance descent, regular rational readback, Real-seal non-escape, provenance exhaustion, and local naming for BEDC.Derived.RealFunctionUniformCauchyUp.}
+  \constructivestory{A $\RealFunctionUniformCauchyUp$ packet is generated from one real-valued function source row, finite source-window rows, one UniformCauchyModulus row, a DyadicRatCore tolerance ledger, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -32,6 +32,7 @@ The carrier stores finite windows and their ledgers. It contains no completed
 host real, no quotient class of Cauchy streams, no hidden precision schedule,
 and no Dedekind-cut classifier.
 \end{definition}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.TasteGate.DyadicCompletionTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[DyadicCompletion NameCert obligation surface]
 \label{thm:dyadiccompletion-namecert-obligation-surface}
@@ -450,6 +451,42 @@ dyadic observation, stream-window, regular-tail, real-boundary, ledger,
 transport, continuation, package, and provenance rows agree, the terminal
 $\RealUp$ seal has no alternate public finite-window row. Hence the displayed
 route exhausts every $\DyadicCompletionUp$ real-seal read.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion regular-tail budget refinement]
+\label{thm:dyadiccompletion-regular-tail-budget-refinement}
+Let an accepted $\DyadicCompletionUp$ finite-window packet carry a certified
+tail-radius seal whose regular-tail radius is refined along the
+$\StreamNameUp$ handoff row. Then the refined seal induces the same
+$\RegSeqRatUp$ classifier window as the original packet and preserves the
+terminal $\RealUp$ seal route exhausted in
+\autoref{thm:dyadiccompletion-realup-route-exhaustion}.
+
+The induced budget witness is the one consumed by
+\autoref{ch:concrete-instances-regseqobservationbudget-namecert}: it records
+the same dyadic observation rows, scheduled $\StreamNameUp$ windows,
+regular-tail comparison rows, precision ledger entries, displayed $\hsame$ and
+$\Cont$ transports, $\mathsf{Pkg}$ provenance, and local $\NameCert$ source
+certificate, with only the tail-radius ledger made sharper.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:dyadiccompletion-regular-tail-stability}. Refining the
+tail-radius seal along the displayed $\hsame$ and $\Cont$ rows transports the
+regular-tail comparison data without changing the $\RegSeqRatUp$ classifier
+window read from the packet.
+
+Next use \autoref{thm:dyadiccompletion-streamname-handoff}. The sharpened
+radius is attached to the same scheduled $\StreamNameUp$ handoff row, so the
+stream-window source and the regular-tail classifier still share the ledger row
+visible to the downstream consumer.
+
+Finally invoke \autoref{thm:dyadiccompletion-realup-route-exhaustion}. Since
+the dyadic observation, stream-window, regular-tail, real-boundary, ledger,
+transport, continuation, package, and provenance rows are the same rows after
+refinement, the terminal $\RealUp$ seal is forced through the same finite
+route. The only exported extra datum is the sharper budget witness used by
+\autoref{ch:concrete-instances-regseqobservationbudget-namecert}.
 \end{proof}
 
 \closureat{DyadicCompletionUp}{obligationStr}

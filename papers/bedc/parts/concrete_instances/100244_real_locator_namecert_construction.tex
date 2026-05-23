@@ -1,0 +1,78 @@
+\chapter{RealLocatorUp NameCert Construction}
+\label{ch:concrete-instances-real-locator-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealLocatorUp$ packet records constructive located comparison data for a displayed $\RealUp$ name without turning that data into trichotomy or Dedekind-cut reconstruction. It sits beside the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The public role is a finite comparison service for later real algebra, metric locatedness, and apartness consumers.
+
+\begin{definition}[Real locator carrier]
+\label{def:real-locator-carrier}
+A $\RealLocatorUp$ carrier is finite BEDC data that answers each dyadic rational comparison request by a displayed lower or upper apartness window for the named real. Concretely it is a finite $\BHist$ packet
+$$
+L=(X,Q,S,R,D,A,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $X$ is the terminal $\RealUp$ name whose seal is inspected by the locator.
+\item $Q$ is the $\DyadicRatCoreUp$ comparison request naming the queried dyadic rational and the requested finite precision.
+\item $S$ is the $\StreamNameUp$ observation window opened from the real name for that request.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the observed stream window.
+\item $D$ is the $\DyadicRatCoreUp$ ledger that records the dyadic lower and upper rational bounds used by the comparison.
+\item $A$ is the displayed apartness-window row, read either as a lower witness or as an upper witness for the request, with the undecided boundary left uncollapsed.
+\item $H$ records componentwise $\hsame$ transport for the real seal, dyadic request, stream window, regular readback, dyadic ledger, apartness row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay through $X,Q,S,R,D,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealLocatorUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealLocatorUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one finite locator packet. It has no coordinate for Dedekind-cut completeness, real trichotomy, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RealLocatorUp.RealLocatorTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Real locator NameCert obligations]
+\label{thm:real-locator-namecert-obligations}
+For every accepted $\RealLocatorUp$ carrier $L=(X,Q,S,R,D,A,H,C,P,N)$, the local $\NameCert_{\RealLocatorUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier stability, requiring the real seal, dyadic request, stream observation window, regular readback, dyadic ledger, apartness row, transport, replay, provenance, and local naming data to inhabit one finite $\BHist$ packet;
+\item classifier stability, requiring the lower or upper apartness verdict in $A$ to be read only through the displayed request $Q$ and observation route $S,R,D$;
+\item transport along $\hsame$, requiring $H$ to preserve the same request, window, readback, dyadic ledger, and apartness row under componentwise transport;
+\item dyadic ledger exactness, requiring $D$ to record the lower and upper dyadic bounds used by the displayed comparison and not a host-order comparison of completed reals;
+\item $\RealUp$ seal compatibility, requiring $X$ to be consumed only through the displayed $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows before the apartness window is read.
+\end{enumerate}
+No NameCert obligation may replace these rows by Dedekind-cut completeness, real trichotomy, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $L$. Its analytic coordinates are exactly the real seal $X$, dyadic request $Q$, stream window $S$, regular readback $R$, dyadic ledger $D$, and apartness row $A$; the remaining rows transport, replay, source, and name the same packet.
+
+Classifier stability follows from the order of projection. The apartness row $A$ is reached only after the request and finite observation route $Q,S,R,D$ have been displayed, so its verdict cannot be detached from those rows.
+
+Transport stability is supplied by $H$ and replay stability by $C$. They preserve the same listed coordinates under $\hsame$ transport and displayed continuation replay.
+
+The dyadic ledger and real seal boundaries close the obligation surface. Since $D$ is the only dyadic comparison ledger and $X$ is consumed only through $S,R,D$, the local NameCert has no field from which Dedekind-cut completeness, trichotomy, quotient equality, countable choice, or ambient completeness could be read.
+\end{proof}
+
+\begin{theorem}[Real locator apartness decision window]
+\label{thm:real-locator-apartness-decision-window}
+For every accepted $\RealLocatorUp$ carrier $L=(X,Q,S,R,D,A,H,C,P,N)$, a displayed locator decision in $A$ yields a finite apartness readback window through
+$$
+Q\longmapsto S\longmapsto R\longmapsto D\longmapsto A\longmapsto H,C,P,N .
+$$
+The readback exposes only the lower or upper apartness window carried by $A$ for the request $Q$. It does not assert trichotomy for all real comparisons and does not identify quotient representatives of $X$.
+\end{theorem}
+\begin{proof}
+Start with the displayed decision row $A$. By the carrier definition, $A$ is not an isolated truth value; it is attached to the dyadic request $Q$, the stream observation window $S$, the regular readback $R$, and the dyadic ledger $D$.
+
+The finite readback window is therefore obtained by replaying that route. The rows $H$ and $C$ transport and replay the same request, observation, ledger, and apartness data, while $P$ and $N$ package the resulting local certificate.
+
+The conclusion is intentionally local. Because the packet has no coordinate for a global order classifier, quotient representative equality, countable choice, or ambient completeness, the displayed decision supplies only the finite apartness window for $Q$.
+\end{proof}
+
+\closureat{RealLocatorUp}{seedStr}
+
+\begin{closurestatus}{\RealLocatorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-locator-carrier}, \autoref{thm:real-locator-namecert-obligations}, and \autoref{thm:real-locator-apartness-decision-window} seed the finite located comparison surface for $\RealUp$ names through stream, regular rational, and dyadic readback rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind-cut completeness, real trichotomy, quotient equality, countable choice, ambient RealUp completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, transport along hsame, dyadic ledger exactness, RealUp seal compatibility, and apartness-window readback for BEDC.Derived.RealLocatorUp.}
+  \constructivestory{A $\RealLocatorUp$ packet is generated from a $\RealUp$ seal, a $\DyadicRatCoreUp$ comparison request, a $\StreamNameUp$ observation window, a $\RegSeqRatUp$ readback row, a dyadic lower-upper ledger, a displayed apartness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

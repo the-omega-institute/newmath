@@ -211,6 +211,25 @@ instance metacicConfluenceAuditWitnessBHistCarrier :
   toEventFlow := metacicConfluenceAuditWitnessToEventFlow
   fromEventFlow := metacicConfluenceAuditWitnessFromEventFlow
 
+instance metacicConfluenceAuditWitnessFieldFaithful :
+    FieldFaithful MetacicConfluenceAuditWitnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | MetacicConfluenceAuditWitnessUp.mk parallel substitution diamond confluence
+        obstruction component route ledger name =>
+        [parallel, substitution, diamond, confluence, obstruction, component, route,
+          ledger, name]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk parallel substitution diamond confluence obstruction component route ledger name =>
+        cases y with
+        | mk parallel' substitution' diamond' confluence' obstruction' component' route'
+            ledger' name' =>
+            cases hfields
+            rfl
+
 instance metacicConfluenceAuditWitnessChapterTasteGate :
     ChapterTasteGate MetacicConfluenceAuditWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -223,6 +242,19 @@ instance metacicConfluenceAuditWitnessChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (metacicConfluenceAuditWitnessToEventFlow_injective heq)
+
+instance metacicConfluenceAuditWitnessNontrivial :
+    Nontrivial MetacicConfluenceAuditWitnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨MetacicConfluenceAuditWitnessUp.mk BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      MetacicConfluenceAuditWitnessUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem MetacicConfluenceAuditWitnessTasteGate_single_carrier_alignment :
     (∀ h : BHist,

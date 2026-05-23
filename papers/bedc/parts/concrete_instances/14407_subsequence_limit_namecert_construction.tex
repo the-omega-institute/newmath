@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\SubsequenceLimitUp$}
+\label{ch:concrete-instances-subsequence-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\SubsequenceLimitUp$ packet records the finite consumer boundary for reading a displayed subsequence limit from already certified real sequence-limit data. It consumes the sequence-limit surface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the cofinal selector route of \autoref{ch:concrete-instances-cofinalsubsequence-namecert}, the regular Cauchy subsequence boundary of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. Its purpose is to let downstream Bolzano--Weierstrass and sequence-convergence arguments read a selected limit surface without importing arbitrary subsequence choice, host sequence equality, quotient stream equality, or ambient completeness.
+
+\begin{definition}[SubsequenceLimit carrier]\label{def:subsequence-limit-carrier}
+A $\SubsequenceLimitUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(L,\Phi,W,R,D,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $L$ is the parent $\RealSequenceLimitUp$ row, containing the displayed source sequence, candidate limit, tail-window schedule, dyadic tolerance ledger, and convergence classifier exposed by \autoref{ch:concrete-instances-real-sequence-limit-namecert};
+\item $\Phi$ is the accepted $\CofinalSubsequenceUp$ selector row, including the displayed unary selector, monotonicity witnesses, cofinal witnesses, selected windows, and regular rational handoff rows;
+\item $W$ records the selected finite $\StreamNameUp$ windows from the parent sequence and from the subsequence readback surface;
+\item $R$ records the selected $\RegSeqRatUp$ observations and the $\RegularCauchySubsequenceUp$ route through which the subsequence read is displayed;
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger used to compare the selected subsequence windows with the parent limit row;
+\item $E$ is the shared $\RealUp$ seal row exposed only after the parent limit row, cofinal selector row, selected windows, regular rational handoff, and dyadic tolerance ledger have been displayed;
+\item $H$ records componentwise $\hsame$ transports for the parent limit row, selector row, selected windows, regular rational observations, dyadic ledger, real seal, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers inspect the same rows in their certificate order;
+\item $P$ is the $\Pkg$ provenance over the $\RealSequenceLimitUp$, $\CofinalSubsequenceUp$, $\RegularCauchySubsequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and naming dependencies;
+\item $N$ is the local $\NameCert_{\SubsequenceLimitUp}$ row.
+\end{enumerate}
+The carrier stores a finite subsequence-limit consumer interface. It contains no host-level infinite subsequence, no quotient stream representative, no host sequence equality, no independent real-completeness object, and no choice principle for selecting further subsequences.
+\end{definition}
+
+\begin{theorem}[SubsequenceLimit NameCert obligations]\label{thm:subsequence-limit-namecert-obligations}
+Every accepted $\SubsequenceLimitUp$ carrier of \autoref{def:subsequence-limit-carrier} carries five finite NameCert obligation rows:
+\begin{enumerate}
+\item carrier admission for the parent sequence-limit row, cofinal selector row, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ and $\RegularCauchySubsequenceUp$ handoff rows, dyadic tolerance ledger, shared $\RealUp$ seal, transport rows, continuation routes, package provenance, and local naming row;
+\item selector-to-limit alignment, stating that every subsequence window read by $\Phi$ is one of the displayed parent sequence windows named by $L$ and compared against the same candidate limit row;
+\item tolerance preservation, stating that the $\DyadicRatCoreUp$ ledger $D$ is the common tolerance ledger used by both the parent sequence-limit classifier and the selected subsequence read;
+\item real-seal handoff discipline, stating that the $\RealUp$ seal $E$ is exposed only after the parent limit row, cofinal selector, selected windows, regular rational route, and tolerance ledger have been displayed;
+\item non-escape, stating that the packet exports no Bolzano--Weierstrass conclusion, arbitrary subsequence choice, host sequence equality, quotient stream equality, ambient real completeness, or bridge-checked external schema.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.SubsequenceLimitUp.SubsequenceLimitTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is the tuple in \autoref{def:subsequence-limit-carrier}. Each row needed by a consumer is a visible $\BHist$ coordinate, and the local naming row is attached to that same finite packet.
+
+Selector-to-limit alignment is read from the pair $(L,\Phi)$. The parent row supplies the displayed sequence-limit surface, while the selector row supplies only selected finite windows and their regular rational handoff data. Thus a subsequence read remains a read of the parent displayed sequence.
+
+Tolerance preservation is the projection to $D$. The selected subsequence windows are compared with the parent candidate limit using the same dyadic tolerance ledger, so the packet has no second tolerance scale that could change the limit claim.
+
+The real-seal handoff follows the order of the rows $L,\Phi,W,R,D,E$. A consumer reaches the shared $\RealUp$ seal only after the parent limit data, selector route, selected windows, regular rational observations, and dyadic ledger are already visible.
+
+The non-escape row is an inventory check. None of the coordinates stores a Bolzano--Weierstrass selection, a host-level subsequence, host sequence equality, quotient stream equality, ambient real completeness, or an external bridge schema, so the local NameCert cannot export those objects.
+\end{proof}
+
+\begin{theorem}[SubsequenceLimit Real seal handoff]\label{thm:subsequence-limit-real-seal-handoff}
+Let $Q=(L,\Phi,W,R,D,E,H,C,P,N)$ be an accepted $\SubsequenceLimitUp$ carrier. Every $\RealUp$-facing consumer read from $Q$ factors through the parent $\RealSequenceLimitUp$ row $L$, the $\CofinalSubsequenceUp$ selector row $\Phi$, the selected $\StreamNameUp$ windows $W$, the selected $\RegSeqRatUp$ and $\RegularCauchySubsequenceUp$ route $R$, and the shared $\DyadicRatCoreUp$ tolerance ledger $D$ before the seal row $E$ is exposed.
+\end{theorem}
+\begin{proof}
+Start from a $\RealUp$-facing consumer read. The carrier places the seal coordinate $E$ after the parent sequence-limit row, selector row, selected windows, regular rational handoff, and dyadic ledger.
+
+Apply the selector-to-limit and tolerance-preservation rows of \autoref{thm:subsequence-limit-namecert-obligations}. They force the selected subsequence windows to remain parent sequence windows and force their limit comparison to use the same dyadic tolerance ledger as the parent limit classifier.
+
+It remains to identify the public read route. The displayed $\hsame$ transports and $\Cont$ routes preserve the order through $L,\Phi,W,R,D,E$, while the $\Pkg$ and local $\NameCert$ rows account for provenance. Hence every seal-facing read factors through the listed finite handoff surface.
+\end{proof}
+
+\begin{theorem}[SubsequenceLimit choice-free boundary]\label{thm:subsequence-limit-choice-free-boundary}
+The $\SubsequenceLimitUp$ carrier is a finite BEDC consumer boundary for selected sequence-limit reads. It preserves the parent sequence-limit row, cofinal selector row, selected regular rational observations, dyadic tolerance ledger, shared real seal, displayed transports, continuation routes, package provenance, and local naming row, but it does not construct a Bolzano--Weierstrass subsequence, choose an arbitrary infinite subsequence, identify host sequences, identify quotient streams, prove real completeness, or provide a checked standard bridge.
+\end{theorem}
+\begin{proof}
+The positive content is exactly the carrier inventory of \autoref{def:subsequence-limit-carrier}. The rows $L,\Phi,W,R,D,E,H,C,P,N$ provide the parent limit data, selector route, selected observations, tolerance ledger, seal, transport, continuation, provenance, and local naming surface.
+
+The consumer route is fixed by \autoref{thm:subsequence-limit-namecert-obligations} and \autoref{thm:subsequence-limit-real-seal-handoff}. Every public real-facing read passes through the finite selector-to-limit handoff rather than through an unrecorded host object.
+
+The excluded principles are absent as coordinates. Since no row stores a Bolzano--Weierstrass construction, arbitrary subsequence choice, host equality, quotient equality, completeness proof, or bridge-checked schema, the packet cannot export any of them.
+\end{proof}
+
+\begin{closurestatus}{\SubsequenceLimitUp}
+  \constructivestory{A $\SubsequenceLimitUp$ packet is generated from a parent sequence-limit row, a cofinal selector row, selected StreamName windows, RegSeqRat and RegularCauchySubsequence handoff rows, a shared DyadicRatCore tolerance ledger, a shared RealUp seal, componentwise transport, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subsequence-limit-carrier}, \autoref{thm:subsequence-limit-namecert-obligations}, \autoref{thm:subsequence-limit-real-seal-handoff}, and \autoref{thm:subsequence-limit-choice-free-boundary} declare the finite subsequence-limit consumer boundary for selected RealUp sequence-limit reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Bolzano--Weierstrass, arbitrary subsequence choice, host sequence equality, quotient stream equality, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector-to-limit alignment, tolerance preservation, real-seal handoff, and choice-free refusal for the same finite packet.}
+\end{closurestatus}

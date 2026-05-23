@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\BishopModulusRealUp$}
+\label{ch:concrete-instances-bishop-modulus-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopModulusRealUp$ packet records the explicit-modulus real-name carrier used when a constructive real name is read through finite precision data rather than through a detached equality principle. It sits over the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the fast real-name route of \autoref{ch:concrete-instances-fast-cauchy-real-namecert}, and the completion-facing modulus route of \autoref{ch:concrete-instances-fast-cauchy-completion-namecert}. The packet makes the Bishop modulus visible as finite BEDC data before any FastCauchyReal or FastCauchyCompletion consumer treats the name as Real-facing data.
+
+\begin{definition}[BishopModulusReal carrier]
+\label{def:bishop-modulus-real-carrier}
+A $\BishopModulusRealUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the explicit Bishop modulus row. It records, for each finite precision request, the displayed index bound and the local tail discipline that every downstream read must consume.
+\item $S$ is the $\StreamNameUp$ finite-window row opened only at the windows named by $M$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for those windows, including dyadic radii, endpoint comparisons, rounding rows, and tolerance arithmetic.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $S$ and $D$ under the modulus budget exposed by $M$.
+\item $E$ is the terminal $\RealUp$ seal reached only after $M,S,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus row, stream windows, dyadic ledger, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each finite Real-facing precision request through $M,S,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopModulusRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FastCauchyRealUp$, $\FastCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopModulusRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,S,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected limit, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BishopModulusRealUp.BishopModulusRealTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[BishopModulusReal NameCert obligations]
+\label{thm:bishop-modulus-real-namecert-obligations}
+For every accepted $\BishopModulusRealUp$ carrier $B=(M,S,D,R,E,H,C,P,N)$, the local $\NameCert_{\BishopModulusRealUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Bishop modulus, finite stream-window row, dyadic tolerance ledger, regular rational readback, terminal Real seal, and structural rows $H,C,P,N$;
+\item modulus exactness, requiring every finite precision request to read the row $M$ before any stream window, dyadic tolerance, regular readback, or Real seal is exposed;
+\item window and readback compatibility, requiring $S$ and $D$ to be consumed under the same displayed modulus budget before the $\RegSeqRatUp$ row $R$ may be read;
+\item Real-seal nonescape, requiring $E$ to remain terminal with respect to $M,S,D,R$ and to expose no detached Real object, selected limit, host equality, or ambient completeness theorem;
+\item componentwise transport and provenance, requiring $H,C,P,N$ to preserve and name only the displayed route under $\hsame$ transport, $\Cont$ replay, package provenance, and local certification.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-modulus-real-carrier}. The visible packet consists of the Bishop modulus row $M$, finite stream window $S$, dyadic tolerance ledger $D$, regular readback $R$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Modulus exactness follows from the placement of $M$ at the front of the route. A Real-facing precision request first fixes the displayed bound, and every later observation is read inside the finite budget named by that bound.
+
+Window and readback compatibility read \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert} in order. The window $S$ and ledger $D$ are consumed before $R$ is available, so regular rational data cannot be detached from the displayed Bishop modulus.
+
+The Real-seal nonescape clause reads \autoref{ch:concrete-instances-real-namecert}. The row $E$ is terminal and downstream of $M,S,D,R$, while $H,C,P,N$ transport, replay, package, and name exactly that route.
+
+Since quotient stream equality, selected limits, countable choice, host real equality, trichotomy, and ambient Real completeness are absent from the carrier, no local NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[BishopModulusReal fast-Cauchy handoff]
+\label{thm:bishop-modulus-real-fast-cauchy-handoff}
+Let $B=(M,S,D,R,E,H,C,P,N)$ be an accepted $\BishopModulusRealUp$ carrier. Every $\FastCauchyRealUp$ or $\FastCauchyCompletionUp$ consumer reads the packet only through the displayed modulus route
+$$
+M \longmapsto S \longmapsto D \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently those consumers receive an explicit Bishop modulus, finite stream windows, dyadic tolerance arithmetic, regular rational readback, the terminal $\RealUp$ seal, transport, replay, provenance, and local naming before any Real-facing datum is available. The route cannot use quotient stream equality, selected limits, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a FastCauchyReal or FastCauchyCompletion read of $B$. By \autoref{def:bishop-modulus-real-carrier}, the only Real-facing coordinate is $E$, and the definition places it downstream of the modulus row $M$, stream window $S$, dyadic ledger $D$, and regular readback row $R$.
+
+The first part of the route is fixed by the modulus and finite-window rows. The row $M$ supplies the explicit finite bound, $S$ exposes only the corresponding stream observations, and $D$ supplies the dyadic tolerances and endpoint comparisons for those observations.
+
+The second part of the route is fixed by regular readback and the Real seal. The row $R$ is consumed only after $S$ and $D$, and $E$ seals the Real-facing datum only after the regular row has been displayed.
+
+Finally, $H,C,P,N$ preserve and name the same dependency order. Because the excluded objects have no coordinate in the carrier and no replay edge in the displayed route, every FastCauchyReal or FastCauchyCompletion read factors through the modulus route shown in the statement.
+\end{proof}
+
+\closureat{BishopModulusRealUp}{seedStr}
+
+\begin{closurestatus}{\BishopModulusRealUp}
+  \constructivestory{A $\BishopModulusRealUp$ packet is generated from an explicit Bishop modulus row, StreamName finite windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-modulus-real-carrier}, \autoref{thm:bishop-modulus-real-namecert-obligations}, and \autoref{thm:bishop-modulus-real-fast-cauchy-handoff} seed the finite explicit-modulus Real-name route consumed by FastCauchyReal and FastCauchyCompletion packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus exactness, window and readback compatibility, Real-seal nonescape, componentwise transport, provenance, and local naming for the same displayed packet.}
+\end{closurestatus}

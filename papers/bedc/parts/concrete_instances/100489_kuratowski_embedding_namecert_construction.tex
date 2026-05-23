@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\KuratowskiEmbeddingUp$}
+\label{ch:concrete-instances-kuratowski-embedding-namecert}
+\origin{human}
+
+Following Bourbaki's and Kelley's metric-space treatment of distance functions, the $\KuratowskiEmbeddingUp$ packet records the classical embedding of a metric space into a space of distance-to-point functions as finite BEDC data. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the real-distance rows of \autoref{ch:concrete-instances-real-namecert}, and the distance-preserving interface of \autoref{ch:concrete-instances-isometric-embedding-namecert}. The packet exposes a selected basepoint or displayed family row, distance-function target rows, and the isometric route; it does not import quotient completion, host function extensionality, or a detached real-valued function space.
+
+\begin{definition}[Kuratowski embedding carrier]
+\label{def:kuratowski-embedding-carrier}
+A $\KuratowskiEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,B,D,T,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\MetricUp$ row whose point and distance-witness data supply the domain of the embedding.
+\item $B$ is the selected basepoint or displayed point-family row used to normalize and compare distance functions.
+\item $D$ is the $\RealUp$ distance-witness row recording the finite reads $d(x,b)$ and $d(y,b)$ against the selected basepoint or family.
+\item $T$ is the distance-function target row naming the displayed family of $\RealUp$ distance observations rather than a host function space.
+\item $I$ is the $\IsometricEmbeddingUp$ route row witnessing that source distances are preserved by the displayed distance-function target.
+\item $H$ records componentwise $\hsame$ transport for $M,B,D,T,I$.
+\item $C$ records displayed $\Cont$ replay from metric-distance reads to target distance-function reads and then to the isometric route.
+\item $P$ is the $\Pkg$ provenance over $\KuratowskiEmbeddingUp$, $\MetricUp$, $\RealUp$, $\IsometricEmbeddingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\KuratowskiEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion, host function extensionality, ambient Banach-space structure, or a selected completion representative.
+\end{definition}
+\leanchecked{BEDC.Derived.KuratowskiEmbeddingUp.KuratowskiEmbeddingTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Kuratowski embedding NameCert obligations]
+\label{thm:kuratowski-embedding-namecert-obligations}
+For the carrier of \autoref{def:kuratowski-embedding-carrier}, the local $\NameCert_{\KuratowskiEmbeddingUp}$ surface consists of six finite rows:
+\begin{enumerate}
+\item carrier admission: every accepted packet exposes $K=(M,B,D,T,I,H,C,P,N)$ and no hidden function-space coordinate;
+\item metric-source exposure: every source point and source-distance read enters through the $\MetricUp$ row $M$;
+\item basepoint or family selection: the row $B$ is the only displayed source for the normalizing point or comparison family;
+\item real-distance target exposure: the rows $D$ and $T$ turn source-distance reads into $\RealUp$ distance-function observations before any target comparison is made;
+\item isometric route: the row $I$ is the only distance-preserving handoff, and it is read after $M,B,D,T$;
+\item structural replay: the rows $H,C,P,N$ preserve, replay, source, and name the same route without exporting quotient completion or host function extensionality.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:kuratowski-embedding-carrier}. The accepted packet displays the metric source, basepoint or family row, real-distance witness row, target row, isometric route, transport, continuation, provenance, and local naming row.
+
+Read the dependency rows in order. The metric source row $M$ supplies point and distance-witness data; the row $B$ supplies the selected basepoint or displayed family; and the real-distance row $D$ records the corresponding $\RealUp$ observations.
+
+The target row $T$ is therefore a displayed distance-function surface, not a host function space. The isometric row $I$ can only be read after those source and target observations are visible, and $H,C,P,N$ preserve that same finite route.
+\end{proof}
+
+\begin{theorem}[Kuratowski embedding distance route]
+\label{thm:kuratowski-embedding-distance-route}
+Every accepted $\KuratowskiEmbeddingUp$ packet routes source-distance comparison through
+$$
+M \to B \to D \to T \to I \to H \to C \to P \to N.
+$$
+Thus a consumer reaches the $\IsometricEmbeddingUp$ handoff only after reading the $\MetricUp$ source, the selected basepoint or family row, and the $\RealUp$ distance-function target rows. No consumer receives quotient completion, host function extensionality, ambient Banach-space structure, or a selected completion representative from the packet.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(M,B,D,T,I,H,C,P,N)$. A source-distance query must read $M$, and a distance-function query must next read the basepoint or family row $B$.
+
+The real-valued observations are then stored in $D$ and organized by $T$. Because $T$ is part of the finite carrier, it supplies only displayed $\RealUp$ distance observations and not host-level function extensionality.
+
+Finally apply the isometric route row $I$. The structural rows $H,C,P,N$ keep the same route under transport and replay, so the only exported embedding data are the displayed metric, basepoint or family, real-distance, target, and isometric rows.
+\end{proof}
+
+\closureat{KuratowskiEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\KuratowskiEmbeddingUp}
+  \constructivestory{A $\KuratowskiEmbeddingUp$ packet is generated from a MetricUp source row, a selected basepoint or displayed family row, RealUp distance-witness rows, a distance-function target row, an IsometricEmbeddingUp route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kuratowski-embedding-carrier}, \autoref{thm:kuratowski-embedding-namecert-obligations}, and \autoref{thm:kuratowski-embedding-distance-route} seed the finite distance-function embedding surface over MetricUp, RealUp, and IsometricEmbeddingUp.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient completion, host function extensionality, ambient Banach-space structure, selected completion representatives, or bridge checking.}
+  \upgradepath{Lean closure requires checked carrier admission, basepoint or family exposure, RealUp distance target exposure, isometric-route preservation, and structural replay proofs for BEDC.Derived.KuratowskiEmbeddingUp.}
+\end{closurestatus}

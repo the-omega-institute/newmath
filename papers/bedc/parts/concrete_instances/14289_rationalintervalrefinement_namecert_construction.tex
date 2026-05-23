@@ -1,0 +1,63 @@
+\chapter{Rational interval refinement NameCert construction}
+\label{ch:concrete-instances-rationalintervalrefinement-namecert}
+\origin{human}
+
+Following Moore--Kearfott--Cloud interval analysis and Bishop--Bridges constructive analysis, the $\RationalIntervalRefinementUp$ packet records finite rational-interval refinement as displayed endpoint, containment, and retained-window data. It sits between the rational interval surface of \autoref{ch:concrete-instances-rationalinterval-namecert}, the dyadic interval surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the nested-window surface of \autoref{ch:concrete-instances-nestedinterval-namecert}, the branch route of \autoref{ch:concrete-instances-dyadicbisection-namecert}, and the subdivision ledger of \autoref{ch:concrete-instances-dyadicsubdivision-namecert}. The packet is a finite consumer primitive for real-completion arguments, not an infinite interval tree, a host subset of $\RealUp$, or a selected completed point.
+
+\begin{definition}[RationalIntervalRefinement carrier]
+\label{def:rational-interval-refinement-carrier}
+A $\RationalIntervalRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(I,J,E,W,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the parent $\RationalIntervalUp$ row whose endpoints and containment ledger are read from \autoref{ch:concrete-instances-rationalinterval-namecert};
+\item $J$ is the child $\RationalIntervalUp$ row with displayed endpoint rows inside the parent window;
+\item $E$ is the endpoint-inclusion ledger certifying that the lower and upper endpoints of $J$ are contained in the ordered endpoint surface of $I$;
+\item $W$ is the retained-window row, readable either as a $\NestedIntervalUp$ step or as the finite rational window handed to a real-completion consumer;
+\item $K$ is the optional dyadic support ledger exposing the $\DyadicIntervalUp$ boundary, the $\DyadicBisectionUp$ branch row, or the $\DyadicSubdivisionUp$ cell row used to produce this refinement when such a route is present;
+\item $H$ records componentwise $\hsame$ transport for the parent interval, child interval, endpoint-inclusion ledger, retained window, dyadic support rows, continuation rows, provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ replay routes by which consumers reread $I,J,E,W,K,H,P,N$ without changing the retained window;
+\item $P$ is the $\Pkg$ provenance over $\RationalIntervalRefinementUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\NestedIntervalUp$, $\DyadicBisectionUp$, $\DyadicSubdivisionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RationalIntervalRefinementUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for countable choice, an infinite refinement branch, a completed real point, a host interval subset, or a standard bridge.
+\end{definition}
+\leanchecked{BEDC.Derived.RationalIntervalRefinementUp.RationalIntervalRefinementTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RationalIntervalRefinement nested window]
+\label{thm:rational-interval-refinement-nested-window}
+Every accepted $\RationalIntervalRefinementUp$ packet $R=(I,J,E,W,K,H,C,P,N)$ exposes one finite nested-window step: the child rational interval $J$ is retained inside the parent rational interval $I$ by the endpoint-inclusion ledger $E$, and the consumer-facing retained row is exactly $W$. If the support ledger $K$ comes from a dyadic bisection or dyadic subdivision route, that route is read only as finite evidence for the same retained window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rational-interval-refinement-carrier}. The only parent interval coordinate is $I$, the only child interval coordinate is $J$, and the only endpoint-inclusion coordinate is $E$.
+
+The retained-window row is $W$. It is stored beside $I,J,E$, so a consumer cannot read the retained window without also reading the parent, child, and endpoint-inclusion data that make the containment finite.
+
+If $K$ is present, it contributes only the dyadic route used to exhibit the same refinement. The transport rows in $H$ and replay routes in $C$ move those displayed rows componentwise, while $P$ and $N$ record provenance and local naming. No coordinate remains for an infinite branch or a completed real point.
+\end{proof}
+
+\begin{theorem}[RationalIntervalRefinement NameCert obligations]
+\label{thm:rational-interval-refinement-namecert-obligations}
+The seed $\NameCert_{\RationalIntervalRefinementUp}$ surface for \autoref{def:rational-interval-refinement-carrier} consists exactly of carrier exposure for $R$, classifier exposure for the parent-child containment pair $I,J,E$, retained-window exactness through $W$, optional dyadic route exposure through $K$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the tuple $R=(I,J,E,W,K,H,C,P,N)$. These are precisely the rows that the local naming surface can expose.
+
+The classifier part is finite because the parent-child containment read uses the displayed rational endpoint and containment ledgers in $I,J,E$. The retained-window obligation is then exactly the row $W$, with no hidden intersection or completion object.
+
+The support ledger $K$ does not change the carrier. It only records which dyadic interval, bisection, or subdivision rows were used to exhibit the same rational refinement when a dyadic route is available.
+
+Finally $H$ and $C$ transport and replay the same displayed rows, while $P$ and $N$ bind provenance and local naming. Since the carrier has no other coordinate, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{closurestatus}{\RationalIntervalRefinementUp}
+  \constructivestory{A $\RationalIntervalRefinementUp$ packet is generated from a parent $\RationalIntervalUp$ row, a child $\RationalIntervalUp$ row, endpoint-inclusion evidence, a retained-window row, optional dyadic route support, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-interval-refinement-carrier}, \autoref{thm:rational-interval-refinement-nested-window}, and \autoref{thm:rational-interval-refinement-namecert-obligations} seed the finite rational-interval refinement certificate for real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite refinement trees, completed real point selection, host interval subsets, countable choice, standard bridges, or a Lean theorem.}
+  \upgradepath{A formal route can encode the carrier and classifier and prove the nested-window and NameCert obligation surfaces over the displayed finite history rows.}
+\end{closurestatus}

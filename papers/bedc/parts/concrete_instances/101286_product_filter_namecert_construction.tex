@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\ProductFilterUp$}
+\label{ch:concrete-instances-product-filter-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on product filters and filter bases, the $\ProductFilterUp$ packet records a finite BEDC product-base route over the filter-base surface of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}. It also keeps the dyadic tolerance and real-facing boundary visible through $\DyadicRatCoreUp$ and $\RealUp$, so completion consumers can read a product filter base without importing an ultrafilter, a quotient filter, a selected limit, choice data, host real equality, or ambient completeness.
+
+\begin{definition}[Product filter finite carrier]
+\label{def:product-filter-carrier}
+A $\ProductFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B_X,B_Y,I,\pi_X,\pi_Y,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B_X$ is the first $\FilterBaseUp$ row. It stores the finite base packets, their directed lower-bound witnesses, and their local refinement ledger for the first component.
+\item $B_Y$ is the second $\FilterBaseUp$ row, with the same displayed filter-base boundary for the second component.
+\item $I$ is the product index row. Each entry names a finite product-base request assembled from one displayed request in $B_X$ and one displayed request in $B_Y$.
+\item $\pi_X$ and $\pi_Y$ are the projection rows. They replay each product-base request back to its two component base requests before any Cauchy or completion-facing consumer can inspect the packet.
+\item $D$ is the directed lower-bound witness row. For two displayed product-base requests it reads component lower bounds from $B_X$ and $B_Y$, pairs them in $I$, and records the two projection-compatible containment reads.
+\item $R$ is the refinement ledger. It records product refinement only through component refinements and the projection rows $\pi_X,\pi_Y$.
+\item $H$ records componentwise $\hsame$ transport for the two component bases, the product index row, both projection rows, the lower-bound witness row, the refinement ledger, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a product-base request through
+$$
+B_X,B_Y \longmapsto I,\pi_X,\pi_Y \longmapsto D,R \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ProductFilterUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProductFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B_X,B_Y,I,\pi_X,\pi_Y,D,R,H,C,P,N$. There is no coordinate for ultrafilters, quotient filters, selected limits, countable choice, host real equality, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.ProductFilterUp.ProductFilterTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Product filter NameCert obligations]
+\label{thm:product-filter-namecert-obligations}
+For every accepted $\ProductFilterUp$ carrier
+$$
+F=(B_X,B_Y,I,\pi_X,\pi_Y,D,R,H,C,P,N),
+$$
+the local $\NameCert_{\ProductFilterUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the two component filter-base rows, the product index row, the projection rows, the directed lower-bound row, the refinement ledger, transport, replay, provenance, and local naming;
+\item projection stability, requiring every product-base request to replay through $\pi_X$ and $\pi_Y$ to the same component requests used to assemble it;
+\item directed lower-bound coverage, requiring $D$ to build product lower bounds only from displayed component lower bounds and to record their two containment reads in $R$;
+\item $\CauchyFilterUp$ handoff, requiring every Cauchy-filter consumer to receive the product filter only through the finite product-base route $B_X,B_Y,I,\pi_X,\pi_Y,D,R$ and the structural rows $H,C,P,N$;
+\item completion-facing nonescape, requiring the same route to export no ultrafilter, quotient filter, selected limit, countable-choice schedule, host real equality, or ambient completeness principle.
+\end{enumerate}
+No local product-filter obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:product-filter-carrier}. The accepted packet exposes exactly the two component base rows, the product index row, the two projection rows, the lower-bound witness row, the refinement ledger, and the structural rows $H,C,P,N$.
+
+Projection stability follows from the order of the carrier. A product-base request is admitted by $I$ only together with the component requests replayed by $\pi_X$ and $\pi_Y$, so later transport cannot replace the component base data by an external filter object.
+
+Directed lower-bound coverage is componentwise. The row $D$ reads lower-bound witnesses from $B_X$ and $B_Y$, pairs them as another entry of $I$, and records the two product containment reads in $R$.
+
+The Cauchy-filter handoff is exhausted by the displayed route. A downstream consumer sees the same finite base route after $\hsame$ transport by $H$ and $\Cont$ replay by $C$; the provenance row $P$ and naming row $N$ name that route without adding any further coordinate.
+
+Since ultrafilters, quotient filters, selected limits, countable-choice schedules, host real equality, and ambient completeness are absent from the carrier, no NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[Product filter completion handoff]
+\label{thm:product-filter-completion-handoff}
+Let $F=(B_X,B_Y,I,\pi_X,\pi_Y,D,R,H,C,P,N)$ be an accepted $\ProductFilterUp$ carrier. Every $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, or $\RealUp$-facing consumer of the product filter factors through the displayed product-base route
+$$
+B_X,B_Y \longmapsto I,\pi_X,\pi_Y \longmapsto D,R \longmapsto H,C,P,N .
+$$
+Consequently the consumer cannot read an ultrafilter, quotient filter, selected limit, choice row, host real equality, or ambient completeness witness from the product filter packet.
+\end{theorem}
+\begin{proof}
+Start with a consumer request. The carrier has no product-filter coordinate except the product index row and its projections, so the request first reaches $I,\pi_X,\pi_Y$ and thereby names the two component base requests.
+
+If the consumer asks for refinement or common lower bounds, the route continues through $D$ and $R$. These rows use only displayed lower bounds and refinements from the component filter bases $B_X$ and $B_Y$, then repack the result as another product-base row.
+
+A $\CauchyFilterUp$ consumer therefore receives a directed finite product base, not a completed filter. The same finite route is the only surface exposed to $\UniformCompletionUp$, $\MetricCompletionUp$, and $\RealUp$-facing provenance reads.
+
+Transport and replay do not enlarge the boundary. The rows $H$ and $C$ preserve the listed coordinates componentwise, while $P$ and $N$ package and name only this product-base route.
+
+Thus every completion-facing read factors through the displayed carrier. Because the carrier contains no ultrafilter, quotient filter, selected limit, choice row, host real equality, or ambient completeness witness, none can be read downstream.
+\end{proof}
+
+\closureat{ProductFilterUp}{seedStr}
+
+\begin{closurestatus}{\ProductFilterUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:product-filter-carrier}, \autoref{thm:product-filter-namecert-obligations}, and \autoref{thm:product-filter-completion-handoff} seed the finite product-filter base route used by Cauchy-filter, completion, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ultrafilters, quotient filters, selected limits, countable choice, host real equality, Lean verification, bridge checking, or completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, projection stability, directed lower-bound coverage, CauchyFilter handoff, completion-facing nonescape, and ledger-refusal proofs for BEDC.Derived.ProductFilterUp.}
+  \constructivestory{A $\ProductFilterUp$ packet is generated from two FilterBase rows, one product index row, two projection rows, directed lower-bound witnesses, a refinement ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerSpreadUp$}
+\label{ch:concrete-instances-brouwer-spread-namecert}
+\origin{human}
+
+Following Brouwer and Bishop--Bridges on spreads and finite choice-sequence observation, the $\BrouwerSpreadUp$ packet records the finite prefix carrier that mediates between displayed choice-sequence reads and later bar, fan, Real, and Completion consumers. It sits after the finite answer discipline of \autoref{ch:concrete-instances-choice-sequence-namecert}, the binary tree surface of \autoref{ch:concrete-instances-cantorspace-namecert}, the prefix-cylinder surface of \autoref{ch:concrete-instances-bairespace-namecert}, the window schedule of \autoref{ch:concrete-instances-streamname-namecert}, and the admissibility law of \autoref{ch:concrete-instances-spread-law-namecert}. The packet names finite admitted prefixes; it is not a completed infinite branch, countable choice, quotient stream equality, fan compactness, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Brouwer spread carrier]
+\label{def:brouwer-spread-carrier}
+A $\BrouwerSpreadUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,S,W,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the decidable prefix-tree row. It records the displayed root, prefix relation, prefix-closure checks, and spread-law decisions inherited from the finite admissibility surface of $\SpreadLawUp$.
+\item $S$ is the $\StreamNameUp$ schedule. It records the finite order in which admitted prefixes may be requested, replayed, and compared by downstream name readers.
+\item $W$ is the finite displayed-prefix row. Every entry of $W$ is a prefix already listed in $T$ and already scheduled by $S$.
+\item $A$ is the admissible answer row. It contains only displayed $\NatUp$ and $\BoolUp$ answers whose finite prefixes pass the decision row of $T$.
+\item $H$ stores componentwise $\hsame$ transport for the tree, schedule, displayed prefixes, admissible answers, continuation replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ prefix replay from a request for a finite choice-sequence read to the corresponding $T,S,W,A$ rows.
+\item $P$ is the $\Pkg$ provenance over $\BrouwerSpreadUp$, $\ChoiceSequenceUp$, $\CantorSpaceUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\SpreadLawUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerSpreadUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a total host function, a completed branch through $T$, a quotient stream, a countable-choice selector, compactness, or a $\RealUp$ completeness seal.
+\end{definition}
+
+\begin{definition}[Brouwer spread classifier]
+\label{def:brouwer-spread-classifier}
+Two accepted $\BrouwerSpreadUp$ carriers
+$$
+B=(T,S,W,A,H,C,P,N)
+$$
+and
+$$
+B'=(T',S',W',A',H',C',P',N')
+$$
+are classified together exactly when their common admitted prefixes agree through the displayed rows $T,S,W,A$ and $T',S',W',A'$, and when every branching decision visible in one carrier is admissible through the corresponding spread-law row of the other carrier wherever both packets display the prefix. The classifier compares finite common-prefix admission, branching admissibility, schedule replay, transport, continuation, provenance, and local naming. It never compares host functions, completed infinite streams, quotient representatives, or extensional equality of unseen tails.
+\end{definition}
+
+\begin{theorem}[Brouwer spread prefix closure]
+\label{thm:brouwer-spread-prefix-closure}
+Let
+$$
+B=(T,S,W,A,H,C,P,N)
+$$
+be an accepted $\BrouwerSpreadUp$ carrier. Every admitted prefix subwindow of $W$, with the restricted prefix tree, restricted StreamName schedule, restricted admissible $\NatUp$ and $\BoolUp$ answer rows, inherited componentwise transport, inherited continuation replay, inherited provenance, and inherited local naming, repacks as an accepted $\BrouwerSpreadUp$ carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:brouwer-spread-carrier}. An admitted prefix subwindow keeps only entries of $W$ already licensed by $T$ and already scheduled by $S$.
+
+The restricted tree remains prefix closed because $T$ stores prefix-closure checks for every displayed prefix. The restricted answer row remains admissible because $A$ contains only displayed $\NatUp$ and $\BoolUp$ answers attached to prefixes accepted by $T$.
+
+The structural rows restrict componentwise. The transport row $H$ compares the retained coordinates, the continuation row $C$ replays the same prefix requests over the shorter window, and $P,N$ name the same local package. The resulting tuple has the same carrier shape and no access to any tail outside the displayed subwindow.
+\end{proof}
+
+\begin{theorem}[Brouwer spread choice-sequence factorization]
+\label{thm:brouwer-spread-choice-sequence-factorization}
+Every public $\ChoiceSequenceUp$ read of an accepted $\BrouwerSpreadUp$ carrier factors through the admitted finite prefix rows
+$$
+T,S,W,A,H,C,P,N.
+$$
+The read may inspect only the finite $\NatUp$ and $\BoolUp$ answers admitted by the prefix tree and scheduled by the StreamName row; it cannot extract a completed infinite choice sequence, a host function, quotient stream equality, countable choice, compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a public $\ChoiceSequenceUp$ read. The carrier exposes choice-sequence data only through the displayed-prefix row $W$ and the admissible answer row $A$.
+
+Replay the continuation row $C$. The route first checks the decidable prefix tree $T$, then opens the StreamName schedule $S$, and only then reads the finite answers recorded in $W,A$.
+
+The structural rows $H,P,N$ preserve and name that route. Since the packet has no coordinate for a total sequence, quotient stream, choice selector, compactness principle, or real-completion seal, every public read factors through the finite prefix rows and cannot export the excluded data.
+\end{proof}
+
+\begin{theorem}[Brouwer spread NameCert obligation surface]
+\label{thm:brouwer-spread-namecert-obligation-surface}
+For every accepted $\BrouwerSpreadUp$ carrier $B=(T,S,W,A,H,C,P,N)$, the local $\NameCert_{\BrouwerSpreadUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the decidable prefix tree, StreamName schedule, displayed-prefix row, admissible answer row, transport, continuation, provenance, and local naming;
+\item classifier agreement on common admitted prefixes and branching admissibility as in \autoref{def:brouwer-spread-classifier};
+\item prefix closure through \autoref{thm:brouwer-spread-prefix-closure};
+\item choice-sequence factorization through \autoref{thm:brouwer-spread-choice-sequence-factorization};
+\item componentwise $\hsame$ transport for every displayed row;
+\item displayed $\Cont$ replay for every prefix request;
+\item exact $\Pkg$ provenance and local $\NameCert$ naming;
+\item non-escape, requiring every downstream read to stay inside $T,S,W,A,H,C,P,N$.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:brouwer-spread-carrier}. The visible packet contains exactly $T,S,W,A,H,C,P,N$.
+
+Classifier agreement is \autoref{def:brouwer-spread-classifier}. It compares common admitted prefixes and branching admissibility without invoking equality of host functions or unseen stream tails.
+
+Prefix closure and choice-sequence factorization are supplied by \autoref{thm:brouwer-spread-prefix-closure} and \autoref{thm:brouwer-spread-choice-sequence-factorization}. These two clauses force every retained subwindow and every public choice-sequence read through the same finite prefix rows.
+
+The remaining clauses are the structural projections. The row $H$ gives transport, $C$ gives replay, and $P,N$ give provenance and local naming. Because the carrier inventory has no additional coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BrouwerSpreadUp$ public ChoiceSequence, StreamName, Real, or Completion-facing read factors through a decidable prefix tree, StreamName schedule, finite displayed-prefix row, admissible Nat/Bool answer row, componentwise transport, continuation replay, provenance, and local NameCert row.}
+
+\independenceWitness{choice-sequence, cantorspace, bairespace, streamname, spread-law: $\BrouwerSpreadUp$ is not bijective to any listed sibling because it jointly carries decidable prefix admission, StreamName scheduling, displayed prefix windows, admissible Nat/Bool answer rows, transport, continuation replay, provenance, and local naming while refusing completed branches, countable choice, quotient streams, compactness, and ambient Real completeness.}
+
+\closureat{BrouwerSpreadUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerSpreadUp}
+  \constructivestory{A $\BrouwerSpreadUp$ packet is generated from a decidable prefix tree, a StreamName schedule, finite displayed prefixes, admissible Nat/Bool answer rows, componentwise hsame transport, displayed Cont prefix replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-spread-carrier}, \autoref{def:brouwer-spread-classifier}, \autoref{thm:brouwer-spread-prefix-closure}, \autoref{thm:brouwer-spread-choice-sequence-factorization}, and \autoref{thm:brouwer-spread-namecert-obligation-surface} seed the finite-prefix spread carrier for L10 Real and Completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed infinite branches, countable choice, quotient stream equality, fan compactness, open-cover compactness, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-prefix classification, prefix closure, choice-sequence factorization, transport, continuation, provenance, and non-escape for BEDC.Derived.BrouwerSpreadUp.}
+\end{closurestatus}

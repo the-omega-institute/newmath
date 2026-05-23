@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchyFilterUp$}
+\label{ch:concrete-instances-uniform-cauchy-filter-namecert}
+\origin{human}
+
+Following Bourbaki uniform spaces and Bishop--Bridges constructive completion, the $\UniformCauchyFilterUp$ packet records the current-state uniform Cauchy filter route as finite BEDC data. It sits between the entourage interface of \autoref{ch:concrete-instances-uniformspace-namecert}, the finite base interface of \autoref{ch:concrete-instances-filterbase-namecert}, the directed-window interface of \autoref{ch:concrete-instances-cauchynet-namecert}, and the completion boundary of \autoref{ch:concrete-instances-uniformcompletion-namecert}. Its rational readback is routed through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-regularcauchysequence-namecert}.
+
+\begin{definition}[Uniform Cauchy filter carrier]
+\label{def:uniform-cauchy-filter-carrier}
+A $\UniformCauchyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+(U,F,C,T,S,R,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ entourage ledger whose finite entourages, diagonal rows, symmetry rows, and composition refinements are available to the packet;
+\item $F$ is the $\FilterBaseUp$ base row naming the displayed filter-base indices, base elements, directed lower-bound witnesses, and refinement ledger;
+\item $C$ is the $\CauchyNetUp$ directed-window row used when a downstream route asks to read the same Cauchy evidence as finite net windows;
+\item $T$ is the entourage-Cauchy stability row: for each displayed entourage request in $U$, it names a base row in $F$ whose paired elements are read inside that entourage;
+\item $S$ is the $\StreamNameUp$ finite-window readback row attached to the accepted base windows;
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row obtained from the same stream windows, with the regularity budget displayed as part of the packet;
+\item $E$ is the completion handoff row for $\UniformCompletionUp$ and $\MetricCompletionUp$ consumers, exposing only the rows $U,F,C,T,S,R$ and their structural support;
+\item $H$ is the componentwise $\hsame$ transport row over $U,F,C,T,S,R,E$;
+\item $K$ is the displayed $\Cont$ replay route for base requests, entourage requests, stream windows, regular rational reads, and completion handoffs;
+\item $P$ is the $\Pkg$ provenance over $\UniformSpaceUp$, $\FilterBaseUp$, $\CauchyNetUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchySequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\UniformCauchyFilterUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filters, choice-selected subnet limits, host completeness, open-cover compactness, ultrafilters, or Zorn-style maximality.
+\end{definition}
+
+\begin{theorem}[Uniform Cauchy filter NameCert obligations]
+\label{thm:uniform-cauchy-filter-namecert-obligations}
+For every accepted $\UniformCauchyFilterUp$ carrier $(U,F,C,T,S,R,E,H,K,P,N)$, the local $\NameCert_{\UniformCauchyFilterUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed uniform-space, filter-base, Cauchy-net, stability, stream-window, regular rational, completion, transport, replay, provenance, and naming rows;
+\item filter-base compatibility, requiring every filter request to read the displayed $\FilterBaseUp$ row $F$ and its directed lower-bound and refinement ledger before any Cauchy claim is exported;
+\item entourage-Cauchy stability, requiring each displayed entourage request from $U$ to be witnessed by the base row selected in $T$ and replayed through the same refinement ledger;
+\item stream-window readback, requiring finite observations to pass through the $\StreamNameUp$ row $S$ rather than through an external sequence object;
+\item $\RegSeqRatUp$ readback, requiring regular rational data to be read from $R$ on the same finite windows and budgets already displayed by $S$;
+\item uniform-completion handoff, requiring $\UniformCompletionUp$ and $\MetricCompletionUp$ consumers to read only the displayed rows $U,F,C,T,S,R,E$ and the structural rows $H,K,P,N$;
+\item $\hsame$ transport, requiring componentwise transport through $H$ for all displayed rows;
+\item $\Cont$ replay, requiring the replay route $K$ to preserve the base request, entourage request, finite window, rational readback, and completion handoff order;
+\item $\Pkg$ provenance, requiring $P$ to name exactly the sibling packets listed in the carrier and no external completeness or compactness principle;
+\item local naming, requiring $N$ to expose the certificate only as $\NameCert_{\UniformCauchyFilterUp}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-cauchy-filter-carrier}. The rows $U,F,C,T,S,R,E,H,K,P,N$ are the visible coordinates of one finite $\BHist$ packet, so the local certificate has no detached filter, subnet, limit, or completeness coordinate.
+
+Filter-base compatibility starts with $F$. A downstream request must read the base indices, base elements, directed lower-bound witnesses, and refinement ledger before it can inspect the Cauchy row $T$.
+
+Entourage-Cauchy stability then reads $U$ and $T$ together. The entourage request comes from the displayed uniform-space ledger $U$, while $T$ names the base row in $F$ whose paired observations are read inside that entourage.
+
+The stream and rational readbacks are the next two fixed faces. The row $S$ supplies the finite $\StreamNameUp$ windows, and $R$ supplies the $\RegSeqRatUp$ regular rational data on those same windows and budgets.
+
+Finally, completion-facing consumers reach $E$ only after the preceding rows have been displayed. Componentwise transport through $H$, replay through $K$, package provenance through $P$, and local naming through $N$ preserve that route and do not introduce quotient filters, selected subnet limits, host completeness, or open-cover compactness.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCauchyFilterUp.UniformCauchyFilterTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Uniform Cauchy filter completion handoff]
+\label{thm:uniform-cauchy-filter-completion-handoff}
+Let $(U,F,C,T,S,R,E,H,K,P,N)$ be an accepted $\UniformCauchyFilterUp$ carrier. Every $\UniformCompletionUp$ or $\MetricCompletionUp$ consumer of this route may read only the displayed filter-base row $F$, the Cauchy-net row $C$, the stream-window row $S$, the $\RegSeqRatUp$ row $R$, the completion row $E$, and the structural rows $H,K,P,N$. It cannot read a quotient filter, a choice-selected subnet limit, host completeness, open-cover compactness, an ultrafilter, or a maximal-filter principle from the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The completion-facing coordinate is $E$, but its admissible inputs are already fixed by the carrier: the filter-base row $F$, the directed-window row $C$, the stream-window row $S$, and the regular rational row $R$.
+
+The entourage stability row $T$ mediates between the uniform-space ledger $U$ and the base row $F$. Thus any completion request that asks for Cauchy evidence must pass through the displayed filter-base and Cauchy-net faces before reading $E$.
+
+The remaining rows are structural. Transport by $H$, replay by $K$, provenance by $P$, and local naming by $N$ expose the same finite handoff route and no further coordinate. Since quotient filters, selected subnet limits, host completeness, open-cover compactness, ultrafilters, and maximal-filter principles are not coordinates of the carrier, no $\UniformCompletionUp$ or $\MetricCompletionUp$ consumer can obtain them from this certificate.
+\end{proof}
+
+\begin{closurestatus}{\UniformCauchyFilterUp}
+  \constructivestory{A $\UniformCauchyFilterUp$ packet is generated from displayed uniform-space entourage rows, filter-base rows, Cauchy-net windows, stream windows, RegSeqRat readback, a completion handoff row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-filter-carrier}, \autoref{thm:uniform-cauchy-filter-namecert-obligations}, and \autoref{thm:uniform-cauchy-filter-completion-handoff} seed the finite uniform Cauchy filter route from uniform-space entourages and filter bases to StreamName, RegSeqRat, and completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, choice-selected subnet limits, host completeness, open-cover compactness, ultrafilters, maximal-filter principles, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, filter-base compatibility, entourage-Cauchy stability, stream-window readback, RegSeqRat readback, completion handoff, transport, replay, provenance, and local naming for BEDC.Derived.UniformCauchyFilterUp.}
+\end{closurestatus}

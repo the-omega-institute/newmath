@@ -177,4 +177,17 @@ theorem HardProblemClosureTasteGate_single_carrier_alignment :
       (fun _ _ heq => hardProblemClosureToEventFlow_injective heq),
       rfl⟩
 
+theorem HardProblemClosure_boundary_exposure (x : HardProblemClosureUp) :
+    ∃ R L C W I B H Q P N : BHist,
+      x = HardProblemClosureUp.mk R L C W I B H Q P N ∧
+        hardProblemClosureFields x = [R, L, C, W, I, B, H, Q, P, N] ∧
+          hsame B B ∧
+            hsame H H ∧
+              hardProblemClosureEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  cases x with
+  | mk R L C W I B H Q P N =>
+      exact
+        ⟨R, L, C, W, I, B, H, Q, P, N, rfl, rfl, hsame_refl B, hsame_refl H, rfl⟩
+
 end BEDC.Derived.HardProblemClosureUp

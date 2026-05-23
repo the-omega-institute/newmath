@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailBasisUp$}
+\label{ch:concrete-instances-cauchy-tail-basis-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive Cauchy terminology and Kelley's filter-basis terminology, the $\CauchyTailBasisUp$ packet names the finite tail-basis surface that sits between tail-index requests and the L10 Real and Completion route. It refines the finite cofinal-tail filter of \autoref{ch:concrete-instances-finite-tail-filter-namecert}, reads finite windows from \autoref{ch:concrete-instances-streamname-namecert}, uses dyadic tolerance ledgers from \autoref{ch:concrete-instances-dyadicratcore-namecert}, hands regular rational readback to \autoref{ch:concrete-instances-regseqrat-namecert}, and remains upstream of the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+The packet is a basis certificate rather than a completion theorem. It gives downstream Cauchy and Real consumers one named finite route for tail-index refinement, window comparison, tolerance budgeting, and regular readback, while excluding quotient streams, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+
+\begin{definition}[CauchyTailBasis carrier]
+\label{def:cauchy-tail-basis-carrier}
+A $\CauchyTailBasisUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the tail-index basis row, listing the finite tail requests, tail refinements, and common-tail meets allowed to act as basis elements.
+\item $W$ is the finite $\StreamNameUp$ window row read over the displayed tail-index basis.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the same tail requests and finite windows.
+\item $R$ is the $\RegSeqRatUp$ readback row, carrying only the regular rational observations supported by $T,W,D$.
+\item $E$ is the terminal $\RealUp$ seal row, read only after the tail basis, finite windows, dyadic tolerances, and regular readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tail-index basis, finite-window, dyadic-ledger, regular-readback, Real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail-basis request through $T,W,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailBasisUp$, $\FiniteTailFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,W,D,R,E,H,C,P,N$. The carrier contains no quotient stream equality, selected limit, countable-choice selector, host real equality row, trichotomy row, ambient $\RealUp$ completeness datum, Lean verification credential, or standard bridge.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyTailBasisUp.CauchyTailBasisTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[CauchyTailBasis NameCert obligations]
+\label{thm:cauchy-tail-basis-namecert-obligations}
+For every accepted $\CauchyTailBasisUp$ carrier $B=(T,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyTailBasisUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed tail-index basis, finite StreamName windows, DyadicRatCore tolerance ledger, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming row;
+\item tail-basis locality, requiring every request to enter through a displayed element of $T$ before it can inspect $W,D,R$, or $E$;
+\item finite-window exactness, requiring $W$ to expose only windows supported by the admitted tail basis;
+\item tolerance-ledger exactness, requiring $D$ to record only the dyadic budgets attached to those admitted windows;
+\item regular-readback attachment, requiring $R$ to reuse the same $T,W,D$ surface rather than selecting a second stream representative;
+\item Real-seal boundary, requiring $E$ to remain downstream of $T,W,D,R$;
+\item non-escape, requiring $H,C,P,N$ to transport, replay, source, and name no row from which quotient streams, selected limits, countable choice, host real equality, trichotomy, ambient Real completeness, Lean verification, or bridge credentials can be exported.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-tail-basis-carrier}. The accepted packet displays exactly the tail-index basis, finite-window, dyadic-ledger, regular-readback, Real-seal, and structural rows.
+
+Tail-basis locality is forced by the row order. A consumer reads $T$ before it can inspect a StreamName window, a dyadic tolerance, a regular rational readback, or a Real seal.
+
+The window, tolerance, and readback clauses are then component projections. The row $W$ contains only finite windows supported by $T$, the row $D$ contains only budgets attached to those windows, and the row $R$ is tied to $T,W,D$ rather than to a detached representative.
+
+The Real-seal boundary is the projection to $E$. Since $E$ is downstream of $T,W,D,R$, it cannot introduce a quotient stream, a selected limit, a choice schedule, host equality, trichotomy, or ambient completeness.
+
+Finally, $H,C,P,N$ preserve, replay, source, and name the same displayed packet. These rows have no coordinate outside $T,W,D,R,E,H,C,P,N$, so the local NameCert obligations are exhausted by the listed finite rows.
+\end{proof}
+
+\begin{theorem}[CauchyTailBasis window directedness]
+\label{thm:cauchy-tail-basis-window-directedness}
+Let $B=(T,W,D,R,E,H,C,P,N)$ be an accepted $\CauchyTailBasisUp$ carrier. Any two finite window reads exported by $W$ and admitted over tail-basis elements of $T$ have a displayed common-tail read in $T$ whose dyadic tolerance ledger in $D$ supports both windows before the route reaches $R$ or $E$.
+\end{theorem}
+\begin{proof}
+Start with two exported finite-window reads. Since $W$ is read only after the tail-index basis row, each window has an admitted tail-basis element in $T$.
+
+The row $T$ is a basis row, so its displayed data include finite tail refinements and common-tail meets for the admitted requests. Project the meet row supplied for the two chosen tail elements.
+
+Read $D$ at the displayed meet. The tolerance ledger is attached to the same tail-basis and window rows, so the dyadic budgets for both windows are recorded before any regular readback or Real seal can be inspected.
+
+The structural rows preserve this directed route. Componentwise $\hsame$ transport and displayed $\Cont$ replay may move the accepted packet along the recorded comparison, but they do not add a second window source or an external tail oracle.
+\end{proof}
+
+\begin{theorem}[CauchyTailBasis RegSeqRat handoff]
+\label{thm:cauchy-tail-basis-regseqrat-handoff}
+Every regular rational readback exported by an accepted $\CauchyTailBasisUp$ carrier $B=(T,W,D,R,E,H,C,P,N)$ factors through the finite route
+$$
+T,W,D \longmapsto R \longmapsto E
+$$
+before any Real-facing consumer can read the terminal seal. Thus the packet hands tail-basis Cauchy data to $\RegSeqRatUp$ and $\RealUp$ consumers without quotient streams, selected limits, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with an exported regular rational readback. Carrier admission provides no analytic row before $T$, so the read first chooses an admitted finite tail-basis element.
+
+The route next reads the finite-window row $W$ and the dyadic tolerance ledger $D$. These two rows fix the observed stream entries and the tolerance budget for the admitted tail-basis element.
+
+The regular readback row $R$ is attached to the displayed $T,W,D$ data. It therefore cannot select a second stream representative, a quotient class, a detached limit, or a countable-choice schedule.
+
+The Real seal row $E$ is downstream of the same readback. Since the structural rows $H,C,P,N$ only transport, replay, source, and name this finite route, every Real-facing consumer receives the displayed handoff and no ambient completeness, trichotomy, or host equality coordinate.
+\end{proof}
+
+\closureat{CauchyTailBasisUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailBasisUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-basis-carrier}, \autoref{thm:cauchy-tail-basis-namecert-obligations}, \autoref{thm:cauchy-tail-basis-window-directedness}, and \autoref{thm:cauchy-tail-basis-regseqrat-handoff} seed the finite tail-basis route over $\FiniteTailFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligation exactness, window directedness, regular rational handoff, Real-seal boundary, and non-escape proofs for BEDC.Derived.CauchyTailBasisUp.}
+  \constructivestory{A $\CauchyTailBasisUp$ packet is generated from a tail-index basis row, finite StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a terminal RealUp seal row, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

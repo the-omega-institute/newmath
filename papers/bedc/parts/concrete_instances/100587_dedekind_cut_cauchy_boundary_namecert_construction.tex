@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\DedekindCutCauchyBoundaryUp$}
+\label{ch:concrete-instances-dedekind-cut-cauchy-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DedekindCutCauchyBoundaryUp$ packet names the finite boundary where cut-shaped observations may be compared with regular Cauchy readback without constructing $\RealUp$ by Dedekind cuts. It sits beside the lower and upper real ledgers, the located-cut handoff of \autoref{ch:concrete-instances-locatedcut-namecert}, the comparison surface of \autoref{ch:concrete-instances-dedekind-cauchy-comparison-namecert}, the stream and regular-rational readback route, the dyadic tolerance ledger, and the terminal $\RealUp$ seal. The packet supplies a boundary for Phase Real and Completion consumers: it allows cut evidence to be inspected, routed, and refused as finite BEDC data while keeping the regular Cauchy route as the only displayed Real-facing readback.
+
+\begin{definition}[Dedekind cut Cauchy boundary carrier]
+\label{def:dedekind-cut-cauchy-boundary-carrier}
+A $\DedekindCutCauchyBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,U,K,Q,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LowerRealUp$ row. It records exactly the lower cut observations admitted by the boundary and their finite downward-use discipline.
+\item $U$ is the $\UpperRealUp$ row. It records exactly the upper cut observations admitted by the boundary and their finite upward-use discipline.
+\item $K$ is the $\LocatedCutUp$ row. It records the located separation and displayed gap witnesses tying the lower and upper observations together.
+\item $Q$ is the $\DedekindCauchyComparisonUp$ row. It is the only comparison row through which cut-shaped observations may approach a Cauchy-facing read.
+\item $S$ is the finite $\StreamNameUp$ schedule. It names the inspected stream windows used by the regular readback branch.
+\item $R$ is the $\RegSeqRatUp$ readback row. It records the regular rational observations exposed after the finite windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It stores the dyadic radii, comparison margins, and finite slack rows consumed by the comparison and readback branches.
+\item $E$ is the $\RealUp$ seal. It is visible only after the located-cut row, comparison row, stream windows, regular-rational readback, and dyadic tolerance ledger have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the lower row, upper row, located-cut row, comparison row, stream schedule, regular readback, dyadic ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a cut-shaped request through $L,U,K,Q,S,R,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DedekindCutCauchyBoundaryUp$, $\LowerRealUp$, $\UpperRealUp$, $\LocatedCutUp$, $\DedekindCauchyComparisonUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DedekindCutCauchyBoundaryUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite cut-to-Cauchy boundary packet. It has no coordinate for quotient cuts, selected cuts, host suprema, a Dedekind construction of $\RealUp$, ambient completeness, trichotomy, Classical choice, Quot.sound, or propext-dependent equality.
+\end{definition}
+\leandef{BEDC.Derived.DedekindCutCauchyBoundaryUp.DedekindCutCauchyBoundaryUp}
+\leanchecked{BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate.DedekindCutCauchyBoundaryUpTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate.DedekindCutCauchyBoundaryTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dedekind cut Cauchy boundary NameCert obligations]
+\label{thm:dedekind-cut-cauchy-boundary-namecert-obligations}
+For every accepted $\DedekindCutCauchyBoundaryUp$ carrier $B=(L,U,K,Q,S,R,D,E,H,C,P,N)$, the local $\NameCert_{\DedekindCutCauchyBoundaryUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed lower row, upper row, located-cut row, comparison row, stream schedule, regular readback, dyadic tolerance ledger, Real seal, transport, replay, provenance, and local naming row;
+\item cut-side discipline, requiring every lower-row read in $L$ and every upper-row read in $U$ to meet only through the located separation and gap witnesses displayed in $K$;
+\item Cauchy-readback factorization, requiring every cut-shaped observation exposed by $L,U,K$ to pass through $Q$ and then through $S,R,D$ before the $\RealUp$ seal $E$ is visible;
+\item Real seal non-escape, requiring $E$ to remain a terminal seal for the regular Cauchy route and never to serve as a quotient cut, selected cut, host supremum, Dedekind construction of $\RealUp$, ambient completeness, trichotomy, Classical choice, Quot.sound, or propext-dependent surface;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the displayed route $L,U,K,Q,S,R,D,E,P,N$ componentwise;
+\item ledger exhaustion, requiring $P$ and $N$ to name exactly the displayed finite packet and no object outside it.
+\end{enumerate}
+No Dedekind cut Cauchy boundary obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dedekind-cut-cauchy-boundary-carrier}. The accepted packet exposes only the lower row, upper row, located-cut row, comparison row, stream schedule, regular readback, dyadic ledger, Real seal, and structural rows $H,C,P,N$.
+
+Cut-side discipline is finite. A lower request reads only $L$, an upper request reads only $U$, and the shared located evidence is the row $K$; there is no ambient cut object in which the two sides can be merged.
+
+Cauchy-readback factorization is forced by the row order. The comparison row $Q$ receives the cut-shaped observations, the rows $S,R,D$ provide the regular stream, rational, and dyadic readback data, and only then is the $\RealUp$ seal $E$ available.
+
+Transport and replay are structural. Componentwise $\hsame$ in $H$ preserves each displayed coordinate, and $\Cont$ replay in $C$ repeats the same route for every accepted cut-shaped request.
+
+Finally, provenance and local naming are exhausted by $P$ and $N$. Since none of the excluded surfaces is a coordinate of $B$, the local NameCert surface cannot export such a surface.
+\end{proof}
+
+\begin{theorem}[Dedekind cut Cauchy boundary nonescape]
+\label{thm:dedekind-cut-cauchy-boundary-nonescape}
+Let $B=(L,U,K,Q,S,R,D,E,H,C,P,N)$ be an accepted $\DedekindCutCauchyBoundaryUp$ carrier. Every Real/Completion consumer of $B$ receives only the displayed lower-row evidence, upper-row evidence, located-cut witnesses, comparison row, stream windows, regular rational readback, dyadic tolerance ledger, Real seal, transport, replay, provenance, and local naming row. It receives no quotient cut, selected cut, host supremum, Dedekind construction of $\RealUp$, ambient completeness, trichotomy, Classical choice, Quot.sound, or propext-dependent surface.
+\end{theorem}
+\begin{proof}
+Start with an accepted consumer read. The carrier presents the cut side only as $L,U,K$: lower observations, upper observations, and located witnesses. Because no quotient cut or selected cut is a coordinate, the consumer cannot recover such an object before entering the comparison row.
+
+The comparison row is $Q$. It sends the cut-shaped evidence into the regular readback branch $S,R,D$, where finite stream windows, regular rational observations, and dyadic tolerance data are displayed before the Real seal is visible.
+
+The Real-facing coordinate is only $E$. Its position downstream of $Q,S,R,D$ prevents it from becoming a host supremum, Dedekind construction of $\RealUp$, ambient completeness principle, or trichotomy principle.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same packet. They add no Classical choice, no Quot.sound, and no propext-dependent equality surface, so the listed exclusions cannot escape through the local NameCert.
+\end{proof}
+
+\begin{theorem}[Dedekind cut Cauchy boundary located refusal]
+\label{thm:dedekind-cut-cauchy-boundary-located-refusal}
+Let $B=(L,U,K,Q,S,R,D,E,H,C,P,N)$ be an accepted $\DedekindCutCauchyBoundaryUp$ carrier. Any Real/Completion consumer that asks $B$ for a located cut-side equality, interval boundary, or gap conclusion must first read the located-cut row $K$, then the comparison row $Q$, then the stream, regular-rational, and dyadic rows $S,R,D$, and only then the $\RealUp$ seal $E$.
+
+Conversely, any route that omits one of $K,Q,S,R,D$ is refused as a located or equality-facing route to $E$. Such a route may still read the displayed lower and upper rows, transport row, replay row, provenance row, and local naming row, but those rows only transport, replay, source, and name the same finite boundary packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier along \autoref{def:dedekind-cut-cauchy-boundary-carrier}. The only cut-side coordinates are $L,U,K$, and the NameCert obligations of \autoref{thm:dedekind-cut-cauchy-boundary-namecert-obligations} require lower-row and upper-row reads to meet through the located separation and gap witnesses displayed in $K$.
+
+The same obligation theorem gives the Cauchy-readback factorization. A cut-shaped observation that faces the $\RealUp$ seal must pass from $K$ to the comparison row $Q$, then through the stream schedule $S$, the regular rational readback row $R$, and the dyadic tolerance ledger $D$, before $E$ is visible.
+
+For the converse, suppose a consumer omits one of $K,Q,S,R,D$. Then the factorization just described is incomplete, so the consumer has no displayed BEDC route from a located cut-side question to $E$ as an equality-facing conclusion. Apply \autoref{thm:dedekind-cut-cauchy-boundary-nonescape}: the missing route cannot be replaced by a quotient cut, selected cut, host supremum, Dedekind construction of $\RealUp$, ambient completeness, trichotomy, Classical choice, Quot.sound, or propext-dependent surface.
+
+It remains only to account for the structural rows. The row $H$ transports the displayed coordinates componentwise, $C$ replays the same finite route, $P$ records its provenance, and $N$ names the local certificate. None of these rows adds a separate located or equality-facing route to $E$, so the refusal is exactly the refusal of every route that bypasses the regular Cauchy branch.
+\end{proof}
+
+\closureat{DedekindCutCauchyBoundaryUp}{seedStr}
+\begin{closurestatus}{\DedekindCutCauchyBoundaryUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dedekind-cut-cauchy-boundary-carrier}, \autoref{thm:dedekind-cut-cauchy-boundary-namecert-obligations}, \autoref{thm:dedekind-cut-cauchy-boundary-nonescape}, and \autoref{thm:dedekind-cut-cauchy-boundary-located-refusal} seed the finite boundary comparing cut-shaped observations with regular Cauchy readback for Phase Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient cuts, selected cuts, host suprema, Dedekind construction of $\RealUp$, ambient completeness, trichotomy, Classical choice, Quot.sound, propext-dependent equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cut-side discipline, Cauchy-readback factorization, Real seal non-escape, transport and replay stability, and ledger exhaustion for BEDC.Derived.DedekindCutCauchyBoundaryUp.}
+  \constructivestory{A $\DedekindCutCauchyBoundaryUp$ packet is generated from lower and upper real rows, a LocatedCut handoff, a DedekindCauchyComparison row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance data, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

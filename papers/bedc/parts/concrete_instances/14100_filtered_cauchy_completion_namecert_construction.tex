@@ -1,0 +1,162 @@
+\chapter{A Concrete Naming Certificate for $\FilteredCauchyCompletionUp$}
+\label{ch:concrete-instances-filtered-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, and Bourbaki,
+\emph{General Topology}, the $\FilteredCauchyCompletionUp$ packet records the
+finite BEDC route by which Cauchy filters reach the Real-completion interface.
+It is built over $\CauchyFilterUp$, $\UniformCauchyCriterionUp$,
+$\CauchySequenceSpaceUp$, $\RealCauchyCompletionUp$,
+$\RealCompletionExactBoundaryUp$, $\StreamNameUp$, $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The dependency anchors are the finite filter surface of
+\autoref{ch:concrete-instances-cauchyfilter-namecert}, the sequence-space
+handoff of \autoref{ch:concrete-instances-cauchysequencespace-namecert}, and
+the Real boundary of
+\autoref{ch:concrete-instances-real-completion-exact-boundary-namecert}. The
+uniform criterion supplies the common-tail test before any route reaches the
+Real seal, while stream names, regular rational rows, and dyadic ledgers keep
+the consumer boundary finite.
+
+\begin{definition}[Filtered Cauchy completion carrier]\label{def:filtered-cauchy-completion-carrier}
+A $\FilteredCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,U,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ row carrying the finite filterbase and
+common-window evidence;
+\item $U$ is the $\UniformCauchyCriterionUp$ row that tests the same finite
+filter windows by uniform tails;
+\item $S$ is the $\CauchySequenceSpaceUp$ handoff row exposing the associated
+$\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ readings;
+\item $Q$ is the $\RealCauchyCompletionUp$ and
+$\RealCompletionExactBoundaryUp$ route reached from those same finite rows;
+\item $E$ is the terminal $\RealUp$ seal row reached by the displayed route;
+\item $H$ is the componentwise $\hsame$ transport row for $F,U,S,Q,E$;
+\item $C$ is the $\Cont$ continuation row that replays the accepted finite
+windows without adding host data;
+\item $P$ is the $\Pkg$ provenance over the listed completion, filter,
+uniform, stream, regular-rational, dyadic, transport, and seal rows;
+\item $N$ is the local $\NameCert_{\FilteredCauchyCompletionUp}$ row.
+\end{enumerate}
+The accepted carrier exposes only these rows. It has no coordinate for a
+quotient stream, selected limit, host real equality, countable-choice
+selector, or ambient completeness principle.
+\end{definition}
+\leanchecked{BEDC.Derived.FilteredCauchyCompletionUp.TasteGate.FilteredCauchyCompletionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Filtered completion carrier habitation]\label{thm:filtered-cauchy-completion-carrier-habitation}
+Whenever the rows $F,U,S,Q,E,H,C,P,N$ occur in one finite $\BHist$ with the
+dependencies listed in \autoref{def:filtered-cauchy-completion-carrier}, they
+assemble an accepted $\FilteredCauchyCompletionUp$ carrier. Conversely, every
+accepted carrier projects to exactly those nine displayed rows.
+\end{theorem}
+\begin{proof}
+The forward direction reads the finite history in the carrier order. The
+$\CauchyFilterUp$ row supplies the finite filterbase, the uniform criterion
+row supplies the common-tail test, the sequence-space row supplies the stream,
+regular-rational, and dyadic readings, and the completion route supplies the
+Real-boundary handoff and terminal seal.
+
+Transport, continuation, package provenance, and local naming are the final
+four displayed coordinates. Repacking these rows gives the named carrier.
+
+For the reverse direction, project an accepted carrier by its definition. No
+extra coordinate is available, so the projection is exhausted by the nine
+listed rows.
+\end{proof}
+
+\begin{theorem}[Common-filter classifier transport]\label{thm:filtered-cauchy-completion-common-filter-transport}
+Two accepted $\FilteredCauchyCompletionUp$ carriers classify together only by a
+displayed common $\CauchyFilterUp$ refinement whose uniform-tail test, sequence
+space handoff, Real-completion route, terminal Real seal, $\hsame$ transport,
+$\Cont$ continuation, $\Pkg$ provenance, and local $\NameCert$ rows are
+transported componentwise.
+\end{theorem}
+\begin{proof}
+Project both carriers to their $F$ rows and compare those rows by the common
+finite filter refinement supplied by $\CauchyFilterUp$. The classifier has no
+access to a host filter or quotient of streams.
+
+Once the filter rows share a displayed refinement, transport the $U,S,Q,E$
+rows componentwise along $H$ and replay the same reads through $C$. The package
+row records that these transported reads remain on the same finite dependency
+anchors.
+
+Repacking the transported rows gives the classifier judgement for the two
+carriers. Reading such a judgement back yields exactly the common filter
+refinement and the listed componentwise transports.
+\end{proof}
+
+\begin{theorem}[Uniform-tail exactness]\label{thm:filtered-cauchy-completion-uniform-tail-exactness}
+For an accepted carrier $K=(F,U,S,Q,E,H,C,P,N)$, every completion-facing read
+of $Q$ first passes through the uniform-tail row $U$ attached to the same
+$\CauchyFilterUp$ row $F$ and the same $\CauchySequenceSpaceUp$ handoff $S$.
+No Real seal consumer can bypass $U$ by using a selected subsequence, quotient
+stream, or host completion point.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. The route to $Q$ is listed after $F,U,S$, so the
+completion-facing consumer sees the filterbase, uniform-tail test, and
+sequence-space handoff before it can read the Real-completion boundary.
+
+The continuation row $C$ only replays the accepted finite windows, and the
+transport row $H$ only compares displayed coordinates. Neither row introduces
+a selected subsequence, quotient stream, or host completion point.
+
+Thus the uniform-tail row is the exact gate for completion-facing reads. Any
+consumer that bypasses it has left the displayed carrier.
+\end{proof}
+
+\begin{theorem}[Completion handoff factorization]\label{thm:filtered-cauchy-completion-handoff-factorization}
+Every $\RealCauchyCompletionUp$ or $\RealCompletionExactBoundaryUp$ handoff
+exported by an accepted $\FilteredCauchyCompletionUp$ carrier factors through
+the rows $F,U,S,H,C,P,N$ before reaching $Q$ and the terminal seal $E$.
+\end{theorem}
+\begin{proof}
+Start from the carrier decomposition. The handoff row $Q$ is not independent:
+it is stored as the route reached from the same finite filter, uniform-tail,
+sequence-space, transport, continuation, provenance, and naming rows.
+
+The sequence-space row supplies the visible stream-name, regular-rational, and
+dyadic readings. The uniform-tail row checks those readings against the common
+filter classifier before the completion boundary is exposed.
+
+Consequently every exported completion handoff factors through
+$F,U,S,H,C,P,N$ and only then reaches $Q$ and $E$.
+\end{proof}
+
+\begin{theorem}[Filtered completion no-escape]\label{thm:filtered-cauchy-completion-nonescape}
+An accepted $\FilteredCauchyCompletionUp$ carrier gives no route to quotient
+streams, selected limits, host real equality, countable choice, or ambient
+completeness. Every consumer of the packet is confined to the finite rows
+$F,U,S,Q,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The excluded objects are not coordinates of
+\autoref{def:filtered-cauchy-completion-carrier}. A consumer can project the
+filter row, uniform criterion row, sequence-space handoff, completion route,
+Real seal, transport, continuation, package, and local naming row, and nothing
+else.
+
+The previous factorization theorem shows that even completion-facing reads
+must pass through those displayed rows. The common-filter transport theorem
+shows the same boundary after classifier comparison.
+
+Therefore any route requiring quotient streams, selected limits, host real
+equality, countable choice, or ambient completeness lies outside the accepted
+carrier.
+\end{proof}
+
+\begin{closurestatus}{\FilteredCauchyCompletionUp}
+  \constructivestory{The filtered Cauchy completion packet is generated from a finite Cauchy filter row, a uniform-tail criterion row, a Cauchy sequence-space handoff, a Real-completion boundary route, a terminal Real seal, and the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter records the finite carrier and five seed obligations for routing Cauchy filters to the Real-completion boundary through displayed BEDC rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{It does not claim quotient-stream equality, selected limits, host real equality, countable choice, ambient completeness, or a standard bridge.}
+  \upgradepath{Reaching obligationClosure requires Lean-backed carrier, classifier-transport, uniform-tail, handoff-factorization, and no-escape targets for the displayed packet.}
+\end{closurestatus}

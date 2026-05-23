@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ConnectedIntervalUp$}
+\label{ch:concrete-instances-connectedinterval-namecert}
+\origin{human}
+
+Following Bishop and Bridges, constructive connectedness of an interval is recorded by interval-refinement and separation-refusal data rather than by a host topological assertion. The $\ConnectedIntervalUp$ packet packages finite closed $\RealUp$ endpoint rows, $\NestedIntervalUp$ refinements, $\DyadicBisectionUp$ branch ledgers, $\IntermediateValueUp$ sign-route rows, finite $\StreamNameUp$ and $\RegSeqRatUp$ observation windows, a visible $\RealUp$ seal route, and local $\NameCert$ evidence into one interval-connectedness certificate.
+
+The certificate depends on the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the finite nested-window carrier of \autoref{ch:concrete-instances-nestedinterval-namecert}, the branch ledger of \autoref{ch:concrete-instances-dyadicbisection-namecert}, and the sign-route handoff of \autoref{ch:concrete-instances-intermediatevalue-namecert}. It does not claim open-cover compactness, Heine--Borel, trichotomy, host connectedness, quotient equality of real names, or an ambient theorem about all host intervals.
+
+\begin{definition}[Connected interval carrier]
+\label{def:connected-interval-carrier}
+A $\ConnectedIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,R,W,B,S,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the closed endpoint rows read as $\RealUp$ names through finite $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks;
+\item $W$ is the interval-window row naming the displayed finite subintervals inspected between the endpoints;
+\item $B$ is the $\DyadicBisectionUp$ branch ledger used to refine any inspected separating witness into a finite branch row;
+\item $S$ is the $\NestedIntervalUp$ refinement row obtained from the retained bisection windows;
+\item $T$ is the $\IntermediateValueUp$ sign-route row recording the finite route by which a sign-changing separation probe is forced to expose a crossing window;
+\item $E$ is the visible $\RealUp$ seal route offered to downstream interval consumers after the endpoint, refinement, branch, sign-route, and finite-window rows have been read;
+\item $H$ stores componentwise $\hsame$ transport for endpoints, windows, bisection rows, nested refinements, sign-route rows, real seals, continuation rows, package provenance, and local naming;
+\item $C$ stores displayed $\Cont$ replay from endpoint rows to observation windows, from windows to branch ledgers, from branch ledgers to nested refinements, from sign routes to the refusal row, and from those rows to the real seal;
+\item $P$ is the $\Pkg$ provenance over $\ConnectedIntervalUp$, $\RealUp$, $\NestedIntervalUp$, $\DyadicBisectionUp$, $\IntermediateValueUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ConnectedIntervalUp}$ evidence row.
+\end{enumerate}
+The carrier predicate asserts that these rows form one finite interval-connectedness packet. Its classifier compares accepted packets only by replaying the displayed coordinates above. There is no coordinate for open-cover compactness, a global host topology, real trichotomy, quotient equality of real names, a selected separating point, or Heine--Borel.
+\end{definition}
+\leanchecked{BEDC.Derived.ConnectedIntervalUp.ConnectedIntervalTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Connected interval NameCert obligations]
+\label{thm:connected-interval-namecert-obligations}
+For an accepted $\ConnectedIntervalUp$ packet $K=(L,R,W,B,S,T,E,H,C,P,N)$, the local $\NameCert_{\ConnectedIntervalUp}$ surface consists exactly of closed endpoint admission for $L$ and $R$, finite interval-window admission through $W$, dyadic branch-ledger exactness through $B$, nested-refinement stability through $S$, sign-route refusal through $T$, real-seal routing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:connected-interval-carrier}. The endpoint, window, branch, nested-refinement, sign-route, real-seal, transport, continuation, provenance, and naming rows are exactly the displayed coordinates of the finite packet.
+
+Read the endpoint and window rows first. The two endpoint rows expose only closed $\RealUp$ names through finite $\StreamNameUp$ and $\RegSeqRatUp$ observations, while $W$ records the inspected interval windows between them.
+
+Read the refinement rows next. The dyadic ledger $B$ supplies finite branch choices, and the nested row $S$ repacks the retained windows with the displayed endpoint and width data still attached.
+
+Finally read the refusal and seal rows. The sign-route row $T$ supplies the finite intermediate-value route used by the separation-refusal obligation, and $E,H,C,P,N$ bind that route to the visible real seal and the local certificate. Since the packet has no coordinate for open covers, host topology, trichotomy, quotient equality, selected separators, or Heine--Borel, those data cannot be obligations of the local NameCert.
+\end{proof}
+
+\begin{theorem}[Connected interval separation refusal]
+\label{thm:connected-interval-separation-refusal}
+Every accepted $\ConnectedIntervalUp$ packet refuses a displayed two-sided separation only through finite interval data: any proposed separation read must pass through the endpoint rows $L,R$, the inspected window row $W$, the $\DyadicBisectionUp$ branch ledger $B$, the $\NestedIntervalUp$ refinement row $S$, and the $\IntermediateValueUp$ sign-route row $T$. The refusal asserts no host connectedness principle beyond those rows.
+\end{theorem}
+\begin{proof}
+Begin with a displayed separation read against the accepted packet $K$. The continuation routes expose the endpoint rows $L,R$ and the finite interval-window row $W$ before any branch or sign information is available.
+
+Refine the inspected window by the dyadic branch ledger. The row $B$ records the finite midpoint decisions, and the row $S$ repacks the retained windows as a nested-refinement packet over the same endpoint and observation data.
+
+Apply the sign-route row. The row $T$ is the only coordinate that can turn opposite-side displayed reads into a crossing-window refusal, so the proposed separation must pass through the same intermediate-value route that generated $T$.
+
+The resulting refusal is therefore internal to $L,R,W,B,S,T$ and their transport and continuation rows. No step reads a global topology on host intervals, a trichotomy oracle, quotient real equality, a selected separator, compactness, or Heine--Borel.
+\end{proof}
+
+\begin{theorem}[Connected interval real route]
+\label{thm:connected-interval-real-route}
+Every $\RealUp$-facing consumer of an accepted $\ConnectedIntervalUp$ packet factors through the closed endpoint rows, finite observation windows, dyadic branch ledger, nested-refinement row, intermediate-value sign-route row, displayed $\BHist$ packet, $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ConnectedIntervalUp}$ row. The exported real route is a certificate boundary, not quotient equality or host connectedness.
+\end{theorem}
+\begin{proof}
+Expose the consumer route by projection from the carrier. The real-facing row $E$ is reachable only after the endpoint rows $L,R$, the finite window row $W$, the branch ledger $B$, the nested row $S$, and the sign-route row $T$ have been read.
+
+Use \autoref{thm:connected-interval-namecert-obligations} to exhaust the local certificate surface. Its real-facing obligations are precisely the listed carrier rows together with the transport, continuation, provenance, and naming rows $H,C,P,N$.
+
+Use \autoref{thm:connected-interval-separation-refusal} for the connectedness boundary. Any read that treats the packet as an interval-connectedness object first passes through the finite separation-refusal route, so the real seal cannot be reinterpreted as host connectedness, quotient equality of real names, trichotomy, open-cover compactness, or Heine--Borel.
+\end{proof}
+
+\closureat{ConnectedIntervalUp}{seedStr}
+
+\begin{closurestatus}{\ConnectedIntervalUp}
+  \constructivestory{A $\ConnectedIntervalUp$ packet is generated from closed Real endpoint rows, finite StreamName windows, RegSeqRat readbacks, DyadicBisection branch ledgers, NestedInterval refinements, IntermediateValue sign-route rows, a Real seal route, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:connected-interval-carrier}, \autoref{thm:connected-interval-namecert-obligations}, \autoref{thm:connected-interval-separation-refusal}, and \autoref{thm:connected-interval-real-route} bind the finite interval-connectedness packet and its real-facing route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, Heine--Borel, trichotomy, host connectedness, quotient equality of real names, selected separators, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, branch-ledger exactness, nested-refinement stability, intermediate-value separation refusal, and Real route nonescape for BEDC.Derived.ConnectedIntervalUp.}
+\end{closurestatus}

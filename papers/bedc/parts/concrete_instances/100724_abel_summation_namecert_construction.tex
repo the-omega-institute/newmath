@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\AbelSummationUp$}
+\label{ch:concrete-instances-abel-summation-namecert}
+\origin{human}
+
+Following Abel and Dirichlet summation by parts in Bishop--Bridges constructive analysis, the $\AbelSummationUp$ packet isolates the finite identity consumed by the Abel-test route of \autoref{ch:concrete-instances-abel-test-namecert} and the Dirichlet-test route of \autoref{ch:concrete-instances-dirichlet-test-namecert}. Its source rows sit over the finite series windows of \autoref{ch:concrete-instances-series-namecert}; its regular handoff and dyadic estimates use \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}; and its seal-facing boundary is the $\RealUp$ route of \autoref{ch:concrete-instances-real-namecert}. The certificate records a displayed finite transform and the handoff rows that downstream convergence tests may read; it does not choose an infinite sum or appeal to host completeness.
+
+\begin{definition}[AbelSummation carrier]
+\label{def:abel-summation-carrier}
+An $\AbelSummationUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,A,D,B,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite partial-sum row, displaying the inspected source values and their cumulative sums on the admitted interval.
+\item $A$ is the coefficient-window row, displaying the scalar coefficients read at the same finite endpoints.
+\item $D$ is the finite-difference row, displaying the adjacent coefficient differences used by the summation-by-parts calculation.
+\item $B$ is the boundary-term row, displaying the two endpoint products and the finite interior products determined by $S,A,D$.
+\item $T$ is the tail-estimate row, assigning a requested dyadic tolerance to a finite source window, coefficient window, and difference window.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the displayed boundary and tail rows.
+\item $E$ is the $\RealUp$ seal row attached to that regular rational handoff.
+\item $H$ records componentwise $\hsame$ transport for partial sums, coefficient windows, finite differences, boundary terms, tail estimates, regular handoff, real seal, continuation replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a precision request through $T$ to the rows $S,A,D,B$, then through $R$ to the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\AbelSummationUp$, $\SeriesUp$, $\AbelTestUp$, $\DirichletTestUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AbelSummationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these eleven displayed rows. It has no coordinate for a selected infinite sum, quotient series equality, host real completeness, countable choice, trichotomy, open-cover compactness, or an ambient summation operator.
+\end{definition}
+\leandef{BEDC.Derived.AbelSummationUp.AbelSummationUp}
+\leanchecked{BEDC.Derived.AbelSummationUp.AbelSummationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[AbelSummation NameCert obligations]
+\label{thm:abel-summation-namecert-obligations}
+For every accepted $\AbelSummationUp$ carrier $Q=(S,A,D,B,T,R,E,H,C,P,N)$, the local $\NameCert_{\AbelSummationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed eleven-row packet;
+\item partial-sum exposure for $S$, preserving the inspected source values and cumulative sums along componentwise $\hsame$ transport;
+\item coefficient-window exposure for $A$, preserving the endpoint coefficients read by the finite identity;
+\item finite-difference exposure for $D$, preserving the adjacent coefficient differences used by the interior products;
+\item boundary exactness for $B$, stating that the displayed endpoint and interior terms are the finite summation-by-parts row determined by $S,A,D$;
+\item tail-handoff exactness for $T,R,E$, forcing every completion-facing consumer through the displayed boundary row and regular rational handoff;
+\item transport stability, continuation replay, provenance, and local naming for exactly the route recorded by $H,C,P,N$.
+\end{enumerate}
+These are obligations over displayed finite rows, not obligations over a host summation operator or a selected completed series.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $Q=(S,A,D,B,T,R,E,H,C,P,N)$. The projection exposes exactly the partial-sum row, coefficient-window row, finite-difference row, boundary-term row, tail-estimate row, regular handoff, real seal, transport rows, continuation replay, provenance, and local naming row.
+
+Read the finite identity through $S,A,D,B$. The row $S$ supplies cumulative sums on the inspected interval, $A$ supplies the endpoint coefficients, and $D$ supplies the adjacent coefficient differences. The boundary row $B$ records the endpoint products and interior products obtained from those rows.
+
+Now read a precision request through $T$. The schedule names only finite windows, so the handoff row $R$ receives a regular rational estimate whose data are already displayed in $S,A,D,B,T$.
+
+Finally apply the structural rows. Componentwise transport in $H$ preserves the analytic rows together, while $C,P,N$ replay, source, and name that same route. Since the carrier has no further coordinate, the seven listed clauses exhaust the local $\NameCert_{\AbelSummationUp}$ surface.
+\end{proof}
+
+\begin{theorem}[AbelSummation partial-sum handoff]
+\label{thm:abel-summation-partial-sum-handoff}
+Every accepted $\AbelSummationUp$ carrier sends a displayed coefficient-weighted finite sum to a completion-facing consumer only through
+$$
+S,A,D,B,T \longmapsto R \longmapsto E,H,C,P,N.
+$$
+Thus a $\RegSeqRatUp$ or $\RealUp$ consumer may read the summation-by-parts calculation only after reading the finite partial sums, coefficient windows, adjacent differences, boundary terms, and tail estimate that determine the handoff.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier and a completion-facing read. By the carrier definition, the only rows visible to such a read are the regular handoff row $R$, the seal row $E$, and the structural rows $H,C,P,N$.
+
+Trace $R$ backward through the packet. Its input is the tail-estimate row $T$, and the estimate row is defined over the displayed finite rows $S,A,D,B$.
+
+The partial sums, coefficient values, finite differences, and boundary terms are therefore read before any regular rational or real seal row can be consumed. No separate coordinate supplies a host sum, a quotient series equality, or a choice-selected limit.
+
+Transport and replay preserve this route componentwise. Hence every completion-facing read factors through the displayed chain and cannot bypass the finite summation-by-parts packet.
+\end{proof}
+
+\begin{theorem}[AbelSummation Dirichlet-test route]
+\label{thm:abel-summation-dirichlet-test-route}
+Any $\DirichletTestUp$ or $\AbelTestUp$ consumer that uses a summation-by-parts row from an accepted $\AbelSummationUp$ carrier factors through the same finite identity rows $S,A,D,B,T$. The consumer may combine those rows with its own bounded-partial-sum or monotone-null ledger, but it cannot import selected infinite sums, quotient series equality, host real completeness, countable choice, trichotomy, or open-cover compactness from the $\AbelSummationUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the shared summation-by-parts input used by the convergence-test consumer. The $\AbelSummationUp$ carrier exports only the rows $S,A,D,B,T$ to an analytic handoff, followed by $R,E,H,C,P,N$ for regular readback, seal, transport, replay, provenance, and local naming.
+
+For an $\AbelTestUp$ read, the downstream packet may add its monotone null coefficient ledger and uniform-limit row. For a $\DirichletTestUp$ read, the downstream packet may add its bounded partial-sum and null-tail schedule rows. In both cases the summation-by-parts input itself remains the displayed finite row $B$ determined by $S,A,D$.
+
+Because the source carrier contains no prohibited coordinate, neither consumer can receive such data through $\hsame$ transport or $\Cont$ replay. The route is exactly the finite BEDC identity plus the consumer's own convergence-test rows.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\AbelSummationUp$ consumer that reaches a $\RegSeqRatUp$ handoff, $\RealUp$ seal, $\AbelTestUp$ row, or $\DirichletTestUp$ row without reading the partial-sum row, coefficient-window row, finite-difference row, boundary-term row, and tail-estimate row refutes the carrier surface.}
+
+\independenceWitness{series, abel-test, dirichlet-test, regseqrat, dyadicratcore, real: no listed sibling supplies the whole eleven-row packet $Q=(S,A,D,B,T,R,E,H,C,P,N)$, because each sibling contributes only a source, convergence-test consumer, regular readback, dyadic estimate, or seal face while this chapter binds the finite summation-by-parts identity with transport, replay, provenance, and local naming.}
+
+\closureat{AbelSummationUp}{seedStr}
+
+\begin{closurestatus}{\AbelSummationUp}
+  \constructivestory{An $\AbelSummationUp$ packet is generated from finite partial-sum rows, displayed coefficient windows, adjacent finite-difference rows, boundary-term rows, a finite tail-estimate row, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:abel-summation-carrier}, \autoref{thm:abel-summation-namecert-obligations}, \autoref{thm:abel-summation-partial-sum-handoff}, and \autoref{thm:abel-summation-dirichlet-test-route} seed the finite summation-by-parts boundary over $\SeriesUp$, $\AbelTestUp$, $\DirichletTestUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected infinite sums, quotient series equality, host real completeness, countable choice, trichotomy, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the eleven-row carrier and prove the finite NameCert obligation surface, partial-sum handoff theorem, and Dirichlet-test route theorem.}
+\end{closurestatus}

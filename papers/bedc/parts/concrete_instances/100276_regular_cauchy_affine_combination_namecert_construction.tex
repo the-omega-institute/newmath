@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyAffineCombinationUp$}
+\label{ch:concrete-instances-regular-cauchy-affine-combination-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyAffineCombinationUp$ packet names the finite regular-Cauchy route for the affine expression $q x+(1-q)y$ before any completed $\RealUp$ consumer is allowed to read the result. It sits over the two-source sum certificate of \autoref{ch:concrete-instances-regularcauchysum-namecert}, the rational scale certificate of \autoref{ch:concrete-instances-regularcauchyscale-namecert}, the midpoint specialization of \autoref{ch:concrete-instances-regular-cauchy-midpoint-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later completion and real-algebra consumers one finite algebraic surface instead of forcing each consumer to rethread scale, complementary scale, sum, regular readback, and seal ledgers separately.
+
+\begin{definition}[Regular Cauchy affine combination carrier]
+\label{def:regular-cauchy-affine-combination-carrier}
+A $\RegularCauchyAffineCombinationUp$ carrier is a finite $\BHist$ packet
+$$
+A_{\mathrm{aff}}=(Q,X,Y,W_X,W_Y,D_Q,D_{\bar Q},S_X,S_Y,\Sigma,E,R,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the coefficient row, recording a rational coefficient $q$ together with the dyadic window in which the complementary coefficient $1-q$ is computed.
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ source rows.
+\item $W_X$ and $W_Y$ are synchronized $\StreamNameUp$ finite-window schedules for the two source names, read at the same precision request and observation index.
+\item $D_Q$ and $D_{\bar Q}$ are the $\DyadicRatCoreUp$ endpoint rows for $q$ and $1-q$ at the common exponent used by the packet.
+\item $S_X$ is the $\RegularCauchyScaleUp$ row for the scaled source $q x$, reading $Q,X,W_X,D_Q$ and its scale-error ledger.
+\item $S_Y$ is the $\RegularCauchyScaleUp$ row for the scaled source $(1-q)y$, reading the complementary coefficient row, $Y,W_Y,D_{\bar Q}$, and its scale-error ledger.
+\item $\Sigma$ is the $\RegularCauchySumUp$ row that adds the two scaled regular names.
+\item $E$ is the finite error-budget ledger combining the two scale ledgers, the sum tolerance, the complementary-coefficient tolerance, and the final output tolerance assigned to the affine readback.
+\item $R$ is the $\RegSeqRatUp$ readback row whose scheduled point row is supplied by $\Sigma$ with regularity evidence supplied by $E$.
+\item $Z$ is the $\RealUp$ seal row reached only after the coefficient, two sources, two synchronized schedules, two dyadic coefficient endpoints, two scale rows, sum row, finite ledger, and regular readback have been displayed.
+\item $H$ stores componentwise $\hsame$ transports for the coefficient, source rows, schedules, dyadic endpoint rows, scale rows, sum row, ledger, readback, Real seal, replay row, provenance row, and local naming row.
+\item $C$ stores displayed $\Cont$ replay routes for coefficient exposure, source-window exposure, the two scale reads, the sum read, the ledger read, the regular readback, and the Real seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyAffineCombinationUp$, $\RegularCauchySumUp$, $\RegularCauchyScaleUp$, $\RegularCauchyMidpointUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyAffineCombinationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $Q,X,Y,W_X,W_Y,D_Q,D_{\bar Q},S_X,S_Y,\Sigma,E,R,Z,H,C,P,N$. The carrier has no coordinate for quotient stream equality, host real affine arithmetic, a selected limit, trichotomy, ambient $\RealUp$ completeness, or a detached completed-real affine operation.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyAffineCombinationUp.RegularCauchyAffineCombinationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy affine combination obligation surface]
+\label{thm:regular-cauchy-affine-combination-obligation-surface}
+For every accepted $\RegularCauchyAffineCombinationUp$ carrier
+$$
+A_{\mathrm{aff}}=(Q,X,Y,W_X,W_Y,D_Q,D_{\bar Q},S_X,S_Y,\Sigma,E,R,Z,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyAffineCombinationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the coefficient row, two $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ schedules, dyadic endpoint rows for $q$ and $1-q$, two $\RegularCauchyScaleUp$ rows, one $\RegularCauchySumUp$ row, the finite ledger, readback, Real seal, and structural rows;
+\item coefficient complement exposure, requiring $D_Q$ and $D_{\bar Q}$ to be read from the same finite dyadic coefficient window before either scale row is consumed;
+\item synchronized-window exposure, requiring $W_X$ and $W_Y$ to be read at a common requested precision before the two scale rows are formed;
+\item scale exactness for $S_X$ and $S_Y$, requiring the displayed rows for $q x$ and $(1-q)y$ to consume their coefficient endpoint, source window, scale endpoint, and scale-error ledger;
+\item sum exactness for $\Sigma$, requiring the two scaled regular names to be added through the $\RegularCauchySumUp$ surface before the affine readback row is exposed;
+\item ledger accounting, requiring $E$ to combine the complementary-coefficient budget, the two scale-error budgets, the sum tolerance, and the final output tolerance before $R$ or $Z$ is read;
+\item transport, replay, provenance, and local naming, requiring $H,C,P,N$ to preserve and name exactly the displayed finite affine packet;
+\item refusal of quotient stream equality, host real affine arithmetic, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local NameCert data.
+\end{enumerate}
+No affine-combination obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The coefficient row, two source rows, synchronized schedules, two dyadic coefficient endpoints, two scale rows, the sum row, the ledger, readback, and Real seal are explicit coordinates of the packet.
+
+Read the coefficient and source windows first. The complementary coefficient $1-q$ is displayed in the same dyadic endpoint discipline as $q$, while $W_X$ and $W_Y$ expose the two source observations at a common finite precision.
+
+Apply the sibling scale and sum surfaces. The rows $S_X$ and $S_Y$ name the two scaled regular Cauchy names, and $\Sigma$ names their pointwise sum before any regular readback or Real seal row is consumed.
+
+Finally read the ledger and structural rows. The finite row $E$ accounts for coefficient complement, scale, sum, and output tolerance budgets, while $H,C,P,N$ transport, replay, source, and name the same packet. Since no carrier coordinate stores quotient equality, host affine arithmetic, selected limits, trichotomy, ambient completeness, Lean verification, or a bridge, none can become a local obligation.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy affine combination classifier stability]
+\label{thm:regular-cauchy-affine-combination-stability}
+Let two accepted $\RegularCauchyAffineCombinationUp$ carriers have coefficient rows, source rows, stream schedules, dyadic endpoint rows, scale rows, sum rows, ledgers, readbacks, Real seals, package provenance, and local naming rows matched componentwise by their displayed $\hsame$ classifiers. Then every consumer route supplied by the obligation surface of \autoref{thm:regular-cauchy-affine-combination-obligation-surface} transports to the corresponding route of the second packet.
+\end{theorem}
+\begin{proof}
+Start with the componentwise classifier data in $H$. It transports the coefficient row, the complementary coefficient endpoint, the two regular source rows, and the synchronized schedules without changing the finite precision route.
+
+Transport the scale and sum rows next. The classified scale rows still read $q x$ and $(1-q)y$ through the corresponding coefficient endpoints and source windows, and the classified sum row still combines those two scaled names through the displayed $\RegularCauchySumUp$ surface.
+
+The ledger route is preserved by the same componentwise transport. The row $E$ remains the only place where complement, scale, sum, and output tolerances are combined before $R$ and $Z$ are exposed.
+
+Replay through $C$ and repack through $P$ and $N$. Every consumer route in the obligation surface is one of these displayed projections, so classifier transport cannot add quotient stream equality, host real affine arithmetic, selected limits, trichotomy, ambient completeness, Lean verification, or bridge data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy affine combination ledger nonescape]
+\label{thm:regular-cauchy-affine-combination-ledger}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyAffineCombinationUp$ packet reads the affine result only after the finite ledger $E$ has combined the coefficient-complement row, the two scale-error rows, the sum-tolerance row, and the final output tolerance. The packet has no alternate ledger for quotient stream equality, host real affine arithmetic, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Read a consumer request through the displayed affine route. The request first reaches the coefficient row, the two source rows, the synchronized stream windows, and the dyadic endpoint rows for $q$ and $1-q$.
+
+The two scale rows are then consumed. Their finite scale ledgers are the only sources for the tolerances attached to $q x$ and $(1-q)y$.
+
+The sum row $\Sigma$ and ledger $E$ finish the regular handoff. The row $E$ combines the two scale ledgers with the sum tolerance and final output tolerance before the readback row $R$ or Real seal row $Z$ can be read.
+
+Thus every consumer-facing affine route passes through the finite ledger. Since the carrier inventory contains no second ledger or host-level affine object, no consumer can escape to quotient stream equality, selected limits, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyAffineCombinationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-affine-combination-carrier}, \autoref{thm:regular-cauchy-affine-combination-obligation-surface}, \autoref{thm:regular-cauchy-affine-combination-stability}, and \autoref{thm:regular-cauchy-affine-combination-ledger} seed the finite affine-combination surface over coefficient, two $\RegSeqRatUp$ sources, synchronized $\StreamNameUp$ windows, dyadic coefficient endpoints, $\RegularCauchyScaleUp$ rows, a $\RegularCauchySumUp$ row, finite ledger data, $\RegSeqRatUp$ readback, and $\RealUp$ seal data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real affine arithmetic, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient complement exposure, synchronized-window exposure, scale exactness, sum exactness, ledger accounting, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyAffineCombinationUp.}
+  \constructivestory{A $\RegularCauchyAffineCombinationUp$ packet is generated from a coefficient row, two $\RegSeqRatUp$ sources, synchronized $\StreamNameUp$ windows, dyadic endpoint rows for $q$ and $1-q$, two $\RegularCauchyScaleUp$ rows, a $\RegularCauchySumUp$ row, a finite ledger, $\RegSeqRatUp$ readback, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

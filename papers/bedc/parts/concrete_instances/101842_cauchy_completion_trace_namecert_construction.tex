@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionTraceUp$}
+\label{ch:concrete-instances-cauchy-completion-trace-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyCompletionTraceUp$ packet records the finite source-to-completion trace behind completion-facing reads. It binds the source schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic budget ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the monad route of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the functor route of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}, the universal-property route of \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, and the displayed retraction route of \autoref{ch:concrete-instances-cauchy-completion-retraction-namecert}. The chapter packages these rows as a finite L10 Real-and-Completion trace only; it does not assert quotient completions, selected limits, host equality of completed objects, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyCompletionTrace carrier]
+\label{def:cauchy-completion-trace-carrier}
+A $\CauchyCompletionTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,R,D,E,U,F,V,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the source schedule row, recording the displayed $\StreamNameUp$ finite windows that a completion-facing read is allowed to inspect.
+\item $R$ is the $\RegSeqRatUp$ readback row, recording the regular rational name extracted from the source schedule before the terminal real seal is opened.
+\item $D$ is the $\DyadicRatCoreUp$ budget row, recording the dyadic tolerance ledger used by $S$ and $R$.
+\item $E$ is the $\RealUp$ seal row reached after the source schedule, dyadic budget, and regular readback have been displayed.
+\item $U$ is the completion unit or monad row, recording the finite $\CauchyCompletionMonadUp$ admission route consumed by completion-facing reads.
+\item $F$ is the completion functor row, recording the $\CauchyCompletionFunctorUp$ transport of the same source and readback data.
+\item $V$ is the universal-property or retraction-facing trace row, recording the $\CompletionUniversalPropertyUp$ route or the $\CauchyCompletionRetractionUp$ route through which a completion consumer returns to the displayed real boundary.
+\item $H$ records componentwise $\hsame$ transport for $S,R,D,E,U,F,V$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay for consumers that inspect the source schedule, completion admission, functor transport, universal-property route, or retraction-facing route.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionTraceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionFunctorUp$, $\CompletionUniversalPropertyUp$, $\CauchyCompletionRetractionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionTraceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient-completion equality, selected limit representatives, host equality of completed objects, countable-choice schedules, ambient $\RealUp$ completeness, or bridge-axis evidence.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyCompletionTraceUp.CauchyCompletionTraceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[CauchyCompletionTrace NameCert obligations]
+\label{thm:cauchy-completion-trace-namecert-obligations}
+For an accepted $\CauchyCompletionTraceUp$ carrier $T=(S,R,D,E,U,F,V,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionTraceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source schedule, regular readback, dyadic budget, real seal, completion unit or monad row, completion functor row, universal-property or retraction-facing trace row, transport, replay, provenance, and local naming rows;
+\item trace ordering, requiring every completion-facing consumer to read $S,D,R,E$ before treating the completion rows $U,F,V$ as visible completion data;
+\item source-to-completion compatibility, requiring $U$ to admit only the source and readback data displayed by $S,D,R,E$;
+\item functor compatibility, requiring $F$ to transport the same source schedule, dyadic budget, regular readback, and real seal rows;
+\item section routing, requiring $V$ to return a universal-property or retraction-facing consumer to the displayed $S,D,R,E$ boundary;
+\item classifier stability, requiring transported packets with the same displayed rows to be identified by the carried $\hsame$ and $\Cont$ data;
+\item boundary non-escape, stating that the packet exports no quotient completion, selected limit, host equality of completed objects, countable-choice schedule, ambient $\RealUp$ completeness theorem, or bridge credential.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-completion-trace-carrier}. The tuple lists exactly the source schedule, readback, dyadic budget, seal, unit or monad, functor, universal-property or retraction trace, transport, replay, provenance, and local naming rows.
+
+Trace ordering is finite-route induction on the displayed consumer route. The base read is the source schedule $S$, and each later real-facing observation must pass through the dyadic budget $D$, the regular readback $R$, and the terminal seal $E$ before any completion row is inspected.
+
+The completion-facing rows are then forced in order. The unit or monad row $U$ admits the displayed source route, the functor row $F$ transports that same route, and the row $V$ supplies the universal-property or retraction-facing return to the real boundary.
+
+Classifier stability is componentwise transport along $H$ followed by replay through $C$. Since the carrier fields are exhausted by $S,R,D,E,U,F,V,H,C,P,N$, the excluded quotient, selected-limit, host-equality, countable-choice, ambient-completeness, and bridge data have no row from which a consumer could read them.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionTrace section route]
+\label{thm:cauchy-completion-trace-section-route}
+Let $T=(S,R,D,E,U,F,V,H,C,P,N)$ be an accepted $\CauchyCompletionTraceUp$ carrier. Every completion-facing consumer exported by $T$ factors through the displayed finite route
+$$
+S,D,R,E \longmapsto U \longmapsto F \longmapsto V \longmapsto H,C,P,N .
+$$
+The section seen by the consumer is therefore the route from source schedule and regular readback to completion admission, functor transport, and universal-property or retraction-facing return. It is not equality of quotient completions, not a selected limit, not host equality, not countable choice, and not ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and start with a completion-facing consumer. Its source-facing observations are confined to $S,D,R,E$, because these are the only stream, dyadic, readback, and real-seal coordinates of the carrier.
+
+The completion admission is then read from $U$. This row receives the already displayed source schedule and regular readback route; it does not create a separate completion object or choose a representative.
+
+Functorial transport is read from $F$, and the return or section-facing comparison is read from $V$. The two rows share the same preceding $S,D,R,E,U$ data, so finite-route induction gives one section route rather than unrelated completion reads.
+
+Finally $H$ and $C$ transport and replay the same route, while $P$ and $N$ source and name it. Since no other coordinate exists, every completion-facing consumer factors through the displayed section route and none of the excluded data can be exported.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionTrace real boundary]
+\label{thm:cauchy-completion-trace-real-boundary}
+For an accepted $\CauchyCompletionTraceUp$ carrier $T=(S,R,D,E,U,F,V,H,C,P,N)$, every $\RealUp$-facing read exported by the trace is generated by the source schedule $S$, the $\DyadicRatCoreUp$ budget $D$, the $\RegSeqRatUp$ readback $R$, and the terminal seal $E$. The completion rows $U,F,V$ may cite that boundary and return to it, but they cannot export quotient completions, selected limits, host equality of completed objects, countable choice, ambient $\RealUp$ completeness, or bridge credentials.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. A real-facing read must inspect the source schedule row $S$, the dyadic budget row $D$, the regular readback row $R$, and the terminal seal row $E$, since these are the only rows that carry real-boundary observations.
+
+The completion rows do not add a second real boundary. The unit or monad row $U$ admits the displayed route, the functor row $F$ transports it, and the universal-property or retraction-facing row $V$ returns completion consumers to the same $S,D,R,E$ boundary.
+
+Transport, replay, provenance, and local naming preserve this boundary as $H,C,P,N$. They add no quotient-completion coordinate, no selected-limit coordinate, no host-equality coordinate, no countable-choice coordinate, no ambient-completeness theorem, and no bridge credential.
+
+Thus every real-facing read is generated by the displayed finite source-to-seal route, and every completion-facing read remains bounded by that route.
+\end{proof}
+
+\closureat{CauchyCompletionTraceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionTraceUp}
+  \constructivestory{A $\CauchyCompletionTraceUp$ packet is generated from a StreamName source schedule, RegSeqRat readback, DyadicRatCore budget, Real seal, CauchyCompletionMonad admission route, CauchyCompletionFunctor transport row, CompletionUniversalProperty or CauchyCompletionRetraction return row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-trace-carrier}, \autoref{thm:cauchy-completion-trace-namecert-obligations}, \autoref{thm:cauchy-completion-trace-section-route}, and \autoref{thm:cauchy-completion-trace-real-boundary} seed the finite source-to-completion trace behind completion-facing reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected limits, host equality of completed objects, countable choice, ambient $\RealUp$ completeness, public bridge evidence, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, trace ordering, section routing, real-boundary nonescape, and a Lean carrier/obligation formalization for BEDC.Derived.CauchyCompletionTraceUp.}
+\end{closurestatus}

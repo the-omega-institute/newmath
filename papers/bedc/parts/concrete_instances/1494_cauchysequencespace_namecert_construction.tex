@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-cauchysequencespace-namecert}
 \origin{human}
 
-The $\CauchySequenceSpaceUp$ interface records the finite naming surface for the space of Cauchy names itself. Following Bishop and Bridges, \emph{Constructive Analysis}, and Bourbaki, \emph{General Topology}, the packet keeps a displayed family of regular rational names together with the finite schedules and tolerance ledgers that make common Cauchy windows inspectable. It sits between $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyFilterUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, and $\RealCauchyCompletionUp$, and it exports only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+The $\CauchySequenceSpaceUp$ interface records the finite naming surface for the space of $\CauchySequenceUp$ names itself. Following Bishop and Bridges, \emph{Constructive Analysis}, and Bourbaki, \emph{General Topology}, the packet keeps a displayed family of regular rational names together with the finite schedules and tolerance ledgers that make common Cauchy windows inspectable. It sits between $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyFilterUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, and $\RealCauchyCompletionUp$, and it exports only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 
 This dependency is the concrete sibling route: the displayed regular-family row is consumed from \autoref{ch:concrete-instances-regseqrat-namecert}, the schedule row from \autoref{ch:concrete-instances-streamname-namecert}, and the completion handoff row from \autoref{ch:concrete-instances-real-cauchy-completion-namecert}.
 
@@ -26,6 +26,7 @@ with the following visible rows:
 \end{enumerate}
 The carrier contains no quotient of Cauchy names, no selected limiting name, no host completion equality, and no ambient completeness principle.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.TasteGate.CauchySequenceSpaceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[CauchySequenceSpace NameCert obligation surface]
 \label{thm:cauchysequence-space-namecert-obligation-surface}
@@ -267,6 +268,8 @@ Finally apply \autoref{thm:cauchysequence-space-limit-seal-factorization}. It id
 \label{thm:cauchysequence-space-obligation-closure-package}
 The common-window classifier transport, cofinal schedule stability, dyadic tolerance exactness, completion handoff stability, and diagonal-rate compatibility rows form the obligation-closed $\CauchySequenceSpaceUp$ packet over the finite carrier surface of \autoref{def:cauchysequence-space-carrier-surface}. The closed obligation surface is exactly the displayed $\RegSeqRatUp$ family, $\StreamNameUp$ schedule, $\CauchyFilterUp$ or $\CauchyModulusUp$ cofinal-window ledger, $\DyadicRatCoreUp$ tolerance ledger, $\RealCauchyCompletionUp$ handoff row, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceUp\_StdBridge}
+\leanvariant{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_obligation\_closure\_package}
 \begin{proof}
 The carrier surface and NameCert obligation surface are supplied by \autoref{def:cauchysequence-space-carrier-surface} and \autoref{thm:cauchysequence-space-namecert-obligation-surface}. They list the finite family, schedule, cofinal-window ledger, tolerance ledger, completion handoff, transport, continuation, package, and local certificate rows.
 
@@ -298,6 +301,7 @@ Let $S=(F,\sigma,W,\epsilon,Q,H,C,P,N)$ be an accepted $\CauchySequenceSpaceUp$ 
 
 The consumer route has no row for quotient streams, selected limits, host equality, or ambient completeness. The $\UniformCauchyCriterionUp$ presentation supplies only the shared-threshold ledger and real-seal handoff already consumed by the displayed $\CauchySequenceSpaceUp$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_uniformcriterion\_consumption}
 \begin{proof}
 Project the accepted $\CauchySequenceSpaceUp$ carrier by \autoref{def:cauchysequence-space-carrier-surface}. The only completion-facing coordinates are the regular family $F$, schedule $\sigma$, common-window ledger $W$, dyadic tolerance row $\epsilon$, handoff $Q$, transports, continuations, provenance, and local naming row.
 
@@ -318,6 +322,7 @@ be an accepted $\CauchySequenceSpaceUp$ packet. Suppose a $\RealObservationBudge
 
 The factorized route uses only the regular-family row $F$, schedule $\sigma$, common-window ledger $W$, dyadic tolerance row $\epsilon$, completion handoff $Q$, componentwise transports $H$, continuation routes $C$, provenance row $P$, and local naming row $N$. It cannot use quotient streams, host equality, hidden limit selection, unbounded schedules, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_real\_observation\_budget\_factorization}
 \begin{proof}
 Project the accepted carrier through \autoref{def:cauchysequence-space-carrier-surface}. The visible packet rows are exactly the regular rational family, stream schedule, common-window ledger, dyadic tolerance row, completion handoff, transports, continuations, provenance, and local name.
 
@@ -432,6 +437,7 @@ be an accepted $\CauchySequenceSpaceUp$ packet. Any accepted consumer that asks 
 
 Thus the quotient-facing request is not a projection from $\CauchySequenceSpaceUp$ itself. It is a refusal route over the same finite Cauchy-window packet, with no additional quotient stream, selected limit, host equality, or completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_quotient\_refusal\_route}
 \begin{proof}
 First read the completion handoff of \autoref{thm:cauchysequence-space-completion-handoff}. It forces every completion-facing consumer to pass through the displayed family, schedule, window, tolerance, transport, continuation, package, and local naming rows before the handoff row $Q$ is consumed.
 

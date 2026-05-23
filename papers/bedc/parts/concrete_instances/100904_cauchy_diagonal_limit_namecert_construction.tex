@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\CauchyDiagonalLimitUp$}
+\label{ch:concrete-instances-cauchy-diagonal-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyDiagonalLimitUp$ packet records the finite diagonal-limit seal that joins the budget surface of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, the diagonal-limit surface of \autoref{ch:concrete-instances-diagonallimit-namecert}, the representative surface of \autoref{ch:concrete-instances-diagonallimitrepresentative-namecert}, the regular Cauchy extraction route of \autoref{ch:concrete-instances-regular-cauchy-diagonal-extraction-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. It is the public L10 packet by which separate diagonal budget, limit, representative, extraction, and Real seal rows are consumed as one finite NameCert route without importing host completion.
+
+\begin{definition}[Cauchy diagonal limit carrier]
+\label{def:cauchy-diagonal-limit-carrier}
+A $\CauchyDiagonalLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L_{\mathrm{diag}}=(R,B,D,V,E,S,Q,Y,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the precision-request row, naming the Real-facing tolerance request and the finite diagonal window it is permitted to inspect.
+\item $B$ is the $\CauchyDiagonalBudgetUp$ row, recording the budget, slack, and comparison ledger attached to the request $R$.
+\item $D$ is the $\DiagonalLimitUp$ row, storing the displayed diagonal-limit coordinate reached after the budget row has been read.
+\item $V$ is the $\DiagonalLimitRepresentativeUp$ row, fixing the representative readback used by the diagonal-limit coordinate.
+\item $E$ is the $\RegularCauchyDiagonalExtractionUp$ row, routing the representative through the source family, selector, aligned windows, dyadic ledger, and regular rational diagonal readback.
+\item $S$ is the $\StreamNameUp$ readback row for the finite windows selected by the diagonal route.
+\item $Q$ is the $\RegSeqRatUp$ readback row assembled from the selected windows and the displayed tolerance data.
+\item $Y$ is the $\DyadicRatCoreUp$ readback row containing the dyadic radius, slack, and comparison entries consumed by $B,E,S,Q$.
+\item $T$ is the terminal $\RealUp$ seal row, exposed only after $R,B,D,V,E,S,Q,Y$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the precision request, budget, diagonal-limit row, representative row, extraction row, StreamName readback, RegSeqRat readback, DyadicRatCore ledger, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each Real-facing precision request through $R,B,D,V,E,S,Q,Y,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyDiagonalLimitUp$, $\CauchyDiagonalBudgetUp$, $\DiagonalLimitUp$, $\DiagonalLimitRepresentativeUp$, $\RegularCauchyDiagonalExtractionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyDiagonalLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,B,D,V,E,S,Q,Y,T,H,C,P,N$. It has no coordinate for quotient streams, selected host limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyDiagonalLimitUp.TasteGate.CauchyDiagonalLimitTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy diagonal limit NameCert obligations]
+\label{thm:cauchy-diagonal-limit-namecert-obligations}
+For every accepted $\CauchyDiagonalLimitUp$ carrier
+$$
+L_{\mathrm{diag}}=(R,B,D,V,E,S,Q,Y,T,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyDiagonalLimitUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the precision request, $\CauchyDiagonalBudgetUp$ budget row, $\DiagonalLimitUp$ diagonal-limit row, $\DiagonalLimitRepresentativeUp$ representative row, $\RegularCauchyDiagonalExtractionUp$ extraction row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, componentwise transport, displayed replay, provenance, and local naming rows;
+\item budget exactness, requiring $B$ to be the only row that assigns radius, slack, and comparison data to the precision request $R$;
+\item diagonal-limit routing, requiring $D$ to be read only after $B$ and before any representative, extraction, or Real-seal coordinate is consumed;
+\item representative exactness, requiring $V$ to be the only representative row attached to the diagonal-limit coordinate $D$;
+\item extraction exactness, requiring $E$ to route the representative through the displayed regular Cauchy diagonal extraction surface;
+\item readback alignment, requiring $S,Q,Y$ to expose only the StreamName windows, RegSeqRat diagonal readback, and DyadicRatCore ledger selected by $R,B,D,V,E$;
+\item Real seal non-escape, requiring $T$ to be downstream of the finite budget-limit-representative-extraction-readback route;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$;
+\item refusal of quotient streams, selected host limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local certificate data.
+\end{enumerate}
+No Cauchy diagonal limit obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-diagonal-limit-carrier}. The precision request $R$ is the only public entry point, and the budget row $B$ is the only row that assigns the dyadic radius, slack, and comparison data for that request.
+
+The diagonal-limit route is then forced. The row $D$ reads the limit coordinate only after $B$, while $V$ fixes the representative attached to that coordinate before any extraction or seal can be inspected.
+
+The extraction and readback rows are downstream of the representative. The row $E$ supplies the regular Cauchy diagonal extraction route, and $S,Q,Y$ expose exactly the selected finite windows, regular rational readback, and dyadic ledger.
+
+Finally, the Real seal $T$ and structural rows $H,C,P,N$ preserve the same finite route. Since quotient streams, selected host limits, countable choice, trichotomy, ambient completeness, Lean evidence, and bridge data do not occur as coordinates, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy diagonal limit Real seal route]
+\label{thm:cauchy-diagonal-limit-real-seal-route}
+Every $\RealUp$-facing diagonal limit read from an accepted $\CauchyDiagonalLimitUp$ carrier
+$$
+L_{\mathrm{diag}}=(R,B,D,V,E,S,Q,Y,T,H,C,P,N)
+$$
+factors through the displayed finite route
+$$
+R \longmapsto B \longmapsto D \longmapsto V \longmapsto E \longmapsto S,Q,Y \longmapsto T \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives one precision request, one CauchyDiagonalBudget row, one DiagonalLimit row, one DiagonalLimitRepresentative row, one RegularCauchyDiagonalExtraction row, aligned StreamName windows, one RegSeqRat readback, one DyadicRatCore ledger, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming. The route exports no quotient stream, selected host limit, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier and read the precision request row $R$. A Real-facing consumer has no direct access to a diagonal limit or a representative; it must first pass through the budget row $B$.
+
+After the budget is fixed, the diagonal-limit coordinate $D$ and representative row $V$ determine the only extraction route available to the consumer. The extraction row $E$ then supplies the regular Cauchy diagonal route.
+
+The readback rows $S,Q,Y$ are aligned with that route. They expose the finite StreamName windows, the RegSeqRat readback, and the DyadicRatCore ledger selected by the budget, limit, representative, and extraction rows.
+
+The terminal Real seal $T$ is therefore downstream of the entire route, and $H,C,P,N$ merely transport, replay, record provenance, and name the same packet. Because the carrier has no quotient-stream coordinate, selected host limit, countable-choice schedule, trichotomy principle, ambient completeness theorem, Lean evidence, or bridge data, every Real-facing read factors through exactly the displayed finite route.
+\end{proof}
+
+\begin{closurestatus}{\CauchyDiagonalLimitUp}
+  \constructivestory{A $\CauchyDiagonalLimitUp$ packet is generated from a precision request, a CauchyDiagonalBudget row, a DiagonalLimit row, a DiagonalLimitRepresentative row, a RegularCauchyDiagonalExtraction row, StreamName windows, a RegSeqRat readback, a DyadicRatCore ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-diagonal-limit-carrier}, \autoref{thm:cauchy-diagonal-limit-namecert-obligations}, and \autoref{thm:cauchy-diagonal-limit-real-seal-route} seed the finite diagonal-limit route joining budget, limit, representative, extraction, readback, seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected host limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget exactness, diagonal-limit routing, representative exactness, extraction exactness, readback alignment, Real seal non-escape, componentwise transport, displayed replay, and local naming for BEDC.Derived.CauchyDiagonalLimitUp.}
+\end{closurestatus}

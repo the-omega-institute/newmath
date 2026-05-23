@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\DirectedSetUp$}
+\label{ch:concrete-instances-directedset-namecert}
+\origin{human}
+
+Following Moore--Smith and Kelley directed sets, and the Bishop--Bridges use of finite constructive evidence in analysis, the $\DirectedSetUp$ packet names the directed-index substrate consumed by net-based BEDC chapters. It sits upstream of the directed-window surface of \autoref{ch:concrete-instances-cauchynet-namecert}, the limit boundary of \autoref{ch:concrete-instances-cauchynetlimit-namecert}, and the convergence packet of \autoref{ch:concrete-instances-mooresmithconvergence-namecert}. The packet records finite preorder and upper-window data; it is not a quotient of indices, not a global cofinal-choice operator, and not a host-level order-completeness principle.
+
+\begin{definition}[DirectedSet carrier]
+\label{def:directed-set-carrier}
+A $\DirectedSetUp$ carrier is a finite $\BHist$ packet
+$$
+D=(I,\preceq,W,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index row naming the inspected directed addresses.
+\item $\preceq$ is the comparison row, recording the displayed preorder comparisons among the inspected addresses.
+\item $W$ is the finite window row, naming each finite subfamily of inspected addresses requested by a downstream net consumer.
+\item $U$ is the upper-window witness row, assigning to every displayed window in $W$ a named address in $I$ that is above every address in that window according to $\preceq$.
+\item $H$ records componentwise $\hsame$ transport for the index, comparison, window, upper-witness, continuation, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a downstream finite-window request through $W$, $\preceq$, and $U$.
+\item $P$ is the $\Pkg$ provenance over $\DirectedSetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, together with the downstream consumers $\CauchyNetUp$, $\CauchyNetLimitUp$, and $\MooreSmithConvergenceUp$.
+\item $N$ is the local $\NameCert_{\DirectedSetUp}$ row.
+\end{enumerate}
+The carrier exports only this finite directed-index packet. It contains no total order extension, no selected cofinal sequence, no quotient on indices, and no infinite choice principle.
+\end{definition}
+
+\begin{theorem}[DirectedSet NameCert obligations]
+\label{thm:directed-set-namecert-obligations}
+For every accepted $\DirectedSetUp$ carrier $D=(I,\preceq,W,U,H,C,P,N)$, the local $\NameCert_{\DirectedSetUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed index, comparison, window, upper-witness, transport, continuation, provenance, and naming rows;
+\item preorder readability, stating that every comparison exported to a consumer is one of the displayed $\preceq$ rows on addresses in $I$;
+\item finite-window coverage, stating that every requested finite index family is first named in $W$;
+\item upper-window witnessing, stating that every displayed window has a named witness in $U$ above each of its addresses by the displayed comparison row;
+\item transport and continuation stability, stating that $H$ and $C$ preserve the same finite window and witness data under $\hsame$ replay;
+\item ledger non-escape, excluding cofinal choice functions, quotient index objects, total-order completions, and infinite upper-bound selection.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:directed-set-carrier}. The finite index row, comparison row, displayed windows, upper-window witnesses, transports, continuations, provenance, and local naming row are visible coordinates of one $\BHist$ packet.
+
+Preorder readability and finite-window coverage are forced by the row order. A consumer can read an address only through $I$, a comparison only through $\preceq$, and a finite request only after that request has been named in $W$.
+
+The upper-window obligation is the defining role of $U$. For each displayed window, $U$ supplies a named address and the comparison row supplies the finite list of relations showing that the address lies above every member of the window.
+
+Transport and continuation stability use the structural rows $H$ and $C$. They replay the same displayed windows, comparisons, and upper-witness entries, so they do not add a cofinal selector or an unrecorded index relation.
+
+Finally, the package and naming rows name exactly the displayed finite packet. Since no coordinate stores a quotient of indices, a total-order completion, a selected cofinal sequence, or an infinite choice function, any request for such data remains outside the local ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.DirectedSetUp.DirectedSetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DirectedSet CauchyNet index handoff]
+\label{thm:directed-set-cauchynet-index-handoff}
+Let $D=(I,\preceq,W,U,H,C,P,N)$ be an accepted $\DirectedSetUp$ carrier. Any $\CauchyNetUp$ or $\CauchyNetLimitUp$ packet that reads its directed-window ledger from $D$ receives index data only through the finite route
+$$
+I,\preceq,W,U \longmapsto H,C,P,N .
+$$
+Thus the Cauchy-net carrier of \autoref{def:cauchy-net-carrier} and the limit carrier of \autoref{def:cauchy-net-limit-carrier} may share the same displayed directed-index substrate without adding quotient nets, selected limits, cofinal choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with a downstream Cauchy-net request. The directed addresses available to the consumer are the entries of $I$, and the comparisons available to the consumer are the displayed rows of $\preceq$.
+
+The finite request is then named in $W$. The witness row $U$ supplies the common upper-window address needed by the $\CauchyNetUp$ directed-window ledger, and the same witness row can be replayed before the $\CauchyNetLimitUp$ seal handoff is read.
+
+The structural rows $H$ and $C$ transport and replay this route componentwise. The provenance and local naming rows record that the exported data is the finite directed-index packet, not a quotient net, selected host limit, cofinal-choice selector, or completeness assertion.
+\end{proof}
+
+\begin{theorem}[DirectedSet finite upper-window stability]
+\label{thm:directed-set-finite-upper-window-stability}
+Let $D=(I,\preceq,W,U,H,C,P,N)$ be an accepted $\DirectedSetUp$ carrier, and let $\Omega$ be a retained finite subledger of $I$ whose displayed windows in $W_{\Omega}$ keep their named upper witnesses in $\Omega$. Then
+$$
+D_{\Omega}=(I_{\Omega},\preceq_{\Omega},W_{\Omega},U_{\Omega},H_{\Omega},C_{\Omega},P_{\Omega},N_{\Omega})
+$$
+is an accepted $\DirectedSetUp$ carrier for the retained windows. Every $\MooreSmithConvergenceUp$ or $\CauchyNetUp$ consumer of $D_{\Omega}$ therefore reads the same finite upper-window witnesses, restricted to $\Omega$.
+\end{theorem}
+\begin{proof}
+Restrict the index row to $I_{\Omega}$ and the comparison row to $\preceq_{\Omega}$. The hypothesis on retained windows says that every window kept in $W_{\Omega}$ still has its upper witness inside the retained index row.
+
+The witness row $U_{\Omega}$ is the corresponding restriction of $U$. For each retained window, the required comparison entries are exactly the entries of $\preceq_{\Omega}$ that already certified the witness in the original carrier.
+
+The transport, continuation, provenance, and naming rows restrict componentwise to $H_{\Omega}$, $C_{\Omega}$, $P_{\Omega}$, and $N_{\Omega}$. Their endpoints are among the retained rows, so replay cannot leave the finite subledger.
+
+Apply the obligation surface of \autoref{thm:directed-set-namecert-obligations}. Carrier admission is the displayed restricted tuple; preorder readability, finite-window coverage, upper-window witnessing, and structural stability are inherited by restriction. Ledger non-escape remains valid because no retained coordinate stores quotient indices, cofinal choice, total-order completion, or infinite upper-bound selection.
+\end{proof}
+
+\closureat{DirectedSetUp}{seedStr}
+
+\begin{closurestatus}{\DirectedSetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:directed-set-carrier}, \autoref{thm:directed-set-namecert-obligations}, \autoref{thm:directed-set-cauchynet-index-handoff}, and \autoref{thm:directed-set-finite-upper-window-stability} seed the finite directed-index substrate consumed by Cauchy-net, Cauchy-net-limit, and Moore--Smith convergence packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient index objects, selected cofinal sequences, total-order completions, infinite choice principles, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, preorder readability, finite-window coverage, upper-window witnessing, transport replay, and retained-subledger stability for the same packet.}
+  \constructivestory{A $\DirectedSetUp$ packet is generated from a finite index row, displayed preorder comparisons, finite requested windows, common upper-window witnesses, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

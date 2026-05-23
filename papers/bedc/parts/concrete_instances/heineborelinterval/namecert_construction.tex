@@ -1,0 +1,130 @@
+\chapter{Heine-Borel Interval NameCert Construction}
+\label{ch:concrete-instances-heineborelinterval-namecert}
+\origin{human}
+
+Following Bishop and Bridges, constructive compactness of a closed bounded real interval is recorded here as finite inspection data: every precision request is answered by an explicit dyadic net whose cells are routed through the existing real-name and stream-name surfaces. The packet consumes the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular Cauchy sequence route of \autoref{ch:concrete-instances-regularcauchysequence-namecert}, and the dyadic-net certificate of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}. It packages closed interval endpoints, mesh scales, net centers, coverage rows, tail-stability rows, and Real-seal descent rows without importing an open-cover compactness theorem.
+
+\begin{definition}[Heine-Borel interval carrier]
+\label{def:heine-borel-interval-carrier}
+A $\HeineBorelIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+H=(A,B,K,M,Z,F,T,S,R,E,Q,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the lower and upper closed $\RealUp$ endpoint names, including the finite seal rows by which they are read;
+\item $K$ is the $\ClosedBoundedIntervalNetUp$ packet naming the closed bounded interval and its explicit dyadic epsilon-net surface;
+\item $M$ is the unary precision or mesh request for the dyadic net;
+\item $Z$ is the finite center ledger, with one displayed dyadic center for each accepted net cell at scale $M$;
+\item $F$ is the finite coverage ledger saying that every admitted interval read at scale $M$ enters one of the cells named by $Z$ through the route of $K$;
+\item $T$ is the tail-stability ledger saying that refining the precision request preserves the earlier accepted cells through displayed $\hsame$ comparisons;
+\item $S$ is the $\StreamNameUp$ finite-window row used to inspect the endpoint names, center names, and refinement witnesses;
+\item $R$ is the $\RegularCauchySequenceUp$ readback row for the same endpoint and center windows;
+\item $E$ is the terminal $\RealUp$ seal-descent row reached only after $K,M,Z,F,T,S,R$ have been displayed;
+\item $Q$ records componentwise $\hsame$ transport for endpoints, net cells, centers, coverage rows, tail-stability rows, windows, readbacks, and the Real seal;
+\item $C$ records displayed $\Cont$ routes from a closed interval read through mesh selection, finite net coverage, tail stability, StreamName windows, regular Cauchy readback, and RealUp sealing;
+\item $P$ is the $\Pkg$ provenance over $\HeineBorelIntervalUp$, $\ClosedBoundedIntervalNetUp$, $\RealUp$, $\StreamNameUp$, $\RegularCauchySequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\HeineBorelIntervalUp}$ row.
+\end{enumerate}
+The carrier exports constructive compactness only as explicit dyadic epsilon-net witnesses for closed RealUp interval names. It has no coordinate for open covers, chosen finite subcovers, classical sequential compactness, quotient stream equality, host real equality, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Heine-Borel interval net coverage]
+\label{thm:heine-borel-interval-net-coverage}
+For every accepted $\HeineBorelIntervalUp$ carrier $H=(A,B,K,M,Z,F,T,S,R,E,Q,C,P,N)$, every closed-interval containment read at precision $M$ factors through
+$$
+K,M,Z,F,Q,C,P,N.
+$$
+The read first consumes the displayed $\ClosedBoundedIntervalNetUp$ packet $K$, then the mesh request $M$, then one of the finitely many centers in $Z$, and then the coverage ledger $F$ attached to that center. No open cover, hidden subcover selector, host interval order, or unrecorded center choice is available to the consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its interval-facing coordinate is the net packet $K$, and the mesh request $M$ fixes the scale at which the consumer asks for coverage.
+
+The center and coverage rows are finite. The route through $Z$ and $F$ identifies the displayed cell used by the containment read, so the consumer receives a named center and a named coverage witness rather than an open-cover object.
+
+Finally the structural rows $Q,C,P,N$ transport, replay, source, and name this same finite route. Since the carrier has no field for a chosen subcover, host interval order, or hidden center selector, the coverage read cannot escape the displayed dyadic net.
+\end{proof}
+
+\begin{theorem}[Heine-Borel interval tail stability]
+\label{thm:heine-borel-interval-tail-stability}
+Let $H=(A,B,K,M,Z,F,T,S,R,E,Q,C,P,N)$ be an accepted $\HeineBorelIntervalUp$ carrier. If a later precision request refines $M$ through the displayed tail-stability ledger $T$, then the earlier endpoint windows, accepted cells, center rows, coverage rows, and regular Cauchy readbacks transport along the stored $\hsame$ rows in $Q$ and remain attached to the same package provenance $P$.
+
+Thus dyadic nets form a stable finite approximation surface for the closed interval, not a sequence chosen by countable choice or by classical sequential compactness.
+\end{theorem}
+\begin{proof}
+Start with the refinement row in $T$. It is part of the same finite carrier as the endpoint rows, net packet, centers, and coverage ledger, so it can only compare displayed mesh requests and their displayed cells.
+
+Transport is componentwise. The rows in $Q$ move endpoint windows, centers, coverage witnesses, and regular Cauchy readbacks together, while $C$ preserves the consumer route used to inspect them.
+
+Repack the transported rows with the same provenance $P$ and local name $N$. The result is still a finite dyadic-net surface because no coordinate supplies a countable-choice sequence, a host subsequence selector, or a classical compactness argument.
+\end{proof}
+
+\begin{theorem}[Heine-Borel interval Real seal descent]
+\label{thm:heine-borel-interval-real-seal-descent}
+Every $\RealUp$ consumer of an accepted $\HeineBorelIntervalUp$ carrier reaches the endpoint and interval seal rows only through
+$$
+A,B,K,M,Z,F,T,S,R,E,Q,C,P,N.
+$$
+The seal descent first displays the closed endpoint names $A,B$, then the explicit dyadic-net packet $K,M,Z,F$, then the tail-stability ledger $T$, then the $\StreamNameUp$ finite windows $S$ and $\RegularCauchySequenceUp$ readbacks $R$, and only then the Real seal row $E$. The route exports no quotient stream equality, host real equality, open-cover compactness, selected convergent subsequence, or ambient Real completeness row.
+\end{theorem}
+\begin{proof}
+Read the endpoint rows first. The carrier stores $A$ and $B$ as closed $\RealUp$ names, but the seal row $E$ is not public until the finite net and readback rows have been displayed.
+
+Next apply the net-coverage and tail-stability routes. The packet $K,M,Z,F$ supplies the finite dyadic epsilon-net witness, and $T$ keeps refinements attached to the same displayed cells and centers.
+
+Finally pass through the finite observation rows $S$ and $R$ before reaching $E$. The structural rows $Q,C,P,N$ preserve the route as one NameCert packet, so a Real-facing consumer cannot substitute quotient equality, host equality, open-cover compactness, a selected convergent subsequence, or an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Heine-Borel interval finite-net induction]
+\label{thm:heine-borel-interval-net-induction}
+Let $H=(A,B,K,M,Z,F,T,S,R,E,Q,C,P,N)$ be an accepted $\HeineBorelIntervalUp$ carrier. Every accepted finite center ledger $Z$ is consumed by primitive finite induction over the displayed net cells: the base row is the first accepted cell named by $K,M,Z,F$, and the step row extends an already consumed finite prefix by replaying $\Cont$ through $F,Q,C,P,N$ for the next displayed cell.
+
+The induction surface exports only the finite ledger entries already named by $Z$ and the route data already stored in $F,Q,C,P,N$. It exports no open-cover subcover, selected subsequence, countable-choice enumeration, host real equality, or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Project the finite center ledger $Z$ from the accepted carrier. Since $Z$ is a displayed $\BHist$ finite ledger, its cells are consumed by the primitive finite-list induction available to the packet, not by an external cover-selection principle.
+
+The base row is the first accepted cell. Its center and coverage witness are read through $K,M,Z,F$, and the structural rows $Q,C,P,N$ record the same route as a local $\NameCert_{\HeineBorelIntervalUp}$ entry.
+
+For the step row, assume the previous finite prefix has already been consumed. The next displayed cell is attached by replaying $\Cont$ through the coverage ledger $F$, transporting the relevant rows through $Q$, and repacking the route with $C,P,N$.
+
+This exhausts the ledger because the induction ranges only over the displayed entries of $Z$. No row of the carrier can introduce an open-cover subcover, a selected subsequence, or a hidden infinite enumeration.
+\end{proof}
+
+\begin{theorem}[Heine-Borel interval mesh-refinement functoriality]
+\label{thm:heine-borel-interval-mesh-refinement-functoriality}
+Let $H=(A,B,K,M,Z,F,T,S,R,E,Q,C,P,N)$ be an accepted $\HeineBorelIntervalUp$ carrier. A displayed refinement of the mesh request $M$ transports coverage rows and center rows through $T,Q,C$ and then composes with the finite-net induction route of \autoref{thm:heine-borel-interval-net-induction}. Thus refinement preserves the finite dyadic-net coverage surface as a named $\NameCert_{\HeineBorelIntervalUp}$ route.
+\end{theorem}
+\begin{proof}
+Begin with the displayed refinement row in $T$. By \autoref{thm:heine-borel-interval-tail-stability}, refinement preserves the earlier endpoint windows, accepted cells, center rows, coverage rows, and regular Cauchy readbacks through the stored $\hsame$ rows.
+
+Transport the center and coverage rows componentwise through $Q$. The replay row $C$ keeps the consumer path attached to the same package provenance $P$ and local name $N$.
+
+Now apply \autoref{thm:heine-borel-interval-net-induction} to the transported finite ledger. The refined mesh therefore feeds the same finite induction route, with no appeal to open-cover compactness, a selected finite subcover, or an ambient Real completeness principle.
+\end{proof}
+
+\begin{theorem}[Heine-Borel interval NameCert obligation surface]
+\label{thm:heine-borel-interval-namecert-obligation-surface}
+For an accepted $\HeineBorelIntervalUp$ carrier $H=(A,B,K,M,Z,F,T,S,R,E,Q,C,P,N)$, the local $\NameCert_{\HeineBorelIntervalUp}$ obligations are exhausted by carrier admission, finite-net induction, mesh-refinement functoriality, tail stability, and Real seal descent. Equivalently, every local consumer route factors through the carrier rows of \autoref{def:heine-borel-interval-carrier}, the coverage route of \autoref{thm:heine-borel-interval-net-coverage}, the stability route of \autoref{thm:heine-borel-interval-tail-stability}, the seal route of \autoref{thm:heine-borel-interval-real-seal-descent}, the induction route of \autoref{thm:heine-borel-interval-net-induction}, and the refinement route of \autoref{thm:heine-borel-interval-mesh-refinement-functoriality}. The packet exports no open-cover compactness theorem, selected finite subcover, host real equality, quotient stream equality, selected convergent subsequence, or ambient Real completeness row.
+\end{theorem}
+\begin{proof}
+The carrier definition lists the only public rows of $H$: endpoints, closed bounded interval net data, mesh request, finite center ledger, coverage ledger, tail-stability ledger, observation windows, regular Cauchy readbacks, Real seal descent, transport, replay, provenance, and local NameCert.
+
+Carrier admission is therefore the projection of these displayed rows. Coverage and tail stability are supplied by \autoref{thm:heine-borel-interval-net-coverage} and \autoref{thm:heine-borel-interval-tail-stability}, while Real-facing consumers descend through \autoref{thm:heine-borel-interval-real-seal-descent}.
+
+The remaining finite-means obligations are the induction over $Z$ and the refinement transport across $M$. These are exactly \autoref{thm:heine-borel-interval-net-induction} and \autoref{thm:heine-borel-interval-mesh-refinement-functoriality}.
+
+No other obligation can be exported from the packet, because the carrier has no row for open-cover compactness, selected finite subcovers, host real equality, quotient stream equality, selected convergent subsequences, or ambient Real completeness. Thus the listed carrier rows and theorem sites exhaust the local $\NameCert_{\HeineBorelIntervalUp}$ surface.
+\end{proof}
+
+\closureat{HeineBorelIntervalUp}{seedStr}
+
+\begin{closurestatus}{\HeineBorelIntervalUp}
+  \constructivestory{A $\HeineBorelIntervalUp$ packet is generated from closed RealUp endpoint names, a ClosedBoundedIntervalNetUp dyadic-net packet, a mesh request, finite center and coverage ledgers, tail-stability rows, StreamName windows, RegularCauchySequence readbacks, a RealUp seal descent row, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:heine-borel-interval-carrier}, \autoref{thm:heine-borel-interval-net-coverage}, \autoref{thm:heine-borel-interval-tail-stability}, \autoref{thm:heine-borel-interval-real-seal-descent}, \autoref{thm:heine-borel-interval-net-induction}, \autoref{thm:heine-borel-interval-mesh-refinement-functoriality}, and \autoref{thm:heine-borel-interval-namecert-obligation-surface} bind constructive compactness of closed bounded RealUp intervals to explicit dyadic epsilon-net witnesses and finite NameCert obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim general open-cover compactness, classical sequential compactness, choice of finite subcovers, selected convergent subsequences, quotient stream equality, host real equality, or ambient Real completeness.}
+  \upgradepath{Lean closure requires carrier admission, net coverage, finite-net induction, mesh-refinement functoriality, tail stability, Real seal descent, NameCert obligation-surface, and TasteGate field faithfulness for BEDC.Derived.HeineBorelIntervalUp.}
+\end{closurestatus}

@@ -1,0 +1,105 @@
+\chapter{A Concrete Naming Certificate for $\ZeroSetUp$}
+\label{ch:concrete-instances-zero-set-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges, zero sets are read as displayed zero-loci of continuous real-valued maps, with the constructive cozero companion in \autoref{ch:concrete-instances-cozero-set-namecert} and BEDC sources \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-continuousmap-namecert}, \autoref{ch:concrete-instances-topology-namecert}, and \autoref{ch:concrete-instances-set-namecert}. The $\ZeroSetUp$ packet names the finite route from a displayed continuous $\RealUp$-valued map through an exact zero witness into a closed topological and set-like membership surface. It does not identify this surface with the classical complement of a cozero set, and it does not add excluded middle, host $\RealUp$ equality, quotient equality, or an ambient semantic preimage theorem.
+
+\begin{definition}[Zero set carrier]
+\label{def:zero-set-carrier}
+A $\ZeroSetUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(F,R,E,T,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\ContinuousMapUp$ row for a displayed map into $\RealUp$, exposing only the source observation, target real-name, and graph cells used by the zero-locus read.
+\item $R$ is the displayed $\RealUp$ observation row attached to the target cell of $F$.
+\item $E$ is the zero-witness row certifying that the displayed target observation is zero through the same real-name surface as $R$.
+\item $T$ is the induced $\TopologyUp$ closed-locus row, available only after $F,R,E$ have fixed the zero witness.
+\item $S$ is the $\SetUp$ membership row exported by the closed-locus row $T$ and read only through the same displayed source cell.
+\item $H$ records componentwise $\hsame$ transport for the continuous-map row, Real observation row, zero-witness row, closed-locus row, set-membership row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a zero-set membership request through $F,R,E,T,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ZeroSetUp$, $\ContinuousMapUp$, $\RealUp$, $\TopologyUp$, $\SetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ZeroSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,R,E,T,S,H,C,P,N$. It has no coordinate for the classical complement of $\CozeroSetUp$, excluded middle, host Real equality, quotient equality, or a detached semantic preimage theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.ZeroSetUp.ZeroSetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Zero set NameCert obligations]
+\label{thm:zero-set-namecert-obligations}
+For every accepted $\ZeroSetUp$ carrier
+$$
+Z=(F,R,E,T,S,H,C,P,N),
+$$
+the local $\NameCert_{\ZeroSetUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the continuous-map row into $\RealUp$, the displayed target Real observation row, the zero-witness row, the induced topological closed-locus row, the set-membership row, transport, replay, provenance, and local naming;
+\item zero-witness exactness, requiring every accepted membership read to use the same target real observation $R$ and exact zero row $E$ opened by $F$;
+\item continuous-preimage stability, requiring componentwise $\hsame$ and displayed $\Cont$ transport of the continuous map and zero witness to preserve the zero-locus membership surface;
+\item topology and set handoff, requiring $T$ to be read only after $F,R,E$ have displayed the zero witness and requiring $S$ to export only the membership surface induced by $T$ on the same displayed source cell;
+\item CozeroSet boundary separation, requiring the packet to share the continuous-map and Real observation vocabulary of $\CozeroSetUp$ while refusing to identify the zero row $E$ with a negated positive-apartness witness;
+\item non-escape, requiring $H,C,P,N$ to export no classical complement of $\CozeroSetUp$, excluded middle, host Real equality, quotient equality, or detached semantic preimage theorem.
+\end{enumerate}
+No local zero-set obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:zero-set-carrier}. The accepted tuple displays exactly the continuous-map row, target Real observation row, zero-witness row, closed-locus row, set-membership row, and structural transport, replay, provenance, and naming rows.
+
+Zero-witness exactness is forced by the order of the carrier. A membership read first opens $F$, then reads the target observation $R$, and only then obtains the exact zero witness $E$ for the same displayed real-name surface.
+
+The topology and set handoffs are the projections to $T$ and $S$. Since both rows are downstream of $F,R,E$, they cannot introduce an independent complement, a cozero-set negation rule, or a host real comparison.
+
+Continuous-preimage stability is exhausted by $H$ and $C$. These rows move the displayed map and zero witness componentwise and replay the same finite route, so the zero-locus membership surface is preserved without adding excluded middle, host equality, quotient equality, or a detached semantic preimage principle.
+
+CozeroSet boundary separation follows from the absence of any row converting $E$ into the negation of a positive-apartness witness. The packet may cite the sibling vocabulary of \autoref{ch:concrete-instances-cozero-set-namecert}, but it exports only the displayed zero route named by $F,R,E,T,S,H,C,P,N$.
+
+Finally, non-escape follows from the absence of any further classifier coordinate. The provenance and local NameCert rows name only this finite route, and no row stores classical complements, excluded middle, host $\RealUp$ equality, quotient equality, or ambient preimage semantics.
+\end{proof}
+
+\begin{theorem}[Zero set positive-boundary separation]
+\label{thm:zero-set-positive-boundary}
+Every membership read exported by an accepted $\ZeroSetUp$ packet factors through
+$$
+F \longmapsto R \longmapsto E
+$$
+before it can inspect the closed-locus row $T$ or the set-membership row $S$. The same read cannot be replaced by a $\CozeroSetUp$ positive-apartness route or by the classical complement of such a route.
+\end{theorem}
+\begin{proof}
+Begin with a membership request for the displayed zero-locus surface. Carrier admission exposes no set row before the continuous-map row $F$.
+
+The request then reads the target Real observation row $R$. This fixes the real-name observation used by the zero test, and the packet contains no host equality coordinate from which another target value could be substituted.
+
+The zero-witness row $E$ is therefore the gate to membership. Only after $F,R,E$ have been displayed may the request inspect the induced closed-locus row $T$ and the set row $S$.
+
+The carrier has no row that turns the absence of a $\CozeroSetUp$ positive witness into a zero witness. Thus the displayed factorization through $F \longmapsto R \longmapsto E$ is a zero-locus route, not a complement route.
+\end{proof}
+
+\begin{theorem}[Zero set nonclassical boundary]
+\label{thm:zero-set-nonclassical-boundary}
+An accepted $\ZeroSetUp$ packet supplies no classical complement of $\CozeroSetUp$, no excluded middle, no host $\RealUp$ equality, no quotient equality, and no ambient semantic preimage. Its exported surface is only the displayed finite route
+$$
+F,R,E,T,S,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The listed rows are the only rows available to a downstream read.
+
+The rows $F,R,E$ determine the displayed zero witness, while $T$ and $S$ expose only the closed-locus and set-membership surfaces induced by that witness. None of these rows compares host real values or reasons by excluded middle.
+
+The transport and replay rows $H$ and $C$ preserve the displayed route componentwise. They do not add quotient equality, a semantic preimage theorem, or a complement operation against $\CozeroSetUp$.
+
+The provenance and local naming rows $P,N$ name the finite package and no further classifier. Hence every exported read remains inside $F,R,E,T,S,H,C,P,N$ and cannot escape to the classical boundary listed in the statement.
+\end{proof}
+
+\closureat{ZeroSetUp}{seedStr}
+
+\begin{closurestatus}{\ZeroSetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:zero-set-carrier}, \autoref{thm:zero-set-namecert-obligations}, \autoref{thm:zero-set-positive-boundary}, and \autoref{thm:zero-set-nonclassical-boundary} seed the finite route from continuous $\RealUp$-valued maps through displayed zero witnesses into closed topological and set-like membership surfaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close classical complements of $\CozeroSetUp$, excluded middle, host $\RealUp$ equality, quotient equality, ambient semantic preimage theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, zero-witness exactness, continuous-preimage stability, topology and set handoff, CozeroSet boundary separation, and non-escape proofs for BEDC.Derived.ZeroSetUp.}
+  \constructivestory{A $\ZeroSetUp$ packet is generated from a $\ContinuousMapUp$ row into $\RealUp$, a Real observation row, an exact zero-witness row, an induced $\TopologyUp$ closed-locus row, a $\SetUp$ membership row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

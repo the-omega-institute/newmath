@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\IntervalDomainUp$}
+\label{ch:concrete-instances-intervaldomain-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive completion through located intervals and Scott's interval-domain reading of real approximation, the $\IntervalDomainUp$ packet records a finite approximation-domain certificate for the Real-completion boundary. It sits between the endpoint-cell packet of \autoref{ch:concrete-instances-locatedinterval-namecert}, the nested-window packet of \autoref{ch:concrete-instances-nestedinterval-namecert}, the rational-cell packet of \autoref{ch:concrete-instances-rationalinterval-namecert}, the stream-window packet of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names the directed finite route by which completion-facing consumers read approximants before a $\RealUp$ seal is exposed; it is not a quotient-real construction, a host equality principle, an open-cover compactness theorem, or ambient completeness of $\RealUp$.
+
+\begin{definition}[IntervalDomain carrier]
+\label{def:interval-domain-carrier}
+An $\IntervalDomainUp$ carrier is a finite $\BHist$ packet
+$$
+D=(L,R,N,W,Q,E,H,C,P,A)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $L$ is a finite family of $\LocatedIntervalUp$ cells whose endpoint windows are already named by the underlying real-name interface.
+\item $R$ is the $\RationalIntervalUp$ refinement ledger attached to those cells, including endpoint order, containment, and width-budget rows.
+\item $N$ is the $\NestedIntervalUp$ directed nesting row recording which later cells refine earlier cells under the displayed containment route.
+\item $W$ is the $\StreamNameUp$ window family through which endpoint requests and refinement checks are inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback family serving the same windows with regular rational observations.
+\item $E$ is the $\RealUp$ seal row reached only after the located cells, rational refinements, nesting row, stream windows, and regular readbacks have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $L,R,N,W,Q,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ routes for replaying endpoint reads, refinement reads, nesting reads, window reads, regular readbacks, and seal reads in that order.
+\item $P$ is the $\Pkg$ provenance over $\IntervalDomainUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\IntervalDomainUp}$ evidence row.
+\end{enumerate}
+The carrier exports only the displayed finite approximation domain. It contains no coordinate for quotient real equality, host real equality, open-cover compactness, a selected limiting representative, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[IntervalDomain NameCert obligations]
+\label{thm:interval-domain-namecert-obligations}
+For an accepted $\IntervalDomainUp$ carrier $D=(L,R,N,W,Q,E,H,C,P,A)$, the local $\NameCert_{\IntervalDomainUp}$ surface consists exactly of carrier admission, refinement stability, directedness, endpoint-window transport, and real-seal non-escape:
+\begin{enumerate}
+\item carrier admission exposes precisely the ten rows $L,R,N,W,Q,E,H,C,P,A$;
+\item refinement stability keeps every $\RationalIntervalUp$ refinement row attached to its transported $\LocatedIntervalUp$ cell and its transported window data;
+\item directedness requires every pair of displayed cells admitted for a common completion read to pass through a later $\NestedIntervalUp$ refinement row before the seal row is inspected;
+\item endpoint-window transport moves endpoint reads only through the paired $\StreamNameUp$ and $\RegSeqRatUp$ rows named by the carrier;
+\item real-seal non-escape states that any $\RealUp$ consumer of $E$ must first read the located cells, rational refinements, directed nesting row, stream windows, regular readbacks, and structural rows $H,C,P,A$.
+\end{enumerate}
+These obligations do not export quotient reals, host real equality, open-cover compactness, selected limiting representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:interval-domain-carrier}. The packet lists the located interval cells, rational refinement ledger, nesting row, stream windows, regular readbacks, real seal, transports, continuations, provenance, and local naming row as its whole visible surface.
+
+Refinement stability reads $L,R,H,C$. A transported located cell carries its rational interval ledger with it, and the displayed continuation route keeps the refinement read attached to the same endpoint-window data.
+
+Directedness reads $N$ after the refinement ledger. For a common completion-facing request, two visible cells cannot be consumed independently; the nesting row supplies the later common refinement before the real seal can be exposed.
+
+Endpoint-window transport reads $W$ and $Q$ as a pair. The stream row names the finite endpoint request, and the regular rational row supplies the readback for that request, so a transported endpoint read has no route outside the displayed window and readback rows.
+
+Finally, real-seal non-escape follows because $E$ is downstream of $L,R,N,W,Q$ and the structural rows. Since the carrier has no quotient, host-equality, compactness, selected-limit, or completeness coordinate, none of those principles can be read from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[IntervalDomain completion approximation scope]
+\label{thm:interval-domain-completion-approximation-scope}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ carrier. Every completion-facing consumer of the displayed $\RealUp$ seal factors through the finite route
+$$
+\LocatedIntervalUp\longmapsto\RationalIntervalUp\longmapsto\NestedIntervalUp\longmapsto\StreamNameUp\longmapsto\RegSeqRatUp\longmapsto\RealUp\longmapsto(H,C,P,A).
+$$
+Thus the completion-facing interface is an interval-domain approximation route over finite NameCert data, not a quotient of real names, not host real equality, not open-cover compactness, and not an ambient completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Begin with the endpoint cells. The row $L$ supplies the visible $\LocatedIntervalUp$ data, and $R$ attaches the $\RationalIntervalUp$ containment and width ledger used by each cell.
+
+Next read the directed approximation layer. The row $N$ records the $\NestedIntervalUp$ refinement order, so a completion-facing consumer moves from finite cells to a common directed refinement before any seal-facing request is available.
+
+Then read the observation layer. The stream windows $W$ and regular rational readbacks $Q$ supply the finite endpoint observations for the same directed refinement route.
+
+The seal row $E$ is reached only after those rows have been consumed. The structural rows $H,C,P,A$ transport, replay, source, and name the same route, so every completion-facing consumer factors through the displayed chain and receives no additional quotient, host-equality, compactness, selected-limit, or completeness data.
+\end{proof}
+
+\begin{closurestatus}{\IntervalDomainUp}
+  \constructivestory{An $\IntervalDomainUp$ packet is generated from finite LocatedIntervalUp cells, RationalIntervalUp refinement ledgers, a NestedIntervalUp directed nesting row, StreamNameUp windows, RegSeqRatUp readbacks, a RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:interval-domain-carrier}, \autoref{thm:interval-domain-namecert-obligations}, and \autoref{thm:interval-domain-completion-approximation-scope} seed the finite interval-domain approximation route for Real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient reals, host real equality, open-cover compactness, selected limiting representatives, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, refinement stability, directedness, endpoint-window transport, real-seal non-escape, and completion-consumer factorization for BEDC.Derived.IntervalDomainUp.}
+\end{closurestatus}

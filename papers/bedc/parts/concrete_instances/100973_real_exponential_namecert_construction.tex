@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\RealExponentialUp$}
+\label{ch:concrete-instances-real-exponential-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RealExponentialUp$ packet records the exponential function by the displayed power series with coefficients $1/n!$ and by uniform Cauchy control on bounded real windows. It is a finite NameCert route through the $\RealPowerSeriesUp$ carrier of \autoref{ch:concrete-instances-realpowerseries-namecert}, the shared tail discipline of $\UniformCauchySeriesUp$ in \autoref{ch:concrete-instances-uniform-cauchy-series-namecert}, the series-product handoff of $\CauchyProductUp$ in \autoref{ch:concrete-instances-cauchyproduct-namecert}, the arithmetic seal of $\CauchyRealFieldUp$ in \autoref{ch:concrete-instances-cauchy-real-field-namecert}, the classifier boundary of $\RealEqualityUp$ in \autoref{ch:concrete-instances-real-equality-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names exponential as a uniformly Cauchy real power-series packet; it does not import host $\exp$, host transcendental-function laws, analytic continuation, quotient real equality, selected infinite sums, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RealExponential carrier]\label{def:real-exponential-carrier}
+A $\RealExponentialUp$ carrier is a finite $\BHist$ packet
+$$
+E=(A,F,B,U,M,K,P,S,R,Q,T,C,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the coefficient ledger fixing the exponential power series by the finite readback of the coefficient rule $a_n=1/n!$.
+\item $F$ is the factorial and reciprocal dyadic budget row, recording the inspected natural-number factorial windows, reciprocal dyadic enclosures, and denominator-growth bounds used by the coefficient ledger.
+\item $B$ is the bounded real-window row on which the packet accepts a request for evaluation.
+\item $U$ is the $\UniformCauchySeriesUp$ modulus row showing that the displayed coefficient windows and powers form a uniformly Cauchy series on $B$.
+\item $M$ is the majorant and tail-budget row used to discharge the uniform convergence request without selecting a host infinite sum.
+\item $K$ is the $\CauchyProductUp$ law-route row that records the Cauchy-product passage used for the addition law handoff.
+\item $P$ is the $\RealPowerSeriesUp$ evaluation row, exposing the coefficient ledger, argument window, partial sums, and endpoint seal only as power-series data.
+\item $S$ is the $\RealUp$ seal reached after the coefficient ledger, dyadic budget, uniform Cauchy modulus, product-law route, and power-series evaluation rows have all been displayed.
+\item $R$ is the $\RealEqualityUp$ classifier row used to compare accepted exponential readbacks through the displayed real-equality boundary.
+\item $Q$ is the $\CauchyRealFieldUp$ arithmetic row used for finite addition, multiplication, and reciprocal-budget accounting inside the route.
+\item $T$ stores componentwise $\hsame$ transport for the coefficient ledger, factorial budget, bounded window, uniform modulus, majorant, product-law route, power-series row, real seal, equality classifier, arithmetic row, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from coefficient and factorial reads to partial sums, from partial sums to uniform Cauchy control, from the uniform route to the $\RealPowerSeriesUp$ endpoint, from Cauchy product rows to the addition-law handoff, and from the endpoint to the $\RealUp$ and $\RealEqualityUp$ consumers.
+\item $L$ is the $\Pkg$ provenance over $\RealExponentialUp$, $\RealPowerSeriesUp$, $\UniformCauchySeriesUp$, $\CauchyProductUp$, $\CauchyRealFieldUp$, $\RealEqualityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealExponentialUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,F,B,U,M,K,P,S,R,Q,T,C,L,N$. It has no coordinate for a host transcendental function, analytic continuation, quotient real equality, selected infinite sum, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealExponential NameCert obligations]\label{thm:real-exponential-namecert-obligations}
+For every accepted $\RealExponentialUp$ carrier $E=(A,F,B,U,M,K,P,S,R,Q,T,C,L,N)$, the local $\NameCert_{\RealExponentialUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier exposure for the displayed coefficient ledger, factorial and reciprocal budget, bounded real window, uniform Cauchy modulus, majorant, Cauchy-product law route, power-series evaluation row, real seal, real-equality classifier, arithmetic row, transport, continuation, provenance, and local naming rows;
+\item classifier exposure through $R$, requiring every accepted comparison to preserve the displayed $\RealEqualityUp$ route and no hidden host equality;
+\item uniform Cauchy convergence through $U$ and $M$, requiring every endpoint-facing read to use the displayed tail modulus and majorant budget before the endpoint seal is read;
+\item product and addition law handoff through $K$ and $Q$, requiring the exponential addition law to be read only through the $\CauchyProductUp$ and $\CauchyRealFieldUp$ rows;
+\item non-escape through $T,C,L,N$, requiring transport, replay, provenance, and local naming to preserve the same finite route and to export no host $\exp$, analytic-continuation datum, quotient real equality, selected infinite sum, countable-choice selector, or ambient completeness witness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:real-exponential-carrier}. The accepted packet displays exactly the rows $A,F,B,U,M,K,P,S,R,Q,T,C,L,N$, so there is no detached coordinate from which a consumer could read a host exponential function.
+
+The classifier exposure is the row $R$. Since $R$ is declared as the $\RealEqualityUp$ boundary and the transport row $T$ is componentwise, accepted comparisons can preserve only the displayed real-equality route attached to the packet.
+
+Uniform convergence is read through $U$ and $M$. The coefficient ledger and factorial budget first produce finite partial-sum data; the shared tail modulus and majorant budget then place those partial sums inside the $\UniformCauchySeriesUp$ route before $P$ or $S$ can be consumed.
+
+The product and addition handoff is read through $K$ and $Q$. The Cauchy-product row supplies the series-product route, while the Cauchy-real-field row supplies the finite arithmetic surface that the addition law may inspect.
+
+Finally, $T,C,L,N$ transport, replay, source, and name the same displayed rows. Because all endpoint, equality, and arithmetic reads are already forced through the listed rows, none of the excluded host or quotient principles is exported by the local $\NameCert_{\RealExponentialUp}$ surface.
+\end{proof}
+\leanchecked{BEDC.Derived.RealExponentialUp.RealExponentialTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RealExponential series route]\label{thm:real-exponential-series-route}
+Every public read of an accepted $\RealExponentialUp$ packet factors through
+$$
+\RealPowerSeriesUp,\quad
+\UniformCauchySeriesUp,\quad
+\CauchyProductUp,\quad
+\CauchyRealFieldUp,\quad
+\RealEqualityUp,\quad
+\RealUp
+$$
+before any exponential value is consumed. Consequently the public route names the exponential series by finite coefficient, modulus, product, arithmetic, equality, and real-seal data, not by a host transcendental primitive.
+\end{theorem}
+\begin{proof}
+Start with a public exponential read. The coefficient ledger $A$ and factorial budget $F$ identify the displayed $1/n!$ coefficients, while the bounded window $B$ fixes the finite evaluation scope.
+
+The read then enters the real power-series route through $P$. The power-series packet exposes the coefficient stream, selected powers, partial sums, and endpoint request without selecting a host infinite sum.
+
+Uniform convergence is supplied next by $U$ and $M$. These rows force the partial sums to pass through $\UniformCauchySeriesUp$ and its displayed tail budget before any endpoint-facing real seal is available.
+
+For law-facing reads, $K$ and $Q$ provide the only product and addition handoff. The Cauchy-product route supplies the multiplication of series windows, and the Cauchy-real-field route supplies the finite real-arithmetic operations that compare the result.
+
+The final public comparison reads $R$ and $S$. Thus equality is mediated by $\RealEqualityUp$, and value consumption is mediated by the terminal $\RealUp$ seal. The structural rows $T,C,L,N$ preserve this route as transport, replay, provenance, and local naming, so no host transcendental function or ambient completeness principle can be read.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealExponentialUp$ public read factors through a coefficient ledger for $1/n!$, factorial and reciprocal dyadic budgets, a bounded real-window row, a uniform Cauchy-series modulus, a majorant tail budget, a Cauchy-product law route, a Cauchy-real-field arithmetic row, a RealPowerSeries evaluation row, a RealEquality classifier row, a RealUp seal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{realpowerseries, uniform-cauchy-series, cauchyproduct, cauchy-real-field, real-equality, real: $\RealExponentialUp$ is not bijective to any listed sibling because it jointly carries the fixed exponential coefficient ledger, factorial reciprocal budget, bounded-window uniform convergence route, Cauchy-product addition-law handoff, arithmetic seal, equality classifier, endpoint real seal, transport, continuation, provenance, and local naming.}
+
+\closureat{RealExponentialUp}{seedStr}
+
+\begin{closurestatus}{\RealExponentialUp}
+  \constructivestory{A $\RealExponentialUp$ packet is generated from the coefficient ledger $a_n=1/n!$, factorial and reciprocal dyadic budgets, a bounded real-window row, a uniform Cauchy-series modulus, a majorant tail budget, a Cauchy-product law route, Cauchy-real-field arithmetic rows, a RealPowerSeries evaluation row, a RealEquality classifier row, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-exponential-carrier}, \autoref{thm:real-exponential-namecert-obligations}, and \autoref{thm:real-exponential-series-route} seed the finite exponential power-series route through existing BEDC real-series and Cauchy-series infrastructure.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RealExponentialUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host transcendental functions, analytic continuation, quotient real equality, selected infinite sums, countable choice, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, uniform Cauchy convergence, product and addition law handoff, nonescape, and TasteGate field faithfulness for BEDC.Derived.RealExponentialUp.}
+\end{closurestatus}

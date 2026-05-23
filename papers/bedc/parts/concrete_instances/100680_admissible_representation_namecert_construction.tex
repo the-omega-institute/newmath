@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\AdmissibleRepresentationUp$}
+\label{ch:concrete-instances-admissible-representation-namecert}
+\origin{human}
+
+Following Weihrauch and the represented-spaces tradition in computable analysis, the $\AdmissibleRepresentationUp$ packet records the finite finality interface by which Cauchy names become sufficient for represented-space consumers. It sits over the represented-space surface of \autoref{ch:concrete-instances-representedspace-namecert}, the Cauchy-representation handoff of \autoref{ch:concrete-instances-cauchy-representation-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet expresses admissibility as a local NameCert surface: a consumer may use the displayed Cauchy route, but receives no quotient stream, selected limit, host real equality, countable-choice row, metric-completeness row, or ambient $\RealUp$ completeness coordinate.
+
+\begin{definition}[AdmissibleRepresentation carrier]
+\label{def:admissible-representation-carrier}
+An $\AdmissibleRepresentationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,K,W,R,D,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\RepresentedSpaceUp$ source row whose consumers read only the finite represented-space interface.
+\item $K$ is the $\CauchyRepresentationUp$ source row supplying the admissible Cauchy route for the same represented-space observations.
+\item $W$ is the $\StreamNameUp$ finite-window schedule opened by both $X$ and $K$.
+\item $R$ is the $\RegSeqRatUp$ readback row through which the displayed stream windows become regular rational observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare those observations at the displayed precisions.
+\item $E$ is the $\RealUp$ seal row reached only after $K,W,R,D$ have been replayed.
+\item $F$ is the continuous-consumer finality row: every represented-space consumer displayed in the packet factors through the same $K,W,R,D,E$ route before reading its output.
+\item $H$ records componentwise $\hsame$ transport for the represented-space row, Cauchy source row, stream-window schedule, regular readback row, dyadic tolerance ledger, real seal, finality row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from represented-space access through the Cauchy source, finite windows, regular readback, dyadic tolerance comparison, real seal, and consumer-finality handoff.
+\item $P$ is the $\Pkg$ provenance over $\AdmissibleRepresentationUp$, $\RepresentedSpaceUp$, $\CauchyRepresentationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AdmissibleRepresentationUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite admissible-representation packet. Its classifier compares accepted carriers only after transporting the displayed rows to a common finite surface, and it contains no coordinate for quotient streams, selected limits, host real equality, countable choice, metric completeness, or ambient real completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.AdmissibleRepresentationUp.AdmissibleRepresentationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[AdmissibleRepresentation NameCert obligations]
+\label{thm:admissible-representation-namecert-obligations}
+For every accepted $\AdmissibleRepresentationUp$ carrier $A=(X,K,W,R,D,E,F,H,C,P,N)$, the local $\NameCert_{\AdmissibleRepresentationUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the represented-space source, Cauchy source, finite stream windows, regular readback, dyadic tolerance ledger, real seal, consumer-finality row, transport, replay, provenance, and local naming rows;
+\item represented-space compatibility, requiring $X$ to expose only the represented-space interface already admitted by the packet;
+\item Cauchy handoff, requiring $K,W,R,D,E$ to be the only displayed route from names to the real-facing seal;
+\item consumer finality, requiring every displayed represented-space consumer to factor through $K,W,R,D,E$ before reading output data;
+\item transport, replay, and provenance, requiring $H,C,P$ to preserve and source exactly the displayed packet;
+\item local naming, requiring $N$ to certify precisely those rows and no quotient stream, selected limit, host real equality, countable-choice row, metric-completeness row, or ambient $\RealUp$ completeness coordinate.
+\end{enumerate}
+No admissible-representation obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Carrier admission exposes $X,K,W,R,D,E,F,H,C,P,N$ and no further row.
+
+Represented-space compatibility is the $X$ projection. It is read only as the represented-space source already present in the packet, so it cannot introduce a second representation relation or host-level equality.
+
+The Cauchy handoff is the ordered route $K,W,R,D,E$. The source row supplies the Cauchy representation, the stream schedule supplies the finite observations, the regular readback exposes rational data, the dyadic ledger compares tolerances, and the real seal is reached only at the end of that replay.
+
+Consumer finality is the $F$ projection. Any displayed represented-space consumer must pass through the same handoff route before it reads output data, so its computation has no independent access to a quotient stream, selected limit, or completeness principle.
+
+Finally attach $H,C,P,N$. These rows transport, replay, source, and name the same packet, and therefore add no extra analytic coordinate. The listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[AdmissibleRepresentation real-Cauchy handoff]
+\label{thm:admissible-representation-real-cauchy-handoff}
+Let $A=(X,K,W,R,D,E,F,H,C,P,N)$ be an accepted $\AdmissibleRepresentationUp$ carrier. Every $\RealUp$-facing represented-space consumer displayed by $A$ factors through the route
+$$
+X \longmapsto K \longmapsto W \longmapsto R \longmapsto D \longmapsto E \longmapsto F,H,C,P,N .
+$$
+Thus the consumer receives the displayed $\CauchyRepresentationUp$ route and no quotient stream, selected limit, host real equality, countable-choice row, metric-completeness row, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with a $\RealUp$-facing represented-space consumer of $A$. The represented-space source is $X$, but the only real-facing access row attached to $X$ inside the packet is the Cauchy source $K$.
+
+Replay the Cauchy route. The consumer opens the finite $\StreamNameUp$ schedule $W$, reads the $\RegSeqRatUp$ row $R$, consults the $\DyadicRatCoreUp$ tolerance ledger $D$, and reaches the $\RealUp$ seal $E$ only after those rows have been consumed.
+
+Now apply finality. The row $F$ states that every displayed consumer factors through this same route, while $H,C,P,N$ merely transport, replay, source, and name it. Since the carrier has no coordinate for quotient streams, selected limits, host real equality, countable choice, metric completeness, or ambient real completeness, none of those data can be delivered to the consumer.
+\end{proof}
+
+\begin{closurestatus}{\AdmissibleRepresentationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:admissible-representation-carrier}, \autoref{thm:admissible-representation-namecert-obligations}, and \autoref{thm:admissible-representation-real-cauchy-handoff} seed the finite represented-space finality interface from $\CauchyRepresentationUp$ names to $\RealUp$-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient representations, selected limits, host real equality, countable choice, metric completeness, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, represented-space compatibility, Cauchy handoff, consumer finality, transport, replay, provenance, and local naming for BEDC.Derived.AdmissibleRepresentationUp.}
+  \constructivestory{An $\AdmissibleRepresentationUp$ packet is generated from a $\RepresentedSpaceUp$ source, a $\CauchyRepresentationUp$ source, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal, a consumer-finality row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

@@ -1,0 +1,119 @@
+\chapter{A Concrete Naming Certificate for $\CompleteUniformSpaceUp$}
+\label{ch:concrete-instances-complete-uniform-space-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform spaces and Bishop--Bridges constructive completion, the $\CompleteUniformSpaceUp$ packet names the finite Cauchy-filter convergence surface over \autoref{ch:concrete-instances-uniformspace-namecert}, \autoref{ch:concrete-instances-cauchyfilter-namecert}, \autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, \autoref{ch:concrete-instances-cauchyfilterlimit-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet is a constructive completeness interface for displayed Cauchy-filter data; it is not a quotient filter, not a selected limit, not a countable-choice selector, not host equality, and not an ambient completeness principle.
+
+\begin{definition}[Complete uniform-space carrier]
+\label{def:complete-uniform-space-carrier}
+A $\CompleteUniformSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(U,F,B,L,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ entourage row. It stores the finite entourage filterbase, diagonal, refinement, symmetry, and composition data through which every Cauchy request is read.
+\item $F$ is the $\CauchyFilterUp$ row. It records the saturated finite Cauchy-filter request admitted over the entourage surface of $U$.
+\item $B$ is the $\CauchyFilterBasisUp$ generator row. It displays the finite basis elements and common-refinement data consumed by $F$.
+\item $L$ is the $\CauchyFilterLimitUp$ boundary row. It records the limit-facing boundary reached only after the basis and saturated filter rows have been replayed.
+\item $S$ is the $\StreamNameUp$ window row inspected by the convergence request.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the displayed windows in $S$.
+\item $E$ is the $\RealUp$ seal row reached only after $U,F,B,L,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the entourage, filter, basis, limit boundary, window, readback, seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an entourage request through the Cauchy-filter basis, saturation, limit boundary, finite windows, regular readback, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CompleteUniformSpaceUp$, $\UniformSpaceUp$, $\CauchyFilterUp$, $\CauchyFilterBasisUp$, $\CauchyFilterLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompleteUniformSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,F,B,L,S,R,E,H,C,P,N$. The carrier has no coordinate for quotient filters, selected limits, countable-choice selectors, host equality, or an ambient completeness theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.CompleteUniformSpaceUp.CompleteUniformSpaceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Complete uniform-space NameCert obligations]
+\label{thm:complete-uniform-space-namecert-obligations}
+For every accepted $\CompleteUniformSpaceUp$ carrier $M=(U,F,B,L,S,R,E,H,C,P,N)$, the local $\NameCert_{\CompleteUniformSpaceUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed uniform-space entourage data, CauchyFilter row, CauchyFilterBasis generator, CauchyFilterLimit boundary, StreamName windows, RegSeqRat readbacks, Real seal, transport, replay, provenance, and local naming row;
+\item Cauchy request factorization, requiring every filter request to pass through the finite entourage filterbase in $U$, the basis generator $B$, and the saturation row $F$ before the limit boundary $L$ is read;
+\item convergence readback, requiring every limit-facing observation to pass through $S$ and $R$ before the Real seal row $E$ is available;
+\item transport and replay stability, requiring componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$ to preserve the same ordered route $U,B,F,L,S,R,E$;
+\item ledger non-escape, requiring $P$ and $N$ to export no quotient filter, selected limit, countable-choice selector, host equality, or ambient completeness principle.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:complete-uniform-space-carrier}. The projection exposes exactly the entourage row, the Cauchy-filter saturation row, the basis generator, the limit boundary, the window and readback rows, the Real seal, and the structural rows $H,C,P,N$.
+
+Cauchy request factorization is forced by the displayed row order. A request begins at the finite entourage filterbase in $U$, reads a generated basis element through $B$, and is saturated by $F$ before any limit boundary row can be inspected.
+
+The convergence readback is downstream of this filter route. The boundary row $L$ only exposes its finite observations through the StreamName windows $S$ and the RegSeqRat readbacks $R$, and the Real seal row $E$ is available only after those rows have been replayed.
+
+Transport and replay are structural. Componentwise $\hsame$ in $H$ preserves each displayed coordinate, and $\Cont$ replay in $C$ repeats the route $U,B,F,L,S,R,E$ for every accepted request.
+
+Finally, provenance is exhausted by $P$ and $N$. Since quotient filters, selected limits, countable-choice selectors, host equality, and ambient completeness are not rows of $M$, the local NameCert surface cannot export them.
+\end{proof}
+
+\begin{theorem}[Complete uniform-space Cauchy-filter convergence]
+\label{thm:complete-uniform-space-cauchy-filter-convergence}
+Let $M=(U,F,B,L,S,R,E,H,C,P,N)$ be an accepted $\CompleteUniformSpaceUp$ carrier. Every Cauchy-filter convergence read factors through the finite route
+$$
+U \longmapsto B \longmapsto F \longmapsto L \longmapsto S \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus every Cauchy-filter request passes through the displayed entourage filterbase and the limit boundary before any Real-facing seal is read. The route contains no quotient filter, selected limit, countable-choice selector, host equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a convergence read of the packet. The uniform-space row $U$ supplies only finite entourage data, so the request first chooses a displayed entourage demand and its refinement ledger rather than an external filter object.
+
+The basis and saturation rows consume that demand. The row $B$ displays the finite Cauchy-filter basis route, and $F$ records the saturated Cauchy-filter request over the same entourage surface.
+
+Only then can the limit boundary be read. The row $L$ is downstream of $B$ and $F$, while $S$ and $R$ provide the finite window and regular rational observations attached to that boundary.
+
+The Real seal row $E$ is terminal for this route. The structural rows $H,C,P,N$ transport, replay, source, and name exactly this path, so no quotient filter, chosen limit, choice schedule, host equality, or detached completeness witness is available.
+\end{proof}
+
+\begin{theorem}[Complete uniform-space Cauchy sequence, entourage, and Real-uniform factorization]
+\label{thm:complete-uniform-space-cauchy-sequence-entourage-real-factorization}
+Let $M=(U,F,B,L,S,R,E,H,C,P,N)$ be an accepted $\CompleteUniformSpaceUp$ packet. Suppose downstream consumers read $M$ through the $\CauchySequenceSpaceUp$, $\CauchyEntourageFilterUp$, and $\BishopRealUniformCompletionUp$ interfaces. Then their common completion-facing route factors as follows: $\CauchySequenceSpaceUp$ supplies the scheduled regular-family and finite-window surface, $\CauchyEntourageFilterUp$ supplies the entourage-to-basis dyadic handoff, $\CompleteUniformSpaceUp$ supplies the basis, saturation, and limit boundary, and $\BishopRealUniformCompletionUp$ supplies the Real-uniform completion handoff to the terminal $\RealUp$ seal.
+
+Equivalently, every such consumer read is confined to the displayed path
+$$
+\CauchySequenceSpaceUp \longmapsto \CauchyEntourageFilterUp \longmapsto \CompleteUniformSpaceUp \longmapsto \BishopRealUniformCompletionUp \longmapsto \RealUp .
+$$
+No quotient filter, selected limit, countable-choice selector, host equality, ambient Real completeness theorem, or bridge credential enters outside those rows.
+\end{theorem}
+\begin{proof}
+First read the Cauchy-sequence surface. By \autoref{thm:cauchysequence-space-completion-handoff}, the completion-facing consumer of the sequence packet passes through the displayed regular family, schedule, finite Cauchy windows, dyadic tolerance row, transports, continuations, provenance, and local certificate before any terminal handoff is consumed.
+
+Next read the entourage-filter handoff. Apply \autoref{thm:cauchy-entourage-filter-dyadic-basis-handoff}. It identifies the route from UniformSpace entourage data to the CauchyFilterBasis dyadic surface, so the sequence-side tolerance and window data can meet the uniform-space request only through that finite basis handoff.
+
+Now project the accepted $\CompleteUniformSpaceUp$ carrier $M$. The convergence route of \autoref{thm:complete-uniform-space-cauchy-filter-convergence} consumes $U,B,F,L,S,R,E,H,C,P,N$ in order, placing the basis, saturation, and limit boundary between the entourage handoff and the Real-facing seal.
+
+Finally apply \autoref{thm:bishop-real-uniform-completion-l10-handoff}. The Real-uniform completion consumer reads the terminal handoff only after the L10 completion data reaches its displayed $\RealUp$ seal. Since none of the cited packets contains a coordinate for a quotient filter, selected limit, countable-choice selector, host equality, ambient Real completeness theorem, or bridge credential, carrier projection and the non-escape clauses force every common consumer to remain on the stated path.
+\end{proof}
+
+\begin{theorem}[Complete uniform-space ledger non-escape]
+\label{thm:complete-uniform-space-ledger-non-escape}
+For every accepted $\CompleteUniformSpaceUp$ carrier $M=(U,F,B,L,S,R,E,H,C,P,N)$, any Real-facing or completion-facing read exposed by $P$ factors through the displayed route
+$$
+U,B,F,L,S,R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the packet cannot export a quotient filter from $F$, a selected limit from $L$, a countable-choice selector from $S$ or $R$, host equality from $H$, or an ambient completeness principle from its provenance ledger.
+\end{theorem}
+\begin{proof}
+Project the provenance row $P$. Its Real-facing and completion-facing occurrences are recorded only as downstream consumers of the displayed route through $U,B,F,L,S,R,E$.
+
+The Cauchy-filter row $F$ is not a quotient coordinate. It is read only after the basis generator $B$ and the entourage data $U$, and it hands the request to the boundary row $L$ rather than to a completed filter object.
+
+The boundary row $L$ is not a selected limit. It exposes only the finite limit-facing route whose observations pass through the StreamName windows $S$ and RegSeqRat readbacks $R$.
+
+Transport by $H$ and replay by $C$ preserve this same dependency order. The local naming row $N$ names the packet only after that order has been replayed, so the ledger has no separate place from which quotient filters, selected limits, countable-choice selectors, host equality, or ambient completeness can escape.
+\end{proof}
+
+\begin{closurestatus}{\CompleteUniformSpaceUp}
+  \constructivestory{A $\CompleteUniformSpaceUp$ packet is generated from UniformSpace entourage data, a CauchyFilter row, a CauchyFilterBasis generator, a CauchyFilterLimit boundary, StreamName windows, RegSeqRat readbacks, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:complete-uniform-space-carrier}, \autoref{thm:complete-uniform-space-namecert-obligations}, \autoref{thm:complete-uniform-space-cauchy-filter-convergence}, and \autoref{thm:complete-uniform-space-ledger-non-escape} seed the constructive uniform-space completeness surface for finite Cauchy-filter convergence data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, countable-choice selectors, host equality, ambient completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, Cauchy request factorization, convergence readback, transport stability, replay stability, Real seal factorization, and ledger non-escape for BEDC.Derived.CompleteUniformSpaceUp.}
+\end{closurestatus}

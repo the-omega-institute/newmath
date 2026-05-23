@@ -61,6 +61,42 @@ Next route the preservation side through $D$. The discharge ledger contains the 
 Finally pass to $A$. The closed-consistency assembly can read the normal false-proof exclusion and the subject-reduction boundary, but it receives them as finite sibling rows under $H,C,P,L$. Thus the bridge remains a route-correspondence certificate rather than an unconditional theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization-confluence bridge transport obligations]
+\label{thm:metacic-normalization-confluence-bridge-transport-obligations}
+For an accepted \MetacicNormalizationConfluenceBridgeUp{} carrier $B=(N,Q,D,A,T,H,C,P,L)$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ transport preserve the separate bridge rows $N,Q,D,A,T$. The transported read may replay the normalization audit row $N$, the confluence audit row $Q$, the discharge-ledger row $D$, the closed-consistency assembly row $A$, and the typed-term correspondence row $T$, but it cannot collapse those rows into a subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier into its nine displayed coordinates. The transport row $H$ is componentwise, so it acts on $N,Q,D,A,T$ as separate row data rather than as a quotient over the sibling packets.
+
+The displayed $\Cont$ row $C$ replays the same bridge route after transport, while $\Pkg$ records the provenance of the four sibling packets. The local $\NameCert$ row $L$ names the transported certificate surface and does not add a new proof coordinate.
+
+Thus transport preserves exactly the rows already present in $B$. Since no coordinate of $B$ is an unconditional subject-reduction theorem, preserving the packet cannot manufacture one.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization-confluence bridge route exactness]
+\label{thm:metacic-normalization-confluence-bridge-route-exactness}
+Every accepted \MetacicNormalizationConfluenceBridgeUp{} bridge read is exhausted by $N,Q,D,A,T,H,C,P,L$. In particular, the read has no hidden typed-term selector, no quotient reduction equality, no host evaluator, no unconditional confluence theorem, no closed subject-reduction theorem, and no extra route outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Read the bridge through the carrier definition. Its displayed rows are exactly $N,Q,D,A,T,H,C,P,L$, with $T$ as the only row comparing the closed typed term routes and $H,C,P,L$ as structural transport, replay, provenance, and local naming rows.
+
+Any accepted route must therefore factor through one of those coordinates. The carrier definition exports no further selector and no equality quotient over reduction routes, so there is no place for a hidden typed-term selector or host evaluator to enter.
+
+The same exhaustion excludes unconditional metatheorems. Confluence is read only through $Q$, and preservation is read only through $D$ and the boundary row visible to $A$; neither read becomes a closed theorem detached from the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization-confluence bridge discharge boundary]
+\label{thm:metacic-normalization-confluence-bridge-discharge-boundary}
+Within an accepted \MetacicNormalizationConfluenceBridgeUp{} carrier, row $D$ can be handed to row $A$ only as the displayed subject-reduction discharge-ledger boundary. The handoff preserves the named discharge rows consumed by closed consistency, but it does not assert an unconditional closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+The discharge side of the bridge is the row $D$. It carries the named preservation-obligation rows from the subject-reduction discharge ledger and remains distinct from the closed-consistency assembly row $A$.
+
+The assembly row may consume $D$ only through the displayed bridge route. This gives $A$ access to the ledger boundary that it cites, together with the normal false-proof exclusion already internal to the assembly packet.
+
+Because the bridge has no additional preservation coordinate, the handoff cannot erase the ledger boundary. The result is a routed discharge boundary for the assembly consumer, not an unconditional closed subject-reduction theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization-confluence bridge TasteGate surface]
 \label{thm:metacic-normalization-confluence-bridge-tastegate-surface}
 The Lean file \texttt{TasteGate.lean} for \MetacicNormalizationConfluenceBridgeUp{} must provide $\mathrm{Nontrivial}\ \MetacicNormalizationConfluenceBridgeUp$ and $\mathrm{FieldFaithful}\ \MetacicNormalizationConfluenceBridgeUp$ instances. The nontrivial instance must distinguish bridge packets that agree on $N,Q$ but differ on $D$ or $A$, and the field-faithful instance must preserve the separate rows $N,Q,D,A,T,H,C,P,L$.

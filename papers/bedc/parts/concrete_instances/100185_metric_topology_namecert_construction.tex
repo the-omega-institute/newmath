@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MetricTopologyUp$}
+\label{ch:concrete-instances-metric-topology-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges, the $\MetricTopologyUp$ packet names the metric-generated topology obtained from center-radius ball rows. It sits between the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the center-radius ball surface of \autoref{ch:concrete-instances-metricball-namecert}, the indexed-open topology carrier of \autoref{ch:concrete-instances-topology-namecert}, and the radius ledgers of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-rat-namecert}. The packet records the public bridge from metric data to topology data as finite NameCert rows; it does not select opens from a host powerset and does not quotient generated opens by ambient equality.
+
+\begin{definition}[Metric topology carrier]
+\label{def:metric-topology-carrier}
+A $\MetricTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+G_{\mathsf{mtop}}=(M,B,T,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the certified $\MetricSpaceUp$ carrier with its point classifier, distance witness, and displayed metric-law rows.
+\item $B$ is the finite $\MetricBallUp$ basis ledger whose singleton rows are center-radius ball data compatible with the metric carrier $M$.
+\item $T$ is the $\TopologyUp$ indexed-open carrier $\mathcal{T}_{d,\mathsf{ball}}$ generated from the finite ball indices of \autoref{def:metric-finite-ball-indexed-topology}.
+\item $R$ records the $\RealUp$ strict-comparison and positive-radius ledgers used by membership tests of the form $d(c,x)<_{\mathsf R}r$.
+\item $Q$ records the $\RatUp$ radius ledger and its transport into the displayed positive $\RealUp$ radius rows.
+\item $H$ records componentwise $\hsame$ transport for metric points, ball centers, radius ledgers, singleton-ball predicates, finite ball lists, indexed-open witnesses, replay rows, provenance, and the local certificate.
+\item $C$ records displayed $\Cont$ replay from a public open request through the metric carrier $M$, the ball ledger $B$, the real and rational radius ledgers $R,Q$, and the indexed topology carrier $T$.
+\item $P$ is the $\Pkg$ provenance over $\MetricTopologyUp$, $\MetricSpaceUp$, $\MetricBallUp$, $\TopologyUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetricTopologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,B,T,R,Q,H,C,P,N$. The carrier has no coordinate for an ambient powerset of $M$, quotient equality of opens, hidden open selectors, selected centers outside $B$, or radius data outside $R,Q$.
+\end{definition}
+\leandef{BEDC.Derived.MetricTopologyUp.TasteGate.MetricTopologyUp}
+\leanchecked{BEDC.Derived.MetricTopologyUp.TasteGate.MetricTopologyTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Metric topology NameCert obligations]
+\label{thm:metric-topology-namecert-obligations}
+For every accepted $\MetricTopologyUp$ carrier $G_{\mathsf{mtop}}=(M,B,T,R,Q,H,C,P,N)$, the local $\NameCert_{\MetricTopologyUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric carrier, ball basis ledger, indexed topology carrier, real and rational radius ledgers, transport, replay, provenance, and local naming row;
+\item classifier transport for metric-basic opens, requiring each singleton ball predicate to move along the point classifier of $M$ through the displayed comparison and radius ledgers;
+\item singleton-ball coverage, requiring every public singleton metric-ball open of $T$ to be read through a row of $B$ before it is admitted as an indexed open;
+\item finite intersection closure by ball-list concatenation, requiring the intersection of two finite ball-list opens to use the concatenated finite-list index named by the metric-generated topology source;
+\item arbitrary-union ledger admission, requiring every union row to present an indexed family of already carried generated opens together with the supplied union witness of $T$;
+\item boundary rows for the empty and whole opens, requiring the distinguished boundary indices of $T$ and their visible $\BHist$ ledger rows;
+\item ledger non-escape, requiring public topology consumers to read only $M,B,T,R,Q,H,C,P,N$ and never an ambient powerset, quotient-open representative, hidden open selector, or radius row outside the displayed ledgers.
+\end{enumerate}
+No NameCert obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metric-topology-carrier}. The only available public rows are the metric carrier $M$, the ball basis ledger $B$, the indexed topology carrier $T$, the radius ledgers $R,Q$, and the structural rows $H,C,P,N$.
+
+Classifier transport and singleton coverage are the displayed route from $\MetricBallUp$ into $\TopologyUp$. The singleton data are the ball rows of $B$, and \autoref{thm:metric-balls-instantiate-indexed-topology-opens} supplies the indexed-open carrier and its membership transport along the point classifier of $M$.
+
+Finite intersections are read through finite-list concatenation. The source of \autoref{def:topology-metric-generated-carrier} uses finite lists of ball data as indices, and \autoref{thm:topology-metric-base-intersection} identifies the concatenated list with the carried intersection predicate.
+
+Arbitrary unions and boundary opens are the remaining displayed topology rows. The union witness and the empty and whole indices are part of $T$, so every public open admitted by the packet has a visible constructor ledger row.
+
+Finally, provenance is exhausted by $P$ and $N$. Since ambient powersets, quotient-open representatives, hidden open selectors, and detached radius rows are not coordinates of $G_{\mathsf{mtop}}$, no local NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[Metric topology ball-basis scope]
+\label{thm:metric-topology-ball-basis-scope}
+Every public $\MetricTopologyUp$ open carried by an accepted packet $G_{\mathsf{mtop}}=(M,B,T,R,Q,H,C,P,N)$ is read through the displayed $\MetricBallUp$ and $\TopologyUp$ rows. More precisely, each public open is witnessed by one of the constructor rows of the metric-generated topology source: a singleton metric ball from $B$, a finite-list intersection of such balls, a binary generated-open meet, an indexed arbitrary union of already carried generated opens, the empty open, or the whole open. Thus every downstream consumer of the metric topology receives only the route
+$$
+\MetricSpaceUp,\MetricBallUp,\TopologyUp,\RealUp,\RatUp,\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The packet exports no host powerset of metric points, quotient open, hidden open selector, or radius datum outside the displayed ledgers.
+\end{theorem}
+\begin{proof}
+Let a public open be carried by $G_{\mathsf{mtop}}$. By \autoref{def:metric-topology-carrier}, the open can be read only through the indexed topology row $T$ generated from the ball basis ledger $B$.
+
+The constructor analysis is the metric-generated exactness surface of \autoref{def:topology-metric-generated-carrier}. Singleton rows come from $B$; finite intersections are finite-list rows; binary meets, arbitrary unions, and boundary opens are the corresponding constructor rows of $T$.
+
+Each constructor row preserves the same public route. The metric carrier $M$ supplies points and distance witnesses, the ledgers $R,Q$ supply positive-radius comparison data, $H$ and $C$ transport and replay the route, and $P,N$ record provenance and local naming.
+
+No other coordinate is present in the packet. Therefore a consumer cannot recover a host powerset, quotient open, hidden selector, or detached radius datum from a public $\MetricTopologyUp$ open.
+\end{proof}
+
+\begin{closurestatus}{\MetricTopologyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-topology-carrier}, \autoref{thm:metric-topology-namecert-obligations}, and \autoref{thm:metric-topology-ball-basis-scope} seed the finite metric-topology bridge from $\MetricSpaceUp$ and $\MetricBallUp$ to $\TopologyUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, host powersets of metric points, quotient opens, hidden open selectors, completeness, compactness, or continuity theorems.}
+  \upgradepath{Obligation closure requires formal carrier admission, singleton-ball coverage, classifier transport, finite-intersection concatenation, arbitrary-union admission, boundary rows, and ledger non-escape for the same finite packet.}
+  \constructivestory{A $\MetricTopologyUp$ packet is generated from a MetricSpace carrier row, a MetricBall basis ledger, a Topology indexed-open carrier, RealUp and RatUp radius ledgers, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

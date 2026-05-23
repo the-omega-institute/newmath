@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\NewtonKantorovichUp$}
+\label{ch:concrete-instances-newton-kantorovich-namecert}
+\origin{human}
+
+Following Kantorovich and Bishop--Bridges constructive analysis, the $\NewtonKantorovichUp$ packet records the finite Newton data that turns a displayed derivative source, inverse witness, and contraction neighbourhood into a seal-facing real root row without asserting host root existence. It consumes the finite step discipline of \autoref{ch:concrete-instances-newtoniteration-namecert}, the contraction handoff of \autoref{ch:concrete-instances-banach-fixed-point-namecert}, the derivative source of \autoref{ch:concrete-instances-derivative-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The chapter is a Real-and-Completion frontier consumer: it exposes the finite certificate route from Newton ledgers to a $\RealUp$ root boundary while leaving convergence, completeness, and equality claims inside the named BEDC rows that provide them.
+
+\begin{definition}[Newton-Kantorovich carrier]
+\label{def:newton-kantorovich-carrier}
+A $\NewtonKantorovichUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,I,U,L,Q,B,N,R,E,H,C,P,Z)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $D$ is the $\DerivativeUp$ source row, including the point context, function-value history, derivative-answer history, and local derivative classifier consumed by the Newton data.
+\item $I$ is the inverse witness row, recording the displayed inverse or one-sided inverse budget for the derivative row named by $D$.
+\item $U$ is the contraction neighbourhood row, storing the radius, local Lipschitz or majorant budget, and the nonescape side condition for all displayed Newton steps inside the named neighbourhood.
+\item $L$ is the finite $\NewtonIterationUp$ ledger, recording source points, function-value rows, derivative-answer rows, inverse-witness reads, next-step rows, and splice-compatible step transports.
+\item $Q$ is the Newton residual and contraction-ratio ledger obtained from $D,I,U,L$ by finite rational comparisons.
+\item $B$ is the $\BanachFixedPointUp$ handoff row attached to the Newton map determined by $D,I,U,Q$, exposing the contraction packet used downstream.
+\item $N$ is the finite Newton-to-Banach replay row, stating that the displayed Newton step ledger $L$ is read as the Picard ledger consumed by $B$ after the inverse and contraction rows have been opened.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the Banach handoff and the finite Newton residual ledger.
+\item $E$ is the $\RealUp$ seal-facing root row exposed only after $D,I,U,L,Q,B,N,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the derivative source, inverse witness, contraction neighbourhood, Newton ledger, residual ledger, Banach handoff, replay, RegSeqRat readback, Real seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the derivative source through the inverse witness, contraction neighbourhood, finite Newton ledger, Banach handoff, RegSeqRat readback, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\NewtonKantorovichUp$, $\DerivativeUp$, $\NewtonIterationUp$, $\BanachFixedPointUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Z$ is the local $\NameCert_{\NewtonKantorovichUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,I,U,L,Q,B,N,R,E,H,C,P,Z$. It has no coordinate for host root existence, quotient-real equality, global invertibility, ambient completeness, selected limits, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.NewtonKantorovichUp.NewtonKantorovichTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Newton-Kantorovich NameCert obligations]
+\label{thm:newton-kantorovich-namecert-obligations}
+For every accepted $\NewtonKantorovichUp$ carrier
+$$
+K=(D,I,U,L,Q,B,N,R,E,H,C,P,Z),
+$$
+the local $\NameCert_{\NewtonKantorovichUp}$ surface consists exactly of carrier admission for the displayed rows, derivative-source stability for $D$, inverse-witness stability for $I$, contraction-neighbourhood nonescape for $U$, finite Newton-ledger stability for $L$, residual-ledger exactness for $Q$, Banach handoff compatibility for $B$, Newton-to-Banach replay for $N$, RegSeqRat readback for $R$, Real-seal non-escape for $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $Z$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:newton-kantorovich-carrier}. Each listed row is a visible coordinate of the finite packet, so the local naming surface starts with those coordinates and cannot read a hidden root object.
+
+The derivative, inverse, and neighbourhood obligations are the source-side checks. The row $D$ supplies the derivative histories, $I$ supplies the inverse witness attached to those histories, and $U$ supplies the displayed radius and nonescape side condition used by the Newton rows.
+
+The Newton ledger and residual rows are finite. The row $L$ carries only displayed $\NewtonIterationUp$ steps, and $Q$ records the rational comparisons that make those steps compatible with the contraction neighbourhood.
+
+The downstream obligations are then forced in order. The Banach handoff $B$ consumes the Newton map data; the replay row $N$ identifies the Newton ledger as the Picard ledger accepted by $B$; the readback row $R$ exposes the regular rational name; and the seal row $E$ gives the terminal $\RealUp$ boundary. The transport, replay, provenance, and local naming rows $H,C,P,Z$ repack the same route.
+\end{proof}
+
+\begin{theorem}[Newton-Kantorovich Banach handoff]
+\label{thm:newton-kantorovich-banach-handoff}
+Every accepted $\NewtonKantorovichUp$ carrier factors its root-read route through the finite handoff
+$$
+D,I,U,L,Q \longmapsto B \longmapsto N \longmapsto R \longmapsto E.
+$$
+The row $B$ is the only contraction-completion handoff available to the packet; the row $N$ is the only bridge from the displayed $\NewtonIterationUp$ ledger to the Picard ledger consumed by $B$; and the rows $R,E$ are reached only after this handoff has been displayed.
+\end{theorem}
+\begin{proof}
+Read the coordinates of $K$. The derivative row $D$, inverse witness $I$, neighbourhood row $U$, Newton ledger $L$, and residual ledger $Q$ are the only rows that describe the Newton map before a contraction packet is opened.
+
+The Banach handoff row $B$ is therefore the first row that may invoke the fixed-point surface of \autoref{ch:concrete-instances-banach-fixed-point-namecert}. The replay row $N$ records the finite identification between the Newton ledger and the Picard ledger that $B$ consumes, so there is no second completion route outside the displayed handoff.
+
+After $B$ and $N$ are present, the packet may read $R$ and then $E$. This yields a regular rational readback and a terminal $\RealUp$ seal, but it does not add a host root, a quotient-real equality, a chosen limit, or an ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[Newton-Kantorovich nonescape boundary]
+\label{thm:newton-kantorovich-nonescape-boundary}
+Let $K=(D,I,U,L,Q,B,N,R,E,H,C,P,Z)$ be an accepted $\NewtonKantorovichUp$ carrier. Every public read of the seal row $E$ must pass through the neighbourhood row $U$ and the finite Newton ledger $L$ before it reaches the Banach handoff $B$. Consequently the root boundary exposed by $E$ is confined to the displayed contraction neighbourhood and cannot export a global root-existence theorem, global inverse theorem, host equality of roots, quotient-real equality, or ambient completeness beyond the carried rows.
+\end{theorem}
+\begin{proof}
+The only row carrying a neighbourhood boundary is $U$. Since $E$ is downstream of the handoff route in \autoref{thm:newton-kantorovich-banach-handoff}, any read of $E$ must first pass through the data that certify the Newton steps remain inside that neighbourhood.
+
+The finite ledger $L$ supplies those displayed Newton steps. The residual ledger $Q$ and Banach handoff $B$ may use them to produce the contraction route, but neither row introduces an additional domain or a global inverse principle.
+
+Thus the exposed root boundary is local to $U$ and to the rows transported by $H$ and replayed by $C$. Because the carrier lacks coordinates for global root existence, quotient-real equality, host equality, selected limits, and ambient completeness, no public consumer can read those objects from $E$.
+\end{proof}
+
+\falsifiablePrediction{Every $\NewtonKantorovichUp$ root-boundary read factors through one Derivative row, one inverse witness row, one contraction neighbourhood row, one finite NewtonIteration ledger, one residual ledger, one BanachFixedPoint handoff row, one Newton-to-Banach replay row, one RegSeqRat readback row, one Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{derivative, newtoniteration, banachfixedpoint, regseqrat, real: $\NewtonKantorovichUp$ is not bijective to any listed sibling because it jointly carries the derivative source, inverse witness, contraction neighbourhood, finite Newton ledger, Banach handoff, regular readback, and seal-facing root boundary.}
+
+\closureat{NewtonKantorovichUp}{seedStr}
+
+\begin{closurestatus}{\NewtonKantorovichUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:newton-kantorovich-carrier}, \autoref{thm:newton-kantorovich-namecert-obligations}, \autoref{thm:newton-kantorovich-banach-handoff}, and \autoref{thm:newton-kantorovich-nonescape-boundary} seed the finite route from derivative data and inverse witness through a contraction neighbourhood, Newton finite ledger, Banach handoff, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host root existence, quotient-real equality, global invertibility, host equality of roots, selected limits, ambient completeness beyond the carried rows, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, derivative-source stability, inverse-witness stability, contraction-neighbourhood nonescape, Newton-ledger stability, residual-ledger exactness, Banach handoff compatibility, Newton-to-Banach replay, RegSeqRat readback, Real-seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.NewtonKantorovichUp.}
+  \constructivestory{A $\NewtonKantorovichUp$ packet is generated from one Derivative row, one inverse witness row, one contraction neighbourhood row, one finite NewtonIteration ledger, one residual ledger, one BanachFixedPoint handoff row, one Newton-to-Banach replay row, one RegSeqRat readback row, one Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

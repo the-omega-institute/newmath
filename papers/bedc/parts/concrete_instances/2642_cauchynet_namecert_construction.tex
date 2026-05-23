@@ -27,6 +27,8 @@ over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $
 \end{enumerate}
 The carrier exports only this finite directed-window packet. It contains no quotient of nets, no selected limit point, no ambient uniform-space completeness theorem, and no choice operator selecting cofinal windows.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchyNetUp.CauchyNetCarrier\_transport\_semanticNameCert}
+\leanchecked{BEDC.Derived.CauchyNetUp.CauchyNetCarrier\_commonWindow\_semanticNameCert}
 
 \begin{theorem}[CauchyNet NameCert obligation surface]
 \label{thm:cauchy-net-namecert-obligation-surface}
@@ -39,6 +41,8 @@ The local $\NameCert_{\CauchyNetUp}$ surface for \autoref{def:cauchy-net-carrier
 \item $\RealUp$ handoff through $L$, so real-facing consumers see only the regular rational data certified by the same finite directed-window rows.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyNetUp.CauchyNetNameCert\_obligation\_surface}
+\leanvariant{BEDC.Derived.CauchyNetUp.CauchyNetCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 Carrier admission is projection from the finite tuple in \autoref{def:cauchy-net-carrier}. The directed index-window ledger, stream schedule, dyadic observations, regular rational handoff, classifier row, real handoff, transports, routes, package provenance, and local naming row are all visible coordinates of one $\BHist$ packet.
 
@@ -84,6 +88,7 @@ satisfy the following conditions:
 \item $P_{\Omega}$ and $N_{\Omega}$ are the provenance and local $\NameCert_{\CauchyNetUp}$ rows restricted to the same retained coordinates.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.CauchyNetUp.CauchyNetWitnessCompleteSubwindow}
 
 \begin{theorem}[CauchyNet finite subwindow restriction]
 \label{thm:cauchy-net-finite-subwindow-restriction}
@@ -97,7 +102,7 @@ K_{\Omega}=(D_{\Omega},S_{\Omega},R_{\Omega},W_{\Omega},T_{\Omega},L_{\Omega},H_
 $$
 is an accepted $\CauchyNetUp$ carrier. Moreover, every $\RealUp$ read exported by $L_{\Omega}$ factors through the retained $\RegSeqRatUp$ row $R_{\Omega}$, and $R_{\Omega}$ is the restriction of the same $\RegSeqRatUp$ row $R$ used by the original packet.
 \end{theorem}
-\leanchecked{BEDC.Derived.CauchyNetUp.CauchyNetTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.CauchyNetUp.CauchyNetWitnessCompleteSubwindow\_carrier\_restriction}
 \begin{proof}
 Unfold the carrier of \autoref{def:cauchy-net-carrier}. A $\CauchyNetUp$ carrier has exactly the displayed rows
 $$
@@ -113,3 +118,29 @@ The transport and continuation rows also remain closed under restriction. The ro
 
 Apply the obligation surface of \autoref{thm:cauchy-net-namecert-obligation-surface}. Carrier admission is the displayed restricted tuple. Eventual common-window classification is supplied by $T_{\Omega}$ because all requested witnesses remain in $D_{\Omega}$. Directed-window transport is supplied by $H_{\Omega}$ and $C_{\Omega}$. Ledger non-escape holds because a request outside $E$ or outside the retained witness ledger has no coordinate in $K_{\Omega}$ from which convergence data can be exported. Finally, the only real-facing row is $L_{\Omega}$, and its source is exactly $R_{\Omega}$. Thus every $\RealUp$ handoff factors through the same restricted $\RegSeqRatUp$ row, with $R_{\Omega}$ inherited from $R$.
 \end{proof}
+
+\begin{theorem}[CauchyNet directed-window localization]\label{thm:cauchy-net-directed-window-localization}
+Let
+$$
+K=(D,S,R,W,T,L,H,C,P,N)
+$$
+be an accepted $\CauchyNetUp$ carrier, and let $\Omega$ be witness-complete for a displayed finite tolerance family $E$ in the sense of \autoref{def:cauchy-net-witness-complete-finite-subwindow}. Then every $\RealUp$ handoff exported by the restricted row $L_{\Omega}$ is determined by the retained directed-window rows
+$$
+D_{\Omega},S_{\Omega},R_{\Omega},W_{\Omega},T_{\Omega},H_{\Omega},C_{\Omega},P_{\Omega},N_{\Omega}.
+$$
+No omitted directed vertex, cofinal choice function, quotient net, selected limit point, or ambient completeness row can change that handoff.
+\end{theorem}
+\begin{proof}
+Unfold the witness-complete subwindow definition. The retained ledger $D_{\Omega}$ contains every common upper-window witness used by the displayed tolerance family $E$, while $S_{\Omega}$ and $W_{\Omega}$ contain exactly the scheduled observation names and dyadic comparison rows read at those witnesses. The classifier row $T_{\Omega}$ therefore has no address outside the retained directed window from which to read convergence evidence.
+
+Apply \autoref{thm:cauchy-net-finite-subwindow-restriction}. The restricted tuple
+$$
+K_{\Omega}=(D_{\Omega},S_{\Omega},R_{\Omega},W_{\Omega},T_{\Omega},L_{\Omega},H_{\Omega},C_{\Omega},P_{\Omega},N_{\Omega})
+$$
+is itself an accepted $\CauchyNetUp$ carrier, and every real-facing read exported by $L_{\Omega}$ factors through the retained $\RegSeqRatUp$ row $R_{\Omega}$.
+
+Apply the obligation surface of \autoref{thm:cauchy-net-namecert-obligation-surface} to the accepted carrier $K_{\Omega}$. Carrier admission is the displayed restricted tuple; eventual common-window classification is $T_{\Omega}$; directed-window transport is supplied by $H_{\Omega}$ and $C_{\Omega}$; ledger non-escape is enforced by the absence of any coordinate outside the retained rows; and the real-facing boundary is precisely the handoff through $L_{\Omega}$ from $R_{\Omega}$.
+
+It remains only to exclude external data. The subwindow definition gives no coordinate for an omitted directed vertex, a cofinal selector, a quotient of nets, a selected limit point, or an ambient completeness theorem. Since the only exported real-facing route is the projection through $R_{\Omega}$ and $L_{\Omega}$ inside $K_{\Omega}$, changing any such omitted datum cannot affect the $\RealUp$ handoff.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyNetUp.CauchyNetDirectedWindow\_localization}

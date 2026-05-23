@@ -530,3 +530,67 @@ The cover-descent packet therefore has no remaining coordinate outside the
 four faces and displayed rows on which a carrier verdict, classifier verdict,
 or consumer-facing terminal route defect could live.
 \end{proof}
+
+\begin{theorem}[StreamName finite-cover terminal support removal witness]
+\label{thm:streamname-finite-cover-terminal-support-removal-witness}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase
+$\RealUp$ and Completion $\StreamNameUp$ request sections satisfying the
+accepted-overlap hypotheses of
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}. Delete
+from the cover-descent terminal support packet either one visible face among
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, or one
+displayed support row among $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert$. Then the shortened cover packet cannot present the same
+carrier verdict, classifier verdict, and consumer-facing terminal route as the
+original finite cover.
+
+The lost verdict is witnessed on one accepted local section or accepted
+overlap. Quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data,
+aggregate formalstatus rows, and bridge rows cannot replace the deleted face
+or displayed row and cannot repair the cover-descent packet.
+\end{theorem}
+\begin{proof}
+Start with the finite cover support. By
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}, every
+visible face and displayed row named in the statement is a required coordinate
+of the cover-descent terminal packet. Deleting one of those coordinates
+therefore removes data needed by the accepted carrier verdict, classifier
+verdict, or consumer-facing terminal route.
+
+Now localize the loss. Apply
+\autoref{thm:streamname-finite-cover-terminal-support-defect-localization} to
+the shortened cover packet. The defect is witnessed on one accepted local
+section or accepted overlap, and it lies on a visible
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ face or on one
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or local $\NameCert$ row.
+
+On that local section, use
+\autoref{thm:streamname-terminal-support-removal-witness}. The local deletion
+already prevents presentation of the same carrier verdict, classifier verdict,
+and consumer-facing terminal route, with the witness read as a finite
+request-section mismatch.
+
+It remains to transport the local loss back through the cover. Use
+\autoref{thm:streamname-terminal-four-face-support-replay-induction} on the
+ordered cover support list. The induction replays the local witness through
+the StreamName finite window, DyadicRatCore ledger, RegSeqRat readback, Real
+seal boundary, and displayed support rows, so the cover cannot regain the lost
+terminal packet from another section of the same family.
+
+Finally rule out substitutes. The exactness theorem
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies the
+RegSeqRat boundary with precisely the four-face terminal support packet, and
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a
+second finite RegSeqRat source with the same public verdict. The Real exit
+totality theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every accepted
+current Phase Real and Completion terminal read through the same ordered
+route.
+
+Thus quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data,
+aggregate formalstatus rows, and bridge rows are off-route for this finite
+cover. They cannot supply the deleted coordinate and cannot preserve the same
+carrier verdict, classifier verdict, and consumer-facing terminal route.
+\end{proof}

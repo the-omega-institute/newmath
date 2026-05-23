@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CauchyNullDifferenceUp$}
+\label{ch:concrete-instances-cauchy-null-difference-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyNullDifferenceUp$ packet records the finite route by which two regular Cauchy rational names expose equality of their $\RealUp$ endpoints: first form the displayed regular-Cauchy difference, then certify that displayed difference as a $\NullSequenceUp$, and only then allow the terminal real-name equality seal to be read. It sits between the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the pointwise difference route of \autoref{ch:concrete-instances-regularcauchydifference-namecert}, the zero-tail classifier of \autoref{ch:concrete-instances-nullsequence-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the endpoint surface of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Cauchy null-difference carrier]
+\label{def:cauchy-null-difference-carrier}
+A $\CauchyNullDifferenceUp$ carrier is a finite $\BHist$ packet
+$$
+C=(X,Y,D,Z,W,T,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ source rows whose regular rational observations are compared.
+\item $D$ is the $\RegularCauchyDifferenceUp$ row displaying the aligned pointwise difference stream $X-Y$.
+\item $Z$ is the $\NullSequenceUp$ zero-shrinkage row that consumes the displayed difference stream.
+\item $W$ stores the finite $\StreamNameUp$ windows used by the source rows, the difference row, and the null-sequence consumer.
+\item $T$ stores the $\DyadicRatCoreUp$ tolerance requests, slack rows, and comparison budgets used by $D$ and $Z$.
+\item $E$ is the terminal $\RealUp$ equality-seal row, readable only after the displayed difference has passed through $Z$.
+\item $H$ records componentwise $\hsame$ transport for source rows, difference rows, null-sequence rows, windows, tolerance ledgers, the equality seal, continuation, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from the two source rows through $D$, then through $Z$, and finally into the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyNullDifferenceUp$, $\RegSeqRatUp$, $\RegularCauchyDifferenceUp$, $\NullSequenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyNullDifferenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,D,Z,W,T,E,H,K,P,N$. It has no coordinate for quotient stream equality, host equality of reals, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyNullDifferenceUp.CauchyNullDifferenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy null-difference NameCert obligations]
+\label{thm:cauchy-null-difference-namecert-obligations}
+For every accepted $\CauchyNullDifferenceUp$ carrier $C=(X,Y,D,Z,W,T,E,H,K,P,N)$, the local $\NameCert_{\CauchyNullDifferenceUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the two $\RegSeqRatUp$ source rows, the $\RegularCauchyDifferenceUp$ displayed difference row, the $\NullSequenceUp$ zero-shrinkage row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerances, the terminal $\RealUp$ equality seal, transport, continuation, provenance, and local naming rows;
+\item source stability, requiring accepted comparisons to preserve the two regular Cauchy source rows componentwise;
+\item difference handoff exactness, requiring $D$ to be the displayed pointwise difference route generated from $X$ and $Y$ through the finite windows $W$;
+\item null-sequence consumption, requiring $Z$ to consume precisely the displayed difference row $D$ with the tolerance ledger $T$ before any equality seal is read;
+\item real-seal nonescape, requiring $E$ to read only the null-difference route $X,Y,D,Z,W,T,H,K,P,N$ and never a quotient stream equality, host real equality, selected limit, countable-choice schedule, trichotomy principle, ambient completeness theorem, or bridge certificate.
+\end{enumerate}
+No Cauchy null-difference obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-null-difference-carrier}. The accepted packet displays exactly the two source rows, the difference row, the null-sequence row, windows, tolerance ledger, equality seal, transport, continuation, provenance, and local naming rows.
+
+The source and difference clauses are then forced by the order of the displayed route. The two $\RegSeqRatUp$ rows $X,Y$ are read first; the $\RegularCauchyDifferenceUp$ row $D$ is the only coordinate that can display their pointwise difference; and the windows $W$ are the finite observations shared by the source and difference reads.
+
+The null-sequence clause is the next step. The row $Z$ consumes $D$ together with the dyadic tolerance ledger $T$, so the zero-shrinkage evidence is visible before the endpoint row $E$ is inspected.
+
+Finally inspect the carrier inventory. Since quotient stream equality, host equality of reals, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, and bridge data are not coordinates of $C$, none can become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy null-difference Real seal boundary]
+\label{thm:cauchy-null-difference-real-seal-boundary}
+Let $C=(X,Y,D,Z,W,T,E,H,K,P,N)$ be an accepted $\CauchyNullDifferenceUp$ carrier. Any $\RealUp$ equality-facing consumer of the two regular Cauchy source rows must first read the finite route
+$$
+X,Y \longrightarrow D \longrightarrow Z \longrightarrow E
+$$
+as replayed by $W,T,H,K,P,N$. Thus the endpoint seal is exposed only after the regular-Cauchy difference has been displayed and certified as a null sequence; it is not a quotient equality of streams, a host equality proof, a selected limit, a countable-choice construction, a trichotomy comparison, or an ambient completeness assertion.
+\end{theorem}
+\begin{proof}
+Start with an equality-facing consumer. By \autoref{thm:cauchy-null-difference-namecert-obligations}, the consumer can read the source data only through the accepted carrier $C$.
+
+The RegularCauchyDifference handoff is the first major step. The rows $X,Y$ provide the regular rational observations, while $D$ displays their aligned difference through the finite windows $W$ and the dyadic tolerance ledger $T$.
+
+The NullSequence classifier is then consumed before the endpoint is available. The row $Z$ reads the same displayed difference route, and the transport and continuation rows $H,K$ preserve that route under componentwise comparison and replay.
+
+Only after this null-difference package has been displayed may the consumer reach $E$. The provenance and local naming rows $P,N$ record the same finite route and add no analytic coordinate.
+
+The non-escape statement follows from the carrier inventory. No quotient stream equality, host equality proof, selected limit, countable-choice row, trichotomy comparison, or ambient completeness theorem is present, so the $\RealUp$ equality seal is exactly the stated finite boundary.
+\end{proof}
+
+\closureat{CauchyNullDifferenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyNullDifferenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-null-difference-carrier}, \autoref{thm:cauchy-null-difference-namecert-obligations}, and \autoref{thm:cauchy-null-difference-real-seal-boundary} seed the finite route from two regular Cauchy source rows through displayed difference, NullSequence zero-shrinkage, StreamName windows, DyadicRatCore tolerance rows, and a terminal Real equality seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host equality of reals, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source stability, difference handoff exactness, NullSequence consumption, Real seal nonescape, and TasteGate field faithfulness for BEDC.Derived.CauchyNullDifferenceUp.}
+  \constructivestory{A $\CauchyNullDifferenceUp$ packet is generated from two RegSeqRat source rows, one RegularCauchyDifference route, one NullSequence zero-shrinkage row, finite StreamName windows, DyadicRatCore tolerances, a terminal Real equality-seal row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

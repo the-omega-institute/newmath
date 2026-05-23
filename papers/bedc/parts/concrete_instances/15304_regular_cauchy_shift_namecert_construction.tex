@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyShiftUp$}
+\label{ch:concrete-instances-regular-cauchy-shift-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style regular Cauchy sequence tail invariance, the $\RegularCauchyShiftUp$ packet records the finite route by which a regular rational Cauchy name may discard a displayed finite prefix without leaving the visible regularity, tolerance, and real-seal surface. It sits over the finite schedules of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy-name space of \autoref{ch:concrete-instances-cauchysequencespace-namecert}. The packet is a NameCert for tail-shift invariance of regular Cauchy names, not a quotient of streams, not a selected host limit, not countable choice, and not ambient completeness.
+
+\begin{definition}[Regular Cauchy shift carrier]
+\label{def:regular-cauchy-shift-carrier}
+A $\RegularCauchyShiftUp$ carrier is a finite $\BHist$ packet
+$$
+K=(Q,S,D,k,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the source $\RegSeqRatUp$ row whose regular rational Cauchy readback supplies the inspected values and the regularity budget.
+\item $S$ is the $\StreamNameUp$ finite schedule row whose shifted window request sends the displayed index $n$ to the source index $n+k$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to preserve the same dyadic error budget after the source window has been shifted.
+\item $k$ is the unary shift witness, displayed as a finite prefix length and carrying no unbounded selector.
+\item $E$ is the downstream $\RealUp$ seal route reached only after $Q,S,D,k$ have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the source regular sequence row, schedule row, dyadic ledger, unary shift witness, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a shifted finite-window request through $k$, then through $S$, $Q$, $D$, and finally to the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyShiftUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected limits, host sequence equality, countable-choice tail selection, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy shift NameCert obligations]
+\label{thm:regular-cauchy-shift-namecert-obligations}
+For every accepted $\RegularCauchyShiftUp$ carrier $K=(Q,S,D,k,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyShiftUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the source $\RegSeqRatUp$ row, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ tolerance ledger, unary shift witness, $\RealUp$ seal route, transport, continuation, provenance, and local naming row;
+\item finite-window shift stability, requiring every shifted request to replay through the displayed unary shift witness before it can inspect the source schedule;
+\item dyadic tolerance preservation, requiring the tolerance ledger $D$ to be read after the shifted source window and before any regularity or seal handoff is exported;
+\item RegSeqRat handoff, requiring the shifted finite windows to remain attached to the same displayed regular rational Cauchy row $Q$;
+\item RealUp seal routing, requiring every downstream seal read to pass through $Q,S,D,k$ before it reaches $E$;
+\item ledger refusal, excluding quotient streams, selected limits, host sequence equality, countable-choice tail selectors, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyShiftUp.RegularCauchyShiftTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-shift-carrier}. The projection exposes exactly the source regular sequence row, schedule row, dyadic tolerance ledger, unary shift witness, Real seal route, and structural rows $H,C,P,N$.
+
+Replay the continuation row $C$ at a shifted finite-window request. The request first consumes the unary witness $k$, then reads the source schedule $S$ at the translated window and consults the regular rational row $Q$ at that displayed source position.
+
+The dyadic row $D$ is downstream of the shifted window route, so the same tolerance budget is preserved before the RegSeqRat handoff or the Real seal can be inspected. Since the seal row $E$ is downstream of $Q,S,D,k$, every Real-facing obligation is routed through those finite rows.
+
+The listed rows exhaust the carrier. The excluded quotient streams, selected limits, host sequence equality, countable-choice tail selectors, and ambient completeness principles therefore have no coordinate from which a local $\NameCert_{\RegularCauchyShiftUp}$ obligation could be read.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy shift real-seal non-escape]
+\label{thm:regular-cauchy-shift-real-seal-nonescape}
+Let $K=(Q,S,D,k,E,H,C,P,N)$ be an accepted $\RegularCauchyShiftUp$ carrier. Every $\RealUp$ consumer read and every CauchySequenceSpace-facing consumer read factors through the displayed shifted finite-window route
+$$
+Q,S,k,D \longmapsto E \longmapsto H,C,P,N .
+$$
+The packet exports no quotient stream, selected limit, host sequence equality, countable-choice tail selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of the shifted regular Cauchy name. Carrier admission gives the downstream row $E$ and the structural rows $H,C,P,N$, but only with the source regularity row $Q$, schedule row $S$, unary shift witness $k$, and dyadic ledger $D$ already present.
+
+Replay $C$. A consumer request first passes through the finite shift witness $k$, then consults the schedule row $S$ at the translated source window. The readback row $Q$ supplies the regular rational Cauchy observation for that window, and $D$ supplies the dyadic tolerance ledger attached to the same read.
+
+Only after those rows have been consumed can the request reach the $\RealUp$ seal route or the CauchySequenceSpace-facing handoff. Transport by $H$ preserves the same row order, while $P$ and $N$ package only that finite route; hence the packet has no export path for quotient streams, selected limits, host sequence equality, countable-choice tail selection, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyShiftUp}
+  \constructivestory{A $\RegularCauchyShiftUp$ packet is generated from a RegSeqRat source row, StreamName shifted schedule, DyadicRatCore tolerance ledger, unary shift witness, RealUp seal route, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-shift-carrier}, \autoref{thm:regular-cauchy-shift-namecert-obligations}, and \autoref{thm:regular-cauchy-shift-real-seal-nonescape} seed the finite tail-shift route from $\RegSeqRatUp$ through $\StreamNameUp$, $\DyadicRatCoreUp$, and the downstream $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, host sequence equality, countable-choice tail selection, ambient completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window shift stability, dyadic tolerance preservation, RegSeqRat handoff, RealUp seal routing, and ledger refusal for the same packet.}
+\end{closurestatus}

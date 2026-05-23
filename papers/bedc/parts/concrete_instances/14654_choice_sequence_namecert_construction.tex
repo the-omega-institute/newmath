@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceSequenceUp$}
+\label{ch:concrete-instances-choice-sequence-namecert}
+\origin{human}
+
+Brouwer/Bishop constructive choice-sequence tradition treats an unfolding sequence by the finite information currently displayed to a proof or construction. The $\ChoiceSequenceUp$ packet records that surface as a finite-prefix NameCert neighbour of \autoref{ch:concrete-instances-bairespace-namecert} and \autoref{ch:concrete-instances-streamname-namecert}. It uses $\NatUp$ answer rows, scheduled $\StreamNameUp$ prefix requests, and the $\RegSeqRatUp$ and $\RealUp$ consumer boundaries only as visible handoff rows; it does not complete a host function $\NatUp \to \NatUp$, quotient infinite streams, or add a countable-choice selector.
+
+\begin{definition}[ChoiceSequence prefix carrier]
+\label{def:choice-sequence-prefix-carrier}
+A $\ChoiceSequenceUp$ prefix carrier is a finite $\BHist$ packet
+$$
+Q=(S,W,A,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row naming the finite prefix requests visible to the consumer;
+\item $W$ is the finite prefix-window ledger listing the requested natural-number positions;
+\item $A$ is the $\NatUp$ answer ledger assigning displayed natural-number rows to the positions of $W$;
+\item $R$ is the optional $\RegSeqRatUp$ readback row used when the same finite prefix is consumed by a regular-rational route;
+\item $E$ is the optional $\RealUp$ seal row reached only through $R$ and the displayed prefix data;
+\item $H$ is the componentwise $\hsame$ transport row for $S,W,A,R,E$;
+\item $C$ is the displayed $\Cont$ route for prefix restriction and already accepted prefix replay;
+\item $P$ is the $\Pkg$ provenance over $\ChoiceSequenceUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\NatUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and the local naming row;
+\item $N$ is the local $\NameCert_{\ChoiceSequenceUp}$ row.
+\end{enumerate}
+The carrier accepts only displayed finite prefixes with visible answer rows. It exports no completed host function, no quotient stream equality, no countable-choice selector, no real-completeness principle, and no external topology.
+\end{definition}
+
+\begin{theorem}[ChoiceSequence prefix stability]
+\label{thm:choice-sequence-prefix-stability}
+Let $Q=(S,W,A,R,E,H,C,P,N)$ be an accepted $\ChoiceSequenceUp$ prefix carrier. Every prefix subwindow of $W$, together with the corresponding displayed $\NatUp$ answer rows of $A$, repacks as an accepted $\ChoiceSequenceUp$ prefix carrier through the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. The restricted carrier has no access to tail values outside the displayed subwindow.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:choice-sequence-prefix-carrier}. The schedule row $S$, prefix ledger $W$, and answer ledger $A$ are finite $\BHist$ rows, so a prefix subwindow is obtained by deleting later displayed entries rather than by reading an infinite sequence.
+
+Transport the retained entries through the componentwise $\hsame$ row $H$. The $\Cont$ route $C$ is already a prefix-restriction route for accepted reads, so replaying it on the retained rows preserves the order of the visible positions and the attached $\NatUp$ answers.
+
+The provenance row $P$ and local naming row $N$ then repack the restricted data as the same kind of certificate. Since no coordinate in $Q$ stores a completed host function or a hidden tail oracle, the restricted carrier cannot export values beyond the displayed subwindow.
+\end{proof}
+
+\begin{theorem}[ChoiceSequence prefix amalgamation]
+\label{thm:choice-sequence-prefix-amalgamation}
+Let $Q_0=(S_0,W_0,A_0,R_0,E_0,H_0,C_0,P_0,N_0)$ and $Q_1=(S_1,W_1,A_1,R_1,E_1,H_1,C_1,P_1,N_1)$ be accepted $\ChoiceSequenceUp$ prefix carriers. Suppose the displayed $\StreamNameUp$ schedules and $\NatUp$ answer ledgers agree on the overlap of $W_0$ and $W_1$ under componentwise $\hsame$, and suppose the optional $\RegSeqRatUp$ readback rows and $\RealUp$ seal rows, when present on both sides, are the same displayed handoff rows over that overlap. Then the finite union of the two displayed windows repacks as an accepted $\ChoiceSequenceUp$ prefix carrier using the common $\StreamNameUp$ schedule on the overlap, the single-valued union of the $\NatUp$ answer rows, the inherited optional $\RegSeqRatUp$ and $\RealUp$ handoff rows, $\Cont$ replay over the combined window, $\Pkg$ provenance, and a local $\NameCert_{\ChoiceSequenceUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:choice-sequence-prefix-carrier}. The rows $W_0,W_1$ are finite displayed ledgers, so their union is again a finite prefix-window ledger rather than a completed host function.
+
+On the common part of the two ledgers, the hypotheses identify the displayed schedules and $\NatUp$ answer rows by componentwise $\hsame$. Hence the union ledger is single-valued: an overlapping position carries one answer row, while a position belonging to only one side keeps the answer row already displayed there.
+
+The optional $R$ and $E$ rows are copied only along the visible handoff routes. Where both carriers expose such rows, the overlap hypothesis makes them the same displayed $\RegSeqRatUp$ or $\RealUp$ handoff; where only one side exposes them, the row remains attached to that side's displayed prefix data.
+
+Replay the continuation rows $C_0$ and $C_1$ over their respective subwindows inside the combined finite ledger. Prefix stability from \autoref{thm:choice-sequence-prefix-stability} certifies that each original carrier is recovered by restricting the union back to its displayed window.
+
+Finally, the provenance rows $P_0,P_1$ and local naming rows $N_0,N_1$ supply the same kernel ingredients named in the carrier definition, so the combined finite data repacks as a local $\NameCert_{\ChoiceSequenceUp}$ carrier. The construction adds no completed host function, countable-choice selector, quotient stream equality, real-completeness principle, or external topology.
+\end{proof}
+
+\begin{theorem}[ChoiceSequence StreamName handoff]
+\label{thm:choice-sequence-streamname-handoff}
+Every public read of an accepted $\ChoiceSequenceUp$ prefix carrier factors through the displayed $\StreamNameUp$ schedule row before it reaches any $\NatUp$ answer row, any $\RegSeqRatUp$ readback row, or any $\RealUp$ seal row. The handoff route is
+$$
+\StreamNameUp,\ \NatUp,\ \RegSeqRatUp,\ \RealUp
+$$
+when the last two rows are present, and otherwise stops at the displayed natural-number prefix.
+\end{theorem}
+\begin{proof}
+Begin with a public consumer read of $Q$. The consumer first receives the finite request schedule $S$ and the prefix ledger $W$; without these rows there is no named position at which a natural-number answer can be inspected.
+
+The $\NatUp$ answer ledger $A$ is read only over those scheduled positions. If a regular-rational consumer is present, the readback row $R$ is attached to the same displayed prefix, and the $\RealUp$ seal row $E$ is reached only after $R$ has been replayed through $H,C,P,N$.
+
+Thus the public route must pass through $\StreamNameUp$ before any answer or completion-facing handoff is available. If $R$ and $E$ are absent, the same argument terminates at the finite $\NatUp$ prefix surface and yields no regular-rational or real-facing row.
+\end{proof}
+
+\begin{theorem}[ChoiceSequence tail nonanticipation]
+\label{thm:choice-sequence-tail-nonanticipation}
+Let $Q=(S,W,A,R,E,H,C,P,N)$ and $Q'=(S,W,A',R',E',H,C,P,N)$ be accepted $\ChoiceSequenceUp$ prefix carriers with the same displayed $\StreamNameUp$ schedule row, prefix-window ledger, transport, continuation, provenance, and local naming rows. Every public read restricted to the displayed prefix factors only through $S,W,A,H,C,P,N$ and through the optional $R,E$ rows already attached to that prefix. If the displayed $\NatUp$ answer rows of $A$ and $A'$ agree on $W$, then no consumer can distinguish $Q$ from $Q'$ by any tail value outside $W$.
+
+Any claimed distinction between $Q$ and $Q'$ outside the displayed window would require one of the following absent coordinates: a completed host function, a hidden tail oracle, quotient stream equality, a countable-choice selector, or a $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:choice-sequence-prefix-carrier}. The rows $S,W,H,C,P,N$ are shared, and the visible answer ledgers agree on the whole displayed window $W$.
+
+Apply prefix stability from \autoref{thm:choice-sequence-prefix-stability} to restrict any public read to the displayed subwindow. The restriction removes later undisplayed positions rather than evaluating them, so the resulting consumer surface is determined by the shared schedule and the visible $\NatUp$ answers.
+
+Apply the StreamName handoff of \autoref{thm:choice-sequence-streamname-handoff}. Any answer read, and any optional $\RegSeqRatUp$ or $\RealUp$ readback, must pass through $S$ before reaching $A,R,E$ or $A',R',E'$. Since the read is restricted to $W$ and the displayed answers agree there, the public route has the same visible data in both carriers.
+
+It remains to inspect the possible source of a tail distinction. The carrier definition exports no completed host function, hidden tail oracle, quotient stream equality, countable-choice selector, or $\RealUp$ completeness coordinate. Therefore no local $\NameCert_{\ChoiceSequenceUp}$ consumer can distinguish $Q$ from $Q'$ by any value outside the displayed prefix.
+\end{proof}
+
+\begin{theorem}[ChoiceSequence NameCert obligation surface]
+\label{thm:choice-sequence-namecert-obligation-surface}
+The seed $\NameCert_{\ChoiceSequenceUp}$ obligation surface consists exactly of carrier admission for \autoref{def:choice-sequence-prefix-carrier}, prefix stability of \autoref{thm:choice-sequence-prefix-stability}, compatible-prefix amalgamation of \autoref{thm:choice-sequence-prefix-amalgamation}, StreamName handoff of \autoref{thm:choice-sequence-streamname-handoff}, tail nonanticipation of \autoref{thm:choice-sequence-tail-nonanticipation}, componentwise $\hsame$ transport of all displayed rows, $\Cont$ prefix restriction and replay, $\Pkg$ provenance, and local naming through $N$. It exposes the finite-prefix choice-sequence neighbour of $\BaireSpaceUp$ and $\StreamNameUp$ while exporting no completed host function, countable-choice selector, quotient stream equality, real completeness, or external topology.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the nine displayed rows in \autoref{def:choice-sequence-prefix-carrier}. The schedule, prefix ledger, answer ledger, optional regular readback, optional real seal, transport, continuation, provenance, and local naming rows are exactly the rows available to a NameCert consumer.
+
+Prefix stability is supplied by \autoref{thm:choice-sequence-prefix-stability}. It shows that every shorter displayed prefix is certified by the same finite rows after $\hsame$ transport and $\Cont$ prefix restriction.
+
+Compatible-prefix amalgamation is supplied by \autoref{thm:choice-sequence-prefix-amalgamation}. It shows that two accepted displayed prefixes with the same overlap answers form one finite carrier, so downstream readers can treat compatible finite evidence as a single $\ChoiceSequenceUp$ surface.
+
+The handoff clause is supplied by \autoref{thm:choice-sequence-streamname-handoff}. It forces every answer read and every regular or real-facing consumer route to pass through the displayed $\StreamNameUp$ schedule and the visible $\NatUp$ prefix answers.
+
+Tail nonanticipation is supplied by \autoref{thm:choice-sequence-tail-nonanticipation}. It states that two accepted carriers with the same displayed schedule and agreeing visible answers cannot be separated by data outside the prefix window.
+
+It remains to inspect exclusions. The packet has no coordinate for a completed host function, countable-choice selector, quotient stream equality, real-completeness witness, or external topology, so none of those objects can be exported by the local $\NameCert_{\ChoiceSequenceUp}$ surface.
+\end{proof}
+
+\begin{closurestatus}{\ChoiceSequenceUp}
+  \constructivestory{A $\ChoiceSequenceUp$ packet is generated from a finite $\StreamNameUp$ request schedule, displayed $\NatUp$ answer rows, optional $\RegSeqRatUp$ and $\RealUp$ consumer handoffs, componentwise $\hsame$ transport, $\Cont$ prefix replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-sequence-prefix-carrier}, \autoref{thm:choice-sequence-prefix-stability}, \autoref{thm:choice-sequence-prefix-amalgamation}, \autoref{thm:choice-sequence-streamname-handoff}, \autoref{thm:choice-sequence-tail-nonanticipation}, and \autoref{thm:choice-sequence-namecert-obligation-surface} seed the finite-prefix choice-sequence surface over $\StreamNameUp$ schedules, $\NatUp$ answer rows, optional $\RegSeqRatUp$ readback, optional $\RealUp$ seal, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close completed host functions, countable choice, quotient stream equality, real completeness, or external topology.}
+  \upgradepath{The next step is obligationClosure: carrier admission, prefix stability, compatible-prefix amalgamation, StreamName handoff, tail nonanticipation, transport, continuation, provenance, and non-escape must be discharged as local rows.}
+\end{closurestatus}

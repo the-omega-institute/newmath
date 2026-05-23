@@ -31,6 +31,22 @@ Apply the monotone-radius obligation of \autoref{thm:dyadicratcore-monotone-radi
 Then apply the distance-window stability of \autoref{thm:dyadicratcore-distance-window-stability}. The distance and absolute-value observations remain inside the transported signed mantissa, common exponent, denominator ledger, $\hsame$, $\Cont$, and $\Pkg$ rows. Hence the tolerance-radius refinement is monotone on the displayed finite packet and cannot read host epsilon equality or a completed real endpoint.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore signed-exponent denominator-chain determinacy]
+\label{thm:dyadicratcore-signed-exponent-denominator-chain-determinacy}
+Let $Q=(m,e,\ell,W,R,H,C,P,N)$ be a signed-exponent $\DyadicRatCoreUp$ carrier. For any finite chain $Q=Q_0,Q_1,\ldots,Q_n$ in which each adjacent step is a displayed positive-unary refinement of the exponent row and transports the signed mantissa, denominator ledger, common-exponent comparison window, tolerance-radius row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ row, the terminal denominator ledger, common-exponent comparison row, tolerance-radius row, and L10 dyadic face are determined by $Q$ alone. The same terminal surface is obtained for every subdivision and parenthesization of the finite refinement chain. This determinacy is a statement only about the finite BEDC rows of the signed-exponent carrier; it excludes quotient rational equality, host normalization, selected $\RealUp$ endpoints, countable choice, metric completeness, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite refinement chain. In the empty chain the terminal rows are exactly $\ell$, $W$, $R$, and the displayed L10 dyadic face of the carrier in \autoref{def:dyadic-rat-core-signed-exponent-carrier}.
+
+For a successor step, apply \autoref{thm:dyadic-rat-core-common-exponent-stability} to the adjacent carriers. This identifies the transported common-exponent comparison row with the same finite mantissa, exponent, denominator-ledger, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:dyadic-rat-core-tolerance-radius-monotonicity} to the same adjacent refinement. The radius row is transported monotonically along the displayed positive-unary exponent refinement and remains attached to the denominator ledger and common-exponent window already fixed by the induction hypothesis.
+
+Associativity of finite chain concatenation is therefore harmless at the paper level: subdividing a step or reparenthesizing consecutive steps only repeats the same adjacent comparison and radius transports. The terminal denominator ledger, comparison row, and radius row remain the rows forced by the original carrier.
+
+Finally use \autoref{thm:dyadic-rat-core-signed-exponent-source-determinacy} and \autoref{thm:dyadic-rat-core-namecert-obligation-surface}. They identify the downstream $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ L10 dyadic face with exactly the displayed signed mantissa, positive unary exponent, denominator ledger, comparison, radius, transport, replay, provenance, and local NameCert rows, leaving no quotient rational, host normalization, selected endpoint, countable choice, metric-completeness, or ambient-completeness coordinate.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore signed-exponent NameCert obligation surface]
 \label{thm:dyadic-rat-core-namecert-obligation-surface}
 For the signed-exponent carrier of \autoref{def:dyadic-rat-core-signed-exponent-carrier}, the local $\NameCert_{\DyadicRatCoreUp}$ obligation surface consists exactly of signed mantissa admission through $m$, positive unary exponent admission through $e$, denominator-ledger exposure through $\ell$, common-exponent comparison through $W$, tolerance-radius monotonicity through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. This surface is the finite obligation layer consumed by $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ when they read dyadic source data.

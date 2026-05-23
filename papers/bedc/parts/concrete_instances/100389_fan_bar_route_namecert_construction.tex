@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\FanBarRouteUp$}
+\label{ch:concrete-instances-fan-bar-route-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on finite fans and barred spreads, the $\FanBarRouteUp$ packet packages the finite route from $\FanTheoremUp$ bar-depth rows and $\BrouwerBarInductionUp$ barred-spread replay into the consumer surface used by $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. It sits after the finite fan certificate of \autoref{ch:concrete-instances-fantheorem-namecert}, the barred-spread induction certificate of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives L10 Real and Completion consumers one finite fan/bar handoff route; it is not open-cover compactness, sequential compactness, countable choice, selected infinite branches, quotient stream equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[FanBarRoute carrier]
+\label{def:fan-bar-route-carrier}
+A $\FanBarRouteUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,B,I,W,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite fan-tree row. It records the displayed binary prefix tree, prefix closure, finite successor rows, and the source fan surface consumed from $\FanTheoremUp$.
+\item $B$ is the decidable bar-depth ledger. It records the displayed barred prefixes, Bool decisions, unary depth bound, and exact branch-prefix coverage rows delivered by the finite fan theorem.
+\item $I$ is the barred-spread induction replay row. It records the local backwards replay consumed from $\BrouwerBarInductionUp$, using only displayed children and barred prefixes from $T$ and $B$.
+\item $W$ is the $\StreamNameUp$ window row. It is the only route by which stream-facing consumers may request finite observations of the fan/bar packet.
+\item $Q$ is the $\RegSeqRatUp$ readback row. It turns the displayed stream windows into regular rational observations before a Real or Completion consumer can inspect the handoff.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It records the dyadic precision, radius, comparison, and refinement ledger attached to the readback route.
+\item $E$ is the $\RealUp$ seal row reached only after $T,B,I,W,Q,D$ and the structural rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the fan tree, bar-depth ledger, induction replay, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite fan inspection through bar-depth exactness, barred-spread replay, stream windows, regular-rational readback, dyadic tolerance, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\FanBarRouteUp$, $\FanTheoremUp$, $\BrouwerBarInductionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FanBarRouteUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,B,I,W,Q,D,E,H,C,P,N$. It has no coordinate for a selected infinite branch, open-cover compactness, sequential compactness, quotient stream equality, countable choice, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.FanBarRouteUp.TasteGate.FanBarRouteTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[FanBarRoute NameCert obligations]
+\label{thm:fan-bar-route-namecert-obligations}
+For every accepted $\FanBarRouteUp$ carrier $F=(T,B,I,W,Q,D,E,H,C,P,N)$, the local $\NameCert_{\FanBarRouteUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite fan tree, decidable bar-depth ledger, induction replay, StreamName window, RegSeqRat readback, DyadicRatCore tolerance, Real seal, transport, continuation, provenance, and local naming rows;
+\item finite bar-depth exactness, requiring every branch-prefix request to meet the displayed bar through $T$ and $B$ by the named unary depth;
+\item barred-spread replay, requiring every backwards induction step to pass through $I$ and the displayed children of $T$ rather than through a selected infinite branch;
+\item stream and readback compatibility, requiring every $\StreamNameUp$ window read to pass through $W$ and every regular-rational read to pass through $Q$ before any dyadic or Real-facing seal is visible;
+\item Real seal nonescape, requiring the terminal $\RealUp$ row $E$ to be downstream of $T,B,I,W,Q,D$ and to export no ambient completeness or host real equality;
+\item transport and provenance stability, requiring $H,C,P,N$ to preserve the same route under componentwise sameness, displayed continuation replay, package provenance, and local naming.
+\end{enumerate}
+No local obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:fan-bar-route-carrier}. The projected packet is exactly the tuple $T,B,I,W,Q,D,E,H,C,P,N$.
+
+Finite bar-depth exactness reads the $\FanTheoremUp$ surface. The fan tree $T$ supplies the displayed prefix tree, and $B$ supplies the Bool bar decisions together with the unary depth ledger, so the bar claim is checked over visible prefixes only.
+
+Barred-spread replay reads the $\BrouwerBarInductionUp$ surface. The row $I$ contains the backwards local replay, and its children are the displayed successors already present in $T$, so no branch selector is introduced.
+
+The analytic handoff uses the ordered rows $W,Q,D,E$. A stream request first opens the finite $\StreamNameUp$ window $W$, then the $\RegSeqRatUp$ readback $Q$, then the $\DyadicRatCoreUp$ tolerance row $D$, and only then the terminal $\RealUp$ seal $E$.
+
+Finally, $H,C,P,N$ transport, replay, name, and record the same route. Since the carrier contains no further coordinate, the excluded compactness, choice, quotient, branch-selection, host-equality, and ambient-completeness principles cannot be exported.
+\end{proof}
+
+\begin{theorem}[FanBarRoute finite bar handoff]
+\label{thm:fan-bar-route-finite-bar-handoff}
+Every $\RealUp$ or Completion-facing consumer of an accepted $\FanBarRouteUp$ carrier factors through
+$$
+T,B,I,W,Q,D,E,H,C,P,N.
+$$
+The consumer receives a finite fan tree, a decidable bar-depth ledger, a barred-spread replay row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, the Real seal, transport, continuation, provenance, and local naming. It receives no selected infinite branch, open-cover compactness, sequential compactness, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a Real or Completion-facing read of the carrier. By \autoref{def:fan-bar-route-carrier}, the only analytic-facing rows are the stream window $W$, the regular-rational readback $Q$, the dyadic tolerance row $D$, and the Real seal $E$.
+
+Replay the continuation row $C$. Before any analytic-facing row is visible, the route exposes the finite fan tree $T$, the decidable bar-depth ledger $B$, and the barred-spread induction replay $I$.
+
+After those rows have been displayed, the consumer can read $W$, then $Q$, then $D$, and then $E$. Componentwise transport and package provenance are fixed by $H$ and $P$, and the local naming row is $N$.
+
+Thus every consumer-visible route factors through the displayed tuple. The carrier has no row for branch selection, open-cover compactness, sequential compactness, quotient stream equality, countable choice, or ambient real completeness, so none of those principles can be extracted from the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every $\FanBarRouteUp$ Real or Completion-facing read factors through a finite fan tree, decidable bar-depth ledger, barred-spread replay, StreamName window, RegSeqRat readback, DyadicRatCore tolerance, Real seal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{fantheorem, brouwer-bar-induction, streamname, regseqrat, dyadicratcore, real: $\FanBarRouteUp$ is not bijective to any listed sibling because it jointly carries the finite fan tree, bar-depth ledger, barred-spread replay, analytic handoff rows, transport, continuation, provenance, and local naming while refusing branch selection, compactness, choice, quotient equality, and ambient completeness.}
+
+\closureat{FanBarRouteUp}{seedStr}
+
+\begin{closurestatus}{\FanBarRouteUp}
+  \constructivestory{A $\FanBarRouteUp$ packet is generated from a finite fan tree, a decidable bar-depth ledger, barred-spread replay, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fan-bar-route-carrier}, \autoref{thm:fan-bar-route-namecert-obligations}, and \autoref{thm:fan-bar-route-finite-bar-handoff} seed the finite fan/bar handoff surface for Real and Completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite branches, open-cover compactness, sequential compactness, quotient stream equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite bar-depth exactness, barred-spread replay, stream/readback compatibility, Real seal nonescape, transport and provenance stability, and TasteGate field faithfulness for BEDC.Derived.FanBarRouteUp.}
+\end{closurestatus}

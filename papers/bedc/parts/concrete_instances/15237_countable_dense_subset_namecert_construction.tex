@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CountableDenseSubsetUp$}
+\label{ch:concrete-instances-countable-dense-subset-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley, the $\CountableDenseSubsetUp$ packet presents countable dense subsets as finite unary index windows over a displayed $\MetricUp$ source. It sits downstream of \autoref{ch:concrete-instances-metric-namecert}, reads the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the distance seal of \autoref{ch:concrete-instances-real-namecert}, while providing the explicit density row consumed by \autoref{ch:concrete-instances-separablemetric-namecert} and \autoref{ch:concrete-instances-regular-cauchy-dense-embedding-namecert}. The chapter records an enumerated finite BEDC density surface, not a choice-selected dense set, not a quotient completion, and not an open-cover compactness or Real-completeness principle.
+
+\begin{definition}[CountableDenseSubset carrier]
+\label{def:countable-dense-subset-carrier}
+A $\CountableDenseSubsetUp$ carrier is a finite $\BHist$ packet
+$$
+D=(M,A,W,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the accepted $\MetricUp$ source row whose point histories, distance classifier, and metric compatibility fields are the only source surface read by the density packet.
+\item $A$ is the indexed dense candidate family. Each visible unary index names one candidate point over the source row $M$.
+\item $W$ is the finite $\StreamNameUp$ request-window row. It records the inspected point name, unary index budget, and requested tolerance scale.
+\item $T$ is the $\DyadicRatCoreUp$ and $\RealUp$ tolerance ledger. It stores the dyadic tolerance token together with the Real distance boundary that the request must witness.
+\item $R$ is the $\RegSeqRatUp$ handoff row translating each inspected tolerance window into regular rational readback data before the Real distance boundary is consulted.
+\item $E$ is the $\RealUp$ distance seal certifying that the chosen indexed candidate lies within the tolerance recorded by $T$ after the handoff $R$ has been replayed.
+\item $H$ records componentwise $\hsame$ transport for the metric source, index family, request windows, tolerance ledger, regular handoff, distance seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite density request through $M,A,W,T,R,E$.
+\item $P$ is the $\Pkg$ provenance row over $\MetricUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CountableDenseSubsetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a choice-selected dense point, quotient completion, open-cover compactness extraction, host equality of completed points, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CountableDenseSubset NameCert obligations]
+\label{thm:countable-dense-subset-namecert-obligations}
+For every accepted $\CountableDenseSubsetUp$ carrier $D=(M,A,W,T,R,E,H,C,P,N)$, the local $\NameCert_{\CountableDenseSubsetUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric source, indexed candidate family, finite request windows, dyadic and Real tolerance ledger, regular rational handoff, Real distance seal, transport, continuation, provenance, and local naming row;
+\item metric-source compatibility, requiring every candidate point named by $A$ and every point inspected by $W$ to live over the same $\MetricUp$ row $M$;
+\item countable-index visibility, requiring each density response to expose a finite unary index before any downstream consumer reads a point witness;
+\item tolerance exactness, requiring the requested dyadic scale and its Real boundary to be read from the same ledger row $T$;
+\item regular handoff, requiring the $\RegSeqRatUp$ row $R$ to mediate the tolerance-window read before the distance seal $E$ is consulted;
+\item nonescape, excluding choice-selected dense points, quotient completions, open-cover compactness, ambient Real completeness, and host equality of completed points.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CountableDenseSubsetUp.TasteGate.CountableDenseSubsetTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:countable-dense-subset-carrier}. The projection exposes exactly the metric source row, indexed candidate family, finite request windows, tolerance ledger, regular rational handoff, Real distance seal, and structural rows $H,C,P,N$.
+
+Metric-source compatibility is forced by the shared row $M$. The candidate family $A$ and every request window in $W$ are read only as histories over that row, so a density response cannot change the metric source while preserving the packet.
+
+Countable-index visibility and tolerance exactness are part of the same finite replay. The continuation row $C$ routes a request through the displayed index and window data before the dyadic and Real tolerance row $T$ and the regular handoff $R$ can be used.
+
+Finally, the seal $E$ is downstream of $T$ and $R$, and transport by $H$ preserves this dependency order. The provenance and local naming rows package only that route, so the carrier contains no choice-selected point, quotient completion, compactness extraction, host equality, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Enumerated approximation handoff]
+\label{thm:countable-dense-subset-enumerated-approximation-handoff}
+Let $D=(M,A,W,T,R,E,H,C,P,N)$ be an accepted $\CountableDenseSubsetUp$ packet. Every finite density request factors through the route
+$$
+M,A,W,T,R,E \longmapsto H,C,P,N .
+$$
+Thus a $\SeparableMetricUp$ or $\MetricCompletionUp$ consumer may read an approximation only after the indexed candidate row $A$, the finite $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ and $\RealUp$ tolerance ledger $T$, the $\RegSeqRatUp$ handoff $R$, and the $\RealUp$ distance seal $E$ have all been displayed over the metric source $M$.
+\end{theorem}
+\begin{proof}
+Begin with a finite density request from a downstream consumer. Carrier admission gives the consumer access to the metric source and candidate rows, but the candidate is visible only through an index in the displayed family $A$.
+
+Replay the continuation row $C$. The request inspects the StreamName window $W$, reads the dyadic and Real tolerance ledger $T$, passes through the regular rational handoff $R$, and only then reaches the Real distance seal $E$.
+
+The rows $H,P,N$ transport, package, and name the same route. Hence a SeparableMetric or MetricCompletion consumer receives only the enumerated approximation packet and no external dense-point choice, quotient completion, compactness extraction, or ambient completeness principle.
+\end{proof}
+
+\begin{closurestatus}{\CountableDenseSubsetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:countable-dense-subset-carrier}, \autoref{thm:countable-dense-subset-namecert-obligations}, and \autoref{thm:countable-dense-subset-enumerated-approximation-handoff} seed the finite indexed density surface over a displayed $\MetricUp$ source.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close choice-selected dense points, quotient completions, open-cover compactness, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires carrier admission, metric-source compatibility, countable-index visibility, tolerance exactness, regular handoff, approximation handoff, and nonescape proofs for the same packet.}
+  \constructivestory{A $\CountableDenseSubsetUp$ packet is generated from a MetricUp source, an indexed candidate family, StreamName request windows, a DyadicRatCore and RealUp tolerance ledger, a RegSeqRat handoff, a RealUp distance seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

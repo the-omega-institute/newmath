@@ -303,4 +303,55 @@ theorem SignedDigitRealPacket_tail_window_export [AskSetup] [PackageSetup]
       sealReadUnary, realExportUnary, normalizationRoute, sealReadRoute, exportRoute,
       normalizedSame, sealReadSame, certSig, exportSig⟩
 
+theorem SignedDigitRealPacket_obligation_closure_package [AskSetup] [PackageSetup]
+    {stream window enclosure located sealRow transport route provenance cert normalized sealRead
+      realExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitRealPacket stream window enclosure located sealRow transport route provenance cert
+        bundle pkg ->
+      Cont stream window normalized ->
+        hsame normalized enclosure ->
+          Cont enclosure located sealRead ->
+            hsame sealRead sealRow ->
+              Cont sealRead provenance realExport ->
+                PkgSig bundle realExport pkg ->
+                  SemanticNameCert
+                    (fun row : BHist => hsame row realExport ∧ UnaryHistory row)
+                    (fun row : BHist => hsame row sealRead ∨ hsame row realExport)
+                    (fun row : BHist => hsame row realExport ∧ PkgSig bundle realExport pkg)
+                    hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro packet normalizationRoute normalizedSame sealReadRoute sealReadSame exportRoute exportSig
+  obtain ⟨_streamUnary, _windowUnary, _normalizedUnary, _enclosureUnary, _locatedUnary,
+    _sealRowUnary, _sealReadUnary, realExportUnary, _normalizationRoute, _sealReadRoute,
+    _exportRoute, _normalizedSame, _sealReadSame, _certSig, realExportSig⟩ :=
+    SignedDigitRealPacket_tail_window_export packet normalizationRoute normalizedSame sealReadRoute
+      sealReadSame exportRoute exportSig
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro realExport (And.intro (hsame_refl realExport) realExportUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact
+          And.intro (hsame_trans (hsame_symm sameRows) source.left)
+            (unary_transport source.right sameRows)
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact And.intro source.left realExportSig
+  }
+
 end BEDC.Derived.SignedDigitRealUp

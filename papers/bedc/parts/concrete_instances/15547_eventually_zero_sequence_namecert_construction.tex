@@ -1,0 +1,106 @@
+\chapter{A Concrete Naming Certificate for $\EventuallyZeroSequenceUp$}
+\label{ch:concrete-instances-eventually-zero-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\EventuallyZeroSequenceUp$ packet records the finite-cutoff source of a null rational difference sequence: after one displayed cutoff row, every later observation is the zero dyadic row. It refines the zero-convergence consumer surface of \autoref{ch:concrete-instances-nullsequence-namecert} by replacing an arbitrary modulus lookup with a visible cutoff induction over the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic zero row of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the constant rational handoff of \autoref{ch:concrete-instances-stationary-rational-cauchy-namecert}, and the terminal equality seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Eventually-zero sequence carrier]
+\label{def:eventually-zero-sequence-carrier}
+An $\EventuallyZeroSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,G,D,Z,T,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row whose accepted requests enumerate the displayed sequence positions.
+\item $G$ is the $\RegSeqRatUp$ readback row attached to the same stream windows.
+\item $D$ is the $\DyadicRatCoreUp$ ledger containing the distinguished zero dyadic row and the finite comparison rows used by each inspected window.
+\item $Z$ is the $\StationaryRationalCauchyUp$ zero source whose constant rational readback supplies the zero row consumed after the cutoff.
+\item $T$ is the cutoff row: every accepted request at a position beyond $T$ must replay the zero row of $D$ through the stationary source $Z$.
+\item $H$ records componentwise $\hsame$ transport for stream windows, regular readbacks, dyadic rows, the stationary zero source, the cutoff row, continuation routes, provenance, and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a sequence request through $S$, then $G$, then the dyadic row $D$, with the branch beyond $T$ routed through $Z$.
+\item $P$ is the $\Pkg$ provenance over $\EventuallyZeroSequenceUp$, $\NullSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StationaryRationalCauchyUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EventuallyZeroSequenceUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a quotient stream, selected host limit, trichotomy principle, or ambient completeness witness for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Eventually-zero sequence NameCert obligations]
+\label{thm:eventually-zero-sequence-namecert-obligations}
+For every accepted $\EventuallyZeroSequenceUp$ carrier $E=(S,G,D,Z,T,H,C,P,N)$, the local $\NameCert_{\EventuallyZeroSequenceUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the stream window, regular rational readback, dyadic zero ledger, stationary zero source, cutoff, transport, continuation, provenance, and local naming rows;
+\item classifier and transport stability for the displayed rows under the componentwise $\hsame$ ledger $H$;
+\item cutoff-window exactness, requiring every request beyond $T$ to read the zero dyadic row of $D$ through the stationary source $Z$;
+\item null-sequence handoff, requiring the same finite cutoff packet to instantiate the $\NullSequenceUp$ tolerance-window route;
+\item non-escape, excluding quotient streams, selected limits, trichotomy, external real equality, and $\RealUp$ completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:eventually-zero-sequence-carrier}. The displayed tuple supplies exactly the stream, readback, dyadic, stationary zero, cutoff, transport, continuation, package, and local naming rows.
+
+Classifier and transport stability are componentwise. The rows in $H$ move the finite window $S$, the readback $G$, the dyadic ledger $D$, the stationary source $Z$, and the cutoff $T$, while $C$ replays the same request order after transport.
+
+The cutoff-window obligation is the only analytic-looking row, but it is still finite: beyond $T$, each accepted window is routed through the stationary zero source and returns the zero dyadic row already listed in $D$.
+
+The null-sequence handoff and non-escape rows then read the same finite packet. Since quotient streams, selected limits, trichotomy, external equality, and completeness are absent from the carrier, no local obligation can export them.
+\end{proof}
+
+\begin{theorem}[Eventually-zero cutoff-window induction]
+\label{thm:eventually-zero-sequence-window-cutoff-induction}
+Let $E=(S,G,D,Z,T,H,C,P,N)$ be an accepted $\EventuallyZeroSequenceUp$ carrier. For every finite $\StreamNameUp$ window whose positions are all beyond the cutoff row $T$, induction over the listed window positions shows that each $\RegSeqRatUp$ readback through $G$ is the zero dyadic row of $D$ routed through the stationary source $Z$.
+
+Consequently every tail window admitted by $S$ beyond $T$ is a finite zero window, transported only by $H$ and replayed only through $C$.
+\end{theorem}
+\begin{proof}
+Use induction on the finite list of positions recorded by the accepted $\StreamNameUp$ window.
+
+The empty window has no readback request, so the zero-window claim is immediate from carrier admission.
+
+For a window extended by one position beyond $T$, first apply the cutoff row. The replay route $C$ sends the final request through $S$, then $G$, then $D$, and the beyond-cutoff branch forces the stationary zero source $Z$.
+
+Apply the induction hypothesis to the earlier positions in the window. Transport through $H$ preserves the same stream, readback, dyadic zero, stationary source, and cutoff rows, so adjoining the final zero readback yields a finite window all of whose displayed values are the zero dyadic row.
+\end{proof}
+
+\begin{theorem}[Eventually-zero NullSequence handoff]
+\label{thm:eventually-zero-sequence-nullsequence-handoff}
+Every accepted $\EventuallyZeroSequenceUp$ carrier $E=(S,G,D,Z,T,H,C,P,N)$ determines a $\NullSequenceUp$ zero-tail packet for the same displayed regular rational stream: a tolerance request is answered by the cutoff row $T$, the post-cutoff window is read through $S$ and $G$, the zero dyadic row is supplied by $D$ and $Z$, and the resulting evidence is exported to the $\RealUp$ equality seal through the recorded $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with a $\NullSequenceUp$ tolerance request. The eventually-zero packet uses $T$ as the displayed threshold row for that request.
+
+Once the request is beyond the cutoff, apply \autoref{thm:eventually-zero-sequence-window-cutoff-induction}. The selected finite window reads only the zero dyadic row through $S$, $G$, $D$, and $Z$.
+
+Repack those rows as the null-sequence tolerance-window package. The stream row is $G$, the tolerance and zero ledger are read from $D$, the window is supplied by $S$, and the bound row is the cutoff $T$.
+
+The remaining coordinates $H,C,P,N$ provide the transport, replay, dependency, and local naming rows required by $\NullSequenceUp$. The $\RealUp$ seal therefore consumes a finite zero-tail packet rather than a host limit or quotient stream.
+\end{proof}
+
+\begin{theorem}[Eventually-zero public certificate boundary]
+\label{thm:eventually-zero-sequence-public-certificate}
+The public surface of an accepted $\EventuallyZeroSequenceUp$ packet is exhausted by the finite rows
+$$
+S,G,D,Z,T,H,C,P,N .
+$$
+It exposes the cutoff induction of \autoref{thm:eventually-zero-sequence-window-cutoff-induction} and the $\NullSequenceUp$ handoff of \autoref{thm:eventually-zero-sequence-nullsequence-handoff}, and it exposes no quotient stream representative, selected limit, trichotomy principle, hidden real equality test, or ambient completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eventually-zero-sequence-carrier}. Every public read is a read of the displayed stream, regular rational row, dyadic zero ledger, stationary zero source, cutoff, transport, continuation, provenance, or local naming row.
+
+The cutoff-window induction is internal to those rows. It uses only the finite window $S$, the readback $G$, the dyadic ledger $D$, the stationary source $Z$, the cutoff $T$, and the displayed transport and continuation rows.
+
+The handoff to $\NullSequenceUp$ repacks the same data as a tolerance-window route. It does not add a separate convergence object, because the threshold is already the cutoff row and every tail value is the zero dyadic row.
+
+Since no quotient stream, selected limit, trichotomy principle, hidden equality test, or completeness witness is a coordinate of the packet, none can be exported by the public certificate.
+\end{proof}
+
+\begin{closurestatus}{\EventuallyZeroSequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eventually-zero-sequence-carrier}, \autoref{thm:eventually-zero-sequence-namecert-obligations}, \autoref{thm:eventually-zero-sequence-window-cutoff-induction}, \autoref{thm:eventually-zero-sequence-nullsequence-handoff}, and \autoref{thm:eventually-zero-sequence-public-certificate} seed the finite cutoff route from StreamName windows through RegSeqRat readback, DyadicRatCore zero rows, StationaryRationalCauchy zero source, NullSequence handoff, and the Real boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient streams, selected limits, trichotomy, hidden real equality tests, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier and transport stability, cutoff-window exactness, NullSequence handoff, and public non-escape for BEDC.Derived.EventuallyZeroSequenceUp.}
+  \constructivestory{An $\EventuallyZeroSequenceUp$ packet is generated from StreamName windows, RegSeqRat readback, a DyadicRatCore zero ledger, a StationaryRationalCauchy zero source, a cutoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

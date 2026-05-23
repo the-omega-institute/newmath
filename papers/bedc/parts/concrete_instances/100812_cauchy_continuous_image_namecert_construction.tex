@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\CauchyContinuousImageUp$}
+\label{ch:concrete-instances-cauchy-continuous-image-namecert}
+\origin{human}
+
+Bishop--Bridges style constructive analysis treats continuity on Cauchy names through displayed moduli and finite tail data rather than through an ambient host function. The $\CauchyContinuousImageUp$ packet records the finite route by which a regular Cauchy source name is read through a continuous-map modulus and then sealed as a Real-facing image. It sits over the StreamName finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the DyadicRatCore tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the ContinuousMap modulus surface of \autoref{ch:concrete-instances-continuousmap-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[CauchyContinuousImage carrier]
+\label{def:cauchy-continuous-image-carrier}
+A $\CauchyContinuousImageUp$ carrier is a finite $\BHist$ packet
+$$
+I=(S,R,D,M,J,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row for the source Cauchy name, including the displayed observation window used by the image computation.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the source windows and their regularity budget.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for source and image estimates, including dyadic radii, endpoint comparisons, and rounding rows.
+\item $M$ is the $\ContinuousMapUp$ modulus row. It records the displayed input tolerance required for each output tolerance request and names the finite continuity route used by the packet.
+\item $J$ is the image-window row. It records the finite image observations computed only after $S,R,D,M$ have been displayed.
+\item $E$ is the terminal $\RealUp$ image seal reached only after the source readback, dyadic ledger, continuity modulus, and image window are visible.
+\item $H$ records componentwise $\hsame$ transport for the source window, RegSeqRat readback, dyadic ledger, continuous-map modulus, image window, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each image precision request through $M,D,S,R,J,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyContinuousImageUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyContinuousImageUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,M,J,E,H,C,P,N$. It has no coordinate for a selected limit, quotient stream equality, host function extensionality, ambient $\RealUp$ completeness, countable choice, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyContinuousImageUp.TasteGate.CauchyContinuousImageTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[CauchyContinuousImage NameCert obligations]
+\label{thm:cauchy-continuous-image-namecert-obligations}
+For every accepted $\CauchyContinuousImageUp$ carrier
+$$
+I=(S,R,D,M,J,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyContinuousImageUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the StreamName source window, RegSeqRat readback, DyadicRatCore tolerance ledger, ContinuousMap modulus row, image window, terminal Real seal, transport, replay, provenance, and local naming rows;
+\item source-readback exactness, requiring $S$ and $R$ to expose only the displayed regular Cauchy source data before any image row is available;
+\item tolerance compatibility, requiring $D$ to be the shared dyadic ledger consumed by the source readback, the continuous-map modulus, and the image-window computation;
+\item modulus exactness, requiring $M$ to answer each requested image tolerance by a displayed source tolerance before $J$ or $E$ may be read;
+\item image-seal nonescape, requiring $J$ and $E$ to remain downstream of $S,R,D,M$ and to export no selected limit, quotient stream equality, host function extensionality, ambient Real completeness, or countable-choice selector;
+\item componentwise transport, displayed replay, provenance, and local naming for the same displayed rows through $H,C,P,N$.
+\end{enumerate}
+No CauchyContinuousImage obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-continuous-image-carrier}. The accepted packet displays exactly the source window $S$, regular readback $R$, dyadic ledger $D$, continuity modulus $M$, image window $J$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Source-readback exactness follows from the order of the displayed rows. A consumer first opens the finite StreamName window and then reads the RegSeqRat row attached to that window; the image side has no coordinate before this source route is fixed.
+
+Tolerance compatibility and modulus exactness are the middle of the route. The DyadicRatCore ledger $D$ supplies the common precision arithmetic, while $M$ converts each requested output tolerance into a displayed source tolerance consumed by $S$ and $R$ before $J$ is available.
+
+The image-seal clause is terminal. The row $J$ records only the finite image observations admitted by $S,R,D,M$, and $E$ seals the resulting Real-facing datum only after those rows have been displayed.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same finite route. Since selected limits, quotient stream equality, host function extensionality, ambient Real completeness, and countable choice are absent from the carrier, no local obligation can export them.
+\end{proof}
+
+\begin{theorem}[CauchyContinuousImage tail stability]
+\label{thm:cauchy-continuous-image-tail-stability}
+Let $I=(S,R,D,M,J,E,H,C,P,N)$ be an accepted $\CauchyContinuousImageUp$ carrier. Every Real-facing consumer of the image seal factors through the finite tail route
+$$
+S \longmapsto R \longmapsto D \longmapsto M \longmapsto J \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently replacing a source observation by a later observation inside the same displayed RegSeqRat tail changes no exported Real-facing image datum unless the replacement changes one of the displayed rows $S,R,D,M,J,E,H,C,P,N$. The consumer receives no selected limit, quotient stream equality, host function extensionality, ambient $\RealUp$ completeness theorem, countable-choice selector, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only Real-facing row is $E$, and \autoref{def:cauchy-continuous-image-carrier} places it downstream of the source window, regular readback, dyadic ledger, continuity modulus, and image window.
+
+A same-tail replacement inside the displayed RegSeqRat route preserves the rows $S$ and $R$ by hypothesis. The shared dyadic ledger $D$ and the continuity modulus $M$ therefore read the same source tolerance budget for every requested image tolerance.
+
+The image window $J$ is computed only from those displayed rows. If $S,R,D,M$ are unchanged, then the finite image observations named by $J$ and the terminal Real seal $E$ are unchanged as exported packet coordinates.
+
+The structural rows $H,C,P,N$ preserve the same factorization under componentwise transport, displayed replay, package provenance, and local naming. No unlisted principle can distinguish the two tails, because selected limits, quotient stream equality, host function extensionality, ambient completeness, and countable choice are not coordinates of the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyContinuousImageUp$ image read factors through one StreamName source window, one RegSeqRat readback row, one DyadicRatCore tolerance ledger, one ContinuousMap modulus row, one finite image-window row, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, continuousmap, real: $\CauchyContinuousImageUp$ is not bijective to any listed sibling because it jointly carries the source finite-window route, regular Cauchy readback, dyadic tolerance ledger, continuous-map modulus, finite image window, and Real-facing image seal.}
+
+\closureat{CauchyContinuousImageUp}{seedStr}
+
+\begin{closurestatus}{\CauchyContinuousImageUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-continuous-image-carrier}, \autoref{thm:cauchy-continuous-image-namecert-obligations}, and \autoref{thm:cauchy-continuous-image-tail-stability} seed the finite Cauchy-image route from a displayed source window through RegSeqRat readback, DyadicRatCore tolerance arithmetic, ContinuousMap modulus data, image-window computation, Real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient stream equality, host function extensionality, ambient $\RealUp$ completeness, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-readback exactness, tolerance compatibility, modulus exactness, image-seal nonescape, transport, replay, provenance, and tail-stability factorization for BEDC.Derived.CauchyContinuousImageUp.}
+  \constructivestory{A $\CauchyContinuousImageUp$ packet is generated from a StreamName source window, RegSeqRat readback, DyadicRatCore tolerance ledger, ContinuousMap modulus row, finite image-window row, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

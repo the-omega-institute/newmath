@@ -50,6 +50,7 @@ The carrier has no coordinate for a host functor category, quotient morphism
 class, external naturality object, or equality outside the displayed
 $\mathsf{BHist}$ rows.
 \end{definition}
+\leanchecked{BEDC.Derived.UnaryContinuationEndofunctorUp.UnaryContinuationEndofunctorTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Unary-continuation endofunctor NameCert obligations]
 \label{thm:unary-continuation-endofunctor-namecert-obligations}
@@ -89,6 +90,38 @@ surface: it can compare components built from the same endofunctor packet, but
 it does not add a host naturality object. Since $E$ has no host functor
 category, quotient morphism, or host arrow equality coordinate, every public
 read remains inside the displayed rows.
+\end{proof}
+
+\begin{theorem}[Unary-continuation endofunctor identity stability]
+\label{thm:unary-continuation-endofunctor-identity-stability}
+Let $E=(O,H,F,I,M,T,C,P,N)$ be an accepted
+$\UnaryContinuationEndofunctorUp$ carrier. If $e_a:a\to a$ is the
+empty-tail identity hom row of the unary-continuation category, then the image
+of $e_a$ under the object and hom action row $F$ is classified with the
+empty-tail identity row at the image object $F(a)$. The comparison is routed
+only through $H,I,T,C,P,N$ and exports no quotient morphism, host identity
+arrow, host arrow equality, or external functor law.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryContinuationEndofunctorUp.UnaryContinuationEndofunctorCarrier\_identity\_stability}
+\begin{proof}
+Project the accepted carrier to its displayed hom row $H$, action row $F$,
+identity-preservation row $I$, transport row $T$, route row $C$, provenance
+row $P$, and local naming row $N$.
+
+The row $H$ reads $e_a$ as the empty-tail identity
+$\mathsf{CategoryHomCarrier}(a,a,e_a)$ from the unary-continuation category
+surface. The action row $F$ transports the object endpoint to $F(a)$ and the
+hom row to a displayed hom row over that transported endpoint.
+
+Now apply the identity-preservation row $I$. It classifies the image hom row
+with the empty-tail identity row at $F(a)$, using the same unary-continuation
+identity ledger read by the sibling $\KernelCategoryUp$, $\FunctorUp$, and
+$\NatTransUp$ surfaces referenced above.
+
+Finally repack the comparison through $T,C,P,N$. Since the packet contains no
+quotient morphism coordinate, host identity-arrow coordinate, host arrow
+equality, or external functor-law object, the identity-stability statement
+remains a finite BEDC route through the named carrier rows.
 \end{proof}
 
 \begin{theorem}[Unary-continuation endofunctor composition stability]

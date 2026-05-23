@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionUnitNaturalityUp$}
+\label{ch:concrete-instances-cauchycompletionunitnaturality-namecert}
+\origin{human}
+
+Following Bishop and Bridges / Kelley-style completion-unit naturality, the $\CauchyCompletionUnitNaturalityUp$ packet records the finite square in which a source row first enters the completion unit and is then read by completion consumers, while the parallel route reads the same source through the monad and real-completion surfaces. It sits over the unit route of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the monad surface of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the real-completion boundary of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the L10 completion-unit naturality square as finite BEDC data; it is not a quotient of streams, not a chosen representative, not countable choice, not ambient completeness, and not completeness of $\RealUp$.
+
+\begin{definition}[CauchyCompletionUnitNaturality carrier]
+\label{def:cauchy-completion-unit-naturality-carrier}
+A $\CauchyCompletionUnitNaturalityUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(U,M,R,S,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\CauchyCompletionUnitUp$ route that sends the displayed source row into the completion-facing unit surface.
+\item $M$ is the $\CauchyCompletionMonadUp$ route that reads the same unit source through the monad consumer surface.
+\item $R$ is the $\RealCauchyCompletionUp$ route reached only after the unit and monad reads have exposed the same completion-facing source.
+\item $S$ is the $\StreamNameUp$ finite-window row shared by the two routes.
+\item $D$ is the joint $\DyadicRatCoreUp$ tolerance ledger attached to the shared finite windows.
+\item $H$ records componentwise $\hsame$ transport for the unit route, monad route, real-completion route, stream-window row, dyadic ledger, regular rational readback row, terminal $\RealUp$ seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for both sides of the square: unit then completion consumer on one side, monad and real-completion consumer on the other side.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionUnitUp$, $\CauchyCompletionMonadUp$, $\RealCauchyCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyCompletionUnitNaturalityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected representatives, countable-choice schedules, ambient completeness, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionUnitNaturality NameCert obligations]
+\label{thm:cauchy-completion-unit-naturality-namecert-obligations}
+For every accepted $\CauchyCompletionUnitNaturalityUp$ carrier $Q=(U,M,R,S,D,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionUnitNaturalityUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed unit route, monad route, real-completion route, finite stream windows, dyadic tolerance ledger, regular rational readback row, terminal $\RealUp$ seal, transport, continuation, provenance, and local naming row;
+\item unit-side exposure, requiring every source read to pass through the $\CauchyCompletionUnitUp$ row $U$ before a completion-facing consumer can inspect it;
+\item monad-side exposure, requiring the $\CauchyCompletionMonadUp$ row $M$ and the $\RealCauchyCompletionUp$ row $R$ to read the same displayed finite windows and dyadic ledger as the unit-side route;
+\item square stability, requiring componentwise $\hsame$ transport through $H$ and replay through $C$ to identify the two routes at the terminal $\RealUp$ seal;
+\item ledger non-escape, excluding quotient streams, selected representatives, countable-choice schedules, ambient completeness, and $\RealUp$ completeness from the packet.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-unit-naturality-carrier}. The projection exposes exactly the unit, monad, real-completion, stream-window, dyadic-ledger, transport, replay, provenance, and local naming rows, together with the regular readback and $\RealUp$ seal rows named by those displayed routes.
+
+The unit-side exposure is inherited from the $U$ row. The monad-side exposure is inherited from $M$ and $R$, but the carrier forces both sides to use the same $S$ and $D$ rows before any read reaches the terminal seal.
+
+Square stability is componentwise transport through $H$ followed by replay through $C$. Since $P$ and $N$ package only the displayed rows of $Q$, no separate quotient, representative selector, choice schedule, ambient completeness row, or $\RealUp$ completeness row is available to a consumer.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionUnitNaturality square]
+\label{thm:cauchy-completion-unit-naturality-square}
+Let $Q=(U,M,R,S,D,H,C,P,N)$ be an accepted $\CauchyCompletionUnitNaturalityUp$ packet. The route that first reads the $\CauchyCompletionUnitUp$ row $U$ and then passes to a completion consumer reaches the same displayed $\RealUp$ seal as the route that reads the $\CauchyCompletionMonadUp$ row $M$ and the $\RealCauchyCompletionUp$ row $R$. Both routes pass through the same finite $\StreamNameUp$ windows, the same $\DyadicRatCoreUp$ tolerance ledger, the same $\RegSeqRatUp$ readback surface named by $P$, and the same structural rows $H,C,P,N$.
+
+Thus the L10 completion-unit square is a finite route equality at the displayed real-seal boundary:
+$$
+\begin{gathered}
+U \longmapsto S \longmapsto D \longmapsto \RegSeqRatUp \longmapsto \RealUp,\\
+M \longmapsto R \longmapsto S \longmapsto D \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Start with the unit-side route. The $U$ row admits the source only as a finite unit read, and the carrier of $Q$ records that the next visible rows are the stream window $S$ and dyadic ledger $D$.
+
+Now read the monad and real-completion side. The $M$ row supplies the completion-consumer surface, while $R$ ties that surface to the real-completion route. The same packet records the same $S$ and $D$ rows for this side of the square.
+
+The package row $P$ names the regular rational readback and terminal $\RealUp$ seal used by both sides. Componentwise transport through $H$ and replay through $C$ identify the two displayed paths at that seal, and no additional coordinate remains in the carrier from which a different completion read could be produced.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionUnitNaturality real-seal consumer boundary]
+\label{thm:cauchy-completion-unit-naturality-real-seal-consumer}
+Every $\RealUp$ or completion-facing consumer of an accepted $\CauchyCompletionUnitNaturalityUp$ packet must read the square through
+$$
+U,M,R,S,D,H,C,P,N .
+$$
+The consumer may inspect the unit route, the monad route, the real-completion route, the shared finite windows, the shared dyadic tolerance ledger, the named regular readback surface, the terminal $\RealUp$ seal, componentwise transport, continuation replay, provenance, and local naming rows. It obtains no quotient stream, no selected representative, no countable-choice schedule, no ambient completeness theorem, and no completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Let a consumer ask for a real-seal or completion-facing read of $Q$. Carrier admission exposes $U,M,R,S,D,H,C,P,N$ and no other row.
+
+If the consumer follows the unit side, the read begins with $U$ and then uses the shared stream and dyadic rows $S,D$. If it follows the monad side, the read begins with $M$ and $R$ and then uses the same $S,D$ rows.
+
+The regular readback surface and terminal $\RealUp$ seal are named by the provenance row $P$ and reached only by replay through $C$. Transport through $H$ preserves the same rows on both sides of the square.
+
+Because the accepted packet has no quotient, selected-representative, choice, ambient-completeness, or $\RealUp$-completeness coordinate, every consumer read is confined to the displayed finite square.
+\end{proof}
+
+\begin{closurestatus}{\CauchyCompletionUnitNaturalityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-unit-naturality-carrier}, \autoref{thm:cauchy-completion-unit-naturality-namecert-obligations}, \autoref{thm:cauchy-completion-unit-naturality-square}, and \autoref{thm:cauchy-completion-unit-naturality-real-seal-consumer} seed the finite L10 completion-unit naturality square over unit, monad, real-completion, stream-window, dyadic-ledger, regular-readback, and real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected representatives, countable-choice schedules, ambient completeness, completeness of $\RealUp$, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, square stability, consumer-boundary replay, and ledger non-escape for the same packet.}
+  \constructivestory{A $\CauchyCompletionUnitNaturalityUp$ packet is generated from a CauchyCompletionUnit route, a CauchyCompletionMonad route, a RealCauchyCompletion route, shared StreamName windows, a shared DyadicRatCore tolerance ledger, RegSeqRat readback, a terminal RealUp seal, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+\end{closurestatus}

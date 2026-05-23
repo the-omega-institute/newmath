@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionKleisliUp$}
+\label{ch:concrete-instances-cauchy-completion-kleisli-namecert}
+\origin{human}
+
+Following Mac Lane's language of Kleisli categories for monads, and Bishop--Bridges and Kelley completion terminology for Cauchy completion interfaces, the $\CauchyCompletionKleisliUp$ packet names the finite consumer boundary where unit and bind routes of the L10 completion monad are handed to downstream completion readers. It is downstream of the completion monad of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the unit certificate of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the multiplication certificate of \autoref{ch:concrete-instances-cauchycompletionmultiplication-namecert}, the stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+The packet is a consumer boundary rather than a construction of selected limits. It records exactly the rows by which a downstream $\RegSeqRatUp$, $\RealCauchyCompletionUp$, or $\RealUp$ reader can inspect a unit source, a bind source, a reassociated bind source, the shared schedule-window-observation-readback route, and the terminal seal.
+
+\begin{definition}[Cauchy completion Kleisli carrier]
+\label{def:cauchy-completion-kleisli-carrier}
+A $\CauchyCompletionKleisliUp$ carrier is a finite $\BHist$ packet
+$$
+K=(U,B,A,S,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the unit source row inherited from $\CauchyCompletionUnitUp$, displaying the constant regular-rational input packet before any bind consumer is read.
+\item $B$ is the bind source row inherited from $\CauchyCompletionMonadUp$, displaying the source-family row used by a single Kleisli bind request.
+\item $A$ is the reassociated bind source row inherited from $\CauchyCompletionMultiplicationUp$, displaying the source route for two successive bind requests after reassociation.
+\item $S$ is the shared unary schedule row used by $U,B,A$ before any finite window, dyadic observation, readback, or seal coordinate is inspected.
+\item $W$ is the shared finite $\StreamNameUp$ window row opened by the schedule row.
+\item $D$ is the shared $\DyadicRatCoreUp$ observation and tolerance row attached to the same finite window.
+\item $R$ is the shared diagonal $\RegSeqRatUp$ readback row.
+\item $E$ is the public $\RealUp$ seal row reached only after $S,W,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the unit source, bind source, reassociated bind source, schedule, window, dyadic observation, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Kleisli consumer request through $U,B,A,S,W,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionKleisliUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionMultiplicationUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionKleisliUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,B,A,S,W,D,R,E,H,C,P,N$. The carrier has no coordinate for quotient streams, selected limits, countable choice, host equality, hidden representatives, ambient completeness, $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cauchy completion Kleisli NameCert obligations]
+\label{thm:cauchy-completion-kleisli-namecert-obligations}
+For every accepted $\CauchyCompletionKleisliUp$ carrier $K=(U,B,A,S,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionKleisliUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the unit source, bind source, reassociated bind source, shared schedule, finite stream window, dyadic observation and tolerance row, diagonal readback, Real seal, transport, replay, provenance, and local naming row;
+\item unit-source admission, requiring every left-unit or right-unit consumer read to pass through $U$ before it can inspect $S,W,D,R,E$;
+\item bind-source admission, requiring every single bind consumer read to pass through $B$ before it can inspect the shared downstream rows;
+\item reassociated-bind admission, requiring every two-step bind consumer read to pass through $A$ and then the same $S,W,D,R,E$ rows;
+\item seal coherence, requiring the unit, bind, and reassociated bind routes to reach the same public $\RealUp$ seal row under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item non-escape, requiring $P,N$ to source and name no quotient stream, selected limit, countable-choice selector, host equality, hidden representative, ambient completeness theorem, $\RealUp$ completeness theorem, Lean verification credential, or bridge credential.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionKleisliUp.TasteGate.CauchyCompletionKleisliUpTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-completion-kleisli-carrier}. The accepted packet displays exactly the unit source, bind source, reassociated bind source, shared schedule, finite window, dyadic observation, diagonal readback, Real seal, and structural rows.
+
+Unit-source admission is supplied by $U$ and by the unit boundary of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}. A unit consumer reaches the downstream rows only after the constant source packet has been displayed.
+
+Bind-source admission is supplied by $B$ and by the bind route of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}. The route fixes the source family before opening the shared schedule, window, dyadic observation, readback, and seal.
+
+Reassociated-bind admission is supplied by $A$ and by the multiplication boundary of \autoref{ch:concrete-instances-cauchycompletionmultiplication-namecert}. Two successive bind requests are exposed as one reassociated source route before the same downstream rows are read.
+
+The seal coherence and non-escape clauses are structural. Componentwise transport $H$, continuation replay $C$, provenance $P$, and the local name $N$ preserve and source only the displayed Kleisli packet, so no excluded completion coordinate is available.
+\end{proof}
+
+\begin{theorem}[Cauchy completion Kleisli source triangle]
+\label{thm:cauchy-completion-kleisli-source-triangle}
+For every accepted $\CauchyCompletionKleisliUp$ carrier $K=(U,B,A,S,W,D,R,E,H,C,P,N)$, the route that reads a unit source, then a bind source, and then a downstream completion consumer has the same displayed source triangle as the reassociated route. Both routes read only
+$$
+U,B,A \longmapsto S \longmapsto W \longmapsto D \longmapsto R \longmapsto E
+$$
+together with $H,C,P,N$, and neither route inserts a second completion source between bind and consumer.
+\end{theorem}
+\begin{proof}
+Start with the unit source row $U$. It displays the constant regular-rational source before any bind-facing coordinate is read.
+
+Next attach the bind source row $B$. Since the carrier admits no row between $B$ and the shared schedule, every single-bind consumer proceeds through $S,W,D,R,E$.
+
+Now compare with the reassociated bind source row $A$. The carrier stores $A$ as the only source route for two successive bind requests, and it is followed by the same schedule, window, observation, readback, and seal rows.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same route. Thus the unit-bind-consumer path and the reassociated consumer path have the same displayed source triangle.
+\end{proof}
+
+\begin{theorem}[Cauchy completion Kleisli seal coherence]
+\label{thm:cauchy-completion-kleisli-seal-coherence}
+In every accepted $\CauchyCompletionKleisliUp$ carrier, the unit route, the single-bind route, and the reassociated-bind route reach the same public $\RealUp$ seal row $E$ after componentwise $\hsame$ transport of the source, schedule, window, dyadic-observation, diagonal-readback, replay, provenance, and local naming rows. The Kleisli consumer boundary therefore has one seal-facing route for unit, bind, and reassociated bind reads.
+\end{theorem}
+\begin{proof}
+Read the unit, bind, and reassociated bind rows $U,B,A$. Each row is followed in the carrier by the same schedule, finite window, dyadic observation, diagonal readback, and seal coordinates.
+
+The componentwise transport row $H$ compares these routes without introducing a detached representative. Displayed replay $C$ preserves the order in which the downstream consumer reads the shared rows.
+
+The public seal coordinate is the single row $E$. Since provenance $P$ and the local name $N$ source the same packet, every unit, bind, or reassociated bind presentation reaches the same seal-facing route.
+\end{proof}
+
+\begin{theorem}[Cauchy completion Kleisli nonescape]
+\label{thm:cauchy-completion-kleisli-nonescape}
+Every consumer-facing read of an accepted $\CauchyCompletionKleisliUp$ carrier $K=(U,B,A,S,W,D,R,E,H,C,P,N)$ is exhausted by the displayed rows $U,B,A,S,W,D,R,E,H,C,P,N$. Thus the local $\NameCert_{\CauchyCompletionKleisliUp}$ boundary exports no quotient stream, selected limit, countable-choice selector, host equality, hidden representative, ambient completeness theorem, $\RealUp$ completeness theorem, Lean verification credential, or bridge credential.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple $K=(U,B,A,S,W,D,R,E,H,C,P,N)$ lists every coordinate admitted by the local Kleisli consumer surface.
+
+The source rows $U,B,A$ and the shared analytic rows $S,W,D,R,E$ give the whole consumer-facing route. They contain the unit source, bind source, reassociated bind source, schedule, finite stream window, dyadic observation, diagonal readback, and public Real seal.
+
+The structural rows do not enlarge the boundary. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row only preserve, replay, source, and name the same displayed packet.
+
+Since no excluded object occurs as a coordinate or replay target, no consumer-facing read can escape to quotient streams, selected limits, countable choice, host equality, hidden representatives, ambient completeness, $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\closureat{CauchyCompletionKleisliUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionKleisliUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-kleisli-carrier}, \autoref{thm:cauchy-completion-kleisli-namecert-obligations}, \autoref{thm:cauchy-completion-kleisli-source-triangle}, \autoref{thm:cauchy-completion-kleisli-seal-coherence}, and \autoref{thm:cauchy-completion-kleisli-nonescape} seed the finite Kleisli consumer boundary for the L10 completion monad.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host equality, countable choice, ambient completeness, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, unit-source admission, bind-source admission, reassociated-bind admission, source-triangle, seal-coherence, and non-escape proofs for BEDC.Derived.CauchyCompletionKleisliUp.}
+  \constructivestory{A $\CauchyCompletionKleisliUp$ packet is generated from a unit source row, a bind source row, a reassociated bind source row, a shared schedule, finite StreamName windows, DyadicRatCore observations, RegSeqRat diagonal readback, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

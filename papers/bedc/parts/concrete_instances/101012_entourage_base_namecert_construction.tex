@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\EntourageBaseUp$}
+\label{ch:concrete-instances-entourage-base-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges on uniform structures, metric entourages, and constructive completion, the $\EntourageBaseUp$ packet records the finite basis interface used by the L10 completion route before Cauchy filters or quotient completions are allowed to read it. It is anchored in the uniform entourage surface of \autoref{ch:concrete-instances-uniformspace-namecert}, the metric-ball naming surface of \autoref{ch:concrete-instances-formalball-namecert}, and the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}. The packet names a displayed entourage-basis row and its dyadic radius ledger; it is not a quotient completion, not a selected limit, not an open-cover compactness argument, not countable choice, and not ambient completeness.
+
+\begin{definition}[EntourageBase carrier]
+\label{def:entourage-base-carrier}
+An $\EntourageBaseUp$ carrier is a finite $\BHist$ packet
+$$
+E=(U,M,B,R,W,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ source row, exposing only the finite entourage data and its displayed containment and refinement witnesses.
+\item $M$ is the $\MetricSpaceUp$ source row from which metric-ball entourage requests may be read before any completion-facing consumer is present.
+\item $B$ is the finite entourage-basis row. It lists the basis entourages accepted by the packet, their finite-intersection refinement witnesses, and the containment route back to $U$.
+\item $R$ is the dyadic radius ledger, recording the admitted radii, the smaller-radius relation, and the monotone route from each radius request to the row $B$.
+\item $W$ is the $\StreamNameUp$ window row inspected by finite completion-route consumers that need named observations rather than host-level points.
+\item $D$ is the $\RegSeqRatUp$ readback row attached to the windows in $W$ and to the dyadic radius comparisons in $R$.
+\item $H$ records componentwise $\hsame$ transport for the uniform source, metric source, basis row, radius ledger, finite windows, readback row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a requested entourage scale through $U,M,B,R,W,D,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EntourageBaseUp$, $\UniformSpaceUp$, $\MetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EntourageBaseUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $U,M,B,R,W,D,H,C,P,N$. The carrier has no coordinate for quotient completion, selected limits, open-cover compactness, countable-choice selectors, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.EntourageBaseUp.EntourageBaseTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[EntourageBase NameCert obligations]
+\label{thm:entourage-base-namecert-obligations}
+For every accepted $\EntourageBaseUp$ carrier
+$$
+E=(U,M,B,R,W,D,H,C,P,N),
+$$
+the local $\NameCert_{\EntourageBaseUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed UniformSpace source, MetricSpace source, entourage-basis row, dyadic radius ledger, StreamName window row, RegSeqRat readback, transport, replay, provenance, and local naming row;
+\item basis containment, requiring every basis entourage in $B$ to carry a displayed containment witness into the UniformSpace entourage row $U$;
+\item finite-intersection refinement, requiring every accepted pair of basis rows to refine through a displayed row of $B$ before any completion-route consumer may inspect it;
+\item radius monotonicity, requiring every smaller-radius request recorded by $R$ to factor through the same displayed basis row $B$ and not through an ambient metric completion;
+\item transport, requiring $H$ to preserve the source rows, basis row, radius ledger, finite windows, readback, replay, provenance, and local naming componentwise under $\hsame$;
+\item replay, requiring $C$ to repeat the route from a requested entourage scale through $U,M,B,R,W,D$ before any named consumer is exposed;
+\item provenance, requiring $P$ to source only the listed rows and to export no quotient completion, selected limit, open-cover compactness, countable choice, or ambient completeness principle;
+\item local naming, requiring $N$ to name exactly this finite surface and no external completion object.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+
+\begin{theorem}[EntourageBase finite radius refinement]
+\label{thm:entourage-base-finite-radius-refinement}
+Let $E=(U,M,B,R,W,D,H,C,P,N)$ be an accepted $\EntourageBaseUp$ carrier. Every accepted smaller-radius request in $R$ factors through the same displayed route
+$$
+U,M \longmapsto B \longmapsto R \longmapsto W,D \longmapsto H,C,P,N .
+$$
+In particular, the refinement is witnessed by the finite entourage-basis row and dyadic ledger of the packet. It does not factor through quotient completion, selected limits, open-cover compactness, countable choice, or ambient completeness.
+\end{theorem}
+
+\closureat{EntourageBaseUp}{seedStr}
+
+\begin{closurestatus}{\EntourageBaseUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:entourage-base-carrier}, \autoref{thm:entourage-base-namecert-obligations}, and \autoref{thm:entourage-base-finite-radius-refinement} seed the finite uniform-basis interface through which UniformSpace and MetricSpace entourage data reaches StreamName and RegSeqRat completion-route consumers.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.EntourageBaseUp.EntourageBaseTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, open-cover compactness, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, basis containment, finite-intersection refinement, radius monotonicity, transport, replay, provenance, and local naming for BEDC.Derived.EntourageBaseUp.}
+  \constructivestory{An $\EntourageBaseUp$ packet is generated from one UniformSpace source row, one MetricSpace source row, a finite entourage-basis row, a dyadic radius ledger, StreamName windows, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

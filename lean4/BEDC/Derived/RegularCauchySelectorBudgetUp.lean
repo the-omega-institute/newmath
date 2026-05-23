@@ -105,4 +105,25 @@ theorem RegularCauchySelectorBudgetCarrier_namecert_obligations [AskSetup] [Pack
     ⟨muUnary, wUnary, sUnary, rUnary, eUnary, hUnary, cUnary, pUnary, nameUnary,
       consumerUnary, modulusWindow, streamWitness, sealConsumer, provenancePkg, consumerPkg, cert⟩
 
+theorem RegularCauchySelectorBudgetCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {mu w s r e h c p name consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySelectorBudgetCarrier mu w s r e h c p name bundle pkg ->
+      Cont w s r ->
+        Cont r e consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory w ∧ UnaryHistory s ∧ UnaryHistory r ∧ UnaryHistory e ∧
+              UnaryHistory consumer ∧ Cont mu w s ∧ Cont w s r ∧
+                Cont r e consumer ∧ PkgSig bundle p pkg ∧
+                  PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier windowStream streamConsumer consumerPkg
+  obtain ⟨_muUnary, wUnary, sUnary, rUnary, eUnary, _hUnary, _cUnary, _pUnary,
+    _nameUnary, modulusWindow, provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed rUnary eUnary streamConsumer
+  exact
+    ⟨wUnary, sUnary, rUnary, eUnary, consumerUnary, modulusWindow, windowStream,
+      streamConsumer, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.RegularCauchySelectorBudgetUp

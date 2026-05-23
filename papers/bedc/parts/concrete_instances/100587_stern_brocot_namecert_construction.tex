@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\SternBrocotUp$}
+\label{ch:concrete-instances-stern-brocot-namecert}
+\origin{human}
+
+Following Stern--Brocot and Farey rational approximation, the $\SternBrocotUp$ packet records the finite rational tree whose adjacent boundary rows have determinant one and whose mediant steps refine rational intervals without choosing a host real representative. It sits above the bracketing approximation packet of \autoref{ch:concrete-instances-stern-brocot-approximation-namecert} and the breadth-first positive-rational enumeration packet of \autoref{ch:concrete-instances-calkin-wilf-enumeration-namecert}. Its L10 real-readback neighbors are the continued-fraction route of \autoref{ch:concrete-instances-continuedfraction-namecert} and the rational-stream route of \autoref{ch:concrete-instances-rationalstream-namecert}; the packet itself stores only finite tree addresses, rational boundary rows, mediant rows, transport, replay, provenance, and naming.
+
+\begin{definition}[Stern--Brocot tree carrier]
+\label{def:stern-brocot-carrier}
+A $\SternBrocotUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,L,U,M,F,B,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite address row, recording the left/right path from the root interval to the inspected tree node.
+\item $L$ and $U$ are the lower and upper $\RatUp$ boundary rows bracketing the inspected node.
+\item $M$ is the mediant row computed from $L$ and $U$ at the addressed node.
+\item $F$ is the Farey-neighbor ledger, recording the determinant-one boundary check for the displayed pair $L,U$.
+\item $B$ is the finite branch ledger, recording which boundary is replaced by $M$ after each inspected step.
+\item $Q$ is the rational-tree output row exposed to the sibling $\SternBrocotApproximationUp$ and $\CalkinWilfEnumerationUp$ packets.
+\item $R$ is the $\RationalStreamUp$ readback row used when finite tree nodes are consumed as a rational source for L10 real and completion routes.
+\item $H$ records componentwise $\hsame$ transport for address, boundary, mediant, Farey-ledger, branch, output, rational-stream, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an address request through boundary inspection, mediant construction, Farey-neighbor checking, branch replacement, tree output, and rational-stream readback.
+\item $P$ is the $\Pkg$ provenance over $\SternBrocotUp$, $\SternBrocotApproximationUp$, $\CalkinWilfEnumerationUp$, $\ContinuedFractionUp$, $\RationalStreamUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SternBrocotUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,L,U,M,F,B,Q,R,H,C,P,N$. The carrier has no coordinate for Dedekind cuts, host trichotomy, quotient rational equality, selected real representatives, ambient completeness, or Lean verification.
+\end{definition}
+\leanchecked{BEDC.Derived.SternBrocotUp.TasteGate.SternBrocotTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Stern--Brocot NameCert obligations]
+\label{thm:stern-brocot-namecert-obligations}
+For every accepted $\SternBrocotUp$ carrier
+$$
+S=(A,L,U,M,F,B,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\SternBrocotUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the address, boundary, mediant, Farey-neighbor, branch, rational-tree output, rational-stream readback, and structural rows;
+\item mediant exactness, requiring $M$ to be the displayed numerator-denominator sum of the currently displayed boundary rows $L$ and $U$;
+\item Farey-neighbor boundary, requiring $F$ to record determinant-one adjacency for every displayed boundary pair before and after a branch step;
+\item branch discipline, requiring $B$ to replace exactly one displayed boundary by the displayed mediant at each finite address step;
+\item sibling readback, requiring every $\SternBrocotApproximationUp$, $\CalkinWilfEnumerationUp$, $\ContinuedFractionUp$, or $\RationalStreamUp$ consumer to pass through $Q$ and $R$ before using the tree node as rational data;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming, requiring $H,C,P,N$ to preserve and name the same finite tree packet;
+\item refusal of Dedekind cuts, host trichotomy, quotient rational equality, selected representatives, ambient completeness, and Lean verification as local NameCert data.
+\end{enumerate}
+No Stern--Brocot obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.SternBrocotUp.SternBrocotTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:stern-brocot-carrier}. The accepted tuple exposes exactly the address, boundary, mediant, Farey-ledger, branch, output, rational-stream, transport, replay, provenance, and local naming rows listed in the statement.
+
+Mediant exactness is local to $M$. The row records the numerator-denominator sum of the displayed boundary rows $L$ and $U$, so no host rational search or quotient-rational comparison is needed to name the inspected node.
+
+The Farey-neighbor and branch obligations are read together. The row $F$ records determinant-one adjacency for the current displayed pair, and $B$ records the single boundary replacement by $M$ that advances the finite address. Thus the next inspected pair is still a displayed tree boundary pair.
+
+The sibling readback obligation follows from the order of the carrier rows. The approximation and enumeration siblings consume the same rational-tree output row $Q$, while continued-fraction and rational-stream consumers read through $R$ before passing data to L10 real routes.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same finite inventory. Since the inventory has no coordinate for Dedekind cuts, trichotomy, quotient rational equality, selected representatives, ambient completeness, or Lean verification, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Stern--Brocot Farey neighbor boundary]
+\label{thm:stern-brocot-farey-neighbor-boundary}
+Let $S=(A,L,U,M,F,B,Q,R,H,C,P,N)$ be an accepted $\SternBrocotUp$ carrier. At every finite prefix of the address row $A$, the displayed boundary rows $L$ and $U$ named by the corresponding branch prefix are Farey neighbors according to $F$, and the mediant row $M$ lies between them as the next displayed tree node. Every public boundary read factors through
+$$
+A \longmapsto L,U \longmapsto M \longmapsto F \longmapsto B \longmapsto Q \longmapsto R .
+$$
+The boundary claim is only about the finite Stern--Brocot tree surface. It does not assert Dedekind cut locatedness, host trichotomy, quotient-real equality, selected representatives, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Induct on the finite address prefix in $A$. At the root prefix the carrier supplies the displayed boundary rows $L$ and $U$ together with the Farey-neighbor ledger $F$, so the determinant-one boundary is read from the packet itself.
+
+For a successor prefix, use the branch row $B$. It records whether the left or right boundary is replaced by the mediant row $M$, and it leaves the other boundary unchanged as displayed $\BHist$ data.
+
+The new boundary ledger is again the row $F$ for the successor prefix. Because $F$ is stored as part of the same finite carrier, the determinant-one check is replayed by displayed data rather than by an ambient rational-order principle.
+
+The public readback route then follows the output rows. The rational-tree node is exposed through $Q$, and L10 real-readback consumers receive it only after the $\RationalStreamUp$ row $R$ has been inspected.
+\end{proof}
+
+\begin{theorem}[Stern--Brocot sibling route to real readback]
+\label{thm:stern-brocot-l10-real-readback-route}
+Every accepted $\SternBrocotUp$ packet supplies a finite rational-tree source for the approximation route of \autoref{ch:concrete-instances-stern-brocot-approximation-namecert}, the enumeration route of \autoref{ch:concrete-instances-calkin-wilf-enumeration-namecert}, the continued-fraction comparison route of \autoref{ch:concrete-instances-continuedfraction-namecert}, and the rational-stream source route of \autoref{ch:concrete-instances-rationalstream-namecert}. Each such route reads the same displayed address, boundary, mediant, Farey-neighbor, branch, output, rational-stream, transport, replay, provenance, and local naming rows, and no route receives an independent real representative or ambient completion field.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $S=(A,L,U,M,F,B,Q,R,H,C,P,N)$. The tree-facing data are exactly $A,L,U,M,F,B,Q$, and the rational-stream handoff is exactly $R$.
+
+The Stern--Brocot approximation sibling reads $Q$ as finite bracketing data and then applies its own tolerance and real-seal rows. The Calkin-Wilf enumeration sibling reads the same finite tree output as positive-rational enumeration data, but it contributes its own breadth-first schedule outside the $\SternBrocotUp$ carrier.
+
+The continued-fraction and rational-stream siblings are readback consumers. They receive the finite rational node only through $R$, so the real-facing path is a rational-source path rather than a selected host real.
+
+Componentwise transport and replay preserve this route for classified packets. The package and local naming rows record exactly the same dependency surface, so no independent representative, quotient completion, ambient real order, or completeness field is exported.
+\end{proof}
+
+\closureat{SternBrocotUp}{seedStr}
+\begin{closurestatus}{\SternBrocotUp}
+  \constructivestory{A $\SternBrocotUp$ packet is generated from a finite address row, two displayed rational boundary rows, a mediant row, a Farey-neighbor ledger, a finite branch ledger, a rational-tree output row, a $\RationalStreamUp$ readback row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stern-brocot-carrier}, \autoref{thm:stern-brocot-namecert-obligations}, \autoref{thm:stern-brocot-farey-neighbor-boundary}, and \autoref{thm:stern-brocot-l10-real-readback-route} seed the finite Stern--Brocot rational-tree certificate above the approximation and enumeration siblings.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind cuts, host trichotomy, quotient rational equality, selected representatives, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mediant exactness, Farey-neighbor boundary, branch discipline, sibling readback, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
