@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyProductProjectionUp$}
+\label{ch:concrete-instances-regular-cauchy-product-projection-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite products of constructive Cauchy real names, the $\RegularCauchyProductProjectionUp$ packet records the left and right projection readbacks out of a displayed regular Cauchy product packet. It sits after the finite product carrier of \autoref{ch:concrete-instances-regular-cauchy-finite-product-namecert}, the product-modulus ledger of \autoref{ch:concrete-instances-cauchy-product-modulus-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real algebra and completion consumers a named component-readback route without importing host product equality, quotient stream representatives, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy product projection carrier]\label{def:regular-cauchy-product-projection-carrier}
+A $\RegularCauchyProductProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+J=(K,L,R,M,W,D,A,B,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the accepted $\RegularCauchyFiniteProductUp$ product packet whose component coordinates are being projected.
+\item $L$ and $R$ are the left and right projection readback rows, each naming the component slot, the source regular Cauchy row, and the projected finite observation route.
+\item $M$ is the $\CauchyProductModulusUp$ ledger that assigns every projection request to the product-facing modulus budget before either component readback is consumed.
+\item $W$ is the paired $\StreamNameUp$ window family opened for the product packet, the left component, the right component, and the product-modulus request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the product window and the two projected component windows.
+\item $A$ is the left $\RegSeqRatUp$ handoff row obtained from $K,M,W,D,L$.
+\item $B$ is the right $\RegSeqRatUp$ handoff row obtained from $K,M,W,D,R$.
+\item $S$ is the $\RealUp$ seal row reached only after the projected regular rational readbacks $A$ and $B$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the product packet, projection readbacks, product-modulus ledger, stream windows, dyadic tolerances, regular rational handoffs, seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a projection request through the product packet, product-modulus ledger, finite windows, dyadic rows, component readbacks, regular rational handoffs, and seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyProductProjectionUp$, $\RegularCauchyFiniteProductUp$, $\CauchyProductModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyProductProjectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,L,R,M,W,D,A,B,S,H,C,P,N$. It has no coordinate for host product equality, quotient stream representatives, selected limits, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy product projection budget]\label{thm:regular-cauchy-product-projection-budget}
+Let
+$$
+J=(K,L,R,M,W,D,A,B,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyProductProjectionUp$ carrier. Every left or right projection request from $J$ factors through the displayed product-modulus budget $M$, the finite window family $W$, the dyadic tolerance ledger $D$, the selected component readback $L$ or $R$, and the corresponding $\RegSeqRatUp$ handoff $A$ or $B$ before the $\RealUp$ seal $S$ is available.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:regular-cauchy-product-projection-carrier}. A projection request first identifies the product packet $K$ and one of the two projection readback rows $L$ or $R$.
+
+The request then passes through the product-modulus ledger $M$. This row is the only place where the product-facing precision request is assigned to component budgets, so neither component handoff can be read before $M$ is displayed.
+
+Next the finite window family $W$ and the dyadic tolerance ledger $D$ supply the actual component observations and tolerance rows. The left handoff $A$ consumes the left readback row $L$, while the right handoff $B$ consumes the right readback row $R$.
+
+The seal $S$ appears only after those regular rational handoffs. Therefore every projected read follows the route through $M,W,D$, the selected component readback, and its $\RegSeqRatUp$ handoff before any $\RealUp$ seal can be consumed.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy product projection NameCert obligations]\label{thm:regular-cauchy-product-projection-namecert-obligations}
+For every accepted $\RegularCauchyProductProjectionUp$ carrier
+$$
+J=(K,L,R,M,W,D,A,B,S,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyProductProjectionUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the product packet, left and right projection readbacks, product-modulus ledger, stream windows, dyadic tolerance rows, regular rational handoffs, Real seal, transport, replay, provenance, and local name;
+\item projection-budget exactness, requiring every projected precision request to pass through $M,W,D$ before $A$ or $B$ is available;
+\item left/right readback ordering, requiring $L$ to feed only the left handoff $A$ and $R$ to feed only the right handoff $B$;
+\item Real-seal nonescape, requiring $S$ to expose only the displayed projected readback route and no host product equality, quotient stream representative, selected limit, or ambient completeness claim;
+\item transport, replay, provenance, and local naming stability through $H,C,P,N$ for the same product packet, projection rows, modulus ledger, windows, dyadic tolerances, handoffs, and seal.
+\end{enumerate}
+No projection NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple displayed in \autoref{def:regular-cauchy-product-projection-carrier}. It lists the product packet, the two projection readbacks, the product-modulus ledger, finite windows, dyadic tolerance rows, handoffs, seal, and structural rows.
+
+Projection-budget exactness is \autoref{thm:regular-cauchy-product-projection-budget}. Its factorization route shows that $M,W,D$ stand before the projected handoffs $A$ and $B$.
+
+The left/right ordering follows by projecting the two readback coordinates. The carrier gives $L$ as the left readback consumed by $A$ and $R$ as the right readback consumed by $B$, with no third row that can swap or duplicate the roles.
+
+The Real-seal boundary is the projection to $S$. Since $S$ is downstream of the two regular rational handoffs and no excluded object is a coordinate of the carrier, the nonescape clause follows by inspection.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same displayed rows. Thus stability is componentwise over the packet already admitted, and the listed five rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyProductProjectionUp$ component-facing read factors through a RegularCauchyFiniteProduct packet, left or right projection readback, CauchyProductModulus ledger, StreamName windows, DyadicRatCore tolerance rows, RegSeqRat handoff, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{regular-cauchy-finite-product, cauchy-product-modulus, streamname, dyadicratcore, regseqrat, real: $\RegularCauchyProductProjectionUp$ is not bijective to any listed sibling because it jointly carries a product packet, two ordered projection readbacks, product-modulus budget accounting, synchronized finite windows, dyadic tolerance rows, component handoffs, RealUp sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{RegularCauchyProductProjectionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyProductProjectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-product-projection-carrier}, \autoref{thm:regular-cauchy-product-projection-budget}, and \autoref{thm:regular-cauchy-product-projection-namecert-obligations} seed the finite projection route from displayed regular Cauchy products through product-modulus budgets, component readbacks, RegSeqRat handoffs, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyProductProjectionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host product equality, quotient stream representatives, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, projection-budget exactness, left/right readback ordering, Real-seal nonescape, and transport/replay/provenance stability for BEDC.Derived.RegularCauchyProductProjectionUp.}
+  \constructivestory{A $\RegularCauchyProductProjectionUp$ packet is generated from a RegularCauchyFiniteProduct packet, left and right projection readbacks, a CauchyProductModulus ledger, StreamName windows, DyadicRatCore tolerance rows, RegSeqRat component handoffs, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
