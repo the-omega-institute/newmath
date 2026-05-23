@@ -317,6 +317,24 @@ Finally apply bounded readback coherence, \autoref{thm:real-cauchy-modulus-bound
 The excluded alternatives have no coordinate in either carrier and cannot be inserted between the matched readback and seal rows. Therefore the accepted packet exposes one reusable finite tail window for the bounded RegSeqRat and Real consumers.
 \end{proof}
 
+\begin{theorem}[Real Cauchy modulus finite-window tightening]
+\label{thm:realcauchymodulus-finite-window-tightening}
+Let $B=(M,S,D,Q,E,H,C,P,N)$ be an accepted $\RealCauchyModulusUp$ packet. Suppose a displayed precision request is tightened and the cofinal refinement row of \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff} is available for the same packet. Then the resulting later finite $\StreamNameUp$ window still factors through the original route
+$$
+M\longmapsto S\longmapsto D\longmapsto Q\longmapsto E\longmapsto H,C,P,N .
+$$
+The tightened request keeps the same $\CauchyModulusUp$ row $M$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ readback $Q$, and $\RealUp$ seal $E$. It introduces no detached seal, selected limit, quotient stream, host real equality, countable-choice schedule, open-cover compactness, trichotomy, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the cofinal refinement handoff \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff}. It permits the tightened precision request to move to a later finite window while preserving the route through $M,S,D,Q,E$.
+
+Use uniform tail extraction, \autoref{thm:real-cauchy-modulus-uniform-tail-extraction}. The later window is not a new endpoint; it is the finite tail window that every named $\RegSeqRatUp$ and $\RealUp$ consumer may reuse through the same structural rows.
+
+Apply bounded readback coherence from \autoref{thm:real-cauchy-modulus-bounded-readback-coherence}. It keeps the readback row $Q$ and the terminal seal $E$ componentwise matched with any bounded consumer that reads the tightened window.
+
+Finally use ledger exhaustion, \autoref{thm:real-cauchy-modulus-ledger-exhaustion}. Since the dyadic tolerance ledger is already exhausted by $D$ before $Q$ and $E$ are read, there is no remaining coordinate for a detached seal, selected limit, quotient stream, host real equality, choice schedule, compactness proof, trichotomy principle, or ambient completeness row.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\RealCauchyModulusUp$ consumer that reads a terminal Real seal without the explicit modulus threshold, finite StreamName window, DyadicRatCore tolerance ledger, and RegSeqRat readback refutes the carrier surface.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchymodulus: no listed sibling supplies the whole nine-row packet $B=(M,S,D,Q,E,H,C,P,N)$, because each sibling contributes only a window, readback, tolerance, seal, or generic schedule surface while this chapter binds all five analytic faces with transport, replay, provenance, and local naming.}
@@ -324,7 +342,7 @@ The excluded alternatives have no coordinate in either carrier and cannot be ins
 \begin{closurestatus}{\RealCauchyModulusUp}
   \constructivestory{A $\RealCauchyModulusUp$ packet is generated from an explicit $\CauchyModulusUp$ precision schedule, finite $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-cauchy-modulus-carrier}, \autoref{def:real-cauchy-modulus-classifier}, \autoref{thm:real-cauchy-modulus-namecert-obligations}, \autoref{thm:real-cauchy-modulus-window-modulus-route}, \autoref{thm:real-cauchy-modulus-real-seal-nonescape}, \autoref{thm:real-cauchy-modulus-threshold-stability}, \autoref{thm:real-cauchy-modulus-ledger-exhaustion}, \autoref{thm:real-cauchy-modulus-root-unblock-scope}, \autoref{thm:real-cauchy-modulus-threshold-window-totality}, \autoref{thm:real-cauchy-modulus-regseqrat-seal-admission}, \autoref{thm:real-cauchy-modulus-precision-induction}, \autoref{thm:real-cauchy-modulus-window-monotonicity}, \autoref{thm:real-cauchy-modulus-seal-determinacy}, \autoref{thm:real-cauchy-modulus-window-scope}, \autoref{thm:real-cauchy-modulus-tail-threshold-determinacy}, \autoref{thm:real-cauchy-modulus-seal-handoff}, \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff}, \autoref{thm:real-cauchy-modulus-bounded-tail-ledger-factorization}, \autoref{thm:real-cauchy-modulus-bounded-readback-coherence}, and \autoref{thm:real-cauchy-modulus-uniform-tail-extraction} seed the explicit modulus-controlled Real Cauchy read over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\BoundedRegularCauchyUp$.}
+  \scopeclosed{\autoref{def:real-cauchy-modulus-carrier}, \autoref{def:real-cauchy-modulus-classifier}, \autoref{thm:real-cauchy-modulus-namecert-obligations}, \autoref{thm:real-cauchy-modulus-window-modulus-route}, \autoref{thm:real-cauchy-modulus-real-seal-nonescape}, \autoref{thm:real-cauchy-modulus-threshold-stability}, \autoref{thm:real-cauchy-modulus-ledger-exhaustion}, \autoref{thm:real-cauchy-modulus-root-unblock-scope}, \autoref{thm:real-cauchy-modulus-threshold-window-totality}, \autoref{thm:real-cauchy-modulus-regseqrat-seal-admission}, \autoref{thm:real-cauchy-modulus-precision-induction}, \autoref{thm:real-cauchy-modulus-window-monotonicity}, \autoref{thm:real-cauchy-modulus-seal-determinacy}, \autoref{thm:real-cauchy-modulus-window-scope}, \autoref{thm:real-cauchy-modulus-tail-threshold-determinacy}, \autoref{thm:real-cauchy-modulus-seal-handoff}, \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff}, \autoref{thm:real-cauchy-modulus-bounded-tail-ledger-factorization}, \autoref{thm:real-cauchy-modulus-bounded-readback-coherence}, \autoref{thm:real-cauchy-modulus-uniform-tail-extraction}, and \autoref{thm:realcauchymodulus-finite-window-tightening} seed the explicit modulus-controlled Real Cauchy read over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\BoundedRegularCauchyUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, countable choice, trichotomy, selected limits, open-cover compactness, or a Lean theorem.}
