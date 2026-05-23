@@ -923,6 +923,7 @@ import BEDC.Derived.CauchyControlSequenceUp.TasteGate
 import BEDC.Derived.CauchyConvergenceCriterionUp.NameCert
 import BEDC.Derived.CauchyConvergenceCriterionUp.RealSealHandoff
 import BEDC.Derived.CauchyConvergenceCriterionUp.TasteGate
+import BEDC.Derived.CauchyConvergenceCriterionUp.WindowThreshold
 import BEDC.Derived.CauchyConvergenceModulusTailMonotonicityUp.TasteGate
 import BEDC.Derived.CauchyConvergenceModulusUp
 import BEDC.Derived.CauchyConvolutionUp
@@ -3922,6 +3923,7 @@ import BEDC.Derived.MultihistCouplingUp.TasteGate
 import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NameEligibilityProofUp.TasteGate
+import BEDC.Derived.NatRealEmbeddingUp.TasteGate
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.E1ObjectEmptyComponent
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
@@ -5662,6 +5664,7 @@ import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
+import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
