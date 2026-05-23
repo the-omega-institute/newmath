@@ -32,6 +32,21 @@ def IsometricEmbeddingCarrier [AskSetup] [PackageSetup]
               (fun row : BHist => UnaryHistory row ∧ PkgSig bundle reflection pkg)
               (fun row row' : BHist => hsame row row')
 
+def IsometricEmbeddingClassifier [AskSetup] [PackageSetup]
+    (source target graph sourceDistance targetDistance reflection transports routes provenance
+      localCert source' target' graph' sourceDistance' targetDistance' reflection' transports'
+      routes' provenance' localCert' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame ProbeBundle Pkg
+  IsometricEmbeddingCarrier source target graph sourceDistance targetDistance reflection
+      transports routes provenance localCert bundle pkg ∧
+    IsometricEmbeddingCarrier source' target' graph' sourceDistance' targetDistance' reflection'
+      transports' routes' provenance' localCert' bundle pkg ∧
+      hsame source source' ∧ hsame target target' ∧ hsame graph graph' ∧
+        hsame sourceDistance sourceDistance' ∧ hsame targetDistance targetDistance' ∧
+          hsame reflection reflection' ∧ hsame transports transports' ∧
+            hsame routes routes' ∧ hsame provenance provenance' ∧ hsame localCert localCert'
+
 theorem IsometricEmbeddingCarrier_classifier_transport [AskSetup] [PackageSetup]
     {source target graph sourceDistance targetDistance reflection transports routes provenance
       localCert source' graph' target' sourceDistance' targetDistance' reflection' : BHist}
