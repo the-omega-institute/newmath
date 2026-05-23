@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RealArchimedeanBoundSchemaUp$}
+\label{ch:concrete-instances-real-archimedean-bound-schema-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealArchimedeanBoundSchemaUp$ packet isolates the explicit rational and dyadic bound surface used when a displayed $\RealUp$ name is read by order-facing or completion-facing consumers. It sits between the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular Cauchy handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream window of \autoref{ch:concrete-instances-streamname-namecert}, the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the dyadic presentation of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the Archimedean bound packet of \autoref{ch:concrete-instances-archimedeanreal-namecert}. The schema records the finite ledger through which a bound is inspected; it does not assert a supremum, trichotomy, quotient equality of real names, or completeness of $\RealUp$.
+
+\begin{definition}[Real Archimedean bound schema carrier]
+\label{def:real-archimedean-bound-schema-carrier}
+A $\RealArchimedeanBoundSchemaUp$ carrier is a finite $\BHist$ packet
+$$
+A=(R,Q,D,S,G,B,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ name whose bound route is being displayed.
+\item $Q$ is the $\RatUp$ row naming the rational bound used by order and completion consumers.
+\item $D$ is the $\DyadicRatCoreUp$ presentation of the same bound at the dyadic inspection surface.
+\item $S$ is the $\StreamNameUp$ window through which finite reads of $R$ are exposed.
+\item $G$ is the $\RegSeqRatUp$ handoff connecting the stream window to regular rational approximants.
+\item $B$ is the finite bound ledger comparing the inspected rational approximants with the rational and dyadic bound rows.
+\item $H$ stores componentwise $\hsame$ transports for the real name, rational row, dyadic row, stream window, regular-sequence handoff, bound ledger, route rows, provenance, and local naming.
+\item $C$ stores the displayed $\Cont$ route from a consumer request through $R,Q,D,S,G,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealArchimedeanBoundSchemaUp$, $\RealUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\ArchimedeanRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealArchimedeanBoundSchemaUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $R,Q,D,S,G,B,H,C,P,N$. No host supremum, selected least bound, trichotomy oracle, quotient equality of real names, or ambient completeness datum is a coordinate of the carrier.
+\end{definition}
+
+\begin{theorem}[Real Archimedean bound schema obligations]
+\label{thm:real-archimedean-bound-schema-obligations}
+For every accepted $\RealArchimedeanBoundSchemaUp$ carrier $A=(R,Q,D,S,G,B,H,C,P,N)$, the local $\NameCert_{\RealArchimedeanBoundSchemaUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed real name, rational bound row, dyadic presentation, stream window, regular rational handoff, finite bound ledger, transport rows, continuation routes, provenance, and local naming;
+\item rational-dyadic coherence, requiring $Q$ and $D$ to be read as one bound witness for the same displayed real name;
+\item window/readback compatibility, requiring every finite inspection of $R$ to pass through $S$ and then through the regular rational handoff $G$ before the ledger $B$ is consulted;
+\item ledger non-escape, excluding host suprema, selected least bounds, trichotomy, quotient equality, and ambient completeness from the local certificate;
+\item consumer handoff, requiring each $\RealUp$ order-facing, locatedness-facing, or completion-facing read to receive $Q,D,S,G,B,H,C,P,N$ before using the displayed bound.
+\end{enumerate}
+No Real Archimedean bound schema obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:real-archimedean-bound-schema-carrier}. The bound rows are $Q$ and $D$, the real-name inspection rows are $S$ and $G$, and the finite comparison surface is $B$.
+
+Rational-dyadic coherence is componentwise: both bound rows are coordinates of the same packet and are transported by the same $H$ row. The continuation row $C$ gives a single route from a consumer request to those two rows, so the rational and dyadic presentations cannot be separated by the classifier.
+
+Window/readback compatibility follows from the route shape. A finite read of $R$ first opens the stream window $S$, then the regular rational handoff $G$, and only then reaches the bound ledger $B$.
+
+The remaining clauses are the non-escape and handoff boundary. Since the carrier has no coordinate for a supremum, selected least bound, trichotomy oracle, quotient equality, or completeness theorem, the only public bound route is the displayed $Q,D,S,G,B,H,C,P,N$ ledger.
+\end{proof}
+
+\begin{theorem}[Real Archimedean rational-dyadic handoff]
+\label{thm:real-archimedean-bound-schema-rat-dyadic-handoff}
+Every $\RealUp$ order-facing, locatedness-facing, or completion-facing consumer of an accepted $\RealArchimedeanBoundSchemaUp$ carrier reads the rational row $Q$ and the dyadic row $D$ through the same finite route
+$$
+R \longmapsto S,G \longmapsto B \longmapsto Q,D,H,C,P,N .
+$$
+Thus the consumer receives one rational-dyadic bound surface, with the stream window, regular rational readback, bound ledger, transport, continuation, provenance, and local naming rows already displayed. The packet exports no supremum, trichotomy, quotient equality of real names, selected least bound, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a consumer of the accepted carrier $A$. By \autoref{def:real-archimedean-bound-schema-carrier}, the consumer can inspect the real name $R$ only through the window $S$ and the regular rational handoff $G$.
+
+The bound ledger $B$ is then the only comparison row connecting those finite reads to the rational row $Q$ and the dyadic row $D$. The structural rows $H,C,P,N$ transport, replay, record provenance for, and name exactly that route.
+
+Apply \autoref{thm:real-archimedean-bound-schema-obligations}. Its coherence, compatibility, non-escape, and handoff clauses force order-facing, locatedness-facing, and completion-facing consumers to use the same $S,G,B,H,C,P,N$ route for both $Q$ and $D$.
+\end{proof}
+
+\closureat{RealArchimedeanBoundSchemaUp}{seedStr}
+
+\begin{closurestatus}{\RealArchimedeanBoundSchemaUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-archimedean-bound-schema-carrier}, \autoref{thm:real-archimedean-bound-schema-obligations}, and \autoref{thm:real-archimedean-bound-schema-rat-dyadic-handoff} seed the explicit rational and dyadic bound schema between displayed $\RealUp$ names, $\RatUp$ rows, $\DyadicRatCoreUp$ presentations, $\StreamNameUp$ windows, $\RegSeqRatUp$ handoffs, finite bound ledgers, structural transport, route replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close suprema, trichotomy, quotient equality of real names, selected least bounds, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational-dyadic coherence, window/readback compatibility, ledger non-escape, and consumer handoff for BEDC.Derived.RealArchimedeanBoundSchemaUp.}
+  \constructivestory{A $\RealArchimedeanBoundSchemaUp$ packet is generated from a RealUp name, RatUp and DyadicRatCoreUp bound rows, a StreamNameUp inspection window, a RegSeqRatUp readback handoff, a finite bound ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
