@@ -912,6 +912,7 @@ import BEDC.Derived.CauchyCompletionSplitUp.TasteGate
 import BEDC.Derived.CauchyCompletionTraceUp.TasteGate
 import BEDC.Derived.CauchyCompletionTriangleIdentityUp.TasteGate
 import BEDC.Derived.CauchyCompletionUnitUp
+import BEDC.Derived.CauchyCompletionUnitUp.TasteGate
 import BEDC.Derived.CauchyCondensationUp.TasteGate
 import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
 import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
@@ -1455,6 +1456,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerNonescape
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootUnblockObligationPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
@@ -4852,6 +4854,7 @@ import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyProductProjectionUp
 import BEDC.Derived.RegularCauchyProductProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyProductUp
+import BEDC.Derived.RegularCauchyProductUp.TasteGate
 import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
