@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\DyadicLocatedCutUp$}
+\label{ch:concrete-instances-dyadic-located-cut-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\DyadicLocatedCutUp$ packet records the finite dyadic endpoint surface by which located cut data can be read as regular-Cauchy evidence before the terminal real-name seal is consumed. It refines the located-cut route of \autoref{ch:concrete-instances-locatedcut-namecert} through the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal \autoref{ch:concrete-instances-real-namecert} seal. It also sits beside the two-sided real cut surface of \autoref{ch:concrete-instances-lower-upper-real-cut-namecert}, with the dyadic endpoint rows made explicit rather than absorbed into general lower and upper ledgers.
+
+\begin{definition}[DyadicLocatedCut carrier]
+\label{def:dyadic-located-cut-carrier}
+A $\DyadicLocatedCutUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,U,G,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower dyadic endpoint ledger over $\DyadicRatCoreUp$. It records lower endpoints, requested radii, comparison cells, and endpoint reuse provenance.
+\item $U$ is the upper dyadic endpoint ledger over $\DyadicRatCoreUp$. It records upper endpoints, requested radii, comparison cells, and endpoint reuse provenance.
+\item $G$ is the located gap evidence through $\LocatedCutUp$. It binds each displayed lower endpoint and upper endpoint to the same located-cut request.
+\item $W$ is the $\StreamNameUp$ finite precision window. It lists exactly the endpoint reads opened by the requested precision and does not select an infinite representative.
+\item $R$ is the $\RegSeqRatUp$ handoff. It reads the endpoint-normalized windows as regular rational data before any real seal is available.
+\item $E$ is the terminal $\RealUp$ seal. It can be reached only after $L,U,G,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the lower endpoint ledger, upper endpoint ledger, located gap row, finite window, regular-Cauchy handoff, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for every consumer read through the same ordered tuple $L,U,G,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicLocatedCutUp$, $\LocatedCutUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LowerUpperRealCutUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicLocatedCutUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,G,W,R,E,H,C,P,N$. It has no coordinate for quotient cuts, selected suprema, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[DyadicLocatedCut NameCert obligations]
+\label{thm:dyadic-located-cut-namecert-obligations}
+For an accepted $\DyadicLocatedCutUp$ carrier
+$$
+K=(L,U,G,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicLocatedCutUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the lower dyadic endpoint ledger, upper dyadic endpoint ledger, located gap row, finite precision window, regular-Cauchy handoff, terminal real seal, transport, replay, provenance, and local naming row;
+\item lower dyadic transport, requiring every lower endpoint read to enter through $L$ and to preserve its $\DyadicRatCoreUp$ comparison budget under componentwise $\hsame$ transport;
+\item upper dyadic transport, requiring every upper endpoint read to enter through $U$ and to preserve its $\DyadicRatCoreUp$ comparison budget under componentwise $\hsame$ transport;
+\item located-gap exactness, requiring $G$ to bind the displayed lower and upper endpoint rows to one $\LocatedCutUp$ request before $W$ or $R$ is consumed;
+\item regular-Cauchy handoff, requiring $R$ to read only the displayed $L,U,G,W$ route before exposing any $\RealUp$-facing datum;
+\item Real seal non-escape, requiring the terminal row $E$ to remain downstream of $L,U,G,W,R$ and to export no quotient cut, selected supremum, trichotomy branch, countable-choice selector, or ambient completeness principle;
+\item ledger provenance, requiring $P$ and $N$ to name only the displayed dyadic endpoint route and its transport and replay rows.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-located-cut-carrier}. The accepted packet displays the lower endpoint ledger, upper endpoint ledger, located gap row, precision window, regular-Cauchy handoff, real seal, and structural rows $H,C,P,N$.
+
+Lower and upper dyadic transport are componentwise. The rows $L$ and $U$ store the endpoint comparisons over $\DyadicRatCoreUp$, while $H$ transports those endpoint cells and $C$ replays the same displayed reads.
+
+Located-gap exactness is the role of $G$. Since $G$ is a coordinate of the same packet as $L$ and $U$, the lower and upper endpoint rows are bound to one located-cut request before a window or regular-Cauchy handoff can be consumed.
+
+The handoff row $R$ is downstream of $L,U,G,W$. Thus every regular rational read is endpoint-normalized by the displayed ledgers and finite precision window before the terminal real seal is visible.
+
+The terminal row $E$ and the provenance rows $P,N$ add no analytic coordinate. Because the carrier has no row for quotient cuts, selected suprema, trichotomy, countable choice, or ambient completeness, the local NameCert surface cannot export any such object.
+\end{proof}
+
+\begin{theorem}[DyadicLocatedCut regular Cauchy handoff]
+\label{thm:dyadic-located-cut-regular-cauchy-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\DyadicLocatedCutUp$ packet factors through the displayed dyadic endpoint ledgers and located-gap row before reading the terminal $\RealUp$ seal. Concretely, every such consumer reads the route
+$$
+L,U,G,W,R,E,H,C,P,N
+$$
+with $L$ and $U$ supplying dyadic endpoint-normalized lower and upper evidence, $G$ supplying the located cut gap, $W$ supplying the finite precision window, $R$ supplying the regular-Cauchy handoff, and $E$ supplying the terminal seal.
+\end{theorem}
+\begin{proof}
+Fix an accepted $\DyadicLocatedCutUp$ carrier. A $\RegSeqRatUp$ consumer first sees only the displayed endpoint rows $L$ and $U$ together with the located gap row $G$, so its input is already normalized by dyadic lower and upper endpoint ledgers.
+
+The finite precision window $W$ is downstream of those rows. It schedules the visible endpoint reads without choosing an infinite stream representative or introducing a host cut object.
+
+The regular-Cauchy handoff is $R$. Since $R$ is read after $L,U,G,W$, every regular rational consumer factors through the dyadic endpoint ledgers and the located-gap row.
+
+A $\RealUp$ consumer must pass through $E$, and $E$ is downstream of $R$. The remaining rows $H,C,P,N$ only transport, replay, source, and name the same route, so no consumer can bypass the displayed endpoint and located-gap data before reading the terminal seal.
+\end{proof}
+
+\closureat{DyadicLocatedCutUp}{seedStr}
+
+\begin{closurestatus}{\DyadicLocatedCutUp}
+  \theoryclosure{\seedClosure}
+  \constructivestory{A $\DyadicLocatedCutUp$ packet is generated from lower and upper dyadic endpoint ledgers, located gap evidence, a StreamName finite precision window, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \scopeclosed{\autoref{def:dyadic-located-cut-carrier}, \autoref{thm:dyadic-located-cut-namecert-obligations}, and \autoref{thm:dyadic-located-cut-regular-cauchy-handoff} seed the finite dyadic endpoint route from located cut data to regular-Cauchy readback and the terminal real seal.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DyadicLocatedCutUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient cuts, selected suprema, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower and upper dyadic transport, located-gap exactness, regular-Cauchy handoff, Real seal non-escape, and ledger provenance for BEDC.Derived.DyadicLocatedCutUp.}
+\end{closurestatus}
