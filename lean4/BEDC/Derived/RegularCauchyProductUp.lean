@@ -415,6 +415,36 @@ theorem RegularCauchyProductCarrier_real_seal_product_budget [AskSetup] [Package
     ⟨budgetReadUnary, realSealUnary, readbackBudgetRead, budgetRouteSeal, namePkg,
       realSealPkg⟩
 
+theorem RegularCauchyProductCarrier_coordinate_regularity [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name coordinateRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product budget
+        readback transport route provenance name bundle pkg ->
+      Cont readback product coordinateRead ->
+        PkgSig bundle coordinateRead pkg ->
+          UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory endpointA ∧
+            UnaryHistory endpointB ∧ UnaryHistory product ∧ UnaryHistory budget ∧
+              UnaryHistory readback ∧ UnaryHistory coordinateRead ∧
+                Cont endpointA endpointB product ∧ Cont product budget readback ∧
+                  Cont readback product coordinateRead ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle coordinateRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier coordinateRoute coordinatePkg
+  obtain ⟨sourceAUnary, sourceBUnary, _windowAUnary, _windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, _routeUnary, _provenanceUnary, _windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed productUnary budgetUnary productBudgetRow
+  have coordinateUnary : UnaryHistory coordinateRead :=
+    unary_cont_closed readbackUnary productUnary coordinateRoute
+  exact
+    ⟨sourceAUnary, sourceBUnary, endpointAUnary, endpointBUnary, productUnary,
+      budgetUnary, readbackUnary, coordinateUnary, endpointProductRow, productBudgetRow,
+      coordinateRoute, namePkg, coordinatePkg⟩
+
 theorem RegularCauchyProductCarrier_public_export_certificate [AskSetup] [PackageSetup]
     {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
       provenance name regConsumer realConsumer publicExport : BHist}
