@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\UniformEmbeddingUp$}
+\label{ch:concrete-instances-uniform-embedding-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform spaces and Bishop--Bridges on constructive completion, the $\UniformEmbeddingUp$ packet names the standard finite interface by which a uniformly controlled injective source enters a completion-facing target. It sits between the uniform-completion surface of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the metric-completion surface of \autoref{ch:concrete-instances-metriccompletion-namecert}, the source-to-completion handoff of \autoref{ch:concrete-instances-completionembedding-namecert}, and the dense specialization of \autoref{ch:concrete-instances-dense-uniform-embedding-namecert}. The packet records the non-dense embedding route used by completion consumers; it is not quotient completion equality, a selected representative, host function equality, countable choice, or ambient completeness.
+
+\begin{definition}[Uniform embedding carrier]
+\label{def:uniform-embedding-carrier}
+A $\UniformEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,T,I,U,J,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source uniform or metric row whose point histories and finite entourage observations are admitted into the embedding route.
+\item $T$ is the target completion row, read through the $\UniformCompletionUp$ or $\MetricCompletionUp$ surface before any completion-facing consumer inspects target data.
+\item $I$ is the injective classifier row, recording that two displayed source histories are identified only when the target embedding route identifies their finite observations.
+\item $U$ is the uniform-modulus row that transports source closeness into target closeness and reflects the target-controlled closeness needed by the embedding interface.
+\item $J$ is the $\CompletionEmbeddingUp$ handoff row by which source observations enter the completion-facing target route.
+\item $R$ is the local route-compatibility row stating that $I,U,J$ are read over the same source row $S$ and target completion row $T$.
+\item $H$ records componentwise $\hsame$ transport for $S,T,I,U,J,R$ and for the structural rows.
+\item $C$ records displayed $\Cont$ replay from source histories through the injective classifier, uniform modulus, completion-embedding handoff, and target completion row.
+\item $P$ is the $\Pkg$ provenance over $\UniformEmbeddingUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, $\CompletionEmbeddingUp$, $\DenseUniformEmbeddingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\UniformEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion equality, selected representatives, host function equality, countable-choice schedules, ambient completeness, or a detached completed target object.
+\end{definition}
+
+\begin{theorem}[Uniform embedding NameCert obligations]
+\label{thm:uniform-embedding-namecert-obligations}
+For every accepted $\UniformEmbeddingUp$ carrier $E=(S,T,I,U,J,R,H,C,P,N)$, the local $\NameCert_{\UniformEmbeddingUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source row, target completion row, injective classifier, uniform-modulus row, completion-embedding handoff, route-compatibility row, hsame transport, Cont replay, package provenance, and local naming;
+\item classifier transport, requiring $I$ to be read through the same $S,T$ route under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item uniform-modulus stability, requiring every source-to-target closeness read and every reflected embedding-control read to pass through $U$ before target completion data are available;
+\item embedding injectivity, requiring source identifications exported by the packet to be justified by the displayed injective classifier rather than by host function equality;
+\item completion-handoff compatibility, requiring the row $J$ to be the only route from source observations into the completion-facing target row $T$;
+\item ledger non-escape, excluding quotient completion equality, selected representatives, countable choice, host function equality, ambient completeness, and detached completed target objects.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-embedding-carrier}. The tuple lists the source, target completion, injective classifier, uniform modulus, completion handoff, route compatibility, transport, replay, provenance, and local naming rows.
+
+Classifier transport is read from $I,H,C$. The classifier is not a host equality predicate; it is transported componentwise along the displayed packet and replayed only through the same $S,T$ route.
+
+Uniform-modulus stability is the row $U$. Every target-facing closeness assertion used by the embedding route passes through this row before the completion handoff is available.
+
+Embedding injectivity and completion compatibility use $I$ and $J$ together. The injective classifier supplies the finite source-identification test, and the handoff row $J$ is the only route from source observations into the target completion row $T$.
+
+Finally $P$ and $N$ record provenance and local naming for exactly those rows. Since no carrier coordinate stores quotient equality, selected representatives, host function equality, choice, ambient completeness, or detached target objects, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Uniform embedding completion handoff]
+\label{thm:uniform-embedding-completion-handoff}
+Let $E=(S,T,I,U,J,R,H,C,P,N)$ be an accepted $\UniformEmbeddingUp$ carrier. Every completion-facing consumer of $E$ factors through the finite route
+$$
+S\longmapsto I,U\longmapsto J\longmapsto T\longmapsto R,H,C,P,N .
+$$
+Consequently the consumer can use only the displayed uniform-control and completion-embedding rows. It cannot use quotient completion equality, selected representatives, countable choice, host function equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing consumer. Projection gives the source row $S$, but the packet exposes no completed point or representative selector at this stage.
+
+The consumer must next read the classifier $I$ and the uniform-modulus row $U$. These rows provide the finite injectivity and uniform-control surface needed before target completion data are public.
+
+The completion-embedding handoff $J$ then carries the controlled source observations into the target row $T$. The compatibility row $R$ states that the classifier, modulus, and handoff are all read over the same $S,T$ boundary.
+
+Transport, replay, provenance, and local naming are exactly $H,C,P,N$. They preserve the displayed route and add no quotient equality, selected representative, host function equality, countable-choice schedule, or ambient-completeness witness, so every completion-facing consumer factors through the stated handoff.
+\end{proof}
+
+\begin{closurestatus}{\UniformEmbeddingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-embedding-carrier}, \autoref{thm:uniform-embedding-namecert-obligations}, and \autoref{thm:uniform-embedding-completion-handoff} seed the non-dense uniform embedding interface for L10 completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, host function equality, countable choice, ambient completeness, dense image coverage, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, uniform-modulus stability, embedding injectivity, completion-handoff compatibility, and ledger non-escape for the same packet.}
+  \constructivestory{A $\UniformEmbeddingUp$ packet is generated from a source uniform or metric row, a target UniformCompletion or MetricCompletion row, an injective classifier, a uniform-modulus row, a CompletionEmbedding handoff, route compatibility, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
