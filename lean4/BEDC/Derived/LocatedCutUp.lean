@@ -187,6 +187,32 @@ theorem LocatedCutCarrier_window_handoff_totality [AskSetup] [PackageSetup]
   exact ⟨consumerUnary, lowerUpperWindow, windowHandoffTransport, transportRouteProvenance,
     handoffRouteConsumer, provenancePkg, consumerPkg, sameSealHandoff⟩
 
+theorem LocatedCutCarrier_regular_cauchy_handoff [AskSetup] [PackageSetup]
+    {lower upper window handoff sealRow transportRow route provenance localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window handoff sealRow transportRow route provenance localCert
+        bundle pkg ->
+      UnaryHistory lower ->
+        UnaryHistory upper ->
+          UnaryHistory handoff ->
+            UnaryHistory route ->
+              UnaryHistory localCert ->
+                Cont handoff route consumer ->
+                  PkgSig bundle consumer pkg ->
+                    UnaryHistory consumer ∧ Cont lower upper window ∧
+                      Cont window handoff transportRow ∧ Cont handoff route consumer ∧
+                        PkgSig bundle provenance pkg ∧ hsame sealRow handoff := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier _lowerUnary _upperUnary handoffUnary routeUnary _localCertUnary handoffRouteConsumer
+    _consumerPkg
+  obtain ⟨lowerUpperWindow, windowHandoffTransport, _transportRouteProvenance,
+    _provenanceLocalCertSeal, provenancePkg, sameSealHandoff, _sameSealProvenance⟩ :=
+    carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary routeUnary handoffRouteConsumer
+  exact ⟨consumerUnary, lowerUpperWindow, windowHandoffTransport, handoffRouteConsumer,
+    provenancePkg, sameSealHandoff⟩
+
 theorem LocatedCutCarrier_dyadic_interval_exhaustion [AskSetup] [PackageSetup]
     {lower upper window handoff sealRow transportRow route provenance localCert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -257,5 +283,57 @@ theorem LocatedCutCarrier_common_window_refinement [AskSetup] [PackageSetup]
       provenanceLocalCertSeal₁ provenanceLocalCertSeal₂
   exact ⟨sameWindow, sameTransport, sameProvenance, sameSeal, lowerUpperWindow₁,
     lowerUpperWindow₂⟩
+
+theorem LocatedCutCarrier_interval_witness_extraction [AskSetup] [PackageSetup]
+    {lower upper window handoff sealRow transportRow route provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window handoff sealRow transportRow route provenance localCert
+        bundle pkg ->
+      UnaryHistory lower ->
+        UnaryHistory upper ->
+          UnaryHistory handoff ->
+            UnaryHistory route ->
+              UnaryHistory localCert ->
+                ∃ witness : BHist,
+                  Cont lower upper witness ∧ UnaryHistory witness ∧ hsame witness window ∧
+                    Cont window handoff transportRow ∧ hsame handoff provenance ∧
+                      PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier lowerUnary upperUnary handoffUnary routeUnary localCertUnary
+  have exhausted :=
+    LocatedCutCarrier_dyadic_interval_exhaustion carrier lowerUnary upperUnary handoffUnary
+      routeUnary localCertUnary
+  obtain ⟨_lowerUnary, _upperUnary, windowUnary, _transportUnary, _provenanceUnary,
+    _sealUnary, lowerUpperWindow, windowHandoffTransport, _transportRouteProvenance,
+    _provenanceLocalCertSeal, provenancePkg, sameHandoffProvenance⟩ := exhausted
+  exact ⟨window, lowerUpperWindow, windowUnary, hsame_refl window, windowHandoffTransport,
+    sameHandoffProvenance, provenancePkg⟩
+
+theorem LocatedCutCarrier_standard_bridge_boundary [AskSetup] [PackageSetup]
+    {lower upper window handoff sealRow transportRow route provenance localCert bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window handoff sealRow transportRow route provenance localCert
+        bundle pkg ->
+      UnaryHistory lower ->
+        UnaryHistory upper ->
+          UnaryHistory handoff ->
+            UnaryHistory route ->
+              UnaryHistory localCert ->
+                Cont handoff sealRow bridge ->
+                  PkgSig bundle bridge pkg ->
+                    UnaryHistory bridge ∧ hsame handoff provenance ∧
+                      Cont handoff sealRow bridge ∧ PkgSig bundle bridge pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier lowerUnary upperUnary handoffUnary routeUnary localCertUnary handoffSealBridge
+    bridgePkg
+  have exhausted :=
+    LocatedCutCarrier_dyadic_interval_exhaustion carrier lowerUnary upperUnary handoffUnary
+      routeUnary localCertUnary
+  obtain ⟨_lowerUnary, _upperUnary, _windowUnary, _transportUnary, _provenanceUnary,
+    sealUnary, _lowerUpperWindow, _windowHandoffTransport, _transportRouteProvenance,
+    _provenanceLocalCertSeal, _provenancePkg, sameHandoffProvenance⟩ := exhausted
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed handoffUnary sealUnary handoffSealBridge
+  exact ⟨bridgeUnary, sameHandoffProvenance, handoffSealBridge, bridgePkg⟩
 
 end BEDC.Derived.LocatedCutUp
