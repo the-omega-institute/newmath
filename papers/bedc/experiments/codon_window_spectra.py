@@ -3673,6 +3673,54 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "full_trigger_probability": 1.0 - (blocker_count / candidate_count),
             }
         )
+    alexander_dual_generator_rows = []
+    for coordinate in range(4):
+        generator_codons = tuple(
+            sorted(codon for codon in y_external_codons if coordinate in anchor_support(codon))
+        )
+        alexander_dual_generator_rows.append(
+            {
+                "coordinate": BIT_COORDINATES[coordinate],
+                "degree": len(generator_codons),
+                "codons": generator_codons,
+            }
+        )
+    alexander_dual_lcm_rows = []
+    for subset_size in range(1, 5):
+        degrees = []
+        for coordinate_subset in itertools.combinations(range(4), subset_size):
+            lcm_codons = {
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) & frozenset(coordinate_subset)
+            }
+            degrees.append(len(lcm_codons))
+        alexander_dual_lcm_rows.append(
+            {
+                "subset_size": subset_size,
+                "subset_count": math.comb(4, subset_size),
+                "lcm_degrees": tuple(sorted(degrees)),
+                "formula_degree": 32 - (2 ** (5 - subset_size)),
+                "reliability_coefficient": ((-1) ** (subset_size + 1)) * math.comb(4, subset_size),
+            }
+        )
+    alexander_dual_resolution_rows = [
+        {
+            "homological_position": subset_size,
+            "rank": math.comb(4, subset_size),
+            "shift": 32 - (2 ** (5 - subset_size)),
+        }
+        for subset_size in range(1, 5)
+    ]
+    alexander_dual_betti_pattern = (1, 4, 6, 4, 1)
+    alexander_dual_reliability_terms = tuple(
+        (
+            row["subset_size"],
+            row["reliability_coefficient"],
+            row["formula_degree"],
+        )
+        for row in alexander_dual_lcm_rows
+    )
 
     nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
     quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
@@ -4079,6 +4127,14 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "blocker_independence_coefficients": blocker_independence_coefficients,
         "blocker_euler_characteristic": blocker_euler_characteristic,
         "blocker_probability_tail_rows": blocker_probability_tail_rows,
+        "alexander_dual_generator_count": len(alexander_dual_generator_rows),
+        "alexander_dual_generator_rows": alexander_dual_generator_rows,
+        "alexander_dual_lcm_rows": alexander_dual_lcm_rows,
+        "alexander_dual_betti_pattern": alexander_dual_betti_pattern,
+        "alexander_dual_resolution_rows": alexander_dual_resolution_rows,
+        "alexander_dual_resolution_string": "0 -> R0(-30) -> R0(-28)^4 -> R0(-24)^6 -> R0(-16)^4 -> J -> 0",
+        "alexander_dual_reliability_terms": alexander_dual_reliability_terms,
+        "alexander_dual_reliability_polynomial": "4q^16 - 6q^24 + 4q^28 - q^30",
         "minimal_trigger_rows": minimal_trigger_rows,
         "minimal_trigger_quotient_total": sum(row["quotient_count"] for row in minimal_trigger_rows),
         "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
@@ -7417,6 +7473,43 @@ def assert_expected(summary: dict[str, object]) -> None:
         (9, 8008, 0.9994),
         (10, 4004, 0.9999),
     ]
+    assert antipodal["alexander_dual_generator_count"] == 4
+    assert [
+        (row["coordinate"], row["degree"])
+        for row in antipodal["alexander_dual_generator_rows"]
+    ] == [
+        ("s1", 16),
+        ("f1", 16),
+        ("s2", 16),
+        ("f2", 16),
+    ]
+    assert [
+        (row["subset_size"], row["subset_count"], row["lcm_degrees"], row["formula_degree"], row["reliability_coefficient"])
+        for row in antipodal["alexander_dual_lcm_rows"]
+    ] == [
+        (1, 4, (16, 16, 16, 16), 16, 4),
+        (2, 6, (24, 24, 24, 24, 24, 24), 24, -6),
+        (3, 4, (28, 28, 28, 28), 28, 4),
+        (4, 1, (30,), 30, -1),
+    ]
+    assert antipodal["alexander_dual_betti_pattern"] == (1, 4, 6, 4, 1)
+    assert [
+        (row["homological_position"], row["rank"], row["shift"])
+        for row in antipodal["alexander_dual_resolution_rows"]
+    ] == [
+        (1, 4, 16),
+        (2, 6, 24),
+        (3, 4, 28),
+        (4, 1, 30),
+    ]
+    assert antipodal["alexander_dual_resolution_string"] == "0 -> R0(-30) -> R0(-28)^4 -> R0(-24)^6 -> R0(-16)^4 -> J -> 0"
+    assert antipodal["alexander_dual_reliability_terms"] == (
+        (1, 4, 16),
+        (2, -6, 24),
+        (3, 4, 28),
+        (4, -1, 30),
+    )
+    assert antipodal["alexander_dual_reliability_polynomial"] == "4q^16 - 6q^24 + 4q^28 - q^30"
     assert [
         (row["trigger_size"], row["quotient_count"], row["codon_count"])
         for row in antipodal["minimal_trigger_rows"]
