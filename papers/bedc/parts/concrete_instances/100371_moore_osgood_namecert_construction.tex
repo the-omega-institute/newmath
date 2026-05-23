@@ -62,6 +62,19 @@ A $\RegSeqRatUp$ read is therefore forced through $R$ after $U$ and $Q$ have sup
 For a $\RealUp$ read, the same route continues to the seal $E$. The rows $H,C,P,N$ preserve the handoff under transport, replay the displayed continuations, record package provenance, and bind the local NameCert, so every downstream consumer factors through the displayed packet.
 \end{proof}
 
+\begin{theorem}[Moore-Osgood uniform tail lock]\label{thm:moore-osgood-uniform-tail-lock}
+For every accepted $\MooreOsgoodUp$ carrier $K=(W,F,S,U,Q,R,D,E,H,C,P,N)$, any consumer that uses both the first-limit row $F$ and the second-limit row $S$ must read the uniform tail ledger $U$ and the cofinal schedule $Q$ before reaching the $\RegSeqRatUp$ handoff row $R$.
+
+If the source two-parameter window is served by $\CauchyDoubleSequenceUp$, this read factors through \autoref{thm:cauchy-double-sequence-schedule-tail-exactness} and \autoref{thm:cauchy-double-sequence-completion-consumer-scope} before the $\RealUp$ seal $E$ is visible. Thus no unscheduled rectangle, quotient array, selected limit, countable-choice row, or ambient real-completeness row can enter the Moore-Osgood handoff.
+\end{theorem}
+\begin{proof}
+Project $K$ along \autoref{def:moore-osgood-carrier}. The iterated rows $F$ and $S$ are exposed as rows of the same finite packet, while the carrier places the uniform tail ledger $U$ and the cofinal schedule $Q$ between the two-parameter window family $W$ and the regular readback row $R$.
+
+Apply \autoref{thm:moore-osgood-iterated-limit-handoff}. A consumer of the interchanged surface can reach $R$ only through the displayed route $W,F,S,U,Q,R,D,E,H,C,P,N$, so the row pair $F,S$ has no independent path around $U$ or $Q$.
+
+When the window family is supplied by $\CauchyDoubleSequenceUp$, use \autoref{thm:cauchy-double-sequence-schedule-tail-exactness} to force every rectangle read through the scheduled tail, then use \autoref{thm:cauchy-double-sequence-completion-consumer-scope} to keep completion-facing consumption inside that scheduled surface. Composing these two constraints with the Moore-Osgood handoff leaves only the displayed ledger and schedule route before $E$, excluding the non-carrier rows named in the statement.
+\end{proof}
+
 \begin{theorem}[Moore-Osgood Real seal nonescape]\label{thm:moore-osgood-real-seal-nonescape}
 In every accepted $\MooreOsgoodUp$ carrier, the $\RealUp$ seal row $E$ is downstream of the two-parameter window family, both iterated rows, the uniform tail ledger, the cofinal schedule, the regular readback row, and the dyadic tolerance ledger. Consequently a Real-facing consumer cannot obtain from the packet a host double-limit theorem, quotient equality of arrays, a selected limiting value, countable choice, or ambient $\RealUp$ completeness.
 \end{theorem}
@@ -80,7 +93,7 @@ The nonescape statement follows from the classifier boundary. Accepted packets a
 \begin{closurestatus}{\MooreOsgoodUp}
   \constructivestory{A $\MooreOsgoodUp$ packet is generated from finite two-parameter windows, first-limit and second-limit rows, a uniform tail ledger in one index, a cofinal schedule, RegSeqRat handoff, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:moore-osgood-carrier}, \autoref{thm:moore-osgood-namecert-obligations}, \autoref{thm:moore-osgood-iterated-limit-handoff}, and \autoref{thm:moore-osgood-real-seal-nonescape} bind the finite iterated-limit interchange certificate surface.}
+  \scopeclosed{\autoref{def:moore-osgood-carrier}, \autoref{thm:moore-osgood-namecert-obligations}, \autoref{thm:moore-osgood-iterated-limit-handoff}, \autoref{thm:moore-osgood-uniform-tail-lock}, and \autoref{thm:moore-osgood-real-seal-nonescape} bind the finite iterated-limit interchange certificate surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host double-limit convergence, quotient array equality, selected limiting values, countable choice, ambient $\RealUp$ completeness, bridge checking, or Lean verification.}
