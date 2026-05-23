@@ -91,6 +91,36 @@ Combining these projections gives the normal-form use of $K$ without a
 reduction-to-normal-form bridge for arbitrary closed proof candidates.
 \end{proof}
 
+\begin{theorem}[Normal-form consistency seal closed-normal frontier]
+\label{thm:normal-form-consistency-seal-closed-normal-frontier}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted $\NormalFormConsistencySealUp$
+packet. The packet may export the closed-normal contradiction route exactly
+through the rows $T,F,N,K,H,C,P,L$: the typing row $T$, internal false row
+$F$, beta-strong normality row $N$, checked closed-normal theorem row $K$,
+componentwise transports, displayed continuation replay, provenance, and local
+naming. The row $X$ remains only the visible subject-reduction boundary
+citation and cannot discharge arbitrary subject reduction or turn an arbitrary
+closed proof candidate into the closed-normal endpoint consumed by $K$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:normal-form-consistency-seal-carrier}. The positive
+closed-normal route is carried by $T,F,N,K$ and by the structural rows
+$H,C,P,L$ that transport, replay, source, and name the same finite packet.
+
+Apply \autoref{thm:normal-form-consistency-seal-obligations}. Its readback
+clause exposes the checked theorem row $K$ only together with the displayed
+typing, false, and beta-strong normality rows, while its non-escape clause
+keeps the subject-reduction boundary row separate.
+
+Finally use
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}. That
+boundary permits the seal to cite $X$ as the open preservation-facing socket,
+but it does not supply a closed subject-reduction theorem. Hence consumers may
+use the closed-normal contradiction route through $T,F,N,K,H,C,P,L$ and no
+stronger subject-reduction route.
+\end{proof}
+
 \begin{theorem}[Normal-form consistency seal non-escape]
 \label{thm:normal-form-consistency-seal-nonescape}
 No consumer of an accepted $\NormalFormConsistencySealUp$ packet can read a
