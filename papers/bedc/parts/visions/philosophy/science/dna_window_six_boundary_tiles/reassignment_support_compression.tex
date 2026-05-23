@@ -1,0 +1,321 @@
+\begin{definition}[Reassigned support]
+\label{def:philosophy-reassigned-support}
+Let
+$$
+  \mathcal{R}=\{c:\exists t,\ E_{t}(c)\neq E_{1}(c)\}
+$$
+be the support of codons that are reassigned in at least one comparison
+table.
+\end{definition}
+
+\begin{theorem}[Reassigned support]
+\label{thm:philosophy-reassigned-support}
+The reassigned support is the $13$-codon set
+$$
+\begin{gathered}
+  \mathcal{R}=
+  \{\mathrm{UGA},\mathrm{UAG},\mathrm{UAA},\mathrm{AUA},
+    \mathrm{AGA},\mathrm{AGG},\mathrm{AAA},\\
+    \mathrm{CUG},\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},
+    \mathrm{UCA},\mathrm{UUA}\}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+This is the support computed in
+\autoref{thm:philosophy-sparse-reassignment-codon-support}, ignoring
+table multiplicity.
+\end{proof}
+
+\begin{theorem}[Five-motif support formula]
+\label{thm:philosophy-five-motif-support-formula}
+With IUPAC notation
+$$
+  N=\{\mathrm{U},\mathrm{C},\mathrm{A},\mathrm{G}\},
+  \qquad
+  R=\{\mathrm{A},\mathrm{G}\},
+  \qquad
+  S=\{\mathrm{C},\mathrm{G}\},
+$$
+and
+$$
+  W=\{\mathrm{U},\mathrm{A}\},
+  \qquad
+  Y=\{\mathrm{U},\mathrm{C}\},
+$$
+the reassigned support satisfies the exact formula
+$$
+  \mathcal{R}
+  =
+  \mathrm{CUN}\cup\mathrm{AGR}\cup\mathrm{UNA}
+  \cup\mathrm{WWA}\cup\mathrm{UAR}.
+$$
+\end{theorem}
+\begin{proof}
+Expand the five motifs:
+$$
+\begin{aligned}
+  \mathrm{CUN}&=\{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\},\\
+  \mathrm{AGR}&=\{\mathrm{AGA},\mathrm{AGG}\},\\
+  \mathrm{UNA}&=\{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA}\},\\
+  \mathrm{WWA}&=\{\mathrm{UUA},\mathrm{UAA},\mathrm{AUA},\mathrm{AAA}\},\\
+  \mathrm{UAR}&=\{\mathrm{UAA},\mathrm{UAG}\}.
+\end{aligned}
+$$
+Their union is exactly the $13$ codons displayed in
+\autoref{thm:philosophy-reassigned-support}.
+\end{proof}
+
+\begin{corollary}[Support is a union of motifs]
+\label{cor:philosophy-support-union-of-motifs}
+The reassigned support is not merely a list of codons. It is the union
+of five low-dimensional codon motifs:
+$$
+  \mathrm{CUN},\quad \mathrm{AGR},\quad \mathrm{UNA},
+  \quad \mathrm{WWA},\quad \mathrm{UAR}.
+$$
+\end{corollary}
+\begin{proof}
+This is \autoref{thm:philosophy-five-motif-support-formula}.
+\end{proof}
+
+\begin{definition}[Reassignment support function]
+\label{def:philosophy-reassignment-support-function}
+The support function of the comparative reassignment set is the Boolean
+map
+$$
+  F:Q_{6}\to\{0,1\},
+  \qquad
+  F(x)=1\Longleftrightarrow x\in\mathcal{R}.
+$$
+An exact subcube is an axis-aligned subcube $S\subset Q_{6}$ satisfying
+$S\subseteq\mathcal{R}$. A prime implicant is a maximal exact subcube
+under inclusion.
+\end{definition}
+
+\begin{theorem}[Boolean DNF form]
+\label{thm:philosophy-reassignment-boolean-dnf}
+Write a codon as
+$$
+  (s_{1},f_{1},s_{2},f_{2},s_{3},f_{3})
+$$
+using $U=00$, $C=01$, $A=10$, and $G=11$. Then $F$ is the disjunction
+of the five terms
+$$
+\begin{aligned}
+  \mathrm{CUN}&:\neg s_{1}\wedge f_{1}\wedge\neg s_{2}\wedge\neg f_{2},\\
+  \mathrm{AGR}&:s_{1}\wedge\neg f_{1}\wedge s_{2}\wedge f_{2}\wedge s_{3},\\
+  \mathrm{UNA}&:\neg s_{1}\wedge\neg f_{1}\wedge s_{3}\wedge\neg f_{3},\\
+  \mathrm{WWA}&:\neg f_{1}\wedge\neg f_{2}\wedge s_{3}\wedge\neg f_{3},\\
+  \mathrm{UAR}&:\neg s_{1}\wedge\neg f_{1}\wedge s_{2}\wedge\neg f_{2}\wedge s_{3}.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Each displayed Boolean term is exactly the bit condition defining the
+corresponding IUPAC motif in
+\autoref{thm:philosophy-five-motif-support-formula}. Their disjunction
+therefore defines the same support function $F$.
+\end{proof}
+
+\begin{theorem}[Prime implicants of the reassignment support]
+\label{thm:philosophy-reassignment-prime-implicants}
+The Boolean support function $F$ has exactly seven prime implicants:
+$$
+\begin{array}{c|c|c}
+  \text{motif} & \text{codons} & \text{weight}\\
+  \hline
+  \mathrm{CUN} &
+    \{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\} & 6\\
+  \mathrm{UNA} &
+    \{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA}\} & 25\\
+  \mathrm{WRA} &
+    \{\mathrm{AAA},\mathrm{AGA},\mathrm{UAA},\mathrm{UGA}\} & 34\\
+  \mathrm{WWA} &
+    \{\mathrm{AAA},\mathrm{AUA},\mathrm{UAA},\mathrm{UUA}\} & 17\\
+  \mathrm{AGR} &
+    \{\mathrm{AGA},\mathrm{AGG}\} & 16\\
+  \mathrm{UAR} &
+    \{\mathrm{UAA},\mathrm{UAG}\} & 18\\
+  \mathrm{YUA} &
+    \{\mathrm{CUA},\mathrm{UUA}\} & 2.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the axis-aligned subcubes of $Q_{6}$. Retain those whose
+vertices lie in $\mathcal{R}$, then delete every retained subcube
+strictly contained in another retained subcube. The remaining maximal
+exact subcubes are precisely the seven motifs displayed above. The
+weights are the table-count reassignment weights summed over the codons
+in each motif.
+\end{proof}
+
+\begin{theorem}[Minimal prime-implicant cover]
+\label{thm:philosophy-minimal-prime-implicant-cover}
+Among covers of $\mathcal{R}$ by prime implicants, the minimum cover
+size is $5$, and the cover is unique:
+$$
+  \mathrm{CUN},\quad \mathrm{WWA},\quad \mathrm{UNA},
+  \quad \mathrm{AGR},\quad \mathrm{UAR}.
+$$
+\end{theorem}
+\begin{proof}
+Run finite set-cover enumeration over the seven prime implicants of
+\autoref{thm:philosophy-reassignment-prime-implicants}. No subfamily of
+size less than $5$ covers $\mathcal{R}$, and exactly one subfamily of
+size $5$ does. It is the displayed family.
+\end{proof}
+
+\begin{theorem}[Exact subcube covers]
+\label{thm:philosophy-exact-subcube-covers}
+If nonmaximal exact subcubes are also allowed, the minimum cover size is
+still $5$, but the minimum cover is not unique. There are exactly six
+minimum covers:
+$$
+\begin{gathered}
+  \{\mathrm{UAG},\mathrm{USA},\mathrm{AGR},\mathrm{WWA},\mathrm{CUN}\},\\
+  \{\mathrm{UAG},\mathrm{AWA},\mathrm{AGR},\mathrm{UNA},\mathrm{CUN}\},\\
+  \{\mathrm{UAG},\mathrm{AGR},\mathrm{WWA},\mathrm{UNA},\mathrm{CUN}\},\\
+  \{\mathrm{USA},\mathrm{UAR},\mathrm{AGR},\mathrm{WWA},\mathrm{CUN}\},\\
+  \{\mathrm{AWA},\mathrm{UAR},\mathrm{AGR},\mathrm{UNA},\mathrm{CUN}\},\\
+  \{\mathrm{UAR},\mathrm{AGR},\mathrm{WWA},\mathrm{UNA},\mathrm{CUN}\}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all exact subcubes, including singleton subcubes. There are
+$33$ retained exact subcubes. A finite set-cover search gives no cover
+of size less than $5$ and the six covers displayed above at size $5$.
+\end{proof}
+
+\begin{corollary}[Forced support motifs]
+\label{cor:philosophy-forced-support-motifs}
+Across all minimum exact subcube covers, the only common motifs are
+$$
+  \mathrm{CUN}
+  \qquad\text{and}\qquad
+  \mathrm{AGR}.
+$$
+\end{corollary}
+\begin{proof}
+Intersect the six minimum covers in
+\autoref{thm:philosophy-exact-subcube-covers}. The common terms are
+exactly $\mathrm{CUN}$ and $\mathrm{AGR}$.
+\end{proof}
+
+\begin{theorem}[Envelope versus exact support]
+\label{thm:philosophy-envelope-versus-exact-support}
+The three-module low-dimensional envelope is
+$$
+  \mathrm{WRR}\cup\mathrm{CUN}\cup\mathrm{WYA},
+$$
+where
+$$
+\begin{aligned}
+  \mathrm{WRR}
+    &=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG},
+       \mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG}\},\\
+  \mathrm{CUN}
+    &=\{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\},\\
+  \mathrm{WYA}
+    &=\{\mathrm{UUA},\mathrm{UCA},\mathrm{AUA},\mathrm{ACA}\}.
+\end{aligned}
+$$
+It satisfies
+$$
+  \mathrm{WRR}\cup\mathrm{CUN}\cup\mathrm{WYA}
+  =
+  \mathcal{R}\cup\{\mathrm{UGG},\mathrm{AAG},\mathrm{ACA}\}.
+$$
+\end{theorem}
+\begin{proof}
+Expand the three motifs and compare with
+\autoref{thm:philosophy-reassigned-support}. The only codons in the
+three-module envelope that are not in $\mathcal{R}$ are
+$\mathrm{UGG}$, $\mathrm{AAG}$, and $\mathrm{ACA}$.
+\end{proof}
+
+\begin{corollary}[Three-module envelope and five-motif support]
+\label{cor:philosophy-three-envelope-five-support}
+There are two complementary compressions of the reassigned support:
+$$
+  \mathcal{R}
+  \subset
+  \mathrm{WRR}\cup\mathrm{CUN}\cup\mathrm{WYA}
+$$
+with three false-positive codons, and
+$$
+  \mathcal{R}
+  =
+  \mathrm{CUN}\cup\mathrm{AGR}\cup\mathrm{UNA}
+  \cup\mathrm{WWA}\cup\mathrm{UAR}
+$$
+with no false positives.
+\end{corollary}
+\begin{proof}
+The envelope equality is
+\autoref{thm:philosophy-envelope-versus-exact-support}. The exact
+equality is \autoref{thm:philosophy-five-motif-support-formula}.
+\end{proof}
+
+\begin{theorem}[Prime-implicant overlap hub]
+\label{thm:philosophy-prime-implicant-overlap-hub}
+In the weighted overlap graph of the seven prime implicants,
+$\mathrm{WRA}$ has the largest total overlap weight. Its nonempty
+overlaps include
+$$
+\begin{aligned}
+  \mathrm{WRA}\cap\mathrm{UNA}
+    &=\{\mathrm{UAA},\mathrm{UGA}\},
+    &\text{weight }&=23,\\
+  \mathrm{WRA}\cap\mathrm{WWA}
+    &=\{\mathrm{AAA},\mathrm{UAA}\},
+    &\text{weight }&=11,\\
+  \mathrm{WRA}\cap\mathrm{UAR}
+    &=\{\mathrm{UAA}\},
+    &\text{weight }&=8,\\
+  \mathrm{WRA}\cap\mathrm{AGR}
+    &=\{\mathrm{AGA}\},
+    &\text{weight }&=8.
+\end{aligned}
+$$
+The total weighted overlap score of $\mathrm{WRA}$ is $50$, larger than
+the corresponding scores for $\mathrm{UNA}$, $\mathrm{WWA}$,
+$\mathrm{UAR}$, $\mathrm{AGR}$, $\mathrm{YUA}$, and $\mathrm{CUN}$.
+\end{theorem}
+\begin{proof}
+Take all pairwise intersections among the seven prime implicants in
+\autoref{thm:philosophy-reassignment-prime-implicants}. Weight each
+intersection by the reassignment weights of the shared codons and sum
+the incident intersection weights at each prime implicant. The incident
+score of $\mathrm{WRA}$ is $23+11+8+8=50$, and the other incident
+scores are smaller.
+\end{proof}
+
+\begin{theorem}[Support compression statement]
+\label{thm:philosophy-support-compression-statement}
+The comparative reassignment support admits separate support and mass
+geometries:
+$$
+\begin{gathered}
+  \text{support geometry: }
+  \mathrm{CUN}\cup\mathrm{AGR}\cup\mathrm{UNA}
+  \cup\mathrm{WWA}\cup\mathrm{UAR},\\
+  \text{mass geometry: }
+  \mathrm{WRA}\subset\mathrm{WRR}.
+\end{gathered}
+$$
+The support geometry is the unique minimum cover by prime implicants.
+The mass geometry identifies the highest-weight exact square
+$\mathrm{WRA}$ inside the purine-core envelope $\mathrm{WRR}$.
+\end{theorem}
+\begin{proof}
+The support-geometry statement is
+\autoref{thm:philosophy-minimal-prime-implicant-cover}. The mass
+statement follows from
+\autoref{thm:philosophy-reassignment-prime-implicants} and
+\autoref{thm:philosophy-prime-implicant-overlap-hub}, together with
+the envelope identity in
+\autoref{thm:philosophy-envelope-versus-exact-support}.
+\end{proof}

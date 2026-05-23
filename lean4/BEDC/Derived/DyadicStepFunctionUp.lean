@@ -290,4 +290,36 @@ theorem DyadicStepFunctionCarrier_product_closure [AskSetup] [PackageSetup]
     ⟨productReadUnary, productSealUnary, valuesProduct, productLedgerSeal, nameRowSPkg,
       productSealPkg⟩
 
+theorem DyadicStepFunctionCarrier_cellwise_sum_closure [AskSetup] [PackageSetup]
+    {partitionS cellsS valuesS readsS refinementS endpointLedgerS ledgerS routeS provenanceS
+      nameRowS partitionT cellsT valuesT readsT refinementT endpointLedgerT ledgerT routeT
+      provenanceT nameRowT sumRead sumSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partitionS cellsS valuesS readsS refinementS endpointLedgerS
+        ledgerS routeS provenanceS nameRowS bundle pkg ->
+      DyadicStepFunctionCarrier partitionT cellsT valuesT readsT refinementT endpointLedgerT
+        ledgerT routeT provenanceT nameRowT bundle pkg ->
+        Cont valuesS valuesT sumRead ->
+          Cont sumRead ledgerS sumSeal ->
+            PkgSig bundle sumSeal pkg ->
+              UnaryHistory sumRead ∧ UnaryHistory sumSeal ∧
+                Cont valuesS valuesT sumRead ∧ Cont sumRead ledgerS sumSeal ∧
+                  PkgSig bundle nameRowS pkg ∧ PkgSig bundle sumSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrierS carrierT valuesSum sumLedgerSeal sumSealPkg
+  obtain ⟨_partitionSUnary, _cellsSUnary, valuesSUnary, _readsSUnary, _refinementSUnary,
+    _endpointLedgerSUnary, ledgerSUnary, _routeSUnary, _provenanceSUnary, _nameRowSUnary,
+    _partitionCellsValuesS, _valuesReadsRefinementS, _refinementEndpointLedgerS,
+    _routeProvenanceNameRowS, nameRowSPkg⟩ := carrierS
+  obtain ⟨_partitionTUnary, _cellsTUnary, valuesTUnary, _readsTUnary, _refinementTUnary,
+    _endpointLedgerTUnary, _ledgerTUnary, _routeTUnary, _provenanceTUnary, _nameRowTUnary,
+    _partitionCellsValuesT, _valuesReadsRefinementT, _refinementEndpointLedgerT,
+    _routeProvenanceNameRowT, _nameRowTPkg⟩ := carrierT
+  have sumReadUnary : UnaryHistory sumRead :=
+    unary_cont_closed valuesSUnary valuesTUnary valuesSum
+  have sumSealUnary : UnaryHistory sumSeal :=
+    unary_cont_closed sumReadUnary ledgerSUnary sumLedgerSeal
+  exact
+    ⟨sumReadUnary, sumSealUnary, valuesSum, sumLedgerSeal, nameRowSPkg, sumSealPkg⟩
+
 end BEDC.Derived.DyadicStepFunctionUp
