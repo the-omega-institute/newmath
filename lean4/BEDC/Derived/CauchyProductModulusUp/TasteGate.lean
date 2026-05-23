@@ -1,11 +1,22 @@
 import BEDC.Derived.CauchyProductModulusUp
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyProductModulusUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -31,15 +42,14 @@ private theorem cauchyProductModulus_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cauchyProductModulusFields : BEDC.Derived.CauchyProductModulusUp → List BHist
+def cauchyProductModulusFields : CauchyProductModulusUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | BEDC.Derived.CauchyProductModulusUp.mk sourceA sourceB windowA windowB dyadicA dyadicB
-      budget modulus readback sealRow transport routes provenance name =>
-      [sourceA, sourceB, windowA, windowB, dyadicA, dyadicB, budget, modulus,
-        readback, sealRow, transport, routes, provenance, name]
+  | CauchyProductModulusUp.mk sourceA sourceB windowA windowB dyadicA dyadicB budget
+      modulus readback sealRow transport routes provenance name =>
+      [sourceA, sourceB, windowA, windowB, dyadicA, dyadicB, budget, modulus, readback,
+        sealRow, transport, routes, provenance, name]
 
-def cauchyProductModulusToEventFlow :
-    BEDC.Derived.CauchyProductModulusUp → EventFlow
+def cauchyProductModulusToEventFlow : CauchyProductModulusUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (cauchyProductModulusFields x).map cauchyProductModulusEncodeBHist
 
@@ -57,14 +67,13 @@ private def cauchyProductModulusLengthEq : Nat → EventFlow → Bool
   | Nat.succ _index, [] => false
   | Nat.succ index, _event :: rest => cauchyProductModulusLengthEq index rest
 
-def cauchyProductModulusFromEventFlow :
-    EventFlow → Option BEDC.Derived.CauchyProductModulusUp
+def cauchyProductModulusFromEventFlow : EventFlow → Option CauchyProductModulusUp
   -- BEDC touchpoint anchor: BHist BMark
   | flow =>
       match cauchyProductModulusLengthEq 14 flow with
       | true =>
           some
-            (BEDC.Derived.CauchyProductModulusUp.mk
+            (CauchyProductModulusUp.mk
               (cauchyProductModulusDecodeBHist (cauchyProductModulusEventAt 0 flow))
               (cauchyProductModulusDecodeBHist (cauchyProductModulusEventAt 1 flow))
               (cauchyProductModulusDecodeBHist (cauchyProductModulusEventAt 2 flow))
@@ -93,11 +102,10 @@ private theorem cauchyProductModulus_mk_congr
     (hReadback : readback' = readback) (hSealRow : sealRow' = sealRow)
     (hTransport : transport' = transport) (hRoutes : routes' = routes)
     (hProvenance : provenance' = provenance) (hName : name' = name) :
-    BEDC.Derived.CauchyProductModulusUp.mk sourceA' sourceB' windowA' windowB'
-        dyadicA' dyadicB' budget' modulus' readback' sealRow' transport' routes'
-        provenance' name' =
-      BEDC.Derived.CauchyProductModulusUp.mk sourceA sourceB windowA windowB
-        dyadicA dyadicB budget modulus readback sealRow transport routes provenance name := by
+    CauchyProductModulusUp.mk sourceA' sourceB' windowA' windowB' dyadicA' dyadicB'
+        budget' modulus' readback' sealRow' transport' routes' provenance' name' =
+      CauchyProductModulusUp.mk sourceA sourceB windowA windowB dyadicA dyadicB budget
+        modulus readback sealRow transport routes provenance name := by
   -- BEDC touchpoint anchor: BHist BMark
   cases hSourceA
   cases hSourceB
@@ -116,7 +124,7 @@ private theorem cauchyProductModulus_mk_congr
   rfl
 
 private theorem cauchyProductModulus_round_trip :
-    ∀ x : BEDC.Derived.CauchyProductModulusUp,
+    ∀ x : CauchyProductModulusUp,
       cauchyProductModulusFromEventFlow (cauchyProductModulusToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -141,8 +149,7 @@ private theorem cauchyProductModulus_round_trip :
             (cauchyProductModulus_decode_encode_bhist provenance)
             (cauchyProductModulus_decode_encode_bhist name))
 
-private theorem cauchyProductModulusToEventFlow_injective
-    {x y : BEDC.Derived.CauchyProductModulusUp} :
+private theorem cauchyProductModulusToEventFlow_injective {x y : CauchyProductModulusUp} :
     cauchyProductModulusToEventFlow x = cauchyProductModulusToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -154,14 +161,13 @@ private theorem cauchyProductModulusToEventFlow_injective
     (Eq.trans (cauchyProductModulus_round_trip x).symm
       (Eq.trans hread (cauchyProductModulus_round_trip y)))
 
-instance cauchyProductModulusBHistCarrier :
-    BHistCarrier BEDC.Derived.CauchyProductModulusUp where
+instance cauchyProductModulusBHistCarrier : BHistCarrier CauchyProductModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := cauchyProductModulusToEventFlow
   fromEventFlow := cauchyProductModulusFromEventFlow
 
 instance cauchyProductModulusChapterTasteGate :
-    ChapterTasteGate BEDC.Derived.CauchyProductModulusUp where
+    ChapterTasteGate CauchyProductModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -171,17 +177,17 @@ instance cauchyProductModulusChapterTasteGate :
     intro x y hxy heq
     exact hxy (cauchyProductModulusToEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate BEDC.Derived.CauchyProductModulusUp :=
+def taste_gate : ChapterTasteGate CauchyProductModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchyProductModulusChapterTasteGate
 
 theorem CauchyProductModulusTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate BEDC.Derived.CauchyProductModulusUp) ∧
+    Nonempty (ChapterTasteGate CauchyProductModulusUp) ∧
       (∀ h : BHist, cauchyProductModulusDecodeBHist (cauchyProductModulusEncodeBHist h) = h) ∧
-        (∀ x : BEDC.Derived.CauchyProductModulusUp,
+        (∀ x : CauchyProductModulusUp,
           cauchyProductModulusFromEventFlow (cauchyProductModulusToEventFlow x) = some x) ∧
-          (∀ x y : BEDC.Derived.CauchyProductModulusUp,
-            cauchyProductModulusToEventFlow x = cauchyProductModulusToEventFlow y -> x = y) ∧
+          (∀ x y : CauchyProductModulusUp,
+            cauchyProductModulusToEventFlow x = cauchyProductModulusToEventFlow y → x = y) ∧
             cauchyProductModulusEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
@@ -190,5 +196,105 @@ theorem CauchyProductModulusTasteGate_single_carrier_alignment :
       cauchyProductModulus_round_trip,
       (fun _ _ heq => cauchyProductModulusToEventFlow_injective heq),
       rfl⟩
+
+namespace TasteGate
+
+def CauchyProductModulusCarrier [AskSetup] [PackageSetup]
+    (sourceA sourceB windowA windowB dyadicA dyadicB budget modulus readback sealRow
+      transport routes provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+    UnaryHistory sourceA ∧
+      UnaryHistory sourceB ∧
+        UnaryHistory windowA ∧
+          UnaryHistory windowB ∧
+            UnaryHistory dyadicA ∧
+              UnaryHistory dyadicB ∧
+                UnaryHistory budget ∧
+                  UnaryHistory modulus ∧
+                    UnaryHistory readback ∧
+                      Cont sourceA sourceB budget ∧
+                        Cont budget modulus readback ∧
+                          Cont readback sealRow transport ∧
+                            Cont transport routes name ∧
+                              PkgSig bundle provenance pkg ∧
+                                PkgSig bundle sealRow pkg ∧
+                                  hsame sealRow readback ∧ hsame name sealRow
+
+theorem CauchyProductModulusCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB dyadicA dyadicB budget modulus readback sealRow transport
+      routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductModulusCarrier sourceA sourceB windowA windowB dyadicA dyadicB budget modulus
+        readback sealRow transport routes provenance name bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRow ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sourceA ∨ hsame row sourceB ∨ hsame row budget ∨ hsame row modulus ∨
+              hsame row readback ∨ hsame row sealRow)
+          (fun row : BHist => hsame row sealRow ∧ PkgSig bundle sealRow pkg)
+          hsame ∧
+        Nonempty (ChapterTasteGate CauchyProductModulusUp) ∧
+          PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier
+  obtain ⟨_sourceAUnary, _sourceBUnary, _windowAUnary, _windowBUnary, _dyadicAUnary,
+    _dyadicBUnary, _budgetUnary, _modulusUnary, readbackUnary, _sourceBudget,
+    _budgetReadback, _readbackSealTransport, _transportRoutesName, provenancePkg, sealPkg,
+    sameSealReadback, _sameNameSeal⟩ := carrier
+  have sealUnary : UnaryHistory sealRow :=
+    unary_transport readbackUnary (hsame_symm sameSealReadback)
+  have sourceSeal : (fun row : BHist => hsame row sealRow ∧ UnaryHistory row) sealRow := by
+    exact ⟨hsame_refl sealRow, sealUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRow ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sourceA ∨ hsame row sourceB ∨ hsame row budget ∨ hsame row modulus ∨
+              hsame row readback ∨ hsame row sealRow)
+          (fun row : BHist => hsame row sealRow ∧ PkgSig bundle sealRow pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro sealRow sourceSeal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, sealPkg⟩
+    }
+  exact ⟨cert, ⟨cauchyProductModulusChapterTasteGate⟩, provenancePkg⟩
+
+def taste_gate : ChapterTasteGate CauchyProductModulusUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  BEDC.Derived.CauchyProductModulusUp.taste_gate
+
+theorem CauchyProductModulusTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate CauchyProductModulusUp) ∧
+      (∀ h : BHist, cauchyProductModulusDecodeBHist (cauchyProductModulusEncodeBHist h) = h) ∧
+        (∀ x : CauchyProductModulusUp,
+          cauchyProductModulusFromEventFlow (cauchyProductModulusToEventFlow x) = some x) ∧
+          (∀ x y : CauchyProductModulusUp,
+            cauchyProductModulusToEventFlow x = cauchyProductModulusToEventFlow y → x = y) ∧
+            cauchyProductModulusEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact BEDC.Derived.CauchyProductModulusUp.CauchyProductModulusTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.CauchyProductModulusUp
