@@ -132,4 +132,42 @@ theorem BinaryExpansionPacket_dyadic_ledger_exhaustion [AskSetup] [PackageSetup]
       dyadicReadUnary, windowsDigitsApproximation, approximationRegularRealSeal,
       digitsWindowsRead, provenancePkg, dyadicReadPkg⟩
 
+theorem BinaryExpansionPacket_prefix_tail_radius_monotonicity [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert prefixRow
+      extendedPrefix tailRoute oldRadius newRadius : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg ->
+      UnaryHistory prefixRow ->
+        UnaryHistory tailRoute ->
+          hsame extendedPrefix (append prefixRow tailRoute) ->
+            Cont windows prefixRow oldRadius ->
+              Cont windows extendedPrefix newRadius ->
+                PkgSig bundle oldRadius pkg ->
+                  PkgSig bundle newRadius pkg ->
+                    UnaryHistory windows ∧ UnaryHistory prefixRow ∧ UnaryHistory extendedPrefix ∧
+                      UnaryHistory oldRadius ∧ UnaryHistory newRadius ∧
+                        hsame extendedPrefix (append prefixRow tailRoute) ∧
+                          Cont windows prefixRow oldRadius ∧
+                            Cont windows extendedPrefix newRadius ∧
+                              PkgSig bundle provenance pkg ∧ PkgSig bundle oldRadius pkg ∧
+                                PkgSig bundle newRadius pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro packet prefixUnary tailUnary sameExtended windowsPrefixOld windowsExtendedNew
+    oldRadiusPkg newRadiusPkg
+  obtain ⟨_digitsUnary, windowsUnary, _approximationUnary, _regularUnary, _realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, _windowsDigitsApproximation,
+    _approximationRegularRealSeal, _transportRouteProvenance, provenancePkg⟩ := packet
+  have appendUnary : UnaryHistory (append prefixRow tailRoute) :=
+    unary_append_closed prefixUnary tailUnary
+  have extendedUnary : UnaryHistory extendedPrefix :=
+    unary_transport_symm appendUnary sameExtended
+  have oldRadiusUnary : UnaryHistory oldRadius :=
+    unary_cont_closed windowsUnary prefixUnary windowsPrefixOld
+  have newRadiusUnary : UnaryHistory newRadius :=
+    unary_cont_closed windowsUnary extendedUnary windowsExtendedNew
+  exact
+    ⟨windowsUnary, prefixUnary, extendedUnary, oldRadiusUnary, newRadiusUnary, sameExtended,
+      windowsPrefixOld, windowsExtendedNew, provenancePkg, oldRadiusPkg, newRadiusPkg⟩
+
 end BEDC.Derived.BinaryExpansionUp
