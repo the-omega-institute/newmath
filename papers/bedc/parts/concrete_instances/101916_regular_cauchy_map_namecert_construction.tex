@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyMapUp$}
+\label{ch:concrete-instances-regular-cauchy-map-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyMapUp$ packet records the finite BEDC route by which a displayed map sends regular Cauchy rational names to regular Cauchy rational names before a Real-facing consumer reads the result. It sits between the finite source-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the continuity surface of \autoref{ch:concrete-instances-continuousmap-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the finite map surface between regular Cauchy names; it does not identify quotient streams, select limits, compare host functions, use countable choice, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy map carrier]
+\label{def:regular-cauchy-map-carrier}
+A $\RegularCauchyMapUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,R,D,F,T,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ finite-window row, exposing only the source windows requested by the packet.
+\item $R$ is the source $\RegSeqRatUp$ handoff row attached to those windows before any map output is inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the visible dyadic radii, slack comparisons, and finite requests used by the source and target readbacks.
+\item $F$ is the displayed map-and-modulus row, recording for each inspected source precision a finite target precision request and the modulus comparison that justifies it.
+\item $T$ is the target $\StreamNameUp$ finite-window row produced from $S,R,D,F$.
+\item $Q$ is the target $\RegSeqRatUp$ handoff row attached to $T$ and to the same dyadic tolerance ledger.
+\item $A$ is the target $\RealUp$ seal row, reachable only after $T$ and $Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source windows, source regular handoff, dyadic ledger, map-and-modulus row, target windows, target regular handoff, target Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S\longmapsto R\longmapsto D,F\longmapsto T\longmapsto Q\longmapsto A .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyMapUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected limits, host function equality, countable choice, ambient $\RealUp$ completeness, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy map NameCert obligations]
+\label{thm:regular-cauchy-map-namecert-obligations}
+For every accepted $\RegularCauchyMapUp$ carrier
+$$
+M=(S,R,D,F,T,Q,A,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyMapUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source StreamName windows, source RegSeqRat handoff, DyadicRatCore tolerance ledger, displayed map-and-modulus row, target StreamName windows, target RegSeqRat handoff, target Real seal, and structural rows $H,C,P,N$;
+\item source-window exactness, requiring every map request to project the finite source windows $S$ before the source handoff $R$ or any target row is inspected;
+\item source regularity routing, requiring $R$ to attach the inspected source windows to a regular rational name before $F$ can read a source approximation;
+\item dyadic tolerance transport, requiring $D$ to carry the radii and slack comparisons used by the map-and-modulus row $F$;
+\item target-window production, requiring $T$ to be generated from the displayed source windows, source handoff, tolerance ledger, and map-and-modulus row;
+\item target regularity and seal routing, requiring $Q$ to mediate between $T$ and $A$ before any $\RealUp$ seal is consumed;
+\item non-escape for quotient stream equality, selected limits, host function equality, countable choice, ambient $\RealUp$ completeness, and bridge checking.
+\end{enumerate}
+No local regular-Cauchy map obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-map-carrier}. The analytic coordinates are exactly the source finite windows, the source regular handoff, the dyadic tolerance ledger, the displayed map-and-modulus row, the target finite windows, the target regular handoff, and the target Real seal.
+
+The source route is read first. A map request opens $S$, then passes through the $\RegSeqRatUp$ handoff $R$, so the packet never applies the map to an uninspected stream representative or to a selected limit.
+
+The dyadic route is then transported through $D$ and $F$. The ledger $D$ supplies the visible radii and slack comparisons, while the row $F$ turns each inspected source precision into a finite target precision request through its displayed modulus row.
+
+Finally the target route is exposed. The windows $T$ are produced only from the preceding rows, the target regular handoff $Q$ attaches those windows to a regular rational name, and the Real seal $A$ is downstream of $Q$. The structural rows $H,C,P,N$ replay and name this same finite route, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy map source-window preservation]
+\label{thm:regular-cauchy-map-source-window-preservation}
+Let
+$$
+M=(S,R,D,F,T,Q,A,H,C,P,N)
+$$
+be an accepted $\RegularCauchyMapUp$ carrier. Every target window produced by the displayed map-and-modulus row $F$ is backed by a finite source window from $S$, a source $\RegSeqRatUp$ handoff through $R$, and dyadic tolerance rows from $D$. Consequently a target-window consumer cannot bypass the source StreamName and RegSeqRat route.
+\end{theorem}
+\begin{proof}
+Begin with a target-window consumer. Projection gives the target row $T$, but $T$ is a downstream coordinate of the route displayed by the carrier, not an independent stream representative.
+
+Trace the target window backward through $F$. The map-and-modulus row stores the finite source precision and the target precision it requests, so the consumer must recover a source window in $S$ before the target cells can be named.
+
+The source window is attached to regular rational readback by $R$. The dyadic tolerance rows in $D$ then supply the radii and slack comparisons used by the map row when it forms the target request.
+
+Thus every target-window read preserves a source-window witness, a source regular handoff, and a dyadic tolerance route. None of these projections introduces quotient stream equality, a selected limit, host function equality, or countable choice.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy map Real seal handoff]
+\label{thm:regular-cauchy-map-real-seal-handoff}
+For every accepted $\RegularCauchyMapUp$ carrier $M=(S,R,D,F,T,Q,A,H,C,P,N)$, every $\RealUp$ seal consumer factors through
+$$
+S\longmapsto R\longmapsto D,F\longmapsto T\longmapsto Q\longmapsto A
+$$
+together with the structural rows $H,C,P,N$. In particular the target $\RealUp$ seal is reached only after the target $\RegSeqRatUp$ handoff has been displayed.
+\end{theorem}
+\begin{proof}
+Start with a seal-facing request. Carrier projection exposes $A$ as a target Real seal row, but the displayed route places $A$ after the target regular handoff $Q$.
+
+Read the target handoff. The row $Q$ is attached to the target windows $T$, and those windows are produced by the source route $S,R$ together with the dyadic ledger $D$ and map-and-modulus row $F$.
+
+Only then may the consumer inspect the Real seal. The replay row $C$ records this ordering, the transport row $H$ preserves it under componentwise comparison, and the provenance and local naming rows $P,N$ name no additional principle.
+
+Therefore the target Real seal is a downstream endpoint of the finite regular-Cauchy map route, not an ambient completeness or host function equality assertion.
+\end{proof}
+
+\closureat{RegularCauchyMapUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyMapUp}
+  \constructivestory{A $\RegularCauchyMapUp$ packet is generated from source StreamName windows, a source RegSeqRat handoff, DyadicRatCore tolerance rows, a displayed map-and-modulus row, target StreamName windows, a target RegSeqRat handoff, a target RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-map-carrier}, \autoref{thm:regular-cauchy-map-namecert-obligations}, \autoref{thm:regular-cauchy-map-source-window-preservation}, and \autoref{thm:regular-cauchy-map-real-seal-handoff} seed the finite L10 map route between regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, host function equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window exactness, source regularity routing, dyadic tolerance transport, target-window production, target regularity and seal routing, and ledger non-escape for BEDC.Derived.RegularCauchyMapUp.}
+\end{closurestatus}

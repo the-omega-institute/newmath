@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\LowerUpperRealCutUp$}
+\label{ch:concrete-instances-lower-upper-real-cut-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\LowerUpperRealCutUp$ packet records the finite two-sided located cut surface obtained by reading lower observations through \autoref{ch:concrete-instances-lowerreal-namecert}, upper observations through \autoref{ch:concrete-instances-upperreal-namecert}, located gap evidence through \autoref{ch:concrete-instances-locatedcut-namecert}, and the regular-Cauchy comparison boundary through \autoref{ch:concrete-instances-dedekind-cut-cauchy-boundary-namecert} before the terminal \autoref{ch:concrete-instances-real-namecert} seal is available.
+
+\begin{definition}[Lower-upper real cut carrier]
+\label{def:lower-upper-real-cut-carrier}
+A $\LowerUpperRealCutUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,U,G,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LowerRealUp$ ledger. It records the finite lower observations and their dyadic comparison budgets.
+\item $U$ is the $\UpperRealUp$ ledger. It records the finite upper observations and their dyadic comparison budgets.
+\item $G$ is the located gap and apartness row. It binds the lower and upper ledgers to the same displayed located-cut request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It stores the dyadic endpoints, radii, slack, and comparison witnesses used by $L,U,G$.
+\item $S$ is the $\StreamNameUp$ finite-window row. It schedules the visible lower-upper reads without selecting an infinite stream representative.
+\item $R$ is the $\RegSeqRatUp$ comparison handoff. It reads the same two-sided windows through the regular-Cauchy comparison boundary.
+\item $E$ is the terminal $\RealUp$ seal. It is reachable only after $L,U,G,D,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the lower ledger, upper ledger, located gap row, dyadic tolerance row, stream window, regular-Cauchy handoff, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for every real-facing read through the same tuple $L,U,G,D,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LowerUpperRealCutUp$, $\LowerRealUp$, $\UpperRealUp$, $\LocatedCutUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LowerUpperRealCutUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,G,D,S,R,E,H,C,P,N$. It has no coordinate for quotient cuts, host suprema, selected cuts, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Lower-upper real cut NameCert obligations]
+\label{thm:lower-upper-real-cut-namecert-obligations}
+For an accepted $\LowerUpperRealCutUp$ carrier
+$$
+K=(L,U,G,D,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\LowerUpperRealCutUp}$ surface consists exactly of the following five finite rows:
+\begin{enumerate}
+\item carrier exposure for the lower ledger, upper ledger, located gap row, dyadic tolerance row, stream window, regular-Cauchy handoff, real seal, componentwise transport, replay, provenance, and local naming row;
+\item lower ledger stability, requiring every lower observation to be read through $L,D,S,H,C,P,N$ and to preserve its displayed dyadic budget under componentwise $\hsame$ transport;
+\item upper ledger stability, requiring every upper observation to be read through $U,D,S,H,C,P,N$ and to preserve its displayed dyadic budget under componentwise $\hsame$ transport;
+\item located gap exactness, requiring the apartness row $G$ to bind the displayed lower and upper observations to the same finite located-cut request before the regular-Cauchy handoff is consumed;
+\item ledger non-escape, requiring $R$ and $E$ to remain downstream of $L,U,G,D,S$ and to export no quotient cuts, host suprema, selected cuts, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:lower-upper-real-cut-carrier}. The accepted packet displays exactly the lower ledger, upper ledger, located gap row, dyadic tolerance row, stream window, regular-Cauchy handoff, real seal, and structural rows.
+
+Lower and upper ledger stability are componentwise. The row $H$ transports the visible lower and upper observations, while $C$ replays their dyadic budgets through the same finite window and provenance rows.
+
+Located gap exactness is read from $G$ against $L$ and $U$. The apartness evidence is a displayed finite row of the packet, so it binds the two one-sided ledgers before a regular-Cauchy comparison can be exported.
+
+Ledger non-escape follows from the row inventory. The handoff $R$ and the seal $E$ sit downstream of $L,U,G,D,S$, and no coordinate stores a quotient cut, host supremum, selected cut, trichotomy branch, countable-choice selector, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Lower-upper real cut Cauchy handoff]
+\label{thm:lower-upper-real-cut-cauchy-handoff}
+Every $\RealUp$-facing read of an accepted $\LowerUpperRealCutUp$ packet factors through the displayed tuple
+$$
+L,U,G,D,S,R,E,H,C,P,N
+$$
+and cannot bypass the regular-Cauchy comparison boundary. Thus the two-sided cut surface reaches the terminal real seal only by reading the lower ledger, upper ledger, located gap evidence, dyadic tolerances, finite stream windows, regular-Cauchy handoff, and structural $\hsame/\Cont/\Pkg/\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Fix an accepted $\LowerUpperRealCutUp$ carrier. A real-facing consumer first sees the one-sided ledgers $L$ and $U$ together with the dyadic tolerance row $D$, so every lower or upper observation is a displayed finite read.
+
+The located row $G$ binds those observations to one apartness request. The finite window row $S$ then schedules the same lower-upper evidence without selecting an infinite stream representative.
+
+The comparison handoff is $R$. Since $R$ is downstream of $L,U,G,D,S$, a consumer cannot reach the terminal seal before passing through the regular-Cauchy comparison boundary.
+
+The terminal seal $E$ and the rows $H,C,P,N$ only seal, transport, replay, source, and name the displayed route. Because no other carrier coordinate exists, the handoff cannot bypass the boundary or export quotient cuts, host suprema, selected cuts, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{LowerUpperRealCutUp}{seedStr}
+
+\begin{closurestatus}{\LowerUpperRealCutUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lower-upper-real-cut-carrier}, \autoref{thm:lower-upper-real-cut-namecert-obligations}, and \autoref{thm:lower-upper-real-cut-cauchy-handoff} seed the finite two-sided located cut surface between one-sided real ledgers and the regular-Cauchy real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Dedekind construction of $\RealUp$, host supremum, quotient cut equality, selected representative, countable choice, trichotomy, or $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier exposure, lower ledger stability, upper ledger stability, located gap exactness, ledger non-escape, and the regular-Cauchy handoff for BEDC.Derived.LowerUpperRealCutUp.}
+  \constructivestory{A $\LowerUpperRealCutUp$ packet is generated from LowerReal and UpperReal ledgers, a located gap row, a DyadicRatCore tolerance row, a StreamName finite window, a RegSeqRat comparison handoff, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

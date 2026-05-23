@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealTailEnvelopeUp$}
+\label{ch:concrete-instances-located-real-tail-envelope-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedRealTailEnvelopeUp$ packet records the finite located-tail envelope by which a regular located Cauchy source becomes visible to $\RealUp$ and $\CompletionUp$ consumers. It sits over the regular located source boundary of \autoref{ch:concrete-instances-regular-located-cauchy-real-namecert}, the paired tail-agreement seal of \autoref{ch:concrete-instances-realtailagreementseal-namecert}, the limit handoff surface of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and the nested interval compactness boundary of \autoref{ch:concrete-instances-nestedintervalcompactness-namecert}. The envelope keeps the tail window, dyadic tolerance, agreement seal, limit seal, and terminal Real seal in one finite NameCert route before any consumer treats the route as completed real data.
+
+\begin{definition}[LocatedRealTailEnvelope carrier]
+\label{def:located-real-tail-envelope-carrier}
+A $\LocatedRealTailEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,W,D,A,L,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegularLocatedCauchyRealUp$ source row, including the regular rational source, located enclosure, and visible convergence-rate data.
+\item $W$ is the finite tail-window row naming the source indices inspected by the consumer.
+\item $D$ is the dyadic tolerance ledger for $W$, including the requested radii, endpoint comparisons, and readback bounds.
+\item $A$ is the $\RealTailAgreementSealUp$ row certifying that the displayed tail window agrees with the Real-facing read at the named tolerance.
+\item $L$ is the $\CauchyLimitSealUp$ row consuming the same finite tail window and dyadic ledger as the limit-seal handoff.
+\item $S$ is the terminal $\RealUp$ seal, exposed only after $R,W,D,A,L$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, tail window, dyadic ledger, agreement seal, limit seal, terminal Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each $\RealUp$ or $\CompletionUp$ precision request through $R,W,D,A,L,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealTailEnvelopeUp$, $\RegularLocatedCauchyRealUp$, $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\NestedIntervalCompactnessUp$, $\RealUp$, $\CompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealTailEnvelopeUp}$ row.
+\end{enumerate}
+The classifier compares accepted envelopes only through $R,W,D,A,L,S,H,C,P,N$. It has no coordinate for quotient streams, selected host limits, countable choice, open-cover compactness, host real equality, or ambient Real completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.LocatedRealTailEnvelopeUp.LocatedRealTailEnvelopeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[LocatedRealTailEnvelope NameCert obligations]
+\label{thm:located-real-tail-envelope-namecert-obligations}
+For every accepted $\LocatedRealTailEnvelopeUp$ carrier $E=(R,W,D,A,L,S,H,C,P,N)$, the local $\NameCert_{\LocatedRealTailEnvelopeUp}$ surface consists exactly of the following six obligation rows:
+\begin{enumerate}
+\item carrier exposure for the displayed located Cauchy source, finite tail window, dyadic tolerance ledger, agreement seal, limit seal, terminal Real seal, and structural rows $H,C,P,N$;
+\item located-tail route stability, requiring every consumer precision request to read the source row $R$, the finite window $W$, and the dyadic ledger $D$ in the same displayed order;
+\item agreement-seal compatibility, requiring the $\RealTailAgreementSealUp$ row $A$ to consume the same $W,D$ route as the located source;
+\item CauchyLimitSeal handoff, requiring the $\CauchyLimitSealUp$ row $L$ to read no tail data outside $R,W,D,A$;
+\item Real-seal routing, requiring the terminal $\RealUp$ row $S$ to be downstream of the source, window, tolerance, agreement, and limit-seal rows;
+\item ledger non-escape, requiring $H,C,P,N$ to preserve and name only the displayed route and to export no quotient stream, selected host limit, countable-choice selector, open-cover compactness object, or ambient Real completeness principle.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:located-real-tail-envelope-carrier}. The admitted packet contains the located Cauchy source $R$, the finite tail window $W$, the dyadic ledger $D$, the agreement row $A$, the Cauchy limit seal $L$, the terminal Real seal $S$, and the structural rows $H,C,P,N$.
+
+Located-tail route stability follows from the order of the displayed rows. A consumer precision request first fixes the located source, then reads only the finite window named for that source, and then reads the dyadic tolerance ledger attached to that window.
+
+Agreement-seal compatibility is forced because $A$ has no window or tolerance coordinate other than $W$ and $D$. The same route is therefore used for the located source and for the tail-agreement read.
+
+The CauchyLimitSeal handoff is the next row in the packet. The row $L$ consumes the already displayed $R,W,D,A$ route and has no separate source for an unbounded tail, selected limit, or host convergence predicate.
+
+Finally $S$ is terminal, and the rows $H,C,P,N$ only transport, replay, source, and name the same finite route. Since the excluded objects are absent from the carrier inventory, no local obligation can export them.
+\end{proof}
+
+\begin{theorem}[LocatedRealTailEnvelope Real-seal factorization]
+\label{thm:located-real-tail-envelope-real-seal-factorization}
+Let $E=(R,W,D,A,L,S,H,C,P,N)$ be an accepted $\LocatedRealTailEnvelopeUp$ carrier. Every $\RealUp$ or $\CompletionUp$ consumer read of $E$ factors through the displayed located tail route
+$$
+R \longmapsto W \longmapsto D \longmapsto A \longmapsto L \longmapsto S \longmapsto H,C,P,N
+$$
+before reading the terminal Real seal.
+
+Consequently the consumer receives a regular located Cauchy source, finite tail window, dyadic tolerance ledger, RealTailAgreementSeal row, CauchyLimitSeal row, terminal $\RealUp$ seal, transport, replay, provenance, and local naming. The route cannot use quotient streams, selected host limits, countable choice, open-cover compactness, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:located-real-tail-envelope-carrier}. The only Real-facing endpoint is $S$, and the carrier places $S$ after the located source, tail window, dyadic ledger, agreement seal, and limit seal.
+
+The first part of the route is the located-tail read. The row $R$ supplies the regular located Cauchy source, $W$ selects the finite tail window inspected for the request, and $D$ supplies the dyadic tolerance ledger for that window.
+
+The second part of the route is the seal read. The row $A$ certifies agreement on the same window and ledger, and $L$ packages the CauchyLimitSeal handoff before $S$ can be exposed.
+
+The structural rows preserve the route. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming do not add a second route to $\RealUp$ or $\CompletionUp$. Hence every consumer read factors through the displayed located tail route, and the excluded quotient, selector, compactness, host-equality, and ambient-completeness coordinates remain unavailable.
+\end{proof}
+
+\closureat{LocatedRealTailEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealTailEnvelopeUp}
+  \constructivestory{A $\LocatedRealTailEnvelopeUp$ packet is generated from a RegularLocatedCauchyReal source row, a finite tail-window row, a dyadic tolerance ledger, a RealTailAgreementSeal row, a CauchyLimitSeal row, a terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-tail-envelope-carrier}, \autoref{thm:located-real-tail-envelope-namecert-obligations}, and \autoref{thm:located-real-tail-envelope-real-seal-factorization} seed the finite located-tail envelope for RealUp and CompletionUp consumers over displayed agreement and limit-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected host limits, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, located-tail route stability, agreement-seal compatibility, CauchyLimitSeal handoff, Real-seal routing, and ledger non-escape for the same displayed packet.}
+\end{closurestatus}

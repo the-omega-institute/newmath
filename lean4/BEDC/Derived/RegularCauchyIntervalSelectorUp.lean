@@ -107,4 +107,24 @@ theorem RegularCauchyIntervalSelectorCarrier_real_seal_handoff
     ⟨unaryD, unaryS, unaryR, unaryJ, unarySeal, unaryPublic, selectedRoute, nestingRoute,
       sealRoute, publicPkg⟩
 
+theorem RegularCauchyIntervalSelectorCarrier_schedule_exposure
+    [AskSetup] [PackageSetup]
+    {D S R J E H C P N scheduleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyIntervalSelectorCarrier D S R J E H C P N →
+      Cont D S scheduleRead →
+        PkgSig bundle scheduleRead pkg →
+          UnaryHistory D ∧ UnaryHistory S ∧ UnaryHistory scheduleRead ∧
+            Cont D S scheduleRead ∧ UnaryHistory H ∧ UnaryHistory C ∧ hsame N E ∧
+              PkgSig bundle scheduleRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier scheduleRoute schedulePkg
+  obtain ⟨unaryD, unaryS, _unaryJ, _unaryE, unaryH, unaryC, _carrierRoute,
+    _sealRoute, sameNameSeal⟩ := carrier
+  have unarySchedule : UnaryHistory scheduleRead :=
+    unary_cont_closed unaryD unaryS scheduleRoute
+  exact
+    ⟨unaryD, unaryS, unarySchedule, scheduleRoute, unaryH, unaryC, sameNameSeal,
+      schedulePkg⟩
+
 end BEDC.Derived.RegularCauchyIntervalSelectorUp

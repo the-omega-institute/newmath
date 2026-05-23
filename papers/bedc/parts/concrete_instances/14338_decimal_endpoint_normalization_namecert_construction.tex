@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\DecimalEndpointNormalizationUp$}
+\label{ch:concrete-instances-decimal-endpoint-normalization-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\DecimalEndpointNormalizationUp$ packet records the finite convention that relates terminating decimal prefixes to repeating-nine endpoint prefixes. It refines the finite decimal readback surface of \autoref{ch:concrete-instances-decimalexpansion-namecert} without selecting a host representative for a real number. The packet compares its decimal-window rows with the binary and continued-fraction readback neighbors of \autoref{ch:concrete-instances-binaryexpansion-namecert} and \autoref{ch:concrete-instances-continuedfraction-namecert}, and it hands all real-facing reads through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Decimal endpoint normalization carrier]\label{def:decimal-endpoint-normalization-carrier}
+A $\DecimalEndpointNormalizationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,E,L,A,W,Q,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite digit-prefix ledger. Its rows list the inspected decimal prefixes, their signs or integral prefixes when present, and the finite place window in which the prefix is read.
+\item $E$ is the terminating-versus-repeating-nine endpoint ledger. Each row records a displayed finite terminating prefix, the corresponding repeating-nine tail convention visible inside the same finite window, and the endpoint side on which the convention is invoked.
+\item $L$ is the decimal carry and normalization row. It records the finite carry propagation, the last changed digit, and the normalized prefix produced by that carry.
+\item $A$ is the base-ten rational place-value row for the prefixes displayed by $D,E,L$.
+\item $W$ is the $\StreamNameUp$ finite-window row used to request and replay exactly the inspected prefix and endpoint-convention entries.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance readback row comparing the base-ten place-value rows with the dyadic tolerance demanded by the consumer.
+\item $R$ is the $\RegSeqRatUp$ handoff row reached from the same window, place-value, carry, and dyadic-tolerance rows.
+\item $S$ is the terminal $\RealUp$ seal row exposed only after $D,E,L,A,W,Q,R$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transports for digit-prefix, endpoint-ledger, carry-normalization, place-value, stream-window, dyadic-tolerance, regular-readback, seal, continuation, provenance, and local naming rows.
+\item $C$ stores the displayed $\Cont$ replay from prefix windows to endpoint rows, from endpoint rows to carry normalization, from normalization to dyadic tolerance, from tolerance to regular readback, and from readback to the real seal.
+\item $P$ is the $\Pkg$ provenance over $\DecimalEndpointNormalizationUp$, $\DecimalExpansionUp$, $\BinaryExpansionUp$, $\ContinuedFractionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and the local naming row.
+\item $N$ is the local $\NameCert_{\DecimalEndpointNormalizationUp}$ row.
+\end{enumerate}
+The carrier stores only the finite endpoint-convention certificate just displayed. It has no row for host decimal equality, quotient-real equality, selected representatives, trichotomy, countable choice, $\RealUp$ completeness, or a standard bridge.
+\end{definition}
+
+\begin{definition}[Decimal endpoint normalization classifier]\label{def:decimal-endpoint-normalization-classifier}
+The local classifier for an accepted packet $K=(D,E,L,A,W,Q,R,S,H,C,P,N)$ accepts exactly those finite reads that pass through the displayed rows in the order
+$$
+D,E,L,A,W,Q,R,S .
+$$
+It treats a terminating endpoint row and its repeating-nine companion as two named endpoint conventions inside the same finite ledger $E$; it then reads the carry row $L$ to produce the normalized finite prefix inspected by $A$. Classifier transport is componentwise through $H$, continuation is replay through $C$, and package admissibility is the single provenance row $P$ together with the local naming row $N$.
+\end{definition}
+
+\begin{theorem}[Decimal endpoint normalization NameCert obligations]\label{thm:decimal-endpoint-normalization-namecert-obligations}
+For an accepted $\DecimalEndpointNormalizationUp$ carrier $K=(D,E,L,A,W,Q,R,S,H,C,P,N)$, the local $\NameCert_{\DecimalEndpointNormalizationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the digit-prefix, endpoint-ledger, carry-normalization, place-value, stream-window, dyadic-tolerance, regular-readback, real-seal, transport, continuation, provenance, and naming rows;
+\item classifier transport along the stored $\hsame$ coordinates and the displayed $\Cont$ route;
+\item endpoint-ledger exactness, stating that every terminating-versus-repeating-nine comparison exported by the packet is one of the rows listed in $E$ and normalized through $L$;
+\item readback discipline, stating that every $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, or $\RealUp$ consumer reads the same finite window before receiving the corresponding tolerance, handoff, or seal row;
+\item ledger exclusion, stating that host decimal equality, quotient-real equality, selected representatives, trichotomy, countable choice, $\RealUp$ completeness, and bridge data are not exported by the packet.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate.DecimalEndpointNormalizationTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:decimal-endpoint-normalization-carrier}. The finite digit-prefix rows, endpoint ledger, carry-normalization row, place-value row, stream window, dyadic tolerance, regular readback, real seal, transports, continuations, package row, and local naming row are precisely the displayed coordinates.
+
+Classifier transport is componentwise. The digit and endpoint rows move through their stored $\hsame$ witnesses, while $C$ replays the same window-to-endpoint, endpoint-to-carry, carry-to-tolerance, and tolerance-to-readback route after transport.
+
+Endpoint-ledger exactness is local to $E$ and $L$. A terminating prefix and a repeating-nine companion are compared only when the finite ledger lists that pair, and the only exported normalization is the carry row displayed for that pair.
+
+The readback discipline then follows the sibling surfaces. Windows are read through \autoref{ch:concrete-instances-streamname-namecert}, dyadic tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, regular rational handoff through \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal through \autoref{ch:concrete-instances-real-namecert}.
+
+The excluded principles are absent from the carrier inventory, so the local certificate cannot export them.
+\end{proof}
+
+\begin{theorem}[Decimal endpoint Real readback boundary]\label{thm:decimal-endpoint-normalization-real-readback-boundary}
+Every $\RealUp$ read of an accepted $\DecimalEndpointNormalizationUp$ packet factors through the finite route
+$$
+\DecimalExpansionUp,\ \DecimalEndpointNormalizationUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The decimal packet supplies finite prefix rows, the endpoint-normalization packet supplies the displayed terminating-versus-repeating-nine ledger and carry row, the stream window supplies the inspected observation, the dyadic row supplies tolerance readback, the regular row supplies the rational handoff, and the real-facing consumer receives only the displayed seal. The binary and continued-fraction neighbors from \autoref{ch:concrete-instances-binaryexpansion-namecert} and \autoref{ch:concrete-instances-continuedfraction-namecert} are comparison readback surfaces, not additional representative selectors.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet $K=(D,E,L,A,W,Q,R,S,H,C,P,N)$. The decimal-facing data are $D,E,L,A$: the prefix ledger, endpoint-convention ledger, carry-normalization row, and base-ten place-value row.
+
+The stream-facing data are exactly the windows in $W$. A consumer can inspect only the finite prefix and endpoint rows named by that window, so no infinite decimal stream enters the read.
+
+The dyadic row $Q$ converts the same finite normalized prefix into the tolerance language used by downstream real consumers. The regular handoff row $R$ is reached only after $D,E,L,A,W,Q$ are fixed.
+
+The seal row $S$ is downstream of $R$, and the rows $H,C,P,N$ preserve the same route under transport, continuation, provenance, and local naming. Thus the real readback has the displayed finite factorization and cannot add a selected representative or quotient-real equality test.
+\end{proof}
+
+\begin{theorem}[Decimal endpoint nonescape]\label{thm:decimal-endpoint-normalization-nonescape}
+Let $K=(D,E,L,A,W,Q,R,S,H,C,P,N)$ be an accepted $\DecimalEndpointNormalizationUp$ packet. Any consumer that reads an endpoint convention, a normalized decimal prefix, a dyadic tolerance, a regular rational handoff, or a visible $\RealUp$ seal is exhausted by the displayed rows of $K$. In particular, no route from $K$ escapes to endpoint uniqueness as host equality, quotient reals, selected representatives, trichotomy, countable choice, $\RealUp$ completeness, or a bridge.
+\end{theorem}
+\begin{proof}
+Read the requested datum by cases. Endpoint conventions use $E$, normalized decimal prefixes use $L$ together with the prefix rows $D$, dyadic tolerances use $Q$, regular rational handoffs use $R$, and visible real seals use $S$.
+
+The shared observation window is $W$, and all replay is mediated by $C$. Hence every case remains inside the finite window and the rows already displayed in the carrier.
+
+Transport and provenance do not add new data. The row $H$ transports equal displayed coordinates, while $P$ records the dependence on the decimal, binary, continued-fraction, stream, dyadic, regular, and real sibling surfaces already cited in the chapter.
+
+The listed escaped objects are not rows of $K$. Therefore the packet cannot supply them to any consumer of its endpoint-normalization certificate.
+\end{proof}
+
+\begin{closurestatus}{\DecimalEndpointNormalizationUp}
+  \constructivestory{A $\DecimalEndpointNormalizationUp$ packet is generated from finite digit-prefix rows, a terminating-versus-repeating-nine endpoint ledger, a carry-normalization row, StreamName windows, DyadicRatCore tolerance readback, RegSeqRat handoff, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decimal-endpoint-normalization-carrier}, \autoref{def:decimal-endpoint-normalization-classifier}, \autoref{thm:decimal-endpoint-normalization-namecert-obligations}, \autoref{thm:decimal-endpoint-normalization-real-readback-boundary}, and \autoref{thm:decimal-endpoint-normalization-nonescape} seed the finite decimal endpoint-convention surface for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close endpoint uniqueness as host equality, quotient reals, selected representatives, trichotomy, countable choice, RealUp completeness, or a bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, endpoint-ledger exactness, readback discipline, nonescape, and RealUp seal handoff for the displayed packet.}
+\end{closurestatus}

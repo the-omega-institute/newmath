@@ -1,0 +1,106 @@
+\chapter{A Concrete Naming Certificate for $\HellySelectionUp$}
+\label{ch:concrete-instances-helly-selection-namecert}
+\origin{human}
+
+Following Helly's selection theorem in the Bishop--Bridges constructive reading, the $\HellySelectionUp$ packet records the finite subsequence-selection surface available for bounded-variation real-sequence data. It consumes the partition ledger of \autoref{ch:concrete-instances-boundedvariation-namecert}, the displayed sequence algebra of \autoref{ch:concrete-instances-real-sequence-algebra-namecert}, the finite selector handoff of \autoref{ch:concrete-instances-sequential-compactness-namecert}, and the regular rational stream names of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only finite windows, variation budgets, selector rows, regular rational readbacks, transport, replay, provenance, and local naming; it does not import open-cover compactness, trichotomy, quotient stream equality, ambient completeness, or choice-selected subsequences.
+
+\begin{definition}[Helly selection carrier]\label{def:helly-selection-carrier}
+A $\HellySelectionUp$ carrier is a finite $\BHist$ packet
+$$
+H=(B,A,W,S,R,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the source $\BoundedVariationUp$ row, including the finite partition-variation ledger and the displayed uniform variation budget read by the selection request.
+\item $A$ is the $\RealSequenceAlgebraUp$ row that exposes the real-sequence source only through pointwise algebra windows, not through host equality of streams.
+\item $W$ is the finite $\StreamNameUp$ window ledger recording the requested source indices, rational scales, and finite observation schedule.
+\item $S$ is the $\SequentialCompactnessUp$ selector row whose selected indices and selected windows are displayed as data of the packet.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the selected windows and rational tail budgets.
+\item $E$ is the terminal $\RealUp$ seal for the selected-window read after $B,A,W,S,R$ have been displayed.
+\item $T$ records componentwise $\hsame$ transport for the bounded-variation ledger, sequence-algebra row, finite windows, selector row, regular readback, and terminal seal.
+\item $C$ records displayed $\Cont$ replay from a bounded-variation selection request through the sequence-algebra row, finite windows, selector row, regular readback, real seal, and transport data.
+\item $P$ is the $\Pkg$ provenance over $\HellySelectionUp$, $\BoundedVariationUp$, $\RealSequenceAlgebraUp$, $\SequentialCompactnessUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HellySelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,A,W,S,R,E,T,C,P,N$. It has no coordinate for open-cover compactness, trichotomy, quotient stream equality, ambient completeness, host sequence equality, or choice-selected subsequences.
+\end{definition}
+\leanchecked{BEDC.Derived.HellySelectionUp.HellySelectionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Helly selection NameCert obligations]\label{thm:helly-selection-namecert-obligations}
+For every accepted $\HellySelectionUp$ carrier
+$$
+H=(B,A,W,S,R,E,T,C,P,N),
+$$
+the local $\NameCert_{\HellySelectionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the bounded-variation source row, sequence-algebra row, finite stream windows, displayed selector row, regular rational readback, real seal, transport, replay, provenance, and local naming;
+\item bounded-variation exposure, requiring the variation budget read by the selection request to pass through $B$ before any selected window is inspected;
+\item sequence-window exposure, requiring every source observation to pass through $A$ and $W$ before the selector row $S$ is read;
+\item selector stability, requiring the selected indices and selected windows to be exactly the rows displayed in $S$ and transported componentwise by $T$;
+\item regular readback exactness, requiring every selected-window convergence read to pass from $S$ to $R$ before the terminal seal $E$ is available;
+\item nonescape, excluding open-cover compactness, trichotomy, quotient stream equality, ambient completeness, host sequence equality, Lean verification, bridge checking, and choice-selected subsequences.
+\end{enumerate}
+No Helly-selection obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic coordinates are the bounded-variation row, the sequence-algebra row, the finite stream windows, the displayed selector row, the regular readback, and the terminal real seal. The structural coordinates are the componentwise transport, continuation replay, package provenance, and local naming rows.
+
+The bounded-variation and window obligations are read in order. A consumer must first inspect the variation budget through $B$, then expose the real-sequence source through $A$ and the finite observation schedule $W$.
+
+Selector stability is internal to $S$ and $T$. The selected indices and selected windows are named rows of the carrier, and the transport coordinate moves only those rows together with the visible source, window, readback, and seal data.
+
+The regular readback and terminal seal are then forced by $R$ and $E$. Since no carrier coordinate stores open-cover compactness, trichotomy, quotient stream equality, ambient completeness, host sequence equality, Lean verification, bridge data, or choice-selected subsequences, none of those objects can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Helly selection bounded-variation window]\label{thm:helly-selection-bounded-variation-window}
+Every accepted $\HellySelectionUp$ packet reads its bounded-variation information through a finite window route
+$$
+B \longmapsto A \longmapsto W \longmapsto S.
+$$
+The route exposes the source variation budget, sequence-algebra observations, requested stream windows, and displayed selector windows before any $\RegSeqRatUp$ handoff is available. It exports no open-cover compactness, trichotomy, quotient stream equality, ambient completeness, or choice-selected subsequence coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the bounded-variation source row $B$. Its visible data are finite partition ledgers and variation budgets, so the selection request starts from displayed bounded-variation information rather than an ambient compactness principle.
+
+The sequence source is then opened through $A$ and $W$. The row $A$ supplies the pointwise real-sequence algebra surface, while $W$ records the finite stream-name requests and rational scales used by the selector.
+
+Only after these rows have been displayed can the selector row $S$ be inspected. Thus the bounded-variation window route reaches the selected windows without introducing open-cover compactness, trichotomy, quotient stream equality, ambient completeness, or any choice-selected subsequence.
+\end{proof}
+
+\begin{theorem}[Helly selection subsequence handoff]\label{thm:helly-selection-subsequence-handoff}
+Every selected subsequence read exported by an accepted $\HellySelectionUp$ carrier factors through the displayed selector row, regular rational handoff, terminal real seal, and structural rows
+$$
+S \longmapsto R \longmapsto E \longmapsto T,C,P,N.
+$$
+The handoff names a finite selected-window route over $\SequentialCompactnessUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, not a host-chosen subsequence or a quotient stream.
+\end{theorem}
+\begin{proof}
+Project the selector row $S$. Its selected indices and selected windows are part of the finite carrier, so a consumer cannot replace them by an external selection function.
+
+The selected windows enter $R$ together with the rational tail budgets. This is the only route by which the packet exposes a regular rational convergence read.
+
+The terminal seal $E$ is read after $R$, and the rows $T,C,P,N$ transport, replay, source, and name the same route. Hence the subsequence handoff is finite and displayed, with no coordinate for a host-chosen subsequence or quotient stream equality.
+\end{proof}
+
+\begin{theorem}[Helly selection public export]\label{thm:helly-selection-public-export}
+The public boundary of $\HellySelectionUp$ exports exactly the bounded-variation source row, real-sequence algebra row, finite stream windows, displayed selector row, regular rational readback, terminal real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\HellySelectionUp}$ row of \autoref{def:helly-selection-carrier}. It exports no open-cover compactness, trichotomy, quotient stream equality, ambient completeness, host sequence equality, or choice-selected subsequences.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The public rows are precisely $B,A,W,S,R,E,T,C,P,N$.
+
+The NameCert obligation theorem shows that every local obligation is attached to those rows. The bounded-variation window theorem shows that the variation and window data are read before the selector is inspected, and the subsequence handoff theorem shows that every selected-window read passes through $S,R,E,T,C,P,N$.
+
+No additional row remains from which open-cover compactness, trichotomy, quotient stream equality, ambient completeness, host sequence equality, or a choice-selected subsequence could be exported. Therefore the public boundary is exactly the finite displayed packet.
+\end{proof}
+
+\closureat{HellySelectionUp}{seedStr}
+
+\begin{closurestatus}{\HellySelectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:helly-selection-carrier}, \autoref{thm:helly-selection-namecert-obligations}, \autoref{thm:helly-selection-bounded-variation-window}, \autoref{thm:helly-selection-subsequence-handoff}, and \autoref{thm:helly-selection-public-export} seed the finite bounded-variation subsequence-selection surface over displayed variation ledgers, sequence-algebra windows, selector rows, regular rational readbacks, and terminal real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, trichotomy, quotient stream equality, ambient completeness, host sequence equality, Lean verification, bridge checking, or choice-selected subsequences.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-variation exposure, sequence-window exposure, selector stability, regular readback exactness, nonescape, handoff factoring, and public-export proofs for BEDC.Derived.HellySelectionUp.}
+  \constructivestory{A $\HellySelectionUp$ packet is generated from a bounded-variation source row, real-sequence algebra row, finite StreamName windows, displayed SequentialCompactness selector row, RegSeqRat readback, Real seal, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+\end{closurestatus}

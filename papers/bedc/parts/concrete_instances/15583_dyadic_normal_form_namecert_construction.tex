@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\DyadicNormalFormUp$}
+\label{ch:concrete-instances-dyadic-normal-form-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\DyadicNormalFormUp$ packet names the finite canonical presentation of a dyadic rational before the open Real and Completion route passes through regular rational streams. It sits downstream of the signed rows of \autoref{ch:concrete-instances-int-namecert}, the rational rows of \autoref{ch:concrete-instances-rat-namecert}, and the dyadic core boundary of \autoref{ch:concrete-instances-dyadicratcore-namecert}; it supplies the displayed normal-form surface read by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet records canonical finite dyadic representation data, not quotient rational equality, completed real equality, order, completeness, or a standard bridge.
+
+\begin{definition}[Dyadic normal-form carrier]
+\label{def:dyadic-normal-form-carrier}
+A $\DyadicNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,M,E,Z,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sign row, read through the signed $\IntUp$ surface and recording positive, negative, or zero orientation for the displayed dyadic.
+\item $M$ is the signed mantissa row, an $\IntUp$-read finite integer whose absolute part is visible before scale inspection.
+\item $E$ is the unary exponent row, carrying the nonnegative dyadic scale attached to the denominator $2^E$.
+\item $Z$ is the zero classifier row, recording that the zero packet is represented by the distinguished row $M=0$ with terminal scale $E=0$.
+\item $R$ is the scale-minimality row, recording that a nonzero mantissa is odd at the displayed scale and hence cannot be divided by $2$ while lowering $E$.
+\item $L$ is the dyadic readback ledger, exposing the finite rational row $M/2^E$ through $\RatUp$ and the accepted $\DyadicRatCoreUp$ boundary.
+\item $H$ records componentwise $\hsame$ transport for the sign, mantissa, exponent, zero classifier, scale-minimality row, readback ledger, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a dyadic input through sign extraction, mantissa readback, unary scale inspection, zero handling, scale-minimality verification, and dyadic readback.
+\item $P$ is the $\Pkg$ provenance over $\IntUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $S,M,E,Z,R,L,H,C,P,N$. It has no coordinate for quotient rational equality, host real equality, order, completion, a choice-selected representative, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Dyadic normal-form NameCert obligations]
+\label{thm:dyadic-normal-form-namecert-obligations}
+For every accepted $\DyadicNormalFormUp$ carrier $D=(S,M,E,Z,R,L,H,C,P,N)$, the local $\NameCert_{\DyadicNormalFormUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the sign, signed mantissa, unary exponent, zero classifier, scale-minimality row, dyadic readback ledger, transport, continuation, provenance, and local naming row;
+\item source compatibility, requiring $M$ and $E$ to be read from an accepted $\DyadicRatCoreUp$ packet through the displayed $\IntUp$ and $\RatUp$ surfaces;
+\item zero exactness, requiring $Z$ to identify the unique zero normal row $M=0,E=0$ before any downstream readback is exposed;
+\item scale-minimality, requiring every nonzero accepted row to expose an odd mantissa at the displayed scale, so that no lower unary exponent represents the same dyadic row inside the packet;
+\item dyadic readback stability, requiring $L,H,C$ to preserve the rational readback $M/2^E$ under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item downstream handoff, requiring $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers to inspect only the finite normal-form row and its dyadic readback ledger;
+\item ledger refusal, excluding quotient rational equality, host real equality, order, completion, choice-selected representatives, and standard-bridge data.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-normal-form-carrier}. The projection exposes exactly the sign row, mantissa row, unary exponent row, zero classifier, scale-minimality row, dyadic readback ledger, and structural rows $H,C,P,N$.
+
+Source compatibility follows from the attachment to \autoref{ch:concrete-instances-dyadicratcore-namecert}. The mantissa is read through $\IntUp$, the rational readback is read through $\RatUp$, and both rows are consumed only as finite dyadic-core data.
+
+Zero exactness and scale-minimality are the two classifier rows. The zero case is forced by $Z$, while the nonzero case is forced by $R$, which records that no displayed factor of $2$ remains in the mantissa at the chosen scale.
+
+Replay $C$ and then transport by $H$. The route preserves the same sign, mantissa, exponent, zero classifier, minimality row, and readback ledger before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer can inspect the packet.
+
+The exclusions are immediate from the carrier inventory. Since quotient rational equality, host real equality, order, completion, choice-selected representatives, and bridge rows are absent, the local NameCert surface cannot export them.
+\end{proof}
+
+\begin{theorem}[Dyadic normal-form canonical readback]
+\label{thm:dyadic-normal-form-canonical-readback}
+Let $D=(S,M,E,Z,R,L,H,C,P,N)$ and $D'=(S',M',E',Z',R',L',H',C',P',N')$ be accepted $\DyadicNormalFormUp$ carriers whose dyadic readback ledgers expose the same $\DyadicRatCoreUp$ row through the displayed $\RatUp$ surface. If both carriers satisfy the same zero classifier and scale-minimality rows, then their sign, mantissa, unary exponent, and dyadic readback rows agree under componentwise $\hsame$ transport. Consequently every $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumer reads a single canonical finite normal form rather than a family of scale-shifted dyadic representatives.
+\end{theorem}
+\begin{proof}
+Compare the two accepted packets through the displayed readback ledgers $L$ and $L'$. The hypothesis says that the comparison is made inside the same $\DyadicRatCoreUp$ boundary and through the same $\RatUp$ readback surface.
+
+If the common readback is zero, the classifier rows $Z$ and $Z'$ force both packets to use the distinguished zero row. Hence $M=M'=0$ and $E=E'=0$ after componentwise transport, and the sign rows agree with the zero orientation.
+
+In the nonzero case, the scale-minimality rows $R$ and $R'$ force both mantissas to be odd at their displayed scales. A dyadic equality between two odd mantissas at different unary exponents would exhibit a remaining factor of $2$ on one side after transporting to a common scale, contradicting the corresponding minimality row.
+
+Thus the unary exponent rows agree, and then the displayed rational readback forces the signed mantissa rows and sign rows to agree. Transport by $H$ and $H'$ carries this agreement to the local naming rows, while $C$ and $C'$ replay the same finite route for downstream consumers.
+
+The $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ handoff reads only the rows just compared. Therefore downstream consumers see the canonical finite normal form and not a separate scale-shifted representative.
+\end{proof}
+
+\closureat{DyadicNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\DyadicNormalFormUp}
+  \constructivestory{A $\DyadicNormalFormUp$ packet is generated from a sign row, signed mantissa, unary exponent, zero classifier, scale-minimality row, dyadic readback ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-normal-form-carrier}, \autoref{thm:dyadic-normal-form-namecert-obligations}, and \autoref{thm:dyadic-normal-form-canonical-readback} seed the canonical finite dyadic representation boundary feeding DyadicRatCore, StreamName, RegSeqRat, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient rational equality, host real equality, order, completion, choice-selected representatives, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, zero exactness, scale-minimality, dyadic readback stability, canonical readback, downstream handoff, and ledger refusal proofs for BEDC.Derived.DyadicNormalFormUp.}
+\end{closurestatus}

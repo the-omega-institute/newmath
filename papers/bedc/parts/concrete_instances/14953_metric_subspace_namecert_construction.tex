@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\MetricSubspaceUp$}
+\label{ch:concrete-instances-metric-subspace-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges metric-space practice, the $\MetricSubspaceUp$ packet records the standard subspace metric as a finite BEDC NameCert carrier. It sits between the parent metric surface of \autoref{ch:concrete-instances-metric-namecert}, the topology surface of \autoref{ch:concrete-instances-topology-namecert}, the ball rows of \autoref{ch:concrete-instances-metricball-namecert} and \autoref{ch:concrete-instances-metricclosedball-namecert}, and the numerical rows of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-rat-namecert}. The packet gives compact-subspace, closed-ball, completion, and topology consumers a displayed carrier for restricting distance to admitted points, without importing host subsets, quotient equality, ambient choice, or a second metric law.
+
+\begin{definition}[MetricSubspace carrier]
+\label{def:metric-subspace-carrier}
+A $\MetricSubspaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,A,D,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the parent $\MetricUp$ row, including its point classifier, distance witness, metric-law ledger, and finite observation histories.
+\item $A$ is the displayed subset or admission-predicate row. A point is available to the subspace packet only when the parent point classifier of $X$ and the admission row $A$ both accept it.
+\item $D$ is the inherited distance ledger. It contains no independent distance value; each subspace distance read is the parent distance row of $X$ applied to two admitted points.
+\item $H$ records componentwise $\hsame$ transport for the parent metric row, admission row, inherited distance ledger, restricted replay row, provenance row, and local naming row.
+\item $C$ records the displayed $\Cont$ route replaying point admission, subset membership, parent-distance evaluation, restricted metric-law transport, and downstream ball or topology handoff.
+\item $P$ is the $\Pkg$ provenance over $\MetricUp$, $\TopologyUp$, $\MetricBallUp$, $\MetricClosedBallUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetricSubspaceUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for host subset equality, quotient membership, an independently chosen distance, an ambient open-cover principle, countable choice, or a replacement topology.
+\end{definition}
+\leanchecked{BEDC.Derived.MetricSubspaceUp.MetricSubspaceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[MetricSubspace NameCert obligations]
+\label{thm:metric-subspace-namecert-obligations}
+For an accepted $\MetricSubspaceUp$ carrier $S=(X,A,D,H,C,P,N)$, the local $\NameCert_{\MetricSubspaceUp}$ surface consists exactly of five obligations:
+\begin{enumerate}
+\item carrier admission for the parent metric row, displayed admission row, inherited distance ledger, componentwise transport, restricted replay, provenance row, and local naming row;
+\item subset-membership stability, requiring classifier transport by $H$ to preserve the admission row $A$ before any distance read is exposed;
+\item inherited-distance restriction, requiring every subspace distance query to be a parent $\MetricUp$ distance query on two points already admitted by $A$;
+\item restricted metric-law transport, requiring symmetry, zero-distance, triangle, and rational or real comparison reads to be replayed only along the parent metric-law ledger named by $X$ and transported by $H$;
+\item ledger non-escape, stating that the packet exports no host subset equality, quotient membership, independent distance, ambient choice principle, open-cover principle, or replacement topology.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metric-subspace-carrier}. The tuple lists the parent metric row, admission predicate row, inherited distance ledger, transport, replay, provenance, and local naming rows.
+
+Subset-membership stability is local to $A$ and $H$. Transport first aligns the parent point classifier and admission row, so a downstream consumer cannot read a subspace point without replaying both admissions.
+
+Inherited-distance restriction is the role of $D$ and $C$. Every distance request is routed through two admitted points and then through the parent distance witness of $X$; no separate distance coordinate is present.
+
+Restricted metric-law transport is inherited from the metric-law ledger of $X$. The replay row $C$ uses the same parent symmetry, zero-distance, triangle, and numerical comparison rows after the admission checks have been performed.
+
+The provenance row $P$ and naming row $N$ record exactly the dependencies available to the packet. Since the carrier has no coordinate outside $X,A,D,H,C,P,N$, the excluded host, quotient, choice, open-cover, and replacement-topology principles cannot be exported.
+\end{proof}
+
+\begin{theorem}[MetricSubspace distance restriction]
+\label{thm:metric-subspace-distance-restriction}
+Let $S=(X,A,D,H,C,P,N)$ be an accepted $\MetricSubspaceUp$ carrier. If two displayed reads $x$ and $y$ pass the parent point classifier of $X$ and the admission row $A$, then the subspace distance row between $x$ and $y$ is exactly the parent $\MetricUp$ distance row read through $D$ and replayed by $C$.
+
+Consequently every ball, closed-ball, completion, or topology consumer of $S$ factors through admitted endpoints before it can consume a distance comparison:
+$$
+(x,y)\longmapsto A(x),A(y)\longmapsto D_X(x,y)\longmapsto C,H,P,N .
+$$
+The route is not a quotient of subsets, not host equality, and not a second metric carried beside $X$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only point rows visible to the subspace packet are parent points of $X$ that also pass the admission row $A$.
+
+For admitted $x$ and $y$, the inherited ledger $D$ reads the parent distance witness from $X$. The replay row $C$ records this read after the two admission checks, so the subspace distance has no value other than the displayed parent distance.
+
+The rows $H,P,N$ transport and name the same finite route. Thus any ball, closed-ball, completion, or topology consumer receives a distance comparison only after admission of both endpoints and parent-distance evaluation, while quotient, host-equality, and independent-metric data remain absent from the carrier.
+\end{proof}
+
+\begin{theorem}[MetricSubspace closed complete inheritance]
+\label{thm:metric-subspace-closed-complete-inheritance}
+Let $S=(X,A,D,H,C,P,N)$ be an accepted $\MetricSubspaceUp$ carrier. Suppose the parent metric row $X$ carries a $\CompleteMetricUp$ limit-witness route for a regular $\StreamNameUp$ Cauchy stream, every displayed observation of the stream passes the admission row $A$, and the admission row $A$ is closed under the parent limit witness.
+
+Then the same stream has a subspace $\CompleteMetricUp$ limit witness with the same limit row. Every convergence read in the subspace factors through the finite route
+$$
+\StreamNameUp \longrightarrow X,A,D,H,C,P,N
+\longrightarrow \CompleteMetricUp ,
+$$
+and each late-distance comparison is the parent metric comparison identified by \autoref{thm:metric-subspace-distance-restriction}. The inherited witness exports no quotient subset, selected host equality, replacement limit row, or ambient completeness coordinate beyond the displayed parent $\CompleteMetricUp$ route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The stream observations visible to the subspace packet are parent observations of $X$ together with admission proofs from $A$, and the distance row available to them is the inherited row $D$ replayed by $C$.
+
+Apply the parent $\CompleteMetricUp$ route on $X$ to the same regular $\StreamNameUp$ Cauchy stream. This produces the parent limit witness and the parent late-distance comparisons used for convergence.
+
+Use closedness of the admission row $A$ under that parent limit witness to admit the limit row into the subspace packet. The limit is not chosen again; it is the same parent row now accompanied by the displayed admission evidence.
+
+Finally apply \autoref{thm:metric-subspace-distance-restriction}. Every subspace convergence read is therefore the corresponding parent distance read after endpoint admission, transported by $H$ and replayed by $C$ through the same provenance and naming rows $P,N$. Since no additional carrier coordinate is present, quotient subset data, selected host equality, replacement limits, and independent ambient completeness data cannot enter the subspace witness.
+\end{proof}
+
+\begin{closurestatus}{\MetricSubspaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-subspace-carrier}, \autoref{thm:metric-subspace-namecert-obligations}, and \autoref{thm:metric-subspace-distance-restriction} seed the finite L10 subspace-metric interface over parent metric, displayed admission, inherited distance, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host subset equality, quotient membership, independent distance construction, ambient choice, open-cover compactness, replacement topologies, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subset-membership stability, inherited-distance restriction, restricted metric-law transport, and ledger non-escape for the same packet.}
+  \constructivestory{The construction starts from a displayed parent Metric row, filters points through an admission row, reads distance only from the parent metric ledger, and replays ball, closed-ball, completion, and topology consumers through the same finite route.}
+\end{closurestatus}

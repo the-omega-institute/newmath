@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\RealRationalApproximationUp$}
+\label{ch:concrete-instances-real-rational-approximation-namecert}
+\origin{human}
+
+Bishop and Bridges-style constructive analysis reads a real name through explicit rational approximants at finite precision, not through a host real value or a completed quotient stream. The $\RealRationalApproximationUp$ packet records that finite approximation window as BEDC data between the displayed real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the rational boundedness interface of \autoref{ch:concrete-instances-archimedeanreal-namecert}. It is a rational-approximation face for Real and Completion consumers; it is not host real equality, a best-approximant selector, trichotomy, or ambient completeness.
+
+\begin{definition}[RealRationalApproximation carrier]
+\label{def:real-rational-approximation-carrier}
+A $\RealRationalApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+W=(R,Q,D,S,G,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the terminal $\RealUp$ seal whose finite rational approximation window is being displayed.
+\item $Q$ is the $\RatUp$ approximation row exported at the requested precision.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row naming the dyadic budget under which $Q$ is accepted as an approximant.
+\item $S$ is the $\StreamNameUp$ finite window opened from $R$ before the rational approximation is read.
+\item $G$ is the $\RegSeqRatUp$ readback row attached to $S$, recording the regular rational observations used to justify $Q$.
+\item $A$ is the approximation ledger comparing $Q$ with the displayed readback rows under the dyadic tolerance budget $D$.
+\item $H$ stores componentwise $\hsame$ transport for the real seal, rational approximation row, dyadic tolerance row, stream window, regular readback, approximation ledger, replay, provenance, and local name.
+\item $C$ stores displayed $\Cont$ replay from a finite precision request through $S,G,D,A,Q$ and then into the terminal real seal $R$.
+\item $P$ records $\Pkg$ provenance over $\RealRationalApproximationUp$, $\RealUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\ArchimedeanRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealRationalApproximationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host real equality, quotient streams, selected best approximants, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RealRationalApproximationUp.TasteGate.RealRationalApproximationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RealRationalApproximation NameCert obligations]
+\label{thm:real-rational-approximation-namecert-obligations}
+For every accepted $\RealRationalApproximationUp$ carrier $W=(R,Q,D,S,G,A,H,C,P,N)$, the local $\NameCert_{\RealRationalApproximationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\RealUp$ seal, $\RatUp$ approximation row, $\DyadicRatCoreUp$ tolerance row, $\StreamNameUp$ finite window, $\RegSeqRatUp$ readback, approximation ledger, transport, replay, provenance, and local naming rows;
+\item window admission, requiring every approximation request to open the finite stream window $S$ from the real seal $R$ before reading any rational row;
+\item tolerance admission, requiring the dyadic budget $D$ to be displayed before the rational approximant $Q$ may be accepted;
+\item readback comparison, requiring the ledger $A$ to compare $Q$ against the regular rational observations in $G$ under the same dyadic budget $D$;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the ordered route $R,S,G,D,A,Q$ componentwise;
+\item ledger nonescape from host real equality, quotient streams, selected best approximants, trichotomy, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealRationalApproximationUp.RealRationalApproximationTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-rational-approximation-carrier}. The accepted packet displays exactly the real seal $R$, rational row $Q$, dyadic tolerance row $D$, stream window $S$, regular readback $G$, approximation ledger $A$, and the structural rows $H,C,P,N$.
+
+Window admission and tolerance admission are forced by the ordering of the packet. A finite approximation request first opens $S$ from the displayed real seal, reads the regular rational row $G$, and fixes the dyadic budget $D$ before $Q$ can be consumed as an approximant.
+
+The comparison row is the ledger $A$. It records the finite check that the displayed rational row $Q$ matches the readback observations in $G$ at the tolerance named by $D$, so the approximation surface is exhausted by the rows already present in the carrier.
+
+Transport and replay are structural. The $\hsame$ row $H$ moves each displayed coordinate componentwise, and the $\Cont$ row $C$ repeats the same finite route for later consumers.
+
+The nonescape clause follows because the carrier has no row for host real equality, quotient streams, selected best approximants, trichotomy, or ambient completeness. The local $\NameCert$ row $N$ can therefore export only the displayed approximation window.
+\end{proof}
+
+\begin{theorem}[RealRationalApproximation window extraction]
+\label{thm:real-rational-approximation-window-extraction}
+Every accepted $\RealRationalApproximationUp$ carrier $W=(R,Q,D,S,G,A,H,C,P,N)$ exposes a finite rational approximation window
+$$
+R \longrightarrow S \longrightarrow G \longrightarrow D \longrightarrow A \longrightarrow Q
+$$
+for the displayed $\RealUp$ name. A Real or Completion consumer receives the rational approximant only after the $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows have been displayed with their transport, replay, provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Start from an accepted packet $W=(R,Q,D,S,G,A,H,C,P,N)$. Projection gives the terminal real seal $R$ and the finite stream window $S$ opened from it.
+
+The regular readback row $G$ is then read through the same window. The dyadic tolerance row $D$ supplies the precision budget for the request, and the ledger $A$ compares the candidate rational row $Q$ with the displayed observations under that budget.
+
+Thus the consumer obtains $Q$ only through the ordered finite route $R,S,G,D,A$. The remaining rows $H,C,P,N$ transport, replay, source, and name the same route, so no detached real value or quotient stream is required to extract the approximation window.
+\end{proof}
+
+\begin{theorem}[RealRationalApproximation Real seal handoff]
+\label{thm:real-rational-approximation-real-seal-handoff}
+The terminal $\RealUp$ seal of an accepted $\RealRationalApproximationUp$ packet hands off exactly the displayed approximation rows $Q,D,S,G,A,H,C,P,N$. It exports no host real equality, quotient stream, selected best approximant, trichotomy datum, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+The real-facing boundary is the coordinate $R$ of \autoref{def:real-rational-approximation-carrier}. Every public approximation read attached to $R$ must pass through the finite window $S$, the regular readback $G$, the dyadic tolerance row $D$, the ledger $A$, and the rational row $Q$.
+
+The structural rows do not enlarge the boundary. They preserve the same displayed route by componentwise transport, continuation replay, package provenance, and local naming.
+
+Since no excluded object is a coordinate of the carrier, the terminal seal has no path to host real equality, quotient streams, selected best approximants, trichotomy, or ambient completeness. The handoff is exactly the finite rational-approximation surface.
+\end{proof}
+
+\closureat{RealRationalApproximationUp}{seedStr}
+
+\begin{closurestatus}{\RealRationalApproximationUp}
+  \constructivestory{A $\RealRationalApproximationUp$ packet is generated from a displayed RealUp seal, a RatUp approximation row, a DyadicRatCoreUp tolerance row, a StreamNameUp finite window, a RegSeqRatUp readback row, an approximation ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-rational-approximation-carrier}, \autoref{thm:real-rational-approximation-namecert-obligations}, \autoref{thm:real-rational-approximation-window-extraction}, and \autoref{thm:real-rational-approximation-real-seal-handoff} seed the finite rational approximation window over displayed $\RealUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real equality, quotient streams, selected best approximants, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window admission, tolerance admission, readback comparison, RealUp seal handoff, componentwise transport and replay stability, and ledger nonescape for the same finite packet.}
+\end{closurestatus}

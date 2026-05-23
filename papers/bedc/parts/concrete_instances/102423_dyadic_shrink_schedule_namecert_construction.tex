@@ -1,0 +1,106 @@
+\chapter{A Concrete Naming Certificate for $\DyadicShrinkScheduleUp$}
+\label{ch:concrete-instances-dyadic-shrink-schedule-namecert}
+\origin{human}
+
+Following Bishop and Bridges on epsilon-splitting in constructive analysis, the $\DyadicShrinkScheduleUp$ packet records the finite schedule by which a requested dyadic tolerance is replaced by a displayed halved or refined tolerance before any regular-rational or real-name consumer reads it. It sits over the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the scale discipline of \autoref{ch:concrete-instances-dyadic-tolerance-scale-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter packages precision halving as displayed finite data, not as an appeal to completed reals or to choice of limiting representatives.
+
+\begin{definition}[Dyadic shrink schedule carrier]
+\label{def:dyadic-shrink-schedule-carrier}
+A $\DyadicShrinkScheduleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(k,k',D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $k$ is the requested dyadic scale row. It names the finite tolerance request before any halving, window, readback, or seal data are consumed.
+\item $k'$ is the displayed halved or refined scale row. It records the finite witness that the requested scale has been replaced by the precision row used downstream.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to $k$ and $k'$, including the dyadic radius, comparison, containment, and halving rows consumed by the schedule.
+\item $W$ is the $\StreamNameUp$ finite window opened at the refined scale and budgeted by the dyadic ledger.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed request, refined scale, dyadic ledger, and finite window.
+\item $E$ is the terminal $\RealUp$ seal boundary exposed only after $k,k',D,W,R$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the requested scale, refined scale, dyadic ledger, finite window, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the requested scale through the refined scale, dyadic ledger, window, readback, Real seal, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicShrinkScheduleUp$, $\DyadicRatCoreUp$, $\DyadicToleranceScaleUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicShrinkScheduleUp}$ row.
+\end{enumerate}
+The classifier compares accepted schedules only through $k,k',D,W,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, or any hidden completeness witness.
+\end{definition}
+
+\begin{theorem}[Dyadic shrink schedule NameCert obligations]
+\label{thm:dyadic-shrink-schedule-namecert-obligations}
+For every accepted $\DyadicShrinkScheduleUp$ carrier $S=(k,k',D,W,R,E,H,C,P,N)$, the local $\NameCert_{\DyadicShrinkScheduleUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the requested scale, refined scale, DyadicRatCore ledger, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows;
+\item halving display, requiring $k'$ to be read as a displayed finite refinement of $k$ before the ledger, window, readback, or seal rows are available;
+\item dyadic ledger compatibility, requiring $D$ to carry the radius, comparison, containment, and halving checks relating the two scale rows;
+\item classifier transport, requiring accepted comparisons to preserve $k,k',D,W,R,E,H,C,P,N$ componentwise and to expose no hidden precision coordinate;
+\item RegSeqRat handoff, requiring $R$ to consume the displayed request, refined scale, dyadic ledger, and StreamName window rather than a detached stream quotient or selected limit;
+\item Real-seal non-escape, requiring $E$ to remain terminal with respect to $k,k',D,W,R$ and to export no host equality, countable choice, trichotomy, ambient completeness theorem, or selected limiting object;
+\item provenance and local naming, requiring $P$ and $N$ to package exactly the displayed schedule rows and no additional completion datum.
+\end{enumerate}
+No dyadic shrink-schedule obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-shrink-schedule-carrier}. The accepted packet consists exactly of the requested scale $k$, the refined scale $k'$, the dyadic ledger $D$, the finite window $W$, the regular readback $R$, the Real seal $E$, and the structural rows $H,C,P,N$.
+
+The halving and ledger clauses are also projections. The only row that displays the refined scale is $k'$, and the only row that records dyadic radius, comparison, containment, and halving checks is $D$.
+
+Classifier transport is componentwise through $H$ and replayed through $C$. These rows preserve the route from $k$ to $k'$, from $k'$ to $D$, from $D$ to $W$, from $W$ to $R$, and from $R$ to $E$ without adding a second precision source.
+
+The handoff and seal clauses follow from the placement of $R$ and $E$. The readback row is downstream of the displayed halving schedule, while the Real seal is terminal after the same finite route.
+
+The excluded objects are absent from the carrier and are not produced by transport, replay, provenance, or local naming. Therefore no local NameCert obligation can be stored outside the displayed rows.
+\end{proof}
+
+\begin{theorem}[Dyadic shrink schedule halving closure]
+\label{thm:dyadic-shrink-schedule-halving-closure}
+Let $S=(k,k',D,W,R,E,H,C,P,N)$ be an accepted $\DyadicShrinkScheduleUp$ carrier. Every finite consumer of the schedule reads the precision-halving route
+$$
+k \longmapsto k' \longmapsto D \longmapsto W \longmapsto R \longmapsto E \longmapsto H,C,P,N
+$$
+as a closed displayed route. In particular, halving a dyadic tolerance inside the packet produces another named finite precision row before any StreamName, RegSeqRat, or RealUp consumer can inspect the schedule.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The requested precision row is $k$, and the only displayed refined precision row is $k'$.
+
+The dyadic ledger $D$ is positioned after both scale rows and before the finite window. Thus every downstream read of the window, readback, or seal has already passed through the displayed refinement.
+
+The transport and replay rows preserve this ordering componentwise. Since no quotient stream equality, selected limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness coordinate appears in the packet, the refined precision row is closed as finite schedule data.
+\end{proof}
+
+\begin{theorem}[Dyadic shrink schedule RegSeqRat handoff]
+\label{thm:dyadic-shrink-schedule-regseqrat-handoff}
+For every accepted $\DyadicShrinkScheduleUp$ carrier $S=(k,k',D,W,R,E,H,C,P,N)$, a $\RegSeqRatUp$ consumer reaches the readback row $R$ only through the finite route from the requested scale to the refined scale, the DyadicRatCore ledger, and the StreamName window. No RegSeqRat handoff from $S$ can bypass the displayed halving schedule by quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The only readback coordinate in the carrier is $R$. By \autoref{def:dyadic-shrink-schedule-carrier}, it is obtained from $k,k',D,W$ rather than from an independent stream or limit object.
+
+The rows $H$ and $C$ transport and replay the same displayed route, while $P$ and $N$ only package it as provenance and local naming data. None of these rows introduces a second source for regular rational readback.
+
+Consequently a RegSeqRat consumer must pass through the requested scale, refined scale, dyadic ledger, and finite window before reaching $R$, with all excluded completion and choice principles remaining outside the schedule.
+\end{proof}
+
+\begin{theorem}[Dyadic shrink schedule Real seal boundary]
+\label{thm:dyadic-shrink-schedule-real-seal-boundary}
+For every accepted $\DyadicShrinkScheduleUp$ carrier $S=(k,k',D,W,R,E,H,C,P,N)$, the $\RealUp$ seal row $E$ is terminal over the displayed finite schedule. A Real consumer may read the seal only after the request, refinement, dyadic ledger, StreamName window, and RegSeqRat readback have been displayed, and the seal exports no quotient stream equality, selected limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and isolate the seal coordinate $E$. It appears after $k,k',D,W,R$ in the displayed schedule and has no independent source row.
+
+The transport, replay, provenance, and local naming rows preserve the same order. They can certify the finite schedule but cannot turn the terminal seal into a host real equality, a selected limit, or a completeness witness.
+
+Thus the $\RealUp$ boundary exposed by $S$ is exactly the displayed seal after regular readback, with quotient, choice, trichotomy, host equality, and ambient completeness data excluded.
+\end{proof}
+
+\closureat{DyadicShrinkScheduleUp}{seedStr}
+
+\begin{closurestatus}{\DyadicShrinkScheduleUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-shrink-schedule-carrier}, \autoref{thm:dyadic-shrink-schedule-namecert-obligations}, \autoref{thm:dyadic-shrink-schedule-halving-closure}, \autoref{thm:dyadic-shrink-schedule-regseqrat-handoff}, and \autoref{thm:dyadic-shrink-schedule-real-seal-boundary} seed the finite dyadic precision-halving schedule from a requested scale through refined scale, dyadic ledger, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DyadicShrinkScheduleUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean theorem coverage, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, halving display, dyadic ledger compatibility, classifier transport, RegSeqRat handoff, Real-seal non-escape, provenance, and local naming for BEDC.Derived.DyadicShrinkScheduleUp.}
+  \constructivestory{A $\DyadicShrinkScheduleUp$ packet is generated from a requested dyadic scale row, a displayed refined scale row, a DyadicRatCore tolerance ledger, a StreamName finite window, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

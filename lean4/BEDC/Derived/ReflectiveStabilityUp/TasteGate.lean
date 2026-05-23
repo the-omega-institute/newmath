@@ -310,4 +310,28 @@ theorem ReflectiveStabilityCarrier_anchor_stability
       unary_cont_closed fUnary tUnary fTInterface,
       hsame_refl N⟩
 
+theorem ReflectiveStabilityCarrier_nonescape
+    {S K A Q O F T L H C P N reuseRead ledgerRead finalTruth sourceIdentity hostValidation
+      hiddenCheckpoint : BHist} :
+    Cont Q C reuseRead ->
+      Cont reuseRead T ledgerRead ->
+        UnaryHistory Q ->
+          UnaryHistory C ->
+            UnaryHistory T ->
+              reflectiveStabilityFields (ReflectiveStabilityUp.mk S K A Q O F T L H C P N) =
+                  [S, K, A, Q, O, F, T, L, H, C, P, N] ->
+                UnaryHistory reuseRead ∧ UnaryHistory ledgerRead ∧
+                  hsame finalTruth finalTruth ∧ hsame sourceIdentity sourceIdentity ∧
+                    hsame hostValidation hostValidation ∧
+                      hsame hiddenCheckpoint hiddenCheckpoint := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro qCReuse reuseTLedger qUnary cUnary tUnary _fields
+  have reuseUnary : UnaryHistory reuseRead :=
+    unary_cont_closed qUnary cUnary qCReuse
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed reuseUnary tUnary reuseTLedger
+  exact
+    ⟨reuseUnary, ledgerUnary, hsame_refl finalTruth, hsame_refl sourceIdentity,
+      hsame_refl hostValidation, hsame_refl hiddenCheckpoint⟩
+
 end BEDC.Derived.ReflectiveStabilityUp

@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\MetricBallUp$}
+\label{ch:concrete-instances-metricball-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges, the $\MetricBallUp$ packet records the center-radius open ball used by metric-generated topology, but as finite BEDC NameCert rows rather than as an ambient subset. It extracts the singleton-ball datum used inside $\TopologyUp$ into a reusable surface for topology, continuous maps, compact nets, and metric arguments that need the same carrier before generated-open exactness is invoked.
+
+\begin{definition}[MetricBall carrier]
+\label{def:metric-ball-carrier}
+A $\MetricBallUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,d,c,r,\rho,m,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricSpaceUp$ carrier row with its point classifier and metric source data.
+\item $d$ is the $\mathsf{MetricDistanceWitness}$ row read from $X$ and valued in the $\RealUp$ distance surface.
+\item $c$ is the center row, classified as a point of the carrier named by $X$.
+\item $r$ is a $\RatUp$ or $\RealUp$ radius row, according to the chosen radius ledger.
+\item $\rho$ is the positive-radius ledger for $r$, transported through the ordered-real comparison used by the metric source.
+\item $m$ is the membership and distance-comparison row. For a displayed point $x$, it records the comparison $d(c,x)<_{\mathsf R}r$ and names this comparison as the $\mathsf{MetricOpenBall}_d(c,r,\rho)$ membership read.
+\item $H$ records the $\hsame$ transports for the carrier, distance witness, center, radius, positive-radius ledger, and membership-comparison row.
+\item $C$ records the $\Cont$ routes that replay distance evaluation, radius comparison, membership transport, finite-base refinement, and singleton-ball handoff.
+\item $P$ is the $\Pkg$ provenance over $\MetricBallUp$, $\MetricSpaceUp$, $\RealUp$, $\RatUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetricBallUp}$ row.
+\end{enumerate}
+The accepted carrier contains no ambient powerset coordinate, no unindexed open predicate, no quotient equality test on points or radii, and no generated topology closure field.
+\end{definition}
+
+\begin{theorem}[MetricBall NameCert obligations]
+\label{thm:metric-ball-namecert-obligations}
+For an accepted packet $B=(X,d,c,r,\rho,m,H,C,P,N)$, the local $\NameCert_{\MetricBallUp}$ obligation surface consists exactly of carrier admission, classifier transport, radius positivity stability, membership transport, finite refinement and intersection readiness, and ledger non-escape for the displayed rows $X,d,c,r,\rho,m,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission reads $X$ as the metric carrier and $d$ as the distance witness over that carrier. The center row $c$ and radius row $r$ are admitted only relative to those source rows, and $\rho$ supplies the displayed positive-radius ledger.
+
+Classifier transport is supplied by $H$. Transporting the carrier, distance witness, center, radius, and positive-radius rows moves the comparison data in $m$ to the transported copy without introducing a second point classifier or a second radius equality test.
+
+Membership transport is the distance-comparison part of the same ledger. The row $m$ names the predicate $d(c,x)<_{\mathsf R}r$, while $C$ replays the route from distance evaluation to ordered-real comparison.
+
+Finite refinement and intersection readiness are only readiness claims. They expose the singleton-ball row and its replayable comparison so that a finite list of such rows can later be concatenated by $\TopologyUp$, but they do not themselves close arbitrary generated opens.
+
+Ledger non-escape follows by inspecting the carrier. Every exported read is one of $X,d,c,r,\rho,m,H,C,P,N$, so no ambient powerset, unindexed open predicate, quotient equality test, or generated topology closure field can be recovered from the packet.
+\end{proof}
+
+\begin{theorem}[MetricBall topology handoff]
+\label{thm:metric-ball-topology-handoff}
+Every $\TopologyUp$ metric-generated singleton-ball open read factors through a $\MetricBallUp$ packet before it enters generated-open exactness. In particular, the singleton ball datum of \autoref{def:metric-finite-ball-indexed-topology} and the singleton carrying theorem of \autoref{thm:metric-balls-instantiate-indexed-topology-opens} are read as the $X,d,c,r,\rho,m,H,C,P,N$ rows of $\MetricBallUp$ and only then handed to the indexed topology carrier.
+\end{theorem}
+\begin{proof}
+Start with a metric-generated singleton-ball open in $\TopologyUp$. By \autoref{def:metric-finite-ball-indexed-topology}, its datum is a center, a positive radius, and the open-ball predicate obtained from the distance comparison.
+
+Package these entries as $X,d,c,r,\rho,m$. The metric carrier and distance witness supply $X$ and $d$, the singleton datum supplies $c,r,\rho$, and the predicate $\mathsf{MetricOpenBall}_d$ supplies the membership-comparison row $m$.
+
+Add the structural rows $H,C,P,N$. They are exactly the transports, continuation replays, provenance, and local name row required by \autoref{def:metric-ball-carrier}.
+
+Now apply \autoref{thm:metric-balls-instantiate-indexed-topology-opens}. Its singleton carrying equation reads the same membership row and places the singleton index inside $\mathcal{T}_{d,\mathsf{ball}}$. Thus the generated-open exactness package receives a carried singleton-ball index only after the $\MetricBallUp$ packet has exposed the center-radius NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetricBall bounded-set containment route]
+\label{thm:metric-ball-boundedset-containment-route}
+Every $\BoundedSetUp$ membership read that uses a $\MetricBallUp$ containment ledger first exposes the $\MetricBallUp$ rows $X,d,c,r,\rho,m,H,C,P,N$. The bounded-set consumer receives the center-radius comparison only through that packet, not through a host set, supremum, compactness, selected maximum, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-ball-carrier}. The row $m$ is already the named comparison $d(c,x)<_{\mathsf R}r$, and the structural rows $H,C,P,N$ are the only transports, replays, provenance, and local naming data attached to that comparison.
+
+Now read the downstream bounded-set carrier of \autoref{ch:concrete-instances-boundedset-namecert}. Its containment coordinate is a $\MetricBallUp$ ledger, so a membership read reaches bounded-set data only after the center, radius, positive-radius ledger, and comparison row have been opened in the MetricBall packet.
+
+Thus the containment ledger handed to $\BoundedSetUp$ is the same MetricBall row already available to topology, boundedness, diameter, and uniform-space consumers. Since the packet has no coordinate for a host subset, supremum, compactness proof, selected maximum, or ambient real completeness, none of those objects can supply the bounded-set containment route.
+\end{proof}
+
+\begin{closurestatus}{\MetricBallUp}
+  \constructivestory{A $\MetricBallUp$ packet is generated from a MetricSpace carrier row, a MetricDistanceWitness row, a center row, a RatUp or RealUp positive-radius row, a membership comparison row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-ball-carrier}, \autoref{thm:metric-ball-namecert-obligations}, \autoref{thm:metric-ball-topology-handoff}, and \autoref{thm:metric-ball-boundedset-containment-route} bind the finite center-radius ball seed used by metric-generated topology and bounded-set containment.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a full metric topology, arbitrary generated-open closure, compactness, continuity, quotient equality for metric points, or a standard bridge.}
+  \upgradepath{Formal verification can encode carrier admission, metric membership transport, positive-radius stability, finite-base handoff, and ledger exactness for BEDC.Derived.MetricBallUp.}
+\end{closurestatus}

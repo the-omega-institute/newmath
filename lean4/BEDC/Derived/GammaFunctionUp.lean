@@ -95,6 +95,26 @@ theorem Gamma_holomorphic_limit_certificate_readback {s z : BHist} :
                                 (And.intro rows.right.right.right
                                   rows.right.right.right.right.left)))))))
 
+theorem GammaAtOne_constant_certificate {apart : BHist}
+    (domain : GammaDomainCore (BHist.e1 BHist.Empty) apart)
+    (unitCarrier : ComplexHistoryCarrier (BHist.e1 BHist.Empty)) :
+    Gamma (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) ∧
+      ComplexHistoryClassifier (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist hsame ComplexHistoryCarrier ComplexHistoryClassifier
+  have modulus :
+      GammaWeierstrassCauchyModulus (BHist.e1 BHist.Empty) apart
+        (fun _ : BHist => BHist.e1 BHist.Empty) (fun _ : BHist => BHist.Empty) :=
+    GammaWeierstrassCauchyModulus_constant domain unitCarrier
+  have limit :
+      ComplexLimit (fun _ : BHist => BHist.e1 BHist.Empty)
+        (fun _ : BHist => BHist.Empty) (BHist.e1 BHist.Empty)
+        (fun _ : BHist => BHist.Empty) :=
+    ComplexLimit_constant unitCarrier
+  exact
+    ⟨⟨apart, fun _ : BHist => BHist.e1 BHist.Empty, fun _ : BHist => BHist.Empty,
+        fun _ : BHist => BHist.Empty, domain, domain.right.left, modulus, limit⟩,
+      ⟨unitCarrier, unitCarrier, hsame_refl (BHist.e1 BHist.Empty)⟩⟩
+
 theorem GammaWeierstrassCauchyModulus_hsame_transport
     {s t apart : BHist} {P Q N : BHist -> BHist}
     (sameST : hsame s t)

@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SpreadLawUp$}
+\label{ch:concrete-instances-spread-law-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on spreads and choice sequences, the $\SpreadLawUp$ packet records the finite prefix law that licenses which StreamName windows may extend a displayed prefix. It sits between the fan and tree surfaces of \autoref{ch:concrete-instances-fantheorem-namecert}, \autoref{ch:concrete-instances-cantorspace-namecert}, and \autoref{ch:concrete-instances-bairespace-namecert}; the finite-window naming discipline of \autoref{ch:concrete-instances-streamname-namecert}; and the regular-rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names a finite admissibility law before any regular-Cauchy or $\RealUp$ consumer reads a seal row, and it does not import a host infinite branch, countable choice, quotient stream, or ambient real completeness.
+
+\begin{definition}[SpreadLaw carrier]
+\label{def:spread-law-carrier}
+A $\SpreadLawUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,A,E,W,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the prefix-closed tree row, listing finite prefixes over the displayed $\BoolUp$, list, and $\NatUp$ digit/index surfaces and recording the prefix relation used by the classifier.
+\item $A$ is the admissibility decision row. For every displayed finite prefix in the packet, $A$ records whether the prefix is licensed by the spread law and whether all shorter prefixes are licensed.
+\item $E$ is the extension witness row. Each admissible prefix in $T$ carries a displayed one-step or bounded finite continuation whose initial segment remains in $T$ and passes the decision row $A$.
+\item $W$ is the finite $\StreamNameUp$ window row exposed to downstream consumers; it contains only prefixes admitted by $A$ and only continuations witnessed by $E$.
+\item $H$ stores componentwise $\hsame$ transport for the tree row, admissibility decisions, extension witnesses, finite windows, continuation replay, provenance, and local naming row.
+\item $C$ stores displayed $\Cont$ replay from prefix requests to admissibility checks, from admissibility checks to extension witnesses, and from extension witnesses to $W$.
+\item $P$ is the $\Pkg$ provenance over $\SpreadLawUp$, $\FanTheoremUp$, $\CantorSpaceUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SpreadLawUp}$ row.
+\end{enumerate}
+The classifier accepts a packet only when $T$ is prefix closed, $A$ decides the displayed finite prefixes, $E$ supplies continuation witnesses for every admissible prefix, $W$ contains no window outside that finite law, and $H,C,P,N$ preserve the same route. The carrier has no coordinate for a total choice sequence, a host infinite branch, countable choice, quotient-stream equality, regular-Cauchy completion, or a $\RealUp$ seal.
+\end{definition}
+
+\begin{theorem}[SpreadLaw NameCert obligations]
+\label{thm:spread-law-namecert-obligations}
+For an accepted $\SpreadLawUp$ carrier $S=(T,A,E,W,H,C,P,N)$, the local $\NameCert_{\SpreadLawUp}$ obligations are exactly carrier exposure, classifier stability, prefix-extension closure, finite-window compatibility, continuation replay, and ledger exactness. These obligations are discharged by projecting the displayed rows
+$$
+T\longmapsto A\longmapsto E\longmapsto W
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure projects the tuple of \autoref{def:spread-law-carrier}. The row $T$ is the only tree surface, and the classifier can inspect only its displayed finite prefixes.
+
+Classifier stability is read from $A$. If two presentations are componentwise $\hsame$ through $H$, the same admissibility decisions and the same rejected prefixes are replayed, so no later consumer can substitute a different law.
+
+Prefix-extension closure is supplied by $E$. For every prefix accepted by $A$, the witness row names a finite continuation still governed by $T$ and $A$, and the continuation replay row $C$ records the route from the request to the witness.
+
+Finite-window compatibility is the assertion that $W$ contains only the prefixes and continuations exposed by $T,A,E$. The provenance and local naming rows $P,N$ then make the ledger exact: every accepted $\StreamNameUp$ window is accounted for by the same finite spread-law route, and no unrecorded infinite branch or completion seal is available.
+\end{proof}
+
+\begin{theorem}[SpreadLaw StreamName window handoff]
+\label{thm:spread-law-streamname-window-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer that reads an accepted $\SpreadLawUp$ packet must first read the finite prefix law $T,A$, the extension witness row $E$, and the finite $\StreamNameUp$ window $W$. Only after that route is displayed may the consumer read any regular-Cauchy row, regular-rational readback, or $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier of \autoref{def:spread-law-carrier}. The rows $T,A,E,W$ are the only rows that expose finite prefix admission, continuation witnesses, and StreamName windows.
+
+A $\RegSeqRatUp$ consumer is downstream of the window row. Its regular-rational readback therefore receives a prefix already certified by $A$ and a continuation already witnessed by $E$.
+
+A $\RealUp$ consumer is still later in the same route. Since the carrier contains no independent real seal coordinate, any real-facing read must pass through the finite law and the window handoff before it reaches a completion-facing row.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SpreadLawUp$ handoff to $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ factors through the displayed prefix tree, admissibility decision row, extension witness row, finite StreamName window, transport, continuation replay, provenance, and local NameCert rows.}
+
+\independenceWitness{fantheorem, cantorspace, bairespace, streamname, regseqrat: $\SpreadLawUp$ is not bijective to any listed sibling because it jointly carries a prefix-closed finite tree row, admissibility decision row, extension witness row, finite StreamName window, componentwise transport, continuation replay, provenance, and local naming.}
+
+\closureat{SpreadLawUp}{seedStr}
+
+\begin{closurestatus}{\SpreadLawUp}
+  \constructivestory{A $\SpreadLawUp$ packet is generated from a prefix-closed finite Bool/List/Nat tree row, an admissibility decision row, extension witnesses, a finite StreamName window, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spread-law-carrier}, \autoref{thm:spread-law-namecert-obligations}, and \autoref{thm:spread-law-streamname-window-handoff} seed the finite-prefix law surface that licenses StreamName windows before RegSeqRat or Real-facing consumers read completion rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close FanTheorem compactness, CantorSpace or BaireSpace completeness, host infinite sequences, countable choice, quotient-stream equality, regular-Cauchy completion, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, admissibility classification, prefix-extension closure, StreamName window compatibility, RegSeqRat handoff, Real-facing non-escape, and ledger exactness for BEDC.Derived.SpreadLawUp.}
+\end{closurestatus}

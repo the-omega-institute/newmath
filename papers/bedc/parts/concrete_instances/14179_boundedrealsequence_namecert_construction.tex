@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\BoundedRealSequenceUp$}
+\label{ch:concrete-instances-boundedrealsequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BoundedRealSequenceUp$ packet records a bounded real sequence by finite stream-window rows, regular rational readback, a real-name seal, and a displayed closed-bounded interval net. It sits before the subsequence compactness route of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert} and exposes the boundedness surface that chapter consumes. Its dependency surface is the $\StreamNameUp$ window interface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the interval-net bound row of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}. The packet is a finite certificate for bounded sequence inspection; it is not open-cover compactness, trichotomy of reals, host completeness, quotient equality of streams, or a choice-selected subsequence.
+
+\begin{definition}[Bounded real sequence carrier]
+\label{def:bounded-real-sequence-carrier}
+A $\BoundedRealSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,W,Q,R,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source schedule of sequence indices under inspection.
+\item $W$ is the finite family of $\StreamNameUp$ windows exposed for the inspected indices in $S$.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those windows and their dyadic tolerance observations.
+\item $R$ is the $\RealUp$ sequence-name seal reached only after $W$ and $Q$ have been displayed.
+\item $I$ is the $\ClosedBoundedIntervalNetUp$ bound row carrying the interval net used to witness boundedness for the displayed sequence windows.
+\item $H$ stores componentwise $\hsame$ transport for the source schedule, stream windows, regular readback, real seal, interval-net bound, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from inspected indices to stream windows, from stream windows to regular readback, from regular readback to the real seal, and from the real seal to the interval-net bound assertion.
+\item $P$ is the $\Pkg$ provenance over $\BoundedRealSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ClosedBoundedIntervalNetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedRealSequenceUp}$ row.
+\end{enumerate}
+The bound row is displayed as the closed interval-net containment surface
+$$
+\begin{gathered}
+I:\ClosedBoundedIntervalNetUp,\\
+\forall i\in S_{\mathrm{shown}}\quad W_i\longmapsto Q_i\longmapsto R_i\in I.
+\end{gathered}
+$$
+Here $S_{\mathrm{shown}}$ denotes only the inspected finite index rows of the carrier. The classifier compares accepted packets only through $S,W,Q,R,I,H,C,P,N$ and has no coordinate for trichotomy, host real order completeness, quotient-stream equality, open-cover compactness, or a selected infinite subsequence.
+\end{definition}
+\leanchecked{BEDC.Derived.BoundedRealSequenceUp.BoundedRealSequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bounded real sequence NameCert obligations]
+\label{thm:bounded-real-sequence-namecert-obligations}
+For every accepted $\BoundedRealSequenceUp$ carrier $B=(S,W,Q,R,I,H,C,P,N)$, the local $\NameCert_{\BoundedRealSequenceUp}$ surface consists exactly of carrier admission for the nine displayed rows, finite source-window coverage through $S$ and $W$, regular rational readback through $Q$, real-name sealing through $R$, closed-bounded interval-net containment through $I$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-real-sequence-carrier}. The only sequence data available to the classifier are the inspected index schedule $S$, the corresponding $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback $Q$, and the downstream $\RealUp$ seal $R$.
+
+Read the bound row next. The $\ClosedBoundedIntervalNetUp$ packet $I$ supplies the finite interval-net containment surface from \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}; boundedness is therefore a displayed row tied to the inspected windows, not an ambient completeness or order-trichotomy principle.
+
+Finally inspect the structural rows. The rows $H,C,P,N$ transport, replay, source, and name only the displayed sequence-window, regular-readback, real-seal, and interval-net rows. Since no other coordinate is present in the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bounded real sequence finite-window bound]
+\label{thm:bounded-real-sequence-finite-window-bound}
+Every accepted $\BoundedRealSequenceUp$ carrier preserves boundedness under finite window inspection: any displayed route from an inspected index to a $\RealUp$ sequence-name seal factors through
+$$
+S\longmapsto W\longmapsto Q\longmapsto R\longmapsto I
+$$
+together with $H,C,P,N$. Thus a finite-window consumer can read the closed-bounded interval-net bound without importing trichotomy, host completeness, quotient-stream equality, open-cover compactness, or a selected subsequence.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedRealSequenceUp.BoundedRealSequenceFiniteWindow\_bound}
+\begin{proof}
+Begin with an inspected index row in $S$. The continuation row $C$ exposes its $\StreamNameUp$ window in $W$, then the regular rational readback $Q$, and only then the $\RealUp$ seal $R$.
+
+The bound row $I$ is read after this route. It is the finite interval-net containment row supplied by \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, so the bound is attached to the displayed windows and readbacks rather than to a host-level set of all sequence values.
+
+Transport through $H$ and provenance through $P$ preserve the same route, while $N$ names it locally. Because the carrier has no coordinate for trichotomy, host completeness, quotient equality, open-cover compactness, or selected subsequences, finite-window boundedness cannot leave the displayed path.
+\end{proof}
+
+\begin{theorem}[Bounded real sequence Bolzano--Weierstrass handoff]
+\label{thm:bounded-real-sequence-bolzano-weierstrass-handoff}
+The $\BolzanoWeierstrassUp$ consumer of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert} reads a bounded sequence source from an accepted $\BoundedRealSequenceUp$ carrier only through the finite route
+$$
+S,W,Q,R,I,H,C,P,N.
+$$
+Consequently the handoff supplies a reusable bounded real sequence certificate for the L10 real-completion route while leaving open-cover compactness, trichotomy, host completeness, quotient-stream equality, and choice-selected subsequences outside the exported surface.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bounded-real-sequence-finite-window-bound}. It places every inspected sequence value on the route from $S$ through $W,Q,R$ to the interval-net bound row $I$.
+
+Now read the $\BolzanoWeierstrassUp$ carrier of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert}. Its bounded sequence row is exactly the source surface needed before finite interval nets, regular Cauchy subsequence extraction, RegSeqRat readback, and the Real cluster seal can be consumed.
+
+The structural rows $H,C,P,N$ preserve the finite route across the handoff. Thus the downstream consumer receives a bounded real sequence certificate and receives no additional compactness, trichotomy, host completeness, quotient-stream equality, or arbitrary subsequence selection principle.
+\end{proof}
+
+\falsifiablePrediction{Every $\BolzanoWeierstrassUp$ bounded-source read factors through a $\BoundedRealSequenceUp$ route displaying finite stream windows, regular readback, a RealUp seal, and a closed-bounded interval-net row.}
+
+\independenceWitness{streamname, regseqrat, real, closedboundedintervalnet, bolzanoweierstrass: $\BoundedRealSequenceUp$ is not bijective to any listed sibling because it jointly carries a finite sequence schedule, stream windows, regular rational readback, real seals, interval-net boundedness, transport, continuation, provenance, and local naming.}
+
+\closureat{BoundedRealSequenceUp}{seedStr}
+
+\begin{closurestatus}{\BoundedRealSequenceUp}
+  \constructivestory{A $\BoundedRealSequenceUp$ packet is generated from inspected sequence indices, finite StreamName windows, RegSeqRat readback, RealUp sequence-name seals, a ClosedBoundedIntervalNet bound row, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-real-sequence-carrier}, \autoref{thm:bounded-real-sequence-namecert-obligations}, \autoref{thm:bounded-real-sequence-finite-window-bound}, and \autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff} bind the finite-window bounded-sequence source consumed by Bolzano-Weierstrass.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, trichotomy, host completeness, quotient equality of streams, or choice-selected subsequences.}
+  \upgradepath{Lean closure requires carrier admission, NameCert obligations, finite-window bound preservation, Bolzano-Weierstrass handoff, and TasteGate field faithfulness for BEDC.Derived.BoundedRealSequenceUp.}
+\end{closurestatus}

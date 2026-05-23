@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyShuffleUp$}
+\label{ch:concrete-instances-regular-cauchy-shuffle-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyShuffleUp$ packet records the finite even/odd shuffle of two regular Cauchy rational names before any Real or Completion consumer is allowed to read the shuffled real-name boundary. It sits over the parity discipline of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}, the finite schedule-change route of \autoref{ch:concrete-instances-cauchy-reindexing-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a constructive finite schedule-combination certificate for the L10 Real and Completion route; it is not quotient stream equality, a selected limit, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+
+\begin{definition}[Regular Cauchy shuffle carrier]
+\label{def:regular-cauchy-shuffle-carrier}
+A $\RegularCauchyShuffleUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(A,B,S,E,O,D,R_A,R_B,L_A,L_B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows whose finite regular Cauchy observations are to be shuffled.
+\item $S$ is the finite $\StreamNameUp$ shuffle schedule, recording the displayed requests and whether each request reads the even branch or the odd branch.
+\item $E$ is the even projection ledger, exposing exactly those schedule windows of $S$ that read from the $A$ branch.
+\item $O$ is the odd projection ledger, exposing exactly those schedule windows of $S$ that read from the $B$ branch.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger, recording the visible radii, slack rows, and branchwise comparison evidence used by both projections.
+\item $R_A$ and $R_B$ are the regular readbacks of the even and odd projection routes, read only from $A,E,D$ and from $B,O,D$ respectively.
+\item $L_A$ and $L_B$ are the terminal $\RealUp$ seal rows for the two projected regular Cauchy names.
+\item $H$ records componentwise $\hsame$ transport for the source rows, shuffle schedule, projection ledgers, tolerance ledger, readbacks, real seals, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each Real or Completion request through $S$, the selected projection ledger $E$ or $O$, the shared ledger $D$, the corresponding readback $R_A$ or $R_B$, the matching seal $L_A$ or $L_B$, and the structural rows $H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyShuffleUp$, $\RegularCauchyInterleavingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyShuffleUp}$ row.
+\end{enumerate}
+The classifier compares accepted shuffle packets only through the displayed rows $A,B,S,E,O,D,R_A,R_B,L_A,L_B,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy shuffle NameCert obligations]
+\label{thm:regular-cauchy-shuffle-namecert-obligations}
+For every accepted $\RegularCauchyShuffleUp$ carrier
+$$
+Z=(A,B,S,E,O,D,R_A,R_B,L_A,L_B,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyShuffleUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the $\RegSeqRatUp$ source rows $A,B$, the $\StreamNameUp$ shuffle schedule $S$, the even and odd projection ledgers $E,O$, the $\DyadicRatCoreUp$ ledger $D$, the regular readbacks $R_A,R_B$, the $\RealUp$ seals $L_A,L_B$, and the structural rows $H,C,P,N$;
+\item schedule exactness, requiring every displayed request in $S$ to choose exactly one of the even or odd projection ledgers before any regular readback is consumed;
+\item even projection exactness, requiring $E$ to read only the $A$ branch through the even windows of $S$;
+\item odd projection exactness, requiring $O$ to read only the $B$ branch through the odd windows of $S$;
+\item shared dyadic accounting, requiring $D$ to store precisely the visible tolerances and slack comparisons used by both projection readbacks;
+\item regular-readback routing, requiring $R_A$ to consume only $A,E,D$ and $R_B$ to consume only $B,O,D$;
+\item Real-seal routing, requiring $L_A$ and $L_B$ to be downstream of their corresponding source, projection, ledger, and readback rows;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$;
+\item non-escape for quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, and standard-bridge data.
+\end{enumerate}
+No shuffle obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-shuffle-carrier}. The only source rows are $A$ and $B$, and the only schedule row is $S$.
+
+Now inspect each displayed request of $S$. The schedule sends it to exactly one projection ledger: even requests enter $E$ and then read from $A$, while odd requests enter $O$ and then read from $B$. The shared dyadic ledger $D$ records the tolerance evidence used by both branches and does not introduce another branch.
+
+The readback and seal rows are downstream. The row $R_A$ is attached to $A,E,D$, the row $R_B$ is attached to $B,O,D$, and the seals $L_A,L_B$ are reached only after those corresponding readbacks. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite routes.
+
+Since the excluded objects do not occur as carrier coordinates, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy shuffle even/odd projection handoff]
+\label{thm:regular-cauchy-shuffle-even-odd-projection-handoff}
+Let
+$$
+Z=(A,B,S,E,O,D,R_A,R_B,L_A,L_B,H,C,P,N)
+$$
+be an accepted $\RegularCauchyShuffleUp$ carrier. Every downstream Real or Completion request for an even projection factors through
+$$
+S \longmapsto E \longmapsto A \longmapsto D \longmapsto R_A \longmapsto L_A \longmapsto H,C,P,N ,
+$$
+and every downstream request for an odd projection factors through
+$$
+S \longmapsto O \longmapsto B \longmapsto D \longmapsto R_B \longmapsto L_B \longmapsto H,C,P,N .
+$$
+The handoff is the finite parity projection surface supplied by the shuffle packet. It exports no quotient stream equality, selected limit, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with a downstream request and read the finite schedule $S$. If the schedule marks the request as even, the carrier exposes the projection ledger $E$; if it marks the request as odd, the carrier exposes the projection ledger $O$.
+
+In the even case, the projection ledger has only the $A$ branch as source. The request then passes through the shared dyadic ledger $D$, the regular readback $R_A$, and the seal $L_A$ before the structural rows $H,C,P,N$ record transport, replay, provenance, and local naming.
+
+In the odd case, the same argument uses $O$ in place of $E$, the $B$ branch in place of $A$, the readback $R_B$ in place of $R_A$, and the seal $L_B$ in place of $L_A$.
+
+These two routes are exactly the finite even and odd projections of the carrier. No third route exists in the displayed packet, and the excluded quotient, selector, choice, equality, order, completeness, verification, and bridge objects remain outside the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyShuffleUp$ Real or Completion read factors through a finite StreamName shuffle schedule, an even or odd projection ledger, the selected RegSeqRat source row, a shared DyadicRatCore tolerance ledger, the corresponding regular readback, the corresponding RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{regular-cauchy-interleaving, cauchy-reindexing, streamname, regseqrat, dyadicratcore, real: $\RegularCauchyShuffleUp$ is not bijective to any listed sibling because it jointly carries two regular Cauchy source rows, one finite shuffle schedule, two projection ledgers, a shared dyadic tolerance ledger, two readbacks, two terminal real seals, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyShuffleUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyShuffleUp}
+  \constructivestory{A $\RegularCauchyShuffleUp$ packet is generated from two $\RegSeqRatUp$ source rows, a finite $\StreamNameUp$ shuffle schedule, even and odd projection ledgers, a shared $\DyadicRatCoreUp$ tolerance ledger, two regular readbacks, two terminal $\RealUp$ seal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-shuffle-carrier}, \autoref{thm:regular-cauchy-shuffle-namecert-obligations}, and \autoref{thm:regular-cauchy-shuffle-even-odd-projection-handoff} seed the finite even/odd shuffle and projection route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, schedule exactness, even and odd projection exactness, shared dyadic accounting, regular-readback routing, Real-seal routing, and projection handoff for BEDC.Derived.RegularCauchyShuffleUp.}
+\end{closurestatus}

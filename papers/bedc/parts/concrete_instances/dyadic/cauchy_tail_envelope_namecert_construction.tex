@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCauchyTailEnvelopeUp$}
+\label{ch:concrete-instances-dyadic-cauchy-tail-envelope-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\DyadicCauchyTailEnvelopeUp$ packet records the finite tail-envelope boundary that lets a regular rational Cauchy name expose dyadic tolerance data before the terminal real seal is read. It sits between the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational name surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the reindexing discipline of \autoref{ch:concrete-instances-cauchy-reindexing-namecert}, and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite envelope around displayed tails; it is not a quotient stream, a selected limit, countable choice, trichotomy, host real equality, or Real completeness.
+
+\begin{definition}[DyadicCauchyTailEnvelope carrier]
+\label{def:dyadic-cauchy-tail-envelope-carrier}
+A $\DyadicCauchyTailEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,R,D,T,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected tail coordinates of the underlying sequence.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the dyadic precision budget for the tail comparison.
+\item $T$ is the tail-envelope ledger, recording the displayed assertion that all inspected post-bound rows of $R$ remain inside the dyadic budget named by $D$.
+\item $I$ is the $\CauchyReindexingUp$ route row, recording the finite reindexing data used to move from one requested precision window to the tail window named by $S$.
+\item $H$ records componentwise $\hsame$ transport for the stream window, regular rational readback, dyadic tolerance, tail-envelope ledger, reindexing route, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $I,S,R,D,T$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicCauchyTailEnvelopeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyReindexingUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCauchyTailEnvelopeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host real equality, or Real completeness.
+\end{definition}
+
+\begin{theorem}[DyadicCauchyTailEnvelope NameCert obligations]
+\label{thm:dyadic-cauchy-tail-envelope-namecert-obligations}
+For every accepted $\DyadicCauchyTailEnvelopeUp$ carrier $E=(S,R,D,T,I,H,C,P,N)$, the local $\NameCert_{\DyadicCauchyTailEnvelopeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, tail-envelope ledger, $\CauchyReindexingUp$ route, transport, replay, provenance, and local naming rows;
+\item window admission, requiring every tail-envelope read to open the finite stream window $S$ before reading regular rational rows;
+\item tolerance admission, requiring the dyadic budget $D$ to be displayed before the tail ledger $T$ is consumed;
+\item reindexing admission, requiring the row $I$ to witness the finite precision-to-tail route used by the read;
+\item tail containment, requiring $T$ to compare the displayed rows of $R$ inside the dyadic budget named by $D$ after the route $I$ has been fixed;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same window, readback, tolerance, route, and ledger rows componentwise;
+\item ledger nonescape from quotient streams, selected limits, countable choice, trichotomy, host real equality, and Real completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-cauchy-tail-envelope-carrier}. The accepted packet displays exactly the finite stream window $S$, regular rational readback $R$, dyadic tolerance row $D$, tail ledger $T$, reindexing route $I$, and the structural rows $H,C,P,N$.
+
+Window, tolerance, and reindexing admission follow from the route order. A precision request first fixes the finite reindexing row $I$, opens the stream window $S$, reads the regular rational row $R$, and displays the dyadic budget $D$ before the tail-envelope ledger $T$ can be consumed.
+
+Tail containment is exactly the role of $T$. It compares only the displayed post-bound rows of $R$ inside the dyadic budget named by $D$, so the envelope does not introduce a completed quotient stream or a selected limit.
+
+Transport and replay are structural. The $\hsame$ row $H$ moves each displayed coordinate componentwise, and the $\Cont$ row $C$ repeats the same finite route for later consumers.
+
+The nonescape clause follows because none of the excluded objects is a coordinate of the carrier. The local $\NameCert$ row $N$ can therefore export only the displayed tail-envelope surface.
+\end{proof}
+
+\begin{theorem}[DyadicCauchyTailEnvelope RegSeqRat Real route]
+\label{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}
+Every accepted $\DyadicCauchyTailEnvelopeUp$ carrier $E=(S,R,D,T,I,H,C,P,N)$ exposes a finite route
+$$
+I \longrightarrow S \longrightarrow R \longrightarrow D \longrightarrow T
+$$
+from a precision request to the tail-envelope boundary used by $\RegSeqRatUp$ and $\RealUp$ consumers. Any downstream Real or Completion reader receives only the displayed reindexing, finite-window, regular-readback, dyadic-tolerance, and tail-ledger rows, with transport, replay, provenance, and local naming data attached.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $E=(S,R,D,T,I,H,C,P,N)$. Projection gives the finite reindexing route $I$ from the requested precision to the tail window, and then the stream window $S$ opened along that route.
+
+The regular rational row $R$ is read only through this opened window. The dyadic tolerance row $D$ supplies the comparison budget, and the tail-envelope ledger $T$ records the displayed post-bound containment at that budget.
+
+Thus the Real-facing consumer reaches the envelope only through $I,S,R,D,T$. The remaining rows $H,C,P,N$ transport, replay, source, and name the same finite route, so no quotient stream, selected limit, countable-choice selector, trichotomy datum, host real equality, or Real-completeness principle is inserted into the handoff.
+\end{proof}
+
+\begin{theorem}[DyadicCauchyTailEnvelope common refinement]
+\label{thm:dyadic-cauchy-tail-envelope-common-refinement}
+Let $E=(S,R,D,T,I,H,C,P,N)$ and $E'=(S',R',D',T',I',H',C',P',N')$ be accepted $\DyadicCauchyTailEnvelopeUp$ carriers serving the same displayed precision request. If the reindexing rows $I$ and $I'$ are transported through the same displayed $\hsame$ and $\Cont$ route, then there are a single finite tail window $S^*$ and a single dyadic tolerance row $D^*$ through which both $\RegSeqRatUp$ readbacks factor before either $\RealUp$ seal is read.
+
+Equivalently, the paired read has one finite common route
+$$
+I^* \longrightarrow S^* \longrightarrow R,R' \longrightarrow D^* \longrightarrow T,T'
+$$
+whose rows are all displayed in $\BHist$ and named by the two local $\NameCert_{\DyadicCauchyTailEnvelopeUp}$ surfaces. The common route exports no quotient stream, selected limit, countable choice, trichotomy, host real equality, or Real completeness.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows of $E$ and $E'$. The two accepted packets expose only their finite stream windows, regular rational readbacks, dyadic tolerance rows, tail ledgers, reindexing routes, componentwise transports, replay rows, provenance rows, and local naming rows.
+
+Use the displayed $\Cont$ replay to compose the two reindexing routes over the common precision request. Since $I$ and $I'$ are transported through the same $\hsame$ route, their comparison is a finite reindexing comparison rather than a choice of a completed stream.
+
+Take $S^*$ to be the common displayed tail window reached by that composed route, and take $D^*$ to be the displayed dyadic tolerance row read after the shared window has been opened. Transport both regular readbacks through the shared $\hsame$ rows, so $R$ and $R'$ are read only as rows over $S^*$.
+
+Finally repack the data as the finite route
+$$
+I^* \longrightarrow S^* \longrightarrow R,R' \longrightarrow D^* \longrightarrow T,T' .
+$$
+Both tail ledgers are consumed before either $\RealUp$ seal boundary is inspected. Because the repacked object uses only carrier coordinates already listed in \autoref{def:dyadic-cauchy-tail-envelope-carrier}, it cannot expose quotient streams, selected limits, countable-choice selectors, trichotomy data, host real equality, or a Real-completeness principle.
+\end{proof}
+
+\closureat{DyadicCauchyTailEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCauchyTailEnvelopeUp}
+  \constructivestory{A $\DyadicCauchyTailEnvelopeUp$ packet is generated from a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ tolerance row, a tail-envelope ledger, a $\CauchyReindexingUp$ route row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cauchy-tail-envelope-carrier}, \autoref{thm:dyadic-cauchy-tail-envelope-namecert-obligations}, \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}, and \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement} seed the finite dyadic tail-envelope boundary and common-tail route over displayed StreamName, RegSeqRat, DyadicRatCore, CauchyReindexing, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected limits, countable choice, trichotomy, host real equality, Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window admission, tolerance admission, reindexing admission, tail containment, common-tail refinement, RegSeqRat-to-Real handoff, transport and replay stability, and ledger nonescape for the same finite packet.}
+\end{closurestatus}

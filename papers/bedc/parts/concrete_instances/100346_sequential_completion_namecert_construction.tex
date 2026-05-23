@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\SequentialCompletionUp$}
+\label{ch:concrete-instances-sequential-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges' regular-sequence completion language and Kelley's sequence-completion terminology, the $\SequentialCompletionUp$ packet names the finite L10 route by which displayed stream schedules, regular rational readbacks, dyadic tolerance ledgers, Cauchy criterion rows, and terminal real seals are offered to Real and Completion consumers. It sits on the same human-origin spine as \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert}, \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet records a sequential completion interface without asserting ambient completeness of $\RealUp$, quotient-stream equality, selected limits, countable choice, trichotomy, or open-cover compactness.
+
+\begin{definition}[SequentialCompletion carrier]
+\label{def:sequential-completion-carrier}
+A $\SequentialCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+J=(S,Q,D,K,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row. It records the finite stream-name schedule inspected by a Real-facing or Completion-facing request.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed schedule windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic radii, slack rows, and finite comparison budgets used by the readback.
+\item $K$ is the criterion row, either a $\CauchyConvergenceCriterionUp$ exposure row or a $\CauchyLimitSealUp$ handoff row, read only after $S,Q,D$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row reached downstream of the schedule, readback, tolerance, and criterion rows.
+\item $H$ records componentwise $\hsame$ transport for the schedule, readback, tolerance ledger, criterion or limit-seal row, terminal real seal, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion request through $S,Q,D,K,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyConvergenceCriterionUp$, $\CauchyLimitSealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialCompletionUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite sequential-completion packet. It has no coordinate for quotient streams, selected limits, host real equality, countable choice, trichotomy, open-cover compactness, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.SequentialCompletionUp.TasteGate.SequentialCompletionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[SequentialCompletion NameCert obligations]
+\label{thm:sequential-completion-namecert-obligations}
+For every accepted $\SequentialCompletionUp$ carrier $J=(S,Q,D,K,E,H,C,P,N)$, the local $\NameCert_{\SequentialCompletionUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed schedule, regular readback, dyadic tolerance ledger, Cauchy criterion or limit-seal row, terminal real seal, componentwise transport, replay, provenance, and local naming rows;
+\item criterion exposure, requiring $K$ to be read only after the same $S,Q,D$ route has been displayed;
+\item regular readback, requiring each completion-facing read to obtain its rational observations through $Q$ and the dyadic ledger $D$ before the terminal seal is exposed;
+\item Real seal non-escape, requiring $E$ to remain downstream of $S,Q,D,K$ and never to serve as a quotient stream, selected limit, host real equality witness, choice-selected representative, trichotomy decision, compactness witness, or ambient completeness proof;
+\item transport, provenance, and local naming, requiring $H,C,P,N$ to preserve and name exactly the displayed packet.
+\end{enumerate}
+No sequential-completion obligation is stored outside these five rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:sequential-completion-carrier}. The projection exposes exactly the schedule row $S$, the regular readback row $Q$, the dyadic tolerance ledger $D$, the Cauchy criterion or limit-seal row $K$, the terminal real seal $E$, and the structural rows $H,C,P,N$.
+
+Criterion exposure follows from the route order displayed by $C$. A consumer cannot reach $K$ without first opening the stream schedule through $S$, reading the regular rational data through $Q$, and consulting the dyadic ledger $D$.
+
+The regular readback and Real-seal rows are therefore locked to the same finite path. Since $E$ is downstream of $S,Q,D,K$, the seal cannot introduce a quotient stream, a selected limit, host real equality, countable choice, trichotomy, open-cover compactness, or ambient completeness.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same packet. They add no analytic coordinates beyond the rows already projected, so the listed five rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SequentialCompletion RegSeqRat and Real handoff]
+\label{thm:sequential-completion-regseqrat-real-handoff}
+Every $\RealUp$-facing or completion-facing read of an accepted $\SequentialCompletionUp$ carrier $J=(S,Q,D,K,E,H,C,P,N)$ factors through the finite route
+$$
+S \longmapsto Q \longmapsto D \longmapsto K \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the sequence-completion handoff exports the displayed $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\CauchyConvergenceCriterionUp$ or $\CauchyLimitSealUp$ row, terminal $\RealUp$ seal, transport, replay, provenance, and local naming rows. It exports no quotient stream, selected limit, host real equality, countable choice, trichotomy, open-cover compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing or Completion-facing consumer of $J$. Carrier admission gives access to the terminal seal only as a row in the same finite packet as the schedule, readback, tolerance, and criterion rows.
+
+Replay the continuation row $C$. The consumer first reads the $\StreamNameUp$ schedule $S$, then obtains the regular rational observations through $Q$, then consults the $\DyadicRatCoreUp$ tolerance ledger $D$, and only then reaches the criterion or limit-seal row $K$.
+
+The terminal $\RealUp$ seal $E$ is exposed after that route. Componentwise transport, package provenance, and the local naming row preserve the same factorization, so no quotient stream, selected limit, host real equality, countable choice, trichotomy, open-cover compactness, or ambient completeness data can be exported.
+\end{proof}
+
+\closureat{SequentialCompletionUp}{seedStr}
+\begin{closurestatus}{\SequentialCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-completion-carrier}, \autoref{thm:sequential-completion-namecert-obligations}, and \autoref{thm:sequential-completion-regseqrat-real-handoff} seed the finite sequence-completion route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyConvergenceCriterionUp$, $\CauchyLimitSealUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, criterion exposure, regular readback, Real-seal non-escape, transport, provenance, and local naming for BEDC.Derived.SequentialCompletionUp.}
+  \constructivestory{A $\SequentialCompletionUp$ packet is generated from a finite $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\CauchyConvergenceCriterionUp$ or $\CauchyLimitSealUp$ row, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealCompletionInterfaceUp$}
+\label{ch:concrete-instances-cauchy-real-completion-interface-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive analysis, the $\CauchyRealCompletionInterfaceUp$ packet records the finite four-object boundary at which rational approximants, stream names, regular rational sequences, and the terminal Real seal can be cited together without asserting a completeness theorem. It reads the dyadic endpoint and tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the Bishop regular Cauchy completion carrier of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}.
+
+The packet is an interface certificate. It names the rows that a completion-facing consumer may inspect when moving among the L10 rational, stream, regular-sequence, and Real surfaces, while excluding quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, and bridge checking.
+
+\begin{definition}[Cauchy real completion interface carrier]
+\label{def:cauchy-real-completion-interface-carrier}
+A $\CauchyRealCompletionInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+I=(D,S,R,B,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and tolerance row used by the rational boundary, stream-window requests, regular-sequence comparisons, and Real-seal reads.
+\item $S$ is the $\StreamNameUp$ finite-window row, exposing only the displayed windows that a completion consumer may replay.
+\item $R$ is the $\RegSeqRatUp$ regular-rational sequence row attached to the same dyadic tolerance and stream-window data.
+\item $B$ is the terminal $\RealUp$ seal row, read only after $D,S,R$ have fixed the rational, stream, and regular-sequence faces.
+\item $T$ is the completion-boundary tail ledger, recording the finite handoff from dyadic tolerances through stream windows and regular rational readback to the terminal Real seal.
+\item $H$ records componentwise $\hsame$ transports for the dyadic, stream, regular-sequence, Real-seal, tail-ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-boundary request through $D,S,R,B,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealCompletionInterfaceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopRegularCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealCompletionInterfaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,B,T,H,C,P,N$. The carrier contains no quotient stream equality, selected limit, countable-choice selector, host real equality row, ambient $\RealUp$ completeness datum, or standard-bridge credential.
+\end{definition}
+
+\begin{theorem}[Cauchy real completion interface NameCert obligations]
+\label{thm:cauchy-real-completion-interface-namecert-obligations}
+For every accepted $\CauchyRealCompletionInterfaceUp$ carrier $I=(D,S,R,B,T,H,C,P,N)$, the local $\NameCert_{\CauchyRealCompletionInterfaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed DyadicRatCore endpoint and tolerance row, StreamName finite windows, RegSeqRat readback, Real seal, completion-boundary tail ledger, transport, replay, provenance, and local naming row;
+\item dyadic endpoint exposure, requiring every interface read to project $D$ before inspecting stream windows, regular rational readback, or the terminal Real seal;
+\item stream-window exactness, requiring $S$ to expose only finite windows tied to the displayed dyadic tolerance row;
+\item regular-sequence handoff, requiring $R$ to reuse the same $D,S$ surface rather than selecting a second sequence representative;
+\item Real-seal boundary, requiring every $\RealUp$ read to remain downstream of $D,S,R$ and the tail ledger $T$;
+\item non-escape, requiring $H,C,P,N$ to transport, replay, source, and name no row from which quotient stream equality, selected limits, countable choice, host real equality, ambient Real completeness, or bridge credentials can be exported.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyRealCompletionInterfaceUp.CauchyRealCompletionInterfaceTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-real-completion-interface-carrier}. The accepted packet displays exactly the dyadic endpoint and tolerance row, finite stream windows, regular-rational readback, terminal Real seal, completion-boundary tail ledger, and structural rows.
+
+The dyadic exposure and stream-window exactness clauses are forced by the order of the carrier. A completion-boundary request first reads $D$, then obtains only the finite windows in $S$ that are tied to that displayed tolerance row.
+
+The regular-sequence handoff is the projection to $R$. Since $R$ is stored after $D,S$, the interface has no coordinate from which a second stream representative or detached rational sequence can be selected.
+
+The Real-seal boundary is carried by $B$ and $T$. The terminal seal is read only after the rational, stream, and regular-sequence faces have been displayed, and the tail ledger records that same handoff.
+
+Finally, non-escape is exhausted by $H,C,P,N$. These rows transport, replay, source, and name the displayed interface only, and none contains quotient stream equality, selected limits, countable choice, host real equality, ambient Real completeness, or bridge credentials.
+\end{proof}
+
+\begin{theorem}[Cauchy real completion four-face handoff]
+\label{thm:cauchy-real-completion-interface-four-face-handoff}
+Let $I=(D,S,R,B,T,H,C,P,N)$ be an accepted $\CauchyRealCompletionInterfaceUp$ carrier. Every completion-facing read exported by $I$ factors through the four displayed faces
+$$
+D \longmapsto S \longmapsto R \longmapsto B
+$$
+before it can inspect the tail ledger $T$ or the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing read of $I$. Carrier admission provides no source row before the dyadic endpoint and tolerance ledger $D$.
+
+The read then passes to the finite-window row $S$. These windows are the only stream observations exposed by the packet, so no quotient stream equality or host stream representative can enter the route.
+
+Next the read projects the regular-rational row $R$. This row is attached to the displayed dyadic and stream data, and it does not select a second regular sequence.
+
+The terminal Real seal $B$ is therefore reached only after $D,S,R$. The tail ledger $T$ and structural rows $H,C,P,N$ replay the same route, so every exported completion-facing read factors through the four displayed faces in order.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyRealCompletionInterfaceUp.CauchyRealCompletionInterfaceUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy real completion interface Real-seal route determinacy]
+\label{thm:cauchy-real-completion-interface-real-seal-determinacy}
+Let $I=(D,S,R,B,T,H,C,P,N)$ and $I'=(D',S',R',B',T',H',C',P',N')$ be accepted $\CauchyRealCompletionInterfaceUp$ carriers. Suppose the two packets expose componentwise matching $\DyadicRatCoreUp$ endpoint and tolerance rows, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readbacks, and terminal $\RealUp$ seal rows. Then every completion-facing consumer read of $I$ and every matching read of $I'$ reaches the same terminal Real-seal route after the four-face handoff through $D,S,R,B$ and $D',S',R',B'$. Any remaining exported comparison is exhausted by the shared $T,H,C,P,N$ rows, so there is no second seal coordinate, quotient stream equality, selected limit, countable-choice selector, host real equality, ambient completeness datum, or bridge credential along which the two reads could diverge.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers to their displayed rows. The componentwise matching assumptions identify the dyadic endpoint and tolerance rows, finite stream windows, regular-rational readbacks, and terminal Real seals as the only route data available to the two completion-facing reads.
+
+Apply \autoref{thm:cauchy-real-completion-interface-four-face-handoff} to each carrier. Both reads must pass through the four displayed faces in order, so the matched $D,S,R,B$ and $D',S',R',B'$ rows force the same terminal Real-seal route before any tail-ledger or structural row can be inspected.
+
+It remains to compare the residual rows. The carrier projection leaves only $T,H,C,P,N$ for completion-boundary tail data, componentwise transport, replay, provenance, and local naming. These rows replay the already matched handoff and contain no second seal coordinate, quotient stream equality, selected limit, countable-choice selector, host real equality, ambient completeness datum, or bridge credential. Hence no further route choice remains.
+\end{proof}
+
+\begin{theorem}[Cauchy real completion interface non-escape]
+\label{thm:cauchy-real-completion-interface-nonescape}
+For an accepted $\CauchyRealCompletionInterfaceUp$ carrier $I=(D,S,R,B,T,H,C,P,N)$, every exported comparison, replay, provenance read, or local name is exhausted by the displayed rows $D,S,R,B,T,H,C,P,N$. In particular, the packet exports no $\RealUp$ completeness theorem, quotient stream equality, selected limit, countable-choice selector, host real equality, or bridge credential.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. Its classifier compares carriers only through the displayed rows $D,S,R,B,T,H,C,P,N$.
+
+The comparison-sensitive rows are $T,H,C,P,N$. The tail ledger records the finite handoff across $D,S,R,B$, transport is componentwise, replay follows the displayed request path, provenance names the same source chapters, and the local NameCert row names only this packet.
+
+Since no accepted coordinate stores a quotient stream equality, selected limit, choice selector, host real equality, ambient Real-completeness datum, or bridge credential, no exported comparison or replay can use such a row. The packet therefore remains a boundary interface rather than a completeness assertion.
+\end{proof}
+
+\closureat{CauchyRealCompletionInterfaceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRealCompletionInterfaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-completion-interface-carrier}, \autoref{thm:cauchy-real-completion-interface-namecert-obligations}, \autoref{thm:cauchy-real-completion-interface-four-face-handoff}, \autoref{thm:cauchy-real-completion-interface-real-seal-determinacy}, and \autoref{thm:cauchy-real-completion-interface-nonescape} seed the finite L10 interface among dyadic rational tolerances, stream windows, regular rational readback, and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, selected limits, countable choice, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic endpoint exposure, stream-window exactness, regular-sequence handoff, Real-seal boundary, four-face handoff, Real-seal route determinacy, and non-escape proofs for BEDC.Derived.CauchyRealCompletionInterfaceUp.}
+  \constructivestory{A $\CauchyRealCompletionInterfaceUp$ packet is generated from a DyadicRatCore endpoint and tolerance row, StreamName finite windows, RegSeqRat readback, a terminal RealUp seal row, a completion-boundary tail ledger, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

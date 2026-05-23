@@ -1,0 +1,12 @@
+\begin{theorem}[Int signed-pair lattice sibling route]\label{thm:int-signed-pair-lattice-sibling-route}
+Every signed-pair read exported by the $\IntUp$ hub to downstream $\RatUp$ or $\DyadicRatCoreUp$ consumers factors through the unary magnitude rows of \autoref{ch:concrete-instances-nat-namecert} and the balancing row of \autoref{ch:concrete-instances-add-namecert} before any denominator or mantissa data are exposed. Consequently a rational numerator read from \autoref{ch:concrete-instances-rat-namecert} and a dyadic mantissa read from \autoref{ch:concrete-instances-dyadicratcore-namecert} receive the same displayed route: first the two $\NatUp$ magnitude rows, then the $\AddUp$ balance witness identifying their signed-pair difference, and only then the consumer-specific denominator, scale, or mantissa ledger.
+\end{theorem}
+\begin{proof}
+Use the $\IntUp$ hub orientation as the boundary condition. It names $\NatUp$ as the source of unary magnitude data and $\AddUp$ as the balancing surface that makes a signed pair public as integer data.
+
+A $\RatUp$ consumer cannot inspect a numerator before the signed-pair interface has displayed both magnitudes and the balancing row. Thus its denominator route is downstream of the $\NatUp,\AddUp$ lattice rather than an alternate source of integer evidence.
+
+The same argument applies to a $\DyadicRatCoreUp$ mantissa consumer. The dyadic ledger can read signed mantissa data only after the integer route has opened the two unary magnitudes and the displayed balance witness.
+
+Therefore both downstream consumers share the same finite sibling route through $\NatUp$ and $\AddUp$. Denominator and mantissa coordinates are exposed only after that route has been fixed.
+\end{proof}

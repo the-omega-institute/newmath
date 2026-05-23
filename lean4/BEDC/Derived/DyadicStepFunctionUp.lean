@@ -176,4 +176,118 @@ theorem DyadicStepFunctionCarrier_endpoint_value_transport_determinacy [AskSetup
     ⟨endpointReadUnary, valueReadUnary, endpointValueRead, valueReadRow, sameRead,
       nameRowPkg⟩
 
+theorem DyadicStepFunctionCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      handoffRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont values ledger handoffRead ->
+        Cont handoffRead route realRead ->
+          PkgSig bundle realRead pkg ->
+            UnaryHistory partition ∧ UnaryHistory values ∧ UnaryHistory ledger ∧
+              UnaryHistory handoffRead ∧ UnaryHistory realRead ∧
+                Cont values ledger handoffRead ∧ Cont handoffRead route realRead ∧
+                  PkgSig bundle nameRow pkg ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier valuesLedgerHandoff handoffRouteReal realReadPkg
+  obtain ⟨partitionUnary, _cellsUnary, valuesUnary, _readsUnary, _refinementUnary,
+    _endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, _refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed valuesUnary ledgerUnary valuesLedgerHandoff
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed handoffReadUnary routeUnary handoffRouteReal
+  exact
+    ⟨partitionUnary, valuesUnary, ledgerUnary, handoffReadUnary, realReadUnary,
+      valuesLedgerHandoff, handoffRouteReal, nameRowPkg, realReadPkg⟩
+
+theorem DyadicStepFunctionCarrier_real_seal_window_exactness [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont ledger route realSeal ->
+        PkgSig bundle nameRow pkg ->
+          UnaryHistory cells ∧ UnaryHistory values ∧ UnaryHistory endpointLedger ∧
+            UnaryHistory ledger ∧ UnaryHistory realSeal ∧ Cont partition cells values ∧
+              Cont refinement endpointLedger ledger ∧ Cont ledger route realSeal ∧
+                PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier ledgerRouteSeal nameRowPkg
+  obtain ⟨_partitionUnary, cellsUnary, valuesUnary, _readsUnary, _refinementUnary,
+    endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    partitionCellsValues, _valuesReadsRefinement, refinementEndpointLedger,
+    _routeProvenanceNameRow, _carrierNameRowPkg⟩ := carrier
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed ledgerUnary routeUnary ledgerRouteSeal
+  exact
+    ⟨cellsUnary, valuesUnary, endpointLedgerUnary, ledgerUnary, realSealUnary,
+      partitionCellsValues, refinementEndpointLedger, ledgerRouteSeal, nameRowPkg⟩
+
+theorem DyadicStepFunctionCarrier_common_refinement_cell_coverage [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      commonCell endpointRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont cells refinement commonCell ->
+        Cont commonCell endpointLedger endpointRead ->
+          Cont endpointRead ledger consumerRead ->
+            UnaryHistory cells ∧ UnaryHistory refinement ∧ UnaryHistory commonCell ∧
+              UnaryHistory endpointRead ∧ UnaryHistory consumerRead ∧
+                Cont cells refinement commonCell ∧
+                  Cont commonCell endpointLedger endpointRead ∧
+                    Cont endpointRead ledger consumerRead ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier cellsRefinementCommon commonEndpointRead endpointLedgerRead
+  obtain ⟨_partitionUnary, cellsUnary, _valuesUnary, _readsUnary, refinementUnary,
+    endpointLedgerUnary, ledgerUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, _refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have commonCellUnary : UnaryHistory commonCell :=
+    unary_cont_closed cellsUnary refinementUnary cellsRefinementCommon
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed commonCellUnary endpointLedgerUnary commonEndpointRead
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed endpointReadUnary ledgerUnary endpointLedgerRead
+  exact
+    ⟨cellsUnary, refinementUnary, commonCellUnary, endpointReadUnary, consumerReadUnary,
+      cellsRefinementCommon, commonEndpointRead, endpointLedgerRead, nameRowPkg⟩
+
+theorem DyadicStepFunctionCarrier_product_closure [AskSetup] [PackageSetup]
+    {partitionS cellsS valuesS readsS refinementS endpointLedgerS ledgerS routeS provenanceS
+      nameRowS partitionT cellsT valuesT readsT refinementT endpointLedgerT ledgerT routeT
+      provenanceT nameRowT productRead productSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partitionS cellsS valuesS readsS refinementS endpointLedgerS
+        ledgerS routeS provenanceS nameRowS bundle pkg ->
+      DyadicStepFunctionCarrier partitionT cellsT valuesT readsT refinementT endpointLedgerT
+        ledgerT routeT provenanceT nameRowT bundle pkg ->
+        Cont valuesS valuesT productRead ->
+          Cont productRead ledgerS productSeal ->
+            PkgSig bundle productSeal pkg ->
+              UnaryHistory productRead ∧ UnaryHistory productSeal ∧
+                Cont valuesS valuesT productRead ∧ Cont productRead ledgerS productSeal ∧
+                  PkgSig bundle nameRowS pkg ∧ PkgSig bundle productSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrierS carrierT valuesProduct productLedgerSeal productSealPkg
+  obtain ⟨_partitionSUnary, _cellsSUnary, valuesSUnary, _readsSUnary, _refinementSUnary,
+    _endpointLedgerSUnary, ledgerSUnary, _routeSUnary, _provenanceSUnary, _nameRowSUnary,
+    _partitionCellsValuesS, _valuesReadsRefinementS, _refinementEndpointLedgerS,
+    _routeProvenanceNameRowS, nameRowSPkg⟩ := carrierS
+  obtain ⟨_partitionTUnary, _cellsTUnary, valuesTUnary, _readsTUnary, _refinementTUnary,
+    _endpointLedgerTUnary, _ledgerTUnary, _routeTUnary, _provenanceTUnary, _nameRowTUnary,
+    _partitionCellsValuesT, _valuesReadsRefinementT, _refinementEndpointLedgerT,
+    _routeProvenanceNameRowT, _nameRowTPkg⟩ := carrierT
+  have productReadUnary : UnaryHistory productRead :=
+    unary_cont_closed valuesSUnary valuesTUnary valuesProduct
+  have productSealUnary : UnaryHistory productSeal :=
+    unary_cont_closed productReadUnary ledgerSUnary productLedgerSeal
+  exact
+    ⟨productReadUnary, productSealUnary, valuesProduct, productLedgerSeal, nameRowSPkg,
+      productSealPkg⟩
+
 end BEDC.Derived.DyadicStepFunctionUp

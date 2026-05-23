@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\RealConvergenceRateUp$}
+\label{ch:concrete-instances-real-convergence-rate-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis and Weihrauch-style computable analysis, the $\RealConvergenceRateUp$ packet records an explicit rate-of-convergence object for Real and Completion consumers. It sits after the dyadic rate discipline of \autoref{ch:concrete-instances-rapid-cauchy-name-namecert}, the modulus boundary of \autoref{ch:concrete-instances-realcauchymodulus-namecert}, the finite stream observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet exposes a finite rate schedule before any $\RealUp$ seal is consumed, so downstream Real and Completion phases can request precision through displayed data rather than through quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+
+\begin{definition}[Real convergence rate carrier]
+\label{def:real-convergence-rate-carrier}
+A $\RealConvergenceRateUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,S,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the rate schedule row, listing the finite precision requests accepted by the packet and the displayed bound that each request must consult before any real-name seal can be read.
+\item $S$ is the finite $\StreamNameUp$ window row selected by the schedule $R$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording dyadic radii, slack comparisons, and budget cells attached to the scheduled windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the selected windows and the tolerance ledger.
+\item $E$ is the terminal $\RealUp$ seal row reachable only after $R,S,D,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the rate schedule, finite windows, tolerance ledger, readback row, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of each accepted precision request through
+$$
+R\longmapsto S\longmapsto D\longmapsto Q\longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RealConvergenceRateUp$, $\RapidCauchyNameUp$, $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealConvergenceRateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,S,D,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean evidence, or standard-bridge data.
+\end{definition}
+
+\begin{theorem}[Real convergence rate tail control]
+\label{thm:real-convergence-rate-tail-control}
+For every accepted $\RealConvergenceRateUp$ carrier
+$$
+K=(R,S,D,Q,E,H,C,P,N),
+$$
+every accepted precision request factors through the rate schedule row $R$ before any $\RealUp$ seal row $E$ is consumed. Consequently the tail read seen by a Real or Completion consumer is routed through the finite path
+$$
+R\longmapsto S\longmapsto D\longmapsto Q\longmapsto E
+$$
+together with componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $K$. The carrier exposes the rate schedule $R$ as the first analytic row and places the terminal seal $E$ only after the scheduled windows, dyadic ledger, and regular readback.
+
+Induct over the finite list of precision requests displayed by $R$. The empty schedule has no accepted request and therefore no seal-facing tail read.
+
+For the cons step, the head request reads its bound from $R$, selects its finite window in $S$, and consumes the corresponding dyadic radius and slack comparison in $D$. The regular readback $Q$ is then the only row from which a seal-facing consumer can proceed to $E$.
+
+The induction hypothesis handles the remaining scheduled requests. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so there is no carrier coordinate from which a consumer can bypass $R$ and read the Real seal directly.
+\end{proof}
+
+\begin{theorem}[Real convergence rate NameCert obligations]
+\label{thm:real-convergence-rate-namecert-obligations}
+For every accepted $\RealConvergenceRateUp$ carrier
+$$
+K=(R,S,D,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealConvergenceRateUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the rate schedule $R$, finite $\StreamNameUp$ windows $S$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\RegSeqRatUp$ readback $Q$, terminal $\RealUp$ seal $E$, and structural rows $H,C,P,N$;
+\item classifier stability under componentwise $\hsame$ transport of the displayed rate schedule, window, ledger, readback, seal, replay, provenance, and local naming rows;
+\item rate-to-tail control, requiring every accepted precision request to consult $R$ before any tail read reaches $S,D,Q$ or the Real seal $E$;
+\item dyadic tolerance accounting, requiring $D$ to store exactly the radii, slack comparisons, and budget cells consumed by the scheduled windows and readback row;
+\item ledger provenance, requiring $P$ to name the displayed Real and Completion dependencies through $\RapidCauchyNameUp$, $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item non-escape from quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, and standard-bridge data.
+\end{enumerate}
+No real-convergence-rate obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:real-convergence-rate-carrier}. The accepted packet lists exactly the rate schedule, finite stream windows, dyadic tolerance ledger, regular rational readback, terminal seal, and four structural rows.
+
+Classifier stability is componentwise. The $\hsame$ row $H$ transports each displayed coordinate of the packet, while the classifier has no extra coordinate that could change independently of those rows.
+
+Rate-to-tail control is \autoref{thm:real-convergence-rate-tail-control}. It forces every accepted precision request through $R$ before any scheduled window, tolerance cell, readback row, or terminal seal can be consumed.
+
+The tolerance and provenance clauses are then row inspections. The ledger $D$ contains the dyadic accounting consumed by $S$ and $Q$, and $P$ names only the listed Real and Completion dependencies.
+
+Finally, the carrier has no coordinate for quotient equality, a selected limit, countable choice, host equality, trichotomy, ambient completeness, Lean evidence, or bridge data. The enumerated rows therefore exhaust the local NameCert obligation surface.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealConvergenceRateUp$ precision request factors through a displayed rate schedule, finite StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{rapidcauchyname, realcauchymodulus, streamname, dyadicratcore, regseqrat, real: $\RealConvergenceRateUp$ is not bijective to any listed sibling because it jointly carries rate admission, finite tail routing, dyadic tolerance accounting, regular readback, terminal Real seal routing, transport, replay, provenance, and local naming.}
+
+\closureat{RealConvergenceRateUp}{seedStr}
+
+\begin{closurestatus}{\RealConvergenceRateUp}
+  \constructivestory{A $\RealConvergenceRateUp$ packet is generated from a rate schedule, finite StreamName windows, DyadicRatCore tolerance rows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-convergence-rate-carrier}, \autoref{thm:real-convergence-rate-tail-control}, and \autoref{thm:real-convergence-rate-namecert-obligations} seed the explicit rate-of-convergence route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, classifier stability, rate-to-tail control, dyadic tolerance accounting, ledger provenance, and non-escape for BEDC.Derived.RealConvergenceRateUp.}
+\end{closurestatus}

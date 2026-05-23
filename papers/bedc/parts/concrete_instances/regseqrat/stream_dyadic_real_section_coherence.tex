@@ -81,6 +81,7 @@ quotient stream, selected limit, countable-choice row, host equality, ambient
 completeness row, or aggregate bridge or status row available to distinguish
 the two terminal consumers.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatTerminalFourFaceSourceUniqueness}
 \begin{proof}
 Apply \autoref{thm:regseqrat-stream-dyadic-real-section-coherence} to both
 terminal consumers. Each read is thereby placed on the same four visible
@@ -118,6 +119,54 @@ aggregate bridge or status surface, none of those rows can separate the two
 consumers.
 \end{proof}
 
+\begin{theorem}[RegSeqRat four-face refinement functoriality]
+\label{thm:regseqrat-four-face-refinement-functoriality}
+Let $R$ be an accepted Phase Real and Completion terminal consumer over a
+finite $\RegSeqRatUp$ section, and let $R'$ be an accepted cofinal refinement
+of $R$. Suppose the refinement preserves the displayed $\StreamNameUp$
+finite-section window, the $\DyadicRatCoreUp$ endpoint, radius, and
+finite-distance ledger, the $\RegSeqRatUp$ classifier and regularity rows, the
+local $\RealUp$ finite-section readback, and the same $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ support rows. Then $R$
+and $R'$ determine the same common finite $\RegSeqRatUp$ source section.
+
+Equivalently, accepted cofinal refinement acts functorially on the terminal
+four-face packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+with identity action on the common finite source. It creates no quotient
+stream, selected limit, choice row, host equality, ambient completeness row,
+or second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-stream-dyadic-real-section-coherence} to the
+terminal consumer $R$ and to its accepted refinement $R'$. Both reads are
+therefore represented by four visible faces over the same displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$
+support rows.
+
+The preserved StreamName window is fixed by
+\autoref{thm:streamname-finite-section-pullback-exactness}. The preserved
+dyadic endpoint, radius, and finite-distance ledger are fixed by
+\autoref{thm:dyadicratcore-scale-window-real-exit-source-uniqueness}. The
+local Real terminal readback is fixed by
+\autoref{thm:real-l10-terminal-pullback-uniqueness}.
+
+It remains only to compare the RegSeqRat source face. Since the refinement
+preserves the RegSeqRat classifier and regularity rows and the other three
+faces have already been identified, both terminal reads satisfy the
+hypotheses of
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness}. That theorem
+identifies the common finite $\RegSeqRatUp$ source section for $R$ and $R'$.
+
+The same packet supplies no coordinate for quotient streams, selected limits,
+choice rows, host equality, ambient completeness, a second Real seal, or any
+independent aggregate status surface. Hence the refinement has no additional
+row along which it could move the accepted terminal consumer away from the
+common finite source.
+\end{proof}
+
 \begin{theorem}[RegSeqRat real terminal four-face exactness]
 \label{thm:regseqrat-real-terminal-four-face-exactness}
 Let $S$ be a finite $\RegSeqRatUp$ terminal section presented to the Phase Real
@@ -135,6 +184,7 @@ $$
 It asserts no quotient stream equality, no selected limit existence, and no
 completeness property of $\RealUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatRealTerminalFourFaceExactness}
 \begin{proof}
 For the forward direction, start with the accepted $\RealUp$ terminal seal. By
 \autoref{thm:regseqrat-stream-dyadic-real-section-coherence}, the terminal read

@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\ContractionMappingUp$}
+\label{ch:concrete-instances-contractionmapping-namecert}
+\origin{human}
+
+Following Banach's contraction principle and Bishop--Bridges constructive analysis, a $\ContractionMappingUp$ packet defines a contraction mapping as a certified self-map of a metric carrier with a displayed rational bound below one, not as a selected fixed point. The packet is the map-level interface consumed by the fixed-point route: it refines the Lipschitz carrier of \autoref{ch:concrete-instances-lipschitzmap-namecert}, reads its domain through \autoref{ch:concrete-instances-metric-namecert}, hands finite iterate estimates to \autoref{ch:concrete-instances-picardcontraction-namecert}, routes complete-metric consumers through \autoref{ch:concrete-instances-completemetric-namecert}, and supplies the contraction row that \autoref{ch:concrete-instances-banach-fixed-point-namecert} uses before any endpoint seal is read.
+
+\begin{definition}[ContractionMapping carrier]
+\label{def:contraction-mapping-carrier}
+A $\ContractionMappingUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(X,d,T,G,\lambda,M,I,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $X$ is the carried $\MetricUp$ point-carrier row;
+\item $d$ is the metric-distance witness row used to read source and target distances inside the same carrier;
+\item $T$ is the self-map code row, displaying the route from a carried point history of $X$ to another carried point history of $X$;
+\item $G$ is the graph row witnessing that each accepted application of $T$ is a finite BEDC graph read rather than a host function application;
+\item $\lambda$ is the rational contraction-bound ledger, with displayed nonnegativity and strict unit-bound rows;
+\item $M$ is the induced modulus row obtained from the displayed bound ledger and the metric-distance reads;
+\item $I$ is the one-step $\PicardContractionUp$ route recording $x\mapsto T(x)$ and the contracted distance comparison for adjacent iterate reads;
+\item $H$ stores componentwise $\hsame$ transports for the metric carrier, distance row, self-map row, graph row, rational bound, induced modulus, Picard route, continuation rows, provenance row, and local naming row;
+\item $C$ stores the $\Cont$ routes for metric reads, self-map application, graph replay, bound comparison, induced-modulus readback, Picard-step replay, and consumer handoff;
+\item $P$ is the $\Pkg$ provenance row over $\MetricUp$, $\LipschitzMapUp$, $\PicardContractionUp$, $\CompleteMetricUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$ dependency rows;
+\item $N$ is the local $\NameCert_{\ContractionMappingUp}$ row.
+\end{enumerate}
+The carrier exposes a self-map contraction surface. It contains no coordinate for a selected fixed point, ambient completeness, quotient map equality, host function extensionality, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.ContractionMappingUp.ContractionMappingTasteGate\_single\_carrier\_alignment}
+\leandef{BEDC.Derived.ContractionMappingUp.ContractionMappingUp}
+
+\begin{theorem}[ContractionMapping NameCert obligations]
+\label{thm:contraction-mapping-namecert-obligations}
+For an accepted $\ContractionMappingUp$ carrier $K=(X,d,T,G,\lambda,M,I,H,C,P,N)$, the local $\NameCert_{\ContractionMappingUp}$ surface consists of carrier admission, componentwise classifier transport, self-map graph exactness, rational bound stability below one, induced modulus visibility, one-step Picard route compatibility, package provenance stability, and local naming for the finite packet of \autoref{def:contraction-mapping-carrier}.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContractionMappingUp.TasteGate.ContractionMappingTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is exactly the displayed tuple of metric, distance, self-map, graph, bound, modulus, Picard-route, transport, continuation, provenance, and naming rows.
+
+Classifier transport is componentwise. The $\hsame$ rows move the carrier, distance, self-map, graph, bound, modulus, Picard, provenance, and naming data, while the $\Cont$ rows replay metric reads, application, graph inspection, bound comparison, and Picard-step handoff.
+
+Exactness and stability are field exclusions plus the displayed bound ledger. Every accepted target-distance read factors through $d$, $T$, $G$, and $\lambda$, and $\lambda$ carries the strict unit-bound row needed by contraction consumers.
+
+The package and local certificate rows list only the stated dependencies. Repacking these visible rows gives the local naming surface without selecting a fixed point, asserting completeness, quotienting maps, or invoking a bridge.
+\end{proof}
+
+\begin{theorem}[ContractionMapping Picard-step contraction]
+\label{thm:contraction-mapping-picard-step-contraction}
+Every accepted $\ContractionMappingUp$ carrier exposes a finite $\PicardContractionUp$ one-step route $I$. For any displayed adjacent source histories $x,y$ in the carried metric row, the graph reads for $T(x)$ and $T(y)$ and the rational ledger $\lambda$ give the finite comparison
+$$
+d(T(x),T(y))\leq \lambda\, d(x,y),
+$$
+with the strict unit-bound row of $\lambda$ retained as part of the packet.
+\end{theorem}
+\begin{proof}
+Read the self-map coordinate $T$ and graph coordinate $G$. They provide finite application rows for $x\mapsto T(x)$ and $y\mapsto T(y)$ inside the same metric carrier $X$.
+
+The distance row $d$ reads both the source distance and the target distance. The rational ledger $\lambda$ is stored with the displayed comparison row and the strict unit-bound row, so the target-distance comparison is a packet field rather than a host analytic inference.
+
+The one-step Picard route $I$ records exactly this application-and-comparison pattern. Since $I$ has no infinite-orbit coordinate, the theorem exports only the adjacent-step contraction surface consumed by $\PicardContractionUp$.
+\end{proof}
+
+\begin{theorem}[ContractionMapping complete-metric handoff]
+\label{thm:contraction-mapping-complete-metric-handoff}
+Every $\CompleteMetricUp$ or $\BanachFixedPointUp$ consumer of an accepted $\ContractionMappingUp$ carrier must pass through the rows
+$$
+X,\ d,\ T,\ G,\ \lambda,\ M,\ I,\ H,\ C,\ P,\ N.
+$$
+The handoff provides a metric self-map, a graph-exact contraction comparison, an induced modulus, and the one-step Picard route. It does not provide a complete carrier by itself, a Cauchy-limit endpoint, host fixed-point equality, quotient equality of maps, or bridge-checked standardization.
+\end{theorem}
+\begin{proof}
+The carrier inventory in \autoref{def:contraction-mapping-carrier} lists all rows available to a consumer. A complete-metric consumer may read the metric row $X,d$, the self-map and graph rows $T,G$, the rational contraction ledger $\lambda$, and the induced modulus $M$.
+
+The Picard-facing part is supplied by \autoref{thm:contraction-mapping-picard-step-contraction}: it is the finite one-step route $I$, transported by $H$ and replayed by $C$.
+
+Completeness is not a coordinate of the contraction packet. A $\CompleteMetricUp$ handoff therefore requires a separate complete-metric row, and a $\BanachFixedPointUp$ endpoint route requires the later Picard, modulus, completion, and seal rows named in its own carrier. The contraction packet contributes only the map-level surface displayed here.
+\end{proof}
+
+\closureat{ContractionMappingUp}{seedStr}
+
+\begin{closurestatus}{\ContractionMappingUp}
+  \constructivestory{A $\ContractionMappingUp$ packet is generated from a $\MetricUp$ carrier row, a metric-distance row, a self-map row, a graph row, a rational contraction-bound ledger below one, an induced modulus row, a one-step $\PicardContractionUp$ route, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contraction-mapping-carrier}, \autoref{thm:contraction-mapping-namecert-obligations}, \autoref{thm:contraction-mapping-picard-step-contraction}, and \autoref{thm:contraction-mapping-complete-metric-handoff} seed the constructive self-map contraction surface for the Picard and completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim host fixed-point selection, ambient completeness, quotient map equality, bridge checking, host function extensionality, or a completed endpoint seal.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, graph exactness, rational bound stability, Picard-step compatibility, and complete-metric handoff visibility for the same finite packet.}
+\end{closurestatus}

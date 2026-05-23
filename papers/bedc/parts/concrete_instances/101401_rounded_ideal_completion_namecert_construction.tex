@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\RoundedIdealCompletionUp$}
+\label{ch:concrete-instances-rounded-ideal-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, Vickers-style formal topology, and the Edalat--Heckmann formal-ball domain presentation of metric completion, the $\RoundedIdealCompletionUp$ packet names completion data as rounded directed families of formal balls rather than quotient classes of Cauchy names. It sits after the formal-ball interface of \autoref{ch:concrete-instances-formalball-namecert}, the metric source surface of \autoref{ch:concrete-instances-metric-namecert}, the completion boundary of \autoref{ch:concrete-instances-completion-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic radius ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+The carrier is intended for completion consumers that can inspect finite lower information about an ideal. It records only finite $\BHist$ rows for roundedness, directedness, cofinal refinements, classifier transport, replay, provenance, and local naming, so the packet can be replayed without selecting a limit point or assuming that the ambient metric space is already complete.
+
+\begin{definition}[Rounded ideal completion carrier]
+\label{def:rounded-ideal-completion-carrier}
+A $\RoundedIdealCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(M,F,D,S,R,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ source row, including accepted point histories, metric-distance witnesses, and the point classifier used by every formal-ball center.
+\item $F$ is the finite $\FormalBallUp$ family row. Its entries are formal balls $(x,\rho)$ read through the same metric row $M$, with radius requests exposed through finite windows.
+\item $D$ is the $\DyadicRatCoreUp$ radius ledger. It records positive-radius witnesses, strict comparison budgets, radius addition, and refinement inequalities for the rows of $F$.
+\item $S$ is the $\StreamNameUp$ window row used to read finite center observations and finite ideal membership requests.
+\item $R$ is the roundedness row: every displayed ball in $F$ is accompanied by a smaller displayed ball whose dyadic radius comparison is recorded in $D$ and whose center window is read in $S$.
+\item $E$ is the directedness row: every displayed pair of balls in $F$ has a common displayed refinement in $F$, with both comparison witnesses recorded in $D$ over the same metric row $M$.
+\item $T$ records componentwise $\hsame$ transport for the metric source, formal-ball family, dyadic ledger, stream window, roundedness row, directedness row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from finite ideal membership requests through $M,F,D,S,R,E,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RoundedIdealCompletionUp$, $\FormalBallUp$, $\MetricSpaceUp$, $\CompletionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RoundedIdealCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $M,F,D,S,R,E,T,C,P,N$. The carrier has no coordinate for quotient completion, selected limits, countable choice, open-cover compactness, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RoundedIdealCompletion NameCert obligations]
+\label{thm:rounded-ideal-completion-namecert-obligations}
+For every accepted $\RoundedIdealCompletionUp$ carrier
+$$
+I=(M,F,D,S,R,E,T,C,P,N),
+$$
+the local $\NameCert_{\RoundedIdealCompletionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the metric source, formal-ball family, dyadic ledger, stream window, roundedness row, directedness row, transport row, replay row, provenance row, and local naming row;
+\item roundedness, requiring each displayed ideal member to admit a strictly smaller displayed formal ball in the same family, with the comparison recorded in $D$ and the center read through $S$;
+\item directedness, requiring every displayed pair of ideal members to admit a common displayed refinement in the same family, with both comparison witnesses recorded in $D$ over $M$;
+\item cofinal refinement stability, requiring any finite radius tightening accepted by $D$ and replayed through $C$ to remain inside the same ideal-family row $F$;
+\item classifier transport, requiring $\hsame$ comparison of accepted packets to be componentwise through $T$ and to preserve the displayed roundedness and directedness rows;
+\item ledger non-escape, requiring every completion-facing read to pass through $M,F,D,S,R,E,T,C,P,N$ and to export no quotient completion, selected limit, countable-choice selector, open-cover compactness proof, or ambient completeness datum.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rounded-ideal-completion-carrier}. The accepted packet displays exactly the metric source, formal-ball family, dyadic ledger, stream window, roundedness row, directedness row, transport, replay, provenance, and local naming row.
+
+Roundedness is read from $R$. For each displayed ideal member, $R$ names a smaller displayed formal ball, while $D$ supplies the strict radius comparison and $S$ supplies the finite center window.
+
+Directedness is read from $E$. Given two displayed ideal members, $E$ supplies a common formal-ball refinement in $F$, and $D$ records the two comparison witnesses over the same metric row $M$.
+
+Cofinal refinement stability and classifier transport are structural. The replay row $C$ keeps finite tightening requests inside the same displayed route, and the transport row $T$ compares packets componentwise without adding a second classifier.
+
+Finally, $P$ and $N$ only source and name the displayed packet. Since quotient completion, selected limits, countable choice, open-cover compactness, and ambient completeness have no carrier coordinate, no replay edge, and no provenance row, the local NameCert surface is exactly the listed obligation surface.
+\end{proof}
+
+\begin{theorem}[RoundedIdealCompletion cofinal replay]
+\label{thm:rounded-ideal-completion-cofinal-replay}
+Let $I=(M,F,D,S,R,E,T,C,P,N)$ be an accepted $\RoundedIdealCompletionUp$ carrier. Every finite completion-facing request for a tighter formal-ball neighbourhood is answered by the route
+$$
+M,F \longmapsto D,S \longmapsto R,E \longmapsto T,C,P,N .
+$$
+The answer is a displayed member of the same rounded directed family $F$, not a selected limit, not a quotient representative, and not an ambient-completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the metric source and formal-ball family. Projection gives $M$ and $F$, so the request can inspect only the displayed centers, radii, and formal-ball rows of the accepted packet.
+
+The requested tightening is checked against $D$ and $S$. The dyadic ledger records the radius comparison budget, and the stream window records the finite center observations used by that comparison.
+
+Roundedness and directedness then supply the internal answer. The row $R$ handles a one-ball tightening request, while $E$ handles the common-refinement demand generated by a pair of displayed members.
+
+The structural rows preserve the route. The transport row $T$, replay row $C$, provenance row $P$, and naming row $N$ add no field for quotient classes, selected limits, or completeness principles, so the answer remains a displayed member of the same rounded directed family.
+\end{proof}
+
+\begin{theorem}[RoundedIdealCompletion classifier transport]
+\label{thm:rounded-ideal-completion-classifier-transport}
+If two accepted $\RoundedIdealCompletionUp$ carriers are related by componentwise $\hsame$ transport through their transport rows, then their classifier-visible rounded ideal data agree on the metric source, formal-ball membership rows, dyadic comparisons, stream windows, roundedness witnesses, directedness witnesses, replay route, provenance, and local name.
+
+Consequently classifier transport preserves cofinal refinement stability and ledger non-escape for the rounded ideal completion surface.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The only classifier-visible coordinates are the metric source, formal-ball family, dyadic ledger, stream window, roundedness row, directedness row, replay row, provenance row, and local name.
+
+Apply componentwise $\hsame$ transport through the transport rows. The metric source remains the same source surface, formal-ball membership is compared row by row, dyadic comparison witnesses are preserved, and stream windows are transported with their finite observations.
+
+The roundedness and directedness rows are transported with the family they certify. Hence a smaller displayed ball, or a common displayed refinement, remains a witness for the transported packet.
+
+Replay, provenance, and naming preserve the same route. Since no excluded coordinate is available to either classifier, cofinal refinement stability and ledger non-escape are invariant under the displayed transport.
+\end{proof}
+
+\begin{closurestatus}{\RoundedIdealCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rounded-ideal-completion-carrier}, \autoref{thm:rounded-ideal-completion-namecert-obligations}, \autoref{thm:rounded-ideal-completion-cofinal-replay}, and \autoref{thm:rounded-ideal-completion-classifier-transport} seed the rounded directed formal-ball ideal surface for choice-free completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, countable choice, open-cover compactness, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, roundedness, directedness, cofinal refinement stability, classifier transport, replay stability, provenance, local naming, and ledger non-escape for the same packet.}
+  \constructivestory{A $\RoundedIdealCompletionUp$ packet is generated from a metric source, a finite FormalBall family, a DyadicRatCore radius ledger, StreamName windows, roundedness and directedness rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\LocatedUniformCompletionUp$}
+\label{ch:concrete-instances-located-uniform-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive completion language and Kelley's uniform-space terminology, the $\LocatedUniformCompletionUp$ packet records the finite route by which located Cauchy-filter data, uniform completion data, regular Cauchy readbacks, finite stream windows, and terminal real seals are offered to Real and Completion consumers. It sits between the located filter surface of \autoref{ch:concrete-instances-located-cauchy-filter-namecert}, the uniform completion carrier of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the Bishop regular Cauchy completion route of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}, the stream-name observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names a located uniform-completion certificate, not an ambient completeness theorem for $\RealUp$, a quotient-limit object, countable choice, selected representatives, or host equality.
+
+\begin{definition}[Located uniform completion carrier]\label{def:located-uniform-completion-carrier}
+A $\LocatedUniformCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(F,U,B,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\LocatedCauchyFilterUp$ row. It records the located filter basis, explicit neighborhood decision ledger, and Cauchy-filter handoff inspected by the completion-facing request.
+\item $U$ is the $\UniformCompletionUp$ row. It stores the finite uniform completion route through which the located filter is admitted as completion data.
+\item $B$ is the $\BishopRegularCauchyCompletionUp$ row. It repacks the located uniform route as a Bishop-style regular Cauchy completion handoff.
+\item $S$ is the $\StreamNameUp$ finite-window row used to inspect the displayed completion name.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the stream windows and regular Cauchy handoff.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $F,U,B,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the located filter, uniform completion, regular Cauchy completion, stream window, regular rational readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion request through $F,U,B,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedUniformCompletionUp$, $\LocatedCauchyFilterUp$, $\UniformCompletionUp$, $\BishopRegularCauchyCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedUniformCompletionUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite located uniform-completion packet. It has no coordinate for quotient limits, host real equality, selected representatives, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.LocatedUniformCompletionUp.TasteGate.LocatedUniformCompletionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Located uniform completion NameCert obligations]\label{thm:located-uniform-completion-namecert-obligations}
+For every accepted $\LocatedUniformCompletionUp$ carrier $L=(F,U,B,S,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedUniformCompletionUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed located Cauchy filter, uniform completion route, Bishop regular Cauchy completion row, stream window, regular rational readback, terminal Real seal, componentwise transport, replay, provenance, and local naming rows;
+\item located filter exposure, requiring every completion-facing request to read the $\LocatedCauchyFilterUp$ row $F$ before it reaches the uniform completion row $U$;
+\item uniform completion routing, requiring $U$ to be the only completion route between the located filter data and the Bishop regular Cauchy completion row $B$;
+\item finite readback, requiring every Real-facing read to inspect the $\StreamNameUp$ row $S$ and the $\RegSeqRatUp$ row $R$ before the terminal seal $E$ is exposed;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same ordered route under componentwise sameness and displayed continuation replay;
+\item ledger non-escape, requiring $P$ and $N$ to name only the displayed packet and to export no quotient limit, host equality, selected representative, countable-choice schedule, or ambient completeness coordinate.
+\end{enumerate}
+No located uniform-completion obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-uniform-completion-carrier}. The projected rows are exactly the located Cauchy filter row $F$, uniform completion row $U$, Bishop regular Cauchy completion row $B$, stream window $S$, regular rational readback $R$, terminal Real seal $E$, and structural rows $H,C,P,N$.
+
+Located filter exposure reads \autoref{ch:concrete-instances-located-cauchy-filter-namecert} before any completion-facing coordinate is available. Uniform completion routing then reads \autoref{ch:concrete-instances-uniformcompletion-namecert}, so the route from $F$ to the completion surface is carried by $U$ rather than by an unrecorded quotient or host-level limit.
+
+The Bishop regular Cauchy completion handoff is supplied by \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. It repacks the located uniform route into the regular Cauchy completion row $B$ before any Real-facing read can continue.
+
+Finite readback uses \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}. The terminal boundary is then read through \autoref{ch:concrete-instances-real-namecert} as the row $E$.
+
+The rows $H$ and $C$ preserve this order under transport and replay. The provenance and naming rows $P,N$ name only the displayed packet, so the excluded quotient, choice, selected-limit, host-equality, and completeness data have no coordinate from which to enter.
+\end{proof}
+
+\begin{theorem}[Located uniform completion density route]\label{thm:located-uniform-completion-density-route}
+Every completion-facing read of an accepted $\LocatedUniformCompletionUp$ carrier $L=(F,U,B,S,R,E,H,C,P,N)$ factors through the finite route
+$$
+F \longmapsto U \longmapsto B \longmapsto S \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the dense located source is exposed only through a located Cauchy filter row, a uniform completion row, a Bishop regular Cauchy completion row, finite stream windows, regular rational readback, the terminal Real seal, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing read of $L$. The carrier definition gives no direct completion coordinate except the displayed route $F,U,B,S,R,E,H,C,P,N$.
+
+The located source enters through $F$, and the uniform completion interface is reached through $U$. This is the density-facing part of the certificate: the source is visible by located filter decisions and by the finite uniform completion route, not by a selected dense image or quotient-limit representative.
+
+The regular Cauchy handoff then passes through $B$, and the finite readback passes through $S$ and $R$. The terminal boundary row $E$ is downstream of those rows, while $H,C,P,N$ transport, replay, package, and name the same route.
+
+Therefore every completion-facing read factors through the displayed finite route and receives no host equality, countable-choice schedule, selected limit, quotient limit, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[Located uniform completion Real boundary]\label{thm:located-uniform-completion-real-boundary}
+Every $\RealUp$ boundary read exported by an accepted $\LocatedUniformCompletionUp$ carrier $L=(F,U,B,S,R,E,H,C,P,N)$ is downstream of the located uniform completion route
+$$
+\LocatedCauchyFilterUp(F),\quad \UniformCompletionUp(U),\quad \BishopRegularCauchyCompletionUp(B),\quad \StreamNameUp(S),\quad \RegSeqRatUp(R).
+$$
+No $\RealUp$ consumer receives a quotient limit, host real equality, selected representative, countable-choice schedule, or ambient completeness datum from this packet.
+\end{theorem}
+\begin{proof}
+Project the terminal boundary row from \autoref{def:located-uniform-completion-carrier}. The row $E$ is present only after $F,U,B,S,R$ have been displayed.
+
+The preceding route is fixed by the six cited boundary chapters: located filters supply $F$, uniform completions supply $U$, Bishop regular Cauchy completions supply $B$, stream names supply $S$, regular rational names supply $R$, and the Real chapter supplies the terminal seal discipline for $E$.
+
+Since the carrier contains no quotient-limit, host-equality, selected-representative, choice, or ambient-completeness coordinate, the $\RealUp$ consumer can inspect only the displayed route and the structural rows $H,C,P,N$. The claimed boundary factorization follows.
+\end{proof}
+
+\closureat{LocatedUniformCompletionUp}{seedStr}
+\begin{closurestatus}{\LocatedUniformCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-uniform-completion-carrier}, \autoref{thm:located-uniform-completion-namecert-obligations}, \autoref{thm:located-uniform-completion-density-route}, and \autoref{thm:located-uniform-completion-real-boundary} seed the located uniform-completion route through located Cauchy filters, uniform completion, Bishop regular Cauchy completion, stream windows, regular rational readback, and the Real boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient limits, countable choice, host equality, selected representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located filter exposure, uniform completion routing, finite readback, transport and replay stability, ledger non-escape, density routing, and Real-boundary factorization for BEDC.Derived.LocatedUniformCompletionUp.}
+  \constructivestory{A $\LocatedUniformCompletionUp$ packet is generated from a located Cauchy filter row, uniform completion route, Bishop regular Cauchy completion row, finite StreamName window, RegSeqRat readback, terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+\end{closurestatus}

@@ -7,6 +7,7 @@ import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
+import BEDC.Derived.HomotopyUp.TasteGate
 
 namespace BEDC.Derived.HomotopyUp
 
@@ -278,6 +279,43 @@ theorem HomotopyBHistSourcePacket_reversal_symmetry_row [AskSetup] [PackageSetup
                     packet.right.right.right.right.right.right.right.right))))))))
     (hsame_symm sameSourceTarget)
 
+theorem HomotopyBHistSourcePacket_reversal_classifier_symmetry_row [AskSetup] [PackageSetup]
+    {source target deformation interval provenance endpointRead ledger endpoint endpointRev : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+        endpoint bundle pkg →
+      hsame source target →
+        Cont ledger source endpointRev →
+          PkgSig bundle endpointRev pkg →
+            HomotopyBHistSourcePacket target source deformation interval provenance endpointRead
+                ledger endpointRev bundle pkg ∧
+              hsame endpoint endpointRev ∧ hsame deformation deformation ∧
+                hsame interval interval ∧ hsame provenance provenance := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet sameSourceTarget reversedEndpointCont reversedPkg
+  have targetUnary : UnaryHistory target :=
+    packet.right.left
+  have sourceUnary : UnaryHistory source :=
+    packet.left
+  have sameEndpoint : hsame endpoint endpointRev :=
+    cont_respects_hsame (hsame_refl ledger) (hsame_symm sameSourceTarget)
+      packet.right.right.right.right.right.right.right.left reversedEndpointCont
+  have reversedPacket :
+      HomotopyBHistSourcePacket target source deformation interval provenance endpointRead ledger
+        endpointRev bundle pkg :=
+    And.intro targetUnary
+      (And.intro sourceUnary
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro reversedEndpointCont reversedPkg)))))))
+  exact And.intro reversedPacket
+    (And.intro sameEndpoint
+      (And.intro (hsame_refl deformation)
+        (And.intro (hsame_refl interval) (hsame_refl provenance))))
+
 theorem HomotopyBHistSourcePacket_double_reversal_classifier_row [AskSetup] [PackageSetup]
     {source target deformation interval provenance endpointRead ledger endpoint endpoint' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -484,5 +522,67 @@ theorem HomotopyBHistSourcePacket_constant_deformation_reflexivity_row
       (And.intro packet.right.right.right.right.right.left
         (And.intro packet.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.left))
+
+theorem HomotopyBHistSourcePacket_classifier_equivalence_obligation [AskSetup] [PackageSetup]
+    {source target deformation interval provenance endpointRead ledger endpoint reversedRead
+      reversedLedger reversedEndpoint composedDeformation composedRead composedLedger
+      composedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+        endpoint bundle pkg ->
+      Cont deformation interval reversedRead ->
+        Cont reversedRead provenance reversedLedger ->
+          Cont reversedLedger source reversedEndpoint ->
+            PkgSig bundle reversedEndpoint pkg ->
+              Cont deformation deformation composedDeformation ->
+                Cont composedDeformation interval composedRead ->
+                  Cont composedRead provenance composedLedger ->
+                    Cont composedLedger target composedEndpoint ->
+                      PkgSig bundle composedEndpoint pkg ->
+                        HomotopyBHistSourcePacket target source deformation interval provenance
+                            reversedRead reversedLedger reversedEndpoint bundle pkg ∧
+                          HomotopyBHistSourcePacket source target composedDeformation interval
+                              provenance composedRead composedLedger composedEndpoint bundle pkg ∧
+                            hsame endpoint endpoint := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet reversedReadCont reversedLedgerCont reversedEndpointCont reversedPkg
+    composedDeformationCont composedReadCont composedLedgerCont composedEndpointCont composedPkg
+  have reversedReadUnary : UnaryHistory reversedRead :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left reversedReadCont
+  have reversedLedgerUnary : UnaryHistory reversedLedger :=
+    unary_cont_closed reversedReadUnary packet.right.right.right.right.left reversedLedgerCont
+  have reversedEndpointUnary : UnaryHistory reversedEndpoint :=
+    unary_cont_closed reversedLedgerUnary packet.left reversedEndpointCont
+  have composedDeformationUnary : UnaryHistory composedDeformation :=
+    unary_cont_closed packet.right.right.left packet.right.right.left composedDeformationCont
+  have composedReadUnary : UnaryHistory composedRead :=
+    unary_cont_closed composedDeformationUnary packet.right.right.right.left composedReadCont
+  have composedLedgerUnary : UnaryHistory composedLedger :=
+    unary_cont_closed composedReadUnary packet.right.right.right.right.left composedLedgerCont
+  have composedEndpointUnary : UnaryHistory composedEndpoint :=
+    unary_cont_closed composedLedgerUnary packet.right.left composedEndpointCont
+  have reversedPacket :
+      HomotopyBHistSourcePacket target source deformation interval provenance reversedRead
+        reversedLedger reversedEndpoint bundle pkg :=
+    And.intro packet.right.left
+      (And.intro packet.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro reversedReadCont
+                (And.intro reversedLedgerCont
+                  (And.intro reversedEndpointCont reversedPkg)))))))
+  have composedPacket :
+      HomotopyBHistSourcePacket source target composedDeformation interval provenance
+        composedRead composedLedger composedEndpoint bundle pkg :=
+    And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro composedDeformationUnary
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro composedReadCont
+                (And.intro composedLedgerCont
+                  (And.intro composedEndpointCont composedPkg)))))))
+  exact And.intro reversedPacket (And.intro composedPacket (hsame_refl endpoint))
 
 end BEDC.Derived.HomotopyUp

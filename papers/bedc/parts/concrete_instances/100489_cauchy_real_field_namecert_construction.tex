@@ -1,0 +1,115 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealFieldUp$}
+\label{ch:concrete-instances-cauchy-real-field-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyRealFieldUp$ packet names the finite field-facing surface for Cauchy real data by joining the regular-Cauchy operation rows and constructive order rows before later Real and Completion consumers read them as one algebraic interface. It sits after the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the regular rational source surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the addition surface of \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}, the product surface of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, the reciprocal surface of \autoref{ch:concrete-instances-regular-cauchy-reciprocal-namecert}, and the constructive order surface of \autoref{ch:concrete-instances-cauchy-real-order-namecert}. The packet gives Real and Completion consumers a single finite field route; it is not host real arithmetic, quotient equality, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+
+\begin{definition}[Cauchy real field carrier]
+\label{def:cauchy-real-field-carrier}
+A $\CauchyRealFieldUp$ carrier is a finite $\BHist$ packet
+$$
+F=(R,S,D,Z,A,M,I,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source family row for the regular rational Cauchy names exposed to field-facing consumers.
+\item $S$ is the $\StreamNameUp$ finite-window discipline used to synchronize every algebraic and order read of the source family.
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic and tolerance ledger. It records the dyadic additions, products, reciprocal denominator bounds, sign cells, and slack budgets consumed by the operation rows.
+\item $Z$ is the $\RealUp$ seal row for the accepted real names reached only after $R,S,D$ and the relevant operation or order row have been displayed.
+\item $A$ is the $\RegularCauchyAdditionUp$ operation row, including the paired source windows, dyadic endpoint sum, finite addition ledger, and summed readback.
+\item $M$ is the $\RegularCauchyProductUp$ operation row, including the paired source windows, dyadic endpoint product, product-error ledger, and product readback.
+\item $I$ is the $\RegularCauchyReciprocalUp$ partial reciprocal row, including the apartness window, reciprocal budget, readback row, and terminal real seal for inputs whose displayed order row keeps the denominator away from zero.
+\item $O$ is the $\CauchyRealOrderUp$ apartness and order row used to expose positive-gap witnesses, refusal of positive apartness at a finite request, and oriented order verdicts.
+\item $H$ records componentwise $\hsame$ transport for the source, window, dyadic, seal, addition, product, reciprocal, order, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each field-facing request through $R,S,D,Z,A,M,I,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealFieldUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RegularCauchyReciprocalUp$, $\CauchyRealOrderUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealFieldUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite constructive field-facing packet. It has no coordinate for host real arithmetic, quotient equality, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyRealFieldUp.CauchyRealFieldTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy real field NameCert obligations]
+\label{thm:cauchy-real-field-namecert-obligations}
+For every accepted $\CauchyRealFieldUp$ carrier
+$$
+F=(R,S,D,Z,A,M,I,O,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRealFieldUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the regular rational source family, synchronized stream windows, dyadic arithmetic and tolerance ledger, real seal row, addition row, product row, reciprocal row, order row, transport, replay, provenance, and local naming row;
+\item addition projection, requiring the $A$ row to be read through the accepted $\RegularCauchyAdditionUp$ source windows, dyadic endpoint sum, finite addition ledger, regular readback, and Real seal handoff;
+\item product projection, requiring the $M$ row to be read through the accepted $\RegularCauchyProductUp$ source windows, dyadic endpoint product, finite product-error ledger, regular readback, and Real seal handoff;
+\item reciprocal projection, requiring the $I$ row to be read only after the displayed apartness window and reciprocal budget of $\RegularCauchyReciprocalUp$ have been exposed;
+\item order projection, requiring the $O$ row to supply the finite positive-gap, negative-apartness, and oriented-order verdict routes of $\CauchyRealOrderUp$;
+\item shared seal discipline, requiring $Z$ to be downstream of the same $R,S,D$ rows and the selected operation or order row rather than an independent completed-real carrier;
+\item transport and replay, requiring $H$ and $C$ to preserve the componentwise source, window, ledger, operation, order, seal, provenance, and local naming rows together;
+\item ledger exhaustion, excluding host real arithmetic, quotient equality, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No Cauchy real field obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-real-field-carrier}. The projection exposes the regular rational source row, synchronized stream windows, dyadic ledger, real seal, three operation rows, order row, and structural rows.
+
+The operation projections are inherited from the sibling surfaces. The addition row uses the finite addition route of \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}; the product row uses the finite product route of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}; and the reciprocal row uses the apartness-window route of \autoref{ch:concrete-instances-regular-cauchy-reciprocal-namecert}. Each projection keeps its source windows, dyadic arithmetic, regular readback, and seal handoff visible.
+
+The order projection is the comparison route of \autoref{ch:concrete-instances-cauchy-real-order-namecert}. It supplies the positive-gap, negative-apartness, and oriented-order rows used by reciprocal eligibility and ordered-field consumers.
+
+Finally, the rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no coordinate for the excluded principles, none can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Cauchy real field operation composition]
+\label{thm:cauchy-real-field-operation-composition}
+Every accepted $\CauchyRealFieldUp$ carrier routes addition, multiplication, and reciprocal reads through the common finite chain
+$$
+R\longmapsto S\longmapsto D\longmapsto (A,M,I)\longmapsto Z\longmapsto H,C,P,N .
+$$
+The reciprocal branch additionally passes through the order row $O$ before the reciprocal row $I$ is allowed to expose a readback.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $F=(R,S,D,Z,A,M,I,O,H,C,P,N)$. The only regular rational source family is $R$, and every operation read is synchronized by the same stream-window row $S$ before the dyadic ledger $D$ is consumed.
+
+Project the addition and product branches. The rows $A$ and $M$ are the only addition and product coordinates, so their readbacks are exactly the sibling regular-Cauchy operation routes named in the carrier.
+
+For the reciprocal branch, first read $O$. Its apartness route supplies the positive denominator information required by the reciprocal row $I$, and a missing positive-gap witness leaves the reciprocal route at the boundary surface rather than exporting an inverse.
+
+The real seal and structural rows are downstream. The row $Z$ is reached only after the selected branch has been displayed, and $H,C,P,N$ preserve this dependency order for every field-facing consumer.
+\end{proof}
+
+\begin{theorem}[Cauchy real field order-compatible reciprocal boundary]
+\label{thm:cauchy-real-field-order-compatible-reciprocal-boundary}
+For every accepted $\CauchyRealFieldUp$ carrier, a reciprocal read from $I$ can be consumed only after the $\CauchyRealOrderUp$ row $O$ displays a finite apartness route for the denominator source. Therefore the field surface exports a partial reciprocal boundary tied to constructive order data, not a total reciprocal operation on $\RealUp$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The reciprocal row $I$ is listed as a partial reciprocal row whose apartness window is supplied by the operation packet and whose eligibility is tied to the order row $O$.
+
+Use the sibling reciprocal surface. \autoref{ch:concrete-instances-regular-cauchy-reciprocal-namecert} requires an apartness window before any reciprocal dyadic row, budget row, readback row, or Real seal can be consumed.
+
+Use the sibling order surface. \autoref{ch:concrete-instances-cauchy-real-order-namecert} is the only row in the field packet that exports positive-gap data for real-name comparisons. Hence a reciprocal read without $O$ has no displayed denominator-apartness source.
+
+The remaining rows only transport and package this route. They cannot turn the partial boundary into total completed-real reciprocal data, because no such coordinate is present in the carrier.
+\end{proof}
+
+\begin{theorem}[Cauchy real field Real and Completion consumer boundary]
+\label{thm:cauchy-real-field-real-completion-consumer-boundary}
+Every Real or Completion consumer of an accepted $\CauchyRealFieldUp$ packet reads one finite public surface consisting of $R,S,D,Z,A,M,I,O,H,C,P,N$. The consumer may project the addition, product, reciprocal, or order branch, but it receives no separate operation packet outside the field surface and no host real arithmetic, quotient equality, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+The consumer begins with the field carrier, not with independent operation packets. Projecting $A$, $M$, $I$, or $O$ only exposes rows already named by \autoref{def:cauchy-real-field-carrier}.
+
+The shared source and seal rows keep the projections tied together. Addition, product, reciprocal, and order reads all pass through the same $R,S,D$ boundary before reaching $Z$ or the structural rows.
+
+The structural rows do not add analytic content. They transport, replay, source, and name the displayed finite packet. Consequently the Real and Completion consumer receives a unified NameCert surface rather than separate host-level arithmetic or completeness data.
+\end{proof}
+
+\closureat{CauchyRealFieldUp}{seedStr}
+\begin{closurestatus}{\CauchyRealFieldUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-field-carrier}, \autoref{thm:cauchy-real-field-namecert-obligations}, \autoref{thm:cauchy-real-field-operation-composition}, \autoref{thm:cauchy-real-field-order-compatible-reciprocal-boundary}, and \autoref{thm:cauchy-real-field-real-completion-consumer-boundary} seed the finite field-facing route over regular rational source rows, stream windows, dyadic arithmetic, real seals, regular-Cauchy addition, regular-Cauchy product, regular-Cauchy reciprocal, constructive order, and local NameCert rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyRealFieldUp.CauchyRealFieldTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real arithmetic, quotient equality, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, operation projections, reciprocal eligibility, order projection, shared seal discipline, transport, replay, provenance, and local naming for BEDC.Derived.CauchyRealFieldUp.}
+  \constructivestory{A $\CauchyRealFieldUp$ packet is generated from a $\RegSeqRatUp$ source family, synchronized $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ arithmetic ledger, a $\RealUp$ seal row, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RegularCauchyReciprocalUp$, and $\CauchyRealOrderUp$ rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

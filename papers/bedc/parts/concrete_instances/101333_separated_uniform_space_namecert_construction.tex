@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for $\SeparatedUniformSpaceUp$}
+\label{ch:concrete-instances-separated-uniform-space-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on separated uniform spaces, the $\SeparatedUniformSpaceUp$ packet records the finite interface at which a uniform space admits a diagonal separation witness without collapsing into a quotient completion. It refines the entourage surface of \autoref{ch:concrete-instances-uniformspace-namecert}, imports the zero-distance classifier discipline of \autoref{ch:concrete-instances-separatedmetric-namecert}, hands completion-facing reads to \autoref{ch:concrete-instances-uniformcompletion-namecert}, and keeps its uniqueness boundary compatible with \autoref{ch:concrete-instances-hausdorffcompletion-namecert} and \autoref{ch:concrete-instances-separatedcompletion-namecert}. The packet gives $\CompleteUniformSpaceUp$ and separated-completion consumers a reusable NameCert boundary for separated uniform data, but it does not construct quotient completions or choose representatives.
+
+\begin{definition}[SeparatedUniformSpace carrier]
+\label{def:separated-uniform-space-carrier}
+A $\SeparatedUniformSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(U,D,Z,F,H,R,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the underlying $\UniformSpaceUp$ row, including the finite entourage basis, diagonal-membership ledger, refinement row, and uniform-continuity interface read by downstream consumers.
+\item $D$ is the diagonal separation witness row: whenever two carried observations are indistinguishable by all displayed entourages of $U$, $D$ records the route from diagonal uniform evidence to the local point classifier.
+\item $Z$ is the separated-metric classifier row, used only as a finite comparison surface for metric-generated or metric-compatible uniform readings.
+\item $F$ is the uniform-completion handoff row, routing completion-facing consumers through the $\UniformCompletionUp$ interface before any Hausdorff or separated-completion uniqueness boundary is inspected.
+\item $H$ is the Hausdorff and separated-completion uniqueness boundary, exposing the comparison rows inherited from $\HausdorffCompletionUp$ and $\SeparatedCompletionUp$ over the same uniform data, diagonal witness, classifier, and completion handoff.
+\item $R$ records componentwise $\hsame$ transport for $U,D,Z,F,H$ and for the local continuation, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+U,D\longmapsto Z\longmapsto F\longmapsto H .
+$$
+\item $P$ is the $\Pkg$ provenance over $\SeparatedUniformSpaceUp$, $\UniformSpaceUp$, $\SeparatedMetricUp$, $\UniformCompletionUp$, $\HausdorffCompletionUp$, $\SeparatedCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SeparatedUniformSpaceUp}$ row.
+\end{enumerate}
+The classifier of an accepted packet compares observations only through $U,D,Z,F,H,R,C,P,N$. It has no coordinate for quotient uniform completions, host equality of uniform points, selected representatives, countable choice, ambient $\RealUp$ completeness, or bridge data.
+\end{definition}
+
+\begin{theorem}[SeparatedUniformSpace NameCert obligations]
+\label{thm:separated-uniform-space-namecert-obligations}
+For every accepted $\SeparatedUniformSpaceUp$ carrier
+$$
+S=(U,D,Z,F,H,R,C,P,N),
+$$
+the local $\NameCert_{\SeparatedUniformSpaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the uniform-space row, diagonal separation witness, separated-metric classifier, uniform-completion handoff, Hausdorff and separated-completion uniqueness boundary, transport, replay, provenance, and local naming rows;
+\item uniform-basis visibility, requiring every separated comparison to begin with the displayed entourage and diagonal-membership rows of $U$;
+\item diagonal separation exactness, requiring all indistinguishability-to-classifier reads to pass through $D$ rather than through host equality;
+\item classifier compatibility, requiring metric-generated comparisons to use the separated-metric row $Z$ only after the uniform entourage route has been displayed;
+\item completion handoff compatibility, requiring completion-facing consumers to read $F$ before using the Hausdorff or separated-completion uniqueness rows in $H$;
+\item ledger non-escape, excluding quotient uniform completions, host equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No local NameCert obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:separated-uniform-space-carrier}. The accepted tuple displays exactly the uniform-space row, diagonal witness, classifier row, completion handoff, uniqueness boundary, and structural rows.
+
+Uniform-basis visibility follows from the order of the carrier. The row $U$ supplies the entourage and diagonal-membership data before $D$ can recognize separatedness, so a consumer cannot replace finite uniform evidence by host equality of points.
+
+Diagonal separation exactness is the role of $D$. An indistinguishability read through all displayed entourages reaches the local point classifier only through that row. The separated-metric row $Z$ is compatible with this route because it is downstream of $U,D$ and supplies only a metric-generated comparison surface.
+
+The completion handoff is the row $F$. Completion consumers must pass through $F$ before inspecting the Hausdorff or separated-completion boundary $H$, so uniqueness is attached to the same uniform data and diagonal witness that produced the separated comparison.
+
+Finally inspect $R,C,P,N$. Transport is componentwise, replay follows the displayed route, and provenance plus local naming mention only the rows listed in the carrier. Hence the packet exports no quotient uniform completion, host equality, selected representative, countable-choice schedule, ambient $\RealUp$ completeness theorem, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[SeparatedUniformSpace diagonal uniformity boundary]
+\label{thm:separated-uniform-space-diagonal-uniformity-boundary}
+Let $S=(U,D,Z,F,H,R,C,P,N)$ be an accepted $\SeparatedUniformSpaceUp$ carrier. Every comparison of two carried observations by uniform indistinguishability factors through the finite route
+$$
+U\longmapsto D\longmapsto Z\longmapsto R,C,P,N .
+$$
+Thus the diagonal separation boundary is a local uniform classifier route, not a quotient by the intersection of all entourages and not a host equality principle.
+\end{theorem}
+\begin{proof}
+Read a comparison of two carried observations from the packet. The carrier first exposes $U$, so the comparison is expressed through the finite entourage basis and diagonal-membership rows of the underlying uniform space.
+
+Apply the diagonal witness $D$. This row is the only exported route from uniform indistinguishability to the local point classifier, and it is stored as finite NameCert data rather than as an equality of host points.
+
+The separated-metric classifier $Z$ may replay metric-generated instances of the same comparison, but it remains downstream of $U,D$. Transport and continuation in $R,C$ preserve this order, while provenance and naming in $P,N$ add no quotient or external equality coordinate.
+\end{proof}
+
+\begin{theorem}[SeparatedUniformSpace completion non-escape]
+\label{thm:separated-uniform-space-completion-nonescape}
+Every completion-facing consumer of an accepted $\SeparatedUniformSpaceUp$ carrier
+$$
+S=(U,D,Z,F,H,R,C,P,N)
+$$
+must factor through the displayed handoff
+$$
+U,D,Z\longmapsto F\longmapsto H\longmapsto R,C,P,N .
+$$
+Consequently the packet can feed $\UniformCompletionUp$, $\HausdorffCompletionUp$, $\SeparatedCompletionUp$, and $\CompleteUniformSpaceUp$ consumers without exporting quotient uniform completions, host equality of uniform points, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The rows $U,D,Z$ fix the uniform-space surface, diagonal separation witness, and separated classifier before any completion-facing row is available.
+
+The handoff row $F$ is therefore the only route into uniform completion data. A consumer cannot bypass it by selecting a completion representative, forming a quotient class, or appealing to an ambient complete uniform space.
+
+The uniqueness boundary $H$ is attached to the same $U,D,Z,F$ route. It reads Hausdorff and separated-completion comparison rows only after the handoff has been displayed, so completion uniqueness remains a local NameCert boundary.
+
+The remaining rows $R,C,P,N$ preserve and name this route. Since the carrier has no field for quotient uniform completions, host equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking, no completion-facing consumer can project such data from the packet.
+\end{proof}
+
+\closureat{SeparatedUniformSpaceUp}{seedStr}
+
+\begin{closurestatus}{\SeparatedUniformSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:separated-uniform-space-carrier}, \autoref{thm:separated-uniform-space-namecert-obligations}, \autoref{thm:separated-uniform-space-diagonal-uniformity-boundary}, and \autoref{thm:separated-uniform-space-completion-nonescape} seed the finite separated-uniform interface over uniform-space, diagonal witness, separated classifier, completion handoff, uniqueness boundary, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient uniform completions, host equality of uniform points, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-basis visibility, diagonal separation exactness, classifier compatibility, completion handoff compatibility, and non-escape for BEDC.Derived.SeparatedUniformSpaceUp.}
+  \constructivestory{A $\SeparatedUniformSpaceUp$ packet is generated from a UniformSpace row, a diagonal separation witness, a SeparatedMetric classifier row, a UniformCompletion handoff, HausdorffCompletion and SeparatedCompletion uniqueness rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -30,6 +30,7 @@ The carrier exports only the displayed finite-section route and its transport, r
 \label{thm:finite-real-section-obligation-surface}
 For the carrier of \autoref{def:finite-real-section-carrier}, the local $\NameCert_{\FiniteRealSectionUp}$ surface consists exactly of carrier admission, classifier stability for the displayed tuple $(q,W,R,D,E)$, window-readback compatibility between $W$ and $R$, dyadic-tolerance exposure through $D$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_transport\_stability}
 \begin{proof}
 Project the carrier $S$. Its coordinates list one precision request, one stream window, one regular-rational readback, one dyadic ledger, one Real seal, transport, replay, provenance, and local naming rows.
 
@@ -37,11 +38,13 @@ The data-bearing obligations are inherited in order. Carrier admission exposes $
 
 The remaining rows are downstream support. The dyadic ledger $D$ records the tolerance row for the readback, the seal row $E$ is reachable only after that ledger is displayed, and $H,C,P,N$ only transport, replay, source, and name the same finite route. Thus the listed obligations exhaust the local naming surface.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_obligation\_surface}
 
 \begin{theorem}[Finite real section window-readback determinacy]
 \label{thm:finite-real-section-window-readback-determinacy}
 For an accepted $\FiniteRealSectionUp$ carrier $S=(q,W,R,D,E,H,C,P,N)$ of \autoref{def:finite-real-section-carrier}, the precision request $q$ determines the displayed $\StreamNameUp$ window $W$, and the $\RegSeqRatUp$ row $R$ is read only through that same window. No second stream window, quotient stream, or host sequence coordinate is available inside the accepted finite-section route.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_window\_readback\_determinacy}
 \begin{proof}
 Read the carrier rows in \autoref{def:finite-real-section-carrier}. The only stream coordinate exposed by $S$ is $W$, and the only regular-rational coordinate is $R$.
 
@@ -58,6 +61,7 @@ q \to W \to R \to D \to E.
 $$
 Here $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the $\RegSeqRatUp$ readback, and the route admits no seal exposure that bypasses $D$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_dyadic\_seal\_factorization}
 \begin{proof}
 The carrier order in \autoref{def:finite-real-section-carrier} displays the finite request, the stream window, the regular-rational readback, the dyadic tolerance ledger, and then the Real seal. Thus $E$ is not an independent coordinate of an ambient completed Real; it is the seal row reached from the preceding displayed data.
 
@@ -98,6 +102,7 @@ Apply \autoref{thm:finite-real-section-obligation-surface}. It forces every cons
 
 The excluded objects require coordinates that the carrier does not contain. The rows $H,C,P,N$ preserve and name displayed data, but they do not create quotient stream equality, host sequence equality, a selected host limit, a countable-choice selector, ambient Real completeness, or a standard bridge. Hence none of those objects can be projected from the finite-section certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_nonescape}
 
 \begin{theorem}[Finite real section transport stability]
 \label{thm:finite-real-section-transport-stability}
@@ -127,6 +132,7 @@ q \to W \to R \to D \to E.
 $$
 It cannot create a second stream, quotient stream equality, selected host limit, countable-choice row, ambient completeness row, or standard bridge row.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_refinement\_noncollapse}
 \begin{proof}
 Read the carrier in the order $q,W,R,D,E,H,C,P,N$ from \autoref{def:finite-real-section-carrier}. The replay row $C$ is downstream support for that ordered finite request; it is not an additional source of stream, quotient, host-limit, choice, completeness, or bridge data.
 

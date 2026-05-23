@@ -1,0 +1,110 @@
+\chapter{A Concrete Naming Certificate for $\SignedDistanceUp$}
+\label{ch:concrete-instances-signed-distance-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\SignedDistanceUp$ packet records the finite route by which a located metric source exposes a signed distance surface without importing a host real-valued distance function. The packet is admitted only as metric, locatedness, apartness, dyadic-budget, regular-readback, and real-seal rows: its metric side is anchored in \autoref{ch:concrete-instances-metric-namecert}, its located-source side in \autoref{ch:concrete-instances-locatedspace-namecert}, its signed separation side in \autoref{ch:concrete-instances-apartnessreal-namecert}, and its L10 readback spine in \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[SignedDistance carrier]
+\label{def:signed-distance-carrier}
+A $\SignedDistanceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,L,A,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ distance row, recording the finite source and target observations, the metric comparison surface, and the triangle-compatible route through which distance requests are read.
+\item $L$ is the $\LocatedSpaceUp$ source row, recording the displayed located subset or located family whose boundary is being queried.
+\item $A$ is the $\ApartnessRealUp$ signed-side or separation row, recording which finite side of the located boundary supplies the positive separation evidence.
+\item $D$ is the $\DyadicRatCoreUp$ budget row, carrying the rational tolerance, sign threshold, and comparison budget used by the signed-distance request.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the metric observations, dyadic budget, and signed-side comparisons.
+\item $E$ is the $\RealUp$ seal reached by the displayed regular readback after $M,L,A,D,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the metric row, located-source row, signed-side row, dyadic budget, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every signed-distance consumer route through
+$$
+M,L,A,D,R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\SignedDistanceUp$, $\MetricSpaceUp$, $\LocatedSpaceUp$, $\ApartnessRealUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SignedDistanceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,L,A,D,R,E,H,C,P,N$. It has no coordinate for a host distance function, quotient real equality, trichotomy, selected nearest points, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[SignedDistance NameCert obligations]
+\label{thm:signed-distance-namecert-obligations}
+For every accepted $\SignedDistanceUp$ carrier
+$$
+S=(M,L,A,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SignedDistanceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric distance row, located-source row, signed-side apartness row, dyadic budget, regular rational readback, real seal, transport, replay, provenance, and local naming rows;
+\item located-boundary stability, requiring every transported or replayed signed-distance request to read the same metric row $M$, located-source row $L$, signed-side row $A$, dyadic budget $D$, and regular readback $R$ before exposing the real seal $E$;
+\item signed-budget exactness, requiring the sign threshold and rational tolerance in $D$ to be the budget read both by the metric comparison in $M$ and by the signed-side separation row $A$;
+\item real-seal nonescape, requiring every real-facing or completion-facing consumer to pass through $M,L,A,D,R,E$ and to receive no host distance function, quotient real representative, selected nearest point, trichotomy, or ambient completeness theorem;
+\item ledger refusal, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed rows, with no Lean verification or bridge credential.
+\end{enumerate}
+No signed-distance NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:signed-distance-carrier}. The packet displays exactly the metric distance row, the located-source row, the signed-side apartness row, the dyadic budget, the regular readback, the real seal, and the four structural rows.
+
+Located-boundary stability is componentwise. A transported or replayed signed-distance request keeps the same metric row $M$ and located row $L$, so the boundary being queried cannot be replaced by a host subset or by an unrecorded completion object.
+
+Signed-budget exactness is the shared role of $A$ and $D$. The signed-side row names the finite separation evidence, while the dyadic row fixes the tolerance and sign threshold read by the metric comparison and the regular rational observation.
+
+For real-seal nonescape, the seal $E$ appears only after $M,L,A,D,R$ have been displayed. A real-facing consumer therefore receives a finite signed-distance route rather than a host distance function, quotient representative, nearest-point selector, trichotomy decision, or completeness theorem.
+
+Finally, $H,C,P,N$ only transport, replay, source, and name the carrier rows. Since the packet contains no Lean verification row and no bridge credential, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SignedDistance located boundary]
+\label{thm:signed-distance-located-boundary}
+Every accepted $\SignedDistanceUp$ carrier
+$$
+S=(M,L,A,D,R,E,H,C,P,N)
+$$
+binds its signed-distance read to the located boundary named by $L$. Any consumer that reads the sign or magnitude surface must first expose the $\MetricSpaceUp$ distance row $M$, the $\LocatedSpaceUp$ source row $L$, the $\ApartnessRealUp$ signed-side row $A$, the $\DyadicRatCoreUp$ budget row $D$, and the $\RegSeqRatUp$ readback row $R$. The exported boundary information is only this finite route and not a selected nearest point, a decidable side choice, a quotient real equality, or an ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet and project its rows from \autoref{def:signed-distance-carrier}. The only boundary-bearing coordinate is the located-source row $L$, while the metric and signed-side observations are carried by $M$ and $A$.
+
+The consumer route then opens the dyadic budget $D$. This budget fixes the finite tolerance and sign threshold used by both the metric comparison and the signed-side separation row.
+
+The regular readback $R$ is the only row that exposes rational observations downstream. It links the displayed metric and signed-side data to the terminal real seal, so no host comparison or hidden side decision can be inserted between the boundary row and the readback.
+
+Thus every sign or magnitude read is bound to the displayed located boundary. The excluded nearest-point, decidable-side, quotient-equality, and ambient-completeness data cannot be exported because they do not occur in the carrier.
+\end{proof}
+
+\begin{theorem}[SignedDistance Real seal nonescape]
+\label{thm:signed-distance-real-seal-nonescape}
+Every $\RealUp$-facing read of an accepted $\SignedDistanceUp$ carrier
+$$
+S=(M,L,A,D,R,E,H,C,P,N)
+$$
+factors through the displayed route
+$$
+M,L,A,D,R \longmapsto E .
+$$
+The factorization exports the regular signed-distance seal $E$ only after the metric row, located-source row, signed-side row, dyadic budget, and regular readback have been displayed, and it exports no host real-valued distance function, quotient real equality, trichotomy, selected nearest point, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The real-facing coordinate is the seal $E$, and its replay row $C$ displays a route whose source rows are $M,L,A,D,R$.
+
+The metric row $M$ supplies only finite distance observations, while the located row $L$ supplies only the displayed boundary source. The signed-side row $A$ and dyadic budget $D$ then fix the finite sign and tolerance data read by the regular row $R$.
+
+Only after these rows are visible can the route reach $E$. Componentwise transport in $H$, replay in $C$, provenance in $P$, and the local row $N$ preserve the same order under classification.
+
+Therefore the $\RealUp$-facing read factors through the displayed finite route. The excluded host function, quotient equality, trichotomy, nearest-point, completeness, Lean-verification, and bridge data have no carrier coordinate and cannot escape through the seal.
+\end{proof}
+
+\closureat{SignedDistanceUp}{seedStr}
+
+\begin{closurestatus}{\SignedDistanceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-distance-carrier}, \autoref{thm:signed-distance-namecert-obligations}, \autoref{thm:signed-distance-located-boundary}, and \autoref{thm:signed-distance-real-seal-nonescape} seed the finite signed-distance route from metric and located boundary data through apartness, dyadic budget, and regular readback rows to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host distance functions, quotient real equality, trichotomy, selected nearest points, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-boundary stability, signed-budget exactness, real-seal nonescape, and ledger refusal for BEDC.Derived.SignedDistanceUp.}
+  \constructivestory{A $\SignedDistanceUp$ packet is generated from a metric distance row, a located-source row, an ApartnessReal signed-side row, a DyadicRatCore budget, a RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

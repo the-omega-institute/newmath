@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\LocatedMetricUp$}
+\label{ch:concrete-instances-locatedmetric-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\LocatedMetricUp$ packet records the located metric carrier required before the completion interface reads an arbitrary metric source. It sits over the metric-distance witness of \autoref{ch:concrete-instances-metric-namecert}, the dyadic locatedness ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the separated zero-distance boundary of \autoref{ch:concrete-instances-separatedmetric-namecert}. The packet supplies the finite interface consumed by $\CompletionUp$; it is not a quotient completion, a selected limit, trichotomy on distances, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located metric carrier]
+\label{def:located-metric-carrier}
+A $\LocatedMetricUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,M,D,S,R,E,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the point-carrier row with its local point classifier and the finite observation rows on which distance requests are evaluated.
+\item $M$ is the $\MetricUp$ distance-witness row. It displays, for each accepted pair of point observations, the finite metric evidence that a distance request may inspect.
+\item $D$ is the dyadic locatedness row. For each distance request and each positive dyadic tolerance, it records a finite $\DyadicRatCoreUp$ comparison window locating the distance below or apart from the requested bound.
+\item $S$ is the $\StreamNameUp$ window schedule that determines which finite distance reads, tolerance reads, and locatedness comparisons are visible to a consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row that packages the scheduled dyadic comparisons as a regular rational name for the displayed distance value.
+\item $E$ is the $\RealUp$ seal row reached only after the metric witness, dyadic locatedness window, stream schedule, and regular rational readback have all been displayed.
+\item $Z$ is the separated zero-distance boundary row. It exports the zero-distance-to-point-classifier route through $\SeparatedMetricUp$ and does not identify points by host equality.
+\item $H$ stores componentwise $\hsame$ transport for the point carrier, metric witness, dyadic locatedness row, stream windows, regular rational readback, real seal, zero-distance boundary, continuation replay, provenance, and local naming row.
+\item $C$ stores $\Cont$ replay from point observations to metric distance witnesses, from distance witnesses to dyadic locatedness comparisons, from locatedness comparisons to stream and regular-rational readbacks, and from those readbacks to the real seal and separated zero-distance boundary.
+\item $P$ is the $\Pkg$ provenance over $\LocatedMetricUp$, $\MetricUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\SeparatedMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted located-metric packets only through the displayed tuple $X,M,D,S,R,E,Z,H,C,P,N$. It has no coordinate for quotient completion, selected limits, total trichotomy of distances, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located metric NameCert obligations]
+\label{thm:located-metric-namecert-obligations}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, the local $\NameCert_{\LocatedMetricUp}$ obligations are exactly carrier admission, finite point classification, metric-distance witness readback, dyadic locatedness stability, scheduled regular-rational readback, $\RealUp$ seal handoff, separated zero-distance compatibility, and ledger non-escape. These obligations are discharged by the displayed route
+$$
+X\longmapsto M\longmapsto D\longmapsto S\longmapsto R\longmapsto E
+$$
+together with $Z,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the displayed tuple in \autoref{def:located-metric-carrier}. The finite point classifier is read from $X$, and every distance request must pass through the metric witness row $M$ before any dyadic or real-facing consumer may inspect it.
+
+The locatedness obligation is the defining use of $D$. For each scheduled tolerance request, $D$ supplies the finite $\DyadicRatCoreUp$ comparison window that makes the metric distance located at that dyadic scale. Transport by $H$ moves the points, windows, metric witness, and locatedness comparison componentwise, while $C$ replays the same finite route after transport.
+
+The scheduled readback obligation factors through $S$ and $R$. The stream schedule determines the finite observations being read, and the regular rational row packages those reads before the real-facing seal $E$ is consumed.
+
+Zero-distance compatibility is isolated in $Z$. A consumer that wants to identify points from zero distance must use the separated-metric route of \autoref{ch:concrete-instances-separatedmetric-namecert}; no host equality or quotient equality is introduced inside the located-metric packet.
+
+Finally, $P$ and $N$ source and name the same finite surface. Since the carrier has no coordinate for completion quotients, selected limits, trichotomy, choice, compactness, or ambient real completeness, the listed obligations exhaust the local NameCert interface.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedMetricUp.LocatedMetricCarrier\_namecert\_obligations}
+
+\begin{theorem}[Located metric completion handoff]
+\label{thm:located-metric-completion-handoff}
+Every $\CompletionUp$ consumer that reads an arbitrary located metric source from an accepted $\LocatedMetricUp$ packet must factor through
+$$
+X\longmapsto M\longmapsto D\longmapsto S\longmapsto R\longmapsto E
+$$
+and the separated boundary $Z$ before forming completion data. The exported handoff is the finite tuple $X,M,D,S,R,E,Z,H,C,P,N$, with no hidden quotient completion, selected representative, countable choice, total comparison of distances, open-cover compactness, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a completion consumer asking for a metric source. The point carrier $X$ supplies only finite point observations and their local classifier, so the consumer must obtain distance information from the metric witness row $M$.
+
+Locatedness is then read through $D$. The dyadic row gives the requested finite comparison window and attaches it to the same point observations and distance witness. This is the step that turns a bare metric witness into a located metric input suitable for regular Cauchy completion.
+
+The handoff to real-valued distance names proceeds through $S$, $R$, and $E$. The stream schedule fixes the finite reads, the regular rational readback packages them as a regular name, and the real seal is reached only after those rows are present.
+
+If the completion route needs point identification at zero distance, it must use $Z$ and hence the separated-metric sibling. The structural rows $H,C,P,N$ preserve, replay, source, and name the same finite route, so the completion interface receives located metric data without importing any excluded quotient, selection, choice, trichotomy, compactness, or ambient-completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every $\CompletionUp$ read from a $\LocatedMetricUp$ packet factors through the displayed point carrier, metric distance witness, dyadic locatedness row, stream schedule, regular rational readback, real seal, separated zero-distance boundary, componentwise transport, continuation replay, provenance, and local naming row before completion data is consumed.}
+
+\independenceWitness{metric, dyadicratcore, streamname, regseqrat, real, separatedmetric: $\LocatedMetricUp$ is not bijective to any listed sibling because it jointly carries a point carrier, metric distance witness, dyadic locatedness comparison, StreamName window schedule, RegSeqRat readback, RealUp seal, separated zero-distance boundary, componentwise transport, continuation replay, provenance, and local NameCert row.}
+
+\closureat{LocatedMetricUp}{seedStr}
+
+\begin{closurestatus}{\LocatedMetricUp}
+  \constructivestory{A $\LocatedMetricUp$ packet is generated from a point carrier, a MetricUp distance witness, a DyadicRatCore locatedness ledger, StreamName windows, RegSeqRat readbacks, a RealUp seal, a separated zero-distance boundary, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-metric-carrier}, \autoref{thm:located-metric-namecert-obligations}, and \autoref{thm:located-metric-completion-handoff} seed the finite located-metric interface consumed by completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, trichotomy on distances, countable choice, open-cover compactness, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric-distance readback, dyadic locatedness stability, scheduled regular-rational readback, RealUp seal handoff, separated zero-distance compatibility, and ledger non-escape for BEDC.Derived.LocatedMetricUp.}
+\end{closurestatus}

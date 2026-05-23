@@ -39,4 +39,28 @@ theorem ModuleParitySmul_epsilon_double_action_one_iff {m : BHist} :
         (fun _sameResult sameInput => not_hsame_e1_empty sameInput)
         (fun _nonempty => hsame_refl ModuleParityOne)
 
+theorem ModuleSingletonAssociativityBoundaryAdditiveUnitActionLaws :
+    ModuleSingletonCarrier BHist.Empty ∧
+      ModuleSingletonClassifier (ModuleSingletonSmul ModuleSingletonOne BHist.Empty)
+        BHist.Empty ∧
+        hsame (ModuleSingletonSmul (BHist.e1 BHist.Empty) BHist.Empty)
+          (ModuleSingletonSmul BHist.Empty BHist.Empty) ∧
+          (ModuleSingletonClassifier (BHist.e1 BHist.Empty) BHist.Empty -> False) := by
+  -- BEDC touchpoint anchor: BHist hsame ModuleSingletonCarrier ModuleSingletonClassifier
+  have emptyCarrier : ModuleSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have unitClassified :
+      ModuleSingletonClassifier (ModuleSingletonSmul ModuleSingletonOne BHist.Empty)
+        BHist.Empty :=
+    Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+      ⟨hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩
+  have visibleScalarSame :
+      hsame (ModuleSingletonSmul (BHist.e1 BHist.Empty) BHist.Empty)
+        (ModuleSingletonSmul BHist.Empty BHist.Empty) :=
+    hsame_refl BHist.Empty
+  have visibleScalarBoundary :
+      ModuleSingletonClassifier (BHist.e1 BHist.Empty) BHist.Empty -> False := by
+    intro classified
+    exact not_hsame_e1_empty classified.left
+  exact ⟨emptyCarrier, unitClassified, visibleScalarSame, visibleScalarBoundary⟩
+
 end BEDC.Derived.ModuleUp

@@ -101,4 +101,41 @@ theorem FastSeriesProductCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
     unary_cont_closed wUnary mUnary handoffRow
   exact ⟨rUnary, handoffUnary, mtRow, handoffRow, endpointPkg⟩
 
+theorem FastSeriesProductCarrier_real_seal_factorization [AskSetup] [PackageSetup]
+    {f g k w m t r e l c p n endpoint handoff sealRowHist : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastSeriesProductCarrier f g k w m t r e l c p n endpoint bundle pkg ->
+      Cont w m handoff ->
+        Cont r e sealRowHist ->
+          hsame sealRowHist endpoint ->
+            UnaryHistory handoff ∧ UnaryHistory sealRowHist ∧ Cont w m handoff ∧
+              Cont r e sealRowHist ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier handoffRow sealRow _sameSeal
+  obtain ⟨_fUnary, _gUnary, _kUnary, wUnary, mUnary, _tUnary, rUnary, eUnary,
+    _lUnary, _cUnary, _pUnary, _nUnary, _endpointUnary, _fgRow, _kwRow, _mtRow,
+    _reRow, endpointPkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed wUnary mUnary handoffRow
+  have sealUnary : UnaryHistory sealRowHist :=
+    unary_cont_closed rUnary eUnary sealRow
+  exact ⟨handoffUnary, sealUnary, handoffRow, sealRow, endpointPkg⟩
+
+theorem FastSeriesProductUp_StdBridge [AskSetup] [PackageSetup]
+    {f g k w m t r e l c p n endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastSeriesProductCarrier f g k w m t r e l c p n endpoint bundle pkg ->
+      UnaryHistory f ∧ UnaryHistory g ∧ UnaryHistory k ∧ UnaryHistory w ∧
+        UnaryHistory m ∧ UnaryHistory t ∧ UnaryHistory r ∧ UnaryHistory e ∧
+          Cont f g k ∧ Cont k w m ∧ Cont m t r ∧ Cont r e endpoint ∧
+            PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier
+  obtain ⟨fUnary, gUnary, kUnary, wUnary, mUnary, tUnary, rUnary, eUnary,
+    _lUnary, _cUnary, _pUnary, _nUnary, _endpointUnary, fgRow, kwRow, mtRow,
+    reRow, endpointPkg⟩ := carrier
+  exact
+    ⟨fUnary, gUnary, kUnary, wUnary, mUnary, tUnary, rUnary, eUnary, fgRow,
+      kwRow, mtRow, reRow, endpointPkg⟩
+
 end BEDC.Derived.FastSeriesProductUp

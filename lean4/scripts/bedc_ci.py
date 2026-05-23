@@ -144,7 +144,16 @@ class CarrierRecord:
 
 
 def read_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
+    # Race-safe: lean_files() / paper file walkers snapshot the directory,
+    # but a concurrent worker may delete / rename a file between the walk
+    # and this read (chapter cleanup, refactor, sibling merge). Return an
+    # empty string rather than crash the entire audit — downstream parsers
+    # treat empty content as "no declarations / no labels", which is the
+    # correct semantics for a file that no longer exists.
+    try:
+        return path.read_text(encoding="utf-8")
+    except (FileNotFoundError, OSError):
+        return ""
 
 
 def module_name(path: Path) -> str:

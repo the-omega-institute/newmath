@@ -1,0 +1,164 @@
+\chapter{A Concrete Naming Certificate for $\CantorSpaceUp$}
+\label{ch:concrete-instances-cantorspace-namecert}
+\origin{human}
+
+Following Brouwer and Bishop--Bridges constructive analysis, the
+$\CantorSpaceUp$ packet records the traditional Boolean sequence space as
+finite prefix data over the L10 countable-name substrate. It consumes the
+two-endpoint discipline of \autoref{ch:concrete-instances-bool-namecert}, the
+finite window schedule of \autoref{ch:concrete-instances-streamname-namecert},
+and the finite-data spine discipline of
+\autoref{ch:concrete-instances-list-namecert}. The carrier is a displayed
+$\BHist$ packet of $\BoolUp$ observations over unary $\StreamNameUp$ windows;
+it is not a quotient of infinite streams, a host function space
+$\NatUp \to \BoolUp$, a completed infinite product, a choice-selected branch,
+or an open-cover compactness theorem.
+
+\begin{definition}[CantorSpace carrier]
+\label{def:cantor-space-carrier}
+A $\CantorSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S,W,B,L,E,H,K,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the unary $\StreamNameUp$ schedule row whose entries are the
+finite positions currently requested by the consumer;
+\item $W$ is the finite prefix-window row, recording the initial segment and
+any explicitly named subwindow inside that segment;
+\item $B$ is the $\BoolUp$ observation ledger, assigning displayed Boolean
+rows to the positions of $W$;
+\item $L$ is the $\ListUp$ prefix-spine row that keeps the observed Boolean
+entries as finite ordered data;
+\item $E$ is the endpoint-exclusion row saying that every public bit is read
+through the $\BoolUp$ two-row surface rather than through a hidden host
+Boolean;
+\item $H$ is the componentwise $\hsame$ transport row for $S,W,B,L,E$;
+\item $K$ is the displayed $\Cont$ replay row for already accepted prefix
+windows and Boolean rows;
+\item $P$ is the $\Pkg$ provenance over $\CantorSpaceUp$, $\StreamNameUp$,
+$\BoolUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and the local naming row;
+\item $N$ is the local $\NameCert_{\CantorSpaceUp}$ row.
+\end{enumerate}
+The carrier contains no quotient stream, no host-level function equality, no
+completed infinite product, no branch chosen by countable choice, and no
+compactness principle.
+\end{definition}
+
+\begin{definition}[CantorSpace classifier]
+\label{def:cantor-space-classifier}
+Two accepted $\CantorSpaceUp$ carriers
+$$
+C=(S,W,B,L,E,H,K,P,N)
+\quad\hbox{and}\quad
+C'=(S',W',B',L',E',H',K',P',N')
+$$
+are classified as the same at the local surface exactly when their
+$\StreamNameUp$ schedules request the same finite prefix window and the
+$\BoolUp$ observations agree componentwise on that common window. The
+comparison is mediated by the $\ListUp$ spine rows, transported by $H,H'$, and
+replayed only through $K,K'$. No classifier clause compares host functions,
+quotient streams, or all infinite coordinates at once.
+\end{definition}
+
+\begin{theorem}[CantorSpace NameCert obligation surface]
+\label{thm:cantor-space-namecert-obligation-surface}
+The local $\NameCert_{\CantorSpaceUp}$ surface of
+\autoref{def:cantor-space-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet
+$C=(S,W,B,L,E,H,K,P,N)$;
+\item classifier transport for common finite-prefix $\BoolUp$ equality under
+the same $\StreamNameUp$ schedule;
+\item prefix stability, requiring every shorter requested window inside $W$ to
+reuse the matching visible Boolean rows already recorded in $B$ and $L$;
+\item continuation compatibility, requiring every replayed read to pass
+through $H,K,P,N$ before it reaches a downstream L10 consumer;
+\item non-escape, excluding quotient streams, host function equality,
+completed infinite products, choice-selected branches, and compactness claims.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the nine displayed coordinates in
+\autoref{def:cantor-space-carrier}. The schedule, prefix window, Boolean
+ledger, and list spine rows are finite $\BHist$ data.
+
+Classifier transport uses \autoref{def:cantor-space-classifier}. Once the
+common $\StreamNameUp$ window is fixed, equality is read only as
+componentwise $\BoolUp$ agreement along the displayed $\ListUp$ spine and is
+then transported by $H$.
+
+Prefix stability follows because a shorter requested window is a subrow of the
+same displayed prefix row $W$. Its Boolean entries are already present in $B$
+and in the ordered spine $L$, so $\Cont$ may replay them without adding an
+infinite stream coordinate.
+
+The non-escape clause is inspection of the carrier and classifier. The packet
+has rows for finite schedules, finite Boolean observations, transport,
+continuation, provenance, and the local $\NameCert$ row, and has no coordinate
+for quotient streams, host functions, infinite products, selected branches, or
+compactness witnesses.
+\end{proof}
+
+\begin{theorem}[CantorSpace finite-prefix cylinder stability]
+\label{thm:cantor-space-finite-prefix-cylinder-stability}
+Let $C=(S,W,B,L,E,H,K,P,N)$ be an accepted $\CantorSpaceUp$ carrier. Any
+finite cylinder read determined by a prefix subwindow of $W$ factors through
+the same $\StreamNameUp$ schedule row $S$, the same $\BoolUp$ observation
+ledger $B$, the same $\ListUp$ spine $L$, and the same $H,K,P,N$ transport,
+continuation, provenance, and local naming rows. The cylinder read exports no
+extra infinite tail, no quotient-stream equality, no host function
+extensionality, and no compactness argument.
+\end{theorem}
+\begin{proof}
+Choose a prefix subwindow of $W$. Since $W$ is a finite row of the accepted
+carrier, the requested positions are already part of the displayed
+$\StreamNameUp$ schedule $S$.
+
+The Boolean values on that subwindow are precisely the corresponding entries
+of $B$, ordered by the finite $\ListUp$ spine $L$. Transport by $H$ preserves
+the componentwise rows, and $\Cont$ replay through $K$ reuses only those rows.
+
+Thus every cylinder read is exhausted by $S,W,B,L,H,K,P,N$. The excluded
+objects are not coordinates of the carrier, so the read cannot produce an
+infinite tail, quotient equality, host-function extensionality, or compactness
+data.
+\end{proof}
+
+\begin{theorem}[CantorSpace StreamName-Bool scope]
+\label{thm:cantor-space-streamname-bool-scope}
+Every public read exported by an accepted $\CantorSpaceUp$ carrier reaches the
+L10 countable-name substrate only through the finite route
+$$
+\StreamNameUp,\ \BoolUp,\ \ListUp,\ \NameCert_{\CantorSpaceUp}.
+$$
+The route binds the schedule, Boolean endpoint rows, finite prefix spine, and
+local certificate before any downstream consumer may inspect the packet. It
+does not claim Real completeness, quotient stream completeness, open-cover
+compactness, fan-theorem compactness, or choice of an infinite branch.
+\end{theorem}
+\begin{proof}
+Project a public consumer read from the accepted carrier. The requested
+positions are first visible in the $\StreamNameUp$ schedule row $S$ and prefix
+row $W$.
+
+Each visible value is then read through the $\BoolUp$ ledger $B$ and ordered by
+the $\ListUp$ spine $L$. The rows $H$ and $K$ only transport and replay that
+finite data, while $P$ and $N$ record the provenance and local certificate.
+
+Therefore the public route is exactly the displayed finite route through
+$\StreamNameUp$, $\BoolUp$, $\ListUp$, and
+$\NameCert_{\CantorSpaceUp}$. No coordinate in the packet supplies Real
+completeness, stream quotient completeness, open-cover compactness,
+fan-theorem compactness, or a choice-selected infinite branch.
+\end{proof}
+
+\begin{closurestatus}{\CantorSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-space-carrier}, \autoref{def:cantor-space-classifier}, \autoref{thm:cantor-space-namecert-obligation-surface}, \autoref{thm:cantor-space-finite-prefix-cylinder-stability}, and \autoref{thm:cantor-space-streamname-bool-scope} seed the finite Bool-valued StreamName packet for Cantor-space prefix cylinders.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close quotient streams, host function equality, completed infinite products, Real completeness, choice-selected branches, open-cover compactness, fan-theorem compactness, or a standard bridge.}
+  \upgradepath{The next step is obligationClosure: carrier admission, classifier transport, finite-prefix cylinder stability, StreamName-Bool routing, and non-escape must be discharged as local rows.}
+  \constructivestory{The construction starts from finite unary StreamName windows, records Bool observations along a List prefix spine, and exposes only displayed hsame, Cont, Pkg, and local NameCert rows to downstream L10 consumers.}
+\end{closurestatus}

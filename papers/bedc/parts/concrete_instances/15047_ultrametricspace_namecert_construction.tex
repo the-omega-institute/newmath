@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\UltrametricSpaceUp$}
+\label{ch:concrete-instances-ultrametricspace-namecert}
+\origin{human}
+
+Following Schikhof's non-Archimedean analysis and the Bosch--Guntzer--Remmert treatment of ultrametric geometry, the $\UltrametricSpaceUp$ packet records a metric surface whose triangle evidence is the strong max-radius comparison. It is a standard metric neighbour of $\MetricUp$ in \autoref{ch:concrete-instances-metric-namecert}, the $p$-adic example surface of \autoref{ch:concrete-instances-padic-namecert}, the ball ledgers of \autoref{ch:concrete-instances-dyadicball-namecert} and \autoref{ch:concrete-instances-metricball-namecert}, and the completion-facing boundary of \autoref{ch:concrete-instances-completemetric-namecert}. The carrier names only finite distance comparisons, radius ledgers, nested-ball witnesses, example handoffs, transport, replay, provenance, and a local certificate; it does not import quotient classes, choice of representatives, host real equality, or a completed ambient field.
+
+\begin{definition}[UltrametricSpace carrier]
+\label{def:ultrametric-space-carrier}
+An $\UltrametricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,V,T,B,E,H,K,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the parent $\MetricUp$ row carrying the displayed point names, distance classifier, symmetry ledger, zero-distance boundary, and ordinary triangle route.
+\item $V$ is the value and radius comparison ledger, recording the finite distance values or distance bounds inspected by the packet and the max-radius comparison used for ball consumers.
+\item $T$ is the strong-triangle ledger, asserting for every displayed triple read by the packet that the third distance is routed through the maximum of the other two displayed radii.
+\item $B$ is the nested-ball ledger, classifying displayed balls by the ultrametric rule that intersecting balls are nested once their centers and radii pass through $V$ and $T$.
+\item $E$ is the example handoff row, exposing either a $\PadicUp$ prime-scale route or a $\DyadicBallUp$ radius route as a finite witness of the same strong-triangle discipline.
+\item $H$ stores componentwise $\hsame$ transport for the parent metric row, comparison ledger, strong-triangle ledger, nested-ball ledger, example handoff, continuation replay, provenance, and local naming row.
+\item $K$ stores displayed $\Cont$ replay from metric reads to comparison reads, from comparison reads to strong-triangle checks, and from strong-triangle checks to nested-ball, $\PadicUp$, $\DyadicBallUp$, $\MetricBallUp$, and $\CompleteMetricUp$ consumers.
+\item $P$ is the $\Pkg$ provenance over $\UltrametricSpaceUp$, $\MetricUp$, $\PadicUp$, $\DyadicBallUp$, $\MetricBallUp$, $\CompleteMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UltrametricSpaceUp}$ row.
+\end{enumerate}
+The classifier accepts a packet only when the parent metric row is already displayed, every inspected distance comparison is routed through $V$, every triangle request is answered by the strong max-radius row $T$, nested-ball claims are read from $B$, example consumers factor through $E$, and all downstream reads preserve $H,K,P,N$. It has no coordinate for quotient metric completion, selected representatives, host real equality of distances, open-cover compactness, or an ambient non-Archimedean field.
+\end{definition}
+
+\begin{theorem}[UltrametricSpace NameCert obligations]
+\label{thm:ultrametric-space-namecert-obligations}
+For an accepted $\UltrametricSpaceUp$ carrier $U=(M,V,T,B,E,H,K,P,N)$, the local $\NameCert_{\UltrametricSpaceUp}$ obligations are exactly the following:
+\begin{enumerate}
+\item carrier admission for the displayed parent metric, comparison ledger, strong-triangle ledger, nested-ball ledger, example handoff, transport, replay, provenance, and local naming rows;
+\item inherited metric-row compatibility, requiring all point names, distance reads, symmetry checks, and ordinary triangle routes to be read from $M$ before the ultrametric rows are inspected;
+\item strong-triangle stability, requiring transported packets to preserve the max-radius comparison row $T$ under the componentwise $\hsame$ data in $H$;
+\item nested-ball classification, requiring every ball-consumer claim to pass through $B$ after the relevant centers and radii have been compared by $V$ and $T$;
+\item $p$-adic or dyadic witness compatibility, requiring the example row $E$ to expose only a $\PadicUp$ or $\DyadicBallUp$ route that reuses the same strong-triangle comparison;
+\item ledger non-escape, excluding quotient completions, selected representatives, host real equality of distance values, open-cover compactness, and ambient non-Archimedean field laws.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:ultrametric-space-carrier}. The tuple lists exactly the parent metric row, comparison ledger, strong-triangle ledger, nested-ball ledger, example handoff, transport, replay, provenance, and local name.
+
+Inherited metric-row compatibility is read first. A consumer cannot ask for an ultrametric comparison before the point names, distance reads, symmetry checks, and ordinary metric triangle route have been displayed by $M$.
+
+Strong-triangle stability is then componentwise transport along $H$. The comparison row $V$ fixes the inspected radii, and $T$ records that each displayed triple uses the maximum of the two comparison radii as the controlling bound.
+
+Nested-ball classification follows from $B$. Every ball-facing read must pass through the displayed center and radius comparisons, so a later $\MetricBallUp$, $\DyadicBallUp$, or $\CompleteMetricUp$ consumer cannot replace the nested-ball route by an unrelated host-space assertion.
+
+Finally, $E,K,P,N$ replay, source, and name the same finite route for $p$-adic or dyadic examples. Since the carrier fields are exhausted by $M,V,T,B,E,H,K,P,N$, the excluded quotient, representative-choice, host-equality, compactness, and ambient-field principles have no row from which a consumer could read them.
+\end{proof}
+
+\begin{theorem}[UltrametricSpace strong-triangle handoff]
+\label{thm:ultrametric-space-strong-triangle-handoff}
+Every accepted $\UltrametricSpaceUp$ packet exposes distance comparisons to $\MetricBallUp$, $\DyadicBallUp$, $\PadicUp$, or $\CompleteMetricUp$ consumers only through the finite route
+$$
+M\longmapsto V\longmapsto T\longmapsto B\longmapsto E .
+$$
+In particular, the max-radius strong-triangle row $T$ is read before any metric-ball, dyadic-ball, $p$-adic, or complete-metric consumer can inspect the route.
+\end{theorem}
+\begin{proof}
+Start with the parent metric row $M$. It supplies point names and distance reads, but it does not by itself certify the non-Archimedean comparison needed by an ultrametric consumer.
+
+The comparison ledger $V$ records the finite radii under inspection. The strong-triangle row $T$ then binds every displayed triple to the max-radius bound determined by those comparisons.
+
+Only after $T$ has been read can the nested-ball row $B$ classify ball relations. The example row $E$ and the continuation replay $K$ preserve that order for $\PadicUp$, $\DyadicBallUp$, $\MetricBallUp$, and $\CompleteMetricUp$ consumers.
+
+Thus each downstream consumer receives the same displayed finite route through $M,V,T,B,E$. No consumer-facing field bypasses the strong-triangle row, so host equality of distances, quotient completion equality, selected representatives, and ambient field laws remain outside the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\UltrametricSpaceUp$ ball-facing read factors through the parent $\MetricUp$ row, value and radius comparison ledger, max-radius strong-triangle ledger, nested-ball ledger, example handoff, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any $\MetricBallUp$, $\DyadicBallUp$, $\PadicUp$, or $\CompleteMetricUp$ consumer reads the route.}
+
+\independenceWitness{metric, padic, dyadicball, metricball, completemetric: $\UltrametricSpaceUp$ is not bijective to any listed sibling because it jointly carries parent metric data, value and radius comparisons, a strong-triangle ledger, nested-ball classification, a $p$-adic or dyadic example handoff, transport, continuation replay, provenance, and local naming.}
+
+\closureat{UltrametricSpaceUp}{seedStr}
+
+\begin{closurestatus}{\UltrametricSpaceUp}
+  \constructivestory{An $\UltrametricSpaceUp$ packet starts from a displayed Metric row, records finite value and radius comparisons, certifies the strong max-radius triangle row, routes nested-ball classification through that row, exposes p-adic or dyadic examples as handoffs, and preserves the same finite route by transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ultrametric-space-carrier}, \autoref{thm:ultrametric-space-namecert-obligations}, and \autoref{thm:ultrametric-space-strong-triangle-handoff} seed the finite non-Archimedean metric carrier through parent metric data, strong-triangle comparisons, nested-ball classification, and example handoffs.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient metric completion, selected representatives, host real equality of distances, open-cover compactness, ambient non-Archimedean field laws, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, inherited metric-row compatibility, strong-triangle stability, nested-ball classification, p-adic or dyadic witness compatibility, handoff ordering, and ledger non-escape for BEDC.Derived.UltrametricSpaceUp.}
+\end{closurestatus}

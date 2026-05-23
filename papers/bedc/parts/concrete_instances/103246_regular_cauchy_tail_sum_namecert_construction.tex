@@ -1,0 +1,102 @@
+\chapter{Regular Cauchy Tail Sum NameCert Construction}
+\label{ch:concrete-instances-regular-cauchy-tail-sum-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive analysis, the $\RegularCauchyTailSumUp$ packet records the finite tail-sum route by which a displayed dyadic budget, a stream window, and a regular rational sequence read determine a real endpoint seal. It sits between the dyadic tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite evidence needed to pass from bounded tail sums to a regular Cauchy read; it does not import quotient streams, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy tail-sum carrier]
+\label{def:regular-cauchy-tail-sum-carrier}
+A $\RegularCauchyTailSumUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D,S,R,A,W,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tail-budget ledger. It records the dyadic precision request, the split between initial-window and tail-window tolerances, and the finite comparisons used to absorb the tail.
+\item $S$ is the $\StreamNameUp$ observation row. It records the inspected stream entries, partial sums, and endpoint reads for the requested finite window.
+\item $R$ is the $\RegSeqRatUp$ regularity row. It records the regular rational sequence read exposed by the same finite window and tolerance budget.
+\item $A$ is the additivity row. It records the finite addition route for the displayed partial tail sums and the dyadic error terms.
+\item $W$ is the window-control row. It records the left endpoint, right endpoint, and width certificate for every tail window used by the packet.
+\item $B$ is the bounded-tail row. It records the displayed tail bound that converts the inspected finite window into a regular Cauchy read.
+\item $E$ is the $\RealUp$ endpoint seal reached only after $D,S,R,A,W,B$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the dyadic ledger, stream windows, regularity row, additivity row, window-control row, bounded-tail row, endpoint seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D,S,R,A,W,B \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailSumUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,A,W,B,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected limiting real, countable choice, ambient completeness, or a host infinite summation principle.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail-sum window extraction]
+\label{thm:regular-cauchy-tail-sum-window}
+For every accepted $\RegularCauchyTailSumUp$ carrier
+$$
+T=(D,S,R,A,W,B,E,H,C,P,N),
+$$
+each tail-sum request factors through a finite $\BHist/\Cont$ window whose visible data are exactly the dyadic budget $D$, stream observations $S$, regularity readback $R$, additivity row $A$, window-control row $W$, bounded-tail row $B$, and the structural rows $H,C,P,N$. No request can read a quotient stream, selected limit, countable-choice witness, ambient completeness proof, or host infinite summation theorem.
+\end{theorem}
+
+\begin{proof}
+Project the accepted packet $T=(D,S,R,A,W,B,E,H,C,P,N)$. The carrier definition exposes precisely the dyadic ledger, stream observations, regularity row, finite additivity row, window-control row, bounded-tail row, endpoint seal, and structural rows.
+
+The inspected window is finite. The row $D$ fixes a dyadic tolerance budget, while $S$ lists the stream entries and partial sums actually read inside that budget. The row $W$ records the endpoints and width certificates for the same inspected interval.
+
+The tail stage is also finite. The additivity row $A$ combines only the displayed partial sums and dyadic errors, and the bounded-tail row $B$ records the finite inequality that absorbs all entries beyond the inspected window at the requested precision.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly those rows. Since no carrier coordinate stores quotient equality, selected limits, choice, completeness, or host summation, the request cannot escape the displayed finite window.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-sum regular sequence read]
+\label{thm:regular-cauchy-tail-sum-regseq}
+Every accepted $\RegularCauchyTailSumUp$ packet determines its regular rational sequence read through the finite route
+$$
+D,S,W \longmapsto A,B \longmapsto R .
+$$
+For any two inspected windows with dyadic budgets recorded by $D$, the corresponding reads in $R$ agree up to the displayed tail budget after transport by $H$. Thus regularity is witnessed by finite tail-window induction over $\BHist$ and $\Cont$ rows, not by quotient streams, selected limits, countable choice, or ambient completeness.
+\end{theorem}
+
+\begin{proof}
+Begin with two inspected tail windows admitted by the same packet. Their budgets are both read through $D$, and their stream observations and window widths are read through $S$ and $W$.
+
+Induct over the finite extension from the shorter displayed window to the longer displayed window. The base case is the common window, where the two reads use the same rows and the same dyadic budget. In the step case, adding one displayed tail entry updates the partial sum through $A$ and tightens the remaining error through $B$.
+
+The regularity row $R$ receives only the data produced by this finite induction. Componentwise transport in $H$ preserves the dyadic budget, stream observations, additivity row, and bounded-tail row, so the two reads agree up to the displayed tolerance.
+
+The route never asks for a quotient stream representative or a selected limit. It uses only the inspected $\BHist/\Cont$ windows and the finite dyadic tail budget already present in the packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-sum real seal]
+\label{thm:regular-cauchy-tail-sum-real-seal}
+Every accepted $\RegularCauchyTailSumUp$ packet reaches its $\RealUp$ endpoint seal only through the displayed route
+$$
+\DyadicRatCoreUp/\StreamNameUp/\RegSeqRatUp
+\longmapsto A,W,B
+\longmapsto E,H,C,P,N .
+$$
+Consequently the packet exports a finite tail-sum seal for later L10 Real and Completion routes, but it exports no ambient $\RealUp$ completeness theorem.
+\end{theorem}
+
+\begin{proof}
+Start from an endpoint request for the packet. The request must first expose $D,S,R$ because these are the only rows carrying dyadic budgets, stream observations, and regular rational sequence reads.
+
+The finite tail computation then passes through $A,W,B$. The row $A$ records finite addition of displayed terms and error terms, $W$ records the inspected tail-window widths, and $B$ records the tail bound that converts the finite window into a regular Cauchy read.
+
+Only after those rows are displayed can $E$ provide the $\RealUp$ seal. The structural rows $H,C,P,N$ preserve and replay the same displayed route, so the endpoint seal is downstream of finite evidence rather than an ambient completeness principle.
+
+Thus the packet supplies a named finite handoff for later L10 Real and Completion consumers while explicitly leaving $\RealUp$ completeness outside the local claim.
+\end{proof}
+
+\closureat{RegularCauchyTailSumUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailSumUp}
+  \constructivestory{A $\RegularCauchyTailSumUp$ packet is generated from a DyadicRatCoreUp tail-budget ledger, StreamNameUp observation windows, RegSeqRatUp regular rational readback, a finite additivity row, a window-control row, a bounded-tail row, a RealUp endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-sum-carrier}, \autoref{thm:regular-cauchy-tail-sum-window}, \autoref{thm:regular-cauchy-tail-sum-regseq}, and \autoref{thm:regular-cauchy-tail-sum-real-seal} seed the finite tail-sum certificate surface between dyadic budgets, stream windows, regular rational reads, and RealUp endpoint seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, bridge checking, or a host infinite summation principle.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite window extraction, regular sequence readback, tail-bound stability, endpoint non-escape, and provenance closure for BEDC.Derived.RegularCauchyTailSumUp.}
+\end{closurestatus}

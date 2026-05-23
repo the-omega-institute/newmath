@@ -186,6 +186,47 @@ theorem ValidatedNumericsReadbackPacket_precision_refinement_containment [AskSet
     ⟨refinedPrecisionUnary, refinedObservationUnary, refinedReadUnary, refinedContainmentUnary,
       modulusPrecisionObservation, observationReadback, intervalContainment, containmentPkg⟩
 
+theorem ValidatedNumericsPacket_refined_readback_containment_determinacy [AskSetup]
+    [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name
+      refinedPrecision refinedObservation refinedContainment refinedRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg ->
+      hsame precision refinedPrecision ->
+        hsame observation refinedObservation ->
+          Cont refinedPrecision modulus refinedObservation ->
+            Cont refinedObservation readback refinedRead ->
+              Cont interval containment refinedContainment ->
+                Cont interval containment sealRead ->
+                  PkgSig bundle refinedContainment pkg ->
+                    PkgSig bundle sealRead pkg ->
+                      UnaryHistory refinedRead ∧ UnaryHistory refinedContainment ∧
+                        UnaryHistory sealRead ∧ Cont refinedObservation readback refinedRead ∧
+                          Cont interval containment refinedContainment ∧
+                            Cont interval containment sealRead ∧
+                              PkgSig bundle refinedContainment pkg ∧
+                                PkgSig bundle sealRead pkg := by
+  intro packet samePrecision sameObservation _refinedPrecisionModulus refinedObservationReadback
+  intro intervalContainment intervalSealRead containmentPkg sealPkg
+  obtain ⟨intervalUnary, precisionUnary, _modulusUnary, observationUnary, readbackUnary,
+    _transportUnary, containmentUnary, _provenanceUnary, _nameUnary,
+    _precisionModulusObservation, _observationReadbackTransport,
+    _observationIntervalContainment, _containmentProvenanceName, _namePkg⟩ := packet
+  have refinedPrecisionUnary : UnaryHistory refinedPrecision :=
+    unary_transport precisionUnary samePrecision
+  have refinedObservationUnary : UnaryHistory refinedObservation :=
+    unary_transport observationUnary sameObservation
+  have refinedReadUnary : UnaryHistory refinedRead :=
+    unary_cont_closed refinedObservationUnary readbackUnary refinedObservationReadback
+  have refinedContainmentUnary : UnaryHistory refinedContainment :=
+    unary_cont_closed intervalUnary containmentUnary intervalContainment
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed intervalUnary containmentUnary intervalSealRead
+  exact
+    ⟨refinedReadUnary, refinedContainmentUnary, sealReadUnary, refinedObservationReadback,
+      intervalContainment, intervalSealRead, containmentPkg, sealPkg⟩
+
 theorem ValidatedNumericsFiniteEnclosure_exported_bridge [AskSetup] [PackageSetup]
     {interval endpoint precision modulus observation readback containment transport provenance name
       bridge : BHist}
@@ -421,5 +462,201 @@ theorem ValidatedNumericsPacket_interval_enclosure_obligation [AskSetup] [Packag
     ⟨cert, intervalUnary, precisionUnary, modulusUnary, observationUnary, containmentUnary,
       enclosureUnary, precisionModulusObservation, observationIntervalContainment,
       enclosureRoute, namePkg, enclosurePkg⟩
+
+theorem ValidatedNumericsPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name
+      enclosureRead bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg ->
+      Cont interval containment enclosureRead ->
+        Cont containment provenance bridge ->
+          PkgSig bundle enclosureRead pkg ->
+            PkgSig bundle bridge pkg ->
+              SemanticNameCert
+                (fun row : BHist => hsame row bridge ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+                (fun row : BHist =>
+                  UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+                    Cont observation interval containment ∧ Cont containment provenance row)
+                (fun row : BHist =>
+                  PkgSig bundle row pkg ∧ Cont containment provenance bridge)
+                (fun row row' : BHist => PkgSig bundle row pkg ∧ hsame row row') := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro packet enclosureRoute containmentProvenanceBridge _enclosurePkg bridgePkg
+  obtain ⟨intervalUnary, precisionUnary, modulusUnary, _observationUnary, _readbackUnary,
+    _transportUnary, containmentUnary, provenanceUnary, _nameUnary, _precisionModulusObservation,
+    _observationReadbackTransport, observationIntervalContainment, _containmentProvenanceName,
+    _namePkg⟩ := packet
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed containmentUnary provenanceUnary containmentProvenanceBridge
+  have sourceAtBridge :
+      hsame bridge bridge ∧ UnaryHistory bridge ∧ PkgSig bundle bridge pkg :=
+    ⟨hsame_refl bridge, bridgeUnary, bridgePkg⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro bridge sourceAtBridge
+      equiv_refl := by
+        intro row source
+        exact ⟨source.right.right, hsame_refl row⟩
+      equiv_symm := by
+        intro row _other classified
+        cases classified.right
+        exact ⟨classified.left, hsame_refl row⟩
+      equiv_trans := by
+        intro _row _middle _other leftClassified rightClassified
+        exact
+          ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _other classified source
+        cases classified.right
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left
+      exact
+        ⟨intervalUnary, precisionUnary, modulusUnary, observationIntervalContainment,
+          containmentProvenanceBridge⟩
+    ledger_sound := by
+      intro _row source
+      cases source.left
+      exact ⟨source.right.right, containmentProvenanceBridge⟩
+  }
+
+theorem ValidatedNumericsPacket_public_finite_enclosure_consumer_certificate [AskSetup]
+    [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name
+      refinedPrecision refinedObservation refinedContainment refinedRead enclosureRead bridge :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg ->
+      hsame precision refinedPrecision ->
+        hsame observation refinedObservation ->
+          Cont refinedPrecision modulus refinedObservation ->
+            Cont refinedObservation readback refinedRead ->
+              Cont interval containment refinedContainment ->
+                Cont interval containment enclosureRead ->
+                  Cont containment provenance bridge ->
+                    PkgSig bundle refinedContainment pkg ->
+                      PkgSig bundle enclosureRead pkg ->
+                        PkgSig bundle bridge pkg ->
+                          SemanticNameCert
+                              (fun row : BHist =>
+                                hsame row enclosureRead ∧ UnaryHistory row ∧
+                                  PkgSig bundle row pkg)
+                              (fun _row : BHist =>
+                                UnaryHistory interval ∧ UnaryHistory precision ∧
+                                  UnaryHistory modulus ∧ Cont observation interval containment)
+                              (fun row : BHist =>
+                                PkgSig bundle row pkg ∧
+                                  Cont interval containment enclosureRead)
+                              (fun row row' : BHist =>
+                                PkgSig bundle row pkg ∧ hsame row row') ∧
+                            UnaryHistory refinedRead ∧ UnaryHistory refinedContainment ∧
+                              UnaryHistory enclosureRead ∧
+                                Cont refinedObservation readback refinedRead ∧
+                                  Cont interval containment refinedContainment ∧
+                                    Cont interval containment enclosureRead ∧
+                                      PkgSig bundle refinedContainment pkg ∧
+                                        PkgSig bundle enclosureRead pkg ∧
+                                          SemanticNameCert
+                                            (fun row : BHist =>
+                                              hsame row bridge ∧ UnaryHistory row ∧
+                                                PkgSig bundle row pkg)
+                                            (fun row : BHist =>
+                                              UnaryHistory interval ∧
+                                                UnaryHistory precision ∧
+                                                  UnaryHistory modulus ∧
+                                                    Cont observation interval containment ∧
+                                                      Cont containment provenance row)
+                                            (fun row : BHist =>
+                                              PkgSig bundle row pkg ∧
+                                                Cont containment provenance bridge)
+                                            (fun row row' : BHist =>
+                                              PkgSig bundle row pkg ∧ hsame row row') := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro packet samePrecision sameObservation refinedPrecisionModulus refinedObservationReadback
+  intro refinedContainmentRoute enclosureRoute containmentProvenanceBridge refinedPkg
+  intro enclosurePkg bridgePkg
+  have enclosureSurface :=
+    ValidatedNumericsPacket_interval_enclosure_obligation
+      packet enclosureRoute enclosurePkg
+  have refinedSurface :=
+    ValidatedNumericsPacket_refined_readback_containment_determinacy
+      packet samePrecision sameObservation refinedPrecisionModulus refinedObservationReadback
+      refinedContainmentRoute enclosureRoute refinedPkg enclosurePkg
+  have bridgeSurface :=
+    ValidatedNumericsPacket_namecert_obligation_surface
+      packet enclosureRoute containmentProvenanceBridge enclosurePkg bridgePkg
+  exact
+    ⟨enclosureSurface.left, refinedSurface.left, refinedSurface.right.left,
+      refinedSurface.right.right.left, refinedSurface.right.right.right.left,
+      refinedSurface.right.right.right.right.left,
+      refinedSurface.right.right.right.right.right.left,
+      refinedSurface.right.right.right.right.right.right.left,
+      refinedSurface.right.right.right.right.right.right.right, bridgeSurface⟩
+
+theorem ValidatedNumericsPacket_five_row_namecert_sketch [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg →
+      UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+        UnaryHistory observation ∧ UnaryHistory readback ∧
+          Cont precision modulus observation ∧ Cont observation readback transport ∧
+            Cont observation interval containment ∧ Cont containment provenance name ∧
+              PkgSig bundle name pkg ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row name ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row interval ∨ hsame row modulus ∨ hsame row observation ∨
+                      hsame row readback ∨ hsame row name)
+                  (fun row : BHist => hsame row name ∧ PkgSig bundle name pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig SemanticNameCert hsame Cont
+  intro packet
+  obtain ⟨intervalUnary, precisionUnary, modulusUnary, observationUnary, readbackUnary,
+    _transportUnary, _containmentUnary, _provenanceUnary, nameUnary,
+    precisionModulusObservation, observationReadbackTransport, observationIntervalContainment,
+    containmentProvenanceName, namePkg⟩ := packet
+  have sourceAtName : hsame name name ∧ UnaryHistory name :=
+    ⟨hsame_refl name, nameUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row name ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row interval ∨ hsame row modulus ∨ hsame row observation ∨
+            hsame row readback ∨ hsame row name)
+        (fun row : BHist => hsame row name ∧ PkgSig bundle name pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro name sourceAtName
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same source
+        exact ⟨hsame_trans (hsame_symm same) source.left,
+          unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, namePkg⟩
+  }
+  exact
+    ⟨intervalUnary, precisionUnary, modulusUnary, observationUnary, readbackUnary,
+      precisionModulusObservation, observationReadbackTransport, observationIntervalContainment,
+      containmentProvenanceName, namePkg, cert⟩
 
 end BEDC.Derived.ValidatedNumericsUp

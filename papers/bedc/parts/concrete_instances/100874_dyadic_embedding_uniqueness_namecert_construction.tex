@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\DyadicEmbeddingUniquenessUp$}
+\label{ch:concrete-instances-dyadic-embedding-uniqueness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicEmbeddingUniquenessUp$ packet records the uniqueness of the displayed dyadic embedding route from $\DyadicRatCoreUp$ through $\StreamNameUp$ and $\RegSeqRatUp$ into the $\RealUp$ seal. It sits between the finite dyadic observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite route certificate for dyadic constants entering Real-facing completion consumers; it is not a quotient stream, host real equality, a selected limit, trichotomy, ambient Real completeness, or Lean verification.
+
+\begin{definition}[Dyadic embedding uniqueness carrier]
+\label{def:dyadic-embedding-uniqueness-carrier}
+A $\DyadicEmbeddingUniquenessUp$ carrier is a finite $\BHist$ packet
+$$
+U=(D,S,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ observation row naming the dyadic constant, its denominator scale, its tolerance cells, and the finite comparison data used by the route.
+\item $S$ is the $\StreamNameUp$ window row obtained from $D$, recording the inspected prefixes through which the dyadic constant is presented as a constant stream.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to $S$, recording the regular rational sequence data read from the same dyadic observations.
+\item $R$ is the $\RealUp$ seal row reached from $Q$ by the displayed finite embedding route.
+\item $E$ is the uniqueness ledger stating that any second accepted route with the same $D,S,Q,R$ rows is componentwise the same BEDC route after $\hsame$ transport and $\Cont$ replay.
+\item $H$ records componentwise $\hsame$ transport for $D,S,Q,R,E$ and for the structural rows of the packet.
+\item $C$ records displayed $\Cont$ replay from a dyadic observation request through stream windows and regular readback into the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicEmbeddingUniquenessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicEmbeddingUniquenessUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one finite route certificate for the dyadic embedding into the Real seal. It contains no coordinate for quotient stream equality, host real equality, selected limits, trichotomy, ambient $\RealUp$ completeness, or Lean verification.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicEmbeddingUniquenessUp.DyadicEmbeddingUniquenessTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic embedding uniqueness NameCert obligations]
+\label{thm:dyadic-embedding-uniqueness-namecert-obligations}
+For every accepted $\DyadicEmbeddingUniquenessUp$ carrier $U=(D,S,Q,R,E,H,C,P,N)$, the local $\NameCert_{\DyadicEmbeddingUniquenessUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic observation row, stream-window row, regular rational readback row, Real seal row, uniqueness ledger, transport row, replay row, provenance row, and local naming row;
+\item dyadic source exactness, requiring every window in $S$ to be read from the same displayed $\DyadicRatCoreUp$ row $D$;
+\item constant-stream readback, requiring the $\RegSeqRatUp$ row $Q$ to be obtained through $S$ without changing the dyadic source or inserting a quotient stream representative;
+\item Real seal route admission, requiring the $\RealUp$ row $R$ to be exposed only after $D,S,Q$ have been displayed in that order;
+\item uniqueness stability, requiring $E,H,C$ to identify any second accepted route by componentwise $\hsame$ transport and displayed $\Cont$ replay over the same rows;
+\item ledger nonescape, requiring $P$ and $N$ to export no quotient stream equality, host real equality, selected limit, trichotomy, ambient Real completeness, or Lean verification witness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-embedding-uniqueness-carrier}. The tuple displays exactly the dyadic observation row, stream windows, regular rational readback, Real seal, uniqueness ledger, componentwise transport, continuation replay, provenance, and local name.
+
+Dyadic source exactness is the ordering of $D$ before $S$. A consumer can inspect a constant-stream window only after the finite dyadic observation row has named the denominator scale, tolerance cells, and comparison data used by that window.
+
+Constant-stream readback is the row $Q$ read through $S$. Since $Q$ is attached to the same displayed windows and the carrier has no quotient-stream coordinate, the readback cannot replace the dyadic source by an unshown representative.
+
+The Real seal route admission is the displayed path $D,S,Q,R$. The $\Cont$ row $C$ replays requests through that order, and the $\hsame$ row $H$ transports only the same listed coordinates.
+
+Uniqueness stability is the role of $E$. If another accepted packet presents the same dyadic observation, stream-window, readback, and Real-seal rows, $E$ permits only componentwise $\hsame$ transport and the replay already stored in $C$, so no second route can add a distinct witness.
+
+Finally, $P$ and $N$ package only the named finite dependencies. Because the carrier has no coordinate for quotient streams, host real equality, selected limits, trichotomy, ambient completeness, or Lean verification, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic embedding uniqueness Real seal route]
+\label{thm:dyadic-embedding-uniqueness-real-seal-route}
+Every accepted $\DyadicEmbeddingUniquenessUp$ carrier $U=(D,S,Q,R,E,H,C,P,N)$ exposes a unique finite BEDC route
+$$
+D \longmapsto S \longmapsto Q \longmapsto R \longmapsto E,H,C,P,N
+$$
+from the displayed $\DyadicRatCoreUp$ observations into the $\RealUp$ seal. Any Real-facing consumer receives the dyadic constant only through this route and receives no quotient stream equality, host real equality, selected limit, trichotomy, ambient Real completeness, or Lean verification witness.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $U=(D,S,Q,R,E,H,C,P,N)$. Projection gives the finite dyadic observation row $D$ as the only source coordinate for the dyadic constant.
+
+The stream-window row $S$ is downstream of $D$, and the regular rational readback $Q$ is downstream of those windows. Thus every Real-facing read first passes through the displayed dyadic observations and their finite constant-stream presentation.
+
+The Real seal row $R$ is exposed only after $Q$ has been read. The continuation row $C$ records this replay order, while the transport row $H$ preserves the same coordinates componentwise.
+
+The uniqueness ledger $E$ then blocks competing finite routes over the same displayed rows. A second accepted route with the same $D,S,Q,R$ data is identified by the $\hsame$ and $\Cont$ rows already present in the packet, rather than by a host equality principle or an external selected limit.
+
+The provenance and local naming rows $P,N$ do not enlarge the surface. They name the finite route and exclude quotient streams, host real equality, selected limits, trichotomy, ambient completeness, and Lean verification as source witnesses. Hence the Real seal receives exactly the displayed unique finite route.
+\end{proof}
+
+\closureat{DyadicEmbeddingUniquenessUp}{seedStr}
+
+\begin{closurestatus}{\DyadicEmbeddingUniquenessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-embedding-uniqueness-carrier}, \autoref{thm:dyadic-embedding-uniqueness-namecert-obligations}, and \autoref{thm:dyadic-embedding-uniqueness-real-seal-route} seed the finite uniqueness route from DyadicRatCore observations through StreamName and RegSeqRat into the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, trichotomy, ambient Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic source exactness, constant-stream readback, Real seal route admission, uniqueness stability, and ledger nonescape proofs for BEDC.Derived.DyadicEmbeddingUniquenessUp.}
+  \constructivestory{A $\DyadicEmbeddingUniquenessUp$ packet is generated from a DyadicRatCore observation row, StreamName windows, RegSeqRat readback, a RealUp seal, a uniqueness ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

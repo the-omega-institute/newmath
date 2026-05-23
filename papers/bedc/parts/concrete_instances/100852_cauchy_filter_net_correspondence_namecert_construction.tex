@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterNetCorrespondenceUp$}
+\label{ch:concrete-instances-cauchy-filter-net-correspondence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley on filters and Moore--Smith nets, the $\CauchyFilterNetCorrespondenceUp$ packet records the finite handoff between Cauchy-filter evidence and Cauchy-net evidence before either route is consumed by completion. It sits over the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the Cauchy-net directed-window surface of \autoref{ch:concrete-instances-cauchynet-namecert}, the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the metric completion consumer of \autoref{ch:concrete-instances-metriccompletion-namecert}, the uniform completion consumer of \autoref{ch:concrete-instances-uniformcompletion-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite L10 bridge: it records displayed evidence routes, not quotient filters, selected host nets, countable choice, selected limits, ambient completion, or $\RealUp$ completeness.
+
+\begin{definition}[Cauchy filter-net correspondence carrier]
+\label{def:cauchy-filter-net-correspondence-carrier}
+A $\CauchyFilterNetCorrespondenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(F,D,W,R,T,M,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ row, recording the filter-base requests, late-set witnesses, and finite Cauchy evidence available before a directed net is read.
+\item $D$ is the $\CauchyNetUp$ directed-window row, recording the directed index surface and finite upper-window witnesses generated from the displayed filter requests.
+\item $W$ is the $\StreamNameUp$ window row inspected by both the filter read and the directed-window read.
+\item $R$ is the $\RegSeqRatUp$ readback row reached from those windows.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance row shared by the filter and net evidence routes.
+\item $M$ is the $\MetricCompletionUp$ consumer row, visible only after $F,D,W,R,T$ have been displayed.
+\item $U$ is the $\UniformCompletionUp$ consumer row, visible only after the same filter-net handoff route has been displayed.
+\item $H$ records componentwise $\hsame$ transport for $F,D,W,R,T,M,U,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a finite Cauchy-filter request through the directed-window handoff and then to the completion consumers.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterUp$, $\CauchyNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\MetricCompletionUp$, $\UniformCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterNetCorrespondenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filters, selected host nets, countable-choice schedules, selected limits, ambient completion, $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyFilterNetCorrespondenceUp.CauchyFilterNetCorrespondenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy filter-net NameCert obligations]
+\label{thm:cauchy-filter-net-correspondence-namecert-obligations}
+For every accepted $\CauchyFilterNetCorrespondenceUp$ carrier
+$$
+Q=(F,D,W,R,T,M,U,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyFilterNetCorrespondenceUp}$ surface consists exactly of four finite obligation rows:
+\begin{enumerate}
+\item carrier exposure: the accepted object exposes only the displayed packet $Q$ with rows $F,D,W,R,T,M,U,H,C,P,N$;
+\item filter-to-net routing: every filter-base Cauchy request reaches the directed-window row $D$ only through the displayed filter row $F$ and the shared tolerance row $T$;
+\item net-to-filter routing: every directed-window read back to filter evidence returns through the same $D,F,T$ boundary before any completion consumer sees the route;
+\item consumer non-escape: the $\MetricCompletionUp$ and $\UniformCompletionUp$ rows read only the displayed $F,D,W,R,T$ route, with $H,C,P,N$ supplying transport, replay, provenance, and local naming.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:cauchy-filter-net-correspondence-carrier}. The accepted packet contains the filter row, directed-window row, window row, readback row, tolerance row, the two completion consumer rows, and the structural rows $H,C,P,N$.
+
+For the filter-to-net obligation, start with a finite Cauchy request in $F$. The only directed output coordinate in the carrier is $D$, and the route to it is mediated by the shared dyadic tolerance row $T$ before any window in $W$ or readback in $R$ can be inspected.
+
+For the net-to-filter obligation, reverse the displayed route at the level of evidence rows. A directed-window read in $D$ returns to the same filter boundary $F$ and uses the same tolerance row $T$, so the reverse handoff cannot introduce a second base, a host subnet, or a choice-selected branch.
+
+Finally, $M$ and $U$ are downstream consumer rows. Since they occur after $F,D,W,R,T$ in the carrier and have only $H,C,P,N$ as structural support, they receive exactly the displayed handoff route and no quotient, choice, selected-limit, ambient-completion, Real-completeness, verification, or bridge coordinate.
+\end{proof}
+
+\begin{theorem}[Cauchy filter-to-net finite handoff]
+\label{thm:cauchy-filter-net-correspondence-filter-to-net}
+Let $Q=(F,D,W,R,T,M,U,H,C,P,N)$ be an accepted $\CauchyFilterNetCorrespondenceUp$ carrier. Every displayed $\CauchyFilterUp$ request in $F$ that is admitted to a completion-facing route factors through a finite directed-window handoff
+$$
+F,T \longmapsto D \longmapsto W,R .
+$$
+Thus the filter branch supplies Cauchy evidence to $\CauchyNetUp$ as displayed directed-window data, not as a quotient filter, selected host net, countable-choice selector, selected limit, or ambient completion object.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and read the filter row $F$. A completion-facing filter request has no direct edge to $M$ or $U$ inside the packet; the displayed bridge route first records its tolerance demand in $T$.
+
+The directed-window row $D$ is then the only net-facing coordinate. The replay row $C$ sends the finite request from $F,T$ to $D$, and $H$ keeps the row identities stable under componentwise transport.
+
+After $D$ is displayed, the route may inspect finite windows $W$ and regular rational readback $R$. The carrier contains no excluded quotient, host-net, choice, selected-limit, or ambient-completion coordinate, so the handoff remains the finite route shown above.
+\end{proof}
+
+\begin{theorem}[Cauchy net-to-filter finite handoff]
+\label{thm:cauchy-filter-net-correspondence-net-to-filter}
+Let $Q=(F,D,W,R,T,M,U,H,C,P,N)$ be an accepted $\CauchyFilterNetCorrespondenceUp$ carrier. Every displayed $\CauchyNetUp$ directed-window read in $D$ that is compared with filter Cauchy evidence factors through
+$$
+D,T \longmapsto F \longmapsto W,R .
+$$
+The reverse read returns to the displayed $\CauchyFilterUp$ row and does not export quotient-filter equality, selected host nets, countable choice, selected limits, ambient completion, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the directed-window row $D$. The carrier makes no autonomous completion claim from $D$ alone; any comparison with filter evidence must use the same dyadic tolerance row $T$ that the forward handoff used.
+
+The filter row $F$ is the unique filter-facing coordinate. Replaying the route through $C$ therefore returns the directed-window read to $F$ before windows or regular rational readback are exposed.
+
+The downstream rows $W$ and $R$ are shared by both directions. Since $P$ and $N$ name only this packet and $H$ transports only its displayed rows, the reverse handoff cannot create quotient-filter equality, host-net selection, countable choice, selected limits, ambient completion, or Real completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy filter-net consumer non-escape]
+\label{thm:cauchy-filter-net-correspondence-nonescape}
+Every $\MetricCompletionUp$, $\UniformCompletionUp$, or $\RealUp$-facing read exported by an accepted $\CauchyFilterNetCorrespondenceUp$ carrier factors through the displayed route
+$$
+F,D,T,W,R \longmapsto M,U .
+$$
+Consequently the completion consumers may read finite Cauchy-filter evidence, finite directed-window Cauchy-net evidence, StreamName windows, RegSeqRat readback, and DyadicRatCore tolerance data, but they receive no quotient filters, selected host nets, countable choice, selected limits, ambient completion, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The consumer rows $M$ and $U$ are coordinates of the carrier in \autoref{def:cauchy-filter-net-correspondence-carrier}. They are not source rows; each is reached only after the filter row $F$, directed-window row $D$, tolerance row $T$, window row $W$, and readback row $R$ have been displayed.
+
+Apply \autoref{thm:cauchy-filter-net-correspondence-filter-to-net} for reads that start from filter evidence, and apply \autoref{thm:cauchy-filter-net-correspondence-net-to-filter} for reads that start from directed-window evidence. Both routes meet the same finite $F,D,T,W,R$ boundary before any completion consumer is visible.
+
+The $\RealUp$-facing part of the route is therefore mediated by the same readback and completion rows. Because the carrier has no excluded quotient, selected-host, choice, selected-limit, ambient-completion, or Real-completeness coordinate, every consumer read remains inside the displayed packet.
+\end{proof}
+
+\closureat{CauchyFilterNetCorrespondenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFilterNetCorrespondenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-net-correspondence-carrier}, \autoref{thm:cauchy-filter-net-correspondence-namecert-obligations}, \autoref{thm:cauchy-filter-net-correspondence-filter-to-net}, \autoref{thm:cauchy-filter-net-correspondence-net-to-filter}, and \autoref{thm:cauchy-filter-net-correspondence-nonescape} seed the finite L10 correspondence surface between filter and net Cauchy evidence for completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected host nets, countable choice, selected limits, ambient completion, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, filter-to-net routing, net-to-filter routing, consumer non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyFilterNetCorrespondenceUp.}
+  \constructivestory{A $\CauchyFilterNetCorrespondenceUp$ packet is generated from one CauchyFilter row, one CauchyNet directed-window row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance row, MetricCompletion and UniformCompletion consumer rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

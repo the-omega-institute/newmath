@@ -1,0 +1,127 @@
+\chapter{A Concrete Naming Certificate for $\LocatedOpenUp$}
+\label{ch:concrete-instances-locatedopen-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedOpenUp$
+packet records a neighbourhood interface whose evidence is located in finite
+real and cut data before any topological consumer reads it. It sits over the
+located cut surface of \autoref{ch:concrete-instances-locatedcut-namecert}, the
+located real enclosure of \autoref{ch:concrete-instances-locatedreal-namecert},
+the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert},
+the regular rational readback of
+\autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal
+of \autoref{ch:concrete-instances-real-namecert}, and the completion-facing
+filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}. The
+chapter names only a finite L10 neighbourhood packet: it does not identify
+opens with quotient subsets of host reals and does not invoke open-cover
+compactness.
+
+\begin{definition}[LocatedOpen carrier]
+\label{def:located-open-carrier}
+A $\LocatedOpenUp$ carrier is a finite $\BHist$ packet
+$$
+O=(L,R,S,Q,W,E,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedCutUp$ source row exposing the finite lower and upper
+cut comparisons used by the local membership read.
+\item $R$ is the $\LocatedRealUp$ enclosure row tying the same comparisons to a
+located real presentation.
+\item $S$ is the $\StreamNameUp$ window family recording the inspected stream
+positions and replayable requests.
+\item $Q$ is the $\RegSeqRatUp$ regular rational readback attached to those
+windows.
+\item $W$ is the displayed located-membership window row. For each inspected
+candidate it records a finite interval-entry witness or a positive dyadic
+radius witness around the candidate.
+\item $E$ is the $\RealUp$ seal row reached only after the located cut, located
+real, stream, regular rational, and membership-window rows have been displayed.
+\item $T$ is the local classifier transport row moving $L,R,S,Q,W,E$ to a
+common finite comparison surface.
+\item $H$ records componentwise $\hsame$ transport for the cut, real, stream,
+regular rational, membership-window, Real-seal, classifier, continuation,
+provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from a neighbourhood request
+through the inspected windows, radius or interval-entry evidence, readback rows,
+Real seal, and classifier transport.
+\item $P$ is the $\Pkg$ provenance over $\LocatedOpenUp$, $\LocatedCutUp$,
+$\LocatedRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\CauchyFilterUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedOpenUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed finite
+windows and transports. It has no coordinate for quotient subsets of reals,
+host real equality, a choice-selected neighbourhood, arbitrary-union
+completion, open-cover compactness, or a proof that $\RealUp$ is complete.
+\end{definition}
+
+\begin{theorem}[LocatedOpen window stability]
+\label{thm:located-open-window-stability}
+For every accepted $\LocatedOpenUp$ packet
+$O=(L,R,S,Q,W,E,T,H,C,P,N)$, the located-membership windows in $W$ are stable
+under the componentwise $\hsame$ transports recorded in $H$. In particular, a
+transported consumer reads the same finite interval-entry witnesses and
+positive dyadic radius witnesses after $L,R,S,Q,W,E$ have been moved to the
+common comparison surface named by $T$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-open-carrier}. The only
+membership evidence available to a consumer is the row $W$, and each entry of
+$W$ is already displayed as a finite interval-entry witness or a positive
+dyadic radius witness.
+
+Apply the transport row $H$ componentwise. The located cut, located real,
+stream, regular rational, membership-window, and Real-seal rows are moved
+together to the comparison surface named by $T$, so the transported packet
+contains the same window indices and the same radius or interval-entry
+witnesses.
+
+Finally replay the continuation row $C$. Replay follows the transported
+windows and readbacks; it does not introduce an ambient subset, a host equality
+test, a selected neighbourhood, or an arbitrary union. Thus the located
+membership surface is stable exactly over the displayed finite windows.
+\end{proof}
+
+\begin{theorem}[LocatedOpen Real consumer route]
+\label{thm:located-open-realup-consumer-route}
+Every $\RealUp$-facing consumer of an accepted $\LocatedOpenUp$ packet factors
+through
+$$
+\LocatedCutUp,\quad \LocatedRealUp,\quad \StreamNameUp,\quad
+\RegSeqRatUp,\quad \RealUp,\quad \CauchyFilterUp,\quad
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+Concretely, the consumer first reads the located cut and located real rows,
+then the finite stream and regular rational readbacks, then the displayed
+located-membership windows, and only then the terminal $\RealUp$ seal and
+filter-facing continuation route.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$-facing read of the seal row $E$. The carrier stores $E$
+after the located cut row $L$, located real row $R$, stream window row $S$,
+regular rational readback row $Q$, and located-membership window row $W$.
+Therefore no consumer can reach the seal without first exposing these finite
+rows.
+
+The completion-facing part is only a route. The provenance row names
+$\CauchyFilterUp$ so that a filtered consumer can replay the finite
+neighbourhood request through $C$, but the packet supplies no completeness
+field and no arbitrary-union constructor.
+
+Attach $T,H,P,N$ to the same route. Classifier transport, componentwise
+$\hsame$, package provenance, and local naming keep the consumer inside the
+listed rows. Since the carrier has no coordinate for quotient subsets, host
+real equality, selected neighbourhoods, open-cover compactness, or
+$\RealUp$ completeness, no such datum can be recovered from the read.
+\end{proof}
+
+\begin{closurestatus}{\LocatedOpenUp}
+  \constructivestory{A $\LocatedOpenUp$ packet is generated from located cut rows, located real enclosure rows, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, displayed membership windows with positive dyadic radius or interval-entry witnesses, a terminal $\RealUp$ seal, classifier transport, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-open-carrier}, \autoref{thm:located-open-window-stability}, and \autoref{thm:located-open-realup-consumer-route} seed the finite L10 located-neighbourhood interface over located real and cut data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim general topology, open-cover compactness, Heine--Borel, arbitrary-union completion, quotient subsets of reals, host real equality, choice-selected neighbourhoods, or $\RealUp$ completeness.}
+  \upgradepath{A formal route can encode BEDC.Derived.LocatedOpenUp.LocatedOpenCarrier and prove window stability, Real-facing consumer routing, classifier transport, provenance, and local NameCert exactness.}
+\end{closurestatus}

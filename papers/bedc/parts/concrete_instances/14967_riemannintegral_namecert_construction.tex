@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RiemannIntegralUp$}
+\label{ch:concrete-instances-riemannintegral-namecert}
+\origin{human}
+
+Following Riemann and Darboux, the $\RiemannIntegralUp$ packet records a tagged-mesh integration surface whose accepted sums are routed through the Darboux upper-lower gap and dyadic step-function mesh rows. It sits after the Darboux carrier of \autoref{ch:concrete-instances-darbouxintegral-namecert}, the stepwise approximation surface of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, and the dyadic mesh ledger of \autoref{ch:concrete-instances-dyadicmesh-namecert}. The packet names a finite constructive integration boundary over one displayed interval and integrand window; it does not assert host completeness, quotient equality of real functions, open-cover compactness, or a measure-theoretic integral.
+
+\begin{definition}[Riemann integral carrier]
+\label{def:riemann-integral-carrier}
+A $\RiemannIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+I=(M,T,F,S,D,G,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\DyadicMeshUp$ row naming the interval endpoints, cell subdivision, mesh bound, and cell adjacency ledger.
+\item $T$ is the finite tag row, with each tag carried inside the corresponding mesh cell by an explicit dyadic or rational containment witness.
+\item $F$ is the integrand-read window, exposing only the finitely displayed values needed at the tags and at the upper/lower step approximants.
+\item $S$ is the finite Riemann-sum row computed from the tag values, cell widths, and displayed arithmetic ledger.
+\item $D$ is the $\DarbouxIntegralUp$ comparison row, recording upper and lower dyadic step-function approximants that bracket the same displayed reads.
+\item $G$ is the Darboux gap and mesh-refinement ledger that bounds the distance between the tagged sum and the Darboux interval determined by $D$.
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ handoff surface reached only after the displayed sums and gap ledger are present.
+\item $H$ records componentwise $\hsame$ transport for mesh, tags, integrand reads, sums, Darboux comparison, gap, handoff, provenance, and the local naming row.
+\item $C$ records displayed $\Cont$ replay from mesh cells to tag reads, from tag reads to finite sums, from sums to Darboux comparison, and from the gap ledger to the real-facing handoff.
+\item $P$ is the $\Pkg$ provenance over $\RiemannIntegralUp$, $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannIntegralUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,T,F,S,D,G,R,H,C,P,N$. It has no coordinate for a host function quotient, a completed real equality principle, a choice-selected tag family, open-cover compactness, a measure space, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Riemann integral NameCert obligations]
+\label{thm:riemann-integral-namecert-obligations}
+For an accepted $\RiemannIntegralUp$ carrier $I=(M,T,F,S,D,G,R,H,C,P,N)$, the local $\NameCert_{\RiemannIntegralUp}$ surface consists of carrier admission, mesh-tag containment, finite sum exactness, Darboux bracket compatibility, gap-to-real handoff, componentwise transport, continuation replay, provenance, and ledger non-escape. These obligations are discharged by the displayed route
+$$
+M\longmapsto T\longmapsto F\longmapsto S\longmapsto D\longmapsto G\longmapsto R
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the tuple in \autoref{def:riemann-integral-carrier}. The mesh row $M$ displays the finite cells, and the tag row $T$ records containment inside those cells before any value of the integrand is read.
+
+Finite sum exactness is then a ledger calculation over $F$ and $S$. Each summand uses only the carried tag value and the carried cell width, so the sum is a finite $\BHist$ computation rather than a host-level limiting assertion.
+
+Darboux bracket compatibility is provided by the comparison row $D$. The upper and lower dyadic step-function approximants bound the same displayed reads, and the gap row $G$ records the visible estimate between the tagged sum and the Darboux bracket.
+
+The rows $H$ and $C$ transport and replay the same route componentwise. The package row $P$ and name row $N$ source the packet, while $R$ is downstream of the mesh, sum, Darboux, and gap data. Since none of the excluded host objects appears as a carrier coordinate, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Darboux and step scope of Riemann sums]
+\label{thm:riemann-integral-darboux-step-scope}
+Every accepted $\RiemannIntegralUp$ read factors through a $\DyadicMeshUp$ row, a finite tag row, a $\DyadicStepFunctionUp$ bracket supplied by the $\DarbouxIntegralUp$ comparison row, and the displayed gap ledger before the packet can be consumed as a real-facing integral. The exported scope is therefore a finite tagged-mesh comparison surface, not a quotient class of functions and not an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:riemann-integral-carrier}. The mesh row $M$ supplies the finite cell surface, and the tag row $T$ is checked against those cells before the integrand-read row $F$ is available.
+
+The finite sum row $S$ is computed from those displayed reads. The comparison row $D$ then supplies the Darboux upper and lower step-function bracket, so any step-function evidence used by the packet is already part of the visible Darboux route.
+
+The gap row $G$ is read after the sum and bracket rows. Thus a real-facing consumer reaches $R$ only through the displayed mesh, tags, finite sum, Darboux bracket, and gap data. No carrier coordinate can export quotient function equality or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Riemann integral real seal boundary]
+\label{thm:riemann-integral-real-seal-boundary}
+An accepted $\RiemannIntegralUp$ packet exports to $\RealUp$ only the real-facing handoff row $R$ produced from the finite route
+$$
+M\longmapsto T\longmapsto F\longmapsto S\longmapsto D\longmapsto G .
+$$
+The boundary seal records the tagged-mesh sum and Darboux-gap evidence already displayed in the packet, and it does not claim host completeness, quotient real equality, open-cover compactness, or a full measure-theoretic integral.
+\end{theorem}
+\begin{proof}
+The handoff row $R$ is a coordinate of the carrier, but it is downstream of the mesh, tag, read, sum, Darboux, and gap rows. A $\RealUp$ consumer therefore receives only a row whose construction has passed through the displayed finite route.
+
+Componentwise transport through $H$ preserves the same coordinates, and continuation replay through $C$ rebuilds the same route when the packet is consumed. The package row $P$ and local name $N$ record this provenance without adding analytic structure.
+
+The excluded objects are absent from the carrier: there is no host completion witness, no quotient equality of real functions, no open-cover compactness row, and no measure-theoretic carrier. Hence the real seal boundary is exactly the displayed tagged-mesh and Darboux-gap handoff.
+\end{proof}
+
+\closureat{RiemannIntegralUp}{seedStr}
+
+\begin{closurestatus}{\RiemannIntegralUp}
+  \constructivestory{A $\RiemannIntegralUp$ packet is generated from a dyadic mesh row, finite tag containment row, integrand-read window, finite Riemann-sum row, Darboux comparison row, gap ledger, regular-rational and real-facing handoff, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-integral-carrier}, \autoref{thm:riemann-integral-namecert-obligations}, \autoref{thm:riemann-integral-darboux-step-scope}, and \autoref{thm:riemann-integral-real-seal-boundary} seed the tagged-mesh Riemann integration boundary over $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host completeness, quotient real equality, open-cover compactness, measure-theoretic integration, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh-tag containment, finite sum exactness, Darboux bracket compatibility, gap-to-real handoff, transport, replay, provenance, and ledger non-escape for BEDC.Derived.RiemannIntegralUp.}
+\end{closurestatus}

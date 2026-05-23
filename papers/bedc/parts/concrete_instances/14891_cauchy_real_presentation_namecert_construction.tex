@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealPresentationUp$}
+\label{ch:concrete-instances-cauchy-real-presentation-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyRealPresentationUp$ packet records the plain Cauchy-real presentation surface used before any completion-facing seal is consumed. It sits over the dyadic arithmetic row of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window row of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. It is the presentation face adjacent to the Cauchy sequence space of \autoref{ch:concrete-instances-cauchysequencespace-namecert}, the located Bishop-real route of \autoref{ch:concrete-instances-bishopreal-namecert}, and the phase exit certificate of \autoref{ch:concrete-instances-phase-real-completion-exit-namecert}.
+
+\begin{definition}[CauchyRealPresentation carrier]
+\label{def:cauchy-real-presentation-carrier}
+A $\CauchyRealPresentationUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row whose entries are the only visible Cauchy-name observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the dyadic scales, comparison budget, and rational arithmetic used by the presentation.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the windows in $S$ under the tolerance data in $D$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the displayed route through $S,D,R$ has been admitted.
+\item $H$ records componentwise $\hsame$ transport for the stream-window, dyadic-tolerance, regular-rational readback, real-seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each finite window and tolerance request through $S,D,R,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealPresentationUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealPresentationUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for quotient stream equality, a selected representative, host real equality, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CauchyRealPresentation NameCert obligations]
+\label{thm:cauchy-real-presentation-namecert-obligations}
+For every accepted $\CauchyRealPresentationUp$ carrier $Q=(S,D,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyRealPresentationUp}$ surface consists exactly of the following seven obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed stream-window, dyadic-tolerance, regular-rational readback, real-seal, transport, continuation, provenance, and local naming rows;
+\item classifier transport by common finite windows, requiring any comparison of accepted carriers to inspect only matching windows of $S$ preserved by $H$ and replayed by $C$;
+\item dyadic tolerance exactness, requiring each tolerance request to be accounted for by the row $D$ before readback is available;
+\item $\RegSeqRatUp$ readback, requiring $R$ to be read only downstream of the displayed windows and dyadic tolerance data;
+\item $\RealUp$ seal nonescape, requiring $E$ to remain terminal with respect to the route $S,D,R$ and the structural rows;
+\item provenance, requiring the package row $P$ to name the same presentation packet and dependency rows;
+\item local naming, requiring the row $N$ to bind the accepted packet as a $\CauchyRealPresentationUp$ certificate.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is tuple projection from \autoref{def:cauchy-real-presentation-carrier}. The tuple displays exactly the stream-window, dyadic-tolerance, regular-rational readback, real-seal, transport, replay, provenance, and local name.
+
+The analytic obligations are forced by $S,D,R,E$. Finite-window classification reads $S$, dyadic tolerance exactness reads $D$, regular-rational readback reads $R$, and the terminal seal reads $E$ only after those rows have been displayed.
+
+The structural obligations are forced by $H,C,P,N$. Transport and replay preserve the same finite windows and tolerance requests, provenance records the same dependency rows, and the local name binds the accepted packet. Since the carrier has no coordinate beyond these rows, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyRealPresentation Real seal factorization]
+\label{thm:cauchy-real-presentation-real-seal-factorization}
+Every $\RealUp$-facing read of an accepted $\CauchyRealPresentationUp$ carrier $Q=(S,D,R,E,H,C,P,N)$ factors through the displayed finite route
+$$
+S \longmapsto D \longmapsto R \longmapsto E
+$$
+together with the stored $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The factorization exports no quotient stream, selected representative, host real equality, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted Real-facing read. Carrier admission exposes the finite stream-window row $S$ as the only source of Cauchy-name observations.
+
+The tolerance and readback rows then determine the route. The dyadic ledger $D$ records the scale and comparison budget for the request, and the row $R$ is the only regular-rational readback available from those displayed windows and tolerances.
+
+The read reaches the real boundary only through $E$. The rows $H$ and $C$ transport and replay the same finite route, while $P$ and $N$ record provenance and local naming. The carrier fields are exhausted by these rows, so the factorization cannot export quotient streams, selected representatives, host real equality, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyRealPresentation phase-exit handoff]
+\label{thm:cauchy-real-presentation-phase-exit-handoff}
+An accepted $\CauchyRealPresentationUp$ carrier supplies the Cauchy-presentation face consumed by $\PhaseRealCompletionExitUp$ only through the four local L10 records $S,D,R,E$: finite stream windows, dyadic tolerance rows, regular-rational readback, and the terminal $\RealUp$ seal. The handoff may be transported, replayed, packaged, and locally named by $H,C,P,N$, but it does not add quotient stream equality, a selected representative, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and read the four L10 records in order. The stream row $S$ supplies finite windows, the dyadic row $D$ supplies tolerance arithmetic, the readback row $R$ supplies regular rational data, and the seal row $E$ is terminal.
+
+Now pass to the phase-exit consumer. The continuation row can replay only this same route, and the transport row can preserve only its displayed components. The package and local naming rows record the same accepted carrier.
+
+Thus $\PhaseRealCompletionExitUp$ receives a Cauchy-presentation face through $S,D,R,E$ and no additional analytic principle. The excluded quotient, representative, host equality, choice, and completeness data are absent from the carrier itself.
+\end{proof}
+
+\closureat{CauchyRealPresentationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRealPresentationUp}
+  \constructivestory{A $\CauchyRealPresentationUp$ packet is generated from finite $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ tolerance row, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-presentation-carrier}, \autoref{thm:cauchy-real-presentation-namecert-obligations}, \autoref{thm:cauchy-real-presentation-real-seal-factorization}, and \autoref{thm:cauchy-real-presentation-phase-exit-handoff} seed the finite Cauchy-real presentation surface used by the real-completion phase exit.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real equality, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport by common finite windows, dyadic tolerance exactness, RegSeqRat readback, RealUp seal nonescape, provenance, and local naming for the same displayed packet.}
+\end{closurestatus}

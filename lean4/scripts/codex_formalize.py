@@ -1079,7 +1079,13 @@ def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Opt
     for name, cmd, cwd, timeout in gates:
         result = run_cmd(cmd, cwd=cwd, timeout=timeout)
         if result.returncode != 0:
-            tail = ((result.stdout or "")[-2000:] + (result.stderr or "")[-2000:])
+            def head_tail(s: str, head: int = 2000, tail: int = 2000) -> str:
+                if not s:
+                    return ""
+                if len(s) <= head + tail:
+                    return s
+                return s[:head] + "\n...[truncated middle]...\n" + s[-tail:]
+            tail = head_tail(result.stdout or "") + head_tail(result.stderr or "")
             logger.error(
                 f"[R{wt.round_number}] Pre-merge hard gate failed: {' '.join(cmd)}\n{tail}"
             )

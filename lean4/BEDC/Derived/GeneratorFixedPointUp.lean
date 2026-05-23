@@ -97,4 +97,26 @@ theorem GeneratorFixedPointPacket_transport_row [AskSetup] [PackageSetup]
       witnessOutputRoutes,
       namePkg⟩
 
+theorem GeneratorFixedPointPacket_witness_ledger_row [AskSetup] [PackageSetup]
+    {generator list classifier witness output transport routes provenance name witnessRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorFixedPointPacket generator list classifier witness output transport routes
+        provenance name bundle pkg →
+      Cont witness output witnessRead →
+        PkgSig bundle witnessRead pkg →
+          UnaryHistory witness ∧ UnaryHistory output ∧ UnaryHistory witnessRead ∧
+            Cont witness output routes ∧ Cont witness output witnessRead ∧
+              PkgSig bundle name pkg ∧ PkgSig bundle witnessRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet witnessOutputRead witnessReadPkg
+  obtain ⟨_generatorUnary, _listUnary, _classifierUnary, witnessUnary, outputUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameUnary, _generatorListClassifier,
+    witnessOutputRoutes, namePkg⟩ := packet
+  have witnessReadUnary : UnaryHistory witnessRead :=
+    unary_cont_closed witnessUnary outputUnary witnessOutputRead
+  exact
+    ⟨witnessUnary, outputUnary, witnessReadUnary, witnessOutputRoutes, witnessOutputRead,
+      namePkg, witnessReadPkg⟩
+
 end BEDC.Derived.GeneratorFixedPointUp

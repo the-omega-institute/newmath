@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\HausdorffSpaceUp$}
+\label{ch:concrete-instances-hausdorffspace-namecert}
+\origin{human}
+
+Following Hausdorff and Bourbaki/Kelley general topology, the $\HausdorffSpaceUp$ packet records separated points by disjoint open-neighborhood rows over $\TopologyUp$. When a $\MetricSpaceUp$ row supplies a positive-distance separation witness, the packet stores the resulting open-neighborhood handoff as finite NameCert data rather than as host point equality. The chapter sits between the topology surface of \autoref{ch:concrete-instances-topology-namecert}, the metric surface of \autoref{ch:concrete-instances-metric-namecert}, and the separated completion consumer of \autoref{ch:concrete-instances-hausdorffcompletion-namecert}.
+
+\begin{definition}[Hausdorff space carrier]
+\label{def:hausdorff-space-carrier}
+A $\HausdorffSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, including the displayed open predicates, finite neighborhood ledger, and classifier route read by topological consumers.
+\item $x,y$ are the two point-name rows compared by the separatedness witness. They are point observations inside the same topology source row, not host-level representatives.
+\item $U,V$ are the open-neighborhood rows, with $U$ containing the displayed name $x$ and $V$ containing the displayed name $y$.
+\item $D$ is the disjointness ledger certifying that the two open rows have no shared displayed point observation under the local topology classifier.
+\item $M$ is the optional $\MetricSpaceUp$ distance-separation handoff row. When present, it records the metric route that generates $U,V,D$ from a positive displayed distance.
+\item $E$ is the $\RealUp$ seal row used by metric-generated separation reads, exposing only the displayed distance and positivity evidence available through the real-name interface.
+\item $H$ records componentwise $\hsame$ transport for $T,x,y,U,V,D,M,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a point-pair comparison through the neighborhood and disjointness route
+$$
+T,x,y\longmapsto U,V,D\longmapsto M,E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\HausdorffSpaceUp$, $\TopologyUp$, $\MetricSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HausdorffSpaceUp}$ row.
+\end{enumerate}
+The classifier of an accepted packet compares separated point pairs only through these rows. It contains no coordinate for quotient point equality, open-cover compactness, selected representatives, ambient completeness, or standard bridge data.
+\end{definition}
+
+\begin{theorem}[HausdorffSpace NameCert obligations]
+\label{thm:hausdorff-space-namecert-obligations}
+For every accepted $\HausdorffSpaceUp$ carrier
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N),
+$$
+the local $\NameCert_{\HausdorffSpaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the topology source, point pair, open-neighborhood rows, disjointness ledger, optional metric handoff, real seal, transport, replay, provenance, and local naming rows;
+\item disjoint open-neighborhood separation, requiring $U$ and $V$ to be displayed as open rows in $T$, to contain $x$ and $y$ respectively, and to be separated by $D$;
+\item classifier transport, requiring every transported separatedness read to preserve $T,x,y,U,V,D$ through the componentwise $\hsame$ row $H$;
+\item metric handoff, requiring any $\MetricSpaceUp$ distance-apartness read to pass through $M$ and the $\RealUp$ seal row $E$ before it yields $U,V,D$;
+\item nonescape, requiring downstream topology, metric, real, and completion consumers to read only $T,x,y,U,V,D,M,E,H,C,P,N$.
+\end{enumerate}
+No HausdorffSpace obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hausdorff-space-carrier}. The accepted tuple displays exactly the topology source, point pair, open-neighborhood rows, disjointness ledger, optional metric handoff, real seal, and structural rows.
+
+Disjoint open-neighborhood separation is the role of $U,V,D$. The rows $U$ and $V$ are declared open inside the topology source $T$, the point-name rows $x,y$ are read through those neighborhoods, and $D$ records their disjointness under the local classifier.
+
+Classifier transport is componentwise. The row $H$ transports the same topology source, point pair, neighborhood rows, and disjointness ledger, while $C$ replays the displayed route from the point-pair comparison to the separated-neighborhood witness.
+
+Metric handoff uses only $M$ and $E$. A metric-generated read first exposes the positive displayed distance through the $\RealUp$ seal, then records the open-neighborhood separation route in $M$. It never replaces the separated-neighborhood data by host equality or host apartness of points.
+
+Finally inspect $P,N$. Provenance and local naming mention only the displayed rows, so topology, metric, real, and completion consumers have no coordinate from which to read quotient point equality, open-cover compactness, selected representatives, ambient completeness, or standard bridge closure.
+\end{proof}
+
+\begin{theorem}[HausdorffSpace metric separation handoff]
+\label{thm:hausdorff-space-metric-separation-handoff}
+Let
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N)
+$$
+be an accepted $\HausdorffSpaceUp$ carrier. If the optional $\MetricSpaceUp$ row $M$ is present, every displayed positive-distance apartness witness in $M$ factors through the $\RealUp$ seal row $E$ and yields the same open-neighborhood rows $U,V$ with disjointness ledger $D$. Thus metric distance-apartness contributes a Hausdorff separation row without importing host equality, quotient point identity, selected representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the metric-generated branch of the carrier. The row $M$ is attached to the same point-name rows $x,y$ and the same topology source $T$ as the displayed neighborhoods.
+
+The distance value is visible only through the $\RealUp$ seal $E$. Positivity therefore supplies a finite separation budget for the neighborhood construction, not an external equality or apartness relation on host representatives.
+
+The handoff then lands in $U,V,D$. These rows are already topology rows in the carrier: $U$ and $V$ are open neighborhoods of $x$ and $y$, and $D$ is their disjointness ledger. Componentwise transport and replay through $H,C$ preserve this factorization for downstream consumers.
+\end{proof}
+
+\begin{theorem}[HausdorffSpace Real seal nonescape]
+\label{thm:hausdorff-space-realseal-nonescape}
+Every completion-facing or Real-facing consumer of an accepted $\HausdorffSpaceUp$ carrier
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N)
+$$
+reads only the displayed $\TopologyUp$, $\MetricSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. In particular, such a consumer cannot extract quotient point equality, open-cover compactness, selected representatives, ambient completeness, or standard bridge closure from the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier. Topology-facing reads use $T,U,V,D$; metric-generated reads additionally pass through $M$; Real-facing reads pass through the seal row $E$ before returning to the same displayed separation rows.
+
+The structural rows do not add hidden data. Transport is restricted to $H$, continuation replay to $C$, provenance to $P$, and local naming to $N$.
+
+Since no other coordinate appears in the carrier, completion-facing and Real-facing consumers can inspect only the displayed topology, metric, Real, history, transport, continuation, package, and naming rows. The excluded quotient, compactness, representative-selection, ambient-completeness, and bridge data have no projection from the packet.
+\end{proof}
+
+\closureat{HausdorffSpaceUp}{seedStr}
+
+\begin{closurestatus}{\HausdorffSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hausdorff-space-carrier}, \autoref{thm:hausdorff-space-namecert-obligations}, \autoref{thm:hausdorff-space-metric-separation-handoff}, and \autoref{thm:hausdorff-space-realseal-nonescape} seed the finite separated-topology packet over topology source, point-pair, disjoint open-neighborhood, optional metric handoff, real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient point equality, open-cover compactness, selected representatives, ambient completeness, Lean verification, or standard bridge closure.}
+  \upgradepath{Obligation closure requires checked carrier admission, disjoint open-neighborhood separation, classifier transport, metric handoff, and nonescape for BEDC.Derived.HausdorffSpaceUp.}
+  \constructivestory{A $\HausdorffSpaceUp$ packet is generated from a Topology source row, two point-name rows, two disjoint open-neighborhood rows, a disjointness ledger, an optional MetricSpace distance-separation handoff, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -294,4 +294,51 @@ theorem ClaimRegistryLayer_no_unregistered_export_certificate [AskSetup] [Packag
   }
   exact ⟨rfl, cert⟩
 
+theorem ClaimRegistryLayer_export_control_certificate [AskSetup] [PackageSetup]
+    {E R B C F V H P N cited : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle cited pkg →
+      hsame cited E →
+        claimRegistryLayerFields (ClaimRegistryLayerUp.mk E R B C F V H P N) =
+            [E, R, B, C, F, V, H, P, N] ∧
+          SemanticNameCert
+            (fun row : BHist => hsame row E)
+            (fun row : BHist =>
+              hsame row E ∨ hsame row R ∨ hsame row B ∨ hsame row C ∨ hsame row F ∨
+                hsame row V ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+            (fun row : BHist => hsame row cited ∧ PkgSig bundle cited pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame
+  intro pkgCited citedSameEntry
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row E)
+        (fun row : BHist =>
+          hsame row E ∨ hsame row R ∨ hsame row B ∨ hsame row C ∨ hsame row F ∨
+            hsame row V ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+        (fun row : BHist => hsame row cited ∧ PkgSig bundle cited pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro E (hsame_refl E)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inl source
+    ledger_sound := by
+      intro _row source
+      exact ⟨hsame_trans source (hsame_symm citedSameEntry), pkgCited⟩
+  }
+  exact ⟨rfl, cert⟩
+
 end BEDC.Derived.ClaimRegistryLayerUp.TasteGate

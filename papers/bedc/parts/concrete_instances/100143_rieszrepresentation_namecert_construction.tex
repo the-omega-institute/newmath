@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RieszRepresentationUp$}
+\label{ch:concrete-instances-rieszrepresentation-namecert}
+\origin{human}
+
+Following Riesz, the Riesz representation packet treats a bounded scalar-valued functional as data that can be read against a representing vector or representing measure only after the relevant Banach, Hilbert, norm, and measure surfaces have already supplied their carriers and classifiers. It depends on $\NameCert_{\BanachUp}$ (\autoref{ch:concrete-instances-banach-namecert}), $\NameCert_{\HilbertUp}$ (\autoref{ch:concrete-instances-hilbert-namecert}), $\NameCert_{\FunctionalAnalysisUp}$ (\autoref{ch:concrete-instances-functionalanalysis-namecert}), $\NameCert_{\NormUp}$ (\autoref{ch:concrete-instances-norm-namecert}), and $\NameCert_{\MeasureUp}$ (\autoref{ch:concrete-instances-measure-namecert}). The packet is a cross-chapter representation surface: it names the carrier and obligations needed by later spectral and measure-representation chapters without asserting every classical representation theorem at once.
+
+\section{Carrier definition}
+\label{sec:rieszrepresentation-carrier}
+
+\begin{definition}[RieszRepresentation carrier]
+\label{def:rieszrepresentation-carrier}
+A $\RieszRepresentationUp$ carrier is a representation row
+$$
+\mathsf{RieszRep}(S,T,\lambda,r,\Lambda)
+$$
+whose source $S$ is either a Hilbert row or a locally measured Banach-function row supplied by the dependency certificates named above. The target $T$ is the scalar $\RealUp$ face used by the bounded-functional row of $\FunctionalAnalysisUp$, $\lambda$ is the bounded scalar-valued functional row, $r$ is the proposed representing datum, and $\Lambda$ is the visible ledger binding the functional row to the representing datum.
+
+In the Hilbert branch, $r$ is a carried Hilbert endpoint and the ledger records the row
+$$
+\lambda(x) \sim_{\RealUp} \langle x,r\rangle
+$$
+for every carried Hilbert endpoint $x$, using the inner-product and norm rows of $\HilbertUp$. In the measure branch, $r$ is a finite signed or positive measure row over the displayed measurable carrier, and the ledger records scalar integration rows against bounded test endpoints. The classifier compares two representation rows only by inherited transport of the functional endpoint, representing datum, scalar value rows, and ledger entries; it does not identify host-level functions, host-level vectors, or host-level measures.
+\end{definition}
+
+\section{Certificate obligations}
+\label{sec:rieszrepresentation-obligations}
+
+\begin{theorem}[RieszRepresentation NameCert obligation surface]
+\label{thm:rieszrepresentation-namecert-obligation-surface}
+The $\RieszRepresentationUp$ packet exposes exactly the following NameCert obligation surface:
+\begin{enumerate}
+  \item a source row from $\BanachUp$, $\HilbertUp$, $\FunctionalAnalysisUp$, $\NormUp$, and $\MeasureUp$ identifying the carried functional domain;
+  \item a bounded scalar-valued functional row inherited from $\FunctionalAnalysisUp$;
+  \item a representing datum row, either a Hilbert endpoint or a measure endpoint, with its own carrier and classifier;
+  \item a scalar evaluation ledger comparing the functional value with the inner-product or integration value on every carried test endpoint;
+  \item a boundary row saying which representation branch is present and which branch is outside the current certificate.
+\end{enumerate}
+The classifier preserves the packet precisely when these five rows are transported by their inherited classifiers.
+\end{theorem}
+\begin{proof}
+Read the bounded functional through the dual-space face of $\FunctionalAnalysisUp$. That face already fixes the source carrier, scalar target, pointwise classifier, norm-bound row, and visible ledger, so the representation packet begins with a stable functional endpoint rather than a host-level functional equality.
+
+For the Hilbert branch, use the carrier-sharing rows of $\HilbertUp$. The representing datum is a carried Hilbert endpoint, and the displayed scalar comparison is an inner-product value row transported by the same Hilbert classifier that transports the functional source endpoint.
+
+For the measure branch, use the event and value rows of $\MeasureUp$. The representing datum is a measure endpoint, and the displayed scalar comparison is an integration ledger over the carried test endpoints. Transport preserves the test endpoint, measure endpoint, scalar output, and evidence row componentwise.
+
+These two branches share only the bounded-functional and scalar-output faces. The boundary row records which branch is active, so the certificate does not collapse vector representation and measure representation into one host-level equality.
+\end{proof}
+\leanchecked{BEDC.Derived.RieszRepresentationUp.RieszRepresentationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RieszRepresentation Hilbert functional bridge]
+\label{thm:rieszrepresentation-hilbert-functional-bridge}
+For a Hilbert source already accepted by $\NameCert_{\HilbertUp}$, a $\RieszRepresentationUp$ Hilbert branch row packages a bounded scalar-valued functional $\lambda$ together with a representing endpoint $r$ and the scalar ledger
+$$
+\lambda(x) \sim_{\RealUp} \langle x,r\rangle
+$$
+on every carried endpoint $x$. If the functional row, Hilbert endpoint row, or representing endpoint row is transported by the inherited classifiers, then the displayed scalar ledger transports to the new row and exposes the same $\FunctionalAnalysisUp$ dual-space face.
+\end{theorem}
+\begin{proof}
+Start from the $\HilbertUp$ dependency. It supplies a Banach surface, an inner-product surface, the norm-induced compatibility ledger, and classifier transport for carried endpoints.
+
+Next read $\lambda$ through the $\FunctionalAnalysisUp$ dual-space face. Its pointwise classifier compares scalar outputs on carried Hilbert inputs, so it is already stated in the form needed by the displayed ledger.
+
+Finally transport the representing endpoint through the Hilbert classifier. Inner-product stability moves $\langle x,r\rangle$ along the transported endpoint rows, and the scalar $\RealUp$ classifier moves the value comparison. The repacked row is therefore the same dual-space face plus a transported representing endpoint ledger.
+\end{proof}
+
+\closureat{RieszRepresentationUp}{seedStr}
+\begin{closurestatus}{\RieszRepresentationUp}
+  \constructivestory{A $\RieszRepresentationUp$ packet is generated from an inherited bounded scalar-valued functional row, a source row from the Banach, Hilbert, FunctionalAnalysis, Norm, and Measure certificates, a representing Hilbert endpoint or measure endpoint, scalar comparison ledgers for inner-product or integration values, componentwise classifier transport, and a branch-boundary row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter names the representation carrier, the five-row obligation surface, and the Hilbert functional branch over the existing Banach, Hilbert, FunctionalAnalysis, Norm, and Measure certificates.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{It does not claim full measure-representation, arbitrary nonconstructive duality, spectral representation, uniqueness of representing measures, Lean verification, or a standard bridge.}
+  \upgradepath{Formalization requires a Lean carrier for BEDC.Derived.RieszRepresentationUp and checked carrier-obligation plus Hilbert-branch transport theorems.}
+\end{closurestatus}

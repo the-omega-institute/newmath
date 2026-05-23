@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\CofinalCauchyTailUp$}
+\label{ch:concrete-instances-cofinalcauchytail-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive Cauchy convergence, the $\CofinalCauchyTailUp$ packet records the finite route by which a Cauchy source is read only through certified cofinal tail thresholds before it reaches a regular rational handoff and a terminal Real seal. It sits between the cofinal-subsequence discipline of \autoref{ch:concrete-instances-cofinalsubsequence-namecert}, the Cauchy criterion surface of \autoref{ch:concrete-instances-cauchycriterion-namecert}, the fast Cauchy route of \autoref{ch:concrete-instances-fastcauchy-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real naming boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert carrier for tail-normalized Cauchy access; it is not a quotient stream, not a selected limit, not host real equality, not countable choice, not trichotomy, and not a completeness principle for $\RealUp$.
+
+\begin{definition}[Cofinal Cauchy tail carrier]
+\label{def:cofinal-cauchy-tail-carrier}
+A $\CofinalCauchyTailUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,\tau,M,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source Cauchy row or $\StreamNameUp$ row whose late observations are to be read through the tail packet.
+\item $\tau$ is the cofinal tail-threshold ledger, recording the finite threshold cells that certify that later requests stay inside the accepted tail route.
+\item $M$ is the $\CauchyModulusUp$ row that supplies the precision-to-threshold budget consumed by $\tau$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare the requested dyadic radius against the tail observations named by $S$.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from $S,\tau,M,D$.
+\item $E$ is the $\RealUp$ seal row, readable only after the RegSeqRat handoff row has been replayed.
+\item $H$ records componentwise $\hsame$ transport for the source, threshold ledger, modulus, dyadic tolerance, RegSeqRat handoff, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through the cofinal threshold ledger, Cauchy modulus, dyadic tolerance ledger, RegSeqRat handoff, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalCauchyTailUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected limits, host real equality, countable-choice selectors, trichotomy, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Cofinal Cauchy tail NameCert obligations]
+\label{thm:cofinal-cauchy-tail-namecert-obligations}
+For every accepted $\CofinalCauchyTailUp$ carrier $T=(S,\tau,M,D,R,E,H,C,P,N)$, the local $\NameCert_{\CofinalCauchyTailUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the source Cauchy or $\StreamNameUp$ row, cofinal threshold ledger, Cauchy modulus, dyadic tolerance ledger, RegSeqRat handoff, Real seal, transport, continuation, provenance, and local naming rows;
+\item cofinal-tail coverage, requiring each accepted precision request to read the threshold ledger $\tau$ together with the modulus row $M$ before any late observation of $S$ is consumed;
+\item dyadic tolerance exactness, requiring the comparison row $D$ to be the only tolerance row used for the accepted tail observations;
+\item RegSeqRat handoff, requiring $S,\tau,M,D$ to repack as the regular rational readback row $R$ before any Real-facing row is available;
+\item Real seal refusal, excluding quotient streams, selected limits, host real equality, countable-choice selectors, trichotomy, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-cauchy-tail-carrier}. The projection exposes the source row $S$, threshold ledger $\tau$, modulus row $M$, dyadic tolerance row $D$, RegSeqRat handoff $R$, Real seal $E$, and structural rows $H,C,P,N$.
+
+The continuation row $C$ records the only replay route through the packet. Its first dependencies are the threshold ledger $\tau$ and the modulus row $M$; after those rows are consumed, the same route reads the late source observations in $S$ and the tolerance comparisons in $D$.
+
+The row $R$ occurs downstream of $S,\tau,M,D$, and $E$ occurs downstream of $R$. Since the carrier contains no coordinates for quotient streams, selected limits, host real equality, countable-choice selectors, trichotomy, or completeness, the displayed five rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Cofinal Cauchy tail RegSeqRat handoff]
+\label{thm:cofinal-cauchy-tail-regseqrat-handoff}
+Let $T=(S,\tau,M,D,R,E,H,C,P,N)$ be an accepted $\CofinalCauchyTailUp$ carrier. Every accepted tail packet reaches $\RegSeqRatUp$ only through the rows $S,\tau,M,D,R$: the source row $S$ supplies the late observations, $\tau$ supplies the cofinal threshold ledger, $M$ supplies the Cauchy modulus budget, $D$ supplies the dyadic tolerance comparisons, and $R$ is the resulting regular rational readback. No separate regular-sequence oracle is available.
+\end{theorem}
+\begin{proof}
+Begin with an accepted tail packet and project its carrier. The only rows before the RegSeqRat handoff are $S,\tau,M,D$ together with the structural transport and replay rows.
+
+Replay $C$ at the requested precision. The route first reads $\tau$ and $M$, then uses those rows to select the late observations of $S$ and the dyadic comparisons in $D$.
+
+The handoff row $R$ is listed only after that route. Transport by $H$ preserves the same row order, while $P$ and $N$ name the same finite route. Hence every accepted packet reaches $\RegSeqRatUp$ through $S,\tau,M,D,R$ and through no independent regular-sequence oracle.
+\end{proof}
+
+\begin{theorem}[Cofinal Cauchy tail Real seal boundary]
+\label{thm:cofinal-cauchy-tail-real-seal-boundary}
+Let $T=(S,\tau,M,D,R,E,H,C,P,N)$ be an accepted $\CofinalCauchyTailUp$ carrier. Every $\RealUp$-facing read passes through the RegSeqRat handoff row $R$ before the seal row $E$ is read. The exported surface contains no quotient stream, selected limit, host real equality, countable-choice selector, trichotomy, or $\RealUp$ completeness assertion.
+\end{theorem}
+\begin{proof}
+Take a Real-facing consumer of the packet. Carrier admission exposes the seal row $E$, but only as a row downstream of the RegSeqRat handoff row.
+
+Replay the continuation row $C$. The consumer must first pass through the source row $S$, threshold ledger $\tau$, Cauchy modulus $M$, and dyadic tolerance row $D$; those rows then repack as $R$.
+
+Only after $R$ has been replayed can $E$ be read. Because the carrier has no coordinate for quotient streams, selected limits, host real equality, countable-choice selectors, trichotomy, or completeness, the Real-facing surface exports none of those objects.
+\end{proof}
+
+\begin{closurestatus}{\CofinalCauchyTailUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-cauchy-tail-carrier}, \autoref{thm:cofinal-cauchy-tail-namecert-obligations}, \autoref{thm:cofinal-cauchy-tail-regseqrat-handoff}, and \autoref{thm:cofinal-cauchy-tail-real-seal-boundary} seed the finite route from cofinal Cauchy tail thresholds through CauchyModulus, DyadicRatCore, RegSeqRat, and the downstream Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, countable-choice selectors, trichotomy, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal-tail coverage, dyadic tolerance exactness, RegSeqRat handoff, Real seal boundary, and ledger refusal proofs for the same packet.}
+  \constructivestory{A $\CofinalCauchyTailUp$ packet is generated from a source Cauchy or StreamName row, a cofinal tail-threshold ledger, a CauchyModulus row, a DyadicRatCore tolerance row, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

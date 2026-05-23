@@ -1,0 +1,95 @@
+\chapter{RegularCauchyRing NameCert Construction}
+\label{ch:concrete-instances-regularcauchyring-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegularCauchyRingUp$ packet treats the algebra of regular Cauchy real names as a finite operation surface over displayed rational observations. Addition, negation, product, and rational scaling are not imported as host real operations; they are read through the existing $\RegularCauchySumUp$, $\RegularCauchyNegationUp$, $\RegularCauchyProductUp$, and $\RegularCauchyScaleUp$ rows, then sealed through the same $\RegSeqRatUp$ and $\RealUp$ completion boundary. Thus the packet records the L10 algebraic handoff without quotient real equality, trichotomy, countable choice, selected limits, or ambient completeness.
+
+\begin{definition}[Regular Cauchy ring carrier]
+\label{def:regular-cauchy-ring-carrier}
+A $\RegularCauchyRingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,B,W_A,W_B,D_A,D_B,S,G,M,L,R_S,R_G,R_M,R_L,E_S,E_G,E_M,E_L,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ and $B$ are two $\RegSeqRatUp$ source rows for regular rational Cauchy real names.
+\item $W_A$ and $W_B$ are aligned $\StreamNameUp$ finite-window rows for the same requested precision scale.
+\item $D_A$ and $D_B$ are the $\DyadicRatCoreUp$ endpoint ledgers read from those windows.
+\item $S$ is the $\RegularCauchySumUp$ operation row on $A$ and $B$.
+\item $G$ is the $\RegularCauchyNegationUp$ operation row on the source row selected for additive inverse readback.
+\item $M$ is the $\RegularCauchyProductUp$ operation row on $A$ and $B$.
+\item $L$ is the $\RegularCauchyScaleUp$ operation row for a displayed rational scalar and the selected source row.
+\item $R_S,R_G,R_M,R_L$ are the terminal $\RealUp$ seal rows reached respectively after the sum, negation, product, and scale readbacks.
+\item $E_S,E_G,E_M,E_L$ are the finite dyadic and error-budget ledgers consumed by those operation rows before the terminal seals are public.
+\item $H$ stores componentwise $\hsame$ transport for the two sources, aligned windows, dyadic ledgers, four operation rows, four terminal seal rows, and four finite budget ledgers.
+\item $C$ stores displayed $\Cont$ replay for opening the source windows, reading dyadic endpoint data, invoking the four operation packets, and exposing the terminal real-name seals.
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchySumUp$, $\RegularCauchyNegationUp$, $\RegularCauchyProductUp$, $\RegularCauchyScaleUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyRingUp}$ row.
+\end{enumerate}
+The carrier is a finite algebraic operation packet over regular Cauchy real names. It stores no quotient stream, no host real equality, no selected completed limit, no trichotomy, no countable-choice row, and no $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy ring NameCert obligations]
+\label{thm:regular-cauchy-ring-namecert-obligations}
+The local $\NameCert_{\RegularCauchyRingUp}$ surface for the carrier of \autoref{def:regular-cauchy-ring-carrier} consists of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $K$ with two regular-rational source rows, aligned stream windows, dyadic endpoint ledgers, four operation rows, four terminal real-name seal rows, four finite budget ledgers, transport, continuation, provenance, and local naming data;
+\item source-window alignment, requiring $S$, $M$, and the selected-source rows for $G$ and $L$ to read only the displayed $\StreamNameUp$ windows and $\DyadicRatCoreUp$ ledgers;
+\item operation admission, requiring the sum, negation, product, and scale rows to be accepted packets of their cited sibling surfaces;
+\item componentwise classifier transport through the stored $\hsame$ rows and displayed $\Cont$ replay;
+\item terminal seal handoff, requiring every real-facing consumer of the ring packet to pass through the operation readback row and its displayed budget ledger before reading one of $R_S,R_G,R_M,R_L$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-ring-carrier}. The two regular-rational sources, aligned stream windows, dyadic endpoint rows, four operation rows, budget ledgers, terminal seals, transports, continuations, provenance, and local name are explicit coordinates of $K$.
+
+The source-window obligation is inherited from the sibling operation packets. Apply the window and handoff surfaces of \autoref{thm:regular-cauchy-sum-namecert-obligations}, \autoref{thm:regular-cauchy-negation-namecert-obligations}, \autoref{thm:regular-cauchy-product-namecert-obligations}, and \autoref{thm:regular-cauchy-scale-namecert-obligations}. Each cited surface consumes the displayed source rows and their finite dyadic ledgers before exporting a regular readback.
+
+Classifier transport is componentwise. The stored $H$ and $C$ rows transport the two sources, the aligned windows, the dyadic ledgers, the four operation rows, and the four seal rows together, so no operation can detach from the finite packet.
+
+Finally the terminal handoff is exactly the real-seal boundary supplied by the four sibling chapters. The local $\NameCert_{\RegularCauchyRingUp}$ row therefore names the assembled algebraic surface and adds no host real arithmetic, quotient equality, selected limit, trichotomy, choice, or completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy ring operation closure]
+\label{thm:regular-cauchy-ring-operation-closure}
+For every accepted $\RegularCauchyRingUp$ carrier $K$, the four displayed algebraic operations close inside the finite regular-Cauchy naming surface: addition exposes $S$ and $R_S$, negation exposes $G$ and $R_G$, product exposes $M$ and $R_M$, and rational scaling exposes $L$ and $R_L$. Each operation reads only the displayed $\RegSeqRatUp$ sources, aligned $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledgers, finite budget rows, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Read the sum component first. The carrier exposes the two source rows, aligned windows, dyadic endpoint ledgers, the finite sum budget row $E_S$, and the operation row $S$; \autoref{thm:regular-cauchy-sum-regseqrat-handoff} and \autoref{thm:regular-cauchy-sum-realup-seal-boundary} then route the readback to $R_S$.
+
+Read the unary component next. The negation row $G$ uses its selected source window and dyadic ledger, and \autoref{thm:regular-cauchy-negation-algebraic-handoff} with \autoref{thm:regular-cauchy-negation-public-seal-export} routes the sign-flipped regular readback to $R_G$.
+
+For multiplication, project $M$ together with $E_M$. The product handoff and seal boundary of \autoref{thm:regular-cauchy-product-regseqrat-handoff} and \autoref{thm:regular-cauchy-product-real-seal-boundary} keep the product inside the displayed dyadic product and budget rows before $R_M$ is public.
+
+For rational scaling, project $L$ together with $E_L$. The scale handoff and seal boundary of \autoref{thm:regular-cauchy-scale-regseqrat-handoff} and \autoref{thm:regular-cauchy-scale-realup-seal-boundary} keep the scaled output inside the displayed scalar, source, window, dyadic, and budget rows before $R_L$ is public.
+
+These four projections exhaust the carrier's algebraic coordinates. The operation closure is therefore closure of the finite BEDC packet surface, not a statement about quotient real equality or ambient real algebra.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy ring Real seal non-escape]
+\label{thm:regular-cauchy-ring-real-seal-nonescape}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyRingUp$ carrier reaches a terminal seal only through one of the four displayed routes
+$$
+S\longmapsto R_S,\qquad G\longmapsto R_G,\qquad M\longmapsto R_M,\qquad L\longmapsto R_L,
+$$
+together with the relevant source windows, dyadic endpoint ledgers, finite budget ledger, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchyRingUp}$ row. The packet exports no quotient stream, host real equality, selected completed limit, trichotomy, countable choice, or $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the terminal seal clause of \autoref{thm:regular-cauchy-ring-namecert-obligations}. It forces any real-facing consumer to choose one of the four operation routes and to keep the corresponding source, window, dyadic, budget, transport, continuation, provenance, and naming rows attached.
+
+The sibling non-escape clauses then close the four cases. For the sum route use \autoref{thm:regular-cauchy-sum-non-escape-boundary}; for the negation route use \autoref{thm:regular-cauchy-negation-apartness-nonescape}; for the product route use \autoref{thm:regular-cauchy-product-real-algebra-boundary}; for the scale route use \autoref{thm:regular-cauchy-scale-real-seal-handoff-obligation}.
+
+Since the ring carrier contains only those four terminal routes and their shared structural rows, no real-facing consumer can read a fifth route through host arithmetic, quotient real equality, selected limits, trichotomy, countable choice, or ambient completeness.
+\end{proof}
+
+\closureat{RegularCauchyRingUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyRingUp}
+  \constructivestory{A $\RegularCauchyRingUp$ packet is generated from two RegSeqRat source rows, aligned StreamName windows, DyadicRatCore endpoint ledgers, RegularCauchySum, RegularCauchyNegation, RegularCauchyProduct, and RegularCauchyScale operation rows, terminal RealUp seal rows, finite budget ledgers, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-ring-carrier}, \autoref{thm:regular-cauchy-ring-namecert-obligations}, \autoref{thm:regular-cauchy-ring-operation-closure}, and \autoref{thm:regular-cauchy-ring-real-seal-nonescape} declare the finite algebraic operation packet and its Real seal boundary over regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, host real arithmetic laws, trichotomy, countable choice, selected completed limits, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, operation-row admission, componentwise transport, and Real seal non-escape for the same finite algebraic packet.}
+\end{closurestatus}

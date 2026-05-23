@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\FastCauchyRealUp$}
+\label{ch:concrete-instances-fast-cauchy-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FastCauchyRealUp$ packet records the fast dyadic-modulus real-name carrier used by the L10 Real and Completion phase. It sits over the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the completion boundary of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}, and the Cauchy-real presentation route of \autoref{ch:concrete-instances-cauchy-real-presentation-namecert}. The packet makes the fast tolerance modulus visible as finite BEDC data before any completion-facing consumer treats the resulting name as a real.
+
+\begin{definition}[FastCauchyReal carrier]
+\label{def:fast-cauchy-real-carrier}
+A $\FastCauchyRealUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ fast-tolerance row recording the dyadic scale $2^{-k}$, comparison budget, rounding window, and arithmetic ledger for each finite precision request.
+\item $S$ is the $\StreamNameUp$ finite-window row whose visible entries are exactly the stream observations requested by the fast tolerance row.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the windows in $S$ under the dyadic tolerance data in $D$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the displayed route through $D,S,R$ has been admitted.
+\item $H$ records componentwise $\hsame$ transport for the dyadic fast-tolerance, stream-window, regular-readback, real-seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every finite precision request through $D,S,R,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\FastCauchyRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FastCauchyRealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, a selected representative, host real equality, countable choice, located completeness, or an ambient completion object outside the displayed finite rows.
+\end{definition}
+
+\begin{theorem}[FastCauchyReal NameCert obligations]
+\label{thm:fast-cauchy-real-namecert-obligations}
+For every accepted $\FastCauchyRealUp$ carrier $F=(D,S,R,E,H,C,P,N)$, the local $\NameCert_{\FastCauchyRealUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed dyadic fast-tolerance, finite stream-window, regular rational readback, real-seal, transport, continuation, provenance, and local naming rows;
+\item fast tolerance exactness, requiring each finite precision request to be accounted for by $D$ before any stream window or readback row is consumed;
+\item window compatibility, requiring $S$ to expose only the finite observations named by the dyadic tolerance row;
+\item regular readback, requiring $R$ to be read only downstream of the displayed $D,S$ route;
+\item real-seal nonescape, requiring $E$ to remain terminal with respect to the route $D,S,R$ and the structural rows;
+\item componentwise stability, requiring $\hsame$ transport $H$ and $\Cont$ replay $C$ to preserve the same displayed precision route;
+\item provenance and local naming, requiring $P$ and $N$ to bind the accepted packet as a $\FastCauchyRealUp$ certificate.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:fast-cauchy-real-carrier}. The tuple displays exactly the dyadic tolerance row, stream window, regular readback, real seal, transport, replay, provenance, and local name.
+
+The analytic obligations are forced by the route $D,S,R,E$. A precision request first reads the fast dyadic ledger $D$, then the finite stream window $S$, then the regular rational readback $R$, and finally the terminal real seal $E$.
+
+The structural obligations are forced by $H,C,P,N$. Componentwise transport and continuation replay preserve the same finite route, while provenance and local naming bind that accepted packet. Since the carrier has no coordinate beyond these rows, the listed clauses exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FastCauchyReal regular handoff]
+\label{thm:fast-cauchy-real-regular-handoff}
+An accepted $\FastCauchyRealUp$ carrier supplies a regular rational Cauchy name to the $\RealCauchyCompletionUp$ and $\CauchyRealPresentationUp$ routes only through the finite chain
+$$
+D\longmapsto S\longmapsto R\longmapsto E\longmapsto(H,C,P,N).
+$$
+The handoff exposes dyadic fast tolerance, finite stream observations, $\RegSeqRatUp$ readback, and the terminal $\RealUp$ seal. It does not add quotient stream equality, a selected representative, host real equality, countable choice, located completeness, or an ambient completion object outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and read the precision route in order. The dyadic row $D$ supplies the fast tolerance budget, the stream row $S$ supplies the finite observations named by that budget, the row $R$ supplies regular rational readback, and the seal row $E$ is terminal.
+
+Now pass to the completion-facing consumers. The $\RealCauchyCompletionUp$ and $\CauchyRealPresentationUp$ routes may transport, replay, package, and locally name the handoff through $H,C,P,N$, but they receive only the displayed $D,S,R,E$ data from this carrier.
+
+The excluded principles are absent by inspection of the tuple. Quotient stream equality, selected representatives, host real equality, countable choice, located completeness, and ambient completion objects are not coordinates of $F$, so the regular handoff cannot export them.
+\end{proof}
+
+\closureat{FastCauchyRealUp}{seedStr}
+
+\begin{closurestatus}{\FastCauchyRealUp}
+  \constructivestory{A $\FastCauchyRealUp$ packet is generated from a $\DyadicRatCoreUp$ fast-tolerance row, a $\StreamNameUp$ finite-window row, a $\RegSeqRatUp$ regular readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fast-cauchy-real-carrier}, \autoref{thm:fast-cauchy-real-namecert-obligations}, and \autoref{thm:fast-cauchy-real-regular-handoff} seed the finite fast dyadic-modulus real-name carrier consumed by the L10 Real and Completion phase.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real equality, countable choice, located completeness, ambient completion objects, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fast tolerance exactness, window compatibility, regular readback, real-seal nonescape, componentwise stability, provenance, and local naming for the same displayed packet.}
+\end{closurestatus}

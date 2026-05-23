@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedFunctionUp$}
+\label{ch:concrete-instances-regulated-function-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegulatedFunctionUp$ packet names a regulated function by finite $\BHist$ rows of dyadic step-function approximation schedules. It sits over the dyadic mesh surface of \autoref{ch:concrete-instances-dyadicmesh-namecert}, the dyadic step-function carrier of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the finite Darboux sum boundary of \autoref{ch:concrete-instances-darboux-sum-namecert}, the tagged-mesh Riemann route of \autoref{ch:concrete-instances-riemannintegral-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives integration-facing consumers a displayed step-approximation handoff without importing host function quotients, measure-theoretic integration, open-cover compactness, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regulated function carrier]
+\label{def:regulated-function-carrier}
+A $\RegulatedFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,M,A,T,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the domain row, read through the terminal $\RealUp$ seal and its interval-facing data from \autoref{ch:concrete-instances-real-namecert}.
+\item $M$ is the finite dyadic mesh ledger, read through \autoref{ch:concrete-instances-dyadicmesh-namecert}, listing the displayed partitions used by the approximation schedule.
+\item $A$ is the dyadic step-function approximation schedule. Each row of $A$ is a $\DyadicStepFunctionUp$ packet over one mesh row of $M$, with its cells and values read through \autoref{ch:concrete-instances-dyadicstepfunction-namecert}.
+\item $T$ is the tolerance and tail ledger recording, for every displayed dyadic tolerance request, which later step rows are close enough to represent the same regulated read.
+\item $S$ is the finite sum handoff row connecting the step schedule to the $\DarbouxSumUp$ boundary of \autoref{ch:concrete-instances-darboux-sum-namecert} and the $\RiemannIntegralUp$ tagged-mesh route of \autoref{ch:concrete-instances-riemannintegral-namecert}.
+\item $H$ records componentwise $\hsame$ transport for domain, mesh, step schedule, tolerance tail, finite sum handoff, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a domain request to a mesh row, from that mesh to a step-function approximant, from the approximant to the tail ledger, and from the tail ledger to the finite sum handoff.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedFunctionUp$, $\RealUp$, $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxSumUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,M,A,T,S,H,C,P,N$. It has no coordinate for host function quotients, measure-theoretic integration, open-cover compactness, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regulated function NameCert obligations]
+\label{thm:regulated-function-namecert-obligations}
+For every accepted $\RegulatedFunctionUp$ carrier $F=(D,M,A,T,S,H,C,P,N)$, the local $\NameCert_{\RegulatedFunctionUp}$ surface consists exactly of carrier admission, real-domain admission, dyadic mesh admission, dyadic step-function schedule admission, tolerance-tail routing, Darboux/Riemann finite-sum handoff, componentwise transport, continuation replay, provenance, local naming, and non-escape from host function quotients, measure-theoretic integration, open-cover compactness, selected limits, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-function-carrier}. The accepted packet displays only the domain row $D$, mesh ledger $M$, step schedule $A$, tail ledger $T$, finite sum handoff $S$, transports $H$, continuations $C$, provenance $P$, and local name $N$.
+
+The analytic rows are all finite. The real-facing domain row is read through \autoref{ch:concrete-instances-real-namecert}; each mesh row is read through \autoref{ch:concrete-instances-dyadicmesh-namecert}; and each approximant in $A$ is read through the dyadic step-function carrier of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}.
+
+The tail and handoff rows impose the regulated-function route. The ledger $T$ records which displayed approximants answer each tolerance request, while $S$ exposes only the finite Darboux-sum and Riemann-mesh handoff named by \autoref{ch:concrete-instances-darboux-sum-namecert} and \autoref{ch:concrete-instances-riemannintegral-namecert}. The rows $H,C,P,N$ preserve and name this same route, so no excluded host object is available.
+\end{proof}
+
+\begin{theorem}[Regulated function step-approximation handoff]
+\label{thm:regulated-function-step-approximation-handoff}
+Every accepted $\RegulatedFunctionUp$ packet exposes any integration-facing read through the finite route
+$$
+D,M,A,T \longmapsto S .
+$$
+The row $S$ can be consumed by Darboux and Riemann chapters only after the real-domain row, dyadic mesh ledger, dyadic step-function schedule, and tolerance-tail ledger have all been displayed.
+\end{theorem}
+\begin{proof}
+Start with an integration-facing consumer request. The continuation row $C$ first replays the real-domain row $D$ and then selects a finite dyadic mesh row from $M$, so the request is already confined to displayed real and mesh data.
+
+The chosen mesh row determines the visible step approximant in $A$. That approximant is a dyadic step-function packet, hence its cells, endpoint transports, and carried values are finite rows before any sum handoff is read.
+
+It remains to reach $S$. The tail ledger $T$ records that the selected approximant belongs to the displayed regulated schedule at the requested tolerance. Only then does $C$ expose the finite sum handoff row $S$, whose consumers are the Darboux sum and Riemann integral surfaces. No carrier coordinate offers a host quotient of functions, a measure-theoretic integral, an open-cover compactness proof, a selected limit, or an ambient completeness witness for $\RealUp$.
+\end{proof}
+
+\closureat{RegulatedFunctionUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedFunctionUp}
+  \constructivestory{A $\RegulatedFunctionUp$ packet is generated from a real-domain row, a finite dyadic mesh ledger, a dyadic step-function approximation schedule, a tolerance-tail ledger, a Darboux/Riemann finite-sum handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-function-carrier}, \autoref{thm:regulated-function-namecert-obligations}, and \autoref{thm:regulated-function-step-approximation-handoff} seed the finite regulated-function surface over real-domain, dyadic mesh, dyadic step-function, tail-ledger, and finite-sum handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function quotients, measure-theoretic integration, open-cover compactness, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh and step-schedule admission, tolerance-tail routing, Darboux/Riemann handoff, non-escape, and field faithfulness for BEDC.Derived.RegulatedFunctionUp.}
+\end{closurestatus}

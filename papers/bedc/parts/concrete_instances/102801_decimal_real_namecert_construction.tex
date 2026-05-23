@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\DecimalRealUp$}
+\label{ch:concrete-instances-decimal-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges on real numbers presented by effective approximations, the $\DecimalRealUp$ packet records the finite decimal-expansion readback route before a decimal prefix may be consumed as a regular rational name or as a terminal real seal. It sits beside the signed-binary readback boundary of \autoref{ch:concrete-instances-signed-binary-expansion-namecert}, while using the finite schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite means presentation of decimal readback; it is not host real equality, quotient stream equality, decimal uniqueness at dual expansions, trichotomy, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[DecimalReal carrier]
+\label{def:decimal-real-carrier}
+A $\DecimalRealUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,A,W,T,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the signed decimal prefix row, exposing a sign cell, a finite integer part, and a finite base-ten fractional window.
+\item $A$ is the ambiguity boundary row recording whether the observed window is ordinary, trailing-nine-facing, or trailing-zero-facing, without choosing a quotient representative at a dual decimal expansion.
+\item $W$ is the $\StreamNameUp$ schedule selecting exactly the inspected decimal prefix windows and requested precisions.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance row obtained by bounding the displayed base-ten tail by a dyadic radius visible to BEDC consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed decimal window schedule and dyadic tolerance ledger.
+\item $L$ is the terminal $\RealUp$ seal row reached only after $S,A,W,T,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the signed prefix, ambiguity boundary, schedule, tolerance, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,A,W \longmapsto T \longmapsto R \longmapsto L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DecimalRealUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\SignedBinaryExpansionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DecimalRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,A,W,T,R,L,H,C,P,N$. It has no coordinate for host real equality, quotient stream equality, uniqueness of a decimal expansion at dual tails, trichotomy, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[DecimalReal NameCert obligations]
+\label{thm:decimal-real-namecert-obligations}
+For every accepted $\DecimalRealUp$ carrier
+$$
+D=(S,A,W,T,R,L,H,C,P,N),
+$$
+the local $\NameCert_{\DecimalRealUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the signed decimal prefix, ambiguity boundary, finite schedule, dyadic tolerance ledger, regular rational readback, real seal, transport, replay, provenance, and local name;
+\item decimal-window stability, requiring $S$ and $W$ to expose the same finite sign, integer, and fractional cells before and after the displayed $\hsame$ transport $H$;
+\item dual-tail boundary visibility, requiring $A$ to be inspected before any consumer treats a trailing-nine-facing or trailing-zero-facing window as a terminal decimal presentation;
+\item dyadic tolerance visibility, requiring $T$ to bound the remaining base-ten tail by a displayed dyadic row before $R$ or $L$ is read;
+\item handoff order, requiring the $\RegSeqRatUp$ row $R$ to consume $S,A,W,T$ before the terminal $\RealUp$ seal $L$ becomes available;
+\item provenance locality, requiring $C,P,N$ to replay, package, and name only the listed rows and to export no host equality, quotient stream equality, decimal uniqueness, trichotomy, countable choice, open-cover compactness, or ambient completeness coordinate.
+\end{enumerate}
+No DecimalReal obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:decimal-real-carrier}. The accepted packet displays exactly the signed prefix row, ambiguity boundary, finite schedule, dyadic tolerance row, regular readback, real seal, and structural rows.
+
+Decimal-window stability is read from $S,W,H$. The transport row preserves the displayed sign, integer cells, fractional window, and request schedule componentwise, so a consumer cannot silently replace the observed decimal window.
+
+The dual-tail boundary is a separate row. The row $A$ is inspected before any terminal use of a trailing-nine-facing or trailing-zero-facing prefix, and it records the boundary without selecting one quotient representative.
+
+The dyadic tolerance and handoff clauses are ordered. The row $T$ bounds the unseen base-ten tail in the dyadic ledger, the regular rational row $R$ consumes that ledger, and the real seal $L$ is terminal.
+
+Finally $C,P,N$ add only replay, provenance, and local naming. Since the carrier has no coordinate for the excluded principles, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[DecimalReal RegSeqRat handoff]
+\label{thm:decimal-real-regseqrat-handoff}
+Let
+$$
+D=(S,A,W,T,R,L,H,C,P,N)
+$$
+be an accepted $\DecimalRealUp$ carrier. Every regular rational or real-name read exported by $D$ factors through the displayed route
+$$
+S,A,W \longmapsto T \longmapsto R \longmapsto L
+$$
+with structural support $H,C,P,N$. Thus a $\RegSeqRatUp$ consumer receives the signed finite decimal window, the dual-tail boundary row, the inspected schedule, and the dyadic tolerance row as finite BEDC data before the terminal $\RealUp$ seal is available.
+
+The handoff supplies no host real equality, no quotient equality of streams, no uniqueness claim for dual decimal expansions, no trichotomy row, no countable-choice row, no open-cover compactness row, and no ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the regular rational row $R$ or terminal seal $L$. By the carrier definition, neither row is independent of the displayed decimal data.
+
+The consumer first reads $S$ through the finite schedule $W$. This exposes the sign, integer prefix, fractional window, and requested precision as finite rows rather than as an infinite decimal stream.
+
+The ambiguity boundary row $A$ is then read before any terminal decimal interpretation. It records the dual-tail boundary visible in the observed prefix but does not decide quotient equality or uniqueness at trailing tails.
+
+Next the dyadic tolerance row $T$ bounds the unseen base-ten tail. The $\RegSeqRatUp$ handoff $R$ consumes that dyadic bound, and only then may the $\RealUp$ seal $L$ be inspected.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name the same route. Because the packet contains none of the excluded coordinates, every exported read remains inside the displayed finite boundary.
+\end{proof}
+
+\closureat{DecimalRealUp}{seedStr}
+
+\begin{closurestatus}{\DecimalRealUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decimal-real-carrier}, \autoref{thm:decimal-real-namecert-obligations}, and \autoref{thm:decimal-real-regseqrat-handoff} seed the finite decimal readback route from signed prefix windows through dual-tail boundary rows, stream schedules, dyadic tolerance ledgers, regular rational handoff, Real seals, transport, continuation, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, quotient stream equality, decimal uniqueness at dual expansions, trichotomy, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, decimal-window stability, dual-tail boundary visibility, dyadic tolerance visibility, handoff order, and provenance locality for BEDC.Derived.DecimalRealUp.}
+  \constructivestory{A $\DecimalRealUp$ packet is generated from a signed decimal prefix row, dual-tail ambiguity boundary, StreamName schedule, DyadicRatCore tolerance row, RegSeqRat readback, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

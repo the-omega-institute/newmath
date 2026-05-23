@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FilterRefinementUp$}
+\label{ch:concrete-instances-filter-refinement-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on finer filters, cofinal subfilters, and refinement of directed bases, the $\FilterRefinementUp$ packet names the finite L10 bridge by which a completion route replaces one displayed filter base by a cofinal refinement. It sits after the finite base surface of \autoref{ch:concrete-instances-filterbase-namecert}, refines the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and keeps the completion-facing consumers of \autoref{ch:concrete-instances-uniformcompletion-namecert}, \autoref{ch:concrete-instances-metriccompletion-namecert}, and \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert} on the displayed finite route. The packet records cofinal comparison rows only; it is not a quotient filter, not an ultrafilter, not a selected limit, not countable choice, and not an ambient completeness principle.
+
+\begin{definition}[FilterRefinement NameCert surface]
+\label{def:filter-refinement-namecert-surface}
+A $\FilterRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,T,\rho,\lambda,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\FilterBaseUp$ row naming the base packets through which the original $\CauchyFilterUp$ or completion-facing route is read.
+\item $T$ is the target $\FilterBaseUp$ row naming the refined base packets that will be exposed to downstream consumers.
+\item $\rho$ is the cofinal refinement map. For each displayed target base packet it names a source base packet and the containment read from the target packet into that source packet.
+\item $\lambda$ is the reverse comparison ledger when present. It records the displayed return comparisons needed for equivalence of two routes, but the carrier may leave this row empty when only one-way refinement is asserted.
+\item $H$ records componentwise $\hsame$ transport for the source base, target base, cofinal refinement map, optional reverse ledger, continuation rows, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from an original base request through the cofinal refinement map and, when present, through the reverse comparison ledger.
+\item $P$ is the $\Pkg$ provenance over $\FilterBaseUp$, $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, $\CauchyFilterCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FilterRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,\rho,\lambda,H,C,P,N$. There is no coordinate for quotient filters, ultrafilters, selected limits, countable choice, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[FilterRefinement Cauchy preservation]
+\label{thm:filter-refinement-cauchy-preservation}
+Let $R=(S,T,\rho,\lambda,H,C,P,N)$ be an accepted $\FilterRefinementUp$ carrier. If a $\CauchyFilterUp$ route is Cauchy through the displayed source base row $S$, then the route obtained by replaying every base request through the cofinal refinement map $\rho$ is Cauchy through the displayed target base row $T$.
+
+The preserved Cauchy route uses only the finite refinement display
+$$
+T \xrightarrow{\rho} S \longmapsto H,C,P,N .
+$$
+It does not use a quotient filter, ultrafilter, selected limit, countable-choice selector, or ambient completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinement\_cauchy\_preservation}
+\begin{proof}
+Project the accepted carrier of \autoref{def:filter-refinement-namecert-surface}. The source and target bases are displayed $\FilterBaseUp$ rows, and the cofinal map $\rho$ is a finite row of the same packet.
+
+Start with a Cauchy request on the refined route. The target base packet requested from $T$ is sent by $\rho$ to a source base packet in $S$, together with the displayed containment read from the refined packet into the source packet.
+
+Apply the Cauchy evidence already available on the source route. Because the source route is Cauchy through $S$, every precision or late-window request is discharged by a displayed source base packet and its $\CauchyFilterUp$ evidence.
+
+Replay the result along the containment read recorded by $\rho$. The componentwise $\hsame$ row $H$ transports the visible base, refinement, continuation, provenance, and naming coordinates, while the $\Cont$ row $C$ replays the request through the displayed target packet.
+
+Thus every refined request is answered by a finite target-row request followed by the finite source-row Cauchy witness. No excluded filter, limit, choice, or completeness coordinate is available in the carrier, so Cauchy preservation remains internal to $S,T,\rho,H,C,P,N$.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCauchyPreservation}
+
+\begin{theorem}[FilterRefinement completion route]
+\label{thm:filter-refinement-completion-route}
+Let $R=(S,T,\rho,\lambda,H,C,P,N)$ be an accepted $\FilterRefinementUp$ carrier. Every $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer that receives the refined route sees only the finite target base row $T$, the cofinal refinement row $\rho$, the optional reverse ledger $\lambda$ when route equivalence is needed, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\FilterRefinementUp}$ row.
+
+Equivalently, completion-facing reads factor through
+$$
+S \xleftarrow{\rho} T \longmapsto \lambda,H,C,P,N ,
+$$
+with $\lambda$ omitted for one-way refinement claims. The consumer does not receive a quotient filter, a selected completion point, countable choice, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing consumer. Its route is required to read the refined base row $T$ before it can inspect Cauchy-filter or completion data, so the first public object is a displayed finite $\FilterBaseUp$ row.
+
+The row $\rho$ supplies the only comparison back to the source route. When a consumer must compare the refined route with the original route, it reads the optional ledger $\lambda$; otherwise the one-way cofinal refinement row is the entire comparison surface.
+
+Transport and replay do not enlarge the route. The row $H$ moves the listed coordinates componentwise, and $C$ replays base requests through the same displayed refinement rows. The provenance row $P$ names the allowed completion consumers, while $N$ names the local certificate surface.
+
+Consequently $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ consumers receive a finite refinement route and no hidden completion object. Quotient filters, selected completion points, countable-choice selectors, host equality, and ambient completeness are not coordinates of $R$.
+\end{proof}
+
+\begin{closurestatus}{\FilterRefinementUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:filter-refinement-namecert-surface}, \autoref{thm:filter-refinement-cauchy-preservation}, and \autoref{thm:filter-refinement-completion-route} seed the finite filter-refinement bridge for Cauchy-filter and completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, ultrafilters, selected limits, countable choice, host equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal refinement coverage, optional reverse comparison compatibility, Cauchy preservation, completion-route exposure, and ledger-refusal proofs for BEDC.Derived.FilterRefinementUp.}
+  \constructivestory{A $\FilterRefinementUp$ packet is generated from source and target FilterBase rows, a cofinal refinement map, an optional reverse comparison ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

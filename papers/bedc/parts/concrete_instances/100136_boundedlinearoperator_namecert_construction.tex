@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\BoundedLinearOperatorUp$}
+\label{ch:concrete-instances-boundedlinearoperator-namecert}
+\origin{human}
+
+Following Kreyszig and Conway, the $\BoundedLinearOperatorUp$ packet records the standard bounded linear map surface as finite NameCert data over displayed Banach candidates. It is read from the Banach carrier of \autoref{ch:concrete-instances-banach-namecert}, the linear-map obligations of \autoref{ch:concrete-instances-linearmap-namecert}, the normed real-line rows of \autoref{ch:concrete-instances-normed-real-line-namecert}, the limit-witness interface of \autoref{ch:concrete-instances-completemetric-namecert}, the stream window interface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}. The chapter exposes the public operator object already carried by the Banach bounded-linear-operator rows: endpoint action, linearity, norm bound, composition, identity and zero units, and transport of regular Cauchy and complete-metric limit witnesses.
+
+\begin{definition}[Bounded linear operator carrier]
+\label{def:bounded-linear-operator-carrier}
+For displayed $\BanachUp$ candidates $C,D$, a $\BoundedLinearOperatorUp(C,D)$ carrier is the public packaging of a Banach bounded-linear-operator row
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+from \autoref{def:banach-bounded-linear-operator-carrier}. Its visible coordinates are the endpoint map $T$, the RealUp norm-bound endpoint $K$, and the ledger $\Lambda$ recording source and target endpoint rows, source and target norm rows, scalar rows, additive and homogeneous compatibility rows, classifier-respect rows, and bound-witness rows.
+
+The classifier compares two accepted representatives only by componentwise $\hsame$ transport of their endpoint actions on carried source endpoints, RealUp transport of their bound endpoints, and componentwise transport of the displayed ledgers. It has no coordinate for host function extensionality, quotient equality of operators, selected limits, ambient completion data, or a standard bridge.
+\end{definition}
+\leanchecked{BEDC.Derived.BoundedLinearOperatorUp.BoundedLinearOperatorTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bounded linear operator NameCert obligations]
+\label{thm:bounded-linear-operator-namecert-obligations}
+For displayed $\BanachUp$ candidates $C,D$, the carrier of \autoref{def:bounded-linear-operator-carrier} carries the public $\NameCert_{\BoundedLinearOperatorUp}$ surface with the following obligation rows:
+\begin{enumerate}
+\item carrier admission for $\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$;
+\item classifier stability under source and target Banach endpoint classifiers;
+\item linearity exactness for additive and homogeneous endpoint action;
+\item norm-bound exactness through the RealUp endpoint $K$;
+\item Lipschitz and regular-Cauchy transport through the norm-induced metric rows;
+\item zero, sum, scalar, identity, and composition rows when the corresponding Banach ledgers are displayed;
+\item refusal of host function extensionality, operator quotients, selected limits, hidden Banach completeness, and bridge data.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedLinearOperatorUp.BoundedLinearOperatorCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier admission and classifier stability are projections of \autoref{def:banach-bounded-linear-operator-carrier}. That definition already records the endpoint map, bound endpoint, and visible ledger, and it compares representatives only through displayed endpoint, bound, and ledger transports.
+
+Linearity exactness is the conjunction of the additive and homogeneous compatibility rows in the same carrier. The rows are stated over carried Banach endpoints and carried RealUp scalars, so they are public operator data rather than host-level equations between functions.
+
+The metric obligations are supplied by the Banach bounded-linear-operator surface. Apply \autoref{thm:banach-bounded-linear-operator-lipschitz} for the displayed Lipschitz estimate, and apply \autoref{thm:banach-bounded-linear-operator-cauchy-transport} for transport of regular Cauchy $\StreamNameUp$ streams.
+
+The algebraic operator rows are inherited from the Banach child files. The zero, pointwise sum, scalar, identity, and composition rows are accepted only when their visible Banach ledgers are present, and the public packet stores those rows as operator coordinates rather than as an ambient operator space quotient.
+
+The refusal row follows from the carrier coordinates. Since the packet contains only $T,K,\Lambda$ and their componentwise transports, there is no field from which host function extensionality, quotient operator equality, selected limits, hidden completeness, or a bridge can be read.
+\end{proof}
+
+\begin{theorem}[Bounded linear operator composition closure]
+\label{thm:bounded-linear-operator-composition-closure}
+Let $C,D,E$ be displayed $\BanachUp$ candidates. If
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+and
+$$
+\mathsf{BanachBLOp}(D,E,S,L,\Gamma)
+$$
+are accepted $\BoundedLinearOperatorUp$ carrier rows, then their endpoint composite is accepted as
+$$
+\mathsf{BanachBLOp}(C,E,S\circ T,L\cdot K,\Gamma\star\Lambda).
+$$
+The public composition ledger records exactly the two input operator ledgers together with the RealUp multiplication, monotonicity, associativity, and non-negativity rows needed for the product bound.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedLinearOperatorUp.BoundedLinearOperatorUpTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Read the two input rows through \autoref{def:bounded-linear-operator-carrier}. They are precisely the Banach bounded-linear-operator rows required by \autoref{thm:banach-bounded-linear-operator-composition-closure}.
+
+Apply that Banach composition theorem. It constructs the composite endpoint map $S\circ T$, the product bound $L\cdot K$, and the concatenated ledger $\Gamma\star\Lambda$, with classifier, additive, homogeneous, and norm-bound rows transported through the middle Banach carrier.
+
+Repack the result as a $\BoundedLinearOperatorUp(C,E)$ carrier. No further equality principle is used: endpoint comparison is pointwise over carried source endpoints, bound comparison is RealUp transport, and ledger comparison is the displayed concatenation row.
+\end{proof}
+
+\begin{theorem}[Bounded linear operator limit transport]
+\label{thm:bounded-linear-operator-limit-transport}
+Let $C,D$ be displayed $\BanachUp$ candidates and let
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+be an accepted $\BoundedLinearOperatorUp(C,D)$ carrier row. If a regular Cauchy $\StreamNameUp$ stream over the norm-induced metric of $C$ carries a $\CompleteMetricUp$ limit witness with limit endpoint $\ell$, then the pointwise target stream carries a $\CompleteMetricUp$ limit witness over $D$ with displayed limit endpoint $T(\ell)$.
+\end{theorem}
+\begin{proof}
+Read the accepted operator row as a Banach bounded-linear-operator carrier. The source limit witness is a complete-metric witness over the norm-induced metric attached to the source Banach candidate.
+
+Apply \autoref{thm:banach-bounded-linear-operator-limit-witness-transport}. Its construction first uses regular-Cauchy transport for the pointwise target stream and then applies the Lipschitz bound to late-distance estimates between stream observations and the source limit endpoint.
+
+The resulting target witness has displayed limit endpoint $T(\ell)$ and its ledger is exactly the operator ledger together with the source and target complete-metric rows. Repacking that witness gives the public $\BoundedLinearOperatorUp$ limit-transport surface.
+\end{proof}
+
+\begin{theorem}[Bounded linear operator nonescape boundary]
+\label{thm:bounded-linear-operator-nonescape-boundary}
+Every accepted $\BoundedLinearOperatorUp$ consumer factors through the displayed route
+$$
+\BanachUp,\LinearMapUp,\NormUp,\RealUp,\CompleteMetricUp,\StreamNameUp,\RegSeqRatUp,\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+In particular, the packet cannot export host function extensionality, quotient operator equality, selected limits, ambient Banach completeness beyond the displayed input rows, or bridge checking data.
+\end{theorem}
+\begin{proof}
+Let a consumer read an accepted carrier. By \autoref{def:bounded-linear-operator-carrier}, the only operator coordinates are the endpoint map $T$, the RealUp bound endpoint $K$, and the visible ledger $\Lambda$.
+
+The linear-map data are the additive and homogeneous rows inside $\Lambda$, the norm-bound data are the RealUp and NormUp rows inside $\Lambda$, and the metric data are obtained by the Lipschitz and regular-Cauchy transport rows cited in \autoref{thm:bounded-linear-operator-namecert-obligations}.
+
+Composition and limit transport do not add hidden coordinates. Composition concatenates two displayed ledgers as in \autoref{thm:bounded-linear-operator-composition-closure}, and limit transport reuses the source complete-metric witness and target Banach rows as in \autoref{thm:bounded-linear-operator-limit-transport}.
+
+Thus any public read factors through the displayed Banach, linear, norm, real, complete-metric, stream, regular-rational, history, transport, continuation, provenance, and naming rows. The excluded host and quotient objects are absent from the carrier and from the two transport constructions, so they cannot be exported by the packet.
+\end{proof}
+
+\closureat{BoundedLinearOperatorUp}{seedStr}
+
+\begin{closurestatus}{\BoundedLinearOperatorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-linear-operator-carrier}, \autoref{thm:bounded-linear-operator-namecert-obligations}, \autoref{thm:bounded-linear-operator-composition-closure}, \autoref{thm:bounded-linear-operator-limit-transport}, and \autoref{thm:bounded-linear-operator-nonescape-boundary} seed the public bounded-linear-operator surface over displayed Banach carriers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter explicitly excludes host function extensionality, quotient operator equality, selected limits, ambient Banach completeness beyond the input rows, and bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, linearity exactness, bound exactness, composition closure, limit transport, algebraic operator rows, and nonescape for BEDC.Derived.BoundedLinearOperatorUp.}
+  \constructivestory{A $\BoundedLinearOperatorUp$ packet is generated from displayed source and target Banach candidates, an endpoint action, a RealUp norm-bound endpoint, visible linearity and bound ledgers, regular-Cauchy and complete-metric transport rows, componentwise transport, provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\UniformPartitionUp$}
+\label{ch:concrete-instances-uniform-partition-namecert}
+\origin{human}
+
+Following Bishop--Bridges/Riemann-Darboux uniform partitions, the $\UniformPartitionUp$ packet records a finite equal-mesh subdivision of a displayed real interval. It sits between the $\RealUp$ interval source, the dyadic endpoint and mesh ledgers of \autoref{ch:concrete-instances-dyadic-partition-namecert} and \autoref{ch:concrete-instances-dyadicmesh-namecert}, and the Darboux, Riemann, and regulated-function consumers of \autoref{ch:concrete-instances-darboux-sum-namecert}, \autoref{ch:concrete-instances-riemannintegral-namecert}, and \autoref{ch:concrete-instances-regulated-function-namecert}. The packet gives those consumers a single finite NameCert surface for equal-width cells without importing open-cover compactness, selected tags, quotient function equality, measure completion, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniform partition carrier]
+\label{def:uniform-partition-carrier}
+A $\UniformPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(I,O,\delta,k,E,B,M,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ interval source row, naming the left and right real endpoint seals and the direction in which the finite partition is read.
+\item $O$ is the dyadic origin row from which the equal mesh is generated.
+\item $\delta$ is a positive $\DyadicRatCoreUp$ mesh-width row.
+\item $k$ is a unary cell-count row, recording the finite number of equal-width cells without using an ambient natural-number search principle.
+\item $E$ is the equal-width cell ledger. Its $j$th row records the dyadic endpoints $O+j\delta$ and $O+(j+1)\delta$, the adjacency check between successive cells, and the local width equality to $\delta$.
+\item $B$ is the endpoint coverage row, asserting that the first cell begins at the interval source and the last cell reaches the displayed terminal endpoint through the same dyadic origin, width, and count rows.
+\item $M$ is the $\DyadicPartitionUp$ and $\DyadicMeshUp$ handoff row, exposing the ordered finite partition and its mesh bound to downstream dyadic consumers.
+\item $T$ is the Darboux, Riemann, and $\RegulatedFunctionUp$ consumer-boundary row. It records that those consumers may read the interval, equal cells, endpoint coverage, and dyadic handoff, but not tags, integrand quotients, measure completions, or open-cover compactness.
+\item $H$ records componentwise $\hsame$ transport for the interval source, origin, positive width, count, equal-cell ledger, endpoint coverage, dyadic handoff, consumer boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+I,O,\delta,k \longmapsto E \longmapsto B \longmapsto M \longmapsto T .
+$$
+\item $P$ is the $\Pkg$ provenance over $\UniformPartitionUp$, $\RealUp$, $\DyadicRatCoreUp$, $\DyadicPartitionUp$, $\DyadicMeshUp$, $\DarbouxSumUp$, $\RiemannIntegrableUp$, $\RiemannIntegralUp$, $\RegulatedFunctionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,O,\delta,k,E,B,M,T,H,C,P,N$. It has no coordinate for open-cover compactness, selected tags, quotient function equality, measure completion, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.UniformPartitionUp.UniformPartitionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Uniform partition NameCert obligations]
+\label{thm:uniform-partition-namecert-obligations}
+For every accepted $\UniformPartitionUp$ carrier
+$$
+U=(I,O,\delta,k,E,B,M,T,H,C,P,N),
+$$
+the local $\NameCert_{\UniformPartitionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the interval source, dyadic origin, positive mesh width, unary cell count, equal-width cell ledger, endpoint coverage, dyadic handoff, consumer boundary, transport, replay, provenance, and local naming rows;
+\item equal-mesh exactness, requiring every cell listed in $E$ to have width $\delta$ and to be adjacent to its successor through displayed dyadic arithmetic;
+\item endpoint coverage, requiring $B$ to identify the first and last cell boundaries with the interval source row $I$ through $O,\delta,k,E$;
+\item dyadic handoff, requiring $M$ to expose only the ordered $\DyadicPartitionUp$ row and the $\DyadicMeshUp$ mesh-bound row computed from the same ledger $E$;
+\item consumer boundary, requiring $T$ to route Darboux, Riemann, and regulated-function consumers through $I,E,B,M$ before any integration-facing read is available;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name exactly the displayed rows.
+\end{enumerate}
+No local certificate obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-partition-carrier}. The accepted packet lists the interval row, dyadic origin, positive width, unary count, cell ledger, endpoint coverage, dyadic handoff, consumer boundary, and the four structural rows.
+
+Equal-mesh exactness is the projection to $E$. Each finite cell row contains its two dyadic endpoints, the displayed adjacency relation to neighboring cells, and the equality of its width with $\delta$.
+
+Endpoint coverage is the projection to $B$. The first and last boundaries are read through the same origin, width, count, and ledger, so coverage does not appeal to compactness or to an external subdivision theorem.
+
+The dyadic and integration-facing exports are terminal. Row $M$ exposes the ordered partition and mesh bound, while $T$ records the permitted Darboux, Riemann, and regulated-function consumers. Rows $H,C,P,N$ transport, replay, source, and name only this finite surface, so the excluded host principles are absent from the obligation set.
+\end{proof}
+
+\begin{theorem}[Uniform partition dyadic mesh handoff]
+\label{thm:uniform-partition-dyadic-mesh-handoff}
+Every accepted $\UniformPartitionUp$ packet hands off to $\DyadicPartitionUp$ and $\DyadicMeshUp$ consumers only through the finite route
+$$
+I,O,\delta,k \longmapsto E \longmapsto B \longmapsto M .
+$$
+The row $M$ therefore exposes an ordered dyadic partition, a positive mesh width, endpoint coverage, and the mesh bound as a single visible object; it does not export selected tags, open-cover compactness, quotient equality of functions, measure completion, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only dyadic consumer coordinate is $M$, and the displayed replay row $C$ places $M$ after the interval source, origin, width, count, equal-cell ledger, and endpoint coverage rows.
+
+The ordered partition read is supplied by $E$ and $B$. Each cell row in $E$ gives its dyadic endpoints and equal width, while $B$ fixes the first and last endpoints against the real interval source.
+
+The mesh read is therefore the same finite ledger viewed through $\DyadicMeshUp$. Since no tag, compactness, quotient, measure, or completeness coordinate is present in the carrier, the handoff cannot expose those host objects.
+\end{proof}
+
+\begin{theorem}[Uniform partition integration consumer boundary]
+\label{thm:uniform-partition-integration-consumer-boundary}
+A $\DarbouxSumUp$, $\RiemannIntegrableUp$, $\RiemannIntegralUp$, or $\RegulatedFunctionUp$ consumer of an accepted $\UniformPartitionUp$ carrier receives only the interval row $I$, equal-cell ledger $E$, endpoint coverage row $B$, dyadic handoff $M$, consumer-boundary row $T$, and structural rows $H,C,P,N$. The consumer may use the finite equal-mesh partition as a mesh surface, but the packet does not supply tags, lower or upper sums, integrand equality, a measure-completion object, open-cover compactness, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the consumer-boundary row $T$. By \autoref{def:uniform-partition-carrier}, $T$ is downstream of the displayed route through $I,O,\delta,k,E,B,M$.
+
+A Darboux or Riemann consumer may read the equal-width cells and endpoint coverage through $E$ and $B$, then use $M$ as the dyadic partition or mesh surface. The carrier does not contain lower sums, upper sums, selected tags, or an integrand row, so those data must be supplied by the consuming chapter.
+
+A regulated-function consumer receives the same finite partition boundary. Rows $H,C,P,N$ preserve, replay, source, and name the route, but they do not create quotient function equality, measure completion, compactness, or ambient real completeness.
+\end{proof}
+
+\closureat{UniformPartitionUp}{seedStr}
+
+\begin{closurestatus}{\UniformPartitionUp}
+  \constructivestory{A $\UniformPartitionUp$ packet is generated from a $\RealUp$ interval source row, dyadic origin row, positive dyadic mesh-width row, unary cell-count row, equal-width cell ledger, endpoint coverage row, $\DyadicPartitionUp$ and $\DyadicMeshUp$ handoff row, Darboux, Riemann, and regulated-function consumer boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-partition-carrier}, \autoref{thm:uniform-partition-namecert-obligations}, \autoref{thm:uniform-partition-dyadic-mesh-handoff}, and \autoref{thm:uniform-partition-integration-consumer-boundary} seed the finite equal-mesh partition certificate over the Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected tags, quotient function equality, measure completion, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, equal-mesh exactness, endpoint coverage, dyadic handoff, integration consumer boundary, transport, replay, provenance, and local NameCert rows for BEDC.Derived.UniformPartitionUp.}
+\end{closurestatus}

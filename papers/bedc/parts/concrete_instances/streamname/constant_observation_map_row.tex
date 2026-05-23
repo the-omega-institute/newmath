@@ -11,3 +11,15 @@ Now use the scheduled constant observation package. Its $\Cont$ replay and $\Pkg
 
 Finally read the consumers. $\RegSeqRatUp$ and $\RealUp$ may consume the finite StreamName carrier, classifier, transport, replay, provenance, and naming rows supplied here; they do not receive a real-completeness claim, quotient stream equality, or hidden completion coordinate from this map row.
 \end{proof}
+
+\begin{theorem}[StreamName pointwise map stability]\label{thm:streamname-pointwise-map-stability}
+Let $r$ be a unary reindexing map on finite histories, and let $F$ be a pointwise map on rational-history observations. If $r$ sends every unary window to a unary window, $F$ preserves the $\RatHistoryUp$ carrier, and $F$ preserves the $\RatHistoryUp$ classifier, then the $\StreamNameUp$ carrier and classifier rows are stable both under reindexing by $r$ and under pointwise mapping by $F$. The exported route remains a finite StreamName row: it contains only the StreamName carrier, classifier, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data, and it does not introduce quotient stream equality or real-completeness data.
+\end{theorem}
+\leanvariant{BEDC.Derived.StreamNameUp.RatStreamName\_reindexing\_and\_map\_stability}
+\begin{proof}
+Project the accepted StreamName carrier and classifier rows. For reindexing, a requested unary window $n$ is sent to the unary window $r(n)$, so the original carrier and classifier rows apply directly at the transported observation coordinate.
+
+For pointwise mapping, evaluate the original carrier and classifier rows at the same unary window. The carrier-preservation hypothesis for $F$ transports each displayed rational history, and the classifier-preservation hypothesis transports the paired rational-history classifier row.
+
+Finally repack the transported rows into the public StreamName packet. The route exports the same finite StreamName, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ fields after these two transports, so downstream $\RegSeqRatUp$ and $\RealUp$ consumers receive a non-quotient mapped-stream handoff rather than an added completion coordinate.
+\end{proof}

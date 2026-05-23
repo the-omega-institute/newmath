@@ -1,0 +1,173 @@
+\begin{theorem}[RegSeqRat finite-window map preservation]
+\label{thm:regseqrat-uniform-continuity-preservation}
+Let $S$ be an accepted $\RegSeqRatUp$ readback row carried by a finite
+$\BHist$ packet with its displayed $\StreamNameUp$ finite-window rows, its
+$\DyadicRatCoreUp$ endpoint, radius, and finite-distance ledger, its
+$\RegSeqRatUp$ classifier and regularity rows, and its $\hsame$, $\Cont$,
+$\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ support. Let $M$ be a uniformly
+controlled finite-window map row on the same support. Assume $M$ sends every
+displayed StreamName window to a displayed StreamName window, transports the
+DyadicRatCore tolerance ledger by the stated finite modulus row, and preserves
+the RegSeqRat classifier and regularity rows on each finite observation
+window.
+
+Then the readback row obtained by applying $M$ to $S$ is again an accepted
+$\RegSeqRatUp$ readback row over a finite four-face packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with the transported $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ support. The construction is finite-window
+inductive and introduces no quotient stream equality, selected limit,
+countable-choice row, host function equality, ambient $\RealUp$ completeness,
+or second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Start from the finite request source section of
+\autoref{thm:regseqrat-finite-request-source-section}. It places the source
+readback on one finite packet carrying the StreamName windows, DyadicRatCore
+tolerance ledger, RegSeqRat classifier and regularity rows, and the displayed
+support.
+
+Apply the map row on the StreamName and dyadic faces. The StreamName pullback
+and lock results,
+\autoref{thm:streamname-finite-section-pullback-exactness} and
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}, keep the
+transported windows as finite observed rows. The dyadic source uniqueness
+theorem \autoref{thm:dyadicratcore-scale-window-real-exit-source-uniqueness}
+keeps the transported endpoint, radius, and distance ledger on the same finite
+tolerance surface.
+
+Now perform induction over the finite observation window family. The base
+window is the transported singleton read supplied by the map row. In the
+induction step, the preservation hypotheses identify the new overlap rows
+with the already transported StreamName and DyadicRatCore rows, while the
+RegSeqRat classifier and regularity rows are preserved by assumption.
+
+The induction is glued by
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage} and
+\autoref{thm:regseqrat-audit-threshold-finite-cover-gluing}. Those theorems
+turn compatible local four-face packets into one accepted terminal readback
+without adding a quotient stream, selected limit, choice row, host equality,
+ambient completeness datum, or second Real seal.
+
+Finally use
+\autoref{thm:regseqrat-stream-dyadic-real-section-coherence} and
+\autoref{thm:regseqrat-four-face-refinement-functoriality}. They identify the
+transported readback as a single RegSeqRat source section over the same
+StreamName, DyadicRatCore, RegSeqRat, and Real faces, so the output of $M$ is
+accepted as a $\RegSeqRatUp$ readback row.
+\end{proof}
+
+\begin{theorem}[RegSeqRat uniformly controlled Real seal handoff]
+\label{thm:regseqrat-uniform-continuity-real-seal-handoff}
+Let $S$ be an accepted $\RegSeqRatUp$ readback row whose terminal consumer is a
+Phase $\RealUp$ and Completion seal, and let $M$ be a uniformly controlled
+finite-window map row satisfying the hypotheses of
+\autoref{thm:regseqrat-uniform-continuity-preservation}. Then the
+$\RealUp$-facing seal read of the transported row factors through exactly the
+four finite faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with the map-control row $M$ and the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert_{\RegSeqRatUp}$ support.
+
+This handoff is the RegSeqRat-side input needed by the
+$\CauchyContinuousExtensionUp$ route: it reads the mapped regular Cauchy data
+through StreamName windows, DyadicRatCore tolerances, the RegSeqRat accepted
+readback, and the terminal Real seal. It exports no quotient stream, host
+function equality, selected limit, countable-choice row, ambient $\RealUp$
+completeness, or independent Real completion coordinate.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-uniform-continuity-preservation} to the source
+readback and the map-control row. The result is an accepted transported
+$\RegSeqRatUp$ readback over the same finite support and the same four visible
+faces.
+
+Read the transported row at the Real boundary. The terminal exactness theorem
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies its
+accepted Real seal precisely with the displayed StreamName, DyadicRatCore,
+RegSeqRat, and Real rows. The source uniqueness theorem
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a
+second RegSeqRat source over those rows.
+
+Next compare this handoff with the local cover surface. The finite-cover
+gluing theorem
+\autoref{thm:regseqrat-audit-threshold-finite-cover-gluing} and the local
+four-face coverage theorem
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage} keep the
+seal read invariant under finite cover refinement of the transported windows.
+Thus every Real-facing read of the mapped row is recovered from the same
+finite four-face packet and the same map-control row.
+
+Finally point the packet toward the completion-extension consumer. The
+$\CauchyContinuousExtensionUp$ regular source handoff of
+\autoref{thm:cauchy-continuous-extension-regular-source-handoff} in
+\autoref{ch:concrete-instances-cauchy-continuous-extension-namecert} consumes
+regular source data only through StreamName finite windows, a DyadicRatCore
+tolerance ledger, a Cauchy-continuous map row, and the resulting completion
+surface. The handoff above supplies exactly the RegSeqRat source side of that
+route before any completed extension is read.
+
+Since each cited step is a finite BEDC row calculation, no quotient stream,
+host function equality, selected limit, countable-choice row, ambient
+$\RealUp$ completeness, or independent completion coordinate is available to
+enter the seal read.
+\end{proof}
+
+\begin{theorem}[RegSeqRat uniform-continuity window modulus composition]
+\label{thm:regseqrat-uniform-continuity-window-modulus-composition}
+Let $S$ be an accepted $\RegSeqRatUp$ readback row with its displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegSeqRatUp}$ rows. Let $M_0$ and
+$M_1$ be uniformly controlled finite-window map rows, each satisfying the
+hypotheses of
+\autoref{thm:regseqrat-uniform-continuity-preservation}. Assume that the output
+four-face packet of $M_0$ is the input four-face packet of $M_1$, with the same
+StreamName, DyadicRatCore, RegSeqRat, Real, history, continuity, package, and
+local NameCert rows exposed on the shared boundary.
+
+Then the composed finite-window row $M_1 \circ M_0$ preserves the accepted
+$\RegSeqRatUp$ readback of $S$ and exports a single Phase $\RealUp$ and
+Completion handoff through exactly the same four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ rows. The composed route introduces no quotient
+stream, selected limit, countable-choice row, host function equality, ambient
+$\RealUp$ completeness, or second Real seal.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-uniform-continuity-preservation} to $S$ and
+$M_0$. This gives an accepted intermediate RegSeqRat readback over the output
+packet of $M_0$, with the transported StreamName windows, DyadicRatCore
+tolerance ledger, RegSeqRat classifier, Real face, $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and local NameCert rows still displayed as finite BEDC data.
+
+Use the boundary hypothesis to read that intermediate output packet as the
+input packet of $M_1$. A second application of
+\autoref{thm:regseqrat-uniform-continuity-preservation} therefore produces the
+accepted readback for $M_1 \circ M_0$. The four-face refinement functoriality
+theorem \autoref{thm:regseqrat-four-face-refinement-functoriality} identifies
+the two finite transports with one composed route rather than two unrelated
+readback choices.
+
+The cover bookkeeping is finite. Apply
+\autoref{thm:regseqrat-audit-threshold-finite-cover-gluing} to glue the
+modulus windows used by $M_0$ and $M_1$ into the single observed finite cover
+seen by the composed row. This keeps the overlap checks inside the displayed
+StreamName, DyadicRatCore, RegSeqRat, and Real faces and does not add a new
+ambient equality principle.
+
+Finally apply \autoref{thm:regseqrat-uniform-continuity-real-seal-handoff} to
+the composed accepted readback. The handoff theorem reads the terminal seal
+only through the displayed four-face packet and its $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and NameCert support. Since both preservation steps and the
+finite-cover gluing are internal row calculations, there is no quotient stream,
+selected limit, countable-choice row, host function equality, ambient
+$\RealUp$ completeness, or second Real seal available for the composed route.
+\end{proof}

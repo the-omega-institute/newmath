@@ -1,0 +1,11 @@
+\begin{theorem}[IntUp Nat Add Rat Dyadic sibling exhaustion]
+\label{thm:int-nat-add-dyadic-sibling-exhaustion}
+Every $\RatUp$ or $\DyadicRatCoreUp$ consumer of $\IntUp$ signed numerator data first reads the $\NatUp$ magnitude row and the $\AddUp$ balance row. Only after those rows are displayed may the consumer read the $\RatUp$ denominator row or the $\DyadicRatCoreUp$ mantissa and denominator rows. The route exports finite signed-unary dependency data, not a host integer quotient, primitive subtraction row, host rational quotient, selected real limit, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the rational sibling route. By \autoref{thm:int-nat-add-rat-sibling-route}, a rational consumer receives the signed-pair carrier only after the $\NatUp$ unary magnitude rows and the $\AddUp$ balance rows have been read.
+
+The dyadic dependency spine preserves the same order. By \autoref{prop:int-nat-add-rat-dyadic-dependency-spine}, the signed rows feed the $\RatUp$ denominator surface and then the $\DyadicRatCoreUp$ denominator and mantissa routes; the dyadic rows do not provide an independent source for signed integer data.
+
+Finally apply \autoref{thm:int-dyadicratcore-denominator-route-sibling-repair}. The dyadic consumer reads the $\IntUp$ signed-pair carrier through the rational denominator normalization surface before using the dyadic mantissa support. Hence every Rat or DyadicRatCore consumer factors through Nat magnitude and Add balance rows before denominator or mantissa rows are available.
+\end{proof}

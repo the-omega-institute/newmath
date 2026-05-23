@@ -308,4 +308,24 @@ theorem KernelAcceptanceWitnessPacket_semantic_name_certificate [AskSetup] [Pack
       exact source
   }
 
+theorem KernelAcceptanceWitnessLedgerPurity [AskSetup] [PackageSetup]
+    {generated accepted environmentLedger axiomQuery refusal transport routes provenance nameCert
+      acceptance purityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelAcceptanceWitnessPacket generated accepted environmentLedger axiomQuery refusal
+        transport routes provenance nameCert acceptance bundle pkg →
+      Cont accepted axiomQuery purityRead →
+      PkgSig bundle acceptance pkg →
+      UnaryHistory accepted ∧ UnaryHistory environmentLedger ∧ UnaryHistory axiomQuery ∧
+        UnaryHistory refusal ∧ UnaryHistory purityRead ∧
+          Cont generated environmentLedger accepted ∧ Cont accepted axiomQuery purityRead ∧
+            PkgSig bundle acceptance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory PkgSig AskSetup PackageSetup
+  intro packet purityCont pkgSig
+  exact
+    ⟨packet.right.left, packet.right.right.left, packet.right.right.right.left,
+      packet.right.right.right.right.left,
+      unary_cont_closed packet.right.left packet.right.right.right.left purityCont,
+      packet.right.right.right.right.right.right.left, purityCont, pkgSig⟩
+
 end BEDC.Derived.KernelAcceptanceWitnessUp

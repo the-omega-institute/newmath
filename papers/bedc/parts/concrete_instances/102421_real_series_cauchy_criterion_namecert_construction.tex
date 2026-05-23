@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\RealSeriesCauchyCriterionUp$}
+\label{ch:concrete-instances-real-series-cauchy-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealSeriesCauchyCriterionUp$ packet records the finite Cauchy criterion route by which displayed partial-sum windows of a real series are sealed as regular Cauchy data before a $\RealUp$ endpoint is read. It refines the real-series surface of \autoref{ch:concrete-instances-realseries-namecert}, uses the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, reads term and partial-sum windows through \autoref{ch:concrete-instances-streamname-namecert}, accounts for tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, and lands at the Bishop regular-Cauchy limit seal of \autoref{ch:concrete-instances-bishop-regular-cauchy-limit-seal-namecert}. The packet names a criterion over finite displayed rows; it does not import host infinite sums, selected limits, quotient equality of real streams, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real series Cauchy criterion carrier]\label{def:real-series-cauchy-criterion-carrier}
+A $\RealSeriesCauchyCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,S,D,R,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the real-valued term stream, accessed only through selected $\StreamNameUp$ windows and the displayed term rows already admitted by the $\RealSeriesUp$ surface.
+\item $S$ is the partial-sum window row, listing the finite initial segments, later comparison windows, and the displayed subtraction or difference reads used to compare two partial sums.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the requested dyadic error bounds, finite addition errors, and comparison radii consumed by the criterion.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same partial-sum windows and dyadic tolerance ledger.
+\item $M$ is the shared tail-threshold row: for each displayed tolerance request, one threshold governs every pair of partial-sum windows whose indices lie beyond it.
+\item $E$ is the $\RealUp$ endpoint seal reached only after $T,S,D,R,M$ have been displayed and routed through the Bishop regular-Cauchy limit seal.
+\item $H$ stores componentwise $\hsame$ transport for the term stream, partial-sum window, dyadic ledger, regular readback, shared threshold, endpoint seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from term windows to partial sums, from partial sums to dyadic comparisons, from dyadic comparisons to the shared threshold, and from that threshold through regular readback to the endpoint seal.
+\item $P$ is the $\Pkg$ provenance over $\RealSeriesCauchyCriterionUp$, $\RealSeriesUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BishopRegularCauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealSeriesCauchyCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,S,D,R,M,E,H,C,P,N$. It has no coordinate for a host infinite sum, selected sequence limit, quotient equality of real streams, countable-choice selector, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Real series Cauchy criterion obligation surface]\label{thm:real-series-cauchy-criterion-obligation-surface}
+For every accepted $\RealSeriesCauchyCriterionUp$ carrier $K=(T,S,D,R,M,E,H,C,P,N)$, the local $\NameCert_{\RealSeriesCauchyCriterionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the ten displayed rows;
+\item partial-sum window coverage, requiring every term read and every two-window comparison to factor through $T$ and $S$;
+\item Cauchy-tail threshold stability, requiring the shared row $M$ to serve all later partial-sum comparisons for the displayed tolerance request;
+\item $\RegSeqRatUp$ and $\RealUp$ handoff, requiring $R$ and $E$ to be downstream of the same finite threshold route and the Bishop regular-Cauchy limit seal;
+\item ledger nonescape, requiring every tolerance, transport, continuation, provenance, and local naming read to remain inside $D,H,C,P,N$.
+\end{enumerate}
+No obligation row asserts host summability, selected infinite sums, quotient equality of real streams, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $K=(T,S,D,R,M,E,H,C,P,N)$. Carrier admission exposes exactly the term-stream row, partial-sum window row, dyadic ledger, regular readback, shared threshold, endpoint seal, and structural rows.
+
+For a displayed tolerance request, inspect the finite partial-sum windows in $S$. The term data used to build those windows are read through $T$, and the only admissible comparison information is the dyadic accounting stored in $D$.
+
+The shared threshold row $M$ is then replayed. Its stability claim is finite: the same displayed threshold is reused for all later partial-sum comparisons requested by the packet, and no unrecorded global convergence object is consulted.
+
+Finally the handoff to $R$ and $E$ follows the same route through the Bishop regular-Cauchy limit seal. The rows $H,C,P,N$ transport, replay, source, and name that finite route, so the listed obligations exhaust the NameCert surface and leave no coordinate for host summability or ambient completeness.
+\end{proof}
+
+\closureat{RealSeriesCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RealSeriesCauchyCriterionUp}
+  \constructivestory{A $\RealSeriesCauchyCriterionUp$ packet is generated from a real-valued term stream, finite partial-sum windows, a dyadic tolerance ledger, RegSeqRat readback, one shared tail-threshold row, a RealUp endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-series-cauchy-criterion-carrier} and \autoref{thm:real-series-cauchy-criterion-obligation-surface} seed the finite Cauchy criterion route from displayed real-series partial sums to regular-Cauchy Real seals.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RealSeriesCauchyCriterionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, selected sequence limits, quotient equality of real streams, countable choice, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{A checked carrier theorem can encode the same term-stream, partial-sum window, dyadic ledger, shared threshold, RegSeqRat handoff, Real seal, transport, continuation, provenance, and local NameCert rows.}
+\end{closurestatus}

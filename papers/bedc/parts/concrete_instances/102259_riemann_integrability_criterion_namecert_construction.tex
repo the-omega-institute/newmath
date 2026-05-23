@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RiemannIntegrabilityCriterionUp$}
+\label{ch:concrete-instances-riemann-integrability-criterion-namecert}
+\origin{human}
+
+Following Riemann, Darboux, and Bishop--Bridges constructive analysis, the $\RiemannIntegrabilityCriterionUp$ packet names the finite Cauchy-refinement criterion for Riemann/Darboux integrability. It sits after the tagged-sum surface of \autoref{ch:concrete-instances-riemannsum-namecert}, the upper-lower gap route of \autoref{ch:concrete-instances-darbouxintegral-namecert}, the dyadic finite partition carrier of \autoref{ch:concrete-instances-dyadic-partition-namecert}, and the regulated step-primitive handoff of \autoref{ch:concrete-instances-regulatedintegral-namecert}. The packet turns refinement Cauchy control into a $\RealUp$-facing integral handoff without importing host integrability, quotient function equality, selected tags, measure completion, or ambient Real completeness.
+
+\begin{definition}[Riemann integrability criterion carrier]
+\label{def:riemann-integrability-criterion-carrier}
+A $\RiemannIntegrabilityCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(P,S,G,R,B,Q,E,H,C,V,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite partition row, read through $\DyadicPartitionUp$, naming the ordered cells, endpoints, boundary contact, and common-refinement interface.
+\item $S$ is the Riemann-sum row, read through $\RiemannSumUp$, exposing tagged sums only through displayed cells, tags, widths, values, and finite arithmetic.
+\item $G$ is the Darboux upper-lower gap row, read through $\DarbouxIntegralUp$, recording the visible upper sum, lower sum, and dyadic gap budget on a displayed common refinement.
+\item $R$ is the common-refinement row. It names the finite refinement that simultaneously transports the partition cells, tagged-sum cells, and Darboux upper/lower approximants before any Cauchy comparison is read.
+\item $B$ is the dyadic tolerance budget. It records the requested precision, the finite refinement depth, and the budget split used to compare all carried Riemann and Darboux rows inside the same dyadic interval.
+\item $Q$ is the $\RegSeqRatUp$ handoff row produced from the displayed refinement Cauchy data.
+\item $E$ is the $\RealUp$ seal attached to the regular rational handoff, exposing the candidate integral only through the Cauchy-refinement budget.
+\item $H$ records componentwise $\hsame$ transport for partitions, Riemann sums, Darboux gaps, refinement rows, tolerance budgets, $\RegSeqRatUp$ handoff, $\RealUp$ seal, continuation rows, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite partitions to tagged sums, from tagged sums and upper/lower approximants to common refinement, from refinement gap control to the regular rational handoff, and from that handoff to the real seal.
+\item $V$ is the $\Pkg$ provenance over $\RiemannIntegrabilityCriterionUp$, $\RiemannSumUp$, $\DarbouxIntegralUp$, $\DyadicPartitionUp$, $\RegSeqRatUp$, $\RegulatedIntegralUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannIntegrabilityCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,S,G,R,B,Q,E,H,C,V,N$. It has no coordinate for a host integrability predicate, quotient equality of integrands, a selected tag family, measure completion, or ambient Real-completeness data.
+\end{definition}
+
+\begin{theorem}[Riemann integrability criterion NameCert obligations]
+\label{thm:riemann-integrability-criterion-namecert-obligations}
+For every accepted $\RiemannIntegrabilityCriterionUp$ carrier $K=(P,S,G,R,B,Q,E,H,C,V,N)$, the local $\NameCert_{\RiemannIntegrabilityCriterionUp}$ surface consists of carrier admission, finite partition exposure, Riemann-sum readback, Darboux upper/lower gap exposure, common-refinement stability, dyadic tolerance-budget exactness, $\RegSeqRatUp$ handoff, $\RealUp$ seal, componentwise transport, continuation replay, provenance, and ledger non-escape. These obligations are discharged by the finite route
+$$
+P,S,G\longmapsto R\longmapsto B\longmapsto Q\longmapsto E
+$$
+together with $H,C,V,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the tuple in \autoref{def:riemann-integrability-criterion-carrier}. The partition row $P$, the Riemann-sum row $S$, and the Darboux gap row $G$ are displayed before any limiting language is available to a consumer.
+
+Common-refinement stability is obtained by finite refinement induction on $R$. The base case is the carried partition itself. In the refinement step, each new dyadic subcell records its parent cell, transports the tag and upper/lower approximation reads through $H$, and replays the finite sum and gap routes through $C$.
+
+The dyadic tolerance-budget row $B$ then compares the transported Riemann sums and Darboux upper/lower gaps on the same refined cells. Since the budget is finite, the comparison is a row of $\BHist$ arithmetic rather than a host quantification over all refinements.
+
+The handoff rows $Q$ and $E$ are read only after the budget route has been displayed. Provenance $V$ and the local name $N$ source the packet, and the absence of host-integrability, quotient-function, selected-tag, measure-completion, and ambient-completeness coordinates gives ledger non-escape.
+\end{proof}
+
+\begin{theorem}[Cauchy refinement handoff]
+\label{thm:riemann-integrability-criterion-cauchy-refinement-handoff}
+An accepted $\RiemannIntegrabilityCriterionUp$ packet hands a Real-facing integration consumer only the displayed finite partition row, Riemann-sum row, Darboux gap row, common-refinement row, dyadic tolerance budget, $\RegSeqRatUp$ row, $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replays, $\Pkg$ provenance, and local $\NameCert$ row. The handoff supplies the constructive Cauchy refinement criterion for the integral value, but it does not export host integrability, quotient equality of functions, selected tags, measure completion, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:riemann-integrability-criterion-namecert-obligations}. A consumer first receives the finite partition, Riemann-sum, and Darboux gap rows, with the sibling surfaces of \autoref{ch:concrete-instances-riemannsum-namecert}, \autoref{ch:concrete-instances-darbouxintegral-namecert}, and \autoref{ch:concrete-instances-dyadic-partition-namecert} fixing the finite reads.
+
+The common-refinement row $R$ is then consumed before any regular rational name is exposed. Finite refinement induction transports each relevant tagged-sum and upper/lower gap read to the shared dyadic cells, so the tolerance budget $B$ compares rows that live in one displayed refinement ledger.
+
+The row $Q$ packages these budgeted comparisons as a $\RegSeqRatUp$ handoff, and $E$ seals the result as the Real-facing candidate integral. A $\RegulatedIntegralUp$ consumer may use the same finite step-primitive route of \autoref{ch:concrete-instances-regulatedintegral-namecert}, but it receives only the rows listed in the carrier.
+
+Thus the Cauchy refinement criterion reaches the Real boundary through finite BEDC data. The excluded analytic objects have no carrier coordinate and no continuation route, so they cannot be exported by the handoff.
+\end{proof}
+
+\closureat{RiemannIntegrabilityCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RiemannIntegrabilityCriterionUp}
+  \constructivestory{A $\RiemannIntegrabilityCriterionUp$ packet is generated from finite partition rows, Riemann-sum rows, Darboux upper/lower gap rows, a displayed common-refinement row, a dyadic tolerance budget, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-integrability-criterion-carrier}, \autoref{thm:riemann-integrability-criterion-namecert-obligations}, and \autoref{thm:riemann-integrability-criterion-cauchy-refinement-handoff} seed the constructive Cauchy-refinement criterion connecting finite Riemann/Darboux control to a Real-facing integral handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host integrability, quotient function equality, selected tag families, measure completion, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition exposure, Riemann-sum readback, Darboux gap exposure, common-refinement stability, dyadic tolerance-budget exactness, $\RegSeqRatUp$ handoff, $\RealUp$ seal, transport, replay, provenance, and non-escape for BEDC.Derived.RiemannIntegrabilityCriterionUp.}
+\end{closurestatus}

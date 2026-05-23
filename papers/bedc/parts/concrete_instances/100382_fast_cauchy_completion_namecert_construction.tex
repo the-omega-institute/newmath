@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\FastCauchyCompletionUp$}
+\label{ch:concrete-instances-fast-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy completion with explicit moduli, the $\FastCauchyCompletionUp$ packet records the finite route by which a modulus-controlled Cauchy name is exposed to Real and Completion consumers. It sits on the L10 spine supplied by the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the Real-facing modulus route of \autoref{ch:concrete-instances-realcauchymodulus-namecert}, and the rate-comparison boundary of \autoref{ch:concrete-instances-cauchy-rate-comparison-namecert}. The packet is a finite NameCert surface for modulus-controlled completion reads; it is not a quotient stream, a selected limit, trichotomy, countable choice, host equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Fast Cauchy completion carrier]
+\label{def:fast-cauchy-completion-carrier}
+A $\FastCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(M_0,S,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M_0$ is the $\CauchyModulusUp$ threshold row. It records the finite precision request, the displayed tail index, and the modulus budget that every downstream completion or Real read must consume.
+\item $S$ is the $\StreamNameUp$ finite-window row opened at the threshold named by $M_0$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the same window, including dyadic radii, endpoint comparisons, rounding rows, and tolerance arithmetic.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from $S$ and $D$ under the budget exposed by $M_0$.
+\item $E$ is the terminal $\RealUp$ seal handoff reached only after $M_0,S,D,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus row, stream windows, dyadic ledger, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite completion or Real precision request through $M_0,S,D,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FastCauchyCompletionUp$, $\RealCauchyModulusUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyRateComparisonUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FastCauchyCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M_0,S,D,Q,E,H,C,P,N$. It has no coordinate for quotient streams, selected limits, trichotomy, countable choice, host equality, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Fast Cauchy completion NameCert obligations]
+\label{thm:fast-cauchy-completion-namecert-obligations}
+For every accepted $\FastCauchyCompletionUp$ carrier $M=(M_0,S,D,Q,E,H,C,P,N)$, the local $\NameCert_{\FastCauchyCompletionUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Cauchy-modulus threshold, stream-window row, dyadic tolerance ledger, regular rational readback, Real seal handoff, and structural rows $H,C,P,N$;
+\item modulus discipline, requiring every finite precision request to read the threshold row $M_0$ before any stream window, dyadic tolerance, regular readback, or Real seal is exposed;
+\item stream and dyadic readback, requiring $S$ and $D$ to be read under the same displayed modulus budget before the $\RegSeqRatUp$ row $Q$ may be consumed;
+\item Real-seal handoff, requiring $E$ to be terminal with respect to $M_0,S,D,Q$ and to expose no detached Real object or ambient completeness theorem;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same ordered route under componentwise sameness and displayed continuation replay;
+\item ledger non-escape, requiring $P$ and $N$ to name only the displayed rows and to export no quotient stream, selected limit, trichotomy, countable-choice, host-equality, or ambient-completeness coordinate.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.FastCauchyCompletionUp.FastCauchyCompletionUp\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:fast-cauchy-completion-carrier}. The visible packet consists of the modulus threshold $M_0$, finite stream window $S$, dyadic tolerance ledger $D$, regular readback $Q$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Modulus discipline follows from the placement of $M_0$ at the front of the route. A completion-facing precision request first fixes the displayed threshold, and every later observation is read inside the finite budget named by that threshold.
+
+The stream and dyadic readback obligation reads \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert} in order. The window $S$ and ledger $D$ are consumed before $Q$ is available, so regular rational data cannot be detached from the displayed modulus budget.
+
+The Real-seal handoff reads \autoref{ch:concrete-instances-realcauchymodulus-namecert}, \autoref{ch:concrete-instances-cauchy-rate-comparison-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The row $E$ is terminal and downstream of $M_0,S,D,Q$, while $H,C,P,N$ transport, replay, package, and name exactly that route.
+
+Since quotient streams, selected limits, trichotomy, countable choice, host equality, and ambient Real completeness are absent from the carrier, no local NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[Fast Cauchy completion modulus Real seal]
+\label{thm:fast-cauchy-completion-modulus-real-seal}
+Let $M=(M_0,S,D,Q,E,H,C,P,N)$ be an accepted $\FastCauchyCompletionUp$ carrier. Every Real-facing read exported by $M$ factors through the displayed modulus route
+$$
+M_0 \longmapsto S \longmapsto D \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently a Real or Completion consumer receives a Cauchy-modulus threshold, finite stream windows, dyadic tolerance arithmetic, regular rational readback, the terminal Real seal, transport, replay, provenance, and local naming before it can read the Real-facing datum. The route cannot use quotient streams, selected limits, trichotomy, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing read of $M$. By \autoref{def:fast-cauchy-completion-carrier}, the only Real coordinate is $E$, and the definition places it downstream of the modulus threshold $M_0$, stream window $S$, dyadic ledger $D$, and regular readback row $Q$.
+
+The first part of the route is fixed by the modulus and finite-window rows. The threshold $M_0$ supplies the finite tail budget, $S$ exposes only the corresponding stream observations, and $D$ supplies the dyadic tolerances and endpoint comparisons for those observations.
+
+The second part of the route is fixed by regular readback and the Real seal. The row $Q$ is consumed only after $S$ and $D$, and $E$ seals the Real-facing datum only after the regular row has been displayed.
+
+Finally, $H,C,P,N$ preserve and name the same dependency order. Because the excluded objects have no coordinate in the carrier and no replay edge in the displayed route, every Real-facing read factors through the modulus route shown in the statement.
+\end{proof}
+
+\falsifiablePrediction{Every $\FastCauchyCompletionUp$ Real-facing read factors through a CauchyModulus threshold, StreamName finite windows, DyadicRatCore tolerance arithmetic, RegSeqRat readback, a RealUp seal, transport, replay, provenance, and local naming.}
+
+\independenceWitness{real-cauchy-modulus, cauchy-modulus, streamname, dyadicratcore, regseqrat, cauchy-rate-comparison, real: $\FastCauchyCompletionUp$ is not bijective to any listed sibling because it jointly carries the modulus threshold, stream window, dyadic tolerance ledger, regular readback, terminal Real seal, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{FastCauchyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\FastCauchyCompletionUp}
+  \constructivestory{A $\FastCauchyCompletionUp$ packet is generated from a CauchyModulus threshold row, StreamName finite windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fast-cauchy-completion-carrier}, \autoref{thm:fast-cauchy-completion-namecert-obligations}, and \autoref{thm:fast-cauchy-completion-modulus-real-seal} seed the finite modulus-controlled completion route from CauchyModulus thresholds to terminal $\RealUp$ reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, trichotomy, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus discipline, stream and dyadic readback, Real-seal handoff, transport and replay stability, ledger non-escape, and TasteGate field faithfulness for BEDC.Derived.FastCauchyCompletionUp.}
+\end{closurestatus}

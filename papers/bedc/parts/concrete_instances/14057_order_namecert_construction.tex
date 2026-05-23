@@ -16,6 +16,7 @@ $$
 $$
 where $h$ and $k$ are $\NatUp$ unary histories, $\beta$ is one displayed constructive comparison branch, and $\lambda$ is the finite ledger that justifies that branch. The branch $\beta$ is either a left-prefix witness from $h$ to $k$, a right-prefix witness from $k$ to $h$, or a classifier row $h\hsame k$. The ledger $\lambda$ records only $\mathsf{BHist}$ constructors, $\hsame$ transport, and $\Cont$ prefix rows over the two unary histories.
 \end{definition}
+\leanchecked{BEDC.Derived.OrderUp.TasteGate.OrderUpTasteGate\_single\_carrier\_alignment}
 
 \begin{definition}[OrderUp unary comparison classifier]
 \label{def:order-unary-comparison-classifier}
@@ -77,6 +78,17 @@ The ledger replay uses only the original $\BHist$ rows, the two endpoint $\hsame
 \end{proof}
 \leanchecked{BEDC.Derived.OrderUp.OrderEndpointTransportObligation}
 
+\begin{theorem}[OrderUp prefix branch antisymmetry]\label{thm:order-prefix-branch-antisymmetry}
+Let $h$ and $k$ be unary $\NatUp$ histories. Suppose one accepted $\OrderUp$ packet displays a left-prefix branch from $h$ to $k$, and another accepted $\OrderUp$ packet displays a right-prefix branch from $k$ to $h$. Then the two endpoints are classified by $h\hsame k$. Equivalently, an arithmetic consumer of the public $\OrderUp$ face cannot use opposite strict-prefix branches as two independent order facts; the paired finite ledgers collapse to the equality classifier row of \autoref{def:order-unary-comparison-classifier}.
+\end{theorem}
+\begin{proof}
+Read both packets through the carrier of \autoref{def:order-unary-comparison-carrier}. The only data available are the endpoints, the displayed branch, and the finite $\BHist$ ledger of $\Cont$ prefix rows and endpoint $\hsame$ rows. By \autoref{thm:order-unary-comparison-namecert-obligations}, no host order or external trichotomy row can enter the comparison.
+
+Induct on the paired unary prefix ledgers. At the empty-prefix boundary, the two displayed branches have no remaining strict $\Cont$ step on either side. The classifier of \autoref{def:order-unary-comparison-classifier} therefore identifies the endpoints by the equality branch $h\hsame k$.
+
+In the successor-prefix case, both opposite branches begin by exposing one shared $\Cont$ step through the unary history spine. Strip that step from the left-prefix ledger and from the right-prefix ledger, apply the induction hypothesis to the two tails, and obtain the tail endpoint classifier. Finally, transport this classifier back across the stripped endpoint rows using \autoref{thm:order-endpoint-transport-obligation}. The transported equality classifier is exactly $h\hsame k$.
+\end{proof}
+
 \begin{theorem}[OrderUp Int consumer boundary]
 \label{thm:order-int-consumer-boundary}
 Every $\IntUp$ order-facing read of $\OrderUp$ factors through signed-pair endpoint comparisons inherited from the $\NatUp$ spine and the $\AddUp$ continuation rows. In the signed-pair chapter \autoref{ch:concrete-instances-int-namecert}, an integer comparison may consume only the $\mathsf{OrdRow}$ packets attached to the displayed positive and negative unary components and their endpoint transport rows. It never imports host integer order, quotient order, ordered ring structure, or a trichotomy principle.
@@ -112,27 +124,30 @@ The classifier of \autoref{def:order-unary-comparison-classifier} adds only endp
 
 The provenance rows record which $\NatUp$ histories the endpoints came from. Therefore any consumer replay that claims to use $\OrderUp$ can be checked against this list: endpoints, branch, endpoint classifier rows, continuation replay, and provenance. There is no remaining slot in the NameCert ledger for a host order, quotient order, trichotomy selector, or ordered-ring import.
 \end{proof}
+\leanchecked{BEDC.Derived.OrderUp.OrderUnaryComparison\_obligation\_prefix\_ledger\_exhaustion}
 
 \begin{theorem}[OrderUp public unary comparison export]
 \label{thm:order-public-unary-comparison-export}
-The carrier of \autoref{def:order-unary-comparison-carrier}, the classifier of \autoref{def:order-unary-comparison-classifier}, the NameCert obligations of \autoref{thm:order-unary-comparison-namecert-obligations}, the Full Nat Arithmetic handoff of \autoref{thm:order-full-nat-arithmetic-handoff}, the $\AddUp$ and $\MulUp$ boundary of \autoref{thm:order-add-mul-consumer-boundary}, the endpoint transport obligation of \autoref{thm:order-endpoint-transport-obligation}, the $\IntUp$ boundary of \autoref{thm:order-int-consumer-boundary}, the $\RatUp$ boundary of \autoref{thm:order-rat-consumer-boundary}, and the ledger exhaustion of \autoref{thm:order-obligation-prefix-ledger-exhaustion} together form the public $\OrderUp$ unary-comparison export. A public arithmetic consumer receives only finite $\BHist$ unary comparison rows with endpoint $\hsame$ transport and $\Cont$ prefix replay, not host order, quotient order, ordered algebraic structure, or classical trichotomy.
+The carrier of \autoref{def:order-unary-comparison-carrier}, the classifier of \autoref{def:order-unary-comparison-classifier}, the NameCert obligations of \autoref{thm:order-unary-comparison-namecert-obligations}, the Full Nat Arithmetic handoff of \autoref{thm:order-full-nat-arithmetic-handoff}, the $\AddUp$ and $\MulUp$ boundary of \autoref{thm:order-add-mul-consumer-boundary}, the endpoint transport obligation of \autoref{thm:order-endpoint-transport-obligation}, the prefix branch antisymmetry theorem of \autoref{thm:order-prefix-branch-antisymmetry}, the $\IntUp$ boundary of \autoref{thm:order-int-consumer-boundary}, the $\RatUp$ boundary of \autoref{thm:order-rat-consumer-boundary}, and the ledger exhaustion of \autoref{thm:order-obligation-prefix-ledger-exhaustion} together form the public $\OrderUp$ unary-comparison export. A public arithmetic consumer receives only finite $\BHist$ unary comparison rows with endpoint $\hsame$ transport, $\Cont$ prefix replay, and equality collapse for opposite prefix ledgers, not host order, quotient order, ordered algebraic structure, or classical trichotomy.
 \end{theorem}
 \begin{proof}
 The carrier and classifier first determine the public object being exported: an $\mathsf{OrdRow}$ stores two $\NatUp$ unary histories, one prefix-or-equality branch, and a finite ledger, while classifier transport moves only the two endpoints and replays the displayed branch.
 
 The NameCert obligations and Full Nat Arithmetic handoff then make this packet consumable. They provide the inhabited row, classifier laws, stability clause, and ledger policy needed by the arithmetic phase, without adding a second order carrier or a host relation.
 
-The consumer-boundary theorems identify the public readers. The $\AddUp$ and $\MulUp$ boundary, the $\IntUp$ boundary, and the $\RatUp$ boundary all route their order-facing uses through the same finite packet and endpoint transport obligation.
+The endpoint transport and prefix branch antisymmetry theorems control branch movement. Endpoint transport preserves the displayed branch under $\hsame$, while antisymmetry collapses opposite finite prefix ledgers to the equality classifier row.
+
+The consumer-boundary theorems identify the public readers. The $\AddUp$ and $\MulUp$ boundary, the $\IntUp$ boundary, and the $\RatUp$ boundary all route their order-facing uses through the same finite packet, endpoint transport obligation, and opposite-prefix collapse.
 
 Finally, ledger exhaustion proves that the exported inventory is complete. Since every accepted consumer read is checked against the endpoints, branch, endpoint classifier rows, continuation replay, and provenance rows, the public surface contains only finite $\BHist$ unary comparison data and excludes host order, quotient order, ordered algebraic structure, and classical trichotomy.
 \end{proof}
 
 \begin{theorem}[OrderUp finite arithmetic mature consumer package]
 \label{thm:order-finite-arithmetic-mature-consumer-package}
-Every mature Full Nat Arithmetic consumer of $\OrderUp$ factors through the finite unary comparison carrier of \autoref{def:order-unary-comparison-carrier}, the endpoint transport obligation of \autoref{thm:order-endpoint-transport-obligation}, the $\AddUp$ and $\MulUp$ consumer boundary of \autoref{thm:order-add-mul-consumer-boundary}, the $\IntUp$ consumer boundary of \autoref{thm:order-int-consumer-boundary}, the $\RatUp$ consumer boundary of \autoref{thm:order-rat-consumer-boundary}, and the ledger exhaustion theorem of \autoref{thm:order-obligation-prefix-ledger-exhaustion}. The mature package exposes only finite $\BHist$ unary comparison rows, endpoint $\hsame$ transport, $\Cont$ prefix replay, provenance rows, and the arithmetic consumer routes named above. It does not export host natural order, classical trichotomy, quotient order, ordered semiring structure, ordered ring structure, or field order.
+Every mature Full Nat Arithmetic consumer of $\OrderUp$ factors through the finite unary comparison carrier of \autoref{def:order-unary-comparison-carrier}, the endpoint transport obligation of \autoref{thm:order-endpoint-transport-obligation}, the prefix branch antisymmetry theorem of \autoref{thm:order-prefix-branch-antisymmetry}, the $\AddUp$ and $\MulUp$ consumer boundary of \autoref{thm:order-add-mul-consumer-boundary}, the $\IntUp$ consumer boundary of \autoref{thm:order-int-consumer-boundary}, the $\RatUp$ consumer boundary of \autoref{thm:order-rat-consumer-boundary}, and the ledger exhaustion theorem of \autoref{thm:order-obligation-prefix-ledger-exhaustion}. The mature package exposes only finite $\BHist$ unary comparison rows, endpoint $\hsame$ transport, $\Cont$ prefix replay, equality collapse for opposite prefix ledgers, provenance rows, and the arithmetic consumer routes named above. It does not export host natural order, classical trichotomy, quotient order, ordered semiring structure, ordered ring structure, or field order.
 \end{theorem}
 \begin{proof}
-Apply the public export theorem \autoref{thm:order-public-unary-comparison-export} to identify the available $\OrderUp$ surface. It supplies the unary comparison carrier, classifier obligations, Full Nat Arithmetic handoff, endpoint transport obligation, consumer boundaries, and exhausted finite ledger as one public packet.
+Apply the public export theorem \autoref{thm:order-public-unary-comparison-export} to identify the available $\OrderUp$ surface. It supplies the unary comparison carrier, classifier obligations, Full Nat Arithmetic handoff, endpoint transport obligation, prefix branch antisymmetry, consumer boundaries, and exhausted finite ledger as one public packet.
 
 The arithmetic consumers are then read through their boundary theorems. Apply \autoref{thm:order-add-mul-consumer-boundary} for the $\AddUp$ and $\MulUp$ routes, \autoref{thm:order-int-consumer-boundary} for signed-pair comparison reads, and \autoref{thm:order-rat-consumer-boundary} for numerator and positive-denominator comparison reads.
 
@@ -148,7 +163,7 @@ Finally, apply \autoref{thm:order-obligation-prefix-ledger-exhaustion}. Since ev
 \begin{closurestatus}{\OrderUp}
   \constructivestory{An $\OrderUp$ packet records finite unary comparison rows over the shared $\NatUp$ spine. Its carrier stores two unary endpoint histories, a displayed prefix-or-classifier branch, and the finite ledger rows over $\BHist$, $\hsame$, and $\Cont$ that justify that branch; arithmetic consumers read only that finite comparison surface.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:order-unary-comparison-carrier}, \autoref{def:order-unary-comparison-classifier}, \autoref{thm:order-unary-comparison-namecert-obligations}, \autoref{thm:order-full-nat-arithmetic-handoff}, \autoref{thm:order-add-mul-consumer-boundary}, \autoref{thm:order-endpoint-transport-obligation}, \autoref{thm:order-int-consumer-boundary}, \autoref{thm:order-rat-consumer-boundary}, \autoref{thm:order-obligation-prefix-ledger-exhaustion}, \autoref{thm:order-public-unary-comparison-export}, and \autoref{thm:order-finite-arithmetic-mature-consumer-package} bind the paper-side unary comparison, Full Nat Arithmetic handoff, arithmetic consumer transport rows, Int/Rat comparison boundary, ledger exhaustion, public finite order-packet export, and mature consumer package.}
+  \scopeclosed{\autoref{def:order-unary-comparison-carrier}, \autoref{def:order-unary-comparison-classifier}, \autoref{thm:order-unary-comparison-namecert-obligations}, \autoref{thm:order-full-nat-arithmetic-handoff}, \autoref{thm:order-add-mul-consumer-boundary}, \autoref{thm:order-endpoint-transport-obligation}, \autoref{thm:order-prefix-branch-antisymmetry}, \autoref{thm:order-int-consumer-boundary}, \autoref{thm:order-rat-consumer-boundary}, \autoref{thm:order-obligation-prefix-ledger-exhaustion}, \autoref{thm:order-public-unary-comparison-export}, and \autoref{thm:order-finite-arithmetic-mature-consumer-package} bind the paper-side unary comparison, Full Nat Arithmetic handoff, arithmetic consumer transport rows, opposite-prefix equality collapse, Int/Rat comparison boundary, ledger exhaustion, public finite order-packet export, and mature consumer package.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.OrderUp.OrderFullNatArithmeticHandoff}
   \bridgestatus{none}

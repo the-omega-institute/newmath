@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\PicardLindelofLocalFlowUp$}
+\label{ch:concrete-instances-picard-lindelof-local-flow-namecert}
+\origin{human}
+
+Following Picard, Lindelof, and Bishop--Bridges, the $\PicardLindelofLocalFlowUp$ packet records the local-flow part of constructive ODE existence and uniqueness as finite NameCert data. It refines the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the Lipschitz vector-field ledger of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the contraction-map surface of \autoref{ch:concrete-instances-contractionmapping-namecert}, the finite Picard route of \autoref{ch:concrete-instances-picardcontraction-namecert}, the complete-metric limit handoff of \autoref{ch:concrete-instances-completemetric-namecert}, the stream naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational sequence ledger of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names a local flow row over a displayed time-state window; it does not select a global solution curve, quotient completed paths, assert ambient real completeness, or compare host functions extensionally.
+
+\begin{definition}[Picard--Lindelof local-flow carrier]
+\label{def:picard-lindelof-local-flow-carrier}
+A $\PicardLindelofLocalFlowUp$ carrier is a finite $\BHist$ packet
+$$
+P=(O,F,K,L,M,S,R,H,C,G,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ local-flow source row, including the initial time-state cell, the local time window, and the displayed endpoint row to be named;
+\item $F$ is the $\LipschitzMapUp$ vector-field ledger on the same local window, with graph reads and a displayed Lipschitz bound;
+\item $K$ is the $\ContractionMappingUp$ row obtained by reading the Picard operator as a contraction on the local approximant surface;
+\item $L$ is the $\PicardContractionUp$ finite-iteration row, recording the successive Picard approximants and the one-step contraction comparisons that keep them inside the window;
+\item $M$ is the $\CompleteMetricUp$ handoff row for the carried approximant space, containing the Cauchy modulus, limit row, and late-observation comparisons for the Picard stream;
+\item $S$ is the $\StreamNameUp$ row naming the visible approximant stream without replacing it by a host sequence object;
+\item $R$ is the $\RegSeqRatUp$ rational control row that records the local radius, time-step, and modulus budgets used by the contraction and completion rows;
+\item $H$ stores componentwise $\hsame$ transport for the ODE source, Lipschitz ledger, contraction row, Picard route, completion handoff, stream name, rational control row, replay rows, provenance row, and local naming row;
+\item $C$ stores the displayed $\Cont$ replay from the initial ODE row through the Lipschitz graph reads, Picard operator, finite iteration route, complete-metric handoff, and endpoint classifier;
+\item $G$ is the $\Pkg$ provenance row over $\PicardLindelofLocalFlowUp$, $\OdeUp$, $\LipschitzMapUp$, $\ContractionMappingUp$, $\PicardContractionUp$, $\CompleteMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ dependency rows;
+\item $N$ is the local $\NameCert_{\PicardLindelofLocalFlowUp}$ row.
+\end{enumerate}
+The carrier exposes only these finite rows. It has no coordinate for host function equality, quotient completion equality, choice-selected solution curves, ambient $\RealUp$ completeness, or maximal continuation.
+\end{definition}
+
+\begin{theorem}[Picard--Lindelof local-flow NameCert obligations]
+\label{thm:picard-lindelof-local-flow-namecert-obligations}
+For an accepted $\PicardLindelofLocalFlowUp$ carrier
+$$
+P=(O,F,K,L,M,S,R,H,C,G,N),
+$$
+the local $\NameCert_{\PicardLindelofLocalFlowUp}$ surface consists exactly of carrier admission for the displayed rows, ODE source compatibility for $O$, Lipschitz graph stability for $F$, contraction packaging for $K$, finite Picard iteration for $L$, complete-metric handoff for $M$, stream-name visibility for $S$, rational budget visibility for $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:picard-lindelof-local-flow-carrier}. Each accepted packet displays the ODE source row, vector-field ledger, contraction row, Picard route, completion row, stream name, rational budget, transport, replay, provenance, and local name.
+
+The source rows $O,F,R$ fix the local window. The ODE row supplies the initial time-state cell and endpoint row, the Lipschitz row supplies the graph reads and bound, and the rational control row supplies the time-step and radius budgets that keep the later rows inside the same window.
+
+The iteration rows $K,L,S$ are finite. The contraction row packages the Picard operator through \autoref{ch:concrete-instances-contractionmapping-namecert}, the Picard route records only finitely many displayed approximants through \autoref{ch:concrete-instances-picardcontraction-namecert}, and the stream-name row names that visible approximant stream without selecting an external sequence.
+
+The completion row $M$ is a handoff to \autoref{ch:concrete-instances-completemetric-namecert}. It contributes the Cauchy modulus, limit row, and late-observation comparisons needed by the local endpoint classifier, but it does not identify quotient representatives or import ambient $\RealUp$ completeness.
+
+Finally $H,C,G,N$ transport, replay, source, and name the same finite surface. Since all exported rows are fields of $P$, the certificate cannot assert host function equality, choose a solution curve, or extend the local window beyond the displayed nonescape data.
+\end{proof}
+
+\begin{theorem}[Picard--Lindelof local-flow Picard handoff]
+\label{thm:picard-lindelof-local-flow-picard-handoff}
+Every accepted $\PicardLindelofLocalFlowUp$ carrier factors each local-flow endpoint read through the finite route
+$$
+\OdeUp \longmapsto \LipschitzMapUp \longmapsto \ContractionMappingUp \longmapsto \PicardContractionUp \longmapsto \CompleteMetricUp.
+$$
+The route first opens the ODE source and Lipschitz vector-field ledger, then packages the Picard operator as a contraction, then records finite Picard iteration, then hands the resulting Cauchy stream to the complete-metric row. The local uniqueness boundary compares only local-flow rows that share the same $O,F,R$ window data and the same displayed handoff rows $K,L,M,S,H,C,G,N$.
+\end{theorem}
+\begin{proof}
+Start with $O$ and $F$. The ODE source fixes the local-flow problem and the Lipschitz ledger supplies the only vector-field graph reads available to the packet.
+
+Build the finite Picard stage next. The row $K$ reads the Picard operator as a $\ContractionMappingUp$ packet, while $L$ records the displayed finite approximants and one-step comparisons. No step is a host function application; each step is a $\BHist$ row replayed by $C$ and transported componentwise by $H$.
+
+Use $S$ and $R$ to keep the iteration visible. The stream-name row names the finite prefix and its continuing ledger, and the rational control row supplies the budgets used to keep the prefix inside the nonescape window.
+
+The complete-metric handoff is the row $M$. It reads the Picard stream as a Cauchy object, records the limit row and late comparisons, and returns only the endpoint row licensed by the same local window.
+
+For uniqueness, compare two accepted packets over the same $O,F,R$ rows. Their endpoint comparison is the local classifier induced by the shared contraction, Picard, completion, stream, transport, replay, provenance, and naming rows. The comparison therefore stays inside the local NameCert surface and does not become host function equality, quotient completion equality, a selected solution curve, or a global continuation theorem.
+\end{proof}
+
+\falsifiablePrediction{Every $\PicardLindelofLocalFlowUp$ endpoint read factors through one Ode row, one LipschitzMap vector-field ledger, one ContractionMapping Picard-operator row, one PicardContraction finite-iteration row, one CompleteMetric handoff row, one StreamName row, one RegSeqRat budget row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{ode, lipschitzmap, contractionmapping, picardcontraction, completemetric, streamname, regseqrat: $\PicardLindelofLocalFlowUp$ is not bijective to any listed sibling because it jointly carries ODE source data, Lipschitz graph data, contraction packaging, finite Picard iteration, complete-metric handoff, stream naming, rational local-window budgets, and the transport/replay/provenance rows binding them into one local-flow certificate.}
+
+\closureat{PicardLindelofLocalFlowUp}{seedStr}
+
+\begin{closurestatus}{\PicardLindelofLocalFlowUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:picard-lindelof-local-flow-carrier}, \autoref{thm:picard-lindelof-local-flow-namecert-obligations}, and \autoref{thm:picard-lindelof-local-flow-picard-handoff} seed the constructive local-flow packet over ODE source rows, Lipschitz vector-field ledgers, contraction packaging, finite Picard iteration, complete-metric handoff, stream naming, rational local-window budgets, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global ODE existence, maximal interval continuation, host function equality, quotient completion equality, choice-selected solution curves, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ODE source compatibility, Lipschitz graph stability, contraction packaging, finite Picard iteration, complete-metric handoff, stream-name visibility, rational budget visibility, transport, replay, provenance, and local naming for BEDC.Derived.PicardLindelofLocalFlowUp.}
+  \constructivestory{A $\PicardLindelofLocalFlowUp$ packet is generated from one ODE local-flow source row, one LipschitzMap vector-field ledger, one ContractionMapping Picard-operator row, one PicardContraction finite-iteration row, one CompleteMetric handoff row, one StreamName row, one RegSeqRat local-window budget row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

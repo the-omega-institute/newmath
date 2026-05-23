@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyMaxUp$}
+\label{ch:concrete-instances-regularcauchymax-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyMaxUp$ packet reads the maximum of two regular Cauchy names constructively through the identity $max(x,y)=(x+y+|x-y|)/2$. The certificate factors that identity through the finite pointwise-sum surface of \autoref{ch:concrete-instances-regularcauchysum-namecert}, the absolute-value surface of \autoref{ch:concrete-instances-regularcauchyabs-namecert}, the rational scaling surface of \autoref{ch:concrete-instances-regularcauchyscale-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. It does not compare completed reals by trichotomy, choose a larger host real, quotient streams, or appeal to ambient completeness.
+
+\begin{definition}[RegularCauchyMax carrier]
+\label{def:regular-cauchy-max-carrier}
+A $\RegularCauchyMaxUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,B,W_A,W_B,D_A,D_B,S,\Delta,V,T,Q,R,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $A$ and $B$ are the two source $\RegSeqRatUp$ regular rational Cauchy name rows.
+\item $W_A$ and $W_B$ are the aligned $\StreamNameUp$ windows used to observe the two sources at the same precision requests.
+\item $D_A$ and $D_B$ are the displayed $\DyadicRatCoreUp$ endpoint rows read from those windows.
+\item $S$ is the $\RegularCauchySumUp$ row for the source sum $A+B$.
+\item $\Delta$ is the displayed $\RegularCauchySumUp$ difference row for $A+(-B)$, with the negation supplied by the same rational scaling route used by the sibling operation surface.
+\item $V$ is the $\RegularCauchyAbsUp$ row for $|\Delta|$.
+\item $T$ is the $\RegularCauchySumUp$ row for $S+V$.
+\item $Q$ is the $\RegularCauchyScaleUp$ row scaling $T$ by the displayed rational one-half.
+\item $R$ is the $\RegSeqRatUp$ readback row assembled from the scaled regular Cauchy name.
+\item $E$ is the $\RealUp$ seal row reached only after the readback row $R$ has been exposed.
+\item $H$ records componentwise $\hsame$ transport for the two sources, aligned windows, dyadic endpoints, sum, difference, absolute-value, second sum, half-scale, readback, seal, provenance, and local name.
+\item $C$ records the displayed $\Cont$ routes from the source windows to the dyadic endpoint rows, through the sum-absolute-value factorization, through the half-scale row, and onward to the readback and real seal.
+\item $P$ records $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchySumUp$, $\RegularCauchyAbsUp$, $\RegularCauchyScaleUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyMaxUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for trichotomy on real names, host real order, quotient stream equality, selected limits, or a $\RealUp$ completeness principle.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyCarrierNameCertUp.CauchyCarrierNameCertTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RegularCauchyMax NameCert obligations]
+\label{thm:regular-cauchy-max-namecert-obligations}
+The local $\NameCert_{\RegularCauchyMaxUp}$ surface for \autoref{def:regular-cauchy-max-carrier} consists exactly of two-source $\RegSeqRatUp$ admission, aligned $\StreamNameUp$ window exposure, $\DyadicRatCoreUp$ endpoint readback, the $\RegularCauchySumUp$ rows for $A+B$, $A+(-B)$, and $S+V$, the $\RegularCauchyAbsUp$ row for the displayed difference, the $\RegularCauchyScaleUp$ row by one-half, the $\RegSeqRatUp$ readback, the $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $M$. The coordinates expose the two source regular names, their aligned stream windows, their dyadic endpoint rows, the three sum rows, the difference absolute-value row, the half-scale row, the regular readback, the real seal, and the structural rows.
+
+The operation obligations are inherited from the cited sibling surfaces. Use \autoref{ch:concrete-instances-regularcauchysum-namecert} for the source sum, the difference row, and the post-absolute-value sum; use \autoref{ch:concrete-instances-regularcauchyabs-namecert} for $|\Delta|$; and use \autoref{ch:concrete-instances-regularcauchyscale-namecert} for multiplication by the displayed rational one-half.
+
+The readback and seal obligations are then the finite handoffs through $\RegSeqRatUp$ and $\RealUp$. The rows $H,C,P,N$ transport, replay, source, and name this same route without adding trichotomy, host real order, quotient streams, selected limits, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RegularCauchyMax sum-abs factorization]
+\label{thm:regular-cauchy-max-sum-abs-factorization}
+For every accepted $\RegularCauchyMaxUp$ carrier $M=(A,B,W_A,W_B,D_A,D_B,S,\Delta,V,T,Q,R,E,H,C,P,N)$, every maximum-facing consumer factors through the displayed route
+$$
+(A,B,W_A,W_B,D_A,D_B)
+\longrightarrow
+(S,\Delta,V,T)
+\longrightarrow
+Q
+\longrightarrow
+R .
+$$
+Thus the maximum readback is the regular Cauchy name obtained from $max(x,y)=(x+y+|x-y|)/2$ by finite sum, absolute-value, and one-half scaling rows, not by a comparison oracle for completed reals.
+\end{theorem}
+\begin{proof}
+Begin with a maximum-facing consumer of the accepted packet. The only source reads available to it are the two $\RegSeqRatUp$ rows $A,B$, the aligned windows $W_A,W_B$, and the endpoint rows $D_A,D_B$.
+
+Next build the algebraic route. The row $S$ displays the source sum, $\Delta$ displays the difference route, $V$ displays the absolute value of that difference, and $T$ displays the sum of $S$ with $V$. Each row is a finite sibling NameCert row over the same visible window and endpoint data.
+
+Finally apply the half-scale row $Q$ and expose the readback $R$. Since $R$ is downstream of $Q$, and $Q$ is downstream of $S,\Delta,V,T$, the consumer route is exactly the stated sum-absolute-value factorization.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMax Real seal boundary]
+\label{thm:regular-cauchy-max-real-seal-boundary}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyMaxUp$ carrier reaches the seal row $E$ only after the $\RegSeqRatUp$ readback $R$ has been assembled from the aligned source windows, dyadic endpoint rows, $\RegularCauchySumUp$ rows, $\RegularCauchyAbsUp$ difference row, and $\RegularCauchyScaleUp$ half-scale row. The real-facing boundary exposes no trichotomy witness, host real order, quotient stream equality, selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a real-facing consumer. By \autoref{thm:regular-cauchy-max-sum-abs-factorization}, the consumer cannot reach the maximum readback $R$ until the finite sum, difference, absolute-value, post-absolute-value sum, and one-half scale rows have all been displayed.
+
+The seal row $E$ is downstream of $R$. The continuation rows first replay the aligned source windows and dyadic endpoints, then the sibling operation rows, then the $\RegSeqRatUp$ readback consumed by the terminal $\RealUp$ seal.
+
+Since \autoref{def:regular-cauchy-max-carrier} contains no coordinate for trichotomy, host real order, quotient stream equality, selected limits, or completeness, the real-facing boundary is exhausted by the displayed finite route.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyMaxUp}
+  \constructivestory{A $\RegularCauchyMaxUp$ packet is generated from two RegSeqRat source rows, aligned StreamName windows, DyadicRatCore endpoint observations, RegularCauchySum rows for sum and difference assembly, a RegularCauchyAbs difference row, a RegularCauchyScale half-scale row, a RegSeqRat readback row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-max-carrier}, \autoref{thm:regular-cauchy-max-namecert-obligations}, \autoref{thm:regular-cauchy-max-sum-abs-factorization}, and \autoref{thm:regular-cauchy-max-real-seal-boundary} seed the finite constructive maximum route through regular Cauchy sum, absolute value, one-half scaling, readback, and RealUp sealing.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, trichotomy on real names, host real order, quotient stream equality, selected limits, ambient completeness, or a public standard bridge.}
+  \upgradepath{Obligation closure requires BEDC.Derived.RegularCauchyMaxUp to check carrier admission, the sum-absolute-value factorization, RealUp seal boundary, transport stability, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}

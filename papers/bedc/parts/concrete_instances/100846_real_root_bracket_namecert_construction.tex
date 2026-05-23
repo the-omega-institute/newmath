@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\RealRootBracketUp$}
+\label{ch:concrete-instances-real-root-bracket-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, a root bracket is read as a finite sign-change interval together with the displayed continuity and bisection evidence that keeps the interval meaningful at a requested tolerance. The $\RealRootBracketUp$ packet packages that route as BEDC data: endpoint interval and sign rows are inspected through the intermediate-value surfaces of \autoref{ch:concrete-instances-intermediatevalue-namecert} and \autoref{ch:concrete-instances-intermediate-value-bisection-namecert}, retained windows are supplied by \autoref{ch:concrete-instances-bisectionrootisolation-namecert}, image transport is routed through \autoref{ch:concrete-instances-cauchy-continuous-image-namecert}, and the terminal readback uses \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-continuousmap-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The certificate names a bracket surface, not a selected root.
+
+\begin{definition}[RealRootBracket carrier]
+\label{def:real-root-bracket-carrier}
+A $\RealRootBracketUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,S,M,V,K,W,A,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the endpoint interval row. It records the lower and upper endpoint windows, rational or dyadic cells, endpoint order evidence, and the interval identity consumed by the bracket.
+\item $S$ is the endpoint sign row. It stores the displayed lower and upper sign data and the sign-change orientation used by the bracket packet.
+\item $M$ is the $\ContinuousMapUp$ modulus row for the inspected function, including the input tolerance demanded by each bracket tolerance request.
+\item $V$ is the $\IntermediateValueUp$ ledger row. It records the finite intermediate-value obligation surface attached to the interval, signs, and displayed continuity data.
+\item $K$ is the $\IntermediateValueBisectionUp$ ledger row. It records the finite branch prefix, midpoint sign rows, and regular-window handoff used to refine the initial sign-change interval.
+\item $W$ is the $\BisectionRootIsolationUp$ retained-window row. It stores the lower and upper retained endpoint windows after the requested branch prefix.
+\item $A$ is the $\CauchyContinuousImageUp$ image route row. It records how endpoint and midpoint function reads are replayed through the displayed continuity modulus and image-window route.
+\item $R$ is the $\StreamNameUp$ window row for the retained lower and upper endpoint names.
+\item $D$ is the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ readback ledger, containing the regular rational endpoint readbacks, dyadic tolerances, endpoint comparisons, branch radii, and rounding rows used by the bracket.
+\item $E$ is the terminal $\RealUp$ seal row for the retained bracket endpoints and for any Real-facing bracket consumer.
+\item $H$ records componentwise $\hsame$ transport for the endpoint interval, endpoint signs, modulus row, intermediate-value ledgers, retained windows, image route, stream windows, regular and dyadic readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bracket request through endpoint inspection, sign inspection, modulus use, intermediate-value admission, bisection refinement, retained-window exposure, image routing, regular readback, and Real-seal consumption.
+\item $P$ is the $\Pkg$ provenance over $\RealRootBracketUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\ContinuousMapUp$, $\IntermediateValueUp$, $\IntermediateValueBisectionUp$, $\BisectionRootIsolationUp$, $\CauchyContinuousImageUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealRootBracketUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,S,M,V,K,W,A,R,D,E,H,C,P,N$. It has no coordinate for a selected root, quotient real equality, real trichotomy, open-cover compactness, ambient $\RealUp$ completeness, or host root equality.
+\end{definition}
+\leanchecked{BEDC.Derived.RealRootBracketUp.RealRootBracketTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RealRootBracket NameCert obligations]
+\label{thm:real-root-bracket-namecert-obligations}
+For every accepted $\RealRootBracketUp$ carrier
+$$
+B=(I,S,M,V,K,W,A,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealRootBracketUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the endpoint interval, endpoint signs, continuous-map modulus, intermediate-value ledger, intermediate-value bisection ledger, retained isolating windows, continuous-image route, stream windows, regular and dyadic readback, Real seal, transports, replay, provenance, and local naming;
+\item endpoint discipline, requiring $I$ and $S$ to expose the bracket interval and opposite displayed sign rows before any bisection or Real-facing row is available;
+\item modulus discipline, requiring $M$ to answer each requested bracket tolerance by a displayed source tolerance consumed by the endpoint and image rows;
+\item intermediate-value discipline, requiring $V$ and $K$ to attach every sign-change branch and midpoint sign row to the already displayed endpoint and modulus data;
+\item retained-window discipline, requiring $W$ to store only windows retained by the finite bisection ledger and to expose them through $R$ and $D$ before the Real seal is read;
+\item image-route discipline, requiring $A$ to replay function-value reads through the $\CauchyContinuousImageUp$ surface rather than through host function extensionality;
+\item seal nonescape, requiring $E,H,C,P,N$ to export only the displayed bracket rows and no selected root, quotient real equality, real trichotomy, open-cover compactness, ambient $\RealUp$ completeness, or host root equality.
+\end{enumerate}
+No RealRootBracket obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-root-bracket-carrier}. The accepted packet displays exactly the endpoint interval, sign rows, modulus, intermediate-value ledgers, retained windows, image route, regular readback, Real seal, and structural rows.
+
+Endpoint discipline is the first stage of the route. The interval row $I$ and sign row $S$ must be opened before the intermediate-value or bisection rows can be inspected, so the packet cannot replace the bracket by a host interval or by a completed root.
+
+The modulus and intermediate-value disciplines are the middle stage. The continuous-map row $M$ supplies the tolerance conversion, the row $V$ records the finite intermediate-value surface, and the row $K$ records the branch prefix and midpoint signs that retain a sign-change window.
+
+Retained-window discipline and image-route discipline are downstream of that branch prefix. The row $W$ exposes only the retained windows; $R$ and $D$ read them as StreamName, RegSeqRat, and DyadicRatCore data; $A$ replays function-value reads through the CauchyContinuousImage route.
+
+Finally, $E,H,C,P,N$ seal, transport, replay, package, and name the same finite route. Since selected roots, quotient real equality, real trichotomy, open-cover compactness, ambient Real completeness, and host root equality are absent from the carrier, no local obligation can export them.
+\end{proof}
+
+\begin{theorem}[RealRootBracket bisection handoff]
+\label{thm:real-root-bracket-bisection-handoff}
+Every $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer of an accepted $\RealRootBracketUp$ carrier factors through the displayed route
+$$
+I,S,M,V \longmapsto K \longmapsto W \longmapsto R,D \longmapsto E,H,C,P,N .
+$$
+The consumer first reads the endpoint interval, sign rows, modulus data, and intermediate-value ledger; then the finite IntermediateValueBisection branch prefix; then the retained BisectionRootIsolation windows; then the regular rational and dyadic readback; and only then the Real-facing bracket seal. The handoff exports a finite bracket window, not a selected root or host equality theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $B=(I,S,M,V,K,W,A,R,D,E,H,C,P,N)$. The only endpoint and sign coordinates are $I$ and $S$, and the only continuity coordinate is $M$, so every bracket read begins with those rows.
+
+The intermediate-value stage is recorded by $V$ and $K$. The row $V$ admits the sign-change obligation attached to the displayed endpoint and modulus data, while $K$ records the finite branch prefix and midpoint sign rows used by the bisection route.
+
+The retained-window stage is $W$. It is downstream of $K$ and supplies the visible lower and upper windows that are then exposed through $R$ and $D$ as StreamName, RegSeqRat, and DyadicRatCore data at the requested tolerance.
+
+The Real-facing stage is terminal. The seal $E$ is read only after the retained windows and readback ledger are fixed, while $H,C,P,N$ transport, replay, package, and name the same route. The image row $A$ is also bound to this route, because its function-value reads consume the displayed modulus and retained endpoint windows.
+
+Thus every listed consumer factors through the finite handoff route. No step introduces a selected root, quotient real equality, real trichotomy, open-cover compactness, ambient Real completeness, or host root equality.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealRootBracketUp$ read factors through endpoint interval and sign rows, one $\ContinuousMapUp$ modulus row, $\IntermediateValueUp$ and $\IntermediateValueBisectionUp$ ledgers, one $\BisectionRootIsolationUp$ retained-window row, one $\CauchyContinuousImageUp$ image route row, $\StreamNameUp$ windows, $\RegSeqRatUp$ and $\DyadicRatCoreUp$ readback, one $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{real, regseqrat, dyadicratcore, continuousmap, intermediatevalue, intermediate-value-bisection, bisectionrootisolation, cauchy-continuous-image: $\RealRootBracketUp$ is not bijective to any listed sibling because it jointly carries endpoint sign data, a continuity modulus, intermediate-value admission, bisection branch data, retained isolating windows, continuous-image replay, regular and dyadic readback, and a Real-facing bracket seal.}
+
+\closureat{RealRootBracketUp}{seedStr}
+
+\begin{closurestatus}{\RealRootBracketUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-root-bracket-carrier}, \autoref{thm:real-root-bracket-namecert-obligations}, and \autoref{thm:real-root-bracket-bisection-handoff} seed the finite constructive root-bracketing route from endpoint signs and continuity data through intermediate-value bisection, retained isolating windows, continuous-image replay, regular and dyadic readback, and Real-facing seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected roots, quotient reals, real trichotomy, open-cover compactness, ambient $\RealUp$ completeness, host root equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint discipline, modulus discipline, intermediate-value ledger discipline, retained-window handoff, image-route replay, seal nonescape, and bisection-handoff factorization for BEDC.Derived.RealRootBracketUp.}
+  \constructivestory{A $\RealRootBracketUp$ packet is generated from endpoint interval and sign rows, a $\ContinuousMapUp$ modulus row, $\IntermediateValueUp$ and $\IntermediateValueBisectionUp$ ledgers, $\BisectionRootIsolationUp$ retained windows, a $\CauchyContinuousImageUp$ image route, $\StreamNameUp$ windows, $\RegSeqRatUp$ and $\DyadicRatCoreUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\PrimitiveRecursionUp$}
+\label{ch:concrete-instances-primitive-recursion-namecert}
+\origin{human}
+
+Kleene/Dedekind-style primitive recursion grounding reads a function over unary depth by naming the seed row, the displayed step row, and the finite trace that iterates the step along a $\NatUp$ spine. The $\PrimitiveRecursionUp$ packet sits after the unary-history surface of \autoref{ch:concrete-instances-nat-namecert}, the continuation addition route of \autoref{ch:concrete-instances-add-namecert}, the finite-window schedule surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the regular Cauchy subtraction consumer of \autoref{ch:concrete-instances-regular-cauchy-subtraction-namecert}. It gives L10 Real and Completion chapters a displayed schedule generator over unary indices; it is not host natural-number recursion, a partial-recursive minimisation principle, quotient stream equality, countable choice, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[PrimitiveRecursion carrier]
+\label{def:primitive-recursion-carrier}
+A $\PrimitiveRecursionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(D,S,T,U,W,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\NatUp$ unary-depth row. It is the only index spine along which the recursion may advance.
+\item $S$ is the seed row. It records the value exposed at depth zero before any step row is replayed.
+\item $T$ is the step row. It records one displayed successor transition, with its predecessor value, successor depth, and output value carried as finite $\BHist$ data.
+\item $U$ is the recursive trace row. It is a finite UnaryHistory list of seed-and-step applications from $S$ along $D$ to the terminal value named by the packet.
+\item $W$ is the $\StreamNameUp$ schedule handoff. It converts a requested unary index into the finite window schedule that downstream stream consumers may inspect.
+\item $Q$ is the $\RegSeqRatUp$ schedule consumer row. It records the regular rational readback that consumes the schedule exported by $W$.
+\item $H$ records componentwise $\hsame$ transport for the unary depth, seed, step, trace, stream schedule, regular rational consumer, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from any schedule-facing request through $D,S,T,U,W,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\PrimitiveRecursionUp$, $\NatUp$, $\AddUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchySubtractionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PrimitiveRecursionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,T,U,W,Q,H,C,P,N$. The carrier has no coordinate for host natural-number recursion, unbounded minimisation, quotient stream equality, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.PrimitiveRecursionUp.TasteGate.PrimitiveRecursionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[PrimitiveRecursion NameCert obligations]
+\label{thm:primitive-recursion-namecert-obligations}
+For every accepted $\PrimitiveRecursionUp$ carrier
+$$
+R=(D,S,T,U,W,Q,H,C,P,N),
+$$
+the local $\NameCert_{\PrimitiveRecursionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the $\NatUp$ unary-depth row, seed row, step row, recursive trace, $\StreamNameUp$ schedule handoff, $\RegSeqRatUp$ schedule consumer, and structural rows;
+\item seed exactness, requiring the trace $U$ to expose $S$ at the zero depth before any successor transition is read;
+\item step exactness, requiring each successor cell of $U$ to be obtained by replaying the displayed step row $T$ from the previous trace value;
+\item unary-depth coverage, requiring the terminal trace cell to occur at the displayed depth $D$ and not at an ambient host index;
+\item schedule handoff, requiring every stream-facing request to pass through $W$ before any $\RegSeqRatUp$ consumer row $Q$ is inspected;
+\item componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming, requiring $H,C,P,N$ to preserve and name exactly the same finite recursion packet;
+\item refusal of host natural-number recursion, unbounded minimisation, quotient stream equality, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local NameCert data.
+\end{enumerate}
+No primitive-recursion obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:primitive-recursion-carrier}. The projected rows are precisely the unary depth $D$, seed $S$, step row $T$, trace $U$, schedule $W$, regular consumer $Q$, and structural rows $H,C,P,N$.
+
+Seed exactness is the zero-depth face of the UnaryHistory trace. Before any successor cell is present, the trace has only the displayed seed row, so the certificate cannot read a hidden initial value from a host recursion operator.
+
+Step exactness is checked cell by cell. Each successor cell in $U$ names its predecessor value, successor depth, and output value through $T$, while $\AddUp$ supplies only the unary continuation discipline needed to move from one displayed depth to the next.
+
+The terminal-depth and schedule obligations then follow from the order of the rows. The trace reaches the displayed $\NatUp$ row $D$ before $W$ is available, and $Q$ is downstream of $W$, so regular rational consumers receive only the finite schedule generated by the packet.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same rows. Since none of these structural rows contains host recursion, minimisation, quotient equality, choice, selected limits, completeness, Lean verification, or bridge checking, the seven listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[PrimitiveRecursion unary schedule realization]
+\label{thm:primitive-recursion-unary-schedule-realization}
+Let $R=(D,S,T,U,W,Q,H,C,P,N)$ be an accepted $\PrimitiveRecursionUp$ carrier. The schedule row $W$ is realized by induction on the UnaryHistory trace $U$: the zero cell reads the seed row $S$, and each successor cell reads the preceding trace value together with the displayed step row $T$. Consequently every schedule exported by $W$ is indexed by the $\NatUp$ depth $D$ and by no host natural-number recursion coordinate.
+\end{theorem}
+\begin{proof}
+Induct on the UnaryHistory trace row $U$. In the base case the only admitted trace cell is the displayed seed $S$, and the schedule opened by $W$ has zero-depth source $D$.
+
+For a successor trace, apply the induction hypothesis to the predecessor trace. The next cell is admitted only by replaying the displayed step row $T$ against that predecessor value and the successor depth supplied by the $\NatUp$ spine.
+
+The $\AddUp$ dependency is only the continuation route between adjacent unary depths. It contributes no independent recursion principle, so the terminal schedule remains the finite trace schedule already named by $U$ and $W$.
+\end{proof}
+
+\begin{theorem}[PrimitiveRecursion StreamName and RegSeqRat handoff]
+\label{thm:primitive-recursion-stream-schedule-handoff}
+Every $\StreamNameUp$ or $\RegSeqRatUp$ read exported by an accepted $\PrimitiveRecursionUp$ carrier factors through the finite route
+$$
+D \longmapsto S \longmapsto T \longmapsto U \longmapsto W \longmapsto Q \longmapsto H,C,P,N .
+$$
+Thus downstream L10 Real and Completion consumers, including routes that later use $\RegularCauchySubtractionUp$, receive a displayed unary schedule, seed, step, trace, stream window schedule, regular rational consumer row, transport, replay, provenance, and local naming. They receive no host natural-number recursion, unbounded minimisation, quotient stream equality, countable choice, selected limit, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with a stream-facing or regular-rational-facing read of $R$. By \autoref{def:primitive-recursion-carrier}, the only stream schedule coordinate is $W$, and the only regular rational consumer coordinate is $Q$.
+
+The row $W$ is downstream of the unary depth $D$, seed $S$, step row $T$, and trace $U$. By \autoref{thm:primitive-recursion-unary-schedule-realization}, this means the schedule has already been generated by the displayed UnaryHistory induction before any stream window may be inspected.
+
+The row $Q$ then consumes $W$ through the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}. Later real and completion routes may pass that scheduled read to sibling consumers such as \autoref{ch:concrete-instances-regular-cauchy-subtraction-namecert}, but they cannot bypass the displayed route.
+
+Componentwise transport, replay, provenance, and local naming preserve the same order. Hence every exported read factors through the stated finite route and exposes none of the excluded ambient data.
+\end{proof}
+
+\closureat{PrimitiveRecursionUp}{seedStr}
+\begin{closurestatus}{\PrimitiveRecursionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:primitive-recursion-carrier}, \autoref{thm:primitive-recursion-namecert-obligations}, \autoref{thm:primitive-recursion-unary-schedule-realization}, and \autoref{thm:primitive-recursion-stream-schedule-handoff} seed the finite unary-history recursion schedule over $\NatUp$, $\AddUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RegularCauchySubtractionUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host natural-number recursion, unbounded minimisation, quotient stream equality, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, seed exactness, step exactness, unary-depth coverage, StreamName schedule handoff, RegSeqRat consumer handoff, componentwise transport, replay, provenance, and local naming for BEDC.Derived.PrimitiveRecursionUp.}
+  \constructivestory{A $\PrimitiveRecursionUp$ packet is generated from a $\NatUp$ unary-depth row, a seed row, a displayed step row, a finite UnaryHistory recursive trace, a $\StreamNameUp$ schedule handoff, a $\RegSeqRatUp$ schedule consumer, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

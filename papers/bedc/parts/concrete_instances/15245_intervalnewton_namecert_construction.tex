@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\IntervalNewtonUp$}
+\label{ch:concrete-instances-intervalnewton-namecert}
+\origin{human}
+
+Following Moore--Kearfott--Cloud interval analysis, the $\IntervalNewtonUp$ packet records interval Newton and Krawczyk enclosure certificates as finite BEDC rows. It names a displayed box, function enclosure, slope or derivative enclosure, correction row, narrowing ledger, validated readback route, real-name readback, transport witnesses, replay data, provenance, and local naming row. It is not a solver oracle, a host zero-existence theorem, a global root-isolation method, a completeness assertion, or a floating-point semantics package.
+
+The carrier reads interval operations through \autoref{ch:concrete-instances-intervalarithmetic-namecert}, finite validated enclosures through \autoref{ch:concrete-instances-validatednumerics-namecert}, displayed correction provenance through \autoref{ch:concrete-instances-newtoniteration-namecert}, and finite Taylor or slope remainders through \autoref{ch:concrete-instances-taylormodel-namecert}. These sibling rows are the entire dependency surface for the enclosure certificates below.
+
+\begin{definition}[Interval Newton carrier]
+\label{def:interval-newton-carrier}
+An $\IntervalNewtonUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+I=(B,F,D,N,K,V,R,H,C,P,L)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $B$ is the interval box row, read through $\IntervalArithmeticUp$ endpoint and enclosure ledgers;
+\item $F$ is the function-enclosure row over $B$, with every enclosure read routed through finite interval operations;
+\item $D$ is the derivative or slope enclosure row, supplied either directly as an interval row or through a finite $\TaylorModelUp$ remainder packet;
+\item $N$ is the finite Newton or Krawczyk correction row, including the displayed center, inverse or preconditioner row, and correction enclosure;
+\item $K$ is the containment and narrowing ledger recording that the correction row stays inside, or narrows, the displayed box $B$;
+\item $V$ is the $\ValidatedNumericsUp$ enclosure row read by downstream consumers;
+\item $R$ is the $\RealUp$ or $\RegSeqRatUp$ readback route for the center, endpoint, and correction observations;
+\item $H$ records componentwise $\hsame$ transports for the box, function, derivative, correction, containment, readback, and validated rows;
+\item $C$ records the $\Cont$ routes by which the displayed rows are replayed inside their source certificates;
+\item $P$ is the $\Pkg$ provenance over $\IntervalArithmeticUp$, $\ValidatedNumericsUp$, $\NewtonIterationUp$, $\TaylorModelUp$, $\RealUp$, $\RegSeqRatUp$, and the displayed kernel rows;
+\item $L$ is the local $\NameCert_{\IntervalNewtonUp}$ row.
+\end{enumerate}
+Two accepted carriers are classified together only by transporting these displayed coordinates through the recorded $\hsame$ and $\Cont$ rows. The classifier has no coordinate for a hidden solver state, a selected zero, host floating-point behavior, quotient real equality, or completeness of the ambient real line.
+\end{definition}
+
+\begin{theorem}[Interval Newton NameCert obligations]
+\label{thm:interval-newton-namecert-obligations}
+The local $\NameCert_{\IntervalNewtonUp}$ surface for the carrier of \autoref{def:interval-newton-carrier} consists of six rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $I=(B,F,D,N,K,V,R,H,C,P,L)$;
+\item correction containment saying that the displayed Newton or Krawczyk row $N$ is admitted only with its containment and narrowing ledger $K$;
+\item interval-arithmetic soundness for the box, function, derivative or slope, and correction enclosures;
+\item validated-consumer handoff through the displayed $\ValidatedNumericsUp$ row $V$ and the readback row $R$;
+\item transport under the componentwise $\hsame$ rows of $H$ and replay under the $\Cont$ routes of $C$;
+\item ledger non-escape, meaning every consumer-visible claim is projected from $B,F,D,N,K,V,R,H,C,P,L$ and from no other numerical object.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:interval-newton-carrier}. The box, function enclosure, derivative or slope enclosure, correction, containment ledger, validated readback, real-name route, transport, replay, provenance, and local name are visible fields of one finite packet.
+
+Correction containment is read from $N$ together with $K$. The packet may expose a Krawczyk or interval Newton row only when the same displayed ledger records how that row is contained in, or narrows, the box $B$.
+
+Interval-arithmetic soundness is inherited by routing all endpoint and enclosure operations through the $\IntervalArithmeticUp$ rows named in $P$. When a derivative or slope enclosure is supplied by a Taylor model, the packet reads only the finite $\TaylorModelUp$ remainder and interval-operation rows.
+
+The consumer handoff is then $V$ together with $R$. Transport and replay use only the componentwise rows $H$ and $C$, so every exported obligation is exhausted by the carrier coordinates and no solver oracle or external real-semantics datum remains.
+\end{proof}
+
+\begin{theorem}[Interval Newton Krawczyk enclosure]
+\label{thm:interval-newton-krawczyk-enclosure}
+Let $I=(B,F,D,N,K,V,R,H,C,P,L)$ be an accepted $\IntervalNewtonUp$ carrier. Every Krawczyk or interval Newton enclosure exported by $I$ narrows the displayed box $B$ only through the $\IntervalArithmeticUp$ operation rows named by $P$ and through the displayed $\NewtonIterationUp$ or $\TaylorModelUp$ rows used to form $N$ and $D$. The exported enclosure is exactly the row recorded by $K$ and validated by $V$.
+\end{theorem}
+\begin{proof}
+Start with a consumer-visible narrowing claim. By the carrier definition, the only box available to the packet is $B$, and the only correction row available is $N$.
+
+Read the arithmetic used by the correction through the $\IntervalArithmeticUp$ dependency rows named in $P$. The center, inverse or preconditioner, function enclosure, derivative or slope enclosure, and final interval operation are all displayed rows of the same finite ledger.
+
+If the correction row is presented as a Newton step, its provenance is the finite $\NewtonIterationUp$ row named in $P$. If the slope or derivative enclosure is presented by finite Taylor data, it is read through the $\TaylorModelUp$ row named in $P$. In either case, the packet keeps the operation inside visible BEDC rows.
+
+Finally project $K$ and $V$. The containment ledger $K$ records the narrowed box, and the validated row $V$ is the only downstream enclosure exported by the packet. No separate analytic root theorem, host solver state, or floating-point rounding semantics is consulted.
+\end{proof}
+
+\begin{theorem}[Interval Newton validated consumer boundary]
+\label{thm:interval-newton-validated-consumer-boundary}
+Every $\ValidatedNumericsUp$ or root-isolation consumer of an accepted $\IntervalNewtonUp$ packet reads the correction only through the displayed carrier
+$$
+I=(B,F,D,N,K,V,R,H,C,P,L).
+$$
+The consumer receives the interval box, function enclosure, derivative or slope enclosure, correction row, containment ledger, validated enclosure row, real-name readback route, transport rows, replay routes, provenance, and local naming row. It receives no solver oracle, no host zero, no floating-point semantics, no quotient real equality, and no completeness datum.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. A validated or root-isolation consumer can inspect only the fields $B,F,D,N,K,V,R,H,C,P,L$.
+
+Use \autoref{thm:interval-newton-namecert-obligations} to identify the exported obligation rows. The consumer handoff is $V$ and $R$, while transport and replay are restricted to $H$ and $C$.
+
+Use \autoref{thm:interval-newton-krawczyk-enclosure} for the correction read. The Krawczyk or interval Newton row is visible only through $\IntervalArithmeticUp$ operations and through the displayed $\NewtonIterationUp$ or $\TaylorModelUp$ provenance named in $P$.
+
+Thus every consumer-facing row is a projection of the finite packet. Since no carrier coordinate names a solver oracle, selected zero, hardware arithmetic semantics, quotient-real equality witness, or completeness theorem, those data cannot be exported by the boundary.
+\end{proof}
+
+\closureat{IntervalNewtonUp}{seedStr}
+
+\begin{closurestatus}{\IntervalNewtonUp}
+  \theoryclosure{\seedClosure}
+  \constructivestory{An $\IntervalNewtonUp$ packet is generated from a displayed interval box, function enclosure, derivative or slope enclosure, finite Newton or Krawczyk correction row, containment ledger, validated readback row, real-name route, transport witnesses, replay routes, provenance, and local $\NameCert$ row.}
+  \scopeclosed{The seed scope records the finite carrier, six-row NameCert obligation surface, Krawczyk enclosure route, and validated consumer boundary for interval Newton and Krawczyk certificates.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close solver correctness, existence of a zero, uniqueness, floating-point hardware semantics, classical real completeness, quotient real equality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, correction containment, interval-arithmetic soundness, validated-consumer handoff, transport, and ledger non-escape for the same finite packet rows.}
+\end{closurestatus}

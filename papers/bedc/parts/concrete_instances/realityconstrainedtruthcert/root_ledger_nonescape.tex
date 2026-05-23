@@ -1,0 +1,22 @@
+\begin{theorem}[Reality-constrained TruthCert root ledger nonescape]
+\label{thm:reality-constrained-truth-cert-root-ledger-nonescape}
+No root-facing export may expose the local name $N$ while bypassing the ledger
+row $L$ or the failure row $F$. The accepted export of
+$S,\Sigma,K,T,U,D,I,L,F,N$ therefore records compression, provenance, hidden
+residue, finite defeat, domain exit, classifier mismatch, and later observation
+before $N$ is readable.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertRootLedgerNonescape}
+\begin{proof}
+Apply ledger exactness and failure-surface exactness,
+\autoref{thm:reality-constrained-truth-cert-ledger-exactness} and
+\autoref{thm:reality-constrained-truth-cert-failure-surface-exactness}. They
+make $L$ and $F$ exact displayed rows, not optional annotations.
+
+Finally use export readiness and sibling handoff totality,
+\autoref{thm:reality-constrained-truth-cert-export-readiness} and
+\autoref{thm:reality-constrained-truth-cert-sibling-handoff-totality}. The local
+name $N$ is readable only after all displayed rows and sibling routes are
+consumed, so an export that bypasses $L$ or $F$ cannot be the root-ready
+$\RealityConstrainedTruthCertUp$ packet.
+\end{proof}

@@ -107,6 +107,36 @@ theorem DyadicMeshPacket_public_export_boundary [AskSetup] [PackageSetup]
       intervalEndpointContainment, containmentProvenanceHandoff, provenancePkg, containmentPkg,
       handoffPkg⟩
 
+theorem DyadicMeshPacket_validatednumerics_handoff [AskSetup] [PackageSetup]
+    {level cell interval endpoint radius order transport refinement provenance nameCert containment
+      handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMeshPacket level cell interval endpoint radius order transport refinement provenance
+        nameCert bundle pkg ->
+      Cont interval endpoint containment ->
+        Cont containment provenance handoff ->
+          PkgSig bundle containment pkg ->
+            PkgSig bundle handoff pkg ->
+              UnaryHistory level ∧ UnaryHistory cell ∧ UnaryHistory interval ∧
+                UnaryHistory endpoint ∧ UnaryHistory containment ∧ UnaryHistory handoff ∧
+                  Cont level cell interval ∧ Cont interval endpoint containment ∧
+                    Cont containment provenance handoff ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle containment pkg ∧ PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet intervalEndpointContainment containmentProvenanceHandoff containmentPkg handoffPkg
+  rcases packet with
+    ⟨levelUnary, cellUnary, intervalUnary, endpointUnary, _radiusUnary, _orderUnary,
+      _transportUnary, _refinementUnary, provenanceUnary, _nameCertUnary, levelCellInterval,
+      _intervalEndpointRadius, provenancePkg⟩
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed intervalUnary endpointUnary intervalEndpointContainment
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed containmentUnary provenanceUnary containmentProvenanceHandoff
+  exact
+    ⟨levelUnary, cellUnary, intervalUnary, endpointUnary, containmentUnary, handoffUnary,
+      levelCellInterval, intervalEndpointContainment, containmentProvenanceHandoff,
+      provenancePkg, containmentPkg, handoffPkg⟩
+
 theorem DyadicMeshPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {level cell interval endpoint radius order transport refinement provenance name
       containment : BHist}
@@ -385,5 +415,75 @@ theorem DyadicMeshPacket_validated_terminal_readback_determinacy [AskSetup] [Pac
     ⟨meshUnary, boundaryUnary, terminalUnary, validatedUnary, intervalEndpointMesh,
       meshProvenanceBoundary, boundaryTransportTerminal, terminalRefinementValidated,
       validatedPkg, cert⟩
+
+theorem DyadicMeshPacket_common_refinement_endpoint_determinacy [AskSetup] [PackageSetup]
+    {level cell interval endpoint radius order transport refinement provenance nameCert level'
+      cell' interval' endpoint' radius' order' transport' refinement' provenance' nameCert'
+      meshCell meshCell' realBoundary realBoundary' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMeshPacket level cell interval endpoint radius order transport refinement provenance
+        nameCert bundle pkg ->
+      DyadicMeshPacket level' cell' interval' endpoint' radius' order' transport' refinement'
+          provenance' nameCert' bundle pkg ->
+        hsame level level' ->
+          hsame cell cell' ->
+            hsame endpoint endpoint' ->
+              hsame radius radius' ->
+                hsame order order' ->
+                  hsame transport transport' ->
+                    hsame refinement refinement' ->
+                      hsame provenance provenance' ->
+                        hsame nameCert nameCert' ->
+                          Cont level' cell' interval' ->
+                            Cont interval' endpoint' radius' ->
+                              PkgSig bundle provenance' pkg ->
+                                Cont interval endpoint meshCell ->
+                                  Cont meshCell provenance realBoundary ->
+                                    Cont interval' endpoint' meshCell' ->
+                                      Cont meshCell' provenance' realBoundary' ->
+                                        PkgSig bundle meshCell pkg ->
+                                          PkgSig bundle realBoundary pkg ->
+                                            PkgSig bundle meshCell' pkg ->
+                                              PkgSig bundle realBoundary' pkg ->
+                                                hsame interval interval' ∧
+                                                  UnaryHistory meshCell ∧
+                                                    UnaryHistory meshCell' ∧
+                                                      UnaryHistory realBoundary ∧
+                                                        UnaryHistory realBoundary' ∧
+                                                          Cont interval endpoint meshCell ∧
+                                                            Cont interval' endpoint'
+                                                              meshCell' ∧
+                                                              PkgSig bundle meshCell pkg ∧
+                                                                PkgSig bundle meshCell' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro packet _packet' sameLevel sameCell sameEndpoint sameRadius sameOrder
+  intro sameTransport sameRefinement sameProvenance sameNameCert
+  intro levelCellInterval' intervalEndpointRadius' provenancePkg'
+  intro intervalEndpointMesh meshProvenanceBoundary intervalEndpointMesh'
+  intro meshProvenanceBoundary' meshPkg _boundaryPkg meshPkg' _boundaryPkg'
+  have stable :=
+    DyadicMeshPacket_refinement_stability packet sameLevel sameCell sameEndpoint sameRadius
+      sameOrder sameTransport sameRefinement sameProvenance sameNameCert levelCellInterval'
+      intervalEndpointRadius' provenancePkg'
+  rcases stable with ⟨targetPacket, sameInterval⟩
+  rcases packet with
+    ⟨_levelUnary, _cellUnary, intervalUnary, endpointUnary, _radiusUnary, _orderUnary,
+      _transportUnary, _refinementUnary, provenanceUnary, _nameCertUnary, _levelCellInterval,
+      _intervalEndpointRadius, _provenancePkg⟩
+  rcases targetPacket with
+    ⟨_levelUnary', _cellUnary', intervalUnary', endpointUnary', _radiusUnary', _orderUnary',
+      _transportUnary', _refinementUnary', provenanceUnary', _nameCertUnary',
+      _levelCellInterval'', _intervalEndpointRadius'', _provenancePkg''⟩
+  have meshUnary : UnaryHistory meshCell :=
+    unary_cont_closed intervalUnary endpointUnary intervalEndpointMesh
+  have meshUnary' : UnaryHistory meshCell' :=
+    unary_cont_closed intervalUnary' endpointUnary' intervalEndpointMesh'
+  have boundaryUnary : UnaryHistory realBoundary :=
+    unary_cont_closed meshUnary provenanceUnary meshProvenanceBoundary
+  have boundaryUnary' : UnaryHistory realBoundary' :=
+    unary_cont_closed meshUnary' provenanceUnary' meshProvenanceBoundary'
+  exact
+    ⟨sameInterval, meshUnary, meshUnary', boundaryUnary, boundaryUnary',
+      intervalEndpointMesh, intervalEndpointMesh', meshPkg, meshPkg'⟩
 
 end BEDC.Derived.DyadicMeshUp

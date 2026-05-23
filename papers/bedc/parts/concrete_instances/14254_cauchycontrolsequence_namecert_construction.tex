@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CauchyControlSequenceUp$}
+\label{ch:concrete-instances-cauchycontrolsequence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyControlSequenceUp$ packet names the explicit control data carried by a regular Cauchy real-name route before the terminal $\RealUp$ seal is read. It is the finite NameCert surface that exposes the dependency route through \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-realcauchymodulus-namecert}.
+
+The packet separates the displayed control row from the sealed real object. A consumer receives a scheduled stream window, a dyadic tolerance row, a regular rational readback row, the control/modulus row that binds these data, and the provenance rows needed for local naming; it does not receive a host completeness principle or a chosen limit.
+
+\begin{definition}[CauchyControlSequence carrier]
+\label{def:cauchy-control-sequence-carrier}
+A $\CauchyControlSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+(R,W,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational name whose Cauchy control is being exposed;
+\item $W$ is the $\StreamNameUp$ finite-window schedule used to inspect the same regular name;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row governing the displayed window bounds and dyadic comparison budget;
+\item $M$ is the control/modulus row, read as the local $\RealCauchyModulusUp$ surface binding the windows $W$, tolerances $D$, and regular readback $R$;
+\item $E$ is the $\RealUp$ seal handoff reached only after the readback, window, tolerance, and control rows have been displayed;
+\item $H$ records the componentwise $\hsame$ transports for $R,W,D,M,E$;
+\item $C$ records the displayed $\Cont$ routes by which consumers replay the readback, finite-window, tolerance, control, and seal handoff;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealCauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyControlSequenceUp}$ row.
+\end{enumerate}
+The carrier stores no quotient stream equality, no selected limit, no trichotomy branch, and no ambient completeness coordinate for $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyControlSequenceUp.TasteGate.CauchyControlSequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[CauchyControlSequence NameCert obligations]
+\label{thm:cauchy-control-sequence-namecert-obligations}
+For an accepted $\CauchyControlSequenceUp$ carrier $(R,W,D,M,E,H,C,P,N)$, the local $\NameCert_{\CauchyControlSequenceUp}$ surface consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier formation for the $\RegSeqRatUp$ readback row, $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ tolerance row, displayed control/modulus row, $\RealUp$ seal handoff, transports, continuations, provenance, and local naming data;
+\item classifier stability, stating that replacement of the displayed rows through $H$ and replay through $C$ preserves the same accepted control-sequence packet;
+\item control-window coverage, stating that the control row $M$ covers exactly the finite windows $W$ at the dyadic tolerances recorded by $D$;
+\item $\RegSeqRatUp$ handoff, stating that the regular rational readback $R$ is the only source row inspected by the control/modulus surface;
+\item Real seal non-escape, stating that the handoff $E$ reaches $\RealUp$ only through $R,W,D,M,H,C,P,N$ and not through quotient stream equality, a chosen limit, trichotomy, or ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier formation is the tuple of \autoref{def:cauchy-control-sequence-carrier}. It exposes exactly one regular rational readback row, one finite-window schedule, one dyadic tolerance row, one control/modulus row, one Real seal handoff, and the local transport, continuation, package, and naming rows.
+
+Classifier stability is componentwise over $H$ and $C$. The replacement rows may transport the displayed coordinates and replay their consumers, but they do not introduce a second source row, a second tolerance ledger, or an external equality principle.
+
+Control-window coverage is the binding role of $M$. The control row is accepted only as a displayed modulus for the windows $W$ and tolerances $D$, with the regular readback $R$ providing the rational values inspected inside those windows.
+
+The $\RegSeqRatUp$ handoff and the Real seal non-escape are then immediate from the carrier inventory. Since $E$ appears after $R,W,D,M$ and the provenance rows contain no quotient, chosen limit, trichotomy, or completeness coordinate, every seal-facing read is forced through the finite control route.
+\end{proof}
+
+\begin{theorem}[CauchyControlSequence Real seal handoff]
+\label{thm:cauchy-control-sequence-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\CauchyControlSequenceUp$ packet factors through the displayed $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ tolerance row $D$, the $\RegSeqRatUp$ readback row $R$, the control row $M$, the $\hsame$ and $\Cont$ provenance rows $H$ and $C$, the package row $P$, and the local $\NameCert_{\CauchyControlSequenceUp}$ row $N$ before reaching the seal handoff $E$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The seal handoff coordinate $E$ is stored only after the regular readback, finite-window schedule, dyadic tolerance row, and displayed control row.
+
+Read the sibling surfaces in the displayed order. The StreamName row supplies the finite windows, the DyadicRatCore row supplies the tolerance arithmetic, the RegSeqRat row supplies the rational readback, and the RealCauchyModulus row binds these data as a control surface.
+
+The rows $H,C,P,N$ then record the only allowed transports, replays, package provenance, and local naming evidence. Therefore a Real-facing consumer cannot bypass the displayed control route before it reaches $E$.
+\end{proof}
+
+\begin{closurestatus}{\CauchyControlSequenceUp}
+  \constructivestory{A $\CauchyControlSequenceUp$ packet is generated from a $\RegSeqRatUp$ readback row, a $\StreamNameUp$ finite-window schedule, a $\DyadicRatCoreUp$ tolerance row, a displayed control/modulus row, a $\RealUp$ seal handoff, componentwise $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-control-sequence-carrier}, \autoref{thm:cauchy-control-sequence-namecert-obligations}, and \autoref{thm:cauchy-control-sequence-real-seal-handoff} bind the explicit Cauchy control data used before the Real seal handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host completeness, quotient stream equality, chosen limits, trichotomy, ambient Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier formation, classifier stability, control-window coverage, RegSeqRat handoff, and Real seal non-escape for the displayed control packet.}
+\end{closurestatus}

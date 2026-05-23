@@ -1,0 +1,42 @@
+\begin{theorem}[DyadicRatCore terminal radius is choice-free]
+\label{thm:dyadicratcore-terminal-radius-choice-free}
+Let $P$ and $Q$ be accepted L10 terminal exits whose displayed packets share the same $\DyadicRatCoreUp$ face, the same $\StreamNameUp$ finite-window face, the same $\RegSeqRatUp$ classifier and readback face, the same local $\RealUp$ seal face, and the same support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+Assume moreover that both exits present their dyadic tolerance data by finite positive-unary scale histories over the same signed mantissa and denominator ledgers. Then the terminal radius row displayed at the $\RealUp$ seal is uniquely determined by the finite common-scale directed refinement of those rows.
+
+In particular, the terminal radius cannot be replaced by quotient rational equality, quotient stream equality, a selected $\RealUp$ endpoint, countable choice, metric completeness, a bridge row, or ambient $\RealUp$ completeness. It is the finite DyadicRatCore radius row read through the displayed four-face support.
+\end{theorem}
+\begin{proof}
+First put the two dyadic presentations on a common finite scale. Apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement} to the two accepted finite tolerance windows. The result supplies one terminal $\DyadicRatCoreUp$ window carrying the signed mantissa, denominator, endpoint, distance, radius, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\DyadicRatCoreUp}$ rows.
+
+Now compare possible terminal presentations of that same window. The uniqueness theorem \autoref{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness} identifies any two common terminal refinements that preserve the same finite rows and the same downstream four-face surface. Hence their terminal tolerance rows agree.
+
+The common finite packet is the packet seen by the terminal route. Apply \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence} to read the DyadicRatCore face together with the StreamName finite window, the RegSeqRat classifier and readback rows, the Real seal row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Finally use \autoref{thm:dyadicratcore-scale-window-real-exit-source-uniqueness} and \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}. The first result rules out a second dyadic source behind the same downstream surface, and the second forces every public tolerance read at the terminal route through the displayed four faces. Since the radius row is one of the finite DyadicRatCore tolerance rows in that surface, no quotient, selected endpoint, choice, completeness, bridge, or ambient Real-completeness datum can determine a different terminal radius.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore common-scale terminal radius normal form]
+\label{thm:dyadicratcore-common-scale-normal-form}
+For every accepted L10 terminal exit whose visible surface is the route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+over displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, the following presentations determine the same terminal radius row:
+\begin{enumerate}
+\item the public four-face terminal packet carrying the $\DyadicRatCoreUp$ tolerance ledger, the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$ classifier and readback rows, and the local $\RealUp$ seal row;
+\item the common-scale normal form obtained by finite directed refinement of the dyadic tolerance windows over their signed mantissa and denominator ledgers.
+\end{enumerate}
+Thus the terminal four-face route already presents the radius in common-scale normal form. The normal form exports no quotient rational equality, quotient stream equality, selected endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the accepted four-face terminal packet. By \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}, every public tolerance read factors through the DyadicRatCore tolerance ledger together with the StreamName finite-window face, the RegSeqRat classifier and readback face, the Real seal face, and the displayed support rows.
+
+Build the common-scale presentation from the same finite dyadic data. Apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement-directed-system} to the finite family of accepted dyadic tolerance windows visible in the packet. Then apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement-directed-normal-form}; this gives one consumer-readable normal form through which every downstream StreamName, RegSeqRat, and Real face factors.
+
+It remains to identify the radius row across the two presentations. Use \autoref{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness} to compare the common-scale terminal packet with the DyadicRatCore face recovered from the four-face route. Their signed mantissa, denominator, endpoint, distance, radius, $\hsame$, $\Cont$, $\Pkg$, local $\NameCert$, and downstream rows are the same displayed finite rows, so the terminal tolerance row agrees.
+
+Finally apply \autoref{thm:dyadicratcore-terminal-radius-choice-free}. Since the terminal radius row is already forced by the finite common-scale directed refinement, the four-face packet cannot read a second radius from quotient rational equality, quotient stream equality, a selected endpoint, countable choice, metric completeness, a bridge row, or ambient $\RealUp$ completeness. The terminal four-face route and the common-scale normal form therefore present one and the same radius row.
+\end{proof}

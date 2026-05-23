@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\SubshiftUp$}
+\label{ch:concrete-instances-subshift-namecert}
+\origin{human}
+
+Following Lind--Marcus symbolic dynamics and Brouwer--Bishop finite-prefix practice, $\SubshiftUp$ records shift-invariant closed symbolic subspaces through finite prefix-language rows over $\CantorSpaceUp$, $\BaireSpaceUp$, and $\StreamNameUp$, with $\SubshiftOfFiniteTypeUp$ as the finite forbidden-word specialization. The packet is a finite certificate surface for symbolic prefix languages; it is not a host infinite sequence, quotient shift space, entropy object, invariant measure, compactness principle, or ambient symbolic-dynamics theorem. Its dependency route is the Cantor prefix surface of \autoref{ch:concrete-instances-cantorspace-namecert}, the Baire prefix surface of \autoref{ch:concrete-instances-bairespace-namecert}, the finite stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, and the forbidden-ledger specialization of \autoref{ch:concrete-instances-subshift-finite-type-namecert}.
+
+\begin{definition}[Subshift carrier]
+\label{def:subshift-carrier}
+A $\SubshiftUp$ carrier is a finite $\BHist$ packet
+$$
+X=(A,W,L,S,C,B,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite alphabet row, naming the visible symbols available to the local prefix language.
+\item $W$ is the finite window row, recording the inspected word lengths and prefix positions.
+\item $L$ is the allowed-language ledger, listing the admitted finite prefix rows over $A$ at the windows in $W$.
+\item $S$ is the shift-restriction row, recording the finite left and right prefix restrictions that must remain in $L$ whenever a longer accepted row is shifted or truncated.
+\item $C$ is the $\CantorSpaceUp$ row used when the alphabet row is the displayed binary row.
+\item $B$ is the $\BaireSpaceUp$ row used when the alphabet row is read as unary-coded countable symbols.
+\item $H$ records componentwise $\hsame$ transport for $A,W,L,S,C,B,K,P,N$.
+\item $K$ records the $\Cont$ routes from prefix requests to Cantor rows, Baire rows, finite $\StreamNameUp$ windows, language-ledger inspection, shift restriction, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\SubshiftUp$, $\CantorSpaceUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\SubshiftOfFiniteTypeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SubshiftUp}$ row for the finite prefix-language classifier.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed prefix rows. It accepts a prefix read exactly when the corresponding finite row is present in $L$, every recorded shift or restriction is certified by $S$, and the Cantor, Baire, or stream-name access route is one of the rows named by $C,B,K,P,N$.
+\end{definition}
+
+\begin{theorem}[Subshift NameCert obligations]
+\label{thm:subshift-namecert-obligations}
+For every accepted $\SubshiftUp$ packet $X=(A,W,L,S,C,B,H,K,P,N)$, the local $\NameCert_{\SubshiftUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the alphabet, window, allowed-language, shift-restriction, Cantor, Baire, transport, continuation, provenance, and local naming rows;
+\item prefix classifier stability, requiring componentwise $\hsame$ transport to preserve membership and nonmembership decisions in the finite language ledger $L$;
+\item shift-restriction stability, requiring every displayed shift, truncation, and prefix restriction named by $S$ to land again in the admitted ledger row;
+\item Cantor/Baire handoff, requiring binary reads to pass through the $\CantorSpaceUp$ row $C$, countable-symbol reads to pass through the $\BaireSpaceUp$ row $B$, and all finite requests to pass through the $\StreamNameUp$ route named by $K$;
+\item finite-type specialization, requiring any finite forbidden-word ledger to be read as the $\SubshiftOfFiniteTypeUp$ instance whose accepted words are exactly the rows of $L$ avoiding the displayed forbidden ledger;
+\item non-escape, excluding host infinite sequences, quotient shift spaces, entropy, invariant measures, compactness principles, unrecorded branch choice, and ambient symbolic-dynamics theorems.
+\end{enumerate}
+No $\SubshiftUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The packet exposes only the rows $A,W,L,S,C,B,H,K,P,N$, so carrier admission is the assertion that those rows form the visible prefix-language certificate.
+
+Prefix classifier stability is componentwise. Transport $A,W,L$ through the displayed $\hsame$ rows in $H$; a membership decision remains available exactly when the transported prefix row is the transported ledger row. There is no second classifier coordinate that could alter the decision.
+
+Shift-restriction stability is read from $S$. Each displayed shift, truncation, or prefix restriction consumes one accepted finite word row and returns the recorded shorter row in $L$. The continuation row $K$ replays only those finite moves.
+
+For the handoff clause, split by the source row. Binary prefix reads use $C$ and therefore cite \autoref{ch:concrete-instances-cantorspace-namecert}; countable-symbol reads use $B$ and therefore cite \autoref{ch:concrete-instances-bairespace-namecert}; every scheduled finite read is opened through the $\StreamNameUp$ route named in $K$.
+
+The finite-type specialization is obtained by taking $L$ to be the list of finite words whose displayed subwords avoid a finite forbidden ledger. This is exactly the local surface of \autoref{ch:concrete-instances-subshift-finite-type-namecert}, with $S$ recording the same finite restriction checks.
+
+Finally, non-escape follows from absence of coordinates for the excluded objects. A downstream consumer can project only the alphabet, window, language ledger, shift restriction, Cantor and Baire handoff rows, transport, continuation, provenance, and local $\NameCert$ row.
+\end{proof}
+
+\begin{theorem}[Subshift Cantor/Baire handoff]
+\label{thm:subshift-cantor-baire-handoff}
+Every accepted $\SubshiftUp$ read factors through the finite prefix route
+$$
+\CantorSpaceUp,\BaireSpaceUp,\StreamNameUp \longmapsto A,W,L,S \longmapsto H,K,P,N
+$$
+before any downstream symbolic-dynamics consumer can use the accepted word row. In particular, the consumer receives a displayed Cantor or Baire prefix packet and the scheduled stream-name window before it receives the subshift language decision, and no host infinite sequence, quotient shift space, entropy value, invariant measure, compactness principle, or ambient symbolic-dynamics theorem is inserted into the route.
+\end{theorem}
+\begin{proof}
+Start with an accepted read. Carrier admission places the source access rows at $C$ and $B$, the finite scheduling row at $K$, and the language decision rows at $A,W,L,S$.
+
+If the visible alphabet is binary, the read first opens the $\CantorSpaceUp$ row $C$. If the alphabet is countable-name data, it opens the $\BaireSpaceUp$ row $B$. In both cases the finite request is then scheduled through the $\StreamNameUp$ route recorded by $K$.
+
+Only after that route is displayed can the consumer inspect $A,W,L,S$. The ledger $L$ supplies the accepted prefix decision, while $S$ supplies the shift or restriction row needed by shift-invariant use.
+
+Transport and replay through $H$ and $K$ preserve the same finite rows, and $P,N$ only source and name the packet. Since the carrier has no coordinate for the excluded objects, every downstream symbolic-dynamics consumer receives exactly the displayed finite prefix route.
+\end{proof}
+
+\closureat{SubshiftUp}{seedStr}
+
+\begin{closurestatus}{\SubshiftUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subshift-carrier}, \autoref{thm:subshift-namecert-obligations}, and \autoref{thm:subshift-cantor-baire-handoff} seed the finite prefix-language surface for shift-invariant symbolic subspaces over Cantor, Baire, and StreamName rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sequences, quotient shift spaces, entropy, invariant measures, compactness principles, unrecorded branch choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix classifier stability, shift-restriction stability, Cantor/Baire handoff, finite-type specialization, and non-escape for BEDC.Derived.SubshiftUp.}
+  \constructivestory{A $\SubshiftUp$ packet is generated from a finite alphabet row, finite window row, allowed-language ledger, shift-restriction row, Cantor and Baire handoff rows, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+\end{closurestatus}

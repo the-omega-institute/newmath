@@ -1,0 +1,12 @@
+\begin{theorem}[Reality-constrained TruthCert observer-invariant ledger route]
+\label{thm:reality-constrained-truth-cert-observer-invariant-ledger-route}
+Every observer-invariant $\RealityConstrainedTruthCertUp$ truth export must preserve the invariant row $I$ and the ledger row $L$ together. A consumer may not read observer invariance without the compression, idealization, hidden-residue, provenance, and package-descent ledger, and may not read the ledger as public truth without the observer-invariant row.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertObserverInvariantLedgerRoute}
+\begin{proof}
+Project the carrier through \autoref{def:reality-constrained-truth-cert-carrier}. The invariant row $I$ and ledger row $L$ are separate displayed coordinates, but both are mandatory fields of the same accepted packet.
+
+Use the stability-descent-invariant obligation and ledger exactness, \autoref{thm:reality-constrained-truth-cert-stability-descent-invariant-obligation} and \autoref{thm:reality-constrained-truth-cert-ledger-exactness}. The former keeps observer-anchor transport joined to tower, stability, and descent rows; the latter keeps compression, idealization, hidden residue, provenance, and package descent visible at $L$.
+
+Now apply export readiness. Since the local name $N$ certifies export only after all mandatory rows have been read through the same carrier, $I$ and $L$ cannot be exported as independent authorities. Observer-invariant truth export preserves the invariant and ledger rows as one route through the accepted TruthCert packet.
+\end{proof}

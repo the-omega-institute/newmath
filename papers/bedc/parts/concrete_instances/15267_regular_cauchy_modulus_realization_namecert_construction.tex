@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyModulusRealizationUp$}
+\label{ch:concrete-instances-regular-cauchy-modulus-realization-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyModulusRealizationUp$ packet records the finite route by which an explicit Cauchy modulus schedule becomes a regular rational real-name surface before any $\RealUp$ seal is read. It sits after the explicit rate rows of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the modulus-to-real boundary of \autoref{ch:concrete-instances-realcauchymodulus-namecert}. The packet is a finite NameCert realization of a displayed modulus schedule; it is not a quotient stream, not host real equality, not countable choice, not a selected limit, and not an ambient completeness principle.
+
+\begin{definition}[Regular Cauchy modulus realization carrier]
+\label{def:regular-cauchy-modulus-realization-carrier}
+A $\RegularCauchyModulusRealizationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(M,S,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the accepted $\CauchyModulusUp$ schedule row, carrying the precision request, the displayed threshold, and the finite late-pair budget consumed by the realization.
+\item $S$ is the $\StreamNameUp$ window row naming the stream entries inspected after the threshold row of $M$ has been read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row containing the dyadic radius and comparison cells used for the requested precision.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained by routing the windows in $S$ through the dyadic tolerance ledger $D$ under the schedule exposed by $M$.
+\item $E$ is the $\RealUp$ seal row reached only after $M,S,D,Q$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus, window, dyadic tolerance, regular readback, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through the modulus threshold, finite stream windows, dyadic tolerance rows, regular rational readback, and then the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyModulusRealizationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, host real equality, countable-choice selection, selected limits, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy modulus realization window coverage]
+\label{thm:regular-cauchy-modulus-realization-window-coverage}
+Let $R=(M,S,D,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyModulusRealizationUp$ carrier. Every precision request admitted by $M$ reads through a finite window containing the displayed modulus threshold, the corresponding $\StreamNameUp$ observations in $S$, and the dyadic tolerance rows in $D$. No precision request can reach $Q$ or $E$ without first consuming that finite window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-modulus-realization-carrier}. The projection exposes the modulus row $M$, the window row $S$, the dyadic tolerance row $D$, and the downstream rows $Q,E,H,C,P,N$.
+
+Replay the continuation row $C$ at the chosen precision request. Its first visible dependency is the threshold row carried by $M$; after that threshold is read, the same route names the finite observations in $S$ and the dyadic cells in $D$.
+
+The rows $Q$ and $E$ occur downstream of that replay. Since the carrier has no second route to a regular readback or Real seal, each accepted precision request is covered by the displayed finite window and tolerance ledger.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus realization RegSeqRat handoff]
+\label{thm:regular-cauchy-modulus-realization-regseqrat-handoff}
+Let $R=(M,S,D,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyModulusRealizationUp$ carrier. The same rows that cover each precision request repack as the $\RegSeqRatUp$ readback row $Q$: the modulus row $M$ supplies the late-window budget, the stream row $S$ supplies the inspected entries, and the dyadic row $D$ supplies the tolerance comparisons. Thus $Q$ is a readback of the displayed finite route, not a separate regular-sequence oracle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-modulus-realization-window-coverage}. For the chosen precision request, the finite route has already displayed the modulus threshold, the StreamName observations, and the dyadic tolerance rows.
+
+The regular readback row $Q$ is listed in the carrier only after $M,S,D$. Repacking therefore uses exactly those rows: $M$ contributes the late-window budget, $S$ contributes the inspected entries, and $D$ contributes the dyadic comparisons that certify the requested tolerance.
+
+Transport by $H$ preserves this row order, while $P$ and $N$ name only the same finite route. Hence $Q$ cannot be read as an independent regular-sequence oracle.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus realization Real seal nonescape]
+\label{thm:regular-cauchy-modulus-realization-real-seal-nonescape}
+Let $R=(M,S,D,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyModulusRealizationUp$ carrier. Every $\RealUp$-facing read factors through the finite route
+$$
+M,S,D,Q \longmapsto E \longmapsto H,C,P,N .
+$$
+The route rules out quotient streams, host real equality, countable choice, selected limits, and ambient completeness: none of those objects is a row of the carrier, and none can be reconstructed from the local $\NameCert_{\RegularCauchyModulusRealizationUp}$ surface.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing consumer of the packet. Carrier admission gives access to the seal row $E$, but only as a row downstream of the modulus, window, dyadic tolerance, and regular readback rows.
+
+Replay the continuation row $C$. The consumer first reads the explicit schedule in $M$, then the finite windows in $S$, the dyadic tolerance cells in $D$, and the regular rational readback in $Q$.
+
+Only after this route has been consumed can the seal row $E$ be read. The structural rows $H,C,P,N$ record the same dependency order, so there is no carrier coordinate from which to read quotient streams, host real equality, countable choice, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus realization NameCert obligations]
+\label{thm:regular-cauchy-modulus-realization-namecert-obligations}
+For every accepted $\RegularCauchyModulusRealizationUp$ carrier $R=(M,S,D,Q,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyModulusRealizationUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the explicit Cauchy modulus row, finite stream-window row, dyadic tolerance ledger, regular rational readback, Real seal, transport, continuation, provenance, and local naming row;
+\item window coverage, requiring each precision request to consume the displayed threshold in $M$, the inspected windows in $S$, and the tolerance cells in $D$ before reading $Q$ or $E$;
+\item RegSeqRat handoff, requiring the rows $M,S,D$ to repack as the regular rational readback $Q$;
+\item Real seal nonescape, requiring the seal row $E$ to remain downstream of $M,S,D,Q$;
+\item ledger refusal, excluding quotient streams, host real equality, countable choice, selected limits, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-modulus-realization-carrier}. The projection exposes exactly the explicit modulus row, finite window row, dyadic tolerance row, regular rational readback row, Real seal, and structural rows $H,C,P,N$.
+
+Window coverage is \autoref{thm:regular-cauchy-modulus-realization-window-coverage}. It forces every precision request to pass through the displayed modulus threshold, StreamName observations, and dyadic tolerance cells before any readback or seal is available.
+
+The RegSeqRat handoff is \autoref{thm:regular-cauchy-modulus-realization-regseqrat-handoff}. It identifies the row $Q$ as a repacking of the same finite route, not as an independent regular-sequence oracle.
+
+The seal refusal clause is \autoref{thm:regular-cauchy-modulus-realization-real-seal-nonescape}. Since quotient streams, host real equality, countable choice, selected limits, and ambient completeness are not carrier rows, no additional NameCert obligation can name them.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyModulusRealizationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-realization-carrier}, \autoref{thm:regular-cauchy-modulus-realization-window-coverage}, \autoref{thm:regular-cauchy-modulus-realization-regseqrat-handoff}, \autoref{thm:regular-cauchy-modulus-realization-real-seal-nonescape}, and \autoref{thm:regular-cauchy-modulus-realization-namecert-obligations} seed the finite route from an explicit $\CauchyModulusUp$ schedule through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and the downstream $\RealUp$ seal, with $\RealCauchyModulusUp$ as the sibling real-modulus boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, host real equality, countable choice, selected limits, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, window coverage, RegSeqRat handoff, Real seal nonescape, and ledger refusal proofs for the same packet.}
+  \constructivestory{A $\RegularCauchyModulusRealizationUp$ packet is generated from an explicit CauchyModulus schedule, StreamName windows, a DyadicRatCore tolerance ledger, a RegSeqRat readback, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

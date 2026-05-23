@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\GramSchmidtUp$}
+\label{ch:concrete-instances-gram-schmidt-namecert}
+\origin{human}
+
+The classical Gram-Schmidt orthogonalization procedure is a finite-dimensional linear algebra construction that turns an ordered list of vectors into an orthogonal list by subtracting previously displayed projection components. The BEDC $\GramSchmidtUp$ packet records only this finite constructive surface: it is grounded in the vector carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the inner-product form rows of \autoref{ch:concrete-instances-innerproduct-namecert}, the norm-square boundary of \autoref{ch:concrete-instances-norm-namecert}, and the finite row ledger of \autoref{ch:concrete-instances-matrix-namecert}.
+
+The point of the packet is not to choose a basis. It exposes the ordered replay of the orthogonalization calculation, and when a pivot is not known to be nonzero it records a refusal row rather than selecting a replacement vector or invoking host choice.
+
+\begin{definition}[Gram-Schmidt carrier]
+\label{def:gram-schmidt-carrier}
+A $\GramSchmidtUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,O,Z,A,R,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source-vector row, listing the ordered $\VecSpaceUp$ vectors to be inspected.
+\item $O$ is the orthogonalized output row, listing the displayed residual vectors produced from the earlier rows of $S$.
+\item $Z$ is the pivot boundary row. For each displayed residual it records either a nonzero norm-square witness or a refusal row saying that the packet does not promote that residual to a selected basis vector.
+\item $A$ is the scalar projection-coefficient ledger, with each coefficient read from the $\InnerProductUp$ form row and the relevant norm-square pivot row.
+\item $R$ is the norm-squared row for all displayed residuals and pivot comparisons, sourced through $\NormUp$ and the inner-product diagonal.
+\item $T$ is the triangular replay row, recording that the $i$th output row is obtained from the $i$th source vector by subtracting only projection components along earlier displayed output rows.
+\item $H$ records componentwise $\hsame$ transport for source vectors, output rows, pivot witnesses or refusals, projection coefficients, norm-squared rows, triangular replay, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the source row through projection coefficients, residual formation, norm-square inspection, pivot boundary, and local certificate.
+\item $P$ is the $\Pkg$ provenance over $\GramSchmidtUp$, $\VecSpaceUp$, $\InnerProductUp$, $\NormUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GramSchmidtUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten displayed rows. It has no coordinate for a host basis, dimension theorem, spectral theorem, Hilbert completion, quotient equality, or selected replacement pivot.
+\end{definition}
+
+\begin{theorem}[Gram-Schmidt NameCert obligation surface]
+\label{thm:gram-schmidt-namecert-obligation-surface}
+For every accepted $\GramSchmidtUp$ carrier $G=(S,O,Z,A,R,T,H,C,P,N)$, the local $\NameCert_{\GramSchmidtUp}$ surface has exactly five finite rows:
+\begin{enumerate}
+\item carrier exposure for the source-vector list, orthogonalized output rows, pivot boundary, projection coefficients, norm-squared rows, triangular replay, transport, continuation, provenance, and local naming;
+\item inner-product projection coefficient exposure, requiring every scalar in $A$ to be read from displayed $\InnerProductUp$ form rows together with the relevant nonzero pivot witness in $Z$;
+\item orthogonality route, requiring every distinct displayed output pair to be certified by the triangular replay row $T$ and the projection-coefficient ledger $A$;
+\item nonzero-pivot and refusal boundary, requiring each residual row to carry either the nonzero norm-square witness needed for projection division or the explicit refusal that the row is not promoted to a selected basis vector;
+\item transport, provenance, and local naming, requiring componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ source rows, and the local $\NameCert_{\GramSchmidtUp}$ row to preserve exactly the displayed packet.
+\end{enumerate}
+No Gram-Schmidt obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Proceed by finite induction on the displayed vector list $S$. The empty list exposes the empty source row, empty output row, empty coefficient ledger, empty triangular replay, and the local naming row.
+
+For the step from a displayed prefix to the next source vector, use the induction data to read the earlier output rows and their pivot boundary rows. The projection coefficient for each earlier nonzero pivot is read from the displayed $\InnerProductUp$ form value and the corresponding norm-square row, and the residual is recorded in $O$ by triangular replay through $T$.
+
+Inspect the new residual through its norm-squared row $R$. If the packet carries a nonzero pivot witness, the residual becomes the next displayed output row available to later projection coefficients. If such a witness is not displayed, the row is recorded in $Z$ as a refusal, so the construction keeps the finite source vector without choosing a replacement or importing a host basis.
+
+Orthogonality is the invariant preserved by the same finite replay. Earlier output rows are orthogonal by the induction hypothesis, and the new residual subtracts exactly the displayed projection components against those rows. Componentwise $\hsame$ transport in $H$, $\Cont$ replay in $C$, $\Pkg$ provenance in $P$, and local naming in $N$ then move only the rows listed in the carrier.
+\end{proof}
+
+\closureat{GramSchmidtUp}{seedStr}
+
+\begin{closurestatus}{\GramSchmidtUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gram-schmidt-carrier} and \autoref{thm:gram-schmidt-namecert-obligation-surface} seed the finite constructive orthogonalization packet over displayed vector-space, inner-product, norm-square, and matrix rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a full basis theorem, dimension theorem, spectral theorem, Hilbert completion, host choice, quotient equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, projection coefficient exposure, orthogonality route, pivot refusal boundary, transport, provenance, and local naming for BEDC.Derived.GramSchmidtUp.}
+  \constructivestory{A $\GramSchmidtUp$ packet is generated from a finite source-vector list, displayed orthogonalized rows, pivot nonzero or refusal witnesses, scalar projection coefficients, norm-squared rows, triangular replay, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

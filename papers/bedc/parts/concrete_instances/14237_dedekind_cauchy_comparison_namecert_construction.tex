@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\DedekindCauchyComparisonUp$}
+\label{ch:concrete-instances-dedekind-cauchy-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Troelstra--van Dalen, the $\DedekindCauchyComparisonUp$ packet records the finite comparison boundary between rounded located cut observations and regular Cauchy name observations. It reads the cut surface of \autoref{ch:concrete-instances-dedekindcut-namecert}, the Cauchy equivalence surface of \autoref{ch:concrete-instances-cauchysequenceequivalence-namecert}, the regular rational name surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a representation comparison certificate, not a Dedekind construction of $\RealUp$ and not a completeness theorem.
+
+\begin{definition}[DedekindCauchyComparison carrier]
+\label{def:dedekind-cauchy-comparison-carrier}
+A $\DedekindCauchyComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,R,W,T,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $D$ is the $\DedekindCutUp$ row, carrying lower and upper rational-observation data together with roundedness, locatedness, and disjointness evidence;
+\item $R$ is the $\RegSeqRatUp$ row, carrying the regular rational sequence surface that is allowed to answer finite tolerance requests;
+\item $W$ is the family of finite $\StreamNameUp$ windows through which $R$ is read by downstream consumers;
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic radii, comparison budgets, and finite refinement rows used to compare $D$ with $R$;
+\item $E$ is the $\RealUp$ seal boundary row reached from the displayed cut and regular-sequence observations, with no independent completed-real coordinate;
+\item $H$ stores componentwise $\hsame$ transports for $D,R,W,T,E$;
+\item $C$ stores the displayed $\Cont$ replay routes for rereading the same finite cut observations, stream windows, tolerance rows, and seal boundary rows;
+\item $P$ is the $\Pkg$ provenance over $\DedekindCauchyComparisonUp$, $\DedekindCutUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DedekindCauchyComparisonUp}$ evidence.
+\end{enumerate}
+The carrier has no coordinate for a quotient cut, a host real equality proof, a selected limit, countable choice, a construction of $\RealUp$ from Dedekind cuts, or an ambient completeness principle.
+\end{definition}
+\leanchecked{BEDC.Derived.DedekindCauchyComparisonUp.DedekindCauchyComparisonTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DedekindCauchyComparison NameCert obligations]
+\label{thm:dedekind-cauchy-comparison-namecert-obligations}
+The local $\NameCert_{\DedekindCauchyComparisonUp}$ surface for the carrier of \autoref{def:dedekind-cauchy-comparison-carrier} consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the packet $K=(D,R,W,T,E,H,C,P,N)$ with its displayed cut row, regular sequence row, stream windows, dyadic tolerance ledger, seal boundary, transports, continuations, package provenance, and local naming evidence;
+\item classifier: comparison reads only rational cut observations in $D$, finite regular-sequence observations in $R$, the windows $W$, and the dyadic budgets $T$;
+\item transport stability: $H$ and $C$ preserve the same cut observations, sequence windows, tolerance rows, and seal boundary under accepted consumer motion;
+\item exactness: every comparison-facing read is supplied by the displayed rows $D,R,W,T,E$ after the componentwise transport and replay routes are fixed;
+\item ledger: every downstream $\RealUp$ consumer first reads the comparison packet through $D,R,W,T,E,H,C,P,N$ and receives no hidden completion coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the packet $K=(D,R,W,T,E,H,C,P,N)$. The displayed cut row, regular sequence row, stream-window family, dyadic tolerance ledger, seal boundary, transports, continuations, provenance, and local naming evidence are exactly the coordinates named by the carrier.
+
+The classifier is finite because every comparison request is routed through the stored rational observations in $D$, the finite windows $W$ of the regular sequence row $R$, and the dyadic tolerance ledger $T$. No classifier step can inspect a quotient cut or an unbounded real object.
+
+Transport stability uses $H$ componentwise and then replays the same consumer path through $C$. The replay returns to the stored rows $D,R,W,T,E$ and therefore preserves the same finite observation surface.
+
+Exactness and the ledger clause follow from the same inventory. Since the carrier contains no selected limit, host real equality proof, countable-choice schedule, Dedekind construction row for $\RealUp$, or completeness principle, every downstream comparison is exhausted by the displayed packet rows.
+\end{proof}
+
+\begin{theorem}[DedekindCauchyComparison Real boundary]
+\label{thm:dedekind-cauchy-comparison-real-boundary}
+Every $\RealUp$-facing read exported by an accepted $\DedekindCauchyComparisonUp$ carrier is only a representation boundary between the displayed $\DedekindCutUp$ row and the displayed $\RegSeqRatUp$ row. The boundary supplies no quotient cut, no host real equality, no selected limit, no countable choice, no Dedekind construction of $\RealUp$, and no completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its real-facing coordinate is the seal boundary row $E$, and $E$ is stored together with the cut row $D$, regular rational row $R$, finite stream-window family $W$, and dyadic tolerance ledger $T$.
+
+Read a comparison request in finite order. The consumer first exposes rational cut observations from $D$, then reads the corresponding finite windows $W$ of $R$, and then checks the dyadic budgets recorded in $T$.
+
+Only after those rows have been fixed can the consumer read the seal boundary $E$. The transport and replay rows $H$ and $C$ preserve that same route, while $P$ and $N$ record provenance and local naming.
+
+Thus the packet exports a comparison boundary only. A quotient cut, host real equality proof, selected limit, countable-choice schedule, Dedekind construction of $\RealUp$, and completeness theorem have no carrier coordinate and cannot be read from the certificate.
+\end{proof}
+
+\begin{closurestatus}{\DedekindCauchyComparisonUp}
+  \constructivestory{A $\DedekindCauchyComparisonUp$ packet is generated from a $\DedekindCutUp$ row, a $\RegSeqRatUp$ row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance rows, a $\RealUp$ seal boundary, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dedekind-cauchy-comparison-carrier}, \autoref{thm:dedekind-cauchy-comparison-namecert-obligations}, and \autoref{thm:dedekind-cauchy-comparison-real-boundary} seed the finite representation-comparison boundary between Dedekind-cut observations and regular Cauchy name observations.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DedekindCauchyComparisonUp.DedekindCauchyComparisonTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient cuts, host real equality, selected limits, countable choice, Dedekind construction of $\RealUp$, completeness, or bridge checking.}
+  \upgradepath{Scoped closure requires a checked finite carrier theorem binding the displayed cut row, regular sequence row, stream windows, dyadic tolerance ledger, and Real-seal boundary.}
+\end{closurestatus}

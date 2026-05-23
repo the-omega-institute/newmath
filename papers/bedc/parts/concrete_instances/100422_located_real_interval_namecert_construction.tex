@@ -1,0 +1,97 @@
+\chapter{Located Real Interval NameCert Construction}
+\label{ch:concrete-instances-located-real-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedRealIntervalUp$ packet names a finite located real interval whose endpoints, radius budget, locator reads, and locatedness moduli are displayed as one BEDC NameCert surface. It sits after the dyadic endpoint arithmetic of \autoref{ch:concrete-instances-dyadic-interval-arithmetic-namecert}, the tolerance bracket of \autoref{ch:concrete-instances-real-metric-locatedness-bracket-namecert}, the comparison service of \autoref{ch:concrete-instances-real-locator-namecert}, the locatedness budget of \autoref{ch:concrete-instances-locatedness-modulus-namecert}, and the quotient boundary of \autoref{ch:concrete-instances-cauchy-quotient-boundary-namecert}. The packet gives later Real and Completion consumers one named interval target; it is not a host closed interval, a selected pair of quotient representatives, a trichotomy oracle, a compactness theorem, or an ambient $\RealUp$ completeness principle.
+
+\begin{definition}[Located real interval carrier]
+\label{def:located-real-interval-carrier}
+A $\LocatedRealIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,\rho,\Delta,\Lambda,M,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are endpoint $\RealUp$ rows, each read through the same real-name seal discipline as the $\RealLocatorUp$ comparison service.
+\item $\rho$ is the radius row. It records the dyadic rational slack, positive tolerance request, and endpoint-radius compatibility budget consumed by located interval readers.
+\item $\Delta$ is the $\DyadicIntervalArithmeticUp$ row that stores endpoint arithmetic, refinement, containment comparison, and outward dyadic enclosure data for the endpoint-radius packet.
+\item $\Lambda$ is the $\RealLocatorUp$ locator row. It records the finite lower or upper apartness windows used when a consumer asks whether a rational probe lies outside or inside the interval boundary.
+\item $M$ is the $\LocatednessModulusUp$ row. It records the tolerance-to-window budget used to turn a positive rational request into endpoint windows, rational cells, dyadic refinements, and real-name readbacks.
+\item $Q$ is the $\RealMetricLocatednessBracketUp$ row. It records that distance, locatedness, and equality reads use the same finite tolerance bracket rather than unrelated host comparisons.
+\item $H$ records componentwise $\hsame$ transport for endpoints, radius, dyadic interval arithmetic, locator rows, locatedness modulus, metric bracket, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval membership, containment, or separation request through $L,U,\rho,\Delta,\Lambda,M,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealIntervalUp$, $\RealUp$, $\DyadicIntervalArithmeticUp$, $\RealLocatorUp$, $\LocatednessModulusUp$, $\RealMetricLocatednessBracketUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealIntervalUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one endpoint-plus-radius located interval history. It has no coordinate for host interval equality, selected quotient representatives, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.LocatedRealIntervalUp.TasteGate.LocatedRealIntervalUp}
+\leanchecked{BEDC.Derived.LocatedRealIntervalUp.TasteGate.LocatedRealIntervalTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[Located real interval classifier]
+\label{def:located-real-interval-classifier}
+Two accepted $\LocatedRealIntervalUp$ carriers
+$$
+I=(L,U,\rho,\Delta,\Lambda,M,Q,H,C,P,N)
+$$
+and
+$$
+I'=(L',U',\rho',\Delta',\Lambda',M',Q',H',C',P',N')
+$$
+are classified as the same located interval exactly when the endpoint rows are the same $\RealUp$ endpoints through the displayed real equality boundary, the radius rows are compatible through the shared dyadic tolerance ledger, and the dyadic interval arithmetic, locator, locatedness modulus, and metric bracket rows transport along those endpoint and radius witnesses. The classifier is therefore endpoint $\RealUp$ equality plus radius compatibility, replayed through $\Delta,\Lambda,M,Q,H,C,P,N$; it is not equality of host closed intervals and does not collapse undecided boundary probes.
+\end{definition}
+
+\begin{theorem}[Located real interval NameCert obligations]
+\label{thm:located-real-interval-namecert-obligations}
+For every accepted $\LocatedRealIntervalUp$ carrier $I=(L,U,\rho,\Delta,\Lambda,M,Q,H,C,P,N)$, the local $\NameCert_{\LocatedRealIntervalUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the endpoint rows, radius row, dyadic interval arithmetic row, locator row, locatedness modulus row, metric locatedness bracket, transport, replay, provenance, and local naming row;
+\item endpoint-radius compatibility, requiring $\rho$ to bind the lower and upper endpoint reads to the dyadic interval ledger $\Delta$ without replacing them by host real representatives;
+\item classifier exactness, requiring sameness to be endpoint $\RealUp$ equality plus radius compatibility and to transport through $\Delta,\Lambda,M,Q,H,C,P,N$;
+\item locatedness stability, requiring $\Lambda$ and $M$ to answer finite boundary and tolerance requests through displayed windows and dyadic refinements;
+\item metric bracket stability, requiring $Q$ to keep distance, equality, and locatedness reads on one common tolerance route;
+\item ledger exhaustion, excluding host interval equality, selected quotient representatives, trichotomy, countable choice, compactness, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No located real interval obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-real-interval-carrier}. The projection exposes exactly the two endpoint rows, radius row, dyadic interval arithmetic row, locator row, locatedness modulus row, metric bracket, and structural rows.
+
+Endpoint-radius compatibility is read from $\rho$ and $\Delta$. The radius row carries the positive dyadic slack and endpoint-radius budget, while the dyadic interval arithmetic row supplies the outward endpoint enclosures and refinement comparisons.
+
+Classifier exactness follows from \autoref{def:located-real-interval-classifier}. Sameness first compares the endpoint $\RealUp$ rows through the displayed equality boundary, then checks the radius compatibility ledger, and only then transports the dyadic arithmetic, locator, locatedness, and metric bracket rows.
+
+Locatedness stability is supplied by $\Lambda$ and $M$. The locator row answers rational probes by finite apartness windows, and the modulus row turns tolerance requests into endpoint windows, rational cells, dyadic refinements, and real-name readbacks.
+
+Metric bracket stability is supplied by $Q$. It records that distance, equality, and locatedness requests consume the same bracket route. The remaining structural rows $H,C,P,N$ transport, replay, package, and name the displayed packet, so no excluded host interval or completeness coordinate can be exported.
+\end{proof}
+
+\begin{theorem}[Located real interval exactness route]
+\label{thm:located-real-interval-exactness-route}
+Every membership, containment, separation, or refinement read of an accepted $\LocatedRealIntervalUp$ carrier factors through the displayed route
+$$
+L,U,\rho \longmapsto \Delta,\Lambda,M,Q \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives endpoint $\RealUp$ equality data and radius compatibility data before any locatedness answer is read. The route exports no host interval equality, selected quotient representative, trichotomy, countable-choice schedule, compactness witness, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $I=(L,U,\rho,\Delta,\Lambda,M,Q,H,C,P,N)$. The only interval coordinates are the endpoint rows $L,U$ and the radius row $\rho$.
+
+The dyadic interval arithmetic row $\Delta$ is the first computational handoff from those coordinates. It records outward endpoint enclosures, containment comparison, and refinement data using displayed dyadic ledgers.
+
+The locator and modulus rows $\Lambda$ and $M$ then supply the finite boundary and tolerance services. They can only read the endpoint-radius data through the displayed windows, rational readbacks, and dyadic refinements already named by the packet.
+
+The metric bracket $Q$ binds the distance, equality, and locatedness routes together. Componentwise transport, continuation replay, provenance, and local naming then package the same route. Since the carrier contains no host interval equality or completeness coordinate, the listed route is exhaustive.
+\end{proof}
+
+\closureat{LocatedRealIntervalUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealIntervalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-interval-carrier}, \autoref{def:located-real-interval-classifier}, \autoref{thm:located-real-interval-namecert-obligations}, and \autoref{thm:located-real-interval-exactness-route} seed the finite endpoint-plus-radius located interval surface over dyadic interval arithmetic, real locator, locatedness modulus, and metric locatedness bracket rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval equality, selected quotient representatives, trichotomy, countable choice, compactness, ambient RealUp completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-radius compatibility, classifier exactness, locatedness stability, metric bracket stability, ledger exhaustion, and exactness-route proofs for BEDC.Derived.LocatedRealIntervalUp.}
+  \constructivestory{A $\LocatedRealIntervalUp$ packet is generated from lower and upper $\RealUp$ endpoint rows, a dyadic radius row, a $\DyadicIntervalArithmeticUp$ endpoint ledger, a $\RealLocatorUp$ comparison row, a $\LocatednessModulusUp$ tolerance row, a $\RealMetricLocatednessBracketUp$ route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

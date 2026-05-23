@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalCoverUp$}
+\label{ch:concrete-instances-located-interval-cover-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedIntervalCoverUp$ packet records a finite cover of a displayed located real interval by rational cover rows and dyadic refinement rows. It sits after the source interval surface of \autoref{ch:concrete-instances-located-real-interval-namecert}, the finite rational cover surface of \autoref{ch:concrete-instances-rational-interval-cover-namecert}, the dyadic mesh route of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers one located-interval cover boundary; it is not an open-cover compactness theorem, a countable-choice construction, quotient equality of real names, selected-limit data, or ambient $\RealUp$ completeness.
+
+\begin{definition}[LocatedIntervalCover carrier]
+\label{def:located-interval-cover-carrier}
+A $\LocatedIntervalCoverUp$ carrier is a finite $\BHist$ packet
+$$
+C=(I,Q,D,R,W,S,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\LocatedRealIntervalUp$ source row, supplying the endpoint, radius, locator, locatedness, and metric-bracket data for the interval being covered.
+\item $Q$ is the finite $\RationalIntervalCoverUp$ family whose rational interval rows, coverage ledger, and regular-window boundary are accepted for the source interval.
+\item $D$ is the $\DyadicIntervalCoverUp$ mesh and refinement row, recording the dyadic scale, radius ledger, finite membership rows, and visible real-name seal used to test the cover.
+\item $R$ is the finite refinement ledger comparing the rational cover family $Q$ with the dyadic mesh row $D$ over the located source $I$.
+\item $W$ is the StreamName and $\RegSeqRatUp$ window boundary, naming the finite stream windows and regular rational readbacks through which the cover is inspected.
+\item $S$ is the terminal $\RealUp$ seal reached only after the located interval, rational cover, dyadic mesh, refinement, and window rows have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the source interval, rational cover family, dyadic cover row, refinement ledger, window boundary, terminal seal, replay, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay, so a consumer can reread $I,Q,D,R,W,S,H,P,N$ without changing the cover route.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalCoverUp$, $\LocatedRealIntervalUp$, $\RationalIntervalCoverUp$, $\DyadicIntervalCoverUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted located interval covers only through the displayed rows $I,Q,D,R,W,S,H,K,P,N$. It has no coordinate for arbitrary open covers, countable cover selection, quotient real equality, selected limits, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[LocatedIntervalCover NameCert obligations]
+\label{thm:located-interval-cover-namecert-obligations}
+For every accepted $\LocatedIntervalCoverUp$ carrier
+$$
+C=(I,Q,D,R,W,S,H,K,P,N),
+$$
+the local $\NameCert_{\LocatedIntervalCoverUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the located source interval, rational cover family, dyadic cover mesh, refinement ledger, window boundary, terminal seal, transports, replay, provenance, and local naming;
+\item source-interval exactness, requiring every endpoint, radius, locator, locatedness, and metric-bracket request to pass through the displayed $\LocatedRealIntervalUp$ row $I$;
+\item cover-family exactness, requiring every rational interval, finite coverage read, and retained regular-window request to pass through the displayed $\RationalIntervalCoverUp$ family $Q$;
+\item refinement-route exactness, requiring every dyadic mesh read, finite membership row, and rational-to-dyadic narrowing to pass through $D$ and the ledger $R$;
+\item window and readback ordering, requiring $W$ to expose StreamName windows and $\RegSeqRatUp$ readbacks before the terminal $\RealUp$ seal $S$ is available;
+\item ledger non-escape, requiring $H,K,P,N$ to export no open-cover compactness, countable choice, quotient real equality, selected limit, or ambient $\RealUp$ completeness principle.
+\end{enumerate}
+No located interval cover obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-interval-cover-carrier}. The accepted packet displays exactly one located interval source, one rational cover family, one dyadic cover row, one refinement ledger, one window boundary, one terminal seal, and the structural rows that transport, replay, package, and name them.
+
+Source-interval exactness follows because $I$ is the only coordinate containing $\LocatedRealIntervalUp$ data. Endpoint, radius, locator, locatedness, and metric-bracket reads therefore enter the cover packet through the displayed source interval and cannot be replaced by a host closed interval.
+
+Cover-family exactness is supplied by $Q$. Its rational interval rows, coverage ledger, and regular-window boundary are the only rational-cover coordinates available to the packet, so every rational cover read is a finite projection from $Q$.
+
+Refinement-route exactness is supplied jointly by $D$ and $R$. The dyadic mesh, radius, and membership rows are read from $D$, while the comparison between those rows and the rational family $Q$ is read from the finite ledger $R$.
+
+The remaining rows $W,S,H,K,P,N$ impose the readback order. StreamName windows and regular rational readbacks are exposed before the terminal real-name seal, and the transport, replay, provenance, and naming rows contain no excluded compactness, choice, quotient, limit, or completeness coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedIntervalCoverUp.TasteGate.LocatedIntervalCoverTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[LocatedIntervalCover refinement route]
+\label{thm:located-interval-cover-refinement-route}
+Every located interval cover read of an accepted $\LocatedIntervalCoverUp$ carrier factors through the displayed route
+$$
+I \longmapsto Q,D,R \longmapsto W,S,H,K,P,N .
+$$
+Thus the consumer first receives the located interval source row, then the finite rational cover family, dyadic mesh, and refinement ledger, and only then the StreamName, $\RegSeqRatUp$, $\RealUp$, transport, replay, provenance, and local naming rows. The route exports no open-cover compactness, countable choice, quotient real equality, selected limit, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $C=(I,Q,D,R,W,S,H,K,P,N)$. The only source interval coordinate is $I$, so every cover request begins with the displayed $\LocatedRealIntervalUp$ endpoint, radius, locator, locatedness, and metric-bracket data.
+
+The cover rows are then read through $Q,D,R$. The rational family $Q$ supplies the finite rational cover ledger, the dyadic row $D$ supplies the mesh and membership tests, and the refinement ledger $R$ records how the two surfaces agree over the located source interval.
+
+The window and seal rows are downstream of that refinement surface. The StreamName and $\RegSeqRatUp$ boundary $W$ is read before the terminal $\RealUp$ seal $S$, so a consumer cannot bypass finite readback by appealing directly to a completed real object.
+
+Finally, $H,K,P,N$ transport, replay, package, and name the same displayed route. Since the accepted packet contains no arbitrary open cover, countable selector, quotient real equality proof, selected limit, or Real completeness row, those objects cannot be exported by the factorization.
+\end{proof}
+
+\falsifiablePrediction{Every $\LocatedIntervalCoverUp$ read factors through one $\LocatedRealIntervalUp$ source row, one finite $\RationalIntervalCoverUp$ family, one $\DyadicIntervalCoverUp$ mesh row, one finite refinement ledger, one StreamName and $\RegSeqRatUp$ window boundary, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{located-real-interval, rational-interval-cover, dyadic-interval-cover, streamname, regseqrat, real: $\LocatedIntervalCoverUp$ is not bijective to any listed sibling because it jointly carries the located source interval, rational cover family, dyadic mesh, refinement ledger, finite readback boundary, terminal real seal, and local NameCert route as one finite cover packet.}
+
+\closureat{LocatedIntervalCoverUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalCoverUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-cover-carrier}, \autoref{thm:located-interval-cover-namecert-obligations}, and \autoref{thm:located-interval-cover-refinement-route} seed the finite located interval cover route from a located real interval source through rational cover rows, dyadic refinement rows, finite windows, terminal real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, countable choice, quotient real equality, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-interval exactness, cover-family exactness, refinement-route exactness, window and readback ordering, ledger non-escape, and finite consumer factorization for BEDC.Derived.LocatedIntervalCoverUp.}
+  \constructivestory{A $\LocatedIntervalCoverUp$ packet is generated from a $\LocatedRealIntervalUp$ source row, a finite $\RationalIntervalCoverUp$ family, a $\DyadicIntervalCoverUp$ mesh and refinement row, a finite refinement ledger, StreamName and $\RegSeqRatUp$ windows, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

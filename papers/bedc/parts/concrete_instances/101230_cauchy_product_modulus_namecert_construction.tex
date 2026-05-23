@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductModulusUp$}
+\label{ch:concrete-instances-cauchy-product-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyProductModulusUp$ packet records the finite modulus calculation that turns two regular rational Cauchy source moduli into a displayed product tolerance. It reads the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic endpoint arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the product-budget ledger of \autoref{ch:concrete-instances-regularcauchyproductbudget-namecert}, the multiplication route of \autoref{ch:concrete-instances-regular-cauchy-multiplication-namecert}, and the terminal field-facing boundary of \autoref{ch:concrete-instances-cauchy-real-field-namecert}. The certificate is a named finite product-modulus bridge; it is not host real multiplication, quotient stream equality, a selected limit, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy product modulus carrier]
+\label{def:cauchy-product-modulus-carrier}
+A $\CauchyProductModulusUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,B,W_A,W_B,D_A,D_B,E,M,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two accepted source modulus rows attached to the regular rational Cauchy names whose product is being certified.
+\item $W_A$ and $W_B$ are the paired $\StreamNameUp$ windows opened from the two sources at the product-facing precision request.
+\item $D_A$ and $D_B$ are the $\DyadicRatCoreUp$ endpoint, radius, and bound rows read from those finite windows.
+\item $E$ is the $\RegularCauchyProductBudgetUp$ ledger that assigns the source-window tolerances, dyadic product allowance, and remaining readback budget.
+\item $M$ is the product modulus row, computed from $A,B,W_A,W_B,D_A,D_B,E$ and recording the output precision request together with the finite source-window budgets that answer it.
+\item $R$ is the $\RegSeqRatUp$ handoff row that consumes the product modulus row as the regular rational product readback.
+\item $S$ is the $\RealUp$ seal row through which the Cauchy real field surface may inspect the product only after the finite modulus and readback rows have been displayed.
+\item $H$ stores componentwise $\hsame$ transports for the two source moduli, paired windows, dyadic bounds, product-budget ledger, modulus row, readback, seal, provenance, and local naming row.
+\item $C$ stores displayed $\Cont$ replay from a product precision request through the two source windows, dyadic rows, budget ledger, product modulus row, readback, seal, and structural rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyProductModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyProductBudgetUp$, $\RegularCauchyMultiplicationUp$, $\CauchyRealFieldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyProductModulusUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the displayed rows $A,B,W_A,W_B,D_A,D_B,E,M,R,S,H,C,P,N$. The carrier contains no coordinate for host real multiplication, quotient streams, selected limits, ambient Real completeness, or a hidden product-modulus oracle.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyProductModulusUp.CauchyProductModulusTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy product modulus window budget]
+\label{thm:cauchy-product-modulus-window-budget}
+Let
+$$
+Q=(A,B,W_A,W_B,D_A,D_B,E,M,R,S,H,C,P,N)
+$$
+be an accepted $\CauchyProductModulusUp$ carrier. Every product tolerance requested from $Q$ factors through the displayed source-window budgets $W_A,W_B$, the dyadic bound rows $D_A,D_B$, and the existing product-budget ledger $E$ before the product modulus row $M$ can be read. Consequently the exported $\RegSeqRatUp$ product handoff $R$ receives its tolerance only from the finite route
+$$
+A,B,W_A,W_B,D_A,D_B,E,M.
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-product-modulus-carrier}. The only source observations available to a product precision request are the two source modulus rows and the paired finite windows $W_A,W_B$.
+
+Read the dyadic rows $D_A,D_B$. They supply the finite endpoint, radius, and bound data used by the product calculation, so the product tolerance cannot be allocated before those rows are displayed.
+
+Now inspect the ledger coordinate $E$. By definition it is the $\RegularCauchyProductBudgetUp$ ledger binding the two source-window tolerances, the dyadic product allowance, and the remaining readback budget. The product modulus row $M$ is downstream of this ledger, and the readback $R$ is downstream of $M$.
+
+Thus every product tolerance exported by the packet factors through $A,B,W_A,W_B,D_A,D_B,E,M$, and no other row can supply the requested product budget.
+\end{proof}
+
+\begin{theorem}[Cauchy product modulus NameCert obligations]
+\label{thm:cauchy-product-modulus-namecert-obligations}
+For every accepted $\CauchyProductModulusUp$ carrier
+$$
+Q=(A,B,W_A,W_B,D_A,D_B,E,M,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyProductModulusUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the two source moduli, paired source windows, dyadic bound rows, product-budget ledger, product modulus row, $\RegSeqRatUp$ handoff, $\RealUp$ seal, and structural rows;
+\item window-budget exactness, requiring each product tolerance to pass through $W_A,W_B,D_A,D_B,E$ before $M$ is available;
+\item product-modulus handoff, requiring $M$ to be the sole row from which the $\RegSeqRatUp$ product readback $R$ receives its output tolerance;
+\item Real seal boundary, requiring every field-facing read to reach $S$ only after the finite product modulus route has produced $R$;
+\item transport, replay, provenance, and local naming stability through $H,C,P,N$, with no escape to host real multiplication, quotient streams, selected limits, ambient $\RealUp$ completeness, or any hidden external product-modulus choice.
+\end{enumerate}
+No NameCert obligation for this packet is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductModulusUp.TasteGate.CauchyProductModulusCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier admission is the tuple in \autoref{def:cauchy-product-modulus-carrier}. It lists all accepted coordinates of the packet and makes no additional source of product information available.
+
+Window-budget exactness is \autoref{thm:cauchy-product-modulus-window-budget}. The requested tolerance reaches the product modulus row only through the paired windows, dyadic bound rows, and the product-budget ledger.
+
+The product-modulus handoff follows from the position of $M$ and $R$ in the carrier. Since $R$ is the only $\RegSeqRatUp$ product readback row and it is downstream of $M$, the handoff cannot bypass the displayed modulus row.
+
+The Real seal boundary is the projection to $S$. That row is reached after $R$, so a field-facing read remains downstream of the finite product modulus route.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same displayed packet. Because no coordinate stores host multiplication, quotient stream equality, selected limits, ambient completeness, or an external choice of modulus, the non-escape clauses follow by inspection.
+\end{proof}
+
+\closureat{CauchyProductModulusUp}{seedStr}
+
+\begin{closurestatus}{\CauchyProductModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-modulus-carrier}, \autoref{thm:cauchy-product-modulus-window-budget}, and \autoref{thm:cauchy-product-modulus-namecert-obligations} seed the finite product-modulus carrier between product-budget accounting, regular rational product readback, and the Real field seal.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CauchyProductModulusUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real multiplication, quotient stream equality, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, product-budget handoff, modulus exactness, RegSeqRat handoff, and Real seal non-escape for the same finite packet.}
+  \constructivestory{A $\CauchyProductModulusUp$ packet is generated from two source modulus rows, paired StreamName windows, DyadicRatCore bound rows, a RegularCauchyProductBudget ledger, a product modulus row, a RegSeqRat product readback, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

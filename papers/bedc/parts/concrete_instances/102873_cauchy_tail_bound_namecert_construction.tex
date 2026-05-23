@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailBoundUp$}
+\label{ch:concrete-instances-cauchy-tail-bound-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyTailBoundUp$ packet isolates the finite evidence that a modulus-controlled Cauchy read stays inside a displayed tail tolerance before any Real-and-Completion consumer reads the terminal seal. It sits between the threshold discipline of \autoref{ch:concrete-instances-realcauchymodulus-namecert}, the regular Cauchy criterion of \autoref{ch:concrete-instances-regularcauchycriterion-namecert}, the dyadic tail envelope of \autoref{ch:concrete-instances-dyadic-cauchy-tail-envelope-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later $\RealUp$ and completion-facing arguments a reusable tail-bound certificate; it does not assert quotient stream equality, select a limit, compare host real values, invoke countable choice, use trichotomy, prove open-cover compactness, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy tail bound carrier]
+\label{def:cauchy-tail-bound-carrier}
+A $\CauchyTailBoundUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,S,D,R,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\RealCauchyModulusUp$ threshold row naming the stage from which the Cauchy tail must remain within the requested tolerance.
+\item $S$ is the $\StreamNameUp$ tail-window row inspected only at stages allowed by the threshold row $M$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the requested radius, comparison slack, dyadic envelope cells, and threshold-to-window accounting.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed tail window and dyadic ledger.
+\item $E$ is the $\RealUp$ seal boundary reached only after the threshold, window, tolerance, and regular readback rows have been consumed.
+\item $B$ is the displayed tail-bound ledger, naming the finite assertion that every inspected pair of tail positions beyond $M$ is contained by the dyadic tolerance recorded in $D$.
+\item $H$ records componentwise $\hsame$ transport for the threshold, tail-window, dyadic ledger, regular readback, Real seal, tail-bound ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,S,D\longmapsto R\longmapsto E\longmapsto B .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailBoundUp$, $\RealCauchyModulusUp$, $\RegularCauchyCriterionUp$, $\DyadicCauchyTailEnvelopeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailBoundUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,S,D,R,E,B,H,C,P,N$. It has no coordinate for quotient streams, selected limits, host real equality, countable choice, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy tail bound NameCert obligations]
+\label{thm:cauchy-tail-bound-namecert-obligations}
+For every accepted $\CauchyTailBoundUp$ carrier
+$$
+T=(M,S,D,R,E,B,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyTailBoundUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the threshold row, tail-window row, dyadic tolerance ledger, regular readback, Real seal boundary, tail-bound ledger, transport, replay, provenance, and local naming row;
+\item threshold-window exposure, requiring every inspected tail window in $S$ to expose the relevant $\RealCauchyModulusUp$ threshold row $M$ before any pair of tail observations is compared;
+\item dyadic tolerance accounting, requiring $D$ to record the requested tolerance, comparison slack, and envelope cells consumed by the displayed tail-bound ledger $B$;
+\item regular readback, requiring $R$ to be read only from the threshold-approved windows and dyadic tolerance rows already displayed in $M,S,D$;
+\item Real seal non-escape, requiring the $\RealUp$ seal boundary $E$ to be downstream of $M,S,D,R,B$ and to export no quotient stream, selected limit, host equality, choice, trichotomy, compactness, or ambient completeness row;
+\item transport, replay, provenance, and local naming, requiring $H,C,P,N$ to preserve, replay, source, and name only the finite rows listed in the carrier.
+\end{enumerate}
+No Cauchy tail-bound obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-tail-bound-carrier}. The accepted packet displays exactly the threshold, tail-window, dyadic ledger, readback, Real seal, tail-bound ledger, and structural rows.
+
+Threshold-window exposure is read from the pair $M,S$. Since $S$ is opened only at stages allowed by the threshold row, a consumer cannot compare arbitrary stream positions or import an unbounded quotient stream before the finite modulus evidence is visible.
+
+Dyadic tolerance accounting is supplied by $D$ and $B$. The dyadic ledger names the requested radius, slack, and envelope cells, while the tail-bound ledger records that the inspected tail pairs consume precisely those displayed tolerance rows.
+
+Regular readback and Real seal non-escape follow from the route through $R$ and $E$. The readback row is downstream of $M,S,D$, and the Real seal is downstream of the readback and tail-bound ledger, so the seal cannot export selected limits, host real equality, countable choice, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+
+Finally $H,C,P,N$ add only componentwise transport, displayed replay, provenance, and local naming. Because the carrier has no coordinate for any excluded principle, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy tail bound finite route]
+\label{thm:cauchy-tail-bound-finite-route}
+Let
+$$
+T=(M,S,D,R,E,B,H,C,P,N)
+$$
+be an accepted $\CauchyTailBoundUp$ carrier. Every Real-and-Completion consumer of the tail-bound packet factors through the finite route
+$$
+M,S,D\longmapsto R\longmapsto B\longmapsto E\longmapsto H,C,P,N .
+$$
+Equivalently, the consumer reads only the displayed $\RealCauchyModulusUp$ threshold, $\StreamNameUp$ tail window, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, tail-bound ledger, $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Fix a Real-and-Completion consumer of an accepted carrier. Projection gives the threshold row $M$, the finite tail-window row $S$, and the dyadic tolerance ledger $D$.
+
+The threshold and window rows force the finite route. The consumer may inspect only those tail positions whose window has been opened after the threshold is displayed, and the dyadic ledger accounts for the requested tolerance before any tail comparison is exported.
+
+The readback and tail-bound ledger are downstream of this data. The row $R$ reads the regular rational observations from $S$ and $D$, while $B$ records the displayed bound on inspected tail pairs beyond $M$.
+
+The Real seal is terminal for this packet. Since $E$ is reached only after $M,S,D,R,B$, and $H,C,P,N$ only transport, replay, source, and name the same route, no quotient stream, selected limit, host real equality, countable choice, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness escapes through the carrier.
+\end{proof}
+
+\closureat{CauchyTailBoundUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailBoundUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-bound-carrier}, \autoref{thm:cauchy-tail-bound-namecert-obligations}, and \autoref{thm:cauchy-tail-bound-finite-route} seed the finite tail-bound route between modulus-controlled Cauchy reads and Real-and-Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, threshold-window exposure, dyadic tolerance accounting, regular readback, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyTailBoundUp.}
+  \constructivestory{A $\CauchyTailBoundUp$ packet is generated from a RealCauchyModulus threshold row, StreamName tail windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal boundary, a displayed tail-bound ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\LawlessSequenceUp$}
+\label{ch:concrete-instances-lawlesssequence-namecert}
+\origin{human}
+
+Following Brouwer and Bishop-style choice sequence analysis, the $\LawlessSequenceUp$ packet records only the finite observation surface of a lawless sequence. It sits between the $\StreamNameUp$ finite-prefix interface of \autoref{ch:concrete-instances-streamname-namecert}, the $\BaireSpaceUp$ naming surface of \autoref{ch:concrete-instances-bairespace-namecert}, the $\BoolUp$ digit row of \autoref{ch:concrete-instances-bool-namecert}, and the $\NatUp$ prefix-index ledger of \autoref{ch:concrete-instances-nat-namecert}. The packet is a NameCert for finite-prefix inspection and replay; it is not a host infinite sequence, not a primitive lawless choice object, and not a countable-choice principle.
+
+\begin{definition}[Lawless sequence carrier]
+\label{def:lawless-sequence-carrier}
+A $\LawlessSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(W,B,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is a $\StreamNameUp$ finite-prefix window recording exactly the prefixes currently inspected.
+\item $B$ is the $\BoolUp$ digit row attached to each inspected prefix in $W$.
+\item $I$ is the $\NatUp$ prefix-index ledger ordering the displayed prefix requests and their finite extension steps.
+\item $H$ transports finite prefixes and their digit rows componentwise by $\hsame$.
+\item $C$ records displayed $\Cont$ replay routes from an index request in $I$ to its prefix window in $W$ and from that window to the corresponding digit row in $B$.
+\item $P$ records $\Pkg$ provenance over $\StreamNameUp$, $\BaireSpaceUp$, $\BoolUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LawlessSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the finite rows $W,B,I,H,C,P,N$. It has no coordinate for host infinite sequence data, countable choice, primitive lawless choice, quotient stream equality, or $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.LawlessSequenceUp.LawlessSequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Lawless sequence NameCert obligations]
+\label{thm:lawless-sequence-namecert-obligations}
+For every accepted $\LawlessSequenceUp$ carrier $L=(W,B,I,H,C,P,N)$, the local $\NameCert_{\LawlessSequenceUp}$ surface consists exactly of carrier admission for the seven displayed rows, finite-prefix window coverage through $W$, Boolean digit readback through $B$, unary prefix-index ordering through $I$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet of \autoref{def:lawless-sequence-carrier}. The only sequence observations available to the classifier are the displayed $\StreamNameUp$ prefix windows in $W$, the corresponding $\BoolUp$ digit rows in $B$, and the $\NatUp$ prefix-index ledger $I$.
+
+Perform prefix induction over the finite row $I$. The base case reads the empty displayed prefix and its digit row when present. The step case extends the current inspected prefix by one unary index move and then reads the next visible digit through $B$.
+
+Transport is componentwise. The rows in $H$ move each displayed prefix and digit row by $\hsame$, while $C$ replays the route from index requests to windows and from windows to digits. Repacking these projections with $P$ and $N$ gives the stated local NameCert surface without adding any hidden infinite-sequence coordinate.
+\end{proof}
+
+\begin{theorem}[Lawless sequence finite-window scope]
+\label{thm:lawless-sequence-finite-window-scope}
+Every consumer read of an accepted $\LawlessSequenceUp$ packet factors through the finite route
+$$
+I\longmapsto W\longmapsto B
+$$
+together with $H,C,P,N$. Thus the packet supplies finite prefix observation and digit replay, but it does not supply host infinite sequences, countable choice, lawless choice as a primitive, quotient streams, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a consumer read and project its requested prefix index from $I$. Prefix induction over the displayed $\NatUp$ row gives a finite chain of inspected prefixes and no appeal to an ambient sequence.
+
+At each step, read the corresponding window from $W$ and the digit row from $B$. The $\BoolUp$ row is attached to the displayed prefix, so the digit is a finite observation rather than a value extracted from an unseen total function.
+
+Finally route the read through $H,C,P,N$. Componentwise transport and continuation replay preserve the same finite window and digit rows, and the carrier has no coordinate from which a host infinite sequence, choice principle, quotient stream, or real-completeness object could be read.
+\end{proof}
+
+\begin{theorem}[Lawless sequence StreamName handoff]
+\label{thm:lawless-sequence-streamname-handoff}
+Every $\StreamNameUp$ or $\BaireSpaceUp$ consumer of an accepted $\LawlessSequenceUp$ carrier receives only the displayed finite-prefix window $W$, its $\BoolUp$ digit rows $B$, the $\NatUp$ prefix-index ledger $I$, and the structural rows $H,C,P,N$. The handoff therefore presents lawless-sequence observation as a StreamName finite-window route, not as an infinite stream object or a choice-selected total sequence.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier of \autoref{def:lawless-sequence-carrier}. The $\StreamNameUp$ face is exactly $W$, and the $\BaireSpaceUp$ use is restricted to the same displayed finite prefixes.
+
+Next read the digit and index rows. The $\BoolUp$ row $B$ supplies only the observed digits for prefixes listed by $I$, while the $\NatUp$ ledger $I$ supplies only the finite prefix-ordering route.
+
+The handoff is completed by the structural rows $H,C,P,N$. They transport, replay, source, and name the same finite prefix windows, so downstream consumers receive a StreamName-compatible finite observation packet and receive no host infinite stream, primitive lawless-choice source, countable-choice row, quotient-stream equality, or $\RealUp$ completeness surface.
+\end{proof}
+
+\closureat{LawlessSequenceUp}{seedStr}
+
+\begin{closurestatus}{\LawlessSequenceUp}
+  \constructivestory{A $\LawlessSequenceUp$ packet is generated from finite StreamName prefix windows, Bool digit rows, Nat prefix indices, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lawless-sequence-carrier}, \autoref{thm:lawless-sequence-namecert-obligations}, \autoref{thm:lawless-sequence-finite-window-scope}, and \autoref{thm:lawless-sequence-streamname-handoff} bind lawless-sequence observation to finite StreamName windows, Bool digit rows, Nat prefix indices, transport, continuation, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sequences, countable choice, lawless choice as a primitive, quotient streams, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Lean closure requires carrier admission, NameCert obligations, finite-window scope, StreamName handoff, and TasteGate field faithfulness for BEDC.Derived.LawlessSequenceUp.}
+\end{closurestatus}

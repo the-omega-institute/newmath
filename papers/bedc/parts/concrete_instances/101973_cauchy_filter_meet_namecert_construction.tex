@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterMeetUp$}
+\label{ch:concrete-instances-cauchy-filter-meet-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley filter terminology, the $\CauchyFilterMeetUp$ packet records the finite common-refinement operation by which two displayed Cauchy-filter packets over the same uniform surface are read as one refinement packet before any limit or completion-facing consumer inspects the route. It sits after the $\UniformSpaceUp$ entourage surface of \autoref{ch:concrete-instances-uniformspace-namecert}, the source $\CauchyFilterUp$ packets of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the basis generator of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, and the limit boundary of \autoref{ch:concrete-instances-cauchyfilterlimit-namecert}; it reads finite windows through \autoref{ch:concrete-instances-streamname-namecert}, regular rational rows through \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, and terminal seals through \autoref{ch:concrete-instances-real-namecert}. The packet names a binary meet of displayed filter data, not quotient filters, selected limits, countable choice, host equality, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Cauchy filter meet carrier]
+\label{def:cauchy-filter-meet-carrier}
+A $\CauchyFilterMeetUp$ carrier is a finite $\BHist$ packet
+$$
+M=(U,F_0,F_1,B_0,B_1,J,S,R,D,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the shared $\UniformSpaceUp$ entourage row. It supplies the finite entourage requests, diagonal reads, and refinement reads through which both source filters are interpreted.
+\item $F_0$ and $F_1$ are the two source $\CauchyFilterUp$ rows whose displayed requests are to be met.
+\item $B_0$ and $B_1$ are the corresponding $\CauchyFilterBasisUp$ rows. Each basis row exposes the finite basis requests, window data, regular readback, and dyadic tolerance ledger used by its source filter.
+\item $J$ is the binary common-refinement row. For every displayed pair of basis requests from $B_0$ and $B_1$, it names a displayed basis request refining both sources over the same entourage surface $U$.
+\item $S$ is the $\StreamNameUp$ window row inspected after the common-refinement row has been read.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to verify that the common-refinement request is small enough for both Cauchy-filter sources.
+\item $L$ is the $\CauchyFilterLimitUp$ handoff row available only after $U,F_0,F_1,B_0,B_1,J,S,R,D$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row reached by a Real-facing consumer through the same handoff route.
+\item $H$ records componentwise $\hsame$ transport for the uniform row, both source-filter rows, both basis rows, the common-refinement row, the window, readback, tolerance, handoff, seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a pair of source-filter requests through $U,F_0,F_1,B_0,B_1,J,S,R,D,L,E$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterMeetUp$, $\UniformSpaceUp$, $\CauchyFilterUp$, $\CauchyFilterBasisUp$, $\CauchyFilterLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterMeetUp}$ row.
+\end{enumerate}
+The classifier compares accepted meet packets only through the displayed route
+$$
+U,F_0,F_1,B_0,B_1,J,S,R,D,L,E \longmapsto H,C,P,N .
+$$
+No carrier coordinate stores a quotient filter, selected limit, countable-choice schedule, host equality, ambient $\RealUp$ completeness theorem, Lean verification row, or bridge certificate.
+\end{definition}
+
+\begin{theorem}[Cauchy filter meet NameCert obligations]
+\label{thm:cauchy-filter-meet-namecert-obligations}
+For every accepted $\CauchyFilterMeetUp$ carrier
+$$
+M=(U,F_0,F_1,B_0,B_1,J,S,R,D,L,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyFilterMeetUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the shared uniform row, two source Cauchy-filter rows, two Cauchy-filter-basis rows, common-refinement row, window row, regular readback row, dyadic tolerance row, limit handoff, terminal seal, transport, replay, provenance, and local naming row;
+\item same-uniform-source discipline, requiring both source filters and both basis rows to be read over the shared entourage surface $U$ before a meet request is accepted;
+\item binary common-refinement coverage, requiring every pair of displayed basis requests from $B_0$ and $B_1$ to pass through $J$ and name a displayed request refining both;
+\item finite observation exactness, requiring the refinement request to read only $S,R,D$ before it reaches the limit handoff $L$ and terminal seal $E$;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the route order under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item provenance exhaustion, requiring $P,N$ to name only this finite common-refinement route and to export no quotient filter, selected limit, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-filter-meet-carrier}. The projection exposes exactly the shared uniform row, both source filters, both basis generators, the common-refinement row, the finite observation rows, the limit and seal rows, and the structural rows $H,C,P,N$.
+
+The same-uniform-source discipline is fixed by the row order. A meet request first reads $U$, then reads $F_0,F_1$ and $B_0,B_1$ as source data over that same uniform surface before any common-refinement row is available.
+
+Binary common-refinement coverage is the role of $J$. For a displayed pair of basis requests, $J$ names the refining request and the two refinement reads back to the source requests. The row is finite data in the carrier, not an appeal to an ambient filter lattice.
+
+Finite observation exactness follows by replaying $C$ after $J$ is read. The refining request passes through the displayed $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $R$, and the $\DyadicRatCoreUp$ tolerance row $D$ before it may reach $L$ or $E$.
+
+Finally $H,C,P,N$ cannot enlarge the packet. They transport, replay, source, and name the displayed rows only, so the excluded quotient, choice, host-equality, real-completeness, Lean-verification, and bridge-checking data are outside the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy filter meet common-refinement factorization]
+\label{thm:cauchy-filter-meet-common-refinement-factorization}
+Let
+$$
+M=(U,F_0,F_1,B_0,B_1,J,S,R,D,L,E,H,C,P,N)
+$$
+be an accepted $\CauchyFilterMeetUp$ carrier. Every completion-facing or Real-facing consumer of the binary meet factors through the finite route
+$$
+U,F_0,F_1,B_0,B_1 \longmapsto J \longmapsto S,R,D \longmapsto L \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a displayed common refinement of the two Cauchy-filter packets before it receives a $\CauchyFilterLimitUp$ handoff or a terminal $\RealUp$ seal. The factorization exports no quotient filters, selected limits, countable-choice schedule, host equality, ambient $\RealUp$ completeness theorem, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing or Real-facing consumer exposed by $P$. Carrier projection shows that the consumer can enter the meet packet only through the displayed rows of \autoref{def:cauchy-filter-meet-carrier}.
+
+The source part of the route is forced through $U,F_0,F_1,B_0,B_1$. These rows display the shared entourage surface, the two Cauchy-filter packets, and the two finite basis generators whose requests are being compared.
+
+We now replay the common finite-refinement row. For each displayed pair of basis requests, $J$ supplies the refining request and the two reads back to $B_0$ and $B_1$. The replay uses only the stored row $J$ and therefore stays inside the same finite packet.
+
+The observation part of the route is $S,R,D$. The displayed window, regular readback, and dyadic tolerance rows verify that the refining request remains small enough for both Cauchy sources before the limit boundary is inspected.
+
+Only after this route has been replayed can the packet expose $L$, and only after $L$ can it expose $E$. Componentwise transport through $H$ and continuation replay through $C$ preserve the same route, while $P,N$ record provenance and local naming without adding any excluded coordinate.
+\end{proof}
+
+\begin{closurestatus}{\CauchyFilterMeetUp}
+  \constructivestory{A $\CauchyFilterMeetUp$ packet is generated from a shared UniformSpace row, two CauchyFilter source rows, two CauchyFilterBasis rows, a binary common-refinement row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a CauchyFilterLimit handoff, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-meet-carrier}, \autoref{thm:cauchy-filter-meet-namecert-obligations}, and \autoref{thm:cauchy-filter-meet-common-refinement-factorization} seed the finite common-refinement operation for two displayed Cauchy-filter packets over a shared uniform surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, same-uniform-source discipline, binary common-refinement coverage, finite observation exactness, limit handoff factorization, transport stability, replay stability, and ledger refusal for BEDC.Derived.CauchyFilterMeetUp.}
+\end{closurestatus}

@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RealNameClassifierUp$}
+\label{ch:concrete-instances-realnameclassifier-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RealNameClassifierUp$ packet records equality inspection for two regular Cauchy real names as a finite tolerance classifier rather than as host equality of completed objects. It sits over the regular-name source of \autoref{ch:concrete-instances-regularcauchyname-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the common finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later $\RealUp$, metric, and algebra chapters a named classifier surface for regular Cauchy names without quotienting Cauchy classes, selecting limits, or importing trichotomy.
+
+\begin{definition}[RealNameClassifier source packet]
+\label{def:real-name-classifier-source}
+A $\RealNameClassifierUp$ source packet is a finite $\BHist$ record
+$$
+C=(A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two source $\RegularCauchyNameUp$ rows whose equality is being inspected.
+\item $W$ is the common $\StreamNameUp$ window schedule exposing the same finite precision requests to both sources.
+\item $D_A$ and $D_B$ are the $\DyadicRatCoreUp$ tolerance rows read from the two sources along $W$.
+\item $T$ is the finite tolerance classifier row, recording that every inspected precision request is discharged by a dyadic comparison between the corresponding observations of $A$ and $B$.
+\item $R_A$ and $R_B$ are the $\RegSeqRatUp$ readback rows attached to the two regular Cauchy names.
+\item $H$ records componentwise $\hsame$ transport for the two source names, common stream windows, dyadic tolerance rows, readback rows, classifier row, package provenance, seal row, and local naming row.
+\item $K$ records the displayed $\Cont$ replay from $A,B$ through $W,D_A,D_B,T,R_A,R_B$.
+\item $P$ is the $\Pkg$ provenance over $\RealNameClassifierUp$, $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $S$ is the terminal $\RealUp$ seal row reached only after the tolerance classifier and both regular rational readbacks have been exposed.
+\item $N$ is the local $\NameCert_{\RealNameClassifierUp}$ row.
+\end{enumerate}
+The packet has no coordinate for quotient Cauchy classes, host sequence equality, selected limits, countable choice, trichotomy, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealNameClassifier tolerance obligation]
+\label{thm:real-name-classifier-tolerance-obligation}
+For an accepted $\RealNameClassifierUp$ packet $C=(A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N)$, every classifier query factors through the common window $W$, the two dyadic tolerance rows $D_A,D_B$, and the finite tolerance classifier row $T$ before either regular rational readback or terminal real seal is consumed.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The only precision schedule visible to both regular Cauchy names is the shared $\StreamNameUp$ row $W$, so a classifier query has no independent observation route for $A$ or $B$.
+
+The dyadic tolerance rows $D_A$ and $D_B$ are read from $W$. The classifier row $T$ records the finite comparison of these two displayed dyadic observations at the requested precisions.
+
+The readback rows $R_A,R_B$ and the seal row $S$ are downstream of this finite comparison. Hence every equality-facing consumer first consumes the common window and dyadic tolerance data, then the tolerance classifier, and only afterward reads regular rational or real-facing rows.
+\end{proof}
+
+\begin{theorem}[RealNameClassifier refinement stability]
+\label{thm:real-name-classifier-refinement-stability}
+Let $C=(A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N)$ be an accepted $\RealNameClassifierUp$ packet. If a downstream consumer refines the common window $W$ by a displayed $\StreamNameUp$ transport and replays the two dyadic rows through $H$ and $K$, then the resulting classifier read is the same local $\NameCert_{\RealNameClassifierUp}$ surface. The refinement changes only the finite observation window, not the two source names, dyadic tolerance obligation, regular rational readbacks, package provenance, or terminal seal boundary.
+\end{theorem}
+\begin{proof}
+Start with the displayed refinement of $W$. The transport row $H$ identifies the refined window with the original common schedule in the componentwise $\hsame$ sense recorded by the packet.
+
+Replay by $K$ carries both dyadic rows through the same refinement. Thus the comparison row $T$ is read after transporting $D_A$ and $D_B$ along a single common route, not by changing one source independently of the other.
+
+The remaining rows $R_A,R_B,P,S,N$ are attached to the same transported packet. The local naming surface is therefore stable under the displayed refinement, because no new source coordinate or external equality principle is introduced.
+\end{proof}
+
+\begin{theorem}[RealNameClassifier Real seal boundary]
+\label{thm:real-name-classifier-seal-boundary}
+Every $\RealUp$ consumer of an accepted $\RealNameClassifierUp$ packet reaches the seal row $S$ only after the two $\RegularCauchyNameUp$ source rows, the common $\StreamNameUp$ window, the two $\DyadicRatCoreUp$ tolerance rows, the tolerance classifier row, and the two $\RegSeqRatUp$ readback rows have been displayed. The seal exports no quotient equality of Cauchy names, host sequence equality, selected limit, countable-choice schedule, trichotomy witness, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:real-name-classifier-source}. The terminal seal row $S$ appears after the source rows, common finite window, dyadic tolerance rows, tolerance classifier, regular rational readbacks, transport, replay, and provenance rows.
+
+Apply \autoref{thm:real-name-classifier-tolerance-obligation}. A seal-facing consumer cannot bypass $W,D_A,D_B,T$, because those rows are the only route by which the classifier query is discharged.
+
+The carrier contains no coordinate for any of the excluded principles. Consequently the $\RealUp$ seal is only a boundary row for the displayed finite classifier packet, not a source of quotient equality, host equality, choice, trichotomy, selected limits, or completeness.
+\end{proof}
+
+\begin{theorem}[RealNameClassifier ledger exhaustion]
+\label{thm:real-name-classifier-ledger-exhaustion}
+The local $\NameCert_{\RealNameClassifierUp}$ ledger for \autoref{def:real-name-classifier-source} is exhausted by carrier admission for $A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N$, common-window tolerance comparison, refinement transport, regular rational readback exposure, package provenance, terminal $\RealUp$ seal boundary, and local naming. No additional equality oracle or completion principle is available to a consumer of the packet.
+\end{theorem}
+\begin{proof}
+Carrier admission supplies exactly the displayed tuple. The analytic rows are the two regular Cauchy sources, the common window, the two dyadic tolerance rows, the classifier row, the regular rational readbacks, and the terminal real seal.
+
+The structural rows are $H,K,P,N$. They transport, replay, source, and name the same finite packet, so their obligations do not add a hidden quotient or host-level equality coordinate.
+
+The tolerance obligation and refinement stability theorems account for the classifier-facing reads. The seal-boundary theorem accounts for the real-facing reads. These routes cover every row in the ledger, and the carrier explicitly omits the excluded equality, choice, trichotomy, selected-limit, and completeness principles.
+\end{proof}
+
+\begin{closurestatus}{\RealNameClassifierUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-name-classifier-source}, \autoref{thm:real-name-classifier-tolerance-obligation}, \autoref{thm:real-name-classifier-refinement-stability}, \autoref{thm:real-name-classifier-seal-boundary}, and \autoref{thm:real-name-classifier-ledger-exhaustion} seed the finite classifier surface for equality inspection of two regular Cauchy real names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy classes, host sequence equality, selected limits, countable choice, trichotomy, or $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance comparison, refinement transport, readback exposure, terminal seal non-escape, package provenance, and ledger exhaustion for the same finite classifier packet.}
+  \constructivestory{A $\RealNameClassifierUp$ packet is generated from two RegularCauchyName source rows, one common StreamName window, two DyadicRatCore tolerance rows, a finite tolerance classifier, two RegSeqRat readbacks, componentwise transport, continuation replay, package provenance, a RealUp seal, and local naming.}
+\end{closurestatus}

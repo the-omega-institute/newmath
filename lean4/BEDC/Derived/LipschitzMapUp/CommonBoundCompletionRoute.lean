@@ -44,4 +44,39 @@ theorem LipschitzMapCarrier_common_bound_completion_route [AskSetup] [PackageSet
       modulusRoutesProvenance, modulusRoutesRealSeal, realSealProvenanceCompletion,
       provenancePkg, realSealPkg, completionPkg⟩
 
+theorem LipschitzMapCarrier_boundary_completion_consumer_route [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert consumer realSeal
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg ->
+      Cont provenance localCert consumer ->
+        Cont modulus routes realSeal ->
+          Cont realSeal consumer completionRead ->
+            PkgSig bundle completionRead pkg ->
+              UnaryHistory modulus ∧ UnaryHistory consumer ∧ UnaryHistory realSeal ∧
+                UnaryHistory completionRead ∧ Cont graph bound modulus ∧
+                  Cont modulus routes provenance ∧ Cont provenance localCert consumer ∧
+                    Cont modulus routes realSeal ∧ Cont realSeal consumer completionRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier provenanceLocalCertConsumer modulusRoutesRealSeal realSealConsumerCompletion
+    completionPkg
+  have boundary :=
+    LipschitzMapCarrier_uniform_modulus_boundary carrier provenanceLocalCertConsumer
+  obtain
+    ⟨modulusUnary, consumerUnary, graphBoundModulus, modulusRoutesProvenance,
+      provenancePkg⟩ := boundary
+  obtain ⟨_sourceUnary, _targetUnary, _boundUnary, _graphUnary, _transportsUnary,
+    routesUnary, _localCertUnary, _graphBoundModulus, _modulusRoutesProvenance,
+    _provenancePkg⟩ := carrier
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed modulusUnary routesUnary modulusRoutesRealSeal
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed realSealUnary consumerUnary realSealConsumerCompletion
+  exact
+    ⟨modulusUnary, consumerUnary, realSealUnary, completionUnary, graphBoundModulus,
+      modulusRoutesProvenance, provenanceLocalCertConsumer, modulusRoutesRealSeal,
+      realSealConsumerCompletion, provenancePkg, completionPkg⟩
+
 end BEDC.Derived.LipschitzMapUp

@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\CantorFanBarrierUp$}
+\label{ch:concrete-instances-cantor-fan-barrier-namecert}
+\origin{human}
+
+Following Brouwer's finite fan arguments, Troelstra--van Dalen's treatment of decidable bars, and Bishop--Bridges constructive analysis, the $\CantorFanBarrierUp$ packet records the finite barrier layer between the fan certificate of \autoref{ch:concrete-instances-fantheorem-namecert}, the Cantor-space prefix surface of \autoref{ch:concrete-instances-cantorspace-namecert}, and the Real and Completion modulus route of \autoref{ch:concrete-instances-bishop-fan-modulus-namecert}. It is a displayed finite packet over branch-prefix histories, StreamName windows, RegSeqRat readback, and a Real seal; it is not an open-cover compactness principle, a selected infinite branch, a quotient stream equality principle, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cantor fan barrier carrier]
+\label{def:cantor-fan-barrier-carrier}
+A $\CantorFanBarrierUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,A,B,D,W,S,Q,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $F$ is the $\FanTheoremUp$ row, carrying the finite binary fan surface, prefix closure, decidable finite-bar read, and fan-depth bound.
+\item $A$ is the $\CantorSpaceUp$ address row, naming the finite Boolean prefix cylinder on which the barrier is inspected without selecting an infinite branch.
+\item $B$ is the decidable barrier row, assigning a visible $\BoolUp$ decision to each displayed prefix in the retained Cantor cylinder.
+\item $D$ is the unary depth ledger, a finite $\NatUp$ row recording the maximal fan depth and the Real-facing read depth associated with each retained barrier decision.
+\item $W$ is the finite witness window, listing exactly the prefixes, barrier decisions, and depth entries read from $F,A,B,D$.
+\item $S$ is the $\StreamNameUp$ window row that converts the finite prefix-depth ledger into the source windows inspected by downstream Real and Completion consumers.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed StreamName windows.
+\item $R$ is the terminal $\RealUp$ seal row, readable only after the rows $F,A,B,D,W,S,Q$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the fan row, Cantor address, decidable barrier, depth ledger, witness window, StreamName window, RegSeqRat readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a consumer request through $F,A,B,D,W,S,Q,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CantorFanBarrierUp$, $\FanTheoremUp$, $\CantorSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BoolUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorFanBarrierUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares only the displayed rows $F,A,B,D,W,S,Q,R,H,C,P,N$. It has no coordinate for open-cover compactness, countable choice, selected infinite branches, quotient stream equality, selected Real limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cantor fan barrier NameCert obligations]
+\label{thm:cantor-fan-barrier-namecert-obligations}
+For every accepted $\CantorFanBarrierUp$ carrier
+$$
+K=(F,A,B,D,W,S,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\CantorFanBarrierUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed fan, Cantor-address, decidable-barrier, depth-ledger, witness-window, StreamName-window, RegSeqRat-readback, Real-seal, transport, replay, provenance, and local naming rows;
+\item fan coverage, requiring every branch-prefix request to be bounded by the finite fan row $F$ over the Cantor address surface $A$;
+\item barrier decidability, requiring every retained prefix in $W$ to read its barrier decision from the finite $\BoolUp$ row $B$;
+\item depth exactness, requiring the unary ledger $D$ to account for every fan-depth and Real-facing window-depth read used by $S,Q,R$;
+\item Real-window handoff, requiring every downstream Real or Completion request to factor through $S$, then $Q$, then $R$;
+\item transport, replay, provenance, and local naming stability, requiring $H,C,P,N$ to preserve and name exactly the displayed packet.
+\end{enumerate}
+No Cantor fan barrier obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Proceed by structural induction on the displayed unary depth ledger $D$.
+
+In the zero-depth case, the retained witness window is the root cylinder named by $A$. The fan row $F$ supplies the root-prefix surface, the barrier decision is the corresponding entry of $B$, and the StreamName, RegSeqRat, and Real rows are read only through $S,Q,R$ after that finite prefix has been displayed.
+
+For the successor step, assume the obligation surface has been constructed through depth $d$. A depth $d+1$ entry adds only the two immediate Boolean extensions of prefixes already present in the Cantor address row. The fan row $F$ bounds these branch-prefix reads, $B$ supplies the two displayed barrier decisions, and $W$ records the finite witness entries attached to the new depth.
+
+The StreamName window row $S$ is then extended only by the windows named by the new ledger entries. RegSeqRat readback through $Q$ and the Real seal through $R$ are downstream of the same finite schedule, so no quotient stream equality, selected branch, or ambient completeness object is introduced.
+
+Finally, $H,C,P,N$ transport, replay, record, and name the same finite rows. Coordinate exhaustion gives exactly the six obligation rows and excludes open-cover compactness, countable choice, selected infinite branches, quotient stream equality, selected Real limits, and ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\CantorFanBarrierUp$ Real or Completion-facing read factors through a finite fan row, Cantor-prefix address row, decidable barrier row, unary depth ledger, finite witness window, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming.}
+
+\independenceWitness{fantheorem, cantorspace, bishop-fan-modulus: $\CantorFanBarrierUp$ is not bijective to any listed sibling because it jointly carries the fan row, Cantor address row, decidable barrier row, unary fan-depth ledger, finite witness window, StreamName window, RegSeqRat readback, Real seal, and structural support while refusing open-cover compactness, countable choice, selected branches, quotient stream equality, selected Real limits, and ambient completeness.}
+
+\closureat{CantorFanBarrierUp}{seedStr}
+\begin{closurestatus}{\CantorFanBarrierUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-fan-barrier-carrier} and \autoref{thm:cantor-fan-barrier-namecert-obligations} seed the finite barrier route through $\FanTheoremUp$, $\CantorSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected infinite branches, quotient stream equality, countable choice, selected Real limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fan coverage, barrier decidability, depth exactness, Real-window handoff, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.CantorFanBarrierUp.}
+  \constructivestory{A $\CantorFanBarrierUp$ packet is generated from a finite $\FanTheoremUp$ row, $\CantorSpaceUp$ address row, decidable $\BoolUp$ barrier row, unary $\NatUp$ depth ledger, finite witness window, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

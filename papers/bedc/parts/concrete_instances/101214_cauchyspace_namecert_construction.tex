@@ -1,0 +1,126 @@
+\chapter{A Concrete Naming Certificate for $\CauchySpaceUp$}
+\label{ch:concrete-instances-cauchyspace-namecert}
+\origin{human}
+
+Following Kelley and Bishop and Bridges, the $\CauchySpaceUp$ packet records the finite L10 interface at which filter Cauchy data, uniform entourage data, regular rational Cauchy names, and Real completion consumers can be read through one NameCert surface. It refines the filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the entourage route of \autoref{ch:concrete-instances-uniformspace-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, while remaining upstream of the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} and the pre-separated completion boundary of \autoref{ch:concrete-instances-cauchy-precompletion-namecert}.
+
+The packet is an interface certificate rather than a completion theorem. It names the finite rows that let later metric and completion chapters cite one displayed Cauchy-space boundary, without asking those chapters to reassemble the filter, uniform, regular-sequence, and Real-consumer handoff separately.
+
+\begin{definition}[CauchySpace carrier]
+\label{def:cauchyspace-carrier}
+A $\CauchySpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,U,R,Q,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ row, listing the finite filter requests and finite stability witnesses that are allowed to be read by the Cauchy-space interface.
+\item $U$ is the $\UniformSpaceUp$ entourage row, listing the finite entourage requests, refinements, and composition witnesses used to test the same Cauchy data.
+\item $R$ is the $\RegSeqRatUp$ regular rational name row attached to the displayed filter and entourage data.
+\item $Q$ is the precompletion row, pointing to the $\CauchyPrecompletionUp$ packet that accepts the displayed regular Cauchy name before quotienting or representative selection.
+\item $T$ is the Real-consumer row, naming the downstream $\RealUp$ completion consumers allowed to read $F,U,R,Q$ without importing ambient completeness.
+\item $H$ records componentwise $\hsame$ transport for the filter, uniform, regular-name, precompletion, Real-consumer, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Cauchy-space request through $F,U,R,Q,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchySpaceUp$, $\CauchyFilterUp$, $\UniformSpaceUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyPrecompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySpaceUp}$ row.
+\end{enumerate}
+The carrier contains no quotient completion row, selected representative, countable-choice schedule, host real equality, ambient $\RealUp$ completeness datum, open-cover compactness datum, Lean verification credential, or standard bridge.
+\end{definition}
+\leandef{BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier}
+\leanchecked{BEDC.Derived.CauchySpaceUp.CauchySpaceTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[CauchySpace classifier]
+\label{def:cauchyspace-classifier}
+Two accepted $\CauchySpaceUp$ carriers
+$$
+S=(F,U,R,Q,T,H,C,P,N)
+\quad\text{and}\quad
+S'=(F',U',R',Q',T',H',C',P',N')
+$$
+are classified as the same Cauchy-space packet exactly when the displayed component comparisons hold:
+$$
+\begin{aligned}
+&F \hsame F',
+\quad
+U \hsame U',
+\quad
+R \hsame R',
+\quad
+Q \hsame Q',
+\quad
+T \hsame T',
+\\
+&H \hsame H',
+\quad
+C \hsame C',
+\quad
+P \hsame P',
+\quad
+N \hsame N'.
+\end{aligned}
+$$
+No classifier branch may inspect quotient completions, selected representatives, countable-choice selectors, host real equality, ambient completeness, open-cover compactness, Lean verification, or bridge credentials.
+\end{definition}
+
+\begin{theorem}[CauchySpace filter stability]
+\label{thm:cauchyspace-filter-stability}
+For every accepted $\CauchySpaceUp$ carrier $S=(F,U,R,Q,T,H,C,P,N)$, every exported filter comparison or replay factors through the displayed Cauchy-filter row $F$ and is stable under the componentwise transport recorded by $H$. In particular, changing the surrounding uniform, regular-name, precompletion, or Real-consumer rows by displayed $\hsame$ transport cannot create a new filter obligation outside the carrier rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier\_filter\_stability}
+\begin{proof}
+Project the accepted carrier. The only row whose coordinates can answer a filter request is $F$, so carrier admission places every exported filter comparison inside the displayed Cauchy-filter boundary.
+
+The transport row $H$ is componentwise. Its filter component transports $F$ to an $\hsame$ filter row while leaving the remaining rows available only as later readers, not as additional filter witnesses.
+
+Replay by $C$ follows the same displayed request route. Since $C,P,N$ replay, source, and name the carrier $S$ rather than an external filter object, no replay step can introduce a second filter obligation.
+
+The remaining rows $U,R,Q,T$ may consume the stabilized filter data, but none contains an independent filter classifier. Thus every exported filter comparison is exhausted by $F$ and its displayed transport through $H$.
+\end{proof}
+
+\begin{theorem}[CauchySpace uniform regular-sequence interface]
+\label{thm:cauchyspace-uniform-regseq-interface}
+Let $S=(F,U,R,Q,T,H,C,P,N)$ be an accepted $\CauchySpaceUp$ carrier. Every regular rational name exported by $S$ is read through the finite interface
+$$
+F,U \longmapsto R
+$$
+where $F$ supplies the Cauchy-filter stability data and $U$ supplies the uniform entourage tests. The packet therefore exposes regular Cauchy names to completion consumers without selecting representatives or invoking countable choice.
+\end{theorem}
+\begin{proof}
+Start with an exported regular-name read. Carrier admission exposes the filter row $F$ and the uniform row $U$ before the regular rational row $R$ can be inspected.
+
+The filter row supplies the finite stability witnesses, while the uniform row supplies the finite entourage requests and refinements. These two rows are the only analytic inputs allowed upstream of $R$.
+
+The regular rational row is attached to the displayed pair $F,U$. Hence a downstream reader obtains $R$ as a regular Cauchy name certified by finite filter and entourage data, not as a chosen representative of a quotient class.
+
+Transport, replay, provenance, and local naming preserve the same route. Since no accepted row stores a choice schedule or representative selector, the interface from uniform Cauchy data to regular rational names remains constructive and finite.
+\end{proof}
+
+\begin{theorem}[CauchySpace Real completion consumer boundary]
+\label{thm:cauchyspace-real-completion-consumer}
+Every $\RealUp$ completion consumer named by an accepted $\CauchySpaceUp$ carrier $S=(F,U,R,Q,T,H,C,P,N)$ reads only the displayed route
+$$
+F,U,R \longmapsto Q \longmapsto T
+$$
+before structural replay, provenance, or local naming. Consequently the packet exports a Cauchy-space consumption boundary, not quotient completion, selected representatives, host real equality, ambient $\RealUp$ completeness, open-cover compactness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+The consumer row $T$ is downstream of the analytic rows. A $\RealUp$ completion consumer first reads the finite filter row $F$, the finite uniform row $U$, and the attached regular rational name row $R$.
+
+The precompletion row $Q$ is then the only permitted handoff into completion-facing data. It accepts the displayed regular Cauchy name while still excluding quotienting, representative selection, host equality, and ambient completeness.
+
+The consumer row $T$ names later $\RealUp$ readers of that precompletion handoff. It has no coordinate from which to export a real-equality theorem, a completeness theorem, an open-cover compactness principle, or a bridge credential.
+
+Finally, $H,C,P,N$ preserve, replay, source, and name this same finite route. Since each structural row is attached to $F,U,R,Q,T$, every exported completion-consumer read remains inside the displayed Cauchy-space boundary.
+\end{proof}
+
+\closureat{CauchySpaceUp}{seedStr}
+
+\begin{closurestatus}{\CauchySpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchyspace-carrier}, \autoref{def:cauchyspace-classifier}, \autoref{thm:cauchyspace-filter-stability}, \autoref{thm:cauchyspace-uniform-regseq-interface}, and \autoref{thm:cauchyspace-real-completion-consumer} seed the finite L10 interface between Cauchy filters, uniform entourages, regular rational Cauchy names, precompletion handoff, and Real completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host real equality, ambient $\RealUp$ completeness, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, filter stability, uniform regular-sequence handoff, Real completion consumer boundary, and non-escape proofs for BEDC.Derived.CauchySpaceUp.}
+  \constructivestory{A $\CauchySpaceUp$ packet is generated from a CauchyFilter row, UniformSpace entourage row, RegSeqRat regular-name row, CauchyPrecompletion handoff row, RealUp completion-consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

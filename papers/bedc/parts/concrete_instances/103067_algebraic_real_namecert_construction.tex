@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\AlgebraicRealUp$}
+\label{ch:concrete-instances-algebraic-real-namecert}
+\origin{human}
+
+Following van der Waerden and Bishop--Bridges constructive analysis, the $\AlgebraicRealUp$ packet reads algebraic real data through a polynomial row, finite Sturm-chain sign-variation rows, an isolating rational or dyadic interval, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and a $\RealUp$ seal. It consumes the polynomial source of \autoref{ch:concrete-instances-polynomial-namecert}, the Sturm-chain surface of \autoref{ch:concrete-instances-sturm-sequence-namecert}, the finite root-isolation branch of \autoref{ch:concrete-instances-sturmrootisolation-namecert}, the interval ledgers of \autoref{ch:concrete-instances-rationalinterval-namecert} and \autoref{ch:concrete-instances-dyadicinterval-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet exposes a finite Real-facing certificate for one isolated algebraic window; it is not an algebraic closure construction, a selected host root, a quotient-real equality principle, or an ambient completeness theorem.
+
+\begin{definition}[AlgebraicReal carrier]
+\label{def:algebraic-real-carrier}
+An $\AlgebraicRealUp$ carrier is a finite $\BHist$ packet
+$$
+A=(P,S,I,D,W,R,E,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\PolynomialUp$ source row, including the coefficient ledger, degree bound, derivative row, and primitive polynomial identity under inspection.
+\item $S$ is the $\SturmSequenceUp$ ledger, carrying the Euclidean-division chain, endpoint sign rows, zero-deletion witnesses, and sign-variation counts used by the isolation read.
+\item $I$ is the $\SturmRootIsolationUp$ branch row, exposing the retained rational isolating interval and the displayed variation-count evidence that selected it.
+\item $D$ is the dyadic refinement row obtained from the retained interval, with endpoint comparison rows and requested precision windows visible as $\DyadicIntervalUp$ data.
+\item $W$ is the $\StreamNameUp$ window schedule exported from the isolating interval and its dyadic refinements.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $W$ and $D$ at the requested unary precision.
+\item $E$ is the terminal $\RealUp$ seal row for the retained algebraic window, reached only after $P,S,I,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the polynomial source, Sturm ledger, isolating interval, dyadic refinement, stream windows, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+P,S \longmapsto I \longmapsto D,W \longmapsto R \longmapsto E .
+$$
+\item $K$ is the $\Pkg$ provenance over $\PolynomialUp$, $\SturmSequenceUp$, $\SturmRootIsolationUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AlgebraicRealUp}$ registration row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through these rows. It has no coordinate for real-closedness, algebraic closure, selected roots in a host field, quotient real equality, real trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[AlgebraicReal NameCert obligations]
+\label{thm:algebraic-real-namecert-obligations}
+For every accepted $\AlgebraicRealUp$ carrier
+$$
+A=(P,S,I,D,W,R,E,H,C,K,N),
+$$
+the local $\NameCert_{\AlgebraicRealUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet of \autoref{def:algebraic-real-carrier};
+\item classifier transport through the componentwise $\hsame$ rows in $H$ and the replay rows in $C$;
+\item polynomial-source exactness, requiring the coefficient ledger, degree bound, derivative row, and primitive identity of $P$ to be the source consumed by the Sturm ledger $S$;
+\item isolation-window exactness, requiring the retained interval $I$ to be selected by the sign-variation rows of $S$ and refined only through the displayed dyadic row $D$;
+\item Real-seal nonescape and ledger exhaustion, requiring every read of $E$ to factor through $P,S,I,D,W,R,H,C,K,N$ before a real-facing consumer can inspect the seal.
+\end{enumerate}
+No further NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:algebraic-real-carrier}. The displayed packet lists the polynomial source, Sturm ledger, isolating interval, dyadic refinement, stream windows, regular rational readback, real seal, and structural BEDC rows.
+
+Classifier transport is componentwise. The row $H$ preserves each displayed coordinate by $\hsame$, while $C$ replays the same route from polynomial inspection through real-seal consumption.
+
+Polynomial-source exactness is read before isolation. The Sturm ledger $S$ has access only to the polynomial data in $P$, so the sign-variation rows cannot be replaced by a host factorization or by a selected list of roots.
+
+Isolation-window exactness is then read from $S,I,D$. The retained interval $I$ is the branch justified by the displayed variation count, and the dyadic row $D$ only refines that retained interval.
+
+Finally, the rows $W,R,E,K,N$ expose the finite window to stream, regular-rational, and real-facing consumers while preserving package provenance and local naming. Since the carrier has no coordinate for the excluded principles, the five rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[AlgebraicReal isolating-interval consumer]
+\label{thm:algebraic-real-isolating-interval-consumer}
+For every accepted $\AlgebraicRealUp$ carrier $A=(P,S,I,D,W,R,E,H,C,K,N)$, every algebraic-real consumer factors through the displayed $\SturmRootIsolationUp$ interval row $I$ before any $\RealUp$ seal row $E$ is visible. Thus the consumer receives the polynomial source, Sturm sign-variation ledger, retained rational or dyadic isolating interval, stream windows, regular rational readback, and structural transport rows as finite BEDC data before reaching a real-facing seal.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the terminal seal $E$. By the carrier definition, $E$ is not an independent real object; it is stored after the polynomial, Sturm, interval, dyadic, stream, and regular-rational rows.
+
+The polynomial source $P$ feeds the Sturm ledger $S$. That ledger supplies the endpoint signs and variation-count evidence from which the retained interval $I$ is selected.
+
+Only after $I$ is fixed can the dyadic refinement $D$, stream windows $W$, and regular rational readback $R$ be read. The structural rows $H,C,K,N$ transport, replay, package, and name that same route.
+
+Consequently the consumer cannot bypass the $\SturmRootIsolationUp$ interval to inspect $E$. The seal exposes only the retained algebraic window, and it exports no selected host root, quotient real equality, real trichotomy, algebraic closure, real-closedness, or ambient completeness witness.
+\end{proof}
+
+\closureat{AlgebraicRealUp}{seedStr}
+
+\begin{closurestatus}{\AlgebraicRealUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:algebraic-real-carrier}, \autoref{thm:algebraic-real-namecert-obligations}, and \autoref{thm:algebraic-real-isolating-interval-consumer} seed the finite algebraic-real route from polynomial source rows through Sturm isolation, dyadic refinement, stream windows, regular rational readback, Real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close real-closedness, algebraic closure, selected roots, quotient real equality, real trichotomy, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, polynomial-source exactness, isolation-window exactness, and Real-seal nonescape for BEDC.Derived.AlgebraicRealUp.}
+  \constructivestory{An $\AlgebraicRealUp$ packet is generated from a polynomial source row, finite Sturm-chain sign-variation rows, a SturmRootIsolation interval row, dyadic refinements, StreamName windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

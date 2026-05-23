@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\DirichletApproximationUp$}
+\label{ch:concrete-instances-dirichlet-approximation-namecert}
+\origin{human}
+
+Following Hardy--Wright's presentation of Dirichlet rational approximation, the $\DirichletApproximationUp$ packet names the finite denominator-bounded route that sends a real-facing rational request to a displayed approximant before any host real equality or best-approximant selector is visible. It sits over the rational-tree source of \autoref{ch:concrete-instances-stern-brocot-namecert}, the interval boundary of \autoref{ch:concrete-instances-rationalinterval-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite rational-readback route of \autoref{ch:concrete-instances-real-rational-approximation-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet also consumes $\StreamNameUp$ windows and $\RegSeqRatUp$ readback rows so the approximation certificate remains a finite NameCert surface rather than an ambient theorem about completed reals.
+
+\begin{definition}[Dirichlet approximation carrier]
+\label{def:dirichlet-approximation-carrier}
+A $\DirichletApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(Q,B,M,D,S,G,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the rational source row. It records the $\RatUp$ input rationals and interval endpoints that the approximation request may inspect.
+\item $B$ is the denominator-bound row. It stores the positive finite bound, the visible denominator budget, and the comparison rows used to certify that the exported denominator stays within the bound.
+\item $M$ is the Stern--Brocot or Farey mediant route. It records the finite branch sequence, mediant bracketing data, and rational candidate selected by displayed tree search rather than by an external choice principle.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It stores the requested dyadic error, the slack ledger, and the endpoint comparisons used to validate the candidate against the displayed rational interval.
+\item $S$ is the $\StreamNameUp$ window row. It records the finite real-name windows that may be read by the approximation request.
+\item $G$ is the $\RegSeqRatUp$ readback row. It reads the windows in $S$ as regular rational data before any real-facing handoff is exposed.
+\item $R$ is the $\RealRationalApproximationUp$ handoff row. It packages the rational candidate, denominator bound, dyadic tolerance, StreamName window, and RegSeqRat readback as the finite approximation surface consumed downstream.
+\item $E$ is the terminal $\RealUp$ seal row. It can be read only after $Q,B,M,D,S,G,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the rational source, denominator bound, mediant route, dyadic tolerance, StreamName window, RegSeqRat readback, real-rational handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Dirichlet approximation request through $Q,B,M,D,S,G,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DirichletApproximationUp$, $\RatUp$, $\RationalIntervalUp$, $\SternBrocotUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealRationalApproximationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DirichletApproximationUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite denominator-bounded rational-approximation packet. It has no coordinate for host real equality, quotient representatives, choice-selected best approximants, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Dirichlet approximation NameCert obligations]
+\label{thm:dirichlet-approximation-namecert-obligations}
+For every accepted $\DirichletApproximationUp$ carrier $A=(Q,B,M,D,S,G,R,E,H,C,P,N)$, the local $\NameCert_{\DirichletApproximationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the rational source, denominator bound, Stern--Brocot or Farey mediant route, dyadic tolerance, StreamName window, RegSeqRat readback, RealRationalApproximation handoff, RealUp seal, transport, replay, provenance, and local naming rows;
+\item rational-source admission, requiring every exported approximant and interval endpoint to be read from the displayed row $Q$;
+\item denominator-bound admission, requiring the denominator comparison to pass through the finite row $B$ before the candidate can be exported;
+\item mediant-route admission, requiring the rational candidate to be produced by the displayed Stern--Brocot or Farey route $M$;
+\item dyadic-tolerance admission, requiring the approximation error and slack comparisons to be read from $D$;
+\item window-readback admission, requiring $S$ and $G$ to be fixed before the real-rational handoff $R$ is visible;
+\item Real-seal admission, requiring $E$ to remain terminal and to expose no host real equality, quotient representative, best-approximant selector, trichotomy branch, or ambient completeness theorem;
+\item transport, replay, provenance, and naming exhaustion, requiring $H,C,P,N$ to preserve and source exactly the displayed packet.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dirichlet-approximation-carrier}. The accepted packet displays exactly the rational source, denominator bound, mediant route, dyadic tolerance, StreamName window, RegSeqRat readback, real-rational handoff, terminal Real seal, and structural rows.
+
+The rational-source and denominator-bound obligations are forced by row order. The candidate and interval endpoints first read $Q$, while the finite denominator comparison is stored in $B$ before any approximation handoff can be exported.
+
+The mediant and tolerance obligations use the next two rows. The row $M$ supplies the Stern--Brocot or Farey path that names the rational candidate, and $D$ supplies the dyadic error, slack, and comparison ledger used to validate it.
+
+The window-readback obligation is finite. The row $S$ exposes only displayed StreamName windows, and $G$ reads those windows as regular rational data before the real-rational approximation row $R$ is available.
+
+The terminal seal and structural rows preserve the same boundary. The row $E$ seals the route as a $\RealUp$-facing packet, while $H,C,P,N$ transport, replay, source, and name the displayed data without adding host real equality, quotient representatives, choice-selected best approximants, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Dirichlet approximation finite handoff]
+\label{thm:dirichlet-approximation-finite-handoff}
+Every $\RealRationalApproximationUp$ or $\RealUp$ read exported by an accepted $\DirichletApproximationUp$ carrier $A=(Q,B,M,D,S,G,R,E,H,C,P,N)$ factors through the finite route
+$$
+Q,B,M,D,S,G \longmapsto R,E
+$$
+before transport, replay, provenance, or local naming can be read. Consequently the exported approximation is witnessed by a rational source row, a denominator-bound row, a displayed mediant route, a dyadic tolerance ledger, StreamName windows, and RegSeqRat readback, not by host real equality or by choosing a best representative.
+\end{theorem}
+\begin{proof}
+Begin with an exported real-rational approximation or Real-facing read. The carrier has only the handoff row $R$ and the terminal seal row $E$ for such reads, and both occur after $Q,B,M,D,S,G$.
+
+The source and bound rows fix the rational data. The row $Q$ supplies the visible rational source and interval endpoints, while $B$ records the finite denominator budget and its comparison evidence.
+
+The candidate route is then displayed. The row $M$ names the Stern--Brocot or Farey mediant path, and $D$ records the dyadic tolerance and slack comparisons that certify the approximation request.
+
+The real-facing input is read through windows. The row $S$ supplies the finite StreamName window, and $G$ converts that window into RegSeqRat rational readback before $R$ may package the handoff.
+
+Only after these rows are present can $R$ and then $E$ be read. Transport, replay, provenance, and local naming preserve this route, so the exported approximation cannot depend on host real equality, quotient representatives, choice-selected best approximants, trichotomy, or ambient Real completeness.
+\end{proof}
+
+\closureat{DirichletApproximationUp}{seedStr}
+
+\begin{closurestatus}{\DirichletApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dirichlet-approximation-carrier}, \autoref{thm:dirichlet-approximation-namecert-obligations}, and \autoref{thm:dirichlet-approximation-finite-handoff} seed the finite denominator-bounded rational-approximation route through rational source, mediant, dyadic tolerance, StreamName, RegSeqRat, RealRationalApproximation, and terminal Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real equality, quotient representatives, choice-selected best approximants, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational-source admission, denominator-bound admission, mediant-route admission, dyadic-tolerance admission, window-readback admission, finite handoff factorization, transport stability, and non-escape proofs for BEDC.Derived.DirichletApproximationUp.}
+  \constructivestory{A $\DirichletApproximationUp$ packet is generated from rational source data, a denominator-bound row, a Stern--Brocot or Farey mediant route, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, a RealRationalApproximation handoff, a terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

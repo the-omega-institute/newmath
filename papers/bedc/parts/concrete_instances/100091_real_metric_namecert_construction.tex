@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RealMetricUp$}
+\label{ch:concrete-instances-real-metric-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealMetricUp$ packet names the standard metric on displayed regular real names by routing distance through finite absolute-value, stream-window, regular-rational, and dyadic-tolerance rows. It sits between the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the absolute-value surface of \autoref{ch:concrete-instances-real-abs-namecert}, the generic metric obligations of \autoref{ch:concrete-instances-metric-namecert}, the stream and regular-Cauchy readback interfaces of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The chapter records the finite NameCert boundary for real distance; it does not identify quotient reals, select limits, invoke trichotomy, or assert completeness.
+
+\begin{definition}[Real metric carrier]
+\label{def:real-metric-carrier}
+A $\RealMetricUp$ carrier is a finite $\BHist$ packet
+$$
+M_{\Real}=(X,Y,A,D,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two displayed $\RealUp$ seals whose distance is being named.
+\item $A$ is the $\RealAbsUp$ distance row for the displayed difference read from $X$ and $Y$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to present finite distance requests and triangle budgets.
+\item $S$ is the finite $\StreamNameUp$ window family opened from the two real-name seals before the distance row is read.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row attached to the displayed stream windows and dyadic tolerances.
+\item $H$ records componentwise $\hsame$ transport for the two real seals, absolute-value distance row, dyadic tolerance row, stream windows, regular readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a distance request through $X,Y$, then through $S,R,D$, into the $\RealAbsUp$ row $A$, and finally into the generic $\MetricUp$ laws consumed downstream.
+\item $P$ is the $\Pkg$ provenance over $\RealMetricUp$, $\RealUp$, $\RealAbsUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,A,D,S,R,H,C,P,N$. The carrier has no coordinate for host real equality, quotient real representatives, selected limits, trichotomy, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Real metric NameCert obligations]
+\label{thm:real-metric-namecert-obligations}
+For every accepted $\RealMetricUp$ carrier $M_{\Real}=(X,Y,A,D,S,R,H,C,P,N)$, the local $\NameCert_{\RealMetricUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed endpoint seals, absolute-value distance row, dyadic tolerance row, stream windows, regular readback, transport, replay, provenance, and local naming row;
+\item distance-row exposure, requiring every public distance read to pass from the endpoint seals $X,Y$ through the finite windows $S$, the regular readback $R$, and the dyadic tolerance row $D$ before it reaches the $\RealAbsUp$ distance row $A$;
+\item symmetry route, requiring the classifier for the reversed endpoint order to reuse the same $\RealAbsUp$ row after componentwise transport of the two endpoint seals and their readback rows;
+\item zero-distance classifier handoff, requiring a zero-distance request to be handed to the displayed $\RealUp$ seal classifier through the same $S,R,D,A$ route rather than through host equality;
+\item triangle-budget handoff, requiring any triangle use to present the two endpoint distance rows and the composed dyadic tolerance budget before reading the corresponding $\MetricUp$ triangle law;
+\item refusal of host real equality, quotient reals, selected limits, trichotomy, and completeness as NameCert data.
+\end{enumerate}
+No NameCert obligation is stored outside these finite rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealMetricUp.RealMetricTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-metric-carrier}. The only available distance data are the endpoint seals $X,Y$, the absolute-value distance row $A$, the dyadic tolerance row $D$, the stream windows $S$, the regular readback $R$, and the structural rows $H,C,P,N$.
+
+Distance-row exposure is forced by the displayed route. A public distance request first opens finite windows on the two real names, reads the corresponding regular rational data, records the dyadic tolerance request, and only then reaches the $\RealAbsUp$ row naming the absolute value of the displayed difference.
+
+Symmetry and zero-distance reads use the same classifier surface. Reversing the endpoints transports $X$ and $Y$ componentwise through $H$ and replays the same windows and readback through $C$; a zero-distance request then returns to the displayed $\RealUp$ seal classifier through $S,R,D,A$ rather than by comparing host reals.
+
+Triangle use is downstream of the same finite route. The generic $\MetricUp$ triangle law is readable only after the three endpoint pairs have exposed their $\RealAbsUp$ distance rows and after the dyadic tolerance budgets have been composed in $D$.
+
+Finally, provenance is exhausted by $P$ and $N$. Since host real equality, quotient representatives, selected limits, trichotomy, and completeness are not coordinates of $M_{\Real}$, the local NameCert surface cannot export them.
+\end{proof}
+
+\begin{theorem}[Real metric absolute-value distance handoff]
+\label{thm:real-metric-absolute-value-distance-handoff}
+Every accepted $\RealMetricUp$ distance consumer factors through the $\RealAbsUp$ row for the displayed endpoint difference and through the $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ readback route before it may read any $\MetricUp$ law. In particular, symmetry, zero-distance, and triangle consumers receive only the displayed rows
+$$
+\RealUp,\RealAbsUp,\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\MetricUp,\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The packet exports no host real equality, quotient real representative, selected limit, trichotomy, or completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealMetricUp.RealMetricCarrier\_absolute\_value\_distance\_handoff}
+\begin{proof}
+Let a distance consumer read an accepted packet $M_{\Real}=(X,Y,A,D,S,R,H,C,P,N)$. Carrier admission gives the consumer access only to the displayed endpoint, distance, tolerance, window, readback, transport, replay, provenance, and local naming rows.
+
+The distance value is therefore obtained through the absolute-value route. The endpoint seals $X,Y$ provide the displayed difference source, $S$ opens the finite windows, $R$ supplies regular rational readback, $D$ records the dyadic tolerance request, and $A$ names the resulting $\RealAbsUp$ distance row.
+
+Only after that route is displayed may the consumer invoke a generic $\MetricUp$ law. Symmetry reuses $A$ under endpoint transport, zero-distance returns through the displayed $\RealUp$ seal classifier, and triangle reads the composed dyadic budget before applying the metric triangle row.
+
+The remaining coordinates are structural support. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows transport, replay, source, and name the same route, with no row from which host real equality, quotient representatives, selected limits, trichotomy, or completeness can be read.
+\end{proof}
+
+\begin{closurestatus}{\RealMetricUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-metric-carrier}, \autoref{thm:real-metric-namecert-obligations}, and \autoref{thm:real-metric-absolute-value-distance-handoff} seed the finite real-metric surface over displayed $\RealUp$, $\RealAbsUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host real equality, quotient real representatives, selected limits, trichotomy, or completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires formal carrier admission, distance-row exposure, symmetry, zero-distance classifier handoff, triangle-budget handoff, and non-escape proofs for the same finite packet.}
+  \constructivestory{A $\RealMetricUp$ packet is generated from two displayed RealUp seals, a RealAbs distance row for their displayed difference, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterBaseUp$}
+\label{ch:concrete-instances-cauchy-filter-base-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on filters, filter bases, and uniform structures, the $\CauchyFilterBaseUp$ packet names the finite base route through which completion-facing Cauchy data is requested before a full filter object is exposed. It sits between the generic $\FilterBaseUp$ interface of \autoref{ch:concrete-instances-filterbase-namecert}, the entourage base surface of \autoref{ch:concrete-instances-entourage-base-namecert}, the uniform entourage structure of \autoref{ch:concrete-instances-uniformspace-namecert}, the Cauchy filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and the entourage-driven Cauchy handoff of \autoref{ch:concrete-instances-cauchy-entourage-filter-namecert}. The packet records finite base indices, entourage requests, directed refinements, Cauchy readiness, transport, replay, provenance, and local naming only; it is not a quotient filter, not a selected limit, not countable choice, and not an ambient completion principle.
+
+\begin{definition}[Cauchy filter-base carrier]
+\label{def:cauchy-filter-base-carrier}
+A $\CauchyFilterBaseUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,U,D,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite base-index row. Each index names a displayed base packet that may be requested by a $\CauchyFilterUp$, $\CauchyEntourageFilterUp$, or completion-facing consumer.
+\item $U$ is the entourage-request row. It records the $\EntourageBaseUp$ and $\UniformSpaceUp$ request data attached to each displayed base index, including the requested scale and the local admissibility read.
+\item $D$ is the directed-refinement row. For every two displayed base requests it names a third displayed base index, a common entourage request at a refining scale, and the two containment reads back to the original requests.
+\item $M$ is the Cauchy readiness row. It records the finite modulus/readiness evidence showing that every requested precision reaches an indexed base packet whose entourage request is small enough for Cauchy-filter consumption.
+\item $H$ records componentwise $\hsame$ transport for base indices, entourage requests, directed refinements, readiness rows, replay rows, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a base request through its entourage request, through the directed common refinement, through the readiness row, and then to downstream Cauchy-filter consumers.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterBaseUp$, $\FilterBaseUp$, $\EntourageBaseUp$, $\UniformSpaceUp$, $\CauchyFilterUp$, $\CauchyEntourageFilterUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterBaseUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed route $I,U,D,M,H,C,P,N$. No coordinate stores a host filter, quotient filter, selected limit, countable-choice selector, global completion object, Lean verification, or bridge certificate.
+\end{definition}
+
+\begin{theorem}[Cauchy filter-base NameCert obligations]
+\label{thm:cauchy-filter-base-namecert-obligations}
+For every accepted $\CauchyFilterBaseUp$ carrier
+$$
+K=(I,U,D,M,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyFilterBaseUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the displayed base-index row, entourage-request row, directed-refinement row, Cauchy readiness row, transport, replay, provenance, and local naming row;
+\item base-to-entourage routing, requiring every indexed base request to read its entourage data from $U$ before any Cauchy-filter or completion consumer can inspect it;
+\item directed common refinement, requiring every pair of displayed base requests to read a third base index, a common refining entourage request, and two containment reads from $D$;
+\item Cauchy readiness, requiring every precision request to pass through $M$ and land in a displayed base index whose entourage request is small enough for the downstream Cauchy route;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the order $I,U,D,M$ under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item provenance exhaustion, requiring $P$ and $N$ to name only this finite base route and to export no quotient filter, selected limit, countable-choice selector, host equality, ambient completion principle, Lean verification, or bridge checking.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:cauchy-filter-base-carrier}. The projection exposes exactly the finite base indices, entourage requests, common-refinement data, Cauchy readiness evidence, and structural rows $H,C,P,N$.
+
+The base-to-entourage route is fixed by the row order. A consumer first names an index in $I$, then reads the requested entourage surface from $U$ before any Cauchy-filter or completion-facing read is available.
+
+Directed common refinement and Cauchy readiness are separate finite projections. The row $D$ supplies the third base index and the two containment reads for each pair of requests, while $M$ supplies the precision-facing readiness row used by Cauchy consumers.
+
+Transport, replay, and provenance cannot enlarge the carrier. The row $H$ compares the displayed coordinates componentwise, $C$ replays the same dependency order, and $P,N$ name only this packet; hence quotient filters, selected limits, choice schedules, host equality, ambient completion, Lean verification, and bridge checking are outside the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy filter-base entourage refinement route]
+\label{thm:cauchy-filter-base-entourage-refinement}
+Let $K=(I,U,D,M,H,C,P,N)$ be an accepted $\CauchyFilterBaseUp$ carrier. For any two displayed base requests $i,j\in I$ with entourage requests $U_i$ and $U_j$, the directed-refinement row $D$ names a displayed index $k\in I$ and an entourage request $U_k$ such that the route
+$$
+(i,U_i),(j,U_j) \longmapsto (k,U_k) \longmapsto H,C
+$$
+contains the two refinement reads from $U_k$ back to $U_i$ and $U_j$. Consequently two completion-facing base requests reach a common entourage refinement through finite rows of the same carrier.
+\end{theorem}
+\begin{proof}
+Project the two requested base rows from $I$ and their entourage rows from $U$. These projections stay inside the finite carrier of \autoref{def:cauchy-filter-base-carrier}.
+
+Read the row of $D$ attached to the pair. By definition of the directed-refinement row, it names the third index $k$, the common entourage request $U_k$, and the two containment reads back to $U_i$ and $U_j$.
+
+The structural rows preserve the displayed route. Componentwise $\hsame$ transport in $H$ compares the requested rows with their transported copies, and $\Cont$ replay in $C$ repeats the route from the pair of requests through the selected common refinement.
+
+Thus the common-refinement conclusion is not an ambient directedness principle. It is the finite row $D$ read through the displayed carrier coordinates and replayed by $H,C$.
+\end{proof}
+
+\begin{theorem}[Cauchy filter-base completion handoff]
+\label{thm:cauchy-filter-base-completion-handoff}
+Every $\CauchyFilterUp$, $\CauchyEntourageFilterUp$, or completion-facing consumer of an accepted $\CauchyFilterBaseUp$ carrier $K=(I,U,D,M,H,C,P,N)$ reads only the finite route
+$$
+I,U,D,M \longmapsto H,C,P,N .
+$$
+In particular, the consumer receives base indices, entourage requests, directed common refinements, Cauchy readiness rows, componentwise transport, replay, provenance, and local naming. It does not receive a host filter, quotient filter, selected limit, countable-choice selector, global completion object, Lean verification row, or bridge certificate.
+\end{theorem}
+\begin{proof}
+Start with a downstream read named by $P$. The consumer is exposed to $\CauchyFilterBaseUp$ only through the rows listed in \autoref{def:cauchy-filter-base-carrier}, so it first reads a finite base index from $I$ and its entourage request from $U$.
+
+When the consumer compares two requests, \autoref{thm:cauchy-filter-base-entourage-refinement} forces the read through $D$. The selected common base index and its entourage request are therefore finite rows of the same packet.
+
+When the consumer asks for Cauchy readiness, it reads $M$. This supplies the precision-facing base index and the small-entourage evidence before any $\CauchyFilterUp$ or $\CauchyEntourageFilterUp$ handoff can occur.
+
+The remaining rows are structural. The transport row $H$, replay row $C$, provenance row $P$, and naming row $N$ preserve and name the route $I,U,D,M$; none of them adds a host filter, quotient filter, selected limit, choice schedule, completion object, verification row, or bridge certificate.
+\end{proof}
+
+\closureat{CauchyFilterBaseUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFilterBaseUp}
+  \constructivestory{A $\CauchyFilterBaseUp$ packet is generated from finite base indices, entourage requests, directed common refinements, Cauchy readiness rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-base-carrier}, \autoref{thm:cauchy-filter-base-namecert-obligations}, \autoref{thm:cauchy-filter-base-entourage-refinement}, and \autoref{thm:cauchy-filter-base-completion-handoff} seed the finite interface between FilterBase, EntourageBase, UniformSpace, CauchyFilter, and CauchyEntourageFilter routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, countable choice, host equality, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, base-to-entourage routing, directed common refinement, Cauchy readiness, completion handoff, transport, replay, provenance, and local naming for BEDC.Derived.CauchyFilterBaseUp.}
+\end{closurestatus}

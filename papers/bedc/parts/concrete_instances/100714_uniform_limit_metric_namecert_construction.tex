@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\UniformLimitMetricUp$}
+\label{ch:concrete-instances-uniform-limit-metric-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges, the $\UniformLimitMetricUp$ packet records the traditional metric-valued uniform-limit handoff as a finite L10 NameCert route. It sits between the uniform-limit continuity boundary of \autoref{ch:concrete-instances-uniform-limit-continuous-namecert}, the interchange route of \autoref{ch:concrete-instances-uniform-limit-interchange-namecert}, the complete-metric consumer surface of \autoref{ch:concrete-instances-completemetric-namecert}, and the displayed metric source of \autoref{ch:concrete-instances-metric-namecert}. Its distance rows are read through the rational and real route of \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+The packet exposes the finite metric data needed by a complete-metric consumer of a uniformly convergent metric-valued family. It does not introduce host completeness, quotient streams, selected limits, open-cover compactness, countable choice, or a second metric completion object.
+
+\begin{definition}[Uniform-limit-metric carrier]
+\label{def:uniform-limit-metric-carrier}
+A $\UniformLimitMetricUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(M,F,U,B,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row, carrying the point classifier, distance classifier, metric-law ledger, and the finite distance observations available to the packet.
+\item $F$ is the metric-valued family row. It records the displayed family entries whose pairwise distances are inspected only through $M$ and through finite windows.
+\item $U$ is the uniform modulus row, giving one shared threshold schedule for the family and for the endpoint-facing read.
+\item $B$ is the finite dyadic distance-budget row. It stores the $\DyadicRatCoreUp$ tolerances, request indices, late-window bounds, and distance comparison budgets consumed by $U$.
+\item $R$ is the $\RegSeqRatUp$ tail-comparison row obtained after the metric distance observations and dyadic budgets have been displayed.
+\item $E$ is the $\RealUp$ seal row for terminal distance readings reached from the regular tail comparison.
+\item $H$ records componentwise $\hsame$ transport for the metric source, family row, uniform modulus, dyadic budgets, regular tail comparison, Real seal, continuation routes, package provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from the metric source through the family row, uniform modulus, dyadic budget, regular tail comparison, Real seal, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\UniformLimitMetricUp$, $\UniformLimitContinuousUp$, $\UniformLimitInterchangeUp$, $\CompleteMetricUp$, $\MetricUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformLimitMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $M,F,U,B,R,E,H,C,P,N$. It has no coordinate for host completeness, quotient streams, selected limits, open-cover compactness, countable-choice selectors, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform-limit-metric NameCert obligations]
+\label{thm:uniform-limit-metric-namecert-obligations}
+For every accepted $\UniformLimitMetricUp$ carrier $Q=(M,F,U,B,R,E,H,C,P,N)$, the local $\NameCert_{\UniformLimitMetricUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric source, metric-valued family, uniform modulus, dyadic distance budgets, regular tail comparison, Real seal, transport, replay, provenance, and local naming rows;
+\item classifier exactness, requiring every metric-valued family read to use the point and distance classifiers displayed by $M$;
+\item uniform-modulus stability, requiring endpoint-facing reads and family-facing reads to consult the same threshold schedule $U$ before any tail comparison is exported;
+\item dyadic budget exactness, requiring every distance estimate to pass through the finite $\DyadicRatCoreUp$ budget row $B$;
+\item RegSeqRat tail comparison, requiring $R$ to be obtained only after the metric distance observations and dyadic budgets have been displayed;
+\item Real seal handoff, requiring $E$ to be consumed only after $R$ and only along the route replayed by $C$;
+\item ledger nonescape, excluding host completeness, quotient streams, selected limits, open-cover compactness, countable-choice selectors, hidden completion objects, and ambient $\RealUp$ completeness as local certificate data.
+\end{enumerate}
+No uniform-limit metric obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-limit-metric-carrier}. The analytic rows are exactly the metric source $M$, the metric-valued family row $F$, the uniform modulus $U$, the dyadic budget row $B$, the regular tail comparison $R$, and the Real seal $E$.
+
+Classifier exactness follows from the shape of $M$ and $F$. The family row contains no independent point equality or distance relation, so every family-facing read must return to the displayed point and distance classifiers carried by $M$.
+
+The modulus and budget rows then determine the tail comparison route. The replay row $C$ places $U$ before $B$, places $B$ before $R$, and places $R$ before $E$, while $H$ transports only the same listed coordinates.
+
+The refusal clauses are forced by absence of coordinates. Since the carrier has no host completeness, quotient stream, selected limit, open-cover compactness, choice selector, hidden completion object, or ambient Real-completeness row, those objects cannot become local NameCert obligations.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformLimitMetricUp.UniformLimitMetricTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Uniform-limit-metric complete handoff]
+\label{thm:uniform-limit-metric-complete-handoff}
+Every complete-metric consumer of an accepted $\UniformLimitMetricUp$ carrier reads the finite route
+$$
+M,F \longmapsto U \longmapsto B \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer receives the displayed metric classifier, uniform modulus, finite dyadic distance budgets, $\RegSeqRatUp$ tail comparison, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before it reads the packet. The route never exports host completeness, quotient streams, selected limits, open-cover compactness, countable choice, hidden completion objects, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a complete-metric consumer of $Q$. By \autoref{def:uniform-limit-metric-carrier}, the consumer can enter the packet only through the displayed metric source $M$ and the metric-valued family row $F$.
+
+The uniform threshold route is visible before any completion-facing read. The row $U$ supplies the shared modulus, and the dyadic budget row $B$ supplies the finite distance tolerances attached to the inspected windows.
+
+After those rows have been displayed, the regular tail comparison $R$ and the Real seal $E$ become available. The structural rows $H,C,P,N$ transport, replay, source, and name that same finite route.
+
+Composing these projections gives the displayed factorization. Applying \autoref{thm:uniform-limit-metric-namecert-obligations}, a complete-metric consumer cannot replace the route by host completeness, quotient streams, selected limits, open-cover compactness, countable choice, hidden completion data, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{UniformLimitMetricUp}{seedStr}
+
+\begin{closurestatus}{\UniformLimitMetricUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-limit-metric-carrier}, \autoref{thm:uniform-limit-metric-namecert-obligations}, and \autoref{thm:uniform-limit-metric-complete-handoff} seed the finite metric-valued uniform-limit route through displayed metric classifiers, uniform modulus rows, dyadic distance budgets, RegSeqRat tail comparisons, Real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full metric completeness, open-cover compactness, host completeness, quotient streams, selected limits, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, uniform-modulus stability, dyadic budget exactness, RegSeqRat tail comparison, Real seal handoff, ledger nonescape, and complete-metric consumer handoff for BEDC.Derived.UniformLimitMetricUp.}
+  \constructivestory{A $\UniformLimitMetricUp$ packet is generated from a displayed MetricUp source, a metric-valued family row, a shared uniform modulus, finite DyadicRatCore distance budgets, a RegSeqRat tail comparison, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

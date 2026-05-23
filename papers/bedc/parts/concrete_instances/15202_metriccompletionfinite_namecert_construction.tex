@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\MetricCompletionFiniteUp$}
+\label{ch:concrete-instances-metriccompletionfinite-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\MetricCompletionFiniteUp$ packet records the finite-window completion boundary that can be inspected before any $\RealUp$ seal is read. It sits downstream of the metric-completion surface of \autoref{ch:concrete-instances-metriccompletion-namecert}, the generated Cauchy-filter basis interface of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, the dyadic precision window of \autoref{ch:concrete-instances-dyadicroundingwindow-namecert}, and the embedding route of \autoref{ch:concrete-instances-completionembedding-namecert}. Its role is to bind those rows to a regular-rational or Real-facing readback without importing quotient completions, selected representatives, countable choice, open-cover compactness, host equality, or an ambient complete metric space.
+
+\begin{definition}[MetricCompletionFinite carrier]
+\label{def:metric-completion-finite-carrier}
+A $\MetricCompletionFiniteUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,B,W,E,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricCompletionUp$ row naming the completion-facing metric source and its finite admissibility boundary.
+\item $B$ is the $\CauchyFilterBasisUp$ row, or the finite CauchyNet branch when the source is presented by nets, from which the completion request is generated.
+\item $W$ is the $\DyadicRoundingWindowUp$ precision row that fixes the finite dyadic scale inspected by the request.
+\item $E$ is the $\CompletionEmbeddingUp$ row carrying the source object into the completion-facing interface.
+\item $R$ is the $\RegSeqRatUp$ or $\RealUp$ seal readback row exposed only after $M,B,W,E$ have been replayed.
+\item $S$ is the local seal selector that records which finite window is consumed before the readback row is public.
+\item $H$ records componentwise $\hsame$ transport for the metric-completion, Cauchy-basis, dyadic-window, embedding, readback, seal-selector, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through the Cauchy basis, dyadic window, completion embedding, finite seal selector, and readback row.
+\item $P$ is the $\Pkg$ provenance over $\MetricCompletionUp$, $\CauchyFilterBasisUp$, $\DyadicRoundingWindowUp$, $\CompletionEmbeddingUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricCompletionFiniteUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for quotient completion equality, a selected representative, countable-choice selection, open-cover compactness, host equality, or an ambient complete metric space.
+\end{definition}
+
+\begin{theorem}[MetricCompletionFinite NameCert obligations]
+\label{thm:metric-completion-finite-namecert-obligations}
+For every accepted $\MetricCompletionFiniteUp$ carrier $F=(M,B,W,E,R,S,H,C,P,N)$, the local $\NameCert_{\MetricCompletionFiniteUp}$ surface consists exactly of these five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric-completion, Cauchy-basis, dyadic-window, embedding, readback, seal-selector, transport, continuation, provenance, and local naming rows;
+\item generated-Cauchy source exposure, requiring $B$ to be read before a completion-facing consumer inspects $W,E,R$, or $S$;
+\item finite-window precision exposure, requiring $W$ and $S$ to display the dyadic scale consumed by the readback route;
+\item embedding and readback handoff, requiring $E$ to precede every $\RegSeqRatUp$ or $\RealUp$ read through $R$;
+\item ledger refusal, excluding quotient completion equality, selected representatives, countable choice, open-cover compactness, host equality, and ambient complete metric spaces.
+\end{enumerate}
+No local NameCert row is stored outside those five obligations and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-completion-finite-carrier}. Its public rows are exactly $M,B,W,E,R,S,H,C,P,N$, so carrier admission cannot expose a second completion object, representative selector, cover datum, host equality, or ambient completeness witness.
+
+The generated source and window obligations come from the order of the displayed continuation. A completion-facing request first reads the metric-completion row $M$ and the Cauchy basis row $B$, then the dyadic precision row $W$ and local selector $S$.
+
+The embedding and readback handoff is the remaining public route. The row $E$ carries the source into the completion-facing interface, and $R$ is readable only after $E$ and the finite window rows have been replayed through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFinite window readback]
+\label{thm:metric-completion-finite-window-readback}
+Let $F=(M,B,W,E,R,S,H,C,P,N)$ be an accepted $\MetricCompletionFiniteUp$ packet. Every completion-facing read that reaches a $\RegSeqRatUp$ readback or a $\RealUp$ seal factors through the finite route
+$$
+M,B,W,E,S \longmapsto R \longmapsto H,C,P,N .
+$$
+Thus the consumer sees the $\MetricCompletionUp$ row, the generated Cauchy-filter or CauchyNet finite branch, the $\DyadicRoundingWindowUp$ precision row, and the $\CompletionEmbeddingUp$ row before it reads any regular-rational or Real-facing seal.
+\end{theorem}
+\begin{proof}
+Begin with an accepted completion-facing consumer. Carrier admission gives access to the readback row $R$, but only as part of the displayed packet.
+
+Replay the continuation row $C$. The request passes through $M$ for the completion-facing metric source, $B$ for the finite generated Cauchy data, $W$ for the dyadic precision window, $E$ for the embedding route, and $S$ for the local seal selector.
+
+Only after those rows are replayed can the consumer read $R$. The transport, provenance, and local naming rows preserve that dependency order, so the visible route factors through the finite window before any $\RealUp$ seal is public.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFinite non-escape]
+\label{thm:metric-completion-finite-nonescape}
+An accepted $\MetricCompletionFiniteUp$ packet exports no quotient completion equality, no selected representative, no countable-choice selector, no open-cover compactness row, no host equality, and no ambient complete metric space. Every completion-facing consumer of the packet must read only the displayed rows $M,B,W,E,R,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The NameCert obligations of \autoref{thm:metric-completion-finite-namecert-obligations} list the only carrier, source, precision, embedding, readback, and refusal rows available to the packet.
+
+The window readback theorem \autoref{thm:metric-completion-finite-window-readback} then covers every route that reaches a regular-rational readback or Real seal. Since the carrier has no additional coordinate beyond $M,B,W,E,R,S,H,C,P,N$, none of the excluded quotient, representative, choice, compactness, host-equality, or ambient-completeness objects can be projected from an accepted packet.
+\end{proof}
+
+\begin{closurestatus}{\MetricCompletionFiniteUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-completion-finite-carrier}, \autoref{thm:metric-completion-finite-namecert-obligations}, \autoref{thm:metric-completion-finite-window-readback}, and \autoref{thm:metric-completion-finite-nonescape} seed the finite-window completion witness between metric-completion rows and downstream regular-rational or Real seal reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient completion equality, selected representatives, countable choice, open-cover compactness, host equality, ambient complete metric spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier admission, classifier exactness, finite-window readback, completion embedding, and ledger non-escape proofs for the same packet.}
+  \constructivestory{A $\MetricCompletionFiniteUp$ packet is generated from a MetricCompletion row, a CauchyFilterBasis or CauchyNet finite branch, a DyadicRoundingWindow precision row, a CompletionEmbedding row, a RegSeqRat or Real seal readback, local seal selection, componentwise hsame transport, continuation replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

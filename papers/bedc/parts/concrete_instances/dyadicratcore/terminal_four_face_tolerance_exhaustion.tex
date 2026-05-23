@@ -185,3 +185,27 @@ It remains to identify the obstruction when descent fails. Apply \autoref{thm:dy
 
 Consequently the only descended public tolerance read compatible with all cover members is the one read from the descended DyadicRatCore tolerance ledger. The failure cases are precisely memberwise absence of that ledger or overlapwise disagreement of that ledger; quotient rational equality, quotient stream equality, selected limits, countable choice, metric completeness, bridge rows, aggregate formalstatus rows, and ambient $\RealUp$ completeness remain outside the terminal descent datum.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore terminal four-face normal-form uniqueness]
+\label{thm:dyadicratcore-terminal-four-face-normal-form-uniqueness}
+Let $P$ and $Q$ be accepted L10 terminal routes. Suppose their public terminal packets expose the same $\DyadicRatCoreUp$ tolerance ledger, the same $\StreamNameUp$ finite window, the same $\RegSeqRatUp$ classifier and readback rows, the same local $\RealUp$ seal row, and the same displayed
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+support. Then the public terminal four-face normal form of $P$ is identical to the public terminal four-face normal form of $Q$.
+
+Conversely, equality of the public terminal four-face normal forms of $P$ and $Q$ recovers exactly those rows: the $\DyadicRatCoreUp$ tolerance ledger, the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ classifier and readback rows, the local $\RealUp$ seal row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. The recovery exports no quotient rational equality, quotient stream equality, selected limit, countable-choice row, metric-completeness row, bridge row, aggregate formalstatus row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read both routes through the visible terminal inventory. Apply \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}; every public tolerance coordinate of either route is forced through the DyadicRatCore ledger, the StreamName finite window, the RegSeqRat classifier and readback rows, the local Real seal, and the displayed support.
+
+Next project the public tolerance reads. By \autoref{thm:dyadicratcore-terminal-four-face-tolerance-projection}, once the StreamName, RegSeqRat, Real, and support faces are fixed, equality of public terminal tolerance reads is exactly equality of the $\DyadicRatCoreUp$ tolerance ledger rows. The assumed agreement of all displayed rows therefore identifies the four-face terminal packets of $P$ and $Q$.
+
+The terminal comparison is unique over that packet. Apply \autoref{thm:dyadicratcore-terminal-tolerance-pullback-initiality}; any accepted terminal route with the same non-dyadic faces and the same displayed support factors uniquely through the same DyadicRatCore tolerance ledger. Hence the two public terminal four-face normal forms coincide.
+
+For the converse, assume the public terminal four-face normal forms coincide. The finite-cover descent theorem \autoref{thm:dyadicratcore-terminal-tolerance-finite-cover-descent} says that a descended public tolerance read is determined exactly by the descended DyadicRatCore ledger and that absence or overlapwise disagreement of that ledger is the precise obstruction to descent. Thus equality of normal forms recovers the DyadicRatCore tolerance ledger.
+
+The remaining faces are then read back from the same public packet. Use \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion} and \autoref{thm:dyadicratcore-terminal-tolerance-common-refinement-confluence}; exhaustion leaves no fifth source outside the visible faces and support rows, while confluence identifies the common finite route through the StreamName window, RegSeqRat classifier and readback, local Real seal, and displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Finally apply the non-export clauses from the exhaustion, projection, initiality, confluence, and finite-cover descent results. Quotient rational equality, quotient stream equality, selected limits, countable choice, metric completeness, bridge rows, aggregate formalstatus rows, and ambient $\RealUp$ completeness are not terminal normal-form coordinates. The equality therefore recovers exactly the listed rows and no hidden completion, choice, bridge, or aggregate-status data.
+\end{proof}

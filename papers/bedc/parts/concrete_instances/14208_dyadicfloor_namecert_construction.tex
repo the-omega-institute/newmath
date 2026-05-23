@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\DyadicFloorUp$}
+\label{ch:concrete-instances-dyadicfloor-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\DyadicFloorUp$ packet records an explicit dyadic lower grid point and its bounding successor as finite BEDC data. It sits over the dyadic rational arithmetic surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the generic precision schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is the finite floor-bounding primitive used by later regular-Cauchy and Real seal arguments before any consumer may appeal to host floor, trichotomy, quotient equality, choice, or an ambient Archimedean decision procedure.
+
+\begin{definition}[DyadicFloor carrier]
+\label{def:dyadic-floor-carrier}
+A $\DyadicFloorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(x,k,d,s,\ell,u,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $x$ is the source real-facing request, represented only through the already displayed $\RegSeqRatUp$ and $\RealUp$ rows consumed by the packet.
+\item $k$ is the requested dyadic scale.
+\item $d$ is the $\DyadicRatCoreUp$ grid point claimed as the lower dyadic floor candidate at scale $k$.
+\item $s$ is the dyadic successor row $d+2^{-k}$, recorded as a second $\DyadicRatCoreUp$ comparison row rather than as host integer arithmetic.
+\item $\ell$ is the lower-bound evidence that the request is not below $d$ at the displayed scale.
+\item $u$ is the upper-window evidence that the request is below the successor row $s$ at the same displayed scale.
+\item $M$ is the $\CauchyModulusUp$ schedule that supplies a finite observation threshold sufficient to read the two displayed inequalities.
+\item $R$ is the $\RegSeqRatUp$ handoff row exposing the regular rational window used by $M$.
+\item $E$ is the $\RealUp$ seal row reached only after the dyadic floor rows and regular handoff have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the request, scale, lower grid point, successor row, lower and upper evidence, modulus schedule, regular handoff, real seal, continuation, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from a precision request through $k,d,s,\ell,u,M,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicFloorUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicFloorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host floor, integer trichotomy, quotient real equality, countable choice, a selected representative, hidden Archimedean search, or ambient completeness.
+\end{definition}
+\leandef{BEDC.Derived.DyadicFloorUp.DyadicFloorUp}
+
+\begin{definition}[DyadicFloor classifier]
+\label{def:dyadic-floor-classifier}
+The local $\DyadicFloorUp$ classifier accepts exactly those carrier rows $F=(x,k,d,s,\ell,u,M,R,E,H,C,P,N)$ for which the displayed successor row $s$ is the one-step dyadic successor of $d$ at scale $k$, the lower evidence $\ell$ reads $d$ as a lower bound for the request at that scale, the upper evidence $u$ reads $s$ as the strict upper bounding row at that scale, and the modulus schedule $M$ supplies the finite regular-rational window through $R$ used by both comparisons. Transport by $H$ and replay by $C$ preserve the same rows componentwise; they do not add a second classifier, host comparison, or detached real equality test.
+\end{definition}
+
+\begin{theorem}[DyadicFloor NameCert obligations]
+\label{thm:dyadic-floor-namecert-obligations}
+The seed $\NameCert_{\DyadicFloorUp}$ surface for \autoref{def:dyadic-floor-carrier} consists exactly of carrier exposure for $F$, classifier exposure from \autoref{def:dyadic-floor-classifier}, dyadic lower-grid exposure through $d$, dyadic successor exposure through $s$, lower-bound exposure through $\ell$, upper-window exposure through $u$, modulus exposure through $M$, regular rational readback through $R$, terminal $\RealUp$ seal exposure through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $F=(x,k,d,s,\ell,u,M,R,E,H,C,P,N)$. The definition lists every analytic and structural coordinate exposed to the local naming row.
+
+The classifier reads only the successor relation between $d$ and $s$, the lower evidence $\ell$, the upper evidence $u$, and the finite observation route supplied by $M$ and $R$. Thus the dyadic floor obligation is not a hidden call to a host floor operation.
+
+The remaining rows preserve the same packet. The real seal $E$ is downstream of the dyadic and regular rows, while $H,C,P,N$ transport, replay, source, and name the displayed data. Since no excluded object is a coordinate of $F$, the listed rows exhaust the seed obligation surface.
+\end{proof}
+
+\begin{theorem}[DyadicFloor bounding interval]
+\label{thm:dyadic-floor-bounding-interval}
+Every accepted $\DyadicFloorUp$ packet $F=(x,k,d,s,\ell,u,M,R,E,H,C,P,N)$ exposes a finite dyadic interval
+$$
+d\leq_k x <_k s
+$$
+at the displayed scale $k$, where the left comparison is read by $\ell$, the right comparison is read by $u$, and $s$ is the dyadic successor row $d+2^{-k}$. No consumer receives a host floor value, trichotomy decision, quotient equality of real names, selected representative, countable-choice row, or hidden Archimedean search.
+\end{theorem}
+\begin{proof}
+Start from the classifier of \autoref{def:dyadic-floor-classifier}. Its acceptance condition names $s$ as the one-step dyadic successor of $d$ at the requested scale $k$.
+
+The same classifier binds the lower and upper comparisons. The row $\ell$ supplies the displayed lower-bound read for $d$, while $u$ supplies the displayed strict upper-window read for the successor $s$.
+
+Finally inspect the carrier surface. The only comparison rows available to a consumer are $d,s,\ell,u$ together with the modulus and regular readback route $M,R$. Hence the bounding interval is the finite packet interval above, and the excluded host operations have no route into the accepted packet.
+\end{proof}
+
+\begin{theorem}[DyadicFloor RegSeqRat handoff]
+\label{thm:dyadic-floor-regseqrat-handoff}
+For every accepted $\DyadicFloorUp$ packet, the floor-bounding read factors through the finite route
+$$
+\CauchyModulusUp\longmapsto \RegSeqRatUp\longmapsto \DyadicRatCoreUp\longmapsto \RealUp .
+$$
+Concretely, the modulus schedule $M$ selects the regular rational window $R$, the dyadic rows $d,s,\ell,u$ read their comparisons from that window, and the terminal seal $E$ is available only after those rows have been displayed.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:dyadic-floor-carrier}. The schedule row $M$ is the only threshold source in the packet, and the handoff row $R$ is the only regular rational readback row.
+
+The dyadic comparisons are then forced through the same finite readback. Both the lower row $\ell$ and the upper row $u$ classify the request using $d,s$ at scale $k$ after $M$ and $R$ have supplied the observation window.
+
+The real seal is terminal in this route. The row $E$ is reached only after the dyadic and regular rows are displayed, and the structural rows $H,C,P,N$ merely preserve and name the same route. Thus no detached seal, quotient equality, selected representative, or choice-driven search is available to the consumer.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DyadicFloorUp$ consumer that reads a floor-bounding interval without the displayed scale $k$, lower dyadic row $d$, successor row $s$, lower evidence $\ell$, upper evidence $u$, modulus schedule $M$, and regular readback row $R$ refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, cauchymodulus, regseqrat, real: no listed sibling is bijective to $\DyadicFloorUp$ because this packet jointly binds a scale, lower grid point, dyadic successor, two bounding comparisons, modulus schedule, regular readback, terminal seal, transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\DyadicFloorUp}
+  \constructivestory{A $\DyadicFloorUp$ packet is generated from a real-facing request, a dyadic scale, a lower dyadic grid point, its dyadic successor, lower and upper bounding evidence, a finite modulus schedule, a regular rational readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-floor-carrier}, \autoref{def:dyadic-floor-classifier}, \autoref{thm:dyadic-floor-namecert-obligations}, \autoref{thm:dyadic-floor-bounding-interval}, and \autoref{thm:dyadic-floor-regseqrat-handoff} seed the finite dyadic floor-bounding primitive for the L10 Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host floor, trichotomy, quotient real equality, countable choice, selected representatives, ambient completeness, an Archimedean search theorem, or a Lean theorem.}
+  \upgradepath{A formal route can encode the carrier and classifier and prove the NameCert obligation surface, dyadic bounding interval, and regular-rational handoff theorem.}
+\end{closurestatus}

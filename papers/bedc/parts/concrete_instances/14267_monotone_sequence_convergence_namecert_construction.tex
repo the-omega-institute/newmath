@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneSequenceConvergenceUp$}
+\label{ch:concrete-instances-monotone-sequence-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\MonotoneSequenceConvergenceUp$ packet records the constructive monotone convergence route for bounded real sequences as finite BEDC data. It sits after the bounded-sequence source of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, the located monotone Cauchy route of \autoref{ch:concrete-instances-monotonecauchy-namecert}, the nonquotient comparison boundary of \autoref{ch:concrete-instances-regularcauchyequivalence-namecert}, the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet turns displayed bounded monotone observations into a regular Cauchy tail certificate; it does not select a limit representative or import host completeness.
+
+\begin{definition}[Monotone sequence convergence carrier]
+\label{def:monotone-sequence-convergence-carrier}
+A $\MonotoneSequenceConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+J=(S,W,Q,R,B,M,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the inspected sequence schedule, listing the finite index windows used by the packet.
+\item $W$ is the finite family of $\StreamNameUp$ windows observed at the indices in $S$.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those windows and their dyadic tolerances.
+\item $R$ is the $\RealUp$ seal row reached only after the stream windows and regular rational readbacks have been displayed.
+\item $B$ is the bounded interval or bounded net row supplied by the bounded real sequence surface.
+\item $M$ is the monotonicity ledger, recording the displayed order direction and the finite comparison rows used by the inspected windows.
+\item $T$ is the tail-Cauchy modulus and threshold row; it names the finite threshold beyond which the $Q$-readbacks are forced into the displayed tolerance.
+\item $H$ stores componentwise $\hsame$ transport for the schedule, windows, readbacks, real seals, boundedness row, monotonicity ledger, tail threshold, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from inspected indices to windows, from windows to regular readback, from readback to real seals, and from the bounded monotone ledger to the tail-Cauchy threshold.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneSequenceConvergenceUp$, $\BoundedRealSequenceUp$, $\MonotoneCauchyUp$, $\RegularCauchyEquivalenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and local naming.
+\item $N$ is the local $\NameCert_{\MonotoneSequenceConvergenceUp}$ row.
+\end{enumerate}
+The carrier classifier reads only
+$$
+S,W,Q,R,B,M,T,H,C,P,N.
+$$
+It has no coordinate for trichotomy, host real equality, quotient equality, ambient $\RealUp$ completeness, open-cover compactness, a Bolzano--Weierstrass subsequence selector, or a choice-selected limit.
+\end{definition}
+\leanchecked{BEDC.Derived.MonotoneSequenceConvergenceUp.MonotoneSequenceConvergenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Monotone sequence tail-Cauchy route]
+\label{thm:monotone-sequence-convergence-tail-cauchy}
+For every accepted $\MonotoneSequenceConvergenceUp$ carrier $J=(S,W,Q,R,B,M,T,H,C,P,N)$, bounded monotone finite-window rows produce a regular Cauchy tail route through the displayed threshold $T$ and the $\RegSeqRatUp$ classifier $Q$. Every tail comparison factors through
+$$
+S\longmapsto W\longmapsto Q\longmapsto B,M\longmapsto T
+$$
+together with $R,H,C,P,N$, and no comparison uses trichotomy, host completeness, quotient equality, choice, or a selected limit representative.
+\end{theorem}
+\begin{proof}
+Begin with the inspected schedule $S$. The continuation row $C$ exposes only the finite $\StreamNameUp$ windows $W$, and the readback row $Q$ classifies those windows as regular rational observations before any $\RealUp$ seal row is consumed.
+
+The boundedness and monotonicity rows are then read together. The row $B$ supplies the bounded real sequence interval or net surface, while $M$ supplies the displayed monotone ledger for the same inspected windows. Their joint use is finite: the packet never asks for a host set of all sequence values.
+
+The threshold row $T$ is the tail-Cauchy output of that bounded monotone read. It records the displayed tail index and tolerance route through the $Q$-classifier, so downstream regular Cauchy consumers receive a route already expressed in $\RegSeqRatUp$ data.
+
+Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same route. Since the carrier contains no trichotomy, host-completeness, quotient-equality, choice, or selected-limit coordinate, the tail-Cauchy comparison cannot leave the displayed packet.
+\end{proof}
+
+\begin{theorem}[Monotone sequence convergence NameCert obligations]
+\label{thm:monotone-sequence-convergence-namecert-obligations}
+For every accepted $\MonotoneSequenceConvergenceUp$ carrier, the local $\NameCert_{\MonotoneSequenceConvergenceUp}$ surface consists exactly of carrier admission, finite-window classification, boundedness transport, monotone-ledger transport, tail-Cauchy extraction, $\RealUp$ seal non-escape, and package provenance for the displayed rows $S,W,Q,R,B,M,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple of \autoref{def:monotone-sequence-convergence-carrier}. The finite-window classifier reads the schedule $S$, the $\StreamNameUp$ windows $W$, and the $\RegSeqRatUp$ readbacks $Q$; these rows are the only source of sequence observations.
+
+Boundedness transport uses $B$ together with the componentwise $\hsame$ row $H$ and the displayed replay row $C$. Monotone-ledger transport is parallel: the same $H$ and $C$ rows move the finite order ledger $M$ without adding a host order or trichotomy field.
+
+Tail-Cauchy extraction is exactly the row $T$ produced from the bounded monotone finite-window data. The real-seal boundary is the row $R$, which is readable only after the $W$ and $Q$ route has been displayed and therefore cannot introduce quotient real equality or ambient completeness.
+
+Finally $P$ records the package provenance and $N$ records the local naming row. These rows name no data outside $S,W,Q,R,B,M,T,H,C,P,N$, so the seven listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\falsifiablePrediction{Every $\MonotoneSequenceConvergenceUp$ tail-Cauchy read factors through finite StreamName windows, RegSeqRat readback, boundedness and monotonicity ledgers, a displayed tail threshold, and the RealUp seal row carried by the packet.}
+
+\independenceWitness{boundedrealsequence, monotonecauchy, regularcauchyequivalence, streamname, real: $\MonotoneSequenceConvergenceUp$ is not bijective to any listed sibling because it jointly carries the inspected sequence schedule, finite windows, regular readbacks, real seals, boundedness row, monotonicity ledger, tail threshold, transport, continuation, provenance, and local naming.}
+
+\closureat{MonotoneSequenceConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneSequenceConvergenceUp}
+  \constructivestory{A $\MonotoneSequenceConvergenceUp$ packet is generated from inspected sequence windows, StreamName observations, RegSeqRat readbacks, RealUp seals, a bounded interval or net row, a monotonicity ledger, a tail-Cauchy threshold row, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-sequence-convergence-carrier}, \autoref{thm:monotone-sequence-convergence-tail-cauchy}, and \autoref{thm:monotone-sequence-convergence-namecert-obligations} seed the finite route from bounded monotone RealUp sequence data to a regular Cauchy tail certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealUp completeness, Bolzano--Weierstrass subsequence selection, open-cover compactness, trichotomy, host real equality, Quot equality, choice, Lean verification, or bridge checking.}
+  \upgradepath{Lean closure requires carrier admission, finite-window classification, boundedness transport, monotone-ledger transport, tail-Cauchy extraction, RealUp seal non-escape, and package provenance for BEDC.Derived.MonotoneSequenceConvergenceUp.}
+\end{closurestatus}

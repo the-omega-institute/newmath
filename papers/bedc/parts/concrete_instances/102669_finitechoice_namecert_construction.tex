@@ -1,0 +1,110 @@
+\chapter{A Concrete Naming Certificate for $\FiniteChoiceUp$}
+\label{ch:concrete-instances-finitechoice-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Troelstra--van Dalen on finite choice, the $\FiniteChoiceUp$ packet records finite index selection over displayed $\ListUp$, $\OptionUp$, and $\BoolUp$ rows and over the L10 $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ windows. It sits beside the countable-choice refusal surface of \autoref{ch:concrete-instances-countable-choice-boundary-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion arguments a visible finite selector boundary while refusing countable-choice selectors.
+
+\begin{definition}[FiniteChoice carrier]
+\label{def:finite-choice-carrier}
+A $\FiniteChoiceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,O,B,L,W,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index-list row. It records a displayed $\ListUp$ of inspected indices together with the order in which the packet reads them.
+\item $O$ is the $\OptionUp$ decidability row, carrying for each displayed index either a selected row or an explicit absence token.
+\item $B$ is the $\BoolUp$ decisional ledger attached to $O$, recording the boolean case used for each finite option inspection.
+\item $L$ is the selected-row ledger. It contains only the rows selected from the displayed finite list and records no selector outside $I$.
+\item $W$ is the $\StreamNameUp$ window row opened for the selected finite indices.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the selected windows in $W$.
+\item $S$ is the terminal $\RealUp$ seal row, exposed only after $I,O,B,L,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the index list, option and boolean rows, selected ledger, stream windows, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the finite index-list row through $O,B,L,W,R,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteChoiceUp$, $\ListUp$, $\OptionUp$, $\BoolUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteChoiceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven rows. It has no coordinate for countable choice, selected infinite branches, quotient stream equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[FiniteChoice NameCert obligations]
+\label{thm:finite-choice-namecert-obligations}
+For every accepted $\FiniteChoiceUp$ carrier
+$$
+F=(I,O,B,L,W,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteChoiceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed index-list row, option decidability row, boolean decision ledger, selected-row ledger, StreamName window row, RegSeqRat readback row, Real seal row, transport, replay, provenance, and local naming;
+\item finite index coverage, requiring every selected row to appear in the displayed $\ListUp$ row $I$;
+\item option and boolean case exactness, requiring $O$ and $B$ to account for each selected or absent finite case before the selected-row ledger $L$ is read;
+\item window selection, requiring each stream window in $W$ to be opened only for an index accepted by the finite selected-row ledger;
+\item rational readback, requiring $R$ to consume the displayed windows in $W$ rather than a detached stream quotient or selected limit;
+\item $\RealUp$ seal non-escape, requiring $S$ to remain downstream of $I,O,B,L,W,R$ and to add no countable selector, infinite branch, quotient stream equality, trichotomy, ambient completeness principle, Lean verification, or bridge data;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No local finite-choice obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-choice-carrier}. The visible choice data are exactly the finite index list $I$, the option row $O$, the boolean decision ledger $B$, and the selected-row ledger $L$.
+
+Finite index coverage follows by case analysis over the displayed $\ListUp$ row. In the empty-list case, no selected row can be exported. In the cons case, the head index is inspected by $O$ and $B$, and the tail is handled by the same finite projection.
+
+Option and boolean exactness is local to $O$ and $B$. The present case contributes its selected row to $L$, while the absent case contributes only the explicit absence token. The mixed cases are exhausted because the boolean ledger records one displayed decision for each option row.
+
+The analytic handoff then follows the selected rows. Each accepted selected row opens a finite $\StreamNameUp$ window in $W$, and every regular rational readback in $R$ consumes one of those windows.
+
+Finally, $S$ is terminal and $H,C,P,N$ only transport, replay, source, and name the same displayed route. Since the carrier has no coordinate for the excluded objects, the listed rows exhaust the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[FiniteChoice window selection boundary]
+\label{thm:finite-choice-window-selection-boundary}
+Let $F=(I,O,B,L,W,R,S,H,C,P,N)$ be an accepted $\FiniteChoiceUp$ carrier. Every $\StreamNameUp$ window exported by $F$ is selected by the finite route
+$$
+I \longmapsto O \longmapsto B \longmapsto L \longmapsto W .
+$$
+Consequently a window consumer may inspect selected finite windows and their option/boolean decisions, but it receives no countable selector, selected infinite branch, detached quotient stream, or ambient real-completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with an exported stream window. By carrier projection, the only window coordinate is $W$.
+
+The row $W$ is not free-standing. It is downstream of the finite index-list row $I$, the option row $O$, the boolean ledger $B$, and the selected-row ledger $L$.
+
+Now split by the displayed option cases. A present option contributes a selected finite row to $L$ and therefore may open the corresponding window in $W$. An absent option contributes no selected row, so no window can be exported from that index.
+
+The rows $H,C,P,N$ preserve and name this finite route without adding a second selector. Thus every exported window is selected by the displayed finite route, and all countable or completion-level choice data remain outside the packet.
+\end{proof}
+
+\begin{theorem}[FiniteChoice Real-completion handoff]
+\label{thm:finite-choice-real-completion-handoff}
+Every L10 Real or Completion consumer of an accepted $\FiniteChoiceUp$ carrier
+$$
+F=(I,O,B,L,W,R,S,H,C,P,N)
+$$
+must read the finite route
+$$
+\ListUp \longmapsto \OptionUp \longmapsto \BoolUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+as displayed by $I,O,B,L,W,R,S$. The handoff permits finite selection for the displayed windows and readbacks only; it does not supply countable choice, selected infinite branches, quotient stream equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and read the Real-facing coordinate. The only Real seal row is $S$, and it is exposed only after the finite index, option, boolean, selected-row, stream-window, and regular-readback rows have been displayed.
+
+Apply the window boundary of \autoref{thm:finite-choice-window-selection-boundary}. Every window consumed by the Real or Completion route has already passed through the finite $\ListUp$, $\OptionUp$, $\BoolUp$, and selected-ledger rows.
+
+The readback row $R$ then supplies the regular rational data for those windows, and the terminal seal $S$ records the $\RealUp$ handoff. This route is finite because its source is the displayed list $I$ and its case analysis is exhausted by the option and boolean rows.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Since no excluded coordinate is present, a Real or Completion consumer receives finite selection data only through $I,O,B,L,W,R,S$ and receives none of the stronger choice or completeness principles.
+\end{proof}
+
+\closureat{FiniteChoiceUp}{seedStr}
+
+\begin{closurestatus}{\FiniteChoiceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-choice-carrier}, \autoref{thm:finite-choice-namecert-obligations}, \autoref{thm:finite-choice-window-selection-boundary}, and \autoref{thm:finite-choice-real-completion-handoff} seed the finite selection boundary used by L10 stream, regular-rational, and real-name windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, selected infinite branches, quotient stream equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite index coverage, option and boolean exactness, window selection, RegSeqRat readback, RealUp seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteChoiceUp.}
+  \constructivestory{A $\FiniteChoiceUp$ packet is generated from one finite ListUp index row, OptionUp decidability rows, BoolUp decision rows, a selected-row ledger, StreamName windows, RegSeqRat readback, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\IntermediateValueBisectionUp$}
+\label{ch:concrete-instances-intermediate-value-bisection-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive bisection, the $\IntermediateValueBisectionUp$ packet records the finite sign-change route that turns an inspected located interval, endpoint sign reads, and a displayed continuity budget into a regular rational window and a real-name seal. It is a NameCert consumer of the dyadic branch ledger of \autoref{ch:concrete-instances-dyadicbisection-namecert}, the rational endpoint cells of \autoref{ch:concrete-instances-rationalinterval-namecert}, the located interval surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}.
+
+The certificate is narrower than a classical intermediate value theorem. It stores only the finite branch prefix and the sign ledger needed by a consumer at a requested tolerance, then hands the retained window to the existing regular-sequence and real-name surfaces. No coordinate stores a completed root, a quotient stream, an arbitrary limit selector, real trichotomy, open-cover compactness, or an ambient completeness theorem.
+
+\begin{theorem}[IntermediateValueBisection finite sign-change carrier]
+\label{thm:intermediate-value-bisection-carrier}
+An $\IntermediateValueBisectionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+I=(J,R,D,S,W,G,E,H,C,P,N)
+$$
+whose visible rows have the following roles:
+\begin{enumerate}
+\item $J$ is the $\LocatedIntervalUp$ endpoint packet, including the lower and upper rational cells and their located order witness;
+\item $R$ is the $\RationalIntervalUp$ cell ledger against which endpoint and midpoint sign reads are recorded;
+\item $D$ is the $\DyadicBisectionUp$ branch prefix that retains an interval with opposite displayed signs at the requested finite precision;
+\item $S$ is the sign ledger, containing the initial endpoint signs and the midpoint sign row used at each branch of $D$;
+\item $W$ is the $\StreamNameUp$ window surface for the retained lower and upper endpoint names;
+\item $G$ is the $\RegSeqRatUp$ readback row obtained from the retained stream windows and the requested dyadic tolerance;
+\item $E$ is the $\RealUp$ seal available to downstream consumers only through the retained regular readback;
+\item $H$ stores the componentwise $\hsame$ transports for $J,R,D,S,W,G,E$, and the local certificate row;
+\item $C$ stores the displayed $\Cont$ replay routes for endpoint inspection, midpoint inspection, branch retention, regular readback, and real-seal consumption;
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalUp$, $\RationalIntervalUp$, $\DyadicBisectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\IntermediateValueBisectionUp}$ registration row.
+\end{enumerate}
+The carrier predicate says that these rows form one finite sign-change bisection certificate. It has no coordinate for completed root existence, real trichotomy, quotient streams, selected limits, open-cover compactness, or a global completeness principle for $\RealUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntermediateValueBisectionUp.IntermediateValueBisectionTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+The carrier is read by projection from the displayed packet $I$. The located interval row $J$ and rational cell ledger $R$ provide the endpoint cells in which signs are inspected.
+
+The dyadic branch prefix $D$ is the only row that can choose a retained interval. Its choices are justified by the sign ledger $S$, so every branch step is tied to an endpoint or midpoint sign row already present in the packet.
+
+The retained endpoints then expose stream windows through $W$ and regular rational readback through $G$. The real-facing row $E$ is reached only after that readback route is fixed.
+
+Finally, $H,C,P$, and $N$ provide transport, replay, provenance, and local naming for the same rows. Since the tuple contains no other analytic coordinate, the excluded classical and completeness principles cannot be exported by the carrier.
+\end{proof}
+
+\begin{theorem}[IntermediateValueBisection sign-ledger stability]
+\label{thm:intermediate-value-sign-ledger-stability}
+For every accepted $\IntermediateValueBisectionUp$ carrier $I=(J,R,D,S,W,G,E,H,C,P,N)$, every branch prefix of $D$ transports the same sign-ledger boundary under the displayed $\hsame$ rows and the displayed $\Cont$ replay routes. In particular, if a consumer reads a retained subinterval through $C$, then the lower and upper sign rows it receives are exactly the transported entries of $S$ attached to the rational cells in $R$ and the located endpoint packet $J$.
+\end{theorem}
+\begin{proof}
+Start with a branch prefix of $D$. Each step in the prefix names one retained dyadic subinterval and one midpoint sign row, so the only available sign data for the next step are the entries already stored in $S$.
+
+Transport along $H$ acts componentwise on $J,R,D$, and $S$. It preserves the attachment between a rational endpoint cell and its displayed sign row because there is no separate sign coordinate outside the ledger.
+
+Replay along $C$ reads the retained subinterval through the same endpoint inspection and midpoint inspection route. Thus a consumer cannot replace the lower or upper sign by an unrelated host comparison; it receives the transported ledger entries bound to the branch prefix.
+
+Package provenance $P$ and the local certificate row $N$ record that this is the accepted $\IntermediateValueBisectionUp$ route. The branch-prefix and sign-ledger transport are therefore stable under the named $\hsame$, $\Cont$, and $\Pkg$ rows.
+\end{proof}
+\leanchecked{BEDC.Derived.IntermediateValueBisectionUp.IntermediateValueBisectionCarrier\_sign\_ledger\_stability}
+
+\begin{theorem}[IntermediateValueBisection regular seal handoff]
+\label{thm:intermediate-value-regular-seal-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\IntermediateValueBisectionUp$ carrier factors through the route
+$$
+J,R,D,S,W,G,E,H,C,P,N .
+$$
+The consumer first reads the located and rational endpoint cells, then the finite dyadic branch prefix and transported sign ledger, then the retained stream windows, then the regular rational readback, and only then the real-name seal. The handoff exports a finite sign-change window, not a completed root, quotient stream, selected limit, real trichotomy, open-cover compactness, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. A regular-sequence request begins at the retained endpoint windows, but those windows are not independent rows; they are the $W$ coordinate stored with $J,R,D$, and $S$.
+
+Read the finite route in order. The located endpoint packet and rational interval cells determine the initial boundary, the dyadic branch prefix selects the retained interval, and \autoref{thm:intermediate-value-sign-ledger-stability} keeps the sign ledger attached to that prefix under transport and replay.
+
+The retained windows then pass through $G$, the $\RegSeqRatUp$ readback row. The $\RealUp$ seal $E$ is exposed only after this regular readback has been reached, with $H,C,P$, and $N$ preserving the same route for consumers.
+
+No step in this route introduces a host root or a completed intersection object. Therefore the handoff supplies exactly the finite regular window and real-name seal named in the packet, with the listed non-claims remaining outside the certificate.
+\end{proof}
+
+\closureat{IntermediateValueBisectionUp}{seedStr}
+
+\begin{closurestatus}{\IntermediateValueBisectionUp}
+  \constructivestory{An $\IntermediateValueBisectionUp$ packet is generated from a $\LocatedIntervalUp$ endpoint packet, a $\RationalIntervalUp$ cell ledger, a $\DyadicBisectionUp$ branch prefix, finite sign rows, $\StreamNameUp$ retained windows, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{thm:intermediate-value-bisection-carrier}, \autoref{thm:intermediate-value-sign-ledger-stability}, and \autoref{thm:intermediate-value-regular-seal-handoff} seed the finite constructive bisection route from displayed sign change to regular rational and real-name consumption.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close completed root existence, real trichotomy, quotient streams, selected limits, open-cover compactness, completed nested intersections, or ambient completeness of $\RealUp$.}
+  \upgradepath{A checked BEDC.Derived.IntermediateValueBisectionUp carrier and theorem surface matching the displayed finite sign-change packet would raise the verification axis.}
+\end{closurestatus}

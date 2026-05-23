@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusChoiceUp$}
+\label{ch:concrete-instances-cauchy-modulus-choice-namecert}
+\origin{human}
+
+Bishop--Bridges constructive analysis treats a Cauchy modulus as displayed finite rate data: a later real-name or completion-facing consumer may read the selected threshold only after the raw modulus, the normal-form schedule, the window row, the regular rational readback, and the dyadic tolerance ledger have all been exposed. The $\CauchyModulusChoiceUp$ packet records this selection route without importing a countable-choice principle. It sits after the raw modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the normal-form route of \autoref{ch:concrete-instances-cauchy-modulus-normal-form-namecert}, the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite modulus-choice certificate for Real and Completion consumers; it is not quotient stream equality, trichotomy, ambient Real completeness, or a hidden selector over countably many requests.
+
+\begin{definition}[Cauchy modulus choice carrier]
+\label{def:cauchy-modulus-choice-carrier}
+A $\CauchyModulusChoiceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,N,W,Q,D,R,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the raw $\CauchyModulusUp$ row attached to the source Cauchy name and the finite precision request being answered.
+\item $N$ is the $\CauchyModulusNormalFormUp$ row that records the monotone normal-form representative of $M$ for the same request.
+\item $W$ is the $\StreamNameUp$ window row opened by the normal-form threshold.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed window $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that records the dyadic error budget consumed by $W$ and $Q$.
+\item $R$ is the $\RealUp$ seal reached only after $M,N,W,Q,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the raw modulus, normal form, window, readback, dyadic tolerance, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the selection route
+$$
+M\longmapsto N\longmapsto W\longmapsto Q\longmapsto D\longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusChoiceUp$, $\CauchyModulusUp$, $\CauchyModulusNormalFormUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CauchyModulusChoiceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,N,W,Q,D,R,H,C,P,L$.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus choice NameCert obligations]
+\label{thm:cauchy-modulus-choice-namecert-obligations}
+For every accepted $\CauchyModulusChoiceUp$ carrier
+$$
+K=(M,N,W,Q,D,R,H,C,P,L),
+$$
+the local $\NameCert_{\CauchyModulusChoiceUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the raw modulus, normal-form modulus, finite StreamName window, RegSeqRat readback, DyadicRatCore tolerance, Real seal, transport, replay, provenance, and local naming rows;
+\item normal-form selection, requiring the chosen threshold to be read from the displayed $\CauchyModulusNormalFormUp$ row $N$ rather than from an external choice function;
+\item window-readback compatibility, requiring the $\StreamNameUp$ window $W$ and $\RegSeqRatUp$ readback $Q$ to be opened by the same normal-form threshold;
+\item dyadic tolerance and Real seal compatibility, requiring the $\DyadicRatCoreUp$ row $D$ to be the tolerance ledger consumed before the terminal $\RealUp$ seal $R$ is exposed;
+\item structural non-escape, requiring $H,C,P,L$ to transport, replay, source, and name only the displayed route and to export no countable choice, quotient stream equality, trichotomy, ambient Real completeness, selected limit, or host real equality.
+\end{enumerate}
+No Cauchy modulus choice obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:cauchy-modulus-choice-carrier}. The only rows available to the classifier are $M,N,W,Q,D,R,H,C,P,L$.
+
+Normal-form selection is local to $N$. Since $N$ is a displayed normal-form row downstream of the raw modulus $M$, the threshold read is a finite row read rather than an appeal to a choice function over all precision requests.
+
+Window-readback compatibility uses $W$ and $Q$. The finite window is opened by the same normal-form threshold, and the regular rational readback is attached to that displayed window.
+
+Dyadic tolerance and the Real seal are then forced by $D$ and $R$. The dyadic budget is consumed before the seal can be read, so the seal is not an ambient completeness assertion or a selected limit.
+
+Finally $H,C,P,L$ preserve exactly the same route by componentwise transport, replay, provenance, and local naming. Because the carrier has no coordinate for countable choice, quotient stream equality, trichotomy, ambient completeness, selected limits, or host real equality, the five obligation rows exhaust the local surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus choice normal-form factorization]
+\label{thm:cauchy-modulus-choice-normal-form-factorization}
+Every accepted $\CauchyModulusChoiceUp$ carrier
+$$
+K=(M,N,W,Q,D,R,H,C,P,L)
+$$
+factors its selected threshold through the $\CauchyModulusNormalFormUp$ row $N$ before any $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer reads the route. Equivalently, every Real and Completion use of the choice surface is routed through
+$$
+M\longmapsto N\longmapsto W\longmapsto Q\longmapsto D\longmapsto R
+$$
+together with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $K$. The raw modulus row $M$ exposes the Cauchy modulus request, while $N$ records the normal-form representative consumed by later rows.
+
+The route cannot reach a finite window before $N$ is read. Thus the $\StreamNameUp$ row $W$ is the window opened by the displayed normal-form threshold, not by an unrecorded selector.
+
+Readback and tolerance follow the same route. The $\RegSeqRatUp$ row $Q$ reads the displayed window, and the $\DyadicRatCoreUp$ row $D$ supplies the tolerance ledger for that readback.
+
+The terminal $\RealUp$ seal $R$ is downstream of those four rows. The structural rows $H,C,P,L$ keep the route componentwise, replayable, sourced, and locally named, so every consumer factors through the normal-form surface before using the selected threshold.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus choice Real seal nonescape]
+\label{thm:cauchy-modulus-choice-real-seal-nonescape}
+Every $\RealUp$ or completion-facing consumer of an accepted $\CauchyModulusChoiceUp$ carrier receives only the displayed rows
+$$
+M,N,W,Q,D,R,H,C,P,L .
+$$
+The Real seal $R$ therefore cannot escape into countable choice, quotient stream equality, trichotomy, ambient Real completeness, selected limits, host real equality, or a second modulus-selection oracle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its Real-facing surface is exactly the raw modulus row, normal-form row, finite window, regular readback, dyadic tolerance, seal, transport, replay, provenance, and local naming row.
+
+The normal-form factorization of \autoref{thm:cauchy-modulus-choice-normal-form-factorization} places every selected threshold before the finite window and readback rows. Therefore a Real or Completion consumer cannot bypass the displayed normal-form row to obtain a hidden selector.
+
+The dyadic tolerance row is also part of the same route before the Real seal. Since $R$ is exposed only after $D$, it cannot be read as a trichotomy witness, an ambient completeness principle, a quotient stream equality, or a selected host limit.
+
+The structural rows add no mathematical coordinate beyond transport, replay, provenance, and local naming. Hence the displayed packet exhausts the Real seal route and blocks all listed escape principles.
+\end{proof}
+
+\closureat{CauchyModulusChoiceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusChoiceUp}
+  \constructivestory{A $\CauchyModulusChoiceUp$ packet is generated from a raw CauchyModulus row, a CauchyModulusNormalForm row, a StreamName finite-window row, a RegSeqRat readback row, a DyadicRatCore tolerance row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-choice-carrier}, \autoref{thm:cauchy-modulus-choice-namecert-obligations}, \autoref{thm:cauchy-modulus-choice-normal-form-factorization}, and \autoref{thm:cauchy-modulus-choice-real-seal-nonescape} seed the finite choice-free Cauchy-modulus selection route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CauchyModulusChoiceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, quotient stream equality, trichotomy, ambient Real completeness, selected limits, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, normal-form selection, window-readback compatibility, dyadic tolerance and Real seal compatibility, structural non-escape, normal-form factorization, and Real seal nonescape for BEDC.Derived.CauchyModulusChoiceUp.}
+\end{closurestatus}

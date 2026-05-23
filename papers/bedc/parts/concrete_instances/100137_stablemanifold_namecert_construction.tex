@@ -1,0 +1,159 @@
+\chapter{A Concrete Naming Certificate for $\StableManifoldUp$}
+\label{ch:concrete-instances-stablemanifold-namecert}
+\origin{human}
+
+Hadamard--Perron stable manifold theory identifies the local invariant
+surface through a hyperbolic equilibrium by combining a local flow, a charted
+phase space, and a contraction estimate on the stable direction. The
+$\StableManifoldUp$ packet records only the finite BEDC certificate needed by
+that local reading: an equilibrium row, a $\DynSystemUp$ flow row, an
+$\OdeUp$ local-flow row, a $\ManifoldUp$ chart row, a
+$\LipschitzMapUp$ contraction ledger, a stable tangent cone row, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. It does not import the
+full analytic theorem as a primitive.
+
+\begin{definition}[StableManifold carrier]
+\label{def:stable-manifold-carrier}
+A $\StableManifoldUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+S=(E,D,O,M,L,T,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $E$ is the equilibrium point row on the phase carrier;
+\item $D$ is the $\DynSystemUp$ local flow packet whose source and endpoint
+rows are read in the same phase carrier;
+\item $O$ is the $\OdeUp$ local-flow row used by $D$ as its generator-facing
+dependency;
+\item $M$ is the $\ManifoldUp$ chart row naming the local coordinate domain;
+\item $L$ is the $\LipschitzMapUp$ contraction ledger on the stable chart
+coordinate;
+\item $T$ is a stable tangent cone row, recording the finite direction labels
+whose chart coordinates are governed by $L$;
+\item $H$ records componentwise $\hsame$ transports for equilibrium, flow,
+ODE, chart, contraction, tangent-cone, and endpoint rows;
+\item $C$ records the $\Cont$ routes by which local flow endpoints remain
+readable inside the charted stable packet;
+\item $P$ records $\Pkg$ provenance for $\DynSystemUp$, $\OdeUp$,
+$\ManifoldUp$, $\LipschitzMapUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and
+$\NameCert$ dependency rows;
+\item $N$ is the local $\NameCert_{\StableManifoldUp}$ provenance row.
+\end{enumerate}
+The carrier accepts exactly those packets whose flow row fixes the displayed
+equilibrium, whose chart row admits the tangent-cone labels, and whose
+contraction ledger is read on the stable coordinate rows named by $T$.
+\end{definition}
+\leanchecked{BEDC.Derived.StableManifoldUp.StableManifoldTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[StableManifold NameCert obligations]
+\label{thm:stable-manifold-namecert-obligations}
+The local $\NameCert_{\StableManifoldUp}$ seed surface consists of six finite
+obligations:
+\begin{enumerate}
+\item carrier: the packet of \autoref{def:stable-manifold-carrier};
+\item classifier: componentwise comparison of the equilibrium, flow, ODE,
+chart, contraction, tangent-cone, transport, continuation, provenance, and
+local certificate rows;
+\item equilibrium stability: the $\DynSystemUp$ flow row classifies the
+displayed equilibrium with its zero-time endpoint;
+\item chart compatibility: the $\ManifoldUp$ chart row carries every stable
+tangent-cone coordinate used by the packet;
+\item contraction ledger: the $\LipschitzMapUp$ row supplies the finite
+contracting bound on stable chart coordinates;
+\item ledger policy: $\Pkg$ and $\NameCert$ expose only the listed dynamical,
+ODE, manifold, Lipschitz, transport, continuation, and tangent-cone rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates of \autoref{def:stable-manifold-carrier}. The
+flow row is already a finite $\DynSystemUp$ packet, and
+\autoref{ch:concrete-instances-dynsystem-namecert} identifies its public
+surface as a phase row, elapsed-time row, endpoint row, ODE dependency row,
+and displayed $\Cont$ ledger.
+
+Read the generator dependency through
+\autoref{ch:concrete-instances-ode-namecert}. It supplies the local-flow row
+and keeps vector-field evaluation, Picard data, and endpoint transport inside
+the ODE certificate surface.
+
+Read chart and contraction data through
+\autoref{ch:concrete-instances-manifold-namecert} and
+\autoref{ch:concrete-instances-lipschitzmap-namecert}. The chart row names
+the local coordinate domain, while the Lipschitz row supplies the finite bound
+ledger on the stable coordinate rows. Repacking these displayed rows with
+componentwise $\hsame$, $\Cont$, $\Pkg$, and the local naming row gives the
+six advertised obligations.
+\end{proof}
+
+\begin{theorem}[StableManifold flow invariance]
+\label{thm:stable-manifold-flow-invariance}
+Let $S=(E,D,O,M,L,T,H,C,P,N)$ be an accepted $\StableManifoldUp$ carrier.
+Suppose a local $\DynSystemUp$ flow segment in $D$ starts at a point classified
+with the stable tangent-cone chart rows $T$ and remains inside the chart domain
+named by $M$ for the displayed time row. Then its endpoint is again classified
+with the same $\StableManifoldUp$ carrier after transporting the equilibrium,
+flow, ODE, chart, contraction, and tangent-cone coordinates by the stored
+$\hsame$ and $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+Project the local flow segment from $D$. By
+\autoref{ch:concrete-instances-dynsystem-namecert}, its endpoint is exposed by
+a displayed $\Cont$ route over the same $\ManifoldUp$ phase row and
+$\OdeUp$ source row.
+
+Use the $\ManifoldUp$ chart row $M$ to keep the source and endpoint chart
+coordinates in the same local coordinate surface. The stable tangent-cone row
+$T$ is finite, so transport of its coordinate labels is componentwise through
+the stored $\hsame$ entries rather than through host equality of tangent
+spaces.
+
+Finally read the $\LipschitzMapUp$ ledger $L$ on those transported stable
+coordinates. The contraction bound is part of the same packet, so the endpoint
+coordinate repacks with the original equilibrium, flow, ODE, chart, tangent,
+provenance, and local naming rows. This is exactly the classifier of
+\autoref{def:stable-manifold-carrier}.
+\end{proof}
+
+\begin{theorem}[StableManifold local attraction]
+\label{thm:stable-manifold-local-attraction}
+For an accepted $\StableManifoldUp$ carrier
+$S=(E,D,O,M,L,T,H,C,P,N)$, any finite local orbit segment whose source row is
+classified with the stable tangent-cone coordinates $T$ has every displayed
+successor endpoint read through the contraction ledger $L$ and the same
+chart row $M$. Consequently the segment's endpoint-distance rows form a
+finite contraction ledger toward the equilibrium row $E$ inside the local
+$\NameCert_{\StableManifoldUp}$ surface.
+
+This is a local attraction certificate: it records the finite BEDC rows that
+make attraction readable, not a selected infinite trajectory or a global basin
+classification.
+\end{theorem}
+\begin{proof}
+Proceed along the finite orbit ledger. Each successor row is a
+$\DynSystemUp$ flow segment, so
+\autoref{ch:concrete-instances-dynsystem-namecert} exposes its endpoint
+through the same phase carrier and displayed continuation route.
+
+At each step, use the $\OdeUp$ local-flow source of
+\autoref{ch:concrete-instances-ode-namecert} to keep the generator-facing
+Picard and endpoint rows on the same local-flow surface. The ManifoldUp chart
+row then reads the source and endpoint coordinates in the chart named by $M$.
+
+The $\LipschitzMapUp$ contraction row $L$ supplies the finite comparison
+between the previous stable coordinate distance and the next one. Because the
+orbit segment is finite, iterating this ledger only concatenates the displayed
+comparison rows and their $\Cont$ routes. The endpoint-distance rows therefore
+remain a local contraction ledger toward $E$ inside the packet.
+\end{proof}
+
+\closureat{StableManifoldUp}{seedStr}
+
+\begin{closurestatus}{\StableManifoldUp}
+  \constructivestory{A stable-manifold packet is generated from an equilibrium row, a DynSystemUp local-flow row, an OdeUp generator-facing local-flow row, a ManifoldUp chart row, a LipschitzMapUp contraction ledger, a finite stable tangent-cone row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface names the local finite carrier rows for equilibrium, charted flow, ODE source, stable tangent cone, contraction ledger, transport, continuation, provenance, and local naming, but it does not close the paper axis beyond this carrier presentation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a global stable-manifold theorem, smooth foliation, spectral hyperbolicity proof, selected global solutions, or bridge verification.}
+  \upgradepath{Scoped closure requires checked carrier admission, classifier laws, local flow invariance, contraction-ledger exactness, and endpoint attraction for the named stable-manifold packet.}
+\end{closurestatus}

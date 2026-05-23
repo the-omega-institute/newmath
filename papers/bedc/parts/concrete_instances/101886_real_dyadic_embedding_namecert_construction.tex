@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RealDyadicEmbeddingUp$}
+\label{ch:concrete-instances-real-dyadic-embedding-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive real analysis, the $\RealDyadicEmbeddingUp$ packet records the finite certificate by which a displayed dyadic rational endpoint is admitted as a constant regular real name. It sits after the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the constant finite-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the constant-dyadic entry route; it does not assert quotient equality of real names, trichotomy, selected limits, density, algebraic closure, or ambient completeness.
+
+\begin{definition}[RealDyadicEmbedding carrier]
+\label{def:real-dyadic-embedding-carrier}
+A $\RealDyadicEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint row, including the signed dyadic numerator, scale, endpoint comparison ledger, and finite tolerance rows used by later precision requests.
+\item $S$ is the constant $\StreamNameUp$ schedule that repeats the displayed endpoint row of $D$ at every finite observation window.
+\item $R$ is the $\RegSeqRatUp$ constant readback row, routing each requested regular rational observation through $S$ and then back to the same dyadic endpoint data in $D$.
+\item $E$ is the terminal $\RealUp$ seal reached only after the route through $D,S,R$ has been exposed.
+\item $H$ records componentwise $\hsame$ transport for the dyadic endpoint, constant stream schedule, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for every Real-facing or algebra-facing consumer that asks for a finite precision window of the constant name.
+\item $P$ is the $\Pkg$ provenance over $\RealDyadicEmbeddingUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealDyadicEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient equality of real names, order trichotomy, selected limits, density of dyadics, algebraic closure, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealDyadicEmbedding NameCert obligations]
+\label{thm:real-dyadic-embedding-namecert-obligations}
+For every accepted $\RealDyadicEmbeddingUp$ carrier $K=(D,S,R,E,H,C,P,N)$, the local $\NameCert_{\RealDyadicEmbeddingUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed dyadic endpoint, constant stream schedule, regular readback, Real seal, transport, replay, provenance, and local naming rows;
+\item endpoint constancy, requiring every finite observation window of $S$ to read the same dyadic endpoint row $D$;
+\item regular-readback exactness, requiring every $\RegSeqRatUp$ readback in $R$ to route through the constant schedule $S$ and return to the endpoint ledger $D$ before the Real seal is inspected;
+\item Real-seal locality, requiring the terminal row $E$ to be downstream of $D,S,R$ and never detached as a host real object;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape for quotient equality, trichotomy, selected limits, density, algebraic closure, countable choice, and ambient completeness.
+\end{enumerate}
+No constant-dyadic admission obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $K=(D,S,R,E,H,C,P,N)$. The carrier row exposes exactly one dyadic endpoint, one constant stream schedule, one regular readback, one Real seal, and the four structural rows.
+
+Endpoint constancy is read from $S$. Since every finite observation window of the schedule repeats the endpoint data in $D$, a consumer cannot obtain a second dyadic source or a varying tail from the packet.
+
+Regular-readback exactness is the route through $R$. Each requested regular rational observation first reads the constant schedule $S$, then returns to the dyadic ledger $D$, and only after that route may the terminal seal $E$ be consumed.
+
+The structural rows preserve the same route. Componentwise transport by $H$ and replay by $C$ can only move along the displayed coordinates, while $P$ and $N$ source and name the packet.
+
+The omitted objects have no carrier coordinate. Hence quotient equality, trichotomy, selected limits, density, algebraic closure, countable choice, and ambient completeness cannot be produced by the local certificate.
+\end{proof}
+
+\begin{theorem}[RealDyadicEmbedding RegSeq handoff]
+\label{thm:real-dyadic-embedding-regseq-handoff}
+Let $K=(D,S,R,E,H,C,P,N)$ be an accepted $\RealDyadicEmbeddingUp$ carrier. Every $\RealUp$ consumer of the embedded dyadic name factors through
+$$
+D\longmapsto S\longmapsto R\longmapsto E\longmapsto H,C,P,N
+$$
+before it can inspect the terminal seal. In particular, the consumer reads the DyadicRatCore endpoint, the constant StreamName schedule, and the RegSeqRat readback before the Real seal, and the route exports no quotient equality, trichotomy, selected limit, density theorem, algebraic closure theorem, countable-choice schedule, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing consumer of the packet. By \autoref{def:real-dyadic-embedding-carrier}, the only terminal Real row is $E$, and that row is downstream of the displayed dyadic endpoint, stream schedule, and regular readback.
+
+The first source read is $D$. The constant schedule $S$ exposes the same endpoint at every finite window, so the consumer's precision request remains tied to a displayed DyadicRatCore row.
+
+The readback row $R$ then converts the scheduled observation into regular rational data. This is the only row that hands the constant finite windows to the Real seal, so the seal cannot be inspected before $D,S,R$ have all been read.
+
+Finally, $H,C,P,N$ transport, replay, source, and name that same finite path. Since no other analytic coordinates occur in the carrier, every RealUp consumer factors through the DyadicRatCore, StreamName, and RegSeqRat route before the terminal seal.
+\end{proof}
+
+\begin{closurestatus}{\RealDyadicEmbeddingUp}
+  \constructivestory{A $\RealDyadicEmbeddingUp$ packet is generated from a displayed $\DyadicRatCoreUp$ endpoint, a constant $\StreamNameUp$ schedule, a constant $\RegSeqRatUp$ readback, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-dyadic-embedding-carrier}, \autoref{thm:real-dyadic-embedding-namecert-obligations}, and \autoref{thm:real-dyadic-embedding-regseq-handoff} seed the finite constant-dyadic admission route from a DyadicRatCore endpoint to RealUp consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of real names, trichotomy, selected limits, density of dyadics, algebraic closure, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint constancy, regular-readback exactness, Real-seal locality, componentwise transport, replay, provenance, local naming, and non-escape for BEDC.Derived.RealDyadicEmbeddingUp.}
+\end{closurestatus}

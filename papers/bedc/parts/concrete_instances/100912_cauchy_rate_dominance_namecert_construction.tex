@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRateDominanceUp$}
+\label{ch:concrete-instances-cauchy-rate-dominance-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyRateDominanceUp$ packet records the finite certificate by which one displayed Cauchy-modulus schedule is dominated by another before a Real-facing or completion-facing read consumes the resulting seal. It sits over the explicit modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the Real-facing modulus boundary of \autoref{ch:concrete-instances-realcauchymodulus-namecert}, the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the domination-test consumer of \autoref{ch:concrete-instances-regular-cauchy-comparison-test-namecert}. The packet gives later Real and Completion consumers a reusable finite domination row instead of requiring each consumer to repeat the modulus comparison inside its own carrier.
+
+\begin{definition}[Cauchy rate dominance carrier]
+\label{def:cauchy-rate-dominance-carrier}
+A $\CauchyRateDominanceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(M,D,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\CauchyModulusUp$ schedule. It records the precision requests, source thresholds, and monotone reuse rows whose domination is being certified.
+\item $D$ is the displayed dominating modulus row. It records the target thresholds, comparison witnesses, and finite ledger entries showing that each accepted source request is bounded by the dominating schedule on the same displayed precision surface.
+\item $S$ is the finite $\StreamNameUp$ window family opened by the dominated schedule and inspected only at requests listed in $M$ and $D$.
+\item $Q$ is the $\RegSeqRatUp$ readback row produced from those windows, thresholds, and dyadic tolerance entries.
+\item $E$ is the terminal $\RealUp$ seal row reached after $M,D,S,Q$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source modulus schedule, dominating row, finite windows, regular readback, terminal seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $M,D,S,Q,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRateDominanceUp$, $\CauchyModulusUp$, $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyComparisonTestUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRateDominanceUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose reads pass through these nine rows. It has no coordinate for quotient stream equality, a selected limit, host real comparison, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyRateDominanceUp.CauchyRateDominanceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy rate dominance NameCert obligations]
+\label{thm:cauchy-rate-dominance-namecert-obligations}
+For every accepted $\CauchyRateDominanceUp$ carrier
+$$
+R=(M,D,S,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRateDominanceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source $\CauchyModulusUp$ schedule, dominating modulus row, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seal, transport, replay, provenance, and local naming rows;
+\item dominance ledger exactness, requiring each accepted precision request to read the source threshold in $M$ and the displayed dominating threshold in $D$ before a window or readback can be consumed;
+\item componentwise transport, requiring $H$ to preserve the source schedule, dominating row, selected windows, regular readback, terminal seal, replay, provenance, and naming rows together;
+\item selected-window stability, requiring every window opened by $S$ to be one of the windows licensed by the displayed domination ledger $D$ for the source schedule $M$;
+\item non-escape, requiring $E,P,N$ to export no quotient stream equality, selected limit, host real comparison, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No dominance obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-rate-dominance-carrier}. The projection exposes exactly one source modulus schedule, one displayed dominating row, one finite window family, one regular rational readback, one terminal seal, and the structural transport, replay, provenance, and naming rows.
+
+Dominance ledger exactness is forced before any analytic read occurs. A precision request first cites its source threshold in $M$, then reads the dominating threshold and comparison evidence in $D$. Only after both rows are displayed may the request open a StreamName window.
+
+Selected-window stability follows from the order of the route. The window row $S$ is downstream of $M$ and $D$, so any window consumed by $Q$ is a window licensed by the domination ledger for the same precision request.
+
+Finally $H,C,P,N$ only transport, replay, source, and name the displayed route, while $E$ is the unique terminal seal row. Since the carrier has no additional analytic coordinate, the local NameCert surface cannot export quotient stream equality, selected limits, host comparison, choice, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Cauchy rate dominance Real seal handoff]
+\label{thm:cauchy-rate-dominance-real-seal-handoff}
+Every Real-facing read through the dominated modulus in an accepted $\CauchyRateDominanceUp$ carrier factors through the same finite route
+$$
+\CauchyModulusUp,\ D,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Equivalently, the read first consumes the source schedule $M$, the dominating row $D$, the selected window row $S$, and the regular readback $Q$, and only then reaches the terminal seal $E$ and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing read admitted by the carrier. By \autoref{thm:cauchy-rate-dominance-namecert-obligations}, the read has no direct route to $E$; it must first read the source schedule $M$ and the displayed domination ledger $D$.
+
+The finite window and readback rows are then fixed. The row $S$ supplies exactly the StreamName windows licensed by $D$, while the dyadic tolerance entries named in $D$ determine the regular rational readback $Q$.
+
+The terminal seal is downstream of that readback. Thus $E$ is reached only through the route $M,D,S,Q$, and the remaining rows $H,C,P,N$ transport, replay, source, and name the same displayed packet. This gives the stated factorization through the CauchyModulus, dominating row, StreamName, DyadicRatCore, RegSeqRat, Real, BHist, hsame, Cont, Pkg, and NameCert surfaces.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyRateDominanceUp$ consumer that reaches a terminal $\RealUp$ seal without first reading the source $\CauchyModulusUp$ schedule, the displayed dominating row, the finite $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ tolerance ledger, and the $\RegSeqRatUp$ readback refutes the carrier surface.}
+
+\independenceWitness{cauchymodulus, realcauchymodulus, streamname, dyadicratcore, regseqrat, regular-cauchy-comparison-test, real: no listed sibling supplies the whole nine-row packet $R=(M,D,S,Q,E,H,C,P,N)$, because each sibling contributes only schedule, window, tolerance, readback, comparison-test, or seal data while this chapter binds explicit domination, transport, replay, provenance, and local naming into one finite carrier.}
+
+\closureat{CauchyRateDominanceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRateDominanceUp}
+  \constructivestory{A $\CauchyRateDominanceUp$ packet is generated from a source CauchyModulus schedule, a displayed dominating modulus row, finite StreamName windows, DyadicRatCore tolerance entries, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-rate-dominance-carrier}, \autoref{thm:cauchy-rate-dominance-namecert-obligations}, and \autoref{thm:cauchy-rate-dominance-real-seal-handoff} seed the finite domination surface for explicit Cauchy-modulus schedules through the Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host real comparison, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dominance ledger exactness, componentwise transport, selected-window stability, non-escape, and Real seal handoff for BEDC.Derived.CauchyRateDominanceUp.}
+\end{closurestatus}

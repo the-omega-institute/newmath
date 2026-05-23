@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompositionUp$}
+\label{ch:concrete-instances-regular-cauchy-composition-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegularCauchyCompositionUp$ packet records the finite route by which one regular Cauchy name is read through another regular Cauchy name before any completed real equality or function-space object is consulted. It sits over the shared finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the rational regularity rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the nested dyadic Cauchy route of \autoref{ch:concrete-instances-nested-dyadic-cauchy-namecert}, and the Cauchy-rate lattice discipline of \autoref{ch:concrete-instances-cauchy-rate-lattice-namecert}. The packet gives Real and Completion consumers one named finite composition surface instead of forcing each consumer to reassemble the StreamName, RegSeqRat, DyadicRatCore, and Real rows separately.
+
+\begin{definition}[Regular Cauchy composition carrier]\label{def:regular-cauchy-composition-carrier}
+A $\RegularCauchyCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,T,W,D,K,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\RegSeqRatUp$ row. It stores the displayed rational observations, the source regularity rate, and the source-side classifier used by the composed read.
+\item $T$ is the target $\RegSeqRatUp$ row. It stores the displayed rational observations, the target regularity rate, and the target-side classifier reached after the source row has supplied its accepted window.
+\item $W$ is the shared $\StreamNameUp$ window ledger. It records the finite source windows, the finite target windows, and the handoff cells in which an accepted source observation licenses the target observation consumed next.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the outer tolerance request, the inner tolerance used to read $S$, the target tolerance used to read $T$, and the finite dyadic descent route binding these tolerances together.
+\item $K$ is the composition route. It records the displayed order $S,W,D,T$ and the local compatibility checks saying that each target read is opened only after the matching source window and dyadic tolerance cells have been exposed.
+\item $E$ is the terminal $\RealUp$ seal. It is reachable only after both regular rational rows, the shared window ledger, the dyadic tolerance ledger, and the composition route have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source row, target row, shared window ledger, tolerance ledger, composition route, seal, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from an outer regular Cauchy request through $S,T,W,D,K,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCompositionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\NestedDyadicCauchyUp$, $\CauchyRateLatticeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $S,T,W,D,K,E,H,C,P,N$. The carrier has no coordinate for completed real equality, quotient stream equality, host-level function composition, selected limits, countable choice, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyCompositionUp.RegularCauchyCompositionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy composition NameCert obligations]\label{thm:regular-cauchy-composition-namecert-obligations}
+For every accepted $\RegularCauchyCompositionUp$ carrier
+$$
+Q=(S,T,W,D,K,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyCompositionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source regular rational row, target regular rational row, shared stream-window ledger, dyadic tolerance ledger, composition route, terminal seal, transport, replay, provenance, and local naming row;
+\item source-window exactness, requiring every source-side observation consumed by the composed read to be listed in $S$ and opened through $W$;
+\item target-window exactness, requiring every target-side observation to be opened from the handoff cells in $W$ after the matching source observation has been accepted;
+\item dyadic tolerance compatibility, requiring the outer request, source tolerance, target tolerance, and descent route to be the displayed cells of $D$;
+\item composition-route determinacy, requiring $K$ to name the displayed order $S,W,D,T$ and to forbid any detached host-level composition map;
+\item Real-seal non-escape, requiring $E$ to remain downstream of $S,T,W,D,K$ and the structural rows;
+\item componentwise structural preservation, requiring $H$ and $C$ to transport and replay the whole packet without changing the handoff cells;
+\item provenance exhaustion, requiring $P$ and $N$ to source and name exactly the displayed packet and no completed real equality, quotient stream equality, selected limit, countable-choice schedule, Lean verification, or bridge checker.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-composition-carrier}. The projection exposes exactly two regular rational rows, one shared stream-window ledger, one dyadic tolerance ledger, one composition route, one terminal seal, and the structural rows.
+
+The source-window and target-window obligations are read from $S,T,W$. A source observation must first appear in the source row and in the shared window ledger. Only then may the corresponding handoff cell open the target observation.
+
+The tolerance obligation is read from $D$. The outer request, the source-side tolerance, the target-side tolerance, and the dyadic descent cells are all visible in the same ledger, so a consumer cannot replace the route by an unrecorded modulus.
+
+The composition route is then forced by $K$. It records the order $S,W,D,T$ and therefore blocks any direct jump from a source rational observation to a completed real equality or a host-level composition map.
+
+Finally, $E,H,C,P,N$ only seal, transport, replay, source, and name the displayed packet. Since the carrier has no further analytic coordinate, the local NameCert exports exactly the listed finite obligations and no external completion principle.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy composition stream handoff]\label{thm:regular-cauchy-composition-stream-handoff}
+Let
+$$
+Q=(S,T,W,D,K,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyCompositionUp$ carrier. Every target-side $\StreamNameUp$ read in the composed route is opened from a handoff cell of $W$ whose source-side cell has already been accepted by $S$ and whose tolerance cell is displayed in $D$. Thus the stream handoff is stable under componentwise $\hsame$ transport and displayed $\Cont$ replay inside the packet.
+\end{theorem}
+\begin{proof}
+Begin with a target-side stream read. The carrier gives no independent target-window selector; the only target-window coordinates are the handoff cells recorded in $W$.
+
+The source row must be consumed first. The accepted source observation is listed in $S$, and the same finite window ledger $W$ records the cell that authorizes the target read.
+
+The tolerance ledger supplies the remaining compatibility condition. The cell in $D$ displays the outer request and the inner tolerances used by both regular rational rows, so the handoff cannot be detached from the dyadic descent route.
+
+Transport and replay preserve the handoff because $H$ acts componentwise on $S,T,W,D,K,E,C,P,N$, while $C$ replays only the displayed order. Therefore every target-side stream read remains downstream of the accepted source cell and the displayed tolerance cell.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy composition Real seal route]\label{thm:regular-cauchy-composition-real-seal-route}
+Every $\RealUp$-facing read out of an accepted $\RegularCauchyCompositionUp$ carrier factors through the finite route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RegularCauchyCompositionUp \longmapsto \RealUp
+$$
+as displayed by $W$, $S,T$, $D$, $K$, and $E$. Equivalently, a Real or Completion consumer can inspect the composed name only through the shared stream windows, the two regular rational rows, the dyadic tolerance ledger, the composition route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Take a Real-facing read admitted by the carrier. Projection of $Q$ gives no coordinate from an outer request directly to the terminal seal $E$.
+
+The read first passes through the shared stream windows and the two regular rational rows. The row $W$ displays the source and target windows, while $S$ and $T$ display the regular rational observations consumed at those windows.
+
+The dyadic tolerance ledger and composition route then determine the endpoint. The row $D$ records the tolerance descent, and $K$ records the order in which the source row, handoff cells, tolerance cells, and target row are read.
+
+Only after those rows are displayed can the terminal seal $E$ be consumed. The rows $H,C,P,N$ preserve, replay, source, and name the same route, so no completed real equality, quotient stream equality, host-level function composition, selected limit, countable choice, Lean verification, or bridge checker can be inserted.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyCompositionUp$ consumer that reaches a terminal $\RealUp$ seal without first reading the shared $\StreamNameUp$ windows, both $\RegSeqRatUp$ rows, the $\DyadicRatCoreUp$ tolerance ledger, and the displayed composition route refutes the carrier surface.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, nested-dyadic-cauchy, cauchy-rate-lattice, real: no listed sibling supplies the whole ten-row packet $Q=(S,T,W,D,K,E,H,C,P,N)$, because each sibling contributes only window, regularity, tolerance, nested route, rate discipline, or terminal seal data while this chapter binds source and target regular Cauchy name reads into one finite composition carrier.}
+
+\closureat{RegularCauchyCompositionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCompositionUp}
+  \constructivestory{A $\RegularCauchyCompositionUp$ packet is generated from source and target RegSeqRat rows, a shared StreamName window ledger, a DyadicRatCore tolerance ledger, a displayed composition route, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-composition-carrier}, \autoref{thm:regular-cauchy-composition-namecert-obligations}, \autoref{thm:regular-cauchy-composition-stream-handoff}, and \autoref{thm:regular-cauchy-composition-real-seal-route} seed the finite route for composing regular Cauchy name reads through StreamName, RegSeqRat, DyadicRatCore, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed real equality, quotient stream equality, host-level function composition, selected limits, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window exactness, target-window exactness, dyadic tolerance compatibility, composition-route determinacy, Real-seal non-escape, stream handoff stability, and Real seal factorization for BEDC.Derived.RegularCauchyCompositionUp.}
+\end{closurestatus}

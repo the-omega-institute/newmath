@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RiemannStieltjesUp$}
+\label{ch:concrete-instances-riemannstieltjes-namecert}
+\origin{human}
+
+Following Riemann and Stieltjes, the $\RiemannStieltjesUp$ packet records a finite tagged-sum integration surface in which a regulated integrand is read against a bounded-variation integrator. It sits over the variation ledger of \autoref{ch:concrete-instances-boundedvariation-namecert}, the regulated-integral handoff of \autoref{ch:concrete-instances-regulatedintegral-namecert}, the finite tagged-sum surface of \autoref{ch:concrete-instances-riemannsum-namecert}, and the dyadic step approximation rows of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}. The packet names only the displayed finite rows needed for a constructive Riemann--Stieltjes read; it does not introduce a measure space, a completed integrator, a host function quotient, or an ambient choice principle.
+
+\begin{definition}[Riemann--Stieltjes carrier]
+\label{def:riemann-stieltjes-carrier}
+A $\RiemannStieltjesUp$ carrier is a finite $\BHist$ packet
+$$
+R=(F,A,T,S,I,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the regulated integrand row, exposing only the finitely requested approximation windows and endpoint reads.
+\item $A$ is the bounded-variation integrator row, carrying the displayed partition-variation ledger and transported endpoint jumps.
+\item $T$ is the tagged partition and $\RiemannSumUp$ row, with each tag contained in its displayed interval cell.
+\item $S$ is the $\DyadicStepFunctionUp$ approximation row used to replace the regulated integrand on the displayed refinement.
+\item $I$ is the $\RegulatedIntegralUp$ handoff row reached after the step approximation, variation ledger, and tagged-sum rows are present.
+\item $E$ is the $\RealUp$ endpoint seal for the final accepted integral read.
+\item $H$ records componentwise $\hsame$ transport for the integrand, integrator, partition, step approximation, handoff, endpoint seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from partition cells to tag reads, from tag reads to step approximants, from variation jumps to finite sums, and from the handoff row to the $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\RiemannStieltjesUp$, $\RegulatedIntegralUp$, $\BoundedVariationUp$, $\RiemannSumUp$, $\DyadicStepFunctionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannStieltjesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,A,T,S,I,E,H,C,P,N$. It has no coordinate for Lebesgue integration, measure completion, selected limits, host real equality, a quotient of integrands or integrators, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Riemann--Stieltjes NameCert obligations]
+\label{thm:riemann-stieltjes-namecert-obligations}
+For an accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, the local $\NameCert_{\RiemannStieltjesUp}$ surface consists of exactly five rows:
+\begin{enumerate}
+\item carrier admission for the displayed tuple $F,A,T,S,I,E,H,C,P,N$;
+\item partition-refinement stability for the tagged $\RiemannSumUp$ row $T$ and dyadic step row $S$;
+\item bounded-variation ledger control for the integrator row $A$ and its transported endpoint jumps;
+\item regulated-integral handoff through $I$ after the finite sum and variation rows have been displayed;
+\item no-escape from host measure data, completion data, choice data, hidden function quotients, and ambient real equality.
+\end{enumerate}
+These rows are read through the finite route
+$$
+F,A\longmapsto T\longmapsto S\longmapsto I\longmapsto E
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesUpTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:riemann-stieltjes-carrier}. The rows $F$ and $A$ expose the regulated integrand and bounded-variation integrator before any tagged sum is accepted.
+
+Partition-refinement stability is checked on the displayed row $T$. A common refinement transports tags and cell containment through the visible $\hsame$ rows, and the dyadic step row $S$ reads the same refined cells without adding a host-level function comparison.
+
+Bounded-variation ledger control is supplied by $A$. The integrator contributes only transported endpoint jumps and finite variation ledgers, so every summand is controlled by displayed bounded-variation data rather than by a measure or completed variation object.
+
+The handoff row $I$ is downstream of $T$ and $S$. Continuation replay through $C$ rebuilds the same path, while $P$ and $N$ record provenance and local naming. Since the excluded host objects do not occur among the carrier coordinates, the listed five rows exhaust the certificate obligations.
+\end{proof}
+
+\begin{theorem}[Riemann--Stieltjes regulated-integral handoff]
+\label{thm:riemann-stieltjes-regulated-integral-handoff}
+Every accepted $\RiemannStieltjesUp$ sum read factors through the displayed dyadic-step and regulated-integral rows before reaching the $\RealUp$ seal. Concretely, a consumer of the endpoint row $E$ must first read the regulated integrand row $F$, the bounded-variation integrator row $A$, the tagged sum row $T$, the dyadic step approximation row $S$, and the regulated-integral handoff row $I$.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier as $R=(F,A,T,S,I,E,H,C,P,N)$. The rows $F$ and $A$ supply the only integrand and integrator data available to the packet, and $T$ records the finite tagged partition on which those data are read.
+
+The row $S$ is the dyadic step approximation surface attached to that displayed partition. Thus a downstream read cannot pass directly from tags to a real endpoint seal; it must first consume the step row that makes the regulated integrand finite on the refinement.
+
+The row $I$ then packages the regulated-integral handoff from the step approximation and bounded-variation ledger. Only after this handoff is displayed does $E$ expose a $\RealUp$ endpoint seal. Componentwise transport through $H$ and replay through $C$ preserve this order, and the package and local naming rows add no bypass coordinate.
+\end{proof}
+
+\closureat{RiemannStieltjesUp}{seedStr}
+
+\begin{closurestatus}{\RiemannStieltjesUp}
+  \constructivestory{A $\RiemannStieltjesUp$ packet is generated from a regulated integrand row, bounded-variation integrator row, tagged partition and Riemann-sum row, dyadic step approximation row, regulated-integral handoff row, Real endpoint seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-stieltjes-carrier}, \autoref{thm:riemann-stieltjes-namecert-obligations}, and \autoref{thm:riemann-stieltjes-regulated-integral-handoff} seed the finite Riemann--Stieltjes boundary over $\RegulatedIntegralUp$, $\BoundedVariationUp$, $\RiemannSumUp$, $\DyadicStepFunctionUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lebesgue integration, measure completion, selected limits, host real equality, any quotient of integrands or integrators, Lean verification, or any standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition-refinement stability, bounded-variation ledger control, regulated-integral handoff, transport, replay, provenance, and no-escape for BEDC.Derived.RiemannStieltjesUp.}
+\end{closurestatus}

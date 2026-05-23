@@ -79,7 +79,6 @@ Therefore every transported radius read remains in the finite packet $D,W,\lambd
 \label{thm:finite-lebesgue-number-window-coverage-exactness}
 For an accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, every accepted finite-window read factors through the displayed window $W$, then through a $\StreamNameUp$ row, a $\RegSeqRatUp$ approximation row, a $\RealUp$ row, a mesh cell of $M$, and a named cover cell of $D$. The factorization has no coordinate for an arbitrary open family, no host compactness witness, and no selected subcover outside the displayed dyadic finite-cover packet.
 \end{theorem}
-\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier\_window\_coverage\_exactness}
 \begin{proof}
 Start with an accepted read from $W$. By the finite-window coverage exactness row of \autoref{thm:finite-lebesgue-number-namecert-obligations}, the read is observed through a named stream row, its regular-rational approximation row, and the corresponding real row.
 
@@ -143,11 +142,13 @@ The finite radius obligation of \autoref{thm:finite-lebesgue-number-finite-radiu
 
 Together with the dyadic cover handoff of \autoref{thm:finite-lebesgue-number-dyadic-cover-handoff}, these rows exhaust the public data a total-bounded or compact-metric consumer receives. The non-escape row of \autoref{thm:finite-lebesgue-number-namecert-obligations} excludes open-cover compactness and arbitrary subcover selection, so the handoff is exactly the finite BEDC packet.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier\_total\_bounded\_handoff}
 
 \begin{theorem}[Compact-uniform selector handoff]
 \label{thm:finite-lebesgue-number-compact-uniform-selector-handoff}
 Every accepted $\FiniteLebesgueNumberUp$ carrier consumed by a compact-uniform route supplies exactly the positive radius ledger read by $\CompactNetModulusSelectorUp$, and then by $\UniformModulusUp$, through the displayed $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It supplies no open-cover compactness, host minimum, selected subcover, quotient equality, or external modulus function.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCompactUniformSelectorHandoff}
 \begin{proof}
 Project the finite Lebesgue-number carrier $L=(D,W,\lambda,M,H,C,P,N)$. The positive ledger $\lambda$ is displayed between the finite-window row and the mesh row, so any compact-uniform consumer reads it as part of the same finite packet.
 
@@ -162,6 +163,7 @@ The compact-net selector and uniform-modulus chapters are the downstream consume
 \label{thm:finite-lebesgue-number-window-radius-ledger-coherence}
 For every accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, every finite-window read in $W$ is coherent with the positive radius ledger $\lambda$ only through the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. A compact consumer cannot read a finite window first and then attach an unrelated positive radius outside $D,W,\lambda,M,H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberWindowRadiusLedgerCoherence}
 \begin{proof}
 Project the displayed carrier. The finite-window row $W$ and positive radius ledger $\lambda$ are coordinates of the same packet, and the local NameCert obligations name them together.
 
@@ -174,6 +176,7 @@ Apply the compact-uniform selector handoff above. The downstream compact route r
 \label{thm:finite-lebesgue-number-cover-cell-readback-totality}
 For every accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, each read from the finite-window row $W$ reaches a named dyadic cover cell through $D,W,\lambda,M,H,C,P,N$. The readback first consumes the window row, then the positive radius ledger and mesh row, then the componentwise transport, replay, provenance, and local naming rows; no open-cover family or arbitrary cell selector supplies the endpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCoverCellReadbackTotality}
 \begin{proof}
 Start from finite-window coverage exactness. It sends every accepted window read through the displayed stream, regular-rational, real, mesh, and cover rows.
 
@@ -186,6 +189,7 @@ Finally, $P$ and $N$ package and name the readback as part of the same $\FiniteL
 \label{thm:finite-lebesgue-number-l10-source-lock}
 Every accepted $\FiniteLebesgueNumberUp$ public finite-window read locks its radius route through $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicMeshUp$, and $\DyadicCoverUp$ before any $\CompactMetricUp$, $\CompactNetModulusSelectorUp$, or $\UniformModulusUp$ consumer may read the positive radius ledger. The consumer-facing read is therefore a read of the displayed packet $D,W,\lambda,M,H,C,P,N$, not a radius read supplied by an external compactness or modulus interface.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberL10SourceLock}
 \begin{proof}
 Begin with finite-window coverage exactness. It forces each accepted finite-window read to pass through the displayed stream, regular-rational, real, mesh, and cover rows before it can be used as a cover read.
 
@@ -218,6 +222,7 @@ Radius transport and mesh-refinement nonchoice keep that real source attached to
 
 The compact-uniform selector handoff and cover-cell readback totality give the downstream boundary. Compact and uniform consumers receive the named finite route, while open-cover compactness, subcover choice, and external representatives are absent from the carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberRealSourceNonchoice}
 
 \begin{theorem}[Compact consumer nonchoice boundary]
 \label{thm:finite-lebesgue-number-compact-consumer-nonchoice-boundary}
@@ -235,6 +240,7 @@ The non-escape row of the local NameCert obligations excludes open-cover compact
 \label{thm:finite-lebesgue-number-positive-radius-compact-net-export}
 For every accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, the positive-radius ledger exported to $\CompactNetModulusSelectorUp$ is exactly the finite route through $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\TotallyBoundedUp$, $\CompactMetricUp$, and $\CompactNetModulusSelectorUp$ displayed by $D,W,\lambda,M,H,C,P,N$. The export has no open-cover compactness theorem, host minimum, arbitrary subcover selector, quotient equality, or choice coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberPositiveRadiusCompactNetExport}
 \begin{proof}
 Project the carrier. The dyadic cover row $D$, finite-window row $W$, positive radius ledger $\lambda$, mesh row $M$, and support rows $H,C,P,N$ are the only rows available before a compact-net consumer can read the packet.
 
@@ -247,6 +253,7 @@ The positive finite-radius totality theorem places $\lambda$ before the compact 
 \label{thm:finite-lebesgue-number-dyadic-cover-uniform-modulus-handoff}
 For every accepted $\FiniteLebesgueNumberUp$ carrier $L=(D,W,\lambda,M,H,C,P,N)$, every $\UniformModulusUp$ consumer receives the dyadic-cover radius route only after the same displayed packet has passed through $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\RationalBallUp$, $\DyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\TotallyBoundedUp$, $\CompactMetricUp$, and $\CompactNetModulusSelectorUp$. The handoff is a finite radius-to-modulus route, not an open-cover compactness argument, selected subcover, host minimum, or external modulus selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberDyadicCoverUniformModulusHandoff}
 \begin{proof}
 Start from the compact-uniform selector handoff. It identifies the downstream compact-net selector and uniform-modulus chapters as consumers of the finite packet $D,W,\lambda,M,H,C,P,N$.
 
@@ -382,6 +389,7 @@ whose entries expose the $\DyadicCoverUp$ row $D$, $\DyadicMeshUp$ row $M$, $\Ra
 \label{thm:finite-lebesgue-number-root-dyadic-radius-obligation}
 Every accepted root coverage ledger of \autoref{def:finite-lebesgue-number-root-coverage-ledger} must display the rational radius row $R$ as a $\RationalBallUp$ row read through the same finite $\DyadicCoverUp$ and $\DyadicMeshUp$ packet that supplies $D$ and $M$. The $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows $S,G,E$ may consume the radius only through the transported $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not by a hidden open-cover compactness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberRootDyadicRadiusObligation}
 \begin{proof}
 Project the ledger $\Lambda=(D,M,R,S,G,E,K,H,C,P,N)$. The radius row $R$ is listed between the dyadic cover and dyadic mesh rows, so its only source packet is the finite dyadic one.
 
@@ -703,6 +711,7 @@ Finally use cover-cell readback totality. The mesh and cover-cell endpoint is pa
 \label{thm:finite-lebesgue-number-source-chain-admission}
 An accepted $\FiniteLebesgueNumberUp$ route is admitted only after the displayed $\DyadicCoverUp$, $\RationalBallUp$, and $\DyadicMeshUp$ rows pass through $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source rows, all carried by the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberSourceChainAdmission}
 \begin{proof}
 Use finite-window coverage exactness to place every finite read inside the displayed window packet.
 

@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\RealMetricLocatednessBracketUp$}
+\label{ch:concrete-instances-real-metric-locatedness-bracket-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealMetricLocatednessBracketUp$ packet names the finite tolerance bracket in which real metric distance, locatedness requests, and real equality boundaries are read from the same displayed route. It sits between the metric distance packet of \autoref{ch:concrete-instances-real-metric-namecert}, the locatedness request surface of \autoref{ch:concrete-instances-locatedness-modulus-namecert}, the equality boundary of \autoref{ch:concrete-instances-real-equality-namecert}, the finite-window and regular-readback rows of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The bracket gives downstream Real and Completion consumers one displayed route for tolerance-sensitive reads; it does not identify quotient streams, select limits, invoke trichotomy, use countable choice, or assert ambient Real completeness.
+
+\begin{definition}[Real metric locatedness bracket carrier]
+\label{def:real-metric-locatedness-bracket-carrier}
+A $\RealMetricLocatednessBracketUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,L,E,S,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\RealMetricUp$ distance row whose public read supplies the displayed distance boundary.
+\item $L$ is the $\LocatednessModulusUp$ tolerance-request row that records the finite locatedness budget attached to the distance read.
+\item $E$ is the $\RealEqualityUp$ boundary row that records when the same tolerance bracket is read as an equality boundary.
+\item $S$ is the $\StreamNameUp$ finite-window family opened from the real-name seals before $M$, $L$, or $E$ is consumed.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row attached to the windows in $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic radius, slack, comparison, and refinement rows used by the three sibling packets.
+\item $H$ records componentwise $\hsame$ transport for the metric row, locatedness row, equality row, stream windows, regular readback, dyadic ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $S,R,D$, then through $M,L,E$ as the consumer asks for distance, locatedness, or equality data.
+\item $P$ is the $\Pkg$ provenance over $\RealMetricLocatednessBracketUp$, $\RealMetricUp$, $\LocatednessModulusUp$, $\RealEqualityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealMetricLocatednessBracketUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,L,E,S,R,D,H,C,P,N$. The carrier has no coordinate for host real equality, quotient streams, selected limits, trichotomy, countable choice, or ambient Real completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RealMetricLocatednessBracketUp.RealMetricLocatednessBracketTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Real metric locatedness bracket NameCert obligations]
+\label{thm:real-metric-locatedness-bracket-namecert-obligations}
+For every accepted $\RealMetricLocatednessBracketUp$ carrier $B=(M,L,E,S,R,D,H,C,P,N)$, the local $\NameCert_{\RealMetricLocatednessBracketUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the real metric row, locatedness request row, real equality boundary row, stream windows, regular readback, dyadic tolerance ledger, transport, replay, provenance, and local naming row;
+\item distance-to-tolerance compatibility, requiring every $\RealMetricUp$ read from $M$ to expose the same $S,R,D$ route before a locatedness request in $L$ is consumed;
+\item tolerance-to-equality compatibility, requiring every equality-boundary read in $E$ to use the displayed dyadic budget already carried by $L$ and $D$;
+\item window transport, requiring $H$ and $C$ to preserve the same finite bracket under componentwise transport of the metric, locatedness, equality, stream, readback, and dyadic rows;
+\item non-escape, excluding host real equality, quotient streams, selected limits, trichotomy, countable choice, and ambient Real completeness from the exported certificate.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-metric-locatedness-bracket-carrier}. The only visible rows are $M,L,E,S,R,D,H,C,P,N$, so every obligation must be read through the same finite packet.
+
+Distance-to-tolerance compatibility follows by applying the real-metric route of \autoref{thm:real-metric-absolute-value-distance-handoff}. A public distance read from $M$ already factors through stream windows, regular readback, and the dyadic tolerance ledger, which are precisely the rows $S,R,D$ carried by the bracket before $L$ is consumed.
+
+Tolerance-to-equality compatibility uses \autoref{thm:locatedness-modulus-window-transport} and \autoref{thm:real-equality-classifier-stability}. The locatedness request keeps the tolerance budget attached to the same finite windows and readbacks, and the equality classifier remains stable under refinements that factor through the same regular-rational and dyadic rows.
+
+Window transport is then supplied by $H$ and $C$. Componentwise $\hsame$ transport moves $M,L,E,S,R,D$ together, while displayed replay records that distance, locatedness, and equality consumers read the same bracket route rather than three unrelated certificates.
+
+The exclusions follow from the carrier inventory. Since $B$ contains no row for host real equality, quotient streams, selected limits, trichotomy, countable choice, or ambient Real completeness, none of those principles can be exported by the local $\NameCert_{\RealMetricLocatednessBracketUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Real metric locatedness bracket window transport]
+\label{thm:real-metric-locatedness-bracket-window-transport}
+Every finite consumer of an accepted $\RealMetricLocatednessBracketUp$ carrier transports distance, locatedness, and equality reads through the common route
+$$
+S,R,D \longmapsto M,L,E \longmapsto H,C,P,N .
+$$
+Consequently a Real, metric, equality, or completion-facing consumer receives one displayed tolerance bracket, not separate host comparisons of completed real values.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealMetricLocatednessBracketUp.RealMetricLocatednessBracketCarrier\_window\_transport}
+\begin{proof}
+Let $B=(M,L,E,S,R,D,H,C,P,N)$ be accepted. The stream row $S$, regular readback $R$, and dyadic ledger $D$ are the only window and tolerance coordinates in the carrier.
+
+The metric read is therefore transported through $S,R,D$ before $M$ is consumed. This is the same finite route used by the $\RealMetricUp$ distance handoff.
+
+The locatedness read is transported through the same rows because the $\LocatednessModulusUp$ request has no second tolerance coordinate inside $B$. Its request is replayed through the displayed finite windows and dyadic refinements already present in the bracket.
+
+The equality read is transported through the same route because $E$ may read only the regular-rational and dyadic classifier rows exposed in the carrier. The structural rows $H,C,P,N$ package this common route, so the consumer cannot split it into unrelated host comparisons.
+\end{proof}
+
+\begin{theorem}[Real metric locatedness bracket non-escape]
+\label{thm:real-metric-locatedness-bracket-non-escape}
+For every accepted $\RealMetricLocatednessBracketUp$ carrier $B=(M,L,E,S,R,D,H,C,P,N)$, every Real-facing read factors through the displayed metric, locatedness, equality, stream-window, regular-readback, dyadic-tolerance, transport, replay, provenance, and local naming rows. It cannot export host real equality, quotient streams, selected limits, trichotomy, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Read the Real-facing part of \autoref{def:real-metric-locatedness-bracket-carrier}. The only analytic rows are the metric distance row $M$, the locatedness request row $L$, the equality boundary row $E$, the finite windows $S$, the regular readback $R$, and the dyadic tolerance ledger $D$.
+
+Transport and replay do not add another analytic source. The rows $H$ and $C$ move the same listed data through componentwise equality and displayed continuation, while $P$ and $N$ record package provenance and local naming.
+
+It remains to rule out non-displayed Real data. The carrier has no field for host real equality, quotient streams, selected limits, trichotomy, countable choice, or ambient Real completeness; every Real-facing read is therefore a projection from $B$.
+\end{proof}
+
+\closureat{RealMetricLocatednessBracketUp}{seedStr}
+
+\begin{closurestatus}{\RealMetricLocatednessBracketUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-metric-locatedness-bracket-carrier}, \autoref{thm:real-metric-locatedness-bracket-namecert-obligations}, \autoref{thm:real-metric-locatedness-bracket-window-transport}, and \autoref{thm:real-metric-locatedness-bracket-non-escape} seed the finite bracket joining real metric distance, locatedness requests, and real equality boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, quotient streams, selected limits, trichotomy, countable choice, ambient Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, distance-to-tolerance compatibility, tolerance-to-equality compatibility, window transport, and non-escape proofs for BEDC.Derived.RealMetricLocatednessBracketUp.}
+  \constructivestory{A $\RealMetricLocatednessBracketUp$ packet is generated from a $\RealMetricUp$ distance row, a $\LocatednessModulusUp$ tolerance request, a $\RealEqualityUp$ boundary, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\AitkenDeltaSquaredUp$}
+\label{ch:concrete-instances-aitken-delta-squared-namecert}
+\origin{human}
+
+Following Aitken's delta-squared process in numerical analysis, the $\AitkenDeltaSquaredUp$ packet records finite acceleration evidence for a displayed real-name sequence. It sits next to the sequence surface of \autoref{ch:concrete-instances-seq-namecert}, the rate ledger of \autoref{ch:concrete-instances-cauchyrate-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names one finite acceleration window and its rate handoff; it does not import host limits, ambient completeness, quotient real equality, trichotomy, or a selected convergence witness.
+
+\begin{definition}[Aitken delta-squared carrier]
+\label{def:aitken-delta-squared-carrier}
+An $\AitkenDeltaSquaredUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,W,O,F,G,Q,K,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SeqUp$ source sequence row whose finite real-name observations are to be accelerated.
+\item $W$ is the $\StreamNameUp$ window row selecting three consecutive displayed observations from $S$.
+\item $O$ stores the three observations $x_n,x_{n+1},x_{n+2}$ as finite $\RealUp$-facing names before any acceleration read is accepted.
+\item $F$ stores the first-difference rows $x_{n+1}-x_n$ and $x_{n+2}-x_{n+1}$ in dyadic or regular rational readback form.
+\item $G$ stores the second-difference row $x_{n+2}-2x_{n+1}+x_n$ as a displayed $\DyadicRatCoreUp$ ledger computation.
+\item $Q$ is the denominator-apartness ledger asserting that the displayed second-difference row is apart from the zero denominator at the requested finite precision.
+\item $K$ is the dyadic quotient estimate for the local accelerated read
+$$
+x_n-\frac{(x_{n+1}-x_n)^2}{x_{n+2}-2x_{n+1}+x_n}
+$$
+computed only from $O,F,G,Q$.
+\item $R$ is the $\CauchyRateUp$ handoff row recording the finite rate evidence obtained from the quotient estimate and the displayed source window.
+\item $E$ is the $\RegSeqRatUp$ readback row and terminal $\RealUp$ seal row for the accelerated observation.
+\item $H$ stores componentwise $\hsame$ transport for the source sequence, selected window, three observations, first-difference rows, second-difference row, apartness ledger, quotient estimate, CauchyRate handoff, RegSeqRat readback, Real seal, continuation replay, provenance, and local naming row.
+\item $C$ stores displayed $\Cont$ replay from the sequence window to the three observations, from observations to first and second differences, from the apartness ledger to the quotient estimate, and from the quotient estimate to the CauchyRate, RegSeqRat, and Real-facing rows.
+\item $P$ is the $\Pkg$ provenance over $\AitkenDeltaSquaredUp$, $\SeqUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyRateUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AitkenDeltaSquaredUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,O,F,G,Q,K,R,E,H,C,P,N$. It has no coordinate for host limits, ambient completeness, quotient real equality, trichotomy, selected convergence witnesses, or division by a hidden denominator.
+\end{definition}
+\leanchecked{BEDC.Derived.AitkenDeltaSquaredUp.AitkenDeltaSquaredTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Aitken delta-squared NameCert obligations]
+\label{thm:aitken-delta-squared-namecert-obligations}
+For an accepted $\AitkenDeltaSquaredUp$ carrier $A=(S,W,O,F,G,Q,K,R,E,H,C,P,N)$, the local $\NameCert_{\AitkenDeltaSquaredUp}$ obligations are exactly carrier admission, three-observation window classification, first-difference extraction, second-difference ledger stability, denominator-apartness validation, dyadic quotient estimate construction, $\CauchyRateUp$ handoff, $\RegSeqRatUp$ readback, $\RealUp$ seal factorization, and ledger non-escape. These obligations are discharged by the displayed route
+$$
+S\longmapsto W\longmapsto O\longmapsto F\longmapsto G\longmapsto Q\longmapsto K\longmapsto R\longmapsto E
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:aitken-delta-squared-carrier}. The tuple lists exactly the sequence row, stream window, observation rows, finite-difference rows, apartness ledger, quotient estimate, rate handoff, regular-rational readback, real seal, transport, replay, provenance, and local name.
+
+The window classifier reads $S$ only through the finite $\StreamNameUp$ row $W$. The row $O$ then supplies three consecutive displayed observations, and $F$ and $G$ are computed from those displayed rows by the dyadic arithmetic ledger rather than by an ambient real operation.
+
+Denominator validity is the row $Q$. The quotient estimate $K$ may be read only after $Q$ is present, so the accelerated expression is a finite dyadic or regular-rational computation with an explicit apartness witness at the requested precision.
+
+The rows $R$ and $E$ are downstream handoffs. They consume the same finite quotient route before exposing CauchyRate evidence, RegSeqRat readback, or a Real-facing seal.
+
+Finally, $H$ and $C$ transport and replay the route componentwise, while $P$ and $N$ source and name it. Since the carrier has no field for host limits, ambient completeness, quotient real equality, trichotomy, selected convergence witnesses, or hidden division, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Aitken delta-squared CauchyRate handoff]
+\label{thm:aitken-delta-squared-cauchy-rate-handoff}
+Every accepted $\CauchyRateUp$, $\RegSeqRatUp$, or $\RealUp$ read from an $\AitkenDeltaSquaredUp$ packet factors through the finite acceleration route
+$$
+S\longmapsto W\longmapsto O\longmapsto F\longmapsto G\longmapsto Q\longmapsto K\longmapsto R\longmapsto E .
+$$
+Thus Real-facing consumers receive only the displayed acceleration estimate and rate ledger, not a host limit, an ambient completeness claim, quotient real equality, trichotomy, or a selected convergence witness.
+\end{theorem}
+\begin{proof}
+Start with any rate, regular-rational, or real-facing consumer of the accepted packet. By \autoref{def:aitken-delta-squared-carrier}, the consumer has no direct access to the source sequence except through the displayed window $W$ over $S$.
+
+The three observations in $O$ are then the only rows from which first and second differences can be read. The first-difference row $F$ and second-difference row $G$ therefore determine the finite acceleration denominator and numerator surface visible to the packet.
+
+Before the quotient estimate is exported, the consumer must read the apartness ledger $Q$. This row is the certificate that the displayed denominator is usable at the finite precision being requested, and $K$ is the only row that stores the resulting dyadic quotient estimate.
+
+Apply \autoref{thm:aitken-delta-squared-namecert-obligations}. The CauchyRate handoff $R$, the RegSeqRat readback, and the Real seal in $E$ all stand downstream of $K$, and their transport and replay data are exactly $H$ and $C$.
+
+No row remains that could supply host limits, ambient completeness, quotient real equality, trichotomy, or a selected convergence witness. Hence every Real-facing read passes through the finite acceleration and rate ledgers.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyRateUp$, $\RegSeqRatUp$, or $\RealUp$ read from an $\AitkenDeltaSquaredUp$ packet factors through the displayed sequence window, three consecutive observations, first-difference rows, second-difference row, denominator-apartness ledger, dyadic quotient estimate, CauchyRate handoff, regular-rational readback, real seal, componentwise transport, continuation replay, provenance, and local naming.}
+
+\independenceWitness{seq, streamname, dyadicratcore, cauchyrate, regseqrat, real: $\AitkenDeltaSquaredUp$ is not bijective to any listed sibling because it jointly carries a source sequence, a three-observation stream window, finite-difference ledgers, denominator apartness, a quotient estimate, rate handoff, regular-rational and real-seal rows, componentwise transport, continuation replay, provenance, and local naming.}
+
+\closureat{AitkenDeltaSquaredUp}{seedStr}
+
+\begin{closurestatus}{\AitkenDeltaSquaredUp}
+  \constructivestory{An $\AitkenDeltaSquaredUp$ packet is generated from a source sequence, a finite stream window with three consecutive observations, first- and second-difference ledgers, an explicit denominator-apartness row, a dyadic quotient estimate, CauchyRate and RegSeqRat handoffs, a Real seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:aitken-delta-squared-carrier}, \autoref{thm:aitken-delta-squared-namecert-obligations}, and \autoref{thm:aitken-delta-squared-cauchy-rate-handoff} seed the finite delta-squared acceleration packet for one displayed real-name sequence window.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host limits, ambient completeness, quotient real equality, trichotomy, selected convergence witnesses, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, three-observation classification, first- and second-difference ledger stability, denominator-apartness validation, quotient estimate construction, CauchyRate handoff, Real-facing factorization, and ledger non-escape for BEDC.Derived.AitkenDeltaSquaredUp.}
+\end{closurestatus}

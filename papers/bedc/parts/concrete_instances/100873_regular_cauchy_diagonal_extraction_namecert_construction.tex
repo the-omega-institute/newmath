@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDiagonalExtractionUp$}
+\label{ch:concrete-instances-regular-cauchy-diagonal-extraction-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\RegularCauchyDiagonalExtractionUp$ packet records the finite route by which a regular Cauchy family of regular rational names is read along a displayed diagonal selector before any $\RealUp$ consumer treats the result as a completed real name. It sits over the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the parity-aware schedule handoff of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}. The packet supplies a Real and Completion boundary for diagonal extraction; it does not assert quotient stream equality, choose a host limit, invoke countable choice, use trichotomy, claim ambient $\RealUp$ completeness, provide Lean verification, or record a checked bridge.
+
+\begin{definition}[Regular Cauchy diagonal extraction carrier]
+\label{def:regular-cauchy-diagonal-extraction-carrier}
+A $\RegularCauchyDiagonalExtractionUp$ carrier is a finite $\BHist$ packet
+$$
+G_{\mathrm{diag}}=(F,\delta,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the source-family row, naming a finite inspection boundary for a family of $\RegSeqRatUp$ rows whose members are regular Cauchy rational names.
+\item $\delta$ is the unary diagonal selector row, recording the displayed rule that sends a requested diagonal precision to the source index and source-window coordinate read at that precision.
+\item $W$ is the aligned $\StreamNameUp$ window family, exposing only the finite observations of $F$ selected by $\delta$ and aligned with the requested diagonal tolerance.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, containing the dyadic radius, slack, and comparison rows that justify the selected diagonal read.
+\item $Q$ is the $\RegSeqRatUp$ diagonal readback row, built from the selected windows $W$ and the tolerance ledger $D$.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after the family, selector, windows, tolerance ledger, and diagonal readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source family, unary selector, aligned windows, tolerance ledger, diagonal readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each Real-facing diagonal request through $F,\delta,W,D,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyDiagonalExtractionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyInterleavingUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDiagonalExtractionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,\delta,W,D,Q,E,H,C,P,N$. It has no coordinate for quotient streams, a selected host limit, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalExtractionUp.RegularCauchyDiagonalExtractionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy diagonal extraction NameCert obligations]
+\label{thm:regular-cauchy-diagonal-extraction-namecert-obligations}
+For every accepted $\RegularCauchyDiagonalExtractionUp$ carrier
+$$
+G_{\mathrm{diag}}=(F,\delta,W,D,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyDiagonalExtractionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source family, unary diagonal selector, aligned $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ diagonal readback, terminal $\RealUp$ seal, componentwise transport, displayed replay, provenance, and local naming rows;
+\item selector exactness, requiring $\delta$ to be the only row that chooses which source-family coordinate and which finite window coordinate are read for a requested diagonal precision;
+\item window alignment, requiring $W$ to expose precisely the selected source-family observations and no independent schedule;
+\item dyadic tolerance exactness, requiring $D$ to store the displayed radius, slack, and comparison rows consumed by the selected windows and by the diagonal readback;
+\item regular readback exactness, requiring $Q$ to be assembled from $F,\delta,W,D$ as the diagonal regular rational name;
+\item Real seal routing, requiring $E$ to be downstream of the finite source-selector-window-ledger-readback route;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$;
+\item refusal of quotient stream equality, selected host limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local certificate data.
+\end{enumerate}
+No diagonal extraction obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-diagonal-extraction-carrier}. Its only source coordinate is the family row $F$, and its only selector coordinate is the unary diagonal row $\delta$.
+
+The finite observation route is therefore forced. A Real-facing precision request can reach an observed source-family value only through $\delta$ and then through the aligned window family $W$.
+
+The tolerance and readback rows are downstream of that route. The dyadic ledger $D$ accounts for the requested radius and slack before the regular readback row $Q$ can be formed.
+
+Finally the seal row $E$ and the structural rows $H,C,P,N$ preserve the same route. Since the excluded quotient, selector, choice, trichotomy, completeness, verification, and bridge objects do not occur as coordinates, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal extraction Real seal route]
+\label{thm:regular-cauchy-diagonal-extraction-real-seal-route}
+Every $\RealUp$-facing diagonal extraction read from an accepted $\RegularCauchyDiagonalExtractionUp$ carrier
+$$
+G_{\mathrm{diag}}=(F,\delta,W,D,Q,E,H,C,P,N)
+$$
+factors through the displayed finite route
+$$
+F \longmapsto \delta \longmapsto W \longmapsto D \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a source family, one unary diagonal selector, aligned StreamName windows, a DyadicRatCore tolerance ledger, a RegSeqRat diagonal readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming. The route exports no quotient stream, selected host limit, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier and read the source-family row $F$. A diagonal request has no direct access to a member of the family; it must first pass through the unary selector $\delta$.
+
+The selector determines the finite observations exposed by $W$. The dyadic ledger $D$ is the only tolerance row attached to those observations, and the diagonal readback row $Q$ is formed only after $W$ and $D$ are visible.
+
+The terminal Real seal $E$ is downstream of $F,\delta,W,D,Q$. The transport, replay, provenance, and naming rows $H,C,P,N$ record the same finite route and do not add a second Real-facing path.
+
+Because the carrier has no quotient-stream coordinate, selected host limit, countable-choice schedule, trichotomy principle, ambient completeness theorem, Lean evidence, or bridge data, every Real-facing read factors through exactly the route displayed above.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyDiagonalExtractionUp$ Real-facing read factors through a source family, one unary diagonal selector, aligned StreamName windows, one DyadicRatCore tolerance ledger, one RegSeqRat diagonal readback, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, regular-cauchy-interleaving: $\RegularCauchyDiagonalExtractionUp$ is not bijective to any listed sibling because it jointly carries a source family, a unary diagonal selector, aligned finite windows, a dyadic tolerance ledger, a regular rational diagonal readback, and a terminal RealUp seal.}
+
+\closureat{RegularCauchyDiagonalExtractionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDiagonalExtractionUp}
+  \constructivestory{A $\RegularCauchyDiagonalExtractionUp$ packet is generated from a source family, one unary diagonal selector, aligned StreamName windows, one DyadicRatCore tolerance ledger, one RegSeqRat diagonal readback, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-diagonal-extraction-carrier}, \autoref{thm:regular-cauchy-diagonal-extraction-namecert-obligations}, and \autoref{thm:regular-cauchy-diagonal-extraction-real-seal-route} seed the finite diagonal extraction route over regular Cauchy real names through displayed source-family, selector, window, tolerance, readback, seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector exactness, window alignment, dyadic tolerance exactness, regular readback exactness, Real seal routing, componentwise transport, displayed replay, and Real-facing nonescape for BEDC.Derived.RegularCauchyDiagonalExtractionUp.}
+\end{closurestatus}

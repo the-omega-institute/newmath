@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\FiniteBranchingCauchyTreeUp$}
+\label{ch:concrete-instances-finite-branching-cauchy-tree-namecert}
+\origin{human}
+
+Following Brouwer, Kleene, and Bishop--Bridges, the $\FiniteBranchingCauchyTreeUp$ packet records the finite branch-schedule boundary where a finitely branching prefix tree is read as a Cauchy inspection route before any Real or Completion consumer may ask for a terminal seal. It sits after the prefix-tree surface of \autoref{ch:concrete-instances-kleene-tree-namecert}, the finite fan-depth ledger of \autoref{ch:concrete-instances-fantheorem-namecert}, the spread-law discipline of \autoref{ch:concrete-instances-spread-law-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite boundary for branch-indexed Cauchy reads; it does not choose an infinite path, identify quotient streams, invoke countable choice, assert open-cover compactness, or use ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite branching Cauchy tree carrier]
+\label{def:finite-branching-cauchy-tree-carrier}
+A $\FiniteBranchingCauchyTreeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(K,B,F,S,R,D,E,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the prefix-tree row. It records the finite $\KleeneTreeUp$ branch-prefix cells, root cell, successor cells, and prefix-closure checks visible to the packet.
+\item $B$ is the branch-window row. For each displayed prefix in $K$, it records the finite successor window, branch-depth bound, and inspection address consumed from the $\FanTheoremUp$ and $\SpreadLawUp$ surfaces.
+\item $F$ is the finite branch-schedule row. It states that every regular branch read used by the packet enters through a displayed prefix in $K$ and a displayed window in $B$.
+\item $S$ is the $\StreamNameUp$ row opened by the scheduled branch windows.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row obtained from the stream windows selected by $F$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that assigns dyadic radii and Cauchy slack checks to the branch windows before $R$ can be inspected.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $K,B,F,S,R,D$ have been displayed.
+\item $O$ is the obstruction row. It records the local refusal of path choice, quotient stream equality, countable choice, open-cover compactness, and ambient real-completeness coordinates.
+\item $H$ records componentwise $\hsame$ transport for the prefix tree, branch windows, schedule, stream windows, regular readback, dyadic tolerances, terminal seal, obstruction row, continuation, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from any regular-branch request through
+$$
+K\longmapsto B\longmapsto F\longmapsto S\longmapsto R\longmapsto D\longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteBranchingCauchyTreeUp$, $\KleeneTreeUp$, $\FanTheoremUp$, $\SpreadLawUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteBranchingCauchyTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed route
+$$
+K,B,F,S,R,D,E \longmapsto O,H,C,P,N .
+$$
+No carrier coordinate stores an infinite path selector, quotient stream equality, countable-choice schedule, open-cover compactness proof, ambient $\RealUp$ completeness theorem, Lean verification row, or bridge credential.
+\end{definition}
+
+\begin{theorem}[Finite branching Cauchy tree NameCert obligations]
+\label{thm:finite-branching-cauchy-tree-namecert-obligations}
+For every accepted $\FiniteBranchingCauchyTreeUp$ carrier
+$$
+T=(K,B,F,S,R,D,E,O,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteBranchingCauchyTreeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the prefix tree, branch-window row, finite schedule row, stream windows, regular rational readback, dyadic tolerance ledger, terminal Real seal, obstruction row, transports, replay, provenance, and local naming;
+\item prefix-tree closure, requiring every branch-prefix read to be admitted by $K$ before any successor window or Cauchy row is visible;
+\item finite branching coverage, requiring each scheduled branch window in $B$ to expose only finitely many displayed successors and a displayed depth bound;
+\item spread-law compatibility, requiring the schedule row $F$ to respect the prefix discipline supplied by the $\SpreadLawUp$ sibling surface;
+\item Cauchy-window exactness, requiring every regular branch read to pass through $S,R,D$ before the Real seal $E$ can be consumed;
+\item obstruction stability, requiring $O,H,C,P,N$ to preserve the refusal of path choice, quotient stream equality, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No finite-branching Cauchy-tree obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-branching-cauchy-tree-carrier}. The accepted packet lists exactly the prefix tree, branch windows, finite schedule, Cauchy readback rows, terminal seal, obstruction row, and structural rows.
+
+Prefix-tree closure is read from $K$. A branch-prefix request has no independent entry point; it must first be displayed as a finite prefix-tree cell with root, successor, and prefix-closure checks.
+
+Finite branching coverage is the role of $B$. For each displayed prefix, the packet stores a finite successor window and a depth ledger, so a consumer cannot replace the window by a hidden infinite branch.
+
+Spread-law compatibility is then enforced by $F$. The finite schedule reads only prefixes accepted by $K$ and windows accepted by $B$, and it replays the sibling $\SpreadLawUp$ discipline before any analytic row is exposed.
+
+Cauchy-window exactness follows from the route through $S,R,D$. The stream windows are opened first, the regular rational row packages their readback, and the dyadic tolerance ledger checks the Cauchy slack before the terminal $\RealUp$ seal is available.
+
+Finally $O,H,C,P,N$ do not add new coordinates. They record refusal, transport, replay, provenance, and local naming for the displayed rows only, so the excluded path-choice, quotient, choice, compactness, real-completeness, Lean-verification, and bridge-checking objects remain outside the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite branching Cauchy tree regular-branch boundary]
+\label{thm:finite-branching-cauchy-tree-regular-branch-boundary}
+Let
+$$
+T=(K,B,F,S,R,D,E,O,H,C,P,N)
+$$
+be an accepted $\FiniteBranchingCauchyTreeUp$ carrier. Every regular-branch read exported by $T$ factors through the displayed finite tree and Cauchy rows
+$$
+K\longmapsto B\longmapsto F\longmapsto S\longmapsto R\longmapsto D\longmapsto E
+$$
+before it is visible to a $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or Completion-facing consumer. Consequently the read is a finite prefix-tree and Cauchy-window boundary, not a selected path, quotient stream equality, countable-choice schedule, open-cover compactness proof, or ambient real-completeness witness.
+\end{theorem}
+\begin{proof}
+Start with a regular-branch request exported by $P$. Carrier projection shows that the only available entry point for such a request is the prefix-tree row $K$.
+
+The request then enters the finite branching boundary. The row $B$ supplies the successor window and depth ledger for the displayed prefix, and the schedule row $F$ records that this is the window used by the branch read.
+
+We now pass to the Cauchy rows. The scheduled window opens $S$, the regular rational readback is then formed in $R$, and the dyadic tolerance row $D$ records the Cauchy slack attached to that read.
+
+Only after this finite route has been replayed is the terminal seal $E$ visible. Componentwise transport through $H$ and continuation replay through $C$ preserve the same route, while $O$ keeps the excluded coordinates absent.
+
+Thus every exported regular-branch read factors through $K,B,F,S,R,D,E$ together with the structural rows $O,H,C,P,N$. No selected path, quotient stream equality, countable-choice schedule, open-cover compactness theorem, ambient real-completeness theorem, Lean verification, or bridge credential is produced.
+\end{proof}
+
+\closureat{FiniteBranchingCauchyTreeUp}{seedStr}
+
+\begin{closurestatus}{\FiniteBranchingCauchyTreeUp}
+  \constructivestory{A $\FiniteBranchingCauchyTreeUp$ packet is generated from a finite KleeneTree prefix row, branch-window and spread-law schedule rows, StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a terminal RealUp seal, an obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-branching-cauchy-tree-carrier}, \autoref{thm:finite-branching-cauchy-tree-namecert-obligations}, and \autoref{thm:finite-branching-cauchy-tree-regular-branch-boundary} seed the finite branch-schedule boundary between prefix trees, branch windows, regular rational readback, dyadic tolerances, and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close path choice, quotient stream equality, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-tree closure, finite branching coverage, spread-law compatibility, Cauchy-window exactness, regular-branch factorization, obstruction stability, and a Lean carrier/obligation formalization for BEDC.Derived.FiniteBranchingCauchyTreeUp.}
+\end{closurestatus}

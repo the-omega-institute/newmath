@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\UpcrossingUp$}
+\label{ch:concrete-instances-upcrossing-namecert}
+\origin{human}
+
+Following Doob, the $\UpcrossingUp$ packet records the finite ledger used to count completed passages of a martingale path from a lower rational boundary to a higher rational boundary. It consumes the finite adapted-sequence surface of $\MartingaleUp$ (\autoref{ch:concrete-instances-martingale-namecert}), the bounded stopped-window rows of $\OptionalStoppingUp$ (\autoref{ch:concrete-instances-optionalstopping-namecert}), and the probability, random-variable, and conditional-expectation sources $\ProbSpaceUp$, $\RandomVarUp$, and $\CondExpUp$ already named in \autoref{ch:concrete-instances-probspace-namecert}, \autoref{ch:concrete-instances-randomvar-namecert}, and \autoref{ch:concrete-instances-condexp-namecert}. The chapter names only the finite crossing-count carrier and its no-escape boundary; it does not assert martingale convergence or any almost-sure quotient theorem.
+
+\section{Finite Crossing Carrier}
+\label{sec:upcrossing-carrier}
+
+\begin{definition}[Upcrossing finite ledger carrier]
+\label{def:upcrossing-carrier}
+An $\UpcrossingUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+U=(\Omega,M,a,b,N,V,L,S,H,C,P,Q)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $\Omega$ is the displayed $\ProbSpaceUp$ row naming the probability context;
+\item $M$ is the consumed $\MartingaleUp$ adapted-sequence packet over a finite unary time spine $0,\ldots,N$;
+\item $a$ and $b$ are displayed $\RealUp$ boundary endpoints with a carried comparison row $a<_R b$;
+\item $V$ is the finite endpoint-row family of the martingale values read through $\RandomVarUp$;
+\item $L$ is the lower-boundary decision ledger recording every displayed time at which the current value is classified at or below $a$ after no open crossing is active;
+\item $S$ is the upper-boundary decision ledger recording every displayed time at which the current value is classified at or above $b$ after an open crossing is active;
+\item $H$ stores the componentwise $\hsame$ transports for the probability row, martingale row, boundary endpoints, endpoint rows, lower and upper decision rows, and crossing-count row;
+\item $C$ stores the finite $\Cont$ routes from the martingale endpoint ledger to the lower-boundary and upper-boundary decision ledgers;
+\item $P$ is the $\Pkg$ provenance row naming exactly $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, $\OptionalStoppingUp$, and the local crossing-count rows;
+\item $Q$ is the local $\NameCert_{\UpcrossingUp}$ row.
+\end{enumerate}
+The crossing count of $U$ is the number of completed lower-to-upper pairs selected by the finite alternating ledger $(L,S)$. The local classifier compares two carriers only through the transported finite time spine, boundary endpoints, decision rows, completed-count row, continuation routes, package provenance, and local certificate row.
+\end{definition}
+\leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingTasteGate\_single\_carrier\_alignment}
+
+\section{Certificate Obligations}
+\label{sec:upcrossing-certificate-obligations}
+
+\begin{theorem}[Upcrossing NameCert obligations]
+\label{thm:upcrossing-namecert-obligations}
+The local $\NameCert_{\UpcrossingUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier: formation of the finite packet of \autoref{def:upcrossing-carrier};
+\item classifier: componentwise transport of the finite time spine, martingale endpoint rows, boundary endpoints, lower and upper decision ledgers, completed-count row, $\hsame$ rows, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row;
+\item boundary-decision stability: every lower or upper decision is read from the displayed $\RealUp$ classifier on the corresponding $\RandomVarUp$ endpoint row and remains stable under the carried endpoint transport;
+\item martingale-window handoff: every optional-stopping read used to isolate a lower or upper boundary hit factors through bounded $\OptionalStoppingUp$ rows over the consumed finite $\MartingaleUp$ packet;
+\item ledger exactness: every probability, random-variable, conditional-expectation, martingale, stopped-window, decision, transport, continuation, package, and certificate row used by the crossing count appears in the displayed carrier.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingNamecertObligations}
+\begin{proof}
+Project the carrier tuple of \autoref{def:upcrossing-carrier}. Carrier formation is exactly the finite package whose visible rows are $\Omega$, $M$, $a$, $b$, $N$, $V$, $L$, $S$, $H$, $C$, $P$, and $Q$.
+
+Classifier stability is componentwise. The transported martingale packet supplies the transported endpoint rows, while the boundary endpoints and decision ledgers are compared through the displayed $\RealUp$ and $\hsame$ rows already stored in the carrier.
+
+For boundary-decision stability, each lower or upper decision is a finite read of one endpoint row against $a$ or $b$. Transporting the endpoint row and the boundary endpoints transports the comparison row, so the selected lower and upper hits remain the same displayed finite decisions.
+
+For the martingale-window handoff, each hit is read inside the finite time window of $M$. The bounded stopped-window rows of $\OptionalStoppingUp$ package those finite reads without introducing unbounded stopping or a quotient of events.
+
+Ledger exactness follows because the completed-count row is computed from the alternating lower and upper decision ledgers alone. No consumer of $\NameCert_{\UpcrossingUp}$ can read a probability row, endpoint row, conditional-expectation face, stopping window, transport, continuation route, package row, or local certificate outside the displayed carrier.
+\end{proof}
+
+\begin{theorem}[Upcrossing martingale dependency route]
+\label{thm:upcrossing-martingale-route}
+Every accepted $\UpcrossingUp$ carrier scopes its crossing-count read through the displayed finite $\MartingaleUp$ adapted-sequence packet, the $\RandomVarUp$ endpoint rows carried by that packet, the $\CondExpUp$ successor faces used by the martingale row, and the bounded $\OptionalStoppingUp$ windows that read lower and upper hits. The route contains no host stochastic process, no outside stopping-time theorem, and no convergence principle.
+\end{theorem}
+\begin{proof}
+Start with the consumed $\MartingaleUp$ packet $M$ in \autoref{def:upcrossing-carrier}. Its public surface supplies only the finite endpoint rows, conditional-expectation faces, filtration visibility rows, package provenance, and finite $\Cont/\hsame$ ledger described in \autoref{ch:concrete-instances-martingale-namecert}.
+
+The lower and upper decision ledgers $L$ and $S$ are then finite reads of those endpoint rows against $a$ and $b$. Their comparison rows are carried by the displayed $\RealUp$ endpoint classifier and by the $\RandomVarUp$ rows already present in $M$.
+
+Whenever the carrier isolates a first lower hit or the next upper hit, the read is bounded by the displayed finite horizon $N$. The relevant stopped-window route is therefore the bounded $\OptionalStoppingUp$ surface of \autoref{ch:concrete-instances-optionalstopping-namecert}.
+
+Thus the dependency route is exhausted by $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, $\OptionalStoppingUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Since no other coordinate is present, the route cannot export a host stochastic process, an unbounded stopping theorem, or a convergence claim.
+\end{proof}
+\leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingMartingaleRoute}
+
+\begin{theorem}[Upcrossing no-escape boundary]
+\label{thm:upcrossing-nonescape}
+The public boundary of $\UpcrossingUp$ exports only the finite crossing-count ledger for a displayed martingale window and fixed boundary pair $a<_R b$. It exports no martingale convergence theorem, no almost-sure quotient equality, no unbounded stopping principle, no measure completion, and no standard bridge beyond the finite rows explicitly carried by \autoref{def:upcrossing-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the accepted carrier. Its time information is the finite horizon $N$, its value information is the finite endpoint family $V$, and its crossing data is the alternating lower and upper decision ledger $(L,S)$.
+
+Apply \autoref{thm:upcrossing-namecert-obligations}. The certificate surface reads only the listed probability, random-variable, conditional-expectation, martingale, optional-stopping, decision, transport, continuation, package, and local certificate rows.
+
+Apply \autoref{thm:upcrossing-martingale-route}. Every martingale-facing read factors through the finite adapted-sequence packet and every stopped-window read is bounded by the displayed finite horizon.
+
+None of the carrier coordinates names a limiting event, a quotient of almost-sure equality classes, an unbounded stopping index, a completed measure space, or a standard bridge. Therefore none of those objects can be exported by the public boundary of $\UpcrossingUp$.
+\end{proof}
+\leanchecked{BEDC.Derived.UpcrossingUp.Upcrossing\_nonescape}
+
+\closureat{UpcrossingUp}{seedStr}
+
+\begin{closurestatus}{\UpcrossingUp}
+  \constructivestory{An $\UpcrossingUp$ packet is generated from a displayed probability row, a finite $\MartingaleUp$ adapted-sequence packet, fixed lower and upper $\RealUp$ boundary endpoints, finite endpoint rows, lower and upper boundary decision ledgers, componentwise transports, finite continuation routes, package provenance, and a local $\NameCert$ row. The completed crossing count is read from the alternating finite decision ledger only.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope names the finite carrier, the five-row naming-certificate obligation surface, the martingale dependency route, and the no-escape boundary for crossing counts over finite martingale windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close martingale convergence, almost-sure quotient equality, unbounded stopping, measure completion, or a standard bridge.}
+  \upgradepath{Obligation closure requires Lean targets for carrier transport, boundary-decision stability, martingale-window handoff, finite crossing-count exactness, and the no-escape boundary.}
+\end{closurestatus}

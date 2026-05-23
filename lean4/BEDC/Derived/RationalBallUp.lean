@@ -433,4 +433,39 @@ theorem RationalBallPacket_public_finite_consumer_export
       centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint,
       containmentEndpointConsumer, consumerProvenanceLedger, endpointPkg, ledgerPkg⟩
 
+theorem RationalBallUp_StdBridge [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint consumer ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      Cont containment endpoint consumer ->
+        Cont consumer provenance ledger ->
+          PkgSig bundle ledger pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row endpoint ∧ UnaryHistory row ∧ Cont transport provenance row ∧
+                    PkgSig bundle row pkg)
+                (fun row : BHist =>
+                  UnaryHistory transport ∧ UnaryHistory provenance ∧
+                    Cont transport provenance row)
+                (fun row : BHist =>
+                  PkgSig bundle row pkg ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+                    UnaryHistory containment ∧ UnaryHistory name)
+                (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') ∧
+              UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory order ∧
+                UnaryHistory transport ∧ UnaryHistory containment ∧ UnaryHistory provenance ∧
+                  UnaryHistory name ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+                    UnaryHistory ledger ∧ Cont center radius order ∧
+                      Cont order containment transport ∧ Cont transport provenance endpoint ∧
+                        Cont containment endpoint consumer ∧ Cont consumer provenance ledger ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle ledger pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory SemanticNameCert hsame
+  intro packet containmentEndpointConsumer consumerProvenanceLedger ledgerPkg
+  have cert :=
+    RationalBallPacket_namecert_obligations packet
+  have publicRows :=
+    RationalBallPacket_public_finite_consumer_export packet containmentEndpointConsumer
+      consumerProvenanceLedger ledgerPkg
+  exact ⟨cert, publicRows⟩
+
 end BEDC.Derived.RationalBallUp

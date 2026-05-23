@@ -290,4 +290,36 @@ theorem UniversalityClosureQuadrantTasteGate_single_carrier_alignment :
       (fun _ _ heq => universalityClosureQuadrantToEventFlow_injective heq),
       rfl⟩
 
+theorem UniversalityClosureQuadrant_axis_independence
+    (x : UniversalityClosureQuadrantUp) :
+    ∃ S U K G W H C P N : BHist,
+      x = UniversalityClosureQuadrantUp.mk S U K G W H C P N ∧
+        universalityClosureQuadrantToEventFlow x =
+          [[BMark.b0],
+            universalityClosureQuadrantEncodeBHist S,
+            [BMark.b1, BMark.b0],
+            universalityClosureQuadrantEncodeBHist U,
+            [BMark.b1, BMark.b1, BMark.b0],
+            universalityClosureQuadrantEncodeBHist K,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            universalityClosureQuadrantEncodeBHist G,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            universalityClosureQuadrantEncodeBHist W,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            universalityClosureQuadrantEncodeBHist H,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b0],
+            universalityClosureQuadrantEncodeBHist C,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b0],
+            universalityClosureQuadrantEncodeBHist P,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b1, BMark.b0],
+            universalityClosureQuadrantEncodeBHist N] ∧
+          hsame U U ∧ hsame K K := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  cases x with
+  | mk S U K G W H C P N =>
+      exact ⟨S, U, K, G, W, H, C, P, N, rfl, rfl, hsame_refl U, hsame_refl K⟩
+
 end BEDC.Derived.UniversalityClosureQuadrantUp

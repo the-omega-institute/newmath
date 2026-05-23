@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalCoverUp$}
+\label{ch:concrete-instances-dyadic-interval-cover-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\DyadicIntervalCoverUp$ packet records a finite dyadic interval-cover surface for the open Real and Completion route. It sits between the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the visible Real seal of \autoref{ch:concrete-instances-real-namecert}, and the finite interval-net surface of \autoref{ch:concrete-instances-bishop-interval-compact-namecert}. The packet names cover data that can be inspected through finitely many rows; it does not assert an open-cover compactness theorem or any host completion principle.
+
+\begin{definition}[DyadicIntervalCover carrier]
+\label{def:dyadic-interval-cover-carrier}
+A $\DyadicIntervalCoverUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,M,R,V,W,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are finite rows of lower and upper dyadic endpoints, each endpoint read through the $\DyadicRatCoreUp$ arithmetic surface.
+\item $M$ is the mesh-index row that records the dyadic scale at which endpoint comparisons and interval-membership tests are performed.
+\item $R$ is the radius ledger assigning a displayed dyadic tolerance to every interval row and every inspected regular-name window.
+\item $V$ is the finite cover-membership row: each listed mesh cell carries the index of a displayed dyadic interval whose lower and upper endpoint rows contain that cell at the tolerance named by $R$.
+\item $W$ is the $\StreamNameUp$ finite-window row used by the consumer real names that are tested against the cover.
+\item $Q$ is the $\RegSeqRatUp$ readback row that translates the windows $W$ into regular rational approximants at the mesh scale $M$.
+\item $A$ is the visible $\RealUp$ seal row reached through the same window and readback data.
+\item $H$ stores the componentwise $\hsame$ transports for endpoints, mesh indices, radius rows, cover-membership rows, windows, readbacks, Real seals, continuation, provenance, and local naming rows.
+\item $C$ stores the displayed $\Cont$ replay from dyadic endpoints to mesh cells, from mesh cells to cover-membership rows, from windows to regular readback, and from regular readback to the visible Real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalCoverUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopIntervalCompactUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicIntervalCoverUp}$ row.
+\end{enumerate}
+The accepted carrier stores only the finite cover surface just displayed. It carries no open-cover compactness principle, no Heine--Borel theorem, no sequential compactness selector, no selected limit, no quotient real equality, no host real equality test, no countable-choice functional, and no ambient $\RealUp$ completeness coordinate.
+\end{definition}
+
+\begin{theorem}[DyadicIntervalCover NameCert obligations]
+\label{thm:dyadic-interval-cover-namecert-obligations}
+For an accepted packet $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$, the local $\NameCert_{\DyadicIntervalCoverUp}$ obligations are exhausted by the finite endpoint, mesh, radius, membership, window, readback, seal, transport, continuation, and provenance rows of \autoref{def:dyadic-interval-cover-carrier}. In particular, every obligation can be checked by finite projection from the displayed $\BHist$ packet and by replay of $H$, $C$, and $P$; no obligation may call on open-cover compactness, Heine--Borel compactness, sequential compactness, selected limits, quotient real equality, host real equality, countable choice, or Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier row by row. The endpoint and mesh obligations read only $L,U,M,R,V$ and the dyadic arithmetic certified by the $\DyadicRatCoreUp$ sibling chapter. The real-name obligations read only the finite windows $W$, the regular-rational readback $Q$, and the visible seal $A$, hence they factor through the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ sibling surfaces.
+
+The remaining obligations are structural. The $\hsame$ row $H$ transports equal displayed coordinates, the $\Cont$ row $C$ replays the permitted reads, and the provenance row $P$ records exactly the finite BEDC surfaces used by the packet, including the comparison with the $\BishopIntervalCompactUp$ finite-net interface. Since the carrier has no row for an open-cover selector, a host limit, a quotient equality, a choice functional, or a completeness principle, none of those principles can appear in a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Regular-sequence finite-window exhaustion]
+\label{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Any consumer that asks whether a regular real name represented by the displayed $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ readback $Q$ meets the cover named by $L,U,M,R,V$ is exhausted by a finite window computation: it reads the mesh index $M$, the radius ledger $R$, the regular approximants in $Q$, the finite membership rows $V$, and the visible $\RealUp$ seal $A$. No later tail of the regular sequence and no ambient equality of real names contributes to the cover decision.
+\end{theorem}
+\begin{proof}
+Begin with the window and readback coordinates. The $\StreamNameUp$ row supplies exactly the finite windows available to the consumer, and the $\RegSeqRatUp$ row turns those windows into rational approximants at the mesh scale named by $M$ and the radii named by $R$.
+
+Next inspect the cover surface. The finite row $V$ contains the whole list of membership witnesses for the dyadic endpoint rows $L$ and $U$, so a consumer can only compare the displayed approximants with this finite list. The continuation row $C$ has no replay path beyond those rows, and the Real seal $A$ records only the visible endpoint reached through the same finite readback.
+
+Thus the decision surface is exhausted by $M,R,Q,V,A$ together with the displayed transports in $H$. A later regular-sequence tail, quotient equality of real names, host equality, countable choice, selected limits, and Real completeness are absent from the packet, so they cannot affect the finite-window cover read.
+\end{proof}
+
+\begin{closurestatus}{\DyadicIntervalCoverUp}
+  \constructivestory{A $\DyadicIntervalCoverUp$ packet is generated from dyadic lower and upper endpoint rows, a mesh index, a radius ledger, finite cover-membership rows, StreamName windows, RegSeqRat readbacks, a Real seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-cover-carrier}, \autoref{thm:dyadic-interval-cover-namecert-obligations}, and \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion} bind the finite dyadic interval-cover seed over the Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, Heine--Borel compactness, sequential compactness, selected limits, quotient real equality, host real equality, countable choice, Real completeness, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite membership transport, regular-window exhaustion, seal nonescape, and ledger exactness for the displayed packet.}
+\end{closurestatus}

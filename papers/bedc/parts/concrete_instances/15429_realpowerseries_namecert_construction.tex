@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RealPowerSeriesUp$}
+\label{ch:concrete-instances-realpowerseries-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealPowerSeriesUp$ packet records a real power series only through a displayed coefficient stream, center, argument, radius row, finite windows, partial-sum rows, and named convergence-test majorants. It refines the finite partial-sum discipline of $\RealSeriesUp$ in \autoref{ch:concrete-instances-realseries-namecert}, consumes the majorant route of $\WeierstrassMTestUp$ in \autoref{ch:concrete-instances-weierstrassmtest-namecert}, and may use the geometric tail witnesses of $\RegularCauchyRatioTestUp$ and $\RegularCauchyRootTestUp$ in \autoref{ch:concrete-instances-regular-cauchy-ratio-test-namecert} and \autoref{ch:concrete-instances-regular-cauchy-root-test-namecert}. It also sits beside the coefficient-only $\FormalPowerSeriesUp$ surface of \autoref{ch:concrete-instances-fps-namecert} and the displayed radius rows of \autoref{ch:concrete-instances-convergence-radius-namecert}, while all real-facing reads pass through $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ in \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names analytic convergence as a finite certificate route; it does not import a host power-series convergence theorem, host analytic continuation, quotient function spaces, selected infinite sums, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real power series carrier]\label{def:real-power-series-carrier}
+A $\RealPowerSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,Z,X,R,W,S,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the coefficient stream or $\FormalPowerSeriesUp$ row, read only through selected coefficient windows and their $\StreamNameUp$ provenance.
+\item $Z$ is the center $\RealUp$ row.
+\item $X$ is the argument $\RealUp$ row.
+\item $R$ is the displayed radius or subradius row used to state the accepted window of evaluation.
+\item $W$ is the finite family of $\StreamNameUp$ windows for coefficients, center-readbacks, argument-readbacks, powers of $X-Z$, and partial sums.
+\item $S$ is the finite partial-sum and $\RealSeriesUp$ row listing the inspected polynomial sums and their real seals.
+\item $M$ is the majorant data imported from $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ rows.
+\item $E$ is the endpoint $\RealUp$ seal produced only after the displayed windows, partial sums, radius row, and majorant route have been read.
+\item $H$ stores componentwise $\hsame$ transport for the coefficient row, center, argument, radius row, windows, partial sums, majorant data, endpoint seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from coefficient reads and real-point reads to finite powers, from powers to partial sums, from partial sums to the chosen majorant route, and from that route to the endpoint seal.
+\item $P$ is the $\Pkg$ provenance over $\RealPowerSeriesUp$, $\RealSeriesUp$, $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, $\RegularCauchyRootTestUp$, $\FormalPowerSeriesUp$, $\ConvergenceRadiusUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealPowerSeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,Z,X,R,W,S,M,E,H,C,P,N$. It has no coordinate for host analytic continuation, quotient function spaces, selected infinite sums, countable-choice selectors, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real power series NameCert obligations]\label{thm:real-power-series-namecert-obligations}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the local $\NameCert_{\RealPowerSeriesUp}$ surface consists exactly of carrier admission for the twelve displayed rows, coefficient-stream access through $A$, center and argument sealing through $Z$ and $X$, radius-window admission through $R$, selected $\StreamNameUp$ windows through $W$, finite partial-sum and $\RealSeriesUp$ handoff through $S$, majorant-route admission through $M$, endpoint sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesUpTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:real-power-series-carrier}. The coefficient, point, radius, window, partial-sum, and majorant coordinates are exactly $A,Z,X,R,W,S,M$, so every analytic observation must enter through those rows.
+
+The endpoint row $E$ is read only after that displayed route has been assembled. Thus the real-facing output is a packet endpoint seal rather than a host infinite sum or an ambient completeness witness.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no additional coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real power series radius-window handoff]\label{thm:real-power-series-radius-window-handoff}
+Every accepted $\RealPowerSeriesUp$ evaluation read factors through
+$$
+A,Z,X,R\longmapsto W\longmapsto S\longmapsto M\longmapsto E
+$$
+together with $H,C,P,N$. The row $R$ supplies only a displayed radius or subradius window, $S$ supplies only finite polynomial partial sums and their $\RealSeriesUp$ handoff, and $M$ supplies only the selected $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ majorant route.
+\end{theorem}
+\begin{proof}
+Begin with a requested evaluation. By \autoref{def:real-power-series-carrier}, the request can inspect the coefficient row $A$, center $Z$, argument $X$, and displayed radius row $R$ before it chooses any finite windows.
+
+The selected windows $W$ expose only the coefficients, real-point readbacks, powers of $X-Z$, and inspected partial sums needed for the request. The partial-sum row $S$ repacks those reads as the finite $\RealSeriesUp$ surface visible to the convergence machinery.
+
+The majorant row $M$ is then the only route from the finite partial sums to endpoint convergence data. Reading $E$ and the structural rows $H,C,P,N$ therefore hands off a finite radius-window certificate and no host convergence theorem.
+\end{proof}
+
+\begin{theorem}[Real power series nonescape]\label{thm:real-power-series-nonescape}
+Every endpoint-facing read from an accepted $\RealPowerSeriesUp$ carrier passes through $A,Z,X,R,W,S,M,E,H,C,P,N$. Consequently a consumer may use the displayed $\RealSeriesUp$, $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, $\RegularCauchyRootTestUp$, $\FormalPowerSeriesUp$, and $\ConvergenceRadiusUp$ interfaces named by the packet, but it receives no host analytic continuation, quotient function space, selected infinite sum, countable-choice selector, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-power-series-radius-window-handoff} to place every endpoint-facing evaluation on the finite route through $A,Z,X,R,W,S,M$. The endpoint seal $E$ consumes that route after the coefficient, point, radius, partial-sum, and majorant data have been displayed.
+
+The formal series and convergence-radius rows remain named inputs to the packet, not ambient host objects. They expose coefficient and radius evidence only through the finite rows retained by the carrier.
+
+Finally read $H,C,P,N$. These rows preserve, replay, source, and name the same displayed data, so none of the excluded analytic or choice principles can escape through the accepted classifier.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealPowerSeriesUp$ endpoint-facing read factors through a coefficient or FormalPowerSeries row, center Real row, argument Real row, displayed radius or subradius row, finite StreamName windows, partial-sum RealSeries row, majorant data from M-test or ratio/root-test rows, endpoint Real seal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{realseries, weierstrass-mtest, regular-cauchy-ratio-test, regular-cauchy-root-test, formalpowerseries, convergence-radius, real, regseqrat, streamname, dyadicratcore: $\RealPowerSeriesUp$ is not bijective to any listed sibling because it jointly carries coefficient-stream access, center and argument Real rows, displayed radius windows, finite polynomial partial sums, selected majorant routes, endpoint sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{RealPowerSeriesUp}{seedStr}
+
+\begin{closurestatus}{\RealPowerSeriesUp}
+  \constructivestory{A $\RealPowerSeriesUp$ packet is generated from a coefficient stream or formal-series row, center and argument $\RealUp$ rows, a displayed radius or subradius row, finite $\StreamNameUp$ windows, finite partial-sum and $\RealSeriesUp$ rows, majorant data from M-test or ratio/root-test rows, a $\RealUp$ endpoint seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-power-series-carrier}, \autoref{thm:real-power-series-namecert-obligations}, \autoref{thm:real-power-series-radius-window-handoff}, and \autoref{thm:real-power-series-nonescape} bind the finite constructive real-power-series certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host analytic continuation, quotient function spaces, selected infinite sums, countable choice, ambient $\RealUp$ completeness, bridge checking, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, radius-window handoff, nonescape boundary, and TasteGate field faithfulness for BEDC.Derived.RealPowerSeriesUp.}
+\end{closurestatus}

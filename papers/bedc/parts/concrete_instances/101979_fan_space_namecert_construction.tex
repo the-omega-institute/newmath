@@ -1,0 +1,143 @@
+\chapter{A Concrete Naming Certificate for $\FanSpaceUp$}
+\label{ch:concrete-instances-fan-space-namecert}
+\origin{human}
+
+Following Brouwer, Troelstra, and Bishop-style constructive analysis, the
+$\FanSpaceUp$ packet records a finite-branching Boolean prefix tree by the
+finite information exposed to a proof. It sits between the finite Boolean
+prefix surface of \autoref{ch:concrete-instances-cantorspace-namecert}, the
+unfolding-prefix discipline of
+\autoref{ch:concrete-instances-choice-sequence-namecert}, and the L10
+finite-request gateway of \autoref{ch:concrete-instances-streamname-namecert}.
+The packet names only finite tree nodes, Boolean observations, prefix-spine
+rows, transport, replay, provenance, and a local naming certificate; it does
+not import a host function space, a completed stream, an open-cover
+compactness theorem, or a countable-choice branch.
+
+\begin{definition}[FanSpace carrier]
+\label{def:fan-space-carrier}
+A $\FanSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,T,B,L,C,Q,H,R,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row naming the finite node requests
+made by the current consumer;
+\item $T$ is the finite binary-branch prefix-tree row, closed under displayed
+predecessors and carrying at most the two Boolean successors named at each
+node;
+\item $B$ is the $\BoolUp$ observation ledger attached to the requested
+branches of $T$;
+\item $L$ is the $\ListUp$ spine row ordering the exposed prefix nodes and
+their branch labels as finite data;
+\item $C$ is the $\CantorSpaceUp$ boundary row used when a maximal displayed
+prefix is read as a Boolean window;
+\item $Q$ is the $\ChoiceSequenceUp$ handoff row used when the same finite
+prefix is consumed as an unfolding choice-sequence prefix;
+\item $H$ is the componentwise $\hsame$ transport row for $S,T,B,L,C,Q$;
+\item $R$ is the displayed $\Cont$ replay row for already accepted prefix-tree
+restrictions and boundary reads;
+\item $P$ is the $\Pkg$ provenance over $\FanSpaceUp$, $\StreamNameUp$,
+$\BoolUp$, $\ListUp$, $\CantorSpaceUp$, $\ChoiceSequenceUp$, $\BHist$,
+$\hsame$, $\Cont$, and the local naming row;
+\item $N$ is the local $\NameCert_{\FanSpaceUp}$ row.
+\end{enumerate}
+The carrier admits only the finite branching data explicitly displayed in
+$T$. It exports no ambient space of maps $\NatUp \to \BoolUp$, no completed
+Boolean stream, no hidden infinite branch, no open-cover compactness witness,
+and no countable-choice selector.
+\end{definition}
+
+\begin{theorem}[FanSpace NameCert obligations]
+\label{thm:fan-space-namecert-obligations}
+The local $\NameCert_{\FanSpaceUp}$ surface of
+\autoref{def:fan-space-carrier} consists of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet
+$F=(S,T,B,L,C,Q,H,R,P,N)$;
+\item finite branching stability, requiring every accepted node of $T$ to
+carry only the displayed zero-successor and one-successor rows admitted by
+$\BoolUp$;
+\item prefix restriction, requiring every displayed subtree below a requested
+node to repack through the same $\StreamNameUp$ schedule, $\ListUp$ spine,
+$\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming rows;
+\item $\CantorSpaceUp$ boundary compatibility for every displayed Boolean
+prefix window;
+\item $\ChoiceSequenceUp$ handoff compatibility for every displayed unfolding
+prefix consumed as choice-sequence data;
+\item transport and replay stability for componentwise $\hsame$ moves and
+already accepted $\Cont$ reads;
+\item non-escape from host function spaces, completed streams, open-cover
+compactness principles, and countable-choice branches.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the ten displayed rows in
+\autoref{def:fan-space-carrier}. The schedule, tree, Boolean ledger, spine,
+boundary, handoff, transport, replay, provenance, and local naming rows are
+finite $\BHist$ data.
+
+Finite branching stability is read from the tree row $T$. Each successor row
+is labelled by a displayed $\BoolUp$ branch observation, so a node has only the
+zero-branch and one-branch rows already present in the packet.
+
+For prefix restriction, choose a displayed subtree below a requested node of
+$T$. Its nodes and branch labels are subrows of $T,B,L$, and the same
+$S,H,R,P,N$ rows transport, replay, name, and package the restricted packet.
+
+The $\CantorSpaceUp$ boundary row $C$ handles reads that treat a displayed
+maximal prefix as a Boolean window, while the $\ChoiceSequenceUp$ handoff row
+$Q$ handles reads that consume the same prefix as unfolding sequence data.
+
+Finally inspect the carrier coordinates. The packet contains no row for a
+host function space, completed stream, hidden branch, open-cover compactness
+witness, or countable-choice selector, so no local $\NameCert_{\FanSpaceUp}$
+consumer can export one.
+\end{proof}
+
+\begin{theorem}[FanSpace StreamName-Cantor scope]
+\label{thm:fan-space-streamname-cantor-scope}
+Every public read of an accepted $\FanSpaceUp$ carrier factors through a
+finite $\StreamNameUp$ request and a $\CantorSpaceUp$ Boolean prefix window
+before any downstream L10 consumer may inspect the packet. The visible route is
+$$
+\StreamNameUp,\ \BoolUp,\ \ListUp,\ \CantorSpaceUp,\ \ChoiceSequenceUp,\
+\NameCert_{\FanSpaceUp}.
+$$
+The route binds finite node requests, Boolean branch observations, prefix-spine
+ordering, Cantor boundary reads, choice-sequence handoffs, transport, replay,
+provenance, and local naming. It does not claim a completed fan, a chosen
+branch, host-function extensionality, open-cover compactness, or countable
+choice.
+\end{theorem}
+\begin{proof}
+Begin with a public read of $F=(S,T,B,L,C,Q,H,R,P,N)$. The consumer first sees
+the finite request schedule $S$ and the finite prefix-tree row $T$; without
+these rows there is no named node at which a branch value can be read.
+
+The branch observations are then read through the $\BoolUp$ ledger $B$ and the
+ordered $\ListUp$ spine $L$. Any maximal displayed prefix requested by the
+consumer reaches the $\CantorSpaceUp$ boundary row $C$ before it can be passed
+to a downstream Boolean-window consumer.
+
+If the same prefix is consumed as unfolding sequence data, the read passes
+through the $\ChoiceSequenceUp$ handoff row $Q$ after the StreamName and
+Cantor-visible rows have been fixed. The componentwise $\hsame$ row $H$,
+$\Cont$ replay row $R$, $\Pkg$ provenance row $P$, and local naming row $N$
+then route only the displayed finite data.
+
+Thus every public read factors through the announced finite route before any
+L10 consumer sees the packet. The excluded infinite objects are not carrier
+coordinates, so the route cannot export them.
+\end{proof}
+
+\begin{closurestatus}{\FanSpaceUp}
+  \constructivestory{A $\FanSpaceUp$ packet is generated from a finite $\StreamNameUp$ request schedule, a displayed binary prefix-tree row, $\BoolUp$ branch observations, a $\ListUp$ spine, $\CantorSpaceUp$ boundary reads, $\ChoiceSequenceUp$ handoffs, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fan-space-carrier}, \autoref{thm:fan-space-namecert-obligations}, and \autoref{thm:fan-space-streamname-cantor-scope} seed the finite-branching Boolean prefix-tree surface over $\StreamNameUp$ schedules, $\BoolUp$ branch rows, $\ListUp$ spines, $\CantorSpaceUp$ boundary reads, $\ChoiceSequenceUp$ handoffs, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close host function spaces, completed Boolean streams, open-cover compactness, fan-theorem compactness, hidden infinite branches, or countable choice.}
+  \upgradepath{The next step is obligationClosure: carrier admission, finite branching stability, prefix restriction, CantorSpace boundary compatibility, ChoiceSequence handoff compatibility, transport, replay, provenance, and non-escape should be formalized under BEDC.Derived.FanSpaceUp.}
+\end{closurestatus}

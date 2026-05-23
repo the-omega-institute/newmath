@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PhaseRealCompletionExitUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -189,5 +191,37 @@ theorem PhaseRealCompletionExitTasteGate_single_carrier_alignment :
       phaseRealCompletionExit_round_trip,
       (fun _ _ heq => phaseRealCompletionExitToEventFlow_injective heq),
       ⟨phaseRealCompletionExitChapterTasteGate⟩⟩
+
+theorem PhaseRealCompletionExitUp_boundary_witness_balance
+    {dyadic stream regular real boundary transport route provenance name dyadic' stream'
+      regular' real' boundary' transport' route' provenance' name' boundaryRead
+      boundaryRead' : BHist} :
+    FieldFaithful.fields
+        (PhaseRealCompletionExitUp.mk dyadic stream regular real boundary transport route
+          provenance name) =
+      FieldFaithful.fields
+        (PhaseRealCompletionExitUp.mk dyadic' stream' regular' real' boundary' transport'
+          route' provenance' name') →
+      Cont real boundary boundaryRead →
+        Cont real' boundary' boundaryRead' →
+          real = real' ∧ boundary = boundary' ∧ route = route' ∧
+            Cont real boundary boundaryRead ∧ Cont real' boundary' boundaryRead' := by
+  -- BEDC touchpoint anchor: BHist Cont FieldFaithful
+  intro hfields boundaryRoute boundaryRoute'
+  change
+      phaseRealCompletionExitFields
+          (PhaseRealCompletionExitUp.mk dyadic stream regular real boundary transport route
+            provenance name) =
+        phaseRealCompletionExitFields
+          (PhaseRealCompletionExitUp.mk dyadic' stream' regular' real' boundary' transport'
+            route' provenance' name') at hfields
+  injection hfields with _hDyadic tail0
+  injection tail0 with _hStream tail1
+  injection tail1 with _hRegular tail2
+  injection tail2 with hReal tail3
+  injection tail3 with hBoundary tail4
+  injection tail4 with _hTransport tail5
+  injection tail5 with hRoute _tail6
+  exact ⟨hReal, hBoundary, hRoute, boundaryRoute, boundaryRoute'⟩
 
 end BEDC.Derived.PhaseRealCompletionExitUp

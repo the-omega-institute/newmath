@@ -241,4 +241,59 @@ theorem OptionalStoppingCarrier_scoped_dependency_route [AskSetup] [PackageSetup
                       (And.intro routeSame
                         (And.intro endpointSame pkgSig)))))))))))
 
+theorem OptionalStoppingCarrier_post_stop_tail_erasure [AskSetup] [PackageSetup]
+    {prob process stopping bound stoppedValue filtration integrability sameRows route provenance
+      namecert endpoint process' stopping' filtration' integrability' sameRows' route' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptionalStoppingCarrier prob process stopping bound stoppedValue filtration integrability sameRows
+        route provenance namecert endpoint bundle pkg ->
+      hsame process process' ->
+        hsame stopping stopping' ->
+          hsame filtration filtration' ->
+            hsame integrability integrability' ->
+              hsame sameRows sameRows' ->
+                hsame route route' ->
+                  Cont stopping' bound stoppedValue ->
+                    Cont process' filtration' integrability' ->
+                      hsame sameRows' (append prob process') ->
+                        hsame route' (append stopping' bound) ->
+                          OptionalStoppingCarrier prob process' stopping' bound stoppedValue
+                              filtration' integrability' sameRows' route' provenance namecert endpoint
+                              bundle pkg ∧
+                            hsame stoppedValue stoppedValue := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameProcess sameStopping sameFiltration sameIntegrability sameRowsTransport
+    routeTransport stoppedValueReadback integrabilityReadback sameRowsReadback routeReadback
+  obtain ⟨probUnary, processUnary, stoppingUnary, boundUnary, stoppedValueUnary,
+    filtrationUnary, integrabilityUnary, sameRowsUnary, routeUnary, provenanceUnary,
+    namecertUnary, endpointUnary, _stoppedValueReadback, _integrabilityReadback,
+    _sameRowsReadback, _routeReadback, provenanceSame, endpointSame, namecertSame,
+    pkgSig⟩ := carrier
+  have processUnary' : UnaryHistory process' :=
+    unary_transport processUnary sameProcess
+  have stoppingUnary' : UnaryHistory stopping' :=
+    unary_transport stoppingUnary sameStopping
+  have filtrationUnary' : UnaryHistory filtration' :=
+    unary_transport filtrationUnary sameFiltration
+  have integrabilityUnary' : UnaryHistory integrability' :=
+    unary_transport integrabilityUnary sameIntegrability
+  have sameRowsUnary' : UnaryHistory sameRows' :=
+    unary_transport sameRowsUnary sameRowsTransport
+  have routeUnary' : UnaryHistory route' :=
+    unary_transport routeUnary routeTransport
+  have endpointTailTransport :
+      hsame (append stoppedValue integrability) (append stoppedValue integrability') := by
+    cases sameIntegrability
+    exact hsame_refl (append stoppedValue integrability)
+  have provenanceSame' : hsame provenance (append stoppedValue integrability') :=
+    hsame_trans provenanceSame endpointTailTransport
+  have endpointSame' : hsame endpoint (append stoppedValue integrability') :=
+    hsame_trans endpointSame endpointTailTransport
+  exact
+    ⟨⟨probUnary, processUnary', stoppingUnary', boundUnary, stoppedValueUnary,
+      filtrationUnary', integrabilityUnary', sameRowsUnary', routeUnary', provenanceUnary,
+      namecertUnary, endpointUnary, stoppedValueReadback, integrabilityReadback,
+      sameRowsReadback, routeReadback, provenanceSame', endpointSame', namecertSame, pkgSig⟩,
+      hsame_refl stoppedValue⟩
+
 end BEDC.Derived.OptionalStoppingUp

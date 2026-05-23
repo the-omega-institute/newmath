@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\CauchyMajorantSeriesUp$}
+\label{ch:concrete-instances-cauchy-majorant-series-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyMajorantSeriesUp$ packet records the finite majorant-series ledger used to turn tail estimates into regular rational and real-name control without selecting a completed sum. It sits over the dyadic tolerance scale of \autoref{ch:concrete-instances-dyadic-tolerance-scale-namecert}, the finite StreamName observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the Bishop regular Cauchy completion boundary of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later Real and Completion tail-control arguments one visible majorant schedule rather than asking them to recover a bound from quotient streams, chosen limits, or ambient completeness.
+
+\begin{definition}[Cauchy majorant series carrier]
+\label{def:cauchy-majorant-series-carrier}
+A $\CauchyMajorantSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,D,S,R,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the majorant schedule row. It records the finite list of nonnegative rational or dyadic majorant terms, their displayed partial sums, and the tail index attached to each requested tolerance.
+\item $D$ is the $\DyadicToleranceScaleUp$ tolerance row consumed by $A$, including the dyadic precision scale and comparison budget for the displayed tail request.
+\item $S$ is the $\StreamNameUp$ finite-window row opened at the tail index chosen inside $A$ and budgeted by $D$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the finite window after the majorant schedule and tolerance scale have been displayed.
+\item $B$ is the $\BishopRegularCauchyCompletionUp$ boundary row, recording that the regular readback has reached the completion-facing Cauchy boundary by the displayed tail route.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after $A,D,S,R,B$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the majorant schedule, dyadic tolerance scale, StreamName window, RegSeqRat readback, Bishop regular Cauchy completion boundary, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail-control request through $A,D,S,R,B,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyMajorantSeriesUp$, $\DyadicToleranceScaleUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BishopRegularCauchyCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyMajorantSeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,D,S,R,B,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyMajorantSeriesUp.CauchyMajorantSeriesTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy majorant series NameCert obligations]
+\label{thm:cauchy-majorant-series-namecert-obligations}
+For every accepted $\CauchyMajorantSeriesUp$ carrier
+$$
+M=(A,D,S,R,B,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyMajorantSeriesUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the majorant schedule, dyadic tolerance scale, StreamName finite window, RegSeqRat readback, Bishop regular Cauchy completion boundary, Real seal, transport, replay, provenance, and local naming rows;
+\item schedule exactness, requiring $A$ to store the displayed partial-sum ledger and the tail index attached to each dyadic tolerance request;
+\item tolerance compatibility, requiring the row $D$ to be the same dyadic scale consumed by $A$ and later by the finite window $S$;
+\item readback handoff, requiring $S$ and $R$ to expose only the finite StreamName window and RegSeqRat data opened by the scheduled tail request;
+\item completion-boundary handoff, requiring $B$ to consume $A,D,S,R$ before any $\RealUp$ seal is visible;
+\item Real-seal non-escape, requiring $E$ to be terminal with respect to $A,D,S,R,B$ and to export no quotient equality, selected limit, countable-choice schedule, host equality, trichotomy, ambient completeness, Lean verification, or bridge data;
+\item componentwise transport, displayed replay, provenance, and local naming for the same displayed rows through $H,C,P,N$.
+\end{enumerate}
+No Cauchy majorant-series obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-majorant-series-carrier}. The visible packet consists exactly of the majorant schedule $A$, dyadic tolerance scale $D$, finite window $S$, regular readback $R$, completion boundary $B$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Schedule exactness is the local content of $A$. A tail-control request must name its finite partial-sum ledger and tail index before it may open a tolerance scale or a stream window.
+
+Tolerance compatibility then follows from the placement of $D$. The same dyadic scale row budgets the scheduled tail request and the finite observations in $S$, so the route cannot split into an unstated precision ledger.
+
+The readback and completion handoffs are downstream. The row $R$ reads only the displayed StreamName window opened by $S$, and $B$ reads only the majorant, tolerance, window, and readback rows before exposing the completion-facing Cauchy boundary.
+
+Finally, $E,H,C,P,N$ seal, transport, replay, and name the same route. Since the excluded objects are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy majorant series tail control]
+\label{thm:cauchy-majorant-series-tail-control}
+Every Real or Completion consumer that reads an accepted $\CauchyMajorantSeriesUp$ carrier must factor its tail-control request through the finite route
+$$
+A \longmapsto D \longmapsto S \longmapsto R \longmapsto B \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a displayed majorant schedule, dyadic tolerance scale, finite StreamName window, RegSeqRat readback, Bishop regular Cauchy completion boundary, terminal Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The consumer receives no quotient stream equality, selected limit, countable-choice schedule, host real equality, trichotomy principle, ambient $\RealUp$ completeness theorem, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $M=(A,D,S,R,B,E,H,C,P,N)$. The only row carrying tail-control data is the majorant schedule $A$, and the only row carrying the precision budget for that schedule is $D$.
+
+The finite observation route is forced by the tuple order. The StreamName row $S$ opens the scheduled window, the RegSeqRat row $R$ reads back that window, and the Bishop regular Cauchy completion row $B$ records the completion-facing boundary after both rows are visible.
+
+The Real or Completion consumer reaches the terminal seal only through $E$ and then through the structural rows $H,C,P,N$. These rows preserve and replay the displayed route; they do not add quotient stream equality, a selected limit, countable choice, host real equality, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyMajorantSeriesUp$ tail-control read factors through one majorant schedule row, one DyadicToleranceScale row, one StreamName finite window, one RegSeqRat readback row, one BishopRegularCauchyCompletion boundary row, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadic-tolerance-scale, streamname, regseqrat, bishop-regular-cauchy-completion, real: $\CauchyMajorantSeriesUp$ is not bijective to any listed sibling because it jointly carries a majorant partial-sum schedule, a dyadic tolerance scale, the finite observation window, the regular rational readback, and the completion-facing tail boundary read by Real and Completion consumers.}
+
+\closureat{CauchyMajorantSeriesUp}{seedStr}
+
+\begin{closurestatus}{\CauchyMajorantSeriesUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-majorant-series-carrier}, \autoref{thm:cauchy-majorant-series-namecert-obligations}, and \autoref{thm:cauchy-majorant-series-tail-control} seed the finite majorant-series route from a displayed majorant schedule through dyadic tolerance scale, StreamName finite window, RegSeqRat readback, Bishop regular Cauchy completion boundary, Real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, schedule exactness, tolerance compatibility, readback handoff, completion-boundary handoff, Real-seal non-escape, transport, replay, provenance, and tail-control factorization for BEDC.Derived.CauchyMajorantSeriesUp.}
+  \constructivestory{A $\CauchyMajorantSeriesUp$ packet is generated from one majorant schedule row, one DyadicToleranceScale row, one StreamName finite window, one RegSeqRat readback row, one BishopRegularCauchyCompletion boundary row, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

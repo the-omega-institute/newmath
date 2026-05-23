@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRateLatticeUp$}
+\label{ch:concrete-instances-cauchy-rate-lattice-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyRateLatticeUp$ packet records the finite meet and join surface for Cauchy-rate schedules before any Real or completion consumer may read a terminal seal. It sits over the displayed domination route of \autoref{ch:concrete-instances-cauchy-rate-dominance-namecert}, the shared-bound interface of \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}, the uniform schedule surface of \autoref{ch:concrete-instances-uniform-cauchy-modulus-namecert}, the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later Real and Completion certificates one finite lattice carrier for comparing and combining displayed Cauchy-rate schedules.
+
+\begin{definition}[Cauchy rate lattice carrier]
+\label{def:cauchy-rate-lattice-carrier}
+A $\CauchyRateLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+L=(A,B,M,J,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two source Cauchy-rate schedule rows whose precision requests, source thresholds, and monotone reuse entries are visible to the packet.
+\item $M$ is the meet or shared-bound row. It records the finite threshold cells that both source schedules may use as a common Cauchy window before a downstream read consumes either source.
+\item $J$ is the displayed join or dominating-rate row. It records the finite threshold cells that dominate both $A$ and $B$ on the same precision surface.
+\item $D$ is the pair of $\CauchyRateDominanceUp$ ledgers witnessing that $M$ is readable from the two sources and that $J$ dominates both source schedules through displayed comparison rows.
+\item $S$ is the selected $\StreamNameUp$ window family opened only at requests certified by $A,B,M,J,D$.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from the selected windows and the visible dyadic tolerance entries.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the source schedules, meet row, join row, dominance ledgers, selected windows, and regular readback have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two source schedules, meet row, join row, dominance ledgers, selected windows, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $A,B,M,J,D,S,R,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRateLatticeUp$, $\CauchyRateDominanceUp$, $\CauchyModulusMeetUp$, $\UniformCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRateLatticeUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose reads pass through these twelve rows. It has no coordinate for quotient stream equality, selected host limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyRateLatticeUp.CauchyRateLatticeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy rate lattice NameCert obligations]
+\label{thm:cauchy-rate-lattice-namecert-obligations}
+For every accepted $\CauchyRateLatticeUp$ carrier
+$$
+L=(A,B,M,J,D,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRateLatticeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two source schedules, meet row, join row, dominance ledgers, selected windows, regular readback, terminal seal, transport, replay, provenance, and local naming rows;
+\item meet ledger exactness, requiring $M$ to be read as the displayed shared-bound row licensed by the source schedules and the $\CauchyModulusMeetUp$ surface;
+\item join ledger exactness, requiring $J$ to be read as the displayed dominating-rate row whose comparisons to $A$ and $B$ pass through the $\CauchyRateDominanceUp$ ledgers in $D$;
+\item uniform-window compatibility, requiring selected windows in $S$ to be licensed by the same finite precision surface used by $M$, $J$, and the $\UniformCauchyModulusUp$ schedule row;
+\item componentwise transport, requiring $H$ to preserve $A,B,M,J,D,S,R,E,C,P,N$ together;
+\item non-escape, requiring the certificate to export no quotient stream equality, selected host limit, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No lattice obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyRateLatticeUp.CauchyRateLatticeCarrier\_namecert\_obligations}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-rate-lattice-carrier}. The projection exposes exactly two source schedules, one shared-bound row, one dominating-rate row, the dominance ledgers, the selected windows, the regular rational readback, the terminal seal, and the structural rows.
+
+The meet obligation is read first from $A$ and $B$. A precision request cites both source thresholds, then reads $M$ as the common row supplied by the CauchyModulusMeet surface. No downstream window is opened until this shared-bound row is visible.
+
+The join obligation is read through $J$ and $D$. The dominance ledgers in $D$ display the comparisons from both source schedules to the same dominating row, so a consumer cannot replace $J$ by a detached rate selector.
+
+Uniform-window compatibility follows from the displayed route. The selected windows in $S$ are downstream of $M,J,D$, and the uniform schedule row fixes the finite precision surface on which the meet and join are consumed. The readback row $R$ and terminal seal $E$ therefore see the same schedule surface.
+
+Finally, $H,C,P,N$ only transport, replay, source, and name the displayed packet. Since the carrier has no additional analytic coordinate, the local NameCert cannot export quotient stream equality, selected host limits, countable choice, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Cauchy rate lattice meet-join stability]
+\label{thm:cauchy-rate-lattice-meet-join-stability}
+Let
+$$
+L=(A,B,M,J,D,S,R,E,H,C,P,N)
+$$
+be an accepted $\CauchyRateLatticeUp$ carrier. Any Real-facing or completion-facing consumer that reads the meet row $M$ or the join row $J$ must factor through the same displayed source pair $A,B$, dominance ledger row $D$, selected-window row $S$, regular readback row $R$, and structural rows $H,C,P,N$. Thus the meet and join operations are stable under componentwise $\hsame$ transport and displayed $\Cont$ replay inside the packet.
+\end{theorem}
+\begin{proof}
+Begin with a consumer of $M$. By \autoref{thm:cauchy-rate-lattice-namecert-obligations}, the meet row is not an independent tail selector; it is read only after the source pair $A,B$ has been displayed and only through the shared-bound ledger.
+
+Now consider a consumer of $J$. The join row is likewise downstream of the same source pair, and its dominance evidence is stored in $D$. Hence the join read has no route that bypasses $A,B,D$.
+
+The selected-window and readback rows are common to both reads. Since $S$ is opened only after the meet, join, and dominance ledgers are visible, and since $R$ reads only those selected windows, both operations reach the endpoint through the same finite window and readback route.
+
+Transport stability is componentwise. The row $H$ preserves all carrier coordinates together, and $C$ replays only the displayed order from precision request to seal. Therefore both meet and join reads remain stable under the permitted $\hsame$ and $\Cont$ structure.
+\end{proof}
+
+\begin{theorem}[Cauchy rate lattice Real route]
+\label{thm:cauchy-rate-lattice-real-route}
+Every $\RealUp$ or completion-facing read out of an accepted $\CauchyRateLatticeUp$ carrier factors through the finite route
+$$
+\CauchyRateDominanceUp,\ \CauchyModulusMeetUp,\ \UniformCauchyModulusUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Equivalently, the read first consumes the two source schedules $A,B$, the meet row $M$, the join row $J$, the dominance ledgers $D$, the selected windows $S$, and the regular readback $R$, and only then reaches the terminal seal $E$ and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Take an endpoint-facing read admitted by the carrier. Projection of the carrier gives no direct coordinate from a precision request to $E$; the only endpoint route is through the displayed rows $A,B,M,J,D,S,R$.
+
+The meet and join rows determine the lattice surface. The meet row reads the common Cauchy window supplied by the shared-bound surface, while the join row reads the dominating schedule supplied by the dominance ledgers. The uniform modulus row fixes the common finite precision surface used by both.
+
+The selected windows and regular readback are then forced. The row $S$ opens only windows licensed by the displayed lattice rows, and $R$ reads those windows through the dyadic tolerance ledger before a $\RealUp$ seal can be consumed.
+
+Thus $E$ is reached only through the stated sequence of concrete surfaces. The remaining rows $H,C,P,N$ transport, replay, source, and name the same route, and no quotient stream, selected host limit, countable choice, trichotomy, ambient completeness, Lean verification, or bridge checker can be inserted.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyRateLatticeUp$ consumer that reaches a terminal $\RealUp$ seal without first reading the source Cauchy-rate schedules, the shared meet row, the displayed join row, the dominance ledgers, the finite $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ tolerance ledger, and the $\RegSeqRatUp$ readback refutes the carrier surface.}
+
+\independenceWitness{cauchy-rate-dominance, cauchymodulusmeet, uniform-cauchy-modulus, streamname, dyadicratcore, regseqrat, real: no listed sibling supplies the whole twelve-row packet $L=(A,B,M,J,D,S,R,E,H,C,P,N)$, because each sibling contributes only domination, shared-bound, uniform-schedule, window, tolerance, readback, or seal data while this chapter binds meet, join, transport, replay, provenance, and local naming into one finite carrier.}
+
+\closureat{CauchyRateLatticeUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRateLatticeUp}
+  \constructivestory{A $\CauchyRateLatticeUp$ packet is generated from two source Cauchy-rate schedules, a displayed meet row, a displayed join row, dominance ledgers, selected StreamName windows, DyadicRatCore tolerance entries, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-rate-lattice-carrier}, \autoref{thm:cauchy-rate-lattice-namecert-obligations}, \autoref{thm:cauchy-rate-lattice-meet-join-stability}, and \autoref{thm:cauchy-rate-lattice-real-route} seed the finite meet and join surface for Cauchy-rate schedules through the Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, meet ledger exactness, join ledger exactness, uniform-window compatibility, componentwise transport, non-escape, meet-join stability, and Real route factorization for BEDC.Derived.CauchyRateLatticeUp.}
+\end{closurestatus}

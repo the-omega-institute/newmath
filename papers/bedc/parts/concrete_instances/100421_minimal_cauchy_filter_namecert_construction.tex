@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\MinimalCauchyFilterUp$}
+\label{ch:concrete-instances-minimal-cauchy-filter-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, and Kelley on filter bases, the $\MinimalCauchyFilterUp$ packet records the finite boundary at which a Cauchy filterbase is trimmed to the rows actually consumed by regular rational and Real-facing names. It reads the directed Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the regular handoff of \autoref{ch:concrete-instances-regularcauchyfilter-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a human-known L10 Real and Completion route object: it names a minimal finite Cauchy-filter basis before regular rational and Real-seal consumers read it, without adding quotient filters, selected limits, countable choice, host equality, or ambient completeness for $\RealUp$.
+
+\begin{definition}[MinimalCauchyFilter carrier]\label{def:minimal-cauchy-filter-carrier}
+A $\MinimalCauchyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(F,S,R,T,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the accepted $\CauchyFilterUp$ finite-filterbase row, including the displayed base packets, refinement rows, Cauchy-modulus row, ledger rows, and provenance boundary.
+\item $S$ is the minimal support row. For every base packet in $F$ that is read by a downstream regular-rational or Real-facing consumer, $S$ records the retained tail window and its inclusion into $F$; for every unread base packet, $S$ records that no downstream read cites it.
+\item $R$ is the $\RegularCauchyFilterUp$ handoff row obtained from the retained support, not from the whole ambient filterbase.
+\item $T$ is the finite $\StreamNameUp$ schedule listing exactly the retained tail windows requested from $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger on the same retained windows, with endpoints, radii, comparison rows, and refinement bounds visible in the packet.
+\item $E$ is the $\RealUp$ seal row reached only after $F,S,R,T,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source filterbase, minimal support, regular handoff, stream schedule, dyadic ledger, Real seal, and structural rows.
+\item $C$ records displayed $\Cont$ replay from source refinements to retained support rows, from retained support rows to stream windows and dyadic tolerances, and from the regular handoff to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterUp$, $\MinimalCauchyFilterUp$, $\RegularCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MinimalCauchyFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,S,R,T,D,E,H,C,P,N$. It has no coordinate for quotient filters, selected limits, countable-choice selectors, host equality, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.MinimalCauchyFilterUp.TasteGate.MinimalCauchyFilterUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[MinimalCauchyFilter NameCert obligations]\label{thm:minimal-cauchy-filter-namecert-obligations}
+For every accepted $\MinimalCauchyFilterUp$ carrier $Q=(F,S,R,T,D,E,H,C,P,N)$, the local $\NameCert_{\MinimalCauchyFilterUp}$ surface consists exactly of:
+\begin{enumerate}
+\item carrier admission for the displayed ten-row packet;
+\item CauchyFilter source exposure through $F$ and its finite filterbase rows;
+\item minimal support exposure through $S$, retaining precisely the base packets cited by downstream regular-rational or Real-facing reads;
+\item StreamName and DyadicRatCore readback through $T$ and $D$ on the retained windows;
+\item regular handoff through $R$ after the retained support has been displayed;
+\item Real seal handoff through $E$ after $F,S,R,T,D$ have been read;
+\item componentwise transport, continuation replay, package provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No NameCert obligation may be discharged by a quotient filter, selected limit, countable choice, host equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:minimal-cauchy-filter-carrier}. The rows $F,S,R,T,D,E,H,C,P,N$ are the only coordinates available to the local classifier.
+
+The source side is inherited from \autoref{ch:concrete-instances-cauchyfilter-namecert}. Its finite base packets, refinement rows, Cauchy-modulus row, ledger rows, and provenance boundary enter the packet as $F$.
+
+The minimality step is the row $S$. It records exactly which base packets are read by the downstream regular-rational and Real-facing route, and it records non-use for the remaining displayed base packets without deleting the source CauchyFilter row.
+
+The handoff rows close the obligation surface. The schedule $T$ and tolerance ledger $D$ are read only on retained windows, $R$ is obtained from that retained support, and $E$ is downstream from $F,S,R,T,D$. Since the excluded principles are absent from the carrier, the seven listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MinimalCauchyFilter regular handoff]\label{thm:minimal-cauchy-filter-regular-handoff}
+Let $Q=(F,S,R,T,D,E,H,C,P,N)$ be an accepted $\MinimalCauchyFilterUp$ packet. Every $\RegularCauchyFilterUp$ read exported by $Q$ factors through the retained support route
+$$
+\CauchyFilterUp \longmapsto \MinimalCauchyFilterUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RegularCauchyFilterUp .
+$$
+Concretely, the consumer reads $F$, then the support row $S$, then the retained stream schedule $T$ and dyadic ledger $D$, and only then the regular handoff row $R$ with its transport, replay, provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Start with a $\RegularCauchyFilterUp$ read of $Q$. By \autoref{def:minimal-cauchy-filter-carrier}, the only regular handoff coordinate is $R$, and the carrier places $R$ downstream from the source filterbase $F$, minimal support $S$, stream schedule $T$, and dyadic ledger $D$.
+
+The first part of the route reads \autoref{ch:concrete-instances-cauchyfilter-namecert}. The row $F$ supplies finite base packets, refinement rows, Cauchy-modulus rows, ledger rows, and provenance; the row $S$ restricts downstream access to the support actually cited by the regular-rational consumer.
+
+The second part of the route reads \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert}. The schedule $T$ and ledger $D$ expose only retained windows, and the regular rational readback is the one used by $R$.
+
+Finally apply the regular-filter boundary of \autoref{ch:concrete-instances-regularcauchyfilter-namecert}. The rows $H,C,P,N$ transport, replay, package, and name the same route, so no second regular handoff can be read from an ambient filterbase.
+\end{proof}
+
+\begin{theorem}[MinimalCauchyFilter non-escape]\label{thm:minimal-cauchy-filter-nonescape}
+Every $\RegSeqRatUp$, $\RegularCauchyFilterUp$, or $\RealUp$ consumer of an accepted $\MinimalCauchyFilterUp$ carrier $Q=(F,S,R,T,D,E,H,C,P,N)$ reads only the displayed CauchyFilter source row, retained support row, StreamName schedule, DyadicRatCore tolerance ledger, regular handoff row, Real seal row, componentwise transport, continuation replay, provenance, and local NameCert row. The handoff exports no quotient filter, selected limit, countable choice, host equality, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the downstream rows from \autoref{def:minimal-cauchy-filter-carrier}. The only rows exposed to $\RegSeqRatUp$, $\RegularCauchyFilterUp$, or $\RealUp$ consumers are $F,S,R,T,D,E,H,C,P,N$.
+
+The regular-rational part is forced by the retained support. The row $S$ decides which base packets of $F$ are visible downstream, while $T$ and $D$ attach stream-window and dyadic-tolerance data only to those retained packets.
+
+The Real-facing part is downstream from the same support. The row $E$ is not an independent completeness assertion; it is reached after the CauchyFilter source, retained support, regular handoff, stream schedule, and dyadic ledger have already been displayed.
+
+The structural rows do not add hidden coordinates. They only transport, replay, package, and name the displayed data. Therefore a quotient filter, selected limit, countable-choice selector, host equality proof, or ambient $\RealUp$ completeness principle has no carrier row, continuation edge, or provenance slot from which to escape.
+\end{proof}
+
+\falsifiablePrediction{Every $\MinimalCauchyFilterUp$ regular or Real-facing read factors through a displayed CauchyFilter source row, retained support row, StreamName schedule, DyadicRatCore tolerance ledger, RegularCauchyFilter handoff, Real seal, transport, replay, provenance, and local naming.}
+
+\independenceWitness{cauchyfilter, regularcauchyfilter, streamname, regseqrat, dyadicratcore, real: $\MinimalCauchyFilterUp$ is not bijective to any listed sibling because it carries the retained-support boundary between a finite CauchyFilter source and the regular rational or Real-facing handoff.}
+
+\closureat{MinimalCauchyFilterUp}{seedStr}
+
+\begin{closurestatus}{\MinimalCauchyFilterUp}
+  \constructivestory{A $\MinimalCauchyFilterUp$ packet is generated from a displayed CauchyFilter finite-filterbase row, a retained support row, a RegularCauchyFilter handoff row, StreamName tail windows, a DyadicRatCore tolerance ledger, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:minimal-cauchy-filter-carrier}, \autoref{thm:minimal-cauchy-filter-namecert-obligations}, \autoref{thm:minimal-cauchy-filter-regular-handoff}, and \autoref{thm:minimal-cauchy-filter-nonescape} seed the finite retained-support boundary from Cauchy filterbase data to regular rational and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filters, selected limits, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, CauchyFilter source exposure, retained support exactness, StreamName and DyadicRatCore readback, regular handoff, Real seal handoff, transport and replay stability, and ledger non-escape for BEDC.Derived.MinimalCauchyFilterUp.}
+\end{closurestatus}

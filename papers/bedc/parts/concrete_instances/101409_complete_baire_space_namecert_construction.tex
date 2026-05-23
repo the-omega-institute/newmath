@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\CompleteBaireSpaceUp$}
+\label{ch:concrete-instances-complete-baire-space-namecert}
+\origin{human}
+
+Following Brouwer's spread semantics and the Baire-space practice of Troelstra--van Dalen and Bishop--Bridges, the $\CompleteBaireSpaceUp$ packet records the complete-prefix-stream object by finite prefix data rather than by a host sequence space. It refines the $\BaireSpaceUp$ carrier of \autoref{ch:concrete-instances-bairespace-namecert}, reads the prefix metric rows of $\BaireMetricUp$ from \autoref{ch:concrete-instances-bairemetric-namecert}, uses the finite-window interface of $\StreamNameUp$ in \autoref{ch:concrete-instances-streamname-namecert}, keeps rational readback on the $\RegSeqRatUp$ route of \autoref{ch:concrete-instances-regseqrat-namecert}, and exposes its completion boundary through $\UniformCompletionUp$ in \autoref{ch:concrete-instances-uniformcompletion-namecert} or $\HausdorffCompletionUp$ in \autoref{ch:concrete-instances-hausdorffcompletion-namecert}. The object is a concrete L10 completion surface for prefix streams; it is not countable choice, quotient equality of streams, a selected branch principle, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CompleteBaireSpace carrier]
+\label{def:complete-baire-space-carrier}
+A $\CompleteBaireSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+X=(B,M,S,R,L,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BaireSpaceUp$ finite prefix row, naming the inspected natural-number prefixes and their extension order.
+\item $M$ is the $\BaireMetricUp$ prefix-metric row, recording the finite common-prefix comparisons and dyadic radii used by the carrier.
+\item $S$ is the $\StreamNameUp$ finite-window row that schedules which prefix coordinates and metric comparisons are available to a consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same finite windows, dyadic radii, and prefix-metric comparisons.
+\item $L$ is the completion witness row, displayed as a $\UniformCompletionUp$ or $\HausdorffCompletionUp$ handoff for prefix-Cauchy streams and not as an ambient complete-space theorem.
+\item $T$ is the prefix-limit trace ledger, recording the finite route from compatible prefix windows through the metric rows and regular readback into the completion witness.
+\item $H$ records componentwise $\hsame$ transport for prefix data, metric rows, stream windows, readback rows, completion witnesses, trace rows, continuation rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay, so a consumer rereads $B,M,S,R,L,T,H,P,N$ without changing the prefix-stream packet.
+\item $P$ is the $\Pkg$ provenance over $\CompleteBaireSpaceUp$, $\BaireSpaceUp$, $\BaireMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\UniformCompletionUp$, $\HausdorffCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompleteBaireSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $B,M,S,R,L,T,H,C,P,N$. It has no coordinate for countable choice, quotient stream equality, a selected infinite branch, ambient Real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[CompleteBaireSpace NameCert obligations]
+\label{thm:complete-baire-space-namecert-obligations}
+For every accepted $\CompleteBaireSpaceUp$ carrier
+$$
+X=(B,M,S,R,L,T,H,C,P,N),
+$$
+the local $\NameCert_{\CompleteBaireSpaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the Baire prefix row, prefix metric row, stream-window row, regular rational readback, completion witness, trace ledger, transport, replay, provenance, and local naming;
+\item prefix-metric exactness, requiring every accepted comparison to read the same displayed $\BaireSpaceUp$ prefixes through the $\BaireMetricUp$ row $M$;
+\item window-readback exactness, requiring every consumer-visible prefix request to pass through the $\StreamNameUp$ row $S$ and then the $\RegSeqRatUp$ row $R$;
+\item completion-witness stability, requiring the prefix-Cauchy handoff to use only the displayed $\UniformCompletionUp$ or $\HausdorffCompletionUp$ row $L$ and trace ledger $T$;
+\item nonescape, excluding countable choice, quotient stream equality, selected branches, ambient Real completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No CompleteBaireSpace obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:complete-baire-space-carrier}. The accepted tuple displays exactly the prefix row, prefix metric row, finite stream-window row, regular rational readback, completion witness, trace ledger, transport, replay, provenance, and local name.
+
+Prefix-metric exactness is forced by $B$ and $M$. The only prefix data are stored in $B$, and the only comparison row is $M$, so every accepted metric comparison is a displayed common-prefix comparison of the same finite Baire-space packet.
+
+Window-readback exactness is forced by $S$ and $R$. A consumer first reads the scheduled finite prefix windows in $S$ and then reads the corresponding regular rational tolerance and radius comparisons in $R$.
+
+Completion-witness stability is the pair $L,T$. The completion row is displayed as a uniform or Hausdorff completion handoff for prefix-Cauchy streams, while the trace ledger records how finite compatible windows reach that handoff.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only the displayed packet. Since the excluded choice, quotient, selected-branch, and ambient completeness data are absent from the carrier inventory, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CompleteBaireSpace prefix-Cauchy limit extraction]
+\label{thm:complete-baire-space-prefix-cauchy-limit}
+Let $X=(B,M,S,R,L,T,H,C,P,N)$ be an accepted $\CompleteBaireSpaceUp$ carrier. Every prefix-Cauchy consumer read of $X$ extracts its completion-facing limit witness through the displayed route
+$$
+\BaireSpaceUp(B) \longrightarrow \BaireMetricUp(M) \longrightarrow \StreamNameUp(S) \longrightarrow \RegSeqRatUp(R) \longrightarrow L .
+$$
+The extraction uses finite compatible prefixes, prefix-metric comparisons, scheduled windows, and regular rational readback before reaching the completion witness. It does not use a selected infinite branch, quotient equality of streams, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with a prefix-Cauchy consumer read. By the carrier definition, the only source of stream data is the finite prefix row $B$, and the only metric evidence available for Cauchy comparison is the prefix-metric row $M$.
+
+The scheduled request is then read through $S$. This step restricts the consumer to the displayed finite StreamName window rather than to an arbitrary host stream of choices.
+
+The rational tolerance and radius readback is $R$. Thus the prefix-Cauchy claim is inspected only through the same finite windows and the same $\RegSeqRatUp$ regular readback row.
+
+Finally the completion witness is $L$, with $T$ recording the route from compatible prefix windows to that witness. Componentwise transport and replay in $H$ and $C$ preserve the same rows, while $P$ and $N$ bind provenance and local naming.
+
+No row in the packet contains a selected branch, quotient stream equality, countable choice, or ambient Real completeness theorem. Therefore every accepted limit extraction factors through the displayed prefix-Cauchy route.
+\end{proof}
+
+\begin{theorem}[CompleteBaireSpace Real-completion boundary]
+\label{thm:complete-baire-space-real-completion-boundary}
+For an accepted $\CompleteBaireSpaceUp$ carrier $X=(B,M,S,R,L,T,H,C,P,N)$, every Real or Completion consumer route is exhausted by the displayed prefix packet
+$$
+B,M,S,R,L,T,H,C,P,N .
+$$
+Such a consumer may inspect finite Baire prefixes, prefix-metric comparisons, StreamName windows, RegSeqRat readback, the displayed uniform or Hausdorff completion witness, componentwise transport, continuation replay, provenance, and local naming. It may not replace that route by countable choice, quotient streams, selected branches, hidden limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The Real and Completion-facing rows are $S,R,L,T$ together with the source prefix and metric rows $B,M$.
+
+The finite source route is fixed before completion is read. The carrier requires the consumer to see the Baire prefix row, then the prefix metric row, then the scheduled finite StreamName windows and RegSeqRat readback.
+
+The completion boundary is the displayed row $L$. It is either a uniform-completion or Hausdorff-completion handoff for the same prefix-Cauchy stream data, and $T$ records that finite route inside the packet.
+
+The remaining rows do not add analytic strength. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same prefix packet.
+
+Because no carrier coordinate stores countable choice, quotient stream equality, a selected branch, a hidden limit selector, or ambient $\RealUp$ completeness, every accepted Real or Completion consumer remains inside the displayed boundary.
+\end{proof}
+
+\falsifiablePrediction{Every $\CompleteBaireSpaceUp$ read factors through one finite $\BaireSpaceUp$ prefix row, one $\BaireMetricUp$ prefix-metric row, one $\StreamNameUp$ finite-window row, one $\RegSeqRatUp$ readback row, one displayed completion witness, one trace ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{bairespace, bairemetric, streamname, regseqrat, uniformcompletion, hausdorffcompletion: $\CompleteBaireSpaceUp$ is not bijective to any listed sibling because it jointly carries prefix-stream data, prefix-metric comparisons, finite window scheduling, regular rational readback, a completion witness, and a Real-completion refusal boundary as one local NameCert packet.}
+
+\closureat{CompleteBaireSpaceUp}{seedStr}
+
+\begin{closurestatus}{\CompleteBaireSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:complete-baire-space-carrier}, \autoref{thm:complete-baire-space-namecert-obligations}, \autoref{thm:complete-baire-space-prefix-cauchy-limit}, and \autoref{thm:complete-baire-space-real-completion-boundary} seed the complete prefix-stream route from Baire prefixes through prefix metrics, finite StreamName windows, RegSeqRat readback, displayed completion handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, quotient stream equality, selected branches, hidden limits, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-metric exactness, window-readback exactness, completion-witness stability, prefix-Cauchy limit extraction, and Real-completion boundary proofs for BEDC.Derived.CompleteBaireSpaceUp.}
+  \constructivestory{A $\CompleteBaireSpaceUp$ packet is generated from finite Baire prefix data, a BaireMetric prefix-metric row, StreamName finite windows, RegSeqRat readback, a UniformCompletionUp or HausdorffCompletionUp handoff, a trace ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

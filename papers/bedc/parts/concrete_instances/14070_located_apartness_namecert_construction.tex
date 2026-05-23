@@ -1,0 +1,140 @@
+\chapter{A Concrete Naming Certificate for $\LocatedApartnessUp$}
+\label{ch:concrete-instances-located-apartness-namecert}
+\origin{human}
+
+The $\LocatedApartnessUp$ packet is the Bishop--Bridges constructive-analysis
+handoff from located real data to positive apartness evidence. It sits between
+\autoref{ch:concrete-instances-locatedreal-namecert},
+\autoref{ch:concrete-instances-apartnessreal-namecert},
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert},
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}: the located endpoints supply
+finite windows and dyadic enclosures, and the apartness side receives only a
+positive finite gap row with visible BEDC provenance.
+
+\begin{definition}[LocatedApartness carrier]
+\label{def:located-apartness-carrier}
+A $\LocatedApartnessUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(L_0,L_1,S,R_0,R_1,D,G,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L_0$ and $L_1$ are two accepted $\LocatedRealUp$ source rows;
+\item $S$ is a shared $\StreamNameUp$ finite-window row on which both sources
+are read;
+\item $R_0$ and $R_1$ are the $\RegSeqRatUp$ readbacks of the two located
+sources over the shared window;
+\item $D$ is the pair of $\DyadicRatCoreUp$ endpoint ledgers projected from
+the two located packets;
+\item $G$ is a positive $\DyadicRatCoreUp$ gap row witnessing that the two
+projected endpoint ledgers are disjoint on the displayed window;
+\item $A$ is the $\ApartnessRealUp$ finite-window separation ledger receiving
+the endpoint rows, the positive gap row, the shared window, and the two
+readbacks;
+\item $H$ records componentwise $\hsame$ transport for the two located sources,
+the shared window, the readbacks, the dyadic endpoint ledgers, the positive gap
+row, and the apartness ledger;
+\item $C$ records the displayed $\Cont$ routes from located windows to
+regular-rational readbacks, dyadic endpoint rows, and the apartness ledger;
+\item $P$ is the $\Pkg$ provenance row over $\LocatedRealUp$,
+$\ApartnessRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$,
+$\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\LocatedApartnessUp}$ row.
+\end{enumerate}
+The classifier compares two carriers by transporting all listed rows
+componentwise and then requiring that the transported positive gap row repacks
+to the transported $\ApartnessRealUp$ finite-window separation ledger. No
+coordinate stores trichotomy, a total order, a quotient representative, a
+selected limit, completeness, or host real equality.
+\end{definition}
+
+\begin{theorem}[LocatedApartness NameCert obligation surface]
+\label{thm:located-apartness-namecert-obligation-surface}
+The local $\NameCert_{\LocatedApartnessUp}$ surface consists exactly of five
+rows:
+\begin{enumerate}
+\item carrier visibility: the packet of
+\autoref{def:located-apartness-carrier} displays both $\LocatedRealUp$ source
+rows, the shared $\StreamNameUp$ window, the $\RegSeqRatUp$ readbacks, the
+$\DyadicRatCoreUp$ endpoint ledgers, the positive gap row, and the
+$\ApartnessRealUp$ ledger;
+\item classifier transport: accepted packets compare only by componentwise
+$\hsame$ transport and displayed $\Cont$ replay of those same rows;
+\item gap-row stability: the positive $\DyadicRatCoreUp$ gap row remains
+attached to the transported endpoint ledgers and the transported shared
+window;
+\item ledger exactness: the apartness ledger is exactly the finite-window
+separation row determined by the two endpoint rows, the positive gap, the
+shared window, and the two readbacks;
+\item no-trichotomy and no-quotient boundary: the packet exports no classical
+trichotomy, total order, quotient real representative, selected limit,
+completion datum, or host equality row.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.LocatedApartnessUp.LocatedApartnessTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier through \autoref{def:located-apartness-carrier}. The first
+row exposes both located sources, and the next four rows expose the common
+finite window, the two regular-rational readbacks, the dyadic endpoint
+ledgers, and the positive gap row.
+
+Classifier transport is componentwise. The $\hsame$ and $\Cont$ rows move the
+two located packets, the shared window, the readbacks, the endpoint ledgers,
+and the positive gap together, so the transported packet has the same visible
+shape.
+
+Gap-row stability and ledger exactness are then the same check at the
+apartness boundary: the transported positive gap is attached to the transported
+endpoint ledgers and repacked as the $\ApartnessRealUp$ finite-window
+separation ledger.
+
+The remaining boundary is negative. Since the carrier contains no coordinate
+for trichotomy, total order, quotient representatives, selected limits,
+completion, or host equality, no NameCert row can export any of those data.
+\end{proof}
+
+\begin{theorem}[LocatedApartness gap handoff]
+\label{thm:located-apartness-gap-handoff}
+Let $L_0$ and $L_1$ be transported $\LocatedRealUp$ packets over a shared
+$\StreamNameUp$ finite window. If their $\RegSeqRatUp$ readbacks and
+$\DyadicRatCoreUp$ endpoint ledgers display a positive dyadic gap row on that
+window, then the two endpoint rows, the positive gap, the shared window, the
+two readbacks, and the visible provenance repack as an $\ApartnessRealUp$
+finite-window separation row.
+
+Consequently the located pair crosses the L10 handoff as finite positive-gap
+evidence, not as trichotomy of constructive reals, a total order, a quotient
+real comparison, a selected representative, or a completion principle.
+\end{theorem}
+\begin{proof}
+Project $L_0$ and $L_1$ through the $\LocatedRealUp$ carrier surface. The
+projection exposes their regular-rational source rows, their finite schedules,
+their dyadic endpoint ledgers, and the provenance rows used to read those data.
+
+Use the transported shared $\StreamNameUp$ window to align the two projections.
+The two $\RegSeqRatUp$ readbacks now live over the same finite observation
+surface, and the dyadic endpoint rows are the endpoint ledgers displayed by the
+two located packets.
+
+Attach the positive $\DyadicRatCoreUp$ gap row to these aligned endpoint
+ledgers. This forms the tuple named in the $\ApartnessRealUp$ finite-window
+separation row: two endpoint rows, one positive radius or gap row, one shared
+window, two readbacks, and the visible separation ledger.
+
+Repack that tuple as the apartness ledger coordinate $A$ of
+\autoref{def:located-apartness-carrier}. The repacking uses only the displayed
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+provenance, so no excluded classical or quotient datum enters the handoff.
+\end{proof}
+
+\begin{closurestatus}{\LocatedApartnessUp}
+  \constructivestory{A $\LocatedApartnessUp$ packet is generated from two located real source rows, a shared finite observation window, two regular-rational readbacks, dyadic endpoint ledgers, one positive dyadic gap row, an apartness separation ledger, componentwise transport, displayed continuation routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-apartness-carrier}, \autoref{thm:located-apartness-namecert-obligation-surface}, and \autoref{thm:located-apartness-gap-handoff} name the seed carrier, obligation rows, and finite positive-gap handoff between located real packets and apartness evidence.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim trichotomy of constructive reals, total order, quotient real representatives, selected limits, completeness, or a standard bridge.}
+  \upgradepath{To reach obligationClosure, the carrier, five obligation rows, and gap handoff must be checked as finite BEDC packet obligations.}
+\end{closurestatus}

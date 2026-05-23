@@ -86,4 +86,31 @@ theorem CauchyModulusExtractionCarrier_namecert_obligations [AskSetup] [PackageS
       consumerUnary, toleranceBudgetWindows, windowsScheduleModulus, scheduleDyadicConsumer,
       provenancePkg, consumerPkg, cert⟩
 
+theorem CauchyModulusExtractionCarrier_dyadic_ledger_positivity [AskSetup] [PackageSetup]
+    {tolerance budget windows schedule modulus dyadic transport route provenance cert
+      threshold : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusExtractionCarrier tolerance budget windows schedule modulus dyadic transport
+        route provenance cert bundle pkg ->
+      Cont modulus dyadic threshold ->
+        PkgSig bundle threshold pkg ->
+          UnaryHistory modulus ∧ UnaryHistory dyadic ∧ UnaryHistory transport ∧
+            UnaryHistory threshold ∧ hsame transport threshold ∧
+              Cont modulus dyadic transport ∧ Cont modulus dyadic threshold ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle threshold pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle hsame UnaryHistory
+  intro carrier modulusDyadicThreshold thresholdPkg
+  obtain ⟨_toleranceUnary, _budgetUnary, _windowsUnary, _scheduleUnary, modulusUnary,
+    dyadicUnary, transportUnary, _routeUnary, _provenanceUnary, _certUnary,
+    _toleranceBudgetWindows, _windowsScheduleModulus, modulusDyadicTransport,
+    _transportRouteProvenance, provenancePkg⟩ := carrier
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed modulusUnary dyadicUnary modulusDyadicThreshold
+  have sameTransportThreshold : hsame transport threshold :=
+    cont_respects_hsame (hsame_refl modulus) (hsame_refl dyadic) modulusDyadicTransport
+      modulusDyadicThreshold
+  exact
+    ⟨modulusUnary, dyadicUnary, transportUnary, thresholdUnary, sameTransportThreshold,
+      modulusDyadicTransport, modulusDyadicThreshold, provenancePkg, thresholdPkg⟩
+
 end BEDC.Derived.CauchyModulusExtractionUp

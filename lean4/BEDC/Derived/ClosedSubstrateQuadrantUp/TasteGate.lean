@@ -202,7 +202,7 @@ private theorem closedSubstrateQuadrantToEventFlow_injective
     (Eq.trans (closedSubstrateQuadrant_round_trip x).symm
       (Eq.trans hread (closedSubstrateQuadrant_round_trip y)))
 
-private def closedSubstrateQuadrantFields :
+def closedSubstrateQuadrantFields :
     ClosedSubstrateQuadrantUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness transports
@@ -276,5 +276,39 @@ theorem ClosedSubstrateQuadrantTasteGate_single_carrier_alignment :
   exact
     ⟨⟨closedSubstrateQuadrantChapterTasteGate⟩, ⟨closedSubstrateQuadrantFieldFaithful⟩,
       ⟨closedSubstrateQuadrantNontrivial⟩, closedSubstrateQuadrant_decode_encode_bhist, rfl⟩
+
+theorem ClosedSubstrateQuadrantCarrier_namecert_obligations
+    (x : ClosedSubstrateQuadrantUp) :
+    FieldFaithful.fields x = closedSubstrateQuadrantFields x ∧
+      BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+        ∃ substrate universality closure quadrant witness transports routes provenance
+            nameCert : BHist,
+          x =
+              ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness
+                transports routes provenance nameCert ∧
+            closedSubstrateQuadrantFields x =
+              [substrate, universality, closure, quadrant, witness, transports, routes,
+                provenance, nameCert] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk substrate universality closure quadrant witness transports routes provenance nameCert =>
+      constructor
+      · rfl
+      · constructor
+        · change
+            closedSubstrateQuadrantFromEventFlow
+              (closedSubstrateQuadrantToEventFlow
+                (ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness
+                  transports routes provenance nameCert)) =
+              some
+                (ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness
+                  transports routes provenance nameCert)
+          exact
+            closedSubstrateQuadrant_round_trip
+              (ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness
+                transports routes provenance nameCert)
+        · exact
+            ⟨substrate, universality, closure, quadrant, witness, transports, routes,
+              provenance, nameCert, rfl, rfl⟩
 
 end BEDC.Derived.ClosedSubstrateQuadrantUp

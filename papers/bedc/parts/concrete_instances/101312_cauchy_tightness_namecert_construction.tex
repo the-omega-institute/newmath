@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTightnessUp$}
+\label{ch:concrete-instances-cauchy-tightness-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyTightnessUp$ packet names the finite tight-tail route by which a Cauchy read becomes tight enough for the Real and Completion phase. It sits after the tail-basis route of \autoref{ch:concrete-instances-cauchy-tail-basis-namecert}, the convergence-criterion route of \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Cauchy limit seal of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+The packet is a finite tightness certificate rather than a completeness principle. It records the tail-basis, convergence-criterion, threshold, dyadic, readback, limit-seal, Real-seal, transport, replay, provenance, and local NameCert rows that a downstream consumer must read before treating a Cauchy tail as tight.
+
+\begin{definition}[Cauchy tightness carrier]
+\label{def:cauchy-tightness-carrier}
+A $\CauchyTightnessUp$ carrier is a finite $\BHist$ packet
+$$
+T=(B,G,M,D,R,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\CauchyTailBasisUp$ row, displaying the finite tail requests, refinements, and common-tail basis meets through which tightness may be inspected.
+\item $G$ is the $\CauchyConvergenceCriterionUp$ row, displaying the criterion that converts the admitted tail-basis requests into convergence-facing tolerance reads.
+\item $M$ is the $\CauchyModulusUp$ row, or the equivalent finite tail-threshold data, assigning each dyadic tolerance request a displayed threshold over $B$ and $G$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the same threshold and tail-basis reads.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained only from the displayed $B,G,M,D$ surface.
+\item $L$ is the $\CauchyLimitSealUp$ compatibility row consuming the same tail, criterion, threshold, dyadic, and readback route.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $B,G,M,D,R,L$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tail-basis, convergence-criterion, threshold, dyadic-ledger, readback, limit-seal, Real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each tightness request through $B,G,M,D,R,L,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTightnessUp$, $\CauchyTailBasisUp$, $\CauchyConvergenceCriterionUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTightnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,G,M,D,R,L,E,H,C,P,N$. The carrier contains no quotient stream equality, selected limit, countable-choice selector, host real equality row, trichotomy row, open-cover compactness row, ambient $\RealUp$ completeness datum, Lean verification credential, or standard bridge.
+\end{definition}
+
+\begin{theorem}[Cauchy tightness NameCert obligations]
+\label{thm:cauchy-tightness-namecert-obligations}
+For every accepted $\CauchyTightnessUp$ carrier $T=(B,G,M,D,R,L,E,H,C,P,N)$, the local $\NameCert_{\CauchyTightnessUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed tail-basis row, convergence-criterion row, threshold row, dyadic tolerance ledger, regular rational readback, Cauchy limit seal, Real seal, transport, replay, provenance, and local naming row;
+\item criterion-to-tail compatibility, requiring every convergence-criterion request in $G$ to be read only through the admitted tail-basis row $B$;
+\item tail-basis handoff, requiring each tightness read to factor through $B$ and $G$ before any threshold, dyadic ledger, regular readback, limit seal, or Real seal is exposed;
+\item readback exactness, requiring $R$ to be obtained from the same $B,G,M,D$ surface and from no second stream representative;
+\item limit-seal compatibility, requiring $L$ to consume exactly the displayed tail, criterion, threshold, dyadic, and readback rows;
+\item Real-seal nonescape, requiring $E$ to remain downstream of $B,G,M,D,R,L$;
+\item ledger nonescape, requiring $H,C,P,N$ to transport, replay, source, and name no quotient stream, selected limit, countable-choice selector, host real equality row, trichotomy row, open-cover compactness row, ambient $\RealUp$ completeness datum, Lean verification credential, or bridge credential.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-tightness-carrier}. The accepted packet displays exactly the tail-basis, convergence-criterion, threshold, dyadic-ledger, regular-readback, Cauchy-limit-seal, Real-seal, and structural rows.
+
+Criterion-to-tail compatibility follows from the placement of $G$ after $B$. A convergence-criterion request can be replayed only against the admitted tail-basis row already displayed by the carrier.
+
+The handoff and readback clauses are then route projections. The tightness request reads $B$ and $G$ first, then the threshold row $M$ and dyadic ledger $D$, and only then the regular rational readback $R$.
+
+Limit-seal compatibility and Real-seal nonescape are downstream projections. The rows $L$ and $E$ have no independent source; each consumes the same $B,G,M,D,R$ surface.
+
+Finally, $H,C,P,N$ preserve, replay, source, and name this displayed packet. Since the accepted carrier has no coordinate outside $B,G,M,D,R,L,E,H,C,P,N$, the listed obligation rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy tightness tail-basis handoff]
+\label{thm:cauchy-tightness-tail-basis-handoff}
+Every accepted $\CauchyTightnessUp$ carrier $T=(B,G,M,D,R,L,E,H,C,P,N)$ factors each tightness read through the finite route
+$$
+B \longmapsto G \longmapsto M \longmapsto D \longmapsto R \longmapsto L \longmapsto E
+$$
+before any Real-facing consumer can use the terminal seal. Thus a tightness read first passes through $\CauchyTailBasisUp$ and $\CauchyConvergenceCriterionUp$, then through $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$, without detaching a quotient stream, selected limit, countable-choice selector, host real equality comparison, trichotomy decision, open-cover compactness object, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $T=(B,G,M,D,R,L,E,H,C,P,N)$. Projection gives the tail-basis row $B$ as the first tightness surface.
+
+The convergence row $G$ is read next. It supplies the criterion-facing interpretation of the same tail requests, so no threshold or dyadic ledger can be inspected before the tail-basis and criterion rows are fixed.
+
+The route then exposes $M,D,R,L,E$ in order. The threshold row $M$ and dyadic ledger $D$ support the regular readback $R$, the Cauchy limit seal $L$ consumes that same readback route, and the Real seal $E$ is downstream of $L$.
+
+The structural rows $H,C,P,N$ do not change the order. They transport, replay, source, and name the displayed chain, so every tightness read factors through the stated route and no excluded coordinate is available.
+\end{proof}
+
+\closureat{CauchyTightnessUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTightnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tightness-carrier}, \autoref{thm:cauchy-tightness-namecert-obligations}, and \autoref{thm:cauchy-tightness-tail-basis-handoff} seed the finite tight-tail route through $\CauchyTailBasisUp$, $\CauchyConvergenceCriterionUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host real equality, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, criterion-to-tail compatibility, tail-basis handoff, readback exactness, CauchyLimitSeal compatibility, Real-seal nonescape, and ledger nonescape for BEDC.Derived.CauchyTightnessUp.}
+  \constructivestory{A $\CauchyTightnessUp$ packet is generated from a CauchyTailBasis row, a CauchyConvergenceCriterion row, a CauchyModulus or finite threshold row, a DyadicRatCore tolerance ledger, RegSeqRat readback, a CauchyLimitSeal compatibility row, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

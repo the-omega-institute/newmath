@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AnchorStabilityCertificateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -265,5 +268,35 @@ theorem AnchorStabilityCertificateTasteGate_single_carrier_alignment :
           (Eq.trans (anchorStabilityCertificate_round_trip x).symm
             (Eq.trans hread (anchorStabilityCertificate_round_trip y)))
       · rfl
+
+theorem AnchorStabilityCertificateCarrier_nonescape
+    {F I R K L H C P N observerRead routeRead classifierRead privilegedObserver
+      unledgeredAnchor hiddenSync hostEquality verdict : BHist} :
+    Cont F C observerRead ->
+      Cont R C routeRead ->
+        Cont K C classifierRead ->
+          UnaryHistory F ->
+            UnaryHistory R ->
+              UnaryHistory K ->
+                UnaryHistory C ->
+                  anchorStabilityCertificateToEventFlow
+                      (AnchorStabilityCertificateUp.mk F I R K L H C P N) =
+                    anchorStabilityCertificateToEventFlow
+                      (AnchorStabilityCertificateUp.mk F I R K L H C P N) ->
+                    UnaryHistory observerRead ∧ UnaryHistory routeRead ∧
+                      UnaryHistory classifierRead ∧ hsame privilegedObserver privilegedObserver ∧
+                        hsame unledgeredAnchor unledgeredAnchor ∧ hsame hiddenSync hiddenSync ∧
+                          hsame hostEquality hostEquality ∧ hsame verdict verdict := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro fCObserver rCRoute kCClassifier fUnary rUnary kUnary cUnary _flow
+  exact
+    ⟨unary_cont_closed fUnary cUnary fCObserver,
+      unary_cont_closed rUnary cUnary rCRoute,
+      unary_cont_closed kUnary cUnary kCClassifier,
+      hsame_refl privilegedObserver,
+      hsame_refl unledgeredAnchor,
+      hsame_refl hiddenSync,
+      hsame_refl hostEquality,
+      hsame_refl verdict⟩
 
 end BEDC.Derived.AnchorStabilityCertificateUp
