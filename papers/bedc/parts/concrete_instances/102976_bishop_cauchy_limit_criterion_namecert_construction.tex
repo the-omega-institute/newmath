@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyLimitCriterionUp$}
+\label{ch:concrete-instances-bishop-cauchy-limit-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopCauchyLimitCriterionUp$ packet records the finite criterion by which a displayed rational Cauchy name reaches the real-name seal after its modulus data, regular readback, dyadic tolerance rows, and fast-convergent handoff have all been exposed. It sits after the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the choice-free modulus surface of \autoref{ch:concrete-instances-cauchy-modulus-choice-namecert}, the fast real-sequence handoff of \autoref{ch:concrete-instances-fast-convergent-real-sequence-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a Bishop-style Cauchy-to-real handoff criterion; it is not a selected limit, quotient equality of Cauchy streams, countable choice, host real completeness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop Cauchy limit criterion carrier]
+\label{def:bishop-cauchy-limit-criterion-carrier}
+A $\BishopCauchyLimitCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,D,M,F,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window row, carrying the finite observation windows and precision requests opened by the Cauchy read.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows in $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording endpoint observations, requested radii, split tolerances, slack cells, and comparison budgets for the readback.
+\item $M$ is the Cauchy-modulus row read through $\CauchyModulusChoiceUp$; it may be either the displayed selected modulus row or its selected normal-form representative, but in both cases the selected threshold is available only through the finite route named by \autoref{ch:concrete-instances-cauchy-modulus-choice-namecert}.
+\item $F$ is the $\FastConvergentRealSequenceUp$ handoff row that packages the same windows, readbacks, dyadic tolerances, and modulus threshold as a rate-bearing real-sequence route.
+\item $E$ is the terminal $\RealUp$ seal row, reachable only after $S,R,D,M,F$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the window, readback, tolerance, modulus, fast-sequence handoff, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S \longmapsto R \longmapsto D \longmapsto M \longmapsto F \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyLimitCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyModulusChoiceUp$, $\FastConvergentRealSequenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyLimitCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,M,F,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected real limit, countable choice, host real completeness, detached convergence, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy limit criterion NameCert obligations]
+\label{thm:bishop-cauchy-limit-criterion-namecert-obligations}
+For every accepted $\BishopCauchyLimitCriterionUp$ carrier
+$$
+K=(S,R,D,M,F,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopCauchyLimitCriterionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, CauchyModulusChoice row, FastConvergentRealSequence handoff, Real seal, transport, replay, provenance, and local naming row;
+\item window-readback exactness, requiring $R$ to read only the finite windows displayed by $S$;
+\item tolerance exactness, requiring $D$ to display the requested radii, split tolerances, endpoint observations, slack cells, and comparison budgets before any modulus or fast-sequence consumer reads the route;
+\item modulus-selection nonescape, requiring $M$ to be read through the $\CauchyModulusChoiceUp$ route rather than through countable choice or an external selector;
+\item fast-sequence compatibility, requiring $F$ to bind the same $S,R,D,M$ rows before the terminal real-name seal is available;
+\item Real seal nonescape, requiring $E$ to be downstream of $S,R,D,M,F$ and to export no quotient stream, selected limit, detached convergence theorem, host real completeness, or ambient $\RealUp$ completeness;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed route.
+\end{enumerate}
+No Bishop Cauchy limit criterion obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-cauchy-limit-criterion-carrier}. The accepted packet displays exactly the window row, regular readback, dyadic tolerance ledger, modulus-choice row, fast-sequence handoff, real seal, and the structural rows.
+
+Window-readback exactness is read from $S$ and $R$. The regular rational readback is attached to the displayed finite windows, so no quotient stream representative is introduced.
+
+Tolerance exactness is the role of $D$. Its dyadic radii, slack cells, endpoint observations, and comparison budgets are displayed before the modulus row or the fast-sequence handoff may be consumed.
+
+The modulus-selection condition is local to $M$. Since $M$ is read through the $\CauchyModulusChoiceUp$ route, the selected threshold is a named finite row rather than an external choice function.
+
+The fast-sequence handoff is then $F$. It binds the same windows, readback, dyadic tolerance ledger, and modulus threshold before the terminal $\RealUp$ seal can be reached.
+
+Finally, $H,C,P,N$ add only transport, replay, provenance, and local naming. The carrier has no coordinate for quotient stream equality, selected limits, countable choice, detached convergence, host real completeness, or ambient completeness, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy limit criterion modulus seal]
+\label{thm:bishop-cauchy-limit-criterion-modulus-seal}
+Every accepted $\BishopCauchyLimitCriterionUp$ carrier
+$$
+K=(S,R,D,M,F,E,H,C,P,N)
+$$
+reads its Cauchy threshold through the displayed $\CauchyModulusChoiceUp$ row $M$ before any $\FastConvergentRealSequenceUp$ or $\RealUp$ consumer receives the route. Thus the criterion exposes a choice-free modulus seal
+$$
+S,R,D \longmapsto M \longmapsto F,E
+$$
+together with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier and project its rows. The Cauchy threshold row is $M$, while the observations and tolerances consumed by that threshold are $S,R,D$.
+
+By \autoref{thm:bishop-cauchy-limit-criterion-namecert-obligations}, $M$ is read only through the $\CauchyModulusChoiceUp$ route. Therefore the threshold exposed to downstream consumers is not obtained from countable choice or from a hidden selector.
+
+The fast-sequence handoff $F$ is downstream of the same modulus row. A $\FastConvergentRealSequenceUp$ consumer reads the rate-bearing route only after the windows, readback, tolerance ledger, and selected threshold have been displayed.
+
+The real seal $E$ is still later in the route. Structural transport, replay, provenance, and local naming preserve the same displayed rows, so the modulus seal remains choice-free at every consumer boundary.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy limit criterion Real handoff]
+\label{thm:bishop-cauchy-limit-criterion-real-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BishopCauchyLimitCriterionUp$ packet factors through the finite route
+$$
+S \longmapsto R \longmapsto D \longmapsto M \longmapsto F \longmapsto E \longmapsto H,C,P,N .
+$$
+The Real handoff is therefore a displayed path from StreamName windows through RegSeqRat readback, DyadicRatCore tolerances, the CauchyModulusChoice threshold, the FastConvergentRealSequence route, and the terminal Real seal. It exports no selected limit, quotient equality of Cauchy streams, countable choice, detached convergence, host real completeness, ambient $\RealUp$ completeness, Lean verification, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$ or completion-facing read of an accepted packet. Projection exposes the ordered carrier rows $S,R,D,M,F,E,H,C,P,N$.
+
+The readback row $R$ is downstream of the finite windows $S$, and the dyadic tolerance row $D$ is downstream of the same readback. Thus the consumer cannot start from an unbounded stream representative or a quotient equality class.
+
+The modulus seal theorem places $M$ before both the fast-sequence handoff and the terminal real seal. Hence the Cauchy-to-real route receives a displayed threshold before it can reach $F$ or $E$.
+
+The terminal row $E$ is the only $\RealUp$ seal coordinate in the packet. The structural rows preserve and name the same finite route, and the excluded principles are absent from the carrier. Therefore every Real or Completion consumer factors through the displayed handoff and receives none of the listed escape objects.
+\end{proof}
+
+\closureat{BishopCauchyLimitCriterionUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyLimitCriterionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-limit-criterion-carrier}, \autoref{thm:bishop-cauchy-limit-criterion-namecert-obligations}, \autoref{thm:bishop-cauchy-limit-criterion-modulus-seal}, and \autoref{thm:bishop-cauchy-limit-criterion-real-handoff} seed the choice-free Cauchy-to-Real route through StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, CauchyModulusChoice threshold data, FastConvergentRealSequence handoff, Real seal, transport, continuation, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient equality of Cauchy streams, countable choice, detached convergence, host real completeness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window-readback exactness, tolerance exactness, modulus-selection nonescape, fast-sequence compatibility, Real seal nonescape, and structural stability for BEDC.Derived.BishopCauchyLimitCriterionUp.}
+  \constructivestory{A $\BishopCauchyLimitCriterionUp$ packet is generated from StreamName windows, RegSeqRat readback, DyadicRatCore tolerance rows, a CauchyModulusChoice threshold row, a FastConvergentRealSequence handoff, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
