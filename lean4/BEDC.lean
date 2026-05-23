@@ -1201,6 +1201,7 @@ import BEDC.Derived.CauchySequenceSpaceUp.TerminalPullbackExactness
 import BEDC.Derived.CauchySequenceSpaceUp.UniformCriterionConsumption
 import BEDC.Derived.CauchySequenceSpaceUp.WindowFactorization
 import BEDC.Derived.CauchySharedTailModulusUp.TasteGate
+import BEDC.Derived.CauchySpaceUp
 import BEDC.Derived.CauchySpeedupUp
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchyTailComparisonUp
