@@ -25,7 +25,7 @@ def cauchySubsequenceExtractionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchySubsequenceExtractionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchySubsequenceExtractionDecodeBHist tail)
 
-private theorem CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode :
+private theorem CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       cauchySubsequenceExtractionDecodeBHist
         (cauchySubsequenceExtractionEncodeBHist h) = h := by
@@ -44,96 +44,123 @@ def cauchySubsequenceExtractionToEventFlow : CauchySubsequenceExtractionUp → E
   -- BEDC touchpoint anchor: BHist BMark
   | x => (cauchySubsequenceExtractionFields x).map cauchySubsequenceExtractionEncodeBHist
 
-private def cauchySubsequenceExtractionEventAt : Nat → EventFlow → RawEvent
+def cauchySubsequenceExtractionFromEventFlow :
+    EventFlow → Option CauchySubsequenceExtractionUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchySubsequenceExtractionEventAt index rest
+  | S :: restS =>
+      match restS with
+      | M :: restM =>
+          match restM with
+          | D :: restD =>
+              match restD with
+              | I :: restI =>
+                  match restI with
+                  | W :: restW =>
+                      match restW with
+                      | R :: restR =>
+                          match restR with
+                          | H :: restH =>
+                              match restH with
+                              | C :: restC =>
+                                  match restC with
+                                  | P :: restP =>
+                                      match restP with
+                                      | N :: rest =>
+                                          match rest with
+                                          | [] =>
+                                              some
+                                                (CauchySubsequenceExtractionUp.mk
+                                                  (cauchySubsequenceExtractionDecodeBHist S)
+                                                  (cauchySubsequenceExtractionDecodeBHist M)
+                                                  (cauchySubsequenceExtractionDecodeBHist D)
+                                                  (cauchySubsequenceExtractionDecodeBHist I)
+                                                  (cauchySubsequenceExtractionDecodeBHist W)
+                                                  (cauchySubsequenceExtractionDecodeBHist R)
+                                                  (cauchySubsequenceExtractionDecodeBHist H)
+                                                  (cauchySubsequenceExtractionDecodeBHist C)
+                                                  (cauchySubsequenceExtractionDecodeBHist P)
+                                                  (cauchySubsequenceExtractionDecodeBHist N))
+                                          | _ :: _ => none
+                                      | [] => none
+                                  | [] => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
+  | [] => none
 
-def cauchySubsequenceExtractionFromEventFlow (ef : EventFlow) :
-    Option CauchySubsequenceExtractionUp :=
+private theorem cauchySubsequenceExtraction_mk_congr
+    {S S' M M' D D' I I' W W' R R' H H' C C' P P' N N' : BHist}
+    (hS : S' = S) (hM : M' = M) (hD : D' = D) (hI : I' = I)
+    (hW : W' = W) (hR : R' = R) (hH : H' = H) (hC : C' = C)
+    (hP : P' = P) (hN : N' = N) :
+    CauchySubsequenceExtractionUp.mk S' M' D' I' W' R' H' C' P' N' =
+      CauchySubsequenceExtractionUp.mk S M D I W R H C P N := by
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (CauchySubsequenceExtractionUp.mk
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 0 ef))
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 1 ef))
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 2 ef))
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 3 ef))
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 4 ef))
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 5 ef))
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 6 ef))
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 7 ef))
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 8 ef))
-      (cauchySubsequenceExtractionDecodeBHist (cauchySubsequenceExtractionEventAt 9 ef)))
+  cases hS
+  cases hM
+  cases hD
+  cases hI
+  cases hW
+  cases hR
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
 
-private theorem CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_round_trip
-    (x : CauchySubsequenceExtractionUp) :
-    cauchySubsequenceExtractionFromEventFlow (cauchySubsequenceExtractionToEventFlow x) =
-      some x := by
+private theorem CauchySubsequenceExtractionTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : CauchySubsequenceExtractionUp,
+      cauchySubsequenceExtractionFromEventFlow
+        (cauchySubsequenceExtractionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk S M D I W R H C P N =>
-      change
-        some
-          (CauchySubsequenceExtractionUp.mk
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist S))
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist M))
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist D))
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist I))
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist W))
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist R))
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist H))
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist C))
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist P))
-            (cauchySubsequenceExtractionDecodeBHist
-              (cauchySubsequenceExtractionEncodeBHist N))) =
-          some (CauchySubsequenceExtractionUp.mk S M D I W R H C P N)
-      rw [CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode S,
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode M,
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode D,
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode I,
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode W,
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode R,
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode H,
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode C,
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode P,
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode N]
+      exact
+        congrArg some
+          (cauchySubsequenceExtraction_mk_congr
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode S)
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode M)
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode D)
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode I)
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode W)
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode R)
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode H)
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode C)
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode P)
+            (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode N))
 
-private theorem CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem cauchySubsequenceExtractionToEventFlow_injective
     {x y : CauchySubsequenceExtractionUp} :
     cauchySubsequenceExtractionToEventFlow x =
       cauchySubsequenceExtractionToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      cauchySubsequenceExtractionFromEventFlow (cauchySubsequenceExtractionToEventFlow x) =
-        cauchySubsequenceExtractionFromEventFlow (cauchySubsequenceExtractionToEventFlow y) :=
+      cauchySubsequenceExtractionFromEventFlow
+          (cauchySubsequenceExtractionToEventFlow x) =
+        cauchySubsequenceExtractionFromEventFlow
+          (cauchySubsequenceExtractionToEventFlow y) :=
     congrArg cauchySubsequenceExtractionFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
-      (CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
-        (CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_round_trip y)))
+        (CauchySubsequenceExtractionTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_fields :
+private theorem cauchySubsequenceExtraction_field_faithful :
     ∀ x y : CauchySubsequenceExtractionUp,
       cauchySubsequenceExtractionFields x = cauchySubsequenceExtractionFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk S1 M1 D1 I1 W1 R1 H1 C1 P1 N1 =>
+  | mk S M D I W R H C P N =>
       cases y with
-      | mk S2 M2 D2 I2 W2 R2 H2 C2 P2 N2 =>
+      | mk S' M' D' I' W' R' H' C' P' N' =>
           cases hfields
           rfl
 
@@ -148,56 +175,64 @@ instance cauchySubsequenceExtractionChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change cauchySubsequenceExtractionFromEventFlow
-      (cauchySubsequenceExtractionToEventFlow x) = some x
-    exact CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_round_trip x
+    change
+      cauchySubsequenceExtractionFromEventFlow
+        (cauchySubsequenceExtractionToEventFlow x) = some x
+    exact CauchySubsequenceExtractionTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (cauchySubsequenceExtractionToEventFlow_injective heq)
 
 instance cauchySubsequenceExtractionFieldFaithful :
     FieldFaithful CauchySubsequenceExtractionUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := cauchySubsequenceExtractionFields
-  field_faithful := CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_fields
+  field_faithful := cauchySubsequenceExtraction_field_faithful
 
 instance cauchySubsequenceExtractionNontrivial :
-    Nontrivial CauchySubsequenceExtractionUp where
+    BEDC.Meta.TasteGate.Nontrivial CauchySubsequenceExtractionUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CauchySubsequenceExtractionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      CauchySubsequenceExtractionUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
+    ⟨CauchySubsequenceExtractionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CauchySubsequenceExtractionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-def CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_taste_gate :
-    ChapterTasteGate CauchySubsequenceExtractionUp :=
+def taste_gate : ChapterTasteGate CauchySubsequenceExtractionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchySubsequenceExtractionChapterTasteGate
 
-theorem CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      cauchySubsequenceExtractionDecodeBHist
-        (cauchySubsequenceExtractionEncodeBHist h) = h) ∧
+theorem CauchySubsequenceExtractionTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate CauchySubsequenceExtractionUp) ∧
+      Nonempty (FieldFaithful CauchySubsequenceExtractionUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial CauchySubsequenceExtractionUp) ∧
+      (∀ h : BHist,
+        cauchySubsequenceExtractionDecodeBHist
+          (cauchySubsequenceExtractionEncodeBHist h) = h) ∧
       (∀ x : CauchySubsequenceExtractionUp,
         cauchySubsequenceExtractionFromEventFlow
           (cauchySubsequenceExtractionToEventFlow x) = some x) ∧
-        (∀ x y : CauchySubsequenceExtractionUp,
-          cauchySubsequenceExtractionToEventFlow x =
-            cauchySubsequenceExtractionToEventFlow y → x = y) ∧
-          cauchySubsequenceExtractionEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_decode_encode,
-      CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        CauchySubsequenceExtractionUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+      (∀ x y : CauchySubsequenceExtractionUp,
+        cauchySubsequenceExtractionToEventFlow x =
+          cauchySubsequenceExtractionToEventFlow y → x = y) ∧
+      cauchySubsequenceExtractionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ⟨cauchySubsequenceExtractionChapterTasteGate⟩
+  constructor
+  · exact ⟨cauchySubsequenceExtractionFieldFaithful⟩
+  constructor
+  · exact ⟨cauchySubsequenceExtractionNontrivial⟩
+  constructor
+  · exact CauchySubsequenceExtractionTasteGate_single_carrier_alignment_decode
+  constructor
+  · exact CauchySubsequenceExtractionTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact cauchySubsequenceExtractionToEventFlow_injective heq
+  · rfl
 
 end BEDC.Derived.CauchySubsequenceExtractionUp
