@@ -1,0 +1,184 @@
+\begin{definition}[Radial shell closure beyond the gate shell]
+\label{def:philosophy-radial-shell-closure-beyond-gate-shell}
+Let
+$$
+  M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}.
+$$
+Thus $M^{\star}$ contains every codon whose third position is purine,
+together with the two codons $\mathrm{CUU}$ and $\mathrm{CUC}$. Hence
+$$
+  |M^{\star}|=34.
+$$
+\end{definition}
+
+\begin{definition}[Y-halfspace shells around CUY]
+\label{def:philosophy-y-halfspace-shells-around-cuy}
+In the third-position $Y$ halfspace, define $H_{k}$ to be the set of
+codons whose first two positions have Hamming distance $k$ from
+$\mathrm{CU}$. Then
+$$
+\begin{array}{c|r|l}
+  \text{shell} & \text{size} & \text{description}\\
+  \hline
+  H_{0} & 2 & \mathrm{CUY}\\
+  H_{1} & 8 & \mathrm{UUY}\cup\mathrm{CCY}\cup\mathrm{CAY}\cup\mathrm{GUY}\\
+  H_{2} & 12 & \text{six two-flip }Y\text{-pairs}\\
+  H_{3} & 8 & \text{four three-flip }Y\text{-pairs}\\
+  H_{4} & 2 & \mathrm{AGY}.
+\end{array}
+$$
+Thus
+$$
+  M^{\star}=\mathrm{NNR}\cup H_{0}.
+$$
+\end{definition}
+
+\begin{theorem}[Median-closed halfspace anchor]
+\label{thm:philosophy-mstar-median-closed}
+The set $M^{\star}$ is median-closed:
+$$
+  \operatorname{Med}(M^{\star})=M^{\star}.
+$$
+\end{theorem}
+\begin{proof}
+After quotienting by the saturated $f_{3}$ direction, the set is the
+complete halfspace $s_{3}=1$ together with the single $Y$-side point
+$\mathrm{CUY}$. A three-point median of quotient points either has at
+least two entries in the halfspace, in which case it remains in the
+halfspace, or has at least two entries at $\mathrm{CUY}$, in which case
+it remains at $\mathrm{CUY}$ or at an already present halfspace point.
+Lifting back along $f_{3}$ preserves median closure.
+\end{proof}
+
+\begin{theorem}[Shell-triggered median percolation]
+\label{thm:philosophy-shell-triggered-median-percolation}
+For every $k=1,2,3,4$,
+$$
+  \operatorname{Med}(M^{\star}\cup H_{k})=Q_{6}.
+$$
+The finite stage counts are
+$$
+\begin{array}{c|r|r|l}
+  \text{added shell} & \text{start size} & \text{closure size}
+  & \text{stage additions}\\
+  \hline
+  H_{1} & 42 & 64 & 12,\ 10\\
+  H_{2} & 46 & 64 & 18\\
+  H_{3} & 42 & 64 & 22\\
+  H_{4} & 36 & 64 & 28.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Compute the coordinatewise median closure from each starting set
+$M^{\star}\cup H_{k}$. Each closure is all $64$ codons. The stage
+additions in the table record the number of codons first generated at
+each median-closure pass.
+\end{proof}
+
+\begin{theorem}[Antipodal single trigger]
+\label{thm:philosophy-antipodal-single-trigger}
+The two codons in
+$$
+  H_{4}=\mathrm{AGY}=\{\mathrm{AGU},\mathrm{AGC}\}
+$$
+are single-codon median triggers:
+$$
+  \operatorname{Med}(M^{\star}\cup\{\mathrm{AGU}\})=Q_{6},
+  \qquad
+  \operatorname{Med}(M^{\star}\cup\{\mathrm{AGC}\})=Q_{6}.
+$$
+In both cases the closure reaches $Q_{6}$ in one median pass.
+\end{theorem}
+\begin{proof}
+In the $f_{3}$ quotient, $\mathrm{CUY}$ and $\mathrm{AGY}$ are antipodal
+points in the four coordinates of the third-position $Y$ halfspace. For
+any target point $b$ in that $Y$ halfspace, take the point $t_{b}$ in
+the already present $R$ halfspace with the same first-four-bit
+coordinates as $b$. The median of $\mathrm{CUY}$, $\mathrm{AGY}$, and
+$t_{b}$ has the first four coordinates of $t_{b}$ and third-position
+shape $Y$, hence is $b$. Thus the whole $Y$ halfspace is generated in
+one pass; the $R$ halfspace was already present.
+\end{proof}
+
+\begin{corollary}[CUY anchor and AGY antipode]
+\label{cor:philosophy-cuy-anchor-agy-antipode}
+The set $M^{\star}$ is a complete $R$ halfspace with a $Y$-side anchor
+$\mathrm{CUY}$, and $\mathrm{AGY}$ is the antipodal median trigger for
+that anchor.
+\end{corollary}
+\begin{proof}
+This is the geometric content of
+\autoref{thm:philosophy-antipodal-single-trigger}.
+\end{proof}
+
+\begin{theorem}[Single-point spectrum and median triggering differ]
+\label{thm:philosophy-single-point-spectrum-triggering-differ}
+From $M^{\star}$, single-codon spectral stabilization and median
+percolation select different shells:
+$$
+\begin{array}{c|r|r}
+  \text{single-codon shell} & \operatorname{Med}\text{-closure size}
+  & \lambda(M^{\star}\cup\{p\})\\
+  \hline
+  H_{1} & 36 & 0.837956\\
+  H_{2} & 40 & 0.837179\\
+  H_{3} & 48 & 0.837165\\
+  H_{4}=\mathrm{AGY} & 64 & 0.837156.
+\end{array}
+$$
+Thus the best single-point spectral stabilizer lies in $H_{1}$, while
+the strongest median trigger lies in $H_{4}$.
+\end{theorem}
+\begin{proof}
+For a representative codon in each shell, compute both
+$\lambda(M^{\star}\cup\{p\})$ and the size of the median closure. The
+spectral values are largest in the nearest shell $H_{1}$, whereas
+\autoref{thm:philosophy-antipodal-single-trigger} gives full-cube
+median generation from the antipodal shell $H_{4}$.
+\end{proof}
+
+\begin{theorem}[Radial shell filling spectrum]
+\label{thm:philosophy-radial-shell-filling-spectrum}
+Let
+$$
+  S_{j}=\mathrm{NNR}\cup\bigcup_{k=0}^{j}H_{k}.
+$$
+Then
+$$
+\begin{array}{c|r|l|r|r}
+  \text{level} & \text{size} & \text{structure} & \lambda & \rho\\
+  \hline
+  S_{0} & 34 & \mathrm{NNR}\cup H_{0} & 0.836111 & 0.813725\\
+  S_{1} & 42 & +H_{1} & 0.859128 & 0.817460\\
+  S_{2} & 54 & +H_{2} & 0.921172 & 0.895062\\
+  S_{3} & 62 & +H_{3} & 0.978349 & 0.973118\\
+  S_{4} & 64 & +H_{4}=Q_{6} & 1.000000 & 1.000000.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each $S_{j}$, count induced Hamming edges to compute
+$\rho=2|E(S_{j})|/(6|S_{j}|)$, and compute the Perron root of the
+killed transition matrix on $S_{j}$. At $j=4$ the set is all of $Q_{6}$.
+\end{proof}
+
+\begin{theorem}[Antipodal triggering beyond the radial shell]
+\label{thm:philosophy-antipodal-triggering-beyond-radial-shell}
+The set $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$ is median-closed, but
+adjoining either codon of $\mathrm{AGY}$ generates the whole codon cube
+by median closure:
+$$
+  M^{\star}
+  \quad\text{is closed,}\qquad
+  M^{\star}\cup\{\mathrm{AGU}\}
+  \ \text{or}\
+  M^{\star}\cup\{\mathrm{AGC}\}
+  \Longrightarrow Q_{6}.
+$$
+\end{theorem}
+\begin{proof}
+The closedness is \autoref{thm:philosophy-mstar-median-closed}. The
+single-codon full-cube generation is
+\autoref{thm:philosophy-antipodal-single-trigger}.
+\end{proof}

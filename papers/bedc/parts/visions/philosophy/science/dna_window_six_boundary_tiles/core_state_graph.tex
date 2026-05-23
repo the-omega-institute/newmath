@@ -1,0 +1,533 @@
+\begin{definition}[Partial-aware core state]
+\label{def:philosophy-partial-aware-core-state}
+The partial-aware core state of a genetic-code table is the
+$\mathcal H_{\mathrm{core}}$ state vector of
+\autoref{def:philosophy-core-hotspot-support}, except that ambiguous
+table rows are kept as separate labels. Thus a row such as
+$\mathrm{UGA}=\mathrm{Stop}\ \text{or}\ \mathrm{Trp}$ is recorded as
+$*|W$ rather than being collapsed to $W$ or to $*$.
+\end{definition}
+
+\begin{theorem}[Partial-aware core state spectrum]
+\label{thm:philosophy-partial-aware-core-state-spectrum}
+Across the comparison family, the partial-aware core states realize
+$22$ distinct states. The standard core state
+$$
+  (*,*,*,W,K,K,R,R,I)
+$$
+appears in exactly the tables
+$$
+  1,\quad 11,\quad 12,\quad 23,\quad 26.
+$$
+\end{theorem}
+\begin{proof}
+Read the nine core coordinates in the order
+$$
+  \mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG},
+  \mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},
+$$
+using the main one-letter row except when the difference table records
+an ambiguous row. Equal nine-tuples are then identified. The finite
+enumeration gives $22$ distinct states, with the standard tuple appearing
+in the five displayed table identifiers.
+\end{proof}
+
+\begin{definition}[Strict core state graph]
+\label{def:philosophy-strict-core-state-graph}
+Let $G_{1}(\mathcal H_{\mathrm{core}})$ be the graph whose vertices are
+the distinct partial-aware core states. Two vertices are adjacent when
+their nine-coordinate assignment vectors differ in exactly one
+coordinate.
+\end{definition}
+
+\begin{theorem}[Strict core state graph components]
+\label{thm:philosophy-strict-core-state-graph-components}
+The graph $G_{1}(\mathcal H_{\mathrm{core}})$ has $9$ connected
+components. Their sizes are
+$$
+  10,\quad 4,\quad 2,\quad 1,\quad 1,\quad 1,\quad 1,\quad 1,\quad 1.
+$$
+The component containing the standard state has ten vertices represented
+by the table groups
+$$
+\begin{gathered}
+  \{1,11,12,23,26\},\quad
+  \{32\},\quad
+  \{25\},\quad
+  \{16,22\},\quad
+  \{15\},\\
+  \{6\},\quad
+  \{27\},\quad
+  \{10\},\quad
+  \{4\},\quad
+  \{3\}.
+\end{gathered}
+$$
+The next two nontrivial components are represented by
+$$
+  \{5\},\{21\},\{9\},\{14\}
+$$
+and
+$$
+  \{24\},\{33\}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $22$ partial-aware core states of
+\autoref{thm:philosophy-partial-aware-core-state-spectrum}. For each
+pair of states, compute the Hamming distance of the nine assignment
+coordinates. Add an edge exactly when this distance is one. A finite
+connected-component computation gives the displayed component count,
+component sizes, and table-group representatives.
+\end{proof}
+
+\begin{corollary}[Single-coordinate dynamics is insufficient]
+\label{cor:philosophy-single-coordinate-dynamics-insufficient}
+The observed core states are not connected by strict single-coordinate
+changes. A state-system reading therefore requires module-level moves in
+addition to codon-coordinate Hamming edges.
+\end{corollary}
+\begin{proof}
+If strict single-coordinate moves connected the observed core state
+space, the graph $G_{1}(\mathcal H_{\mathrm{core}})$ would be connected.
+By \autoref{thm:philosophy-strict-core-state-graph-components}, it has
+nine connected components.
+\end{proof}
+
+\begin{definition}[Observed module generators]
+\label{def:philosophy-observed-module-generators}
+The observed module generators are schematic reassignment moves on the
+core support:
+$$
+\begin{array}{c|c}
+  \text{generator} & \text{support}\\
+\hline
+  g_{\mathrm{UGA}} & \{\mathrm{UGA}\}\\
+  g_{\mathrm{UAA/UAG}} & \{\mathrm{UAA},\mathrm{UAG}\}\\
+  g_{\mathrm{AGR}} & \{\mathrm{AGA},\mathrm{AGG}\}\\
+  g_{\mathrm{AUA}} & \{\mathrm{AUA}\}\\
+  g_{\mathrm{AAA}} & \{\mathrm{AAA}\}.
+\end{array}
+$$
+The labels record supports, not mechanistic causes. Each generator has
+several observed target labels, such as $g_{\mathrm{AGR}}$ sending
+$(R,R)$ to $(*,*)$, $(S,S)$, $(G,G)$, or $(S,K)$.
+\end{definition}
+
+\begin{theorem}[Module generators explain strict graph separation]
+\label{thm:philosophy-module-generators-explain-separation}
+Several observed core states differ from the standard state by a module
+combination rather than by a single coordinate. For example:
+$$
+\begin{array}{c|l}
+  \text{table} & \text{core module difference from standard}\\
+\hline
+  2 & g_{\mathrm{UGA}}+g_{\mathrm{AUA}}+g_{\mathrm{AGR}}\\
+  5 & g_{\mathrm{UGA}}+g_{\mathrm{AUA}}+g_{\mathrm{AGR}}\\
+  9 & g_{\mathrm{UGA}}+g_{\mathrm{AGR}}+g_{\mathrm{AAA}}\\
+  24 & g_{\mathrm{UGA}}+g_{\mathrm{AGR}}\\
+  33 & g_{\mathrm{UAA/UAG}}+g_{\mathrm{UGA}}+g_{\mathrm{AGR}}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Project each displayed table to the nine core coordinates and compare
+with the standard core state. Table $2$ changes $\mathrm{UGA}$,
+$\mathrm{AUA}$, and the $\mathrm{AGA}/\mathrm{AGG}$ pair. Table $5$
+has the same support pattern with a different AGR target. Table $9$
+changes $\mathrm{UGA}$, the AGR pair, and $\mathrm{AAA}$. Table $24$
+changes $\mathrm{UGA}$ and the AGR pair. Table $33$ changes a stop-arm
+coordinate, $\mathrm{UGA}$, and the AGR pair. These are module-support
+differences, not single-coordinate edges from the standard state.
+\end{proof}
+
+\begin{corollary}[Core dynamics uses hub, arm, satellite, leaf, and anchor roles]
+\label{cor:philosophy-core-dynamics-roles}
+The core state graph separates roles: $\mathrm{UGA}$ is the hub
+coordinate, $\mathrm{UAA}/\mathrm{UAG}$ forms a stop arm,
+$\mathrm{AGA}/\mathrm{AGG}$ forms the active satellite pair,
+$\mathrm{AUA}$ is the Ile/Met leaf coupled to the hub, $\mathrm{AAA}$ is
+a deeper hotspot point, and $\mathrm{UGG}$ and $\mathrm{AAG}$ are fixed
+anchors.
+\end{corollary}
+\begin{proof}
+The hub and inclusion relations are
+\autoref{cor:philosophy-core-reassignment-preorder}. The stop arm,
+satellite pair, leaf, and deeper point are the supports in
+\autoref{def:philosophy-observed-module-generators}. The anchors are
+\autoref{thm:philosophy-wrr-invariant-anchors}.
+\end{proof}
+
+\begin{definition}[Active core support partition]
+\label{def:philosophy-active-core-support-partition}
+The active core support is obtained from
+$\mathcal H_{\mathrm{core}}$ by removing the two invariant anchors
+$\mathrm{UGG}$ and $\mathrm{AAG}$:
+$$
+  \mathcal A_{\mathrm{core}}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},
+    \mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA}\}.
+$$
+A support partition of $\mathcal A_{\mathrm{core}}$ is a set partition
+of these seven coordinates. Given such a partition, two observed
+partial-aware core states are module-adjacent when their active
+coordinates differ inside exactly one block of the partition.
+\end{definition}
+
+\begin{theorem}[Unique finest connected support partition]
+\label{thm:philosophy-unique-finest-connected-support-partition}
+Among all $877$ set partitions of $\mathcal A_{\mathrm{core}}$, exactly
+$52$ make the observed partial-aware core state graph connected. Among
+the connected partitions, the unique finest one is
+$$
+\begin{gathered}
+  \{\mathrm{UAA},\mathrm{UAG}\},\quad
+  \{\mathrm{UGA}\},\quad
+  \{\mathrm{AAA}\},\\
+  \{\mathrm{AGA},\mathrm{AGG}\},\quad
+  \{\mathrm{AUA}\}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+There are $B_{7}=877$ set partitions of the seven active coordinates.
+For each partition, compress each observed state to its blockwise
+coordinates and add an edge when two states differ in exactly one block.
+The finite enumeration gives $52$ connected partitions. The maximum
+number of blocks among connected partitions is $5$, and the only
+connected partition with $5$ blocks is the displayed one.
+\end{proof}
+
+\begin{corollary}[Stop arm and AGR satellite are forced blocks]
+\label{cor:philosophy-stoparm-agr-forced-blocks}
+The two non-singleton blocks in the unique finest connected partition
+are precisely the stop arm $\{\mathrm{UAA},\mathrm{UAG}\}$ and the AGR
+satellite pair $\{\mathrm{AGA},\mathrm{AGG}\}$.
+\end{corollary}
+\begin{proof}
+This is the non-singleton part of
+\autoref{thm:philosophy-unique-finest-connected-support-partition}.
+\end{proof}
+
+\begin{theorem}[Finest module graph edge spectrum]
+\label{thm:philosophy-finest-module-graph-edge-spectrum}
+For the unique finest connected support partition, the module graph on
+the $22$ observed partial-aware core states is connected and has $42$
+edges. The edge labels are distributed as follows:
+$$
+\begin{array}{c|c}
+  \text{module} & \text{edge count}\\
+\hline
+  \{\mathrm{UAA},\mathrm{UAG}\} & 25\\
+  \{\mathrm{UGA}\} & 7\\
+  \{\mathrm{AAA}\} & 1\\
+  \{\mathrm{AGA},\mathrm{AGG}\} & 7\\
+  \{\mathrm{AUA}\} & 2.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Use the partition of
+\autoref{thm:philosophy-unique-finest-connected-support-partition}.
+For every pair of observed states, count the blocks on which their
+active coordinates differ. Add an edge exactly when this count is one,
+and label the edge by that block. The resulting graph is connected and
+the finite edge count gives the displayed spectrum.
+\end{proof}
+
+\begin{corollary}[Two centrality readings]
+\label{cor:philosophy-two-centrality-readings}
+The core comparison separates two centrality notions. The codon
+$\mathrm{UGA}$ is the principal reassignment hub by occurrence count,
+while the stop arm $\{\mathrm{UAA},\mathrm{UAG}\}$ is the largest
+horizontal connector in the finest module graph.
+\end{corollary}
+\begin{proof}
+The codon-level hub property is
+\autoref{cor:philosophy-core-reassignment-preorder}. The module edge
+maximum is the $25$-edge stop-arm row of
+\autoref{thm:philosophy-finest-module-graph-edge-spectrum}.
+\end{proof}
+
+\begin{theorem}[Standard-state module graph distances]
+\label{thm:philosophy-standard-state-module-graph-distances}
+In the finest module graph, the standard core state has degree $9$.
+The shortest-path distance distribution from the standard state is
+$$
+\begin{array}{c|c}
+  \text{distance} & \text{state count}\\
+\hline
+  0 & 1\\
+  1 & 9\\
+  2 & 4\\
+  3 & 5\\
+  4 & 1\\
+  5 & 1\\
+  6 & 1.
+\end{array}
+$$
+The diameter of the finest module graph is $9$.
+\end{theorem}
+\begin{proof}
+Run breadth-first search in the connected module graph of
+\autoref{thm:philosophy-finest-module-graph-edge-spectrum}, using the
+standard partial-aware state as the source. The degree and distance
+distribution are the displayed values. A breadth-first search from each
+vertex gives maximum shortest-path length $9$.
+\end{proof}
+
+\begin{theorem}[Unique finest generator system]
+\label{thm:philosophy-unique-finest-generator-system}
+Under the single condition that the observed partial-aware core states
+be connected by one-block module adjacency, the unique finest generator
+support system is
+$$
+  \{\mathrm{UAA},\mathrm{UAG}\},\quad
+  \{\mathrm{UGA}\},\quad
+  \{\mathrm{AAA}\},\quad
+  \{\mathrm{AGA},\mathrm{AGG}\},\quad
+  \{\mathrm{AUA}\}.
+$$
+\end{theorem}
+\begin{proof}
+By
+\autoref{thm:philosophy-unique-finest-connected-support-partition}, this
+is the unique connected support partition with the maximum number of
+blocks. Assigning one schematic generator to each block gives the stated
+support system, and uniqueness follows from uniqueness of the partition.
+\end{proof}
+
+\begin{definition}[Module activation pattern]
+\label{def:philosophy-module-activation-pattern}
+For the unique finest generator support system, write
+$$
+\begin{gathered}
+  S=\{\mathrm{UAA},\mathrm{UAG}\},\qquad
+  U=\{\mathrm{UGA}\},\qquad
+  N=\{\mathrm{AAA}\},\\
+  R=\{\mathrm{AGA},\mathrm{AGG}\},\qquad
+  I=\{\mathrm{AUA}\}.
+\end{gathered}
+$$
+For a comparison table, a module is active when at least one coordinate
+inside that module differs from the standard assignment. The module
+activation pattern is the subset of $\{S,U,N,R,I\}$ consisting of active
+modules.
+\end{definition}
+
+\begin{theorem}[Observed module activation patterns]
+\label{thm:philosophy-observed-module-activation-patterns}
+The comparison family realizes exactly $11$ module activation patterns:
+$$
+\begin{array}{c|l}
+  \text{pattern} & \text{table identifiers}\\
+\hline
+  \varnothing & 1,11,12,23,26\\
+  U & 4,10,25\\
+  S & 6,15,16,22,29,30,32\\
+  U+I & 3\\
+  U+R & 24\\
+  S+U & 27,28,31\\
+  U+R+I & 2,5,13\\
+  U+N+R & 9\\
+  S+U+R & 33\\
+  U+N+R+I & 21\\
+  S+U+N+R & 14.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each table, compare the seven active coordinates with the standard
+assignment and mark a module active when any coordinate in that block
+differs. Identifying equal active-module subsets gives exactly the
+eleven displayed rows.
+\end{proof}
+
+\begin{theorem}[Five-variable activation grammar]
+\label{thm:philosophy-five-variable-activation-grammar}
+The observed module activation patterns are exactly the Boolean
+solutions on variables $S,U,N,R,I$ satisfying
+$$
+\begin{gathered}
+  R\Rightarrow U,\qquad
+  I\Rightarrow U,\qquad
+  N\Rightarrow R,\qquad
+  S\wedge I=0.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Necessity is a direct finite check on
+\autoref{thm:philosophy-observed-module-activation-patterns}: every row
+containing $R$ contains $U$, every row containing $I$ contains $U$,
+every row containing $N$ contains $R$, and no row contains both $S$ and
+$I$.
+
+For sufficiency, enumerate the Boolean solutions. If $U=0$, then
+$R=I=N=0$, while $S$ is free, giving $\varnothing$ and $S$. If $U=1$
+and $I=0$, then $S$ is free and $(R,N)$ can be $(0,0)$, $(1,0)$, or
+$(1,1)$, giving
+$$
+  U,\quad S+U,\quad U+R,\quad S+U+R,\quad U+N+R,\quad S+U+N+R.
+$$
+If $U=1$ and $I=1$, then $S=0$, and $(R,N)$ again gives
+$$
+  U+I,\quad U+R+I,\quad U+N+R+I.
+$$
+Thus the grammar has $2+6+3=11$ solutions, and the solution list is
+exactly the list in
+\autoref{thm:philosophy-observed-module-activation-patterns}.
+\end{proof}
+
+\begin{corollary}[Hub, dependent branches, and transverse arm]
+\label{cor:philosophy-hub-branches-transverse-arm}
+The activation grammar separates four roles: $U$ is a necessary hub for
+$R$, $I$, and $N$; $N$ is dependent on the AGR satellite branch through
+$N\Rightarrow R$; the AUA leaf is dependent on $U$; and the stop arm
+$S$ is a transverse axis that may occur with or without $U$ but is
+disjoint from the AUA branch in the observed comparison family.
+\end{corollary}
+\begin{proof}
+Each role is one of the four clauses in
+\autoref{thm:philosophy-five-variable-activation-grammar}, together
+with the fact that both $S$ and $S+U$ occur in
+\autoref{thm:philosophy-observed-module-activation-patterns}.
+\end{proof}
+
+\begin{theorem}[Module value spectrum]
+\label{thm:philosophy-module-value-spectrum}
+Across the comparison family, the five modules have the following
+observed value spectra:
+$$
+\begin{array}{c|c|l}
+  \text{module} & \text{value count} & \text{values}\\
+\hline
+  S & 10 &
+  (*,*),(*,Q),(*,L),(*,W),(Q,Q),(Q|*,Q|*),(Y,*),(Y,Y),(E,E),(E|*,E|*)\\
+  U & 5 & *,W,C,G,*|W\\
+  N & 2 & K,N\\
+  R & 5 & (R,R),(*,*),(S,S),(G,G),(S,K)\\
+  I & 2 & I,M.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Read each table on the active coordinates and group the coordinates by
+the unique finest support partition of
+\autoref{thm:philosophy-unique-finest-connected-support-partition}.
+The finite enumeration of distinct block values gives the displayed
+spectra.
+\end{proof}
+
+\begin{theorem}[Four-branch module value grammar]
+\label{thm:philosophy-four-branch-module-value-grammar}
+The $22$ observed module-value states are exactly the states generated
+by the following four branches.
+$$
+\begin{array}{c|c|c}
+  \text{branch} & \text{constraint} & \text{state count}\\
+\hline
+  A & U=*,\ N=K,\ R=(R,R),\ I=I,\ S\in\{(*,*),(Q,Q),(*,Q),(*,L),(Y,Y),(E,E),(*,W)\} & 7\\
+  B & S=(*,*),\ N=K,\ R=(R,R),\ I=I,\ U\in\{C,G\} & 2\\
+  C & U=*|W,\ N=K,\ R=(R,R),\ I=I,\ S\in\{(Q,Q),(Q|*,Q|*)\} & 2\\
+  D & U=W\ \text{and one of the observed deep states} & 11.
+\end{array}
+$$
+The deep branch consists of the eleven tuples
+$$
+\begin{gathered}
+(*,*)/W/K/(R,R)/I,\quad
+(*,*)/W/K/(R,R)/M,\quad
+(E|*,E|*)/W/K/(R,R)/I,\\
+(*,*)/W/K/(*,*)/M,\quad
+(*,*)/W/K/(S,S)/M,\quad
+(*,*)/W/K/(G,G)/M,\\
+(*,*)/W/N/(S,S)/I,\quad
+(Y,*)/W/N/(S,S)/I,\quad
+(*,*)/W/N/(S,S)/M,\\
+(*,*)/W/K/(S,K)/I,\quad
+(Y,*)/W/K/(S,K)/I.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+The four displayed branches contain $7+2+2+11=22$ states. Direct
+finite enumeration of the module-value states obtained from the
+comparison family gives $22$ states, and the generated set equals the
+observed set.
+\end{proof}
+
+\begin{corollary}[Trp value as deep entrance]
+\label{cor:philosophy-trp-value-as-deep-entrance}
+Among the nonstandard values of $U$, only $U=W$ opens the deep coupled
+branch. The values $U=C$ and $U=G$ occur only in the pure $U$ branch,
+and $U=*|W$ occurs only in the partial-boundary branch.
+\end{corollary}
+\begin{proof}
+This is the branch separation in
+\autoref{thm:philosophy-four-branch-module-value-grammar}.
+\end{proof}
+
+\begin{theorem}[Deep value constraints]
+\label{thm:philosophy-deep-value-constraints}
+The observed module-value states satisfy the following value-level
+constraints:
+$$
+\begin{gathered}
+  R\neq(R,R)\Rightarrow U=W,\\
+  I=M\Rightarrow U=W\ \text{and}\ S=(*,*),\\
+  N=N\Rightarrow U=W\ \text{and}\ R=(S,S),\\
+  R\in\{(*,*),(G,G)\}\Rightarrow I=M,\ S=(*,*),\ N=K,\\
+  R=(S,K)\Rightarrow I=I,\ N=K,\ U=W.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Check the four branches of
+\autoref{thm:philosophy-four-branch-module-value-grammar}. In the first
+three branches, $R=(R,R)$ except for no case, $I=I$, and $N=K$. In the
+deep branch, the displayed eleven tuples verify each implication
+coordinatewise.
+\end{proof}
+
+\begin{corollary}[AGR as value splitter]
+\label{cor:philosophy-agr-as-value-splitter}
+The AGR module is a value splitter inside the deep branch. The value
+$(*,*)$ is tied to the $I=M$ leaf, $(S,S)$ is the only background in
+which $N=N$ occurs, $(G,G)$ is tied to the $I=M$ leaf, and $(S,K)$ is a
+split satellite value with $I=I$ and $N=K$.
+\end{corollary}
+\begin{proof}
+This is a restatement of the last three implications in
+\autoref{thm:philosophy-deep-value-constraints}, restricted to the
+nonstandard values of $R$.
+\end{proof}
+
+\begin{theorem}[Core state graph cannot-claim boundary]
+\label{thm:philosophy-core-state-graph-cannot-claim-boundary}
+The strict core state graph and module generators do not license any
+claim that the observed tables form a temporal trajectory, that the
+generators are biochemical mutation mechanisms, that every generator can
+occur independently in nature, or that the finite comparison family
+exhausts all possible code states.
+\end{theorem}
+\begin{proof}
+The graph is built from observed assignment vectors and Hamming distances
+between them. The module generators summarize observed supports of
+difference from the standard state. Neither construction supplies time,
+mechanism, independence, or biological exhaustiveness.
+\end{proof}
+
+\begin{corollary}[Allowed module-state claim]
+\label{cor:philosophy-module-state-allowed-claim}
+The partial-aware core comparison is best read as a finite module-state
+system: strict single-coordinate adjacency is disconnected, while the
+observed differences organize into hub, arm, satellite, leaf, deeper
+point, and anchor roles.
+\end{corollary}
+\begin{proof}
+The disconnection is
+\autoref{cor:philosophy-single-coordinate-dynamics-insufficient}. The
+role decomposition is \autoref{cor:philosophy-core-dynamics-roles}.
+\end{proof}

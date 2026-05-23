@@ -71,4 +71,58 @@ theorem CantorSpaceCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem CantorSpaceCarrier_finite_prefix_cylinder_stability [AskSetup] [PackageSetup]
+    {schedule window boolLedger listSpine endpointExclusion transport replay provenance
+      localName prefixWindow prefixRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CantorSpaceCarrier schedule window boolLedger listSpine endpointExclusion transport replay
+        provenance localName bundle pkg →
+      UnaryHistory prefixWindow →
+        Cont window prefixWindow prefixRead →
+          PkgSig bundle prefixRead pkg →
+            UnaryHistory schedule ∧ UnaryHistory window ∧ UnaryHistory boolLedger ∧
+              UnaryHistory listSpine ∧ UnaryHistory prefixRead ∧
+                Cont window prefixWindow prefixRead ∧ PkgSig bundle localName pkg ∧
+                  PkgSig bundle prefixRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier prefixWindowUnary prefixCont prefixPkg
+  exact ⟨carrier.left,
+    carrier.right.left,
+    carrier.right.right.left,
+    carrier.right.right.right.left,
+    unary_cont_closed carrier.right.left prefixWindowUnary prefixCont,
+    prefixCont,
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right,
+    prefixPkg⟩
+
+theorem CantorSpaceCarrier_prefix_projection_stability [AskSetup] [PackageSetup]
+    {schedule window boolLedger listSpine endpointExclusion transport replay provenance
+      localName prefixWindow prefixRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CantorSpaceCarrier schedule window boolLedger listSpine endpointExclusion transport replay
+        provenance localName bundle pkg →
+      UnaryHistory prefixWindow →
+        Cont window prefixWindow prefixRead →
+          Cont prefixRead replay provenance →
+            PkgSig bundle prefixRead pkg →
+              UnaryHistory schedule ∧ UnaryHistory window ∧ UnaryHistory boolLedger ∧
+                UnaryHistory listSpine ∧ UnaryHistory prefixWindow ∧
+                  UnaryHistory prefixRead ∧ UnaryHistory provenance ∧
+                    Cont window prefixWindow prefixRead ∧ Cont prefixRead replay provenance ∧
+                      PkgSig bundle localName pkg ∧ PkgSig bundle prefixRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier prefixWindowUnary prefixCont prefixReplay prefixPkg
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      prefixWindowUnary,
+      unary_cont_closed carrier.right.left prefixWindowUnary prefixCont,
+      carrier.right.right.right.right.right.right.right.left,
+      prefixCont,
+      prefixReplay,
+      carrier.right.right.right.right.right.right.right.right.right.right.right.right.right,
+      prefixPkg⟩
+
 end BEDC.Derived.CantorSpaceUp

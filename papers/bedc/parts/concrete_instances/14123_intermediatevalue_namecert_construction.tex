@@ -93,6 +93,61 @@ Apply \autoref{thm:bisection-convergence-tail-diameter} to the retained branch p
 Finally apply \autoref{thm:bisection-convergence-real-seal-handoff}. The StreamName and RegSeqRat stages precede the terminal $\RealUp$ seal, so the original intermediate-value consumer factors through the stated $\LocatedIntervalUp$, $\DyadicBisectionUp$, $\NestedIntervalUp$, $\BisectionConvergenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route before reading $E$. Since neither carrier has a coordinate for a selected root, quotient real equality, trichotomy, choice, compactness, or ambient completeness, the composite handoff exports none of them.
 \end{proof}
 
+\begin{theorem}[IntermediateValue sign-bracket carrier]
+\label{thm:intermediate-value-sign-bracket-carrier}
+For every accepted $\IntermediateValueUp$ carrier
+$$
+V=(J,A,B,F,M,D,N,E,H,C,P,Q),
+$$
+the located sign-bracket surface is exactly the displayed packet whose endpoint cells are read through $\LocatedIntervalUp$, whose sign inspections are read through $\ContinuousMapUp$ and the finite modulus row $M$, whose branch history is read through $\DyadicBisectionUp$, and whose retained interval stream is read through $\NestedIntervalUp$. The structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ attach these reads to one local packet before any $\RealUp$ seal is exposed.
+
+Thus the sign-bracket carrier has no separate coordinate for a host root, quotient real equality, real trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:intermediate-value-located-sign-carrier}. The located interval row $J$ supplies the two endpoint cells, while $A$ and $B$ record the opposite displayed sign reads over the same transported source interval.
+
+The function row $F$ and modulus row $M$ are the only rows that can justify those sign inspections. Hence every endpoint sign read is anchored in $\ContinuousMapUp$ data before the branch ledger is consulted.
+
+The branch row $D$ and retained row $N$ then record the finite bisection history and its nested-window image. The rows $H,C,P,Q$ transport, replay, source, and name the same packet, so the carrier exposes one located sign bracket rather than independent host data.
+
+Since no coordinate of $V$ stores a root selector, quotient equality, trichotomy oracle, compactness theorem, or completeness theorem, no such object can be exported by the carrier.
+\end{proof}
+
+\begin{theorem}[IntermediateValue bisection nesting]
+\label{thm:intermediate-value-bisection-nesting}
+Let $V=(J,A,B,F,M,D,N,E,H,C,P,Q)$ be an accepted $\IntermediateValueUp$ carrier. Every retained branch read in $D$ that is offered to a root-location consumer must pass through the dyadic bisection route of $\DyadicBisectionUp$ and then through the nested-window route of $\NestedIntervalUp$ before the $\RealUp$ seal $E$ is reachable. The route is stable under the displayed $\hsame$ transports and is replayed only by the $\Cont$ row attached to the same $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Begin with a retained branch read. The row $D$ is the only carrier coordinate that records midpoint choices, retained subintervals, and finite branch prefixes.
+
+The nested row $N$ is downstream of $D$. It repacks the retained branch prefix as a nested interval window, and the real-facing consumer cannot reach $E$ until that nested-window row has been displayed.
+
+Transport stability is componentwise. The row $H$ transports the located interval, sign rows, bisection ledger, nested window, and seal together, while $C$ replays the same ordered route for consumers.
+
+The provenance row $P$ and local certificate row $Q$ bind this route to one $\NameCert_{\IntermediateValueUp}$ packet. Thus the bisection nesting path is $D$ followed by $N$ inside the displayed $\BHist$ carrier, with no bypass through a selected root or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[IntermediateValue NameCert obligations]
+\label{thm:intermediate-value-namecert-obligations}
+The local $\NameCert_{\IntermediateValueUp}$ obligation surface for the carrier of \autoref{def:intermediate-value-located-sign-carrier} consists exactly of:
+\begin{enumerate}
+\item admission of the finite located sign-bracket carrier over $\LocatedIntervalUp$, $\ContinuousMapUp$, $\DyadicBisectionUp$, $\NestedIntervalUp$, and $\RealUp$;
+\item endpoint sign transport through $\BHist$, $\hsame$, and $\Cont$ without detaching the two signs from the same located interval row;
+\item bisection branch nesting through $\DyadicBisectionUp$ and $\NestedIntervalUp$ before the real-facing seal is exposed;
+\item provenance and local naming through $\Pkg$ and $\NameCert$ for the same displayed rows.
+\end{enumerate}
+No additional obligation asks for a selected root, quotient real equality, trichotomy, open-cover compactness, countable choice, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+The carrier obligation is \autoref{thm:intermediate-value-sign-bracket-carrier}. It identifies the displayed rows and excludes every host-level datum not present in the finite packet.
+
+Endpoint sign transport is the second clause of \autoref{thm:intermediate-value-dyadic-bisection-obligations}. The two sign rows move only through $H$ and are replayed only through $C$ over the same located interval and continuous-map data.
+
+Bisection branch nesting is \autoref{thm:intermediate-value-bisection-nesting}. It forces every retained branch read through $D$ and then $N$ before the $\RealUp$ seal can be consumed.
+
+Finally, $P$ and $Q$ supply the provenance and local naming rows for exactly those carrier coordinates. Since the listed rows exhaust the packet, the excluded host objects cannot become local obligations.
+\end{proof}
+
 \begin{closurestatus}{\IntermediateValueUp}
   \constructivestory{An $\IntermediateValueUp$ packet is generated from a located interval row, two endpoint sign rows, a $\ContinuousMapUp$ modulus row, a finite $\DyadicBisectionUp$ branch ledger, a $\NestedIntervalUp$ retained window, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ evidence.}
   \theoryclosure{\seedClosure}
