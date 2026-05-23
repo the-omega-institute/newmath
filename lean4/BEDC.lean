@@ -792,6 +792,7 @@ import BEDC.Derived.CantorCompletenessUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp
 import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorSetUp.TasteGate
+import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
@@ -3736,6 +3737,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
+import BEDC.Derived.MetricCompletionReflectorUp
 import BEDC.Derived.MetricCompletionUniquenessUp.TasteGate
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
 import BEDC.Derived.MetricSubspaceUp.TasteGate
@@ -4805,6 +4807,7 @@ import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyProductProjectionUp
+import BEDC.Derived.RegularCauchyProductProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyProductUp
 import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
