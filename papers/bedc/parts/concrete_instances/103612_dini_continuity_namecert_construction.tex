@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\DiniContinuityUp$}
+\label{ch:concrete-instances-dini-continuity-namecert}
+\origin{human}
+
+Following Dini's monotone convergence theorem and Bishop--Bridges constructive compactness, the $\DiniContinuityUp$ packet records the finite surface by which a monotone family of continuous maps on a compact metric source yields a uniform tolerance handoff. It consumes the compact source rows of \autoref{ch:concrete-instances-compactmetric-namecert}, the map-continuity boundary of \autoref{ch:concrete-instances-continuousmap-namecert}, the uniform-limit target of \autoref{ch:concrete-instances-uniformlimit-namecert}, the pointwise-to-uniform budget discipline of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the rational tolerance ledger of \autoref{ch:concrete-instances-rat-namecert}. The packet does not choose a host supremum, import classical open-cover compactness, or identify completed real functions outside the displayed NameCert rows.
+
+\begin{definition}[Dini continuity carrier]
+\label{def:dini-continuity-carrier}
+A $\DiniContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(K,M,L,R,V,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row. It supplies the carried metric source, compact finite-cover interface, and cover-refinement ledger used by the tolerance request.
+\item $M$ is the monotone-family row. It records the displayed family indices, pointwise comparison order, and the assertion that later family rows move monotonically toward the limiting row on the carried source.
+\item $L$ is the pointwise convergence row. It records, for each carried probe, the finite observation route by which the family reaches the limiting value within the requested rational tolerance.
+\item $R$ is the positive rational tolerance budget, read through \autoref{ch:concrete-instances-rat-namecert}; it stores the requested tolerance, the finite subdivisions used in the cover argument, and the budget comparisons needed by the handoff.
+\item $V$ is a finite $\ProbeBundle$ cover extracted from the compact source row. Each probe cell carries a local continuity witness, a monotone-family comparison witness, and a rational budget slice.
+\item $U$ is the $\UniformLimitUp$ handoff row. It records that the finite cover and tolerance budget have been assembled into one uniform read for the limiting map.
+\item $H$ records componentwise $\hsame$ transport for compact source data, monotone family data, pointwise convergence rows, rational budgets, cover probes, uniform-limit handoff, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\CompactMetricUp,\ContinuousMapUp,\UniformModulusUp,\RatUp
+\longmapsto
+\ProbeBundle
+\longmapsto
+\UniformLimitUp
+\longmapsto
+\DiniContinuityUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DiniContinuityUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformLimitUp$, $\UniformModulusUp$, $\RatUp$, $\BHist$, $\ProbeBundle$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DiniContinuityUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these ten rows. Its classifier compares accepted packets only through $K,M,L,R,V,U,H,C,P,N$ and has no coordinate for host suprema, classical excluded-middle compactness, selected subcovers outside the finite $\ProbeBundle$, quotient real-function equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Dini continuity NameCert obligation surface]
+\label{thm:dini-continuity-namecert-obligation-surface}
+For an accepted $\DiniContinuityUp$ carrier
+$$
+D=(K,M,L,R,V,U,H,C,P,N),
+$$
+the local $\NameCert_{\DiniContinuityUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the compact metric source row, monotone family row, pointwise convergence row, rational tolerance budget, finite probe cover, uniform-limit handoff, transport, replay, provenance, and local naming row;
+\item monotone-family visibility, requiring every family comparison used by the packet to be read from $M$ before a pointwise convergence row from $L$ can be applied;
+\item compact finite-cover extraction, requiring the uniform request to be reduced through the $\ProbeBundle$ cover $V$ supplied by the compact source row $K$;
+\item uniform tolerance budgeting, requiring the positive rational request and every cover-cell budget slice to be read through $R$ before the $\UniformModulusUp$ and $\UniformLimitUp$ handoff $U$ is exported;
+\item ledger non-escape, requiring $H,C,P,N$ to preserve exactly the rows $K,M,L,R,V,U$ and to export no host supremum, no external subcover selection, no quotient function equality, and no ambient completeness principle.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dini-continuity-carrier}. The accepted packet exposes exactly the compact source, monotone family, pointwise convergence, rational budget, finite probe cover, uniform-limit handoff, transport, replay, provenance, and local naming rows.
+
+Monotone-family visibility is forced by the row order. A pointwise convergence read from $L$ can only be used after the relevant family comparison has been displayed by $M$, so the packet cannot replace monotone convergence by an unrecorded host limit argument.
+
+Compactness enters only through $K$ and $V$. The compact source row supplies the finite-cover interface, and the $\ProbeBundle$ row stores the actual cover cells that the uniform request inspects.
+
+The tolerance ledger is $R$. Each local continuity or monotonicity estimate reads a rational slice before the uniform-limit handoff $U$ is exported, so the final tolerance bound is assembled from finite rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name only the listed coordinates. Since the excluded host principles have no carrier coordinate, they cannot appear as local $\NameCert_{\DiniContinuityUp}$ obligations.
+\end{proof}
+
+\closureat{DiniContinuityUp}{seedStr}
+
+\begin{closurestatus}{\DiniContinuityUp}
+  \constructivestory{A $\DiniContinuityUp$ packet is generated from a compact metric source row, a monotone continuous-family row, pointwise convergence rows, a positive rational tolerance budget, a finite ProbeBundle cover, a UniformLimitUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dini-continuity-carrier} and \autoref{thm:dini-continuity-namecert-obligation-surface} seed the finite compact-metric monotone-continuity certificate surface for Dini-style uniform handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, open-cover compactness beyond the displayed finite ProbeBundle, quotient real-function equality, host suprema, ambient completeness, selected subcovers outside the carrier, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone-family visibility, compact finite-cover extraction, uniform tolerance budgeting, and ledger non-escape for BEDC.Derived.DiniContinuityUp.}
+\end{closurestatus}
