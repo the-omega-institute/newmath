@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NestedIntervalCompactnessUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -278,5 +281,41 @@ theorem NestedIntervalCompactnessCarrier_stream_real_route
               (nestedIntervalCompactnessEncodeBHist E) =
             E
         exact nestedIntervalCompactness_decode_encode E
+
+theorem NestedIntervalCompactnessCarrier_real_seal_boundary
+    {I L D W R E H C P N prefixRead sealRead : BHist} :
+    nestedIntervalCompactnessFields (NestedIntervalCompactnessUp.mk I L D W R E H C P N) =
+        [I, L, D, W, R, E, H, C, P, N] →
+      UnaryHistory W →
+        UnaryHistory R →
+          UnaryHistory E →
+            Cont W R prefixRead →
+              Cont prefixRead E sealRead →
+                UnaryHistory prefixRead ∧
+                  UnaryHistory sealRead ∧
+                    Cont W R prefixRead ∧
+                      Cont prefixRead E sealRead ∧
+                        hsame
+                          (nestedIntervalCompactnessDecodeBHist
+                            (nestedIntervalCompactnessEncodeBHist E))
+                          E := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro fieldRows windowUnary readbackUnary sealUnary prefixRoute sealRoute
+  cases fieldRows
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed windowUnary readbackUnary prefixRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed prefixUnary sealUnary sealRoute
+  have sealDecode :
+      hsame
+        (nestedIntervalCompactnessDecodeBHist
+          (nestedIntervalCompactnessEncodeBHist E))
+        E := by
+    change
+      nestedIntervalCompactnessDecodeBHist
+          (nestedIntervalCompactnessEncodeBHist E) =
+        E
+    exact nestedIntervalCompactness_decode_encode E
+  exact ⟨prefixUnary, sealReadUnary, prefixRoute, sealRoute, sealDecode⟩
 
 end BEDC.Derived.NestedIntervalCompactnessUp
