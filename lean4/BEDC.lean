@@ -595,6 +595,7 @@ import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
+import BEDC.Derived.BishopRealComparisonUp
 import BEDC.Derived.BishopRealComparisonUp.CauchyDedekindBoundary
 import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
@@ -1165,6 +1166,7 @@ import BEDC.Derived.CauchyPrecompletionUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductUp
+import BEDC.Derived.CauchyProductUp.RootAdmission
 import BEDC.Derived.CauchyProductUp.TasteGate
 import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
@@ -3885,6 +3887,7 @@ import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
 import BEDC.Derived.NormalFormConsistencySealUp
+import BEDC.Derived.NormalSpaceUp.TasteGate
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.NullSequenceUp
 import BEDC.Derived.NullSequenceUp.TasteGate
@@ -5041,6 +5044,7 @@ import BEDC.Derived.SignedDigitStreamUp.PrefixStability
 import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.Tail
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
+import BEDC.Derived.SignedDyadicNormalFormUp.TasteGate
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.SimplicialSetUp.TasteGate
