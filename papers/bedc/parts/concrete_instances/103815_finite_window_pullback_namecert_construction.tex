@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowPullbackUp$}
+\label{ch:concrete-instances-finite-window-pullback-namecert}
+\origin{ai}
+
+The $\FiniteWindowPullbackUp$ packet realizes the transported stationary diagonal seal route of \autoref{thm:real-completeness-transported-stationary-window-seal-exhaustion} as finite NameCert data. It pulls each $\RealUp$ finite-window seal read back through an explicitly displayed $\StreamNameUp$ window, $\RegSeqRatUp$ readback row, $\DyadicRatCoreUp$ observation ledger, $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The packet is designed as the concrete object later Lean work can formalize before TasteGate.lean supplies the required Nontrivial and FieldFaithful instances.
+
+The pullback route is a joint consumer of the finite-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the seal row of \autoref{ch:concrete-instances-real-namecert}. Its carrier stores those sibling surfaces together so a seal-facing request cannot be treated as an isolated packet detached from the L10 source chain.
+
+\begin{definition}[FiniteWindowPullback carrier]
+\label{def:finite-window-pullback-carrier}
+A $\FiniteWindowPullbackUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row selected by the seal-facing request.
+\item $R$ is the $\RegSeqRatUp$ readback row consumed after the displayed stream window.
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger attached to the same finite window.
+\item $E$ is the $\RealUp$ seal row whose public read is pulled back to $S,R,D$.
+\item $H$ records componentwise $\hsame$ transport for the window, readback, ledger, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a seal-facing precision request through $S,R,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteWindowPullbackUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteWindowPullbackUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,E,H,C,P,N$. It has no coordinate for a detached Real value, quotient Cauchy class, selected limit, trichotomy, ambient completeness witness, Lean instance, or bridge check.
+\end{definition}
+
+\begin{theorem}[FiniteWindowPullback NameCert obligations]
+\label{thm:finite-window-pullback-namecert-obligations}
+For every accepted $\FiniteWindowPullbackUp$ carrier $F=(S,R,D,E,H,C,P,N)$, the local $\NameCert_{\FiniteWindowPullbackUp}$ surface consists exactly of carrier admission for the $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation ledger, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows. Every $\RealUp$ finite-window seal read admitted by the packet factors through exactly one displayed pullback packet $F$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only analytic rows are the displayed window $S$, readback $R$, dyadic ledger $D$, and seal row $E$.
+
+The seal-facing read is downstream of those rows by construction. If a second admitted pullback packet exposes the same public seal read with the same window, readback, and dyadic ledger, constructor inversion on the finite $\BHist$ packet identifies its structural rows with $H,C,P,N$.
+
+Thus each admitted finite-window seal read factors through one displayed packet, and no detached Real value, quotient class, selected limit, trichotomy row, ambient completeness witness, Lean instance, or bridge check can enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FiniteWindowPullback stationary diagonal route]
+\label{thm:finite-window-pullback-stationary-diagonal-route}
+The transported stationary diagonal seal exhaustion of \autoref{thm:real-completeness-transported-stationary-window-seal-exhaustion} is realized by a $\FiniteWindowPullbackUp$ packet whenever its public finite-window seal read is restricted to the displayed $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal rows. The route preserves the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows after pullback.
+\end{theorem}
+\begin{proof}
+Begin with the transported stationary diagonal seal row. The cited exhaustion theorem says that the public read is already determined by the finite stream window, regular readback, dyadic observation ledger, and Real seal.
+
+Package those four readings as $S,R,D,E$. The structural rows $H,C,P,N$ record transport, replay, provenance, and local naming without adding another analytic coordinate.
+
+The resulting packet is exactly a $\FiniteWindowPullbackUp$ carrier, so the stationary diagonal route has been pulled back to finite BEDC data.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealUp$ finite-window seal read admitted by a $\FiniteWindowPullbackUp$ packet factors through exactly one displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ pullback packet.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, and cauchylimitseal: no listed sibling is bijective to $\FiniteWindowPullbackUp$ because this packet jointly stores the finite window, regular readback, dyadic ledger, Real seal, transport, replay, provenance, and local naming rows for one pullback route.}
+
+\closureat{FiniteWindowPullbackUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowPullbackUp}
+  \constructivestory{A $\FiniteWindowPullbackUp$ packet is generated from a $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row, $\DyadicRatCoreUp$ observation ledger, $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-pullback-carrier}, \autoref{thm:finite-window-pullback-namecert-obligations}, and \autoref{thm:finite-window-pullback-stationary-diagonal-route} seed the finite pullback packet for Real seal reads over the transported stationary diagonal route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close detached Real values, quotient Cauchy classes, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean instances, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniqueness of the displayed pullback packet, stationary diagonal seal routing, transport, replay, provenance, and local naming for BEDC.Derived.FiniteWindowPullbackUp.}
+\end{closurestatus}

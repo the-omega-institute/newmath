@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ObservationResidualFitUp$}
+\label{ch:concrete-instances-observation-residual-fit-namecert}
+\origin{ai}
+
+The $\ObservationResidualFitUp$ packet realizes the residual surface between finite observational fit and open physical refutation in \autoref{sec:finite-observation-open-fit}. It sits beside $\OpenFitPacketUp$ from \autoref{ch:concrete-instances-open-fit-packet-namecert}, $\RealityConstrainedSignatureFitUp$ from \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, $\RealityConstrainedModelAuditUp$ from \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, $\FiniteObservationRefutationUp$ from \autoref{ch:concrete-instances-finite-observation-refutation-namecert}, and the finite refutation boundary of \autoref{ch:concrete-instances-finiterefutationboundary-namecert}. Those siblings expose finite fit, physical-signature comparison, model audit, observed defeat, and refutation boundaries; this packet binds the observed-signature, model-signature, residual-row, refutation-surface, open-continuation, transport, replay, provenance, and local naming rows into one finite carrier.
+
+\section{Residual Carrier}
+\label{sec:observation-residual-fit-carrier}
+
+\begin{definition}[Observation residual fit carrier]
+\label{def:observation-residual-fit-carrier}
+An $\ObservationResidualFitUp$ carrier is a finite $\BHist$ packet
+$$
+F=(O,M,R,E,L,T,C,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the observed-signature row for the finite trace and observation bundle.
+\item $M$ is the model-signature row for the same finite trace and observation bundle.
+\item $R$ is the residual row recording the displayed mismatch budget between $O$ and $M$.
+\item $E$ is the finite refutation-surface row, read through the local failure boundary when the residual separates the signatures.
+\item $L$ is the open-continuation ledger recording undefeated continuation status when the residual remains inside the admitted tolerance.
+\item $T$ records componentwise $\hsame$ transport for observed signatures, model signatures, residual rows, refutation surfaces, continuation ledgers, package provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from finite observation through model comparison, residual extraction, refutation-surface reading, open continuation, provenance, and local naming.
+\item $H$ is the handoff row to $\OpenFitPacketUp$, $\RealityConstrainedSignatureFitUp$, $\RealityConstrainedModelAuditUp$, $\FiniteObservationRefutationUp$, and the finite refutation boundary.
+\item $P$ is the $\Pkg$ provenance over $\ObservationResidualFitUp$, $\OpenFitPacketUp$, $\RealityConstrainedSignatureFitUp$, $\RealityConstrainedModelAuditUp$, $\FiniteObservationRefutationUp$, $\FiniteRefutationBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ObservationResidualFitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,M,R,E,L,T,C,H,P,N$. It has no coordinate for final-fit oracles, global physical truth, host model adequacy, unbounded observation histories, or a hidden refutation outside the displayed residual row.
+\end{definition}
+
+\section{Residual Obligations}
+\label{sec:observation-residual-fit-obligations}
+
+\begin{theorem}[Observation residual fit NameCert obligations]
+\label{thm:observation-residual-fit-namecert-obligations}
+For every accepted $\ObservationResidualFitUp$ carrier $F=(O,M,R,E,L,T,C,H,P,N)$, the local $\NameCert_{\ObservationResidualFitUp}$ surface consists exactly of observed-signature exposure through $O$, model-signature exposure through $M$, residual exactness through $R$, finite refutation-surface exposure through $E$, open-continuation ledgering through $L$, componentwise transport through $T$, displayed replay through $C$, sibling handoff through $H$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observation-residual-fit-carrier}. The rows $O$ and $M$ expose the finite observed and model-generated signatures over one observation bundle and one finite trace.
+
+The residual row $R$ is the only mismatch budget visible to the packet. If the residual separates the two signatures, the refutation surface $E$ records the finite defeat route; otherwise the open-continuation ledger $L$ records the admitted continuation status.
+
+The rows $T,C,H,P,N$ transport, replay, hand off, package, and name the same finite packet. Since no remaining coordinate stores a final-fit oracle, global physical truth predicate, host adequacy judgment, unbounded observation history, or detached refutation, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Observation residual fit sibling route]
+\label{thm:observation-residual-fit-sibling-route}
+Every public residual read from an accepted $\ObservationResidualFitUp$ packet must factor through the finite-fit row of $\OpenFitPacketUp$, the signature-comparison row of $\RealityConstrainedSignatureFitUp$, the audit row of $\RealityConstrainedModelAuditUp$, the observed-defeat row of $\FiniteObservationRefutationUp$, and the finite refutation boundary when the residual is separating. A route that drops $R$, $E$, or $L$ is not an accepted residual-fit route.
+\end{theorem}
+\begin{proof}
+Read the sibling handoff row $H$. It names the open-fit packet, signature-fit packet, model-audit packet, finite-observation-refutation packet, and finite refutation boundary as the only external surfaces consumed by the residual packet.
+
+The residual row $R$ is computed from the displayed signature rows $O$ and $M$. The refutation row $E$ and open-continuation row $L$ are then mutually visible outcomes of that finite residual read: separation exposes a refutation surface, while admitted mismatch remains an open continuation.
+
+The transport, replay, provenance, and naming rows $T,C,P,N$ preserve the same route. Therefore any consumer that drops $R$, $E$, or $L$ has left the accepted residual-fit packet, even if it still cites open fit, signature fit, model audit, observed defeat, or refutation language.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ObservationResidualFitUp$ consumer displays observed-signature, model-signature, residual, finite-refutation, open-continuation, handoff, transport, replay, provenance, and local naming rows before any residual-fit read is public.}
+
+\independenceWitness{OpenFitPacket, RealityConstrainedSignatureFit, RealityConstrainedModelAudit, FiniteObservationRefutation, FiniteRefutationBoundary: none is bijective to $\ObservationResidualFitUp$ because the residual packet jointly carries observed signature, model signature, mismatch budget, refutation surface, open continuation, handoff, transport, replay, provenance, and local NameCert rows.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \ObservationResidualFitUp$ and $\mathsf{FieldFaithful}\ \ObservationResidualFitUp$ instances preserving $O,M,R,E,L,T,C,H,P,N$ in \texttt{lean4/BEDC/Derived/ObservationResidualFitUp/TasteGate.lean}.
+
+\closureat{ObservationResidualFitUp}{seedStr}
+
+\begin{closurestatus}{\ObservationResidualFitUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observation-residual-fit-carrier}, \autoref{thm:observation-residual-fit-namecert-obligations}, and \autoref{thm:observation-residual-fit-sibling-route} seed the finite residual-fit packet over observed signatures, model signatures, residual budgets, finite refutation surfaces, open continuation ledgers, sibling handoffs, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close final-fit oracles, global physical truth, host model adequacy, unbounded observation histories, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, observed-signature exposure, model-signature exposure, residual exactness, refutation-surface handoff, open-continuation ledgering, and sibling-route preservation for BEDC.Derived.ObservationResidualFitUp.}
+  \constructivestory{An $\ObservationResidualFitUp$ packet is generated from finite observed-signature, model-signature, residual-row, refutation-surface, open-continuation, handoff, transport, replay, provenance, and local NameCert rows.}
+\end{closurestatus}

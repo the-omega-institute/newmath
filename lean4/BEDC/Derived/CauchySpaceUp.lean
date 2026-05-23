@@ -24,4 +24,19 @@ theorem CauchySpaceCarrier_filter_stability {F U R Q T H C P N replay : BHist} :
     unary_cont_closed fUnary uUnary replayRoute
   exact ⟨fUnary, replayUnary, transportRow⟩
 
+theorem CauchySpaceCarrier_uniform_regseq_interface {F U R Q T H C P N replay : BHist} :
+    CauchySpaceCarrier F U R Q T H C P N ->
+      Cont F U replay ->
+        UnaryHistory F ∧ UnaryHistory U ∧ UnaryHistory R ∧ UnaryHistory replay ∧
+          hsame replay R ∧ hsame H (append F U) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier replayRoute
+  obtain ⟨fUnary, uUnary, rUnary, _qUnary, _tUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    transportRow, filterRoute, _nameRoute⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed fUnary uUnary replayRoute
+  have replaySame : hsame replay R :=
+    cont_deterministic replayRoute filterRoute
+  exact ⟨fUnary, uUnary, rUnary, replayUnary, replaySame, transportRow⟩
+
 end BEDC.Derived.CauchySpaceUp

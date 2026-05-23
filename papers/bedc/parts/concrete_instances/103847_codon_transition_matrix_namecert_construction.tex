@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CodonTransitionMatrixUp$}
+\label{ch:concrete-instances-codon-transition-matrix-namecert}
+\origin{ai}
+
+The $\CodonTransitionMatrixUp$ packet realizes the finite-state stop-boundary prototype of \autoref{subsec:philosophy-codon-cube-boundary-program} as concrete BEDC NameCert data. It consumes the six-coordinate source-window carrier of \autoref{ch:concrete-instances-codon-six-bit-window-namecert}, the stop-suffix surface of \autoref{ch:concrete-instances-stopcodonzeckendorfsuffix-namecert}, finite state rows for scan, elongate, terminate, readthrough, repair, and mutate states, and local transition rows for $\mathrm{UAA}$, $\mathrm{UAG}$, $\mathrm{UGA}$, and $\mathrm{UGG}$. The packet records a standard stop-boundary transition matrix; it does not identify source-space equality with biological translation identity, choose a stochastic model, or collapse the tryptophan row into termination.
+
+\begin{definition}[CodonTransitionMatrix carrier]
+\label{def:codon-transition-matrix-carrier}
+A $\CodonTransitionMatrixUp$ carrier is a finite $\BHist$ packet
+$$
+M=(W,Q,F,D,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\CodonSixBitWindowUp$ source-window row exposing the six-coordinate codon readback.
+\item $Q$ is the finite-state row listing scan, elongate, terminate, readthrough, repair, and mutate states as displayed classifier entries.
+\item $F$ is the stop-face row naming the local $\mathrm{UAA}$, $\mathrm{UAG}$, $\mathrm{UGA}$, and $\mathrm{UGG}$ suffix reads inside the codon-window surface.
+\item $D$ is the deterministic transition row. It records
+$$
+\begin{aligned}
+\delta(\mathsf{elongate},\mathrm{UAA}) &= \mathsf{terminate},\\
+\delta(\mathsf{elongate},\mathrm{UAG}) &= \mathsf{terminate},\\
+\delta(\mathsf{elongate},\mathrm{UGA}) &= \mathsf{terminate},\\
+\delta(\mathsf{elongate},\mathrm{UGG}) &= \mathsf{elongate\text{-}Trp}.
+\end{aligned}
+$$
+\item $T$ is the transition-exactness row requiring each displayed stop-face transition to agree with $D$ and requiring the $\mathrm{UGG}$ row to remain non-terminating.
+\item $H$ records componentwise $\hsame$ transport for source windows, state rows, stop-face rows, deterministic transition rows, exactness rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a codon-window request through $W,Q,F,D,T$ and then to $H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CodonTransitionMatrixUp$, $\CodonSixBitWindowUp$, stop-face and codon-cube boundary rows, local stop-boundary rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CodonTransitionMatrixUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for stochastic readthrough probabilities, a global genetic-code table, amino-acid classifier identity, source-space quotient equality, or a biological inevitability claim.
+\end{definition}
+
+\begin{theorem}[CodonTransitionMatrix NameCert obligations]
+\label{thm:codon-transition-matrix-namecert-obligations}
+For every accepted $\CodonTransitionMatrixUp$ carrier $M=(W,Q,F,D,T,H,C,P,N)$, the local $\NameCert_{\CodonTransitionMatrixUp}$ surface consists exactly of source-window admission through $W$, finite-state admission through $Q$, stop-face row admission through $F$, deterministic transition display through $D$, transition exactness through $T$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. In particular, the three standard stop rows terminate while the $\mathrm{UGG}$ local suffix row remains an elongation row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $W$ confines all codon reads to the six-coordinate source window, and $Q$ supplies the only states that can be used by the matrix.
+
+The stop-face row $F$ selects the four local suffix reads named by the prototype. The deterministic row $D$ then displays exactly the three terminating rows and the one $\mathrm{UGG}$ elongation row.
+
+The exactness row $T$ is the classifier check: a packet mapping $\mathrm{UGG}$ to terminate cannot satisfy the displayed matrix. The structural rows $H,C,P,N$ transport, replay, source, and locally name the same finite route.
+
+No stochastic probability, global table, amino-acid classifier, quotient source equality, or biological inevitability row appears in the carrier. Hence the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[CodonTransitionMatrix stop-boundary exactness]
+\label{thm:codon-transition-matrix-stop-boundary-exactness}
+Every accepted $\CodonTransitionMatrixUp$ read factors through
+$$
+W,Q,F \longmapsto D \longmapsto T
+$$
+together with $H,C,P,N$. Therefore a transition matrix that maps the $\mathrm{UGG}$ local suffix row to $\mathsf{terminate}$ is outside the accepted stop-boundary carrier.
+\end{theorem}
+\begin{proof}
+Begin with a transition read. The source-window row $W$ supplies the codon window, and the finite-state row $Q$ supplies the state names; no transition can be inspected before both rows are displayed.
+
+The stop-face row $F$ narrows the read to the four local suffix rows. The deterministic row $D$ then fixes the three stop transitions and the $\mathrm{UGG}$ elongation transition.
+
+Finally $T$ checks exactness against the displayed matrix. Since $H,C,P,N$ only preserve the same route, changing the $\mathrm{UGG}$ row to terminate changes $D$ and breaks $T$.
+\end{proof}
+
+\falsifiablePrediction{A transition matrix that maps the $\mathrm{UGG}$ local suffix row to the terminate state fails the standard stop-boundary transition row.}
+
+\independenceWitness{CodonSixBitWindow, CodonCubeBoundary, CodonStopFace, CodonSixBitWindow, LocalStopBoundary-style rows: none is bijective to $\CodonTransitionMatrixUp$, because those siblings supply source windows, boundary vocabulary, stop-face rows, or local boundary style while this packet binds them to one deterministic state-transition matrix with exactness, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate file for \texttt{BEDC.Derived.CodonTransitionMatrixUp} must provide explicit $\Nontrivial\ \CodonTransitionMatrixUp$ and $\FieldFaithful\ \CodonTransitionMatrixUp$ instances preserving $W,Q,F,D,T,H,C,P,N$ as separate displayed fields.
+
+\closureat{CodonTransitionMatrixUp}{seedStr}
+
+\begin{closurestatus}{\CodonTransitionMatrixUp}
+  \constructivestory{A $\CodonTransitionMatrixUp$ packet is generated from a CodonSixBitWindowUp source-window row, finite state rows, stop-face suffix rows, deterministic transition rows for UAA, UAG, UGA, and UGG, a transition-exactness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:codon-transition-matrix-carrier}, \autoref{thm:codon-transition-matrix-namecert-obligations}, and \autoref{thm:codon-transition-matrix-stop-boundary-exactness} seed the finite stop-boundary transition matrix over codon windows and local stop-face transition rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim stochastic readthrough modeling, global genetic-code table identity, amino-acid classifier identity, source-space quotient equality, biological inevitability, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the nine-row carrier and prove the deterministic transition exactness surface for BEDC.Derived.CodonTransitionMatrixUp.}
+\end{closurestatus}
