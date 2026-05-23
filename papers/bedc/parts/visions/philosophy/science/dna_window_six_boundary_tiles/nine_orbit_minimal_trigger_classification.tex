@@ -1,0 +1,186 @@
+\begin{definition}[Overlap defect]
+\label{def:philosophy-minimal-trigger-overlap-defect}
+For a quotient-level support family
+$$
+  A=\{S_{1},\ldots,S_{m}\}
+$$
+on $\Omega=\{1,2,3,4\}$, define its energy and overlap defect by
+$$
+  E(A)=\sum_{i=1}^{m}|S_{i}|,
+  \qquad
+  \delta(A)=E(A)-4.
+$$
+\end{definition}
+
+\begin{theorem}[Defect range]
+\label{thm:philosophy-minimal-trigger-defect-range}
+Every quotient-level minimal full trigger on four coordinates has
+$$
+  \delta(A)\in\{0,1,2\}.
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-private-coordinate-criterion}, every support
+has a private coordinate. Hence a size-$m$ minimal trigger has at least
+$m$ coordinates of multiplicity one. The remaining $4-m$ coordinates
+can contribute multiplicity at most $m$ each, so
+$$
+  E(A)\leq m+m(4-m).
+$$
+For $m=1,2,3,4$, this gives $E(A)\leq4,6,6,4$, respectively. Since
+full triggering forces $E(A)\geq4$, the defect is one of $0,1,2$.
+\end{proof}
+
+\begin{theorem}[Nine orbit classification]
+\label{thm:philosophy-nine-orbit-minimal-trigger-classification}
+Under the $S_{4}$ action on the four trigger coordinates, the
+quotient-level minimal full triggers split into the following nine
+normal forms:
+$$
+\begin{array}{c|c|r|r|r|r}
+  \text{normal form} & m & E & \delta & \text{quotient count} & \text{codon count}\\
+  \hline
+  \{1234\} & 1 & 4 & 0 & 1 & 2\\
+  \{1,234\} & 2 & 4 & 0 & 4 & 16\\
+  \{12,34\} & 2 & 4 & 0 & 3 & 12\\
+  \{12,234\} & 2 & 5 & 1 & 12 & 48\\
+  \{123,124\} & 2 & 6 & 2 & 6 & 24\\
+  \{1,2,34\} & 3 & 4 & 0 & 6 & 48\\
+  \{1,24,34\} & 3 & 5 & 1 & 12 & 96\\
+  \{14,24,34\} & 3 & 6 & 2 & 4 & 32\\
+  \{1,2,3,4\} & 4 & 4 & 0 & 1 & 16.
+\end{array}
+$$
+The quotient counts sum to $49$, and the codon counts sum to $294$.
+\end{theorem}
+\begin{proof}
+Classify support families by the private-coordinate criterion of
+\autoref{thm:philosophy-private-coordinate-criterion}. For $m=1$ the
+only type is $\{1234\}$. For $m=2$, the possible support-size patterns
+with private coordinates and full union are $(1,3)$, $(2,2)$, $(2,3)$,
+and $(3,3)$, giving the four displayed two-support rows. For $m=3$,
+the possible patterns are $(1,1,2)$, $(1,2,2)$, and $(2,2,2)$, giving
+the three displayed three-support rows. For $m=4$, the four private
+coordinates force the four singleton supports.
+
+The quotient counts are the sizes of the $S_{4}$ orbits of these normal
+forms. The codon count in a row is the quotient count multiplied by
+$2^{m}$.
+\end{proof}
+
+\begin{corollary}[Defect distribution]
+\label{cor:philosophy-minimal-trigger-defect-distribution}
+The quotient-level and codon-level defect distributions are
+$$
+\begin{array}{c|r|r}
+  \delta & \text{quotient count} & \text{codon count}\\
+  \hline
+  0 & 15 & 94\\
+  1 & 24 & 144\\
+  2 & 10 & 56.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Group the rows of
+\autoref{thm:philosophy-nine-orbit-minimal-trigger-classification} by
+their defect value.
+\end{proof}
+
+\begin{corollary}[Orbit expansion of the trigger polynomial]
+\label{cor:philosophy-orbit-expansion-minimal-trigger-polynomial}
+The quotient-level bivariate minimal-trigger polynomial decomposes by
+orbit type as
+$$
+  T_{q}(z,y)
+  =
+  zy^{4}
+  +
+  4z^{2}y^{4}
+  +
+  3z^{2}y^{4}
+  +
+  12z^{2}y^{5}
+  +
+  6z^{2}y^{6}
+$$
+$$
+  \qquad
+  +
+  6z^{3}y^{4}
+  +
+  12z^{3}y^{5}
+  +
+  4z^{3}y^{6}
+  +
+  z^{4}y^{4}.
+$$
+After applying the two-lift codon factor $2^{m}$, this becomes
+$$
+  T_{c}(z,y)
+  =
+  2zy^{4}
+  +
+  z^{2}(28y^{4}+48y^{5}+24y^{6})
+$$
+$$
+  \qquad
+  +
+  z^{3}(48y^{4}+96y^{5}+32y^{6})
+  +
+  16z^{4}y^{4}.
+$$
+\end{corollary}
+\begin{proof}
+Attach the monomial $z^{m}y^{E}$ to each row of
+\autoref{thm:philosophy-nine-orbit-minimal-trigger-classification},
+weighted by quotient orbit size. Multiplication by $2^{m}$ gives the
+codon-level polynomial.
+\end{proof}
+
+\begin{corollary}[Partition and overlap mechanisms]
+\label{cor:philosophy-partition-overlap-mechanisms}
+The defect-$0$ rows are exactly the partition triggers. The defect-$1$
+rows are the single-overlap normal forms
+$$
+  \{12,234\},
+  \qquad
+  \{1,24,34\}.
+$$
+The defect-$2$ rows are the double-overlap and triple-overlap normal
+forms
+$$
+  \{123,124\},
+  \qquad
+  \{14,24,34\}.
+$$
+\end{corollary}
+\begin{proof}
+Defect is the total excess coordinate multiplicity beyond the four
+coordinates of $\Omega$. Defect $0$ is therefore equivalent to pairwise
+disjoint support blocks, namely a partition. The two defect-$1$ normal
+forms have one repeated coordinate. The two defect-$2$ normal forms
+respectively realize two repeated coordinates and one coordinate shared
+by three supports.
+\end{proof}
+
+\begin{theorem}[Nine-orbit minimal trigger theorem]
+\label{thm:philosophy-nine-orbit-minimal-trigger-theorem}
+The post-$M^{\star}$ quotient-level minimal full triggers consist of
+$49$ support covers arranged in nine $S_{4}$-orbit types. Their
+two-lift codon expansions contain $294$ minimal full triggers. The
+defect classes are
+$$
+  \delta=0:94,
+  \qquad
+  \delta=1:144,
+  \qquad
+  \delta=2:56
+$$
+at codon level.
+\end{theorem}
+\begin{proof}
+This is the combined content of
+\autoref{thm:philosophy-nine-orbit-minimal-trigger-classification} and
+\autoref{cor:philosophy-minimal-trigger-defect-distribution}.
+\end{proof}

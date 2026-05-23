@@ -4032,6 +4032,42 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             if coefficient
         }
 
+    def support_family_representation(family: tuple[frozenset[int], ...], permutation: tuple[int, ...]) -> str:
+        support_labels = []
+        for support in family:
+            relabeled = sorted(permutation[coordinate] + 1 for coordinate in support)
+            support_labels.append("".join(str(label) for label in relabeled))
+        return "{" + ",".join(sorted(support_labels, key=lambda item: (len(item), item))) + "}"
+
+    def canonical_support_family(family: tuple[frozenset[int], ...]) -> str:
+        return min(
+            support_family_representation(family, permutation)
+            for permutation in itertools.permutations(range(len(coordinate_universe)))
+        )
+
+    chosen_orbit_representatives = {
+        "{1234}": "{1234}",
+        "{1,234}": "{1,234}",
+        "{12,34}": "{12,34}",
+        "{12,134}": "{12,234}",
+        "{123,124}": "{123,124}",
+        "{1,2,34}": "{1,2,34}",
+        "{1,23,24}": "{1,24,34}",
+        "{12,13,14}": "{14,24,34}",
+        "{1,2,3,4}": "{1,2,3,4}",
+    }
+    orbit_order = (
+        "{1234}",
+        "{1,234}",
+        "{12,34}",
+        "{12,234}",
+        "{123,124}",
+        "{1,2,34}",
+        "{1,24,34}",
+        "{14,24,34}",
+        "{1,2,3,4}",
+    )
+    quotient_minimal_trigger_orbit_counts: collections.Counter[str] = collections.Counter()
     for trigger_size in range(1, 5):
         for family in itertools.combinations(nonempty_support_patterns, trigger_size):
             union_support = frozenset().union(*family)
@@ -4046,6 +4082,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 quotient_minimal_trigger_counts[trigger_size] += 1
                 support_size_type = tuple(sorted(len(support) for support in family))
                 quotient_minimal_trigger_type_counts[support_size_type] += 1
+                canonical_orbit = canonical_support_family(family)
+                quotient_minimal_trigger_orbit_counts[chosen_orbit_representatives[canonical_orbit]] += 1
     minimal_trigger_rows = [
         {
             "trigger_size": trigger_size,
@@ -4134,6 +4172,25 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             ),
         }
         for trigger_size in range(1, 5)
+    ]
+    minimal_trigger_orbit_rows = [
+        {
+            "normal_form": normal_form,
+            "trigger_size": normal_form.count(",") + 1,
+            "energy": sum(len(support) for support in normal_form.strip("{}").split(",")),
+            "defect": sum(len(support) for support in normal_form.strip("{}").split(",")) - len(coordinate_universe),
+            "quotient_count": quotient_minimal_trigger_orbit_counts[normal_form],
+            "codon_count": quotient_minimal_trigger_orbit_counts[normal_form] * (2 ** (normal_form.count(",") + 1)),
+        }
+        for normal_form in orbit_order
+    ]
+    minimal_trigger_defect_rows = [
+        {
+            "defect": defect,
+            "quotient_count": sum(row["quotient_count"] for row in minimal_trigger_orbit_rows if row["defect"] == defect),
+            "codon_count": sum(row["codon_count"] for row in minimal_trigger_orbit_rows if row["defect"] == defect),
+        }
+        for defect in range(3)
     ]
     rank_enumerator_rows = [
         {
@@ -4643,6 +4700,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "private_coordinate_minimal_trigger_formula": "1/m! sum_j (-1)^j binom(m,j) (2^m-1-j)^n",
         "private_coordinate_energy_refined_formula": "1/m! sum_j (-1)^j binom(m,j) ((1+y)^m-1-jy)^n",
         "private_coordinate_formula_rows": private_coordinate_formula_rows,
+        "minimal_trigger_orbit_rows": minimal_trigger_orbit_rows,
+        "minimal_trigger_defect_rows": minimal_trigger_defect_rows,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
         "trigger_energy_minimum": trigger_energy_minimum,
         "trigger_energy_minimum_condition": "support partition of Omega",
@@ -8440,6 +8499,35 @@ def assert_expected(summary: dict[str, object]) -> None:
         (2, 25, 100, ((4, 7, 28), (5, 12, 48), (6, 6, 24))),
         (3, 22, 176, ((4, 6, 48), (5, 12, 96), (6, 4, 32))),
         (4, 1, 16, ((4, 1, 16),)),
+    ]
+    assert [
+        (
+            row["normal_form"],
+            row["trigger_size"],
+            row["energy"],
+            row["defect"],
+            row["quotient_count"],
+            row["codon_count"],
+        )
+        for row in antipodal["minimal_trigger_orbit_rows"]
+    ] == [
+        ("{1234}", 1, 4, 0, 1, 2),
+        ("{1,234}", 2, 4, 0, 4, 16),
+        ("{12,34}", 2, 4, 0, 3, 12),
+        ("{12,234}", 2, 5, 1, 12, 48),
+        ("{123,124}", 2, 6, 2, 6, 24),
+        ("{1,2,34}", 3, 4, 0, 6, 48),
+        ("{1,24,34}", 3, 5, 1, 12, 96),
+        ("{14,24,34}", 3, 6, 2, 4, 32),
+        ("{1,2,3,4}", 4, 4, 0, 1, 16),
+    ]
+    assert [
+        (row["defect"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["minimal_trigger_defect_rows"]
+    ] == [
+        (0, 15, 94),
+        (1, 24, 144),
+        (2, 10, 56),
     ]
     assert antipodal["rank_enumerator_formula"] == "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))"
     assert [
