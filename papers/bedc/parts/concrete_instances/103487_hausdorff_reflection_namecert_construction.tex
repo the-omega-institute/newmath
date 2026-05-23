@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\HausdorffReflectionUp$}
+\label{ch:concrete-instances-hausdorff-reflection-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on separated reflection, the $\HausdorffReflectionUp$ packet records the L10 boundary where a metric or uniform carrier is read through displayed zero-distance separation data before entering the completion route. It sits after the metric carrier of \autoref{ch:concrete-instances-metric-namecert} and the separated metric packet of \autoref{ch:concrete-instances-separatedmetric-namecert}, and before the separated completion surface of \autoref{ch:concrete-instances-hausdorffcompletion-namecert} and the reflection packet of \autoref{ch:concrete-instances-completionreflection-namecert}. The carrier keeps separated reflection quotient-free: it records classifier collapse as finite rows, not as host equality, selected representatives, quotient completion, trichotomy, countable choice, or ambient completeness.
+
+\begin{definition}[HausdorffReflection carrier]
+\label{def:hausdorff-reflection-carrier}
+A $\HausdorffReflectionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(M,S,Z,U,A,L,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\MetricUp$ row whose distance observations are visible before any separated read is consumed.
+\item $S$ is the $\SeparatedMetricUp$ row that records zero-distance separation over the same metric carrier.
+\item $Z$ is the finite zero-distance classifier ledger used to identify reflection-stable reads.
+\item $U$ is the uniform or entourage-facing route through which later completion consumers inspect the separated carrier.
+\item $A$ is the downstream handoff row to $\HausdorffCompletionUp$ and $\CompletionReflectionUp$.
+\item $L$ records componentwise $\hsame$ transport for the metric, separated, zero-distance, uniform, handoff, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,S,Z \longmapsto U \longmapsto A .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetricUp$, $\SeparatedMetricUp$, $\HausdorffCompletionUp$, $\CompletionReflectionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HausdorffReflectionUp}$ row.
+\end{enumerate}
+The carrier admits exactly these rows. It has no coordinate for quotient classes, host equality of points, selected representatives, trichotomy, countable choice, or ambient separated completion.
+\end{definition}
+
+\begin{theorem}[HausdorffReflection NameCert obligations]
+\label{thm:hausdorff-reflection-namecert-obligations}
+For an accepted $\HausdorffReflectionUp$ carrier $R=(M,S,Z,U,A,L,C,P,N)$, the local $\NameCert_{\HausdorffReflectionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the metric, separated metric, zero-distance ledger, uniform route, completion handoff, transport, replay, provenance, and local naming rows;
+\item metric source exactness, requiring every reflected read to expose $M$ before the separated metric row $S$ or zero-distance ledger $Z$ is consumed;
+\item separated classifier stability, requiring the zero-distance ledger $Z$ to be transported only through the componentwise $\hsame$ row $L$ and displayed replay row $C$;
+\item completion handoff, requiring every completion-facing consumer to pass through $U$ and $A$ before reading $\HausdorffCompletionUp$ or $\CompletionReflectionUp$ data;
+\item non-escape, excluding quotient classes, host point equality, selected representatives, trichotomy, countable choice, ambient completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No NameCert obligation is stored outside $M,S,Z,U,A,L,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hausdorff-reflection-carrier}. The accepted packet exposes exactly the metric source, separated metric row, zero-distance ledger, uniform route, downstream handoff, transport, replay, provenance, and local naming rows.
+
+Metric source exactness starts at $M$. A reflected read cannot inspect $S$ or $Z$ until the metric observations to be separated have been displayed.
+
+Separated classifier stability is finite. The row $Z$ records the zero-distance classifier ledger, while $L$ and $C$ transport and replay that ledger without adding a quotient class or host equality proof.
+
+The completion handoff is confined to $U$ and $A$. These rows place the separated carrier on the route consumed by \autoref{ch:concrete-instances-hausdorffcompletion-namecert} and \autoref{ch:concrete-instances-completionreflection-namecert}. Since the carrier has no excluded host-side coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[HausdorffReflection separated handoff]
+\label{thm:hausdorff-reflection-separated-handoff}
+Every $\HausdorffCompletionUp$ or $\CompletionReflectionUp$ consumer of an accepted $\HausdorffReflectionUp$ carrier receives separated data only through the finite route
+$$
+\MetricUp,\ \SeparatedMetricUp,\ Z,\ U,\ A,\ L,\ C,\ P,\ \NameCert_{\HausdorffReflectionUp}.
+$$
+The route makes the separated boundary explicit before completion data are consumed. It does not export quotient completion classes, host point equality, selected representatives, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing consumer of $R$. The consumer must first read the metric source row $M$ and the separated metric row $S$, because those are the only carrier coordinates that expose source observations and separated classification.
+
+The zero-distance ledger $Z$ is then replayed through $U$ and $A$ toward the downstream completion packets. Componentwise transport through $L$ and displayed continuation through $C$ preserve the same finite route.
+
+Finally $P$ and $N$ record provenance and local naming. Thus the handoff to $\HausdorffCompletionUp$ and $\CompletionReflectionUp$ is exactly the displayed separated route, with no path to quotient classes, host equality, selected representatives, choice data, or ambient completeness.
+\end{proof}
+
+\closureat{HausdorffReflectionUp}{seedStr}
+
+\begin{closurestatus}{\HausdorffReflectionUp}
+  \constructivestory{A $\HausdorffReflectionUp$ packet is generated from a MetricUp source row, SeparatedMetricUp boundary row, zero-distance classifier ledger, uniform route, downstream completion handoff, componentwise transport, displayed continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hausdorff-reflection-carrier}, \autoref{thm:hausdorff-reflection-namecert-obligations}, and \autoref{thm:hausdorff-reflection-separated-handoff} seed the quotient-free separated-reflection boundary for the L10 completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient reflection, selected representatives, host equality, trichotomy, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric source exactness, separated classifier stability, completion handoff, and non-escape for the same finite reflection packet.}
+\end{closurestatus}
