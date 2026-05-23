@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\BesselInequalityUp$}
+\label{ch:concrete-instances-bessel-inequality-namecert}
+\origin{human}
+
+Following Riesz--Fischer/Hilbert-space treatments of Bessel's inequality, the $\BesselInequalityUp$ packet records the finite BEDC surface where an orthogonal family, coefficient ledger, partial-square-sum bound, and norm handoff are visible before any Parseval, Fourier-series, orthogonal-projection, or Hilbert-completeness consumer reads the route. It sits beside the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the inner-product classifier of \autoref{ch:concrete-instances-innerproduct-namecert}, the norm surface of \autoref{ch:concrete-instances-norm-namecert}, and the vector-space reduct of \autoref{ch:concrete-instances-vecspace-namecert}. The packet names the inequality boundary only; it is not Parseval completeness, an orthogonal expansion theorem, a projection theorem, a selected orthonormal basis, or a host summability principle.
+
+\begin{definition}[Bessel inequality carrier]
+\label{def:bessel-inequality-carrier}
+A $\BesselInequalityUp$ carrier is a finite $\BHist$ packet
+$$
+B=(H,I,N,V,O,C,S,L,T,R,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HilbertUp$ carrier row naming the ambient complete inner-product space.
+\item $I$ is the $\InnerProductUp$ row over the same carried vector endpoints, including the coefficient readback operation $\langle x,e\rangle_H$.
+\item $N$ is the $\NormUp$ row over the same carrier, including the squared-norm comparison used by the inequality bound.
+\item $V$ is the $\VecSpaceUp$ reduct containing the zero, addition, scalar-action, finite-combination, and classifier rows used by the coefficient spine.
+\item $O$ is the orthogonal-family row, recording a finite displayed family $e_0,\ldots,e_{k-1}$ whose pairwise inner products classify as zero and whose norm rows classify as unit rows when the normalized form is requested.
+\item $C$ is the coefficient ledger row, recording the finite coefficient list $\langle x,e_i\rangle_H$ for a carried vector $x$ and every displayed family position $i<k$.
+\item $S$ is the partial-square-sum row, recording the finite sum $\sum_{i<k} |\langle x,e_i\rangle_H|^2$ through the real scalar surface read from $I$ and $N$.
+\item $L$ is the Hilbert-bound handoff row, recording the comparison
+$$
+\sum_{i<k} |\langle x,e_i\rangle_H|^2 \leq \|x\|_H^2
+$$
+as a displayed finite inequality row rather than as a host Hilbert-space theorem.
+\item $T$ records componentwise $\hsame$ transport for Hilbert carriers, inner-product rows, norm rows, vector-space rows, orthogonal-family rows, coefficient ledgers, partial sums, handoff comparisons, replay, provenance, and local naming.
+\item $R$ records displayed $\Cont$ replay of the route
+$$
+H,I,N,V,O,C,S \longmapsto L \longmapsto T,P,Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BesselInequalityUp$, $\HilbertUp$, $\InnerProductUp$, $\NormUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the local $\NameCert_{\BesselInequalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $H,I,N,V,O,C,S,L,T,R,P,Q$. The carrier has no coordinate for Parseval equality, a complete orthonormal basis, projection minimization, Fourier convergence, choice of basis, host summability, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Bessel inequality NameCert obligations]
+\label{thm:bessel-inequality-namecert-obligations}
+For every accepted $\BesselInequalityUp$ carrier
+$$
+B=(H,I,N,V,O,C,S,L,T,R,P,Q),
+$$
+the local $\NameCert_{\BesselInequalityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the Hilbert, inner-product, norm, vector-space, orthogonal-family, coefficient-ledger, partial-square-sum, Hilbert-bound handoff, transport, replay, provenance, and local naming rows;
+\item dependency coherence, requiring the $\HilbertUp$, $\InnerProductUp$, $\NormUp$, and $\VecSpaceUp$ rows to read the same carried vector endpoints and the same classifier route;
+\item orthogonality exactness, requiring $O$ to display the finite family positions and the pairwise zero inner-product rows used by the coefficient computation;
+\item coefficient and square-sum exactness, requiring every coefficient in $C$ and every summand in $S$ to be read from the displayed inner-product and norm surfaces;
+\item Hilbert-bound handoff, requiring the inequality row $L$ to be downstream of $O,C,S$ and upstream of any Parseval, Fourier-series, orthogonal-projection, or Hilbert-completeness consumer;
+\item transport, replay, and provenance exhaustion through $T,R,P,Q$.
+\end{enumerate}
+No BesselInequality obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:bessel-inequality-carrier}. The tuple displays the Hilbert carrier, the inner-product and norm rows, the vector-space reduct, the orthogonal family, the coefficient ledger, the square-sum row, and the structural rows.
+
+The dependency rows are read over the same carried endpoints. Thus the coefficient operation from $\InnerProductUp$, the norm comparison from $\NormUp$, and the finite linear-combination support from $\VecSpaceUp$ remain tied to the ambient $\HilbertUp$ carrier.
+
+Orthogonality exactness is confined to $O$. Every coefficient in $C$ is then obtained by reading the inner-product row against one displayed orthogonal-family entry, and $S$ repacks those finitely many coefficient norms as the displayed partial square sum.
+
+The bound row $L$ is downstream of those finite rows. Since $T,R,P,Q$ only transport, replay, source, and name the same route, the packet exports the Bessel inequality handoff and no Parseval equality, basis selection, projection minimizer, Fourier convergence, host summability, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Bessel inequality Hilbert-bound handoff]
+\label{thm:bessel-inequality-hilbert-bound-handoff}
+Every downstream consumer of an accepted $\BesselInequalityUp$ packet that uses the Hilbert bound factors through the displayed route
+$$
+H,I,N,V,O,C,S \longmapsto L \longmapsto T,R,P,Q .
+$$
+Thus the consumer first reads the shared $\HilbertUp$, $\InnerProductUp$, $\NormUp$, and $\VecSpaceUp$ dependency surface, then the finite orthogonal family and coefficient square-sum ledger, and only then reaches the inequality row. The packet exports no Parseval equality, complete orthonormal basis, projection theorem, Fourier convergence theorem, selected basis, or host summability principle.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $B=(H,I,N,V,O,C,S,L,T,R,P,Q)$. The shared dependency surface is visible first: $H$ gives the Hilbert carrier, $I$ gives coefficient readback, $N$ gives the norm comparison, and $V$ gives the finite vector-space operations.
+
+The finite orthogonal-family and coefficient stages then follow. The row $O$ supplies the displayed family and its orthogonality witnesses, $C$ records the coefficient list for the carried vector, and $S$ records the finite partial square sum.
+
+Only after those rows are displayed can the consumer read $L$. Transport through $T$, replay through $R$, and provenance through $P,Q$ preserve this order, so the downstream object receives a Hilbert-bound handoff rather than a stronger completeness, basis, projection, or Fourier-series theorem.
+\end{proof}
+
+\closureat{BesselInequalityUp}{seedStr}
+
+\begin{closurestatus}{\BesselInequalityUp}
+  \constructivestory{A $\BesselInequalityUp$ packet is generated from a Hilbert carrier row, inner-product row, norm row, vector-space reduct, finite orthogonal-family row, coefficient-ledger row, partial-square-sum row, Hilbert-bound handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bessel-inequality-carrier}, \autoref{thm:bessel-inequality-namecert-obligations}, and \autoref{thm:bessel-inequality-hilbert-bound-handoff} seed the finite Hilbert-space coefficient-bound surface consumed by Parseval, Fourier-series, orthogonal-projection, and Hilbert-completeness chapters.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Parseval equality, complete orthonormal bases, projection minimization, Fourier convergence, selected bases, host summability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, dependency coherence, orthogonality exactness, coefficient and square-sum exactness, Hilbert-bound handoff, transport, replay, provenance, and local naming for BEDC.Derived.BesselInequalityUp.}
+\end{closurestatus}

@@ -222,6 +222,46 @@ The branch-readback obligation above fixes that the same branch precedes the sam
 Finally \autoref{thm:metric-completion-filter-net-compatibility} and \autoref{thm:metric-completion-finite-readback-ledger-nonescape} keep the handoff on the same source metric, readback, separatedness, transport, replay, provenance, and naming route. No additional uniform-completion data is introduced by the handoff.
 \end{proof}
 
+\begin{theorem}[MetricCompletion branch-conversion refusal]
+\label{thm:metric-completion-branch-conversion-refusal}
+Let $M=(X,F,D,R,S,H,C,P,N)$ be an accepted $\MetricCompletionUp$ packet. Any completion-facing read that uses data from both the $\CauchyFilterUp$ branch $F$ and the $\CauchyNetUp$ branch $D$ must display a branch-conversion row between those two branches. Since the carrier of \autoref{def:metric-completion-carrier} contains no such row, no accepted read of $M$ may mix filter evidence and net evidence as one completion route.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-completion-filter-net-branch-determinacy}. The accepted packet selects the visible branch before a read reaches the readback row $R$ or the separatedness row $S$.
+
+Now apply \autoref{thm:metric-completion-branch-coverage}. A consumer that reads $F$ follows the filter handoff, while a consumer that reads $D$ follows the net handoff. To combine the two as one route, the consumer would need an additional row witnessing conversion from one displayed branch to the other.
+
+The carrier inventory in \autoref{def:metric-completion-carrier} lists only $X,F,D,R,S,H,C,P,N$. The structural rows transport, replay, source, and name the selected route; they do not add a conversion coordinate. Hence a mixed read has no projection from the accepted packet.
+\end{proof}
+
+\begin{theorem}[MetricCompletion uniform-seal factorization]
+\label{thm:metric-completion-uniform-seal-factorization}
+Every $\UniformCompletionUp$ consumer of an accepted $\MetricCompletionUp$ packet factors through the selected $\CauchyFilterUp$ branch $F$ or $\CauchyNetUp$ branch $D$, the finite readback row $R$, the $\SeparatedMetricUp$ row $S$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\MetricCompletionUp}$ row $N$. No uniform-facing seal is available outside that selected branch and structural route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metric-completion-obligation-uniform-handoff}. It gives the uniform consumer exactly the branch, readback, separatedness, transport, replay, provenance, and naming rows of the metric-completion packet.
+
+Use \autoref{thm:metric-completion-obligation-branch-readback} to place $R$ after the selected Cauchy-evidence branch. Then use \autoref{thm:metric-completion-obligation-separated-comparison} to place every comparison through $S$ and the structural rows $H,C,P,N$.
+
+The branch-conversion refusal above prevents the uniform consumer from combining $F$ and $D$ through an absent conversion row. Thus the uniform seal factors through one selected branch together with $R,S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[MetricCompletion completion-consumer totality]
+\label{thm:metric-completion-completion-consumer-totality}
+Every current completion-facing consumer of an accepted $\MetricCompletionUp$ packet receives only the rows listed in the carrier
+$$
+X,F,D,R,S,H,C,P,N .
+$$
+It receives no quotient-completion class, selected representative, countable-choice schedule, branch-conversion coordinate, open-cover compactness row, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-completion-carrier}. The finite packet lists the metric source, two alternative Cauchy-evidence rows, one readback row, one separatedness row, and the transport, replay, provenance, and naming rows.
+
+The obligation theorems above exhaust the possible consumer routes. Branch readback fixes how $R$ is reached; separated comparison fixes how $S$ is used; uniform handoff and uniform-seal factorization fix the completion-facing handoff; branch-conversion refusal rejects mixed branches without an explicit row.
+
+Finally apply \autoref{thm:metric-completion-finite-readback-ledger-nonescape}. The excluded quotient, representative, countable-choice, compactness, and ambient-completeness principles have no coordinate in the accepted tuple and cannot be recovered by the structural rows.
+\end{proof}
+
 \begin{theorem}[MetricCompletion carrier admission]
 \label{thm:metric-completion-carrier-admission}
 For an accepted $\MetricCompletionUp$ packet, carrier admission is exactly projection of the finite rows
