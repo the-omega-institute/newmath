@@ -223,15 +223,15 @@ theorem CauchyConvergenceModulusTailMonotonicityTasteGate_single_carrier_alignme
       Nonempty (FieldFaithful CauchyConvergenceModulusTailMonotonicityUp) ∧
         Nonempty (BEDC.Meta.TasteGate.Nontrivial
           CauchyConvergenceModulusTailMonotonicityUp) ∧
-          (∀ h : BHist,
+          (forall h : BHist,
             cauchyConvergenceModulusTailMonotonicityDecodeBHist
                 (cauchyConvergenceModulusTailMonotonicityEncodeBHist h) =
               h) ∧
-            (∀ x : CauchyConvergenceModulusTailMonotonicityUp,
+            (forall x : CauchyConvergenceModulusTailMonotonicityUp,
               cauchyConvergenceModulusTailMonotonicityFromEventFlow
                   (cauchyConvergenceModulusTailMonotonicityToEventFlow x) =
                 some x) ∧
-              (∀ x y : CauchyConvergenceModulusTailMonotonicityUp,
+              (forall x y : CauchyConvergenceModulusTailMonotonicityUp,
                 cauchyConvergenceModulusTailMonotonicityToEventFlow x =
                     cauchyConvergenceModulusTailMonotonicityToEventFlow y ->
                   x = y) ∧
