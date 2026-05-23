@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RationalDensityRealUp$}
+\label{ch:concrete-instances-rational-density-real-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RationalDensityRealUp$ packet records the finite rational-witness interface for displayed $\RealUp$ intervals. It sits after the Real seal of \autoref{ch:concrete-instances-real-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}. It routes located interval data through the rational interval surface of \autoref{ch:concrete-instances-rationalinterval-namecert} and the apartness-gap boundary of \autoref{ch:concrete-instances-apartnessreal-namecert}, without reading a host real order.
+
+\begin{definition}[RationalDensityReal carrier]\label{def:rational-density-real-carrier}
+A $\RationalDensityRealUp$ carrier is a finite $\BHist$ packet
+$$
+D=(L,U,W_L,W_U,A,I,Q,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are the lower and upper endpoint names, each carrying a $\RealUp$ seal row and a $\RegSeqRatUp$ readback row.
+\item $W_L$ and $W_U$ are the finite $\StreamNameUp$ windows inspected from the two endpoint names.
+\item $A$ is the $\ApartnessRealUp$ positive-gap row displayed between the endpoint seals.
+\item $I$ is the $\RationalIntervalUp$ row whose rational bounds are read from the inspected endpoint windows.
+\item $Q$ is the visible $\RatUp$ witness row selected between the displayed rational interval bounds.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance row certifying that the inspected endpoint windows and the rational witness are read at one dyadic scale.
+\item $R$ is the dyadic radius row that records the positive subinterval around $Q$ still contained in the displayed interval.
+\item $H$ stores componentwise $\hsame$ transports for the endpoint, window, apartness, interval, witness, tolerance, and radius rows.
+\item $C$ stores the $\Cont$ replay from endpoint windows to the rational interval row, from the rational interval row to the witness row, and from the witness row to the radius row.
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\ApartnessRealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RationalDensityRealUp}$ row.
+\end{enumerate}
+The carrier stores a displayed rational witness for a displayed interval. It has no host order coordinate, no trichotomy row, no quotient equality of real names, no completeness principle, no Heine--Borel cover row, and no hidden choice selector.
+\end{definition}
+
+\begin{theorem}[RationalDensityReal NameCert obligation surface]\label{thm:rational-density-real-namecert-obligation-surface}
+For an accepted $\RationalDensityRealUp$ carrier $D=(L,U,W_L,W_U,A,I,Q,T,R,H,C,P,N)$, the local $\NameCert_{\RationalDensityRealUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the displayed endpoint, window, apartness, rational-interval, witness, tolerance, radius, transport, continuation, provenance, and naming rows;
+\item classifier transport along the stored $\hsame$ rows and the displayed $\Cont$ routes;
+\item witness visibility, stating that the $\RatUp$ row $Q$ is exposed before any consumer reads the radius row $R$;
+\item $\RealUp$ seal nonescape, stating that endpoint seals are consumed only through the stored $\RegSeqRatUp$ readbacks and $\StreamNameUp$ windows;
+\item ledger exactness, stating that the packet exports no host real order, trichotomy, quotient equality, completeness theorem, Heine--Borel cover, or hidden selector.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalDensityRealUp.RationalDensityRealTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is the tuple in \autoref{def:rational-density-real-carrier}. The endpoint names, stream windows, apartness row, rational interval row, witness row, dyadic tolerance, dyadic radius, transports, continuations, package row, and local naming row are all finite $\BHist$ coordinates.
+
+Classifier transport reads $H$ and $C$ componentwise. The transported endpoint windows still feed the same rational-interval row shape, and the transported interval still exposes the same witness-and-radius sequence.
+
+Witness visibility follows from the carrier order: the row $Q$ is stored before the radius row $R$, and the continuation row records the replay from $I$ to $Q$ before replaying from $Q$ to $R$.
+
+The seal nonescape and ledger exactness are inventory checks. The endpoint seals occur only beside their regular-rational readbacks and finite windows, while host order, trichotomy, quotient equality, completeness, Heine--Borel data, and hidden selection are not rows of the packet.
+\end{proof}
+
+\begin{theorem}[RationalDensityReal located-window witness]\label{thm:rational-density-real-located-window-witness}
+Let $L$ and $U$ be displayed $\RealUp$ endpoint names with $\RegSeqRatUp$ readbacks, finite $\StreamNameUp$ windows, and an $\ApartnessRealUp$ positive-gap row between them. If the inspected windows determine a displayed $\RationalIntervalUp$ row whose dyadic tolerance is recorded by $\DyadicRatCoreUp$, then an accepted $\RationalDensityRealUp$ packet exposes a visible $\RatUp$ witness row inside that displayed interval. Every consumer route to the witness factors through
+$$
+(L,U)\longmapsto (W_L,W_U)\longmapsto A\longmapsto I\longmapsto Q
+$$
+and through the dyadic tolerance and radius rows $T,R$; no step appeals to host real order, trichotomy, quotient equality, Real completeness, or Heine--Borel compactness.
+\end{theorem}
+\begin{proof}
+Read the endpoint data through their displayed regular-rational rows. The finite stream windows $W_L,W_U$ are the only observations used to form the rational interval row, so the route begins inside $\RegSeqRatUp$ and $\StreamNameUp$.
+
+The positive-gap row $A$ makes the interval located at the displayed scale. The dyadic row $T$ records that the endpoint windows and the rational interval bounds are compared inside $\DyadicRatCoreUp$, not inside an ambient order on completed reals.
+
+The rational witness is then the row $Q$ of the carrier. The continuation path reads $I$ before $Q$ and records the radius row $R$ only after $Q$ is visible.
+
+Thus the witness route is exactly the displayed chain through $\RationalIntervalUp$ and $\DyadicRatCoreUp$. Any route using host real order, trichotomy, quotient equality, Real completeness, or Heine--Borel compactness leaves the accepted packet.
+\end{proof}
+
+\begin{closurestatus}{\RationalDensityRealUp}
+  \constructivestory{A $\RationalDensityRealUp$ packet is generated from two displayed RealUp endpoint names, their RegSeqRat readbacks, finite StreamName windows, an ApartnessReal positive-gap row, a RationalInterval row, a visible Rat witness, dyadic tolerance and radius rows, componentwise transport, displayed continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-density-real-carrier}, \autoref{thm:rational-density-real-namecert-obligation-surface}, and \autoref{thm:rational-density-real-located-window-witness} declare the finite rational-witness surface for displayed RealUp intervals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim RealUp completeness, trichotomy, quotient equality of real names, host real order, Heine--Borel compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, witness visibility, seal nonescape, and ledger exactness for the same finite packet.}
+\end{closurestatus}

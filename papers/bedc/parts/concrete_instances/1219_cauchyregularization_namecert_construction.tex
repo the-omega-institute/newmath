@@ -53,6 +53,7 @@ The carrier contains no quotient of Cauchy streams, no chosen host real, no
 ambient completeness theorem, and no hidden tail selector outside the
 displayed modulus row.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchyRegularizationUp.TasteGate.CauchyRegularizationTasteGate\_single\_carrier\_alignment}
 
 \begin{definition}[CauchyRegularization modulus classifier]
 \label{def:cauchyregularization-modulus-classifier}
@@ -290,6 +291,45 @@ streams, selected limits, host real equality, hidden tail selectors, ambient
 completeness, and unrecorded modulus choices.
 \end{proof}
 
+\begin{theorem}[CauchyRegularization Real seal normalization retract]
+\label{thm:cauchyregularization-real-seal-normalization-retract}
+Let $G=(S,M,D,W,R,E,H,C,P,N)$ be an accepted
+$\CauchyRegularizationUp$ packet. Suppose a second regularization packet reads
+the same transported $\RationalStreamUp$ window row $S$, the same
+$\CauchyModulusUp$ threshold row $M$, the same $\DyadicRatCoreUp$ ledger $D$,
+the same approximant ledger $W$, the same $\RegSeqRatUp$ handoff $R$, the same
+seal row $E$, and the same structural rows $H,C,P,N$. Then the $\RealUp$
+consumer route of the second read retracts to the original seal route $E$.
+
+The retract exports no quotient stream equality, selected limit, host real
+equality, hidden tail selector, unrecorded modulus choice, or ambient
+completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of
+\autoref{def:cauchyregularization-finite-carrier} for the original packet and
+for the second packet. The two projections list the same source window,
+modulus threshold, dyadic ledger, approximant ledger, handoff, seal,
+transport, continuation, package, and naming rows.
+
+Apply
+\autoref{thm:cauchyregularization-common-modulus-idempotence}. The repeated
+read cannot introduce a new $\CauchyModulusUp$ threshold row or a new
+$\RegSeqRatUp$ handoff; the handoff and seal provenance remain the displayed
+rows $R$ and $E$.
+
+Apply \autoref{thm:cauchyregularization-real-seal-idempotent-route}. With the
+same Real-facing rows on both reads, the second consumer route is identified
+with the first consumer route at the seal surface.
+
+Finally apply
+\autoref{thm:cauchyregularization-real-seal-source-modulus-factorization}. The
+first route has only the displayed source-modulus-seal factorization through
+$S,M,D,W,R,E,H,C,P,N$. Hence the second route retracts to the same seal row
+$E$, and the listed quotient, limit, equality, selector, modulus-choice, and
+ambient-completeness data have no exported coordinate.
+\end{proof}
+
 \begin{theorem}[CauchyRegularization public real-regularization export]
 \label{thm:cauchyregularization-public-real-regularization-export}
 The finite carrier, modulus classifier, regular-sequence handoff, $\RealUp$
@@ -323,17 +363,63 @@ without quotient streams, host equality, selected limits, hidden tail
 selectors, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyRegularization public normalization retract export]
+\label{thm:cauchyregularization-public-normalization-retract-export}
+Let $G=(S,M,D,W,R,E,H,C,P,N)$ be an accepted
+$\CauchyRegularizationUp$ packet, and suppose a second accepted
+$\CauchyRegularizationUp$ packet has the same displayed source row $S$,
+modulus row $M$, dyadic ledger $D$, approximant ledger $W$,
+regular-sequence handoff $R$, seal row $E$, and structural rows $H,C,P,N$.
+Then the public real-regularization export of the second read retracts to the
+original public export surface determined by $S,M,D,W,R,E,H,C,P,N$, not only
+to the terminal $\RealUp$ seal row.
+
+This public retract exports no quotient stream, selected limit, host real
+equality, hidden tail selector, unrecorded modulus choice, or ambient
+completeness theorem.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:cauchyregularization-public-real-regularization-export} to the
+original packet. Its public export surface contains exactly the displayed
+rational-stream windows, modulus thresholds, dyadic comparison rows,
+regularized approximants, handoff row, real-seal provenance, transport rows,
+package row, and naming ledger.
+
+Apply the same public export theorem to the second packet. Since the second
+accepted packet shares $S,M,D,W,R,E,H,C,P,N$, its public export has the same
+displayed carrier, classifier, handoff, seal, transport, package, and naming
+coordinates.
+
+Next apply
+\autoref{thm:cauchyregularization-real-seal-normalization-retract}. The
+Real-facing consumer route of the second read retracts to the original seal
+route $E$ under the shared displayed rows.
+
+Finally apply
+\autoref{thm:cauchyregularization-real-seal-source-modulus-factorization}.
+The seal row $E$ is not an isolated terminal coordinate: it is reached only
+through the source window $S$, modulus row $M$, dyadic ledger $D$,
+approximant ledger $W$, handoff row $R$, and the structural rows $H,C,P,N$.
+Thus the retract returns the second public read to the original public export
+surface itself. The excluded quotient stream, selected-limit, host-equality,
+tail-selector, modulus-choice, and ambient-completeness data have no public
+coordinate available for the retract.
+\end{proof}
+
 \closureat{CauchyRegularizationUp}{seedStr}
 \closureat{CauchyRegularizationUp}{obligationStr}
 \closureat{CauchyRegularizationUp}{scopedStr}
+\closureat{CauchyRegularizationUp}{publicStr}[BEDC.Derived.CauchyRegularizationUp.CauchyRegularizationSealRoute\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\CauchyRegularizationUp}
   \constructivestory{A $\CauchyRegularizationUp$ packet is generated from finite $\RationalStreamUp$ windows, explicit $\CauchyModulusUp$ threshold rows, $\DyadicRatCoreUp$ modulus-window observations, regularized finite-window approximants, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal-provenance row, transport routes, package provenance, and a local $\NameCert$ ledger.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{The obligation scope is the finite carrier, modulus-window classifier, regular-sequence handoff, $\RealUp$ seal compatibility, and ledger exactness over $\RationalStreamUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyRegularizationUp.CauchyRegularizationSealRoute\_semantic\_name\_certificate}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close classical real completeness, quotient equality of Cauchy streams, uniqueness of limits, selected host real values, or bridge checking.}
-  \upgradepath{The next paper grade records the public $\CauchyRegularizationUp$ export surface as a closure commitment and then supplies checked Lean coverage for the same finite rows.}
+  \upgradepath{Bridged closure requires a concrete bridge theorem from the public regularization export to the abstract completion-facing interface.}
 \end{closurestatus}

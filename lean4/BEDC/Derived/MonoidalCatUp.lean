@@ -250,4 +250,19 @@ theorem MonoidalCatSingleton_coherence_laws
   exact And.intro pentagonSame
     (And.intro triangleSame (And.intro pentagonLeftCarrier pentagonRightCarrier))
 
+theorem MonoidalCatUp_StdBridge {x y z : BHist} :
+    UnaryHistory x ->
+      UnaryHistory y ->
+        UnaryHistory z ->
+          SemanticNameCert UnaryHistory UnaryHistory UnaryHistory
+              (fun h k : BHist => UnaryHistory h ∧ UnaryHistory k ∧ hsame h k) ∧
+            hsame (MonoidalCatSingletonTensor (MonoidalCatSingletonTensor x y) z)
+              (MonoidalCatSingletonTensor x (MonoidalCatSingletonTensor y z)) ∧
+              hsame (MonoidalCatSingletonTensor BHist.Empty x) x ∧
+                hsame (MonoidalCatSingletonTensor x BHist.Empty) x := by
+  intro _xUnary _yUnary _zUnary
+  exact
+    ⟨MonoidalCatSingleton_semantic_name_certificate.left,
+      append_assoc x y z, append_empty_left x, append_empty_right x⟩
+
 end BEDC.Derived.MonoidalCatUp

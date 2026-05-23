@@ -18,6 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TARGET_DIR = ROOT / "parts" / "concrete_instances"
 PATTERN = re.compile(r"^[0-9]+[a-z]?_[a-z][a-z0-9_]*\.tex$")
+STRUCTURAL_HUBS = {"late_index.tex"}
 
 
 def main() -> int:
@@ -30,6 +31,8 @@ def main() -> int:
         if not entry.is_file():
             continue
         if entry.suffix != ".tex":
+            continue
+        if entry.name in STRUCTURAL_HUBS:
             continue
         if not PATTERN.match(entry.name):
             bad.append(entry)

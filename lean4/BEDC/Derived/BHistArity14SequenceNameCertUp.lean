@@ -363,4 +363,15 @@ theorem BHistArity14SequenceNameCertCarrierAdmission
         ⟨row0, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10, row11,
           row12, row13, index, transport, replay, provenance, localName, rfl, rfl⟩
 
+theorem BHistArity14SequenceNameCertClassifier_exactness
+    {x y : BHistArity14SequenceNameCertUp} :
+    bHistArity14SequenceNameCertFields x = bHistArity14SequenceNameCertFields y →
+      BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y ∧ x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hfields
+  have hxy : x = y :=
+    bHistArity14SequenceNameCert_fields_faithful x y hfields
+  cases hxy
+  exact And.intro rfl rfl
+
 end BEDC.Derived.BHistArity14SequenceNameCertUp

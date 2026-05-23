@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ToeplitzLemmaUp$}
+\label{ch:concrete-instances-toeplitz-lemma-namecert}
+\origin{human}
+
+Following Toeplitz and Hardy on summability transforms, the $\ToeplitzLemmaUp$ packet records the finite matrix-window route by which a regular real-name sequence and a Toeplitz row ledger produce a regular transformed sequence before any host limit theorem is read. It sits between the series and uniform-limit consumers of \autoref{ch:concrete-instances-realseries-namecert} and \autoref{ch:concrete-instances-uniformlimit-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic row-sum ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite certificate for a regular summability transform; it is not a host summability theorem, a selected limit, quotient equality of real-name streams, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Toeplitz lemma carrier]\label{def:toeplitz-lemma-carrier}
+A $\ToeplitzLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,W,R,D,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the matrix-coefficient window row, listing the finite Toeplitz rows and columns currently inspected together with their row-sum and entry-size requests.
+\item $W$ is the selected source-window row, recording the finite $\StreamNameUp$ observations of the input regular real-name sequence used by the inspected matrix rows.
+\item $R$ is the $\RegSeqRatUp$ readback row for the selected source windows and for the transformed finite row produced by the same matrix window.
+\item $D$ is the $\DyadicRatCoreUp$ ledger for row sums, coefficient truncation, source-window tolerances, small-entry estimates, and accumulated arithmetic error.
+\item $T$ is the transformed finite partial row, obtained by applying the displayed coefficients of $A$ to the selected source values in $W$ and reading the result through $R$ and $D$.
+\item $E$ is the $\RealUp$ seal reached only after the transformed row $T$, regular readback $R$, and dyadic ledger $D$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the matrix window, source windows, readback, dyadic ledger, transformed row, real seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from matrix-row inspection to selected source windows, from source windows to regular readback, from readback and dyadic accounting to the transformed row, and from the transformed row to the real seal.
+\item $P$ is the $\Pkg$ provenance over $\ToeplitzLemmaUp$, $\RealSeriesUp$, $\UniformLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ToeplitzLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,R,D,T,E,H,C,P,N$. It has no coordinate for an infinite matrix object, a host summability method, a selected limit of the source sequence, a quotient of real-name streams, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.ToeplitzLemmaUp.ToeplitzLemmaTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Toeplitz lemma NameCert obligations]\label{thm:toeplitz-lemma-namecert-obligations}
+For every accepted $\ToeplitzLemmaUp$ carrier $K=(A,W,R,D,T,E,H,C,P,N)$, the local $\NameCert_{\ToeplitzLemmaUp}$ surface consists exactly of the following five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed matrix-window, source-window, readback, ledger, transformed-row, seal, transport, continuation, provenance, and naming rows;
+\item row-sum boundedness, read from $A$ and checked inside the dyadic ledger $D$ before any transformed row is exposed;
+\item small-entry and window-vanishing control, requiring every displayed coefficient request outside the selected finite source window to pass through the same $A,W,D$ route;
+\item regular transformed handoff, requiring every transformed-sequence read to pass through $T$, the $\RegSeqRatUp$ row $R$, and the $\RealUp$ seal $E$;
+\item ledger nonescape, excluding host summability methods, selected source limits, quotient real-name equality, countable choice, and ambient $\RealUp$ completeness from the packet surface.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:toeplitz-lemma-carrier}. Carrier admission is exactly the inventory of $A,W,R,D,T,E,H,C,P,N$, and the matrix-row information available to the classifier is confined to the finite row $A$.
+
+The row-sum and small-entry clauses are read through the same dyadic ledger $D$. The selected source windows $W$ provide the only input sequence observations, so any window-vanishing claim must use the displayed coefficient requests in $A$ together with the finite source reads in $W$.
+
+The transformed row $T$ is then exposed through $R$ and $E$. The structural rows $H,C,P,N$ transport, replay, source, and name this route, and the carrier contains no coordinate for the excluded host principles.
+\end{proof}
+
+\begin{theorem}[Toeplitz lemma regular sequence handoff]\label{thm:toeplitz-lemma-regular-sequence-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of the transformed sequence exported by an accepted $\ToeplitzLemmaUp$ carrier factors through
+$$
+A,W,R,D,T,E,H,C,P,N.
+$$
+Thus the consumer reads a finite Toeplitz matrix window, selected source windows, regular rational readback, dyadic row-sum and error accounting, transformed finite partial row, real seal, transport, continuation, provenance, and local naming before it can use the transformed regular sequence.
+\end{theorem}
+\begin{proof}
+Start with a transformed-sequence consumer. By \autoref{def:toeplitz-lemma-carrier}, the only transformed row coordinate is $T$, and it is built from the matrix-window row $A$, selected source windows $W$, regular readback $R$, and dyadic ledger $D$.
+
+For a $\RegSeqRatUp$ read, the handoff is therefore already forced through $R$ after $A,W,D$ have supplied the coefficient, source, and error data. For a $\RealUp$ read, the same route continues to the seal row $E$.
+
+The rows $H,C,P,N$ preserve the route under transport, replay the same continuations, record package provenance, and bind the local NameCert. Since no second transformed-sequence coordinate is present, every downstream consumer factors through the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\ToeplitzLemmaUp$ transformed-sequence read factors through a finite matrix-coefficient window, selected source windows, RegSeqRat readback, a DyadicRatCore row-sum and error ledger, a transformed finite partial row, a RealUp seal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{realseries, uniformlimit, streamname, regseqrat, dyadicratcore, real: $\ToeplitzLemmaUp$ is not bijective to any listed sibling because it jointly carries matrix-coefficient windows, selected source windows, regular readback, dyadic row-sum and small-entry accounting, transformed-row construction, real sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{ToeplitzLemmaUp}{seedStr}
+
+\begin{closurestatus}{\ToeplitzLemmaUp}
+  \constructivestory{A $\ToeplitzLemmaUp$ packet is generated from finite Toeplitz matrix windows, selected source windows, RegSeqRat readback, a DyadicRatCore row-sum and error ledger, a transformed finite partial row, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:toeplitz-lemma-carrier}, \autoref{thm:toeplitz-lemma-namecert-obligations}, and \autoref{thm:toeplitz-lemma-regular-sequence-handoff} bind the finite summability-transform certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host summability theorems, selected source limits, quotient equality of real-name streams, countable choice, ambient $\RealUp$ completeness, bridge checking, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, row-sum boundedness, small-entry and window-vanishing control, regular transformed handoff, ledger nonescape, and TasteGate field faithfulness for BEDC.Derived.ToeplitzLemmaUp.}
+\end{closurestatus}

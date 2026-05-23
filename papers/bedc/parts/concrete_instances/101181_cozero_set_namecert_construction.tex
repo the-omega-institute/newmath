@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\CozeroSetUp$}
+\label{ch:concrete-instances-cozero-set-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges, cozero sets are read as the positive-apartness locus of a continuous real-valued map, with BEDC sources \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-continuousmap-namecert}, \autoref{ch:concrete-instances-topology-namecert}, and \autoref{ch:concrete-instances-set-namecert}. The $\CozeroSetUp$ packet names the finite route from a displayed continuous $\RealUp$-valued map to an open and set-like membership surface. It does not assert zero-set completeness, classical complements, excluded middle, host $\RealUp$ equality, or an ambient semantic preimage theorem.
+
+\begin{definition}[Cozero set carrier]
+\label{def:cozero-set-carrier}
+A $\CozeroSetUp$ carrier is a finite $\BHist$ packet
+$$
+C=(F,R,A,O,S,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\ContinuousMapUp$ row for a displayed map into $\RealUp$, exposing only the source observation, target real-name, and graph cells used by the cozero read.
+\item $R$ is the $\RealUp$ observation row attached to the target cell of $F$.
+\item $A$ is the positive-apartness witness row certifying that the displayed target observation is apart from zero through the same real-name surface as $R$.
+\item $O$ is the induced $\TopologyUp$ open-row, available only after $F,R,A$ have fixed the positive witness.
+\item $S$ is the $\SetUp$ membership row exported by the open-row $O$ and read only through the same displayed source cell.
+\item $H$ records componentwise $\hsame$ transport for the continuous-map row, Real observation row, positive-apartness row, open-row, set-membership row, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from a cozero membership request through $F,R,A,O,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CozeroSetUp$, $\ContinuousMapUp$, $\RealUp$, $\TopologyUp$, $\SetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CozeroSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,R,A,O,S,H,K,P,N$. It has no coordinate for the classical complement of a zero set, excluded middle, host real equality, quotient real equality, or a detached semantic preimage theorem.
+\end{definition}
+
+\begin{theorem}[Cozero set NameCert obligations]
+\label{thm:cozero-set-namecert-obligations}
+For every accepted $\CozeroSetUp$ carrier
+$$
+C=(F,R,A,O,S,H,K,P,N),
+$$
+the local $\NameCert_{\CozeroSetUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the continuous-map row into $\RealUp$, the target Real observation row, the positive-apartness witness row, the induced topological open-row, the set-membership row, transport, replay, provenance, and local naming;
+\item positive witness exactness, requiring every accepted membership read to use the same target real observation $R$ and positive-apartness row $A$ opened by $F$;
+\item continuous-preimage stability, requiring componentwise $\hsame$ and displayed $\Cont$ transport of the continuous map and positive witness to preserve the cozero membership surface;
+\item open-set handoff, requiring $O$ to be read only after $F,R,A$ have displayed the positive witness;
+\item set-membership handoff, requiring $S$ to export only the membership surface induced by $O$ on the same displayed source cell;
+\item non-escape, requiring $H,K,P,N$ to export no host real equality, quotient real equality, classical complement, excluded middle, zero-set completeness, or detached semantic preimage theorem.
+\end{enumerate}
+No local cozero-set obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CozeroSetUp.TasteGate.CozeroSetUpTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cozero-set-carrier}. The accepted tuple displays exactly the continuous-map row, target Real observation row, positive-apartness witness, open-row, set-membership row, and structural transport, replay, provenance, and naming rows.
+
+Positive witness exactness is forced by the order of the carrier. A membership read first opens $F$, then reads the target observation $R$, and only then obtains the positive-apartness witness $A$ for the same displayed real-name surface.
+
+The open-set and set-membership handoffs are the projections to $O$ and $S$. Since both rows are downstream of $F,R,A$, they cannot introduce an independent complement, zero-set equality test, or host real comparison.
+
+Transport and replay stability are exhausted by $H$ and $K$. These rows move the displayed map and positive witness componentwise and replay the same finite route, so the cozero membership surface is preserved without adding excluded middle, host equality, or a detached semantic preimage principle.
+
+Finally, non-escape follows from the absence of any further classifier coordinate. The provenance and local NameCert rows name only this finite route, and no row stores zero-set completeness, classical complements, excluded middle, or host $\RealUp$ equality.
+\end{proof}
+
+\begin{theorem}[Cozero set positive witness route]
+\label{thm:cozero-set-positive-witness-route}
+Every membership read exported by an accepted $\CozeroSetUp$ packet factors through
+$$
+F \longmapsto R \longmapsto A
+$$
+before it can inspect the topological open-row $O$ or the set-membership row $S$.
+\end{theorem}
+\begin{proof}
+Begin with a membership request for the displayed cozero surface. Carrier admission exposes no set row before the continuous-map row $F$.
+
+The request then reads the target Real observation row $R$. This fixes the real-name observation used by the positive test, and the packet contains no host equality coordinate from which another target value could be substituted.
+
+The positive-apartness witness row $A$ is therefore the gate to membership. Only after $F,R,A$ have been displayed may the request inspect the induced open-row $O$ and the set row $S$.
+
+Thus every membership read has the displayed factorization $F \longmapsto R \longmapsto A$ before any topological or set-like export.
+\end{proof}
+
+\begin{theorem}[Cozero set continuous-preimage stability]
+\label{thm:cozero-set-continuous-preimage-stability}
+Let $C=(F,R,A,O,S,H,K,P,N)$ be an accepted $\CozeroSetUp$ carrier. Componentwise $\hsame$ transport and displayed $\Cont$ replay of the continuous-map row $F$, Real observation row $R$, and positive-apartness witness row $A$ preserve the induced cozero membership surface exported through $O$ and $S$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $F,R,A$ determine the positive witness route for the displayed source cell and target real observation.
+
+The transport row $H$ moves these three rows componentwise. It does not compare host real values or select a classical complement, so it preserves exactly the displayed positive-apartness witness.
+
+The replay row $K$ then replays the same finite route through the open-row $O$ and set-membership row $S$. Since $O$ and $S$ are downstream of $F,R,A$, the transported packet exports the same cozero membership surface and no additional zero-set or complement principle.
+\end{proof}
+
+\closureat{CozeroSetUp}{seedStr}
+
+\begin{closurestatus}{\CozeroSetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cozero-set-carrier}, \autoref{thm:cozero-set-namecert-obligations}, \autoref{thm:cozero-set-positive-witness-route}, and \autoref{thm:cozero-set-continuous-preimage-stability} seed the finite L10 route from continuous $\RealUp$-valued maps through positive-apartness witnesses into topological and set-like membership surfaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close zero-set completeness, classical complements, excluded middle, host $\RealUp$ equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive witness exactness, continuous-preimage stability, open-set handoff, set-membership handoff, and non-escape proofs for BEDC.Derived.CozeroSetUp.}
+  \constructivestory{A $\CozeroSetUp$ packet is generated from a $\ContinuousMapUp$ row into $\RealUp$, a Real observation row, a positive-apartness witness row, an induced $\TopologyUp$ open-row, a $\SetUp$ membership row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

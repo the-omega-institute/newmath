@@ -1,11 +1,18 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FocusedLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -247,5 +254,72 @@ instance focusedLedgerFieldFaithful : FieldFaithful FocusedLedgerUp where
 def taste_gate : ChapterTasteGate FocusedLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark
   focusedLedgerChapterTasteGate
+
+theorem FocusedLedgerNameCert_obligation_surface [AskSetup] [PackageSetup]
+    {I H T F S D G R J Q rho A C P N focusRead digestRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont F S focusRead →
+      Cont D G digestRead →
+        Cont A C auditRead →
+          PkgSig bundle auditRead pkg →
+            List.Mem (focusedLedgerEncodeBHist F)
+                (focusedLedgerToEventFlow
+                  (FocusedLedgerUp.mk I H T F S D G R J Q rho A C P N)) ∧
+              List.Mem (focusedLedgerEncodeBHist D)
+                (focusedLedgerToEventFlow
+                  (FocusedLedgerUp.mk I H T F S D G R J Q rho A C P N)) ∧
+              List.Mem (focusedLedgerEncodeBHist A)
+                (focusedLedgerToEventFlow
+                  (FocusedLedgerUp.mk I H T F S D G R J Q rho A C P N)) ∧
+              List.Mem (focusedLedgerEncodeBHist N)
+                (focusedLedgerToEventFlow
+                  (FocusedLedgerUp.mk I H T F S D G R J Q rho A C P N)) ∧
+              Cont F S focusRead ∧
+              Cont D G digestRead ∧
+              Cont A C auditRead ∧
+              PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Cont PkgSig ProbeBundle Pkg
+  intro focusRoute digestRoute auditRoute pkgRoute
+  constructor
+  · unfold focusedLedgerToEventFlow
+    exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))
+  · constructor
+    · unfold focusedLedgerToEventFlow
+      exact
+        List.Mem.tail _
+          (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))
+    · constructor
+      · unfold focusedLedgerToEventFlow
+        exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _
+                            (List.Mem.tail _
+                              (List.Mem.tail _ (List.Mem.head _)))))))))))
+      · constructor
+        · unfold focusedLedgerToEventFlow
+          exact
+            List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _
+                            (List.Mem.tail _
+                              (List.Mem.tail _
+                                (List.Mem.tail _
+                                  (List.Mem.tail _
+                                    (List.Mem.tail _
+                                      (List.Mem.tail _ (List.Mem.head _))))))))))))))
+        · exact ⟨focusRoute, digestRoute, auditRoute, pkgRoute⟩
 
 end BEDC.Derived.FocusedLedgerUp

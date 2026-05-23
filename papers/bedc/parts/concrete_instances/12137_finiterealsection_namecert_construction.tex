@@ -30,6 +30,7 @@ The carrier exports only the displayed finite-section route and its transport, r
 \label{thm:finite-real-section-obligation-surface}
 For the carrier of \autoref{def:finite-real-section-carrier}, the local $\NameCert_{\FiniteRealSectionUp}$ surface consists exactly of carrier admission, classifier stability for the displayed tuple $(q,W,R,D,E)$, window-readback compatibility between $W$ and $R$, dyadic-tolerance exposure through $D$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_transport\_stability}
 \begin{proof}
 Project the carrier $S$. Its coordinates list one precision request, one stream window, one regular-rational readback, one dyadic ledger, one Real seal, transport, replay, provenance, and local naming rows.
 
@@ -37,11 +38,13 @@ The data-bearing obligations are inherited in order. Carrier admission exposes $
 
 The remaining rows are downstream support. The dyadic ledger $D$ records the tolerance row for the readback, the seal row $E$ is reachable only after that ledger is displayed, and $H,C,P,N$ only transport, replay, source, and name the same finite route. Thus the listed obligations exhaust the local naming surface.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_obligation\_surface}
 
 \begin{theorem}[Finite real section window-readback determinacy]
 \label{thm:finite-real-section-window-readback-determinacy}
 For an accepted $\FiniteRealSectionUp$ carrier $S=(q,W,R,D,E,H,C,P,N)$ of \autoref{def:finite-real-section-carrier}, the precision request $q$ determines the displayed $\StreamNameUp$ window $W$, and the $\RegSeqRatUp$ row $R$ is read only through that same window. No second stream window, quotient stream, or host sequence coordinate is available inside the accepted finite-section route.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_window\_readback\_determinacy}
 \begin{proof}
 Read the carrier rows in \autoref{def:finite-real-section-carrier}. The only stream coordinate exposed by $S$ is $W$, and the only regular-rational coordinate is $R$.
 
@@ -58,6 +61,7 @@ q \to W \to R \to D \to E.
 $$
 Here $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the $\RegSeqRatUp$ readback, and the route admits no seal exposure that bypasses $D$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_dyadic\_seal\_factorization}
 \begin{proof}
 The carrier order in \autoref{def:finite-real-section-carrier} displays the finite request, the stream window, the regular-rational readback, the dyadic tolerance ledger, and then the Real seal. Thus $E$ is not an independent coordinate of an ambient completed Real; it is the seal row reached from the preceding displayed data.
 
@@ -74,6 +78,7 @@ q,W,R,D,E,H,C,P,N,
 $$
 transported by $\hsame$, read through $\Cont$, and packaged by $\Pkg$ and $\NameCert$. Conversely, those rows assemble the accepted finite-section consumer route.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_route\_consumer\_exactness}
 \begin{proof}
 For the forward direction, start from \autoref{def:finite-real-section-carrier}. A consumer can project the displayed finite request, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, transport row, replay row, provenance row, and local naming row.
 
@@ -81,17 +86,6 @@ Apply \autoref{thm:finite-real-section-obligation-surface}. The same theorem ide
 
 For the converse direction, assume precisely the nine displayed rows with the stated transport, replay, packaging, and naming support. They match the carrier coordinates and satisfy the listed local obligations, so they assemble the accepted finite-section route and expose no additional Real, completion, quotient, or host-sequence coordinate.
 \end{proof}
-
-\begin{closurestatus}{\FiniteRealSectionUp}
-  \constructivestory{The finite Real section is generated from a $BHist$ packet that records a finite request, stream window, regular-rational readback, dyadic tolerance ledger, and the Real-facing seal row consumed by that route. The carrier convention does not assume a completed Real object; it reads only the finite section, transports it along $hsame$, and permits $\Cont$ extensions that preserve the same finite witness. The obligation surface names the finite section and the non-escape theorem records the boundary: a consumer that needs an infinite completion witness, quotient stream, selected host limit, or ambient Real equality has left the carrier. Thus the chapter packages a finite visible section as the whole admissible certificate.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the finite Real section carrier, obligation-surface theorem, and non-escape theorem.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \origin{ai}
-  \notclaimed{It does not claim full Real construction, infinite-section availability, quotient-stream equality, selected host limits, or ambient completeness.}
-  \upgradepath{Reaching obligationClosure requires a formal finite-section carrier and checked exclusion of routes requiring infinite or quotient data.}
-\end{closurestatus}
 
 \begin{theorem}[Finite real section non-escape]
 \label{thm:finite-real-section-nonescape}
@@ -108,3 +102,64 @@ Apply \autoref{thm:finite-real-section-obligation-surface}. It forces every cons
 
 The excluded objects require coordinates that the carrier does not contain. The rows $H,C,P,N$ preserve and name displayed data, but they do not create quotient stream equality, host sequence equality, a selected host limit, a countable-choice selector, ambient Real completeness, or a standard bridge. Hence none of those objects can be projected from the finite-section certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_nonescape}
+
+\begin{theorem}[Finite real section transport stability]
+\label{thm:finite-real-section-transport-stability}
+Let
+$$
+S=(q,W,R,D,E,H,C,P,N)
+$$
+and
+$$
+S'=(q',W',R',D',E',H',C',P',N')
+$$
+be accepted $\FiniteRealSectionUp$ packets. If $H$ displays componentwise $\hsame$ transport from $S$ to $S'$, then the transported packet preserves the same precision request, the same $\StreamNameUp$ window role, the same $\RegSeqRatUp$ readback role, the same $\DyadicRatCoreUp$ ledger role, the same $\RealUp$ seal role, the same $\Cont$ replay route, the same $\Pkg$ provenance, and the same local $\NameCert_{\FiniteRealSectionUp}$ route.
+\end{theorem}
+\begin{proof}
+Project the two carrier tuples through \autoref{def:finite-real-section-carrier}. The only rows eligible for transport are the displayed request, window, readback, ledger, seal, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:finite-real-section-obligation-surface}. Its componentwise $\hsame$ clause says that $H$ transports the listed carrier coordinates and not an ambient Real object or quotient representative.
+
+The consumer side is fixed by \autoref{thm:finite-real-section-route-consumer-exactness}: every Real- or completion-facing use reads precisely the transported finite route. Finally, \autoref{thm:finite-real-section-nonescape} excludes any target outside that route, so transport preserves the same finite-section request and its local certificate.
+\end{proof}
+
+\begin{theorem}[Finite real section refinement noncollapse]
+\label{thm:finite-real-section-refinement-noncollapse}
+For an accepted $\FiniteRealSectionUp$ packet $S=(q,W,R,D,E,H,C,P,N)$, a displayed refinement of the finite request through $C$ may refine the visible finite window, readback, ledger, and seal rows along the same route
+$$
+q \to W \to R \to D \to E.
+$$
+It cannot create a second stream, quotient stream equality, selected host limit, countable-choice row, ambient completeness row, or standard bridge row.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteRealSectionUp.FiniteRealSection\_refinement\_noncollapse}
+\begin{proof}
+Read the carrier in the order $q,W,R,D,E,H,C,P,N$ from \autoref{def:finite-real-section-carrier}. The replay row $C$ is downstream support for that ordered finite request; it is not an additional source of stream, quotient, host-limit, choice, completeness, or bridge data.
+
+Use \autoref{thm:finite-real-section-dyadic-seal-factorization}. The Real-facing seal factors through the displayed dyadic ledger, so refining the finite request can only refine rows already sitting on the route from $q$ to $E$.
+
+It remains to rule out collapse into a larger completion surface. Apply \autoref{thm:finite-real-section-nonescape}: the excluded objects require coordinates absent from the carrier and absent from the local obligation surface. Hence displayed refinement through $C$ preserves finite visibility without creating any of those rows.
+\end{proof}
+
+\begin{theorem}[Finite real section obligation-closure package]
+\label{thm:finite-real-section-obligation-closure-package}
+The carrier of \autoref{def:finite-real-section-carrier}, the obligation surface of \autoref{thm:finite-real-section-obligation-surface}, window-readback determinacy of \autoref{thm:finite-real-section-window-readback-determinacy}, dyadic-seal factorization of \autoref{thm:finite-real-section-dyadic-seal-factorization}, route consumer exactness of \autoref{thm:finite-real-section-route-consumer-exactness}, non-escape of \autoref{thm:finite-real-section-nonescape}, transport stability of \autoref{thm:finite-real-section-transport-stability}, and refinement noncollapse of \autoref{thm:finite-real-section-refinement-noncollapse} are exactly the finite-section obligation set for $\FiniteRealSectionUp$ over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.
+\end{theorem}
+\begin{proof}
+The carrier fixes the nine-row finite section over $\BHist$. The obligation surface names the admissible local $\NameCert_{\FiniteRealSectionUp}$ rows, while window-readback determinacy and dyadic-seal factorization identify the two data dependencies that a Real-facing consumer must respect.
+
+Route consumer exactness supplies the bidirectional packaging statement: exactly those rows are visible to a consumer and exactly those rows assemble the accepted route. Non-escape removes quotient, host-limit, choice, ambient-completeness, and bridge exits from the obligation set.
+
+The two stability clauses close the remaining transport and refinement faces. Transport stability keeps $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support on the same finite route, and refinement noncollapse keeps displayed refinement from adding any non-finite completion row. Together these clauses exhaust the finite-section obligations named for $\FiniteRealSectionUp$.
+\end{proof}
+
+\begin{closurestatus}{\FiniteRealSectionUp}
+  \constructivestory{The finite Real section is generated from a $BHist$ packet that records a finite request, stream window, regular-rational readback, dyadic tolerance ledger, and the Real-facing seal row consumed by that route. The carrier convention does not assume a completed Real object; it reads only the finite section, transports it along $hsame$, and permits $\Cont$ extensions that preserve the same finite witness. The obligation surface names the finite section and the non-escape theorem records the boundary: a consumer that needs an infinite completion witness, quotient stream, selected host limit, or ambient Real equality has left the carrier. Thus the chapter packages a finite visible section as the whole admissible certificate.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter binds the finite Real section carrier, obligation surface, window-readback determinacy, dyadic-seal factorization, route consumer exactness, non-escape theorem, transport stability, refinement noncollapse, obligation-closure package, and \leanchecked{BEDC.Derived.FiniteRealSectionUp.taste\_gate} to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{It does not claim full Real construction, infinite-section availability, quotient-stream equality, selected host limits, or ambient completeness.}
+  \upgradepath{Reaching publicClosure requires an exported finite-section certificate with a public consumer surface for the displayed route.}
+\end{closurestatus}

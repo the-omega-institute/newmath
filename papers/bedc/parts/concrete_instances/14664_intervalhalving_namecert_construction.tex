@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\IntervalHalvingUp$}
+\label{ch:concrete-instances-intervalhalving-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\IntervalHalvingUp$ packet records the finite dyadic bisection step used when a displayed interval is routed toward a regular Cauchy or real-completion consumer. It sits after the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} and before the finite nested-window handoff of \autoref{ch:concrete-instances-nestedinterval-namecert}, with downstream reads through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names one finite halving decision; it does not supply quotient streams, host real equality, selected limits, countable choice, or ambient completeness.
+
+\begin{definition}[IntervalHalving carrier]
+\label{def:interval-halving-carrier}
+An $\IntervalHalvingUp$ carrier is a finite $\BHist$ packet
+$$
+H=(L,R,M,B,\rho,S,Q,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left $\DyadicRatCoreUp$ endpoint row of the parent interval, together with its endpoint-order ledger;
+\item $R$ is the right $\DyadicRatCoreUp$ endpoint row of the parent interval, together with the displayed witness that $L$ precedes $R$;
+\item $M$ is the midpoint row, computed from the dyadic endpoint ledger and recorded before any predicate-facing half is selected;
+\item $B$ is the chosen half row, whose tag is either left or right and whose endpoints are respectively $(L,M)$ or $(M,R)$;
+\item $\rho$ is the radius-halving ledger, displaying that the child width is bounded by half of the parent width at the same dyadic scale;
+\item $S$ is the $\StreamNameUp$ finite-window row exposing the endpoint and midpoint observations used by the halving step;
+\item $Q$ is the $\RegSeqRatUp$ handoff row reading the same dyadic endpoints, midpoint, chosen half, and radius ledger as finite regular-rational data;
+\item $E$ is the $\RealUp$ seal-facing row available to completion consumers only through the finite $S,Q,\rho$ route;
+\item $T$ records componentwise $\hsame$ transport for the endpoint rows, midpoint row, chosen half row, radius ledger, finite-window row, regular-rational handoff, and real-facing boundary;
+\item $C$ records visible $\Cont$ routes by which consumers replay the same halving packet without adding an external selector;
+\item $P$ is the $\Pkg$ provenance over $\IntervalHalvingUp$, $\DyadicRatCoreUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\IntervalHalvingUp}$ row.
+\end{enumerate}
+The carrier exports only this finite dyadic endpoint-to-midpoint-to-half route. It has no coordinate for a quotient stream, host real equality, selected limit, countable choice sequence, or ambient completeness theorem.
+\end{definition}
+
+\begin{definition}[IntervalHalving classifier]
+\label{def:interval-halving-classifier}
+Two accepted $\IntervalHalvingUp$ carriers classify together when their left and right dyadic endpoints, endpoint-order ledgers, midpoint rows, chosen-half tags, chosen-half endpoint rows, radius-halving ledgers, stream windows, regular-rational handoffs, real-facing boundaries, package provenance, and local name rows are connected by the componentwise $\hsame$ transports and visible $\Cont$ replays recorded in their transport tables.
+
+The classifier is finite-window exact: changing a downstream quotient-stream representative, a host real equality proof, a selected limiting point, a countable choice schedule, or an ambient completeness witness is unreadable unless it changes one of the displayed packet rows above.
+\end{definition}
+
+\begin{theorem}[IntervalHalving NameCert obligations]
+\label{thm:interval-halving-namecert-obligations}
+For an accepted $\IntervalHalvingUp$ carrier $H=(L,R,M,B,\rho,S,Q,E,T,C,P,N)$, the local $\NameCert_{\IntervalHalvingUp}$ surface consists exactly of carrier admission for those twelve rows, dyadic midpoint formation, chosen-half endpoint admission, radius-halving ledger exactness, finite-window readback through $\StreamNameUp$, regular-rational handoff through $\RegSeqRatUp$, real-facing boundary exposure through $\RealUp$, componentwise classifier transport, visible consumer replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple displayed in \autoref{def:interval-halving-carrier}. The dyadic endpoint rows $L,R$ and midpoint row $M$ are read through the endpoint ledger supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+The chosen half row $B$ and radius ledger $\rho$ give the finite bisection content. The tag in $B$ selects one displayed child cell, while $\rho$ records the halved radius at the same dyadic scale. No infinite branch or limiting object is named by these rows.
+
+The consumer rows $S,Q,E$ route the same finite data through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The structural rows $T,C,P,N$ transport, replay, source, and name that route.
+
+Since the carrier contains no quotient stream coordinate, host real equality coordinate, selected limit coordinate, countable choice coordinate, or ambient completeness coordinate, none of those objects can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[IntervalHalving dyadic nested handoff]
+\label{thm:interval-halving-dyadic-nested-handoff}
+Every nested-interval consumer of an accepted $\IntervalHalvingUp$ packet receives exactly one displayed child interval route
+$$
+L,R,M,B,\rho,T,C,P,N.
+$$
+The route factors through the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} and the finite nested packet discipline of \autoref{ch:concrete-instances-nestedinterval-namecert}; it supplies a next finite cell, not a completed branch, quotient stream, selected point, or completeness argument.
+\end{theorem}
+\begin{proof}
+Begin with the parent endpoint rows $L,R$ and midpoint row $M$. These rows determine the two possible dyadic child cells before any downstream consumer reads the packet.
+
+Read the chosen half row $B$ and the radius ledger $\rho$. They expose one child cell and the displayed radius-halving bound required by a finite $\NestedIntervalUp$ consumer. This is the only nested-cell output available from the packet.
+
+The handoff is replayed through $T,C,P,N$. The $\hsame$ and $\Cont$ rows preserve the same endpoint, midpoint, chosen-half, and radius rows, while the package and local certificate rows keep the route inside the dyadic and nested-interval source certificates.
+
+The stream, regular-rational, and real-facing rows may be read only after this finite child-cell route is fixed. They cannot supply an infinite branch, quotient stream equality, selected limit, countable choice sequence, or ambient completeness theorem because none is present in the handoff route.
+\end{proof}
+
+\begin{theorem}[IntervalHalving real completion boundary]
+\label{thm:interval-halving-real-completion-boundary}
+The $\RealUp$- and completion-facing boundary of an accepted $\IntervalHalvingUp$ carrier is exactly the finite dyadic halving data read through
+$$
+S,Q,E,T,C,P,N.
+$$
+Every $\RegSeqRatUp$ or $\RealUp$ consumer receives the endpoint, midpoint, chosen-half, and radius-halving rows as finite readback data through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The boundary does not identify quotient streams, assert host real equality, select a limit, invoke countable choice, or appeal to ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the finite-window row $S$. It contains exactly the endpoint and midpoint observations already fixed by the dyadic halving rows.
+
+Use the regular-rational row $Q$ to read those observations as finite approximants with the displayed radius-halving ledger. This gives a regular Cauchy consumer a bounded step, not a tail selector or selected limit.
+
+Finally read the real-facing row $E$ through $T,C,P,N$. The transport and replay rows preserve the same finite data, and the package and local certificate rows identify the source route back to \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-nestedinterval-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Any quotient stream, host real equality, selected limit, countable choice schedule, or ambient completeness principle would require an additional readable coordinate. The carrier has none, so the completion boundary is exactly the finite route stated above.
+\end{proof}
+
+\closureat{IntervalHalvingUp}{seedStr}
+
+\begin{closurestatus}{\IntervalHalvingUp}
+  \constructivestory{An $\IntervalHalvingUp$ packet is generated from displayed $\DyadicRatCoreUp$ left and right endpoint rows, a dyadic midpoint row, a chosen-half row, a radius-halving ledger, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ handoff rows, a $\RealUp$ seal-facing boundary, componentwise $\hsame$ transport, visible $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:interval-halving-carrier}, \autoref{def:interval-halving-classifier}, \autoref{thm:interval-halving-namecert-obligations}, \autoref{thm:interval-halving-dyadic-nested-handoff}, and \autoref{thm:interval-halving-real-completion-boundary} bind the finite dyadic halving certificate and its Real and completion boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, host real equality, selected limits, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, midpoint formation, radius-halving exactness, nested-window handoff, and real-completion boundary for BEDC.Derived.IntervalHalvingUp.}
+\end{closurestatus}

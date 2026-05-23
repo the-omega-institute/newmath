@@ -27,6 +27,7 @@ with the following visible rows:
 \end{enumerate}
 The classifier compares accepted packets only through these finite coordinates and their displayed transports.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchyCompletionMonadUp.CauchyCompletionMonadTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[CauchyCompletionMonad NameCert obligations]
 \label{thm:cauchy-completion-monad-namecert-obligations}
@@ -145,6 +146,7 @@ The unit boundary of \autoref{thm:cauchy-completion-monad-unit-boundary} supplie
 
 Finally use \autoref{thm:cauchy-completion-monad-public-real-seal-factorization} for the public readout. Since every route passes through the same finite schedule, window, observation, readback, seal, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates, associating the two bind steps in either order exposes the same ledger and no quotient real, selected limit, host equality, hidden stream representative, or ambient completeness row.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyCompletionMonadUp.CauchyCompletionMonadPacket\_bind\_associativity\_ledger}
 
 \begin{theorem}[CauchyCompletionMonad downstream RegSeqRat consumer route]
 \label{thm:cauchy-completion-monad-downstream-regseqrat-consumer-route}
@@ -318,6 +320,7 @@ The bind associativity ledger of \autoref{thm:cauchy-completion-monad-bind-assoc
 \label{thm:cauchy-completion-monad-finite-window-exhaustion}
 Every downstream $\RegSeqRatUp$, $\RealCauchyCompletionUp$, or $\RealUp$ consumer read of an accepted $\CauchyCompletionMonadUp$ packet is exhausted by the finite window route through the source family, schedule row, selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, $\RegSeqRatUp$ diagonal readback, $\RealUp$ seal row, $\mathsf{BHist}$ ledger, displayed $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ coordinates. Such a read cannot expose quotient streams, selected limits, host equality, hidden representatives, or ambient completeness data.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionMonadUp.CauchyCompletionMonadPacket\_finite\_window\_exhaustion}
 \begin{proof}
 Begin with a downstream $\RegSeqRatUp$ or $\RealCauchyCompletionUp$ request. The downstream consumer route of \autoref{thm:cauchy-completion-monad-downstream-regseqrat-consumer-route} forces the request through the source family, schedule, finite window, dyadic observation, diagonal readback, seal row, and public ledger coordinates.
 
@@ -404,6 +407,7 @@ Now attach the downstream consumer surface. The route of \autoref{thm:cauchy-com
 
 Finally apply finite-window exhaustion from \autoref{thm:cauchy-completion-monad-finite-window-exhaustion}. It states that every listed consumer read is exhausted by the finite window route, so the assembled package is the promised standard completion boundary and not an assertion of quotient streams, selected limits, host equality, hidden representatives, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyCompletionMonadUp.CauchyCompletionMonadUp\_StdBridge}
 
 \begin{theorem}[CauchyCompletionMonad schedule totality]
 \label{thm:cauchy-completion-monad-schedule-totality}
@@ -610,6 +614,22 @@ Now apply the flattened completion source of \autoref{thm:cauchycompletionmonad-
 Finally attach the flattened non-escape package of \autoref{thm:cauchycompletionmonad-flattened-non-escape-package}. Since that package exports exactly the finite source, schedule, window, observation, readback, seal, provenance, and naming rows, every bind-domain read has the stated finite coverage and no escaping coordinate is available.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMonad finite bind-domain induction]
+\label{thm:cauchy-completion-monad-finite-bind-domain-induction}
+For any finite unary list of accepted $\CauchyCompletionMonadUp$ bind-domain packets generated from the unit packet and the binary bind operation, every iterated bind-domain read factors through the same finite source-family rows, unary schedules, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, diagonal $\RegSeqRatUp$ readback, public $\RealUp$ seal, $\BHist$, $\hsame$, displayed $\Cont$ routes, $\Pkg$, and local $\NameCert$ rows. The induced route exports no quotient stream, selected limit, host real equality, hidden representative, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+The base case is the unit packet. Apply the unit boundary of \autoref{thm:cauchy-completion-monad-unit-boundary} to identify the constant source-family row, stationary schedule, stationary finite windows, constant dyadic observations, diagonal readback, and public $\RealUp$ seal. Then apply finite bind-domain coverage from \autoref{thm:cauchy-completion-monad-finite-bind-domain-coverage} to place this unit read inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+For the binary step, assume the finite route has already been exposed for the current unary list. Apply the schedule composition boundary of \autoref{thm:cauchy-completion-monad-schedule-composition-boundary} to put the next bind request into the displayed schedule before it can inspect a window, dyadic observation, diagonal readback, or seal coordinate.
+
+Use diagonal-bind stability from \autoref{thm:cauchy-completion-monad-diagonal-bind-stability} to transport the source-family rows, schedules, windows, observations, readbacks, and seals componentwise along $\hsame$ and the displayed $\Cont$ routes. The induction hypothesis supplies the same finite rows for the incoming packet, so the composed packet remains inside the finite bind-domain surface.
+
+Finally apply the flattened completion source of \autoref{thm:cauchycompletionmonad-flattened-completion-source} and the flattened non-escape package of \autoref{thm:cauchycompletionmonad-flattened-non-escape-package}. They repack the composed route through the same source-family, schedule, window, observation, readback, seal, provenance, and naming rows, and they provide no coordinate for quotient streams, selected limits, host real equality, hidden representatives, or ambient completeness.
+
+The resulting finite induction witness is the source used by the Real seal functoriality, completion-consumer naturality, and Kleisli source and seal theorems below, so finite completion consumers read only the displayed bind-domain rows.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionMonad Real seal functoriality]
 \label{thm:cauchy-completion-monad-real-seal-functoriality}
 Componentwise $\hsame$ transport of the source-family, schedule, finite-window, dyadic-observation, diagonal-readback, $\Cont$, $\Pkg$, and local $\NameCert$ rows commutes with passage to the public $\RealUp$ seal of an accepted $\CauchyCompletionMonadUp$ packet. Thus two transported bind-domain presentations reach the same public seal route whenever their displayed rows agree componentwise.
@@ -634,6 +654,20 @@ Next apply Real seal functoriality from \autoref{thm:cauchy-completion-monad-rea
 The downstream completion consumer exactness is the consumer side of \autoref{thm:cauchy-completion-monad-realcompletion-consumer-package} together with the root consumer exhaustion of \autoref{thm:cauchy-completion-monad-root-consumer-exhaustion}. These results place $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ consumers on the same source, schedule, window, dyadic-observation, readback, and seal route.
 
 Finally use the flattened non-escape package of \autoref{thm:cauchycompletionmonad-flattened-non-escape-package}. Since the transported bind composition and each downstream consumer read the same displayed rows and no external coordinate, the finite route received by each consumer is natural in the accepted packet.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad L10 exit finite-route correspondence]
+\label{thm:cauchy-completion-monad-l10-exit-finite-route-correspondence}
+For every accepted $\CauchyCompletionMonadUp$ packet and every downstream $\RegSeqRatUp$, $\RealCauchyCompletionUp$, or $\RealUp$ completion consumer, the consumer reaches the packet exactly when its visible read factors through the ordered L10 four-face packet consisting of the $\DyadicRatCoreUp$ endpoint and radius ledger, the $\StreamNameUp$ finite request window, the $\RegSeqRatUp$ classifier and readback rows, and the $\RealUp$ seal row. This factorization is the same as the completion-consumer naturality route: it carries the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates, and it exports no quotient stream, selected limit, host real equality, hidden representative, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+The forward direction starts with completion-consumer naturality from \autoref{thm:cauchy-completion-monad-completion-consumer-naturality}. That theorem places every $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ consumer on the finite source-family, schedule, finite-window, dyadic-observation, diagonal-readback, public-seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ route of the accepted packet.
+
+The four faces identify this route with the L10 exit packet. Apply \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness} for the dyadic endpoint and radius ledger, \autoref{thm:streamname-real-completion-four-object-terminal-pullback} for the finite request window, and \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness} for the classifier and readback rows. Then use \autoref{thm:real-completeness-diagonal-limit-candidate} and \autoref{thm:real-completeness-realup-seal-ledger} to seal the same finite diagonal row as the public $\RealUp$ completion route.
+
+For the reverse direction, assume the visible consumer read factors through that ordered four-face packet with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates. The handoff exactness theorems identify the dyadic ledger, request window, classifier, readback, and seal rows with the rows used by the completion-consumer naturality route.
+
+Repack those rows through \autoref{thm:cauchy-completion-monad-completion-consumer-naturality}. Since the factorization contains exactly the finite coordinates admitted by the accepted $\CauchyCompletionMonadUp$ packet and no escaping completion coordinate, the downstream consumer reaches the packet by the same finite route.
 \end{proof}
 
 \begin{theorem}[CauchyCompletionMonad Kleisli source triangle]
@@ -687,10 +721,10 @@ Finally apply the flattened non-escape package of \autoref{thm:cauchycompletionm
   \constructivestory{A $\CauchyCompletionMonadUp$ packet is generated from source regular-Cauchy family rows over $\RegSeqRatUp$, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, a unary schedule, diagonal transport rows, a $\RealUp$ seal row, componentwise $\hsame$, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The public $\RealUp$ seal factorization, schedule composition boundary, and downstream $\RegSeqRatUp$ consumer route supply the bridge-facing completion monad interface over the finite schedule, window, dyadic-observation, readback, seal, $\Pkg$, and $\NameCert$ rows.}
-  \formalstatus{\axiomCleanV}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.CauchyCompletionMonadUp.CauchyCompletionMonadPacket\_namecert\_obligations}
-  \bridgestatus{none}
+  \bridgestatus{bridgeChecked}
   \origin{human}
-  \notclaimed{This chapter does not close ambient $\RealUp$ completeness, quotient real construction, host real equality, uniqueness of limits, choice-selected limits, or bridge checking.}
-  \upgradepath{No further paper-side theory grade remains for the displayed unit, bind, schedule, readback, diagonal, dyadic, seal, $\Pkg$, and $\NameCert$ treatment.}
+  \notclaimed{This chapter does not close ambient $\RealUp$ completeness, quotient real construction, host real equality, uniqueness of limits, or choice-selected limits.}
+  \upgradepath{No further formal-axis upgrade remains for the bridge-checked completion-monad surface.}
 \end{closurestatus}

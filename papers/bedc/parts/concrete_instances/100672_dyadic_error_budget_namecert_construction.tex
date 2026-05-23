@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\DyadicErrorBudgetUp$}
+\label{ch:concrete-instances-dyadic-error-budget-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicErrorBudgetUp$ packet records the finite epsilon-budget split used when two visible dyadic approximation errors must be joined before any quotient stream equality, selected limit, or ambient $\RealUp$ completeness principle is available. It sits on the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the tail-radius ledger of \autoref{ch:concrete-instances-dyadic-tail-radius-ledger-namecert}. The packet gives $\RealCompletionExactBoundaryUp$ and $\RealCauchyCompletionUp$ consumers a named finite cross-route triangle-budget carrier instead of forcing each consumer to restate the same dyadic slack accounting.
+
+\begin{definition}[Dyadic error-budget carrier]
+\label{def:dyadic-error-budget-carrier}
+A $\DyadicErrorBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+E=(Q,A,B,S,W_X,W_Y,D_X,D_Y,D_Z,R_X,R_Y,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the requested dyadic tolerance for the downstream comparison.
+\item $A$ and $B$ are the two displayed sub-budget rows whose dyadic sum is required to fit inside $Q$.
+\item $S$ is the split certificate saying that the two sub-budgets are the only local epsilon pieces consumed by the packet.
+\item $W_X$ and $W_Y$ are the two finite $\StreamNameUp$ windows opened for the compared approximation routes.
+\item $D_X$ and $D_Y$ are the two $\DyadicRatCoreUp$ error rows read from the visible windows.
+\item $D_Z$ is the $\DyadicRatCoreUp$ triangle row recording the displayed dyadic sum of the two error rows against $Q$.
+\item $R_X$ and $R_Y$ are the $\RegSeqRatUp$ readback rows attached to the two windows.
+\item $T$ is the $\DyadicTailRadiusLedgerUp$ handoff row that records the same request and split inside the tail-radius accounting route.
+\item $H$ records componentwise $\hsame$ transport for the request, split, windows, dyadic rows, readbacks, tail-radius handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the request through the split, the two windows, the two dyadic error rows, the triangle row, the regular readbacks, and the tail-radius handoff.
+\item $P$ is the $\Pkg$ provenance over $\DyadicErrorBudgetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicTailRadiusLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicErrorBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,A,B,S,W_X,W_Y,D_X,D_Y,D_Z,R_X,R_Y,T,H,C,P,N$. It has no coordinate for quotient streams, selected limits, host equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicErrorBudgetUp.DyadicErrorBudgetUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic error-budget triangle accounting]
+\label{thm:dyadic-error-budget-triangle-accounting}
+For every accepted $\DyadicErrorBudgetUp$ carrier
+$$
+E=(Q,A,B,S,W_X,W_Y,D_X,D_Y,D_Z,R_X,R_Y,T,H,C,P,N),
+$$
+any downstream $\RegSeqRatUp$, $\RealUp$, $\RealCompletionExactBoundaryUp$, or $\RealCauchyCompletionUp$ consumer that uses the packet's error bound must read the finite route
+$$
+Q,A,B,S \longmapsto W_X,W_Y \longmapsto D_X,D_Y,D_Z \longmapsto R_X,R_Y,T,H,C,P,N .
+$$
+Thus the requested tolerance $Q$ is split only through $A,B,S$, the two visible approximation errors are read only through the finite windows and dyadic rows $W_X,W_Y,D_X,D_Y$, and the exported triangle budget is exactly the displayed $\DyadicRatCoreUp$ row $D_Z$ together with the tail-radius handoff $T$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-error-budget-carrier}. The request row, the two sub-budget rows, and the split row are the only coordinates that can supply an epsilon split.
+
+Read the two approximation routes through the displayed windows. The rows $W_X,W_Y$ open the finite StreamName observations, $D_X,D_Y$ record the two dyadic error contributions, and $R_X,R_Y$ attach the corresponding RegSeqRat readbacks.
+
+The triangle step is the row $D_Z$. It reads the same request and the same two sub-budgets, so a consumer obtains a bound only by passing through the displayed dyadic sum row and not through a hidden stream quotient or selected limit.
+
+Finally the tail-radius handoff $T$ and the structural rows $H,C,P,N$ preserve the same finite route. Since no other coordinate is present, every listed downstream consumer receives exactly the displayed triangle-budget packet.
+\end{proof}
+
+\begin{theorem}[Dyadic error-budget NameCert obligations]
+\label{thm:dyadic-error-budget-namecert-obligations}
+For every accepted $\DyadicErrorBudgetUp$ carrier $E=(Q,A,B,S,W_X,W_Y,D_X,D_Y,D_Z,R_X,R_Y,T,H,C,P,N)$, the local $\NameCert_{\DyadicErrorBudgetUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the request, two sub-budgets, split certificate, two StreamName windows, three DyadicRatCore rows, two RegSeqRat readbacks, tail-radius handoff, transport, replay, provenance, and local naming rows;
+\item request exactness, requiring $Q$ to be the downstream tolerance consumed by the packet;
+\item split exhaustion, requiring $A$ and $B$ to be the only local epsilon pieces and $S$ to bind them to $Q$;
+\item window exactness, requiring $W_X$ and $W_Y$ to be the finite windows from which the two error rows are read;
+\item dyadic triangle exactness, requiring $D_Z$ to record the displayed dyadic sum of $D_X$ and $D_Y$ against $Q$;
+\item regular readback and tail-radius handoff, requiring $R_X,R_Y,T$ to consume the same windows, dyadic rows, request, and split;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same finite route;
+\item provenance and local naming, requiring $P$ and $N$ to package exactly the displayed rows $Q,A,B,S,W_X,W_Y,D_X,D_Y,D_Z,R_X,R_Y,T,H,C$;
+\item refusal of quotient streams, selected limits, host equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local NameCert obligations.
+\end{enumerate}
+No dyadic error-budget obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-error-budget-carrier}. The carrier lists the full request, split, window, dyadic, readback, handoff, transport, replay, provenance, and local naming inventory.
+
+Request exactness and split exhaustion follow from the rows $Q,A,B,S$. The packet gives the downstream tolerance one split certificate, and the carrier has no third sub-budget coordinate.
+
+Window exactness and dyadic triangle exactness follow from $W_X,W_Y,D_X,D_Y,D_Z$. The two error rows are visible only through their finite windows, and the exported triangle bound is the displayed dyadic row $D_Z$.
+
+The rows $R_X,R_Y,T,H,C,P,N$ then carry the same route to regular readback, tail-radius accounting, transport, replay, provenance, and naming. Since quotient streams, selected limits, host equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge data are absent from the carrier, they cannot become local obligations.
+\end{proof}
+
+\closureat{DyadicErrorBudgetUp}{seedStr}
+
+\begin{closurestatus}{\DyadicErrorBudgetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-error-budget-carrier}, \autoref{thm:dyadic-error-budget-triangle-accounting}, and \autoref{thm:dyadic-error-budget-namecert-obligations} seed the finite epsilon-split packet over a dyadic request, two displayed sub-budgets, two StreamName windows, three DyadicRatCore rows, two RegSeqRat readbacks, tail-radius handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request exactness, split exhaustion, window exactness, dyadic triangle exactness, regular readback, tail-radius handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicErrorBudgetUp.}
+  \constructivestory{A $\DyadicErrorBudgetUp$ packet is generated from a downstream dyadic request, two displayed sub-budgets, a split certificate, two finite StreamName windows, two dyadic error rows, one dyadic triangle row, two RegSeqRat readbacks, a DyadicTailRadiusLedger handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

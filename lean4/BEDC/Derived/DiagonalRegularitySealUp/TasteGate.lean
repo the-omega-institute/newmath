@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DiagonalRegularitySealUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -429,5 +432,63 @@ theorem DiagonalRegularitySealTasteGate_single_carrier_alignment :
       · intro x y heq
         exact diagonalRegularitySealToEventFlow_injective heq
       · rfl
+
+theorem DiagonalRegularitySealCarrier_window_factorization
+    {representative endpointLeft endpointRight middleModulus dyadicTolerance finiteWindow
+      regularityWitness terminalSeal transport routes provenance nameCert endpointRead middleRead
+      toleranceRead sealRead : BHist} :
+    Cont representative endpointLeft endpointRead →
+      Cont endpointRead endpointRight middleRead →
+        Cont middleRead dyadicTolerance toleranceRead →
+          Cont finiteWindow regularityWitness sealRead →
+            UnaryHistory representative →
+              UnaryHistory endpointLeft →
+                UnaryHistory endpointRight →
+                  UnaryHistory middleModulus →
+                    UnaryHistory dyadicTolerance →
+                      UnaryHistory finiteWindow →
+                        UnaryHistory regularityWitness →
+                          ∃ packet : DiagonalRegularitySealUp,
+                            packet = DiagonalRegularitySealUp.mk representative endpointLeft
+                              endpointRight middleModulus dyadicTolerance finiteWindow
+                              regularityWitness terminalSeal transport routes provenance nameCert ∧
+                              UnaryHistory endpointRead ∧
+                                UnaryHistory middleRead ∧
+                                  UnaryHistory toleranceRead ∧
+                                    UnaryHistory sealRead ∧
+                                      List.Mem
+                                        (diagonalRegularitySealEncodeBHist finiteWindow)
+                                        (diagonalRegularitySealToEventFlow packet) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro hEndpoint hMiddle hTolerance hSeal representativeUnary endpointLeftUnary
+    endpointRightUnary _middleModulusUnary dyadicToleranceUnary finiteWindowUnary
+    regularityWitnessUnary
+  let packet :=
+    DiagonalRegularitySealUp.mk representative endpointLeft endpointRight middleModulus
+      dyadicTolerance finiteWindow regularityWitness terminalSeal transport routes provenance nameCert
+  refine ⟨packet, ?_⟩
+  constructor
+  · rfl
+  · have endpointReadUnary : UnaryHistory endpointRead :=
+      unary_cont_closed representativeUnary endpointLeftUnary hEndpoint
+    have middleReadUnary : UnaryHistory middleRead :=
+      unary_cont_closed endpointReadUnary endpointRightUnary hMiddle
+    have toleranceReadUnary : UnaryHistory toleranceRead :=
+      unary_cont_closed middleReadUnary dyadicToleranceUnary hTolerance
+    have sealReadUnary : UnaryHistory sealRead :=
+      unary_cont_closed finiteWindowUnary regularityWitnessUnary hSeal
+    constructor
+    · exact endpointReadUnary
+    · constructor
+      · exact middleReadUnary
+      · constructor
+        · exact toleranceReadUnary
+        · constructor
+          · exact sealReadUnary
+          · simp only [packet, diagonalRegularitySealToEventFlow]
+            repeat
+              first
+              | exact List.Mem.head _
+              | apply List.Mem.tail
 
 end BEDC.Derived.DiagonalRegularitySealUp

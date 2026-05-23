@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.InscriptionHashTraceUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -198,5 +201,46 @@ theorem InscriptionHashTraceTasteGate_single_carrier_alignment :
       inscriptionHashTraceDecodeEncodeBHist,
       inscriptionHashTraceRoundTrip,
       fun x y heq => inscriptionHashTraceToEventFlowInjective heq⟩
+
+theorem InscriptionHashTrace_audit_route
+    {D I K R A H C P N traceLocal classified refused audited : BHist} :
+    Cont D I traceLocal →
+      Cont traceLocal K classified →
+        Cont classified R refused →
+          Cont refused A audited →
+            UnaryHistory D →
+              UnaryHistory I →
+                UnaryHistory K →
+                  UnaryHistory R →
+                    UnaryHistory A →
+                      inscriptionHashTraceFields (InscriptionHashTraceUp.mk D I K R A H C P N) =
+                          [D, I, K, R, A, H, C, P, N] ∧
+                        UnaryHistory traceLocal ∧
+                          UnaryHistory classified ∧
+                            UnaryHistory refused ∧
+                              UnaryHistory audited ∧
+                                Cont D I traceLocal ∧
+                                  Cont traceLocal K classified ∧
+                                    Cont classified R refused ∧ Cont refused A audited := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  intro digestInscribed inscribedClassified classifiedRefused refusedAudited
+  intro digestUnary inscriptionUnary classifierUnary refusalUnary auditUnary
+  have traceLocalUnary : UnaryHistory traceLocal :=
+    unary_cont_closed digestUnary inscriptionUnary digestInscribed
+  have classifiedUnary : UnaryHistory classified :=
+    unary_cont_closed traceLocalUnary classifierUnary inscribedClassified
+  have refusedUnary : UnaryHistory refused :=
+    unary_cont_closed classifiedUnary refusalUnary classifiedRefused
+  have auditedUnary : UnaryHistory audited :=
+    unary_cont_closed refusedUnary auditUnary refusedAudited
+  exact
+    And.intro rfl
+      (And.intro traceLocalUnary
+        (And.intro classifiedUnary
+          (And.intro refusedUnary
+            (And.intro auditedUnary
+              (And.intro digestInscribed
+                (And.intro inscribedClassified
+                  (And.intro classifiedRefused refusedAudited)))))))
 
 end BEDC.Derived.InscriptionHashTraceUp.TasteGate

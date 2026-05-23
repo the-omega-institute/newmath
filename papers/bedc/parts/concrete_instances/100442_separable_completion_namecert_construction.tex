@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\SeparableCompletionUp$}
+\label{ch:concrete-instances-separable-completion-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Bourbaki-style separability, the $\SeparableCompletionUp$ packet records the finite L10 route by which a separable metric source, an enumerated dense schedule, a completion seal, finite stream windows, dyadic or Real tolerances, and regular rational readbacks are offered to completion-facing consumers. It sits between the metric and separability surfaces of \autoref{ch:concrete-instances-metric-namecert}, \autoref{ch:concrete-instances-separablemetric-namecert}, and \autoref{ch:concrete-instances-countable-dense-subset-namecert}; the completion interfaces of \autoref{ch:concrete-instances-metriccompletion-namecert}, \autoref{ch:concrete-instances-completemetric-namecert}, and \autoref{ch:concrete-instances-compact-metric-completion-namecert}; and the finite observation spine of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names a completion interface controlled by displayed countable density data, not a quotient-completion construction, a selected sequence of dense points, countable choice, host equality of completion points, or ambient Real completeness.
+
+\begin{definition}[SeparableCompletion carrier]\label{def:separable-completion-carrier}
+A $\SeparableCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,D,C,W,T,R,E,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ and $\SeparableMetricUp$ source row. It records the metric carrier, distance classifier, and separable-metric countable-name surface over the same point histories.
+\item $D$ is the $\CountableDenseSubsetUp$ schedule row. It stores the unary indexed dense candidates and the finite request windows through which density is read.
+\item $C$ is the $\MetricCompletionUp$ or $\CompleteMetricUp$ seal row. It records the completion-facing admissibility route and the displayed limit or completion-seal handoff.
+\item $W$ is the $\StreamNameUp$ finite-window row used to inspect dense indices, Cauchy windows, and completion-facing name segments.
+\item $T$ is the $\DyadicRatCoreUp$ and $\RealUp$ tolerance row carrying the dyadic scale, Real distance boundary, and comparison ledger attached to the window $W$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed dense-window and tolerance data before the completion seal is consulted.
+\item $E$ is the terminal $\RealUp$ boundary or completion-seal row reached only after $M,D,C,W,T,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the metric and separable source, dense schedule, completion seal, finite windows, tolerance row, readback, terminal seal, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\SeparableCompletionUp$, $\MetricUp$, $\SeparableMetricUp$, $\CountableDenseSubsetUp$, $\MetricCompletionUp$, $\CompleteMetricUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SeparableCompletionUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite separable-completion packet. It has no coordinate for quotient-completion equality, host equality of completed points, a selected dense sequence, countable choice, open-cover compactness, or ambient completeness of $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.SeparableCompletionUp.SeparableCompletionUp\_single\_carrier\_alignment}
+
+\begin{theorem}[SeparableCompletion NameCert obligations]\label{thm:separable-completion-namecert-obligations}
+For every accepted $\SeparableCompletionUp$ carrier $S=(M,D,C,W,T,R,E,H,P,N)$, the local $\NameCert_{\SeparableCompletionUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier exposure for the displayed metric and separable source, countable dense schedule, completion seal, stream windows, tolerance ledger, regular rational readback, terminal seal, componentwise transport, provenance, and local naming rows;
+\item classifier transport, requiring comparisons of accepted packets to transport $M,D,C,W,T,R,E$ together before any completion-facing read is exposed;
+\item dense-window admission, requiring each approximation request to pass through the indexed dense schedule $D$ and the finite $\StreamNameUp$ row $W$;
+\item completion-seal handoff, requiring the $\MetricCompletionUp$ or $\CompleteMetricUp$ row $C$ to be read only after the metric source and dense-window route are displayed;
+\item approximation-route exactness, requiring the tolerance row $T$ and regular readback row $R$ to mediate every finite approximation before the terminal seal $E$ is inspected;
+\item nonescape, excluding quotient completion equality, host equality, selected dense points, countable-choice selectors, open-cover compactness, and ambient Real completeness from the packet.
+\end{enumerate}
+No separable-completion obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separable-completion-carrier}. The projection exposes exactly the metric and separable source row $M$, countable dense schedule $D$, completion seal $C$, finite windows $W$, tolerance ledger $T$, regular readback $R$, terminal seal $E$, and structural rows $H,P,N$.
+
+Classifier transport is componentwise. The row $H$ transports the metric source, dense schedule, completion seal, windows, tolerance ledger, readback, and terminal seal together, so a comparison cannot replace the dense schedule while keeping the same completion-facing packet.
+
+Dense-window admission comes from $D$ and $W$. A consumer sees a dense candidate only by reading the displayed unary index schedule and the finite stream window attached to the request.
+
+The completion-seal handoff is downstream of that route. The row $C$ records only the displayed $\MetricCompletionUp$ or $\CompleteMetricUp$ admission path, and the rows $T$ and $R$ mediate the approximation window before $E$ can be inspected.
+
+Finally, $P$ and $N$ package and name the same finite route. Since none of the carrier coordinates stores quotient-completion equality, host equality, selected dense points, countable choice, open-cover compactness, or ambient Real completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SeparableCompletion density handoff]\label{thm:separable-completion-density-handoff}
+Every completion-facing consumer of an accepted $\SeparableCompletionUp$ carrier $S=(M,D,C,W,T,R,E,H,P,N)$ factors through the finite route
+$$
+M,D \longmapsto W \longmapsto T \longmapsto R \longmapsto C \longmapsto E \longmapsto H,P,N .
+$$
+Thus the consumer reads the countable dense schedule, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ or $\RealUp$ tolerance row, $\RegSeqRatUp$ handoff, and completion seal before it reads the public packet. The route exports no quotient completion equality, no host equality of completed points, no selected dense point, no countable-choice selector, and no ambient Real-completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing read of $S$. Carrier admission gives the consumer access to the source row and dense schedule only as the displayed pair $M,D$.
+
+Replay the finite observation route. The request opens a $\StreamNameUp$ window $W$ over the dense schedule, reads the dyadic or Real tolerance row $T$, and obtains the regular rational handoff $R$ before the completion seal $C$ is available.
+
+The terminal row $E$ is downstream of the same route. Transport, provenance, and local naming through $H,P,N$ preserve the ordered dependency chain rather than adding a second completion object.
+
+Therefore every completion-facing consumer factors through the countable dense schedule, finite stream window, tolerance ledger, regular readback, completion seal, and terminal boundary before it reads the public packet. The excluded quotient, host-equality, selected-point, choice, and ambient-completeness data have no coordinate in the carrier.
+\end{proof}
+
+\closureat{SeparableCompletionUp}{seedStr}
+\begin{closurestatus}{\SeparableCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:separable-completion-carrier}, \autoref{thm:separable-completion-namecert-obligations}, and \autoref{thm:separable-completion-density-handoff} seed the finite separable-completion route through metric and separable source data, countable dense schedules, stream windows, dyadic or Real tolerances, regular rational readbacks, and completion seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-completion equality, selected dense points, countable choice, host equality, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, classifier transport, dense-window admission, completion-seal handoff, approximation-route exactness, nonescape, and density handoff for BEDC.Derived.SeparableCompletionUp.}
+  \constructivestory{A $\SeparableCompletionUp$ packet is generated from a MetricUp and SeparableMetricUp source row, a CountableDenseSubsetUp schedule, a MetricCompletionUp or CompleteMetricUp seal, finite StreamName windows, DyadicRatCore or RealUp tolerance data, a RegSeqRat readback, a terminal RealUp or completion seal, componentwise hsame transport, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

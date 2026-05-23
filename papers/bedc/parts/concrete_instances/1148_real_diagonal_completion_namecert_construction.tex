@@ -27,6 +27,7 @@ with the following visible coordinates:
 \end{enumerate}
 The classifier compares two accepted source packets only by the displayed modulus rows, selected diagonal windows, $\RegSeqRatUp$ readbacks, and $\RealUp$ seal ledgers, transporting each component through the visible $\hsame$ and $\Cont$ routes.
 \end{definition}
+\leanchecked{BEDC.Derived.RealDiagonalCompletionUp.RealDiagonalCompletionTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[RealDiagonalCompletion carrier habitation]
 \label{thm:real-diagonal-completion-carrier}
@@ -91,6 +92,22 @@ Combine \autoref{thm:real-diagonal-completion-ledger-exactness} with the window 
 The source packet attaches the $\RealUp$ seal coordinate to exactly those finite readbacks. Therefore two accepted packets with the same extracted windows and the same displayed $\RegSeqRatUp$ readback ledger expose the same $\RealUp$ seal ledger to consumers.
 
 The conclusion is only a finite ledger factorization. It does not form a quotient of regular streams, choose a host real limit, or appeal to an ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[RealDiagonalCompletion common-refinement seal invariance]
+\label{thm:real-diagonal-completion-common-refinement-seal-invariance}
+Let $D_0$ and $D_1$ be accepted $\RealDiagonalCompletionUp$ packets. Suppose the diagonal selectors of $D_i$ read selected $\StreamNameUp$ windows $S_i(n)$ with displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, and suppose that for the inspected boundary requests these windows both transport to one common-refinement $\StreamNameUp$ packet $S_\ast(n)$. Suppose further that the transported $\RegSeqRatUp$ readback rows and the transported $\DyadicRatCoreUp$ observation ledgers of $D_0$ and $D_1$ agree on $S_\ast(n)$ for each such boundary request.
+
+Then the attached $\RealUp$ seal ledgers of $D_0$ and $D_1$ are classifier-equal at the shared boundary. The equality is only the finite seal-ledger equality carried by the displayed $\hsame$ and $\Cont$ transports through the two $\Pkg$ and $\NameCert$ rows. It does not assert quotient stream equality, host real equality, a selected host limit, countable choice, ambient completeness, or a host-level equality of completed real numbers.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-diagonal-completion-window-extraction} to both accepted packets. For each inspected boundary request this exposes the modulus row, diagonal selector, selected $\StreamNameUp$ window, and $\RegSeqRatUp$ readback used by the $\RealUp$-facing consumer read.
+
+Next apply \autoref{thm:real-diagonal-completion-seal-factorization} to both packets. The attached $\RealUp$ seal ledger is read only through those extracted windows and the displayed regular-rational readbacks, so the comparison of seal ledgers reduces to the comparison of the transported finite-window data.
+
+Use \autoref{thm:real-streamname-regseqrat-common-refinement-seal-uniqueness} on the shared common-refinement window $S_\ast(n)$. The hypotheses give agreement of the transported $\RegSeqRatUp$ readbacks and $\DyadicRatCoreUp$ observation ledgers on that window, so the terminal $\RealUp$ seal route is unique at the shared boundary.
+
+Finally transport this terminal route back through the displayed $\Pkg$ and $\NameCert$ rows of $D_0$ and $D_1$. Componentwise $\hsame$ supplies the classifier equality of the seal ledgers, while the $\Cont$ routes record that the consumer reads pass through the same selected boundary data. None of the cited rows contains quotient stream equality, host real equality, selected limits, countable choice, or ambient completeness, so the conclusion is exactly the finite classifier equality stated above.
 \end{proof}
 
 \begin{theorem}[RealDiagonalCompletion constant rational handoff]

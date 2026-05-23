@@ -1,0 +1,69 @@
+\chapter{Real Equality Name Certificate}
+\label{ch:concrete-instances-real-equality-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealEqualityUp$ packet records equality of real names as regular-Cauchy closeness witnessed through finite tolerance requests, not as quotient equality of completed streams. It sits between the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular-rational source route of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the regular-Cauchy uniformity boundary of \autoref{ch:concrete-instances-regularcauchyuniformity-namecert}. The chapter gives downstream RealAlgOrder, metric, and completion-facing certificates a named equality boundary that remains inside displayed BEDC rows.
+
+\begin{definition}[RealEquality carrier]
+\label{def:real-equality-carrier}
+A $\RealEqualityUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,Y,S_X,S_Y,R_X,R_Y,W,D,U,C,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two terminal $\RealUp$ seal rows whose equality boundary is being inspected.
+\item $S_X$ and $S_Y$ are the two $\StreamNameUp$ finite observation windows admitted by those seals.
+\item $R_X$ and $R_Y$ are the $\RegSeqRatUp$ regular-rational readback rows exposed through $S_X$ and $S_Y$.
+\item $W$ is the shared finite window of precision requests on which both regular names are compared.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic radius, slack, and comparison budget for every request in $W$.
+\item $U$ is the $\RegularCauchyUniformityUp$ closeness row asserting that the two regular-rational readbacks meet the displayed dyadic tolerance schedule.
+\item $C$ records the classifier verdict obtained from $W,D,U$ before either terminal $\RealUp$ seal is consumed.
+\item $H$ stores componentwise $\hsame$ transport for the seals, windows, readbacks, tolerance ledger, uniformity row, classifier row, provenance, and local name.
+\item $K$ stores displayed $\Cont$ replay from $X,Y$ through $S_X,S_Y,R_X,R_Y,W,D,U,C$ and back to the public equality boundary.
+\item $P$ records $\Pkg$ provenance over $\RealEqualityUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyUniformityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealEqualityUp}$ row.
+\end{enumerate}
+The packet has no coordinate for host real equality, quotient classes of streams, trichotomy, selected limits, countable choice, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RealEqualityUp.TasteGate.RealEqualityTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RealEquality classifier stability]
+\label{thm:real-equality-classifier-stability}
+For every accepted $\RealEqualityUp$ carrier $E=(X,Y,S_X,S_Y,R_X,R_Y,W,D,U,C,H,K,P,N)$, the classifier row $C$ is stable under refinement of the displayed finite observation window whenever the refined window factors through the same $\RegSeqRatUp$ readbacks and the same $\DyadicRatCoreUp$ tolerance ledger. The public equality read therefore depends only on the finite regular-Cauchy closeness route $W,D,U$, not on host equality of $X$ and $Y$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealEqualityUp.RealEqualityCarrier\_classifier\_stability}
+\begin{proof}
+Proceed by induction over the finite observation window $W$. The empty window contributes no classifier read, so the verdict is carried only by the displayed structural rows $H,K,P,N$.
+
+For a one-request extension, the new request is compared by first reading the two $\RegSeqRatUp$ rows through $R_X$ and $R_Y$, then consulting the dyadic tolerance ledger $D$. The row $U$ supplies the regular-Cauchy closeness witness at that dyadic radius, so the classifier verdict is determined before either terminal $\RealUp$ seal can be inspected.
+
+The induction step appends this one-request argument to the previous finite window. Componentwise $\hsame$ transport in $H$ and replay in $K$ preserve the displayed rows, while $P$ and $N$ record the same source and local name. Thus every finite refinement that factors through the same readbacks and dyadic ledger yields the same public equality boundary.
+\end{proof}
+
+\begin{theorem}[RealEquality NameCert boundary]
+\label{thm:real-equality-namecert-boundary}
+For every accepted $\RealEqualityUp$ carrier, the local $\NameCert_{\RealEqualityUp}$ surface consists exactly of carrier admission, finite-window classifier stability, dyadic tolerance ledger exactness, regular-Cauchy closeness replay, real-seal non-escape, and provenance-local-name transport. No NameCert obligation may replace these rows by $\RealUp$ completeness, trichotomy, quotient equality, selected limits, countable choice, or host real equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealEqualityUp.RealEqualityCarrier\_namecert\_boundary}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-equality-carrier}. The only visible coordinates are the two $\RealUp$ seals, their $\StreamNameUp$ windows, their $\RegSeqRatUp$ readbacks, the shared finite observation window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegularCauchyUniformityUp$ closeness row, the classifier row, and the structural rows $H,K,P,N$.
+
+Classifier stability is supplied by \autoref{thm:real-equality-classifier-stability}. Its induction over finite observation windows gives the finite-window part of the local certificate, and its dyadic ledger argument gives the exact tolerance route.
+
+Regular-Cauchy closeness replay is the route through $U$ after $W$ and $D$ have been displayed. The terminal seals $X$ and $Y$ are consumed only after that replay, so the public boundary cannot export host equality or quotient classes.
+
+The provenance and local-name rows name the same packet and do not add analytic coordinates. Since the carrier contains no row for $\RealUp$ completeness, trichotomy, quotient equality, selected limits, countable choice, or host real equality, none of those principles can appear as a local $\NameCert_{\RealEqualityUp}$ obligation.
+\end{proof}
+
+\closureat{RealEqualityUp}{seedStr}
+
+\begin{closurestatus}{\RealEqualityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-equality-carrier}, \autoref{thm:real-equality-classifier-stability}, and \autoref{thm:real-equality-namecert-boundary} seed the finite regular-Cauchy equality boundary for terminal RealUp names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim RealUp completeness, trichotomy, quotient equality, selected limits, countable choice, host real equality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window classifier stability, dyadic tolerance ledger exactness, regular-Cauchy closeness replay, real-seal non-escape, and provenance-local-name transport for the same finite packet.}
+  \constructivestory{A $\RealEqualityUp$ packet is generated from two terminal RealUp seals, finite StreamName windows, RegSeqRat readbacks, one finite observation window, a DyadicRatCore tolerance ledger, a RegularCauchyUniformity closeness row, a classifier verdict, componentwise transport, continuation replay, package provenance, and local naming.}
+\end{closurestatus}

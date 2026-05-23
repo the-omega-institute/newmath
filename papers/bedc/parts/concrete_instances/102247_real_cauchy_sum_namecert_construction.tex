@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchySumUp$}
+\label{ch:concrete-instances-real-cauchy-sum-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RealCauchySumUp$ packet records the sum of a constructive real series as a displayed Cauchy endpoint for finite partial sums, not as a host infinite-sum object. It sits after the real-series carrier of \autoref{ch:concrete-instances-realseries-namecert}, the uniform tail route of \autoref{ch:concrete-instances-uniform-cauchy-series-namecert}, the absolute-domination certificate of \autoref{ch:concrete-instances-absolute-convergence-namecert}, the selected stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the endpoint seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later $\RealUp$ arithmetic and convergence consumers a finite sum-seal interface whose obligations are local to BEDC rows.
+
+\begin{definition}[Real Cauchy sum carrier]\label{def:real-cauchy-sum-carrier}
+A $\RealCauchySumUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,S,W,R,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\RealSeriesUp$ term row, read only through the finite real-valued observations already exposed by the series packet.
+\item $S$ is the finite partial-sum window row, listing selected initial segments, adjacent summand contributions, and the displayed $\RealUp$ seals for those partial sums.
+\item $W$ is the $\StreamNameUp$ window family used for the summands, partial sums, tolerance comparisons, and endpoint-facing reads.
+\item $R$ is the $\RegSeqRatUp$ readback row for every selected summand, partial-sum window, and endpoint approximation opened by the packet.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording addition budgets, comparison radii, tail requests, and readback tolerances.
+\item $M$ is the Cauchy-tail modulus row: each requested tolerance is paired with a displayed threshold after which all selected partial-sum windows are compared inside the dyadic ledger.
+\item $E$ is the $\RealUp$ sum seal, visible only after $T,S,W,R,D,M$ have displayed the finite Cauchy route.
+\item $H$ stores componentwise $\hsame$ transport for the series term row, partial-sum windows, StreamName windows, RegSeqRat readbacks, dyadic ledger, tail modulus, Real seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from term reads to partial sums, from partial sums to regular readback, from readback to the dyadic tolerance ledger, from the ledger to the Cauchy-tail modulus, and from that modulus to the Real sum seal.
+\item $P$ is the $\Pkg$ provenance over $\RealCauchySumUp$, $\RealSeriesUp$, $\UniformCauchySeriesUp$, $\AbsoluteConvergenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCauchySumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,S,W,R,D,M,E,H,C,P,N$. It has no coordinate for a host infinite sum, quotient stream equality, selected limit, countable-choice selector, trichotomy, ambient $\RealUp$ completeness theorem, Lean verification, or standard bridge.
+\end{definition}
+
+\begin{theorem}[Real Cauchy sum NameCert obligations]\label{thm:real-cauchy-sum-namecert-obligations}
+For every accepted $\RealCauchySumUp$ carrier $K=(T,S,W,R,D,M,E,H,C,P,N)$, the local $\NameCert_{\RealCauchySumUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed RealSeries term row, partial-sum windows, StreamName windows, RegSeqRat readbacks, DyadicRatCore ledger, Cauchy-tail modulus, Real sum seal, transport, replay, provenance, and local naming rows;
+\item partial-sum window exactness, requiring each finite sum observation to pass through $T,S,W,R,D$ before any tail or endpoint row is read;
+\item Cauchy-tail modulus exactness, requiring $M$ to supply the threshold used for every accepted comparison of later partial-sum windows at the requested tolerance;
+\item RegSeqRat and dyadic readback coherence, requiring $R$ and $D$ to expose only the selected windows and tolerances named by the packet;
+\item Real seal nonescape, requiring $E$ to consume the displayed Cauchy route and to export no host infinite sum, quotient stream equality, selected limit, countable choice, trichotomy, ambient completeness, Lean verification, or bridge datum;
+\item componentwise transport, displayed replay, provenance, and local naming for the same route through $H,C,P,N$.
+\end{enumerate}
+No Real Cauchy sum obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(T,S,W,R,D,M,E,H,C,P,N)$. The term row $T$ is already a $\RealSeriesUp$ surface, so the classifier sees only the finite term observations and partial-sum data exposed by the packet.
+
+The partial-sum row $S$ supplies the finite windows. These windows are opened through $W$, read as regular rational data through $R$, and measured against the dyadic budgets recorded in $D$.
+
+The modulus row $M$ is the only tail-control coordinate. Once a tolerance is requested, every accepted later-window comparison must use the displayed threshold in $M$ and the ledger route through $D$.
+
+Finally, $E,H,C,P,N$ seal, transport, replay, source, and name the same displayed route. Since no excluded object is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real Cauchy sum RegSeqRat handoff]\label{thm:real-cauchy-sum-regseqrat-handoff}
+Every endpoint-facing read from an accepted $\RealCauchySumUp$ carrier factors through
+$$
+T \longmapsto S \longmapsto W \longmapsto R \longmapsto D \longmapsto M \longmapsto E \longmapsto H,C,P,N .
+$$
+In particular, the RegSeqRat readback row is the only route from selected partial-sum windows to the dyadic tolerance ledger, and the Real sum seal is read only after that regular readback and the displayed Cauchy-tail modulus are already in place.
+\end{theorem}
+\begin{proof}
+Begin with an endpoint-facing request. The carrier definition forces the request to read the $\RealSeriesUp$ term row $T$ and the finite partial-sum windows $S$ before any endpoint seal is visible.
+
+The selected observations then pass through $W$ and $R$. Thus the packet exposes its summands, partial sums, and endpoint approximations as $\StreamNameUp$ windows with $\RegSeqRatUp$ readback, not as a host sequence quotient or a chosen limit.
+
+The dyadic ledger $D$ and tail modulus $M$ provide the Cauchy comparison surface. Each requested tolerance is accounted for in $D$ and paired with the displayed threshold stored in $M$.
+
+The seal row $E$ is downstream of this route, and $H,C,P,N$ preserve, replay, source, and name the same data. Therefore the handoff reaches the Real sum seal without exporting any hidden infinite-sum principle.
+\end{proof}
+
+\begin{theorem}[Real Cauchy sum cofinal-tail closure]\label{thm:real-cauchy-sum-cofinal-tail-closure}
+For every accepted $\RealCauchySumUp$ carrier $K=(T,S,W,R,D,M,E,H,C,P,N)$, every endpoint-facing comparison of later partial-sum windows at a requested dyadic tolerance factors through the displayed $\RealSeriesUp$ term row, the finite partial-sum windows, the selected $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ tolerance ledger, the Cauchy-tail modulus row $M$, the terminal $\RealUp$ sum seal $E$, and the stored $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Consequently, the route from cofinal tail control to the endpoint seal is finite inside the packet and has no coordinate for a quotient stream, host infinite sum, selected limit, ambient completeness row, or detached Real seal.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier supplied by \autoref{def:real-cauchy-sum-carrier}. The rows $T,S,W,R,D,M,E,H,C,P,N$ are the whole classifier surface, so an endpoint-facing tolerance request can only address those displayed coordinates.
+
+Apply \autoref{thm:real-cauchy-sum-namecert-obligations} to expose carrier admission, partial-sum window exactness, and Cauchy-tail modulus exactness. The requested dyadic tolerance is first recorded in $D$, then paired with its displayed cofinal threshold in $M$.
+
+Apply \autoref{thm:real-cauchy-sum-regseqrat-handoff} to force each later-window read through the same finite partial-sum windows and the same $\RegSeqRatUp$ row $R$. Thus the comparison route cannot bypass $W,R,D$ while still reaching the endpoint-facing seal.
+
+The final seal $E$ is downstream of $M$, and $H,C,P,N$ transport, replay, source, and name exactly this route. Since the carrier has no slot for a quotient stream, host infinite sum, selected limit, ambient completeness row, or detached Real seal, the cofinal-tail comparison closes as a finite BEDC route.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealCauchySumUp$ endpoint-facing read factors through a RealSeries term row, finite partial-sum windows, selected StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a Cauchy-tail modulus, a RealUp sum seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{realseries, uniform-cauchy-series, absolute-convergence, streamname, regseqrat, dyadicratcore, real: $\RealCauchySumUp$ is not bijective to any listed sibling because it jointly carries the finite series surface, partial-sum windows, regular readback, dyadic tolerance accounting, a Cauchy-tail modulus, endpoint Real sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{RealCauchySumUp}{seedStr}
+
+\begin{closurestatus}{\RealCauchySumUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-sum-carrier}, \autoref{thm:real-cauchy-sum-namecert-obligations}, \autoref{thm:real-cauchy-sum-regseqrat-handoff}, and \autoref{thm:real-cauchy-sum-cofinal-tail-closure} seed the finite constructive series-sum route from RealSeries rows through RegSeqRat readback, DyadicRatCore tolerance accounting, Cauchy-tail modulus control, and RealUp endpoint sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, quotient stream equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, partial-sum window exactness, RegSeqRat and DyadicRatCore handoff, Cauchy-tail modulus exactness, Real seal nonescape, and TasteGate field faithfulness for BEDC.Derived.RealCauchySumUp.}
+  \constructivestory{A $\RealCauchySumUp$ packet is generated from a RealSeries term row, finite partial-sum windows, selected StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a Cauchy-tail modulus, a RealUp sum seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

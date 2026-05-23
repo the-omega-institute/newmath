@@ -1,11 +1,19 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FailureCertificateUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -205,5 +213,55 @@ theorem FailureCertificateTasteGate_single_carrier_alignment :
       failureCertificate_round_trip,
       (fun _ _ heq => failureCertificateToEventFlow_injective heq),
       rfl⟩
+
+theorem FailureCertificate_gate_blocking [AskSetup] [PackageSetup]
+    {_N0 _C _V A B D H K P L axisGate diagnostic named : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont A B axisGate →
+      Cont D H diagnostic →
+        Cont axisGate K named →
+          Cont diagnostic P L →
+            PkgSig bundle named pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row axisGate ∧ Cont A B axisGate)
+                  (fun row : BHist => Cont A B axisGate ∧ hsame row axisGate)
+                  (fun row : BHist =>
+                    PkgSig bundle named pkg ∧ Cont axisGate K named ∧ hsame row axisGate)
+                  hsame ∧
+                Cont A B axisGate ∧ Cont axisGate K named ∧ Cont D H diagnostic ∧
+                  Cont diagnostic P L := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro axisRoute diagnosticRoute namedRoute replayRoute pkgNamed
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row axisGate ∧ Cont A B axisGate)
+          (fun row : BHist => Cont A B axisGate ∧ hsame row axisGate)
+          (fun row : BHist =>
+            PkgSig bundle named pkg ∧ Cont axisGate K named ∧ hsame row axisGate)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro axisGate ⟨hsame_refl axisGate, axisRoute⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.right, sourceRow.left⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨pkgNamed, namedRoute, sourceRow.left⟩
+    }
+  exact ⟨cert, axisRoute, namedRoute, diagnosticRoute, replayRoute⟩
 
 end BEDC.Derived.FailureCertificateUp

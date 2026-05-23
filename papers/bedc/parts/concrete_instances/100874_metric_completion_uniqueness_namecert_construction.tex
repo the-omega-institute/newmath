@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\MetricCompletionUniquenessUp$}
+\label{ch:concrete-instances-metric-completion-uniqueness-namecert}
+\origin{human}
+
+Following Bishop--Bridges separated completion uniqueness and the Bourbaki presentation of completions by universal dense maps, the $\MetricCompletionUniquenessUp$ packet records the finite BEDC boundary at which two completion presentations over the same metric source may be compared. It consumes the dense embedding route of \autoref{ch:concrete-instances-completionembedding-namecert}, the finite-window completion handoff of \autoref{ch:concrete-instances-metriccompletionfinite-namecert}, the separated classifier route of \autoref{ch:concrete-instances-separatedmetricreflection-namecert}, and the general separated-completion boundary of \autoref{ch:concrete-instances-separatedcompletion-namecert}. The packet names uniqueness only as a routed comparison between presentations; it does not introduce quotient completion objects, selected representatives, or host equality of completed points.
+
+\begin{definition}[MetricCompletionUniqueness carrier]
+\label{def:metric-completion-uniqueness-carrier}
+A $\MetricCompletionUniquenessUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,E_0,F_0,R_0,S_0,E_1,F_1,R_1,S_1,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the common $\MetricUp$ source row whose point classifier and distance witnesses are shared by both completion-facing presentations.
+\item $E_i$ is the $\CompletionEmbeddingUp$ dense row for presentation $i\in\{0,1\}$, recording how source observations enter that presentation.
+\item $F_i$ is the $\MetricCompletionFiniteUp$ handoff row for presentation $i$, exposing only finite-window completion reads downstream of $M$ and $E_i$.
+\item $R_i$ is the $\SeparatedMetricReflectionUp$ classifier route for presentation $i$, comparing completion-facing reads by separated zero-distance evidence.
+\item $S_i$ is the $\SeparatedCompletionUp$ uniqueness boundary for presentation $i$, read over the same $M,E_i,F_i,R_i$ route.
+\item $Q$ is the local comparison ledger. It records that both presentations read the same source row $M$, that dense rows are consumed before finite handoff rows, that classifier routes are consumed before uniqueness rows, and that the comparison never leaves the displayed separated routes.
+\item $H$ stores componentwise $\hsame$ transport for $M$, the two dense rows, the two finite handoff rows, the two separated-reflection rows, the two separated-completion rows, the comparison ledger, and the structural rows.
+\item $C$ stores displayed $\Cont$ replay from source metric observations through each dense row, finite handoff, separated classifier, separated-completion boundary, and then through $Q$.
+\item $P$ is the $\Pkg$ provenance over $\MetricUp$, $\CompletionEmbeddingUp$, $\MetricCompletionFiniteUp$, $\SeparatedMetricReflectionUp$, $\SeparatedCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricCompletionUniquenessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion, selected representatives, host equality of completed points, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.MetricCompletionUniquenessUp.MetricCompletionUniquenessTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[MetricCompletionUniqueness NameCert obligations]
+\label{thm:metric-completion-uniqueness-namecert-obligations}
+For every accepted $\MetricCompletionUniquenessUp$ carrier
+$$
+U=(M,E_0,F_0,R_0,S_0,E_1,F_1,R_1,S_1,Q,H,C,P,N),
+$$
+the local $\NameCert_{\MetricCompletionUniquenessUp}$ surface consists exactly of these finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the common source metric row, the two dense embedding rows, the two finite completion handoff rows, the two separated-reflection classifier routes, the two separated-completion uniqueness boundaries, the comparison ledger, transport, replay, provenance, and local naming rows;
+\item common-source agreement, requiring both presentations to read the same $M$ before any completion-facing comparison is admitted;
+\item dense-to-finite order, requiring each $E_i$ to precede the corresponding finite handoff $F_i$;
+\item classifier-before-uniqueness order, requiring each separated-reflection route $R_i$ to precede the corresponding separated-completion boundary $S_i$;
+\item comparison exactness, requiring $Q$ to compare only the two displayed routes $M,E_i,F_i,R_i,S_i$ and their structural rows;
+\item ledger non-escape, excluding quotient completion, selected representatives, host equality of completed points, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.MetricCompletionUniquenessUp.TasteGate.MetricCompletionUniquenessTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metric-completion-uniqueness-carrier}. The tuple lists the common source, the two completion-facing routes, the comparison ledger, and the structural rows.
+
+Common-source agreement is the first dependency. Both presentations expose the same $M$, so a comparison cannot be formed from unrelated metric sources or from an external completed host space.
+
+Dense-to-finite order is read separately on the two sides. For each $i$, the dense row $E_i$ is displayed before the finite handoff $F_i$, so no selected representative or quotient point can replace the source-to-completion route.
+
+Classifier-before-uniqueness order is also sidewise. The separated-reflection route $R_i$ supplies the zero-distance classifier boundary before the separated-completion row $S_i$ is read as a uniqueness boundary.
+
+Finally $Q,H,C,P,N$ compare, transport, replay, source, and name only those displayed rows. Since the carrier has no quotient, representative, host-equality, choice, compactness, ambient-completeness, Lean, or bridge coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetricCompletionUniqueness separated route]
+\label{thm:metric-completion-uniqueness-separated-route}
+Every comparison exported by an accepted $\MetricCompletionUniquenessUp$ carrier factors through the finite separated route
+$$
+M\longmapsto (E_0,F_0,R_0,S_0)\quad\text{and}\quad M\longmapsto(E_1,F_1,R_1,S_1)\longmapsto Q,H,C,P,N .
+$$
+Thus separated uniqueness is read only after both completion presentations have consumed the same source metric row, dense embedding route, finite completion handoff, separated classifier route, and separated-completion boundary.
+\end{theorem}
+\begin{proof}
+Begin with a consumer comparison admitted by the packet. Carrier admission exposes the two routes and the common source row $M$.
+
+On each side, the dense row precedes the finite handoff. The consumer therefore reaches $F_i$ only through $E_i$ and never through a selected representative, quotient class, or host completion point.
+
+The separated-reflection row $R_i$ then supplies the classifier route used by the corresponding separated-completion row $S_i$. This places zero-distance classifier evidence before any uniqueness read.
+
+The comparison ledger $Q$ is downstream of both sidewise routes. The transport and continuation rows $H,C$ preserve the same route, while $P,N$ record provenance and local naming. Hence the exported comparison factors through the displayed separated route and nothing else.
+\end{proof}
+
+\begin{theorem}[MetricCompletionUniqueness non-escape]
+\label{thm:metric-completion-uniqueness-nonescape}
+An accepted $\MetricCompletionUniquenessUp$ packet exports no quotient completion, no selected representative, no host equality of completed points, no countable-choice schedule, no open-cover compactness row, no ambient $\RealUp$ completeness theorem, no Lean verification, and no bridge checking. Every uniqueness-facing read is confined to the displayed rows
+$$
+M,E_0,F_0,R_0,S_0,E_1,F_1,R_1,S_1,Q,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:metric-completion-uniqueness-namecert-obligations}. They enumerate the common source row, the two dense-to-finite completion routes, the two separated classifier and uniqueness routes, the comparison ledger, transport, replay, provenance, and local naming as the whole public surface.
+
+Use the separated route theorem, \autoref{thm:metric-completion-uniqueness-separated-route}, for any uniqueness-facing comparison. It forces the comparison through $M,E_i,F_i,R_i,S_i$ on both sides before $Q,H,C,P,N$ can be consumed.
+
+No remaining coordinate can supply quotient completion data, representatives, host equality, choice, compactness, ambient completeness, Lean evidence, or bridge evidence. Therefore those excluded objects cannot be projected from an accepted packet.
+\end{proof}
+
+\begin{closurestatus}{\MetricCompletionUniquenessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-completion-uniqueness-carrier}, \autoref{thm:metric-completion-uniqueness-namecert-obligations}, \autoref{thm:metric-completion-uniqueness-separated-route}, and \autoref{thm:metric-completion-uniqueness-nonescape} seed the separated uniqueness boundary for two metric-completion presentations over the same source metric row.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion, selected representatives, host equality of completed points, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-source agreement, dense-to-finite order, classifier-before-uniqueness order, comparison exactness, and ledger non-escape for BEDC.Derived.MetricCompletionUniquenessUp.}
+  \constructivestory{A $\MetricCompletionUniquenessUp$ packet is generated from a common Metric source row, two CompletionEmbedding dense rows, two MetricCompletionFinite handoff rows, two SeparatedMetricReflection classifier routes, two SeparatedCompletion uniqueness boundaries, a local comparison ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

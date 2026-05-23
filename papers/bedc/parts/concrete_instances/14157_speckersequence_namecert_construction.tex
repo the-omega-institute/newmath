@@ -1,0 +1,122 @@
+\chapter{A Concrete Naming Certificate for $\SpeckerSequenceUp$}
+\label{ch:concrete-instances-speckersequence-namecert}
+\origin{human}
+
+Following Specker's constructive counterexample tradition and Bishop-style finite evidence, the $\SpeckerSequenceUp$ packet records a monotone bounded computable rational stream whose supremum is not exposed as a located $\RealUp$ datum without an additional location witness. The carrier sits in the Phase Real and Completion frontier between the regular rational names of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream schedules of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledgers of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite real seal boundary of \autoref{ch:concrete-instances-real-namecert}, and the selector discipline of \autoref{ch:concrete-instances-monotone-subsequence-namecert}.
+
+\begin{definition}[SpeckerSequence carrier]
+\label{def:speckersequence-carrier}
+A $\SpeckerSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(R,W,D,M,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row naming the computable rational stream by regular finite windows.
+\item $W$ is the $\StreamNameUp$ schedule that exposes the inspected windows of $R$.
+\item $D$ is the $\DyadicRatCoreUp$ ledger carrying the rational bounds and tolerances read from those windows.
+\item $M$ is the finite monotone ledger, recording that each displayed inspected value is below the later displayed values in the schedule.
+\item $B$ is the boundedness ledger, recording a displayed lower rational row and upper rational row for every inspected window.
+\item $E$ is the $\RealUp$ seal row available only as a finite readback boundary for displayed regular windows, not as a located supremum.
+\item $H$ stores componentwise $\hsame$ transport for the source, schedule, dyadic, monotone, boundedness, seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from $R,W$ into $D$, from $D$ into $M$ and $B$, and from the regular readback surface into $E$.
+\item $P$ is the $\Pkg$ provenance over $\SpeckerSequenceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\MonotoneSubsequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SpeckerSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for located supremum data, Dedekind cuts, countable choice, trichotomy, ambient completeness, or a selected limiting real.
+\end{definition}
+\leanchecked{BEDC.Derived.SpeckerSequenceUp.SpeckerSequenceTasteGate\_single\_carrier\_alignment}
+\leandef{BEDC.Derived.SpeckerSequenceUp.SpeckerSequenceUp}
+
+\begin{theorem}[SpeckerSequence carrier exposure]
+\label{thm:speckersequence-carrier-exposure}
+Every accepted $\SpeckerSequenceUp$ packet exposes exactly the rows $R,W,D,M,B,E,H,C,P,N$ of \autoref{def:speckersequence-carrier}. A consumer may inspect the computable rational stream only through the $\RegSeqRatUp$ source, the $\StreamNameUp$ schedule, the $\DyadicRatCoreUp$ bounds, the monotone and boundedness ledgers, the finite $\RealUp$ seal row, and the displayed structural rows.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple. The source row, schedule row, dyadic ledger, monotone ledger, boundedness ledger, seal row, transport row, continuation row, provenance row, and local naming row are the complete public inventory.
+
+The route is finite at every stage. The stream is read through $R$ and $W$, rational bounds are read through $D$, monotonicity and boundedness are read through $M$ and $B$, and the seal row $E$ is reached only after those rows have been displayed.
+
+Since the carrier lists no located supremum, Dedekind cut, selected limit, countable-choice selector, trichotomy branch, or completeness row, those objects are not part of the exposed packet.
+\end{proof}
+\leanchecked{BEDC.Derived.SpeckerSequenceUp.SpeckerSequenceCarrier\_exposure}
+
+\begin{theorem}[SpeckerSequence classifier transport]
+\label{thm:speckersequence-classifier-transport}
+Let $S=(R,W,D,M,B,E,H,C,P,N)$ be an accepted $\SpeckerSequenceUp$ carrier. Componentwise $\hsame$ transport along $H$ and displayed $\Cont$ replay along $C$ preserve the classifier shape of $S$: the transported packet is still compared by the same regular-source row, stream schedule, dyadic ledger, monotone ledger, boundedness ledger, finite seal row, provenance row, and local naming row.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpeckerSequenceUp.SpeckerSequenceClassifier\_transport}
+\begin{proof}
+Read the classifier from \autoref{def:speckersequence-carrier}. It depends only on the displayed rows of the packet, not on an ambient order or a host real equality test.
+
+Transport the source, schedule, dyadic, monotone, boundedness, and seal rows componentwise through $H$. The continuation row $C$ records the same replay order after transport: regular windows first, dyadic observations next, monotone and boundedness ledgers next, and the finite seal last.
+
+The transported inventory therefore repacks as the same carrier shape. No transported coordinate can introduce located-supremum data, countable choice, trichotomy, Dedekind-cut equality, or completeness, because no such coordinate is present before transport.
+\end{proof}
+
+\begin{theorem}[SpeckerSequence monotone bounded ledger]
+\label{thm:speckersequence-monotone-bounded-ledger}
+In every accepted $\SpeckerSequenceUp$ packet, the monotone ledger $M$ and boundedness ledger $B$ are read before any $\RealUp$ seal consumer can inspect $E$. Thus every seal-facing route factors through
+$$
+R,W\longmapsto D\longmapsto (M,B)\longmapsto E
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the source route. The $\RegSeqRatUp$ row $R$ and $\StreamNameUp$ schedule $W$ select the finite rational observations inspected by the packet.
+
+Next read the dyadic ledger. The row $D$ supplies the rational bounds and tolerance data used to compare the selected observations.
+
+Now read the monotone and boundedness ledgers. The row $M$ records the displayed monotone comparisons, while $B$ records the displayed lower and upper rational bounds for the same inspected windows.
+
+Only after those rows have been exposed can the finite $\RealUp$ seal row $E$ be consumed. The structural rows $H,C,P,N$ preserve this route and do not add a selected supremum or an ambient completeness witness.
+\end{proof}
+
+\begin{theorem}[SpeckerSequence finite-stage induction]
+\label{thm:speckersequence-finite-stage-induction}
+For every accepted $\SpeckerSequenceUp$ packet $S=(R,W,D,M,B,E,H,C,P,N)$, induction along the displayed finite $\StreamNameUp$ schedule $W$ lets any consumer read only the current finite rational window of $R$, the corresponding dyadic tolerance row of $D$, the monotone ledger prefix of $M$, the boundedness ledger prefix of $B$, and the transported $\BHist$ provenance before the consumer reaches the $\RealUp$ seal row $E$. The induction route introduces no located supremum, selected limit, countable choice, trichotomy, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Induct on the finite schedule prefix displayed by $W$. In the base case, the consumer sees only the initial inspected window of $R$, the matching tolerance and bound row in $D$, the empty or initial monotone and boundedness ledger entries in $M$ and $B$, and the provenance rows carried by $H,C,P,N$.
+
+For the step case, append one visible rational observation and its tolerance row. Componentwise $\hsame$ in $H$ transports the source, schedule, dyadic, monotone, boundedness, and seal coordinates without changing their row types. The displayed $\Cont$ replay in $C$ appends the new dyadic observation before replaying the corresponding monotone comparison in $M$ and the corresponding lower and upper bound in $B$.
+
+Thus each prefix consumer receives exactly the finite window and ledger data already displayed at that stage. Passing from one prefix to the next preserves the route of \autoref{thm:speckersequence-monotone-bounded-ledger}; the $\RealUp$ seal remains downstream of the visible rational, tolerance, monotone, boundedness, and provenance rows. Since no induction clause contains a coordinate for located supremum data, selected limits, countable choice, trichotomy, or ambient completeness, none is introduced before the seal.
+\end{proof}
+
+\begin{theorem}[SpeckerSequence non-located supremum boundary]
+\label{thm:speckersequence-nonlocated-supremum-boundary}
+An accepted $\SpeckerSequenceUp$ packet may certify a monotone bounded computable rational stream, but it does not certify a located supremum. Any downstream route that treats the packet as a located $\RealUp$ datum must supply an external location witness not contained in $R,W,D,M,B,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:speckersequence-carrier-exposure} to identify the packet inventory. The available analytic rows are the regular rational source, stream schedule, dyadic observations, monotone ledger, boundedness ledger, and finite seal boundary.
+
+Use \autoref{thm:speckersequence-monotone-bounded-ledger} for the seal route. It records that $E$ is reached through finite windows and ledgers, not through a located-supremum construction.
+
+A located supremum requires a location witness comparing rational cuts around the supremum. No such witness is a row of the carrier, and the structural rows merely transport, replay, source, and name the displayed packet. Hence the packet sets the non-located boundary rather than closing located completeness.
+\end{proof}
+
+\begin{theorem}[SpeckerSequence RealUp seal non-escape]
+\label{thm:speckersequence-realup-seal-nonescape}
+Every $\RealUp$ read exported by an accepted $\SpeckerSequenceUp$ packet is a finite seal read through the displayed source, schedule, dyadic, monotone, and boundedness rows. The read exports no Real completeness principle, located supremum, Dedekind cut, countable-choice selector, trichotomy branch, bridge checking datum, or selected limiting real.
+\end{theorem}
+\begin{proof}
+Factor the read through the carrier exposure theorem. The $\RealUp$ seal row $E$ is available only as one displayed coordinate of the finite packet.
+
+Apply classifier transport to keep every replay on the same componentwise rows. Transport cannot change the seal into a located supremum or a completed real object because it preserves the carrier shape.
+
+Apply the monotone bounded ledger theorem and the non-located supremum boundary. Together they show that a seal-facing consumer receives only finite regular windows, dyadic observations, monotone evidence, boundedness evidence, and structural certificate rows.
+
+The excluded principles are absent from every coordinate. Therefore the $\RealUp$ seal cannot escape to Real completeness, located supremum data, Dedekind cuts, countable choice, trichotomy, bridge checking, or selected limits.
+\end{proof}
+
+\begin{closurestatus}{\SpeckerSequenceUp}
+  \constructivestory{A $\SpeckerSequenceUp$ packet is generated from a $\RegSeqRatUp$ computable rational source, a $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ tolerance and bound rows, a monotone ledger, a boundedness ledger, a finite $\RealUp$ seal boundary, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:speckersequence-carrier}, \autoref{thm:speckersequence-carrier-exposure}, \autoref{thm:speckersequence-classifier-transport}, \autoref{thm:speckersequence-monotone-bounded-ledger}, \autoref{thm:speckersequence-finite-stage-induction}, \autoref{thm:speckersequence-nonlocated-supremum-boundary}, and \autoref{thm:speckersequence-realup-seal-nonescape} declare the finite Specker-sequence carrier, transport, monotone bounded ledger, finite-stage induction route, non-located supremum boundary, and RealUp seal non-escape surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.SpeckerSequenceUp.SpeckerSequenceCarrier\_exposure}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, located supremum construction, Dedekind cuts, countable choice, trichotomy, bridge checking, or selected limiting reals.}
+  \upgradepath{Obligation closure requires checked carrier exposure, classifier transport, monotone bounded ledger preservation, non-located-supremum boundary, and RealUp seal non-escape for the same packet.}
+\end{closurestatus}

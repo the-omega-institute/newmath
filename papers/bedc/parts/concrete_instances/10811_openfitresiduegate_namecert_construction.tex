@@ -3,6 +3,7 @@
 \origin{ai}
 
 The \OpenFitResidueGateUp packet realizes the open physical fit discipline of \autoref{sec:finite-observation-open-fit} as a finite residue-gate certificate. It sits beside the open physical fit surface of \autoref{ch:concrete-instances-open-physical-fit-namecert}, the finite-observation residue boundary of \autoref{ch:concrete-instances-finite-observation-residue-boundary-namecert}, the observation-reflection packet of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}, and the GAP-policy surfaces of \autoref{ch:core-gap-policies-coverage-separation-and-composition} and \autoref{ch:concrete-instances-gap-policy}. Those siblings expose open fit, visible residue, observation readback, and gap-policy accountability; this gate binds them into the packet a consumer must read before treating finite undefeated fit as physically admissible.
+As an ai packet, it depends on those open-fit, residue-boundary, observation-reflection, and GAP-policy siblings rather than introducing an independent primitive carrier.
 
 \begin{definition}[Open-fit residue-gate carrier]
 \label{def:open-fit-residue-gate-carrier}
@@ -31,6 +32,7 @@ The carrier has no coordinate for final fit, total model identity, host physical
 \label{thm:open-fit-residue-gate-namecert-obligations}
 For the carrier of \autoref{def:open-fit-residue-gate-carrier}, the local $\NameCert_{\OpenFitResidueGateUp}$ surface consists exactly of trace-request exposure through $T$, finite-fit certificate exposure through $F$, open-residue exposure through $R$, refutation-verdict exposure through $V$, classifier exactness through $C$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ continuation replay through $Q$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.OpenFitResidueGateUp.OpenFitResidueGateNameCertObligations}
 \begin{proof}
 Project the carrier $G=(T,F,R,V,C,H,Q,P,N)$. The request, finite fit, residue, verdict, and classifier rows are the complete content-facing surface of the packet.
 
@@ -52,7 +54,7 @@ Later Lean development in \texttt{lean4/BEDC/Derived/OpenFitResidueGateUp/TasteG
 \closureat{OpenFitResidueGateUp}{seedStr}
 
 \begin{closurestatus}{\OpenFitResidueGateUp}
-  \constructivestory{An $\OpenFitResidueGateUp$ packet is generated from trace request, finite-fit certificate, open-residue, verdict, classifier, transport, replay, provenance, and local NameCert rows.}
+  \constructivestory{An $\OpenFitResidueGateUp$ packet is generated from trace request, finite-fit certificate, open-residue, verdict, classifier, transport, replay, provenance, and local NameCert rows, as a composite over open physical fit, finite observation residue boundary, observation reflection packet, and reality-constrained open fit surfaces.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:open-fit-residue-gate-carrier} and \autoref{thm:open-fit-residue-gate-namecert-obligations} bind trace request, finite-fit certificate, open residue, verdict, classifier, transport, replay, provenance, and local naming into one finite residue-gate packet.}
   \formalstatus{\axiomCleanV}

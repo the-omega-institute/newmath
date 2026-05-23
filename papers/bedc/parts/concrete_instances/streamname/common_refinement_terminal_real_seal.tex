@@ -18,6 +18,8 @@ $$
 $$
 The factorization reads the finite-window classifier, the $\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observations, pointwise $\mathsf{RatHistoryClassifier}$ rows, dyadic ledger rows, displayed $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows. It does not identify quotient streams, assert host sequence equality, select limits, use ambient $\RealUp$ completeness, or import metric-completeness data.
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.StreamNameCommonRefinementTerminalRealSeal}
+\leanvariant{BEDC.Derived.StreamNameUp.StreamName\_common\_refinement\_terminal\_real\_seal}
 \begin{proof}
 Begin with \autoref{thm:streamname-common-refinement-public-exactness}. It pins the two selected windows to the common-refinement source tuple of $\mathcal R$ and keeps the downstream $\RegSeqRatUp$ and finite $\RealUp$ handoff reads on that public packet.
 
@@ -88,6 +90,52 @@ Apply \autoref{thm:streamname-real-regseqrat-seal-common-refinement}. The retain
 Finally use \autoref{thm:streamname-common-refinement-real-seal-uniqueness}. The restricted packet and the packet assembled from $J$ have identical displayed terminal coordinates, hence they are the same public finite-window seal packet. The row inventory leaves no coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, or independent seal coordinates.
 \end{proof}
 
+\begin{theorem}[StreamName common-refinement terminal subcover associativity]
+\label{thm:streamname-common-refinement-terminal-subcover-associativity}
+Let $\{\mathcal R_i\}_{i \in I}$ be a finite family of common-refinement $\StreamNameUp$ finite-window packets whose retained consumers pass through the accepted $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, and the finite-window $\RealUp$ seal row of \autoref{thm:streamname-common-refinement-terminal-real-seal}. For nested finite subfamilies $K \subseteq J \subseteq I$, restrict the terminal packet on $I$ first to $J$ and then to $K$, retaining only the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, finite $\BHist$ observation, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Then this two-step restriction is the same public finite-window packet as the direct restriction of the terminal packet on $I$ to $K$.
+
+The associativity claim is only about those displayed public rows. It does not identify quotient streams, assert host sequence equality, select limits, use ambient $\RealUp$ completeness, import metric-completeness data, or introduce independent seal coordinates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-common-refinement-terminal-subcover-exactness} to the inclusion $J \subseteq I$. The first restriction is exactly the terminal packet assembled from the common-refinement windows indexed by $J$, with only the displayed StreamName, RegSeqRat, dyadic, Real, history, transport, route, provenance, and naming rows.
+
+Apply the same theorem to the inclusion $K \subseteq J$. The second restriction therefore has precisely the terminal coordinates obtained by assembling the windows indexed by $K$ inside the already restricted $J$-packet.
+
+Apply \autoref{thm:streamname-common-refinement-terminal-subcover-exactness} once more to the direct inclusion $K \subseteq I$. The direct packet and the two-step packet expose identical terminal coordinate lists, so \autoref{thm:streamname-common-refinement-real-seal-uniqueness} identifies them as the same public finite-window seal packet. The coordinate inventory contains no slot for quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, or independent seal coordinates.
+\end{proof}
+
+\begin{theorem}[StreamName common-refinement objectwise status stability]
+\label{thm:streamname-common-refinement-objectwise-status-stability}
+Let $\{\mathcal R_i\}_{i \in I}$ be a finite family of common-refinement $\StreamNameUp$ finite-window packets whose terminal packets feed the accepted $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, and the finite-window $\RealUp$ seal row. For nested finite subfamilies $K \subseteq J \subseteq I$, restrict the terminal packet on $I$ first to $J$ and then to $K$, retaining the displayed finite $\BHist$ observations, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ rows, and the four local objectwise status records for $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Then the restricted terminal packet preserves exactly those four local objectwise closurestatus, formalstatus, leantarget, and bridgestatus records. Equivalently, the terminal packet restricted to $K$ satisfies the Phase $\RealUp$ and Completion objectwise exit read exactly when the unrestricted terminal packet satisfies that read after projection to $K$. The claim excludes quotient stream equality, host sequence equality, selected limits, ambient $\RealUp$ completeness, metric-completeness data, aggregate formalstatus rows, aggregate bridge rows, and standard bridge rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-common-refinement-terminal-subcover-exactness}. Restriction along a finite subfamily keeps precisely the displayed StreamName window, RegSeqRat readback, dyadic ledger, Real seal row, finite $\BHist$ observation, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Next apply \autoref{thm:streamname-common-refinement-terminal-subcover-associativity}. The two-step restriction through $J$ and then $K$ has the same public terminal packet as the direct restriction from $I$ to $K$, so the status read is independent of the route used to reach the retained finite subfamily.
+
+Use \autoref{thm:streamname-real-regseqrat-seal-common-refinement} and \autoref{thm:streamname-real-regseq-terminal-common-window-lock}. These two results keep the $\StreamNameUp$ window, accepted $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and finite $\RealUp$ seal row on the same finite pullback after restriction.
+
+Finally invoke \autoref{thm:real-l10-objectwise-face-status-exit}. The Phase Real and Completion exit criterion reads exactly the four local face records together with the displayed finite support rows. Since the preceding restrictions preserve those rows objectwise, the projected packet and the unrestricted packet projected to $K$ satisfy the exit read together, and no aggregate formalstatus row, aggregate bridge row, standard bridge row, quotient stream equality, host sequence equality, selected limit, ambient Real completeness, or metric-completeness datum is introduced.
+\end{proof}
+
+\begin{theorem}[StreamName common-refinement objectwise status sharpness]
+\label{thm:streamname-common-refinement-objectwise-status-sharpness}
+Let $\{\mathcal R_i\}_{i \in I}$ be a finite family of common-refinement $\StreamNameUp$ finite-window packets whose terminal packets feed the accepted $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, and the finite-window $\RealUp$ seal row. For every finite subfamily $K \subseteq I$, the restriction of the common-refinement terminal packet to $K$ is accepted by the current Phase $\RealUp$ and Completion objectwise exit read if and only if the restricted packet preserves exactly the four local face records for $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, together with the displayed finite $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ support rows.
+
+The equivalence is sharp at that objectwise surface. It does not use or export an aggregate formalstatus row, an aggregate bridge row, a standard bridge substitute, quotient stream equality, host sequence equality, selected limits, countable choice, metric-completeness data, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For preservation, apply \autoref{thm:streamname-common-refinement-objectwise-status-stability}. It already shows that finite-subfamily restriction keeps the four local objectwise closurestatus, formalstatus, leantarget, and bridgestatus records for $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, along with the displayed finite support rows.
+
+The route used to reach the retained subfamily contributes no extra status datum. Use \autoref{thm:streamname-common-refinement-terminal-subcover-exactness} to identify the restriction of the ambient terminal packet with the packet assembled from the subfamily alone, and then use \autoref{thm:streamname-common-refinement-terminal-subcover-associativity} to remove dependence on any intermediate finite subfamily.
+
+For the converse readback, start with the four preserved local face records and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Apply \autoref{thm:streamname-real-completion-objectwise-threshold-equivalence} to read these rows as exactly the current Phase Real and Completion objectwise threshold. Then apply \autoref{thm:regseqrat-terminal-four-face-status-pullback} to place the RegSeqRat terminal read on the same four-face support surface.
+
+Combining the two directions gives the stated equivalence for the restricted common-refinement terminal packet. Since every step reads only the four local face records and the listed finite support rows, the certificate has no coordinate for aggregate formalstatus data, aggregate bridge data, standard bridge substitutes, quotient stream equality, host sequence equality, selected limits, countable choice, metric-completeness data, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[StreamName CauchyLimitSeal forward lattice]
 \label{thm:streamname-cauchy-limit-seal-forward-lattice}
 Any common-refinement $\StreamNameUp$ finite-window packet consumed by $\RegSeqRatUp$ and then by $\CauchyLimitSealUp$ factors through the StreamName window, the RegSeqRat readback, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal row, and the finite-window seal surface of \autoref{ch:concrete-instances-cauchylimitseal-namecert}. The forward route carries only displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient streams, host sequence equality, selected limits, ambient $\RealUp$ completeness, or metric-completeness data.
@@ -110,4 +158,26 @@ Start with the forward factorization in \autoref{thm:streamname-cauchy-limit-sea
 On the CauchyLimitSeal side, apply \autoref{thm:streamname-cauchy-limit-seal-dependency}. Every sealed-limit read must pass through the scheduled $\StreamNameUp$ window before the seal row is consumed. Then use \autoref{thm:cauchy-limit-seal-streamname-lattice-orphan-link}; its sibling-lattice statement keeps the route on the displayed finite seal surface and rules out a host-level substitute.
 
 It remains to exhaust the coordinates of the two public packets. The StreamName terminal packet lists only the selected window, RegSeqRat readback, dyadic ledger, Real seal, $\BHist$ observations, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows, while the CauchyLimitSeal surface contributes only its displayed finite-window seal coordinates. Their common coordinates are exactly the rows named in the statement, so there is no remaining slot for a hidden tail witness, quotient stream, host sequence equality, selected external limit, ambient Real completeness row, metric-completion row, or standard bridge row.
+\end{proof}
+
+\begin{theorem}[StreamName common-refinement terminal status pullback]
+\label{thm:streamname-common-refinement-terminal-status-pullback}
+Let $\mathcal R$ be a certified common-refinement $\StreamNameUp$ finite-window packet whose terminal read is consumed by the Phase $\RealUp$ and Completion route. Then the terminal read satisfies the face-local status readback exactly when the four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+retain their own local \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows over the same displayed support
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+The pullback is only the four-face common-refinement route. It excludes aggregate status rows, quotient streams, selected limits, countable choice, metric-completeness data, standard bridge rows, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. The certified common-refinement packet places every terminal Real-facing read on the single finite surface carrying the StreamName window, RegSeqRat readback, dyadic ledger, Real seal row, displayed $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Next apply \autoref{thm:streamname-common-refinement-objectwise-status-stability}. Restricting the common-refinement route preserves exactly the four local objectwise status records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ over that same support, without creating an aggregate status coordinate.
+
+For the forward direction, use \autoref{thm:streamname-open-phase-terminal-status-sibling-readback}. A Phase Real and Completion terminal read obtains its status rows from the concrete sibling faces themselves, so any accepted read through $\mathcal R$ must read the four local \texttt{closurestatus}, \texttt{formalstatus}, \texttt{leantarget}, and \texttt{bridgestatus} rows on the displayed support.
+
+For the reverse direction, assume those four face-local rows are retained over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Apply \autoref{thm:streamname-open-phase-terminal-local-threshold-equivalence} to repack precisely those rows as the terminal Phase Real and Completion status read. The preceding terminal seal and objectwise-stability results keep the read on the common-refinement packet, so there is no coordinate from which to form aggregate status rows, quotient streams, selected limits, countable choice, metric-completeness data, standard bridge rows, or ambient $\RealUp$ completeness.
 \end{proof}

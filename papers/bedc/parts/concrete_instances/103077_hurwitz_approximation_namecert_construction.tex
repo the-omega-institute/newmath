@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\HurwitzApproximationUp$}
+\label{ch:concrete-instances-hurwitz-approximation-namecert}
+\origin{human}
+
+Following Hurwitz and Hardy--Wright, the $\HurwitzApproximationUp$ packet records the finite continued-fraction route to rational approximation with a displayed constant witness. It consumes the continued-fraction source of \autoref{ch:concrete-instances-continuedfraction-namecert}, the convergent-prefix surface of \autoref{ch:concrete-instances-continued-fraction-convergents-namecert}, the Farey-neighbor ledger of \autoref{ch:concrete-instances-farey-sequence-namecert}, the Stern--Brocot branch route of \autoref{ch:concrete-instances-stern-brocot-namecert}, the Dirichlet-approximation certificate of \autoref{ch:concrete-instances-dirichlet-approximation-namecert}, the rational readback boundary of \autoref{ch:concrete-instances-real-rational-approximation-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name interface of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite approximation certificate for one displayed real input and one requested budget; it is not an infinite continued fraction, a quotient-real equality theorem, a trichotomy principle, a countable-choice selector, or an ambient $\RealUp$ completeness claim.
+
+\begin{definition}[Hurwitz approximation carrier]
+\label{def:hurwitz-approximation-carrier}
+A $\HurwitzApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+H=(X,Q,A,C,F,S,D,R,E,T,U,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\RealUp$ input name, exposed only through finite regular-rational windows and dyadic error budgets.
+\item $Q$ is the $\RegSeqRatUp$ readback row supplying the finite rational windows consumed by the approximation certificate.
+\item $A$ is the $\ContinuedFractionUp$ prefix row. It records a finite list of partial quotients, denominator positivity witnesses, and the displayed stopping index used by the certificate.
+\item $C$ is the $\ContinuedFractionConvergentsUp$ row attached to $A$, listing the convergent numerator and denominator pairs through the stopping index.
+\item $F$ is the $\FareySequenceUp$ neighbor row used to compare adjacent rational windows against the same denominator budget.
+\item $S$ is the $\SternBrocotUp$ branch row that replays the same rational interval as a finite left-right word.
+\item $D$ is the $\DirichletApproximationUp$ budget row, recording the denominator threshold, dyadic error request, and finite pigeonhole-style witness that bounds the search space.
+\item $R$ is the rational-approximation output row. It contains a displayed fraction $p/q$, the denominator bound, and the dyadic inequality row asserting the Hurwitz-style error estimate for the current budget.
+\item $E$ records the excluded-principle ledger: no selected infinite expansion, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness row may be read from the carrier.
+\item $T$ records componentwise $\hsame$ transport for the input name, regular readback, continued-fraction prefix, convergent table, Farey row, Stern--Brocot row, Dirichlet row, output fraction, excluded-principle ledger, replay, provenance, and local naming rows.
+\item $U$ records displayed $\Cont$ replay of the finite route
+$$
+X,Q \longmapsto A \longmapsto C \longmapsto F,S,D \longmapsto R,E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\HurwitzApproximationUp$, $\RealUp$, $\RegSeqRatUp$, $\ContinuedFractionUp$, $\ContinuedFractionConvergentsUp$, $\FareySequenceUp$, $\SternBrocotUp$, $\DirichletApproximationUp$, $\RealRationalApproximationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HurwitzApproximationUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through $X,Q,A,C,F,S,D,R,E,T,U,P,N$. It has no coordinate for selected infinite expansions, quotient real equality, real trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.HurwitzApproximationUp.HurwitzApproximationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[HurwitzApproximationUp NameCert obligations]
+\label{thm:hurwitz-approximation-namecert-obligations}
+For every accepted $\HurwitzApproximationUp$ carrier
+$$
+H=(X,Q,A,C,F,S,D,R,E,T,U,P,N),
+$$
+the local $\NameCert_{\HurwitzApproximationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet of \autoref{def:hurwitz-approximation-carrier};
+\item input readback exactness, requiring the $\RealUp$ input $X$ to be inspected only through the finite $\RegSeqRatUp$ windows and dyadic budgets in $Q$;
+\item continued-fraction prefix exactness, requiring $A$ and $C$ to expose only the displayed finite prefix and its convergent table through the stopping index;
+\item neighbor-route compatibility, requiring the Farey row $F$ and Stern--Brocot row $S$ to replay the same rational interval inspected by the convergent table;
+\item approximation-budget exactness, requiring $D$ and $R$ to display the denominator threshold, chosen fraction, and dyadic error inequality for the current budget;
+\item excluded-principle nonescape through $E$, requiring every consumer to refuse selected infinite expansions, quotient real equality, trichotomy, countable choice, and ambient $\RealUp$ completeness;
+\item classifier transport and provenance through $T,U,P,N$, requiring componentwise $\hsame$ transport, displayed replay, package source, and local name to preserve exactly these rows.
+\end{enumerate}
+No Hurwitz-approximation obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:hurwitz-approximation-carrier}. The rows $X$ and $Q$ are the only real-facing input interface, so every approximation claim begins with finite rational windows and dyadic budgets rather than quotient-real equality.
+
+The finite continued-fraction data are then read from $A$ and $C$. Induct over the displayed prefix: the base row exposes the first convergent, and each successor row updates the numerator-denominator pair while preserving the positivity and determinant ledgers carried by the convergent table.
+
+The neighbor rows $F$ and $S$ compare the same displayed rational interval. A finite induction over the Farey adjacency row matches the corresponding Stern--Brocot word, so the branch route cannot import an infinite expansion or a global order split.
+
+The budget rows $D$ and $R$ supply the approximation witness. The dyadic error budget is checked against the finite convergent prefix and the denominator threshold, producing the displayed fraction $p/q$ and its Hurwitz-style inequality for this request.
+
+Finally $E$ records the refused principles, while $T,U,P,N$ transport, replay, source, and name the same finite surface. Since the carrier has no additional coordinate, the seven listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite continued-fraction handoff]
+\label{thm:hurwitz-approximation-continued-fraction-handoff}
+Every rational-approximation consumer of an accepted $\HurwitzApproximationUp$ carrier factors through the finite route
+$$
+X,Q \longmapsto A \longmapsto C \longmapsto F,S,D \longmapsto R,E,T,U,P,N .
+$$
+Consequently the consumer receives a displayed real-name readback, a finite continued-fraction prefix, its convergent table, Farey and Stern--Brocot comparison rows, a Dirichlet-style dyadic budget row, a rational output fraction, and the excluded-principle ledger before inspecting any approximation claim.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the output fraction in $R$. By the carrier definition, $R$ is not an independent rational approximation; it is stored after the input readback rows $X,Q$, the finite continued-fraction prefix $A$, and the convergent table $C$.
+
+The handoff from $A$ to $C$ is finite-row induction over the displayed prefix. Each step adds one partial quotient and updates one convergent row, so the consumer never receives an infinite expansion or a selected tail.
+
+The comparison handoff then passes through $F,S,D$. The Farey and Stern--Brocot rows identify the same finite rational interval, while the Dirichlet row supplies the denominator and dyadic error budget used by the output row.
+
+The structural rows $E,T,U,P,N$ close the public boundary. They record the refused principles, preserve the displayed route under componentwise transport, replay the route, source it, and assign the local NameCert name. Hence the consumer boundary is exactly the finite continued-fraction route and not any ambient real-completeness or choice principle.
+\end{proof}
+
+\closureat{HurwitzApproximationUp}{seedStr}
+
+\begin{closurestatus}{\HurwitzApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hurwitz-approximation-carrier}, \autoref{thm:hurwitz-approximation-namecert-obligations}, and \autoref{thm:hurwitz-approximation-continued-fraction-handoff} seed the finite continued-fraction route from Real and RegSeqRat readback through convergent prefixes, Farey and Stern--Brocot comparison rows, Dirichlet-style budgets, rational output, excluded-principle refusal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite expansions, quotient real equality, real trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked input readback exactness, continued-fraction prefix exactness, neighbor-route compatibility, approximation-budget exactness, excluded-principle nonescape, classifier transport, and provenance/name exhaustion for BEDC.Derived.HurwitzApproximationUp.}
+  \constructivestory{A $\HurwitzApproximationUp$ packet is generated from a RealUp input name, RegSeqRat finite readback, ContinuedFraction finite prefix, convergent table, Farey and SternBrocot comparison rows, a DirichletApproximation budget row, a rational output fraction, an excluded-principle ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

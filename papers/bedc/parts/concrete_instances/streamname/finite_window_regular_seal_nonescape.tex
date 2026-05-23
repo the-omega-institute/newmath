@@ -86,6 +86,20 @@ Finally apply \autoref{thm:streamname-real-handoff-completion-nonescape}. Comple
 The exclusions follow because each cited route omits quotient streams, host sequence equality, selected limits, metric completeness, ambient $\RealUp$ completeness, and independent completed-real carriers. Since the composition only repacks the same finite rows, it cannot create any of those objects.
 \end{proof}
 
+\begin{theorem}[StreamName finite-window regular seal budget functoriality]
+\label{thm:streamname-finite-window-regular-seal-budget-functoriality}
+Let $P \leq Q \leq R$ be accepted finite observation budgets presenting the same finite $\StreamNameUp$ window $W$, the same $\DyadicRatCoreUp$ ledger, the same $\RegSeqRatUp$ readback row, the same $\RealUp$ seal boundary, and the same displayed support rows: $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ membership, certified $\mathsf{UnaryHistory}$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. Then the seal-facing packet obtained by refining from $P$ to $Q$ and then from $Q$ to $R$ is the same finite public packet as the direct refinement from $P$ to $R$.
+
+The common packet exports no quotient stream, selected limit, host sequence equality, ambient completeness, metric-completeness datum, countable-choice row, standard bridge row, or off-ledger $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-regseqrat-real-budgeted-common-pullback} to the accepted overlaps $P \leq Q$ and $Q \leq R$. The hypotheses identify the four visible sibling rows on each overlap: the StreamName window, the RegSeqRat readback row, the DyadicRatCore ledger, and the Real seal boundary.
+
+Next apply \autoref{thm:streamname-regseqrat-real-tail-window-exactness}. Once the four sibling rows and their displayed support rows agree, the seal-facing packet is exactly the finite row list named in the statement, so the two-step refinement has no separate coordinate left to remember the intermediate budget $Q$.
+
+Finally use \autoref{thm:streamname-finite-window-real-seal-route-exhaustion}. The direct refinement from $P$ to $R$ exhausts the same public rows and has no slot for quotient streams, selected limits, host sequence equality, ambient completeness, metric-completeness data, countable-choice rows, standard bridge rows, or off-ledger Real seal sources. Repacking the two certified overlaps therefore gives the same finite public packet as the direct refinement.
+\end{proof}
+
 \begin{theorem}[StreamName finite-window regularity selector nonchoice]
 \label{thm:streamname-finite-window-regularity-selector-nonchoice}
 Let $W$ be an accepted finite $\StreamNameUp$ window consumed through $\RegSeqRatUp$ regularity, $\DyadicRatCoreUp$ observation readback, and a finite-window $\RealUp$ seal. Then the $\RegSeqRatUp$ regularity row visible at the seal is only a displayed downstream budget row in the finite packet. It cannot be re-entered as a hidden selector, host function, countable-choice witness, quotient stream representative, selected limit, ambient $\RealUp$ completeness coordinate, or independent completed-real carrier.
@@ -100,4 +114,40 @@ Next use \autoref{thm:streamname-regseqrat-pointwise-handoff}. The $\RegSeqRatUp
 Now apply \autoref{thm:streamname-finite-window-real-seal-route-exhaustion}. The finite-window $\RealUp$ seal has no public coordinate beyond the listed StreamName, $\RegSeqRatUp$, $\DyadicRatCoreUp$, seal-boundary, transport, continuation, provenance, and certificate rows.
 
 Finally compose this exhaustion with \autoref{thm:streamname-regseqrat-real-tail-window-exactness}. Tail-window exactness says the seal-facing packet is exactly that finite row list. Since the composed packet contains no slot for a selector, host function, countable-choice witness, quotient representative, selected limit, ambient completeness coordinate, or independent completed-real carrier, the regularity row cannot re-enter as any of those data.
+\end{proof}
+
+\begin{theorem}[StreamName Real terminal support minimality]
+\label{thm:streamname-real-terminal-support-minimality}
+Let $W$ be an accepted finite terminal $\StreamNameUp$ window consumed through a $\RegSeqRatUp$ regularity row, a $\DyadicRatCoreUp$ observation ledger, and a finite-window $\RealUp$ seal. Then every support row required to present the same seal-visible source is one of the displayed $\BHist$ observations, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, certified $\mathsf{UnaryHistory}$ observations, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance rows, and local $\NameCert$ rows.
+
+Deleting any one row from this displayed support prevents the same $\RealUp$ seal-visible source from being presented by the finite StreamName-to-RegSeqRat-to-DyadicRatCore-to-Real route. No quotient stream equality, host sequence equality, selected limit, countable-choice row, metric completeness proof, ambient $\RealUp$ completeness coordinate, standard bridge row, or replacement regularity selector can serve as a substitute support coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-window-real-seal-route-exhaustion}. The seal consumer sees only the StreamName window row, the bundle and membership rows, the certified unary observations, the RegSeqRat readback row, the DyadicRatCore ledger, the Real seal boundary, componentwise transports, continuations, provenance, and local certificate rows.
+
+Next apply \autoref{thm:streamname-regseqrat-real-tail-window-exactness}. It identifies the seal-facing packet with exactly that finite row list. Thus presenting the same seal-visible source requires each displayed support row that the packet consumes; removing one row breaks the finite packet rather than moving the obligation to an unlisted coordinate.
+
+Finally use \autoref{thm:streamname-finite-window-regularity-selector-nonchoice}. The regularity row cannot be re-entered as a hidden selector, host function, countable-choice witness, quotient representative, selected limit, ambient completeness coordinate, or independent completed-real carrier. Combining this with the exhaustion clauses also excludes metric completeness, standard bridge rows, host sequence equality, quotient stream equality, and off-ledger seal sources as substitutes.
+
+The remaining presentation is therefore support-row exact: the same $\RealUp$ seal-visible source is available precisely through the displayed finite BEDC support rows, and deletion of any required displayed row leaves no admissible replacement coordinate inside the StreamName-to-RegSeqRat-to-DyadicRatCore-to-Real route.
+\end{proof}
+
+\begin{theorem}[StreamName finite-window regular seal terminal route]
+\label{thm:streamname-finite-window-regular-seal-terminal-route}
+Let $W$ be an accepted finite terminal $\StreamNameUp$ window consumed through $\RegSeqRatUp$ regularity, $\DyadicRatCoreUp$ observation readback, and a finite-window $\RealUp$ seal. Then the terminal public route consumed by the $\RealUp$ seal is the four-face packet
+$$
+\StreamNameUp,\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad \RealUp
+$$
+together with the displayed $\BHist$ observations, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, certified $\mathsf{UnaryHistory}$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance rows, and local $\NameCert$ support rows.
+
+This route is invariant under accepted budget refinement. It has no coordinate for quotient stream equality, host sequence equality, a selected limit, countable-choice row, metric-completeness datum, standard bridge row, ambient $\RealUp$ completeness coordinate, hidden regularity selector, off-ledger seal source, or independent completed-real carrier.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-window-real-seal-route-exhaustion}. It supplies the full row inventory available to the finite-window $\RealUp$ seal consumer: the StreamName window row, bundle and membership rows, unary observations, RegSeqRat readback, DyadicRatCore ledger, Real seal boundary, transports, continuations, provenance, and local certificates.
+
+Next apply \autoref{thm:streamname-regseqrat-real-tail-window-exactness}. This identifies the seal-facing inventory with the four visible faces $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ plus exactly the displayed support rows, so the terminal route is a positive packet rather than only an exclusion list.
+
+The refinement clause follows from \autoref{thm:streamname-finite-window-regular-seal-budget-functoriality}. Accepted refinements compose through the same finite public packet, and the direct refinement sees no additional coordinate.
+
+Finally use \autoref{thm:streamname-finite-window-regularity-selector-nonchoice} and \autoref{thm:streamname-real-terminal-support-minimality}. The selector theorem rules out re-entry through hidden choice, quotient, host, limit, completion, bridge, or off-ledger seal data, while support minimality says the displayed local support rows are the rows actually consumed by the terminal packet. Combining these clauses gives the stated terminal route and its exclusions.
 \end{proof}

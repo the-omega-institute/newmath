@@ -143,4 +143,60 @@ theorem BaireSpacePrefixPacket_real_name_handoff_transport [AskSetup] [PackageSe
       (And.intro sameEndpoint
         (And.intro handoffRow readSig)))
 
+theorem BaireSpaceUp_StdBridge [AskSetup] [PackageSetup]
+    {schedule window classifier ledger provenance restriction endpoint schedule1 window1
+      classifier1 ledger1 provenance1 restriction1 endpoint1 schedule2 window2 classifier2
+      ledger2 provenance2 restriction2 endpoint2 standardRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireSpacePrefixPacket schedule window classifier ledger provenance restriction endpoint
+        bundle pkg ->
+      hsame schedule schedule1 -> hsame window window1 -> hsame classifier classifier1 ->
+        hsame ledger ledger1 -> Cont schedule1 window1 restriction1 ->
+          Cont restriction1 classifier1 provenance1 -> Cont provenance1 ledger1 endpoint1 ->
+            PkgSig bundle endpoint1 pkg -> hsame schedule1 schedule2 ->
+              hsame window1 window2 -> hsame classifier1 classifier2 ->
+                hsame ledger1 ledger2 -> Cont schedule2 window2 restriction2 ->
+                  Cont restriction2 classifier2 provenance2 ->
+                    Cont provenance2 ledger2 endpoint2 -> PkgSig bundle endpoint2 pkg ->
+                      Cont endpoint2 provenance2 standardRead ->
+                        PkgSig bundle standardRead pkg ->
+                          BaireSpacePrefixPacket schedule2 window2 classifier2 ledger2
+                              provenance2 restriction2 endpoint2 bundle pkg ∧
+                            UnaryHistory standardRead ∧ hsame restriction restriction2 ∧
+                              hsame provenance provenance2 ∧ hsame endpoint endpoint2 ∧
+                                Cont endpoint2 provenance2 standardRead ∧
+                                  PkgSig bundle standardRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro packet sameSchedule01 sameWindow01 sameClassifier01 sameLedger01 restrictionRow1
+    provenanceRow1 endpointRow1 pkgSig1 sameSchedule12 sameWindow12 sameClassifier12
+    sameLedger12 restrictionRow2 provenanceRow2 endpointRow2 pkgSig2 standardReadRow
+    standardReadSig
+  have transported :=
+    BaireSpacePrefixPacket_prefix_restriction_composition
+      (schedule := schedule) (window := window) (classifier := classifier) (ledger := ledger)
+      (provenance := provenance) (restriction := restriction) (endpoint := endpoint)
+      (schedule1 := schedule1) (window1 := window1) (classifier1 := classifier1)
+      (ledger1 := ledger1) (provenance1 := provenance1) (restriction1 := restriction1)
+      (endpoint1 := endpoint1) (schedule2 := schedule2) (window2 := window2)
+      (classifier2 := classifier2) (ledger2 := ledger2) (provenance2 := provenance2)
+      (restriction2 := restriction2) (endpoint2 := endpoint2) (bundle := bundle)
+      (pkg := pkg)
+      packet sameSchedule01 sameWindow01 sameClassifier01 sameLedger01 restrictionRow1
+      provenanceRow1 endpointRow1 pkgSig1 sameSchedule12 sameWindow12 sameClassifier12
+      sameLedger12 restrictionRow2 provenanceRow2 endpointRow2 pkgSig2
+  have restrictionUnary : UnaryHistory restriction2 :=
+    unary_cont_closed transported.left.left transported.left.right.left restrictionRow2
+  have provenanceUnary : UnaryHistory provenance2 :=
+    unary_cont_closed restrictionUnary transported.left.right.right.left provenanceRow2
+  have endpointUnary : UnaryHistory endpoint2 :=
+    unary_cont_closed provenanceUnary transported.left.right.right.right.left endpointRow2
+  have standardReadUnary : UnaryHistory standardRead :=
+    unary_cont_closed endpointUnary provenanceUnary standardReadRow
+  exact And.intro transported.left
+    (And.intro standardReadUnary
+      (And.intro transported.right.left
+        (And.intro transported.right.right.left
+          (And.intro transported.right.right.right
+            (And.intro standardReadRow standardReadSig)))))
+
 end BEDC.Derived.BaireSpaceUp

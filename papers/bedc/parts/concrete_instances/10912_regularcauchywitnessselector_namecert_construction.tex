@@ -72,6 +72,7 @@ M,W,T,R,H,C,P,N.
 $$
 In particular, a route that reaches a $\RealUp$ seal without the explicit modulus request, selected window, dyadic tolerance, regular-rational readback, componentwise transport, continuation replay, provenance, and local $\NameCert$ rows is outside the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyWitnessSelectorUp.RegularCauchyWitnessSelector\_ledger\_nonescape}
 \begin{proof}
 Project an accepted packet $Q=(M,W,T,R,E,H,C,P,N)$. The seal row $E$ is not a detached Real object; it is the terminal coordinate of the same finite selector carrier.
 
@@ -94,6 +95,24 @@ Apply \autoref{thm:regular-cauchy-witness-selector-source-totality} to identify 
 Apply \autoref{thm:regular-cauchy-witness-selector-ledger-nonescape} for the terminal $\RealUp$ boundary. The seal row is reachable only through the same displayed selector ledger and its structural rows.
 
 These rows exhaust the NameCert surface. Since every listed dependency is displayed inside $Q$, and since the carrier contains no host limit, quotient, choice, or ambient-completeness coordinate, the packet is exactly the finite diagonal selector consumed by the Real completeness route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness selector completion-boundary route]
+\label{thm:regular-cauchy-witness-selector-completion-boundary-route}
+For every accepted $\RegularCauchyWitnessSelectorUp$ packet
+$$
+Q=(M,W,T,R,E,H,C,P,N),
+$$
+any completion-facing consumer that uses the selector to reach a $\RealUp$ seal factors through the explicit modulus request $M$, the selected $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ tolerance row $T$, the $\RegSeqRatUp$ readback row $R$, the terminal seal row $E$, and the structural rows $H,C,P,N$, and then lands through the exact boundary of \autoref{ch:concrete-instances-real-completion-exact-boundary-namecert}. The route has no coordinate for quotient Cauchy-name equality, host-selected limits, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the selector's source route. By \autoref{thm:regular-cauchy-witness-selector-source-totality}, the only source-facing path available to an accepted packet is $M \mapsto W \mapsto T \mapsto R$ before the terminal seal row can be read.
+
+Apply \autoref{thm:regular-cauchy-witness-selector-ledger-nonescape}. Any consumer of the terminal $\RealUp$ row must also display $H,C,P,N$, so the selected rows are not detached observations but the finite ledger carried by $Q$.
+
+Now use \autoref{thm:regular-cauchy-witness-selector-namecert-surface}. The local $\NameCert_{\RegularCauchyWitnessSelectorUp}$ surface exports exactly the carrier, source, classifier, terminal, provenance, and naming rows listed in the statement. Thus a completion-facing consumer has no selector-side route other than the displayed packet.
+
+The landing side is the exact-boundary route of \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness} in \autoref{ch:concrete-instances-real-completion-exact-boundary-namecert}. That route consumes the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, terminal $\RealUp$, and structural rows as a finite boundary packet. Together with \autoref{thm:real-completion-exact-boundary-no-completeness-escape}, it refuses quotient Cauchy-name equality, host-selected limits, countable choice, and ambient completeness as boundary coordinates.
 \end{proof}
 
 \closureat{RegularCauchyWitnessSelectorUp}{seedStr}

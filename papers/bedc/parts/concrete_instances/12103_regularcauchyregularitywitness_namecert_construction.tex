@@ -68,6 +68,26 @@ Inspect the carrier coordinates of \autoref{def:regular-cauchy-regularity-witnes
 The excluded objects require additional coordinates absent from the carrier. Hence they cannot be exported by the local naming certificate or recovered by a consumer of the displayed regularity-witness route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy regularity-witness Real-completion handoff]
+\label{thm:regular-cauchy-regularity-witness-real-completion-handoff}
+Every accepted $\RegularCauchyRegularityWitnessUp$ packet
+$$
+W=(S,\mu,j,\Omega,R,Q,E,H,C,P,N)
+$$
+consumed by a $\RealCauchyCompletionUp$ diagonal route is read through the selected diagonal source $S$, the finite $\StreamNameUp$ window $\Omega$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $Q$, and the $\RealUp$ seal handoff $E$ before any completion-facing seal is available. The same route displays the supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$ carried by the packet.
+
+Consequently the completion-facing read factors through the finite regularity-witness surface and the finite-window Real-completion support route. It exports no selected host limit, host real equality, quotient-stream equality, $\mathsf{Quot.sound}$ row, $\mathsf{Classical.choice}$ row, ambient completeness coordinate, or substitute support row outside the displayed BEDC packet.
+\end{theorem}
+\begin{proof}
+Begin with the local packet. \autoref{thm:regular-cauchy-regularity-witness-namecert-obligations} exposes exactly the selected source, modulus-index, window, readback, tolerance-ledger, Real-seal handoff, transport, replay, provenance, and naming rows of $W$.
+
+The diagonal-consumer boundary \autoref{thm:regular-cauchy-regularity-witness-diagonal-consumer-boundary} orders these rows before any consumer receives the $\RealUp$ seal handoff. The no-hidden-limit boundary \autoref{thm:regular-cauchy-regularity-witness-no-hidden-limit} removes selected host limits, host real equality, quotient-stream equality, $\mathsf{Quot.sound}$, $\mathsf{Classical.choice}$, and ambient completeness from the packet surface.
+
+Now attach the completion-facing route. \autoref{thm:real-cauchy-completion-finite-window-completion-coverage} exhausts every accepted $\RealCauchyCompletionUp$ finite-window completion read by the displayed $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ ledgers, diagonal packet, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. \autoref{thm:real-cauchy-completion-current-phase-four-face-support-minimality} says that the Phase Real and Completion exit remains valid only when $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the displayed structural support rows are present.
+
+Intersecting these two finite routes leaves exactly the handoff stated above. The regularity witness supplies the selected diagonal source, window, readback, dyadic ledger, Real seal, and support rows consumed by the Real-completion route, and the cited non-escape clauses leave no coordinate through which the completion-facing seal could bypass them.
+\end{proof}
+
 \falsifiablePrediction{Every accepted RegularCauchyRegularityWitnessUp packet exposes a finite dyadic regularity-witness row and admits no route to a selected limit, host real equality, Quot.sound, or Classical.choice.}
 
 \independenceWitness{diagonallimit, regular-cauchy-triangle-bound, regseqrat, streamname, real: no listed sibling is bijective to $\RegularCauchyRegularityWitnessUp$ because this packet binds selected diagonal source, modulus index, finite window, regular-rational readback, dyadic tolerance ledger, Real seal handoff, transport, replay, provenance, and local NameCert rows in one consumer-facing regularity witness. The diagonal-limit sibling lacks the regularity-consumer tolerance ledger; the triangle-bound sibling lacks the selected representative seal handoff; RegSeqRatUp lacks the StreamName and Real route; StreamNameUp lacks regularity and dyadic ledger rows; RealUp lacks the finite witness route.}

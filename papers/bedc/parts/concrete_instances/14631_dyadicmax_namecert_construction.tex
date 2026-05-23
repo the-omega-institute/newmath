@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\DyadicMaxUp$}
+\label{ch:concrete-instances-dyadicmax-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicMaxUp$ packet records the finite dyadic-grid maximum certificate used when the Real and Completion route must choose the larger endpoint before exposing an interval, radius, or tolerance ledger. It sits over the endpoint rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the adjacent-grid surface of \autoref{ch:concrete-instances-dyadicrounding-namecert}, the lower-grid route of \autoref{ch:concrete-instances-dyadicfloor-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a constructive finite comparison surface; it is not trichotomy for arbitrary reals, a quotient-real maximum, a host order decision, ambient completeness, or a selected supremum.
+
+\begin{definition}[DyadicMax carrier]
+\label{def:dyadic-max-carrier}
+A $\DyadicMaxUp$ carrier is a finite $\BHist$ packet
+$$
+M=(x,y,n,m,L,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $x$ and $y$ are $\DyadicRatCoreUp$ endpoint rows at the shared precision $n$.
+\item $n$ is the grid precision row that both endpoint ledgers cite.
+\item $m$ is the selected endpoint row, displayed as either the transported $x$ row or the transported $y$ row on the same grid.
+\item $L$ is the finite comparison ledger recording the inspected dyadic inequality that justifies the selected endpoint.
+\item $U$ is the upper-bound ledger witnessing that both $x$ and $y$ read below or at the selected endpoint $m$ on the displayed grid.
+\item $H$ records componentwise $\hsame$ transports for the two endpoint rows, precision row, selected endpoint, comparison ledger, and upper-bound ledger.
+\item $C$ records displayed $\Cont$ replay for opening the shared grid, reading the two endpoints, selecting $m$, exposing $L$, and exposing $U$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicMaxUp$, $\DyadicRatCoreUp$, $\DyadicRoundingUp$, $\DyadicFloorUp$, $\DyadicAbsoluteValueUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicMaxUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for order trichotomy on arbitrary reals, quotient-real equality, a host maximum function, ambient completeness, or an unbounded supremum argument.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicMaxUp.DyadicMaxTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DyadicMax NameCert obligations]
+\label{thm:dyadic-max-namecert-obligations}
+For every accepted $\DyadicMaxUp$ carrier $M=(x,y,n,m,L,U,H,C,P,N)$, the local $\NameCert_{\DyadicMaxUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier exposure for the displayed ten-row packet;
+\item classifier stability under componentwise $\hsame$ transport and displayed $\Cont$ replay of $x,y,n,m,L,U$;
+\item selected endpoint determinacy, stating that $m$ is one of the two displayed $\DyadicRatCoreUp$ endpoint rows at precision $n$;
+\item upper-bound ledger exactness, requiring the two endpoint-bound reads to be precisely the rows stored in $U$ and justified by $L$;
+\item $\RealUp$-facing non-escape, requiring every real or completion consumer to read the maximum through the displayed dyadic, rounding, floor, absolute-value, transport, continuation, package, and local naming rows.
+\end{enumerate}
+No further obligation can be read from the carrier.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:dyadic-max-carrier}. The two dyadic endpoint rows, shared precision row, selected endpoint, comparison ledger, upper-bound ledger, transport, replay, provenance, and local name are explicit coordinates of $M$.
+
+Classifier stability is componentwise. The rows $H$ and $C$ transport and replay exactly the displayed endpoint, precision, selection, comparison, and bound data, so the selected endpoint cannot detach from the grid on which it was certified.
+
+Determinacy and upper-bound exactness are finite ledger reads. The selected row $m$ is named as one of the two endpoint rows, while $L$ records the inspected comparison and $U$ records both upper-bound checks at the same precision.
+
+Finally inspect the carrier inventory. Since no coordinate stores arbitrary real trichotomy, quotient equality, a host maximum, completeness, or a supremum argument, every $\RealUp$ or completion-facing consumer receives only the displayed finite route.
+\end{proof}
+
+\begin{theorem}[DyadicMax grid boundary]
+\label{thm:dyadic-max-grid-boundary}
+Every Real or Completion consumer of an accepted $\DyadicMaxUp$ carrier reads the maximum only through the rows
+$$
+\DyadicRatCoreUp,\quad \DyadicRoundingUp,\quad \DyadicFloorUp,\quad \DyadicAbsoluteValueUp,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+In particular, the consumer can read the selected endpoint $m$, the comparison ledger $L$, and the upper-bound ledger $U$, but it cannot read a host maximum operation, quotient-real comparison, trichotomy branch for arbitrary reals, ambient completeness witness, or selected supremum.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $M=(x,y,n,m,L,U,H,C,P,N)$. The endpoint rows $x$ and $y$ are already $\DyadicRatCoreUp$ rows at the shared precision $n$, and the selected row $m$ is displayed on that same grid.
+
+The comparison route is finite. The ledger $L$ records the inspected dyadic comparison, and $U$ records the two upper-bound checks used by the downstream route. The rounding, floor, and absolute-value sibling surfaces supply only grid normalization and tolerance interpretation around those same rows.
+
+Transport and replay add no analytic choice data. The rows $H$ and $C$ carry the displayed grid data componentwise, while $P$ and $N$ provide provenance and local naming for the same route.
+
+Thus any Real or Completion consumer reaches the maximum through the listed finite rows. The carrier has no remaining coordinate from which a host maximum, quotient-real comparison, trichotomy branch, completeness witness, or selected supremum could be exported.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DyadicMaxUp$ consumer that exposes a $\RealUp$ or completion-facing maximum without reading the displayed $\DyadicRatCoreUp$ endpoint rows, selected endpoint, comparison ledger, upper-bound ledger, and structural rows refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, dyadicrounding, dyadicfloor, dyadicabsolutevalue, real: no listed sibling supplies the whole ten-row packet $M=(x,y,n,m,L,U,H,C,P,N)$, because each sibling contributes only endpoint, grid-normalization, lower-grid, absolute-value, or seal-facing rows while this chapter binds the selected maximum endpoint to comparison, upper-bound, transport, replay, provenance, and local naming data.}
+
+\closureat{DyadicMaxUp}{seedStr}
+
+\begin{closurestatus}{\DyadicMaxUp}
+  \constructivestory{A $\DyadicMaxUp$ packet is generated from two $\DyadicRatCoreUp$ endpoint rows at a shared precision, a selected endpoint row, a finite comparison ledger, an upper-bound ledger, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-max-carrier}, \autoref{thm:dyadic-max-namecert-obligations}, and \autoref{thm:dyadic-max-grid-boundary} seed the finite dyadic-grid maximum boundary for Real and Completion consumers over DyadicRatCore, DyadicRounding, DyadicFloor, DyadicAbsoluteValue, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary real trichotomy, quotient-real maximum, host order decision, ambient completeness, selected supremum, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the ten-row carrier and prove carrier exposure, classifier stability, selected endpoint determinacy, upper-bound ledger exactness, and the Real-facing finite-grid boundary.}
+\end{closurestatus}

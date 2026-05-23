@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CofinalSequenceUp$}
+\label{ch:concrete-instances-cofinal-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CofinalSequenceUp$ packet records the constructive tail discipline for a sequence whose visible indices eventually dominate every displayed request. It sits between the finite $\StreamNameUp$ window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. It also provides the canonical carrier surface consumed by the specialized cofinal-tail selector of \autoref{ch:concrete-instances-cofinalstreamtailselector-namecert} and the cofinal-window Real-seal route of \autoref{ch:concrete-instances-cofinal-window-real-seal-namecert}. The packet names a finite BEDC certificate for tail dominance and selected windows; it does not import countable choice, a host subsequence object, quotient stream equality, selected limits, or ambient completeness.
+
+\begin{definition}[Cofinal sequence carrier]\label{def:cofinal-sequence-carrier}
+A $\CofinalSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,D,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the unary index row, recording the visible natural-number requests and the displayed tail indices serving them.
+\item $D$ is the monotone cofinal dominance row, saying that whenever a displayed request is raised, the serving tail index is transported to a later displayed index and still dominates the request.
+\item $W$ is the finite family of selected $\StreamNameUp$ windows attached to the serving indices in $I$.
+\item $Q$ is the $\RegSeqRatUp$ handoff row read from the selected windows in $W$.
+\item $R$ is the $\RealUp$ seal row reached only after the unary index row, dominance row, selected windows, and regular-rational handoff have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the index, dominance, window, regular handoff, Real seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a request to its serving tail index, from the serving index to the selected $\StreamNameUp$ window, from the window to the $\RegSeqRatUp$ handoff, and from the handoff to the $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\CofinalSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CofinalStreamTailSelectorUp$, $\CofinalWindowRealSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,D,W,Q,R,H,C,P,N$. It has no coordinate for countable choice, an external subsequence function, quotient equality of streams, a detached limit, an unbounded hidden selector, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cofinal sequence NameCert obligations]\label{thm:cofinal-sequence-namecert-obligations}
+For every accepted $\CofinalSequenceUp$ carrier $S=(I,D,W,Q,R,H,C,P,N)$, the local $\NameCert_{\CofinalSequenceUp}$ surface consists exactly of carrier admission for the nine displayed rows, unary index exposure through $I$, monotone cofinal dominance through $D$, selected $\StreamNameUp$ window exposure through $W$, $\RegSeqRatUp$ handoff through $Q$, $\RealUp$ seal ordering through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-sequence-carrier}. The accepted packet exposes only the unary index row, the dominance row, the selected windows, the regular handoff, the Real seal, and the structural support rows.
+
+Read the rows in dependency order. The index row $I$ names the visible request and serving-tail indices; the dominance row $D$ supplies the monotone cofinal comparison; the window row $W$ selects exactly the finite $\StreamNameUp$ observations allowed at those serving indices.
+
+The remaining rows only continue that route. The regular handoff $Q$, Real seal $R$, transports $H$, continuations $C$, provenance $P$, and local name $N$ do not add a hidden selector or host subsequence coordinate, so the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Cofinal sequence tail dominance]\label{thm:cofinal-sequence-tail-dominance}
+Every accepted $\CofinalSequenceUp$ carrier exposes a finite dominance route
+$$
+I\longmapsto D\longmapsto W
+$$
+before any $\RegSeqRatUp$ or $\RealUp$ consumer may read the packet. Thus each displayed request is served by a displayed later index, and any transported read of the sequence factors through the same unary index row, monotone dominance row, selected window family, and structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with a visible request in $I$. The dominance row $D$ is the only row that relates the request to a later serving index, so every cofinal-tail read must pass through it.
+
+After the serving index is fixed, the packet may expose only the selected windows in $W$. These windows are the finite observation surface consumed downstream, and they remain tied to the same request-serving route by $H$ and $C$.
+
+Since no coordinate of the carrier names an external subsequence function or a hidden unbounded selector, a transported consumer can only receive the displayed route $I,D,W,H,C,P,N$ before any regular or Real-facing handoff.
+\end{proof}
+
+\begin{theorem}[Cofinal sequence RegSeqRat handoff]\label{thm:cofinal-sequence-regseqrat-handoff}
+The $\RegSeqRatUp$ and $\RealUp$ consumers of an accepted $\CofinalSequenceUp$ carrier receive the route
+$$
+I,D,W,Q,R,H,C,P,N.
+$$
+The handoff first displays a cofinal tail index, then the selected $\StreamNameUp$ window at that index, then the $\RegSeqRatUp$ readback, and only then the $\RealUp$ seal. Consequently the specialized $\CofinalStreamTailSelectorUp$ and $\CofinalWindowRealSealUp$ chapters can consume a single canonical cofinal-sequence surface without importing host countable choice, quotient stream equality, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cofinal-sequence-tail-dominance}. It forces the downstream read to begin with the unary index row, dominance row, and selected window family.
+
+The regular handoff is then exact: $Q$ reads only the displayed windows in $W$, and $R$ reads only the regular handoff $Q$. This is the same StreamName-to-RegSeqRat-to-Real ordering used by \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}.
+
+Finally compare the two cofinal consumers. The selector chapter \autoref{ch:concrete-instances-cofinalstreamtailselector-namecert} reads the tail-service part of the route, while \autoref{ch:concrete-instances-cofinal-window-real-seal-namecert} reads the terminal window-readback-seal part. Both reads are projections of the same displayed packet, so neither consumer receives an additional choice source or detached Real seal.
+\end{proof}
+
+\falsifiablePrediction{Every $\CofinalSequenceUp$ Real-facing read factors through a unary index row, monotone cofinal dominance, selected StreamName windows, RegSeqRat handoff, RealUp seal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, real, cofinalstreamtailselector, cofinalwindowrealseal: $\CofinalSequenceUp$ is not bijective to any listed sibling because it jointly carries unary tail-index dominance, selected windows, regular readback, Real seal ordering, transport, continuation, provenance, and local naming.}
+
+\closureat{CofinalSequenceUp}{seedStr}
+
+\begin{closurestatus}{\CofinalSequenceUp}
+  \constructivestory{A $\CofinalSequenceUp$ packet is generated from a unary index row, monotone cofinal dominance row, selected StreamName windows, RegSeqRat handoff, RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-sequence-carrier}, \autoref{thm:cofinal-sequence-namecert-obligations}, \autoref{thm:cofinal-sequence-tail-dominance}, and \autoref{thm:cofinal-sequence-regseqrat-handoff} bind the canonical cofinal tail-sequence packet for RegSeqRatUp, RealUp, CofinalStreamTailSelectorUp, and CofinalWindowRealSealUp consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, countable choice, external subsequence functions, quotient stream equality, selected limits, hidden unbounded selectors, or ambient completeness.}
+  \upgradepath{Lean closure requires carrier admission, NameCert obligations, tail-dominance preservation, RegSeqRat handoff, Real seal ordering, and TasteGate field faithfulness for BEDC.Derived.CofinalSequenceUp.}
+\end{closurestatus}

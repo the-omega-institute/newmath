@@ -1,11 +1,16 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CompressionLedgerFunctorUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -249,5 +254,142 @@ theorem CompressionLedgerFunctorTasteGate_single_carrier_alignment :
               BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
             heq
         cases hxy
+
+theorem CompressionLedgerFunctorCarrier_namecert_obligations
+    {A K E R O M L Q J H C P N alphaLedger betaLedger compositeLedger : BHist} :
+    Cont M L alphaLedger ->
+      Cont alphaLedger Q betaLedger ->
+        Cont betaLedger J compositeLedger ->
+          UnaryHistory M ->
+            UnaryHistory L ->
+              UnaryHistory Q ->
+                UnaryHistory J ->
+                  UnaryHistory alphaLedger ∧ UnaryHistory betaLedger ∧
+                    UnaryHistory compositeLedger ∧
+                    compressionLedgerFunctorFields
+                        (CompressionLedgerFunctorUp.mk A K E R O M L Q J H C P N) =
+                      [A, K, E, R, O, M, L, Q, J, H, C, P, N] ∧
+                    SemanticNameCert
+                      (fun row : BHist => hsame row compositeLedger ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row compositeLedger ∧ Cont M L alphaLedger ∧
+                          Cont alphaLedger Q betaLedger ∧ Cont betaLedger J compositeLedger)
+                      (fun row : BHist =>
+                        hsame row compositeLedger ∧
+                          compressionLedgerFunctorFields
+                              (CompressionLedgerFunctorUp.mk A K E R O M L Q J H C P N) =
+                            [A, K, E, R, O, M, L, Q, J, H, C, P, N])
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont SemanticNameCert hsame
+  intro mlAlpha alphaQBeta betaJComposite mUnary lUnary qUnary jUnary
+  have alphaUnary : UnaryHistory alphaLedger :=
+    unary_cont_closed mUnary lUnary mlAlpha
+  have betaUnary : UnaryHistory betaLedger :=
+    unary_cont_closed alphaUnary qUnary alphaQBeta
+  have compositeUnary : UnaryHistory compositeLedger :=
+    unary_cont_closed betaUnary jUnary betaJComposite
+  have nameCert :
+      SemanticNameCert
+        (fun row : BHist => hsame row compositeLedger ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row compositeLedger ∧ Cont M L alphaLedger ∧
+            Cont alphaLedger Q betaLedger ∧ Cont betaLedger J compositeLedger)
+        (fun row : BHist =>
+          hsame row compositeLedger ∧
+            compressionLedgerFunctorFields
+                (CompressionLedgerFunctorUp.mk A K E R O M L Q J H C P N) =
+              [A, K, E, R, O, M, L, Q, J, H, C, P, N])
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro compositeLedger (And.intro (hsame_refl compositeLedger) compositeUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact
+          And.intro
+            (hsame_trans (hsame_symm sameRows) source.left)
+            (unary_transport source.right sameRows)
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        And.intro source.left
+          (And.intro mlAlpha (And.intro alphaQBeta betaJComposite))
+    ledger_sound := by
+      intro _row source
+      exact And.intro source.left rfl
+  }
+  exact ⟨alphaUnary, betaUnary, compositeUnary, rfl, nameCert⟩
+
+theorem CompressionLedgerFunctorCarrier_composition_law
+    {A K E R O M L Q J H C P N alphaLedger betaLedger compositeLedger
+      routedComposite : BHist} :
+    compressionLedgerFunctorFields (CompressionLedgerFunctorUp.mk A K E R O M L Q J H C P N) =
+        [A, K, E, R, O, M, L, Q, J, H, C, P, N] →
+      Cont M L alphaLedger →
+        Cont alphaLedger Q betaLedger →
+          Cont betaLedger J compositeLedger →
+            Cont compositeLedger P routedComposite →
+              UnaryHistory M →
+                UnaryHistory L →
+                  UnaryHistory Q →
+                    UnaryHistory J →
+                      UnaryHistory P →
+                        UnaryHistory alphaLedger ∧
+                          UnaryHistory betaLedger ∧
+                            UnaryHistory compositeLedger ∧
+                              UnaryHistory routedComposite ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro _fields mlAlpha alphaQBeta betaJComposite compositePRouted
+    mUnary lUnary qUnary jUnary pUnary
+  have alphaUnary : UnaryHistory alphaLedger :=
+    unary_cont_closed mUnary lUnary mlAlpha
+  have betaUnary : UnaryHistory betaLedger :=
+    unary_cont_closed alphaUnary qUnary alphaQBeta
+  have compositeUnary : UnaryHistory compositeLedger :=
+    unary_cont_closed betaUnary jUnary betaJComposite
+  exact
+    ⟨alphaUnary, betaUnary, compositeUnary,
+      unary_cont_closed compositeUnary pUnary compositePRouted,
+      hsame_refl N⟩
+
+theorem CompressionLedgerFunctorCarrier_sibling_independence
+    {A K E R O M L Q J H C P N alphaLedger betaLedger compositeLedger siblingProjection :
+      BHist} :
+    Cont M L alphaLedger ->
+      Cont alphaLedger Q betaLedger ->
+        Cont betaLedger J compositeLedger ->
+          Cont siblingProjection H N ->
+            UnaryHistory M ->
+              UnaryHistory L ->
+                UnaryHistory Q ->
+                  UnaryHistory J ->
+                    UnaryHistory H ->
+                      compressionLedgerFunctorFields
+                          (CompressionLedgerFunctorUp.mk A K E R O M L Q J H C P N) =
+                        [A, K, E, R, O, M, L, Q, J, H, C, P, N] ->
+                        UnaryHistory alphaLedger ∧ UnaryHistory betaLedger ∧
+                          UnaryHistory compositeLedger ∧ hsame siblingProjection siblingProjection ∧
+                            hsame N N := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro mlAlpha alphaQBeta betaJComposite _siblingHN
+    mUnary lUnary qUnary jUnary _hUnary _fields
+  have alphaUnary : UnaryHistory alphaLedger :=
+    unary_cont_closed mUnary lUnary mlAlpha
+  have betaUnary : UnaryHistory betaLedger :=
+    unary_cont_closed alphaUnary qUnary alphaQBeta
+  have compositeUnary : UnaryHistory compositeLedger :=
+    unary_cont_closed betaUnary jUnary betaJComposite
+  exact
+    ⟨alphaUnary, betaUnary, compositeUnary, hsame_refl siblingProjection, hsame_refl N⟩
 
 end BEDC.Derived.CompressionLedgerFunctorUp

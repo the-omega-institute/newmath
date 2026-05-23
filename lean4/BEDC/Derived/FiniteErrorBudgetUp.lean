@@ -77,4 +77,89 @@ theorem FiniteErrorBudgetCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem FiniteErrorBudgetCarrier_diagonal_selector_exactness [AskSetup] [PackageSetup]
+    {requestRow toleranceRow selectorRow tailRow budgetRow readbackRow sealRow provenanceRow
+      nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteErrorBudgetCarrier requestRow toleranceRow selectorRow tailRow budgetRow
+        readbackRow sealRow provenanceRow nameRow bundle pkg →
+      Cont requestRow toleranceRow selectorRow ∧ Cont selectorRow tailRow budgetRow ∧
+        Cont budgetRow readbackRow sealRow ∧ UnaryHistory selectorRow ∧
+          UnaryHistory tailRow ∧ UnaryHistory budgetRow ∧ UnaryHistory readbackRow ∧
+            UnaryHistory sealRow := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro carrier
+  cases carrier with
+  | intro _requestUnary carrier =>
+      cases carrier with
+      | intro _toleranceUnary carrier =>
+          cases carrier with
+          | intro selectorUnary carrier =>
+              cases carrier with
+              | intro tailUnary carrier =>
+                  cases carrier with
+                  | intro budgetUnary carrier =>
+                      cases carrier with
+                      | intro readbackUnary carrier =>
+                          cases carrier with
+                          | intro sealUnary carrier =>
+                              cases carrier with
+                              | intro _provenanceUnary carrier =>
+                                  cases carrier with
+                                  | intro _nameUnary carrier =>
+                                      cases carrier with
+                                      | intro requestToSelector carrier =>
+                                          cases carrier with
+                                          | intro selectorToBudget carrier =>
+                                              cases carrier with
+                                              | intro budgetToSeal _carrier =>
+                                                  exact
+                                                    ⟨requestToSelector, selectorToBudget,
+                                                      budgetToSeal, selectorUnary, tailUnary,
+                                                      budgetUnary, readbackUnary, sealUnary⟩
+
+theorem FiniteErrorBudgetCarrier_completion_consumer_boundary [AskSetup] [PackageSetup]
+    {requestRow toleranceRow selectorRow tailRow budgetRow readbackRow sealRow provenanceRow
+      nameRow consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteErrorBudgetCarrier requestRow toleranceRow selectorRow tailRow budgetRow
+        readbackRow sealRow provenanceRow nameRow bundle pkg →
+      Cont sealRow provenanceRow consumerRead →
+        UnaryHistory consumerRead ∧ hsame provenanceRow (append sealRow nameRow) ∧
+          PkgSig bundle provenanceRow pkg ∧ Cont sealRow provenanceRow consumerRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg
+  intro carrier sealToConsumer
+  cases carrier with
+  | intro _requestUnary carrier =>
+      cases carrier with
+      | intro _toleranceUnary carrier =>
+          cases carrier with
+          | intro _selectorUnary carrier =>
+              cases carrier with
+              | intro _tailUnary carrier =>
+                  cases carrier with
+                  | intro _budgetUnary carrier =>
+                      cases carrier with
+                      | intro _readbackUnary carrier =>
+                          cases carrier with
+                          | intro sealUnary carrier =>
+                              cases carrier with
+                              | intro provenanceUnary carrier =>
+                                  cases carrier with
+                                  | intro _nameUnary carrier =>
+                                      cases carrier with
+                                      | intro _requestToSelector carrier =>
+                                          cases carrier with
+                                          | intro _selectorToBudget carrier =>
+                                              cases carrier with
+                                              | intro _budgetToSeal carrier =>
+                                                  cases carrier with
+                                                  | intro provenanceName pkgSig =>
+                                                      exact
+                                                        ⟨unary_repetition_closed_under_continuation
+                                                            sealUnary provenanceUnary
+                                                            sealToConsumer,
+                                                          provenanceName, pkgSig,
+                                                          sealToConsumer⟩
+
 end BEDC.Derived.FiniteErrorBudgetUp

@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyInterpolationUp$}
+\label{ch:concrete-instances-regular-cauchy-interpolation-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyInterpolationUp$ packet records finite interpolation and reindexing of regular Cauchy rational names before a completed real-name consumer is allowed to read the interpolated row. It sits over the dyadic mesh discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the paired-row handoff discipline of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}. The packet gives Real and completion consumers a finite BEDC route for interpolation and schedule change; it is not host interpolation, quotient-stream equality, a selected real, a host limit, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy interpolation carrier]
+\label{def:regular-cauchy-interpolation-carrier}
+A $\RegularCauchyInterpolationUp$ carrier is a finite $\BHist$ packet
+$$
+I=(R,D,M,W,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row whose regular rational observations are to be interpolated or reindexed.
+\item $D$ is the $\DyadicRatCoreUp$ mesh row containing the dyadic interpolation nodes, endpoint tolerances, and local mesh-width bounds used by the displayed route.
+\item $M$ is the finite interpolation ledger, recording for each requested output precision the source indices, dyadic weights, endpoint observations, and tolerance split consumed by that request.
+\item $W$ is the displayed $\StreamNameUp$ window family exposing exactly the finite source observations read by $M$.
+\item $S$ is the regular readback schedule whose output row is obtained by replaying the finite interpolation ledger against $R,D,M,W$.
+\item $E$ is the $\RealUp$ seal row reached only after the source row, dyadic mesh row, interpolation ledger, window family, and readback schedule have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source row, mesh row, ledger, windows, readback schedule, Real seal, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from every interpolation-facing precision request through $R,D,M,W,S,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyInterpolationUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyInterpolationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,D,M,W,S,E,H,C,P,N$. The carrier has no coordinate for host interpolation algorithms, quotient-stream equality, selected reals, host limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyInterpolationUp.RegularCauchyInterpolationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy interpolation NameCert obligations]
+\label{thm:regular-cauchy-interpolation-namecert-obligations}
+For every accepted $\RegularCauchyInterpolationUp$ carrier
+$$
+I=(R,D,M,W,S,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyInterpolationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the $\RegSeqRatUp$ source row, $\DyadicRatCoreUp$ mesh row, finite interpolation ledger, displayed $\StreamNameUp$ windows, regular readback schedule, $\RealUp$ seal row, and structural rows;
+\item dyadic mesh exposure, requiring every interpolation node, endpoint tolerance, and mesh-width bound used by $M$ to be read from $D$ before an interpolated readback is available;
+\item finite window exposure, requiring $W$ to display exactly the source observations requested by the ledger and no completed stream equality;
+\item regular readback accounting, requiring $S$ to consume only the displayed rows $R,D,M,W$ and the finite tolerance split stored in the ledger;
+\item Real seal nonescape, requiring $E$ to be exposed only after the source, mesh, ledger, window, and readback rows have been displayed;
+\item componentwise transport, replay, provenance, and local naming, requiring $H,C,P,N$ to preserve and name exactly the same finite interpolation packet;
+\item refusal of host interpolation theorems, quotient-stream equality, selected reals, host limits, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local NameCert data.
+\end{enumerate}
+No interpolation obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are the source $R$, the dyadic mesh $D$, the finite interpolation ledger $M$, the displayed windows $W$, the readback schedule $S$, and the Real seal $E$.
+
+Read the mesh and windows before forming any interpolated observation. The row $D$ supplies the finite dyadic nodes, endpoint tolerances, and mesh-width bounds, while $W$ exposes exactly the source observations named by the corresponding ledger entry of $M$.
+
+Build the readback by replaying the ledger. Each requested output precision uses only the displayed source observations, dyadic weights, and tolerance split already present in $R,D,M,W$, so $S$ is a regular readback schedule over finite data rather than an appeal to an ambient interpolation theorem.
+
+Finally transport and package the packet through $H,C,P,N$. Since no carrier coordinate stores quotient-stream equality, host interpolation, selected reals, host limits, ambient completeness, Lean verification, or bridge data, none of those objects can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interpolation dyadic-window handoff]
+\label{thm:regular-cauchy-interpolation-dyadic-window-handoff}
+Every readback exported by an accepted $\RegularCauchyInterpolationUp$ carrier factors through the finite route
+$$
+R\longmapsto D\longmapsto M\longmapsto W\longmapsto S
+$$
+before it may be consumed as a regular Cauchy output row. Thus the consumer receives a regular rational source row, a dyadic mesh row, a finite interpolation ledger, displayed stream windows, and a regular readback schedule; it receives no quotient-stream equality, host interpolation theorem, selected real, host limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier and an interpolation-facing precision request. The request first projects the source row $R$ and the mesh row $D$, so every endpoint and tolerance used downstream is already displayed.
+
+The ledger row $M$ then selects a finite set of source observations and dyadic weights. The window family $W$ exposes precisely those observations, and componentwise replay through $C$ preserves the same finite dependency order.
+
+The row $S$ is therefore downstream of the displayed mesh and windows. Because the carrier offers no coordinate for quotient-stream equality, host interpolation, selected reals, host limits, or ambient completeness, the handoff to the regular readback cannot escape this finite route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interpolation Real seal nonescape]
+\label{thm:regular-cauchy-interpolation-real-seal-nonescape}
+Every $\RealUp$ seal exported by an accepted $\RegularCauchyInterpolationUp$ carrier factors through the finite route
+$$
+R\longmapsto D\longmapsto M\longmapsto W\longmapsto S\longmapsto E
+$$
+before it may be consumed as a completed real-name boundary. Thus the Real-facing consumer receives the source row, dyadic mesh row, interpolation ledger, displayed windows, regular readback schedule, and seal row; it receives no host interpolation theorem, quotient-stream equality, selected real, host limit, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the terminal row $E$ of the accepted packet. By carrier admission, $E$ is not independent data; it is downstream of the displayed source row, dyadic mesh row, interpolation ledger, stream windows, and regular readback schedule.
+
+The only route into $E$ passes through $S$. The row $S$ is itself read from $R,D,M,W$, so the Real-facing boundary inherits the same finite interpolation route and the same componentwise transport recorded by $H$.
+
+No additional coordinate remains to supply host interpolation, quotient-stream equality, selected reals, host limits, or ambient completeness. The $\RealUp$ consumer therefore sees only the finite BEDC seal produced by the displayed packet.
+\end{proof}
+
+\closureat{RegularCauchyInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyInterpolationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-interpolation-carrier}, \autoref{thm:regular-cauchy-interpolation-namecert-obligations}, \autoref{thm:regular-cauchy-interpolation-dyadic-window-handoff}, and \autoref{thm:regular-cauchy-interpolation-real-seal-nonescape} seed the finite interpolation route from a $\RegSeqRatUp$ source through $\DyadicRatCoreUp$ mesh data, finite interpolation ledger, displayed $\StreamNameUp$ windows, regular readback schedule, and $\RealUp$ seal data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, host interpolation theorems, quotient-stream equality, selected reals, host limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic mesh exposure, window handoff, regular readback accounting, Real seal nonescape, componentwise transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyInterpolationUp.}
+  \constructivestory{A $\RegularCauchyInterpolationUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\DyadicRatCoreUp$ mesh row, a finite interpolation ledger, displayed $\StreamNameUp$ windows, a regular readback schedule, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

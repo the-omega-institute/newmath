@@ -110,3 +110,105 @@ For the reverse direction, suppose the two-step read and the certified composite
 
 The exclusion clauses are inherited from the three gate theorems just used. Quotient streams, selected limits, choice data, metric-completeness rows, bridge rows, and ambient Real-completeness rows are not coordinates of either accepted ordered route, so they cannot witness a distinct composite exit surface.
 \end{proof}
+
+\begin{theorem}[StreamName L10 ordered exit face-status readback]
+\label{thm:streamname-l10-ordered-exit-face-status-readback}
+Let $U$ be an accepted Phase Real and Completion seal-facing read whose public surface satisfies the ordered route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+Then every seal-facing read of closure-status, formal-status, Lean-target, and bridge-status data for $U$ is facewise: the StreamName entry is read from the $\StreamNameUp$ chapter face, the dyadic ledger entry from the $\DyadicRatCoreUp$ chapter face, the regular-rational readback entry from the $\RegSeqRatUp$ chapter face, and the terminal seal entry from the $\RealUp$ chapter face. The ordered route creates no route-level closure-status row, formal-status row, Lean target, bridge row, quotient stream, selected limit, choice datum, metric-completeness row, or ambient Real-completeness claim.
+\end{theorem}
+\begin{proof}
+Apply the ordered exit gate, \autoref{thm:streamname-l10-four-face-ordered-exit-gate}. It fixes the only admissible read order as $\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp$ and places the public exit surface on those four visible faces with their displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+
+Next apply ordered composition determinacy, \autoref{thm:streamname-l10-ordered-exit-composition-determinacy}. If two accepted seal-facing reads preserve those support rows, their terminal exposure is determined exactly by agreement on the four face rows. Hence a status reader cannot obtain an additional row from the route composite itself; any such row would distinguish two composites with identical face data.
+
+It remains to identify the status sources. Use \autoref{thm:streamname-real-completion-face-status-pullback}, \autoref{thm:dyadicratcore-l10-face-status-pullback}, \autoref{thm:real-l10-face-status-noncollapse}, and \autoref{thm:real-l10-face-leantarget-noncollapse}, together with the terminal pullback formalization touchpoint \texttt{BEDC.Derived.StreamNameUp.StreamNameRealCompletionFourObjectTerminalPullback}. They keep closure-status, formal-status, Lean-target, and bridge-status reads attached to the object faces that expose them, rather than to the ordered path between the faces.
+
+The exclusion list follows from the same gate and determinacy results. Quotient streams, selected limits, choice data, metric-completeness rows, bridge rows, route-level Lean targets, and ambient Real-completeness claims are not coordinates of the four-face packet, so the ordered route supplies no credential beyond the four facewise chapter reads.
+\end{proof}
+
+\begin{theorem}[StreamName L10 four-face terminal coherence]
+\label{thm:streamname-l10-four-face-terminal-coherence}
+Let $U$ be an accepted Phase Real and Completion seal-facing read whose public surface follows the ordered route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+Then the terminal public credential for $U$ is exactly the componentwise agreement of the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal row, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows. No route-level closure-status row, formal-status row, Lean target, bridge row, quotient stream, selected limit, choice datum, metric-completeness row, or ambient Real-completeness claim is a fifth coordinate of that credential.
+\end{theorem}
+\begin{proof}
+First apply the four-face exit gate, \autoref{thm:streamname-l10-four-face-exit-gate}. It identifies the admissible public surface with the four visible object faces and with only the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+
+Next use reindex stability, \autoref{thm:streamname-l10-four-face-exit-gate-reindex-stability}. Any support-row-preserving finite-window transport preserves the same four object faces and the same support rows, so terminal agreement cannot depend on the presentation of the public route.
+
+Apply the ordered exit gate, \autoref{thm:streamname-l10-four-face-ordered-exit-gate}. The order
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp
+$$
+forces the tolerance ledger to be anchored to the StreamName finite window, the RegSeqRat readback to be read from the anchored rows, and the RealUp seal to be read last.
+
+Now apply ordered composition determinacy, \autoref{thm:streamname-l10-ordered-exit-composition-determinacy}. It makes equality of the terminal seal exposure equivalent to componentwise agreement on the StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback row, and RealUp seal row, with the displayed support rows preserved.
+
+Finally use face-status readback, \autoref{thm:streamname-l10-ordered-exit-face-status-readback}. Closure-status, formal-status, Lean-target, and bridge-status data remain attached to the four object faces rather than to the route composite, while quotient streams, selected limits, choice data, metric-completeness rows, and ambient Real-completeness claims are excluded by the same status-axis noncollapse. Hence the four object faces are jointly exact, and no route-level credential supplies a fifth coordinate.
+\end{proof}
+
+\begin{theorem}[StreamName L10 ordered exit common-refinement naturality]
+\label{thm:streamname-l10-ordered-exit-common-refinement-naturality}
+Let $U$ and $V$ be accepted Phase Real and Completion seal-facing reads whose public surfaces follow the ordered route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+Assume that $U$ and $V$ admit a support-row-preserving common finite-window refinement $W$. Thus the transports from $U$ to $W$ and from $V$ to $W$ preserve the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. Then the transported terminal public credentials of $U$ and $V$ over $W$ agree if and only if the two transported reads agree on the four face rows over $W$: the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal row. This comparison exports no quotient stream, selected limit, choice datum, metric-completeness row, route-level formal-status row, route-level Lean target, route-level bridge row, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+First transport both accepted reads to the common finite-window refinement. Apply reindex stability, \autoref{thm:streamname-l10-four-face-exit-gate-reindex-stability}, separately to the $U \to W$ and $V \to W$ transports. The support-row-preserving hypothesis keeps the same displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support, so both transported reads still present only the four object faces over $W$.
+
+For the forward direction, suppose the transported terminal public credentials agree over $W$. Apply ordered exit composition determinacy, \autoref{thm:streamname-l10-ordered-exit-composition-determinacy}, to the two transported ordered routes. Since the terminal exposure has no coordinate other than the ordered four-face packet and the displayed support rows, equality of the terminal credential forces agreement of the $\StreamNameUp$ finite window, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback row, and $\RealUp$ seal row over the common refinement.
+
+For the reverse direction, assume those four transported face rows agree over $W$. Apply \autoref{thm:streamname-l10-ordered-exit-composition-determinacy} again to identify the terminal exposure from the componentwise four-face data. Then use terminal coherence, \autoref{thm:streamname-l10-four-face-terminal-coherence}, to repack that componentwise agreement as equality of the transported terminal public credentials.
+
+It remains to keep the status and bridge data from becoming an additional comparison coordinate. Use face-status readback, \autoref{thm:streamname-l10-ordered-exit-face-status-readback}. Closure-status, formal-status, Lean-target, and bridge-status entries remain facewise along the ordered route, so the common refinement compares only the four object rows and their displayed support.
+
+The exclusion clauses follow from the same three inputs. Quotient streams, selected limits, choice data, metric-completeness rows, route-level formal-status rows, route-level Lean targets, route-level bridge rows, and ambient $\RealUp$ completeness are not produced by the support-row-preserving transports and are not fifth coordinates of the terminal credential.
+\end{proof}
+
+\begin{theorem}[StreamName L10 ordered exit zigzag confluence]
+\label{thm:streamname-l10-ordered-exit-zigzag-confluence}
+Let $U_0,\ldots,U_n$ be a finite zigzag of accepted Phase Real and Completion seal-facing reads, each of whose public surfaces follows the ordered route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+Assume that every adjacent edge between $U_i$ and $U_{i+1}$ is witnessed by a support-row-preserving common finite-window refinement, preserving the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. Then the endpoints $U_0$ and $U_n$ expose the same terminal public credential along the zigzag if and only if every adjacent comparison agrees on the four face rows: the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal row, over the displayed support. The zigzag comparison exports no quotient stream, selected limit, countable choice datum, metric-completeness datum, aggregate formal-status row, aggregate bridge row, standard bridge row, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite zigzag. The empty and one-node cases are immediate from terminal coherence, \autoref{thm:streamname-l10-four-face-terminal-coherence}, since there is no adjacent comparison and the terminal credential is exactly the four-face packet with its displayed support.
+
+For the induction step, split the zigzag as an initial finite zigzag from $U_0$ to $U_k$ followed by one adjacent common-refinement edge from $U_k$ to $U_{k+1}$. Apply the induction hypothesis to the initial zigzag. This identifies endpoint agreement from $U_0$ to $U_k$ with agreement on all adjacent four-face rows in that initial segment.
+
+Now apply common-refinement naturality, \autoref{thm:streamname-l10-ordered-exit-common-refinement-naturality}, to the final edge between $U_k$ and $U_{k+1}$. It identifies agreement of the transported terminal credentials on that edge with agreement of the StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback row, and RealUp seal row over the common finite-window refinement.
+
+For the forward direction, endpoint equality across the whole zigzag restricts to the initial endpoint comparison and to the final adjacent edge. The induction hypothesis gives the four-face agreements in the initial segment, while common-refinement naturality gives the four-face agreement on the last edge.
+
+For the reverse direction, assume every adjacent comparison agrees on the four face rows. The induction hypothesis gives terminal credential equality from $U_0$ to $U_k$, and common-refinement naturality gives terminal credential equality from $U_k$ to $U_{k+1}$. Compose these equalities using ordered exit composition determinacy, \autoref{thm:streamname-l10-ordered-exit-composition-determinacy}, and repack the componentwise data by terminal coherence, \autoref{thm:streamname-l10-four-face-terminal-coherence}.
+
+Finally apply face-status readback, \autoref{thm:streamname-l10-ordered-exit-face-status-readback}. Status and bridge reads remain attached to the four object faces at every node and every adjacent refinement, so the finite zigzag creates no aggregate formal-status row, aggregate bridge row, or standard bridge row. Quotient streams, selected limits, countable choice data, metric-completeness data, and ambient $\RealUp$ completeness are likewise absent from the ordered route and therefore cannot become confluence coordinates.
+\end{proof}
+
+\begin{theorem}[StreamName L10 ordered exit zigzag terminality]
+\label{thm:streamname-l10-ordered-exit-zigzag-terminality}
+Let $U_0,\ldots,U_n$ be a finite zigzag of accepted Phase Real and Completion seal-facing reads, each of whose public surfaces follows the ordered route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp .
+$$
+Assume that every adjacent edge between $U_i$ and $U_{i+1}$ is witnessed by a support-row-preserving common finite-window refinement, and that every adjacent comparison agrees on the four face rows: the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal row. Then the whole zigzag determines a unique terminal public credential, namely the credential determined exactly by the common StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback row, RealUp seal row, displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. This terminal packet contains no quotient stream, selected limit, countable choice datum, metric-completeness datum, aggregate formal-status row, aggregate bridge row, standard bridge row, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Induct on the finite zigzag. In the empty and one-node cases, terminal coherence, \autoref{thm:streamname-l10-four-face-terminal-coherence}, identifies the only public credential with the displayed four-face packet and its support rows.
+
+For the induction step, split the zigzag as an initial zigzag from $U_0$ to $U_k$ followed by one adjacent edge from $U_k$ to $U_{k+1}$. Apply the induction hypothesis to obtain the unique terminal credential for the initial zigzag. Apply common-refinement naturality, \autoref{thm:streamname-l10-ordered-exit-common-refinement-naturality}, to the final edge, so the final adjacent four-face agreement transports the same credential across the common finite-window refinement.
+
+Next use zigzag confluence, \autoref{thm:streamname-l10-ordered-exit-zigzag-confluence}. It upgrades adjacent agreement on the four face rows to endpoint agreement for the whole finite zigzag, so there is only one candidate terminal public credential compatible with all adjacent refinements.
+
+Finally apply terminal coherence and face-status readback, \autoref{thm:streamname-l10-four-face-terminal-coherence} and \autoref{thm:streamname-l10-ordered-exit-face-status-readback}. Terminal coherence identifies the unique credential with the common StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback row, RealUp seal row, displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. Face-status readback keeps status and bridge data attached to the four object faces, so quotient streams, selected limits, countable choice data, metric-completeness data, aggregate formal-status rows, aggregate bridge rows, standard bridge rows, and ambient $\RealUp$ completeness cannot become extra terminal coordinates.
+\end{proof}

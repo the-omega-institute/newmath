@@ -73,6 +73,7 @@ I=(E,K,O,F,X,H,C,P,N),
 $$
 a consumer may use a conditional inventory row $K$ only together with its displayed discharge, setup, or route datum read through the continuation, transport, provenance, and local naming rows $C,H,P,N$. The same read cannot promote $K$ into the established inventory row $E$ or into an unconditional theorem coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMapInterfaceUp.AuditMapInterfaceCarrier\_conditional\_row\_discharge\_boundary}
 \begin{proof}
 Project the finite carrier of \autoref{def:audit-map-interface-carrier}. The rows $E$ and $K$ are separate $\BHist$ coordinates: $E$ records established theorem inventory, while $K$ records conditional inventory.
 
@@ -85,6 +86,7 @@ Finally apply the cross-map consumer boundary of \autoref{thm:audit-map-interfac
 \label{thm:audit-map-interface-obstruction-row-nonescape}
 For every accepted $\AuditMapInterfaceUp$ carrier $I=(E,K,O,F,X,H,C,P,N)$, an obstruction row $O$ remains a boundary row under componentwise $\hsame$ transport and displayed $\Cont$ replay. No route through $H,C,P,N$ can convert $O$ into a solved obligation, an established theorem row, or a closed package.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMapInterfaceUp.AuditMapInterfaceCarrier\_obstruction\_row\_nonescape}
 \begin{proof}
 Read $O$ from the carrier in \autoref{def:audit-map-interface-carrier}. It is the only coordinate whose role is to record no-go, boundary, or shape facts blocking a stronger local reading.
 
@@ -97,6 +99,7 @@ Invoke \autoref{thm:audit-map-interface-cross-map-consumer-boundary}. It explici
 \label{thm:audit-map-interface-frontier-consumer-routing}
 For every accepted $\AuditMapInterfaceUp$ carrier $I=(E,K,O,F,X,H,C,P,N)$, every consumer route that uses the frontier row $F$ or cross-map row $X$ must pass through visible provenance, displayed continuation, componentwise transport, and local naming in $P,C,H,N$. Such a route may name neighbouring audit maps and handoffs, but it cannot import hidden rows from them or replace the finite interface by host semantic equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMapInterfaceUp.AuditMapInterfaceCarrier\_frontier\_consumer\_transport\_routing}
 \begin{proof}
 Begin with the carrier definition. The rows $F$ and $X$ are visible $\BHist$ coordinates: $F$ records the strongest adjacent theorem or package outside the local map, and $X$ names neighbouring audit maps, synthesis packets, and route chapters that may consume the interface.
 
@@ -105,15 +108,61 @@ Apply \autoref{thm:audit-map-interface-namecert-obligations}. It forces frontier
 Now use \autoref{thm:audit-map-interface-cross-map-consumer-boundary}. Frontier and cross-map reads are allowed only as interface reads. Because the carrier lacks hidden import, closed frontier package, and host semantic equality coordinates, neighbouring maps can be routed only through the visible provenance attached to $F$ and $X$.
 \end{proof}
 
-\closureat{AuditMapInterfaceUp}{seedStr}
+\begin{theorem}[Audit-map interface row-class exhaustion]
+\label{thm:audit-map-interface-row-class-exhaustion}
+For every accepted $\AuditMapInterfaceUp$ carrier
+$$
+I=(E,K,O,F,X,H,C,P,N),
+$$
+each consumer-visible inventory row is exactly one of the established, conditional, obstruction, frontier, or cross-map rows $E,K,O,F,X$. The administrative rows $H,C,P,N$ provide componentwise $\hsame$ transport, displayed $\Cont$ readback, $\Pkg$ provenance, and local $\NameCert$ naming for those rows, but cannot reclassify any row class.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-map-interface-carrier}. Its consumer inventory surface is the five-row list $E,K,O,F,X$, while $H,C,P,N$ are recorded after that list as transport, route, provenance, and naming data.
+
+Apply \autoref{thm:audit-map-interface-namecert-obligations}. Inventory exactness is stated only for $E,K,O,F,X$, and componentwise transport through $H$ is already restricted to the row class being transported.
+
+Use \autoref{thm:audit-map-interface-cross-map-consumer-boundary}, \autoref{thm:audit-map-interface-conditional-row-discharge-boundary}, \autoref{thm:audit-map-interface-obstruction-row-nonescape}, and \autoref{thm:audit-map-interface-frontier-consumer-routing}. These boundary theorems rule out reclassifying a conditional row as established, an obstruction row as solved, a frontier row as closed, or a cross-map row as a hidden import. Hence the five listed row classes exhaust the consumer-visible inventory.
+\end{proof}
+
+\begin{theorem}[Audit-map interface route-readback totality]
+\label{thm:audit-map-interface-route-readback-totality}
+For every accepted $\AuditMapInterfaceUp$ carrier $I=(E,K,O,F,X,H,C,P,N)$, each displayed continuation route read through $C$ returns to the same row class that it reads. Established, conditional, obstruction, frontier, and cross-map reads therefore remain separated under $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:audit-map-interface-namecert-obligations}. Displayed route readback is one of the five NameCert obligations, and it is attached to the finite carrier rather than to an external theorem coordinate.
+
+The row-class exhaustion of \autoref{thm:audit-map-interface-row-class-exhaustion} identifies the possible consumer inventory rows as $E,K,O,F,X$. Since $H$ is componentwise and $C$ is displayed for the row being read, a route that starts at one row class has no carrier coordinate through which it can return as another.
+
+The separation clauses are exactly the existing boundaries. The cross-map boundary of \autoref{thm:audit-map-interface-cross-map-consumer-boundary}, the conditional boundary of \autoref{thm:audit-map-interface-conditional-row-discharge-boundary}, the obstruction non-escape theorem of \autoref{thm:audit-map-interface-obstruction-row-nonescape}, and the frontier routing theorem of \autoref{thm:audit-map-interface-frontier-consumer-routing} leave route readback as an interface read for the same row class.
+\end{proof}
+\leanchecked{BEDC.Derived.AuditMapInterfaceUp.AuditMapInterfaceCarrier\_route\_readback\_totality}
+
+\begin{theorem}[Audit-map interface template instantiation boundary]
+\label{thm:audit-map-interface-template-instantiation-boundary}
+Any audit-map template or sibling audit packet instantiating the $\AuditMapInterfaceUp$ interface must supply the nine visible rows
+$$
+E,K,O,F,X,H,C,P,N.
+$$
+The instantiated packet receives interface reads through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data only; it receives no hidden imports, solved obstruction coordinates, discharged theorem coordinates, closed frontier coordinates, or host semantic equality.
+\end{theorem}
+\begin{proof}
+The carrier definition fixes the required packet shape. An instantiation must therefore provide the five inventory rows $E,K,O,F,X$ and the four administrative rows $H,C,P,N$ before it can claim the local $\NameCert_{\AuditMapInterfaceUp}$ surface.
+
+Apply the NameCert obligations of \autoref{thm:audit-map-interface-namecert-obligations}. They give carrier admission, inventory exactness, componentwise transport, route readback, provenance, and local naming for this nine-row packet, and they do not add any extra theorem coordinate.
+
+Now combine \autoref{thm:audit-map-interface-cross-map-consumer-boundary}, \autoref{thm:audit-map-interface-route-readback-totality}, \autoref{thm:audit-map-interface-conditional-row-discharge-boundary}, \autoref{thm:audit-map-interface-obstruction-row-nonescape}, and \autoref{thm:audit-map-interface-frontier-consumer-routing}. A sibling packet may consume the interface only through the displayed rows and routes, so template instantiation cannot smuggle in hidden imports or already discharged theorem data.
+\end{proof}
+\leanchecked{BEDC.Derived.AuditMapInterfaceUp.AuditMapInterfaceCarrier\_template\_instantiation\_boundary}
+
+\closureat{AuditMapInterfaceUp}{obligationStr}
 
 \begin{closurestatus}{\AuditMapInterfaceUp}
   \constructivestory{An $\AuditMapInterfaceUp$ packet is generated from established theorem inventory, conditional theorem inventory, obstruction, frontier, cross-map consumer, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:audit-map-interface-carrier}, \autoref{thm:audit-map-interface-namecert-obligations}, \autoref{thm:audit-map-interface-cross-map-consumer-boundary}, \autoref{thm:audit-map-interface-conditional-row-discharge-boundary}, \autoref{thm:audit-map-interface-obstruction-row-nonescape}, and \autoref{thm:audit-map-interface-frontier-consumer-routing} bind the finite audit-map interface, conditional-row boundary, obstruction non-escape, and frontier routing surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:audit-map-interface-carrier}, \autoref{thm:audit-map-interface-namecert-obligations}, \autoref{thm:audit-map-interface-cross-map-consumer-boundary}, \autoref{thm:audit-map-interface-conditional-row-discharge-boundary}, \autoref{thm:audit-map-interface-obstruction-row-nonescape}, \autoref{thm:audit-map-interface-frontier-consumer-routing}, \autoref{thm:audit-map-interface-row-class-exhaustion}, \autoref{thm:audit-map-interface-route-readback-totality}, and \autoref{thm:audit-map-interface-template-instantiation-boundary} bind the finite audit-map interface, conditional-row boundary, obstruction non-escape, frontier routing, row-class exhaustion, route-readback totality, and template instantiation boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close any conditional audit-map theorem, solve obstruction rows, close frontier packages, import neighbouring maps, provide Lean verification, or supply a public bridge schema.}
-  \upgradepath{Obligation closure requires checked carrier admission, inventory exactness, transport stability, route readback, provenance, local naming, and cross-map non-escape for the same finite interface packet.}
+  \upgradepath{Scoped closure requires an explicit dependency scope for the audit-map templates and sibling packets that consume this finite interface packet.}
 \end{closurestatus}

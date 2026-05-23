@@ -61,6 +61,7 @@ $\mathsf{BHist}$ ledger. The carrier transport is the common projection of
 \autoref{thm:measure-root-countable-premeasure-carrier-obligation} and
 \autoref{thm:measure-streamname-endpoint-carrier-classifier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.MeasureUp.MeasureRootRealStreamCarrierRegularity}
 \begin{proof}
 Begin with a row of the real-stream regularity front. By the carrier and
 ledger fields of \autoref{def:measure-root-real-stream-regularity-front}, the
@@ -153,4 +154,47 @@ the covered-event ledger, endpoint comparisons, countable-sum row,
 finite-readback row, normalization row, nonnegative row, monotone row, and
 relative-difference row, because the standard bridge boundary field excludes
 host equality, quotient equality, and analytic completion data.
+\end{proof}
+
+\begin{theorem}[Measure root downstream consumer lattice]
+\label{thm:measure-root-downstream-consumer-lattice}
+The real-stream regularity front of
+\autoref{def:measure-root-real-stream-regularity-front} exports exactly three
+downstream consumer faces through
+\autoref{ch:concrete-instances-integral-namecert},
+\autoref{ch:concrete-instances-probspace-namecert}, and
+\autoref{ch:concrete-instances-functionalanalysis-namecert}. These faces
+retain the existing $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows, and no other analysis chapter receives a larger
+carrier from this front.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:measure-root-real-stream-consumer-regularity-boundary}. It
+already restricts downstream use to covered-event, endpoint, countable-sum,
+finite-readback, normalization, nonnegative, monotone, and
+relative-difference rows over the same displayed $\BHist$ ledger and the same
+$\StreamNameUp$ endpoint-family observations.
+
+The $\IntegralUp$ face is the one cited by
+\autoref{ch:concrete-instances-integral-namecert}. It reads the finite
+readback and countable-sum rows, together with the covered-event rows that
+attach those sums to the visible $\MeasureUp$ package.
+
+The $\ProbSpaceUp$ face is the one cited by
+\autoref{ch:concrete-instances-probspace-namecert}. It reads the normalization
+endpoint and the nonnegative endpoint data already carried by the real-stream
+front, so its probability-space package remains a $\RealUp$ endpoint package
+rather than a host event-equality surface.
+
+The $\FunctionalAnalysisUp$ face is the one cited by
+\autoref{ch:concrete-instances-functionalanalysis-namecert}. It reads the
+monotone row, the relative-difference row, and the countable-sum stability row
+as stability data for the same $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+These three projections exhaust the consumer boundary: the front keeps the
+$\StreamNameUp$ observations, $\RealUp$ endpoint comparisons, $\BHist$
+histories, $\hsame$ transport, and package/certificate rows visible, while
+excluding host event equality, quotient event equality, analytic completion,
+and open-cover compactness.
 \end{proof}

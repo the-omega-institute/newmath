@@ -49,6 +49,56 @@ Thus a consumer preserving all displayed rows preserves the budget route as a wh
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyWitnessGluingUp.CauchyWitnessGluingCarrier\_budget\_compatibility}
 
+\begin{theorem}[CauchyWitnessGluing route obligation surface]
+\label{thm:cauchy-witness-gluing-route-obligation-surface}
+An accepted $\CauchyWitnessGluingUp$ packet exposes exactly the route rows
+$$
+L,T,S,K,U,V,D,R,E,H,C,P,N
+$$
+as its $\NameCert$ obligation surface. The packet has no quotient-stream row, host-real row, selected-limit row, countable-choice row, or ambient-completeness row.
+\end{theorem}
+\begin{proof}
+Read the displayed carrier of \autoref{def:cauchy-witness-gluing-carrier}. Its finite $\BHist$ data are precisely the thirteen rows $L,T,S,K,U,V,D,R,E,H,C,P,N$, with $P$ recording the sibling provenance and $N$ recording the local $\NameCert_{\CauchyWitnessGluingUp}$ row.
+
+The exclusion clause at the end of the carrier definition removes every off-route object named in the statement. Since the consumer is accepted only as a read of that displayed packet, there is no remaining coordinate from which a quotient stream, host real, selected external limit, countable-choice principle, or ambient-completeness principle can be recovered.
+\end{proof}
+
+\begin{theorem}[CauchyWitnessGluing witness ledger exactness]
+\label{thm:cauchy-witness-gluing-witness-ledger-exactness}
+In an accepted $\CauchyWitnessGluingUp$ packet, the witness ledger row $L$ is exact only together with the tail envelope $T$, seal synchronizer $S$, completion classifier $K$, and witness edge $E$. The ledger read is therefore the $\CauchyWitnessLedgerUp$ certificate of \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert} synchronized through the seal-budget route of \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, not a detached witness row.
+\end{theorem}
+\begin{proof}
+The row $L$ supplies the diagonal, observation-budget, synchronizer, and completion-seal witness ledger, but the gluing carrier does not expose $L$ as an independent terminal object. Its exactness is tested inside the same packet that contains $T,S,K$, and $E$.
+
+The tail envelope $T$ determines the Real-facing tail request, while $S$ aligns that request with the shared budget and seal request. The classifier $K$ reads the completion-seal side of the synchronized route, and the edge $E$ states that these rows are consumed as one gluing packet.
+
+Thus a consumer that keeps $L$ while dropping any of $T,S,K$, or $E$ no longer reads the displayed $\CauchyWitnessGluingUp$ surface. It reads a detached ledger candidate, which is outside the accepted packet described here.
+\end{proof}
+
+\begin{theorem}[CauchyWitnessGluing tail envelope handoff]
+\label{thm:cauchy-witness-gluing-tail-envelope-handoff}
+The handoff from the tail envelope of an accepted $\CauchyWitnessGluingUp$ packet to the terminal Real seal factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ as listed in the carrier provenance. Equivalently, the route from $T$ to $R$ is mediated by the finite stream-window row $U$, the dyadic tolerance ledger $D$, and the regular-sequence handoff $V$ before the $\RealUp$ seal is served.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows named in \autoref{def:cauchy-witness-gluing-carrier}. The tail row $T$ is not adjacent to $R$ by an ambient completion map; the displayed route records the stream window row $U$, dyadic ledger $D$, and regular handoff $V$ between them.
+
+The provenance row $P$ names the same sibling certificates and primitive rows: $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The continuation row $C$ then records the displayed path from stream and dyadic reads to the regular handoff and from the regular handoff to the terminal Real seal.
+
+Therefore any tail-envelope handoff to $R$ factors through those finite BEDC rows. A direct appeal to Real completeness or a hidden quotient-stream map would bypass $U,D,V$, and so would not be a read of this gluing packet.
+\end{proof}
+
+\begin{theorem}[CauchyWitnessGluing completion seal scope]
+\label{thm:cauchy-witness-gluing-completion-seal-scope}
+Every completion-seal consumer of an accepted $\CauchyWitnessGluingUp$ packet reads the gluing data only through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling certificates named in the carrier provenance. No off-table completion principle contributes an additional primitive to the completion-seal read.
+\end{theorem}
+\begin{proof}
+The accepted packet is a finite $\BHist$ carrier. Componentwise equality transport is recorded by $H$ through $\hsame$, route transport is recorded by $C$ through $\Cont$, and the provenance and naming surfaces are recorded by $P$ and $N$ through $\Pkg$ and $\NameCert$.
+
+The sibling certificates listed in $P$ supply the ledger, tail, seal-budget, completion-seal, stream, regular-sequence, dyadic, and Real rows. These are the only primitive sources available to the completion-seal consumer.
+
+Consequently, a consumer that invokes a completion principle not present in $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, or the listed sibling certificates is no longer reading the accepted $\CauchyWitnessGluingUp$ packet. It has introduced an off-table primitive outside the chapter's scoped surface.
+\end{proof}
+
 \begin{theorem}[CauchyWitnessGluing Real seal nonescape]
 \label{thm:cauchy-witness-gluing-real-seal-nonescape}
 Every $\RealUp$ or completion-facing read of an accepted $\CauchyWitnessGluingUp$ packet factors through
@@ -78,10 +128,10 @@ The Lean TasteGate development is expected to place the explicit $\mathsf{Nontri
 \begin{closurestatus}{\CauchyWitnessGluingUp}
   \constructivestory{A $\CauchyWitnessGluingUp$ packet is generated from a witness ledger, tail-envelope row, seal-synchronizer row, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, witness-edge, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-witness-gluing-carrier}, \autoref{thm:cauchy-witness-gluing-budget-compatibility}, \autoref{thm:cauchy-witness-gluing-real-seal-nonescape}, the falsifiable prediction, and the independence witness bind the displayed witness-ledger, tail-envelope, seal-synchronizer, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one seed-grade Real-completion witness packet.}
+  \scopeclosed{\autoref{def:cauchy-witness-gluing-carrier}, \autoref{thm:cauchy-witness-gluing-budget-compatibility}, \autoref{thm:cauchy-witness-gluing-route-obligation-surface}, \autoref{thm:cauchy-witness-gluing-witness-ledger-exactness}, \autoref{thm:cauchy-witness-gluing-tail-envelope-handoff}, \autoref{thm:cauchy-witness-gluing-completion-seal-scope}, \autoref{thm:cauchy-witness-gluing-real-seal-nonescape}, the falsifiable prediction, and the independence witness bind the displayed witness-ledger, tail-envelope, seal-synchronizer, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one seed-grade Real-completion witness packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, ambient completeness, host real equality, Lean verification, or bridge checking for $\CauchyWitnessGluingUp$.}
-  \upgradepath{Obligation closure requires Lean carrier admission, NameCert obligations, nontrivial and FieldFaithful TasteGate instances, and route nonescape for the displayed gluing packet.}
+  \upgradepath{Obligation closure requires scoped primitive binding for the displayed route rows and audit-token synchronization for the witness ledger, tail envelope, seal synchronizer, completion-seal classifier, and Real-facing handoff.}
 \end{closurestatus}

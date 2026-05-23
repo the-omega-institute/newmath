@@ -96,7 +96,22 @@ theorem MetricDistanceWitness_triangle_append_context_closed {p q x y z dxy dyz 
         (And.intro xyz.right.right.left
           (MetricDistanceWitness_triangle_append_closed xy yz xyz)))
   exact
-    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := dyz)
+      (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := dyz)
+      (d := dxyz)).mpr
+      (And.intro pCarrier (And.intro qCarrier central))
+
+theorem MetricspaceVisibleContextTriangleBoundary {p q x y z dxy dyz dxyz : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> Cont x z dxyz ->
+        MetricDistanceWitness (append p x) (append z q) (append (append p dxyz) q) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro pCarrier qCarrier xy yz xzContinuation
+  have central : MetricDistanceWitness x z dxyz :=
+    And.intro xy.left
+      (And.intro yz.right.left
+        (And.intro (unary_cont_closed xy.left yz.right.left xzContinuation) xzContinuation))
+  exact
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := z)
       (d := dxyz)).mpr
       (And.intro pCarrier (And.intro qCarrier central))
 
@@ -162,6 +177,34 @@ theorem MetricDistanceWitness_triangle_append_context_endpoint_transport
     exact hsame_refl (append dyz q)
   exact MetricDistanceWitness_hsame_fields_transport sameSource sameTarget
     (hsame_refl (append (append p dxyz) q)) canonical
+
+theorem MetricDistanceWitness_triangle_append_context_endpoint_iff
+    {p q x x' y z dxy dyz dxyz e : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        (MetricDistanceWitness (append p x') (append dyz q) (append (append p dxyz) q) ↔
+          hsame x x') /\
+        (MetricDistanceWitness (append p x) (append e q) (append (append p dxyz) q) ↔
+          hsame dyz e) := by
+  -- BEDC touchpoint anchor: BHist hsame MetricDistanceWitness
+  intro pCarrier qCarrier xy yz xyz
+  constructor
+  · constructor
+    · intro displayed
+      exact MetricDistanceWitness_triangle_append_context_source_deterministic
+        pCarrier qCarrier xy yz xyz displayed
+    · intro sameX
+      exact MetricDistanceWitness_triangle_append_context_endpoint_transport
+        pCarrier qCarrier xy yz xyz sameX (hsame_refl dyz)
+  · constructor
+    · intro displayed
+      have canonical :
+          MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) :=
+        MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
+      exact MetricDistanceWitness_visible_context_target_deterministic canonical displayed
+    · intro sameDyz
+      exact MetricDistanceWitness_triangle_append_context_endpoint_transport
+        pCarrier qCarrier xy yz xyz (hsame_refl x) sameDyz
 
 theorem MetricDistanceWitness_triangle_append_depth_add {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->

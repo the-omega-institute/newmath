@@ -193,4 +193,81 @@ theorem ProductMetricCarrier_distance_ledger_triangle_route [AskSetup] [PackageS
     ⟨distanceUnary, transportUnary, triangleReadUnary, transportRow, triangleRoute,
       provenancePkg⟩
 
+theorem ProductMetricCarrier_metricspace_obligation_package [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      leftRead rightRead triangleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont left product leftRead ->
+        Cont right product rightRead ->
+          Cont distance transport triangleRead ->
+            UnaryHistory product ∧ UnaryHistory distance ∧ UnaryHistory transport ∧
+              UnaryHistory leftRead ∧ UnaryHistory rightRead ∧ UnaryHistory triangleRead ∧
+                Cont left right product ∧ Cont leftDistance rightDistance distance ∧
+                  Cont product distance transport ∧ Cont left product leftRead ∧
+                    Cont right product rightRead ∧ Cont distance transport triangleRead ∧
+                      hsame product (append left right) ∧
+                        hsame distance (append leftDistance rightDistance) ∧
+                          hsame transport (append product distance) ∧
+                            hsame triangleRead (append distance transport) ∧
+                              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier leftProjection rightProjection triangleRoute
+  obtain ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, _localCertUnary,
+    productRow, distanceRow, transportRow, _routeRow, provenancePkg, _nameCert⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed leftUnary rightUnary productRow
+  have distanceUnary : UnaryHistory distance :=
+    unary_cont_closed leftDistanceUnary rightDistanceUnary distanceRow
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed productUnary distanceUnary transportRow
+  have leftReadUnary : UnaryHistory leftRead :=
+    unary_cont_closed leftUnary productUnary leftProjection
+  have rightReadUnary : UnaryHistory rightRead :=
+    unary_cont_closed rightUnary productUnary rightProjection
+  have triangleReadUnary : UnaryHistory triangleRead :=
+    unary_cont_closed distanceUnary transportUnary triangleRoute
+  exact
+    ⟨productUnary, distanceUnary, transportUnary, leftReadUnary, rightReadUnary,
+      triangleReadUnary, productRow, distanceRow, transportRow, leftProjection, rightProjection,
+      triangleRoute, productRow, distanceRow, transportRow, triangleRoute, provenancePkg⟩
+
+theorem ProductMetricCarrier_realup_consumer_package [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      componentRead productRealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont leftDistance rightDistance componentRead ->
+        Cont product componentRead productRealRead ->
+          PkgSig bundle productRealRead pkg ->
+            UnaryHistory product ∧ UnaryHistory distance ∧ UnaryHistory componentRead ∧
+              UnaryHistory productRealRead ∧ hsame distance componentRead ∧
+                hsame transport productRealRead ∧ Cont product distance transport ∧
+                  Cont product componentRead productRealRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle productRealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier componentReadRow productRealReadRow productRealReadPkg
+  obtain ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, _localCertUnary,
+    productRow, distanceRow, transportRow, _routeRow, provenancePkg, _nameCert⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed leftUnary rightUnary productRow
+  have distanceUnary : UnaryHistory distance :=
+    unary_cont_closed leftDistanceUnary rightDistanceUnary distanceRow
+  have componentReadUnary : UnaryHistory componentRead :=
+    unary_cont_closed leftDistanceUnary rightDistanceUnary componentReadRow
+  have productRealReadUnary : UnaryHistory productRealRead :=
+    unary_cont_closed productUnary componentReadUnary productRealReadRow
+  have sameDistanceComponentRead : hsame distance componentRead :=
+    cont_respects_hsame (hsame_refl leftDistance) (hsame_refl rightDistance) distanceRow
+      componentReadRow
+  have sameTransportProductRealRead : hsame transport productRealRead :=
+    cont_respects_hsame (hsame_refl product) sameDistanceComponentRead transportRow
+      productRealReadRow
+  exact
+    ⟨productUnary, distanceUnary, componentReadUnary, productRealReadUnary,
+      sameDistanceComponentRead, sameTransportProductRealRead, transportRow, productRealReadRow,
+      provenancePkg, productRealReadPkg⟩
+
 end BEDC.Derived.ProductMetricUp

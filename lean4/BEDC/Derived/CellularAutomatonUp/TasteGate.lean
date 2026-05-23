@@ -11,7 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive CellularAutomatonUp : Type where
   | mk :
-      (state rule localWindow nextState transport routes provenance nameCert : BHist) →
+      (rule initial orbit tag ledger transport routes provenance nameCert : BHist) →
       CellularAutomatonUp
   deriving DecidableEq
 
@@ -40,20 +40,23 @@ private theorem cellularAutomatonDecode_encode_bhist :
 def cellularAutomatonToEventFlow :
     CellularAutomatonUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | CellularAutomatonUp.mk state rule localWindow nextState transport routes provenance
+  | CellularAutomatonUp.mk rule initial orbit tag ledger transport routes provenance
       nameCert =>
-      [[BMark.b0], cellularAutomatonEncodeBHist state, [BMark.b1, BMark.b0],
-        cellularAutomatonEncodeBHist rule, [BMark.b1, BMark.b1, BMark.b0],
-        cellularAutomatonEncodeBHist localWindow, [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cellularAutomatonEncodeBHist nextState,
+      [[BMark.b0], cellularAutomatonEncodeBHist rule, [BMark.b1, BMark.b0],
+        cellularAutomatonEncodeBHist initial, [BMark.b1, BMark.b1, BMark.b0],
+        cellularAutomatonEncodeBHist orbit, [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cellularAutomatonEncodeBHist tag,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cellularAutomatonEncodeBHist transport,
+        cellularAutomatonEncodeBHist ledger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cellularAutomatonEncodeBHist routes,
+        cellularAutomatonEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cellularAutomatonEncodeBHist provenance,
+        cellularAutomatonEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
+        cellularAutomatonEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
         cellularAutomatonEncodeBHist nameCert]
 
 def cellularAutomatonFromEventFlow :
@@ -63,70 +66,69 @@ def cellularAutomatonFromEventFlow :
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | state :: rest1 =>
+      | rule :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | rule :: rest3 =>
+              | initial :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | localWindow :: rest5 =>
+                      | orbit :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | nextState :: rest7 =>
+                              | tag :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | transport :: rest9 =>
+                                      | ledger :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | routes :: rest11 =>
+                                              | transport :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | provenance :: rest13 =>
+                                                      | routes :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | nameCert :: rest15 =>
+                                                              | provenance :: rest15 =>
                                                                   match rest15 with
-                                                                  | [] =>
-                                                                      some
-                                                                        (CellularAutomatonUp.mk
-                                                                          (cellularAutomatonDecodeBHist
-                                                                            state)
-                                                                          (cellularAutomatonDecodeBHist
-                                                                            rule)
-                                                                          (cellularAutomatonDecodeBHist
-                                                                            localWindow)
-                                                                          (cellularAutomatonDecodeBHist
-                                                                            nextState)
-                                                                          (cellularAutomatonDecodeBHist
-                                                                            transport)
-                                                                          (cellularAutomatonDecodeBHist
-                                                                            routes)
-                                                                          (cellularAutomatonDecodeBHist
-                                                                            provenance)
-                                                                          (cellularAutomatonDecodeBHist
-                                                                            nameCert))
-                                                                  | _ :: _ => none
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | nameCert :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (CellularAutomatonUp.mk
+                                                                                  (cellularAutomatonDecodeBHist rule)
+                                                                                  (cellularAutomatonDecodeBHist initial)
+                                                                                  (cellularAutomatonDecodeBHist orbit)
+                                                                                  (cellularAutomatonDecodeBHist tag)
+                                                                                  (cellularAutomatonDecodeBHist ledger)
+                                                                                  (cellularAutomatonDecodeBHist transport)
+                                                                                  (cellularAutomatonDecodeBHist routes)
+                                                                                  (cellularAutomatonDecodeBHist provenance)
+                                                                                  (cellularAutomatonDecodeBHist nameCert))
+                                                                          | _ :: _ => none
 
 private theorem cellularAutomaton_round_trip :
     ∀ x : CellularAutomatonUp,
@@ -134,25 +136,27 @@ private theorem cellularAutomaton_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk state rule localWindow nextState transport routes provenance nameCert =>
+  | mk rule initial orbit tag ledger transport routes provenance nameCert =>
       change
         some
           (CellularAutomatonUp.mk
-            (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist state))
             (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist rule))
-            (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist localWindow))
-            (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist nextState))
+            (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist initial))
+            (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist orbit))
+            (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist tag))
+            (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist ledger))
             (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist transport))
             (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist routes))
             (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist provenance))
             (cellularAutomatonDecodeBHist (cellularAutomatonEncodeBHist nameCert))) =
           some
-            (CellularAutomatonUp.mk state rule localWindow nextState transport routes
+            (CellularAutomatonUp.mk rule initial orbit tag ledger transport routes
               provenance nameCert)
-      rw [cellularAutomatonDecode_encode_bhist state,
-        cellularAutomatonDecode_encode_bhist rule,
-        cellularAutomatonDecode_encode_bhist localWindow,
-        cellularAutomatonDecode_encode_bhist nextState,
+      rw [cellularAutomatonDecode_encode_bhist rule,
+        cellularAutomatonDecode_encode_bhist initial,
+        cellularAutomatonDecode_encode_bhist orbit,
+        cellularAutomatonDecode_encode_bhist tag,
+        cellularAutomatonDecode_encode_bhist ledger,
         cellularAutomatonDecode_encode_bhist transport,
         cellularAutomatonDecode_encode_bhist routes,
         cellularAutomatonDecode_encode_bhist provenance,
@@ -193,15 +197,15 @@ instance cellularAutomatonFieldFaithful :
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | CellularAutomatonUp.mk state rule localWindow nextState transport routes provenance
+    | CellularAutomatonUp.mk rule initial orbit tag ledger transport routes provenance
         nameCert =>
-        [state, rule, localWindow, nextState, transport, routes, provenance, nameCert]
+        [rule, initial, orbit, tag, ledger, transport, routes, provenance, nameCert]
   field_faithful := by
     intro x y h
     cases x with
-    | mk state₁ rule₁ localWindow₁ nextState₁ transport₁ routes₁ provenance₁ nameCert₁ =>
+    | mk rule₁ initial₁ orbit₁ tag₁ ledger₁ transport₁ routes₁ provenance₁ nameCert₁ =>
         cases y with
-        | mk state₂ rule₂ localWindow₂ nextState₂ transport₂ routes₂ provenance₂ nameCert₂ =>
+        | mk rule₂ initial₂ orbit₂ tag₂ ledger₂ transport₂ routes₂ provenance₂ nameCert₂ =>
             simp only [] at h
             cases h
             rfl
@@ -211,9 +215,9 @@ instance cellularAutomatonNontrivial :
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨CellularAutomatonUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      CellularAutomatonUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CellularAutomatonUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -239,6 +243,15 @@ theorem CellularAutomatonTasteGate_single_carrier_alignment :
       · intro x y heq
         exact cellularAutomatonToEventFlow_injective heq
       · rfl
+
+theorem CellularAutomatonCarrier_local_rule_exposure (R I O T L H C P N : BHist) :
+    ∃ A : CellularAutomatonUp,
+      A = CellularAutomatonUp.mk R I O T L H C P N ∧
+        cellularAutomatonFromEventFlow (cellularAutomatonToEventFlow A) = some A ∧
+          cellularAutomatonEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  refine ⟨CellularAutomatonUp.mk R I O T L H C P N, rfl, ?_, rfl⟩
+  exact cellularAutomaton_round_trip (CellularAutomatonUp.mk R I O T L H C P N)
 
 end BEDC.Derived.CellularAutomatonUp.TasteGate
 

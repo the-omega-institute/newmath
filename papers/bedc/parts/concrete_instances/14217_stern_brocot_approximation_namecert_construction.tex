@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\SternBrocotApproximationUp$}
+\label{ch:concrete-instances-stern-brocot-approximation-namecert}
+\origin{human}
+
+Following Stern--Brocot and Farey rational approximation, the $\SternBrocotApproximationUp$ packet records finite rational bracketing as displayed BEDC data. It reads a pair of rational interval endpoints through \autoref{ch:concrete-instances-rationalinterval-namecert}, a finite mediant path through dyadic tolerance bookkeeping from \autoref{ch:concrete-instances-dyadicratcore-namecert}, a $\StreamNameUp$ observation window from \autoref{ch:concrete-instances-streamname-namecert}, a $\RegSeqRatUp$ readback from \autoref{ch:concrete-instances-regseqrat-namecert}, and a terminal $\RealUp$ seal from \autoref{ch:concrete-instances-real-namecert}. The packet is a finite bracketing neighbor of the decimal and continued-fraction readback surfaces in \autoref{ch:concrete-instances-decimalexpansion-namecert} and \autoref{ch:concrete-instances-continuedfraction-namecert}; it does not store an ambient real order or a quotient-real representative.
+
+\begin{definition}[Stern--Brocot approximation carrier]\label{def:stern-brocot-approximation-carrier}
+A $\SternBrocotApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,U,M,T,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower rational endpoint row, carrying the left side of the displayed $\RationalIntervalUp$ bracket.
+\item $U$ is the upper rational endpoint row, carrying the right side of the displayed $\RationalIntervalUp$ bracket.
+\item $M$ is the finite mediant-path ledger, whose rows record the left/right Stern--Brocot choices and the rational mediants actually inspected.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance row, including the dyadic precision requested by the consumer and the displayed bound showing that the bracket width is below that tolerance.
+\item $W$ is the finite $\StreamNameUp$ window used to request and replay the inspected rational rows.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same endpoint and mediant data.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the rational interval, tolerance, stream-window, and regular-rational readback rows have been displayed.
+\item $H$ stores componentwise $\hsame$ transports for endpoint, mediant-path, tolerance, stream-window, readback, and seal rows.
+\item $C$ stores the $\Cont$ replay from stream windows to mediant inspection, from mediant inspection to rational bracketing, from bracketing to regular readback, and from readback to the real seal.
+\item $P$ is the $\Pkg$ provenance over $\SternBrocotApproximationUp$, $\RationalIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and the local naming row.
+\item $N$ is the local $\NameCert_{\SternBrocotApproximationUp}$ row.
+\end{enumerate}
+The carrier stores only a finite rational bracketing certificate. It has no coordinate for Dedekind cuts, trichotomy, quotient reals, selected representatives, or RealUp completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.SternBrocotApproximationUp.SternBrocotApproximationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Stern--Brocot NameCert obligations]\label{thm:stern-brocot-approximation-namecert-obligations}
+For an accepted $\SternBrocotApproximationUp$ carrier $K=(L,U,M,T,W,R,E,H,C,P,N)$, the local $\NameCert_{\SternBrocotApproximationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the lower endpoint, upper endpoint, mediant-path, dyadic tolerance, stream-window, regular-rational readback, real-seal, transport, continuation, provenance, and naming rows;
+\item classifier transport along the stored $\hsame$ rows and displayed $\Cont$ routes;
+\item bracketing exactness, stating that every exported rational bracket is one of the endpoint or mediant rows displayed by $L,U,M$ and checked against $T$;
+\item readback discipline, stating that every $\RegSeqRatUp$ or $\RealUp$ consumer reads through the finite window $W$ and the regular readback row $R$ before receiving the seal row $E$;
+\item ledger exclusion, stating that Dedekind cuts, trichotomy, quotient reals, selected representatives, and RealUp completeness are not exported by the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple in \autoref{def:stern-brocot-approximation-carrier}. The rational endpoints, mediant path, dyadic tolerance, stream window, regular readback, real seal, transports, continuations, package row, and local naming row are precisely the displayed coordinates.
+
+Classifier transport is componentwise. The endpoint and mediant rows move through their stored $\hsame$ witnesses, while $C$ replays the same window-to-mediant and bracket-to-readback route after transport.
+
+Bracketing exactness uses the sibling interval and dyadic arithmetic surfaces. The endpoint rows are the displayed $\RationalIntervalUp$ bounds from \autoref{ch:concrete-instances-rationalinterval-namecert}, and the tolerance row is the displayed $\DyadicRatCoreUp$ comparison row from \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+The readback discipline then follows the stored route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The excluded principles are absent from the carrier inventory, so the local certificate cannot export them.
+\end{proof}
+
+\begin{theorem}[Finite rational bracketing]\label{thm:stern-brocot-approximation-finite-rational-bracketing}
+Every accepted $\SternBrocotApproximationUp$ packet exposes a finite rational bracket
+$$
+L \leq M_i \leq U
+$$
+at each inspected mediant row $M_i$ of the finite ledger $M$, and the final displayed bracket has width bounded by the dyadic tolerance row $T$. Every route to the bracket factors through
+$$
+\RationalIntervalUp,\ \DyadicRatCoreUp,\ \StreamNameUp .
+$$
+The packet supplies no host trichotomy, no quotient-real equality test, and no choice of a distinguished representative for the sealed real.
+\end{theorem}
+\begin{proof}
+Read the mediant ledger $M$ in order. Each row records a finite left/right choice and the rational mediant computed from the currently displayed endpoints, so the next bracket is formed by replacing exactly one endpoint with that mediant.
+
+The interval side is supplied by \autoref{ch:concrete-instances-rationalinterval-namecert}. It records the endpoint rows and the local comparison data needed to keep the displayed lower endpoint below the displayed upper endpoint at the inspected scale.
+
+The tolerance side is supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert}. The row $T$ records the dyadic precision and the displayed comparison showing that the final interval width is below that precision.
+
+The window side is supplied by \autoref{ch:concrete-instances-streamname-namecert}. Since the carrier has no other observation coordinate, every bracket read factors through the displayed finite window and the rational rows it exposes.
+\end{proof}
+
+\begin{theorem}[Stern--Brocot Real seal handoff]\label{thm:stern-brocot-approximation-real-seal-handoff}
+Every $\RealUp$ read of an accepted $\SternBrocotApproximationUp$ packet factors through the finite handoff
+$$
+\SternBrocotApproximationUp,\ \RationalIntervalUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The Stern--Brocot carrier provides the finite rational bracket; the decimal and continued-fraction siblings of \autoref{ch:concrete-instances-decimalexpansion-namecert} and \autoref{ch:concrete-instances-continuedfraction-namecert} provide comparison readback neighbors; and the real-facing consumer receives only the displayed regular rational row $R$ and seal row $E$.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet $K=(L,U,M,T,W,R,E,H,C,P,N)$. The carrier exposes the bracket through $L,U,M,T$ and exposes the observation request through $W$.
+
+The regular-rational handoff is the row $R$. By the readback discipline of \autoref{ch:concrete-instances-regseqrat-namecert}, a real-facing consumer reads the finite rational data through the regular sequence surface before reading a real seal.
+
+The seal row $E$ is therefore downstream of $R$ and the displayed window route. The transports $H$, continuations $C$, and provenance row $P$ preserve the same route for classified packets and for repeated finite-window reads.
+
+The comparison with decimal and continued-fraction siblings is only a readback comparison: all three chapters present finite rational observation surfaces before the same $\RegSeqRatUp$ and $\RealUp$ consumers. None supplies Dedekind cuts, trichotomy, quotient reals, selected representatives, or RealUp completeness.
+\end{proof}
+
+\begin{closurestatus}{\SternBrocotApproximationUp}
+  \constructivestory{A $\SternBrocotApproximationUp$ packet is generated from rational interval endpoints, a finite mediant path, a dyadic tolerance row, a finite StreamName window, a RegSeqRat readback, a RealUp seal, componentwise transports, displayed continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stern-brocot-approximation-carrier}, \autoref{thm:stern-brocot-approximation-namecert-obligations}, \autoref{thm:stern-brocot-approximation-finite-rational-bracketing}, and \autoref{thm:stern-brocot-approximation-real-seal-handoff} seed the finite Stern--Brocot rational-bracketing surface for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind cuts, trichotomy, quotient reals, selected representatives, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, bracketing exactness, readback discipline, ledger exclusion, and RealUp seal handoff for the same finite packet.}
+\end{closurestatus}

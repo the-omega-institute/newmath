@@ -81,6 +81,7 @@ quotient stream, selected limit, countable-choice row, host equality, ambient
 completeness row, or aggregate bridge or status row available to distinguish
 the two terminal consumers.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatTerminalFourFaceSourceUniqueness}
 \begin{proof}
 Apply \autoref{thm:regseqrat-stream-dyadic-real-section-coherence} to both
 terminal consumers. Each read is thereby placed on the same four visible
@@ -118,6 +119,54 @@ aggregate bridge or status surface, none of those rows can separate the two
 consumers.
 \end{proof}
 
+\begin{theorem}[RegSeqRat four-face refinement functoriality]
+\label{thm:regseqrat-four-face-refinement-functoriality}
+Let $R$ be an accepted Phase Real and Completion terminal consumer over a
+finite $\RegSeqRatUp$ section, and let $R'$ be an accepted cofinal refinement
+of $R$. Suppose the refinement preserves the displayed $\StreamNameUp$
+finite-section window, the $\DyadicRatCoreUp$ endpoint, radius, and
+finite-distance ledger, the $\RegSeqRatUp$ classifier and regularity rows, the
+local $\RealUp$ finite-section readback, and the same $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ support rows. Then $R$
+and $R'$ determine the same common finite $\RegSeqRatUp$ source section.
+
+Equivalently, accepted cofinal refinement acts functorially on the terminal
+four-face packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+with identity action on the common finite source. It creates no quotient
+stream, selected limit, choice row, host equality, ambient completeness row,
+or second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-stream-dyadic-real-section-coherence} to the
+terminal consumer $R$ and to its accepted refinement $R'$. Both reads are
+therefore represented by four visible faces over the same displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$
+support rows.
+
+The preserved StreamName window is fixed by
+\autoref{thm:streamname-finite-section-pullback-exactness}. The preserved
+dyadic endpoint, radius, and finite-distance ledger are fixed by
+\autoref{thm:dyadicratcore-scale-window-real-exit-source-uniqueness}. The
+local Real terminal readback is fixed by
+\autoref{thm:real-l10-terminal-pullback-uniqueness}.
+
+It remains only to compare the RegSeqRat source face. Since the refinement
+preserves the RegSeqRat classifier and regularity rows and the other three
+faces have already been identified, both terminal reads satisfy the
+hypotheses of
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness}. That theorem
+identifies the common finite $\RegSeqRatUp$ source section for $R$ and $R'$.
+
+The same packet supplies no coordinate for quotient streams, selected limits,
+choice rows, host equality, ambient completeness, a second Real seal, or any
+independent aggregate status surface. Hence the refinement has no additional
+row along which it could move the accepted terminal consumer away from the
+common finite source.
+\end{proof}
+
 \begin{theorem}[RegSeqRat real terminal four-face exactness]
 \label{thm:regseqrat-real-terminal-four-face-exactness}
 Let $S$ be a finite $\RegSeqRatUp$ terminal section presented to the Phase Real
@@ -135,6 +184,7 @@ $$
 It asserts no quotient stream equality, no selected limit existence, and no
 completeness property of $\RealUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatRealTerminalFourFaceExactness}
 \begin{proof}
 For the forward direction, start with the accepted $\RealUp$ terminal seal. By
 \autoref{thm:regseqrat-stream-dyadic-real-section-coherence}, the terminal read
@@ -291,4 +341,438 @@ overlap ledger. There is no field in the argument for a quotient stream,
 selected limit, host equality, ambient completeness principle, countable
 choice, standard bridge row, or independent second terminal seal, so none is
 introduced by the uniqueness comparison.
+\end{proof}
+
+\begin{theorem}[RegSeqRat four-face finite-section restriction functoriality]
+\label{thm:regseqrat-four-face-finite-section-restriction-functoriality}
+Let $\{S_i\}_{i \in I}$ be a finite cover of compatible local
+$\RegSeqRatUp$ terminal sections whose accepted $\RealUp$ terminal seal is
+presented by the four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Restrict the cover to a finite subcover, or replace the local sections by a
+finite family obtained through support-row-preserving $\StreamNameUp$
+reindex routes. Assume that the reindex routes preserve the finite request
+windows, tail-window rows, dyadic endpoint, radius, and finite-distance
+ledger, the $\RegSeqRatUp$ classifier and readback rows, the $\RealUp$
+finite-section readback, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert_{\RegSeqRatUp}$ support rows.
+
+Then the terminal packet over the restricted or reindexed family is exactly
+the restriction of the original four-face boundary. Conversely, any
+four-face terminal packet over such a restricted family is read from precisely
+the restricted local sections and the corresponding support rows.
+
+This object-level comparison is confined to the finite terminal faces
+displayed above. It does not identify quotient streams, select limits,
+compare host reals, assume countable choice, add ambient or metric
+completeness, aggregate formal-status rows, or introduce standard bridge
+rows.
+\end{theorem}
+\begin{proof}
+First restrict the accepted terminal seal to the chosen finite subcover or
+to the support-row-preserving reindexed family. Apply
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage} to the
+original cover. Each retained or reindexed local section is therefore covered
+by a four-face local packet satisfying the exactness criterion, with only the
+displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows present.
+
+For the $\StreamNameUp$ face, use
+\autoref{thm:streamname-terminal-reindex-four-face-pullback} to transport the
+terminal four-face boundary along the reindex route. Use
+\autoref{thm:streamname-reindex-tail-window-terminal-equivalence} to identify
+the tail-window terminal rows after restriction. Thus the retained
+StreamName request windows and terminal rows are exactly the old ones read on
+the smaller finite support.
+
+For the dyadic and real faces, apply
+\autoref{thm:dyadicratcore-scale-window-real-exit-source-uniqueness} to the
+endpoint, radius, and finite-distance ledger, and apply
+\autoref{thm:real-l10-terminal-pullback-uniqueness} to the terminal
+$\RealUp$ seal over the same four-face packet. These two uniqueness results
+leave no freedom to create a different dyadic source or a different terminal
+Real row after finite restriction.
+
+It remains to compare the whole packet. The restricted presentation and the
+packet read directly from the retained local sections have identical
+StreamName, DyadicRatCore, RegSeqRat, RealUp, and support rows on every
+retained member and overlap. Apply
+\autoref{thm:regseqrat-four-face-gluing-uniqueness}. The two presentations
+are the same BEDC-visible four-face terminal packet.
+
+Conversely, suppose a four-face terminal packet is given over the restricted
+or support-row-preserving reindexed family. Local acceptance follows from
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage}, and the
+same StreamName, dyadic, and Real uniqueness references identify each face
+with the corresponding restricted row of the original cover. Hence the packet
+is read from exactly the retained local sections and support rows.
+
+Every step only restricts finite indices, transports finite request windows,
+or invokes terminal uniqueness over the displayed four faces. The argument
+has no constructor or field for quotient stream equality, selected limits,
+host real equality, countable choice, ambient or metric completeness,
+aggregate formal-status data, or standard bridge rows, so none is introduced.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-request section cocycle Real seal]
+\label{thm:regseqrat-finite-request-section-cocycle-real-seal}
+Let $S_0$, $S_1$, and $S_2$ be three compatible finite-request terminal
+sections over the same accepted $\RegSeqRatUp$ packet. Suppose every pairwise
+overlap agrees on the $\StreamNameUp$ finite request window, the
+$\DyadicRatCoreUp$ endpoint, radius, and finite-distance ledger, the
+$\RegSeqRatUp$ classifier and readback rows, the local $\RealUp$ seal row,
+and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ support rows.
+
+Then the three pairwise Real-seal-visible packets satisfy the finite
+section cocycle condition: their restrictions to each triple overlap are the
+same terminal four-face packet. Consequently the three sections determine
+one BEDC-visible terminal packet over
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+
+The conclusion is only about the finite request section and its displayed
+terminal Real seal. It does not introduce quotient streams, selected limits,
+host real equality, countable choice, metric-completeness rows, aggregate
+status rows, standard bridge rows, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First place each pairwise overlap on the local Real-seal surface. Apply
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage} to the
+three pairwise families. Each overlap is therefore represented by the same
+four visible faces and by the listed $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ support rows.
+
+Next identify the common finite request spine. The pairwise hypotheses give
+the same $\StreamNameUp$ finite windows on all double overlaps, so
+\autoref{thm:streamname-finite-section-descent-gluing} glues the three
+windows to one finite descent object. The dyadic endpoint, radius, and
+finite-distance ledger are then forced by
+\autoref{thm:dyadicratcore-scale-window-real-exit-source-uniqueness}; no
+second dyadic source can sit over the same finite request data.
+
+Now compare the Real-seal-visible rows on a triple overlap. By
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality},
+restricting a pairwise packet to the triple overlap reads exactly the
+restricted StreamName, DyadicRatCore, RegSeqRat, RealUp, and support rows.
+Those rows are common by hypothesis and by the preceding descent step, so
+\autoref{thm:real-l10-terminal-pullback-uniqueness} identifies the three
+restricted Real terminal rows as one terminal pullback.
+
+The cocycle condition follows from this triple-overlap identification. To
+obtain the single terminal packet, apply
+\autoref{thm:regseqrat-four-face-gluing-uniqueness} to the three pairwise
+Real-seal-visible presentations. Since their restrictions agree on every
+overlap, the glued four-face packet is independent of the chosen pairwise
+route and is the unique BEDC-visible terminal packet determined by
+$S_0$, $S_1$, and $S_2$.
+
+All data used in the construction are finite request windows, dyadic ledger
+rows, classifier and readback rows, the local Real seal, and the named
+support coordinates. The cited gluing, restriction, and terminal-uniqueness
+theorems have no coordinate for quotient streams, selected limits, host real
+equality, countable choice, metric-completeness rows, aggregate status rows,
+standard bridge rows, or ambient $\RealUp$ completeness, so the cocycle
+packet does not claim any of them.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-request section refinement composition]
+\label{thm:regseqrat-finite-request-section-refinement-composition}
+Let $S_0$, $S_1$, and $S_2$ be accepted finite-request terminal sections over
+the four-face route
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Suppose $\rho_{01}:S_0\to S_1$ and $\rho_{12}:S_1\to S_2$ are compatible
+certified refinements preserving the finite $\StreamNameUp$ request windows,
+the $\DyadicRatCoreUp$ common-scale endpoint, radius, and finite-distance
+ledger, the $\RegSeqRatUp$ classifier and readback rows, the local
+$\RealUp$ seal row, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ support rows. Suppose also that the direct
+certificate $\rho_{02}:S_0\to S_2$ is accepted on the same visible support
+and has the same facewise restriction as the composite
+$\rho_{12}\circ\rho_{01}$.
+
+Then refining $S_0$ to $S_2$ in one certified step by $\rho_{02}$ or in two
+certified steps by $\rho_{01}$ followed by $\rho_{12}$ determines the same
+terminal four-face packet and the same local $\RealUp$ seal. The comparison
+is confined to finite request sections and their displayed support rows; it
+does not identify quotient streams, select limits, compare host reals, use
+countable choice, add metric-completeness rows, aggregate formalstatus rows,
+aggregate bridge rows, or assert $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read both refinement routes on their visible finite supports. By
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality},
+each restriction of the one-step route and each restriction of the two-step
+route is exactly the packet obtained by restricting the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and support
+rows.
+
+Next compare the request spines. Apply
+\autoref{thm:streamname-finite-section-restriction-exactness} to identify
+the finite $\StreamNameUp$ windows carried by the direct certificate with the
+windows obtained after the two successive restrictions. Apply
+\autoref{thm:dyadicratcore-common-scale-window-radius-monotone-composition}
+to the dyadic endpoint, radius, and finite-distance ledger. The common-scale
+window seen by $\rho_{02}$ is therefore the same dyadic window seen by
+$\rho_{12}\circ\rho_{01}$.
+
+The local Real seal is then forced on every overlap. Use
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal} on the
+three sections $S_0$, $S_1$, and $S_2$ to identify the pairwise
+Real-seal-visible packets on triple overlaps. Finally apply
+\autoref{thm:real-l10-current-phase-exit-local-threshold} to read that
+common overlap packet as the local $\RealUp$ threshold seal for the same
+four visible faces and support rows.
+
+It remains only to repack the terminal object. The direct refinement route
+and the two-step refinement route now have identical StreamName request
+windows, dyadic common-scale rows, RegSeqRat classifier and readback rows,
+local Real seal rows, and support coordinates on every finite member and
+overlap. Applying
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality}
+once more, both routes determine the same terminal four-face packet.
+
+All cited inputs are finite restriction, finite cocycle, common-scale
+composition, and local Real threshold statements over the displayed BEDC
+rows. None of these constructions carries quotient stream equality,
+selected-limit data, host real equality, countable-choice data,
+metric-completeness rows, aggregate formalstatus rows, aggregate bridge rows,
+or a $\RealUp$ completeness field, so the composition law does not claim
+any such structure.
+\end{proof}
+
+\begin{theorem}[RegSeqRat four-face finite-cover induction]
+\label{thm:regseqrat-four-face-finite-cover-induction}
+Let $\mathcal{S}$ be a finite family of compatible accepted
+$\RegSeqRatUp$ terminal sections over the visible four-face route
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Assume that the empty and singleton subfamilies are the displayed local
+packets of
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage}. Assume
+also that the successor clause glues any previously accepted subcover to one
+additional accepted section along overlap rows preserving the finite
+$\StreamNameUp$ request windows, the $\DyadicRatCoreUp$ endpoint, radius,
+and finite-distance ledger, the $\RegSeqRatUp$ classifier and readback rows,
+the local $\RealUp$ seal row, and the shared $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert_{\RegSeqRatUp}$ support rows.
+
+Then the whole finite cover $\mathcal{S}$ determines exactly one accepted
+$\RealUp$ terminal seal over the same four visible faces. Moreover, every
+accepted $\RealUp$ terminal seal whose visible support is the cover
+$\mathcal{S}$ is obtained by this finite-cover induction from the local
+empty, singleton, and successor clauses.
+
+The claim is only the finite descent principle for the displayed
+$\RegSeqRatUp$ section cover. It does not identify quotient streams, select
+limits, compare host real equality, use countable choice, assume ambient or
+metric completeness, aggregate formalstatus rows, or introduce standard
+bridge rows.
+\end{theorem}
+\begin{proof}
+Put the finite cover into a section-by-section descent order. Apply
+\autoref{thm:streamname-finite-section-cover-descent-normal-form} to replace
+the cover by its finite request normal form. The empty and singleton entries
+are then exactly the local four-face packets supplied by
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage}.
+
+For the successor step, suppose a subcover has already produced an accepted
+terminal $\RealUp$ seal. Glue this seal to the next section along the stated
+overlap rows. The preservation hypotheses give the same $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ rows on the common
+support, so
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality}
+reads both sides on the same restricted four-face packet.
+
+The overlap condition is coherent because the pairwise restrictions satisfy
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal}. Hence the
+new section and the previously accepted subcover have a common terminal
+overlap packet. Applying
+\autoref{thm:regseqrat-four-face-gluing-uniqueness} gives one accepted
+$\RealUp$ terminal seal for the enlarged subcover, and uniqueness prevents
+any second seal from being carried by the same visible rows.
+
+Iterating this finite successor construction reaches the full cover
+$\mathcal{S}$. Refining the descent order does not change the resulting
+seal: adjacent regroupings are identified by
+\autoref{thm:regseqrat-finite-request-section-refinement-composition}, while
+all restrictions back to smaller subcovers are controlled by
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality}.
+Thus the terminal seal is independent of the chosen finite normal form.
+
+Finally let $T$ be any accepted $\RealUp$ terminal seal over the same cover.
+Restrict $T$ to every empty, singleton, and successor subcover in the normal
+form. The local gluing theorem supplies the base packets, the restriction
+theorem identifies the visible rows, the cocycle theorem supplies the
+overlap compatibility, and gluing uniqueness identifies each successor seal
+with the induction seal. Therefore $T$ is obtained by the same finite-cover
+induction.
+
+Every step uses only finite request normal forms, local four-face gluing,
+restriction functoriality, cocycle compatibility, uniqueness, and certified
+refinement composition. None of these cited inputs contains a coordinate for
+quotient stream equality, selected limits, host real equality, countable
+choice, ambient completeness, metric completeness, aggregate formalstatus
+rows, or standard bridge rows, so the induction theorem does not claim any
+of that structure.
+\end{proof}
+
+\begin{theorem}[RegSeqRat four-face finite-cover normal form]
+\label{thm:regseqrat-four-face-finite-cover-normal-form}
+A finite family $\mathcal{S}$ of compatible accepted $\RegSeqRatUp$ terminal
+sections presents an accepted $\RealUp$ terminal seal precisely when its
+visible support is the following finite row data:
+\begin{enumerate}
+\item the finite $\StreamNameUp$ request windows;
+\item the $\DyadicRatCoreUp$ endpoint, radius, and finite-distance ledgers;
+\item the $\RegSeqRatUp$ classifier and readback rows;
+\item the local $\RealUp$ seal rows; and
+\item the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ support rows.
+\end{enumerate}
+These rows must satisfy the local-gluing hypotheses of
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage}, the
+restriction hypotheses of
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality},
+the cocycle hypotheses of
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal}, the
+refinement-composition hypotheses of
+\autoref{thm:regseqrat-finite-request-section-refinement-composition}, and
+the finite-cover induction hypotheses of
+\autoref{thm:regseqrat-four-face-finite-cover-induction}. No additional row
+for quotient streams, selected limits, host real equality, countable choice,
+ambient completeness, metric completeness, aggregate formalstatus data,
+aggregate bridge data, or standard bridge data is present or necessary.
+
+Equivalently, those finite rows are necessary and sufficient for the
+$\RealUp$ terminal seal determined by the RegSeqRat-to-Real four-face cover,
+and any other accepted terminal seal with exactly those visible rows is the
+same seal.
+\end{theorem}
+\begin{proof}
+For necessity, start with an accepted $\RealUp$ terminal seal presented by the
+finite compatible family $\mathcal{S}$. Apply
+\autoref{thm:regseqrat-four-face-finite-cover-induction} to express the seal
+by empty, singleton, and successor cover clauses. Project the empty and
+singleton clauses through
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage}; project
+the successor restrictions through
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality};
+and project the overlap rows through
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal}. The visible
+support is therefore exactly the finite StreamName, DyadicRatCore,
+RegSeqRat, Real, and shared BEDC support rows listed in the statement.
+
+For sufficiency, suppose the displayed finite rows and the named compatibility
+hypotheses are given. Package the empty, singleton, successor, cocycle, and
+refinement-composition data as the input cover for
+\autoref{thm:regseqrat-four-face-finite-cover-induction}. That theorem
+constructs an accepted $\RealUp$ terminal seal over the four visible faces.
+
+It remains to identify possible alternatives. If $T$ is any other accepted
+terminal seal with exactly the same visible rows, then its restrictions to the
+finite request windows have the same local gluing rows, the same finite
+restriction rows, and the same cocycle rows. Apply
+\autoref{thm:regseqrat-four-face-gluing-uniqueness} on each successor gluing
+step and then along the whole finite-cover induction order. The resulting
+seal is the one constructed from the displayed rows.
+
+The excluded structures cannot enter the construction because every cited
+input theorem is stated over finite visible support rows. Thus quotient stream
+identification, selected-limit data, host real equality, countable-choice
+data, ambient or metric completeness, aggregate formalstatus rows, aggregate
+bridge rows, and standard bridge rows are neither consumed nor produced.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-cover normal form StreamName support refinement]
+\label{thm:regseqrat-finite-cover-normal-form-streamname-support-refinement}
+Let $\mathcal{S}$ be a finite compatible family of accepted
+$\RegSeqRatUp$ terminal sections whose visible rows satisfy the normal-form
+clauses of
+\autoref{thm:regseqrat-four-face-finite-cover-normal-form}. Let
+$\mathcal{S}'$ be obtained from $\mathcal{S}$ by refining only the terminal
+$\StreamNameUp$ request windows and by preserving, on every refined support
+row, the displayed $\DyadicRatCoreUp$ endpoint, radius, and finite-distance
+ledgers, the $\RegSeqRatUp$ classifier and readback rows, the local
+$\RealUp$ seal rows, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ support.
+
+Assume the refined terminal windows satisfy
+\autoref{thm:streamname-terminal-four-face-support-exhaustion} and that
+transport from $\mathcal{S}$ to $\mathcal{S}'$ satisfies
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}. Then
+$\mathcal{S}$ and $\mathcal{S}'$ determine the same accepted $\RealUp$
+terminal seal exactly when the preserved $\DyadicRatCoreUp$ endpoint and
+radius ledger rows agree with the local $\RealUp$ seal rows on the shared
+support.
+
+Equivalently, the finite-cover normal form factors through the StreamName
+terminal support surface: refining finite terminal windows changes no
+accepted $\RealUp$ terminal seal unless it changes the shared DyadicRatCore
+ledger or the local Real seal row read on that support. The refinement surface
+has no coordinate for quotient stream equality, selected limits, host real
+equality, countable choice, ambient or metric completeness, aggregate
+formalstatus rows, aggregate bridge rows, or standard bridge rows.
+\end{theorem}
+\begin{proof}
+First normalize the original cover. Apply
+\autoref{thm:regseqrat-four-face-finite-cover-normal-form}. The accepted
+$\RealUp$ terminal seal is carried by exactly the finite StreamName request
+windows, the DyadicRatCore endpoint, radius, and finite-distance ledgers, the
+RegSeqRat classifier-readback rows, the local Real seal rows, and the shared
+BEDC support rows.
+
+Next read the refined windows through the StreamName terminal support surface.
+By \autoref{thm:streamname-terminal-four-face-support-exhaustion}, every
+accepted support coordinate of $\mathcal{S}'$ is one of the same four visible
+faces or one of the same displayed support rows. By
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}, the
+componentwise transport from $\mathcal{S}$ to $\mathcal{S}'$ preserves that
+support packet whenever those rows agree after replay.
+
+Now compare the consumer ledger. Apply
+\autoref{thm:dyadicratcore-l10-exit-ledger-consumer-normal-form} to the
+consumer read of each refined terminal packet. The consumer can read exactly
+the DyadicRatCore ledger rows, the StreamName finite-window rows, the RegSeqRat
+classifier-readback rows, the local Real seal rows, and the shared support.
+Therefore agreement of the DyadicRatCore endpoint and radius ledger with the
+local Real seal rows on the shared support is sufficient to make the refined
+consumer packet expose the same finite inventory as the original packet.
+
+With the same inventory in hand, use
+\autoref{thm:regseqrat-four-face-local-gluing-real-seal-coverage} on each
+refined local section and
+\autoref{thm:regseqrat-four-face-finite-section-restriction-functoriality} on
+the overlaps. The transported support rows give the same pairwise restrictions
+as before, so
+\autoref{thm:regseqrat-finite-request-section-cocycle-real-seal} supplies the
+same finite cocycle. Applying
+\autoref{thm:regseqrat-four-face-gluing-uniqueness} along the finite-cover
+induction order identifies the accepted terminal seal produced by
+$\mathcal{S}'$ with the seal produced by $\mathcal{S}$.
+
+Conversely, suppose the two covers determine the same accepted $\RealUp$
+terminal seal. Project that common seal back through
+\autoref{thm:regseqrat-four-face-finite-cover-normal-form} and then through
+\autoref{thm:dyadicratcore-l10-exit-ledger-consumer-normal-form}. Since the
+StreamName support exhaustion leaves no additional consumer coordinate, any
+accepted difference between the two finite presentations must be visible in
+the DyadicRatCore ledger rows or in the local Real seal rows. Equality of the
+terminal seal therefore forces the endpoint and radius ledger and the local
+Real seal rows to agree on the shared support.
+
+All implications use only finite StreamName support exhaustion, support
+transport stability, the DyadicRatCore consumer normal form, local RegSeqRat
+gluing, finite restriction functoriality, cocycle compatibility, and gluing
+uniqueness. None of these cited surfaces supplies quotient stream equality,
+selected limits, host real equality, countable choice, ambient completeness,
+metric completeness, aggregate formalstatus rows, aggregate bridge rows, or
+standard bridge rows, so the refinement theorem does not claim any of that
+structure.
 \end{proof}

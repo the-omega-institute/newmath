@@ -394,6 +394,97 @@ two windows after passage to the meet.
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_finite\_radius\_window\_directed\_meet}
 
+\begin{theorem}[DyadicRatCore finite radius-window filtered meet]
+\label{thm:dyadicratcore-finite-radius-window-filtered-meet}
+Let a finite family of public $\DyadicRatCoreUp$ packets be equipped with
+displayed directed-refinement radius handoffs into $\RegSeqRatUp$ or $\RealUp$
+terminal consumers, and let a retained finite subfamily of those terminal
+consumers be selected. The retained consumers factor through the displayed
+directed meet of the restricted monotone unary radius windows obtained from
+the retained handoffs. The visible rows of that restricted meet are exactly the
+refined exponent, denominator ledger, common-exponent classifier, distance
+rows, $\mathsf{BHist}$ carrier rows, $\hsame$ transports, $\Cont$ readbacks,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ rows inherited from the
+ambient finite-family meet.
+
+The restricted meet exports no quotient rational, selected $\RealUp$ limit,
+countable-choice selector, metric-completeness datum, ambient $\RealUp$
+completeness row, or aggregate bridge/status row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-finite-radius-window-cofinality} to the
+retained finite family of displayed handoffs. This supplies a common monotone
+unary radius window whose rows are restricted to the retained consumers while
+keeping the refined exponent, denominator ledger, classifier, distance rows,
+carrier rows, transports, readbacks, provenance, and local certificate rows
+inside the displayed dyadic inventory.
+
+Compare this restricted window with the ambient finite-family window by
+\autoref{thm:dyadicratcore-finite-radius-window-directed-meet}. Since the
+retained handoffs are a subfamily of the ambient presentation, the directed
+meet is obtained by forgetting only the consumer rows outside the retained
+subfamily and by keeping the common denominator-refinement rows already present
+in the ambient meet.
+
+Finally use
+\autoref{thm:dyadicratcore-directed-refinement-radius-handoff} and
+\autoref{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary} at the
+$\RegSeqRatUp$ and $\RealUp$ boundary. These results force every retained
+terminal consumer to read through the finite radius handoff and exclude
+quotient rationals, selected real limits, countable-choice selectors,
+metric-completeness data, ambient real-completeness rows, and aggregate
+bridge/status rows from the restricted meet.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore finite radius-window meet associativity]
+\label{thm:dyadicratcore-finite-radius-window-meet-associativity}
+Let $W_0$, $W_1$, and $W_2$ be three displayed common monotone unary radius
+windows over the same finite family of public $\DyadicRatCoreUp$ packets and
+directed-refinement handoffs. The displayed meet obtained by first meeting
+$W_0$ with $W_1$ and then meeting that result with $W_2$ exposes the same finite
+BEDC rows as the displayed meet obtained by first meeting $W_1$ with $W_2$ and
+then meeting $W_0$ with that result.
+
+The common row inventory is the refined exponent, denominator ledger,
+common-exponent classifier, distance rows, $\mathsf{BHist}$ carrier rows,
+$\hsame$ transports, $\Cont$ readbacks, $\mathsf{Pkg}$ provenance, local
+$\NameCert$ row, and the downstream $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$ terminal faces. No quotient rational, host equality row, selected
+$\RealUp$ limit, countable-choice selector, metric-completeness datum, or
+ambient $\RealUp$ completeness row distinguishes the two parenthesizations.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-finite-radius-window-cofinality} to the finite
+family underlying $W_0$, $W_1$, and $W_2$. Each displayed window is therefore a
+presentation of the same finite dyadic packet family through the same kind of
+monotone unary radius handoff, with the refined exponent, denominator ledger,
+classifier, distance rows, carrier rows, transports, readbacks, provenance, and
+local certificate row already visible.
+
+Next apply \autoref{thm:dyadicratcore-finite-radius-window-directed-meet} to
+the pair $W_0,W_1$ and then to its displayed result with $W_2$. Apply the same
+directed-meet theorem to the pair $W_1,W_2$ and then to $W_0$ with that
+displayed result. In both orders the meet is computed over the identical finite
+family of public packets and directed-refinement handoffs, so the displayed row
+inventory is the directed meet of the same finite data rather than a datum
+depending on parentheses.
+
+The retained consumer faces are checked by
+\autoref{thm:dyadicratcore-finite-radius-window-filtered-meet}. Filtering either
+parenthesized meet to the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$
+terminal faces forgets the same non-retained rows and preserves the same
+refined denominator, classifier, carrier, transport, readback, provenance, and
+certificate rows.
+
+Finally use
+\autoref{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary} at the
+terminal boundary. Since both parenthesizations restrict to the same displayed
+directed meet of the same finite family, their terminal consumers cannot be
+separated by quotient rationals, host equality rows, selected limits,
+countable-choice selectors, metric-completeness data, or ambient real
+completeness.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore RegSeqRat terminal radius-window boundary]
 \label{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary}
 Every Phase Real and Completion terminal handoff whose dyadic face is a public
@@ -567,9 +658,9 @@ as possible obstruction witnesses.
   \constructivestory{A dyadic packet is generated by placing a signed $\RatUp$ mantissa beside a positive unary exponent row, displaying the finite denominator tower for $2^e$, and attaching $\Pkg$ provenance for the $\IntUp$ and $\RatUp$ sources. The classifier compares two packets by lifting them to a displayed common unary exponent and reading a $\RatUp$ classifier row between the scaled mantissas. Distance and absolute-value observations are finite common-exponent windows over the same displayed rows. The surface records the dyadic source needed by $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$ without forming quotient equality, importing host rationals, or claiming real completeness.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The scoped paper boundary binds the signed $\RatUp$ mantissa row, positive $\UnaryHistory$ exponent row, denominator ledger, common-exponent scaling classifier, arithmetic and distance windows, monotone-radius refinement, common-exponent exactness, real-phase source coverage, $\mathsf{BHist}$ data, $\hsame$ transport, $\Cont$ readback, and $\mathsf{Pkg}$ provenance.}
-  \formalstatus{\axiomCleanV}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge}
-  \bridgestatus{paperBridge}
+  \bridgestatus{bridgeChecked}
   \notclaimed{This chapter does not claim a host rational quotient, arithmetic completeness, completed real endpoint, or any $\RealUp$ completeness theorem.}
-  \upgradepath{No further paper theory-axis step is recorded for this chapter; the formal and bridge axes remain reported separately.}
+  \upgradepath{No further upgrade -- chapter at top of formal axis.}
 \end{closurestatus}

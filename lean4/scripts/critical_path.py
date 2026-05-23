@@ -133,6 +133,25 @@ def read_deps_ready_threshold(default: int = DEFAULT_DEPS_READY_THRESHOLD) -> in
     return default
 
 
+def read_paper_priority_config() -> dict[str, object]:
+    mode = "free"
+    strength = 0.0
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            mode = str(data.get("paper_priority_mode", mode)).strip() or "free"
+            strength = float(data.get("paper_priority_strength", strength))
+    except Exception:
+        mode = "free"
+        strength = 0.0
+    if mode != "human_metacic":
+        strength = 0.0
+    return {
+        "paper_priority_mode": mode,
+        "paper_priority_strength": round(max(0.0, min(strength, 1.0)), 4),
+    }
+
+
 # Legacy module-level constant kept for any importer that still references
 # `cp.DEPS_READY_THRESHOLD`. main() now reads from the config file.
 DEPS_READY_THRESHOLD = DEFAULT_DEPS_READY_THRESHOLD
@@ -162,6 +181,39 @@ UP_REF_RE = re.compile(r"\\?([A-Z][A-Za-z]*)Up\b")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
 PAPER_LABEL_RE = re.compile(r"\\label\{(thm|def|lem|prop|cor):")
 PAPER_LABEL_FULL_RE = re.compile(r"\\label\{(thm|def|lem|prop|cor):([^}]+)\}")
+NOTCLAIMED_RE = re.compile(r"\\notclaimed\{([^}]*)\}", re.DOTALL)
+# Legacy regex retained for compat (some callers may still reference it),
+# but `_has_induction_proof` below is the canonical fast path.
+INDUCTION_PROOF_RE = re.compile(
+    r"\\begin\{proof\}.*?(?:induct|case analysis).*?\\end\{proof\}",
+    re.IGNORECASE | re.DOTALL,
+)
+# Catastrophic-regex avoidance: the old INDUCTION_PROOF_RE.search() on
+# a 491KB chapter with `re.DOTALL` + lazy `.*?` + alternation prefix
+# overlap (induction ⊂ induct, structural induction ⊂ induct) took 20s
+# per chapter, and `compute_paper_priority_surfaces` ran it on ~100
+# `\origin{human}` chapters → 150s+ total. The semantic intent is "is
+# there any induction/case-analysis proof in this chapter?" — a fast
+# substring check captures essentially the same signal at zero cost.
+_INDUCTION_KEYWORDS = ("induct", "case analysis")
+
+
+def _has_induction_proof(text: str) -> bool:
+    """Fast O(N) substring approximation of the legacy regex. Returns
+    True iff the chapter contains a `\\begin{proof}` block AND any
+    induction/case-analysis keyword anywhere in the text. The keyword
+    is not strictly required to be inside the proof block — but as a
+    priority-surface heuristic (used only by `_has_human_derivation_gap`
+    to suppress chapters whose human derivation appears to already
+    induct/case-split), the loss of strict scoping is acceptable and
+    avoids 20s/chapter catastrophic backtracking.
+    """
+    if "\\begin{proof}" not in text:
+        return False
+    lowered = text.lower()
+    return any(k in lowered for k in _INDUCTION_KEYWORDS)
+
+METACIC_RE = re.compile(r"metacic|MetaCIC|BEDC\.MetaCIC", re.IGNORECASE)
 CLOSURESTATUS_BEGIN_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
@@ -197,6 +249,15 @@ _PAPER_BASE_WEIGHTS = {
     "closure_mark": 0.20,
     "carrier_isomorphism_capstone": 0.10,
 }
+_PAPER_PRIORITY_BASE = {
+    "human_derivation_gap": 0.8235,
+    "metacic_priority": 0.1765,
+}
+_HUMAN_CANONICAL_TERMS = (
+    "canonical", "complete", "completion", "cauchy", "banach",
+    "fixed point", "quotient", "choice", "host equality", "limit",
+    "compact", "series", "uniform", "metric", "classical",
+)
 CLOSUREAT_RE = re.compile(r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{(\w+)\}")
 CLOSUREAT_TO_GRADE = {
     "seedStr": "seedClosure",
@@ -325,10 +386,29 @@ def _compute_dispatch_weights(
     base_weights_paper: dict[str, float],
     capstone_candidate: dict | None = None,
     capstone_coverage: dict | None = None,
+    paper_priority_config: dict[str, object] | None = None,
 ) -> dict[str, dict]:
     """Compute supply- and consumption-adjusted per-side weights."""
     lean_weights = _adjust_dispatch_weights(base_weights_lean, supply_lean, consumption)
-    paper_weights = _adjust_dispatch_weights(base_weights_paper, supply_paper, consumption)
+    priority_config = paper_priority_config or {
+        "paper_priority_mode": "free",
+        "paper_priority_strength": 0.0,
+    }
+    priority_strength = float(priority_config.get("paper_priority_strength", 0.0) or 0.0)
+    priority_strength = max(0.0, min(priority_strength, 1.0))
+    if priority_strength > 0:
+        regular_base = {
+            key: value * (1.0 - priority_strength)
+            for key, value in base_weights_paper.items()
+        }
+        priority_base = {
+            key: value * priority_strength
+            for key, value in _PAPER_PRIORITY_BASE.items()
+        }
+        paper_base_effective = {**regular_base, **priority_base}
+    else:
+        paper_base_effective = dict(base_weights_paper)
+    paper_weights = _adjust_dispatch_weights(paper_base_effective, supply_paper, consumption)
     return {
         "lean": {
             "weights": lean_weights,
@@ -341,9 +421,10 @@ def _compute_dispatch_weights(
         "paper": {
             "weights": paper_weights,
             "supply": supply_paper,
-            "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_paper},
+            "consumption_60min": {key: consumption.get(key, 0) for key in paper_base_effective},
             "capstone_candidate": capstone_candidate,
             "capstone_coverage": capstone_coverage,
+            "priority_config": priority_config,
             "advice": _dispatch_advice("paper", paper_weights, supply_paper),
         },
     }
@@ -404,6 +485,7 @@ def _git_head_short() -> str:
         out = subprocess.run(
             ["git", "rev-parse", "--short=12", "HEAD"],
             cwd=str(ROOT), capture_output=True, text=True, check=False,
+            timeout=5,
         )
         return out.stdout.strip() or "nohead"
     except Exception:
@@ -708,8 +790,11 @@ def load_objective_formal_grades() -> dict[str, str]:
         return _objective_grades_cache
 
     import tempfile
+    import time as _time
+    tmp_dir = Path(tempfile.gettempdir())
     head = _git_head_short()
-    cache_path = Path(tempfile.gettempdir()) / f"bedc_objective_grades_{head}.json"
+    cache_path = tmp_dir / f"bedc_objective_grades_{head}.json"
+
     if cache_path.exists():
         try:
             data = json.loads(cache_path.read_text(encoding="utf-8"))
@@ -719,18 +804,47 @@ def load_objective_formal_grades() -> dict[str, str]:
         except Exception:
             pass
 
+    STALE_CACHE_MAX_AGE_SECONDS = 6 * 3600  # 6h ceiling
+    now = _time.time()
+    stale_candidates = sorted(
+        tmp_dir.glob("bedc_objective_grades_*.json"),
+        key=lambda p: p.stat().st_mtime if p.exists() else 0,
+        reverse=True,
+    )
+    for stale in stale_candidates:
+        try:
+            age = now - stale.stat().st_mtime
+        except OSError:
+            continue
+        if age > STALE_CACHE_MAX_AGE_SECONDS:
+            break  # everything older is even more stale
+        try:
+            data = json.loads(stale.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not (isinstance(data, dict) and data):
+            continue
+        _objective_grades_cache = data
+        try:
+            cache_path.write_text(json.dumps(data), encoding="utf-8")
+        except Exception:
+            pass
+        return data
+
+    AXIOM_PURITY_BUDGET_SECONDS = 300
     try:
         result = subprocess.run(
             ["python3", "lean4/scripts/bedc_ci.py",
              "axiom-purity", "--strict", "--json"],
             cwd=str(ROOT), capture_output=True, text=True, check=False,
+            timeout=AXIOM_PURITY_BUDGET_SECONDS,
         )
         if result.returncode == 0 and result.stdout.strip():
             payload = json.loads(result.stdout)
             pure_set = set(payload.get("pure", []))
         else:
             pure_set = set()
-    except Exception:
+    except (subprocess.TimeoutExpired, Exception):
         pure_set = set()
 
     # Reuse bedc_ci's declaration inventory to know each target's kind.
@@ -789,6 +903,18 @@ def derive_lean_camel_case(paper_key: str, paper_text: str) -> str:
     return "".join(p.capitalize() for p in paper_key.split("_"))
 
 
+# Per-call recursive-read memo: chapters are read by extract_horizons,
+# compute_paper_priority_surfaces, is_chapter_retired_from_horizon (called
+# from extract_horizons), _collect_siblings, and compute_root_unblocks —
+# the same hub chapter can be recursive-read 3-5x per critical_path run.
+# At ~2000 chapters with hub-only layout (each closure can pull in dozens
+# of sibling .tex files totalling hundreds of KB), repeated full recursion
+# becomes the dominant cost. Memoize by resolved path; the memo is reset
+# at process start (module-level), so each fresh critical_path invocation
+# pays the read cost once and amortizes across all callers.
+_read_chapter_recursive_memo: dict[Path, str] = {}
+
+
 def _read_chapter_recursive(chapter_path: Path,
                               seen: "set | None" = None) -> str:
     """Read a paper chapter and recursively follow `\\input{...}` includes.
@@ -798,6 +924,14 @@ def _read_chapter_recursive(chapter_path: Path,
     if seen is None:
         seen = set()
     chapter_path = chapter_path.resolve()
+    # Top-level memo hit: when called without an active include cycle
+    # (seen is empty before adding this path), we can safely cache the
+    # full closure result keyed on this path. Mid-recursion calls (seen
+    # non-empty) cannot use the memo because the result would depend on
+    # which ancestors are already in `seen`.
+    can_memo = not seen
+    if can_memo and chapter_path in _read_chapter_recursive_memo:
+        return _read_chapter_recursive_memo[chapter_path]
     if chapter_path in seen or not chapter_path.exists():
         return ""
     seen.add(chapter_path)
@@ -812,7 +946,10 @@ def _read_chapter_recursive(chapter_path: Path,
             rel = rel + ".tex"
         child = (PAPER_ROOT_DIR / rel).resolve()
         parts.append(_read_chapter_recursive(child, seen))
-    return "".join(parts)
+    result = "".join(parts)
+    if can_memo:
+        _read_chapter_recursive_memo[chapter_path] = result
+    return result
 
 
 def is_chapter_retired_from_horizon(
@@ -887,7 +1024,10 @@ def extract_horizons() -> dict[str, dict]:
     horizons: dict[str, dict] = {}
     for tex in sorted(NAMECERT_GLOB.glob("*_namecert_construction.tex")):
         name = normalize_name(tex.name)
-        text = tex.read_text(encoding="utf-8", errors="replace")
+        try:
+            text = tex.read_text(encoding="utf-8", errors="replace")
+        except (FileNotFoundError, OSError):
+            continue
         # Resolve all included subfiles for closure / dep / marker scanning.
         full_text = _read_chapter_recursive(tex)
         deps = {m.group(1).lower() for m in UP_REF_RE.finditer(full_text)}
@@ -946,6 +1086,85 @@ def extract_horizons() -> dict[str, dict]:
             "siblings": siblings,
         }
     return horizons
+
+
+def _has_human_derivation_gap(text: str) -> tuple[bool, list[str]]:
+    if "\\origin{human}" not in text:
+        return (False, [])
+    notclaimed = " ".join(m.group(1) for m in NOTCLAIMED_RE.finditer(text))
+    notclaimed_lower = notclaimed.lower()
+    canonical_hits = [
+        term for term in _HUMAN_CANONICAL_TERMS
+        if term in notclaimed_lower
+    ]
+    if not canonical_hits:
+        return (False, [])
+    if _has_induction_proof(text):
+        return (False, [])
+    reasons = ["origin{human}", "canonical_notclaimed"]
+    reasons.extend(f"notclaimed:{term.replace(' ', '_')}" for term in canonical_hits[:4])
+    return (True, reasons)
+
+
+def _is_metacic_priority(name: str, file_paper: str, text: str) -> tuple[bool, list[str]]:
+    path_haystack = f"{name}\n{file_paper}"
+    path_hit = METACIC_RE.search(path_haystack)
+    import_hit = "BEDC.MetaCIC" in text
+    if not path_hit and not import_hit:
+        return (False, [])
+    reasons = []
+    if path_hit:
+        reasons.append("metacic_path")
+    if import_hit:
+        reasons.append("imports_bedc_metacic")
+    return (True, reasons)
+
+
+def compute_paper_priority_surfaces(
+    horizons: dict[str, dict],
+    downstream: dict[str, int],
+) -> dict[str, list[dict]]:
+    human_rows: list[dict] = []
+    metacic_rows: list[dict] = []
+    for info in horizons.values():
+        file_paper = info.get("file_paper")
+        if not file_paper:
+            continue
+        tex = ROOT / file_paper
+        text = _read_chapter_recursive(tex)
+        name = str(info.get("name", ""))
+        base = {
+            "name": name,
+            "file_paper": file_paper,
+            "file_lean": info.get("file_lean"),
+            "downstream": downstream.get(name, 0),
+            "thms": info.get("thms", 0),
+            "labels": info.get("labels", 0),
+            "theory_grade": info.get("theory_grade"),
+            "formal_grade": info.get("formal_grade"),
+            "next_axis": info.get("next_axis"),
+            "next_grade_transition": info.get("next_grade_transition"),
+        }
+        gap, gap_reasons = _has_human_derivation_gap(text)
+        if gap:
+            row = dict(base)
+            row["score"] = downstream.get(name, 0) + max(1, info.get("labels", 0) - info.get("thms", 0))
+            row["priority_signal"] = "human_derivation_gap"
+            row["reasons"] = gap_reasons
+            human_rows.append(row)
+        metacic, metacic_reasons = _is_metacic_priority(name, file_paper, text)
+        if metacic:
+            row = dict(base)
+            row["score"] = downstream.get(name, 0) + max(1, info.get("labels", 0))
+            row["priority_signal"] = "metacic_priority"
+            row["reasons"] = metacic_reasons
+            metacic_rows.append(row)
+    human_rows.sort(key=lambda r: (-r["score"], -r["labels"], r["file_paper"]))
+    metacic_rows.sort(key=lambda r: (-r["score"], -r["labels"], r["file_paper"]))
+    return {
+        "human_derivation_gap": human_rows,
+        "metacic_priority": metacic_rows,
+    }
 
 
 def _next_grade(current: str | None, order: list[str]) -> str | None:
@@ -2331,6 +2550,7 @@ def main(argv: list[str] | None = None) -> int:
 
     # Read the strict threshold from .pipeline_parallel.json (default 5).
     strict = read_deps_ready_threshold()
+    paper_priority_config = read_paper_priority_config()
 
     # Adaptive two-stage relax:
     #   Stage 1 — supply-aware: walk strict → THRESHOLD_FLOOR (default 3),
@@ -2386,6 +2606,7 @@ def main(argv: list[str] | None = None) -> int:
     effective_threshold = relaxed_at if relaxed_at is not None else strict
     root_unblocks = compute_root_unblocks(horizons, effective_threshold)
     empty_roots = compute_empty_roots(horizons, downstream)
+    paper_priority = compute_paper_priority_surfaces(horizons, downstream)
 
     # Theory-closure transition chain: 6 transitions from (none) →
     # seedClosure all the way to bridgedClosure → matureClosure. Each
@@ -2599,8 +2820,14 @@ def main(argv: list[str] | None = None) -> int:
         "deps_ready_threshold": strict,
         "deps_ready_threshold_used": effective_threshold,
         "deps_ready_relaxed": relaxed_at is not None,
+        "paper_priority_mode": paper_priority_config["paper_priority_mode"],
+        "paper_priority_strength": paper_priority_config["paper_priority_strength"],
         "closed_horizons": closed_count,
         "open_horizons": open_count,
+        "human_derivation_gap_total": len(paper_priority["human_derivation_gap"]),
+        "metacic_priority_total": len(paper_priority["metacic_priority"]),
+        "human_derivation_gap": paper_priority["human_derivation_gap"][:25],
+        "metacic_priority": paper_priority["metacic_priority"][:25],
         "drift_chapters_total": len(drift_chapters_full),
         "bridge_candidates_total": len(bridge_candidates_full),
         "bridge_sync_pending_total": len(bridge_sync_pending_full),
@@ -2653,12 +2880,15 @@ def main(argv: list[str] | None = None) -> int:
             "top_root_unblocks": len(root_unblocks),
             "closure_mark": _count_closure_mark_candidates(),
             "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
+            "human_derivation_gap": len(paper_priority["human_derivation_gap"]),
+            "metacic_priority": len(paper_priority["metacic_priority"]),
         }
         consumption = _compute_consumption_60min()
         payload["dispatch_weights"] = _compute_dispatch_weights(
             supply_lean, supply_paper, consumption,
             _LEAN_BASE_WEIGHTS, _PAPER_BASE_WEIGHTS,
             capstone_candidate, capstone_coverage,
+            paper_priority_config,
         )
     except Exception as exc:
         payload["dispatch_weights"] = {"error": str(exc)[:200]}

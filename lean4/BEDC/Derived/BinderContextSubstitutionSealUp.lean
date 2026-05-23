@@ -182,4 +182,43 @@ theorem BinderContextSubstitutionSealCarrier_route_determinacy [AskSetup] [Packa
       compiledUnary, termDepthResult, resultBoundaryEndpoint, payloadEndpointCompiled, resultPkg,
       compiledPkg⟩
 
+theorem BinderContextSubstitutionSealCarrier_scope_triad [AskSetup] [PackageSetup]
+    {term depth payload result boundary transport route provenance name endpoint compiled audit :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinderContextSubstitutionSealCarrier term depth payload result boundary transport route
+        provenance name bundle pkg ->
+      Cont result boundary endpoint ->
+        Cont payload endpoint compiled ->
+          Cont compiled provenance audit ->
+            PkgSig bundle endpoint pkg ->
+              PkgSig bundle compiled pkg ->
+                PkgSig bundle audit pkg ->
+                  UnaryHistory term ∧ UnaryHistory depth ∧ UnaryHistory payload ∧
+                    UnaryHistory result ∧ UnaryHistory boundary ∧ UnaryHistory transport ∧
+                      UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+                        UnaryHistory endpoint ∧ UnaryHistory compiled ∧ UnaryHistory audit ∧
+                          Cont term depth result ∧ hsame boundary BHist.Empty ∧
+                            Cont payload result transport ∧ Cont transport boundary route ∧
+                              Cont result boundary endpoint ∧ Cont payload endpoint compiled ∧
+                                Cont compiled provenance audit ∧ PkgSig bundle result pkg ∧
+                                  PkgSig bundle endpoint pkg ∧ PkgSig bundle compiled pkg ∧
+                                    PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist Empty hsame Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier endpointRoute compiledRoute auditRoute endpointPkg compiledPkg auditPkg
+  obtain ⟨termUnary, depthUnary, payloadUnary, resultUnary, boundaryUnary, transportUnary,
+    routeUnary, provenanceUnary, nameUnary, termDepthResult, boundaryEmpty,
+    payloadResultTransport, transportBoundaryRoute, _provenanceResult, resultPkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed resultUnary boundaryUnary endpointRoute
+  have compiledUnary : UnaryHistory compiled :=
+    unary_cont_closed payloadUnary endpointUnary compiledRoute
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed compiledUnary provenanceUnary auditRoute
+  exact
+    ⟨termUnary, depthUnary, payloadUnary, resultUnary, boundaryUnary, transportUnary, routeUnary,
+      provenanceUnary, nameUnary, endpointUnary, compiledUnary, auditUnary, termDepthResult,
+      boundaryEmpty, payloadResultTransport, transportBoundaryRoute, endpointRoute, compiledRoute,
+      auditRoute, resultPkg, endpointPkg, compiledPkg, auditPkg⟩
+
 end BEDC.Derived.BinderContextSubstitutionSealUp

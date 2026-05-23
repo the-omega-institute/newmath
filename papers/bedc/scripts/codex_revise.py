@@ -1345,122 +1345,188 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     """
     from contextlib import nullcontext
     import sys as _sys
+    import random
+    import time
+
     _tools_path = str(REPO_ROOT / "tools")
     if _tools_path not in _sys.path:
         _sys.path.insert(0, _tools_path)
     try:
         from repo_push_lock import acquire_push_lock as _pl
-        push_lock_cm = _pl(BASE_BRANCH, timeout=600)
-        logger.info(f"[P{wt.round_number}] holding cross-process push lock for {BASE_BRANCH}")
     except Exception as exc:
-        logger.warning(f"[P{wt.round_number}] push-lock import/acquire failed: {exc}; falling back to threading lock only")
-        push_lock_cm = nullcontext()
-    with push_lock_cm, _git_lock:
-        logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
+        logger.warning(f"[P{wt.round_number}] push-lock import failed: {exc}; using nullcontext")
+        _pl = None
 
-        def _do(attempt: int) -> bool:
-            run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
-            if not _sync_local_with_origin(model=model):
-                logger.error(
-                    f"[P{wt.round_number}] local {BASE_BRANCH} could not "
-                    f"sync with origin/{BASE_BRANCH}; aborting attempt"
-                )
-                return False
-            merge = run_cmd(
-                ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
-                cwd=wt.path, timeout=180,
-            )
-            if merge.returncode != 0:
-                logger.warning(f"Merge conflict (attempt {attempt}); invoking codex")
-                if not _codex_resolve_conflicts(wt.path, model=model):
-                    run_cmd(["git", "merge", "--abort"], cwd=wt.path)
-                    return False
-            merged_new = run_cmd(
-                ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
-                cwd=wt.path, timeout=30,
-            )
-            merged_lines = [
-                l.strip() for l in merged_new.stdout.splitlines() if l.strip()
-            ]
-            own_prefix = f"P{wt.round_number}:"
-            if not any(own_prefix in l for l in merged_lines):
-                logger.error(
-                    f"[P{wt.round_number}] Merge left no own-round commit "
-                    f"unique to {BASE_BRANCH}; refusing to report merge success"
-                )
-                return False
+    MAX_PUSH_ATTEMPTS = 8
 
-            # Post-merge audit: drift / duplicate-label / forbidden-construct
-            # detection. If a sibling P-round landed a colliding label or
-            # marker on BASE_BRANCH while this worktree was working, the
-            # combined tree is now invalid even though each side individually
-            # passed. Re-run the audit on the merged worktree and let codex
-            # try to resolve before giving up.
-            ok, audit_msg = run_drift_audit(wt)
-            if not ok:
-                logger.warning(
-                    f"[P{wt.round_number}] Post-merge drift audit FAILED — "
-                    "asking codex to resolve before merge"
-                )
-                for ln in audit_msg.splitlines()[-20:]:
-                    logger.warning(f"  audit: {ln}")
-                if not _codex_resolve_post_rebase_audit(
-                    wt.path, audit_msg, model=model
-                ):
-                    logger.error(
-                        f"[P{wt.round_number}] Could not resolve post-merge "
-                        "audit failure; refusing to merge"
-                    )
-                    return False
-                ok, audit_msg = run_drift_audit(wt)
-                if not ok:
-                    logger.error(
-                        f"[P{wt.round_number}] Audit still failing after "
-                        "codex resolution; refusing to merge"
-                    )
-                    for ln in audit_msg.splitlines()[-10:]:
-                        logger.error(f"  audit: {ln}")
-                    return False
-                logger.info(f"[P{wt.round_number}] Post-merge audit recovered")
-            wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
-            ok, msg = _ff_local_branch_to(wt_tip)
-            if not ok:
-                logger.error(f"ff update of {BASE_BRANCH} failed: {msg.strip()}")
-                return False
-            local_contains = run_cmd(
-                ["git", "merge-base", "--is-ancestor", wt_tip, BASE_BRANCH],
-                cwd=REPO_ROOT, timeout=10,
-            ).returncode == 0
-            if not local_contains:
-                logger.error(
-                    f"{BASE_BRANCH} does not contain {wt.branch} tip {wt_tip[:8]} "
-                    "after ff update"
-                )
-                return False
-            push = run_cmd(["git", "push", "origin", BASE_BRANCH],
-                           cwd=REPO_ROOT, timeout=300)
-            if push.returncode == 0:
-                run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
-                origin_contains = run_cmd(
-                    ["git", "merge-base", "--is-ancestor", wt_tip, f"origin/{BASE_BRANCH}"],
-                    cwd=REPO_ROOT, timeout=10,
-                ).returncode == 0
-                if origin_contains:
-                    return True
-                logger.error(
-                    f"origin/{BASE_BRANCH} does not contain {wt.branch} tip "
-                    f"{wt_tip[:8]} after push"
-                )
-                return False
-            if attempt == 1:
-                logger.warning("Push rejected, retrying")
-                return False
-            logger.error(f"Push retry failed: {push.stderr[:300]}")
+    logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
+
+    # Phase 1a: fetch + sync local -- needs _git_lock (shared main checkout refs)
+    with _git_lock:
+        run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+        if not _sync_local_with_origin(model=model):
+            logger.error(
+                f"[P{wt.round_number}] local {BASE_BRANCH} could not sync "
+                f"with origin/{BASE_BRANCH}; aborting"
+            )
             return False
 
-        if _do(1):
-            return True
-        return _do(2)
+    # Phase 1b: worktree-local work (per-worker, NO _git_lock)
+    merge = run_cmd(
+        ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
+        cwd=wt.path, timeout=180,
+    )
+    if merge.returncode != 0:
+        logger.warning(f"[P{wt.round_number}] Merge conflict, invoking codex")
+        if not _codex_resolve_conflicts(wt.path, model=model):
+            run_cmd(["git", "merge", "--abort"], cwd=wt.path)
+            return False
+
+    merged_new = run_cmd(
+        ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
+        cwd=wt.path, timeout=30,
+    )
+    merged_lines = [l.strip() for l in merged_new.stdout.splitlines() if l.strip()]
+    own_prefix = f"P{wt.round_number}:"
+    if not any(own_prefix in l for l in merged_lines):
+        logger.error(
+            f"[P{wt.round_number}] Merge left no own-round commit unique to "
+            f"{BASE_BRANCH}; refusing to report merge success"
+        )
+        return False
+
+    ok, audit_msg = run_drift_audit(wt)
+    if not ok:
+        logger.warning(
+            f"[P{wt.round_number}] Post-merge drift audit FAILED -- "
+            "asking codex to resolve before merge"
+        )
+        for ln in audit_msg.splitlines()[-20:]:
+            logger.warning(f"  audit: {ln}")
+        if not _codex_resolve_post_rebase_audit(wt.path, audit_msg, model=model):
+            logger.error(
+                f"[P{wt.round_number}] Could not resolve post-merge "
+                "audit failure; refusing to merge"
+            )
+            return False
+        ok, audit_msg = run_drift_audit(wt)
+        if not ok:
+            logger.error(
+                f"[P{wt.round_number}] Audit still failing after codex "
+                "resolution; refusing to merge"
+            )
+            for ln in audit_msg.splitlines()[-10:]:
+                logger.error(f"  audit: {ln}")
+            return False
+        logger.info(f"[P{wt.round_number}] Post-merge audit recovered")
+
+    captured_base_sha = run_cmd(
+        ["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT
+    ).stdout.strip()
+
+    # Phase 2: Push retry loop (short push lock per attempt)
+    for attempt in range(1, MAX_PUSH_ATTEMPTS + 1):
+        if _pl is not None:
+            try:
+                push_lock_cm = _pl(BASE_BRANCH, timeout=120)
+            except Exception as exc:
+                logger.warning(
+                    f"[P{wt.round_number}] push-lock acquire failed attempt {attempt}: {exc}"
+                )
+                push_lock_cm = nullcontext()
+        else:
+            push_lock_cm = nullcontext()
+
+        try:
+            with push_lock_cm, _git_lock:
+                run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=60)
+                current_base_sha = run_cmd(
+                    ["git", "rev-parse", f"origin/{BASE_BRANCH}"], cwd=REPO_ROOT
+                ).stdout.strip()
+
+                if current_base_sha != captured_base_sha:
+                    logger.info(
+                        f"[P{wt.round_number}] base sha moved "
+                        f"{captured_base_sha[:8]} -> {current_base_sha[:8]}, "
+                        f"retry needed (attempt {attempt})"
+                    )
+                else:
+                    wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
+                    ok, msg = _ff_local_branch_to(wt_tip)
+                    if ok:
+                        local_contains = run_cmd(
+                            ["git", "merge-base", "--is-ancestor", wt_tip, BASE_BRANCH],
+                            cwd=REPO_ROOT, timeout=10,
+                        ).returncode == 0
+                        if not local_contains:
+                            logger.error(
+                                f"{BASE_BRANCH} does not contain {wt.branch} tip {wt_tip[:8]} "
+                                "after ff update"
+                            )
+                            return False
+
+                        push = run_cmd(
+                            ["git", "push", "origin", BASE_BRANCH],
+                            cwd=REPO_ROOT, timeout=300,
+                        )
+                        if push.returncode == 0:
+                            run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+                            origin_contains = run_cmd(
+                                ["git", "merge-base", "--is-ancestor", wt_tip, f"origin/{BASE_BRANCH}"],
+                                cwd=REPO_ROOT, timeout=10,
+                            ).returncode == 0
+                            if origin_contains:
+                                logger.info(
+                                    f"Merged and pushed {wt.branch} to {BASE_BRANCH} (attempt {attempt})"
+                                )
+                                return True
+                            logger.error(
+                                f"origin/{BASE_BRANCH} does not contain {wt.branch} tip "
+                                f"{wt_tip[:8]} after push"
+                            )
+                            return False
+
+                        logger.warning(
+                            f"[P{wt.round_number}] push rejected attempt {attempt}: "
+                            f"{push.stderr[:200]}"
+                        )
+                    else:
+                        logger.warning(
+                            f"[P{wt.round_number}] ff update failed attempt {attempt} "
+                            f"(transient diverge, will retry): {msg.strip()[:200]}"
+                        )
+        except TimeoutError as exc:
+            logger.warning(f"[P{wt.round_number}] push lock timeout attempt {attempt}: {exc}")
+
+        if attempt == MAX_PUSH_ATTEMPTS:
+            logger.error(f"[P{wt.round_number}] push attempts exhausted ({MAX_PUSH_ATTEMPTS})")
+            return False
+
+        backoff = min(5 * (2 ** (attempt - 1)) + random.uniform(0, 5), 60.0)
+        logger.info(
+            f"[P{wt.round_number}] backing off {backoff:.1f}s before push attempt {attempt + 1}"
+        )
+        time.sleep(backoff)
+
+        with _git_lock:
+            run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=60)
+            new_base_sha = run_cmd(
+                ["git", "rev-parse", f"origin/{BASE_BRANCH}"], cwd=REPO_ROOT
+            ).stdout.strip()
+            if new_base_sha != captured_base_sha:
+                merge = run_cmd(
+                    ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
+                    cwd=wt.path, timeout=180,
+                )
+                if merge.returncode != 0:
+                    logger.warning(f"[P{wt.round_number}] retry merge conflict, invoking codex")
+                    resolved = _codex_resolve_conflicts(wt.path, model=model)
+                    if not resolved:
+                        run_cmd(["git", "merge", "--abort"], cwd=wt.path)
+                        return False
+                captured_base_sha = new_base_sha
+
+    return False
 
 
 # ---------------------------------------------------------------------------
@@ -1770,7 +1836,7 @@ def run_drift_audit(wt: WorktreeInfo) -> tuple[bool, str]:
         return True, "(bedc_ci.py absent — skipping drift audit)"
     try:
         r = run_cmd(["python3", str(audit), "audit"],
-                    cwd=wt.path, timeout=180)
+                    cwd=wt.path, timeout=600)
     except subprocess.TimeoutExpired:
         return False, "drift audit timed out"
     return r.returncode == 0, (r.stdout + r.stderr)[-800:]

@@ -6,6 +6,10 @@ The $\CofinalRegularLimitBudgetUp$ surface records the finite precision-budget p
 
 The cofinal-window ledger is read through \autoref{ch:concrete-instances-streamname-namecert}; the regular handoff is read through \autoref{ch:concrete-instances-regseqrat-namecert}; the seal is read through \autoref{ch:concrete-instances-real-namecert}; and the finite dyadic observation budget is read through \autoref{ch:concrete-instances-dyadicratcore-namecert}. These references fix the L10 dependency lattice used by the carrier and local $\NameCert$ obligations.
 
+\falsifiablePrediction{If an accepted cofinal regular limit-budget packet reaches the $\RealUp$ seal while omitting the displayed cofinal-window ledger or $\RegSeqRatUp$ handoff row, the packet is refuted by the carrier classifier.}
+
+\independenceWitness{cofinalwindowrealseal, realcompletenesstailchoiceaudit, finiteobservationbudgetselector, diagonallimitrepresentative, regseqrat: none is bijective to $\CofinalRegularLimitBudgetUp$ because this carrier binds precision request, cofinal-window ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, transport, continuation, provenance, and local $\NameCert$ rows in one packet.}
+
 \begin{definition}[CofinalRegularLimitBudget carrier]
 \label{def:cofinal-regular-limit-budget-carrier}
 A $\CofinalRegularLimitBudgetUp$ carrier is a finite $\BHist$ packet
@@ -76,4 +80,26 @@ By carrier admission in \autoref{thm:cofinal-regular-limit-budget-namecert-oblig
 Apply this to the two route-competing presentations $w_0$ and $w_1$. Both are presented for the same request row $q$ and both are consumed by the same continuation row $c$ before the same handoff row $r$. The $\RegSeqRatUp$ handoff obligation requires $r$ to be reached only after the request and cofinal-window rows have been fixed, so the two presentations cannot diverge at or after $r$ by choosing a further window. The $\RealUp$ seal-routing obligation likewise requires $e$ to be reached only through $q,w,r,h,c,p,n$, so the seal cannot introduce an additional cofinal-window coordinate.
 
 It remains only to compare the two displayed window presentations inside the accepted packet. The classifier in \autoref{def:cofinal-regular-limit-budget-carrier} compares the displayed rows $q,w,r,e,h,c,p,n$, and the transport row $h$ is the componentwise $\hsame$ ledger for the request, window, handoff, seal, route, provenance, and local naming rows. Since $w_0$ and $w_1$ share $q,c,r,e,p,n$ and the non-escape row of \autoref{thm:cofinal-regular-limit-budget-namecert-obligations} provides no quotient-stream equality, host real equality, selected limit, hidden completeness row, or unrecorded diagonal stream from which a second route could be read, the only admitted comparison between the two displayed window rows is the window component of $h$. Hence $h$ records $\hsame(w_0,w_1)$.
+\end{proof}
+
+\begin{theorem}[CofinalRegularLimitBudget TasteGate witness surface]
+\label{thm:cofinal-regular-limit-budget-tastegate-witness-surface}
+The displayed carrier of \autoref{def:cofinal-regular-limit-budget-carrier} has a nontrivial witness pair and a faithful field projection. One witness is the packet
+$$
+(BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty),
+$$
+and the other is the packet
+$$
+(BHist.e0\,BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty,BHist.Empty).
+$$
+They are separated by the precision-request row, and equality of the eight displayed fields $q,w,r,e,h,c,p,n$ determines equality of the constructor.
+\end{theorem}
+\begin{proof}
+The two packets use the same seven rows after the precision request, so the only comparison needed is the first coordinate. In the closed $\BHist$ grammar, $BHist.Empty$ and $BHist.e0\,BHist.Empty$ are distinct constructor forms. Thus the displayed carrier contains two separated packets.
+
+Field faithfulness is read directly from the carrier shape in \autoref{def:cofinal-regular-limit-budget-carrier}. A carrier is exactly an eight-field constructor over $q,w,r,e,h,c,p,n$; once these fields are equal componentwise, constructor equality gives equality of the displayed packet.
+
+The window-route determinacy theorem \autoref{thm:cofinal-regular-limit-budget-window-route-determinacy} supplies the semantic use of this faithful projection for the cofinal-window row. It says that route-competing windows for a fixed request, route, handoff, and seal are compared only through the displayed transport ledger, so the TasteGate surface does not hide a second cofinal-window coordinate.
+
+Lean already exposes the field-faithful projection through the existing CofinalRegularLimitBudget TasteGate alignment target. The remaining Lean surface for this paper theorem is the explicit $Nontrivial$ instance induced by the two packets above.
 \end{proof}

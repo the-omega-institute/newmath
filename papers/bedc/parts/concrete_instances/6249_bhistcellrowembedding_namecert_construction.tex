@@ -4,6 +4,8 @@
 
 The $\BHistCellRowEmbeddingUp$ packet concretizes the carrier-equivalence reading of \autoref{ch:visions-cellular-substrate-as-carrier-alternative} as a finite naming certificate from a $\BHist$ row to a cellular row observation. It sits beside the closed cellular trust packet of \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, the finite orbit packet of \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert}, and the public record packet of \autoref{ch:concrete-instances-inscriptionevent-namecert}. Those siblings certify cellular trust, orbit observation, and inscription exposure; this carrier certifies the explicit row-level bridge that keeps the original $\BHist$ source and its cellular readback in one packet.
 
+Its composite dependencies are the $\BHist$ source row, the $\CellularAutomatonUp$ row substrate, the $\CellularTrustSubstrateUp$ trust packet of \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, the $\CellularOrbitSubstrateUp$ orbit observation of \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert}, and the $\InscriptionEventUp$ exposure packet of \autoref{ch:concrete-instances-inscriptionevent-namecert}, combined with the inverse readback row into one row-embedding certificate.
+
 \falsifiablePrediction{Removing the inverse readback row leaves a cellular row observation but breaks the BHist carrier recovery route.}
 
 \independenceWitness{Nearest siblings: cellulartrustsubstrate, cellularorbitsubstrate, inscriptionevent, and cellularautomaton. None is bijective to $\BHistCellRowEmbeddingUp$ because none stores both the source $\BHist$ row and the explicit bit-row embedding together with the inverse readback row that recovers the same carrier source.}
@@ -34,6 +36,7 @@ The carrier contains no host byte string, no unbounded cellular orbit, no detach
 \label{thm:bhist-cell-row-embedding-namecert-obligations}
 For the carrier of \autoref{def:bhist-cell-row-embedding-carrier}, the local $\NameCert_{\BHistCellRowEmbeddingUp}$ surface consists exactly of carrier admission for $E=(B,I,W,O,R,H,C,P,N)$, bit-row image accountability through $I$, width and default-padding accountability through $W$, orbit-zero observation through $O$, inverse readback exactness through $R$, componentwise transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$. No cellular row observation is accepted as a $\BHist$ carrier bridge unless it passes through those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.BHistCellRowEmbeddingUp.BHistCellRowEmbeddingCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:bhist-cell-row-embedding-carrier}. The packet displays the source $\BHist$ row, bit-row image, width and padding row, orbit-zero row, inverse readback row, transports, routes, provenance, and local name as its only coordinates.
 
@@ -52,6 +55,7 @@ B \longmapsto I \longmapsto W \longmapsto O \longmapsto R \longmapsto H,C,P,N.
 $$
 The route exports the source $\BHist$ row, its bit-row image, the width and default-padding convention, the orbit-zero row observation, the inverse readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and the local $\NameCert$ row. It exports no host byte string, no omitted padding convention, no unbounded cellular orbit, no hidden substrate evaluator, no quotient of encodings, and no selected cellular transition history.
 \end{theorem}
+\leanchecked{BEDC.Derived.BHistCellRowEmbeddingUp.BHistCellRowEmbedding\_nonescape}
 \begin{proof}
 Start with the accepted carrier and apply the NameCert obligations of \autoref{thm:bhist-cell-row-embedding-namecert-obligations}. Every public read reaches the local name only through $B,I,W,O,R,H,C,P,N$.
 

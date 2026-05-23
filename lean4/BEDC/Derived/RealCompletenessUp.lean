@@ -448,4 +448,33 @@ theorem RealCompletenessBHistCarrier_diagonal_limit_candidate [AskSetup] [Packag
       candidateUnary, modulusSelector, selectorDyadic, diagonalWindows, candidateSeal,
       endpointPkg⟩
 
+theorem RealCompletenessBHistCarrier_modulus_domain_coverage [AskSetup] [PackageSetup]
+    {family modulus selector dyadic windows readback sealRow transport route provenance cert endpoint
+      request diagonal selectedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletenessBHistCarrier family modulus selector dyadic windows readback sealRow transport
+        route provenance cert endpoint bundle pkg ->
+      Cont modulus selector request ->
+        Cont request dyadic diagonal ->
+          Cont diagonal windows selectedRead ->
+            UnaryHistory modulus ∧ UnaryHistory selector ∧ UnaryHistory request ∧
+              UnaryHistory dyadic ∧ UnaryHistory diagonal ∧ UnaryHistory windows ∧
+                UnaryHistory selectedRead ∧ Cont modulus selector request ∧
+                  Cont request dyadic diagonal ∧ Cont diagonal windows selectedRead ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier modulusSelector requestDyadic diagonalWindows
+  obtain ⟨_familyUnary, modulusUnary, selectorUnary, dyadicUnary, windowsUnary, _readbackUnary,
+    _sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _certUnary, _endpointUnary,
+    _endpointRoute, endpointPkg⟩ := carrier
+  have requestUnary : UnaryHistory request :=
+    unary_cont_closed modulusUnary selectorUnary modulusSelector
+  have diagonalUnary : UnaryHistory diagonal :=
+    unary_cont_closed requestUnary dyadicUnary requestDyadic
+  have selectedReadUnary : UnaryHistory selectedRead :=
+    unary_cont_closed diagonalUnary windowsUnary diagonalWindows
+  exact
+    ⟨modulusUnary, selectorUnary, requestUnary, dyadicUnary, diagonalUnary, windowsUnary,
+      selectedReadUnary, modulusSelector, requestDyadic, diagonalWindows, endpointPkg⟩
+
 end BEDC.Derived.RealCompletenessUp

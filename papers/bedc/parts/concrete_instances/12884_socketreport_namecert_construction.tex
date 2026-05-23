@@ -33,6 +33,7 @@ R=(S,U,K,G,H,C,P,N),
 $$
 site exposure through $S$, requested-supply exposure through $U$, narrow-kind classifier stability through $K$, audit-gate locality through $G$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ continuation through $C$, provenance through $P$, local naming through $N$, and a non-discharge ledger stating that the report names a boundary request without supplying the requested row.
 \end{theorem}
+\leanchecked{BEDC.Derived.SocketReportUp.SocketReportNameCertObligations}
 \begin{proof}
 Project the finite packet $R=(S,U,K,G,H,C,P,N)$. The site, requested-supply, narrow-kind, and audit-gate rows are displayed before transport, continuation, provenance, and naming are read, so the certificate cannot introduce an unreported site or a hidden request.
 
@@ -45,6 +46,7 @@ Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the sa
 \label{thm:socket-report-minimal-classification}
 Every accepted $\SocketReportUp$ report preserves the narrowest socket kind displayed by $K$. In particular, an accepted report for the same requested-supply row $U$ cannot replace a Type II witness request, a Type III identity request, or any other displayed narrow socket kind by a broader gap label while remaining the same NameCert report.
 \end{theorem}
+\leanchecked{BEDC.Derived.SocketReportUp.SocketReportUp\_minimal\_classification}
 \begin{proof}
 Assume an accepted packet $R=(S,U,K,G,H,C,P,N)$. By \autoref{thm:socket-report-namecert-obligations}, the classifier row $K$ is part of the local NameCert surface and is transported only componentwise with the same requested-supply row $U$.
 
@@ -57,6 +59,7 @@ Thus Type II, Type III, and the other narrow socket rows remain public whenever 
 \label{thm:socket-report-sibling-separation}
 The $\SocketReportUp$ carrier is not bijective, under NameCert-row preservation, to $\TypedSupplySocketUp$, $\SocketKindClassifierUp$, $\SupplySocketLedgerUp$, $\AuditGateBoundaryUp$, or $\ClosedObservationSystemUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SocketReportUp.SocketReportUp\_sibling\_separation}
 \begin{proof}
 Compare the displayed rows. $\TypedSupplySocketUp$ carries typed socket data, $\SocketKindClassifierUp$ classifies kinds, $\SupplySocketLedgerUp$ accounts for requested supply, $\AuditGateBoundaryUp$ exposes gate locality, and $\ClosedObservationSystemUp$ records closed observational discipline.
 

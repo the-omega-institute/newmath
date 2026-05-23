@@ -237,6 +237,53 @@ instance finiteTraceGapSocketChapterTasteGate :
     intro x y hxy heq
     exact hxy (finiteTraceGapSocketToEventFlow_injective heq)
 
+instance finiteTraceGapSocketFieldFaithful : FieldFaithful FiniteTraceGapSocketUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | FiniteTraceGapSocketUp.mk trace socket streamSchedule regseqReadback realSeal transports
+        continuations provenance nameCert =>
+        [trace, socket, streamSchedule, regseqReadback, realSeal, transports, continuations,
+          provenance, nameCert]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk trace₁ socket₁ streamSchedule₁ regseqReadback₁ realSeal₁ transports₁
+        continuations₁ provenance₁ nameCert₁ =>
+        cases y with
+        | mk trace₂ socket₂ streamSchedule₂ regseqReadback₂ realSeal₂ transports₂
+            continuations₂ provenance₂ nameCert₂ =>
+            injection h with hTrace t1
+            injection t1 with hSocket t2
+            injection t2 with hStreamSchedule t3
+            injection t3 with hRegseqReadback t4
+            injection t4 with hRealSeal t5
+            injection t5 with hTransports t6
+            injection t6 with hContinuations t7
+            injection t7 with hProvenance t8
+            injection t8 with hNameCert _
+            subst hTrace
+            subst hSocket
+            subst hStreamSchedule
+            subst hRegseqReadback
+            subst hRealSeal
+            subst hTransports
+            subst hContinuations
+            subst hProvenance
+            subst hNameCert
+            rfl
+
+instance finiteTraceGapSocketNontrivial : Nontrivial FiniteTraceGapSocketUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨FiniteTraceGapSocketUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FiniteTraceGapSocketUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate FiniteTraceGapSocketUp :=
   finiteTraceGapSocketChapterTasteGate
 

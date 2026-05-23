@@ -18,6 +18,7 @@ The first row names the supplied zero-strip signature, the second row names the 
 \label{thm:critical-line-witness-signature-gap-exactness}
 Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every admitted signature-gap read of $W$ factors through the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational comparison ledger $Q$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$. Equivalently, the readback is exactly the carrier of \autoref{def:critical-line-witness-signature-gap-carrier} and no further source, comparison, or naming row is available.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_signature\_gap\_exactness}
 \begin{proof}
 Project the accepted packet through \autoref{def:critical-line-witness-carrier}. The carrier exposes exactly $Z,S,M,R,Q,H,C,P,N$, so a signature-gap read starts from a finite BEDC tuple rather than from a host analytic object.
 
@@ -32,6 +33,7 @@ Finally use the transport replay obligation \autoref{thm:critical-line-witness-h
 \label{thm:critical-line-witness-signature-gap-nonescape}
 For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the signature-gap readback of \autoref{def:critical-line-witness-signature-gap-carrier} cannot import an $\mathsf{RH}$ proof, zero search, analytic-continuation certificate, host equality, quotient representative, or ambient completeness witness. Every downstream consumer of the readback receives only the supplied zero-strip row, critical-strip row, modulus row, rational comparison ledger, componentwise transport, continuation replay, package provenance, and local naming route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_signature\_gap\_nonescape}
 \begin{proof}
 Begin with the signature-gap exactness theorem above. It reduces any admitted readback to the finite tuple $Z,S,M,R,Q,H,C,P,N$ and to the displayed $\Sig$, $\Gap$, and $\NameCert$ rows.
 

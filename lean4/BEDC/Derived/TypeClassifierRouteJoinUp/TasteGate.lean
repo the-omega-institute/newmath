@@ -210,6 +210,38 @@ instance typeClassifierRouteJoinChapterTasteGate :
     intro x y hxy heq
     exact hxy (typeClassifierRouteJoinToEventFlow_injective heq)
 
+instance typeClassifierRouteJoinFieldFaithful : FieldFaithful TypeClassifierRouteJoinUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | TypeClassifierRouteJoinUp.mk membership routeChoice dischargeSocket transports replay
+        provenance localName joinedRead =>
+        [membership, routeChoice, dischargeSocket, transports, replay, provenance, localName,
+          joinedRead]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk membership₁ routeChoice₁ dischargeSocket₁ transports₁ replay₁ provenance₁
+        localName₁ joinedRead₁ =>
+        cases y with
+        | mk membership₂ routeChoice₂ dischargeSocket₂ transports₂ replay₂ provenance₂
+            localName₂ joinedRead₂ =>
+            simp only [] at h
+            cases h
+            rfl
+
+instance typeClassifierRouteJoinNontrivial : Nontrivial TypeClassifierRouteJoinUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨TypeClassifierRouteJoinUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      TypeClassifierRouteJoinUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem TypeClassifierRouteJoinUp_single_carrier_alignment :
     (∀ h : BHist,
       typeClassifierRouteJoinDecodeBHist (typeClassifierRouteJoinEncodeBHist h) = h) ∧
@@ -224,5 +256,25 @@ theorem TypeClassifierRouteJoinUp_single_carrier_alignment :
     · exact typeClassifierRouteJoin_round_trip
     · intro x y heq
       exact typeClassifierRouteJoinToEventFlow_injective heq
+
+theorem TypeClassifierRouteJoinUp_nonescape (x : TypeClassifierRouteJoinUp) :
+    (∃ membership routeChoice dischargeSocket transports replay provenance localName
+        joinedRead : BHist,
+      x =
+          TypeClassifierRouteJoinUp.mk membership routeChoice dischargeSocket transports replay
+            provenance localName joinedRead ∧
+        BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
+      (∀ w m, List.Mem w (BHistCarrier.toEventFlow x) -> List.Mem m w ->
+        m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · cases x with
+    | mk membership routeChoice dischargeSocket transports replay provenance localName
+        joinedRead =>
+        exact
+          ⟨membership, routeChoice, dischargeSocket, transports, replay, provenance,
+            localName, joinedRead, rfl, ChapterTasteGate.round_trip _⟩
+  · intro w m hw hm
+    exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
 
 end BEDC.Derived.TypeClassifierRouteJoinUp

@@ -1,0 +1,168 @@
+---
+title: "Taste 演化日志"
+lang: zh-CN
+toc: true
+toc-depth: 2
+date-modified: today
+---
+
+# Taste 演化日志
+
+## 这是什么
+
+`taste_curator.py` 是 taste daemon 的工作台记录。它每轮看 `codex-auto-dev` 新进来的 paper / Lean 产物，把名字承诺很大但机器内容撑不住的对象放进 review queue。它不直接改具体章节；它把反复出现的坏形态提炼成机械 negative criterion, 再派 Codex 去收紧 P/R prompt 或 audit gate。
+
+这份 dossier 不是 changelog, 也不是模板表格。它记录 daemon 当时看见了什么、为什么判断那不是孤例、Codex 真去查了哪些证据、最后把规则 ship 到哪里。一个主题可能经历多次收紧，所以同主题会合在一个 section 里，用子时间戳记录当时的判断。
+
+`当前观察` 是 daemon 每轮刷新的一张快照。它只保留最新 state / queue / alert 形态, 不追加历史。`RESEARCH 探索历史` 则相反：每次 daemon 派 Codex 自由扫 corpus 找新坏味道, 不管有没有产出可 ship 的 detector, 都留一条记录。
+
+---
+
+## 当前观察 (auto-refresh)
+
+> 最后刷新: 2026-05-23T06:55:49Z
+
+**Daemon 状态**: monitor (monitor cycle 36, adjust_since_research 3, round_counter 10702, last_adjust rule_evolution_skipped_or_failed)
+
+**待处理 queue** (270 条 finding):
+- isolated_theorem: 244 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+- low_entropy_template: 25 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
+- missing_origin: 1 条; 代表样本 `dyadic`
+
+**最近 alert 概览** (24h 内):
+- TASTE ALERT category=isolated_theorem: 198 次
+- TASTE ALERT category=low_entropy_template: 4 次
+- TASTE ALERT category=missing_origin: 2 次
+- TASTE ALERT category=resolution_merge_failed: 2 次
+
+**RESEARCH 候选 (尚未 ship)**: 本周期无新候选
+
+---
+
+## 演化时间线
+
+### 2026-05-19 — 反 atomic ai 套壳 / 同型 carrier 错标 ai
+
+这个主题从一个很具体的矛盾开始：章节自称 atomic `\origin{ai}`, 但 Lean 侧 carrier 看起来不是独立发现，而是落在大规模同型桶里的有限行包。daemon 没把它当成语义争论处理，而是只看机器可查事实：bucket 多大、字段表面跟多少兄弟重合、paper lineage 是否仍然写成 `ai`。
+
+### 2026-05-19 16:49 — 第一次发现这个模式
+
+daemon 当时在 queue 里看到 20 个 finding, 代表样本 `realcompletionexactboundary` / `realityconstrainedmodelaudit` / `observationreflectionpacket` 都标 `\origin{ai}`, 但 carrier 落进 bucket size 54 / 199 / 157 的大同型桶, 最大字段重叠到 6 / 7 / 9。这里的问题不是名字不漂亮，而是 atomic discovery 的名义没有对应的机器差异；同型 BHist 兄弟只说明它们共享 tuple shape, 不说明其中任何一个拥有独立 primitive 内容。
+
+这次用的 META_PROMPT_RULE_EVOLUTION 来自 commit `a3cf128973`, 也就是 evidence-first 改写后的 prompt。Codex 真去查了 carrier-isomorphism JSON 和 `phase1_buckets` 分布, 然后推出 negative criterion: `\origin{ai}` chapter 的 `<X>Up` carrier 若落进至少 6 成员的 phase1 bucket, 就拒绝 atomic `ai` lineage。
+
+Ship: commit `e8085cee03`. Detector: `detect_mislabeled_composite_carriers(min_bucket_size=6)` 写入 `lean4/scripts/bedc_ci.py`; `phase_review.txt` / `phase_revise.txt` 加了对应拒绝规则。
+
+### 2026-05-19 22:46 — detector 上线后重扫全 corpus
+
+audit 命中 569 个已存在 chapter, 代表样本 `ActionCommitmentUp` / `AllowedProofAuditUp` / `AnalogyCertificateGateUp` 分别落进 158 / 158 / 28 成员桶。这说明它不是个别坏例子，而是系统性的 atomic-ai 套壳惯性。如果直接把 569 条全部算 blocking, P/R round 会因为没碰过的旧内容被撞停。
+
+这次 Codex 查的是 detector payload 和 audit 退出计数路径，推论不是改 threshold, 而是把输出分成 NEW-vs-LEGACY: 旧 corpus 继续暴露为 warning, 只有本轮新引入或触碰到的违规进入失败计数。META_PROMPT_RULE_EVOLUTION 当时仍是 commit `a3cf128973` 的 evidence-first 形态, 但这次工作重点是让 gate 不误伤历史存量。
+
+Ship: commit `bcedca58ec`. Detector payload 从 single count 扩成 `_new_count` / `_legacy_count`, audit fail count 只看 new。
+
+### 2026-05-20 02:05 — 推到 Lean Phase B
+
+queue 又给出 20 个同类 finding, 其中 `RealityConstrainedOpenFitUp` / `PhysicalInductionStabilitySealUp` / `TheoryTransitionCertificateUp` 落在 201 / 201 / 98 成员桶。paper audit 已经会挡 P/R, 但 Lean Phase B 选 atomic TasteGate 目标时还可能绕开这条判断，把空洞 atomic 名称再包装成形式化任务。
+
+Codex 查了 `lean4/scripts/prompts/phase_b.txt` 的目标选择流程，结论是 selection 前也要读 `bedc_ci.py audit --json`: 只要 schema name 已在 `mislabeled_composite_carriers` 里，Phase B 就跳过它。META_PROMPT_RULE_EVOLUTION 对应 commit `a3cf128973`; dossier 只记录 hash, 不复制 prompt。
+
+Ship: commit `0bc257f024`. Gate: Lean Phase B prompt 在选择 chapter 前查 `mislabeled_composite_carriers`, 命中就不补 atomic TasteGate。
+
+**2026-05-20 08:12 — 推到 Lean Phase C**
+
+daemon queue 继续给出 5 个同类 finding, 代表样本 `metacicredexfrontier` / `axisboundarylimitrefusal` / `allowedproofaudit`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `d818c1392b224fe3cd2afc0fafea583de3137ebd` 约束。Codex 没按 queue 直接下结论, 而是先跑 `python3 lean4/scripts/bedc_ci.py audit --json`, 当前 HEAD 返回 `mislabeled_composite_carriers_new_count=0`, `mislabeled_composite_carriers_legacy_count=519`; 其中 `AuditGateCompositionUp`, `AuditGateFailureWitnessUp`, `AuditMapConcreteInventoryUp` 分别落在 98 / 108 / 158 成员桶。另用 `rg -n -F '\origin{ai}'` 和 `rg -n -F '\begin{closurestatus}'` 对 cluster 文件取到 `MetaCICRedexFrontierUp`, `AxisBoundaryLimitRefusalUp`, `AllowedProofAuditUp`, `AnalogyCertificateGateUp`, `CauchyChoiceBoundaryUp` 的 paper lineage 行, 并用 `rg -n 'inductive .*Up|ChapterTasteGate|FieldFaithful'` 查到对应 `TasteGate.lean` 都在普通 carrier 上建 gate。
+
+negative criterion 没变: atomic `\origin{ai}` 的 `<X>Up` carrier 只要命中 `mislabeled_composite_carriers`, Phase C 就不得继续给它补 `BHistCarrier` / `ChapterTasteGate` / `FieldFaithful` / `Nontrivial` 或状态 marker。改动只落在 `lean4/scripts/prompts/phase_b.txt`, `lean4/scripts/prompts/phase_c.txt`, `docs/dossier/taste-evolutions.qmd`; 执行 gate 由 Phase C prompt 强制先读 `bedc_ci.py audit --json`, detector 仍是 `detect_mislabeled_composite_carriers(min_bucket_size=6)`。
+
+---
+
+Ship: commit `396d2b0afec0240ddcbe7e98ada325a304a79c45`. Detector/gate: recorded by daemon after merge.
+
+**2026-05-20 11:18 — 推到 paper Review/Revise**
+
+daemon queue 给出 6 个同类 finding, 代表样本 `tailcofinalitybudget` / `auditgatecomposition` / `diagonalregularityseal`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `67c19c8d386712945ae534d3acf433da526e617a` 约束。Codex 没按 queue 直接下结论, 而是先跑 `rg -n -F '\origin{ai}'` 和 `rg -n 'inductive ...|ChapterTasteGate|FieldFaithful|Nontrivial'`; 当前 HEAD 中 `AuditMapRouteCompilerUp`, `AuditMapTemplatePacketUp`, `AuditReexportNamespaceUp` 都同时有 atomic lineage 与普通 TasteGate/FieldFaithful/Nontrivial 包装。`python3 lean4/scripts/bedc_ci.py audit --json` 返回 `mislabeled_composite_carriers_new_count=0`, `mislabeled_composite_carriers_legacy_count=503`, 这三个样本分别落在 28 / 158 / 108 成员桶。
+
+negative criterion 仍是只看机器形态: 现有 `\origin{ai}` chapter 的 `<X>Up` 若命中 `mislabeled_composite_carriers`, paper 侧不得继续给它加 `\leanchecked`, `\leanstmt`, `closurestatus`, `\falsifiablePrediction`, `\independenceWitness`, 或 atomic `ai` nontriviality prose；唯一允许的 paper target 是把 lineage 改成 `\origin{ai-composite}` 并写清 composite dependency。改动落在 `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; 执行 gate 由 Review/Revise prompt 强制读取 `bedc_ci.py audit --json`, detector 仍是 `detect_mislabeled_composite_carriers(min_bucket_size=6)`。
+
+Ship: commit `1c402312f6f49041d0a51eae0c687d2061ee40e8`. Detector/gate: recorded by daemon after merge.
+
+**2026-05-20 18:24 — TasteGate 证据不能洗白同型桶**
+
+daemon queue 给出 5 个同类 finding, 代表样本 `metacicnormalizationconfluencebridge` / `compilerclassifierroute` / `substitutionboundaryaudit`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `a3bc4d544a248dc0ddf1c416b4fc965ac7d1dec9` 约束。Codex 先按 current HEAD 查证: `rg -n -F '\origin{ai}'` 与 `bedc_ci.py audit --json` 显示 `BedcSelfSubstrateUp`, `BedcTheoryIdentityUp`, `BetaCongruenceDomainAuditUp` 仍标 atomic `ai`, 各自落在 201 成员 `phase1_buckets` 桶；`rg -n 'inductive ...|BHistCarrier|ChapterTasteGate|FieldFaithful|Nontrivial'` 又显示这些 carrier 已有普通 TasteGate / FieldFaithful / Nontrivial 包装。
+
+negative criterion 维持机器形态: `<X>Up` 命中 `mislabeled_composite_carriers` 时, 现成 `BHistCarrier`, `ChapterTasteGate`, `FieldFaithful`, 或 `Nontrivial` 证据不得被当作解除错标的依据。改动落在 `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; Review/Revise prompt 现在直接拒绝用这些包装洗白同型桶, detector 仍是 `detect_mislabeled_composite_carriers(min_bucket_size=6)`。
+
+Ship: commit `8dfd9c801b9e762e3f74198288bdcb25db377f4a`. Detector/gate: recorded by daemon after merge.
+
+**2026-05-20 22:52 — audit gate 回到执行面**
+
+daemon queue 给出 20 个同类 finding, 代表样本 `cellularboundarycondition` / `realityconstrainedsignaturefit` / `realityconstrainedtruthcert`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `c7579a6e76d47f511be966af4174b634ad884992` 约束。Codex 先查 current HEAD: `rg -n -F '\origin{ai}'` 命中这些 chapter 的 atomic lineage, `rg -n 'inductive .*Up|ChapterTasteGate|FieldFaithful|Nontrivial'` 命中对应普通 TasteGate 包装, 再用 `bedc_ci.py carrier-isomorphism --json` 的 phase1 bucket 重算出 `CellularBoundaryConditionUp` / `RealityConstrainedSignatureFitUp` / `RealityConstrainedTruthCertUp` 分别落在 108 / 201 / 161 成员桶。
+
+negative criterion 是纯机器形态: `\origin{ai}` 的 `<X>Up` 若位于至少 6 成员的 phase1 carrier 同型桶, 就拒绝 atomic `ai` 目标。改动落在 `lean4/scripts/bedc_ci.py`, `lean4/scripts/prompts/phase_b.txt`, `lean4/scripts/prompts/phase_c.txt`, `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; `detect_mislabeled_composite_carriers(min_bucket_size=6)` 现在进入 audit payload, Review/Revise 与 Lean Phase B/C prompt 都以 `mislabeled_composite_carriers` 为执行 gate。
+
+Ship: commit `f63171aa56a7b4f94fe52a57bac39800a4b26331`. Detector/gate: recorded by daemon after merge.
+
+### 2026-05-21 — chapter lineage 缺失
+
+**2026-05-21 05:16 — `\chapter` 没有机器 lineage**
+
+daemon queue 给出 3 个 `missing_origin` finding, 代表样本是 `banach` / `int` / `continuousmap`。本次派发由 META_PROMPT_RULE_EVOLUTION source commit `83c0631cbce7f2106933835a15fce0b3a29fbfeb` 约束。Codex 先按 current HEAD 查队列样本: `banach/intro_and_carrier.tex` 已有 `\origin{human}`, `06_int_namecert_construction.tex` 和 `108_continuousmap_namecert_construction.tex` 当前只是 hub, 不含 `\chapter{...}`。所以旧 cluster 本身不足以证明 concrete-instance 专用规则。
+
+Codex 随后用 Python 扫 `papers/bedc/parts/**/*.tex`, 找到 137 个当前 `\chapter{...}` 文件没有顶层 `\origin{...}`, 代表证据包括 `papers/bedc/parts/acceptance/01_derivation_acceptance_gate.tex:1`, `papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex:1`, `papers/bedc/parts/acceptance/03_cannot_claim_registry.tex:1`。negative criterion 是: paper parts 下任何实际 chapter 文件如果缺少唯一顶层 `\origin{human}` 或 `\origin{ai}`, 就拒绝; hub-only `\input` 文件不在这个规则内。改动落在 `lean4/scripts/bedc_ci.py`, `papers/bedc/scripts/prompts/phase_review.txt`, `papers/bedc/scripts/prompts/phase_revise.txt`, `docs/dossier/taste-evolutions.qmd`; `detect_paper_chapter_origin_tags()` 现在在 audit 中输出 new/legacy split, Review/Revise prompt 要求新 chapter 自带唯一合法 lineage。
+
+Ship: commit `d25a5c4ebdd190317541c4de6cc9b39c24a22857`. Detector/gate: recorded by daemon after merge.
+
+## RESEARCH 探索历史
+
+每次 RESEARCH cycle daemon 派 Codex 扫整个 corpus, 目标是找现有 detector 没覆盖的新平凡 pattern。这里记录探索范围和结论；没 ship 的探索也保留, 因为 operator 需要知道 daemon 不是只在成功时才留下痕迹。
+
+- 当前还没有已记录的 RESEARCH cycle 输出。后续 daemon 会追加一行, 说明使用的 META_PROMPT_RESEARCH commit、Codex 自选的搜索范围、候选数量以及是否进入 queue。
+
+---
+
+- 2026-05-20T10:57:59Z: 用 META_PROMPT_RESEARCH (commit `048a4b867156ddd04025b77358d8f4b01c2d25ec`). 探索方向: 自决 corpus 扫描。报告 0 个候选; codex 没给出达到 evidence 门槛的新 negative pattern。 没有写入 queue。
+
+- 2026-05-21T04:11:33Z: 用 META_PROMPT_RESEARCH (commit `9e55faef2d6fb394a7b63c92b3763efd8e8c4b95`). 探索方向: 自决 corpus 扫描。报告 0 个候选; codex 没给出达到 evidence 门槛的新 negative pattern。 没有写入 queue。
+
+## V3 — Per-finding resolution (2026-05-22)
+
+Daemon evolved from "quality dashboard" to "per-finding resolver":
+- Each cycle picks top-1 HUMAN_REVIEW_ONLY pending finding
+- Dispatches codex inspect+decide+implement (1 of 4 actions)
+- Goes through full gate stack (lake build / audit / phase_d_lint / axiom-purity)
+- Rate-limited: max 24 resolutions/day, per-finding 24h cooldown
+- Failures revert to leave_with_rationale, no BASE pollution
+
+Implements user request "AI 能看出来哪些没意义" -- moves from rule abstraction
+to case-by-case judgment.
+
+- 2026-05-21T18:18:21Z: `resolved` `delete_theorem` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness` (flag `isolated_theorem`, finding `isolated_theorem:finitelebesguenumber:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness:39d9fa69`). Rationale: The target had no downstream Lean users and was only marked in the finite Lebesgue-number paper chapter. Its content is covered by the immediately following stronger theorem `FiniteLebesgueNumberCoverCellReadbackTotality`, which preserves the same window-to-cover-cell route and also includes the carrier cover and radius-mesh route data, so keeping the isolated theorem added a redundant public declaration. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-21T19:34:18Z: `resolved` `leave_with_rationale` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:finitelebesguenumber:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_namecert_obligations:39d9fa69`). Rationale: The target has real BEDC content: it constructs the root SemanticNameCert for the FiniteLebesgueNumber carrier and exports the carrier's UnaryHistory, Cont, and PkgSig obligations used by the chapter narrative. I attempted to add a downstream Lean consumer in the Phase Real audit-ledger sibling, but lake build failed on a nested projection from the root obligation tuple, so the attempted edits were reverted as required. Removing the theorem would drop the root certificate surface rather than just deleting a trivial wrapper. Gate results: lake_build=error: BEDC/Derived/FiniteLebesgueNumberUp/PhaseRealAuditLedgerReadiness.lean:152:6: Application type mismatch: rootObligations.right.right.right.right.left has type UnaryHistory mesh but expected UnaryHistory auditRead, audit=skipped, phase_d_lint=skipped.
+
+- 2026-05-21T20:36:21Z: `resolved` `leave_with_rationale` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_window_coverage_exactness:80d5465a`). Rationale: The daemon finding is stale in this worktree: the flagged declaration is no longer present in Lean, and `lean4/BEDC/Derived/FiniteLebesgueNumberUp/Core.lean` line 182 now contains `FiniteLebesgueNumberCoverCellReadbackTotality`. The finite Lebesgue-number chapter points at that stronger theorem, and repo grep finds the flagged fully-qualified name only in `docs/dossier/taste-evolutions.qmd`, not in Lean or paper markers. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
+
+- 2026-05-21T21:57:50Z: `resolved` `add_downstream_user` for `BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberCarrier_namecert_obligations:80d5465a`). Rationale: The target is not a disposable wrapper: it constructs the root SemanticNameCert surface for FiniteLebesgueNumberCarrier and exports the carrier obligations needed by the chapter narrative. I added a same-family downstream theorem, BEDC.Derived.FiniteLebesgueNumberUp.FiniteLebesgueNumberPhaseRealAuditLedgerRootNamecertUse, in the Phase Real audit-ledger sibling; it explicitly calls the root NameCert-obligations theorem and combines its root certificate/provenance/audit package with the existing Phase Real audit-ledger readiness route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-21T23:17:18Z: `resolved` `delete_theorem` for `BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_uniform_tail_budget_scope` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_uniform_tail_budget_scope:12c20eb9`). Rationale: The target had no downstream Lean consumers after repo-wide grep; it only appeared as its own declaration and one removable paper marker. Its content is an unconsumed intermediate projection assembled from WeierstrassMTestCarrier_regseqrat_handoff plus carrier fields, while later stronger theorems such as WeierstrassMTestCarrier_obligation_closure_package, WeierstrassMTestCarrier_uniform_cauchy_handoff, and the public convergence export already carry the meaningful route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-22T00:35:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_tail_majorant_ledger` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_tail_majorant_ledger:12c20eb9`). Rationale: The target is not a disposable wrapper: it exposes the tail read, domination-tail route, hsame alignment with the regular handoff, and package rows for the Weierstrass M-test carrier. Repository grep showed no Lean consumer, while the paper already treats it as part of the majorant-domination package, so I added a sibling theorem that consumes it together with the existing majorant-domination package and records the combined surface in the chapter. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-22T01:46:20Z: `resolved` `leave_with_rationale` for `BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_majorant_tail_transport` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier_majorant_tail_transport:12c20eb9`). Rationale: The target has real BEDC content: it transports an accepted Weierstrass M-test carrier across an hsame tail replacement, rebuilds the Cont domination-tail-regseq route, and returns the induced hsame on the RegSeqRat handoff row. Repo grep showed no Lean downstream user and only the paper marker, so I attempted add_downstream_user by adding a transported-tail obligation-closure consumer, but lake build failed on the edited WeierstrassMTestUp.lean with unsolved goals and tab-format errors. Per the task rule, I reverted the edit and switched to leave_with_rationale; the theorem should be kept as staging for the nearby uniform-tail/RegSeqRat/Real-seal route rather than deleted. Gate results: lake_build=failed after attempted downstream consumer: BEDC/Derived/WeierstrassMTestUp.lean reported tabs are not allowed and unsolved goals around WeierstrassMTestCarrier_majorant_tail_transport / obligation closure; changes reverted, audit=skipped, phase_d_lint=skipped.
+
+- 2026-05-22T03:05:52Z: `resolved` `add_downstream_user` for `BEDC.Derived.BHistCellRowEmbeddingUp.BHistCellRowEmbeddingCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:bhistcellrowembedding:a863696a`). Rationale: The target has real BEDC content: it constructs a SemanticNameCert for the BHist cell-row embedding carrier rather than merely wrapping another theorem. The related CellularVerbRealignmentUp chapter already treats the embedding/readback row as a sibling dependency, so I added a downstream theorem there that consumes the target theorem and ties its SemanticNameCert output to the realignment TasteGate and FieldFaithful boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-22T04:24:36Z: `resolved` `add_downstream_user` for `BEDC.Derived.FiniteWindowRealSealAuditUp.FiniteWindowRealSealAuditCarrier_refusal_transport` (flag `isolated_theorem`, finding `isolated_theorem:finitewindowrealsealaudit:90f06f16`). Rationale: The theorem is not a disposable wrapper: the chapter uses it as the transport-stability claim for the finite-window Real-seal audit route, and the Lean statement transports the full carrier across componentwise hsame while preserving the target Cont and PkgSig rows. Grep showed no existing Lean downstream use, so I added FiniteWindowRealSealAuditCarrier_transport_nonescape in the same row family; it uses the flagged theorem to build the transported carrier and then feeds that result into the existing nonescape theorem, tying refusal transport to an actual consumer certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-22T09:27:02Z: `resolved` `add_downstream_user` for `BEDC.Derived.DoCalculusUp.DoCalculusPacket_namecert_obligation_surface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.DoCalculusUp.DoCalculusPacket_namecert_obligation_surface:ae9f6b20`). Rationale: The target is not a trivial wrapper: it constructs a SemanticNameCert for the DoCalculus local naming surface and proves UnaryHistory closure for intervention, adjustment, and probability reads. It was isolated because only the paper marker referenced it, so I added a sibling TasteGate consumer theorem that combines the DoCalculus event-flow round trip and field readback with this NameCert obligation surface, making the original theorem an actual Lean dependency. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-22T10:46:30Z: `resolved` `add_downstream_user` for `BEDC.Derived.DoCalculusUp.DoCalculusPacket_adjustment_ledger_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.DoCalculusUp.DoCalculusPacket_adjustment_ledger_exactness:ae9f6b20`). Rationale: The theorem has real BEDC content: it extracts the adjustment ledger's UnaryHistory closure, Cont routes, and both localName and adjustmentRead PkgSig facts from an accepted DoCalculusPacket. It was isolated because only the paper marker referenced it, so I added a sibling TasteGate consumer theorem that combines the DoCalculus event-flow round trip and field readback with this adjustment ledger exactness result, making the target a real Lean dependency without changing the paper marker. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-23T05:34:43Z: `resolved` `leave_with_rationale` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_uniform_modulus_consumer_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_uniform_modulus_consumer_handoff:e21c0c1b`). Rationale: The theorem has real BEDC content: it packages an accepted LipschitzMap carrier, a provenance-to-localCert consumer route, and a consumer PkgSig into the source/graph/bound/modulus/consumer handoff needed by UniformModulus-facing consumers. The paper already uses this route conceptually in the LipschitzMap uniform-modulus and complete-metric regular seal discussion, while raw-string grep found no Lean downstream consumer. I attempted to add a sibling consumer in CompleteMetricRegularSealBoundary, but lake build failed on that edit with tabs plus unsolved goals, so the change was reverted as instructed; audit and phase_d_lint were skipped after the required fallback. Gate results: lake_build=FAIL after attempted add_downstream_user: CompleteMetricRegularSealBoundary.lean reported tabs are not allowed at lines 80-82, unexpected command, Unknown identifier `carrier`, and unsolved goals in the added/proximal proof; changes reverted., audit=skipped, phase_d_lint=skipped.
+
+- 2026-05-23T06:55:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_uniform_modulus_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_uniform_modulus_boundary:e21c0c1b`). Rationale: The target is structurally meaningful: it extracts the Lipschitz modulus, consumer row, graph-bound route, modulus-provenance route, and package provenance from the carrier plus a consumer continuation. Exact full-name grep found no prior downstream Lean consumer, while the paper uses the corresponding ledger nonescape theorem as an active narrative anchor. I added a same-family completion consumer theorem that explicitly calls the target and routes its boundary output into a real-seal/completion handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+## 注解
+
+(operator 可手工编辑, daemon 不动这块.)

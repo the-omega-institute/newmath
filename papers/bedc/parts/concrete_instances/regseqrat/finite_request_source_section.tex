@@ -20,6 +20,7 @@ $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
 \end{enumerate}
 No other row is part of the RegSeqRat source section.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatFiniteRequestSourceSection}
 \begin{proof}
 Begin with the StreamName finite-observation section of
 \autoref{thm:streamname-finite-observation-section}. It gives the displayed
@@ -180,4 +181,156 @@ says that completion-facing acceptance is exactly factorization through that
 section. Repacking these two Real-side facts through the RegSeqRat
 correspondence gives the stated terminal factorization and no additional
 exported coordinate.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-request audit-threshold source lock]
+\label{thm:regseqrat-finite-request-audit-threshold-source-lock}
+Let $R$ be an accepted $\RegSeqRatUp$ packet, and let $S$ be a public finite
+request to $R$ consumed by a $\RealUp$ seal. Suppose the finite request source
+section of \autoref{thm:regseqrat-finite-request-source-section} is the same
+section through which the terminal budget factorization of
+\autoref{thm:regseqrat-finite-request-terminal-budget-factorization} consumes
+$S$.
+
+Then the current Phase $\RealUp$ and Completion audit-threshold read on $S$ is
+locked to exactly that finite source section. The read is the objectwise
+four-face threshold on
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+over the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+It has no coordinate for quotient streams, selected limits, countable choice,
+metric-completeness data, aggregate $\formalstatus$, aggregate bridge rows, or
+ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply the terminal budget factorization,
+\autoref{thm:regseqrat-finite-request-terminal-budget-factorization}. It says
+that every terminal budget consumer of $S$ factors through the displayed finite
+request source section, with the $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$ faces carried by the local $\BHist$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Next apply the four-face audit-threshold factorization,
+\autoref{thm:regseqrat-four-face-audit-threshold-factorization}. Since the
+terminal budget factorization has already fixed the finite source section, the
+current Phase $\RealUp$ and Completion threshold read can only be read through
+the same four local faces and the same displayed support rows.
+
+The threshold remains objectwise. Use
+\autoref{thm:streamname-four-face-audit-clean-threshold-readback} to read the
+StreamName-side threshold from the four local face records, and use
+\autoref{thm:dyadicratcore-l10-exit-namecert-interface} to keep the
+DyadicRatCore, StreamName, RegSeqRat, and Real rows on the shared $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ interface.
+
+Finally invoke \autoref{thm:real-l10-current-phase-exit-audit-pullback}. The
+Phase Real and Completion audit is pulled back from the local face records
+rather than from a cached route-level status. Therefore quotient streams,
+selected limits, countable choice, metric-completeness data, aggregate
+$\formalstatus$, aggregate bridge rows, and ambient $\RealUp$ completeness
+cannot move the read away from the finite request source section fixed above.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-request source-section intersection lock]
+\label{thm:regseqrat-finite-request-source-section-intersection-lock}
+Let $R$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be public
+finite requests to $R$ consumed by local $\RealUp$ seals. Suppose the displayed
+source sections of $S$ and $T$ agree on the $\StreamNameUp$ schedule rows, the
+$\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, the
+$\RegSeqRatUp$ classifier and regularity rows, the componentwise $\hsame$
+rows, the displayed $\Cont$ rows, the $\mathsf{Pkg}$ provenance, and the local
+$\NameCert_{\RegSeqRatUp}$ rows.
+
+Then the common restriction of the two seal-facing requests is exactly one
+finite $\RegSeqRatUp$ source section over those rows. No quotient stream, host
+equality, selected limit, choice datum, ambient or metric completeness
+principle, or second seal coordinate can distinguish $S$ from $T$ on that
+restriction.
+\end{theorem}
+\begin{proof}
+First apply the finite request source section theorem,
+\autoref{thm:regseqrat-finite-request-source-section}, to $S$ and to $T$.
+The agreement hypotheses identify the displayed schedule, dyadic, classifier,
+regularity, transport, continuation, provenance, and local naming rows of the
+two finite source packets.
+
+Next pass to the seal-visible side with
+\autoref{thm:regseqrat-finite-request-real-seal-correspondence}. The local
+$\RealUp$ seals see only the restriction of those finite source packets, so
+the same displayed rows give one seal-facing restriction for both requests.
+
+Use the support composition theorem,
+\autoref{thm:regseqrat-finite-request-support-face-composition}, to compose
+the two agreed support faces through their common displayed rows. The composed
+support face still contains exactly the StreamName, DyadicRatCore, RegSeqRat,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert_{\RegSeqRatUp}$ rows
+named in the statement.
+
+Finally apply the terminal budget factorization theorem,
+\autoref{thm:regseqrat-finite-request-terminal-budget-factorization}, to each
+seal-facing request. Every terminal consumer factors through the finite source
+section already identified above. Since that section carries no quotient
+stream, host equality, selected limit, choice datum, completeness principle,
+or second seal coordinate, no such external datum can separate the two
+requests on the common restriction.
+\end{proof}
+
+\begin{theorem}[RegSeqRat finite-request intersection chain stability]
+\label{thm:regseqrat-finite-request-intersection-chain-stability}
+Let $R$ be an accepted $\RegSeqRatUp$ packet, and let
+$S_0,\ldots,S_n$ be a finite nonempty chain of accepted public finite
+requests to $R$ consumed by local $\RealUp$ seals. Suppose each adjacent pair
+$(S_i,S_{i+1})$ agrees on the displayed $\StreamNameUp$ schedule rows, the
+$\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, the
+$\RegSeqRatUp$ classifier and regularity rows, the componentwise $\hsame$
+rows, the displayed $\Cont$ rows, the $\mathsf{Pkg}$ provenance, and the
+local $\NameCert_{\RegSeqRatUp}$ rows. Suppose also that every adjacent pair
+agrees on its support subpacket and on the classifier-visible finite request
+section over those rows.
+
+Then every pairwise common restriction determined by the chain has the same
+Real-seal-facing finite $\RegSeqRatUp$ source section. The direct restriction
+from $S_0$ to $S_n$ and every iterated adjacent restriction determine that
+same section. The statement does not identify quotient stream equality, host
+real equality, selected limits, choice data, ambient or metric completeness,
+duplicate $\RealUp$ seal coordinates, aggregate formalstatus rows, or bridge
+rows.
+\end{theorem}
+\begin{proof}
+First lock each adjacent intersection. Apply
+\autoref{thm:regseqrat-finite-request-source-section-intersection-lock} to
+every adjacent pair $(S_i,S_{i+1})$. The hypotheses give exactly the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert_{\RegSeqRatUp}$ rows required by that
+lock, so each adjacent common restriction has one Real-seal-facing finite
+source section.
+
+Next compose the support faces along the chain. Use
+\autoref{thm:regseqrat-finite-request-support-face-composition} for each
+two-leg composite and then
+\autoref{thm:regseqrat-finite-request-support-face-chain-induction} for the
+finite nonempty chain. These results identify all parenthesized adjacent
+support-face composites with the direct $S_0$ to $S_n$ support face, while
+keeping only the displayed StreamName, DyadicRatCore, RegSeqRat, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local naming rows.
+
+Finally compare the source sections read from those support faces. The
+section-refinement composition theorem,
+\autoref{thm:regseqrat-finite-request-section-refinement-composition}, says
+that the direct restriction and the iterated adjacent restriction have the
+same finite request section and the same local $\RealUp$ seal on the displayed
+rows. Substituting the adjacent intersection locks into this comparison gives
+one Real-seal-facing finite $\RegSeqRatUp$ source section for every pairwise
+common restriction determined by the chain.
+
+The cited lock, support-composition, chain-induction, and
+section-refinement routes are all finite BEDC routes over displayed request
+rows. None supplies a quotient stream equality, host real equality, selected
+limit, choice datum, completeness principle, duplicate Real seal coordinate,
+aggregate formalstatus row, or bridge row. Hence the chain stability result
+does not claim any of those objects.
 \end{proof}

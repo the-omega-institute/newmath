@@ -40,4 +40,30 @@ theorem StableNegationBoundaryCarrier_namecert_obligations [AskSetup] [PackageSe
     ⟨propositionUnary, refutationUnary, decisionUnary, classifierUnary, ledgerUnary,
       refutationClassifier, decisionLedger, ledgerProvenance, certSig⟩
 
+theorem StableNegationBoundaryCarrier_decidable_refutation_stability [AskSetup] [PackageSetup]
+    {proposition refutation decision classifier ledger transport route provenance cert
+      replay doubleNegationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StableNegationBoundaryCarrier proposition refutation decision classifier ledger transport route
+        provenance cert bundle pkg ->
+      Cont refutation transport replay ->
+        Cont decision replay doubleNegationRead ->
+          PkgSig bundle doubleNegationRead pkg ->
+            UnaryHistory replay ∧ UnaryHistory doubleNegationRead ∧
+              Cont proposition refutation classifier ∧ Cont refutation transport replay ∧
+                Cont decision replay doubleNegationRead ∧ PkgSig bundle cert pkg ∧
+                  PkgSig bundle doubleNegationRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier refutationTransportReplay decisionReplayDoubleNegation doubleNegationPkg
+  obtain ⟨_propositionUnary, refutationUnary, decisionUnary, _classifierUnary, _ledgerUnary,
+    transportUnary, _routeUnary, _provenanceUnary, _certUnary, propositionRefutationClassifier,
+    _decisionClassifierLedger, _ledgerRouteProvenance, certSig⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed refutationUnary transportUnary refutationTransportReplay
+  have doubleNegationReadUnary : UnaryHistory doubleNegationRead :=
+    unary_cont_closed decisionUnary replayUnary decisionReplayDoubleNegation
+  exact
+    ⟨replayUnary, doubleNegationReadUnary, propositionRefutationClassifier,
+      refutationTransportReplay, decisionReplayDoubleNegation, certSig, doubleNegationPkg⟩
+
 end BEDC.Derived.StableNegationBoundaryUp

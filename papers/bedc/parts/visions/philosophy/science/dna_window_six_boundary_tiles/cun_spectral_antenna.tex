@@ -1,0 +1,189 @@
+\begin{definition}[Core and CUN tail]
+\label{def:philosophy-core-and-cun-tail}
+Let
+$$
+  C=\mathrm{WNR}\subset M.
+$$
+Then $C$ is the main core of the median closure. The remaining quotient
+geometry is the two-edge tail
+$$
+  \mathrm{UUR}-\mathrm{CUR}-\mathrm{CUY},
+$$
+whose lift is the $\mathrm{CUN}$ contribution to $M=\mathrm{WNR}\cup
+\mathrm{CUN}$.
+\end{definition}
+
+\begin{theorem}[The WNR core is a killed-walk $Q_{4}$]
+\label{thm:philosophy-wnr-core-killed-walk-q4}
+The core $C=\mathrm{WNR}$ is a $Q_{4}$ subcube. Hence
+$$
+  |C|=16,\qquad |E(C)|=32,
+$$
+and for the killed one-bit walk in $Q_{6}$,
+$$
+  \rho(C)=\lambda(C)=\frac{2}{3}.
+$$
+\end{theorem}
+\begin{proof}
+The motif $\mathrm{WNR}$ fixes $f_{1}=0$ and $s_{3}=1$, leaving four
+free bits. Thus $C\cong Q_{4}$ and has $4\cdot 2^{3}=32$ internal
+edges. A $Q_{4}$ has largest adjacency eigenvalue $4$, so the killed
+transition matrix $A/6$ has spectral radius $4/6=2/3$. The uniform
+one-step retention is also
+$$
+  \rho(C)=\frac{2|E(C)|}{6|C|}=\frac{64}{96}=\frac{2}{3}.
+$$
+\end{proof}
+
+\begin{theorem}[Tail-induced separation of retention and spectrum]
+\label{thm:philosophy-tail-retention-spectrum-separation}
+For the full median closure $M=\mathrm{WNR}\cup\mathrm{CUN}$,
+$$
+  |M|=20,\qquad |E(M)|=38,
+$$
+so
+$$
+  \rho(M)=\frac{2|E(M)|}{6|M|}
+  =
+  \frac{19}{30}
+  <
+  \frac{2}{3}.
+$$
+However
+$$
+  \lambda(M)=0.675247931\ldots>\frac{2}{3}.
+$$
+\end{theorem}
+\begin{proof}
+The retention formula gives $2\cdot 38/(6\cdot 20)=19/30$. The spectral
+radius is the value of
+\autoref{thm:philosophy-radial-spectral-equation}, namely
+$(3.051487585\ldots+1)/6=0.675247931\ldots$. Comparing with
+\autoref{thm:philosophy-wnr-core-killed-walk-q4} gives the strict
+inequalities.
+\end{proof}
+
+\begin{corollary}[Spectral antenna behavior]
+\label{cor:philosophy-spectral-antenna-behavior}
+The $\mathrm{CUN}$ tail is not a uniform stabilizer: it lowers average
+one-step retention. It is a spectral antenna: it raises the Perron
+survival rate of the killed walk.
+\end{corollary}
+\begin{proof}
+This is exactly the sign difference in
+\autoref{thm:philosophy-tail-retention-spectrum-separation}.
+\end{proof}
+
+\begin{definition}[Tail self-energy]
+\label{def:philosophy-tail-self-energy}
+For the radial equations of
+\autoref{thm:philosophy-radial-adjacency-matrix}, eliminate the two tail
+variables $h_{R}$ and $h_{Y}$ from
+$$
+  \mu h_{R}=h_{0}+h_{Y},
+  \qquad
+  \mu h_{Y}=h_{R}.
+$$
+The resulting tail self-energy is
+$$
+  \sigma_{2}(\mu)=\frac{\mu}{\mu^{2}-1}.
+$$
+\end{definition}
+
+\begin{theorem}[Positive self-energy perturbation]
+\label{thm:philosophy-positive-tail-self-energy}
+The root equation at $X_{0}$ becomes
+$$
+  \left(\mu-\frac{\mu}{\mu^{2}-1}\right)h_{0}=3h_{1}.
+$$
+Thus the two-edge tail supplies a positive self-energy term at the
+attachment vertex. At the Perron root,
+$$
+  \sigma_{2}(\mu_{\max})=0.367137\ldots.
+$$
+\end{theorem}
+\begin{proof}
+From $\mu h_{Y}=h_{R}$, obtain $h_{Y}=h_{R}/\mu$. Substitute into
+$\mu h_{R}=h_{0}+h_{Y}$ to get
+$$
+  h_{R}=\frac{\mu}{\mu^{2}-1}h_{0}.
+$$
+The $X_{0}$ equation $\mu h_{0}=3h_{1}+h_{R}$ then becomes the displayed
+self-energy equation.
+\end{proof}
+
+\begin{theorem}[Tail length spectral response]
+\label{thm:philosophy-tail-length-spectral-response}
+Attach a path of length $L$ to the $X_{0}$ vertex of the quotient
+$Q_{3}$ core. The Perron values for $L=0,\ldots,5$ are
+$$
+\begin{array}{c|r|r}
+  L & \mu_{\max} & (\mu_{\max}+1)/6\\
+  \hline
+  0 & 3.000000 & 0.666667\\
+  1 & 3.045475 & 0.674246\\
+  2 & 3.051488 & 0.675248\\
+  3 & 3.052315 & 0.675386\\
+  4 & 3.052430 & 0.675405\\
+  5 & 3.052446 & 0.675408.
+\end{array}
+$$
+The biological quotient tail has $L=2$ and captures
+$$
+  0.9817
+$$
+of the spectral gain visible by $L=5$.
+\end{theorem}
+\begin{proof}
+For each $L$, form the radial quotient matrix of a $Q_{3}$ core with a
+path of length $L$ attached at $X_{0}$ and compute its Perron root. The
+gain capture ratio is
+$$
+  \frac{3.051487585\ldots-3}{3.052445591\ldots-3}=0.9817\ldots.
+$$
+\end{proof}
+
+\begin{theorem}[Small mass, spectral effect]
+\label{thm:philosophy-small-tail-mass-spectral-effect}
+In the radial quasi-stationary distribution of
+\autoref{thm:philosophy-radial-quasi-stationary-data}, the CUN tail
+states $Y_{R}$ and $Y_{Y}$ have total mass
+$$
+  0.0482+0.0158=0.0640.
+$$
+Nevertheless they raise the spectral radius from $2/3$ to
+$0.675247931\ldots$.
+\end{theorem}
+\begin{proof}
+The masses are those of $Y_{R}$ and $Y_{Y}$ in
+\autoref{thm:philosophy-radial-quasi-stationary-data}. The spectral
+increase is
+$$
+  0.675247931\ldots-\frac{2}{3}
+  =
+  0.008581264\ldots.
+$$
+\end{proof}
+
+\begin{theorem}[CUN spectral antenna]
+\label{thm:philosophy-cun-spectral-antenna}
+The CUN tail separates uniform stability from quasi-stationary spectral
+stability:
+$$
+  \rho(M)=\frac{19}{30}<\frac{2}{3}=\rho(\mathrm{WNR}),
+$$
+but
+$$
+  \lambda(M)=0.675247931\ldots>\frac{2}{3}
+  =\lambda(\mathrm{WNR}).
+$$
+The tail has small quasi-stationary mass, but acts as a positive
+self-energy perturbation of the radial Perron mode.
+\end{theorem}
+\begin{proof}
+The retention and spectral inequalities are
+\autoref{thm:philosophy-tail-retention-spectrum-separation}. The
+self-energy mechanism is \autoref{thm:philosophy-positive-tail-self-energy},
+and the small tail mass is
+\autoref{thm:philosophy-small-tail-mass-spectral-effect}.
+\end{proof}

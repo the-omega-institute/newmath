@@ -85,4 +85,28 @@ theorem RegularCauchyDifferenceCarrier_tolerance_ledger_exactness [AskSetup] [Pa
     unary_cont_closed scheduleUnary toleranceUnary toleranceReadRow
   exact ⟨toleranceReadUnary, toleranceReadRow, pkgSig, nameCert⟩
 
+theorem RegularCauchyDifferenceCarrier_nullsequence_consumption [AskSetup] [PackageSetup]
+    {left right schedule tolerance nullConsumer transport route provenance localCert diffRead
+      nullRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDifferenceCarrier left right schedule tolerance nullConsumer transport route
+        provenance localCert bundle pkg →
+      Cont schedule tolerance diffRead →
+        Cont diffRead nullConsumer nullRead →
+          PkgSig bundle provenance pkg →
+            UnaryHistory diffRead ∧ UnaryHistory nullRead ∧
+              Cont schedule tolerance diffRead ∧ Cont diffRead nullConsumer nullRead ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier differenceRead nullConsumerRead provenancePkg
+  obtain ⟨_leftUnary, _rightUnary, scheduleUnary, toleranceUnary, nullConsumerUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _storedSchedule,
+    _storedConsumer, _storedRoute, _storedProvenance, _storedPkg, _nameCert⟩ := carrier
+  have diffReadUnary : UnaryHistory diffRead :=
+    unary_cont_closed scheduleUnary toleranceUnary differenceRead
+  have nullReadUnary : UnaryHistory nullRead :=
+    unary_cont_closed diffReadUnary nullConsumerUnary nullConsumerRead
+  exact
+    ⟨diffReadUnary, nullReadUnary, differenceRead, nullConsumerRead, provenancePkg⟩
+
 end BEDC.Derived.RegularCauchyDifferenceUp

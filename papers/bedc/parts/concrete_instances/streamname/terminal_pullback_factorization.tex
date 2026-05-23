@@ -497,3 +497,147 @@ selected host limits, host equality, countable choice, ambient completeness,
 metric-completeness rows, bridges, trichotomy, and open-cover compactness
 remain outside the normal form.
 \end{proof}
+
+\begin{theorem}[StreamName terminal pullback support induction]
+\label{thm:streamname-terminal-pullback-support-induction}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation packet.
+For the terminal four-face pullback over $W$, order the support rows as
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,\quad
+\mathsf{ProbeBundle},\quad \mathsf{InBundle},\quad
+\mathsf{UnaryHistory}.
+$$
+An accepted terminal four-face pullback over $W$ is obtained by finite
+induction over this ordered support list: the empty prefix carries no accepted
+terminal extension, and each proper prefix has an accepted extension to the
+next prefix exactly when the next displayed row in the list is present. The
+full prefix is the unique terminal normal form over the $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and local $\RealUp$ faces.
+
+No quotient stream, selected host limit, host equality, countable choice,
+ambient completeness row, metric-completeness row, bridge row, trichotomy row,
+or open-cover compactness row can replace a missing step of this finite
+support induction.
+\end{theorem}
+\begin{proof}
+The base stage is the deletion obstruction. By
+\autoref{thm:streamname-terminal-four-face-support-deletion-obstruction},
+removing any one of the displayed BEDC support rows or public
+finite-observation rows prevents acceptance. In particular the empty prefix,
+and every prefix missing its next displayed row, cannot be accepted as the
+terminal four-face pullback over $W$.
+
+For the induction step, assume a prefix of the displayed list has been built
+and consider the next row. If that next row is absent, the deletion obstruction
+again blocks acceptance, and the refused replacement rows cannot fill the
+coordinate. If the next row is present, the prefix extends by the corresponding
+finite BEDC support coordinate or public finite-observation coordinate.
+
+At the terminal stage, apply
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+It repacks exactly the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+and local $\RealUp$ faces together with the complete displayed support list.
+Then use \autoref{thm:streamname-terminal-pullback-support-exactness} to
+identify that complete list as necessary and sufficient for acceptance.
+
+Finally apply \autoref{thm:streamname-terminal-pullback-idempotence}. Once the
+full support prefix is present, a further terminal read returns the same
+packet, so no second terminal normal form exists over the four faces. The
+explicit refusals of quotient streams, selected host limits, host equality,
+countable choice, ambient completeness, metric-completeness rows, bridge rows,
+trichotomy, and open-cover compactness remain part of the induction invariant
+at every prefix.
+\end{proof}
+
+\begin{theorem}[StreamName terminal pullback row-order determinacy]
+\label{thm:streamname-terminal-pullback-row-order-determinacy}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation packet.
+Suppose an accepted terminal four-face pullback over $W$ has support built by
+the induction of
+\autoref{thm:streamname-terminal-pullback-support-induction}. Then the support
+row order is uniquely fixed as
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,\quad
+\mathsf{ProbeBundle},\quad \mathsf{InBundle},\quad
+\mathsf{UnaryHistory}.
+$$
+Swapping two displayed rows, omitting a displayed row, or replacing a
+displayed row by any other row fails to present the same terminal normal form
+over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and local $\RealUp$.
+
+In particular, quotient streams, selected host limits, host equality,
+countable choice, ambient completeness rows, metric-completeness rows, bridge
+rows, trichotomy rows, and open-cover compactness rows are not replacement
+rows for this terminal support order.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:streamname-terminal-pullback-support-induction}. It builds the
+accepted terminal support by the displayed finite prefix order, so each stage
+has a distinguished next row and the full prefix is the terminal normal form
+over the four faces.
+
+The exactness theorem,
+\autoref{thm:streamname-terminal-pullback-support-exactness}, identifies the
+same displayed list as the necessary and sufficient support for acceptance.
+Thus omitting any row leaves the exact support surface, and inserting a row
+outside the list does not repair the missing BEDC or public
+finite-observation coordinate.
+
+Next apply
+\autoref{thm:streamname-terminal-four-face-support-deletion-obstruction}. It
+rules out acceptance after deleting any displayed row and also rules out
+quotient streams, selected host limits, host equality, countable choice,
+ambient completeness, metric-completeness rows, bridge rows, trichotomy, and
+open-cover compactness as substitutes for a missing coordinate.
+
+Now use
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}.
+The four-face factorization repacks exactly the $\StreamNameUp$ window, the
+$\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback face, the local
+$\RealUp$ boundary, and the displayed support rows. A swapped presentation
+therefore fails to match the prefix route used to construct that factorized
+packet.
+
+Finally apply \autoref{thm:streamname-terminal-pullback-idempotence}. Once the
+ordered support list has reached the terminal packet, a further terminal read
+returns the same packet. Hence the accepted row order is deterministic, and no
+swapped, omitted, or replaced support list presents the same terminal normal
+form.
+\end{proof}
+
+\begin{theorem}[StreamName terminal pullback metric-completion refusal]
+\label{thm:streamname-terminal-pullback-metric-completion-refusal}
+Let $W$ be a certified public $\StreamNameUp$ finite-window observation packet,
+and suppose its terminal four-face pullback is accepted. No consumer can
+reinterpret that accepted packet as a $\MetricSpaceUp$ row, a
+$\CompleteMetricUp$ row, or an ambient-completeness witness unless the
+metric or completion row is separately displayed outside the terminal pullback
+surface.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-dyadic-realup-terminal-pullback-factorization}
+to identify the accepted terminal surface. It exposes the StreamName finite
+window, the $\DyadicRatCoreUp$ endpoint-radius-distance ledger, the
+$\RegSeqRatUp$ readback rows, and the local $\RealUp$ finite-window boundary.
+
+Now read the support list through
+\autoref{thm:streamname-terminal-pullback-support-exactness}. The only support
+coordinates exported with those four faces are $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, $\NameCert$, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, and
+$\mathsf{UnaryHistory}$. A $\MetricSpaceUp$ row, a $\CompleteMetricUp$ row, and
+an ambient-completeness witness are not entries of that exact list.
+
+It remains to rule out hidden replacement by an omitted coordinate. Use
+\autoref{thm:streamname-terminal-four-face-support-deletion-obstruction}: a row
+missing from the terminal support cannot be supplied by a quotient stream,
+selected host limit, host equality, countable choice, ambient completeness,
+metric-completeness row, bridge row, trichotomy, or compactness row.
+
+Therefore any consumer that wants metric structure or completion data must
+display that data as a separate row outside the terminal pullback surface. The
+accepted StreamName--DyadicRatCore--RegSeqRat--Real four-face packet itself
+does not certify a metric space, a complete metric space, or ambient real
+completeness.
+\end{proof}

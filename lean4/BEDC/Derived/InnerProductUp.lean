@@ -1,11 +1,13 @@
 import BEDC.Derived.RealUp.Core
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.VecSpaceUp
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.InnerProductUp
 
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
@@ -14,6 +16,10 @@ open BEDC.Derived.VecSpaceUp
 
 def InnerProductSingletonForm (_x _y : BHist) : BHist :=
   BHist.e1 (BHist.e1 BHist.Empty)
+
+def InnerProductBHistCarrier (x y scalarEndpoint : BHist) : Prop :=
+  VecSpaceSingletonCarrier x ∧ VecSpaceSingletonCarrier y ∧
+    RealConstantHistoryClassifier scalarEndpoint (InnerProductSingletonForm x y)
 
 def InnerProductSingletonOrthogonal (x y : BHist) : Prop :=
   VecSpaceSingletonCarrier x ∧ VecSpaceSingletonCarrier y ∧
@@ -238,5 +244,56 @@ theorem InnerProductRootHilbert_consumption_surface {x y : BHist} :
     (And.intro zeroRight.left
       (And.intro orthogonalXY
         (And.intro exposure.right.right InnerProductSingleton_semanticNameCert)))
+
+theorem InnerProductUp_StdBridge {x y bridge : BHist} :
+    VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y ->
+      Cont (InnerProductSingletonForm x y) BHist.Empty bridge ->
+        SemanticNameCert
+          (fun row : BHist => hsame row bridge)
+          (fun row : BHist =>
+            hsame row bridge ∧ InnerProductSingletonOrthogonal x y ∧
+              InnerProductSingletonOrthogonal y x)
+          (fun row : BHist =>
+            hsame row bridge ∧
+              RealConstantHistoryClassifier (InnerProductSingletonForm x y)
+                (BHist.e1 (BHist.e1 BHist.Empty)))
+          hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro carrierX carrierY formBridge
+  have exposure := InnerProductRoot_vecspace_scalar_exposure carrierX carrierY
+  have orthogonalXY : InnerProductSingletonOrthogonal x y :=
+    ⟨exposure.left, exposure.right.left, exposure.right.right⟩
+  have orthogonalYX : InnerProductSingletonOrthogonal y x :=
+    (InnerProductSingletonOrthogonal_symm_package orthogonalXY).left
+  have sameFormBridge : hsame (InnerProductSingletonForm x y) bridge :=
+    cont_respects_hsame (hsame_refl (InnerProductSingletonForm x y))
+      (hsame_refl BHist.Empty) (cont_right_unit (InnerProductSingletonForm x y)) formBridge
+  have bridgeReal :
+      RealConstantHistoryClassifier (InnerProductSingletonForm x y)
+        (BHist.e1 (BHist.e1 BHist.Empty)) :=
+    exposure.right.right
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro (InnerProductSingletonForm x y) sameFormBridge
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        exact hsame_trans (hsame_symm same) sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow, orthogonalXY, orthogonalYX⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow, bridgeReal⟩
+  }
 
 end BEDC.Derived.InnerProductUp

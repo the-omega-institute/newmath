@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\UniformLimitContinuityUp$}
+\label{ch:concrete-instances-uniform-limit-continuity-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\UniformLimitContinuityUp$ packet records the finite BEDC surface for the theorem that a uniform limit of continuous real-valued maps is continuous. It reads the $\UniformLimitUp$ route of \autoref{ch:concrete-instances-uniformlimit-namecert}, the $\ContinuousMapUp$ rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the $\UniformModulusUp$ consumer surface, the $\RegSeqRatUp$ handoff rows, and the terminal $\RealUp$ seal rows. The packet claims no pointwise-only convergence theorem, selected host limit, quotient function space, open-cover compactness, or $\RealUp$ completeness.
+
+\begin{definition}[UniformLimitContinuity carrier]
+\label{def:uniform-limit-continuity-carrier}
+A $\UniformLimitContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,M,T,R,E,G,U,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $F$ is the $\UniformLimitUp$ family row naming the uniformly convergent real-valued map family and its limiting endpoint route.
+\item $M$ is the shared modulus row that every continuity request and every uniform-tail request reads before a tolerance is consumed.
+\item $T$ is the tail ledger row inherited from the uniform-limit packet, exposing only the accepted shared-threshold comparisons.
+\item $R$ is the $\RegSeqRatUp$ regular handoff row reached from the same family, modulus, and tail rows.
+\item $E$ is the $\RealUp$ seal row for the limiting endpoint after the regular handoff has been displayed.
+\item $G$ is the $\ContinuousMapUp$ graph row for the approximating maps and the limiting graph surface visible to downstream consumers.
+\item $U$ is the $\UniformModulusUp$ or uniform-continuity consumer row that receives the shared modulus data before reading continuity evidence.
+\item $H$ stores componentwise $\hsame$ transports for $F,M,T,R,E,G,U$, package provenance, and the local naming row.
+\item $C$ stores the displayed $\Cont$ replay route from uniform-tail exposure through regular handoff, real seal, continuous-map graph, and uniform-continuity consumption.
+\item $P$ is the $\Pkg$ provenance over $\UniformLimitContinuityUp$, $\UniformLimitUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformLimitContinuityUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows, their componentwise transports, their continuation replay routes, package provenance, and local naming provenance.
+\end{definition}
+
+\begin{theorem}[UniformLimitContinuity NameCert obligations]
+\label{thm:uniform-limit-continuity-namecert-obligations}
+For the carrier of \autoref{def:uniform-limit-continuity-carrier}, the local $\NameCert_{\UniformLimitContinuityUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the packet $K=(F,M,T,R,E,G,U,H,C,P,N)$;
+\item uniform-tail exposure, requiring continuity-facing reads to pass through the shared modulus row $M$ and tail ledger row $T$ before any limiting endpoint is exposed;
+\item continuity handoff, requiring every $\ContinuousMapUp$ consumer to read the graph row $G$ only after the uniform-limit route has exposed $R$ and $E$;
+\item transport, replay, and provenance stability through the displayed $H,C,P,N$ rows;
+\item nonescape from pointwise-only convergence, host-selected limits, quotient function equality, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformLimitContinuityUp.UniformLimitContinuityUpTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-limit-continuity-carrier}. The displayed tuple names the uniform-limit family, shared modulus, tail ledger, regular handoff, real seal, continuous-map graph, uniform-continuity consumer row, transports, continuations, provenance, and local certificate.
+
+For the route obligations, read an endpoint-facing continuity request through $C$. The route first exposes $F,M,T$, then reaches $R$ and $E$, and only then allows the continuous-map graph row $G$ and uniform-continuity consumer row $U$ to be used.
+
+The transport and provenance clauses are componentwise in $H$ and $P$, with replay recorded by $C$ and local naming by $N$. Since the carrier contains no coordinate for the excluded analytic structures, those structures cannot be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[UniformLimitContinuity continuous-map handoff]
+\label{thm:uniform-limit-continuity-continuousmap-handoff}
+Every $\ContinuousMapUp$ consumer of the limiting endpoint of an accepted $\UniformLimitContinuityUp$ carrier factors through the $\UniformLimitUp$ shared threshold and seal route
+$$
+F \longmapsto M \longmapsto T \longmapsto R \longmapsto E
+$$
+before reading the continuous-map graph row $G$ or the uniform-continuity consumer row $U$. Thus the limiting continuity data are consumed only after the shared modulus, uniform tail ledger, regular handoff, and real seal have been displayed.
+\end{theorem}
+\begin{proof}
+Start with a $\ContinuousMapUp$ consumer of the limiting endpoint. By the carrier definition, the only limiting endpoint row is $E$, and the only route to it is the displayed replay path through $F,M,T,R$.
+
+Apply the uniform-tail exposure and continuity handoff clauses of \autoref{thm:uniform-limit-continuity-namecert-obligations}. They force the consumer to read the shared threshold row and tail ledger before the regular handoff and seal are available, and they place the graph row $G$ after that route.
+
+The remaining rows $H,C,P,N$ record transport, replay, package provenance, and naming provenance for the same path. Hence a continuous-map consumer factors through the uniform-limit threshold and seal route before it reads continuity data.
+\end{proof}
+
+\begin{theorem}[UniformLimitContinuity modulus handoff]
+\label{thm:uniform-limit-continuity-modulus-handoff}
+Every $\UniformModulusUp$ or uniform-continuity consumer of an accepted $\UniformLimitContinuityUp$ carrier $K=(F,M,T,R,E,G,U,H,C,P,N)$ must read the shared modulus row $M$ before using the tail ledger $T$, regular handoff $R$, real seal $E$, continuous-map graph $G$, or consumer row $U$. Thus all uniform-continuity consumption in the packet factors through the same displayed modulus row before it reaches any endpoint, graph, or downstream consumer surface.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier along \autoref{def:uniform-limit-continuity-carrier}. The only modulus-bearing coordinate available to a uniform-continuity request is the shared row $M$, while $T,R,E,G,U$ occur later in the displayed carrier route.
+
+Apply the uniform-tail exposure clause of \autoref{thm:uniform-limit-continuity-namecert-obligations}. It requires continuity-facing reads to pass through $M$ and the tail ledger before the limiting endpoint route is exposed.
+
+Apply \autoref{thm:uniform-limit-continuity-continuousmap-handoff} to the endpoint-facing part of the same consumer. That theorem places the route through $F,M,T,R,E$ before $G$ or $U$ can be read, so a $\UniformModulusUp$ or uniform-continuity consumer cannot reach the later rows without first passing through $M$.
+
+The remaining rows $H,C,P,N$ do not introduce a second route. They transport, replay, package, and name the same carrier path, so they preserve the modulus handoff rather than bypassing it.
+\end{proof}
+
+\begin{theorem}[UniformLimitContinuity nonescape boundary]
+\label{thm:uniform-limit-continuity-nonescape}
+An accepted $\UniformLimitContinuityUp$ carrier exports only the displayed uniform-limit family row, shared modulus row, tail ledger, regular handoff, real seal, continuous-map graph, uniform-continuity consumer row, componentwise transports, continuation replay, package provenance, and local naming row of \autoref{def:uniform-limit-continuity-carrier}. It exports no pointwise-only convergence theorem, no host limit selector, no quotient function equality, no open-cover compactness principle, and no ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Inspect the carrier tuple. Its visible rows are precisely $F,M,T,R,E,G,U,H,C,P,N$, and its consumer order is the replay route recorded by $C$.
+
+Use \autoref{thm:uniform-limit-continuity-continuousmap-handoff}. Any continuity-facing endpoint read passes through the shared threshold, tail ledger, regular handoff, and real seal before the continuous-map graph is read.
+
+The excluded objects would require an additional carrier coordinate or a replay route outside $C$. Neither is present in the packet, so the public surface is exhausted by the displayed finite rows.
+\end{proof}
+
+\begin{closurestatus}{\UniformLimitContinuityUp}
+  \constructivestory{A $\UniformLimitContinuityUp$ packet is generated from a uniform-limit family row, a shared modulus row, a uniform tail ledger, a regular handoff, a real seal, continuous-map graph rows, a uniform-continuity consumer row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-limit-continuity-carrier}, \autoref{thm:uniform-limit-continuity-namecert-obligations}, \autoref{thm:uniform-limit-continuity-continuousmap-handoff}, and \autoref{thm:uniform-limit-continuity-nonescape} bind the seed carrier, obligation surface, continuous-map handoff, and nonescape boundary for the finite uniform-limit-continuity packet.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.UniformLimitContinuityUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close pointwise-only convergence, selected host limits, quotient function equality, open-cover compactness, ambient $\RealUp$ completeness, or a checked Lean certificate.}
+  \upgradepath{A formal carrier theorem and bridge theorem remain verification-axis work over the same finite uniform-limit-continuity surface.}
+\end{closurestatus}

@@ -93,6 +93,24 @@ Apply \autoref{thm:dyadic-window-seal-budget-pullback}. It orders every seal rea
 Finally apply \autoref{thm:dyadic-window-seal-nonescape}. Since no alternate analytic or quotient coordinate is present, the handoff to $\RealUp$ is exactly the finite packet route.
 \end{proof}
 
+\begin{theorem}[Dyadic window seal finite source exhaustion]
+\label{thm:dyadic-window-seal-finite-source-exhaustion}
+Every accepted $\DyadicWindowSealUp$ read that faces a $\RealUp$ consumer is exhausted by exactly the displayed finite source chain
+$$
+q,w,r,b,z,s,h,c,p,n.
+$$
+Here $q$ is the dyadic request from $\DyadicRatCoreUp$, $w$ is the finite $\StreamNameUp$ window, $r$ is the $\RegSeqRatUp$ readback, $b$ is the $\RealObservationBudgetUp$ row, $z$ is the $\CauchySealBudgetSynchronizerUp$ row, $s$ is the $\RealUp$ seal row, and $h,c,p,n$ are precisely the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Conversely, any packet carrying those rows with the displayed transport, continuation, provenance, and local naming data repacks as the same $\DyadicWindowSealUp$ finite service boundary. The exhaustion exports no quotient stream equality, selected host limit, host real equality, hidden selector, unbounded schedule, ambient completeness, or bridge data.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:dyadic-window-seal-namecert-obligations}. It lists the carrier row inventory, so an accepted $\DyadicWindowSealUp$ packet exposes only the request, window, readback, budget, synchronizer, seal, componentwise transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:dyadic-window-seal-budget-pullback}. The Real-facing read is ordered along the finite route $q\longmapsto w\longmapsto r\longmapsto b\longmapsto z\longmapsto s$, and the remaining support rows authenticate that same route inside the packet.
+
+Apply \autoref{thm:dyadic-window-seal-nonescape}. Since there is no bypass coordinate, no missing row can be supplied by quotient stream equality, a selected host limit, host real equality, a hidden selector, an unbounded schedule, ambient completeness, or bridge data.
+
+For the converse, take a packet carrying exactly the displayed source chain and support rows. The NameCert obligations repack those rows into the carrier tuple, the pullback theorem supplies the ordered service boundary, and \autoref{thm:dyadic-window-seal-real-handoff} identifies the resulting consumer interface as the same $\RealUp$-facing finite handoff.
+\end{proof}
+
 \falsifiablePrediction{Every accepted DyadicWindowSealUp RealUp consumer factors through the displayed dyadic window and synchronizer rows before any seal read.}
 
 \independenceWitness{Nearest siblings: real-observation-budget, cauchy-seal-budget-synchronizer, finite-tail-diagonal-seal, regular-cauchy-limit-classifier, and real-completion-seal-classifier; none is bijective because DyadicWindowSealUp uniquely carries the dyadic request, finite StreamName window, RegSeqRat readback, observation budget, synchronizer row, and RealUp seal in one carrier.}
@@ -102,9 +120,9 @@ Finally apply \autoref{thm:dyadic-window-seal-nonescape}. Since no alternate ana
 \begin{closurestatus}{\DyadicWindowSealUp}
   \constructivestory{A $\DyadicWindowSealUp$ packet is generated from a dyadic precision request, finite StreamName window, RegSeqRat readback, observation-budget row, seal synchronizer row, RealUp seal, componentwise transports, displayed continuations, provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-window-seal-carrier}, \autoref{thm:dyadic-window-seal-namecert-obligations}, \autoref{thm:dyadic-window-seal-budget-pullback}, \autoref{thm:dyadic-window-seal-nonescape}, and \autoref{thm:dyadic-window-seal-real-handoff} bind the finite Real-and-Completion service packet to the displayed dyadic request, window, readback, budget, synchronizer, seal, transport, route, provenance, and naming rows.}
+  \scopeclosed{\autoref{def:dyadic-window-seal-carrier}, \autoref{thm:dyadic-window-seal-namecert-obligations}, \autoref{thm:dyadic-window-seal-budget-pullback}, \autoref{thm:dyadic-window-seal-nonescape}, \autoref{thm:dyadic-window-seal-real-handoff}, and \autoref{thm:dyadic-window-seal-finite-source-exhaustion} bind the finite Real-and-Completion service packet to the displayed dyadic request, window, readback, budget, synchronizer, seal, transport, route, provenance, and naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close RealUp completeness, quotient stream equality, host real equality, selected host limits, hidden selectors, unbounded schedules, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires checked carrier, obligation, pullback, non-escape, and Real handoff targets for the same finite packet surface.}
+  \upgradepath{Scoped closure requires checked carrier, obligation, pullback, non-escape, Real handoff, and finite-source exhaustion targets for the same finite packet surface.}
 \end{closurestatus}

@@ -175,6 +175,21 @@ private theorem cookCompileFrontierWitnessToEventFlow_injective
     (Eq.trans (cookCompileFrontierWitness_round_trip x).symm
       (Eq.trans hread (cookCompileFrontierWitness_round_trip y)))
 
+theorem CookCompileFrontierWitnessCarrier_stage_boundary_nonescape
+    {s q a o h c p n : BHist} :
+    cookCompileFrontierWitnessToEventFlow (CookCompileFrontierWitnessUp.mk s q a o h c p n) =
+      cookCompileFrontierWitnessToEventFlow
+        (CookCompileFrontierWitnessUp.mk q s a o h c p n) →
+      hsame s q := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  intro heq
+  have carrierEq :
+      CookCompileFrontierWitnessUp.mk s q a o h c p n =
+        CookCompileFrontierWitnessUp.mk q s a o h c p n :=
+    cookCompileFrontierWitnessToEventFlow_injective heq
+  cases carrierEq
+  exact hsame_refl s
+
 instance cookCompileFrontierWitnessBHistCarrier :
     BHistCarrier CookCompileFrontierWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark

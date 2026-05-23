@@ -1,6 +1,7 @@
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Ext
+import BEDC.FKernel.Cont
 
 /-! Empty as the fable machine: observer-sequence growth and selector ledgers.
 
@@ -14,6 +15,7 @@ namespace BEDC.Derived.EmptyFableMachineUp.Ledger
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Ext
+open BEDC.FKernel.Cont
 
 /-- `singletonTail m` is the one-step Hist that records `m` above `BHist.Empty`.
 This is the kernel image of the empty boundary: every fresh distinction is the
@@ -353,6 +355,15 @@ theorem fable_ledger_unique_up_to_hsame :
       FableLedger h xs → FableLedger k xs → hsame h k := by
   intro h k xs lh lk
   exact trace_same_marks_hsame lh lk
+
+theorem EmptyFableMachine_selector_ledger_nonescape
+    {Z S T L : BHist} {m : BMark} :
+    EmptyStep Z m S -> Cont S T L -> ¬ hsame L BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont
+  intro selectorStep ledgerStep ledgerEmpty
+  have emptyParts : S = BHist.Empty ∧ T = BHist.Empty :=
+    append_eq_empty_iff.mp (ledgerStep.symm.trans ledgerEmpty)
+  exact emptyStep_result_ne_empty selectorStep emptyParts.left
 
 /-- Ledger synthesis: every Hist is exactly its finite fable ledger. The
 three pieces of data are equivalent — Hist value, trace, and ledger — with

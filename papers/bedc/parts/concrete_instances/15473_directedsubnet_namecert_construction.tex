@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\DirectedSubnetUp$}
+\label{ch:concrete-instances-directedsubnet-namecert}
+\origin{human}
+
+Following Kelley-style nets and Bourbaki general topology, the $\DirectedSubnetUp$ packet records cofinal subnet reindexing as finite BEDC rows rather than as a quotient of nets or a choice of subnet representatives. It sits between the source directed-window surface of \autoref{ch:concrete-instances-cauchynet-namecert} and the downstream limit consumer of \autoref{ch:concrete-instances-cauchynetlimit-namecert}. Its displayed reindexing route also reads the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal boundary of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[DirectedSubnet carrier]
+\label{def:directed-subnet-carrier}
+A $\DirectedSubnetUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,J,\phi,K,L,S,R,D,A,H,C,P,N)
+$$
+over $\CauchyNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite source directed-window ledger whose entries are the source windows inspected by the packet.
+\item $J$ is the finite target directed-window ledger whose entries name the subnet windows requested by downstream consumers.
+\item $\phi:J\to I$ is the displayed cofinal map from target directed windows into source directed windows. Its cofinal coverage row records, for each displayed source window in $I$, a target window in $J$ whose image lies above it inside the source directed order recorded by $K$.
+\item $K$ is the accepted source $\CauchyNetUp$ row read on the source windows named by $I$.
+\item $L$ is the target or subnet $\CauchyNetUp$ row whose windows are obtained by replaying $K$ along $\phi$.
+\item $S$ records the $\StreamNameUp$ windows used to read both the source observations and their target replay.
+\item $R$ records the $\RegSeqRatUp$ readback obtained from the scheduled windows.
+\item $D$ records the $\DyadicRatCoreUp$ tolerance ledger consulted when the source and target readings are compared.
+\item $A$ is the $\RealUp$ seal row exposed only after $K,\phi,L,S,R,D$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the source, target, map, window, readback, tolerance, seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a target-window request through $\phi$ into the source CauchyNet row and then back into the target CauchyNet row.
+\item $P$ is the $\Pkg$ provenance over the listed BEDC dependencies.
+\item $N$ is the local $\NameCert_{\DirectedSubnetUp}$ row.
+\end{enumerate}
+The carrier exports no quotient of nets, no selected limit, no cofinal choice operator, no host real equality, and no ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[DirectedSubnet NameCert obligations]
+\label{thm:directed-subnet-namecert-obligations}
+For every accepted $\DirectedSubnetUp$ carrier $M=(I,J,\phi,K,L,S,R,D,A,H,C,P,N)$, the local $\NameCert_{\DirectedSubnetUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed source ledger, target ledger, cofinal map, source CauchyNet row, target CauchyNet row, window, readback, tolerance, seal, transport, continuation, provenance, and local naming rows;
+\item cofinal-map coverage, requiring every displayed source window requested by the packet to be reached by a target window through the row $\phi:J\to I$;
+\item CauchyNet handoff, requiring the target row $L$ to be read only by replaying the source row $K$ along $\phi$ and the displayed window, readback, and tolerance rows $S,R,D$;
+\item Real-seal non-escape, requiring the seal row $A$ to remain downstream of $K,\phi,L,S,R,D$;
+\item ledger refusal, excluding quotient-net equality, selected subnet limits, cofinal choice outside $\phi$, host real equality, and ambient completeness.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:directed-subnet-carrier}. The source and target ledgers, the displayed cofinal map, both CauchyNet rows, the StreamName windows, regular readback, dyadic tolerance ledger, Real seal, and structural rows are all visible coordinates of the same finite $\BHist$ packet.
+
+Cofinal-map coverage is read from the $\phi$ row together with the source directed order recorded by $K$. For each source window the packet displays, the coverage row names a target window whose image lies above it, so the packet has no need for an ambient choice function selecting unseen target windows.
+
+The CauchyNet handoff is then replayed through $C$ and transported by $H$. A target-window request first reads $J$, applies $\phi$ into the source ledger $I$, consumes the source row $K$, and only then exports the target row $L$ through the same $S,R,D$ evidence.
+
+The seal row $A$ is downstream of this replay. Since the provenance and local naming rows package only those displayed coordinates, no quotient-net relation, selected limit, host real equality, or ambient completeness coordinate can be exported as a NameCert obligation.
+\end{proof}
+
+\begin{theorem}[DirectedSubnet CauchyNet handoff]
+\label{thm:directed-subnet-cauchynet-handoff}
+Let $M=(I,J,\phi,K,L,S,R,D,A,H,C,P,N)$ be an accepted $\DirectedSubnetUp$ packet. Every target $\CauchyNetUp$ row exported by $L$ factors through the displayed route
+$$
+J,\phi,I,K,S,R,D \longmapsto L .
+$$
+Thus the target CauchyNet packet is available only through the displayed cofinal map, the source CauchyNet row, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback, and the $\DyadicRatCoreUp$ tolerance ledger. The route is a projection and replay over finite rows, not a quotient-net construction and not a choice argument.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the target row $L$. Carrier admission exposes $L$ only as a coordinate of the same packet that also contains $J,\phi,I,K,S,R,D$.
+
+Replay the continuation row $C$. The consumer's target-window request first lands in $J$, then follows the displayed map $\phi$ into the source ledger $I$. The source $\CauchyNetUp$ row $K$ supplies the inspected source windows, while $S,R,D$ supply the scheduled windows, regular rational readback, and dyadic tolerance comparisons needed for the replay.
+
+Transport by $H$ preserves this route componentwise. The package and local NameCert rows record exactly the same coordinates, so the target row $L$ has no exported path through quotient-net equality, hidden cofinal choice, a selected limit, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\DirectedSubnetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:directed-subnet-carrier}, \autoref{thm:directed-subnet-namecert-obligations}, and \autoref{thm:directed-subnet-cauchynet-handoff} seed the finite cofinal-subnet packet between source $\CauchyNetUp$ rows and downstream $\CauchyNetLimitUp$ consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient nets, selected limits, cofinal choice outside the displayed map, host real equality, ambient completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal-map coverage, CauchyNet handoff, Real-seal non-escape, and ledger refusal for the same finite packet.}
+  \constructivestory{A $\DirectedSubnetUp$ packet is generated from source and target directed ledgers, a displayed cofinal map, source and target CauchyNet rows, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

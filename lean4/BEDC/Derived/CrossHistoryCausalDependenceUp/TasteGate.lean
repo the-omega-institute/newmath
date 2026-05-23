@@ -171,6 +171,29 @@ def crossHistoryCausalDependenceFields :
       [source, target, route, stability, noGlobalFrame, estimate, bridge, transport, replay,
         provenance, name]
 
+theorem CrossHistoryCausalDependenceCarrier_no_global_frame_row_deterministic
+    {source target route stability noGlobalFrame noGlobalFrame' estimate bridge transport replay
+      provenance name : BHist} :
+    crossHistoryCausalDependenceFields
+        (CrossHistoryCausalDependenceUp.mk source target route stability noGlobalFrame estimate
+          bridge transport replay provenance name) =
+      crossHistoryCausalDependenceFields
+        (CrossHistoryCausalDependenceUp.mk source target route stability noGlobalFrame' estimate
+          bridge transport replay provenance name) →
+      hsame noGlobalFrame noGlobalFrame' := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  intro hfields
+  change
+    [source, target, route, stability, noGlobalFrame, estimate, bridge, transport, replay,
+        provenance, name] =
+      [source, target, route, stability, noGlobalFrame', estimate, bridge, transport, replay,
+        provenance, name] at hfields
+  injection hfields with _ tailSource
+  injection tailSource with _ tailTarget
+  injection tailTarget with _ tailRoute
+  injection tailRoute with _ tailStability
+  injection tailStability with noGlobalFrameEq _
+
 private theorem crossHistoryCausalDependence_field_faithful_concrete :
     forall x y : CrossHistoryCausalDependenceUp,
       crossHistoryCausalDependenceFields x = crossHistoryCausalDependenceFields y ->

@@ -56,6 +56,7 @@ D \longmapsto S \longmapsto R \longmapsto J \longmapsto E \longmapsto H,C,P,N.
 $$
 Thus the consumer may read the dyadic precision ledger, selected stream window, regular-rational readback, located interval nesting ledger, terminal $\RealUp$ seal row, componentwise transports, continuation replays, package provenance, and local $\NameCert$ row. It receives no quotient equality of regular Cauchy names, selected completed real, detached interval limit, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyIntervalSelectorUp.RegularCauchyIntervalSelectorCarrier\_real\_seal\_handoff}
 \begin{proof}
 Begin with the nesting extraction of \autoref{thm:regular-cauchy-interval-selector-nesting-extraction}. It fixes the only route from a precision request to a displayed located-interval nesting ledger as $D \mapsto S \mapsto R \mapsto J$.
 
@@ -66,16 +67,81 @@ The structural rows do not widen the route. The $\hsame$ rows in $H$ move the di
 Finally, the carrier has no field for quotient equality of regular Cauchy names, a selected completed real, a detached interval limit, or an ambient completeness principle. A $\RealUp$ consumer therefore receives only the displayed selector-to-seal handoff.
 \end{proof}
 
-\closureat{RegularCauchyIntervalSelectorUp}{seedStr}
+\begin{theorem}[Regular Cauchy interval selector schedule exposure]
+\label{thm:regular-cauchy-interval-selector-schedule-exposure}
+For every accepted $\RegularCauchyIntervalSelectorUp$ packet
+$$
+Q=(D,S,R,J,E,H,C,P,N),
+$$
+the selector exposes the dyadic precision ledger $D$ before the selected $\StreamNameUp$ schedule $S$. The schedule row $S$ is readable only together with the displayed $\hsame$ rows in $H$, the displayed $\Cont$ replay from $D$ to $S$ in $C$, the provenance row $P$, and the local $\NameCert_{\RegularCauchyIntervalSelectorUp}$ row $N$. No consumer may read $S$ as an ambient stream-choice oracle detached from the displayed precision ledger and certificate rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyIntervalSelectorUp.RegularCauchyIntervalSelectorCarrier\_schedule\_exposure}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-interval-selector-carrier}. Its first coordinate is the dyadic denominator and radius ledger $D$, while its second coordinate is the selected stream schedule $S$.
+
+The dependency order is part of the displayed carrier surface. Row $C$ contains the replay route from $D$ to $S$, row $H$ supplies the componentwise $\hsame$ transport for the same displayed coordinates, and the rows $P$ and $N$ bind provenance and local naming for the selector.
+
+Since the carrier has no coordinate for a detached schedule oracle, the only readable schedule is the row $S$ reached through $D,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interval selector located nesting transport]
+\label{thm:regular-cauchy-interval-selector-located-nesting-transport}
+Let
+$$
+Q=(D,S,R,J,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyIntervalSelectorUp$ packet. Replacing the displayed located-interval ledger $J$ by a transported refinement $J'$ preserves the selector route only when the precision ledger $D$, selected schedule $S$, regular-rational readback $R$, seal row $E$, componentwise transports $H$, continuation rows $C$, provenance row $P$, and local naming row $N$ are transported with it. A detached interval limit, quotient real, or unrecorded refinement cannot replace this route.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-interval-selector-nesting-extraction}. The nesting route visible to the selector is exactly $D \mapsto S \mapsto R \mapsto J$, so any change of the located ledger must be read as a change inside that finite route.
+
+Now inspect the remaining carrier rows in \autoref{def:regular-cauchy-interval-selector-carrier}. The row $E$ is reached only after $J$, while $H$, $C$, $P$, and $N$ record the transports, replay routes, provenance, and local certificate that make the selected route readable.
+
+Therefore a transported refinement $J'$ preserves the selector route only as part of the transported packet. The excluded detached limit, quotient real, and unrecorded refinement have no row in the carrier and cannot serve as replacements.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interval selector obligation surface]
+\label{thm:regular-cauchy-interval-selector-obligation-surface}
+The visible $\NameCert_{\RegularCauchyIntervalSelectorUp}$ obligations for an accepted packet
+$$
+Q=(D,S,R,J,E,H,C,P,N)
+$$
+are exactly the following five rows: the carrier definition of \autoref{def:regular-cauchy-interval-selector-carrier}, the schedule exposure of \autoref{thm:regular-cauchy-interval-selector-schedule-exposure}, the nesting extraction of \autoref{thm:regular-cauchy-interval-selector-nesting-extraction}, the located nesting transport of \autoref{thm:regular-cauchy-interval-selector-located-nesting-transport}, and the $\RealUp$ seal handoff of \autoref{thm:regular-cauchy-interval-selector-real-seal-handoff}. These rows are the public obligation surface of the selector packet; they do not add quotient equality, detached interval limits, selected completed reals, or ambient completeness.
+\end{theorem}
+\begin{proof}
+The carrier row is \autoref{def:regular-cauchy-interval-selector-carrier}. It names the finite packet coordinates $D,S,R,J,E,H,C,P,N$ and excludes any coordinate for a quotient real, detached interval limit, or completeness oracle.
+
+The schedule row is supplied by \autoref{thm:regular-cauchy-interval-selector-schedule-exposure}. The nesting row is supplied by \autoref{thm:regular-cauchy-interval-selector-nesting-extraction}, and the transported refinement row is supplied by \autoref{thm:regular-cauchy-interval-selector-located-nesting-transport}.
+
+Finally, apply \autoref{thm:regular-cauchy-interval-selector-real-seal-handoff} for the seal-facing row. The five cited rows exhaust the readable selector obligations because every consumer route factors through the displayed carrier coordinates and their recorded transports.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interval selector finite route obligation package]
+\label{thm:regular-cauchy-interval-selector-finite-route-obligation-package}
+For every accepted $\RegularCauchyIntervalSelectorUp$ packet
+$$
+Q=(D,S,R,J,E,H,C,P,N),
+$$
+the displayed rows $D,S,R,J,E,H,C,P,N$ form the finite obligation package of the selector route. The row $D$ exposes the dyadic precision ledger, $S$ is schedule-dependent on $D$, $R$ is the $\RegSeqRatUp$ readback through $S$, $J$ is the located interval nesting ledger through $R$, and $E$ is reached only through $J$. The remaining rows $H,C,P,N$ bind the componentwise $\hsame$ transport, $\Cont$ replay, provenance, and local $\NameCert$ surface for that route.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition of \autoref{def:regular-cauchy-interval-selector-carrier}. Its displayed coordinates are exactly $D,S,R,J,E,H,C,P,N$, so the candidate obligation package has no hidden coordinate beyond those rows.
+
+The dependency spine is fixed by the existing selector rows. Use schedule exposure from \autoref{thm:regular-cauchy-interval-selector-schedule-exposure} to read $S$ only after $D$, use nesting extraction from \autoref{thm:regular-cauchy-interval-selector-nesting-extraction} to read $D \mapsto S \mapsto R \mapsto J$, and use located nesting transport from \autoref{thm:regular-cauchy-interval-selector-located-nesting-transport} to keep transported refinements inside the same finite route.
+
+The obligation surface of \autoref{thm:regular-cauchy-interval-selector-obligation-surface} says that these rows exhaust the public selector obligations. Finally, \autoref{thm:regular-cauchy-interval-selector-real-seal-handoff} places the seal row $E$ and the structural rows $H,C,P,N$ after the displayed route, which gives the finite package claimed here.
+\end{proof}
+
+\closureat{RegularCauchyIntervalSelectorUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyIntervalSelectorUp}
   \constructivestory{A $\RegularCauchyIntervalSelectorUp$ packet is generated from a selected finite schedule, regular-rational readback row, located-interval nesting ledger, seal-facing handoff row, componentwise $\hsame$ transports, displayed $\Cont$ routes, provenance, and local naming. The carrier reads interval selection through finite BEDC data: first the schedule is displayed, then the RegSeqRat readback and nesting ledger certify the selected interval route, and only then the RealUp-facing seal row is available. The classifier keeps the selector-to-seal handoff finite and refuses detached interval limits or quotient Cauchy names.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the regular Cauchy interval selector carrier and its finite selector-to-seal handoff theorem.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the finite route obligation package of \autoref{thm:regular-cauchy-interval-selector-finite-route-obligation-package}, including the checked rows of \autoref{thm:regular-cauchy-interval-selector-nesting-extraction} and \autoref{thm:regular-cauchy-interval-selector-real-seal-handoff}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RegularCauchyIntervalSelectorUp.RegularCauchyIntervalSelectorCarrier\_nesting\_extraction}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim quotient equality of regular Cauchy names, selected completed reals, detached interval limits, or ambient completeness.}
-  \upgradepath{To reach obligationClosure, formalize the finite schedule, interval nesting ledger, and seal handoff as checked selector carrier rows.}
+  \upgradepath{To reach scopedClosure, close the carrier interactions across BHist, hsame, Cont, Pkg, NameCert, StreamNameUp, RegSeqRatUp, LocatedIntervalUp, DyadicRatCoreUp, and RealUp.}
 \end{closurestatus}

@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\SturmRootIsolationUp$}
+\label{ch:concrete-instances-sturmrootisolation-namecert}
+\origin{human}
+
+Following Sturm and Bishop--Bridges constructive analysis, the $\SturmRootIsolationUp$ packet reads a finite polynomial root-isolation surface through Sturm-chain sign-variation data rather than through host algebraic closure, real-root choice, or ambient completeness. It consumes the polynomial source of \autoref{ch:concrete-instances-polynomial-namecert}, the rational and dyadic interval ledgers of \autoref{ch:concrete-instances-rationalinterval-namecert} and \autoref{ch:concrete-instances-dyadicinterval-namecert}, and the adjacent sign-change bisection packet of \autoref{ch:concrete-instances-bisectionrootisolation-namecert}. Its downstream completion boundary is the finite window route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Sturm root-isolation carrier]
+\label{def:sturm-root-isolation-carrier}
+A $\SturmRootIsolationUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $P$ is the $\PolynomialUp$ source row, including the displayed coefficient ledger and the finite derivative and pseudo-remainder inputs from which the Sturm chain is read;
+\item $I$ is the $\RationalIntervalUp$ interval ledger carrying the inspected rational cells and their endpoint order rows;
+\item $D$ is the $\DyadicIntervalUp$ refinement ledger used for finite cell subdivision and endpoint-window export;
+\item $V$ is the Sturm-chain division and sign-variation ledger, recording each displayed division row, the endpoint sign rows for every chain entry, and the variation-count differences for the inspected cells;
+\item $B$ is the selected isolating branch, represented as the retained cell together with the finite comparison rows showing that its variation drop is the accepted one-root branch and that discarded cells have the displayed alternative counts;
+\item $W$ is the $\StreamNameUp$ window surface exposed after the selected rational or dyadic cell has been fixed;
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the selected interval windows and the requested unary precision;
+\item $S$ is the $\RealUp$ seal for the retained endpoint names and for downstream real-facing consumers of the isolating window;
+\item $H$ stores the componentwise $\hsame$ transports for the polynomial row, interval rows, Sturm ledger, branch row, stream windows, regular readbacks, real seal rows, package provenance, and local certificate;
+\item $C$ stores the displayed $\Cont$ replay routes for polynomial inspection, Sturm-chain division replay, sign-variation counting, branch selection, window export, regular-sequence handoff, and real-seal consumption;
+\item $Q_0$ is the $\Pkg$ provenance over $\PolynomialUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\BisectionRootIsolationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SturmRootIsolationUp}$ registration row.
+\end{enumerate}
+The carrier predicate says that these rows form one finite Sturm-chain root-isolation packet. It has no coordinate for an algebraic root object, a host factorization theorem, a classical completeness principle, a quotient real equality, or an ambient real-root existence theorem.
+\end{definition}
+
+\begin{theorem}[Sturm root-isolation NameCert obligations]
+\label{thm:sturm-root-isolation-namecert-obligations}
+For every accepted $\SturmRootIsolationUp$ carrier $Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)$, the local $\NameCert_{\SturmRootIsolationUp}$ surface consists exactly of:
+\begin{enumerate}
+\item carrier admission for the finite packet of \autoref{def:sturm-root-isolation-carrier};
+\item polynomial-source admission through the coefficient, derivative, and pseudo-remainder rows of $P$;
+\item interval admission through the rational cell ledger $I$ and the dyadic refinement ledger $D$;
+\item Sturm-ledger exactness, requiring every division row and every endpoint sign row used in $V$ to be one of the displayed finite rows;
+\item branch isolation, requiring the selected row $B$ to be justified by the displayed sign-variation drop in $V$ and handed to the adjacent bisection packet only as a finite retained-cell surface;
+\item retained-window handoff through $W$, $R$, and $S$;
+\item componentwise transport, replay, provenance, and naming through $H$, $C$, $Q_0$, and $N$.
+\end{enumerate}
+No further analytic or algebraic obligation is part of the packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:sturm-root-isolation-carrier}. The polynomial row supplies only the displayed coefficient, derivative, and pseudo-remainder inputs, while the rational and dyadic interval rows supply only the inspected cells and endpoint windows.
+
+The Sturm ledger $V$ accounts for the chain computation. Each sign row used in a variation count is attached to a displayed endpoint and a displayed chain entry, and each division row is recorded as finite ledger data rather than as an external factorization theorem.
+
+The selected branch $B$ is then read from the displayed variation-drop ledger. Its retained cell may be handed to the bisection surface of \autoref{ch:concrete-instances-bisectionrootisolation-namecert}, but only as the already selected rational or dyadic window with its sign and variation evidence still attached.
+
+Finally, $W$, $R$, and $S$ expose the finite window to stream, regular-rational, and real-facing consumers. The rows $H,C,Q_0$, and $N$ supply transport, replay, provenance, and local naming, so the packet has no remaining coordinate from which to extract an algebraic root object, host factorization, quotient real equality, or completeness principle.
+\end{proof}
+
+\begin{theorem}[Sturm root-isolation sign-variation handoff]
+\label{thm:sturm-root-isolation-sign-variation-handoff}
+For every accepted $\SturmRootIsolationUp$ carrier and every selected branch row $B$, the branch handed to downstream interval consumers factors through the $\PolynomialUp$ row $P$, the $\RationalIntervalUp$ and $\DyadicIntervalUp$ interval rows $I,D$, the Sturm-chain division and sign-variation ledger $V$, the retained-cell row of $B$, and the replay rows $H,C,Q_0,N$. The handoff exports a finite isolating cell with displayed variation-count evidence and exports no host root selection.
+\end{theorem}
+\begin{proof}
+Read the selected branch coordinate. By construction, it is not independent of the Sturm ledger: the retained cell in $B$ is accepted only after the endpoint signs and variation-count difference have been read from $V$.
+
+The interval coordinates $I$ and $D$ provide the cell on which those signs are inspected. The polynomial coordinate $P$ provides the finite chain entries whose signs are counted, and $H,C,Q_0,N$ replay the same rows under transport and package provenance.
+
+Consequently any downstream interval consumer receives the retained cell together with its displayed variation-count evidence. Since no coordinate stores a chosen host root or a completed real-root witness, the handoff remains a finite NameCert surface.
+\end{proof}
+
+\begin{theorem}[Sturm root-isolation Real seal nonescape]
+\label{thm:sturm-root-isolation-real-seal-nonescape}
+Every $\RealUp$ seal read exported by an accepted $\SturmRootIsolationUp$ carrier is reached only after the selected rational or dyadic interval row, the displayed Sturm-chain sign-variation ledger, the $\StreamNameUp$ window surface, the $\RegSeqRatUp$ readback row, and the transport, replay, provenance, and local naming rows have been read. The seal exposes the finite isolating window and exports no algebraic root object, host root existence theorem, quotient real equality, real trichotomy, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Inspect the seal coordinate $S$. It is stored with the selected interval row, the Sturm ledger, the stream windows, the regular-rational handoff, and the BEDC transport and replay rows; it is not stored as a free real object.
+
+First the selected branch is fixed by \autoref{thm:sturm-root-isolation-sign-variation-handoff}. Then the retained interval windows pass through the $\StreamNameUp$ and $\RegSeqRatUp$ surfaces at the requested precision.
+
+Only after that route is fixed can the $\RealUp$ seal be read. Thus the seal records the same finite isolating window and cannot export an algebraic root object, host root existence, quotient real equality, trichotomy data, or an ambient completeness principle.
+\end{proof}
+
+\closureat{SturmRootIsolationUp}{seedStr}
+
+\begin{closurestatus}{\SturmRootIsolationUp}
+  \constructivestory{A $\SturmRootIsolationUp$ packet is generated from a $\PolynomialUp$ source row, $\RationalIntervalUp$ and $\DyadicIntervalUp$ interval rows, a finite Sturm-chain division and sign-variation ledger, a selected isolating branch, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seal rows, componentwise transport, continuation replay, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sturm-root-isolation-carrier}, \autoref{thm:sturm-root-isolation-namecert-obligations}, \autoref{thm:sturm-root-isolation-sign-variation-handoff}, and \autoref{thm:sturm-root-isolation-real-seal-nonescape} bind finite Sturm-chain root isolation to the displayed polynomial, interval, stream, regular-rational, and real-seal packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close algebraic root existence, a host factorization theorem, quotient real equality, real trichotomy, or $\RealUp$ completeness.}
+  \upgradepath{Lean closure requires a BEDC.Derived.SturmRootIsolationUp carrier and theorem surface matching the displayed finite Sturm-chain packet.}
+\end{closurestatus}

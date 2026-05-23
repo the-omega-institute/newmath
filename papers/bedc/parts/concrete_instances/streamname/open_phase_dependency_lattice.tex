@@ -20,3 +20,21 @@ Now invoke \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The f
 
 Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}. The consumer can project only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on that pullback. Since those rows contain no coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, or standard bridge rows, none of those objects is exported by the open-phase lattice.
 \end{proof}
+
+\begin{theorem}[StreamName open-phase face-order no shortcut]
+\label{thm:streamname-open-phase-face-order-no-shortcut}
+An accepted Phase Real and Completion consumer starting from a finite $\StreamNameUp$ window reaches the public $\RealUp$ seal if and only if its displayed support factors through the ordered four faces
+$$
+\StreamNameUp\text{ window}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ seal}
+$$
+with the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on that finite route. Any route omitting $\RegSeqRatUp$ or $\DyadicRatCoreUp$, swapping their public read order, or replacing a face by quotient stream equality, host sequence equality, a selected limit, ambient $\RealUp$ completeness, metric completeness, or a standard bridge row lies outside the accepted open-phase lattice.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with \autoref{thm:streamname-regseqrat-real-open-phase-dependency-lattice}. It identifies every accepted consumer that reaches the public $\RealUp$ seal through the open phase with the displayed StreamName, RegSeqRat, DyadicRatCore, and Real faces, and it restricts the visible coordinates to the listed finite BEDC rows.
+
+Next apply \autoref{thm:streamname-open-phase-terminal-route} and \autoref{thm:streamname-open-phase-four-face-lock}. The terminal route names the finite packet, while the lock reads that packet in the public order $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, then $\RealUp$. Thus the consumer support factors through the ordered four-face route and not through independent carrier faces.
+
+For the reverse direction, use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. A displayed support with those four faces and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows is one finite pullback packet, so its target row is precisely the public $\RealUp$ seal exposed by the open-phase route.
+
+It remains to exclude shortcuts. Apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}. The consumer projections of the pullback packet are exhausted by the four displayed faces and their shared BEDC coordinates. Omitting either middle face, permuting the RegSeqRat and DyadicRatCore public reads, or substituting quotient equality, host equality, selected limits, completeness data, or a standard bridge row would require a coordinate absent from that exhaustion list. Hence such a route is not an accepted open-phase lattice route.
+\end{proof}

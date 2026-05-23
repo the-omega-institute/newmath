@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\BinaryEndpointUniquenessUp$}
+\label{ch:concrete-instances-binary-endpoint-uniqueness-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real expansions, the $\BinaryEndpointUniquenessUp$ packet records the finite determinacy surface that remains after raw binary-prefix readback has passed through the endpoint-normalization ledger. It consumes the binary readback rows of \autoref{ch:concrete-instances-binaryexpansion-namecert} and the endpoint-carry convention of \autoref{ch:concrete-instances-binary-endpoint-normalization-namecert}, then exposes only the normalized prefix, dyadic ledger, regular handoff, terminal real seal, and local naming routes needed for classifier-facing uniqueness.
+
+\begin{definition}[BinaryEndpointUniqueness carrier]
+\label{def:binary-endpoint-uniqueness-carrier}
+A $\BinaryEndpointUniquenessUp$ carrier is a finite $\BHist$ packet
+$$
+U=(B,E,D,W,R,S,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $B$ is the accepted $\BinaryExpansionUp$ finite prefix-readback row whose digit windows supply the raw binary observation.
+\item $E$ is the accepted $\BinaryEndpointNormalizationUp$ endpoint-carry row naming the terminating-versus-repeating boundary convention consumed after $B$.
+\item $D$ is the shared $\DyadicRatCoreUp$ digit ledger used by the binary prefix, the endpoint-carry comparison, and the normalized boundary row.
+\item $W$ is the $\StreamNameUp$ finite-window schedule that exposes the inspected prefixes at the precisions requested by downstream consumers.
+\item $R$ is the $\RegSeqRatUp$ handoff row reached from the normalized dyadic partial sums and tail-radius rows.
+\item $S$ is the terminal $\RealUp$ seal row reached only after the binary readback, endpoint normalization, dyadic ledger, window schedule, and regular handoff have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $B,E,D,W,R,S$ and for the normalized-prefix comparison row.
+\item $C$ records the displayed $\Cont$ replay from a consumer request through $W$, then $B$, then $E$, then $D$, then $R$, and finally $S$.
+\item $P$ is the $\Pkg$ provenance over $\BinaryEndpointUniquenessUp$, $\BinaryExpansionUp$, $\BinaryEndpointNormalizationUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BinaryEndpointUniquenessUp}$ row.
+\end{enumerate}
+The carrier predicate accepts exactly finite rows in which two binary presentations can be compared only after the endpoint-normalization row has identified their displayed boundary convention. It has no coordinate for quotient streams, host real equality, a choice-selected representative, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BinaryEndpointUniquenessUp.BinaryEndpointUniquenessTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[BinaryEndpointUniqueness NameCert obligations]
+\label{thm:binary-endpoint-uniqueness-namecert-obligations}
+The seed $\NameCert_{\BinaryEndpointUniquenessUp}$ surface for \autoref{def:binary-endpoint-uniqueness-carrier} consists exactly of carrier exposure for $U$, raw binary readback exposure through $B$, endpoint-normalized convention exposure through $E$, shared digit exposure through $D$, finite-window exposure through $W$, normalized regular handoff through $R$, terminal $\RealUp$ seal exposure through $S$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $U=(B,E,D,W,R,S,H,C,P,N)$. The tuple lists every row available to the local naming certificate before a consumer can ask whether two binary endpoint presentations determine the same normalized seal.
+
+The raw readback and endpoint-convention clauses are separate. The row $B$ supplies only the finite prefix route described by $\BinaryExpansionUp$, while $E$ supplies the endpoint-carry convention described by $\BinaryEndpointNormalizationUp$.
+
+The shared analytic clauses then force both routes through the same displayed finite objects. The digit ledger $D$, the window schedule $W$, and the regular handoff $R$ are read before the seal $S$ is visible.
+
+Finally, $H,C,P,N$ transport, replay, source, and name this route. Since no coordinate of $U$ contains quotient streams, host real equality, a selected representative, trichotomy, or ambient completeness, the listed rows exhaust the seed obligation surface.
+\end{proof}
+
+\begin{theorem}[BinaryEndpointUniqueness normalized prefix determinacy]
+\label{thm:binary-endpoint-uniqueness-normalized-prefix-determinacy}
+Let $U=(B,E,D,W,R,S,H,C,P,N)$ be an accepted $\BinaryEndpointUniquenessUp$ carrier. If two finite binary prefix presentations are read from the $\BinaryExpansionUp$ row $B$ and their endpoint boundary is routed through the $\BinaryEndpointNormalizationUp$ row $E$, then the normalized prefix window selected in $W$ determines a single classifier-facing dyadic ledger $D$ and a single downstream $\RegSeqRatUp$ handoff row $R$.
+
+The determinacy is scoped to the displayed normalized route. It does not assert quotient equality of all binary streams, host equality of real numbers, trichotomy of arbitrary reals, choice of a preferred representative, or completeness of the ambient $\RealUp$ surface.
+\end{theorem}
+\begin{proof}
+Begin with the two finite presentations read through $B$. By the binary readback boundary of \autoref{ch:concrete-instances-binaryexpansion-namecert}, each presentation exposes only finite digit rows, finite windows, dyadic partial-sum rows, a regular handoff boundary, and the displayed transport and continuation routes.
+
+Now apply the endpoint-normalization row $E$. The endpoint-carry convention of \autoref{ch:concrete-instances-binary-endpoint-normalization-namecert} is the only row in the carrier that may relate a terminating boundary presentation to a repeating-tail presentation.
+
+Once the convention is read, the shared schedule $W$ selects the normalized window and the shared ledger $D$ supplies the corresponding digit facts. The continuation row $C$ then routes the consumer to $R$ through those displayed rows.
+
+The transport row $H$ keeps the comparison componentwise, and $P,N$ record the package and local certificate provenance. Therefore the normalized prefix determines the classifier-facing dyadic ledger and regular handoff inside $U$, with no appeal to a host stream quotient or external real equality.
+\end{proof}
+
+\begin{theorem}[BinaryEndpointUniqueness RealUp seal nonescape]
+\label{thm:binary-endpoint-uniqueness-real-seal-nonescape}
+Every $\RealUp$ seal read from an accepted $\BinaryEndpointUniquenessUp$ carrier factors through the normalized endpoint route
+$$
+B \longrightarrow E \longrightarrow W \longrightarrow D \longrightarrow R \longrightarrow S
+$$
+inside the finite packet of \autoref{def:binary-endpoint-uniqueness-carrier}. Consequently a consumer citing the seal $S$ can observe only the raw binary readback row, the endpoint-normalization row, the shared finite window, the shared dyadic digit ledger, and the regular handoff named by the carrier.
+
+The seal cannot escape to quotient equality of binary expansions, a host infinite stream, a selected binary representative, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a consumer citation of the seal row $S$. By the carrier definition, $S$ is not an independent real-value coordinate; it is downstream of the normalized regular handoff $R$.
+
+The handoff row $R$ is reached only after the consumer has read the finite binary readback row $B$, the endpoint-normalization row $E$, the selected window row $W$, and the shared digit ledger $D$. Thus the displayed continuation route prevents a direct jump from raw binary data to the terminal seal.
+
+Transport and provenance do not add analytic data. The row $H$ moves the displayed rows componentwise, $C$ exposes them in order, and $P,N$ record the package and local naming evidence.
+
+Since the carrier has no coordinate for quotient streams, host infinite streams, selected representatives, countable-choice selectors, trichotomy branches, host real equality, or completeness principles, every seal citation is confined to the finite normalized route.
+\end{proof}
+
+\begin{closurestatus}{\BinaryEndpointUniquenessUp}
+  \constructivestory{A $\BinaryEndpointUniquenessUp$ packet is generated from a finite BinaryExpansion readback row, a BinaryEndpointNormalization convention row, DyadicRatCore digit rows, StreamName windows, a RegSeqRat handoff, a terminal RealUp seal, componentwise transports, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:binary-endpoint-uniqueness-carrier}, \autoref{thm:binary-endpoint-uniqueness-namecert-obligations}, \autoref{thm:binary-endpoint-uniqueness-normalized-prefix-determinacy}, and \autoref{thm:binary-endpoint-uniqueness-real-seal-nonescape} seed the normalized base-two endpoint uniqueness surface between raw binary readback and RealUp classifier determinacy.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of streams, host real equality, selected representatives, choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the carrier and prove the NameCert obligation surface, normalized prefix determinacy theorem, and RealUp seal nonescape theorem for BEDC.Derived.BinaryEndpointUniquenessUp.}
+\end{closurestatus}

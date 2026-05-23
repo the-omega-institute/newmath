@@ -101,4 +101,67 @@ theorem MetaCICCriticalPathDischargeSocketNonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, socketReadUnary, provenancePkg⟩
 
+theorem MetaCICCriticalPathPacket_provenance_nonescape [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName provenanceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont provenance localName provenanceRead →
+        PkgSig bundle provenanceRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row provenanceRead ∧ UnaryHistory row ∧
+                PkgSig bundle row pkg)
+              (fun row : BHist => Cont provenance localName row ∧ hsame transport localName)
+              (fun row : BHist =>
+                PkgSig bundle row pkg ∧ Cont strongNorm normalForm route ∧
+                  Cont handoff obstruction dischargeSocket)
+              hsame ∧
+            UnaryHistory provenanceRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle SemanticNameCert hsame UnaryHistory
+  intro packet provenanceLocalNameRead provenanceReadPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _handoffUnary,
+    _dischargeSocketUnary, _transportUnary, _routeUnary, provenanceUnary, localNameUnary,
+    strongNormNormalFormRoute, handoffObstructionSocket, transportLocalName, provenancePkg⟩ :=
+    packet
+  have provenanceReadUnary : UnaryHistory provenanceRead :=
+    unary_cont_closed provenanceUnary localNameUnary provenanceLocalNameRead
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row provenanceRead ∧ UnaryHistory row ∧
+            PkgSig bundle row pkg)
+          (fun row : BHist => Cont provenance localName row ∧ hsame transport localName)
+          (fun row : BHist =>
+            PkgSig bundle row pkg ∧ Cont strongNorm normalForm route ∧
+              Cont handoff obstruction dischargeSocket)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenanceRead
+          ⟨hsame_refl provenanceRead, provenanceReadUnary, provenanceReadPkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨cont_result_hsame_transport provenanceLocalNameRead (hsame_symm source.left),
+          transportLocalName⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right.right, strongNormNormalFormRoute, handoffObstructionSocket⟩
+  }
+  exact ⟨cert, provenanceReadUnary, provenancePkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp

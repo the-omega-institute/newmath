@@ -1,0 +1,132 @@
+\chapter{A Concrete Naming Certificate for $\DecimalExpansionUp$}
+\label{ch:concrete-instances-decimalexpansion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the
+$\DecimalExpansionUp$ packet records finite decimal-prefix windows as BEDC
+readback data. It does not store a host infinite decimal, a quotient real, or
+a selected representative. Its role is to route base-ten digit observations
+through the finite stream surface of
+\autoref{ch:concrete-instances-streamname-namecert}, the regular rational
+readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the
+dyadic and rational place-value ledgers of
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal
+$\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}.
+
+The chapter is the decimal sibling of
+\autoref{ch:concrete-instances-binaryexpansion-namecert} and
+\autoref{ch:concrete-instances-continuedfraction-namecert}. The shared
+discipline is finite-window readback: binary prefixes, continued-fraction
+convergents, and decimal prefixes all expose only displayed rows before a
+$\RegSeqRatUp$ or $\RealUp$ consumer can read the packet.
+
+\begin{definition}[DecimalExpansion carrier]\label{def:decimal-expansion-carrier}
+A $\DecimalExpansionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(D,W,V,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite digit ledger, whose rows record decimal digits and the
+associated sign or integral-prefix convention when the local packet includes
+one;
+\item $W$ is the finite decimal-place window ledger, listing the inspected
+positions and the request precision served by those positions;
+\item $V$ is the place-value row that evaluates each inspected prefix as a
+rational sum with denominator a power of ten;
+\item $Q$ is the $\DyadicRatCoreUp$ and rational comparison row that transports
+the base-ten place-value read into the dyadic tolerance discipline used by
+downstream real consumers;
+\item $R$ is the $\RegSeqRatUp$ handoff row reached from the same decimal
+window and place-value rows;
+\item $E$ is the terminal $\RealUp$ seal row exposed only after $D,W,V,Q,R$
+have been displayed;
+\item $H$ is the componentwise $\hsame$ transport row for digit, window,
+place-value, dyadic/rational, regular-sequence, and real-seal coordinates;
+\item $C$ is the $\Cont$ replay row that reuses the accepted finite decimal
+windows without adding a host stream;
+\item $P$ is the $\Pkg$ provenance over $\DecimalExpansionUp$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, and the local naming row;
+\item $N$ is the local $\NameCert_{\DecimalExpansionUp}$ row.
+\end{enumerate}
+The carrier exposes no infinite decimal stream, Dedekind cut, quotient real,
+endpoint convention resolver, trichotomy decision, selected representative, or
+Real-completeness witness.
+\end{definition}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.TasteGate.DecimalExpansionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DecimalExpansion NameCert obligations]\label{thm:decimal-expansion-namecert-obligations}
+The seed $\NameCert_{\DecimalExpansionUp}$ obligation surface consists exactly
+of the rows in \autoref{def:decimal-expansion-carrier}. Carrier admission
+requires a finite digit ledger, a finite decimal-place window ledger, a
+base-ten rational place-value row, a dyadic/rational comparison row, a
+$\RegSeqRatUp$ handoff row, a $\RealUp$ seal row, componentwise $\hsame$
+transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming
+row. Classifier transport is componentwise through the same displayed rows.
+Ledger exhaustion says that every $\StreamNameUp$, $\RegSeqRatUp$, or
+$\RealUp$ consumer can inspect only $D,W,V,Q,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is read directly from the finite packet. The digit rows and
+decimal-place windows give the visible $\StreamNameUp$ observation surface,
+while $V$ evaluates each inspected prefix as a rational place-value sum.
+
+The dyadic/rational row $Q$ is the only bridge from base-ten arithmetic into
+the tolerance discipline already used by
+\autoref{ch:concrete-instances-dyadicratcore-namecert}. The regular handoff
+row $R$ and real-seal row $E$ are therefore downstream of the same inspected
+window.
+
+Transport is componentwise because $H$ has coordinates for each displayed
+row, and continuation only replays windows already accepted by $C$. The
+package and local naming rows record exactly those dependencies.
+
+For ledger exhaustion, project a consumer read from the accepted packet. The
+definition gives only the ten coordinates $D,W,V,Q,R,E,H,C,P,N$, so any route
+through an infinite stream, quotient real, selected endpoint convention, or
+ambient completeness principle is outside the carrier.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion RealUp readback boundary]\label{thm:decimal-expansion-real-readback-boundary}
+Every $\RealUp$ read of an accepted $\DecimalExpansionUp$ packet factors
+through the finite route
+$$
+\StreamNameUp,\ \DecimalExpansionUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+Concretely, the consumer first reads an inspected decimal-place window, then
+the digit rows on that window, then the rational place-value and dyadic
+tolerance rows, then the regular rational handoff, and only then the displayed
+real seal. The packet supplies no Dedekind cut, quotient real, endpoint
+uniqueness convention, trichotomy principle, selected representative, or
+Real-completeness witness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(D,W,V,Q,R,E,H,C,P,N)$. The
+$\StreamNameUp$ observation is $W$ together with the digit rows of $D$ on that
+window, so a real-facing consumer cannot read a decimal prefix without first
+reading the finite window.
+
+The place-value row $V$ turns that same finite prefix into a rational
+base-ten sum. The row $Q$ records the dyadic and rational comparison data used
+to pass from the decimal sum to the tolerance language consumed by
+$\RegSeqRatUp$.
+
+The handoff row $R$ is therefore reached only after $D,W,V,Q$ are fixed. The
+seal row $E$ is listed after $R$, and the rows $H,C,P,N$ preserve the same
+dependency route under transport, continuation, provenance, and local naming.
+
+Thus every $\RealUp$ read factors through the displayed finite route. The
+excluded objects are not carrier coordinates, so no consumer of the packet can
+obtain them from this readback boundary.
+\end{proof}
+
+\begin{closurestatus}{\DecimalExpansionUp}
+  \constructivestory{A $\DecimalExpansionUp$ packet is generated from finite decimal digit rows, decimal-place windows, rational place-value rows, dyadic/rational comparison rows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decimal-expansion-carrier}, \autoref{thm:decimal-expansion-namecert-obligations}, and \autoref{thm:decimal-expansion-real-readback-boundary} seed the finite decimal-prefix readback surface into $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind cuts, quotient reals, endpoint uniqueness, trichotomy, selected representatives, RealUp completeness, or a standard bridge.}
+  \upgradepath{Reaching obligationClosure requires Lean-backed carrier admission, componentwise classifier transport, ledger exhaustion, and RealUp readback-boundary targets for the displayed packet.}
+\end{closurestatus}

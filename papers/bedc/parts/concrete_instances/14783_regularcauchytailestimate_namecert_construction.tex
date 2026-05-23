@@ -1,0 +1,136 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailEstimateUp$}
+\label{ch:concrete-instances-regularcauchytailestimate-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive-analysis treatment of regular
+Cauchy names, the $\RegularCauchyTailEstimateUp$ packet records explicit
+finite tail-estimate data before a $\RealUp$ seal is consumed. It sits between
+the dyadic tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert},
+the finite window surface of \autoref{ch:concrete-instances-streamname-namecert},
+the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert},
+the real seal of \autoref{ch:concrete-instances-real-namecert}, and the
+modulus-facing route of \autoref{ch:concrete-instances-realcauchymodulus-namecert}.
+The packet names the finite rows a consumer must inspect for a requested tail
+tolerance; it is not a quotient stream, a selected limit, a host real equality
+principle, or an ambient completeness theorem.
+
+\begin{definition}[Regular Cauchy tail estimate carrier]
+\label{def:regular-cauchy-tail-estimate-carrier}
+A $\RegularCauchyTailEstimateUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the modulus-threshold row. For each requested tail tolerance it
+records the finite index after which the regular Cauchy estimate is allowed to
+be read.
+\item $W$ is the $\StreamNameUp$ window row whose finite observations are
+inspected at and beyond the threshold stored in $M$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row naming the dyadic error
+budget used by the tail estimate.
+\item $R$ is the $\RegSeqRatUp$ readback row reached from the window $W$ under
+the threshold and tolerance rows $M,D$.
+\item $E$ is the $\RealUp$ seal row that may be consumed only after the
+threshold, window, tolerance, and regular readback rows have been replayed.
+\item $H$ records componentwise $\hsame$ transport for $M,W,D,R,E$ and for the
+continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through
+$M$, $W$, $D$, $R$, and then $E$.
+\item $P$ is the $\Pkg$ provenance over $\RealCauchyModulusUp$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailEstimateUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by transporting the displayed
+modulus threshold, finite window, dyadic tolerance, regular readback, real seal,
+continuation, provenance, and local naming rows to a common finite surface. It
+has no coordinate for quotient streams, host real equality, selected limits,
+choice, trichotomy, open-cover compactness, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy tail estimate NameCert obligations]
+\label{thm:regular-cauchy-tail-estimate-namecert-obligations}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, the local
+$\NameCert_{\RegularCauchyTailEstimateUp}$ surface consists exactly of five
+obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed modulus threshold, finite
+$\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance, $\RegSeqRatUp$ readback,
+$\RealUp$ seal, transport, continuation, provenance, and local name;
+\item classifier transport to a common $\RealCauchyModulusUp$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ finite
+surface;
+\item stability of $M,W,D,R,E$ under the componentwise $\hsame$ rows recorded
+in $H$;
+\item seal-route exactness requiring every real-facing read to pass through
+$M,W,D,R,E$ in that order;
+\item refusal rows excluding quotient streams, host real equality, choice,
+trichotomy, selected limits, open-cover compactness, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:regular-cauchy-tail-estimate-carrier}. The projection exposes
+exactly the modulus threshold, finite window, dyadic tolerance, regular
+readback, real seal, transport rows, continuation row, provenance row, and
+local naming row.
+
+Classifier transport is componentwise. The rows in $H$ move the five
+mathematical coordinates $M,W,D,R,E$ and the administrative coordinates
+$C,P,N$ to the same finite comparison surface.
+
+Seal-route exactness is read from the displayed continuation row. A tail
+tolerance request first reaches the threshold row $M$, then the finite window
+$W$, then the dyadic tolerance row $D$, then the regular readback $R$, and only
+then the real seal $E$.
+
+The refusal rows are exhausted by the carrier inventory. Since the packet has
+no coordinate for quotient stream equality, host real equality, choice,
+trichotomy, selected limits, open-cover compactness, or completeness, no local
+NameCert obligation can export those data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate Real seal route]
+\label{thm:regular-cauchy-tail-estimate-real-seal-route}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, every $\RealUp$ seal consumer of $E$ factors through
+the modulus threshold $M$, the finite $\StreamNameUp$ window $W$, the
+$\DyadicRatCoreUp$ tolerance row $D$, the $\RegSeqRatUp$ readback $R$, and the
+$\RealUp$ seal row $E$ before it can inspect the transport, continuation,
+provenance, and local naming rows $H,C,P,N$. No consumer route can bypass
+$M,W,D,R,E$ or read a quotient stream, a selected host limit, host real
+equality, choice, trichotomy, open-cover compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with a real-facing consumer of $E$. Carrier admission lists $E$ only as
+the seal row reached from the regular readback coordinate $R$.
+
+Replay the continuation row $C$. Its route sends a tolerance request first to
+the threshold row $M$, uses $M$ to choose the finite window reads in $W$, checks
+the dyadic tolerance row $D$, and then reaches the regular readback $R$.
+
+Transport through $H$ preserves this order of displayed dependencies. The
+package row $P$ and local name $N$ record provenance and naming for the same
+finite packet; they do not add a second seal coordinate.
+
+Thus every $\RealUp$ seal consumer factors through $M,W,D,R,E$ before
+$H,C,P,N$. The carrier contains no coordinate from which a bypass route could
+obtain quotient streams, selected limits, host equality, choice, trichotomy,
+open-cover compactness, or completeness.
+\end{proof}
+
+\closureat{RegularCauchyTailEstimateUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailEstimateUp}
+  \constructivestory{A $\RegularCauchyTailEstimateUp$ packet is generated from a $\RealCauchyModulusUp$ threshold row, a finite $\StreamNameUp$ window, a $\DyadicRatCoreUp$ tolerance row, a $\RegSeqRatUp$ readback, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-estimate-carrier}, \autoref{thm:regular-cauchy-tail-estimate-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-estimate-real-seal-route} bind the finite tail-estimate carrier, local NameCert obligations, and real-seal factorization route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, choice, trichotomy, selected limits, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, stability, Real-seal route exactness, refusal rows, and TasteGate nontriviality with field faithfulness for $M,W,D,R,E,H,C,P,N$.}
+\end{closurestatus}

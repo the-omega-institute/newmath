@@ -18,6 +18,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier accepts only packets whose normal-form claim is read through a finite terminal row. It has no coordinate for a divergence oracle, host conversion row, quotient computation, unrestricted evaluator, or ambient proof that every external computation halts.
 \end{definition}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalPacket\_terminal\_readback\_semantic\_certificate}
 
 \begin{theorem}[$\ZNormalUp$ NameCert obligations]
 \label{thm:znormal-namecert-obligations}
@@ -119,6 +120,7 @@ Then compare this surface with \autoref{ch:visions-strong-normalization-vs-turin
 
 Finally apply \autoref{thm:znormal-fuel-normality-nonescape}. It excludes divergence, host conversion, quotient computation, unrestricted evaluation, and global normalization routes. Consequently no consumer can turn the finite normal-form packet into host Turing completeness or a substrate halting theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalPacket\_total\_host\_boundary}
 
 \begin{theorem}[$\ZNormalUp$ terminal readback exactness]
 \label{thm:znormal-terminal-readback-exactness}
@@ -187,6 +189,7 @@ Apply \autoref{thm:znormal-namecert-obligations} to bind the NameCert surface. T
 
 Finally use \autoref{thm:znormal-terminal-readback-exactness} and \autoref{thm:znormal-sibling-normalword-handoff}. These identify the terminal read and the sibling normal-word handoff as displayed finite rows, so the carrier, NameCert, fuel, terminal readback, sibling handoff, and host-boundary components form one obligation package.
 \end{proof}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalPacket\_obligation\_closure\_package}
 
 \begin{theorem}[$\ZNormalUp$ route transport]
 \label{thm:znormal-route-transport}
@@ -196,6 +199,7 @@ Z=(T,F,V,K,R,H,C,P,N),
 $$
 the route from the typed endpoint row $T$ through finite fuel $F$, terminal normality $V$, the sibling normal-word row $K$, and the terminal continuation read $R$ is transported only by the displayed componentwise row $H$ and replayed only by the displayed continuation row $C$. No accepted route can insert host conversion, quotient computation, unrestricted evaluation, or a global normalizer between these coordinates.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalRouteTransport}
 \begin{proof}
 Project the accepted packet through \autoref{def:znormal-carrier}. The only route-bearing coordinates exposed by the carrier are the componentwise transport row $H$ and the continuation replay row $C$.
 

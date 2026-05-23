@@ -42,4 +42,25 @@ theorem DiagonalLimitCompatibility_consumer_transport [AskSetup] [PackageSetup]
     cont_respects_hsame readbackSame realSealSame readbackRealSeal readbackRealSeal'
   exact ⟨endpointSame, provenancePkg, provenancePkg', endpointPkg, endpointPkg'⟩
 
+theorem DiagonalLimitCompatibilityConsumerTransport [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg →
+      Cont transport route consumer →
+        PkgSig bundle consumer pkg →
+          UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory consumer ∧
+            Cont transport route consumer ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory DiagonalLimitCompatibilityCarrier
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealUnary, _dyadicUnary, _windowsUnary,
+    _readbackUnary, _realSealUnary, transportUnary, routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed transportUnary routeUnary consumerRoute
+  exact ⟨transportUnary, routeUnary, consumerUnary, consumerRoute, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp

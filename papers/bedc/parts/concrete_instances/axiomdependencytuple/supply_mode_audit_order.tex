@@ -1,0 +1,123 @@
+\begin{theorem}[AxiomDependencyTuple supply-mode disjointness]
+\label{thm:axiom-dependency-tuple-supply-mode-disjointness}
+For every accepted $\AxiomDependencyTupleUp$ carrier
+$A=(M,W,S,H,C,P,N)$, the displayed mode row $M$ keeps the three supply modes
+pairwise disjoint. Mode A cannot be reread as Mode B or Mode C; Mode B cannot be
+reread as Mode A or Mode C; and Mode C cannot be reread as Mode A or Mode B
+under componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$
+provenance, or local $\NameCert_{\AxiomDependencyTupleUp}$ transport.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxiomDependencyTupleUp.AxiomDependencyTupleSupplyModeDisjointness}
+\begin{proof}
+Start with the mode row $M$. By
+\autoref{thm:axiom-dependency-tuple-mode-exhaustion}, $M$ has exactly three
+visible readings: zero-supply proof, restricted proof with required supply, and
+counterexample-or-socket refusal. The row has no fourth constructor and no
+ambient equality principle that can identify these readings.
+
+In Mode A, \autoref{thm:axiom-dependency-tuple-zero-supply-row-separation}
+keeps the proof witness separate from an empty external ledger. This cannot be
+read as Mode B, because
+\autoref{thm:axiom-dependency-tuple-restricted-supply-ledger-totality} requires a
+full displayed supply row for every restricted witness. It cannot be read as
+Mode C, because \autoref{thm:axiom-dependency-tuple-counterexample-socket-nonexport}
+requires a refusal witness naming supply that is not discharged.
+
+In Mode B, \autoref{thm:axiom-dependency-tuple-restricted-supply-ledger-nonpromotion}
+keeps each named host or classical supply entry in $S$. The branch therefore
+cannot collapse to the zero-supply branch, and it cannot become the socket
+branch because the witness is consumed under a ledger rather than recorded as a
+counterexample.
+
+In Mode C, \autoref{thm:axiom-dependency-tuple-counterexample-socket-boundary}
+and \autoref{thm:axiom-dependency-tuple-counterexample-socket-nonexport} keep
+the witness as refusal data. Transport and replay preserve this separation by
+\autoref{thm:axiom-dependency-tuple-hsame-cont-scope} and
+\autoref{thm:axiom-dependency-tuple-pkg-namecert-scope}, so no route,
+provenance row, or local naming row can reread one mode as another.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyTuple consumer ledger order]
+\label{thm:axiom-dependency-tuple-consumer-ledger-order}
+Every consumer route for an accepted $\AxiomDependencyTupleUp$ carrier
+$A=(M,W,S,H,C,P,N)$ reads the mode row $M$ and the required-supply ledger $S$
+before consuming the witness row $W$. This read order is preserved by the
+displayed $\Cont$ route row, by componentwise $\hsame$ transport, by the
+provenance row $P$, and by the local $\NameCert_{\AxiomDependencyTupleUp}$ row.
+\end{theorem}
+\begin{proof}
+First read the carrier coordinates. The public packet exposes $M$, $W$, $S$,
+$H$, $C$, $P$, and $N$ as distinct rows, so a consumer route has no hidden
+coordinate from which to recover a witness before inspecting the mode and
+ledger.
+
+The mode row is read first because
+\autoref{thm:axiom-dependency-tuple-mode-exhaustion} determines which of the
+three witness readings is even available. The separation result
+\autoref{thm:axiom-dependency-tuple-supply-mode-disjointness} then prevents a
+consumer from choosing a witness interpretation while leaving the mode
+undetermined.
+
+The ledger row is read before witness consumption by
+\autoref{thm:axiom-dependency-tuple-supply-ledger-readback}. In Mode A this
+records the empty external ledger, in Mode B it records every required supply
+entry, and in Mode C it records the refused supply named by the socket or
+counterexample.
+
+Finally apply \autoref{thm:axiom-dependency-tuple-route-nonexport},
+\autoref{thm:axiom-dependency-tuple-hsame-cont-scope}, and
+\autoref{thm:axiom-dependency-tuple-pkg-namecert-scope}. Routes, transport,
+provenance, and local naming replay the displayed rows; they do not add a
+consumer path that reads $W$ before $M$ and $S$.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyTuple host-supply nonescape]
+\label{thm:axiom-dependency-tuple-host-supply-nonescape}
+For every accepted $\AxiomDependencyTupleUp$ carrier
+$A=(M,W,S,H,C,P,N)$, any named host conversion, quotient equality,
+$\mathsf{Classical.choice}$ use, $\mathsf{propext}$ use, or ambient theorem
+remains a required-supply ledger row under $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert_{\AxiomDependencyTupleUp}$ transport. None of these names escapes
+the ledger as an exported BEDC proof rule.
+\end{theorem}
+\begin{proof}
+The supply row $S$ is the only place where external host or classical material
+can be named. By \autoref{thm:axiom-dependency-tuple-supply-ledger-readback},
+any consumer that reads the witness must first read that ledger entry as audit
+supply.
+
+Mode B is the positive ledger case. Use
+\autoref{thm:axiom-dependency-tuple-restricted-supply-ledger-nonpromotion} and
+\autoref{thm:axiom-dependency-tuple-restricted-supply-ledger-totality}: every
+named supply entry stays in the full displayed ledger, and no consumer may
+erase, shrink, or internalize it.
+
+Mode C is the refusal case. By
+\autoref{thm:axiom-dependency-tuple-counterexample-socket-boundary} and
+\autoref{thm:axiom-dependency-tuple-counterexample-socket-nonexport}, a
+counterexample or socket names missing supply without discharging it. Thus the
+named host or classical datum remains a ledger row attached to refused supply.
+
+The transport rows do not change the status of the name. Apply
+\autoref{thm:axiom-dependency-tuple-route-nonexport},
+\autoref{thm:axiom-dependency-tuple-hsame-cont-scope}, and
+\autoref{thm:axiom-dependency-tuple-pkg-namecert-scope}. Componentwise
+$\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ transport
+replay the finite tuple surface and never export host conversion, quotient
+equality, choice, propositional extensionality, or ambient theorem supply as a
+BEDC rule.
+\end{proof}
+
+\closureat{AxiomDependencyTupleUp}{seedStr}
+\closureat{AxiomDependencyTupleUp}{obligationStr}
+
+\begin{closurestatus}{\AxiomDependencyTupleUp}
+  \constructivestory{An $\AxiomDependencyTupleUp$ packet is generated from a three-mode row, a proof, restricted-proof, counterexample, or socket witness row, a required-supply ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:axiom-dependency-tuple-carrier}, \autoref{thm:axiom-dependency-tuple-namecert-obligations}, \autoref{thm:axiom-dependency-tuple-mode-exhaustion}, \autoref{thm:axiom-dependency-tuple-supply-ledger-readback}, \autoref{thm:axiom-dependency-tuple-route-nonexport}, \autoref{thm:axiom-dependency-tuple-consumer-exhaustion}, \autoref{thm:axiom-dependency-tuple-zero-supply-mode-soundness}, \autoref{thm:axiom-dependency-tuple-restricted-supply-ledger-nonpromotion}, \autoref{thm:axiom-dependency-tuple-counterexample-socket-boundary}, \autoref{thm:axiom-dependency-tuple-zero-supply-row-separation}, \autoref{thm:axiom-dependency-tuple-restricted-supply-ledger-totality}, \autoref{thm:axiom-dependency-tuple-counterexample-socket-nonexport}, \autoref{thm:axiom-dependency-tuple-bhist-row-scope}, \autoref{thm:axiom-dependency-tuple-hsame-cont-scope}, \autoref{thm:axiom-dependency-tuple-pkg-namecert-scope}, \autoref{thm:axiom-dependency-tuple-root-unblock-spine}, \autoref{thm:axiom-dependency-tuple-mode-ledger-priority}, \autoref{thm:axiom-dependency-tuple-consumer-readiness}, \autoref{thm:axiom-dependency-tuple-audit-map-row-coverage}, \autoref{thm:axiom-dependency-tuple-dependency-map-soundness}, \autoref{thm:axiom-dependency-tuple-public-interface-exactness}, \autoref{thm:axiom-dependency-tuple-supply-mode-disjointness}, \autoref{thm:axiom-dependency-tuple-consumer-ledger-order}, and \autoref{thm:axiom-dependency-tuple-host-supply-nonescape} bind the finite dependency-tuple carrier, mode exhaustion, ledger exactness, route non-export, consumer exhaustion, the three per-mode obligation rows, the three row-level separation rows, the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitive scope, the root-unblock spine, the consumer read order, the exact public audit-map interface, the supply-mode disjointness row, the consumer ledger order row, and the host-supply nonescape row.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not enumerate all classical CIC claims, internalize host conversion, quotient equality, choice, propositional extensionality, or ambient classical CIC theorem supply, give Lean verification, or bridge check the tuple.}
+  \upgradepath{Public closure next requires Lean verification of the public consumer interface and a bridge check for the scoped tuple.}
+\end{closurestatus}

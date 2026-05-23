@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchySeriesUp$}
+\label{ch:concrete-instances-uniform-cauchy-series-namecert}
+\origin{human}
+
+Bishop--Bridges constructive-analysis grounding treats convergence of a real series as effective Cauchy control on finite partial sums rather than as an ambient infinite-sum object. The $\UniformCauchySeriesUp$ packet records that shared-uniform-tail route as finite BEDC data, sitting between the finite series surface of \autoref{ch:concrete-instances-realseries-namecert}, the fast tail-budget schedule of \autoref{ch:concrete-instances-fastconvergentseries-namecert}, and the shared-threshold criterion of \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}. It routes all endpoint-facing reads through selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, the $\DyadicRatCoreUp$ tolerance ledger, and the $\RealUp$ seal, with no host infinite sum, selected limit, quotient stream equality, countable choice, or ambient real completeness.
+
+\begin{definition}[Uniform Cauchy series carrier]\label{def:uniform-cauchy-series-carrier}
+A $\UniformCauchySeriesUp$ carrier is a finite $\BHist$ packet
+$$
+U=(T,S,W,Q,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the real-valued term stream, read only through selected finite observations and never as a completed host sequence.
+\item $S$ is the finite partial-sum window row, listing displayed initial segments, accumulated $\RealUp$ sum seals for those segments, and adjacent term contributions.
+\item $W$ is the selected $\StreamNameUp$ window row for the terms, partial sums, and endpoint-facing observations used by the packet.
+\item $Q$ is the $\RegSeqRatUp$ readback row for every selected term window and partial-sum window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording finite addition budgets, comparison radii, and requested tail tolerances.
+\item $M$ is the shared uniform Cauchy tail threshold row: one displayed threshold governs every accepted partial-sum comparison requested by the packet.
+\item $E$ is the $\RealUp$ seal row reached only after the term stream, partial-sum windows, selected stream names, regular readbacks, dyadic ledger, and shared threshold have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the term stream, partial-sum windows, selected stream windows, regular readbacks, dyadic ledger, tail threshold, endpoint seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from term reads to partial sums, from partial sums to regular readback, from readback to dyadic tolerance accounting, from the ledger to the shared uniform threshold, and from that threshold to the endpoint seal.
+\item $P$ is the $\Pkg$ provenance over $\RealSeriesUp$, $\FastConvergentSeriesUp$, $\UniformCauchyCriterionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformCauchySeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,S,W,Q,D,M,E,H,C,P,N$. It has no coordinate for a host infinite sum, a selected limit of partial sums, quotient equality of streams, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform Cauchy series NameCert obligations]\label{thm:uniform-cauchy-series-namecert-obligations}
+For every accepted $\UniformCauchySeriesUp$ carrier $U=(T,S,W,Q,D,M,E,H,C,P,N)$, the local $\NameCert_{\UniformCauchySeriesUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed term-stream, partial-sum, stream-window, regular readback, dyadic ledger, shared-threshold, endpoint-seal, transport, replay, provenance, and naming rows;
+\item classifier transport, requiring every accepted comparison to preserve $T,S,W,Q,D,M,E,H,C,P,N$ componentwise and to preserve no hidden summability datum;
+\item uniform tail threshold, requiring the single row $M$ to govern every displayed comparison of partial-sum windows beyond the requested tolerance;
+\item partial-sum window exactness, requiring each finite endpoint-facing observation to pass through $T$, $S$, $W$, $Q$, and $D$ before any tail or seal row is read;
+\item $\RealUp$ seal nonescape, requiring the endpoint row $E$ to consume only the displayed finite route and never a host sum, chosen limit, quotient stream equality, countable choice, or ambient completeness theorem.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchySeriesUp.TasteGate.UniformCauchySeriesTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-cauchy-series-carrier}. The packet displays exactly the rows $T,S,W,Q,D,M,E,H,C,P,N$, so the local certificate has no detached coordinate for a completed series or a choice-selected endpoint.
+
+Classifier transport is componentwise. The row $H$ stores the permitted $\hsame$ comparisons, while $C$ replays only the displayed route from term reads through partial sums, readbacks, dyadic budgets, the shared tail threshold, and the endpoint seal.
+
+The tail-threshold row is unique inside the packet. A tolerance request may ask for many finite partial-sum comparisons, but those comparisons all read the same displayed threshold row $M$ before reaching the endpoint-facing seal.
+
+Partial-sum exactness follows from the order of the carrier rows. The term stream $T$ and partial-sum windows $S$ are exposed through the selected windows $W$, then through the regular readback $Q$ and dyadic ledger $D$.
+
+Finally, the $\RealUp$ seal row $E$ is downstream of the same finite route. Since no host infinite sum, selected limit, quotient stream equality, countable-choice selector, or ambient completeness theorem appears among the carrier coordinates, none can be exported by the local $\NameCert_{\UniformCauchySeriesUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Uniform tail-threshold nonescape]\label{thm:uniform-cauchy-series-tail-threshold-nonescape}
+Every endpoint-facing read from an accepted $\UniformCauchySeriesUp$ carrier factors through the displayed $\RealSeriesUp$, $\FastConvergentSeriesUp$, $\UniformCauchyCriterionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows named by the packet. Consequently the read cannot escape through a host infinite sum, selected limit, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an endpoint-facing request. The carrier definition forces the request to read the real-valued term stream and finite partial-sum windows through the $\RealSeriesUp$ provenance row and the displayed rows $T$ and $S$.
+
+Next the request reads the fast tail-budget and shared criterion surfaces. The $\FastConvergentSeriesUp$ provenance supplies the finite tail-budget discipline, while the $\UniformCauchyCriterionUp$ provenance supplies the single shared threshold row $M$ for all accepted partial-sum comparisons.
+
+The finite observations are then exposed only through $W$, $Q$, and $D$. These are respectively the selected $\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, and the $\DyadicRatCoreUp$ tolerance ledger.
+
+The endpoint row $E$ is a $\RealUp$ seal for this already displayed route. The structural rows $H,C,P,N$ transport, replay, source, and name the same route without adding any additional endpoint coordinate.
+
+Because every stage of the read is one of the displayed sibling rows, the packet has no place from which to read a host infinite sum, selected limit, quotient stream equality, countable-choice selector, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[Uniform Cauchy series majorant sum handoff]\label{thm:uniform-cauchy-series-majorant-sum-handoff}
+Let $U=(T,S,W,Q,D,M,E,H,C,P,N)$ be an accepted $\UniformCauchySeriesUp$ carrier. Every endpoint-facing read whose term stream is supplied by the $\RealSeriesUp$ surface and whose tail control is supplied by a displayed $\CauchyMajorantSeriesUp$ or $\FastConvergentSeriesUp$ route factors through
+$$
+T\longmapsto S\longmapsto W\longmapsto Q\longmapsto D\longmapsto M\longmapsto E\longmapsto H,C,P,N .
+$$
+Here $M$ is read as the shared tail threshold for the majorant-backed partial-sum comparisons, and $E$ is read only after the selected $\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, and the $\DyadicRatCoreUp$ ledger have already displayed the finite route to the endpoint $\RealUp$ seal. Consequently the handoff exports the endpoint Real sum route without exporting a host infinite sum, selected limit, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $U=(T,S,W,Q,D,M,E,H,C,P,N)$. The $\RealSeriesUp$ surface supplies the visible term stream and partial-sum observations, so the endpoint request begins at $T$ and $S$ rather than at an external summability predicate.
+
+The majorant-backed tail control is then read through the displayed sibling route. The $\CauchyMajorantSeriesUp$ surface contributes the finite majorant schedule, while the $\FastConvergentSeriesUp$ surface contributes the fast tail-budget discipline; both are consumed by the single shared threshold row $M$ named in the $\UniformCauchySeriesUp$ carrier.
+
+Before the endpoint row is visible, the request must pass through $W$, $Q$, and $D$. These rows open the selected $\StreamNameUp$ windows, read them as $\RegSeqRatUp$ data, and account for the requested dyadic tolerances through $\DyadicRatCoreUp$.
+
+Finally apply \autoref{thm:uniform-cauchy-series-tail-threshold-nonescape}. Since the endpoint row $E$ is downstream of the displayed threshold and ledger route, the structural rows $H,C,P,N$ can only transport, replay, source, and name the same finite handoff. No carrier row remains from which a host infinite sum, selected limit, quotient stream equality, countable-choice selector, or ambient completeness theorem could be read.
+\end{proof}
+
+\falsifiablePrediction{Every $\UniformCauchySeriesUp$ endpoint-facing read factors through finite partial-sum windows, one shared uniform Cauchy tail threshold, selected StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a RealUp seal row, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{realseries, fastconvergentseries, uniformcauchycriterion, regseqrat, streamname, dyadicratcore, real: $\UniformCauchySeriesUp$ is not bijective to any listed sibling because it jointly carries a real-valued term stream, finite partial-sum windows, one shared uniform tail threshold, selected stream windows, regular readbacks, dyadic tolerance accounting, endpoint sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{UniformCauchySeriesUp}{seedStr}
+
+\begin{closurestatus}{\UniformCauchySeriesUp}
+  \constructivestory{A $\UniformCauchySeriesUp$ packet is generated from a real-valued term stream, finite partial-sum windows, selected StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, one shared uniform Cauchy tail threshold, a RealUp seal row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-series-carrier}, \autoref{thm:uniform-cauchy-series-namecert-obligations}, \autoref{thm:uniform-cauchy-series-tail-threshold-nonescape}, and \autoref{thm:uniform-cauchy-series-majorant-sum-handoff} seed the finite shared-uniform-tail series route from real-valued term streams and displayed majorant control to RealUp endpoint consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, selected limits, quotient stream equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, uniform tail thresholding, partial-sum window exactness, Real seal nonescape, and TasteGate field faithfulness for BEDC.Derived.UniformCauchySeriesUp.}
+\end{closurestatus}

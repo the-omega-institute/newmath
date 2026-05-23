@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailDiameterUp$}
+\label{ch:concrete-instances-cauchy-tail-diameter-namecert}
+\origin{human}
+
+Following Bishop and Bridges regular Cauchy analysis, the $\CauchyTailDiameterUp$ packet records the finite witness that a displayed tail window has bounded diameter at a requested dyadic tolerance. It sits between the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback discipline of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the interval enclosure consumer of \autoref{ch:concrete-instances-real-interval-enclosure-namecert}. The packet supplies the finite tail-diameter row later regular-sequence and real-completion arguments consume; it is not a completeness theorem, a quotient-real equality principle, or a point selector.
+
+\begin{definition}[Cauchy tail diameter carrier]
+\label{def:cauchy-tail-diameter-carrier}
+A $\CauchyTailDiameterUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,I,J,D,B,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source stream or $\RegSeqRatUp$ row whose tail is being inspected.
+\item $T$ is the finite tail threshold row, naming the displayed index after which the diameter claim is allowed to be read.
+\item $I$ and $J$ are two visible tail-index rows, both certified to lie beyond the threshold $T$ in the inspected window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row requested by the consumer.
+\item $B$ is the dyadic diameter-bound row, recording the displayed comparison that the two tail observations are within the bound attached to $D$.
+\item $W$ is the window-stability row asserting that every read of $I,J,D,B$ uses the same finite $\StreamNameUp$ window family and no hidden cofinal tail.
+\item $H$ records componentwise $\hsame$ transport for the source, threshold, two indices, tolerance, diameter bound, window-stability row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from the source row through the threshold, the two visible indices, the dyadic tolerance, the diameter bound, and the window-stability row.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailDiameterUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealIntervalEnclosureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailDiameterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,I,J,D,B,W,H,C,P,N$. It has no coordinate for a completed real limit, quotient real equality, trichotomy, point selection, open-cover compactness, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Cauchy tail diameter NameCert obligations]
+\label{thm:cauchy-tail-diameter-namecert-obligations}
+For every accepted $\CauchyTailDiameterUp$ carrier $K=(S,T,I,J,D,B,W,H,C,P,N)$, the local $\NameCert_{\CauchyTailDiameterUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source stream or $\RegSeqRatUp$ row, tail threshold, two visible tail indices, dyadic tolerance, diameter bound, window stability, transport, replay, provenance, and local naming rows;
+\item threshold exactness, requiring both displayed indices $I$ and $J$ to be certified as tail indices beyond $T$ before the diameter row is read;
+\item dyadic bound exactness, requiring $B$ to compare only the two observations exposed by $I$ and $J$ against the tolerance row $D$;
+\item window stability, requiring all source and tail observations to use the same finite $\StreamNameUp$ window family recorded by $W$;
+\item componentwise transport and replay, requiring $H$ and $C$ to preserve the same source, threshold, indices, tolerance, bound, stability, provenance, and local naming rows;
+\item refusal of completed real limits, quotient real equality, trichotomy, point selection, open-cover compactness, and standard-bridge data as local NameCert obligations.
+\end{enumerate}
+No Cauchy tail-diameter obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyTailDiameterUp.CauchyTailDiameterUpTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the accepted carrier. The only analytic rows are the source $S$, threshold $T$, visible indices $I,J$, tolerance $D$, diameter bound $B$, and window-stability row $W$.
+
+Read the tail claim in dependency order. The threshold row is opened first, then the two indices are checked as visible tail indices in the same finite window family, and only then is the dyadic comparison row $B$ available.
+
+The structural rows preserve this route. Componentwise transport $H$ can move only the listed coordinates, while the replay row $C$ replays the same source-threshold-index-tolerance-bound-window sequence.
+
+The provenance and local naming rows package the same finite data. Since the carrier contains no coordinate for a completed real limit, quotient real equality, trichotomy, point selection, open-cover compactness, or standard bridge, none of those objects can become a local obligation.
+\end{proof}
+
+\begin{theorem}[Cauchy tail diameter tail-window handoff]
+\label{thm:cauchy-tail-diameter-tail-window-handoff}
+Every tail-diameter read from an accepted $\CauchyTailDiameterUp$ carrier factors through the finite route
+$$
+S,T \longmapsto I,J \longmapsto D \longmapsto B \longmapsto W \longmapsto H,C,P,N .
+$$
+Thus a consumer sees the source row, one threshold, two visible tail indices, a dyadic tolerance, a dyadic diameter bound, and the window-stability row before it can use the bound. The route exports no completed real limit, quotient real equality, trichotomy, point selection, open-cover compactness, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of the carrier. Carrier admission exposes $S,T,I,J,D,B,W,H,C,P,N$ as one finite packet, so the consumer cannot read a detached tail object.
+
+Replay the continuation row $C$. The source row $S$ supplies the finite observation family, $T$ supplies the tail threshold, and $I,J$ identify the two visible tail positions within that family.
+
+The dyadic comparison is downstream. The tolerance row $D$ fixes the requested radius, and the bound row $B$ records the displayed diameter comparison for the two indexed observations.
+
+Finally, $W,H,P,N$ stabilize, transport, source, and name the same packet. No step in the route opens a completed real limit, quotient equality, trichotomy row, selected point, open-cover compactness witness, or standard bridge.
+\end{proof}
+
+\begin{theorem}[Cauchy tail diameter RegSeqRat consumption]
+\label{thm:cauchy-tail-diameter-regseqrat-consumption}
+Every $\RegSeqRatUp$ or $\RealIntervalEnclosureUp$ consumer that uses a tail-diameter bound from an accepted $\CauchyTailDiameterUp$ carrier must consume the displayed source row, tail threshold, two visible tail indices, dyadic tolerance, diameter bound, and window-stability row of \autoref{def:cauchy-tail-diameter-carrier}. In particular, the consumer receives a finite diameter witness for the displayed tail window, not Real completeness, quotient real equality, trichotomy, point selection, open-cover compactness, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Start with a $\RegSeqRatUp$ or $\RealIntervalEnclosureUp$ consumer. The consumer-facing evidence is the displayed carrier $K=(S,T,I,J,D,B,W,H,C,P,N)$, so the source and tail threshold are the only rows from which the tail request can begin.
+
+The visible tail indices then determine the readback. The consumer reads $I$ and $J$ as finite rows beyond $T$, consults the dyadic tolerance row $D$, and obtains the diameter comparison only from $B$.
+
+Window stability prevents replacement of the route by a hidden cofinal tail. The row $W$ keeps the source observations, two indices, and bound inside the same finite $\StreamNameUp$ window family.
+
+Transport, replay, provenance, and local naming finish the consumption route. They preserve the same rows for $\RegSeqRatUp$ and interval-enclosure consumers and add no coordinate for completeness, quotient equality, trichotomy, point selection, compactness, or a standard bridge.
+\end{proof}
+
+\closureat{CauchyTailDiameterUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailDiameterUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-diameter-carrier}, \autoref{thm:cauchy-tail-diameter-namecert-obligations}, \autoref{thm:cauchy-tail-diameter-tail-window-handoff}, and \autoref{thm:cauchy-tail-diameter-regseqrat-consumption} seed the finite tail-diameter witness packet over source streams or $\RegSeqRatUp$ rows, displayed thresholds, visible tail indices, dyadic tolerances, diameter bounds, and window-stability rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient real equality, trichotomy, point selection, open-cover compactness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, threshold exactness, dyadic bound exactness, window stability, transport, replay, provenance, local naming, tail-window handoff, and RegSeqRat consumption for BEDC.Derived.CauchyTailDiameterUp.}
+  \constructivestory{A $\CauchyTailDiameterUp$ packet is generated from a source stream or RegSeqRat row, a tail threshold, two visible tail indices, a DyadicRatCore tolerance row, a dyadic diameter-bound row, a StreamName window-stability row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailMonotonicityUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-monotonicity-namecert}
+\origin{human}
+
+Following Bishop--Bridges regular Cauchy sequence discipline, the $\RegularCauchyTailMonotonicityUp$ packet records the finite fact that once a regular rational name is accepted at an earlier tail window, later tail windows may reuse the same tolerance ledger without opening a new completion object. It sits between the selected-window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite equality route of \autoref{ch:concrete-instances-cauchy-tail-equivalence-namecert}, the tail-threshold determinacy surface of \autoref{ch:concrete-instances-realcauchymodulus-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies the monotone tail-extension certificate consumed by the Real and Completion route; it is not quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy tail monotonicity carrier]
+\label{def:regular-cauchy-tail-monotonicity-carrier}
+A $\RegularCauchyTailMonotonicityUp$ carrier is a finite $\BHist$ packet
+$$
+M_{\mathrm{tail}}=(E,L,R,D,T,A,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the earlier $\StreamNameUp$ tail-window row whose accepted regular Cauchy read is already visible.
+\item $L$ is the later $\StreamNameUp$ tail-window row, displayed as an extension of the same source schedule beyond $E$.
+\item $R$ is the single $\RegSeqRatUp$ source row read through both $E$ and $L$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger shared by the earlier and later reads.
+\item $T$ is the monotone tail-extension row, asserting that the accepted tail comparison at $E$ remains accepted when the later window $L$ is substituted under the same source row $R$ and tolerance ledger $D$.
+\item $A$ is the $\RealCauchyModulusUp$ threshold-determinacy row used to confirm that later windows do not change the chosen tail threshold for the displayed tolerance.
+\item $Q$ is the $\RealUp$ seal handoff row available only after $E,L,R,D,T,A$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the earlier and later windows, source row, tolerance ledger, monotone extension row, threshold-determinacy row, seal handoff, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from the earlier window to the later window, from both windows to the shared regular source, from the source to the dyadic tolerance ledger, from the ledger to the monotone extension row, and from the extension row through threshold determinacy to the $\RealUp$ handoff.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailMonotonicityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyTailEquivalenceUp$, $\RealCauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailMonotonicityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,L,R,D,T,A,Q,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, hidden cofinal tails, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyTailMonotonicityUp.RegularCauchyTailMonotonicityUpTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[Regular Cauchy tail monotonicity obligation surface]
+\label{def:regular-cauchy-tail-monotonicity-obligation-surface}
+For an accepted $\RegularCauchyTailMonotonicityUp$ carrier
+$$
+M_{\mathrm{tail}}=(E,L,R,D,T,A,Q,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyTailMonotonicityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the earlier $\StreamNameUp$ window, later $\StreamNameUp$ window, one $\RegSeqRatUp$ source, one $\DyadicRatCoreUp$ tolerance ledger, monotone tail-extension row, $\RealCauchyModulusUp$ threshold-determinacy row, $\RealUp$ seal handoff, transport, replay, provenance, and local naming rows;
+\item common-source exactness, requiring $E$ and $L$ to read the same displayed $\RegSeqRatUp$ row $R$;
+\item tolerance-ledger exactness, requiring the earlier and later tail reads to consult the same $\DyadicRatCoreUp$ row $D$;
+\item monotone extension exactness, requiring $T$ to be read only after $E,L,R,D$ are visible and only as the later-window extension of the earlier accepted read;
+\item threshold-determinacy replay, requiring $A$ to reuse the displayed tolerance and source data rather than choosing a new threshold outside the packet;
+\item componentwise transport and displayed replay for $E,L,R,D,T,A,Q,P,N$ through $H$ and $C$;
+\item refusal of quotient stream equality, selected limits, countable choice, trichotomy, host real equality, hidden cofinal tails, and ambient $\RealUp$ completeness as local certificate data.
+\end{enumerate}
+No monotone tail-extension obligation is stored outside these rows.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail monotone window extension]
+\label{thm:regular-cauchy-tail-monotonicity-window-extension}
+Let $M_{\mathrm{tail}}=(E,L,R,D,T,A,Q,H,C,P,N)$ be an accepted $\RegularCauchyTailMonotonicityUp$ carrier. Any accepted regular Cauchy tail read at the earlier window $E$ extends to the later window $L$ exactly through the displayed route
+$$
+E \longmapsto L \longmapsto R \longmapsto D \longmapsto T \longmapsto A \longmapsto H,C,P,N .
+$$
+Thus the later-window read remains a finite $\StreamNameUp$ and $\RegSeqRatUp$ computation over the same $\DyadicRatCoreUp$ tolerance ledger. It does not introduce quotient stream equality, selected limits, countable choice, trichotomy, host real equality, hidden cofinal tails, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier of \autoref{def:regular-cauchy-tail-monotonicity-carrier}. Carrier admission exposes the earlier window $E$, later window $L$, shared source $R$, tolerance ledger $D$, monotone extension row $T$, threshold-determinacy row $A$, and structural rows.
+
+The earlier read cannot move to $L$ by changing source data. Common-source exactness in \autoref{def:regular-cauchy-tail-monotonicity-obligation-surface} forces both windows to consult $R$, while tolerance-ledger exactness forces both reads to consult $D$.
+
+The monotone extension is the only analytic transition row. It is read as $T$ after $E,L,R,D$ are already visible, and the threshold-determinacy row $A$ confirms that the later window has not introduced a second tail threshold for the same displayed tolerance.
+
+Transport and replay preserve this finite route. The rows $H,C,P,N$ move, replay, source, and name the same packet, so no excluded quotient, limit, choice, order-comparison, hidden-tail, or completeness coordinate is available.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail monotonicity Real seal factorization]
+\label{thm:regular-cauchy-tail-monotonicity-real-seal-factorization}
+Every $\RealUp$ or completion-facing read exported by an accepted $\RegularCauchyTailMonotonicityUp$ carrier factors through the earlier window $E$, the later window $L$, the shared $\RegSeqRatUp$ source row $R$, the shared $\DyadicRatCoreUp$ tolerance ledger $D$, the monotone tail-extension row $T$, the $\RealCauchyModulusUp$ threshold-determinacy row $A$, and the structural rows $H,C,P,N$ before the seal handoff row $Q$ may be consumed. The consumer therefore receives a finite monotone-tail certificate, not quotient stream equality, selected limits, countable choice, trichotomy, host real equality, hidden cofinal tails, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$ or completion-facing request. The handoff row $Q$ is downstream of the displayed carrier, so the request first reads the earlier and later $\StreamNameUp$ windows $E,L$ and the shared $\RegSeqRatUp$ source $R$.
+
+The tolerance accounting is then fixed by $D$. The monotone tail-extension row $T$ uses that same ledger to pass from the accepted earlier tail read to the later-window read, while $A$ records that the tail threshold is determined by the displayed source and tolerance data.
+
+The structural rows do not create a new endpoint. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming preserve the same route through $E,L,R,D,T,A$.
+
+Only after this route has been displayed may the consumer read $Q$. Since the carrier has no coordinate for quotient equality, selected limits, countable choice, trichotomy, host equality, hidden cofinal tails, or ambient completeness, the seal handoff cannot export any of them.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyTailMonotonicityUp$ Real-facing read factors through earlier and later StreamName windows, one RegSeqRat source row, a DyadicRatCore tolerance ledger, a monotone tail-extension row, RealCauchyModulus threshold determinacy, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, cauchytailequivalence, realcauchymodulus, real: $\RegularCauchyTailMonotonicityUp$ is not bijective to any listed sibling because it jointly carries an earlier tail window, a later tail window, one regular rational source, one tolerance ledger, a monotone extension row, threshold determinacy, Real seal handoff, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyTailMonotonicityUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailMonotonicityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-monotonicity-carrier}, \autoref{def:regular-cauchy-tail-monotonicity-obligation-surface}, \autoref{thm:regular-cauchy-tail-monotonicity-window-extension}, and \autoref{thm:regular-cauchy-tail-monotonicity-real-seal-factorization} seed the finite monotone-tail extension certificate between regular Cauchy names and Real seals.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyTailMonotonicityUp.RegularCauchyTailMonotonicityUpTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, host real equality, hidden cofinal tails, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-source exactness, tolerance-ledger exactness, monotone extension exactness, threshold-determinacy replay, Real seal factorization, and TasteGate field faithfulness for BEDC.Derived.RegularCauchyTailMonotonicityUp.}
+  \constructivestory{A $\RegularCauchyTailMonotonicityUp$ packet is generated from earlier and later StreamName tail windows, one RegSeqRat source row, a DyadicRatCore tolerance ledger, a monotone tail-extension row, RealCauchyModulus threshold determinacy, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+\end{closurestatus}

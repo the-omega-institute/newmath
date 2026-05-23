@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\BoundedRegularCauchyUp$}
+\label{ch:concrete-instances-bounded-regular-cauchy-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\BoundedRegularCauchyUp$ packet records the bounded regular Cauchy surface needed before Real and Completion consumers ask for completeness, compactness, or limit extraction. It realizes the Real and Completion route of \autoref{ch:visions-real-completeness} as explicit finite packet data: the dyadic endpoint and tolerance ledger is read from \autoref{ch:concrete-instances-dyadicratcore-namecert}, finite observations are read through \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback is supplied by \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name boundary is sealed by \autoref{ch:concrete-instances-real-namecert}, and the tail schedule is exposed through \autoref{ch:concrete-instances-cauchymodulus-namecert}. The packet is a boundedness-and-tail witness for regular Cauchy names; it is not a host completeness theorem, a quotient stream representative, a selected limit, countable choice, trichotomy, open-cover compactness, or ambient Real equality.
+
+\begin{definition}[BoundedRegularCauchy carrier]
+\label{def:bounded-regular-cauchy-carrier}
+A $\BoundedRegularCauchyUp$ carrier is a finite $\BHist$ packet
+$$
+R_{\mathrm{bd}}=(S,M,B,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ stream-window family, listing the finite observation windows that may be opened before any Real or Completion consumer inspects a tail claim.
+\item $M$ is the $\CauchyModulusUp$ tail schedule, assigning each displayed dyadic tolerance request a finite threshold and the corresponding late-window budget.
+\item $B$ is the $\DyadicRatCoreUp$ boundedness ledger, containing the dyadic center, radius, endpoint comparisons, and tail-bound inequalities used to keep all late reads inside the displayed bound.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the stream windows, the modulus schedule, and the dyadic boundedness ledger.
+\item $A$ is the $\RealUp$ seal row reached only after $S,M,B,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, modulus schedule, dyadic bound, regular readback, Real seal, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from any bounded-regular-Cauchy request through $M$, then through $S$ and $B$, into $Q$, and finally into the $\RealUp$ seal row $A$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedRegularCauchyUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedRegularCauchyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,M,B,Q,A,H,C,P,N$. The carrier has no coordinate for host completeness, quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, or ambient Real equality.
+\end{definition}
+\leanchecked{BEDC.Derived.BoundedRegularCauchyUp.BoundedRegularCauchyUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[BoundedRegularCauchy NameCert obligation surface]
+\label{thm:bounded-regular-cauchy-obligation-surface}
+For every accepted $\BoundedRegularCauchyUp$ carrier
+$$
+R_{\mathrm{bd}}=(S,M,B,Q,A,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedRegularCauchyUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the stream-window family, tail schedule, dyadic boundedness ledger, regular rational readback, Real seal row, componentwise transport, continuation replay, provenance, and local naming;
+\item tail-bound exactness, requiring every requested dyadic tolerance to read its threshold from $M$ and its late-window dyadic inequalities from $B$ before the readback row $Q$ is exposed;
+\item regular-readback compatibility, requiring $Q$ to be obtained only from the displayed $S,M,B$ rows and to remain inside the bound recorded by $B$;
+\item classifier transport, requiring $H$ and $C$ to replay the same displayed route $M,S,B,Q,A$ under componentwise $\hsame$;
+\item Real-seal handoff, requiring any $\RealUp$ consumer to read the terminal seal row $A$ only after stream windows, modulus data, dyadic tail bounds, and regular readback have all been displayed;
+\item ledger non-escape, requiring $P$ and $N$ to export no host completeness, quotient stream equality, selected limit, countable choice, trichotomy, open-cover compactness, or ambient Real equality.
+\end{enumerate}
+No bounded-regular-Cauchy obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is row projection from \autoref{def:bounded-regular-cauchy-carrier}. The displayed packet has exactly the stream-window, modulus, dyadic-bound, readback, seal, transport, replay, provenance, and local naming rows listed there.
+
+Tail-bound exactness is the joint content of $M$ and $B$. A tolerance request first fixes a threshold in the modulus schedule, and the dyadic ledger then records the late-window inequalities that keep the corresponding observations inside the displayed bound.
+
+Regular-readback compatibility follows by replaying the sibling surfaces in order. The $\StreamNameUp$ windows expose finite observations, the $\CauchyModulusUp$ row chooses the late threshold, the $\DyadicRatCoreUp$ row supplies the bounded dyadic comparisons, and the $\RegSeqRatUp$ row records the resulting regular rational readback.
+
+Classifier transport is componentwise. The $\hsame$ row $H$ transports each displayed coordinate, while $C$ repeats the same $M,S,B,Q,A$ route for any accepted request. Since no excluded coordinate is present in the carrier, the transport cannot introduce one.
+
+Finally, the Real-seal handoff and non-escape rows are exhausted by $A,P,N$. A Real consumer reaches $A$ only through the displayed route, and the provenance and naming rows record that the packet exports no host completeness, quotient stream equality, selected limit, countable choice, trichotomy, open-cover compactness, or ambient Real equality.
+\end{proof}
+
+\begin{theorem}[BoundedRegularCauchy Real-seal boundary]
+\label{thm:bounded-regular-cauchy-real-seal-boundary}
+Every Real-facing or Completion-facing read exported by an accepted $\BoundedRegularCauchyUp$ carrier factors through the finite route
+$$
+M\longmapsto S\longmapsto B\longmapsto Q\longmapsto A
+$$
+before the terminal $\RealUp$ seal can be consumed. Thus the consumer receives explicit dyadic tail-bound data, finite stream windows, a modulus threshold, regular rational readback, and the displayed Real seal, and receives no host completeness theorem, quotient stream representative, selected limit, countable-choice schedule, trichotomy principle, open-cover compactness proof, or ambient Real equality.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $R_{\mathrm{bd}}=(S,M,B,Q,A,H,C,P,N)$ and project its displayed rows. The only threshold source is $M$, so every Real-facing or Completion-facing request must first read a finite tail budget from the modulus row.
+
+The finite observation and boundedness rows are downstream of that budget. The stream-window row $S$ supplies the observations that may be inspected at the selected threshold, and the dyadic ledger $B$ records the explicit bound and late-window inequalities attached to those observations.
+
+The regular rational readback and Real seal are last. The row $Q$ is the $\RegSeqRatUp$ readback obtained from $S,M,B$, and the row $A$ is the terminal $\RealUp$ seal exposed only after that readback has been displayed.
+
+The structural rows preserve this route without enlarging it. Componentwise transport in $H$, replay in $C$, provenance in $P$, and local naming in $N$ add no coordinate for host completeness, quotient stream representatives, selected limits, countable choice, trichotomy, open-cover compactness, or ambient Real equality.
+\end{proof}
+
+\begin{theorem}[BoundedRegularCauchy tail-window induction]
+\label{thm:bounded-regular-cauchy-tail-window-induction}
+For every accepted $\BoundedRegularCauchyUp$ carrier
+$$
+R_{\mathrm{bd}}=(S,M,B,Q,A,H,C,P,N)
+$$
+and every unary tolerance-depth request read through $M$, induction on the finite threshold chain displayed by $M$ shows that each late window is first read through $S$, then bounded through $B$, then repacked through the same $\RegSeqRatUp$ row $Q$, and only after those stages reaches the terminal $\RealUp$ row $A$. No endpoint, selected limit, quotient stream, countable choice, trichotomy, open-cover compactness, or ambient Real equality can enter the induction.
+\end{theorem}
+\begin{proof}
+The base stage projects the first displayed threshold from $M$. At that stage the carrier exposes only the finite stream-window row $S$ attached to the threshold, the dyadic bound row $B$ attached to the same late window, and the regular readback row $Q$ obtained from those displayed rows.
+
+For the induction step, assume the route has been established for the preceding displayed thresholds. The next threshold is supplied by the same modulus row $M$; the continuation row $C$ replays the route through the next $S$-window and the next $B$-bound, while componentwise transport in $H$ carries the displayed rows without changing the classifier surface.
+
+The repacking stage preserves the $\RegSeqRatUp$ handoff because $Q$ has no coordinate beyond the stream windows, modulus schedule, and dyadic boundedness ledger. Thus each successor window reaches $A$ only after the finite route through $S,B,Q$ has been displayed.
+
+The conclusion follows from \autoref{thm:bounded-regular-cauchy-real-seal-boundary} together with ledger non-escape in $P$ and $N$. Since those rows export no endpoint choice, selected limit, quotient stream, countable choice, trichotomy, open-cover compactness, or ambient Real equality, the induction remains confined to the displayed threshold windows.
+\end{proof}
+
+\closureat{BoundedRegularCauchyUp}{seedStr}
+
+\begin{closurestatus}{\BoundedRegularCauchyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-regular-cauchy-carrier}, \autoref{thm:bounded-regular-cauchy-obligation-surface}, \autoref{thm:bounded-regular-cauchy-real-seal-boundary}, and \autoref{thm:bounded-regular-cauchy-tail-window-induction} seed the finite bounded regular Cauchy packet over displayed $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host completeness, quotient streams, selected limits, countable choice, trichotomy, open-cover compactness, ambient Real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-bound exactness, regular-readback compatibility, classifier transport, Real-seal handoff, provenance, local naming, and ledger non-escape for BEDC.Derived.BoundedRegularCauchyUp.}
+  \constructivestory{A $\BoundedRegularCauchyUp$ packet is generated from finite $\StreamNameUp$ windows, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ boundedness ledger, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

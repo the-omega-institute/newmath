@@ -1,0 +1,596 @@
+\begin{theorem}[StreamName terminal four-face support minimality]
+\label{thm:streamname-terminal-four-face-support-minimality}
+Let $U$ be an accepted current Phase Real and Completion terminal
+$\StreamNameUp$ request section. Then the public terminal surface of $U$ is
+accepted exactly through the four visible faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ together with the
+displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows.
+
+Moreover, this support is minimal for the accepted public verdict: deleting any
+one of the four faces, or deleting any one of the displayed support rows,
+prevents the resulting packet from presenting the same carrier verdict and the
+same classifier verdict to Real-facing or completion-facing consumers. The
+minimality claim uses no quotient stream equality, host sequence equality,
+selected limits, countable choice, ambient $\RealUp$ completeness,
+metric-completeness data, aggregate formalstatus row, or bridge row.
+\end{theorem}
+\begin{proof}
+First build the public classifier surface. Apply
+\autoref{thm:streamname-finite-section-cover-descent-classifier-reflection} to
+the accepted terminal request section and its finite cover, then compare any
+two public presentations with
+\autoref{thm:streamname-finite-cover-common-refinement-classifier-uniqueness}.
+These results place the carrier and classifier verdicts on the same visible
+StreamName, DyadicRatCore, RegSeqRat, and Real faces over the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next lock the StreamName side to the dyadic, regular-rational, and Real sides.
+The theorem
+\autoref{thm:streamname-finite-section-real-regseq-dyadic-lock} says that a
+Real-facing or completion-facing read of the terminal request section can use
+only the finite StreamName window, the DyadicRatCore ledger, the RegSeqRat
+readback, the Real seal boundary, and the same support rows. Thus a packet
+with one visible face or one support row removed is no longer the packet seen
+by those consumers.
+
+Now read the same packet from the RegSeqRat terminal boundary. By
+\autoref{thm:regseqrat-real-terminal-four-face-exactness}, terminal acceptance
+is equivalent to the presence of exactly the four displayed faces with the
+shared support rows. By
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness}, any accepted
+consumer with the same public verdict has the same finite RegSeqRat source.
+Hence removing a face or support row removes the witness needed to identify the
+source that presents that verdict.
+
+Finally pass through the Real dependency lattice. The exit totality theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every current
+Phase Real and Completion terminal read through the ordered four-face route and
+the displayed support rows. Combining this totality with the classifier
+reflection and source-uniqueness steps gives the stated minimality: the public
+carrier and classifier verdicts survive exactly on the four-face support
+surface and not on any shorter packet.
+
+The exclusion list follows from the same route description. None of the cited
+surfaces contains a coordinate for quotient stream equality, host sequence
+equality, selected limits, countable choice, ambient $\RealUp$ completeness,
+metric-completeness data, aggregate formalstatus, or bridge rows, so those
+objects cannot replace a missing visible face or support row.
+\end{proof}
+
+\begin{theorem}[StreamName terminal support defect localization]
+\label{thm:streamname-terminal-support-defect-localization}
+Let $U$ be an accepted current Phase Real and Completion terminal
+$\StreamNameUp$ request section. Suppose a public terminal presentation of
+$U$ fails to preserve at least one of the carrier verdict, the classifier
+verdict, or the consumer-facing terminal route supplied by
+\autoref{thm:streamname-terminal-four-face-support-minimality}. Then the
+failure is witnessed on one of the four visible faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, or on one of the
+displayed support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$.
+
+Consequently, quotient stream equality, host sequence equality, selected
+limits, countable choice, ambient $\RealUp$ completeness, metric completeness,
+aggregate formalstatus, and bridge rows cannot be the carrier of such a
+defect.
+\end{theorem}
+\begin{proof}
+The minimality theorem
+\autoref{thm:streamname-terminal-four-face-support-minimality} identifies the
+only support surface that presents the accepted carrier verdict and classifier
+verdict to Real-facing and completion-facing consumers. Therefore any loss of
+one of those verdicts, or of the displayed terminal route, must remove
+something from that support surface.
+
+The readback theorem
+\autoref{thm:streamname-open-phase-four-face-exit-readback} sends the public
+exit of an accepted terminal request through the same StreamName,
+DyadicRatCore, RegSeqRat, and Real faces. The Real-side localization theorem
+\autoref{thm:real-l10-face-axis-defect-localization} says that an L10 exit
+failure is detected on a displayed face or support row rather than on a hidden
+quotient, limit, choice, completeness, aggregate-status, or bridge coordinate.
+
+Combining these two route descriptions with the two-axis roadmap discipline
+gives the advertised referee check. The theory axis records which face or
+support row carries the terminal evidence, while the verification axis records
+whether that row has been checked; neither axis turns the excluded quotient,
+limit, completeness, choice, aggregate formalstatus, or bridge rows into
+support for the StreamName terminal verdict.
+\end{proof}
+
+\begin{theorem}[StreamName terminal support defect pullback]
+\label{thm:streamname-terminal-support-defect-pullback}
+Let $U$ and $V$ be accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request sections. Suppose a consumer-visible terminal
+presentation detects a carrier defect, a classifier defect, or a terminal
+route defect on one of the visible faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, or on one displayed
+support row $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, or local
+$\NameCert$. Then the defect pulls back to a finite request-section mismatch:
+it is witnessed by the finite-section pullback, by the Real-seal lock, by
+window reindex determinacy, or by the terminal-window fusion source and
+reindexing compatibility surfaces.
+
+Consequently excluded coordinates such as quotient stream equality, host
+sequence equality, selected limits, countable choice, metric completeness,
+aggregate formalstatus, bridge rows, and ambient $\RealUp$ completeness cannot
+serve as a defect carrier and cannot serve as a repair coordinate for the
+terminal request section consumed by the L10 Real route.
+\end{theorem}
+\begin{proof}
+First localize the visible failure. Apply
+\autoref{thm:streamname-terminal-support-defect-localization}. The carrier,
+classifier, or route defect is already forced onto one of the four visible
+faces or onto one displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or
+$\NameCert$ support row.
+
+Now pass from the terminal presentation to the finite request section. Apply
+\autoref{thm:streamname-finite-request-section-pullback}. The visible
+StreamName terminal read is pulled back to the finite window and request rows
+that the Phase $\RealUp$ route actually consumes. If the detected defect lies
+on the Real boundary of that read, apply
+\autoref{thm:streamname-finite-request-section-real-seal-lock}; the Real seal
+identifies the same finite request section rather than a separate ambient
+completion coordinate.
+
+It remains to account for presentations that differ by window transport.
+Apply \autoref{thm:streamname-window-reindex-determinacy}. The certified
+reindexing data preserve the finite observation section, so a defect surviving
+consumer-visible reindexing is still a mismatch of the same finite request
+rows.
+
+Finally use the fused terminal-window surface. The source-exhaustion theorem
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion} shows that
+an accepted terminal-window packet has no source beyond the displayed
+four-face section and support rows. The reindexing compatibility theorem
+\autoref{thm:streamname-terminal-window-fusion-reindexing-compatibility}
+keeps that source fixed under the allowed window transport. Thus every
+visible support defect pulls back to the finite request-section evidence
+listed in the statement.
+
+The exclusion clause follows because none of the pullback, seal-lock,
+determinacy, source-exhaustion, or compatibility surfaces exports a coordinate
+for quotient stream equality, host sequence equality, selected limits,
+countable choice, metric completeness, aggregate formalstatus, bridge rows, or
+ambient $\RealUp$ completeness. Such data therefore cannot carry the detected
+defect and cannot repair the finite section consumed by the L10 Real route.
+\end{proof}
+
+\begin{theorem}[StreamName terminal support removal witness]
+\label{thm:streamname-terminal-support-removal-witness}
+Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request section. Delete from the public terminal support of
+$U$ either one visible face among
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$, or one displayed support
+row among $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$. Then the shortened request section cannot present the same
+carrier verdict, classifier verdict, and consumer-facing terminal route as
+$U$.
+
+The lost verdict is witnessed as a finite request-section mismatch. If the
+removed coordinate is the finite $\StreamNameUp$ window or one of its displayed
+request rows, the witness is the finite-section pullback. If the removed
+coordinate is the $\RealUp$ terminal boundary, the witness is the Real-seal
+lock. If the removed coordinate is a transported window row, the witness is
+window reindex determinacy. If the removed coordinate is part of the fused
+terminal-window source, the witness is the terminal-window fusion surface.
+
+No quotient stream equality, host sequence equality, selected limit, countable
+choice, ambient $\RealUp$ completeness, metric completeness, aggregate
+formalstatus row, or bridge row can repair the shortened section or replace the
+finite witness.
+\end{theorem}
+\begin{proof}
+Begin with the deletion. By
+\autoref{thm:streamname-terminal-four-face-support-minimality}, every visible
+face and every displayed support row named in the statement is a required
+coordinate of the accepted terminal packet. Removing one of them therefore
+loses the public carrier verdict, the public classifier verdict, or the
+consumer-facing route.
+
+Next localize the loss. Apply
+\autoref{thm:streamname-terminal-support-defect-localization}. The failure
+cannot be carried by an off-route equality, a selected limit, a choice row, a
+completeness row, an aggregate verification row, or a bridge row. It is located
+on the deleted face or support row itself.
+
+Now pull the localized failure back to finite BEDC data. Use
+\autoref{thm:streamname-terminal-support-defect-pullback}. A missing
+StreamName window or displayed request row is read by the finite-section
+pullback. A missing Real terminal boundary is read by the Real-seal lock. A
+missing transported window row is read by window reindex determinacy. A missing
+coordinate from the fused terminal source is read by the terminal-window fusion
+source and reindexing compatibility surfaces.
+
+These four witness surfaces exhaust the repair options available to the
+terminal request section. Since none of them exports quotient stream equality,
+host sequence equality, selected limits, countable choice, ambient Real
+completeness, metric completeness, aggregate formalstatus rows, or bridge rows,
+the shortened section has a finite request-section mismatch and no excluded
+coordinate can repair it.
+\end{proof}
+
+\begin{theorem}[StreamName terminal four-face support exhaustion]
+\label{thm:streamname-terminal-four-face-support-exhaustion}
+Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request section. A consumer-visible support coordinate of $U$
+is accepted if and only if it is one of the four terminal faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, or one of
+the displayed rows $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$.
+
+Consequently the accepted support of $U$ has no coordinate for quotient stream
+equality, host sequence equality, selected limits, countable choice, ambient
+$\RealUp$ completeness, metric-completeness data, aggregate formalstatus rows,
+or bridge rows. None of these excluded data can be accepted as a substitute
+support coordinate for the terminal request section.
+\end{theorem}
+\begin{proof}
+For the reverse direction, the displayed four faces and support rows are
+accepted by the terminal packet described in
+\autoref{thm:streamname-terminal-four-face-support-minimality}. That theorem
+already identifies the visible StreamName, DyadicRatCore, RegSeqRat, and Real
+faces together with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ rows as the public terminal surface of $U$.
+
+For the forward direction, let a consumer-visible support coordinate be
+accepted by the current Phase Real and Completion terminal request section.
+Apply \autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}. The
+consumer read is locked to the finite StreamName window, the DyadicRatCore
+ledger, the RegSeqRat readback, the Real seal boundary, and the same displayed
+support rows.
+
+Next read the coordinate through the RegSeqRat terminal boundary. By
+\autoref{thm:regseqrat-real-terminal-four-face-exactness}, terminal acceptance
+is exactly the four-face packet with those displayed rows. By
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness}, an accepted
+consumer with the same public verdict has the same finite RegSeqRat source, so
+no second RegSeqRat-facing support source is available.
+
+Finally pass to the Real exit route. Theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every current
+Phase Real and Completion terminal read through the ordered
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route and the
+displayed support rows. Therefore every accepted consumer-visible support
+coordinate is one of exactly those faces or rows.
+
+The excluded objects are not coordinates of that route. Quotient stream
+equality, host sequence equality, selected limits, countable choice, ambient
+$\RealUp$ completeness, metric-completeness data, aggregate formalstatus rows,
+and bridge rows occur in neither the StreamName lock, the RegSeqRat exactness
+and uniqueness surface, nor the Real exit-totality route. Hence none of them is
+an accepted support coordinate for $U$.
+\end{proof}
+
+\begin{theorem}[StreamName terminal four-face support transport stability]
+\label{thm:streamname-terminal-four-face-support-transport-stability}
+Let $U$ and $V$ be accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request sections. Suppose their consumer-visible terminal
+reads expose the same four visible faces
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, and suppose
+their displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows agree after componentwise transport and replay. Then
+$U$ and $V$ present the same consumer-visible terminal support packet.
+
+The transport cannot introduce quotient stream equality, host sequence
+equality, a selected limit, countable choice, metric-completeness data, an
+aggregate formalstatus row, a bridge row, or an ambient $\RealUp$ completeness
+row. The transported packet remains exactly the same four-face BEDC support
+surface seen by Real-facing and completion-facing consumers.
+\end{theorem}
+\begin{proof}
+First classify the accepted coordinates. Apply
+\autoref{thm:streamname-terminal-four-face-support-exhaustion} to both
+terminal request sections. Every consumer-visible support coordinate of either
+section is therefore one of the four displayed faces or one of the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Next use the minimal support theorem. By
+\autoref{thm:streamname-terminal-four-face-support-minimality}, no visible
+face and no displayed support row can be deleted or substituted while
+preserving the same Real-facing and completion-facing carrier and classifier
+verdicts. Since the hypotheses identify the four faces and replay the support
+rows componentwise, the two sections have the same StreamName-side public
+surface.
+
+Now pass through the RegSeqRat terminal route. The exactness theorem
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} reads the common
+displayed faces as one terminal RegSeqRat four-face packet, and
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a
+second RegSeqRat source section with the same public verdict. Thus the
+transported RegSeqRat component is the same finite source record.
+
+Finally read the common packet through the Real L10 exit lattice. The theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every accepted
+current Phase Real and Completion terminal read through the ordered
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route with the
+displayed support rows. The two transported presentations therefore determine
+the same terminal support packet, and the exhaustion theorem excludes every
+off-route coordinate listed in the statement.
+\end{proof}
+
+\begin{theorem}[StreamName terminal route facewise conservativity]
+\label{thm:streamname-terminal-route-facewise-conservativity}
+Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request section, and let $P$ be a consumer-visible terminal
+presentation of $U$. Suppose $P$ preserves the accepted carrier verdict, the
+accepted classifier verdict, and the consumer-facing terminal route of $U$.
+Then $P$ restricts facewise to the same terminal $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces as $U$, and to the same
+displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows.
+
+No quotient stream equality, host sequence equality, selected limit, countable
+choice, ambient $\RealUp$ completeness, metric-completeness datum, aggregate
+formalstatus row, or bridge row can serve as a substitute coordinate for this
+conservative terminal presentation.
+\end{theorem}
+\begin{proof}
+First exhaust the coordinates that a preserved terminal verdict can use. By
+\autoref{thm:streamname-terminal-four-face-support-exhaustion}, every accepted
+consumer-visible support coordinate of $U$ is one of the four displayed faces
+or one of the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert$ rows.
+
+Assume contrapositively that $P$ does not restrict facewise to this displayed
+support. Then it either omits one displayed face or row, or it replaces one of
+them by an off-route coordinate. The defect localization theorem
+\autoref{thm:streamname-terminal-support-defect-localization} forces such a
+failure to appear on a visible face or displayed support row whenever the
+carrier verdict, classifier verdict, or terminal route is not preserved.
+
+The hypotheses say that $P$ preserves exactly those three consumer-visible
+outputs. Hence no such localized defect is available. The exhaustion theorem
+also says that quotient equality, host sequence equality, selected limits,
+choice, completeness, aggregate formalstatus, and bridge rows are not accepted
+support coordinates, so none of them can repair the missing facewise evidence.
+
+It remains to identify the preserved presentation. Read $P$ and $U$ as two
+accepted terminal presentations with the same visible faces and componentwise
+replayed support rows. The transport stability theorem
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}
+therefore identifies their consumer-visible terminal support packets. Thus
+preserving the accepted carrier verdict, classifier verdict, and terminal route
+is conservative exactly on the four BEDC-visible faces and displayed support
+rows listed in the statement.
+\end{proof}
+
+\begin{theorem}[StreamName terminal support replay induction]
+\label{thm:streamname-terminal-four-face-support-replay-induction}
+Let $U$ and $V$ be accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request sections. Suppose the replay from $U$ to $V$ begins
+with the same finite $\StreamNameUp$ window, and then replays in order the
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ visible faces together with
+the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ support rows. Then finite induction over this ordered support list
+determines one consumer-visible terminal support packet.
+
+The induction uses only those displayed faces and rows. It does not use
+quotient stream equality, host sequence equality, selected limits, countable
+choice, ambient $\RealUp$ completeness, metric-completeness data, aggregate
+formalstatus rows, or bridge rows.
+\end{theorem}
+\begin{proof}
+Start with the displayed finite $\StreamNameUp$ window. The minimality theorem
+\autoref{thm:streamname-terminal-four-face-support-minimality} supplies the
+base: this window is a required support coordinate and cannot be replaced by
+any off-route equality, limit, completeness, formalstatus, or bridge datum.
+
+For the induction step, assume the replayed prefix has already determined the
+same terminal support prefix. Adding the next displayed row preserves
+determinacy because minimality forbids deleting that row or substituting a
+different support coordinate while keeping the same Real-facing and
+completion-facing verdicts.
+
+At the $\RegSeqRatUp$ step, the exactness theorem
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies the
+replayed prefix as the terminal four-face RegSeqRat packet. The source
+uniqueness theorem
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} then rules out a
+second finite RegSeqRat source with the same public verdict.
+
+At the final $\RealUp$ step, theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every accepted
+current Phase Real and Completion terminal read through the ordered
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route and the
+displayed support rows. Thus the induction has exhausted the full terminal
+route.
+
+By
+\autoref{thm:streamname-terminal-four-face-support-exhaustion}, every accepted
+consumer-visible support coordinate is one of these four faces or displayed
+rows. The componentwise replay hypotheses therefore give exactly the transport
+hypotheses of
+\autoref{thm:streamname-terminal-four-face-support-transport-stability}, which
+concludes that $U$ and $V$ present one terminal support packet.
+\end{proof}
+
+\begin{theorem}[StreamName finite-cover terminal support minimality]
+\label{thm:streamname-finite-cover-terminal-support-minimality}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase $\RealUp$
+and Completion $\StreamNameUp$ request sections. Suppose every accepted overlap
+displays the same $\StreamNameUp$ finite-window row, the same
+$\DyadicRatCoreUp$ ledger row, the same $\RegSeqRatUp$ readback row, the same
+$\RealUp$ seal boundary, and the same $\BHist$, componentwise $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support rows when read through either local
+section. Then the cover-descent terminal support packet for the family is
+accepted exactly on those four visible faces and displayed support rows.
+
+Moreover, deleting any one visible face or any one displayed support row
+prevents the resulting cover packet from presenting the same carrier verdict
+and the same classifier verdict to Real-facing or completion-facing consumers.
+This finite-cover minimality claim uses no quotient stream equality, host
+sequence equality, selected limits, countable choice, ambient $\RealUp$
+completeness, metric-completeness data, aggregate formalstatus rows, or bridge
+rows.
+\end{theorem}
+\begin{proof}
+First form the cover surface. Apply
+\autoref{thm:streamname-finite-section-cover-descent-classifier-reflection} to
+the finite family. The accepted-overlap hypotheses place the carrier verdict
+and classifier verdict on the common StreamName finite window, DyadicRatCore
+ledger, RegSeqRat readback, Real seal boundary, and the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next compare all choices of cover presentation. The common-refinement theorem
+\autoref{thm:streamname-finite-cover-common-refinement-classifier-uniqueness}
+says that any certified finite refinement reads the same public four-face
+classifier surface. Thus the cover-descent terminal packet is independent of
+the chosen finite presentation once the displayed overlap rows agree.
+
+Now work on each terminal section. For every $i \in I$,
+\autoref{thm:streamname-terminal-four-face-support-minimality} says that the
+local terminal packet is accepted exactly on the four visible faces and the
+displayed support rows, and that deleting any one of these coordinates loses
+the same Real-facing or completion-facing verdict. Therefore a shorter cover
+packet would already be shorter on some accepted local section or accepted
+overlap.
+
+It remains to pass from local minimality to cover minimality. Use
+\autoref{thm:streamname-terminal-four-face-support-replay-induction} on the
+ordered list consisting of the StreamName finite window, the DyadicRatCore
+ledger, the RegSeqRat readback, the Real seal boundary, and the displayed
+support rows. The induction transports the local terminal packets through the
+cover in the same order and gives one consumer-visible terminal support packet.
+
+Finally rule out substitutes for the missing coordinate. The exactness theorem
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies the
+RegSeqRat terminal boundary with precisely the four-face support packet, while
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a
+second finite RegSeqRat source with the same public verdict. The Real exit
+totality theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} then forces every
+accepted Phase Real and Completion terminal read through the same ordered
+route.
+
+The coordinates listed outside the statement are absent from that route.
+Hence quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data,
+aggregate formalstatus rows, and bridge rows cannot supply the deleted face or
+support row, and cannot preserve the same carrier and classifier verdicts.
+\end{proof}
+
+\begin{theorem}[StreamName finite-cover terminal support defect localization]
+\label{thm:streamname-finite-cover-terminal-support-defect-localization}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase
+$\RealUp$ and Completion $\StreamNameUp$ request sections satisfying the
+accepted-overlap hypotheses of
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}. Suppose a
+cover-descent terminal support packet for the family fails to preserve the
+carrier verdict, the classifier verdict, or the consumer-facing terminal route
+presented by that finite cover. Then the failure is witnessed on one local
+face among $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, or on one displayed support row among $\BHist$, componentwise
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$.
+
+The witness is componentwise on one accepted local section or accepted
+overlap. Quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data,
+aggregate formalstatus rows, and bridge rows cannot serve as the defect
+carrier and cannot serve as the repair coordinate for the cover-descent
+terminal packet.
+\end{theorem}
+\begin{proof}
+First fix the cover support. By
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}, the
+finite cover presents its terminal support packet exactly on the StreamName
+finite-window face, the DyadicRatCore ledger face, the RegSeqRat readback
+face, the Real seal face, and the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+Now restrict the failed cover presentation to one accepted local section or
+accepted overlap where the carrier verdict, classifier verdict, or terminal
+route is lost. Apply
+\autoref{thm:streamname-terminal-support-defect-localization} on that local
+section. The local theorem places the defect on one of the four visible faces
+or on one displayed support row, and excludes quotient, host-sequence, limit,
+choice, completeness, aggregate-status, and bridge coordinates.
+
+It remains to show that this local witness is still the cover witness. Use
+\autoref{thm:streamname-terminal-four-face-support-replay-induction} on the
+ordered cover support list. The induction transports the local localization
+through the StreamName window, DyadicRatCore ledger, RegSeqRat readback, Real
+seal boundary, and displayed support rows without adding any off-route
+coordinate.
+
+At the RegSeqRat face,
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies the
+transported boundary with the terminal four-face support packet, and
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a
+second finite RegSeqRat source with the same public verdict. Thus a RegSeqRat
+defect cannot be repaired by changing quotient equality, selected limits, or
+ambient completeness data.
+
+Finally
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every accepted
+current Phase Real and Completion terminal read through the same ordered
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ exit route.
+The cover-descent packet therefore has no remaining coordinate outside the
+four faces and displayed rows on which a carrier verdict, classifier verdict,
+or consumer-facing terminal route defect could live.
+\end{proof}
+
+\begin{theorem}[StreamName finite-cover terminal support removal witness]
+\label{thm:streamname-finite-cover-terminal-support-removal-witness}
+Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase
+$\RealUp$ and Completion $\StreamNameUp$ request sections satisfying the
+accepted-overlap hypotheses of
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}. Delete
+from the cover-descent terminal support packet either one visible face among
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, or one
+displayed support row among $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert$. Then the shortened cover packet cannot present the same
+carrier verdict, classifier verdict, and consumer-facing terminal route as the
+original finite cover.
+
+The lost verdict is witnessed on one accepted local section or accepted
+overlap. Quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data,
+aggregate formalstatus rows, and bridge rows cannot replace the deleted face
+or displayed row and cannot repair the cover-descent packet.
+\end{theorem}
+\begin{proof}
+Start with the finite cover support. By
+\autoref{thm:streamname-finite-cover-terminal-support-minimality}, every
+visible face and displayed row named in the statement is a required coordinate
+of the cover-descent terminal packet. Deleting one of those coordinates
+therefore removes data needed by the accepted carrier verdict, classifier
+verdict, or consumer-facing terminal route.
+
+Now localize the loss. Apply
+\autoref{thm:streamname-finite-cover-terminal-support-defect-localization} to
+the shortened cover packet. The defect is witnessed on one accepted local
+section or accepted overlap, and it lies on a visible
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ face or on one
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or local $\NameCert$ row.
+
+On that local section, use
+\autoref{thm:streamname-terminal-support-removal-witness}. The local deletion
+already prevents presentation of the same carrier verdict, classifier verdict,
+and consumer-facing terminal route, with the witness read as a finite
+request-section mismatch.
+
+It remains to transport the local loss back through the cover. Use
+\autoref{thm:streamname-terminal-four-face-support-replay-induction} on the
+ordered cover support list. The induction replays the local witness through
+the StreamName finite window, DyadicRatCore ledger, RegSeqRat readback, Real
+seal boundary, and displayed support rows, so the cover cannot regain the lost
+terminal packet from another section of the same family.
+
+Finally rule out substitutes. The exactness theorem
+\autoref{thm:regseqrat-real-terminal-four-face-exactness} identifies the
+RegSeqRat boundary with precisely the four-face terminal support packet, and
+\autoref{thm:regseqrat-terminal-four-face-source-uniqueness} rules out a
+second finite RegSeqRat source with the same public verdict. The Real exit
+totality theorem
+\autoref{thm:real-l10-dependency-lattice-exit-totality} sends every accepted
+current Phase Real and Completion terminal read through the same ordered
+route.
+
+Thus quotient stream equality, host sequence equality, selected limits,
+countable choice, ambient $\RealUp$ completeness, metric-completeness data,
+aggregate formalstatus rows, and bridge rows are off-route for this finite
+cover. They cannot supply the deleted coordinate and cannot preserve the same
+carrier verdict, classifier verdict, and consumer-facing terminal route.
+\end{proof}

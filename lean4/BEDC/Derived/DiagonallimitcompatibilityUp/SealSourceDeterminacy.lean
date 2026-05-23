@@ -7,6 +7,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
 theorem DiagonalLimitCompatibility_seal_source_determinacy [AskSetup] [PackageSetup]
     {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
@@ -47,5 +48,35 @@ theorem DiagonalLimitCompatibility_seal_source_determinacy [AskSetup] [PackageSe
   have sameConsumer : hsame consumer consumer' :=
     cont_respects_hsame sameSealRead sameEndpoint sealReadEndpoint sealReadEndpoint'
   exact ⟨sameSealSource, sameSealRead, sameEndpoint, sameConsumer⟩
+
+theorem DiagonalLimitCompatibilitySealSourceDeterminacy [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      sealReadA sealReadB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg →
+      Cont readback realSeal sealReadA →
+        Cont readback realSeal sealReadB →
+          PkgSig bundle sealReadA pkg →
+            PkgSig bundle sealReadB pkg →
+              UnaryHistory sealReadA ∧ UnaryHistory sealReadB ∧ hsame sealReadA sealReadB ∧
+                Cont readback realSeal sealReadA ∧ Cont readback realSeal sealReadB ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle sealReadA pkg ∧
+                    PkgSig bundle sealReadB pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame PkgSig UnaryHistory DiagonalLimitCompatibilityCarrier
+  intro carrier sealRouteA sealRouteB sealPkgA sealPkgB
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealUnary, _dyadicUnary, _windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have sealUnaryA : UnaryHistory sealReadA :=
+    unary_cont_closed readbackUnary realSealUnary sealRouteA
+  have sealUnaryB : UnaryHistory sealReadB :=
+    unary_cont_closed readbackUnary realSealUnary sealRouteB
+  have sealSame : hsame sealReadA sealReadB :=
+    cont_respects_hsame (hsame_refl readback) (hsame_refl realSeal) sealRouteA sealRouteB
+  exact
+    ⟨sealUnaryA, sealUnaryB, sealSame, sealRouteA, sealRouteB, provenancePkg, sealPkgA,
+      sealPkgB⟩
 
 end BEDC.Derived.DiagonallimitcompatibilityUp

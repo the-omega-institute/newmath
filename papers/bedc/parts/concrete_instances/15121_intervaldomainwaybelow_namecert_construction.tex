@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\IntervalDomainWayBelowUp$}
+\label{ch:concrete-instances-intervaldomainwaybelow-namecert}
+\origin{human}
+
+Following Scott's finite-information order and the Gierz--Hofmann--Keimel--Lawson--Mislove--Scott account of continuous domains, with Bishop--Bridges located intervals as the constructive endpoint ground, the $\IntervalDomainWayBelowUp$ packet records the finite way-below relation used by the L10 interval-domain route. It refines the carrier of \autoref{ch:concrete-instances-intervaldomain-namecert} by naming when one displayed approximation cell sits compactly inside another before the $\RealUp$ seal is read. The route is grounded in the sibling certificates for \autoref{ch:concrete-instances-locatedinterval-namecert}, \autoref{ch:concrete-instances-nestedinterval-namecert}, \autoref{ch:concrete-instances-rationalinterval-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. It is only the finite Scott-domain approximation relation; it is not quotient real equality, host real equality, open-cover compactness, a selected limit, or ambient completeness of $\RealUp$.
+
+\begin{definition}[IntervalDomainWayBelow carrier]
+\label{def:interval-domain-way-below-carrier}
+An $\IntervalDomainWayBelowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(O,I,M,N,S,Q,E,H,C,P,A)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $O$ is the coarser $\IntervalDomainUp$ cell whose displayed window is being approximated.
+\item $I$ is the inner cell, recorded simultaneously as $\LocatedIntervalUp$ endpoint data and a $\RationalIntervalUp$ containment ledger.
+\item $M$ is a positive $\DyadicRatCoreUp$ margin row witnessing that the inner rational interval lies strictly inside the coarser interval cell.
+\item $N$ is the $\NestedIntervalUp$ refinement route carrying later cells from $O$ toward $I$ without leaving the displayed interval-domain packet.
+\item $S$ is the $\StreamNameUp$ window family through which finite endpoint requests for $O$ and $I$ are inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row serving the same windows with regular rational observations.
+\item $E$ is the $\RealUp$ seal boundary reached only after the coarser cell, inner cell, positive margin, nested route, stream windows, and regular readbacks have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $O,I,M,N,S,Q,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay for reading the coarser cell, inner cell, margin, nesting route, windows, readbacks, and seal boundary in that order.
+\item $P$ is the $\Pkg$ provenance over $\IntervalDomainWayBelowUp$, $\IntervalDomainUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\DyadicRatCoreUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\IntervalDomainWayBelowUp}$ evidence row.
+\end{enumerate}
+The intended reading is $I\ll O$: the inner located rational cell is compactly contained in the coarser interval-domain cell by the displayed positive dyadic margin and can be replayed through the finite L10 observation route before any real seal is exposed. The carrier has no coordinate for quotient real equality, host real equality, open-cover compactness, selected limits, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[IntervalDomainWayBelow NameCert obligations]
+\label{thm:interval-domain-way-below-namecert-obligations}
+For an accepted $\IntervalDomainWayBelowUp$ carrier $W=(O,I,M,N,S,Q,E,H,C,P,A)$, the local $\NameCert_{\IntervalDomainWayBelowUp}$ surface consists exactly of carrier admission, strict-margin evidence, nested-route compatibility, observation replay, transport stability, and seal non-escape:
+\begin{enumerate}
+\item carrier admission exposes precisely the coarser interval-domain cell, inner located rational cell, positive dyadic margin, nested route, stream windows, regular rational readbacks, seal boundary, transports, continuations, provenance, and local naming row;
+\item strict-margin evidence requires $M$ to be positive and to certify that both rational endpoints of $I$ lie inside the displayed bounds of $O$ with that margin;
+\item nested-route compatibility requires every refinement consumer of $O$ that asks for the inner cell to pass through the displayed $\NestedIntervalUp$ route before reading $I$;
+\item observation replay requires the $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks to serve the same endpoint requests on both sides of the way-below comparison;
+\item transport stability identifies transported carriers only through the componentwise $\hsame$ row and the displayed $\Cont$ replay route;
+\item seal non-escape states that any $\RealUp$ consumer of $E$ must first read $O,I,M,N,S,Q,H,C,P,A$.
+\end{enumerate}
+No obligation exports quotient real equality, host real equality, open-cover compactness, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:interval-domain-way-below-carrier}. The tuple lists the whole visible surface: coarser cell, inner cell, positive margin, nested route, observation windows, rational readbacks, seal boundary, transport, replay, provenance, and local naming evidence.
+
+Strict-margin evidence is read from $I$ and $M$. The inner cell carries located endpoints and a rational interval ledger, while the positive dyadic margin records a strict separation from the coarser endpoint bounds named by $O$.
+
+Nested-route compatibility is read from $N$. A consumer that starts with the coarser $\IntervalDomainUp$ cell can request the inner cell only by following the displayed $\NestedIntervalUp$ route, so the way-below comparison is a finite refinement relation rather than an ambient order assertion.
+
+Observation replay uses $S$ and $Q$ as a paired window/readback layer. The same endpoint request is served through the stream-name window and the regular rational observation row, so replay cannot change which finite data witnesses the comparison.
+
+Transport stability follows from $H$ and $C$. Componentwise $\hsame$ moves each row of the carrier, and the displayed continuation route replays the same reads after transport.
+
+Finally, seal non-escape follows because $E$ is downstream of all approximation rows. Since the carrier has no quotient, host-equality, compactness, selected-limit, or completeness coordinate, none of those principles can be read from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[IntervalDomainWayBelow approximation route]
+\label{thm:interval-domain-way-below-approximation-route}
+Let $W=(O,I,M,N,S,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainWayBelowUp$ carrier. Every L10 completion-facing consumer of the way-below comparison factors through the finite route
+$$
+\IntervalDomainUp\longmapsto(\LocatedIntervalUp,\RationalIntervalUp)\longmapsto\DyadicRatCoreUp\longmapsto\NestedIntervalUp\longmapsto\StreamNameUp\longmapsto\RegSeqRatUp\longmapsto\RealUp\longmapsto(H,C,P,A).
+$$
+Thus the relation $I\ll O$ is available as finite BEDC approximation data for interval-domain refinement. It is not quotient real equality, host real equality, open-cover compactness, a selected limit, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Begin with the coarser approximation cell. The row $O$ supplies the public $\IntervalDomainUp$ boundary, and the row $I$ supplies the inner located rational cell to be compared with it.
+
+The margin row $M$ is then read as a positive $\DyadicRatCoreUp$ witness. It is the finite separation datum that turns containment into a way-below comparison rather than a bare subset relation.
+
+Next the nested route $N$ carries the comparison through the directed interval-domain layer. The route forces later finite approximants of $O$ to encounter the displayed inner cell before the seal boundary is available.
+
+The observation layer is read through $S$ and $Q$. Stream-name windows and regular rational readbacks supply the endpoint observations for the same finite route, and $H,C,P,A$ transport, replay, source, and name it.
+
+The seal row $E$ is reached only at the end of this chain. Therefore every completion-facing consumer factors through the displayed BEDC data and receives no quotient, host-equality, open-cover, selected-limit, or ambient-completeness principle.
+\end{proof}
+
+\begin{closurestatus}{\IntervalDomainWayBelowUp}
+  \constructivestory{An $\IntervalDomainWayBelowUp$ packet is generated from a coarser IntervalDomainUp cell, an inner LocatedIntervalUp/RationalIntervalUp cell, a positive DyadicRatCore margin, a NestedIntervalUp refinement route, StreamNameUp windows, RegSeqRatUp readbacks, a RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:interval-domain-way-below-carrier}, \autoref{thm:interval-domain-way-below-namecert-obligations}, and \autoref{thm:interval-domain-way-below-approximation-route} seed the finite Scott-domain way-below relation for L10 interval-domain approximation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, host real equality, open-cover compactness, selected limits, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, strict-margin evidence, nested-route compatibility, observation replay, transport stability, seal non-escape, and completion-consumer factorization for BEDC.Derived.IntervalDomainWayBelowUp.}
+\end{closurestatus}

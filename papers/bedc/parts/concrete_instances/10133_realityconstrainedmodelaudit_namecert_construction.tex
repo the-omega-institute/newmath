@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-reality-constrained-model-audit-namecert}
 \origin{ai}
 
-The $\RealityConstrainedModelAuditUp$ interface realizes the physical model audit program of \autoref{sec:constructive-model-audit} as a finite BEDC naming certificate. It sits next to the finite stream and real-name surfaces of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-real-namecert}: those chapters supply finite observation names and real-valued readback rows, while this chapter packages the physical audit rows that decide whether a model-facing fit claim may pass an acceptance gate.
+The $\RealityConstrainedModelAuditUp$ interface realizes the physical model audit program of \autoref{sec:constructive-model-audit} as a finite BEDC naming certificate. It is a composite over the finite stream and real-name surfaces of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-real-namecert}: those chapters supply finite observation names and real-valued readback rows, while this chapter packages the physical audit rows that decide whether a model-facing fit claim may pass an acceptance gate.
 
 \begin{definition}[Reality-constrained model-audit carrier]
 \label{def:reality-constrained-model-audit-carrier}
@@ -24,6 +24,7 @@ whose displayed rows are as follows:
 \end{enumerate}
 The carrier is exactly this finite packet. It contains no unrecorded source row, no hidden compression step, no external oracle for model truth, and no physical-fit claim outside the displayed ledger.
 \end{definition}
+\leanchecked{BEDC.Derived.RealityConstrainedModelAuditUp.RealityConstrainedModelAuditCarrierSemanticNameCert}
 
 \begin{definition}[Reality-constrained model-audit classifier]
 \label{def:reality-constrained-model-audit-classifier}
@@ -107,6 +108,7 @@ Ledger non-escape in \autoref{thm:reality-constrained-model-audit-ledger-nonesca
 \label{thm:reality-constrained-model-audit-failure-surface-exhaustion}
 For an accepted $\RealityConstrainedModelAuditUp$ fit claim on $A=(H,\Pi,O,M,C,T,L,F,S)$, every defeating observation and every signature mismatch used against the claim is named in the finite failure-surface row $F$. A defeat that requires an observation route or mismatch row absent from $F$ is outside the displayed audit certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedModelAuditUp.RealityConstrainedModelAuditFailureSurfaceExhaustion}
 \begin{proof}
 The NameCert obligation surface fixes $F$ as one of the carrier rows and makes non-escape part of the accepted audit. Thus a defeating test used by the certificate must be a projection from $A$, not an extra host-side objection added after acceptance.
 
@@ -125,6 +127,7 @@ A'=(H',\Pi',O',M',C',T',L',F',S'),
 $$
 the classifier transports the audit-strength row $S$ to $S'$. Therefore classifier agreement cannot upgrade the evidential grade of a fit claim unless the transported strength row already presents that grade.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedModelAuditUp.RealityConstrainedModelAuditStrengthRowTransport}
 \begin{proof}
 Unpack the classifier definition. Alongside the source, observation, signature, tower, ledger, and failure rows, it includes preservation of the declared strength comparison.
 
@@ -145,7 +148,7 @@ The later Lean file \texttt{lean4/BEDC/Derived/RealityConstrainedModelAuditUp/Ta
 \closureat{RealityConstrainedModelAuditUp}{matureStr}[BEDC.Derived.RealityConstrainedModelAuditUp.RealityConstrainedModelAuditTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RealityConstrainedModelAuditUp}
-  \constructivestory{A $\RealityConstrainedModelAuditUp$ packet is generated from a finite source-trace history, observation bundle, observed signature, model-generated signature, classifier comparison, approximation tower, audit ledger, failure surface, and audit-strength row.}
+  \constructivestory{A $\RealityConstrainedModelAuditUp$ packet is generated from a finite source-trace history, observation bundle, observed signature, model-generated signature, classifier comparison, approximation tower, audit ledger, failure surface, and audit-strength row. Its composite dependency surface is the source-trace, observation-bundle, signature-comparison, approximation-tower, audit-ledger, failure-surface, and audit-strength surfaces.}
   \leanchecked{BEDC.Derived.RealityConstrainedModelAuditUp.taste\_gate}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:reality-constrained-model-audit-carrier}, \autoref{def:reality-constrained-model-audit-classifier}, \autoref{thm:reality-constrained-model-audit-namecert-obligations}, \autoref{thm:reality-constrained-model-audit-ledger-nonescape}, \autoref{thm:reality-constrained-model-audit-fit-separation}, \autoref{thm:reality-constrained-model-audit-signature-exactness}, \autoref{thm:reality-constrained-model-audit-failure-surface-exhaustion}, and \autoref{thm:reality-constrained-model-audit-strength-row-transport} bind the finite carrier, classifier, NameCert obligations, ledger non-escape, fit separation, and exact audit rows for signatures, failures, and strength.}

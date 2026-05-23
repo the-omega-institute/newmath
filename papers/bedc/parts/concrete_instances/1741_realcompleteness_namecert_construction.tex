@@ -165,6 +165,7 @@ R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
 $$
 be an accepted $\RealCompletenessUp$ carrier. Every modulus request consumed by the diagonal selector $\Delta$ is a displayed unary request for a rational tolerance in the modulus row $\mu$. The selected request is read through the finite route $D,W,Q,H,C,P,N$: the $\DyadicRatCoreUp$ ledger supplies the rational tolerance and observation rows, the $\StreamNameUp$ windows and $\RegSeqRatUp$ readback row expose the selected rational names, and the transport, continuation, package, and local naming rows record the public route. No modulus request is supplied by a quotient stream, selected host limit, countable choice, or ambient completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCompletenessUp.RealCompletenessBHistCarrier\_modulus\_domain\_coverage}
 \begin{proof}
 Read the carrier coordinates in \autoref{def:real-completeness-carrier}. The rows $\mu$ and $\Delta$ are displayed separately: $\mu$ names the tolerance-indexed stage requests, while $\Delta$ consumes only finite selected stages and rational observations.
 
@@ -668,6 +669,56 @@ Next apply \autoref{thm:real-completion-exact-boundary-four-face-exactness}. The
 The matching assumptions identify these four faces with the rows $D,W,Q,S$ already used by the finite-window route. Because the comparison is carried only by displayed $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance, and local $\NameCert$ support on both packets, the exact-boundary witness is a repacking of the same route rather than a second completion object.
 
 Finally use \autoref{thm:real-completion-exact-boundary-scoped-obligation-closure} and \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The first theorem keeps the witness inside the exact-boundary obligation surface, and the second theorem removes quotient streams, selected limits, host equality, countable choice, ambient completeness, metric completeness, and bridge tokens from the exported boundary. Hence every exact-boundary request made by a completion-facing consumer of $R$ factors through $B$ after the finite-window open-phase route and receives no additional completion witness.
+\end{proof}
+
+\begin{theorem}[Real completeness exact-boundary finite induction]
+\label{thm:real-completeness-exact-boundary-finite-induction}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet, and let
+$$
+B=(L,K,J,S_B,W_B,R_B,D_B,E_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet whose four exact-boundary faces match the four open Real and Completion faces of $R$. Then induction on the finite consumer route of $R$ reduces every exact-boundary request to exactly the matched faces $\DyadicRatCoreUp(D_B)$, $\StreamNameUp(W_B)$, $\RegSeqRatUp(R_B)$, and $\RealUp(E_B)$, followed only by the displayed $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance rows, and local $\NameCert$ rows of the two packets.
+
+Consequently the exact-boundary handoff is a finite BEDC-internal derivation over the four Phase Real and Completion faces. It has no quotient-stream, selected-limit, host-equality, countable-choice, ambient-completeness, metric-completeness, or bridge-token case.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-completeness-finite-window-open-phase-exit}. The open-phase consumer route of $R$ is finite, and its only completion-facing object rows are $D,W,Q,S$ together with the structural rows $H,C,P,N$.
+
+The base reads of the induction are therefore the four displayed face reads. Apply \autoref{thm:real-completion-exact-boundary-four-face-exactness} to identify the matching boundary witnesses as $\DyadicRatCoreUp(D_B)$, $\StreamNameUp(W_B)$, $\RegSeqRatUp(R_B)$, and $\RealUp(E_B)$. Each base read is transported by the corresponding $\hsame$ comparison, replayed through the relevant $\Cont$ row, and recorded by the $\Pkg$ and local $\NameCert$ entries.
+
+For the induction step, append one accepted consumer edge to a route already reduced to the four boundary faces. The edge can only read one of the structural rows $H,C,P,N$ or one of the matched faces, because \autoref{thm:real-completeness-finite-window-open-phase-exit} has no other open-phase exit. The handoff theorem \autoref{thm:real-completeness-exact-boundary-handoff} then repacks the extended route through $B$ without creating a second completion object.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The escape theorem removes every non-finite alternative case: there is no quotient-stream branch, no selected-limit branch, no host-equality branch, no countable-choice branch, no ambient-completeness branch, no metric-completeness branch, and no bridge-token branch. Thus the finite induction closes exactly on the four matched faces followed by $H,C,P,N$ and the displayed local certificate rows.
+\end{proof}
+
+\begin{theorem}[Real completeness exact-boundary standard bridge obligation]
+\label{thm:real-completion-exact-boundary-standard-bridge-obligation}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet. The packet $R$ is eligible for a standard bridge only through a matching accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S_B,W_B,R_B,D_B,E_B,H_B,C_B,P_B,N_B)
+$$
+whose four exposed faces match the four completion-facing rows of $R$: $D_B$ matches $D$, $W_B$ matches $W$, $R_B$ matches $Q$, and $E_B$ matches $S$ through the displayed $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance rows, and local $\NameCert$ support. The accepted bridge face must be the bridge-checked target
+$$
+\text{BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryUp\_StdBridge}.
+$$
+Thus any standard-bridge claim for $\RealCompletenessUp$ factors through the already bridge-checked exact-boundary face, not through a separate completion object attached to $R$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-completeness-exact-boundary-handoff}. Any exact-boundary request made by a completion-facing consumer of $R$ is already routed through a matching accepted $\RealCompletionExactBoundaryUp$ packet $B$ after the finite-window open-phase route.
+
+Next use \autoref{thm:real-completeness-exact-boundary-finite-induction}. The route reduces to the four matched faces $\DyadicRatCoreUp(D_B)$, $\StreamNameUp(W_B)$, $\RegSeqRatUp(R_B)$, and $\RealUp(E_B)$, followed only by displayed $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance rows, and local $\NameCert$ rows.
+
+Finally invoke \autoref{thm:real-completion-exact-boundary-public-bridge-factorization}. That result identifies the public bridge factorization of the exact-boundary packet with the bridge-checked $\RealCompletionExactBoundaryUp$ standard-bridge target. Therefore the only admissible standard-bridge path for $R$ is through the matched exact-boundary packet $B$ and its bridge-checked face.
+
+This obligation adds no quotient stream, selected limit, host equality, countable choice, ambient completeness, metric completeness, or bridge token to the $\RealCompletenessUp$ carrier. It records only the required factorization route for any later $\RealCompletenessUp$ standard-bridge claim.
 \end{proof}
 
 \input{parts/concrete_instances/realcompleteness/selector_window_seal_factorization}

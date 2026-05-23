@@ -161,6 +161,25 @@ private theorem truthTotalReflectionToEventFlow_injective {x y : TruthTotalRefle
     (Eq.trans (truthTotalReflection_round_trip x).symm
       (Eq.trans hread (truthTotalReflection_round_trip y)))
 
+private def truthTotalReflectionFields :
+    TruthTotalReflectionUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | TruthTotalReflectionUp.mk sentenceCodes extensionAttempt diagonal transport route
+      provenance name =>
+      [sentenceCodes, extensionAttempt, diagonal, transport, route, provenance, name]
+
+private theorem truthTotalReflection_field_faithful :
+    ∀ x y : TruthTotalReflectionUp,
+      truthTotalReflectionFields x = truthTotalReflectionFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk sentenceCodes extensionAttempt diagonal transport route provenance name =>
+      cases y with
+      | mk sentenceCodes' extensionAttempt' diagonal' transport' route' provenance' name' =>
+          cases hfields
+          rfl
+
 instance truthTotalReflectionBHistCarrier : BHistCarrier TruthTotalReflectionUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := truthTotalReflectionToEventFlow
@@ -175,6 +194,12 @@ instance truthTotalReflectionChapterTasteGate : ChapterTasteGate TruthTotalRefle
   layer_separation := by
     intro x y hxy heq
     exact hxy (truthTotalReflectionToEventFlow_injective heq)
+
+instance truthTotalReflectionFieldFaithful :
+    FieldFaithful TruthTotalReflectionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := truthTotalReflectionFields
+  field_faithful := truthTotalReflection_field_faithful
 
 def taste_gate : ChapterTasteGate TruthTotalReflectionUp :=
   truthTotalReflectionChapterTasteGate
@@ -207,5 +232,19 @@ theorem TruthTotalReflectionUp_taste_gate_boundary :
     exact ⟨truthTotalReflectionToEventFlow x, truthTotalReflection_round_trip x⟩
   · intro x w m hw hm
     exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
+
+theorem TruthTotalReflectionAttemptRowStability (x : TruthTotalReflectionUp) :
+    ∃ sentence attempt diagonal transports routes provenance nameCert : BHist,
+      x = TruthTotalReflectionUp.mk sentence attempt diagonal transports routes provenance
+        nameCert ∧
+        hsame sentence sentence ∧ hsame attempt attempt ∧ hsame diagonal diagonal ∧
+          hsame transports transports ∧ hsame routes routes := by
+  -- BEDC touchpoint anchor: BHist hsame
+  cases x with
+  | mk sentence attempt diagonal transports routes provenance nameCert =>
+      exact
+        ⟨sentence, attempt, diagonal, transports, routes, provenance, nameCert, rfl,
+          hsame_refl sentence, hsame_refl attempt, hsame_refl diagonal,
+          hsame_refl transports, hsame_refl routes⟩
 
 end BEDC.Derived.TruthTotalReflectionUp

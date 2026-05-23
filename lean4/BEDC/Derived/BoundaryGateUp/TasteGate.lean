@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BoundaryGateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -243,5 +245,48 @@ theorem BoundaryGateTasteGate_single_carrier_alignment :
       boundaryGate_round_trip,
       (fun _ _ heq => boundaryGateToEventFlow_injective heq),
       rfl⟩
+
+theorem BoundaryGate_noninternalization (G : BoundaryGateUp) :
+    ∃ B Q V S H C P N : BHist,
+      G = BoundaryGateUp.mk B Q V S H C P N ∧
+        SemanticNameCert
+          (fun row : BHist =>
+            hsame row B ∨ hsame row Q ∨ hsame row V ∨ hsame row S ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row Q ∨ hsame row V ∨ hsame row S ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row Q ∨ hsame row V ∨ hsame row S ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame NameCert
+  cases G with
+  | mk B Q V S H C P N =>
+      refine ⟨B, Q, V, S, H, C, P, N, rfl, ?_⟩
+      exact {
+        core := {
+          carrier_inhabited := ⟨B, Or.inl (hsame_refl B)⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other sameRows source
+            cases sameRows
+            exact source
+        }
+        pattern_sound := by
+          intro _row source
+          exact source
+        ledger_sound := by
+          intro _row source
+          exact source
+      }
 
 end BEDC.Derived.BoundaryGateUp

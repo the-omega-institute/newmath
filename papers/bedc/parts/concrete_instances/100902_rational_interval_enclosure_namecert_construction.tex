@@ -1,0 +1,108 @@
+\chapter{Rational Interval Enclosure NameCert Construction}
+\label{ch:concrete-instances-rational-interval-enclosure-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RationalIntervalEnclosureUp$ packet records the finite rational bracket by which a regular Cauchy real name becomes observable before any quotient-real or completeness principle is invoked. It sits over the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the dyadic tolerance and rounding discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational stream boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located interval surface of \autoref{ch:concrete-instances-located-real-interval-namecert}. The packet names finite endpoint rows, not a completed equality class of real numbers.
+
+\begin{definition}[RationalIntervalEnclosure carrier]
+\label{def:rational-interval-enclosure-carrier}
+A $\RationalIntervalEnclosureUp$ carrier is a finite $\BHist$ packet
+$$
+E=(L,U,Q,D,S,R,I,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the rational lower-endpoint row, read through $\RatUp$ and carrying the displayed lower bracket value.
+\item $U$ is the rational upper-endpoint row, read through $\RatUp$ and carrying the displayed upper bracket value.
+\item $Q$ is the rational order ledger, recording $L \leq U$ and the rational comparisons requested by the enclosure consumer.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, containing the dyadic radius, rounding rows, and rational-to-dyadic comparison data used to justify the displayed bracket width.
+\item $S$ is the $\RegSeqRatUp$ source row, naming the regular Cauchy rational stream inspected by the bracket.
+\item $R$ is the regular readback row, recording the finite index and tolerance request at which the source stream is read into the bracket.
+\item $I$ is the $\LocatedRealIntervalUp$ interval row, exposing the bracket as located interval data without adding a host interval object.
+\item $T$ is the terminal $\RealUp$ seal row reached only after $L,U,Q,D,S,R,I$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for rational endpoints, rational order, dyadic tolerance, regular source, regular readback, located interval, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an enclosure request through $L,U,Q,D,S,R,I,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RationalIntervalEnclosureUp$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\LocatedRealIntervalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalIntervalEnclosureUp}$ row.
+\end{enumerate}
+The classifier compares accepted enclosures only through $L,U,Q,D,S,R,I,T,H,C,P,N$. It has no coordinate for Dedekind-cut equivalence, host real equality, trichotomy, quotient streams, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.RationalIntervalEnclosureUp.RationalIntervalEnclosureUp}
+
+\begin{theorem}[RationalIntervalEnclosure NameCert obligations]
+\label{thm:rational-interval-enclosure-namecert-obligations}
+For every accepted $\RationalIntervalEnclosureUp$ carrier
+$$
+E=(L,U,Q,D,S,R,I,T,H,C,P,N),
+$$
+the local $\NameCert_{\RationalIntervalEnclosureUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the rational endpoint rows, rational order ledger, dyadic tolerance ledger, regular Cauchy source, regular readback, located interval row, Real seal, transports, replay, provenance, and local naming;
+\item rational endpoint exactness, requiring every enclosure read to expose $L,U,Q$ before any dyadic tolerance or real-facing row is available;
+\item dyadic tolerance compatibility, requiring $D$ to justify the displayed bracket radius and endpoint comparisons through $\DyadicRatCoreUp$ rows rather than through host real arithmetic;
+\item regular-source readback, requiring $S$ and $R$ to identify the finite $\RegSeqRatUp$ name, index, and tolerance request from which the bracket is read;
+\item located-interval routing, requiring $I$ to expose the same rational endpoints and tolerance ledger as located interval data;
+\item Real-seal ordering, requiring $T$ to be read only after $L,U,Q,D,S,R,I$ have been displayed;
+\item ledger non-escape, requiring $H,C,P,N$ to export no Dedekind-cut equivalence, host real equality, trichotomy, quotient stream, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+\end{enumerate}
+No RationalIntervalEnclosure obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rational-interval-enclosure-carrier}. The accepted packet displays exactly the lower and upper rational endpoint rows, rational order ledger, dyadic tolerance ledger, regular Cauchy source, regular readback, located interval row, terminal Real seal, and structural rows.
+
+Rational endpoint exactness is the first stage. The rows $L,U,Q$ are the only endpoint and order coordinates available to the classifier, so a consumer cannot replace the bracket by a host real interval or a completed equality class.
+
+Dyadic tolerance compatibility and regular-source readback form the middle stage. The row $D$ records the finite dyadic radius and rounding comparisons, while $S$ and $R$ identify the regular Cauchy rational name, index, and tolerance request that produced the displayed endpoint bracket.
+
+The located-interval and Real-seal rows are downstream. The row $I$ exposes the same endpoint and tolerance data as located interval evidence, and $T$ is terminal because it appears only after the endpoint, dyadic, source, and interval rows.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same finite route. Since the excluded cut, equality, trichotomy, quotient, selection, choice, and completeness objects are absent from the carrier inventory, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RationalIntervalEnclosure RegSeqRat readback]
+\label{thm:rational-interval-enclosure-regseqrat-readback}
+Every $\RegSeqRatUp$ consumer read of an accepted $\RationalIntervalEnclosureUp$ carrier factors through the displayed route
+$$
+S \longmapsto R \longmapsto D \longmapsto L,U,Q \longmapsto I \longmapsto T,H,C,P,N .
+$$
+Consequently the consumer receives one regular Cauchy rational source, one finite readback row, one dyadic tolerance ledger, rational lower and upper endpoint rows with their order ledger, one located interval row, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row. The readback supplies a finite bracket around the name and does not identify quotient streams or host real equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $E=(L,U,Q,D,S,R,I,T,H,C,P,N)$. The only regular Cauchy source coordinate is $S$, and the only finite readback coordinate attached to it is $R$.
+
+The tolerance stage then passes through $D$. This row records the dyadic radius and rounding comparisons that make the rational endpoints readable at the requested precision.
+
+The endpoint stage is $L,U,Q$. These rows expose the lower endpoint, upper endpoint, and rational order ledger after the source and tolerance request have been fixed.
+
+The downstream stage is $I,T,H,C,P,N$. The located interval row and terminal Real seal consume the displayed bracket, while the structural rows preserve and name the same route. No quotient-stream or host-real-equality coordinate is present, so every $\RegSeqRatUp$ readback factors through the displayed finite bracket.
+\end{proof}
+
+\begin{theorem}[RationalIntervalEnclosure Real-seal nonescape]
+\label{thm:rational-interval-enclosure-real-seal-nonescape}
+Let $E=(L,U,Q,D,S,R,I,T,H,C,P,N)$ be an accepted $\RationalIntervalEnclosureUp$ carrier. Every $\RealUp$ or $\LocatedRealIntervalUp$ consumer read of $E$ must pass through the rational endpoint rows, dyadic tolerance ledger, regular-source readback, and located interval row before the terminal seal $T$ is available. Therefore the seal exports only the displayed finite rational bracket and its structural replay; it exports no Dedekind-cut equivalence, host real equality, trichotomy, quotient streams, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The terminal Real-facing coordinate of the carrier is $T$. By the displayed packet order in \autoref{def:rational-interval-enclosure-carrier}, $T$ is downstream of $L,U,Q,D,S,R,I$.
+
+A $\LocatedRealIntervalUp$ consumer must therefore read $I$ through the same endpoint and tolerance rows that produced the bracket. There is no second interval coordinate and no host interval object.
+
+A $\RealUp$ consumer must also read through the same route before reaching $T$. The structural rows $H,C,P,N$ then transport, replay, package, and name only that route.
+
+Since the carrier inventory omits Dedekind-cut equivalence, host real equality, trichotomy, quotient streams, selected limits, countable choice, and ambient Real completeness, none of those objects can escape through the terminal seal.
+\end{proof}
+
+\falsifiablePrediction{Every $\RationalIntervalEnclosureUp$ read factors through rational lower and upper endpoint rows, one rational order ledger, one $\DyadicRatCoreUp$ tolerance ledger, one $\RegSeqRatUp$ source row, one finite regular readback row, one $\LocatedRealIntervalUp$ interval row, one $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{rat, dyadicratcore, regseqrat, located-real-interval, real: $\RationalIntervalEnclosureUp$ is not bijective to any listed sibling because it jointly carries rational endpoints, rational order, dyadic tolerance, regular Cauchy readback, located interval exposure, and a terminal Real-facing seal as one finite bracket packet.}
+
+\closureat{RationalIntervalEnclosureUp}{seedStr}
+
+\begin{closurestatus}{\RationalIntervalEnclosureUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-interval-enclosure-carrier}, \autoref{thm:rational-interval-enclosure-namecert-obligations}, \autoref{thm:rational-interval-enclosure-regseqrat-readback}, and \autoref{thm:rational-interval-enclosure-real-seal-nonescape} seed the finite rational interval enclosure route from regular Cauchy rational names through rational endpoint rows, dyadic tolerance, located interval exposure, Real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind-cut equivalence, host real equality, trichotomy, quotient streams, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational endpoint exactness, dyadic tolerance compatibility, regular-source readback, located-interval routing, Real-seal ordering, ledger non-escape, and consumer factorization for BEDC.Derived.RationalIntervalEnclosureUp.}
+  \constructivestory{A $\RationalIntervalEnclosureUp$ packet is generated from rational lower and upper endpoint rows, a rational order ledger, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ source row, one finite readback row, a $\LocatedRealIntervalUp$ interval row, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

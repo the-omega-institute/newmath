@@ -276,4 +276,39 @@ theorem RegSeqObservationBudgetTasteGate_single_carrier_alignment :
         exact regSeqObservationBudgetToEventFlow_injective heq
       · rfl
 
+theorem RegSeqObservationBudgetUp_StdBridge (x : RegSeqObservationBudgetUp) :
+    regSeqObservationBudgetFromEventFlow (regSeqObservationBudgetToEventFlow x) = some x ∧
+      ∃ window readback realBudget diagonal tolerance transport route provenance name : BHist,
+        x = RegSeqObservationBudgetUp.mk window readback realBudget diagonal tolerance transport
+          route provenance name ∧
+          regSeqObservationBudgetToEventFlow x =
+            [[BMark.b0],
+              regSeqObservationBudgetEncodeBHist window,
+              [BMark.b1, BMark.b0],
+              regSeqObservationBudgetEncodeBHist readback,
+              [BMark.b1, BMark.b1, BMark.b0],
+              regSeqObservationBudgetEncodeBHist realBudget,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              regSeqObservationBudgetEncodeBHist diagonal,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              regSeqObservationBudgetEncodeBHist tolerance,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              regSeqObservationBudgetEncodeBHist transport,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              regSeqObservationBudgetEncodeBHist route,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b0],
+              regSeqObservationBudgetEncodeBHist provenance,
+              [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                BMark.b1, BMark.b0],
+              regSeqObservationBudgetEncodeBHist name] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact regSeqObservationBudget_round_trip x
+  · cases x with
+    | mk window readback realBudget diagonal tolerance transport route provenance name =>
+        exact
+          ⟨window, readback, realBudget, diagonal, tolerance, transport, route, provenance,
+            name, rfl, rfl⟩
+
 end BEDC.Derived.RegSeqObservationBudgetUp

@@ -125,6 +125,62 @@ Now apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. The com
 The assembled route therefore reaches the Real classifier only through the common-refinement packet, the RegSeqRat readback, and the DyadicRatCore observation row. None of the cited packets contains a coordinate for quotient-real equality, host sequence equality, selected host limits, ambient Real completeness, independent Real carrier rows, or metric-completeness data, so no terminal consumer can read one from this handoff.
 \end{proof}
 
+\begin{theorem}[Real StreamName RegSeqRat common-refinement seal uniqueness]
+\label{thm:real-streamname-regseqrat-common-refinement-seal-uniqueness}
+Let $C_0$ and $C_1$ be accepted terminal $\RealUp$ seal-facing consumers.
+Suppose $C_i$ is read through a $\StreamNameUp$ common-refinement window
+$W_i$ with a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation
+row, and a local $\mathsf{RealUnaryStreamClassifier}$ endpoint, all carried
+by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support. Suppose further that $W_0$ and $W_1$ both transport to one shared
+common-refinement packet $W_\ast$, and that after this transport their
+$\RegSeqRatUp$ readbacks and $\DyadicRatCoreUp$ observation rows agree on
+$W_\ast$.
+
+Then the two local $\mathsf{RealUnaryStreamClassifier}$ endpoints are
+$\hsame$-equal at the shared refinement boundary, and $C_0$ and $C_1$
+determine one terminal finite $\RealUp$ seal route. The assertion is only
+this common-refinement uniqueness statement. It excludes quotient-real
+equality, host sequence equality, selected host limits, ambient completeness,
+independent $\RealUp$ carrier rows, metric-completeness data, and
+standard-bridge rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-realup-finite-window-factorization}
+to $C_0$ and $C_1$. This sends each terminal consumer through the same four
+types of displayed faces: its StreamName finite-window ledger, its RegSeqRat
+pointwise handoff, its DyadicRatCore observation row, and its local
+$\mathsf{RealUnaryStreamClassifier}$ endpoint with the local
+$\NameCert_{\RealUp}$ row.
+
+Next use
+\autoref{thm:real-streamname-regseqrat-common-refinement-consumer-lock}. It
+forces both terminal reads to pass through the common-refinement terminal
+packet before the RegSeqRat readback, DyadicRatCore observation, and local
+Real classifier rows are consumed.
+
+Transport the two factorizations along the displayed maps from $W_0$ and
+$W_1$ to $W_\ast$. By hypothesis the transported RegSeqRat readbacks and
+DyadicRatCore observation rows agree on this shared StreamName window, so the
+only remaining local Real boundary coordinate is the transported
+$\mathsf{RealUnaryStreamClassifier}$ endpoint.
+
+Now apply \autoref{thm:real-finite-window-classifier-endpoint-determinacy}.
+With the StreamName common-refinement window, RegSeqRat readback,
+DyadicRatCore observation, and local $\NameCert_{\RealUp}$ support fixed on
+$W_\ast$, the two classifier endpoints are $\hsame$-equal at the shared
+boundary.
+
+Finally apply
+\autoref{thm:real-streamname-regseqrat-terminal-pullback-separation}. The
+$\hsame$-identified classifier endpoints, together with the shared
+StreamName, RegSeqRat, DyadicRatCore, $\Cont$, $\Pkg$, and $\NameCert$ rows,
+determine one terminal finite $\RealUp$ seal route. The cited pullback
+separation also rules out any appeal to quotient-real equality, host sequence
+equality, selected limits, ambient completeness, independent Real carrier
+rows, metric-completeness data, or standard-bridge rows.
+\end{proof}
+
 \begin{theorem}[Real StreamName RegSeqRat terminal pullback separation]
 \label{thm:real-streamname-regseqrat-terminal-pullback-separation}
 Let $C_0$ and $C_1$ be terminal $\RealUp$ seal-facing consumers whose

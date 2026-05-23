@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier contains no quotient stream equality, no host zero equality, no selected real limit, no nonzero witness stream, and no ambient completeness theorem.
 \end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyZeroUp.TasteGate.RegularCauchyZeroTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Regular Cauchy zero NameCert obligations]
 \label{thm:regular-cauchy-zero-namecert-obligations}
@@ -68,6 +69,18 @@ The continuation row $c$ routes the regular readback through $m$ before it reach
 Thus a tail-meet or finite-tail diagonal consumer receives the zero threshold through the identity meet row of the packet and not through host zero equality.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy zero tail-meet idempotent replay]
+\label{thm:regular-cauchy-zero-tail-meet-idempotent-replay}
+For an accepted $\RegularCauchyZeroUp$ packet $Z=(q,s,r,m,\mu,e,h,c,p,n)$, replaying the exported identity meet row $\mu$ as both tail-meet inputs returns the same displayed zero tail threshold $m$ and the same meet row $\mu$. Repeated $\RegularCauchyTailMeetUp$, $\FiniteTailDiagonalSealUp$, $\RegularCauchyLimitTransportUp$, or $\RealUp$ consumers therefore cannot obtain a second modulus, host equality proof, selected limit, nonzero witness, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-zero-namecert-obligations} to the accepted packet. The local certificate surface has exactly one modulus-facing coordinate $m$ and exactly one meet-facing coordinate $\mu$.
+
+Apply \autoref{thm:regular-cauchy-zero-tail-meet-identity} to both replay inputs. Since both inputs are the displayed identity meet row, the replay has the same source modulus on both sides and returns the same zero threshold.
+
+For downstream reads, use \autoref{thm:regular-cauchy-zero-downstream-handoff} together with \autoref{thm:regular-cauchy-zero-real-seal-nonescape}. These results exhaust the consumer-visible boundary by the displayed rows, so repeated consumers can reuse $m$ and $\mu$ but cannot manufacture any additional modulus, equality proof, selected limit, nonzero witness, or completeness row.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy zero RealUp seal non-escape]
 \label{thm:regular-cauchy-zero-real-seal-nonescape}
 Every $\RealUp$ seal read exported by an accepted $\RegularCauchyZeroUp$ packet factors through
@@ -100,13 +113,367 @@ For limit-transport and real-seal consumers, use \autoref{thm:regular-cauchy-zer
 The carrier has no further coordinates. Therefore every downstream handoff is exhausted by the displayed packet rows and cannot draw on an external equality or completeness object.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy zero terminal consumer uniqueness]
+\label{thm:regular-cauchy-zero-terminal-consumer-uniqueness}
+Let $Z$ and $Z'$ be accepted $\RegularCauchyZeroUp$ packets whose displayed zero-source rows
+$$
+(q,s,r,m,\mu,h,c,p,n)
+$$
+agree componentwise. Then every $\RegularCauchyTailMeetUp$, $\FiniteTailDiagonalSealUp$, $\RegularCauchyLimitTransportUp$, and $\RealUp$ terminal consumer reads the same zero-source boundary from $Z$ and $Z'$. No quotient stream equality, host zero equality, selected real limit, nonzero witness, or ambient completeness coordinate can distinguish the two terminal reads.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-zero-namecert-obligations} to both accepted packets. Their local certificate surfaces expose only the finite carrier rows, and the hypotheses identify the zero seed, constant stream, regular readback, modulus, meet, transport, continuation, provenance, and local naming rows componentwise.
+
+Next use \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}. The common rows force both packets through the same $\StreamNameUp$ constant-window route and the same dyadic observation ledger before any regular-Cauchy, tail-meet, or real-facing consumer can read the zero source.
+
+For tail-meet and finite-tail diagonal consumers, apply \autoref{thm:regular-cauchy-zero-tail-meet-identity}. Since the common boundary includes $m$ and $\mu$, both packets export the same zero modulus and the same identity meet row to those consumers.
+
+For limit-transport and real-seal consumers, apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} and \autoref{thm:regular-cauchy-zero-downstream-handoff}. These results exhaust the terminal consumer-visible boundary by the displayed rows, so a consumer has no remaining coordinate through which $Z$ and $Z'$ can be separated.
+\end{proof}
+
+\begin{definition}[Regular Cauchy zero request bundle surface]
+\label{def:regular-cauchy-zero-request-bundle-surface}
+For an accepted $\RegularCauchyZeroUp$ carrier
+$$
+Z=(q,s,r,m,\mu,e,h,c,p,n),
+$$
+a regular Cauchy zero request bundle surface is a finite $\ProbeBundle$ of unary precision requests whose every member is displayed through the same route
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e.
+$$
+Each request may read the rational zero seed, the constant $\StreamNameUp$ window, the zero $\RegSeqRatUp$ row, the zero $\CauchyModulusUp$ row, the identity $\CauchyModulusMeetUp$ row, the terminal $\RealUp$ seal row, and the supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $Z$. The surface has no coordinate for quotient streams, host zero equality, selected limits, nonzero witnesses, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy zero ProbeBundle base window]
+\label{thm:regular-cauchy-zero-probebundle-base-window}
+For an accepted $\RegularCauchyZeroUp$ carrier $Z$, the empty finite $\ProbeBundle$ of unary precision requests contributes no new route. Its request-bundle surface is covered by the already displayed carrier rows
+$$
+q,s,r,m,\mu,e,h,c,p,n
+$$
+of \autoref{def:regular-cauchy-zero-carrier}, and therefore it cannot expose quotient streams, host zero equality, selected limits, nonzero witnesses, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-zero-namecert-obligations}. The empty bundle has no consumer request to place, so the only visible data is the carrier surface already certified by the local $\NameCert_{\RegularCauchyZeroUp}$ row.
+
+Apply \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route} and \autoref{thm:regular-cauchy-zero-real-seal-nonescape} to read the available route. It is the displayed zero route through $q,s,r,m,\mu,e$ with support $h,c,p,n$.
+
+Since no request is adjoined, the empty surface cannot introduce a second stream, a host equality witness, a selected limit, a nonzero source, or a completeness object.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero ProbeBundle cons window]
+\label{thm:regular-cauchy-zero-probebundle-cons-window}
+Let $Z=(q,s,r,m,\mu,e,h,c,p,n)$ be an accepted $\RegularCauchyZeroUp$ carrier. If a finite $\ProbeBundle$ of unary precision requests for $Z$ is covered by the regular Cauchy zero request bundle surface of \autoref{def:regular-cauchy-zero-request-bundle-surface}, then adjoining one further unary precision request preserves the same constant zero stream window, dyadic observation ledger, zero modulus row, identity meet row, and $\RealUp$ seal route:
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e.
+$$
+The enlarged bundle still reads only the supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $Z$.
+\end{theorem}
+\begin{proof}
+Read the adjoined unary request at the point where it asks for a precision window. By \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}, any such read is forced first through the constant $\StreamNameUp$ row $s$ and the dyadic observation ledger carried by the displayed route.
+
+Next apply \autoref{thm:regular-cauchy-zero-tail-meet-identity}. The request cannot select a second modulus, because the only modulus-facing coordinate is $m$ and the only meet-facing coordinate is the identity row $\mu$.
+
+Finally apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} and \autoref{thm:regular-cauchy-zero-terminal-consumer-uniqueness}. The terminal read still reaches $e$ through the same zero-source boundary, so adjoining the request preserves the existing finite bundle coverage rather than adding an external route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero ProbeBundle induction coverage]
+\label{thm:regular-cauchy-zero-probebundle-induction-coverage}
+For every accepted $\RegularCauchyZeroUp$ carrier $Z=(q,s,r,m,\mu,e,h,c,p,n)$ and every finite $\ProbeBundle$ of unary precision requests for $Z$, there is a single displayed zero-source surface for the whole bundle:
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e
+$$
+with support $h,c,p,n$ over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Thus finite request coverage for $\RegularCauchyZeroUp$ excludes quotient streams, host zero equality, selected limits, nonzero witnesses, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Induct on the finite $\ProbeBundle$.
+
+At the empty boundary, apply \autoref{thm:regular-cauchy-zero-probebundle-base-window}. The empty bundle is already covered by the carrier rows and contributes no consumer route outside them.
+
+For the successor step, assume the smaller bundle has the displayed zero-source surface. Apply \autoref{thm:regular-cauchy-zero-probebundle-cons-window} to the adjoined unary request. The successor bundle keeps the same constant stream window, dyadic ledger, zero modulus, identity meet, and $\RealUp$ seal route.
+
+The route itself is pinned by \autoref{thm:regular-cauchy-zero-namecert-obligations}, \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}, \autoref{thm:regular-cauchy-zero-tail-meet-identity}, \autoref{thm:regular-cauchy-zero-real-seal-nonescape}, and \autoref{thm:regular-cauchy-zero-terminal-consumer-uniqueness}. Therefore the finite induction produces one bundle-wide surface and leaves no coordinate through which a quotient stream, host equality, selected limit, nonzero witness, or completeness principle could be read.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero obligation closure package]
+\label{thm:regular-cauchy-zero-obligation-closure-package}
+The carrier definition of \autoref{def:regular-cauchy-zero-carrier}, together with the visible rows certified in \autoref{thm:regular-cauchy-zero-namecert-obligations}, \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}, \autoref{thm:regular-cauchy-zero-tail-meet-identity}, \autoref{thm:regular-cauchy-zero-real-seal-nonescape}, \autoref{thm:regular-cauchy-zero-downstream-handoff}, and \autoref{thm:regular-cauchy-zero-probebundle-induction-coverage}, forms the full $\RegularCauchyZeroUp$ obligation package. The package consists exactly of the rational zero seed, the constant $\StreamNameUp$ window, the $\RegSeqRatUp$ zero row, the $\CauchyModulusUp$ zero row, the $\CauchyModulusMeetUp$ identity row, the $\RealUp$ seal route, finite unary request-bundle coverage, and downstream non-escape, all as visible finite rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:regular-cauchy-zero-carrier}. Its coordinates display the rational zero seed, constant stream row, regular rational row, zero modulus row, meet row, seal row, transports, continuations, provenance, and local naming row.
+
+Apply \autoref{thm:regular-cauchy-zero-namecert-obligations} to identify those coordinates as the local $\NameCert_{\RegularCauchyZeroUp}$ surface. Apply \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route} to force the zero seed through the constant $\StreamNameUp$ window and dyadic observation boundary before any regular-Cauchy or real-facing consumer can read it.
+
+Apply \autoref{thm:regular-cauchy-zero-tail-meet-identity} to pin the modulus meet to the displayed zero row, and apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} to route the $\RealUp$ seal through the same finite chain. Apply \autoref{thm:regular-cauchy-zero-probebundle-induction-coverage} to cover every finite unary request bundle by the same zero-source surface.
+
+Finally, \autoref{thm:regular-cauchy-zero-downstream-handoff} exhausts the consumer-visible boundary, so no quotient stream, host equality, selected limit, nonzero witness, or ambient completeness object remains outside the listed obligation rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero scoped route]
+\label{thm:regular-cauchy-zero-scoped-route}
+Every accepted $\RegularCauchyZeroUp$ packet scopes its zero source through the finite route
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e.
+$$
+The rows $h,c,p,n$ provide componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ structure for that route. Consequently the zero packet is scoped by $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and still exports no quotient stream, host zero equality, selected real limit, nonzero witness stream, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-zero-namecert-obligations} to expose the carrier coordinates and the local certificate rows. The zero source begins as the rational seed $q$ and is accepted only with the structural coordinates $h,c,p,n$.
+
+Apply \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}. It forces the seed through $s$ and then into the regular row $r$ before any regular-Cauchy or completion-facing consumer reads the packet.
+
+Apply \autoref{thm:regular-cauchy-zero-tail-meet-identity} to identify the zero modulus and meet segment $r \mapsto m \mapsto \mu$. Apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} to extend the same route to the $\RealUp$ seal row $e$.
+
+Finally use \autoref{thm:regular-cauchy-zero-downstream-handoff}. The downstream boundary is exhausted by the displayed zero-source rows and structural rows, so the scoped route has exactly the listed $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependencies and cannot export quotient streams, host zero equality, selected limits, nonzero witnesses, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero public zero-source export]
+\label{thm:regular-cauchy-zero-public-zero-source-export}
+Every accepted $\RegularCauchyZeroUp$ packet exports a unique public zero-source boundary
+$$
+(q,s,r,m,\mu,e,h,c,p,n)
+$$
+to $\RegSeqRatUp$, tail-meet, limit-transport, and $\RealUp$ consumers. The public boundary is the finite route
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e
+$$
+with structural support $h,c,p,n$, and no public consumer obtains an additional quotient stream, host zero equality, selected real limit, nonzero witness stream, or ambient completeness principle from the packet.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:regular-cauchy-zero-carrier}. The accepted packet has exactly the displayed coordinates, and \autoref{thm:regular-cauchy-zero-namecert-obligations} identifies them as the local $\NameCert_{\RegularCauchyZeroUp}$ rows over $\BHist$, $\hsame$, $\Cont$, and $\Pkg$.
+
+Apply \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route} to route the seed $q$ through the constant stream row $s$ and the regular rational row $r$. Apply \autoref{thm:regular-cauchy-zero-tail-meet-identity} to force the modulus and meet segment $r \mapsto m \mapsto \mu$.
+
+Apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape} and \autoref{thm:regular-cauchy-zero-downstream-handoff}. These results place the terminal $\RealUp$ seal at $e$ and exhaust the $\RegSeqRatUp$, tail-meet, limit-transport, and $\RealUp$ reads through the same public boundary.
+
+Finally use \autoref{thm:regular-cauchy-zero-probebundle-induction-coverage} and \autoref{thm:regular-cauchy-zero-scoped-route}. ProbeBundle induction shows that every finite public request keeps the same zero-source route, while the scoped route theorem excludes any external consumer coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero public consumer factorization]
+\label{thm:regular-cauchy-zero-public-consumer-factorization}
+For every accepted $\RegularCauchyZeroUp$ packet $Z=(q,s,r,m,\mu,e,h,c,p,n)$, every public read by a $\RegSeqRatUp$, tail-meet, limit-transport, or $\RealUp$ consumer factors through the chain
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e.
+$$
+The factorization is public in the sense that $h,c,p,n$ only replay the displayed route through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$; they do not add a second zero source or a second terminal seal.
+\end{theorem}
+\begin{proof}
+Read the consumer at its first visible precision boundary. By \autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}, the read must pass from $q$ to $s$ and then to $r$ before it can become regular-rational or completion-facing data.
+
+For tail-meet consumers, apply \autoref{thm:regular-cauchy-zero-tail-meet-identity}. The only modulus-facing and meet-facing coordinates are $m$ and $\mu$, so the read factors through $r \mapsto m \mapsto \mu$.
+
+For limit-transport and $\RealUp$ consumers, apply \autoref{thm:regular-cauchy-zero-real-seal-nonescape}. The terminal seal is the row $e$, and the non-escape result prevents a selected limit or host equality from replacing it.
+
+The remaining structural fields are accounted for by \autoref{thm:regular-cauchy-zero-namecert-obligations}, \autoref{thm:regular-cauchy-zero-probebundle-induction-coverage}, and \autoref{thm:regular-cauchy-zero-downstream-handoff}. Hence every public read factors through the displayed chain and no extra zero-source or seal row is exported.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero public closure package]
+\label{thm:regular-cauchy-zero-public-closure-package}
+The scoped route of \autoref{thm:regular-cauchy-zero-scoped-route}, together with the public zero-source export of \autoref{thm:regular-cauchy-zero-public-zero-source-export} and the public consumer factorization of \autoref{thm:regular-cauchy-zero-public-consumer-factorization}, forms the $\RegularCauchyZeroUp$ public export package. This package is the single named boundary through which $\RegSeqRatUp$, tail-meet, limit-transport, and $\RealUp$ consumers may cite the regular Cauchy zero source.
+\end{theorem}
+\begin{proof}
+The scoped route theorem supplies the finite dependency spine from $\RatUp$ through $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, and $\RealUp$, with support in $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The public zero-source export theorem turns that spine into the consumer-facing boundary $(q,s,r,m,\mu,e,h,c,p,n)$. The public consumer factorization theorem then shows that every relevant public read factors through $q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e$.
+
+Together these results package the carrier, local NameCert obligations, sibling route, tail-meet identity, RealUp non-escape, ProbeBundle induction, downstream handoff, and scoped route as one public object surface for downstream citation.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero diagonal selector handoff]
+\label{thm:regular-cauchy-zero-diagonal-selector-handoff}
+Let
+$$
+Z=(q,s,r,m,\mu,e,h,c,p,n)
+$$
+be an accepted $\RegularCauchyZeroUp$ packet whose public zero-source boundary
+supplies the zero seed $q$, constant $\StreamNameUp$ window $s$, zero
+$\RegSeqRatUp$ row $r$, dyadic observation route, zero modulus $m$, identity
+meet $\mu$, terminal $\RealUp$ seal $e$, and structural rows $h,c,p,n$. For
+any accepted $\DiagonalTailSelectorUp$ source-schedule read
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+whose source row, precision request, modulus row, finite window, dyadic
+readback, tail route, and seal row agree with this zero-source boundary, the
+read factors through the displayed selector route
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N.
+$$
+The handoff is a finite BEDC row-routing statement: it exports no quotient
+stream, host zero equality, selected limit, countable-choice row, hidden tail
+oracle, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-zero-public-closure-package}. It
+packages the zero seed, constant stream window, regular rational zero row,
+zero modulus, identity meet, terminal seal, and structural rows as the public
+$\RegularCauchyZeroUp$ boundary available to downstream consumers.
+
+Apply \autoref{thm:regular-cauchy-zero-public-consumer-factorization}. Every
+public completion-facing read of $Z$ passes through
+$q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e$, so the
+source-schedule rows supplied to $G$ have no second zero source or second seal
+outside that boundary.
+
+Now use \autoref{thm:diagonal-tail-selector-source-schedule-readback}. For
+the accepted diagonal selector packet, every Real-completion source read must
+begin with the displayed prefix $R,n,\mu,k$ and may not replace it by a second
+selector, quotient stream, host-selected limit, countable-choice row, hidden
+tail oracle, or ambient completeness coordinate.
+
+Finally apply
+\autoref{thm:diagonal-tail-selector-window-dyadic-tail-compatibility}. The
+agreed zero-source rows are consumed through the compatible finite
+$W,D,T$ route before the seal row $S$ is read. Hence the handoff factors
+through $R,n,\mu,k,W,D,T,S,H,C,P,N$ as finite BEDC row routing, not as a
+completeness theorem or a theorem of host equality.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero abstract bridge surface]
+\label{thm:regular-cauchy-zero-abstract-bridge-surface}
+The public package of
+\autoref{thm:regular-cauchy-zero-public-closure-package} and the selector
+handoff of \autoref{thm:regular-cauchy-zero-diagonal-selector-handoff}
+bridge every accepted concrete packet
+$$
+(q,s,r,m,\mu,e,h,c,p,n)
+$$
+to the abstract regular-Cauchy zero interface read by $\RegSeqRatUp$,
+tail-meet, diagonal-selector, and $\RealUp$ consumers. The bridge surface is
+exactly the finite route through $\StreamNameUp$ and $\DyadicRatCoreUp$:
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e.
+$$
+It exports this route as finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ data, and it exports no quotient stream, host zero equality,
+selected limit, countable choice, hidden tail oracle, or ambient completeness
+principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-zero-public-closure-package}. It
+packages the concrete carrier, the zero-source export, the scoped route, and
+the public consumer factorization as the named boundary available to
+$\RegSeqRatUp$, tail-meet, limit-transport, and $\RealUp$ reads.
+
+Use \autoref{thm:regular-cauchy-zero-diagonal-selector-handoff} at the
+completion-facing selector boundary. The agreed rows of the diagonal selector
+read consume the same zero seed, constant stream window, regular rational row,
+modulus, meet, and terminal seal, so the selector interface receives the
+packet through the same finite route rather than through a host-selected
+limit.
+
+The route through $\StreamNameUp$ and $\DyadicRatCoreUp$ is supplied by
+\autoref{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}, while
+\autoref{thm:regular-cauchy-zero-tail-meet-identity} and
+\autoref{thm:regular-cauchy-zero-real-seal-nonescape} carry the route across
+the meet row and the terminal $\RealUp$ seal. Thus the abstract interface sees
+only the displayed BEDC row chain.
+
+Finally apply
+\autoref{thm:regular-cauchy-zero-public-consumer-factorization} and
+\autoref{thm:regular-cauchy-zero-probebundle-induction-coverage}. These
+results exhaust public reads and finite request bundles through the same
+packet coordinates, which refuses quotient streams, host zero equality,
+selected limits, countable choice, hidden tail oracles, and ambient
+completeness as extra bridge data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero mature standard boundary]
+\label{thm:regular-cauchy-zero-mature-standard-boundary}
+Every standard-facing read of the regular Cauchy zero interface factors
+through the finite BEDC row route
+$$
+q \mapsto s \mapsto r \mapsto m \mapsto \mu \mapsto e
+$$
+together with the public consumer rows $h,c,p,n$. Thus a read by
+$\RegSeqRatUp$, tail-meet, diagonal-selector, limit-transport, or $\RealUp$
+may inspect only the zero seed $q$, the constant stream row $s$, the regular
+rational row $r$, the modulus row $m$, the meet row $\mu$, the seal row $e$,
+and the public handoff coordinates $h,c,p,n$ recorded by the packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-zero-public-closure-package} to expose the
+carrier, obligation package, scoped route, and public export as the boundary
+available to downstream reads.
+
+Next apply
+\autoref{thm:regular-cauchy-zero-diagonal-selector-handoff}. It forces the
+completion-facing selector read to consume the same zero-source rows and the
+same public handoff coordinates, so the diagonal interface cannot introduce a
+separate selected limit.
+
+Finally apply
+\autoref{thm:regular-cauchy-zero-abstract-bridge-surface}. The abstract
+bridge surface identifies the standard-facing route with the displayed
+$q,s,r,m,\mu,e$ chain and exports it only as finite $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ data. Hence every standard-facing read
+factors through the stated finite boundary.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero terminal interface completeness]
+\label{thm:regular-cauchy-zero-terminal-interface-completeness}
+The tail-meet, diagonal-selector, limit-transport, and $\RealUp$ consumers
+exhaust exactly the same finite zero-source rows named by the regular Cauchy
+zero packet. No such consumer can demand a quotient stream, host zero
+equality, selected limit, countable choice, hidden tail oracle, or ambient
+completeness principle beyond the displayed route and the public handoff
+coordinates.
+\end{theorem}
+\begin{proof}
+The tail-meet consumer is already confined by
+\autoref{thm:regular-cauchy-zero-tail-meet-identity}, which reads the zero
+route through the identity meet row $\mu$ and not through an ambient
+completion object.
+
+The diagonal-selector and limit-transport consumers are confined by
+\autoref{thm:regular-cauchy-zero-diagonal-selector-handoff}. Their accepted
+rows are the same $q,s,r,m,\mu,e,h,c,p,n$ rows, so neither consumer can add a
+chosen real limit or a countable selection principle.
+
+The $\RealUp$ consumer is confined by
+\autoref{thm:regular-cauchy-zero-real-seal-nonescape} and by
+\autoref{thm:regular-cauchy-zero-abstract-bridge-surface}. The seal row $e$
+is terminal for this packet, and the bridge exports only finite $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. The listed external demands
+therefore have no coordinate in the terminal interface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero mature closure package]
+\label{thm:regular-cauchy-zero-mature-closure-package}
+The regular Cauchy zero chapter supplies a mature paper-side package
+consisting of the carrier, obligation package, scoped route, public export,
+abstract bridge, mature standard boundary, and terminal interface
+completeness. This package is the final paper-side L10 zero-source interface
+for downstream $\RegSeqRatUp$ and $\RealUp$ consumers, while Lean
+verification and bridge checking remain separate verification-axis work.
+\end{theorem}
+\begin{proof}
+Use the carrier and local row construction established before
+\autoref{thm:regular-cauchy-zero-obligation-closure-package}; the obligation
+package records the finite NameCert duties for the zero seed, stream row,
+regular-rational row, modulus row, meet row, and terminal seal.
+
+Apply \autoref{thm:regular-cauchy-zero-scoped-route} and
+\autoref{thm:regular-cauchy-zero-public-closure-package}. These results
+promote the local packet to the scoped route and public export read by
+downstream consumers.
+
+Apply \autoref{thm:regular-cauchy-zero-abstract-bridge-surface},
+\autoref{thm:regular-cauchy-zero-mature-standard-boundary}, and
+\autoref{thm:regular-cauchy-zero-terminal-interface-completeness}. Together
+they identify the standard-facing finite boundary and show that every
+terminal consumer remains inside the same zero-source rows. This assembles
+the stated mature paper-side package without asserting a Lean-side theorem
+or a checked standard bridge.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyZeroUp}
   \constructivestory{A $\RegularCauchyZeroUp$ packet is generated from finite $\BHist$ rows for the rational zero seed, constant $\StreamNameUp$ row, zero $\RegSeqRatUp$ readback, zero modulus row, identity meet row, and terminal $\RealUp$ seal. The route starts at the displayed zero seed and is replayed by $\Cont$ through stream, regular-rational, modulus, meet, and seal rows before any completion-facing consumer reads it. Componentwise $\hsame$ preserves the same zero route, while $\Pkg$ records the rational, stream, regular-sequence, modulus, tail-meet, diagonal-seal, and Real dependencies. The packet names the finite zero source rather than host real equality.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, and downstream handoff exhaustion for $\RegularCauchyZeroUp$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{This chapter binds the regular Cauchy zero carrier, sibling route, tail-meet identity, RealUp seal non-escape, finite request-bundle coverage, downstream handoff exhaustion, the obligation package of \autoref{thm:regular-cauchy-zero-obligation-closure-package}, the scoped route of \autoref{thm:regular-cauchy-zero-scoped-route}, the public export package of \autoref{thm:regular-cauchy-zero-public-closure-package}, the abstract bridge surface of \autoref{thm:regular-cauchy-zero-abstract-bridge-surface}, the mature standard boundary of \autoref{thm:regular-cauchy-zero-mature-standard-boundary}, the terminal interface completeness theorem of \autoref{thm:regular-cauchy-zero-terminal-interface-completeness}, and the mature closure package of \autoref{thm:regular-cauchy-zero-mature-closure-package}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyZeroUp.TasteGate.RegularCauchyZeroTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim quotient stream equality, host zero equality, selected real limits, nonzero witness streams, or ambient completeness.}
-  \upgradepath{Obligation closure requires Lean encodings of the zero carrier, StreamName route, tail-meet identity, seal route, and non-escape theorem.}
+  \upgradepath{No further paper-side theory closure remains; Lean verification and bridge checking remain separate verification-axis obligations.}
 \end{closurestatus}

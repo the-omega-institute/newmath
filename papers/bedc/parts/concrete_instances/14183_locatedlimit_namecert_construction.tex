@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\LocatedLimitUp$}
+\label{ch:concrete-instances-locatedlimit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\LocatedLimitUp$ packet records located limits as explicit modulus-and-window data for displayed real-name sequences. It is a finite route from the Cauchy-equivalence surface of \autoref{ch:concrete-instances-cauchysequenceequivalence-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} to the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet does not introduce host real equality, quotient limits, countable choice, trichotomy, or ambient completeness.
+
+\begin{definition}[LocatedLimit carrier]
+\label{def:located-limit-carrier}
+A $\LocatedLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,M,T,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the displayed $\RealUp$ sequence surface whose entries are read only through named finite windows;
+\item $M$ is the Cauchy/modulus ledger recording the explicit tolerance budget for the displayed sequence;
+\item $T$ is the located finite-window schedule that says which sequence windows and dyadic tolerances are inspected for each requested precision;
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the scheduled windows and the modulus ledger;
+\item $E$ is the $\RealUp$ limit seal reached through $Q$ and through no independent host-limit coordinate;
+\item $H$ stores componentwise $\hsame$ transports for the sequence surface, modulus ledger, finite-window schedule, regular readback, and real seal;
+\item $C$ stores the displayed $\Cont$ replay routes by which consumers reread the same windows and tolerances;
+\item $P$ is the $\Pkg$ provenance over $\LocatedLimitUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\LocatedLimitUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected host limit, quotient equality of streams, countable-choice schedule, real trichotomy, or ambient completeness principle.
+\end{definition}
+\leandef{BEDC.Derived.LocatedLimitUp.LocatedLimitUp}
+
+\begin{definition}[LocatedLimit classifier]
+\label{def:located-limit-classifier}
+Two accepted $\LocatedLimitUp$ packets
+$$
+L=(S,M,T,Q,E,H,C,P,N)
+\quad\hbox{and}\quad
+L'=(S',M',T',Q',E',H',C',P',N')
+$$
+are classified together exactly when their displayed finite-window schedules expose the same dyadic tolerance comparisons after componentwise transport. Thus the classifier compares $L$ and $L'$ only by shared windows in $T,T'$, the dyadic budgets read by $M,M'$, the $\RegSeqRatUp$ readback rows $Q,Q'$, and the $\RealUp$ seal rows $E,E'$ reached from those data.
+
+No classifier step may use host real equality, quotient equality of streams, a selected limiting subsequence, countable choice, trichotomy, or an ambient completeness row.
+\end{definition}
+
+\begin{theorem}[LocatedLimit NameCert obligations]
+\label{thm:located-limit-namecert-obligations}
+The local $\NameCert_{\LocatedLimitUp}$ surface for the carrier of \autoref{def:located-limit-carrier} consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed packet $L=(S,M,T,Q,E,H,C,P,N)$;
+\item classifier: comparison is the finite-window and dyadic-tolerance classifier of \autoref{def:located-limit-classifier};
+\item transport: $H$ and $C$ preserve the same sequence surface, modulus ledger, schedule, readback, and seal rows under accepted consumer motion;
+\item modulus exactness: every limit-facing tolerance request is answered by the stored Cauchy/modulus ledger $M$ together with the schedule $T$;
+\item Real-seal route: every $\RealUp$ limit read factors through $Q,E,H,C,P,N$ after the displayed rows $S,M,T$ have been read.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the packet $L=(S,M,T,Q,E,H,C,P,N)$. The sequence surface, modulus ledger, located schedule, regular readback, real seal, transport rows, replay routes, provenance, and local naming row are exactly the coordinates named by the carrier.
+
+The classifier row is finite because it reads only the windows named by $T,T'$ and the dyadic tolerances supplied by $M,M'$. The regular readbacks $Q,Q'$ and real seals $E,E'$ are compared only after those finite observations have been transported.
+
+For transport, use $H$ to move the displayed rows componentwise and $C$ to replay the same consumer route. The replay never creates a new modulus, a host limit, or a quotient of streams; it returns to the stored rows.
+
+Modulus exactness follows because the only tolerance ledger in the carrier is $M$, and the only located schedule is $T$. Therefore every downstream tolerance request has to pass through $M$ and $T$ before it can reach $Q$ or $E$.
+
+The Real-seal route is then the visible composition from $S,M,T$ to $Q$ and finally to $E$, with $H,C,P,N$ carrying transport, replay, provenance, and naming. The excluded completeness, choice, trichotomy, quotient, and host-equality principles have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[LocatedLimit Real seal route]
+\label{thm:located-limit-real-seal-route}
+Every $\RealUp$ limit read exported by an accepted $\LocatedLimitUp$ carrier factors through the displayed route
+$$
+S,M,T,Q,E,H,C,P,N .
+$$
+The sequence surface $S$ supplies the real-name entries, the ledger $M$ supplies the explicit Cauchy/modulus budget, the schedule $T$ chooses only finite windows for each dyadic tolerance, the row $Q$ repacks those observations as a $\RegSeqRatUp$ readback, and the row $E$ is the sole $\RealUp$ limit seal available to consumers. The rows $H,C,P,N$ provide transport, replay, provenance, and local naming for the same route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its real-facing coordinates are not free-standing; $E$ is stored together with the sequence surface $S$, the modulus ledger $M$, the located schedule $T$, and the regular readback $Q$.
+
+Read the limit request in finite order. A consumer first asks $T$ for the displayed windows attached to the requested dyadic tolerance, then reads the matching budget in $M$, and then uses $Q$ to view the resulting data as a regular rational name.
+
+Only after that route is visible can the consumer read $E$. The transport and replay rows $H$ and $C$ preserve the same route, while $P$ and $N$ record provenance and local naming.
+
+Thus every $\RealUp$ limit read factors through $S,M,T,Q,E,H,C,P,N$. Since no other coordinate exists, the packet exports no real completeness theorem, selected host limit, quotient equality of streams, countable-choice schedule, trichotomy, or bridge-checked standard interpretation.
+\end{proof}
+
+\begin{closurestatus}{\LocatedLimitUp}
+  \constructivestory{A $\LocatedLimitUp$ packet is generated from a displayed $\RealUp$ sequence surface, an explicit Cauchy/modulus ledger, a located finite-window schedule, a $\RegSeqRatUp$ readback row, a $\RealUp$ limit seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-limit-carrier}, \autoref{def:located-limit-classifier}, \autoref{thm:located-limit-namecert-obligations}, and \autoref{thm:located-limit-real-seal-route} seed the displayed located-limit interface for real-name sequences.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, selected host limits, quotient equality of streams, countable choice, trichotomy, or bridge checking.}
+  \upgradepath{Scoped closure requires a checked carrier theorem binding the displayed finite-window schedule, modulus ledger, regular readback, and Real-seal route.}
+\end{closurestatus}

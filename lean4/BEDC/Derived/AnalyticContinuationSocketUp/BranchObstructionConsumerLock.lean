@@ -41,4 +41,27 @@ theorem AnalyticContinuationSocketCarrier_branch_obstruction_consumer_lock [AskS
     ⟨branchUnary, branchReadUnary, boundaryUnary, consumerUnary, branchReadTransportBoundary,
       boundaryNameConsumer, branchTransportContinuation, provenancePkg, consumerPkg⟩
 
+theorem AnalyticContinuationSocketCarrier_branch_obstruction_nonexport [AskSetup]
+    [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg ->
+      hsame consumer branch ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory consumer ∧ UnaryHistory branch ∧ Cont branch transport continuation ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameConsumerBranch consumerPkg
+  obtain ⟨_sourceUnary, _leftOverlapUnary, _witnessUnary, _operationUnary, _outputUnary,
+    branchUnary, _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary,
+    _sourceLeftOverlapWitness, _witnessOperationOutput, branchTransportContinuation,
+    _outputContinuationProvenance, _continuationNameProvenance, provenancePkg, _namePkg⟩ :=
+    carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_transport branchUnary (hsame_symm sameConsumerBranch)
+  exact
+    ⟨consumerUnary, branchUnary, branchTransportContinuation, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.AnalyticContinuationSocketUp

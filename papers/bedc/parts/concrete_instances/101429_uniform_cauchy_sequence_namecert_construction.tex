@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchySequenceUp$}
+\label{ch:concrete-instances-uniform-cauchy-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\UniformCauchySequenceUp$ packet records the finite NameCert surface for one regular rational sequence whose Cauchy comparisons are governed by a shared modulus schedule. It sits on the L10 route from the stream-window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the explicit threshold surface of \autoref{ch:concrete-instances-modulusofconvergence-namecert}, and the terminal seal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the sequence-level carrier consumed by completion routes; it does not select a limit, quotient streams, host real equality, countable choice, or an ambient $\RealUp$ completeness principle.
+
+\begin{definition}[UniformCauchySequence carrier]
+\label{def:uniform-cauchy-sequence-carrier}
+A $\UniformCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S,Q,D,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window surface for the sequence observations;
+\item $Q$ is the $\RegSeqRatUp$ readback row assigning rational names to the displayed stream windows;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by every displayed Cauchy comparison;
+\item $M$ is the $\ModulusOfConvergenceUp$ shared threshold row that binds all late-window comparisons;
+\item $R$ is the finite uniform Cauchy comparison row, reading pairs of sufficiently late windows through $S,Q,D,M$;
+\item $E$ is the $\RealUp$ seal boundary reached only after the shared modulus row and comparison row have been displayed;
+\item $H$ records $\hsame$ transport for the stream windows, regular readbacks, dyadic ledger, shared modulus, comparison row, real seal, replay row, provenance row, and local naming row;
+\item $C$ records displayed $\Cont$ replay from stream inspection through regular readback, dyadic tolerance, shared threshold, comparison, and real-seal delivery;
+\item $P$ is the $\Pkg$ provenance over $\UniformCauchySequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\ModulusOfConvergenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\UniformCauchySequenceUp}$ row.
+\end{enumerate}
+The carrier stores no quotient stream, no selected host limit, no host equality of real names, no countable-choice selector, and no ambient completeness field.
+\end{definition}
+
+\begin{theorem}[UniformCauchySequence NameCert obligations]
+\label{thm:uniform-cauchy-sequence-namecert-obligations}
+For an accepted $\UniformCauchySequenceUp$ carrier $U=(S,Q,D,M,R,E,H,C,P,N)$, the local $\NameCert_{\UniformCauchySequenceUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed stream windows, regular rational readbacks, dyadic tolerance ledger, shared modulus row, comparison row, real seal, transports, replay route, provenance, and local naming row;
+\item shared-modulus exactness, requiring every late-window Cauchy comparison in $R$ to use the same $\ModulusOfConvergenceUp$ threshold row $M$ and the same $\DyadicRatCoreUp$ tolerance ledger $D$;
+\item readback compatibility, requiring the $\RegSeqRatUp$ row $Q$ to be the only rational readback consumed by the comparison row $R$;
+\item route ordering, requiring $R$ to be displayed only after $S,Q,D,M$ and requiring $E$ to be displayed only after $R$;
+\item transport stability, requiring $H$ and $C$ to preserve the route $S,Q,D,M,R,E,P,N$ without adding a hidden threshold, independent rational stream, quotient stream, or selected limit;
+\item ledger exhaustion, stating that no quotient stream, selected host limit, host real equality, countable-choice selector, or ambient $\RealUp$ completeness principle is exported.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-cauchy-sequence-carrier}. The tuple displays the stream window row, regular readback row, dyadic tolerance ledger, shared modulus row, comparison row, real seal, transport, replay, provenance, and local name.
+
+Shared-modulus exactness follows from the single coordinates $M$ and $D$. Since every comparison row in $R$ is read through those coordinates, the packet has no second threshold schedule and no hidden tolerance ledger.
+
+Readback compatibility and route ordering are forced by the displayed coordinate order. The comparison row $R$ consumes $S,Q,D,M$, while the real seal $E$ is downstream of $R$.
+
+Transport stability and ledger exhaustion are the role of $H,C,P,N$. These rows replay and name the same finite route, so they cannot introduce quotient streams, selected limits, host real equality, countable choice, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCauchySequenceUp.TasteGate.UniformCauchySequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[UniformCauchySequence RegSeqRat handoff]
+\label{thm:uniform-cauchy-sequence-regseqrat-handoff}
+Let $U=(S,Q,D,M,R,E,H,C,P,N)$ be an accepted $\UniformCauchySequenceUp$ carrier. Every $\RegSeqRatUp$ readback used by a Cauchy comparison in $R$ factors through the visible handoff
+$$
+S,Q,D,M,R,H,C,P,N.
+$$
+In particular, a comparison cannot replace $Q$ by an independent rational stream, cannot replace $M$ by a local threshold choice, and cannot replace $D$ by a hidden host tolerance.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The only regular rational readback coordinate is $Q$, and the only shared threshold coordinate is $M$.
+
+Apply the readback compatibility and shared-modulus clauses of \autoref{thm:uniform-cauchy-sequence-namecert-obligations}. They force every comparison in $R$ to read $Q$ together with $S,D,M$ before the comparison is accepted.
+
+Finally use the transport rows $H$ and $C$. They preserve the same displayed route with provenance $P$ and local name $N$, so the handoff has no access to an independent rational stream, local threshold choice, or hidden host tolerance.
+\end{proof}
+
+\begin{theorem}[UniformCauchySequence Real seal boundary]
+\label{thm:uniform-cauchy-sequence-real-seal-boundary}
+For an accepted $\UniformCauchySequenceUp$ carrier $U=(S,Q,D,M,R,E,H,C,P,N)$, every $\RealUp$ seal read reaches $E$ only after passing through the finite stream row $S$, $\RegSeqRatUp$ readback $Q$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\ModulusOfConvergenceUp$ shared threshold $M$, and uniform Cauchy comparison row $R$. The seal boundary exports no quotient streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$ seal read of $U$. By the carrier definition, the only terminal seal coordinate is $E$.
+
+The NameCert obligations place $E$ downstream of the comparison row $R$, and $R$ downstream of $S,Q,D,M$. Hence the seal read must traverse the stream windows, regular readback, dyadic tolerance ledger, shared modulus, and comparison row first.
+
+The rows $H,C,P,N$ preserve and name the same route. Since the carrier lists no quotient-stream coordinate, selected-limit coordinate, countable-choice selector, host real equality, or ambient completeness row, the real seal boundary is exhausted by the displayed finite packet.
+\end{proof}
+
+\closureat{UniformCauchySequenceUp}{seedStr}
+
+\begin{closurestatus}{\UniformCauchySequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-sequence-carrier}, \autoref{thm:uniform-cauchy-sequence-namecert-obligations}, \autoref{thm:uniform-cauchy-sequence-regseqrat-handoff}, and \autoref{thm:uniform-cauchy-sequence-real-seal-boundary} seed the L10 shared-modulus sequence packet over StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, ModulusOfConvergence thresholds, and the Real seal handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host real equality, ambient Real completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-modulus exactness, readback compatibility, route ordering, transport stability, ledger exhaustion, and Real seal nonescape for BEDC.Derived.UniformCauchySequenceUp.}
+  \constructivestory{A $\UniformCauchySequenceUp$ packet is generated from $\StreamNameUp$ windows, a $\RegSeqRatUp$ readback row, one $\DyadicRatCoreUp$ tolerance ledger, one $\ModulusOfConvergenceUp$ shared threshold row, finite comparison rows, a $\RealUp$ seal boundary, $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

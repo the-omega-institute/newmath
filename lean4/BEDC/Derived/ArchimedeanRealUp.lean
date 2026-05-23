@@ -124,6 +124,54 @@ theorem ArchimedeanRealCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact And.intro provenancePkg rowUnary
   }
 
+theorem ArchimedeanRealCarrier_rat_dyadic_bound_coherence [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert coherenceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      Cont boundLedger provenance coherenceRead ->
+        PkgSig bundle coherenceRead pkg ->
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row realName ∧
+                  ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow
+                    regseqHandoff boundLedger transport routes provenance localCert bundle pkg)
+              (fun _row : BHist =>
+                UnaryHistory realName ∧ UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧
+                  Cont realName streamWindow regseqHandoff ∧
+                    Cont ratBound dyadicBound boundLedger)
+              (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+              hsame ∧
+            UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧ UnaryHistory boundLedger ∧
+              UnaryHistory coherenceRead ∧ Cont ratBound dyadicBound boundLedger ∧
+                Cont boundLedger provenance coherenceRead ∧
+                  PkgSig bundle coherenceRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert UnaryHistory
+  intro carrier boundProvenanceCoherence coherencePkg
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row realName ∧
+            ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+              boundLedger transport routes provenance localCert bundle pkg)
+        (fun _row : BHist =>
+          UnaryHistory realName ∧ UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧
+            Cont realName streamWindow regseqHandoff ∧ Cont ratBound dyadicBound boundLedger)
+        (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+        hsame :=
+    ArchimedeanRealCarrier_namecert_obligations carrier
+  obtain ⟨_realNameUnary, ratBoundUnary, dyadicBoundUnary, _streamWindowUnary,
+    _regseqHandoffUnary, boundLedgerUnary, _transportUnary, _routesUnary, provenanceUnary,
+    _localCertUnary, _realNameStreamWindowRegseq, ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, _provenancePkg, _localCertPkg⟩ :=
+    carrier
+  have coherenceUnary : UnaryHistory coherenceRead :=
+    unary_cont_closed boundLedgerUnary provenanceUnary boundProvenanceCoherence
+  exact
+    ⟨cert, ratBoundUnary, dyadicBoundUnary, boundLedgerUnary, coherenceUnary,
+      ratDyadicBoundLedger, boundProvenanceCoherence, coherencePkg⟩
+
 theorem ArchimedeanRealCarrier_transported_bound_stability [AskSetup] [PackageSetup]
     {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
       provenance localCert realName' ratBound' dyadicBound' streamWindow' regseqHandoff'
@@ -252,5 +300,190 @@ theorem ArchimedeanRealCarrier_scope_closure [AskSetup] [PackageSetup]
       exportUnary, realNameStreamWindowRegseq, ratDyadicBoundLedger, regseqLedgerTransport,
       transportRoutesProvenance, provenanceLocalExport, provenancePkg, localCertPkg,
       exportPkg⟩
+
+theorem ArchimedeanRealCarrier_public_bound_export [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert exportRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      Cont provenance localCert exportRow ->
+        PkgSig bundle exportRow pkg ->
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row realName ∧
+                  ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow
+                    regseqHandoff boundLedger transport routes provenance localCert bundle pkg)
+              (fun _row : BHist =>
+                UnaryHistory realName ∧ UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧
+                  Cont realName streamWindow regseqHandoff ∧
+                    Cont ratBound dyadicBound boundLedger)
+              (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+              hsame ∧
+            UnaryHistory exportRow ∧ Cont provenance localCert exportRow ∧
+              PkgSig bundle exportRow pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert
+  intro carrier provenanceLocalExport exportPkg
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row realName ∧
+            ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+              boundLedger transport routes provenance localCert bundle pkg)
+        (fun _row : BHist =>
+          UnaryHistory realName ∧ UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧
+            Cont realName streamWindow regseqHandoff ∧ Cont ratBound dyadicBound boundLedger)
+        (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+        hsame :=
+    ArchimedeanRealCarrier_namecert_obligations carrier
+  obtain ⟨_realNameUnary, _ratBoundUnary, _dyadicBoundUnary, _streamWindowUnary,
+    _regseqHandoffUnary, _boundLedgerUnary, _transportUnary, _routesUnary, provenanceUnary,
+    localCertUnary, _realNameStreamWindowRegseq, _ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, _provenancePkg, _localCertPkg⟩ :=
+    carrier
+  have exportUnary : UnaryHistory exportRow :=
+    unary_cont_closed provenanceUnary localCertUnary provenanceLocalExport
+  exact ⟨cert, exportUnary, provenanceLocalExport, exportPkg⟩
+
+theorem ArchimedeanRealCarrier_budgeted_observation_handoff [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert budgetWindow budgetDyadic budgetSeal exportRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      Cont streamWindow dyadicBound budgetWindow ->
+        Cont budgetWindow regseqHandoff budgetDyadic ->
+          Cont budgetDyadic realName budgetSeal ->
+            Cont provenance localCert exportRow ->
+              PkgSig bundle budgetSeal pkg ->
+                PkgSig bundle exportRow pkg ->
+                  UnaryHistory budgetWindow ∧ UnaryHistory budgetDyadic ∧
+                    UnaryHistory budgetSeal ∧ UnaryHistory exportRow ∧
+                      Cont streamWindow dyadicBound budgetWindow ∧
+                        Cont budgetWindow regseqHandoff budgetDyadic ∧
+                          Cont budgetDyadic realName budgetSeal ∧
+                            Cont provenance localCert exportRow ∧
+                              PkgSig bundle budgetSeal pkg ∧
+                                PkgSig bundle exportRow pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier streamDyadicBudget budgetRegseqDyadic budgetDyadicRealSeal
+    provenanceLocalExport budgetSealPkg exportPkg
+  obtain ⟨realNameUnary, _ratBoundUnary, dyadicBoundUnary, streamWindowUnary,
+    regseqHandoffUnary, _boundLedgerUnary, _transportUnary, _routesUnary, provenanceUnary,
+    localCertUnary, _realNameStreamWindowRegseq, _ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, _provenancePkg, _localCertPkg⟩ :=
+    carrier
+  have budgetWindowUnary : UnaryHistory budgetWindow :=
+    unary_cont_closed streamWindowUnary dyadicBoundUnary streamDyadicBudget
+  have budgetDyadicUnary : UnaryHistory budgetDyadic :=
+    unary_cont_closed budgetWindowUnary regseqHandoffUnary budgetRegseqDyadic
+  have budgetSealUnary : UnaryHistory budgetSeal :=
+    unary_cont_closed budgetDyadicUnary realNameUnary budgetDyadicRealSeal
+  have exportUnary : UnaryHistory exportRow :=
+    unary_cont_closed provenanceUnary localCertUnary provenanceLocalExport
+  exact
+    ⟨budgetWindowUnary, budgetDyadicUnary, budgetSealUnary, exportUnary, streamDyadicBudget,
+      budgetRegseqDyadic, budgetDyadicRealSeal, provenanceLocalExport, budgetSealPkg,
+      exportPkg⟩
+
+theorem ArchimedeanRealCarrier_consumer_bound_handoff [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      Cont boundLedger routes consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧ UnaryHistory streamWindow ∧
+            UnaryHistory regseqHandoff ∧ UnaryHistory boundLedger ∧ UnaryHistory consumer ∧
+              Cont realName streamWindow regseqHandoff ∧
+                Cont ratBound dyadicBound boundLedger ∧ Cont boundLedger routes consumer ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier boundRoutesConsumer consumerPkg
+  obtain ⟨_realNameUnary, ratBoundUnary, dyadicBoundUnary, streamWindowUnary,
+    regseqHandoffUnary, boundLedgerUnary, _transportUnary, routesUnary, _provenanceUnary,
+    _localCertUnary, realNameStreamWindowRegseq, ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, provenancePkg, _localCertPkg⟩ :=
+    carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed boundLedgerUnary routesUnary boundRoutesConsumer
+  exact
+    ⟨ratBoundUnary, dyadicBoundUnary, streamWindowUnary, regseqHandoffUnary,
+      boundLedgerUnary, consumerUnary, realNameStreamWindowRegseq, ratDyadicBoundLedger,
+      boundRoutesConsumer, provenancePkg, consumerPkg⟩
+
+theorem ArchimedeanRealCarrier_dyadic_threshold_totality [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert budgetRequest threshold : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      UnaryHistory budgetRequest ->
+        Cont boundLedger budgetRequest threshold ->
+          PkgSig bundle threshold pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row realName ∧
+                    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow
+                      regseqHandoff boundLedger transport routes provenance localCert bundle pkg)
+                (fun _row : BHist =>
+                  UnaryHistory realName ∧ UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧
+                    Cont realName streamWindow regseqHandoff ∧
+                      Cont ratBound dyadicBound boundLedger)
+                (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+                hsame ∧
+              UnaryHistory threshold ∧ hsame threshold (append boundLedger budgetRequest) ∧
+                PkgSig bundle threshold pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont SemanticNameCert UnaryHistory
+  intro carrier budgetRequestUnary boundBudgetThreshold thresholdPkg
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row realName ∧
+            ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+              boundLedger transport routes provenance localCert bundle pkg)
+        (fun _row : BHist =>
+          UnaryHistory realName ∧ UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧
+            Cont realName streamWindow regseqHandoff ∧ Cont ratBound dyadicBound boundLedger)
+        (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+        hsame :=
+    ArchimedeanRealCarrier_namecert_obligations carrier
+  obtain ⟨_realNameUnary, _ratBoundUnary, _dyadicBoundUnary, _streamWindowUnary,
+    _regseqHandoffUnary, boundLedgerUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _localCertUnary, _realNameStreamWindowRegseq, _ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, _provenancePkg, _localCertPkg⟩ :=
+    carrier
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed boundLedgerUnary budgetRequestUnary boundBudgetThreshold
+  exact ⟨cert, thresholdUnary, boundBudgetThreshold, thresholdPkg⟩
+
+theorem ArchimedeanRealCarrier_budgeted_bound_window_exhaustion [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert budget threshold : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg →
+      Cont streamWindow dyadicBound budget →
+        Cont budget ratBound threshold →
+          PkgSig bundle threshold pkg →
+            UnaryHistory streamWindow ∧ UnaryHistory dyadicBound ∧ UnaryHistory budget ∧
+              UnaryHistory threshold ∧ hsame ratBound ratBound ∧
+                Cont streamWindow dyadicBound budget ∧ Cont budget ratBound threshold ∧
+                  PkgSig bundle threshold pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier streamDyadicBudget budgetRatThreshold thresholdPkg
+  obtain ⟨_realNameUnary, ratBoundUnary, dyadicBoundUnary, streamWindowUnary,
+    _regseqHandoffUnary, _boundLedgerUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _localCertUnary, _realNameStreamWindowRegseq, _ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, _provenancePkg, _localCertPkg⟩ :=
+    carrier
+  have budgetUnary : UnaryHistory budget :=
+    unary_cont_closed streamWindowUnary dyadicBoundUnary streamDyadicBudget
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed budgetUnary ratBoundUnary budgetRatThreshold
+  exact
+    ⟨streamWindowUnary, dyadicBoundUnary, budgetUnary, thresholdUnary,
+      hsame_refl ratBound, streamDyadicBudget, budgetRatThreshold, thresholdPkg⟩
 
 end BEDC.Derived.ArchimedeanRealUp

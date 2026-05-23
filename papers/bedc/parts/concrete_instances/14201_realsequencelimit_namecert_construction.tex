@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\RealSequenceLimitUp$}
+\label{ch:concrete-instances-real-sequence-limit-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RealSequenceLimitUp$ packet records a displayed limit interface for sequences of constructive real names without importing host sequence convergence. It sits after the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the nonquotient finite-window equality boundary of \autoref{ch:concrete-instances-regularcauchyequivalence-namecert}.
+
+\begin{definition}[RealSequenceLimit carrier]\label{def:real-sequence-limit-carrier}
+A $\RealSequenceLimitUp$ carrier is a finite $\BHist$ packet
+$$
+(S,L,W,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is a displayed sequence of $\RealUp$ names, each read only through finite $\StreamNameUp$ windows and $\RegSeqRatUp$ rows selected for the packet.
+\item $L$ is the candidate limit $\RealUp$ row, again accompanied by the finite $\StreamNameUp$ windows and $\RegSeqRatUp$ readback rows made visible to the packet.
+\item $W$ is the finite tail-window schedule that records which sequence indices and which observation windows are inspected at each displayed tolerance.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the scheduled sequence windows and the scheduled limit windows.
+\item $E$ is the displayed convergence classifier, asserting that every scheduled tail window compares the corresponding sequence real to $L$ through the recorded dyadic tolerance.
+\item $H$ records componentwise $\hsame$ transports for the sequence rows, limit row, window schedule, tolerance ledger, and convergence classifier.
+\item $C$ records the displayed $\Cont$ routes by which consumers inspect the sequence windows, the limit windows, the dyadic ledger, and the classifier.
+\item $P$ is the $\Pkg$ provenance for the $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and classifier rows.
+\item $N$ is the local $\NameCert_{\RealSequenceLimitUp}$ row.
+\end{enumerate}
+The carrier stores a finite certificate surface for a displayed sequence-limit claim. It has no host sequence equality, no quotient limit, no countable-choice selector, no trichotomy row, and no ambient $\RealUp$ completeness coordinate.
+\end{definition}
+\leanchecked{BEDC.Derived.RealSequenceLimitUp.RealSequenceLimitTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RealSequenceLimit NameCert obligation surface]\label{thm:real-sequence-limit-namecert-obligation-surface}
+For an accepted $\RealSequenceLimitUp$ carrier $(S,L,W,D,E,H,C,P,N)$, the local $\NameCert_{\RealSequenceLimitUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed sequence of $\RealUp$ names, the candidate limit $\RealUp$ row, the scheduled $\StreamNameUp$ and $\RegSeqRatUp$ observations, the dyadic tolerance ledger, transports, continuations, provenance, and local naming row;
+\item convergence classification by the finite tail-window schedule $W$, the $\DyadicRatCoreUp$ ledger $D$, and the displayed classifier row $E$;
+\item tail-window transport, stating that componentwise $\hsame$ transports and displayed $\Cont$ routes preserve the same scheduled sequence-to-limit comparison surface;
+\item real-seal boundary through $\RegularCauchyEquivalenceUp$, stating that every equality-facing read of a sequence real against the candidate limit factors through the nonquotient regular-Cauchy comparison boundary before any $\RealUp$ seal is consumed;
+\item ledger refusal, stating that host sequence equality, quotient limits, countable choice, trichotomy, and ambient $\RealUp$ completeness are not packet coordinates.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.RealSequenceLimitUp.RealSequenceLimitNameCert\_obligation\_surface}
+\begin{proof}
+Carrier admission is the tuple of \autoref{def:real-sequence-limit-carrier}. The sequence rows, limit row, finite windows, dyadic ledger, classifier, transports, continuations, package provenance, and local naming row are all explicit $\BHist$ coordinates.
+
+The convergence classifier is finite because it reads only the tail windows listed in $W$ and the tolerances listed in $D$. Each displayed comparison is made between scheduled $\RegSeqRatUp$ observations of a sequence element and scheduled $\RegSeqRatUp$ observations of the candidate limit.
+
+Tail-window transport reads the rows $H$ and $C$ componentwise. Since the transported data still contains the same schedule, ledger, and classifier shape, every consumer route remains attached to the displayed finite comparison surface.
+
+The real-seal boundary is inherited from the sibling route of \autoref{ch:concrete-instances-regularcauchyequivalence-namecert}. Equality-facing reads pass through the regular-Cauchy finite-window classifier before the $\RealUp$ seal rows are consumed.
+
+The refusal row is an inventory check. The carrier has no coordinate for host sequence equality, quotient limits, countable-choice selection, trichotomy, or ambient real completeness, so none of those principles can be exported by the local certificate.
+\end{proof}
+
+\begin{closurestatus}{\RealSequenceLimitUp}
+  \constructivestory{A $\RealSequenceLimitUp$ packet is generated from a displayed sequence of RealUp names, a candidate limit RealUp row, finite StreamName windows and RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a finite convergence classifier, componentwise transport, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-sequence-limit-carrier} and \autoref{thm:real-sequence-limit-namecert-obligation-surface} declare the finite sequence-limit certificate surface for displayed RealUp names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, host sequence equality, quotient limits, countable choice, trichotomy, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, convergence classification, tail-window transport, real-seal boundary, and ledger refusal for the same finite packet.}
+\end{closurestatus}

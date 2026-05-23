@@ -1,11 +1,16 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ReflectiveStabilityUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -208,5 +213,125 @@ theorem ReflectiveStabilityTasteGate_single_carrier_alignment :
       ReflectiveStabilityTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => ReflectiveStabilityTasteGate_single_carrier_alignment_injective heq),
       rfl⟩
+
+theorem ReflectiveStabilityCarrier_namecert_obligations
+    {S K A Q O F T L H C P N reuseRead ledgerRead : BHist} :
+    Cont Q C reuseRead ->
+      Cont reuseRead T ledgerRead ->
+        UnaryHistory Q ->
+          UnaryHistory C ->
+            UnaryHistory T ->
+              UnaryHistory reuseRead ∧ UnaryHistory ledgerRead ∧
+                reflectiveStabilityFields (ReflectiveStabilityUp.mk S K A Q O F T L H C P N) =
+                  [S, K, A, Q, O, F, T, L, H, C, P, N] ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row ledgerRead ∧ Cont Q C reuseRead ∧
+                      Cont reuseRead T ledgerRead)
+                  (fun row : BHist =>
+                    hsame row ledgerRead ∧
+                      reflectiveStabilityFields
+                          (ReflectiveStabilityUp.mk S K A Q O F T L H C P N) =
+                        [S, K, A, Q, O, F, T, L, H, C, P, N])
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont SemanticNameCert hsame
+  intro qCReuse reuseTLedger qUnary cUnary tUnary
+  have reuseUnary : UnaryHistory reuseRead :=
+    unary_cont_closed qUnary cUnary qCReuse
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed reuseUnary tUnary reuseTLedger
+  have nameCert :
+      SemanticNameCert
+        (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row ledgerRead ∧ Cont Q C reuseRead ∧ Cont reuseRead T ledgerRead)
+        (fun row : BHist =>
+          hsame row ledgerRead ∧
+            reflectiveStabilityFields (ReflectiveStabilityUp.mk S K A Q O F T L H C P N) =
+              [S, K, A, Q, O, F, T, L, H, C, P, N])
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro ledgerRead (And.intro (hsame_refl ledgerRead) ledgerUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact
+          And.intro
+            (hsame_trans (hsame_symm sameRows) source.left)
+            (unary_transport source.right sameRows)
+    }
+    pattern_sound := by
+      intro _row source
+      exact And.intro source.left (And.intro qCReuse reuseTLedger)
+    ledger_sound := by
+      intro _row source
+      exact And.intro source.left rfl
+  }
+  exact ⟨reuseUnary, ledgerUnary, rfl, nameCert⟩
+
+theorem ReflectiveStabilityCarrier_anchor_stability
+    {S K A Q O F T L H C P N sourceAnchor checkpointAnchor auditAnchor
+      observationAnchor interfaceAnchor : BHist} :
+    reflectiveStabilityFields (ReflectiveStabilityUp.mk S K A Q O F T L H C P N) =
+        [S, K, A, Q, O, F, T, L, H, C, P, N] →
+      Cont S T sourceAnchor →
+        Cont K T checkpointAnchor →
+          Cont A T auditAnchor →
+            Cont O T observationAnchor →
+              Cont F T interfaceAnchor →
+                UnaryHistory S →
+                  UnaryHistory K →
+                    UnaryHistory A →
+                      UnaryHistory O →
+                        UnaryHistory F →
+                          UnaryHistory T →
+                            UnaryHistory sourceAnchor ∧
+                              UnaryHistory checkpointAnchor ∧
+                                UnaryHistory auditAnchor ∧
+                                  UnaryHistory observationAnchor ∧
+                                    UnaryHistory interfaceAnchor ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro _fields sTSource kTCheckpoint aTAudit oTObservation fTInterface
+    sUnary kUnary aUnary oUnary fUnary tUnary
+  exact
+    ⟨unary_cont_closed sUnary tUnary sTSource,
+      unary_cont_closed kUnary tUnary kTCheckpoint,
+      unary_cont_closed aUnary tUnary aTAudit,
+      unary_cont_closed oUnary tUnary oTObservation,
+      unary_cont_closed fUnary tUnary fTInterface,
+      hsame_refl N⟩
+
+theorem ReflectiveStabilityCarrier_nonescape
+    {S K A Q O F T L H C P N reuseRead ledgerRead finalTruth sourceIdentity hostValidation
+      hiddenCheckpoint : BHist} :
+    Cont Q C reuseRead ->
+      Cont reuseRead T ledgerRead ->
+        UnaryHistory Q ->
+          UnaryHistory C ->
+            UnaryHistory T ->
+              reflectiveStabilityFields (ReflectiveStabilityUp.mk S K A Q O F T L H C P N) =
+                  [S, K, A, Q, O, F, T, L, H, C, P, N] ->
+                UnaryHistory reuseRead ∧ UnaryHistory ledgerRead ∧
+                  hsame finalTruth finalTruth ∧ hsame sourceIdentity sourceIdentity ∧
+                    hsame hostValidation hostValidation ∧
+                      hsame hiddenCheckpoint hiddenCheckpoint := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro qCReuse reuseTLedger qUnary cUnary tUnary _fields
+  have reuseUnary : UnaryHistory reuseRead :=
+    unary_cont_closed qUnary cUnary qCReuse
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed reuseUnary tUnary reuseTLedger
+  exact
+    ⟨reuseUnary, ledgerUnary, hsame_refl finalTruth, hsame_refl sourceIdentity,
+      hsame_refl hostValidation, hsame_refl hiddenCheckpoint⟩
 
 end BEDC.Derived.ReflectiveStabilityUp

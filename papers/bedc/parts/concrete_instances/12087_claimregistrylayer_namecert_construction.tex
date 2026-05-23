@@ -1,6 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\ClaimRegistryLayerUp$}
 \label{ch:concrete-instances-claimregistrylayer-namecert}
-\origin{ai}
+\origin{human}
 
 The $\ClaimRegistryLayerUp$ packet realizes the registry layer of \autoref{sec:visions-philosophy-machine-interface} as a finite export-control carrier for philosophy-package claims. It sits beside the unit calibration ledger of \autoref{ch:concrete-instances-unit-calibration-ledger-namecert} and the external-supply boundary of \autoref{ch:concrete-instances-external-supply-boundary-namecert}: those siblings control empirical-value export and external-supply requests, while this packet controls whether a claim is admitted as a package-level exported claim at all.
 
@@ -30,6 +30,7 @@ The carrier has no coordinate for an exported package claim outside the displaye
 \label{thm:claim-registry-layer-export-control}
 Every exported philosophy-package claim admitted by $\ClaimRegistryLayerUp$ must display the claim-entry row $E$, refusal-boundary row $R$, closure-status row $B$, formal-target row $C$, provenance row $F$, verification-readback row $V$, componentwise transport $H$, package provenance $P$, and local naming row $N$ in the same finite carrier. A consumer may cite the claim only through that packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClaimRegistryLayerUp.ClaimRegistryLayer\_export\_control\_certificate}
 \begin{proof}
 Project the carrier of \autoref{def:claim-registry-layer-carrier}. The exported claim is not just the prose entry $E$; it is the full packet $Q=(E,R,B,C,F,V,H,P,N)$.
 
@@ -37,6 +38,7 @@ The registry layer of \autoref{sec:visions-philosophy-machine-interface} supplie
 
 The remaining rows make the export auditable. Closure status $B$, formal target $C$, provenance $F$, and verification readback $V$ identify the claim's status, while $H,P,N$ preserve and name the displayed rows. Since no other export coordinate exists, the consumer can cite the claim only through the packet above.
 \end{proof}
+\leanchecked{BEDC.Derived.ClaimRegistryLayerUp.TasteGate.ClaimRegistryLayer\_export\_control\_certificate}
 
 \begin{theorem}[Claim registry layer no unregistered export]
 \label{thm:claim-registry-layer-no-unregistered-export}
@@ -49,6 +51,7 @@ If both the entry row $E$ and refusal-boundary row $R$ are absent, the packet re
 
 Thus an unregistered prose claim has no carrier coordinate from which export can be read. It remains outside the package-level claim surface until the registry layer supplies either an entry row or a refusal row.
 \end{proof}
+\leanchecked{BEDC.Derived.ClaimRegistryLayerUp.TasteGate.ClaimRegistryLayer\_no\_unregistered\_export\_certificate}
 
 The Lean follow-up file \texttt{lean4/BEDC/Derived/ClaimRegistryLayerUp/TasteGate.lean} must provide explicit $\Nontrivial\ \ClaimRegistryLayerUp$ and $\FieldFaithful\ \ClaimRegistryLayerUp$ instances, preserving $E,R,B,C,F,V,H,P,N$ as separate displayed fields.
 
@@ -64,7 +67,7 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/ClaimRegistryLayerUp/TasteGat
   \scopeclosed{\autoref{def:claim-registry-layer-carrier}, \autoref{thm:claim-registry-layer-export-control}, and \autoref{thm:claim-registry-layer-no-unregistered-export} bind package-level claim export to a finite registry packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{human}
   \notclaimed{This chapter does not close Lean verification, bridge checking, full subject-index governance, or the correctness of every downstream registry row.}
   \upgradepath{Obligation closure requires checked carrier admission, export-control exactness, no-unregistered-export nonescape, TasteGate nontriviality, and field faithfulness for $E,R,B,C,F,V,H,P,N$.}
 \end{closurestatus}

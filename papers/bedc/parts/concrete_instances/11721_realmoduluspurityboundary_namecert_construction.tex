@@ -38,6 +38,7 @@ R=(D,S,R_0,L,B,H,C,P,N),
 $$
 the local $\NameCert_{\RealModulusPurityBoundaryUp}$ surface consists exactly of dyadic observation exposure through $D$, finite-window exposure through $S$, RegSeqRat readback through $R_0$, RealUp seal exposure through $L$, explicit modulus-budget and axiom-refusal exposure through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealModulusPurityBoundaryUp.RealModulusPurityBoundary\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:real-modulus-purity-boundary-carrier}. Its displayed inventory is the dyadic observation, StreamName window, RegSeqRat readback, RealUp seal, modulus-budget refusal row, and the structural support rows.
 
@@ -54,6 +55,7 @@ D,S,R_0,L,B,H,C,P,N.
 $$
 The consumer may inspect dyadic observations, StreamName windows, RegSeqRat readbacks, RealUp seals, explicit modulus budgets, axiom-refusal rows, componentwise transports, continuations, provenance, and the local NameCert row. It receives no selected host limit, quotient-stream equality, host real equality, countable-choice coordinate, detached Real-completion object, ambient-completeness row, $\mathsf{Classical.choice}$ row, $\mathsf{Quot.sound}$ row, or $\mathsf{propext}$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealModulusPurityBoundaryUp.RealModulusPurityBoundary\_nonescape}
 \begin{proof}
 Start from \autoref{thm:real-modulus-purity-boundary-namecert-obligations}. The local certificate exposes the complete route inventory for the accepted packet and gives no second source for dyadic, window, readback, seal, budget, refusal, transport, continuation, provenance, or naming data.
 
@@ -76,6 +78,24 @@ First read the displayed route. The rows $D,S,R_0,L$ give the four Real-facing o
 Use componentwise transport and replay next. The rows $H$ and $C$ preserve the same dyadic, window, readback, seal, and budget data under accepted consumer motion, so downstream RealUp and RegSeqRat requests return to the displayed finite packet.
 
 Finally apply non-escape. The forbidden selected-limit, quotient, choice, and proof-extensional rows are absent from the carrier and explicitly refused by $B$. Hence constructive prediction is exactly the finite modulus-budget route, and any attempted replacement fails the carrier predicate.
+\end{proof}
+
+\begin{theorem}[Real modulus-purity boundary host-choice refusal]
+\label{thm:real-modulus-purity-boundary-host-choice-refusal}
+Let a Real-and-Completion consumer accept a $\RealModulusPurityBoundaryUp$ packet
+$$
+R=(D,S,R_0,L,B,H,C,P,N).
+$$
+If the consumer asks for a selected host limit, quotient-stream equality, countable-choice schedule, host real equality, or ambient-completeness coordinate, then the request is refused by the displayed row $B$. The only admissible route through the packet remains the finite dyadic observation $D$, StreamName window $S$, RegSeqRat readback $R_0$, RealUp seal $L$, modulus budget $B$, componentwise transport $H$, continuation replay $C$, package provenance $P$, local NameCert row $N$, and the refusal information carried by $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:real-modulus-purity-boundary-carrier}. Its row $B$ is not merely a modulus budget: it also displays refusal of quotient streams, selected host limits, countable choice, $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$.
+
+Apply \autoref{thm:real-modulus-purity-boundary-namecert-obligations}. The local NameCert surface exposes exactly the dyadic observation, StreamName window, RegSeqRat readback, RealUp seal, modulus-budget refusal row, componentwise transport, continuation replay, package provenance, and local naming rows.
+
+Apply \autoref{thm:real-modulus-purity-boundary-nonescape}. Since the accepted packet has no quotient, host-limit, host-equality, countable-choice, or ambient-completeness coordinate, a consumer that asks for one of those coordinates cannot obtain it from any hidden field.
+
+Finally use \autoref{thm:real-modulus-purity-boundary-constructive-prediction}. Downstream RealUp and RegSeqRat reads are predicted by the finite modulus route already displayed by $D,S,R_0,L,B,H,C,P,N$, so the host-choice request is isolated as a refusal obligation of $B$ rather than as an admissible Real-completion operation.
 \end{proof}
 
 The Lean file \texttt{lean4/BEDC/Derived/RealModulusPurityBoundaryUp/TasteGate.lean} provides explicit \texttt{Nontrivial RealModulusPurityBoundaryUp} and \texttt{FieldFaithful RealModulusPurityBoundaryUp} instances for the carrier of \autoref{def:real-modulus-purity-boundary-carrier}.

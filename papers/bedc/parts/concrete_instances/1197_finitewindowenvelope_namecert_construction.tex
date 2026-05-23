@@ -26,6 +26,7 @@ with the following visible coordinates:
 \end{enumerate}
 The local classifier relates two carriers exactly when their selected finite windows agree by the $\StreamNameUp$ window classifier, their $\DyadicRatCoreUp$ ledgers are equal row by row, their $\RegSeqRatUp$ seal rows classify the same regular rational window, and their $\RealUp$ finite-window endpoint classifiers agree after the displayed $\hsame$ and $\Cont$ transports.
 \end{definition}
+\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[FiniteWindowEnvelope NameCert obligations]
 \label{thm:finite-window-envelope-namecert-obligations}
@@ -47,6 +48,7 @@ Transport under $\hsame$ and $\Cont$ is componentwise. A transported anchor tran
 
 The seal handoff and ledger exhaustion are the remaining two rows. The seal row consumes the same ledger recorded by the carrier, and the exhaustion row says that every finite observation has already appeared as one of the displayed anchor, window, scale, dyadic, regular-sequence, or endpoint coordinates.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeCarrier\_namecert\_obligations}
 
 \begin{theorem}[FiniteWindowEnvelope RegSeqRat seal handoff]
 \label{thm:finite-window-envelope-regseqrat-seal-handoff}
@@ -79,6 +81,7 @@ Thus the endpoint read has no independent source of data. It reaches the $\RealU
 \label{thm:finite-window-envelope-common-refinement-exactness}
 Let $W=(S,A,B,L,Q,G,E,P,N)$ and $W'=(S',A',B',L',Q',G',E',P',N')$ be accepted $\FiniteWindowEnvelopeUp$ carriers. If the local classifier relates $W$ and $W'$, then their comparison factors through one displayed selected $\StreamNameUp$ finite window, one transported $\DyadicRatCoreUp$ observation ledger, one $\RegSeqRatUp$ seal row, and one $\RealUp$ endpoint classifier row. Conversely, any such four transported rows, with the package and local certificate provenance already carried by $P,N,P',N'$, repack into the local $\FiniteWindowEnvelopeUp$ classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeBHistCarrier\_common\_refinement\_exactness}
 \begin{proof}
 For the forward direction, project the carrier tuple of \autoref{def:finite-window-envelope-carrier}. The classifier can inspect only the selected window row $Q$, the dyadic ledger $L$, the seal row $G$, the endpoint row $E$, and their transported counterparts.
 
@@ -112,6 +115,7 @@ By \autoref{thm:finite-window-envelope-regseqrat-seal-handoff}, the $\RegSeqRatU
 
 The common refinement theorem \autoref{thm:finite-window-envelope-common-refinement-exactness} shows that transported comparisons factor through the same displayed window, ledger, seal, and endpoint rows. Finally, \autoref{thm:finite-window-envelope-ledger-exhaustion} accounts for the anchor, window, scale, subwindow, readback, package, and certificate rows, so the $\StreamNameUp$ to $\RegSeqRatUp$ handoff is scoped by the listed data.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeBHistCarrier\_streamname\_regseqrat\_scope}
 
 \begin{theorem}[FiniteWindowEnvelope tail projection]
 \label{thm:finite-window-envelope-tail-projection}
@@ -124,6 +128,7 @@ Apply \autoref{thm:finite-window-envelope-regseqrat-seal-handoff} to identify th
 
 The exhaustion step is \autoref{thm:finite-window-envelope-ledger-exhaustion}, while \autoref{thm:finite-window-envelope-streamname-regseqrat-scope} supplies the non-escape boundary for the stream-to-regular-sequence handoff. Hence every displayed tail or subwindow read is a projection of the listed carrier coordinates.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeBHistCarrier\_tail\_projection}
 
 \begin{theorem}[FiniteWindowEnvelope tail-projection audit sync]
 \label{thm:finite-window-envelope-tail-projection-audit-sync}
@@ -147,6 +152,7 @@ $$
 $$
 where $Q$ is the selected $\StreamNameUp$ finite window, $L$ is the $\DyadicRatCoreUp$ observation ledger, $G$ is the $\RegSeqRatUp$ seal row, and $E$ is the $\RealUp$ endpoint classifier row. The read has no second endpoint source outside the listed carrier coordinates and their displayed $\hsame$ and $\Cont$ transports.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeBHistCarrier\_endpoint\_source\_determinacy}
 \begin{proof}
 Project the carrier of \autoref{def:finite-window-envelope-carrier}. The coordinates $Q,L,G,E$ are the only rows in the package that name a selected window, record its rational observations, seal those observations as a regular rational window, and expose the endpoint classifier.
 
@@ -214,6 +220,7 @@ Use \autoref{thm:finite-window-envelope-realup-window-exactness} to identify the
 
 Use \autoref{thm:finite-window-envelope-tail-projection-audit-sync} to expose the same rows to tail and subwindow consumers. The StreamName tail lock and common window lock above keep refinements and comparisons inside the same finite package, so downstream Real, $\RegSeqRatUp$, and Completion consumers receive one root-unblock surface and no external equality or completeness object.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeUp\_StdBridge}
 
 \closureat{FiniteWindowEnvelopeUp}{seedStr}
 \closureat{FiniteWindowEnvelopeUp}{obligationStr}

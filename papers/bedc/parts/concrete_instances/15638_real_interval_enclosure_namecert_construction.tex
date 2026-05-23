@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\RealIntervalEnclosureUp$}
+\label{ch:concrete-instances-real-interval-enclosure-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealIntervalEnclosureUp$ packet names finite lower and upper rational or dyadic windows around a $\RealUp$ name. It sits after the dyadic finite arithmetic surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation gateway of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the endpoint-ledger interface of \autoref{ch:concrete-instances-locatedinterval-namecert}. The packet records an enclosure read for one real name through displayed finite windows; it is not a host interval, quotient real equality, trichotomy, a selected endpoint pair, or a completeness principle.
+
+\begin{definition}[Real interval enclosure carrier]
+\label{def:real-interval-enclosure-carrier}
+A $\RealIntervalEnclosureUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,S,Q,D,L,U,A,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the accepted $\RealUp$ name whose finite enclosure is being read.
+\item $S$ is the $\StreamNameUp$ window row specifying the finite observations of the real name used by the packet.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same finite window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row whose dyadic radius bounds the displayed readback error.
+\item $L$ and $U$ are the lower and upper rational or dyadic bound rows displayed in the packet.
+\item $A$ is the admission row saying that the readback $Q$ and tolerance $D$ place the inspected real-name window between $L$ and $U$.
+\item $W$ is the window-stability ledger, recording that later finite windows refine the same enclosure route instead of replacing it by a host endpoint choice.
+\item $H$ records componentwise $\hsame$ transport for the real name, stream window, regular readback, dyadic tolerance, lower bound, upper bound, admission row, stability ledger, continuation row, provenance row, and local naming row.
+\item $C$ records the displayed $\Cont$ replay from the real-name seal through the finite window, regular readback, dyadic tolerance, bound rows, admission row, and stability ledger.
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealIntervalEnclosureUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one finite enclosure packet. It has no coordinate for host interval endpoints, quotient real equality, trichotomy, a selected limit value, open-cover compactness, Heine--Borel compactness, or Real completeness.
+\end{definition}
+
+\begin{theorem}[Real interval enclosure NameCert obligations]
+\label{thm:real-interval-enclosure-namecert-obligations}
+For every accepted $\RealIntervalEnclosureUp$ carrier $E=(R,S,Q,D,L,U,A,W,H,C,P,N)$, the local $\NameCert_{\RealIntervalEnclosureUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the real-name seal, stream window, regular rational readback, dyadic tolerance, lower bound, upper bound, admission, stability, transport, continuation, provenance, and local naming rows;
+\item source compatibility, requiring $S,Q,D$ to be read through the same $\RealUp$ route named by $R$;
+\item bound admissibility, requiring $L$ and $U$ to be displayed rational or dyadic rows rather than selected host endpoint values;
+\item enclosure exactness, requiring $A$ to witness that the inspected regular-rational window with tolerance $D$ lies between $L$ and $U$;
+\item window stability, requiring $W,H,C$ to preserve the enclosure under componentwise transport and later finite-window replay;
+\item located-interval handoff, allowing a $\LocatedIntervalUp$ consumer to read only the displayed bound rows and the same real-name window route;
+\item ledger refusal, excluding Heine--Borel compactness, open-cover compactness, trichotomy, quotient real equality, selected limits, host endpoint values, and Real completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-interval-enclosure-carrier}. The projection exposes exactly the real-name seal, stream window, regular-rational readback, dyadic tolerance, lower and upper bound rows, admission row, stability ledger, and structural rows $H,C,P,N$.
+
+Source compatibility follows by reading $S,Q,D$ through the sibling route of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}. Since all three rows are attached to the same $R$, no second real-name route is available.
+
+Bound admissibility and enclosure exactness are the rows $L,U,A$. The lower and upper rows are displayed rational or dyadic data, and $A$ binds them to the inspected readback and tolerance window rather than to host endpoint values.
+
+Replay $C$ and transport by $H$. The replay preserves the same finite route into later windows, while $W$ records that those later windows refine the displayed enclosure service. A $\LocatedIntervalUp$ consumer therefore receives the same lower and upper rows through the same finite route.
+
+The exclusions are immediate from the carrier inventory. The packet contains no row for Heine--Borel compactness, open-cover compactness, trichotomy, quotient real equality, selected limits, host endpoint values, Real completeness, or a standard bridge.
+\end{proof}
+
+\begin{theorem}[Real interval enclosure RegSeqRat window handoff]
+\label{thm:real-interval-enclosure-regseqrat-window-handoff}
+Every $\RegSeqRatUp$, $\RealUp$, or $\LocatedIntervalUp$ consumer of an accepted $\RealIntervalEnclosureUp$ carrier factors through the finite route
+$$
+R \longmapsto S \longmapsto Q,D \longmapsto L,U,A \longmapsto W,H,C,P,N .
+$$
+Consequently the consumer receives a finite enclosure row around a real-name window, not a direct host interval, not quotient equality of real names, not trichotomy, not selected endpoint values, and not a completeness witness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $E=(R,S,Q,D,L,U,A,W,H,C,P,N)$. The only terminal real-name coordinate is $R$, and the only finite observation coordinate attached to it is the stream window $S$.
+
+The regular-rational readback $Q$ and dyadic tolerance row $D$ are then read from that same window. Thus any regular-rational consumer reaches the bound rows only after passing through the displayed $\StreamNameUp$ and $\RegSeqRatUp$ route.
+
+The lower and upper rows $L,U$ are admitted through $A$. A $\LocatedIntervalUp$ consumer may use them as displayed interval data, but only together with the same admission row and the same real-name source route.
+
+Finally $W,H,C,P,N$ package the handoff. Stability, transport, continuation replay, provenance, and local naming keep the consumer inside the finite packet, so no host interval, quotient real equality, trichotomy, selected endpoint value, completeness theorem, or bridge row can be inserted into the route.
+\end{proof}
+
+\closureat{RealIntervalEnclosureUp}{seedStr}
+
+\begin{closurestatus}{\RealIntervalEnclosureUp}
+  \constructivestory{A $\RealIntervalEnclosureUp$ packet is generated from a real-name seal, stream window, regular rational readback, dyadic tolerance, displayed lower and upper rational or dyadic bounds, an enclosure admission row, a window-stability ledger, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-interval-enclosure-carrier}, \autoref{thm:real-interval-enclosure-namecert-obligations}, and \autoref{thm:real-interval-enclosure-regseqrat-window-handoff} seed the finite interval-enclosure surface around Real, StreamName, RegSeqRat, DyadicRatCore, and LocatedInterval consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Heine--Borel compactness, open-cover compactness, trichotomy, quotient real equality, selected limits, host endpoint values, Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, source compatibility, bound admissibility, enclosure exactness, window stability, located-interval handoff, and ledger refusal proofs for BEDC.Derived.RealIntervalEnclosureUp.}
+\end{closurestatus}

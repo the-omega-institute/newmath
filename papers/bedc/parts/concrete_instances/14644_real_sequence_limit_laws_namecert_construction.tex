@@ -1,0 +1,151 @@
+\chapter{A Concrete Naming Certificate for $\RealSequenceLimitLawsUp$}
+\label{ch:concrete-instances-real-sequence-limit-laws-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the
+$\RealSequenceLimitLawsUp$ packet records the finite algebra used when two
+displayed $\RealUp$ sequence limits are combined by a standard arithmetic
+operation. It sits over the $\StreamNameUp$ windows of
+\autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$
+readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the
+$\DyadicRatCoreUp$ tolerance ledger of
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal
+$\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the
+sandwich route of \autoref{ch:concrete-instances-squeezereal-namecert}. The
+certificate keeps limit arithmetic as displayed finite route data, not as
+quotient stream equality, a selected host limit, trichotomy, or ambient
+completeness.
+
+\begin{definition}[Real sequence limit laws carrier]
+\label{def:real-sequence-limit-laws-carrier}
+A $\RealSequenceLimitLawsUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,Y,S_X,S_Y,R_X,R_Y,D,E_X,E_Y,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are two $\RealUp$ sequence source routes whose terms are read
+only through finite observation windows.
+\item $S_X$ and $S_Y$ are the $\StreamNameUp$ window rows opened for the two
+sources at the requested precision scale.
+\item $R_X$ and $R_Y$ are the $\RegSeqRatUp$ readback rows attached to those
+windows.
+\item $D$ is the $\DyadicRatCoreUp$ error ledger recording the two source
+budgets, the operation budget, and the output tolerance request.
+\item $E_X$ and $E_Y$ are the two limit-seal rows that certify the displayed
+source routes before any arithmetic read is public.
+\item $O$ is the operation row, recording whether the read is sum, difference,
+product under a displayed bound, scalar multiple, or squeeze-mediated
+comparison, together with its required dyadic error estimate.
+\item $H$ stores componentwise $\hsame$ transport for the two sources, their
+windows, readbacks, limit seals, dyadic ledger, and operation row.
+\item $C$ stores displayed $\Cont$ replay for opening windows, reading regular
+rational approximants, consuming dyadic error rows, invoking the operation
+row, and exposing the output seal route.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, $\RealUp$, $\SqueezeRealUp$, $\BHist$, $\hsame$, $\Cont$,
+and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealSequenceLimitLawsUp}$ row.
+\end{enumerate}
+The carrier contains no quotient stream, no host equality of real sequences,
+no selected limit value, no trichotomy row, and no ambient completeness
+principle.
+\end{definition}
+
+\begin{theorem}[Real sequence limit laws NameCert obligations]
+\label{thm:real-sequence-limit-laws-namecert-obligations}
+The local $\NameCert_{\RealSequenceLimitLawsUp}$ surface for
+\autoref{def:real-sequence-limit-laws-carrier} consists of five finite
+obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet
+$L=(X,Y,S_X,S_Y,R_X,R_Y,D,E_X,E_Y,O,H,C,P,N)$;
+\item classifier stability under componentwise $\hsame$ transport and
+displayed $\Cont$ replay of the two source routes, window rows, readback rows,
+limit seals, dyadic ledger, and operation row;
+\item operation-row exactness, requiring the output tolerance read to be the
+dyadic estimate stored in $D$ and cited by $O$;
+\item seal handoff, requiring every public limit-law read to pass through
+$E_X$, $E_Y$, $O$, and the displayed transport, replay, provenance, and local
+naming rows before any $\RealUp$ output seal is exposed;
+\item non-escape, stating that quotient stream equality, selected host limits,
+trichotomy, host real-sequence equality, and ambient completeness are absent
+from the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:real-sequence-limit-laws-carrier}. The two source routes, two
+window rows, two readback rows, dyadic ledger, two limit seals, operation row,
+transport, replay, provenance, and local name are explicit coordinates of
+$L$.
+
+Classifier stability is componentwise. The stored $H$ and $C$ rows transport
+and replay exactly the coordinates named by the carrier, so a classified read
+cannot detach an operation row from its two source seals or from the dyadic
+error ledger.
+
+Operation-row exactness is the role of $D$ and $O$. The dyadic ledger records
+the input and output tolerances, while $O$ declares which arithmetic or
+squeeze-mediated operation consumes those estimates.
+
+The seal handoff then forces a public limit-law consumer to read $E_X$ and
+$E_Y$ before it invokes $O$. Since the carrier has no coordinate for quotient
+stream equality, selected host limits, trichotomy, host sequence equality, or
+ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real sequence limit laws RealUp handoff]
+\label{thm:real-sequence-limit-laws-realup-handoff}
+Every public limit-law read exported by an accepted
+$\RealSequenceLimitLawsUp$ carrier factors through the displayed
+$\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of
+\autoref{def:real-sequence-limit-laws-carrier}. The handoff exports no
+quotient stream equality, selected host limit, trichotomy, host equality of
+real sequences, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a public limit-law consumer and project the accepted carrier. The
+consumer first receives the two source routes $X,Y$ through the finite windows
+$S_X,S_Y$ and the regular rational readbacks $R_X,R_Y$.
+
+The dyadic error ledger $D$ is then read at the same precision scale. It is the
+only tolerance coordinate listed in the carrier, and the operation row $O$
+must cite it before an output route can be exposed.
+
+The two limit-seal rows $E_X,E_Y$ bind the source routes to the terminal
+$\RealUp$ surface, while $H,C,P,N$ provide the componentwise transport, replay,
+provenance, and local naming route. These rows are exactly the public handoff
+surface. No further coordinate remains from which a consumer could read a
+quotient stream equality, a selected host limit, trichotomy, host sequence
+equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Real sequence limit laws dyadic operation exhaustion]
+\label{thm:real-sequence-limit-laws-dyadic-operation-exhaustion}
+Every accepted operation row $O$ in a $\RealSequenceLimitLawsUp$ carrier
+$$
+L=(X,Y,S_X,S_Y,R_X,R_Y,D,E_X,E_Y,O,H,C,P,N)
+$$
+must cite the displayed $\DyadicRatCoreUp$ ledger $D$ for its input budgets, operation budget, and output tolerance request. After $D,O,E_X,E_Y,H,C,P,N$ are fixed, no quotient stream equality, selected host limit, trichotomy row, host sequence equality, or ambient completeness principle can alter the public limit-law read.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The operation row $O$ and the dyadic ledger $D$ are the only coordinates that describe arithmetic error accounting for the two displayed source routes.
+
+Apply operation-row exactness from \autoref{thm:real-sequence-limit-laws-namecert-obligations}. The row $O$ must consume the tolerance data stored in $D$, including the two input budgets, the operation budget, and the output tolerance request.
+
+Apply the RealUp handoff theorem \autoref{thm:real-sequence-limit-laws-realup-handoff}. Once the two source seals $E_X,E_Y$ and the structural rows $H,C,P,N$ are fixed with $D$ and $O$, the public limit-law read is already routed through the displayed finite packet.
+
+The carrier has no coordinate for quotient stream equality, selected host limits, trichotomy, host sequence equality, or ambient completeness. Hence none of those objects can revise the dyadic operation read.
+\end{proof}
+
+\begin{closurestatus}{\RealSequenceLimitLawsUp}
+  \constructivestory{A $\RealSequenceLimitLawsUp$ packet is generated from two $\RealUp$ sequence source routes, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, a $\DyadicRatCoreUp$ error ledger, two limit-seal rows, an operation row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-sequence-limit-laws-carrier}, \autoref{thm:real-sequence-limit-laws-namecert-obligations}, \autoref{thm:real-sequence-limit-laws-realup-handoff}, and \autoref{thm:real-sequence-limit-laws-dyadic-operation-exhaustion} seed the finite constructive limit-law packet over StreamName, RegSeqRat, DyadicRatCore, RealUp, and SqueezeReal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, trichotomy, host equality of real sequences, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, operation-row exactness, seal handoff, and non-escape for the same finite limit-law packet.}
+\end{closurestatus}

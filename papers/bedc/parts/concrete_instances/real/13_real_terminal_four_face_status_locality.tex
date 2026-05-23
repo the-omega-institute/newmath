@@ -1,0 +1,49 @@
+\begin{theorem}[Real L10 terminal four-face status locality]
+\label{thm:real-l10-terminal-four-face-status-locality}
+Let $\mathcal T$ be a finite Phase $\RealUp$ and Completion terminal packet over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ rows. Suppose $\mathcal T$ satisfies the current-phase exit local threshold and exposes exactly the four displayed face records together with the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then every formalstatus, leantarget, and bridgestatus coordinate carried by $\mathcal T$ is attached to one of the four local face records $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or local $\RealUp$.
+
+Conversely, if one such coordinate is replaced by a stronger coordinate on the same face, while the other three face records and the displayed support rows are unchanged, the resulting terminal packet presents the same four-face Phase $\RealUp$ and Completion exit certificate. No route-level formalstatus row, aggregate leantarget row, aggregate bridge row, quotient-stream equality, selected limit, countable-choice selector, metric-completeness datum, or $\RealUp$ completeness claim is introduced.
+\end{theorem}
+\begin{proof}
+First read the packet through the current exit criterion. By \autoref{thm:real-l10-current-phase-exit-local-threshold}, the terminal packet satisfies the exit read only as the objectwise product of the four local threshold records on $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the local $\RealUp$ face, carried by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Next identify the finite cover seen by terminal requests. Apply \autoref{thm:real-l10-finite-request-exit-cover}. The visible request section is finite and has no additional coordinate beyond the four displayed face records and the displayed support rows, so formalstatus, leantarget, and bridgestatus data can only be read from the face records already present in that cover.
+
+Now factor the certificate along its ordered source. By \autoref{thm:real-l10-exit-certificate-dependency-factorization}, the accepted exit certificate factors through exactly
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+together with the same displayed support rows. The factorization gives no route object on which a separate formalstatus, leantarget, or bridge coordinate could live.
+
+Finally apply \autoref{thm:real-l10-exit-certificate-face-minimality}. Since none of the four faces and none of the displayed support rows can be deleted, shortened, or replaced by an aggregate credential while retaining the same exit read, a same-face strengthening of one status coordinate preserves the terminal four-face packet, whereas any route-level aggregate row or completion datum would be an extra coordinate outside the certificate surface.
+\end{proof}
+
+\begin{theorem}[Real L10 finite-cover status threshold descent]
+\label{thm:real-l10-finite-cover-status-threshold-descent}
+Let $\{\mathcal T_i\}_{i \in I}$ be a finite cover of accepted Phase $\RealUp$ and Completion terminal packets. Assume that every local packet $\mathcal T_i$ exposes exactly the four face records
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with the shared support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,
+$$
+and that every nonempty overlap has compatible face-status pullbacks for the local $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ records.
+
+Then the glued terminal packet satisfies the current Phase $\RealUp$ and Completion exit threshold if and only if each local packet satisfies the four face-local threshold records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$, and the overlap face-status pullbacks agree. The descent exports no aggregate formalstatus row, route-level Lean target, aggregate bridge row, quotient-stream equality, selected limit, countable-choice row, metric-completeness datum, or $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+For the forward direction, restrict the glued terminal packet to one finite-cover member. Apply \autoref{thm:real-l10-terminal-four-face-status-locality}. The restricted packet can read formalstatus, leantarget, and bridgestatus data only from the local $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces.
+
+Now read the overlap interface. Apply \autoref{thm:dyadicratcore-l10-face-status-pullback} on each nonempty overlap. The status rows remain attached to the same four faces after restriction, so the local four face-threshold records and their overlap pullbacks are forced by the glued threshold packet.
+
+For the reverse direction, start with the local four face-threshold records and the compatible overlap pullbacks. Apply \autoref{thm:real-terminal-seal-finite-cover-cocycle-exactness} to paste the local terminal seal data across the finite cover. The pasted packet has the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and local $\RealUp$ faces, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next apply \autoref{thm:regseqrat-audit-threshold-finite-cover-gluing}. The compatible local threshold reads glue to a single Phase $\RealUp$ and Completion audit-threshold read over the finite four-face packet. Applying \autoref{thm:real-l10-terminal-four-face-status-locality} to that glued packet identifies it with the current exit threshold and keeps the verification and bridge coordinates facewise.
+
+The exclusion clause follows from the same cited results. Their constructions never introduce an aggregate formalstatus row, a route-level Lean target, an aggregate bridge row, quotient streams, selected limits, countable-choice rows, metric-completeness data, or an ambient $\RealUp$ completeness coordinate, so none of those data descends from the glued terminal packet.
+\end{proof}

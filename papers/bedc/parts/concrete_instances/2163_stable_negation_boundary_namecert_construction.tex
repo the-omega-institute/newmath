@@ -55,6 +55,7 @@ Truth-branch non-escape is the absence of any carrier-wide decision coordinate. 
 \label{thm:stable-negation-boundary-decidable-refutation-stability}
 For an accepted $\StableNegationBoundaryUp$ carrier $S=(A,R,D,T,L,H,C,P,N)$, every permitted refutation of $A$ remains stable under the displayed $\hsame$ transports and $\Cont$ replay routes. If a consumer also requests $\neg\neg A \Rightarrow A$, the request is accepted only through the same displayed decision row $D$.
 \end{theorem}
+\leanchecked{BEDC.Derived.StableNegationBoundaryUp.StableNegationBoundaryCarrier\_decidable\_refutation\_stability}
 \begin{proof}
 Read the refutation route $R$ from the carrier and transport the proposition row $A$ through $H$. Replaying $R$ through the displayed continuation routes in $C$ again sends an assumed witness of the transported proposition to $\bot$.
 
@@ -67,6 +68,7 @@ The packet inventory then gives stability. Every accepted route passes through $
 \label{thm:stable-negation-boundary-certificate-truth-non-escape}
 No accepted $\StableNegationBoundaryUp$ carrier exports a decision family for predicates over the carrier of all naming certificates. Its negative information is exhausted by the local refutation route $R$, the optional decision row $D$, the classifier row $T$, and the exclusion ledger $L$.
 \end{theorem}
+\leanchecked{BEDC.Derived.StableNegationBoundaryUp.StableNegationBoundaryCarrier\_certificate\_truth\_non\_escape}
 \begin{proof}
 Assume a consumer reads an accepted carrier. The only available proposition-level rows are $A,R,D,T,L$ together with their transports and continuation routes.
 
@@ -79,6 +81,7 @@ The ledger $L$ names the blocked routes. Since every export is routed through $C
 \label{thm:stable-negation-boundary-ledger-exhaustion}
 Every accepted stable-negation read is exhausted by the rows $A,R,D,T,L,H,C,P,N$ of \autoref{def:stable-negation-boundary-carrier}. No downstream consumer may add an external truth predicate, a global excluded-middle branch, or an existential witness selected only from a contradiction.
 \end{theorem}
+\leanchecked{BEDC.Derived.StableNegationBoundaryUp.StableNegationBoundaryCarrier\_ledger\_exhaustion}
 \begin{proof}
 Start with an accepted stable-negation read. Carrier admission sends it to the finite packet $S=(A,R,D,T,L,H,C,P,N)$.
 

@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealOrderUp$}
+\label{ch:concrete-instances-cauchy-real-order-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyRealOrderUp$ packet names the constructive order and apartness surface for Cauchy real data by displaying the finite comparison route before any quotient equality or trichotomy principle is available. It sits after the stream, dyadic, regular-rational, real-name, quotient-boundary, and located-interval surfaces of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-cauchy-quotient-boundary-namecert}, and \autoref{ch:concrete-instances-located-real-interval-namecert}. The packet gives Real and Completion consumers one named ordered-real route; it is not a quotient real equality theorem, a representative selector, a trichotomy oracle, a countable-choice schedule, or an ambient $\RealUp$ completeness principle.
+
+\begin{definition}[Cauchy real order carrier]
+\label{def:cauchy-real-order-carrier}
+A $\CauchyRealOrderUp$ carrier is a finite $\BHist$ packet
+$$
+O=(S,T,W,D,Q,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ and $T$ are the two source rows. Each is read through $\StreamNameUp$ windows and a $\RegSeqRatUp$ regular-rational handoff before it is sealed as a $\RealUp$ name.
+\item $W$ is the common finite-window row. It records the shared observation lengths, synchronised stream cuts, and comparison windows used for both source rows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and sign ledger. It stores the dyadic radii, positive gap requests, sign cells, and slack bookkeeping consumed by apartness and order reads.
+\item $Q$ is the quotient-boundary row. It records that equality-sensitive reads remain inside the displayed Cauchy quotient boundary and are not replaced by host quotient equality.
+\item $R$ is the terminal $\RealUp$ seal row for the two accepted real names after $S,T,W,D,Q$ have been displayed.
+\item $A$ is the apartness and order verdict row. It records a positive apartness route, a negative apartness route when the displayed finite windows do not certify a positive gap, and the oriented order verdict exported to consumers.
+\item $H$ records componentwise $\hsame$ transport for the two source rows, common windows, dyadic tolerance ledger, quotient-boundary row, real seals, verdict row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each order or apartness request through $S,T,W,D,Q,R,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealOrderUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyQuotientBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealOrderUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite constructive ordered-real comparison packet. It has no coordinate for trichotomy, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyRealOrderUp.CauchyRealOrderUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy real order NameCert obligations]
+\label{thm:cauchy-real-order-namecert-obligations}
+For every accepted $\CauchyRealOrderUp$ carrier $O=(S,T,W,D,Q,R,A,H,C,P,N)$, the local $\NameCert_{\CauchyRealOrderUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two source rows, common finite windows, dyadic tolerance and sign ledger, quotient-boundary row, real seal rows, verdict row, transport, replay, provenance, and local naming row;
+\item classifier exactness, requiring accepted packets to be compared by the displayed stream windows, regular-rational readbacks, dyadic tolerance ledger, real seal rows, and componentwise transport;
+\item positive apartness route, requiring every positive verdict to exhibit a finite dyadic gap certified by $W,D,Q,R,A$;
+\item negative apartness route, requiring every refusal of positive apartness to record the exhausted finite windows and dyadic slack rather than a quotient-equality proof;
+\item order transport, requiring $H$ and $C$ to replay the oriented verdict along componentwise $\hsame$ witnesses;
+\item $\RegSeqRatUp$ handoff, requiring both source rows to pass through regular-rational readback before the real seal and verdict rows are inspected;
+\item real seal non-escape, requiring $R$ to expose only the displayed $\RealUp$ rows and to export no selected representative, quotient equality, or ambient completeness datum;
+\item ledger exhaustion, excluding trichotomy, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No Cauchy real order obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyRealOrderUp.TasteGate.CauchyRealOrderTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-real-order-carrier}. The projection exposes exactly the two source rows, common window row, dyadic tolerance ledger, quotient-boundary row, real seal row, verdict row, and structural rows.
+
+Classifier exactness is componentwise. The comparison first reads the two stream and regular-rational source rows through $S,T,W$, then consumes the dyadic sign ledger $D$, quotient-boundary row $Q$, real seal row $R$, and verdict row $A$ before transport or replay can package the result.
+
+The positive apartness route is the row of certified dyadic gaps. A positive verdict must display a finite pair of windows, a dyadic tolerance request, and a sign cell whose slack remains positive after the recorded refinements.
+
+The negative apartness route is also finite. It records that the displayed windows and dyadic slack do not certify a positive gap at the requested precision. This is a refusal of the positive route, not a proof of quotient equality.
+
+Order transport uses $H$ and $C$. The componentwise $\hsame$ row transports the source, window, tolerance, seal, and verdict data together, while the replay row preserves the order in which a consumer is allowed to inspect them. The remaining provenance and naming rows therefore exhaust the local certificate without exporting any excluded principle.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyRealOrderUp.CauchyRealOrderCarrier\_namecert\_obligations}
+
+\begin{theorem}[Cauchy real order RegSeqRat handoff]
+\label{thm:cauchy-real-order-regseqrat-handoff}
+Every accepted $\CauchyRealOrderUp$ carrier factors each order or apartness request through the route
+$$
+S,T \longmapsto W \longmapsto D \longmapsto Q \longmapsto R \longmapsto A \longmapsto H,C,P,N .
+$$
+In particular, both Cauchy real source rows pass through $\RegSeqRatUp$ readback and common finite windows before any $\RealUp$ seal or oriented verdict is exported.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $O=(S,T,W,D,Q,R,A,H,C,P,N)$. The only source coordinates are $S$ and $T$, and the carrier requires them to be inspected through stream windows and regular-rational readback.
+
+The common row $W$ synchronises those observations. The tolerance and sign ledger $D$ then records the dyadic scale at which a consumer asks for comparison data, while $Q$ keeps equality-sensitive reads at the quotient-boundary surface.
+
+The real seal $R$ is downstream of this displayed route. The verdict row $A$ can therefore see only the readbacks and tolerances already named by $S,T,W,D,Q,R$.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same packet. Since no earlier row contains a selected representative or host equality witness, the handoff route is exhaustive.
+\end{proof}
+
+\begin{theorem}[Cauchy real order Real seal non-escape]
+\label{thm:cauchy-real-order-real-seal-nonescape}
+For every accepted $\CauchyRealOrderUp$ carrier $O=(S,T,W,D,Q,R,A,H,C,P,N)$, the $\RealUp$ seal row $R$ can be used only through the displayed comparison route $S,T,W,D,Q,A,H,C,P,N$. Hence a consumer of the order surface cannot extract trichotomy, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking from $R$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The row $R$ is recorded as the terminal real-name seal for the two source rows after their stream windows, regular-rational readbacks, dyadic tolerances, and quotient-boundary data have been displayed.
+
+Any order consumer must then pass through $A$. The verdict row records only positive apartness data, negative apartness refusal data at a finite request, and the oriented order verdict tied to the same dyadic sign ledger.
+
+Transport and replay do not add analytic content. The rows $H$ and $C$ preserve the displayed dependencies, while $P$ and $N$ package and name them. Therefore the real seal has no path to export any excluded principle.
+\end{proof}
+
+\closureat{CauchyRealOrderUp}{seedStr}
+\begin{closurestatus}{\CauchyRealOrderUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-order-carrier}, \autoref{thm:cauchy-real-order-namecert-obligations}, \autoref{thm:cauchy-real-order-regseqrat-handoff}, and \autoref{thm:cauchy-real-order-real-seal-nonescape} seed the finite constructive order and apartness route through two stream-backed regular-rational source rows, common windows, a dyadic tolerance and sign ledger, quotient-boundary data, real seals, and local NameCert rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyRealOrderUp.CauchyRealOrderUpTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, positive and negative apartness routes, order transport, RegSeqRat handoff, real seal non-escape, and ledger exhaustion for BEDC.Derived.CauchyRealOrderUp.}
+  \constructivestory{A $\CauchyRealOrderUp$ packet is generated from two $\StreamNameUp$ and $\RegSeqRatUp$ source rows, a common finite-window row, a $\DyadicRatCoreUp$ tolerance and sign ledger, a $\CauchyQuotientBoundaryUp$ row, terminal $\RealUp$ seals, an apartness and order verdict row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

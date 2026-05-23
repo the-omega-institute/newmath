@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\CauchyEstimateUp$}
+\label{ch:concrete-instances-cauchy-estimate-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyEstimateUp$ packet records finite Cauchy error-estimate data for regular rational real names. It consumes the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy threshold discipline of \autoref{ch:concrete-instances-cauchymodulus-namecert}. The packet gives the L10 Real and Completion route one visible estimate ledger before any $\RealUp$-facing consumer can read a completed seal.
+
+\begin{definition}[Cauchy estimate carrier]\label{def:cauchy-estimate-carrier}
+A $\CauchyEstimateUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,W,D,L,M,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row containing the regular rational name whose estimates are being read.
+\item $W$ is the $\StreamNameUp$ finite-window row. It lists exactly the observation windows of $R$ that an estimate request may inspect.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It records the dyadic scale, comparison arithmetic, and tolerance conversions used by the estimate ledger.
+\item $L$ is the finite estimate ledger. Each row pairs a requested tolerance with the two scheduled rational observations, the dyadic comparison witnessing their distance bound, and the local row in which the bound is stored.
+\item $M$ is the $\CauchyModulusUp$ row assigning every admitted tolerance request to the window threshold used by $W$ and $L$.
+\item $S$ is the $\RealUp$ seal row reached only after $R,W,D,L,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source row, finite windows, dyadic tolerance row, estimate ledger, modulus row, real seal, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from an estimate request through $R,W,D,L,M,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyEstimateUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyEstimateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten displayed rows. It has no coordinate for $\RealUp$ completeness, quotient real equality, selected limits, trichotomy, countable choice, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyEstimateUp.CauchyEstimateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy estimate NameCert obligations]\label{thm:cauchy-estimate-namecert-obligations}
+For every accepted $\CauchyEstimateUp$ carrier
+$$
+E=(R,W,D,L,M,S,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyEstimateUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the $\RegSeqRatUp$ source row, $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ tolerance row, estimate ledger, $\CauchyModulusUp$ row, $\RealUp$ seal row, transport, replay, provenance, and local name;
+\item estimate-window exactness, requiring every ledger entry in $L$ to use only the finite windows displayed by $W$ for the admitted tolerance request;
+\item dyadic tolerance stability, requiring every estimate comparison to be read through the dyadic scale and comparison arithmetic stored in $D$;
+\item classifier transport, requiring $H$ and $C$ to preserve the source, window, tolerance, ledger, modulus, seal, provenance, and local naming rows componentwise under $\hsame$ and displayed replay;
+\item ledger non-escape, requiring the packet to export no estimate row outside $R,W,D,L,M,S,H,C,P,N$.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-estimate-carrier}. The projection exposes one regular rational source, one finite-window schedule, one dyadic tolerance row, one estimate ledger, one modulus row, one terminal real seal, and the structural rows.
+
+Carrier admission is therefore exactly admission of those displayed coordinates. Since the source row $R$ and the window row $W$ are the only observation coordinates, an estimate request cannot read a rational observation outside the finite windows named by $W$.
+
+The dyadic tolerance obligation is read from $D$. Each ledger row in $L$ cites the dyadic scale and comparison arithmetic stored there, so stability of the bound is a property of the displayed tolerance row rather than of an ambient real-comparison principle.
+
+Transport and replay are structural. The row $H$ transports the same displayed coordinates componentwise, and the row $C$ repeats the route from an estimate request through the source, windows, dyadic tolerance row, ledger, modulus, seal, provenance, and local name.
+
+The remaining non-escape clause follows from the coordinate list. The packet has no additional estimate surface and no coordinate for real completeness, quotient real equality, selected limits, trichotomy, countable choice, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Cauchy estimate Real seal handoff]\label{thm:cauchy-estimate-real-seal-handoff}
+Let $E=(R,W,D,L,M,S,H,C,P,N)$ be an accepted $\CauchyEstimateUp$ carrier. Every $\RealUp$-facing estimate read factors through the finite route
+$$
+W \longmapsto R \longmapsto D \longmapsto M \longmapsto L
+$$
+before the real seal row $S$ is visible. The read exports only the displayed StreamName windows, RegSeqRat observations, DyadicRatCore tolerance comparisons, CauchyModulus threshold row, estimate ledger, real seal, and structural rows, not $\RealUp$ completeness, quotient real equality, selected limits, trichotomy, countable choice, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with a real-facing estimate consumer of the accepted packet. The only real-facing coordinate is $S$, and it is listed downstream of the regular rational source, finite windows, dyadic tolerance row, estimate ledger, and modulus row.
+
+The consumer first reads the finite windows $W$ and the source observations $R$. These rows determine which rational observations can participate in an estimate request.
+
+Next the consumer reads $D$ and $M$. The row $D$ supplies the dyadic tolerance arithmetic, while $M$ supplies the threshold discipline saying which windows discharge the admitted tolerance.
+
+Only then can the estimate ledger $L$ be inspected. The ledger binds the selected windows, regular rational observations, dyadic comparisons, and modulus threshold into the displayed estimate row.
+
+Thus the seal row $S$ is visible only after the finite StreamName, RegSeqRat, DyadicRatCore, modulus, and ledger rows have been read. Since the carrier has no coordinate for completeness, quotient equality, selected limits, trichotomy, countable choice, Lean verification, or bridge checking, none of those principles can be exported by the real-facing read.
+\end{proof}
+
+\closureat{CauchyEstimateUp}{seedStr}
+
+\begin{closurestatus}{\CauchyEstimateUp}
+  \constructivestory{A $\CauchyEstimateUp$ packet is generated from one RegSeqRat source row, one StreamName finite-window row, one DyadicRatCore tolerance row, a finite estimate ledger, one CauchyModulus threshold row, one RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-estimate-carrier}, \autoref{thm:cauchy-estimate-namecert-obligations}, and \autoref{thm:cauchy-estimate-real-seal-handoff} seed the finite error-estimate ledger route from regular rational observations through dyadic tolerances and a Cauchy modulus before the Real seal is consumed.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CauchyEstimateUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient real equality, selected limits, trichotomy, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, estimate-window exactness, dyadic tolerance stability, classifier transport, ledger non-escape, and Real-seal handoff for BEDC.Derived.CauchyEstimateUp.}
+\end{closurestatus}

@@ -158,4 +158,93 @@ theorem RegularCauchySequenceCarrier_namecert_obligations [AskSetup] [PackageSet
       pUnary, nameUnary, consumerUnary, fMuW, wDR, rGE, eHC, cPName,
       consumerRoute, pPkg, consumerPkg, cert⟩
 
+theorem RegularCauchySequenceCarrier_finite_window_witness_induction
+    [AskSetup] [PackageSetup]
+    {f mu w d r g e h c p name baseRead stepRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySequenceCarrier f mu w d r g e h c p name bundle pkg ->
+      Cont w d baseRead ->
+        Cont baseRead r stepRead ->
+          Cont g e sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory baseRead ∧ UnaryHistory stepRead ∧ UnaryHistory sealRead ∧
+                Cont w d baseRead ∧ Cont baseRead r stepRead ∧ Cont g e sealRead ∧
+                  PkgSig bundle p pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier baseRoute stepRoute sealRoute sealPkg
+  obtain ⟨_fUnary, _muUnary, wUnary, dUnary, rUnary, gUnary, eUnary, _hUnary,
+    _cUnary, _pUnary, _nameUnary, _fMuW, _wDR, _rGE, _eHC, _cPName, pPkg⟩ :=
+    carrier
+  have baseUnary : UnaryHistory baseRead :=
+    unary_cont_closed wUnary dUnary baseRoute
+  have stepUnary : UnaryHistory stepRead :=
+    unary_cont_closed baseUnary rUnary stepRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed gUnary eUnary sealRoute
+  exact
+    ⟨baseUnary, stepUnary, sealUnary, baseRoute, stepRoute, sealRoute, pPkg, sealPkg⟩
+
+theorem RegularCauchySequenceNonEscape [AskSetup] [PackageSetup]
+    {f mu w d r g e h c p name consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySequenceCarrier f mu w d r g e h c p name bundle pkg →
+      Cont h c consumer →
+        PkgSig bundle consumer pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row f ∨ hsame row mu ∨ hsame row w ∨ hsame row d ∨
+                  hsame row r ∨ hsame row g ∨ hsame row e ∨ hsame row consumer)
+              (fun row : BHist => hsame row consumer ∧ PkgSig bundle consumer pkg)
+              hsame ∧
+            UnaryHistory f ∧ UnaryHistory mu ∧ UnaryHistory w ∧ UnaryHistory d ∧
+              UnaryHistory r ∧ UnaryHistory g ∧ UnaryHistory e ∧
+                UnaryHistory consumer ∧ Cont f mu w ∧ Cont w d r ∧ Cont r g e ∧
+                  Cont h c consumer ∧ PkgSig bundle p pkg ∧
+                    PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨fUnary, muUnary, wUnary, dUnary, rUnary, gUnary, eUnary, hUnary,
+    cUnary, _pUnary, _nameUnary, fMuW, wDR, rGE, _eHC, _cPName, pPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed hUnary cUnary consumerRoute
+  have sourceConsumer :
+      (fun row : BHist => hsame row consumer ∧ UnaryHistory row) consumer :=
+    ⟨hsame_refl consumer, consumerUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row f ∨ hsame row mu ∨ hsame row w ∨ hsame row d ∨
+              hsame row r ∨ hsame row g ∨ hsame row e ∨ hsame row consumer)
+          (fun row : BHist => hsame row consumer ∧ PkgSig bundle consumer pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumer sourceConsumer
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, consumerPkg⟩
+  }
+  exact
+    ⟨cert, fUnary, muUnary, wUnary, dUnary, rUnary, gUnary, eUnary,
+      consumerUnary, fMuW, wDR, rGE, consumerRoute, pPkg, consumerPkg⟩
+
 end BEDC.Derived.RegularCauchySequenceUp

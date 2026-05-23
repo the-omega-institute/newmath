@@ -137,6 +137,68 @@ theorem StationaryRationalCauchyBHistCarrier_diagonal_handoff [AskSetup] [Packag
     unary_cont_closed diagonalUnary seedUnary routeRead
   exact ⟨readUnary, diagonalEq, pkgRow⟩
 
+theorem StationaryRationalCauchyUp_StdBridge [AskSetup] [PackageSetup]
+    {seed stream regular ledger realSeal provenance nameCert diagonalRoute readRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalCauchyBHistCarrier seed stream regular ledger realSeal provenance nameCert
+        diagonalRoute bundle pkg ->
+      Cont regular stream diagonalRoute ->
+        Cont diagonalRoute seed readRoute ->
+          SemanticNameCert
+              (fun row : BHist => hsame row diagonalRoute /\ UnaryHistory row /\
+                PkgSig bundle realSeal pkg)
+              (fun row : BHist => UnaryHistory regular /\ UnaryHistory stream /\
+                hsame row (append regular stream))
+              (fun row : BHist => PkgSig bundle realSeal pkg /\ Cont regular stream row)
+              (fun row row' : BHist => PkgSig bundle realSeal pkg /\ hsame row row') /\
+            UnaryHistory readRoute := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier diagonalCont routeRead
+  obtain ⟨seedUnary, streamUnary, regularUnary, _ledgerUnary, _realSealUnary,
+    _provenanceUnary, _nameCertUnary, diagonalUnary, diagonalEq, pkgRow⟩ := carrier
+  have readUnary : UnaryHistory readRoute :=
+    unary_cont_closed diagonalUnary seedUnary routeRead
+  have diagonalSource :
+      hsame diagonalRoute diagonalRoute /\ UnaryHistory diagonalRoute /\
+        PkgSig bundle realSeal pkg :=
+    ⟨hsame_refl diagonalRoute, diagonalUnary, pkgRow⟩
+  have semantic :
+      SemanticNameCert
+        (fun row : BHist => hsame row diagonalRoute /\ UnaryHistory row /\
+          PkgSig bundle realSeal pkg)
+        (fun row : BHist => UnaryHistory regular /\ UnaryHistory stream /\
+          hsame row (append regular stream))
+        (fun row : BHist => PkgSig bundle realSeal pkg /\ Cont regular stream row)
+        (fun row row' : BHist => PkgSig bundle realSeal pkg /\ hsame row row') := {
+    core := {
+      carrier_inhabited := Exists.intro diagonalRoute diagonalSource
+      equiv_refl := by
+        intro row _source
+        exact ⟨pkgRow, hsame_refl row⟩
+      equiv_symm := by
+        intro _row _row' classified
+        exact ⟨classified.left, hsame_symm classified.right⟩
+      equiv_trans := by
+        intro _row _row' _row'' left right
+        exact ⟨left.left, hsame_trans left.right right.right⟩
+      carrier_respects_equiv := by
+        intro row row' classified source
+        exact
+          ⟨hsame_trans (hsame_symm classified.right) source.left,
+            unary_transport source.right.left classified.right,
+            classified.left⟩
+    }
+    pattern_sound := by
+      intro row source
+      exact ⟨regularUnary, streamUnary, hsame_trans source.left diagonalEq⟩
+    ledger_sound := by
+      intro row source
+      exact
+        ⟨source.right.right,
+          cont_result_hsame_transport diagonalCont (hsame_symm source.left)⟩
+  }
+  exact ⟨semantic, readUnary⟩
+
 theorem StationaryRationalCauchyCarrier_classifier_correspondence [AskSetup] [PackageSetup]
     {q schedule regseq dyadic «seal» provenance cert endpoint q' schedule' regseq' dyadic'
       seal' provenance' cert' endpoint' : BHist}

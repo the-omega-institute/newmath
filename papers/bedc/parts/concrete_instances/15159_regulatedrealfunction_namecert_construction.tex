@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedRealFunctionUp$}
+\label{ch:concrete-instances-regulatedrealfunction-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegulatedRealFunctionUp$ packet names a real-valued function on a closed interval by a finite ledger of dyadic step approximations together with a uniform tail route, rather than by a host function-space object.
+
+The packet sits after four visible neighbours: the dyadic step-function approximation surface of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the uniform-limit route of \autoref{ch:concrete-instances-uniformlimit-namecert}, the closed interval domain row of \autoref{ch:concrete-instances-closed-unit-interval-namecert}, and the endpoint seal surface of \autoref{ch:concrete-instances-regular-located-cauchy-real-namecert}. It exposes the approximation and seal rows needed by later integration-facing work, but it does not supply integration, open-cover compactness, or ambient completeness.
+
+\begin{definition}[Regulated real function NameCert surface]
+\label{def:regulated-real-function-namecert-surface}
+A $\RegulatedRealFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(I,A,T,U,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $I$ is a $\ClosedUnitIntervalUp$ domain row naming the source interval and its endpoint order data;
+\item $A$ is a finite ledger of $\DyadicStepFunctionUp$ approximation rows, indexed by displayed dyadic tolerances and read through \autoref{ch:concrete-instances-dyadicstepfunction-namecert};
+\item $T$ is the uniform tail and modulus ledger recording the common threshold beyond which the approximants are uniformly close;
+\item $U$ is the $\UniformLimitUp$ route that consumes $A$ and $T$ through \autoref{ch:concrete-instances-uniformlimit-namecert};
+\item $E$ is the $\RegularLocatedCauchyRealUp$ endpoint seal row, read only after the closed interval and uniform-limit routes of \autoref{ch:concrete-instances-closed-unit-interval-namecert} and \autoref{ch:concrete-instances-regular-located-cauchy-real-namecert};
+\item $H$ stores componentwise $\hsame$ transports for the interval row, approximation ledger, tail ledger, uniform-limit route, endpoint seal, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ continuations that read a domain request, choose the approximation threshold, replay the step-function ledger, pass through $U$, and expose $E$;
+\item $P$ is the $\Pkg$ provenance over $\ClosedUnitIntervalUp$, $\DyadicStepFunctionUp$, $\UniformLimitUp$, $\RegularLocatedCauchyRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegulatedRealFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed interval row, the finite dyadic step-function ledger, the uniform tail ledger, the uniform-limit route, the endpoint seal row, and the visible transport, continuation, provenance, and naming rows.
+\end{definition}
+
+\begin{theorem}[Regulated real function NameCert obligations]
+\label{thm:regulated-real-function-namecert-obligations}
+For the carrier of \autoref{def:regulated-real-function-namecert-surface}, the local $\NameCert_{\RegulatedRealFunctionUp}$ surface consists exactly of carrier admission for $G=(I,A,T,U,E,H,C,P,N)$, interval-domain admission through \autoref{ch:concrete-instances-closed-unit-interval-namecert}, finite step-approximation admission through \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, uniform-tail routing through \autoref{ch:concrete-instances-uniformlimit-namecert}, endpoint sealing through \autoref{ch:concrete-instances-regular-located-cauchy-real-namecert}, componentwise transport, continuation replay, provenance, local naming, and non-escape from hidden function-space equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The interval row $I$, approximation ledger $A$, uniform tail ledger $T$, uniform-limit route $U$, endpoint seal row $E$, transports $H$, continuations $C$, provenance $P$, and local name $N$ are the only public coordinates.
+
+The source side is finite. The closed interval is read through $I$ using \autoref{ch:concrete-instances-closed-unit-interval-namecert}, and each displayed approximant in $A$ is a dyadic step-function row governed by \autoref{ch:concrete-instances-dyadicstepfunction-namecert}.
+
+The limiting side is also routed. The ledger $T$ selects common thresholds for the step approximants, then $U$ consumes that ledger through \autoref{ch:concrete-instances-uniformlimit-namecert}, and only then can the endpoint seal $E$ be read through \autoref{ch:concrete-instances-regular-located-cauchy-real-namecert}. The rows $H,C,P,N$ preserve this same route under transport, replay, package provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[Regulated real function step-approximation coverage]
+\label{thm:regulated-real-function-step-approximation-coverage}
+Every accepted $\RegulatedRealFunctionUp$ carrier exposes each domain-facing request as a finite approximation read over the $\ClosedUnitIntervalUp$ row of \autoref{ch:concrete-instances-closed-unit-interval-namecert} and the $\DyadicStepFunctionUp$ ledger of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}. The selected approximation row is then checked against the uniform tail ledger and passed to the $\UniformLimitUp$ route of \autoref{ch:concrete-instances-uniformlimit-namecert} before any $\RegularLocatedCauchyRealUp$ endpoint seal from \autoref{ch:concrete-instances-regular-located-cauchy-real-namecert} is exposed.
+\end{theorem}
+\begin{proof}
+Begin with a domain-facing consumer request. The continuation row $C$ first sends the request to $I$, so the request is scoped by the closed interval surface and its displayed endpoint order data.
+
+Next choose the displayed tolerance row named by the request. The ledger $A$ supplies a dyadic step-function approximant for that tolerance, and the dyadic step-function certificate supplies finite cell coverage, endpoint transport, and carried-value reads.
+
+The approximation is not an endpoint by itself. The uniform tail ledger $T$ records the threshold at which later approximants remain uniformly close, and $U$ is the route that repacks the same ledger as a uniform limit. The endpoint seal $E$ can therefore be read only after the closed interval, step approximation, and uniform-limit rows have all been consumed.
+\end{proof}
+
+\begin{theorem}[Regulated real function uniform-limit seal nonescape]
+\label{thm:regulated-real-function-uniform-limit-seal-nonescape}
+For an accepted $\RegulatedRealFunctionUp$ carrier, every endpoint-facing read factors through the finite route
+$$
+I,A,T \longmapsto U \longmapsto E
+$$
+using the closed interval row of \autoref{ch:concrete-instances-closed-unit-interval-namecert}, the dyadic step-function ledger of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the uniform-limit route of \autoref{ch:concrete-instances-uniformlimit-namecert}, and the regular located Cauchy real seal of \autoref{ch:concrete-instances-regular-located-cauchy-real-namecert}. The packet exports no Riemann integration row, host function-space limit, quotient function equality, open-cover compactness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The only endpoint-facing row is $E$, and the continuation data reaches it by replaying the interval, approximation, tail, and uniform-limit rows in order.
+
+Apply \autoref{thm:regulated-real-function-step-approximation-coverage}. Any consumer read first lands on the closed interval row and a displayed dyadic step approximant, then reads the uniform tail ledger before reaching the uniform-limit route.
+
+Finally use the carrier and NameCert obligations of \autoref{thm:regulated-real-function-namecert-obligations}. They exhaust the visible rows $I,A,T,U,E,H,C,P,N$, so a consumer has no coordinate for integration, host function-space limits, quotient equality of functions, open-cover compactness, or a completeness theorem outside the displayed seal route.
+\end{proof}
+
+\begin{closurestatus}{\RegulatedRealFunctionUp}
+  \constructivestory{A $\RegulatedRealFunctionUp$ packet is generated from a ClosedUnitInterval domain row, a finite DyadicStepFunction approximation ledger, a uniform tail and modulus ledger, a UniformLimit route, a RegularLocatedCauchyReal endpoint seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-real-function-namecert-surface}, \autoref{thm:regulated-real-function-namecert-obligations}, \autoref{thm:regulated-real-function-step-approximation-coverage}, and \autoref{thm:regulated-real-function-uniform-limit-seal-nonescape} seed the finite regulated-function surface over interval, step-approximation, uniform-tail, and endpoint-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Riemann integration, host function-space limits, quotient function equality, open-cover compactness, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite step-approximation coverage, uniform tail routing, endpoint-seal non-escape, and field faithfulness for the same packet.}
+\end{closurestatus}

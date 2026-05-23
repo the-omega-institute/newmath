@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FocusedMultiHistLedgerUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -358,5 +360,26 @@ theorem FocusedMultiHistLedgerUp_single_carrier_alignment :
       · intro x y heq
         exact focusedMultiHistLedgerToEventFlow_injective heq
       · rfl
+
+theorem FocusedMultiHistLedgerCarrier_nonescape
+    {S F K T G R I D O H C P N S' F' K' T' G' R' I' D' O' H' C' P' N' : BHist}
+    (heq :
+      focusedMultiHistLedgerToEventFlow
+          (FocusedMultiHistLedgerUp.mk S F K T G R I D O H C P N) =
+        focusedMultiHistLedgerToEventFlow
+          (FocusedMultiHistLedgerUp.mk S' F' K' T' G' R' I' D' O' H' C' P' N'))
+    (htrace : Cont S F K) (hledger : Cont G R I) :
+    hsame S S' ∧ hsame F F' ∧ hsame K K' ∧ hsame T T' ∧ hsame G G' ∧
+      hsame R R' ∧ hsame I I' ∧ hsame N N' ∧ Cont S' F' K' ∧ Cont G' R' I' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have hmk :=
+    focusedMultiHistLedgerToEventFlow_injective
+      (x := FocusedMultiHistLedgerUp.mk S F K T G R I D O H C P N)
+      (y := FocusedMultiHistLedgerUp.mk S' F' K' T' G' R' I' D' O' H' C' P' N')
+      heq
+  cases hmk
+  exact
+    ⟨hsame_refl S, hsame_refl F, hsame_refl K, hsame_refl T, hsame_refl G,
+      hsame_refl R, hsame_refl I, hsame_refl N, htrace, hledger⟩
 
 end BEDC.Derived.FocusedMultiHistLedgerUp

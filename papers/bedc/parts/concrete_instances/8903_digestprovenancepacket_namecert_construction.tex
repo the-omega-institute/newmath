@@ -28,6 +28,7 @@ over the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for a global universe digest, digest-as-source equality, object-level $\mathsf{T}$, hidden preimage oracle, quotient source equality, or host hash-function semantics.
 \end{definition}
+\leandef{BEDC.Derived.DigestProvenancePacketUp.DigestProvenancePacketCarrier}
 
 \begin{theorem}[DigestProvenancePacket NameCert obligations]
 \label{thm:digest-provenance-packet-namecert-obligations}
@@ -54,6 +55,7 @@ Thus the NameCert surface refuses a global universe digest, digest-as-source equ
 \label{thm:digest-provenance-packet-no-hidden-source-consumption}
 Every accepted consumer of a $\DigestProvenancePacketUp$ carrier that reads source content must factor its read through the displayed source row $S$, fiber-membership row $F$, GAP ledger $G$, exactness or refusal row $E$, transport row $H$, replay route $C$, provenance row $P$, and local naming row $N$ before making any source equality claim. A consumer that reads only the digest token $V$ obtains a visible digest token and no source content.
 \end{theorem}
+\leanchecked{BEDC.Derived.DigestProvenancePacketUp.DigestProvenancePacketCarrier\_no\_hidden\_source\_consumption}
 \begin{proof}
 Start with a consumer read of an accepted packet $D=(V,S,F,G,E,H,C,P,N)$. If the read only asks for the digest token, \autoref{def:digest-provenance-packet-carrier} exposes $V$ as a visible token and provides no source row outside the packet.
 
@@ -74,6 +76,7 @@ D=(V,S,F,G,E,H,C,P,N),
 $$
 each source-sensitive read must expose the source row $S$, then the fiber-membership row $F$, then the $\mathsf{GAP}$ ledger row $G$, before the exactness or refusal row $E$ may authorize or refuse an equality-facing source claim. A read that has not passed through $S,F,G$ has no packet-local authority to assert source equality, digest-as-source equality, quotient source equality, hidden preimage recovery, or host hash-function semantics.
 \end{theorem}
+\leanchecked{BEDC.Derived.DigestProvenancePacketUp.DigestProvenancePacketCarrier\_source\_fiber\_ledger\_order}
 \begin{proof}
 Start from the carrier definition. The rows of \autoref{def:digest-provenance-packet-carrier} place the visible digest token $V$ beside a source row $S$, then a fiber-membership row $F$, then the $\mathsf{GAP}$ ledger $G$, with $E$ recording only the exactness or refusal status that follows those displayed rows.
 

@@ -79,7 +79,6 @@ AI 产生的 paper / Lean 内容
 
 ```text
 \origin{ai}
-\origin{ai-composite}
 ```
 
 这是主审查面。AI-origin 章节必须证明自己不是单纯命名 tuple。

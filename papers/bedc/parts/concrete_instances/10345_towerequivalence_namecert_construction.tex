@@ -40,6 +40,7 @@ For the carrier of \autoref{def:tower-equivalence-carrier}, the local $\NameCert
 \end{enumerate}
 Every accepted tower-equivalence read must display these five rows before exporting equivalence between the two towers.
 \end{theorem}
+\leanchecked{BEDC.Derived.TowerEquivalenceUp.TowerEquivalence\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:tower-equivalence-carrier}. The admitted packet lists the two tower rows, the two approximation rows, the two physical-fit rows, the two open-fit rows, the objectivity row, the paired ledger, the descent row, endpoint agreement, transport, provenance, and local naming.
 
@@ -65,6 +66,7 @@ The paired ledger $L$ records the source histories, hidden residues, omitted row
 
 The descent row $D$ and objectivity row $B$ are also mandatory. Without $D$, an operation may descend through one tower but not the other; without $B,H$, the comparison may depend on a privileged observer anchor or an untransported component. Thus endpoint agreement alone is refused as tower equivalence.
 \end{proof}
+\leanchecked{BEDC.Derived.TowerEquivalenceUp.TowerEquivalenceCarrier\_endpoint\_refusal}
 
 \begin{theorem}[TowerEquivalence ledger-descent stability]
 \label{thm:tower-equivalence-ledger-descent-stability}
@@ -77,11 +79,13 @@ The ledger row $L$ is one of those transported components, so source-history agr
 
 The descent row $D$ is transported in the same packet. Since $D$ lists only paired displayed descent routes, any operation missing on either side remains outside the accepted transported descent row.
 \end{proof}
+\leanchecked{BEDC.Derived.TowerEquivalenceUp.TowerEquivalence\_ledger\_descent\_stability}
 
 \begin{theorem}[TowerEquivalence refinement separation]
 \label{thm:tower-equivalence-refinement-separation}
 Two $\TowerEquivalenceUp$ candidates may agree at the endpoint row $R$ and still be separated by a refinement that exposes a difference in $L$ or $D$. Such a separation does not contradict endpoint agreement; it shows that the endpoint comparison was not a complete tower-equivalence certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.TowerEquivalenceUp.TowerEquivalenceRefinementSeparation}
 \begin{proof}
 Start with \autoref{thm:tower-equivalence-endpoint-refusal}. Endpoint agreement is not the accepted certificate unless the paired ledger, descent row, objectivity row, and transport row are present in the same packet.
 

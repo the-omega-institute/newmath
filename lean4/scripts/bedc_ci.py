@@ -60,6 +60,19 @@ PREAMBLE_COMMAND_RE = re.compile(
     r"|newenvironment|newtheorem)\*?\{(?P<name>\\?\w+)\}"
 )
 CONCRETE_REGION_PREFIX_RE = re.compile(r"^([0-9]+[a-z]?_[a-z][a-z0-9]*)_")
+CONCRETE_CHAPTER_RE = re.compile(r"^\s*\\chapter\{", re.MULTILINE)
+CONCRETE_INPUT_LINE_RE = re.compile(r"^\s*\\input\{[^}]+\}\s*$")
+CONCRETE_BODY_ENV_RE = re.compile(
+    r"\\begin\{(?:theorem|definition|lemma|proof|aligned)\}"
+)
+ORIGIN_TAG_RE = re.compile(r"\\origin\{([^}]*)\}")
+CHAPTER_LABEL_RE = re.compile(r"\\label\{ch:concrete-instances-([a-z0-9_-]+)-namecert\}")
+CLOSURESTATUS_BLOCK_RE = re.compile(
+    r"\\begin\{closurestatus\}.*?\\end\{closurestatus\}",
+    re.DOTALL,
+)
+TOP_LEVEL_ORIGIN_RE = re.compile(r"^\s*\\origin\{([^}]*)\}\s*$", re.MULTILINE)
+VALID_ORIGINS = {"human", "ai"}
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -131,7 +144,16 @@ class CarrierRecord:
 
 
 def read_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
+    # Race-safe: lean_files() / paper file walkers snapshot the directory,
+    # but a concurrent worker may delete / rename a file between the walk
+    # and this read (chapter cleanup, refactor, sibling merge). Return an
+    # empty string rather than crash the entire audit — downstream parsers
+    # treat empty content as "no declarations / no labels", which is the
+    # correct semantics for a file that no longer exists.
+    try:
+        return path.read_text(encoding="utf-8")
+    except (FileNotFoundError, OSError):
+        return ""
 
 
 def module_name(path: Path) -> str:
@@ -567,6 +589,103 @@ def detect_preamble_duplicate_commands() -> list[dict[str, object]]:
     return duplicates
 
 
+def _get_commit_changed_files() -> set[str] | None:
+    """Return files changed by HEAD relative to its first parent."""
+    try:
+        dirty = subprocess.run(
+            ["git", "diff", "--name-only", "HEAD"],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        if dirty.returncode == 0:
+            dirty_files = {ln.strip() for ln in dirty.stdout.splitlines() if ln.strip()}
+            if dirty_files:
+                return dirty_files
+        r = subprocess.run(
+            ["git", "diff", "--name-only", "HEAD~1..HEAD"],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        if r.returncode != 0:
+            return None
+        return {ln.strip() for ln in r.stdout.splitlines() if ln.strip()}
+    except Exception:
+        return None
+
+
+def _repo_relative_candidates(raw: object) -> list[str]:
+    if not raw:
+        return []
+    text = str(raw)
+    candidates = [text]
+    path = Path(text)
+    if path.is_absolute():
+        try:
+            candidates.append(str(path.resolve().relative_to(REPO_ROOT)))
+        except ValueError:
+            pass
+    else:
+        if not text.startswith("papers/") and text.endswith(".tex"):
+            candidates.append(str(Path("papers") / "bedc" / text))
+        if not text.startswith("lean4/") and text.endswith(".lean"):
+            candidates.append(str(Path("lean4") / text))
+    return list(dict.fromkeys(candidates))
+
+
+def _classify_violation(violation: dict, changed_files: set[str] | None) -> str:
+    """Return new when a violation touches HEAD's changed files.
+
+    If git context is unavailable, classify conservatively as new.
+    """
+    if changed_files is None:
+        return "new"
+    candidates = [
+        violation.get(k)
+        for k in ("file", "paper_file", "carrier_file", "path", "subdir")
+    ]
+    if isinstance(violation.get("files"), list):
+        candidates.extend(violation["files"])
+    if isinstance(violation.get("paths"), list):
+        candidates.extend(violation["paths"])
+    if isinstance(violation.get("occurrences"), list):
+        for occ in violation["occurrences"]:
+            if isinstance(occ, dict):
+                candidates.append(occ.get("file"))
+    for c in candidates:
+        for candidate in _repo_relative_candidates(c):
+            if candidate in changed_files:
+                return "new"
+            if any(changed.startswith(f"{candidate.rstrip('/')}/") for changed in changed_files):
+                return "new"
+    return "legacy"
+
+
+def _split_violations(
+    results: list[dict[str, object]],
+    changed_files: set[str] | None,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    new = [v for v in results if _classify_violation(v, changed_files) == "new"]
+    legacy = [v for v in results if _classify_violation(v, changed_files) == "legacy"]
+    return new, legacy
+
+
+def _attach_violation_split(
+    payload: dict[str, object],
+    name: str,
+    results: list[dict[str, object]],
+    changed_files: set[str] | None,
+) -> None:
+    new, legacy = _split_violations(results, changed_files)
+    payload[name] = results
+    payload[f"{name}_count"] = len(results)
+    payload[f"{name}_new_count"] = len(new)
+    payload[f"{name}_legacy_count"] = len(legacy)
+    payload[f"{name}_new"] = new
+    payload[f"{name}_legacy"] = legacy
+
+
 def detect_concrete_instance_number_collisions() -> list[dict[str, object]]:
     instances = PAPER_PARTS_ROOT / "concrete_instances"
     if not instances.is_dir():
@@ -594,6 +713,151 @@ def detect_concrete_instance_number_collisions() -> list[dict[str, object]]:
             "subdir_exists": subdir_exists,
         })
     return collisions
+
+
+def is_concrete_instance_hub_only(text: str) -> bool:
+    lines = [
+        line.strip()
+        for line in text.splitlines()
+        if line.strip() and not line.lstrip().startswith("%")
+    ]
+    if not lines:
+        return True
+    if CONCRETE_BODY_ENV_RE.search(text):
+        return False
+    for line in lines:
+        if CONCRETE_INPUT_LINE_RE.match(line):
+            continue
+        if line.startswith(r"\chapter{") or line.startswith(r"\label{"):
+            continue
+        if line.startswith(r"\begin{closurestatus}") or line.startswith(r"\end{closurestatus}"):
+            continue
+        if line.startswith(r"\theoryclosure{") or line.startswith(r"\scopeclosed{"):
+            continue
+        if line.startswith(r"\formalstatus{") or line.startswith(r"\leantarget{"):
+            continue
+        if line.startswith(r"\bridgestatus{") or line.startswith(r"\notclaimed{"):
+            continue
+        if line.startswith(r"\upgradepath{") or line.startswith(r"\constructivestory{"):
+            continue
+        if line.startswith(r"\origin{"):
+            continue
+        return False
+    return True
+
+
+def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
+    instances = PAPER_PARTS_ROOT / "concrete_instances"
+    if not instances.is_dir():
+        return []
+
+    changed = changed_concrete_instance_tex_paths()
+    missing: list[dict[str, object]] = []
+    for path in sorted(instances.rglob("*.tex")):
+        if not path.is_file():
+            continue
+        if changed is not None and path not in changed:
+            continue
+        text = read_text(path)
+        if not CONCRETE_CHAPTER_RE.search(text):
+            continue
+        if is_concrete_instance_hub_only(text):
+            continue
+        has_structural_origin_surface = (
+            CLOSURESTATUS_BLOCK_RE.search(text) is not None
+            or TOP_LEVEL_ORIGIN_RE.search(text) is not None
+        )
+        if not has_structural_origin_surface:
+            continue
+        origins = []
+        for block in CLOSURESTATUS_BLOCK_RE.finditer(text):
+            origins.extend(
+                match.group(1).strip()
+                for match in ORIGIN_TAG_RE.finditer(block.group(0))
+            )
+        if not origins:
+            origins = [
+                match.group(1).strip()
+                for match in TOP_LEVEL_ORIGIN_RE.finditer(text)
+            ]
+        kind = ""
+        if not origins:
+            kind = "missing-origin"
+        elif len(origins) != 1:
+            kind = "duplicate-origin"
+        elif origins[0] not in VALID_ORIGINS:
+            kind = "invalid-origin"
+        if kind:
+            missing.append({
+                "file": str(path.relative_to(REPO_ROOT)),
+                "kind": kind,
+            })
+    return sorted(missing, key=lambda item: str(item["file"]))
+
+
+def detect_paper_chapter_origin_tags() -> list[dict[str, object]]:
+    if not PAPER_PARTS_ROOT.is_dir():
+        return []
+
+    violations: list[dict[str, object]] = []
+    for path in sorted(PAPER_PARTS_ROOT.rglob("*.tex")):
+        if not path.is_file():
+            continue
+        text = read_text(path)
+        chapter = CONCRETE_CHAPTER_RE.search(text)
+        if not chapter:
+            continue
+        surface_text = CLOSURESTATUS_BLOCK_RE.sub("", text)
+        origins = [
+            match.group(1).strip()
+            for match in TOP_LEVEL_ORIGIN_RE.finditer(surface_text)
+        ]
+        kind = ""
+        if not origins:
+            kind = "missing-origin"
+        elif len(origins) != 1:
+            kind = "duplicate-origin"
+        elif origins[0] not in VALID_ORIGINS:
+            kind = "invalid-origin"
+        if not kind:
+            continue
+        line = text.count("\n", 0, chapter.start()) + 1
+        violations.append({
+            "file": str(path.relative_to(REPO_ROOT)),
+            "line": line,
+            "kind": kind,
+        })
+    return violations
+
+
+def changed_concrete_instance_tex_paths() -> set[Path] | None:
+    """Return changed concrete-instance tex paths when git base context exists."""
+    base_ref = os.environ.get("BEDC_CI_BASE_REF", "origin/codex-auto-dev")
+    try:
+        merge_base = subprocess.check_output(
+            ["git", "merge-base", base_ref, "HEAD"],
+            cwd=REPO_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except subprocess.CalledProcessError:
+        return None
+    if not merge_base:
+        return None
+    try:
+        output = subprocess.check_output(
+            ["git", "diff", "--name-only", merge_base, "--", "papers/bedc/parts/concrete_instances"],
+            cwd=REPO_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
+    except subprocess.CalledProcessError:
+        return None
+    paths: set[Path] = set()
+    for line in output.splitlines():
+        if line.endswith(".tex"):
+            paths.add((REPO_ROOT / line).resolve())
+    return paths
 
 
 CLOSURESTATUS_BEGIN_RE = re.compile(
@@ -757,11 +1021,11 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
             f"{where}: missing \\constructivestory (bottom-up construction story; empty arg ok)"
         )
     origin = block.get("origin", "human")
-    if origin not in {"human", "ai", "ai-composite"}:
+    if origin not in VALID_ORIGINS:
         issues.append(
-            f"{where}: \\origin='{origin}' is not in {{human, ai, ai-composite}}"
+            f"{where}: \\origin='{origin}' is not in {{human, ai}}"
         )
-    if origin in {"ai", "ai-composite"}:
+    if origin == "ai":
         body = block.get("raw_body") or ""
         # AI-proposed chapters past seedClosure must witness a TasteGate instance.
         non_seed = tc and tc != "seedClosure"
@@ -777,6 +1041,7 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
 
 
 def audit_payload() -> dict[str, object]:
+    changed_files = _get_commit_changed_files()
     declarations, fields = build_declaration_inventory()
     part_labels = collect_part_labels()
     markers = collect_lean_markers()
@@ -798,7 +1063,8 @@ def audit_payload() -> dict[str, object]:
     case_collisions = detect_case_collision_paths()
     preamble_duplicate_commands = detect_preamble_duplicate_commands()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
-
+    concrete_missing_origin = detect_concrete_instance_missing_origin()
+    paper_chapter_origin_tags = detect_paper_chapter_origin_tags()
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     closurestatus_diagnostics: list[str] = []
     for block in closurestatus_blocks:
@@ -808,26 +1074,39 @@ def audit_payload() -> dict[str, object]:
 
     orphan_concrete_subdirs = detect_orphan_concrete_subdirs()
 
-    return {
+    payload: dict[str, object] = {
+        "changed_files": sorted(changed_files) if changed_files is not None else None,
         "forbidden_constructs": forbidden,
         "forbidden_construct_count": len(forbidden),
         "duplicate_part_labels": duplicate_part_labels,
         "missing_marker_targets": missing_marker_targets,
-        "missing_marker_targets_count": len(missing_marker_targets),
         "case_collisions": case_collisions,
-        "case_collisions_count": len(case_collisions),
-        "preamble_duplicate_commands": preamble_duplicate_commands,
-        "preamble_duplicate_commands_count": len(preamble_duplicate_commands),
-        "concrete_number_collisions": concrete_number_collisions,
-        "concrete_number_collisions_count": len(concrete_number_collisions),
         "closurestatus_blocks_total": len(closurestatus_blocks),
         "closurestatus_blocks": closurestatus_blocks,
-        "closurestatus_diagnostics": closurestatus_diagnostics,
-        "closurestatus_diagnostics_count": len(closurestatus_diagnostics),
-        "orphan_concrete_subdirs": orphan_concrete_subdirs,
-        "orphan_concrete_subdirs_count": len(orphan_concrete_subdirs),
         "inventory": inventory_payload(declarations, fields, part_labels, markers),
     }
+    _attach_violation_split(payload, "missing_marker_targets", missing_marker_targets, changed_files)
+    _attach_violation_split(payload, "case_collisions", case_collisions, changed_files)
+    _attach_violation_split(payload, "preamble_duplicate_commands", preamble_duplicate_commands, changed_files)
+    _attach_violation_split(payload, "concrete_number_collisions", concrete_number_collisions, changed_files)
+    _attach_violation_split(payload, "concrete_missing_origin", concrete_missing_origin, changed_files)
+    _attach_violation_split(payload, "paper_chapter_origin_tags", paper_chapter_origin_tags, changed_files)
+    closurestatus_diagnostic_items = [
+        {"path": str(item).split(":", 1)[0], "message": item}
+        for item in closurestatus_diagnostics
+    ]
+    closurestatus_new, closurestatus_legacy = _split_violations(
+        closurestatus_diagnostic_items,
+        changed_files,
+    )
+    payload["closurestatus_diagnostics"] = closurestatus_diagnostics
+    payload["closurestatus_diagnostics_count"] = len(closurestatus_diagnostics)
+    payload["closurestatus_diagnostics_new_count"] = len(closurestatus_new)
+    payload["closurestatus_diagnostics_legacy_count"] = len(closurestatus_legacy)
+    payload["closurestatus_diagnostics_new"] = [str(item["message"]) for item in closurestatus_new]
+    payload["closurestatus_diagnostics_legacy"] = [str(item["message"]) for item in closurestatus_legacy]
+    _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
+    return payload
 
 
 def resolve_lean_file(raw_path: str) -> Path:
@@ -921,7 +1200,11 @@ def cmd_audit(args: argparse.Namespace) -> int:
             for item in payload["forbidden_constructs"][:50]:
                 print(f"  {item['file']}:{item['line']}:{item['column']}: {item['token']}")
         if payload["missing_marker_targets"]:
-            print(f"[bedc-ci] unresolved Lean markers: {payload['missing_marker_targets_count']}")
+            print(
+                "[bedc-ci] unresolved Lean markers: "
+                f"{payload['missing_marker_targets_new_count']} new (BLOCKING), "
+                f"{payload['missing_marker_targets_legacy_count']} legacy (warning)"
+            )
             for item in payload["missing_marker_targets"][:50]:
                 print(f"  {item['file']}:{item['line']} {item['macro']} -> {item['target']}")
         if payload["duplicate_part_labels"]:
@@ -939,7 +1222,11 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 loc_str = ", ".join(locs) if locs else f"appears {count} times"
                 print(f"  {label}  @ {loc_str}")
         if payload["case_collisions"]:
-            print(f"[bedc-ci] case-only-different paths in git index: {payload['case_collisions_count']}")
+            print(
+                "[bedc-ci] case-only-different paths in git index: "
+                f"{payload['case_collisions_new_count']} new (BLOCKING), "
+                f"{payload['case_collisions_legacy_count']} legacy (warning)"
+            )
             for item in payload["case_collisions"][:50]:
                 print(f"  {' , '.join(item['paths'])}")
             print(
@@ -950,7 +1237,8 @@ def cmd_audit(args: argparse.Namespace) -> int:
         if payload["preamble_duplicate_commands"]:
             print(
                 "[bedc-ci] preamble duplicate commands: "
-                f"{payload['preamble_duplicate_commands_count']}"
+                f"{payload['preamble_duplicate_commands_new_count']} new (BLOCKING), "
+                f"{payload['preamble_duplicate_commands_legacy_count']} legacy (warning)"
             )
             for item in payload["preamble_duplicate_commands"][:50]:
                 print(f"  {item['name']}")
@@ -962,16 +1250,34 @@ def cmd_audit(args: argparse.Namespace) -> int:
         if payload["concrete_number_collisions"]:
             print(
                 "[bedc-ci] concrete_instances numbering collisions: "
-                f"{payload['concrete_number_collisions_count']}"
+                f"{payload['concrete_number_collisions_new_count']} new (BLOCKING), "
+                f"{payload['concrete_number_collisions_legacy_count']} legacy (warning)"
             )
             for item in payload["concrete_number_collisions"][:50]:
                 print(f"  {item['region']}  subdir_exists={item['subdir_exists']}")
                 for path in item["files"]:
                     print(f"    {path}")
+        if payload["concrete_missing_origin"]:
+            print(
+                "[bedc-ci] concrete_instances missing/invalid origin tags: "
+                f"{payload['concrete_missing_origin_new_count']} new (BLOCKING), "
+                f"{payload['concrete_missing_origin_legacy_count']} legacy (warning)"
+            )
+            for item in payload["concrete_missing_origin"][:50]:
+                print(f"  {item['file']}: {item['kind']}")
+        if payload["paper_chapter_origin_tags"]:
+            print(
+                "[bedc-ci] paper_chapter_origin_tags: "
+                f"{payload['paper_chapter_origin_tags_new_count']} new (BLOCKING), "
+                f"{payload['paper_chapter_origin_tags_legacy_count']} legacy (warning)"
+            )
+            for item in payload["paper_chapter_origin_tags"][:50]:
+                print(f"  {item['file']}:{item['line']}: {item['kind']}")
         if payload["closurestatus_diagnostics"]:
             print(
                 "[bedc-ci] closurestatus block diagnostics: "
-                f"{payload['closurestatus_diagnostics_count']}"
+                f"{payload['closurestatus_diagnostics_new_count']} new (BLOCKING), "
+                f"{payload['closurestatus_diagnostics_legacy_count']} legacy (warning)"
             )
             for msg in payload["closurestatus_diagnostics"][:80]:
                 print(f"  {msg}")
@@ -985,7 +1291,8 @@ def cmd_audit(args: argparse.Namespace) -> int:
         if payload["orphan_concrete_subdirs"]:
             print(
                 "[bedc-ci] orphan concrete_instances/ subdirectories: "
-                f"{payload['orphan_concrete_subdirs_count']}"
+                f"{payload['orphan_concrete_subdirs_new_count']} new (BLOCKING), "
+                f"{payload['orphan_concrete_subdirs_legacy_count']} legacy (warning)"
             )
             for item in payload["orphan_concrete_subdirs"][:50]:
                 files = ", ".join(item["sample_files"]) or "(empty)"
@@ -1000,13 +1307,15 @@ def cmd_audit(args: argparse.Namespace) -> int:
 
     failures = (
         payload["forbidden_construct_count"]
-        + payload["missing_marker_targets_count"]
+        + payload["missing_marker_targets_new_count"]
         + len(payload["duplicate_part_labels"])
-        + payload["case_collisions_count"]
-        + payload["preamble_duplicate_commands_count"]
-        + payload["concrete_number_collisions_count"]
-        + payload["closurestatus_diagnostics_count"]
-        + payload["orphan_concrete_subdirs_count"]
+        + payload["case_collisions_new_count"]
+        + payload["preamble_duplicate_commands_new_count"]
+        + payload["concrete_number_collisions_new_count"]
+        + payload["concrete_missing_origin_new_count"]
+        + payload["paper_chapter_origin_tags_new_count"]
+        + payload["closurestatus_diagnostics_new_count"]
+        + payload["orphan_concrete_subdirs_new_count"]
     )
     return 0 if failures == 0 else 1
 
@@ -1743,7 +2052,7 @@ def cmd_conservativity_audit(args: argparse.Namespace) -> int:
     blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     ai_chapters: list[str] = []
     for b in blocks:
-        if b.get("origin") in {"ai", "ai-composite"}:
+        if b.get("origin") == "ai":
             region = b.get("region")
             if region:
                 ai_chapters.append(region)

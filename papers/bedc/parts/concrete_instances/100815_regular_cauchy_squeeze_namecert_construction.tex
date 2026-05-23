@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySqueezeUp$}
+\label{ch:concrete-instances-regular-cauchy-squeeze-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive analysis, the $\RegularCauchySqueezeUp$ packet records the finite squeeze route by which a middle regular Cauchy real name is enclosed between lower and upper regular Cauchy names before any $\RealUp$ consumer treats the enclosure as completed real data. It sits over the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the shared tail handoff of \autoref{ch:concrete-instances-cauchy-tail-equivalence-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a non-quotient L10 route for squeeze arguments: lower, middle, and upper names are compared through displayed windows, dyadic tolerances, and a tail-enclosure ledger, not through host completeness, selected limits, trichotomy, or quotient equality.
+
+\begin{definition}[Regular Cauchy squeeze carrier]
+\label{def:regular-cauchy-squeeze-carrier}
+A $\RegularCauchySqueezeUp$ carrier is a finite $\BHist$ packet
+$$
+Q_{\mathrm{sq}}=(L,M,U,W,D,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L,M,U$ are the lower, middle, and upper $\RegSeqRatUp$ rows whose regular rational observations form the squeeze boundary.
+\item $W$ is the shared $\StreamNameUp$ window row exposing aligned finite observations of $L,M,U$ for a requested precision.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic radii, slack budget, and endpoint comparison bounds used by the squeeze read.
+\item $T$ is the tail-enclosure ledger, certifying that the displayed middle observations remain between the displayed lower and upper observations on the shared tail window at the dyadic budget in $D$.
+\item $E$ is the $\CauchyTailEquivalenceUp$ handoff row, used only after $L,M,U,W,D,T$ have exposed the finite enclosure route.
+\item $H$ records componentwise $\hsame$ transport for the three source rows, shared windows, dyadic tolerance row, tail-enclosure ledger, tail-equivalence handoff, replay, provenance, local naming, and terminal seal rows.
+\item $C$ records displayed $\Cont$ replay from each Real-facing squeeze request through $L,M,U,W,D,T,E,H,P,N$ before the seal row is read.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySqueezeUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyTailEquivalenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySqueezeUp}$ row carrying the terminal $\RealUp$ seal boundary named by the displayed route.
+\end{enumerate}
+The classifier compares accepted packets only through $L,M,U,W,D,T,E,H,C,P,N$ and the terminal seal boundary carried by $N$. It has no coordinate for quotient stream equality, host real trichotomy, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchySqueezeUp.RegularCauchySqueezeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy squeeze NameCert obligations]
+\label{thm:regular-cauchy-squeeze-namecert-obligations}
+For every accepted $\RegularCauchySqueezeUp$ carrier
+$$
+Q_{\mathrm{sq}}=(L,M,U,W,D,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchySqueezeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the lower, middle, and upper $\RegSeqRatUp$ rows, the shared $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ tolerance row, the tail-enclosure ledger, the $\CauchyTailEquivalenceUp$ handoff, transport, replay, provenance, local naming, and the terminal $\RealUp$ seal boundary carried by $N$;
+\item source alignment, requiring $W$ to expose observations from precisely the three source rows $L,M,U$ named by the carrier;
+\item tolerance exactness, requiring $D$ to be the displayed dyadic budget consumed by the window row $W$ and the tail-enclosure row $T$;
+\item squeeze enclosure exactness, requiring $T$ to store only the lower-to-middle and middle-to-upper tail comparisons read through $W$ at the budget in $D$;
+\item tail-equivalence handoff, requiring $E$ to consume the same displayed $L,M,U,W,D,T$ route before any Real-facing squeeze conclusion is exposed;
+\item componentwise transport, displayed replay, provenance, local naming, and terminal seal preservation through $H,C,P,N$;
+\item refusal of quotient stream equality, host real trichotomy, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local certificate data.
+\end{enumerate}
+No regular Cauchy squeeze obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-squeeze-carrier}. The packet displays exactly the three regular rational source rows, one shared finite window row, one dyadic tolerance row, one tail-enclosure ledger, one tail-equivalence handoff, and the structural rows.
+
+Source alignment and tolerance exactness follow from the row order. The window row $W$ has no source coordinate other than $L,M,U$, and the tolerance row $D$ is the only dyadic budget available to the tail-enclosure row $T$.
+
+The squeeze enclosure clause is therefore finite. The row $T$ can compare the displayed lower-to-middle and middle-to-upper tail observations, but it cannot appeal to a completed real order, a trichotomy case split, or a selected limit.
+
+The handoff row $E$ is downstream of the same route. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and the terminal seal preserve that route without adding analytic coordinates.
+
+Inspecting the carrier inventory gives the refusal clause. Since quotient stream equality, host trichotomy, selected limits, countable choice, ambient completeness, Lean verification, and bridge checking are absent from $Q_{\mathrm{sq}}$, none can appear in the local $\NameCert_{\RegularCauchySqueezeUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy squeeze tail enclosure route]
+\label{thm:regular-cauchy-squeeze-tail-enclosure}
+Let
+$$
+Q_{\mathrm{sq}}=(L,M,U,W,D,T,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySqueezeUp$ carrier. Every finite squeeze read for the middle row $M$ factors through the displayed route
+$$
+L,M,U \longmapsto W \longmapsto D \longmapsto T \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the read receives three regular Cauchy source rows, shared StreamName windows, one dyadic tolerance budget, one tail-enclosure ledger, one CauchyTailEquivalence handoff, componentwise transport, displayed replay, provenance, and local naming before it can be consumed as squeeze evidence.
+\end{theorem}
+\begin{proof}
+Begin with an accepted squeeze read. Carrier admission forces the read to name the three source rows $L,M,U$ before any window or tolerance data is available.
+
+The read then passes through the shared window row $W$ and the dyadic budget $D$. These two rows determine the only observations and tolerance bounds that the enclosure ledger $T$ may inspect.
+
+The row $T$ supplies the lower-to-middle and middle-to-upper tail comparisons on that displayed data. Only after those comparisons are present can the handoff row $E$ expose the tail-equivalence route to a Real-facing consumer.
+
+The remaining rows are structural. They transport, replay, source, and name the same route, so the displayed factorization is exhaustive for the local classifier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy squeeze Real seal boundary]
+\label{thm:regular-cauchy-squeeze-real-seal-boundary}
+Every $\RealUp$ consumer of an accepted $\RegularCauchySqueezeUp$ carrier reads the terminal seal only after the finite route
+$$
+L,M,U \longmapsto W \longmapsto D \longmapsto T \longmapsto E \longmapsto H,C,P,N \longmapsto \RealUp
+$$
+has been displayed. The exported seal is therefore a routed finite squeeze certificate for regular Cauchy real names. It is not quotient stream equality, a host real order comparison, trichotomy, a selected limit, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:regular-cauchy-squeeze-carrier}. The terminal $\RealUp$ seal boundary carried by $N$ is not available before the lower, middle, upper, window, tolerance, enclosure, and handoff rows have been displayed.
+
+The Real-facing read first receives the same squeeze route established in \autoref{thm:regular-cauchy-squeeze-tail-enclosure}. Thus the seal is downstream of $L,M,U,W,D,T,E$ and cannot bypass the tail-enclosure ledger.
+
+The structural rows $H,C,P,N$ preserve the displayed route. They add transport, replay, provenance, and local naming, but no quotient coordinate, host order predicate, trichotomy principle, selector, choice operator, or ambient completeness theorem.
+
+Therefore every exported $\RealUp$ seal remains a finite squeeze certificate over regular Cauchy names, with exactly the boundary claimed.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchySqueezeUp$ Real-facing read factors through three RegSeqRat source rows, one shared StreamName window route, one DyadicRatCore tolerance row, one tail-enclosure ledger, one CauchyTailEquivalence handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, local naming, and the terminal RealUp seal boundary carried by $N$.}
+
+\independenceWitness{regseqrat, streamname, cauchy-tail-equivalence, real: $\RegularCauchySqueezeUp$ is not bijective to any listed sibling because it jointly carries lower, middle, and upper regular Cauchy source rows, a shared finite window route, dyadic squeeze tolerance data, a tail-enclosure ledger, and a Real-facing seal boundary.}
+
+\closureat{RegularCauchySqueezeUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySqueezeUp}
+  \constructivestory{A $\RegularCauchySqueezeUp$ packet is generated from lower, middle, and upper RegSeqRat rows, shared StreamName windows, one DyadicRatCore tolerance row, one tail-enclosure ledger, one CauchyTailEquivalence handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, local naming, and the terminal RealUp seal boundary carried by the NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-squeeze-carrier}, \autoref{thm:regular-cauchy-squeeze-namecert-obligations}, \autoref{thm:regular-cauchy-squeeze-tail-enclosure}, and \autoref{thm:regular-cauchy-squeeze-real-seal-boundary} seed the finite squeeze route for regular Cauchy real names through displayed windows, dyadic tolerances, tail enclosure, tail equivalence, and a terminal RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real order, trichotomy, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source alignment, tolerance exactness, squeeze enclosure exactness, tail-equivalence handoff, componentwise transport, displayed replay, Real seal boundary, and nonescape for BEDC.Derived.RegularCauchySqueezeUp.}
+\end{closurestatus}

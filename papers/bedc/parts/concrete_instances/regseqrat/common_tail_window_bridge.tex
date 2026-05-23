@@ -107,6 +107,7 @@ Let $P$ be an accepted $\RegSeqRatUp$ packet, let $T_0$ and $T_1$ be two certifi
 
 The public boundary is only this finite BEDC surface. It excludes quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, and any completion row not displayed by the common-tail packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatCommonTailRealBoundaryEquivalence}
 \begin{proof}
 First apply \autoref{thm:regseqrat-common-tail-window-classifier-bridge}. The two cofinal tail reads restrict to one classifier and one seal-source surface on $W_\ast$, so the common-tail packet already determines the RegSeqRat and RealUp-facing rows of the boundary.
 
@@ -117,6 +118,26 @@ Now apply \autoref{thm:regseqrat-common-tail-visible-packet-assembly}. It assemb
 Then use \autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback}. It identifies the visible pullback of any finite-request seal consumer with exactly the rows listed in \autoref{def:regseqrat-common-tail-window-packet}. Hence the finite-request boundary and the common-tail packet determine one another on the same displayed rows.
 
 Finally compose the Real L10 four-face route results. The canonical route and exactness theorems, \autoref{thm:real-l10-four-face-canonical-route} and \autoref{thm:real-l10-four-face-exactness}, place the accepted Real-and-Completion read on the ordered $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces. The terminal correspondence and pullback uniqueness theorems, \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness}, then repack the same displayed rows as one terminal finite boundary. Since none of the cited packets carries quotient streams, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, or hidden completion data, the two presentations determine one another exactly on the stated BEDC-visible surface.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail support descent nonescape]
+\label{thm:regseqrat-common-tail-support-descent-nonescape}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, let $T_0$ and $T_1$ be two certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$, and suppose the shifted tail reads land in a common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet} with common refinement $W_\ast$. A $\RealUp$-facing terminal consumer or finite-cover consumer descends through the common-tail packet if and only if its visible support rows are exactly the displayed $\StreamNameUp$ schedule and refinement rows, the $\DyadicRatCoreUp$ endpoint-radius-distance ledger, the $\RegSeqRatUp$ classifier and regularity rows, the $\RealUp$ seal-source rows, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ provenance.
+
+This descent surface excludes quotient stream equality, selected limits, host real equality, countable choice, metric-completeness data, ambient $\RealUp$ completeness, aggregate route-level $\mathsf{formalstatus}$ rows, and bridge rows. No such coordinate can be used to escape the finite support displayed by the common-tail packet.
+\end{theorem}
+\begin{proof}
+For the forward direction, suppose the terminal or finite-cover consumer descends through the common-tail packet. Apply \autoref{thm:regseqrat-common-tail-real-boundary-equivalence}. The descended consumer has the same finite boundary as the common-tail packet, hence its visible rows are confined to the displayed StreamName, DyadicRatCore, RegSeqRat, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Use \autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback}. It identifies the visible pullback of any finite $\RealUp$ seal request through the packet with exactly those source rows. Then \autoref{thm:streamname-finite-request-section-terminal-coherence} keeps the $\StreamNameUp$ section rows terminal under restriction to the cofinal tail window, so a finite-cover refinement cannot introduce a second schedule coordinate.
+
+Finally apply \autoref{thm:real-l10-terminal-cover-coordinate-exhaustion}. The L10 terminal cover exhausts the Real-facing coordinate list on the four displayed faces, and the common-tail equivalence has already identified those faces with the packet rows. Thus the descended consumer exposes precisely the stated support and nothing else.
+
+For the reverse direction, suppose the consumer exposes exactly the displayed support rows. The $\StreamNameUp$ schedule and refinement rows, together with terminal section coherence, place the request on the same finite section window $W_\ast$. The DyadicRatCore endpoint-radius-distance ledger and the RegSeqRat classifier and regularity rows are therefore read on the same locked common-tail surface.
+
+Apply \autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback} to read the consumer as the finite $\RealUp$ seal pullback over that surface. Then use \autoref{thm:regseqrat-common-tail-real-boundary-equivalence} to identify this pullback with the common-tail packet boundary. The terminal-cover coordinate exhaustion theorem supplies the finite-cover case by showing that every retained cover coordinate is already one of the displayed rows.
+
+The nonescape clause is the row inventory of these four applications. The common-tail equivalence, finite-request pullback, StreamName terminal coherence, and Real L10 coordinate exhaustion expose no quotient stream equality, selected limit, host real equality, countable-choice principle, metric-completeness datum, ambient $\RealUp$ completeness row, aggregate route-level status row, or bridge row. Hence the descent criterion cannot factor through any support outside the displayed packet.
 \end{proof}
 
 \begin{theorem}[RegSeqRat common-tail four-face cocycle determinacy]
@@ -191,6 +212,34 @@ Finally apply \autoref{thm:real-l10-terminal-four-face-correspondence} and \auto
 The nonescape clauses in \autoref{thm:streamname-tail-compatible-window-cofinal-exhaustion}, \autoref{thm:regseqrat-common-tail-triple-overlap-cocycle}, and \autoref{thm:regseqrat-common-tail-cocycle-descent} remove the remaining possible coordinates. Quotient streams, selected limits, host real equality, countable choice, metric completeness, ambient $\RealUp$ completeness, standard bridge data, and hidden completion carriers are not rows of the bundled packet or of the common-tail descent boundary.
 \end{proof}
 
+\begin{theorem}[RegSeqRat common-tail support induction]
+\label{thm:regseqrat-common-tail-support-induction}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal P:\ProbeBundle$ be a finite bundle of certified unary observations over $P$. A common-tail four-face boundary over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ is accepted for $\mathcal P$ exactly when the displayed finite support of $\mathcal P$ admits an induction with the following constructors:
+\begin{enumerate}
+\item the empty support exposes only the accepted packet rows of $P$ and no boundary beyond the visible common-tail packet;
+\item a singleton observation exposes the same $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on the StreamName, DyadicRatCore, RegSeqRat, and RealUp faces, and the observation restricts through the common-tail window packet of \autoref{def:regseqrat-common-tail-window-packet};
+\item a union support is accepted exactly when its two accepted sub-supports have matching displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on their overlap, each added observation restricts through the common-tail packet, and the triple-overlap cocycle descends to the same four-face boundary.
+\end{enumerate}
+The induced boundary is exhausted by the bundled StreamName unary rows, their $\mathsf{InBundle}$ witnesses, the shared tail selector, the finite-window budget, the pointwise $\mathsf{RatHistoryClassifier}$ handoff rows, the dyadic endpoint-radius-distance ledger, the RegSeqRat classifier and regularity rows, the RealUp seal-source rows, and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+No quotient stream, selected limit, host real equality, countable choice, metric-completeness row, ambient $\RealUp$ completeness datum, standard bridge coordinate, or hidden completion carrier has a support row in this induction principle.
+\end{theorem}
+\begin{proof}
+For the empty support, the accepted packet $P$ supplies the only rows to inspect. Apply \autoref{def:regseqrat-common-tail-window-packet} and \autoref{thm:regseqrat-common-tail-visible-packet-assembly}. They identify the vacuous support surface with the finite common-tail packet whose coordinates are the displayed StreamName, DyadicRatCore, RegSeqRat, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For a singleton support, restrict the certified unary observation along the shared tail-compatible selector. The cofinal exhaustion theorem \autoref{thm:streamname-tail-compatible-window-cofinal-exhaustion} places the observation, its $\mathsf{InBundle}$ witness, the finite-window budget, and the rational-history handoff row on one displayed StreamName packet. Then \autoref{thm:regseqrat-common-tail-finite-request-real-seal-pullback} identifies the same observation with the common-tail Real seal pullback.
+
+Now suppose two finite supports have already been accepted and are being joined. The induction hypotheses give the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on each accepted sub-support. On the overlap, apply \autoref{thm:regseqrat-common-tail-union-classifier-determinacy} to obtain one classifier read for the union window.
+
+The boundary comparison for the joined support is then forced by \autoref{thm:regseqrat-common-tail-real-boundary-equivalence}. It says that the common-tail packet and the finite-request Real boundary determine one another on exactly the displayed support rows, so no separate boundary can appear after the union classifier has been fixed.
+
+It remains to check coherence for a further observation added to the joined support. Apply \autoref{thm:regseqrat-common-tail-triple-overlap-cocycle} on the two old support pieces and the new observation. The triple refinement exposes the same common finite surface, and \autoref{thm:regseqrat-common-tail-cocycle-descent} descends the pairwise restrictions to one finite four-face boundary.
+
+Conversely, assume a finite four-face boundary for $\mathcal P$ is accepted. Restrict it to each constructor layer of the displayed finite support. The empty and singleton restrictions recover the packet and visible observation rows by the first two readings above, while every union restriction recovers matching overlap rows by union classifier determinacy and Real boundary equivalence. The triple-overlap cocycle theorem recovers the required descent datum for each added observation.
+
+Induction on the displayed finite support therefore gives precisely the accepted common-tail four-face boundary stated in the theorem. The row inventory of the cited packet, exhaustion, pullback, determinacy, boundary-equivalence, and cocycle-descent results contains no quotient stream, selected limit, host real equality, countable choice, metric-completeness row, ambient $\RealUp$ completeness datum, standard bridge coordinate, or hidden completion carrier, so none can become a support row of the induction.
+\end{proof}
+
 \begin{theorem}[RegSeqRat common-tail face-status objectwise pullback]
 \label{thm:regseqrat-common-tail-face-status-objectwise-pullback}
 Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$, $T_1$, and $T_2$ be three certified cofinal tail shifts of the $\StreamNameUp$ schedule carried by $P$. Suppose the shifted pairs land in accepted RegSeqRat common-tail triple-overlap packets whose pairwise boundaries agree on the shared $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
@@ -223,6 +272,28 @@ The triple-overlap compatibility is supplied by \autoref{thm:regseqrat-common-ta
 Now compose the Real L10 terminal correspondence with pullback uniqueness. The theorems \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness} identify the pasted StreamName, DyadicRatCore, RegSeqRat, and RealUp rows as one terminal finite boundary. Applying \autoref{thm:regseqrat-common-tail-face-status-objectwise-pullback} then keeps the four face-status records objectwise, so the section cover does not acquire an aggregate status object while it is being pasted.
 
 Uniqueness follows from the same pullback calculation. Any second section cover with the same visible local sections restricts to the same pairwise common-tail packets, hence to the same Real L10 terminal boundary on every four-face overlap. Since the listed packets provide no coordinates for quotient streams, host real equality, selected limits, countable choice, ambient or metric completeness, aggregate $\mathsf{formalstatus}$, standard-bridge data, or hidden completion rows, there is no remaining BEDC-visible row on which two terminal section covers could differ.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail finite-support gluing exhaustion]
+\label{thm:regseqrat-common-tail-finite-support-gluing-exhaustion}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal P:\ProbeBundle$ be a finite bundle of certified unary observations over $P$ served by the shared tail-compatible $\StreamNameUp$ selector. Suppose every pair of observations in the displayed support lands in a RegSeqRat common-tail window packet, every triple overlap exposes the common-tail cocycle rows, and the pairwise packets are compatible with the finite support constructors of \autoref{thm:regseqrat-common-tail-support-induction}.
+
+Then the finite support induction data determine exactly one terminal four-face boundary over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Its visible rows are precisely the $\StreamNameUp$ bundle rows, the $\DyadicRatCoreUp$ endpoint-radius-distance ledger, the $\RegSeqRatUp$ classifier and regularity rows, the $\RealUp$ seal-source row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+This finite-support boundary has no quotient stream, selected limit, host real equality, countable-choice principle, metric-completeness row, ambient $\RealUp$ completeness datum, aggregate status row, standard bridge datum, or completion coordinate outside those rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-common-tail-support-induction} to the displayed support of $\mathcal P$. The empty, singleton, and union constructors give finite support acceptance for exactly the bundled observations served by the shared tail-compatible selector, with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on every retained overlap.
+
+Next use \autoref{thm:streamname-tail-compatible-window-cofinal-exhaustion}. The shared selector exhausts the StreamName finite bundle rows, their $\mathsf{InBundle}$ witnesses, the finite-window budget, and the pointwise rational-history handoff rows on one displayed StreamName surface.
+
+The dyadic face is supplied by \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}. It reads the same finite support through the endpoint, radius, and distance ledger and places that ledger on the common four-face packet without adding a separate completion coordinate.
+
+Now apply \autoref{thm:regseqrat-common-tail-terminal-section-cover}. The accepted support, the pairwise common-tail packets, and the triple-overlap cocycle rows assemble into one terminal finite section cover over the ordered $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces.
+
+Finally use \autoref{thm:real-l10-terminal-four-face-correspondence} together with pullback uniqueness. The Real L10 terminal correspondence identifies the section cover with the terminal four-face boundary over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and uniqueness prevents a second boundary with the same visible finite support rows.
+
+The exclusion list follows from the row inventories of the cited support induction, StreamName exhaustion, dyadic pullback, terminal section cover, and Real L10 terminality results. None of those packets contains a quotient stream, selected limit, host real equality, countable-choice principle, metric-completeness row, ambient $\RealUp$ completeness datum, aggregate status row, standard bridge datum, or hidden completion carrier, so none is a row of this boundary.
 \end{proof}
 
 \begin{theorem}[RegSeqRat common-tail terminal section Real seal-source uniqueness]
@@ -389,6 +460,24 @@ The local pullbacks glue to one atlas boundary by \autoref{thm:regseqrat-common-
 The exclusion statement follows from the same row inventory. The cited pullback, restriction, intersection, sheaf, and atlas exactness theorems contain no coordinate for quotient streams, host real equality, selected limits, countable choice, ambient or metric completeness, aggregate status data, standard bridge data, or hidden completion carriers.
 \end{proof}
 
+\begin{theorem}[RegSeqRat common-tail filtered colimit normal form]
+\label{thm:regseqrat-common-tail-filtered-colimit-normal-form}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal A=\{U_i\}_{i \in I}$ be a finite directed atlas of accepted common-tail windows for $P$. Suppose every refinement map in $\mathcal A$ preserves the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint and radius ledgers, $\RegSeqRatUp$ classifier and readback rows, local $\RealUp$ seal rows, and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Then the filtered colimit read of $\mathcal A$ has a unique finite BEDC normal form over exactly the four faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, together with those support rows.
+
+The normal form is the retained finite atlas display: each finite consumer factors through one retained common-tail member or retained finite intersection, and two such displays are equal precisely when their four face rows and support rows agree there. It exports no quotient stream equality, selected limit, countable-choice row, metric-completeness datum, aggregate $\mathsf{formalstatus}$ row, aggregate bridge row, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+First reduce the directed atlas to its finite support. Apply \autoref{thm:regseqrat-common-tail-support-induction} to the retained common-tail observations. The empty, singleton, and union constructors keep every schedule row, dyadic endpoint-radius ledger, RegSeqRat classifier and readback row, local Real seal row, and support row inside the same finite BEDC packet.
+
+Next glue the retained windows. The finite-support gluing exhaustion theorem \autoref{thm:regseqrat-common-tail-finite-support-gluing-exhaustion} says that pairwise packets, triple-overlap cocycle rows, and compatible support rows assemble to one finite four-face boundary. The descent-atlas coverage theorem \autoref{thm:regseqrat-common-tail-descent-atlas-finite-request-coverage} then places every finite $\RealUp$ seal request on a retained member or retained finite intersection.
+
+Now identify the four faces read by the L10 route. Use \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness} to keep the StreamName schedule, DyadicRatCore ledger, RegSeqRat readback, and Real seal rows on the same handoff surface. The Real L10 terminal correspondence and pullback uniqueness theorems, \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness}, repack that surface as the unique terminal finite boundary over the four named faces.
+
+It remains to compare two proposed colimit reads. Restrict both reads to any retained member or retained finite intersection. By finite-request coverage they have the same visible local factorization, and by the terminal pullback uniqueness theorem a second normal form with the same displayed rows has no BEDC coordinate on which to differ. Hence the colimit read is the unique finite normal form carried by the atlas.
+
+The excluded data have no route into the construction. The cited support induction, finite-support gluing, descent coverage, handoff exactness, and Real terminal boundary theorems expose only the four face rows and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Quotient stream equality, selected limits, countable choice, metric completeness, aggregate status records, aggregate bridge records, and ambient $\RealUp$ completeness therefore cannot be exported by the normal form.
+\end{proof}
+
 \begin{theorem}[RegSeqRat common-tail descent atlas classifier completeness]
 \label{thm:regseqrat-common-tail-descent-atlas-classifier-completeness}
 Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal A=\{U_i\}_{i \in I}$ be an accepted RegSeqRat common-tail descent atlas for $P$. For any two finite $\RealUp$ seal consumers visible through $\mathcal A$, the consumers determine the same Real seal-visible terminal boundary exactly when their displayed $\mathsf{RegSeqRatClassifier}$ rows agree on every retained finite section and every retained finite intersection of the atlas.
@@ -407,4 +496,156 @@ Apply \autoref{thm:regseqrat-common-tail-terminal-four-face-sheaf-exactness}. Th
 Finally use the Real L10 terminal correspondence and pullback uniqueness theorems, \autoref{thm:real-l10-terminal-four-face-correspondence} and \autoref{thm:real-l10-terminal-pullback-uniqueness}. They say that a terminal presentation over the ordered StreamName, DyadicRatCore, RegSeqRat, and RealUp faces is uniquely read as the Real seal boundary. Thus the classifier rows are complete for the finite boundary witnessed by $\mathcal A$.
 
 The nonescape clause is just the row inventory of the construction. The cited atlas exactness, classifier bridge, sheaf exactness, and Real L10 terminal pullback results expose only the four named faces and the listed support rows, so the excluded quotient, equality, limit, choice, completeness, bridge, and hidden-carrier data have no displayed coordinate in the classifier-complete boundary.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail descent atlas boundary naturality]
+\label{thm:regseqrat-common-tail-descent-atlas-boundary-naturality}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal A$ and $\mathcal B$ be accepted RegSeqRat common-tail descent atlases for $P$. Suppose a finite boundary-preserving atlas morphism sends every retained member, retained pairwise packet, retained triple-overlap cocycle row, and displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support row of $\mathcal A$ to the corresponding displayed row of $\mathcal B$. Then the Real seal-visible terminal boundary induced by $\mathcal A$ maps to the Real seal-visible terminal boundary induced by $\mathcal B$.
+
+Conversely, for any such finite atlas morphism, equality of the induced Real seal-visible terminal boundary forces agreement of the displayed $\mathsf{RegSeqRatClassifier}$ rows on every retained member and every retained finite intersection of $\mathcal A$ and $\mathcal B$.
+
+No quotient stream equality, selected limit, host real equality, countable-choice principle, ambient completeness row, metric-completeness row, aggregate status row, standard bridge row, or hidden completion carrier is exported or used by this naturality statement.
+\end{theorem}
+\begin{proof}
+First consider the forward transport. By \autoref{thm:regseqrat-common-tail-descent-atlas-real-seal-exactness}, the Real seal-visible terminal boundary of each accepted atlas is identified by its displayed common-tail section covers, finite intersections, and four named faces. The morphism preserves exactly those retained rows, so it carries the boundary presentation of $\mathcal A$ to a boundary presentation over the displayed rows of $\mathcal B$.
+
+Use \autoref{thm:regseqrat-common-tail-descent-atlas-finite-request-coverage} to factor every finite Real seal request through a retained member or retained finite intersection. On those factors the morphism is already row-preserving by hypothesis. The restriction and intersection exactness theorems, \autoref{thm:regseqrat-common-tail-terminal-section-restriction-exactness} and \autoref{thm:regseqrat-common-tail-terminal-section-intersection-exactness}, keep the transported packet inside the same finite L10 display.
+
+The transported local packets glue in $\mathcal B$ by \autoref{thm:regseqrat-common-tail-terminal-four-face-sheaf-exactness}. Since the glued packet has the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $\mathcal B$, another application of \autoref{thm:regseqrat-common-tail-descent-atlas-real-seal-exactness} identifies it with the Real seal-visible terminal boundary induced by $\mathcal B$.
+
+Now assume the induced Real seal-visible terminal boundaries are equal along the same morphism. Restrict the equality to any retained member or retained finite intersection. The finite-request coverage theorem places that restriction in the displayed finite section cover, and the restriction and intersection exactness theorems identify the common-tail window on which both atlas presentations are compared.
+
+Apply \autoref{thm:regseqrat-common-tail-descent-atlas-classifier-completeness}. Equality of the Real seal-visible terminal boundary on each retained finite window recovers equality of the displayed $\mathsf{RegSeqRatClassifier}$ rows there. Hence the morphism forces classifier agreement on every retained member and every retained finite intersection.
+
+The nonescape clause follows from the same inventory. The atlas definition, the Real seal exactness theorem, finite-request coverage, classifier completeness, restriction and intersection exactness, and four-face sheaf exactness expose only the four named faces and the listed support rows. Therefore quotient stream equality, selected limits, host real equality, countable choice, ambient or metric completeness, aggregate status rows, standard bridge rows, and hidden completion carriers have no coordinate through which this naturality result can factor.
+\end{proof}
+
+\begin{theorem}[RegSeqRat audit-threshold atlas naturality]
+\label{thm:regseqrat-audit-threshold-atlas-naturality}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal A$ and $\mathcal B$ be accepted RegSeqRat common-tail descent atlases for $P$. Suppose a finite boundary-preserving atlas morphism sends every retained member, retained pairwise packet, retained triple-overlap cocycle row, and displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support row of $\mathcal A$ to the corresponding displayed row of $\mathcal B$. Then the morphism transports the Phase $\RealUp$ and Completion audit-threshold coordinate induced by $\mathcal A$ to the audit-threshold coordinate induced by $\mathcal B$.
+
+Conversely, for any such finite atlas morphism, equality of the induced Phase $\RealUp$ and Completion audit-threshold coordinates forces agreement of the displayed $\mathsf{RegSeqRatClassifier}$ rows on every retained member and every retained finite intersection of $\mathcal A$ and $\mathcal B$.
+
+No quotient stream, selected limit, host real equality, countable-choice principle, ambient $\RealUp$ completeness, metric-completeness row, aggregate $\mathsf{formalstatus}$ row, aggregate bridge row, or hidden completion carrier is exported or used by this audit-threshold naturality statement.
+\end{theorem}
+\begin{proof}
+First transport the underlying atlas boundary. Apply \autoref{thm:regseqrat-common-tail-descent-atlas-boundary-naturality}. The finite morphism preserves the retained members, finite intersections, four displayed faces, and support rows, so it carries the Real seal-visible terminal boundary induced by $\mathcal A$ to the one induced by $\mathcal B$.
+
+Next read the audit-threshold coordinate on the transported boundary. Apply \autoref{thm:regseqrat-four-face-audit-threshold-factorization}. The Phase $\RealUp$ and Completion audit-threshold read is the RegSeqRat four-face exit-threshold equivalence together with the local closurestatus and formalstatus records for $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+It remains to identify those local records after transport. Use \autoref{thm:streamname-four-face-audit-clean-threshold-readback} for the StreamName-side threshold readback, \autoref{thm:real-l10-current-phase-exit-audit-pullback} for the Phase $\RealUp$ and Completion audit pullback, and \autoref{thm:dyadicratcore-l10-exit-namecert-interface} for the shared $\NameCert$ interface over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since the morphism preserves each of these displayed rows, the audit-threshold coordinate read from $\mathcal A$ is the coordinate read from $\mathcal B$.
+
+For the converse, assume the induced audit-threshold coordinates are equal along the same finite morphism. The factorization theorem reads both coordinates through the same RegSeqRat four-face exit-threshold surface and the same four local face records, while the StreamName readback, Real audit pullback, and DyadicRatCore interface theorem keep the support rows objectwise.
+
+Apply \autoref{thm:regseqrat-common-tail-descent-atlas-boundary-naturality} to the boundary left by these equal threshold reads. Its converse clause recovers agreement of the displayed $\mathsf{RegSeqRatClassifier}$ rows on every retained member and every retained finite intersection.
+
+The nonescape clause is the row inventory of the construction. The cited boundary naturality, audit-threshold factorization, StreamName readback, Real audit pullback, and DyadicRatCore interface theorems expose only the four named faces and the listed support rows. Therefore quotient streams, selected limits, host real equality, countable choice, ambient $\RealUp$ completeness, metric-completeness data, aggregate status data, aggregate bridge data, and hidden completion carriers have no coordinate through which this naturality result can factor.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail atlas finality]
+\label{thm:regseqrat-common-tail-atlas-finality}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal A$ be an accepted common-tail descent atlas for $P$ in the sense of \autoref{def:regseqrat-common-tail-descent-atlas}. Let $\mathcal T$ be any finite L10 terminal presentation over the same four faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and local $\RealUp$. Suppose every finite $\RealUp$ seal request of $\mathcal T$ factors through a retained member or retained finite intersection of $\mathcal A$, and suppose the displayed $\mathsf{RegSeqRatClassifier}$ rows of $\mathcal T$ agree with the rows of $\mathcal A$ on all such overlaps. Then there is a unique boundary-preserving morphism from $\mathcal T$ into $\mathcal A$.
+
+Equivalently, $\mathcal A$ is terminal among finite common-tail presentations inducing the same Real seal-visible boundary and the same Phase $\RealUp$ and Completion audit-threshold coordinate. This terminal surface exports no quotient streams, selected limits, host real equality, countable choice, ambient $\RealUp$ completeness, metric-completeness rows, aggregate $\mathsf{formalstatus}$ rows, aggregate bridge rows, or hidden completion carriers.
+\end{theorem}
+\begin{proof}
+First build the local comparison map. By \autoref{thm:regseqrat-common-tail-descent-atlas-finite-request-coverage}, each finite $\RealUp$ seal request of $\mathcal T$ is read inside a retained member or retained finite intersection of $\mathcal A$. The hypotheses therefore place every displayed StreamName, DyadicRatCore, RegSeqRat, local RealUp, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ row of $\mathcal T$ on a retained atlas window.
+
+On each retained window, apply \autoref{thm:regseqrat-common-tail-descent-atlas-classifier-completeness}. Agreement of the displayed classifier rows on overlaps identifies the Real seal-visible boundary carried by $\mathcal T$ with the boundary of the corresponding retained part of $\mathcal A$. The Real seal exactness theorem \autoref{thm:regseqrat-common-tail-descent-atlas-real-seal-exactness} then supplies the unique local factorization into the accepted atlas boundary.
+
+The local factorizations glue because they agree on every retained finite intersection. This is exactly the boundary-preserving content of \autoref{thm:regseqrat-common-tail-descent-atlas-boundary-naturality}: a finite atlas morphism preserving the retained rows transports the Real seal-visible terminal boundary and, conversely, boundary equality recovers classifier agreement on the overlaps. Hence the locally defined comparison maps assemble into one boundary-preserving morphism $\mathcal T \to \mathcal A$.
+
+Uniqueness follows by applying the same two readings in reverse. Any boundary-preserving morphism from $\mathcal T$ into $\mathcal A$ has the same finite $\RealUp$ seal requests by \autoref{thm:regseqrat-common-tail-descent-atlas-real-seal-exactness}; it has the same overlap classifier rows by \autoref{thm:regseqrat-common-tail-descent-atlas-classifier-completeness}; and it has the same Phase $\RealUp$ and Completion audit-threshold coordinate by \autoref{thm:regseqrat-audit-threshold-atlas-naturality}. Thus no second morphism can differ on any retained member, finite intersection, boundary row, or audit-threshold coordinate.
+
+The nonescape clause is the displayed row inventory. The atlas definition and the cited exactness, coverage, classifier, boundary-naturality, and audit-threshold-naturality theorems expose only the four named faces and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. There is no coordinate for quotient streams, selected limits, host real equality, countable choice, ambient $\RealUp$ completeness, metric-completeness rows, aggregate formal-status rows, aggregate bridge rows, or hidden completion carriers.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail atlas refinement invariance]
+\label{thm:regseqrat-common-tail-atlas-refinement-invariance}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, let $\mathcal A$ be an accepted common-tail descent atlas for $P$, and let $\mathcal B$ be a finite certified refinement of $\mathcal A$. Suppose the refinement preserves every retained member of $\mathcal A$ by a finite cover in $\mathcal B$, preserves the retained pairwise packets and triple-overlap cocycle rows, and preserves the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, local $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then the Real seal-visible terminal boundary induced by $\mathcal B$ factors through the boundary induced by $\mathcal A$, and the induced Phase $\RealUp$ and Completion audit-threshold coordinate of $\mathcal B$ agrees with the coordinate induced by $\mathcal A$ under this factorization.
+
+Conversely, any finite certified refinement with the same retained-row preservation and with the same induced Real seal-visible terminal boundary and audit-threshold coordinate is already equivalent to $\mathcal A$ on every retained common-tail member, pairwise packet, and triple-overlap cocycle row.
+
+This refinement-invariance surface exports no quotient streams, selected limits, host equality, host real equality, countable choice, ambient $\RealUp$ completeness, metric-completeness rows, aggregate $\mathsf{formalstatus}$ rows, aggregate bridge rows, or hidden completion carriers.
+\end{theorem}
+\begin{proof}
+First identify the support packet visible to the refinement. Apply \autoref{thm:streamname-finite-cover-terminal-support-minimality}: the refined finite cover cannot introduce a second $\StreamNameUp$ support surface, so every retained StreamName coordinate of $\mathcal B$ reads through the support packet already displayed by $\mathcal A$.
+
+Next perform the finite-cover comparison on the RegSeqRat and Real faces. The refinement hypotheses give exactly the retained members, pairwise packets, triple-overlap cocycle rows, and support rows required by \autoref{thm:regseqrat-finite-cover-terminal-refinement-invariance}. Applying \autoref{thm:regseqrat-real-seal-finite-cover-refinement-invariance} then identifies the refined Real seal-visible terminal boundary with the boundary obtained from $\mathcal A$ through the certified finite cover.
+
+Now pass from finite covers to atlas boundaries. Use \autoref{thm:regseqrat-common-tail-descent-atlas-boundary-naturality} to view the refinement as a boundary-preserving atlas morphism. By \autoref{thm:regseqrat-common-tail-atlas-finality}, the resulting finite common-tail presentation has the unique factorization into $\mathcal A$, so the boundary induced by $\mathcal B$ factors through the boundary induced by $\mathcal A$.
+
+It remains to compare the audit-threshold coordinate. Apply \autoref{thm:regseqrat-audit-threshold-atlas-naturality} to the same boundary-preserving refinement morphism. Since the refinement preserves the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, local $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, the Phase $\RealUp$ and Completion audit-threshold coordinate read from $\mathcal B$ is the one read from $\mathcal A$.
+
+For the converse, assume the refined atlas has the same boundary and audit-threshold coordinate under the retained-row preservation hypotheses. The converse clauses of boundary naturality and audit-threshold atlas naturality recover agreement of the displayed $\mathsf{RegSeqRatClassifier}$ rows on each retained member and finite intersection. The retained pairwise packets and triple-overlap cocycle rows are therefore the same certified finite data as those of $\mathcal A$.
+
+The nonescape statement is again a row inventory. The support-minimality, finite-cover refinement, Real-seal refinement, boundary-naturality, atlas-finality, and audit-threshold-naturality theorems use only finite retained covers and the displayed support rows, leaving no coordinate for quotient streams, selected limits, host equality, choice, ambient or metric completeness, aggregate status data, aggregate bridge data, or hidden completion carriers.
+\end{proof}
+
+\begin{theorem}[RegSeqRat descent atlas audit-threshold fusion]
+\label{thm:regseqrat-common-tail-descent-atlas-threshold-fusion}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal A$ be an accepted common-tail descent atlas for $P$ in the sense of \autoref{def:regseqrat-common-tail-descent-atlas}. The atlas presents the current Phase $\RealUp$ and Completion audit-threshold read if and only if the following three conditions hold:
+\begin{enumerate}
+\item its finite section covers satisfy common-tail terminal four-face sheaf exactness;
+\item its displayed $\mathsf{RegSeqRatClassifier}$ rows satisfy descent-atlas classifier completeness on every retained member and finite intersection;
+\item its Real seal-visible boundary is final among finite common-tail presentations inducing the same four local face records.
+\end{enumerate}
+When these conditions hold, the audit read is exhausted exactly by the four faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and local $\RealUp$, together with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+No quotient stream, selected limit, host equality, host real equality, countable choice, ambient $\RealUp$ completeness, metric-completeness row, aggregate $\mathsf{formalstatus}$ row, aggregate bridge row, or hidden completion carrier is part of the presented audit-threshold read.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume that $\mathcal A$ presents the current Phase $\RealUp$ and Completion audit-threshold read. Apply \autoref{thm:regseqrat-four-face-audit-threshold-factorization}. The threshold read factors through the RegSeqRat four-face exit surface, so the only local face records available to the presentation are the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and local $\RealUp$ records.
+
+The exactness and classifier clauses are then read back on the atlas itself. Use \autoref{thm:regseqrat-audit-threshold-atlas-naturality} to transport the threshold coordinate through boundary-preserving atlas maps, and use \autoref{thm:regseqrat-common-tail-atlas-finality} to compare any finite common-tail presentation with $\mathcal A$. The StreamName readback, Real audit pullback, and DyadicRatCore interface theorems, \autoref{thm:streamname-four-face-audit-clean-threshold-readback}, \autoref{thm:real-l10-current-phase-exit-audit-pullback}, and \autoref{thm:dyadicratcore-l10-exit-namecert-interface}, identify the support rows as $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+It remains, in the forward direction, to record that the three displayed conditions are precisely the atlas witnesses used by the presentation. The sheaf condition is \autoref{thm:regseqrat-common-tail-terminal-four-face-sheaf-exactness}; the classifier condition is \autoref{thm:regseqrat-common-tail-descent-atlas-classifier-completeness}; and the finality condition is \autoref{thm:regseqrat-common-tail-atlas-finality}. Thus a presentation of the audit-threshold read exposes all three witnesses and no additional carrier.
+
+Conversely, assume the three conditions. Common-tail terminal four-face sheaf exactness glues the finite section covers to one BEDC-visible terminal boundary over the four named faces. Classifier completeness identifies the same Real seal-visible boundary for every finite consumer whose displayed classifier rows agree on the retained members and finite intersections.
+
+Now apply atlas finality. Any finite common-tail presentation inducing the same four local face records has a unique boundary-preserving morphism into $\mathcal A$. Audit-threshold atlas naturality then identifies the Phase $\RealUp$ and Completion audit-threshold coordinate along that unique morphism, so the atlas carries a single objectwise audit read.
+
+Finally apply the StreamName, Real, and Dyadic L10 interface theorems cited above. They read the unique threshold coordinate through exactly the four local faces and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since none of the cited exactness, classifier, finality, naturality, or L10 pullback results exports quotient streams, selected limits, host equality, countable choice, ambient or metric completeness, aggregate status data, aggregate bridge data, or hidden completion carriers, the presented read is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[RegSeqRat common-tail descent atlas support minimality]
+\label{thm:regseqrat-common-tail-descent-atlas-support-minimality}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal A$ be an accepted common-tail descent atlas for $P$ in the sense of \autoref{def:regseqrat-common-tail-descent-atlas}. Suppose $\mathcal A$ presents the current Phase $\RealUp$ and Completion audit-threshold read. If one deletes any retained member, retained pairwise packet, retained triple-overlap cocycle row, or any displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, local $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ support row, the remaining finite surface no longer presents that audit-threshold read.
+
+Conversely, any accepted common-tail descent atlas carrying all retained members, retained pairwise packets, retained triple-overlap cocycle rows, all displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, local $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, and the three fusion conditions of \autoref{thm:regseqrat-common-tail-descent-atlas-threshold-fusion}, presents the same current Phase $\RealUp$ and Completion audit-threshold read.
+
+This support-minimality statement exports no quotient streams, selected limits, host equality, host real equality, countable choice, ambient $\RealUp$ completeness, metric-completeness rows, aggregate $\mathsf{formalstatus}$ rows, aggregate bridge rows, or hidden completion carriers.
+\end{theorem}
+\begin{proof}
+First read the accepted atlas through the fusion theorem. By \autoref{thm:regseqrat-common-tail-descent-atlas-threshold-fusion}, presenting the audit-threshold read is equivalent to the common-tail terminal four-face sheaf condition, descent-atlas classifier completeness, and finality among finite common-tail presentations with the same four local face records. The same theorem identifies the displayed support as exactly $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, local $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Now delete one retained member, retained pairwise packet, or retained triple-overlap cocycle row. The finite-support gluing exhaustion theorem \autoref{thm:regseqrat-common-tail-finite-support-gluing-exhaustion} says that every finite Real seal request is exhausted by retained members and finite intersections of $\mathcal A$. Removing one of those rows leaves a request or overlap without its displayed factorization, so the sheaf and classifier clauses required by the fusion theorem can no longer be witnessed.
+
+If instead one deletes one displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, local $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ support row, apply \autoref{thm:regseqrat-audit-threshold-atlas-naturality}. Audit-threshold transport is defined only along boundary-preserving atlas morphisms that preserve precisely those rows. With any one of them absent, the transported Phase $\RealUp$ and Completion audit-threshold coordinate has no objectwise support coordinate, so the remaining surface cannot be the same presented read.
+
+Finality gives the necessity conclusion. By \autoref{thm:regseqrat-common-tail-atlas-finality}, every finite common-tail presentation of the same boundary and audit-threshold coordinate factors uniquely through $\mathcal A$. A surface obtained by deleting a retained row would either omit a finite request required by gluing exhaustion or fail to preserve a support coordinate required by naturality. Such a surface therefore cannot receive the unique final comparison as a presentation of the same read.
+
+For the converse, assume an accepted atlas keeps all listed rows and satisfies the three fusion conditions. Apply \autoref{thm:regseqrat-common-tail-descent-atlas-threshold-fusion} to obtain a presented audit-threshold read. Then use \autoref{thm:regseqrat-common-tail-atlas-refinement-invariance} to compare it with $\mathcal A$ along the retained-row refinement surface, and use \autoref{thm:regseqrat-audit-threshold-atlas-naturality} to transport the coordinate. The result is the same current Phase $\RealUp$ and Completion audit-threshold read.
+
+The exclusions are part of the same inventory. The proof uses only threshold fusion, atlas finality, refinement invariance, audit-threshold naturality, and finite-support gluing exhaustion; none of these results supplies a coordinate for quotient streams, selected limits, host equality, countable choice, ambient or metric completeness, aggregate status data, aggregate bridge data, or hidden completion carriers.
+\end{proof}
+
+\begin{theorem}[RegSeqRat terminal support carrier inversion]
+\label{thm:regseqrat-common-tail-terminal-support-carrier-inversion}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $\mathcal A$ be an accepted common-tail descent atlas for $P$ in the sense of \autoref{def:regseqrat-common-tail-descent-atlas}. Suppose $\mathcal A$ presents the current Phase $\RealUp$ and Completion audit-threshold read. Then every downstream L10 read of the Real seal-visible terminal boundary presented by $\mathcal A$, when read as the same Phase $\RealUp$ and Completion audit-threshold coordinate, projects exactly the four carrier and classifier faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and local $\RealUp$, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Conversely, if two downstream L10 reads of that presented terminal boundary have the same projected $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and local $\RealUp$ face rows and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, then they determine the same Phase $\RealUp$ and Completion audit-threshold read.
+
+The carrier-inversion surface exports no quotient streams, selected limits, host equality, host real equality, countable choice, ambient $\RealUp$ completeness, metric-completeness rows, aggregate $\mathsf{formalstatus}$ rows, aggregate bridge rows, or hidden completion carriers.
+\end{theorem}
+\begin{proof}
+First read the terminal boundary through the fusion theorem. By \autoref{thm:regseqrat-common-tail-descent-atlas-threshold-fusion}, the hypothesis that $\mathcal A$ presents the audit-threshold read is equivalent to the common-tail terminal four-face sheaf condition, descent-atlas classifier completeness, and atlas finality over the same four local face records. The same theorem identifies the complete support inventory as $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, local $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Now apply support minimality. Theorem~\ref{thm:regseqrat-common-tail-descent-atlas-support-minimality} says that deleting any retained atlas row or displayed support row destroys the presented audit-threshold read. Hence a downstream L10 read of the same presented boundary cannot project through a smaller carrier surface, and any visible carrier row it uses must already be one of the listed rows.
+
+It remains to identify the readback as objectwise, not merely by absence. Use \autoref{thm:regseqrat-common-tail-atlas-finality}: every finite common-tail presentation of the same Real seal-visible boundary and audit-threshold coordinate factors uniquely into $\mathcal A$. Then apply \autoref{thm:regseqrat-audit-threshold-atlas-naturality} to the resulting boundary-preserving comparison. The StreamName readback, Real audit pullback, and DyadicRatCore interface theorems, \autoref{thm:streamname-four-face-audit-clean-threshold-readback}, \autoref{thm:real-l10-current-phase-exit-audit-pullback}, and \autoref{thm:dyadicratcore-l10-exit-namecert-interface}, read that comparison through exactly the four face rows and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+For the converse, take two downstream reads with the same projected face rows and support rows. Atlas finality gives each read the same unique comparison into $\mathcal A$, because there is no retained member, finite intersection, boundary row, or support coordinate on which the comparisons can differ. Audit-threshold atlas naturality then transports both reads to the same Phase $\RealUp$ and Completion coordinate.
+
+The exclusions follow from the same support inventory. The fusion, support-minimality, finality, naturality, StreamName readback, Real pullback, and Dyadic interface results cited above expose no coordinate for quotient streams, selected limits, host equality, countable choice, ambient or metric completeness, aggregate status rows, aggregate bridge rows, or hidden completion carriers, so no downstream readback can recover such a carrier from the terminal atlas boundary.
 \end{proof}

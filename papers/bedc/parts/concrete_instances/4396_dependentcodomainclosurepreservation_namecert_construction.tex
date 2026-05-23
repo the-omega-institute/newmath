@@ -28,6 +28,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier contains no coordinate for dependent-codomain inversion, no proof that $C_0$ and $C_1$ have the same type, no closed subject-reduction theorem, no host conversion principle, and no quotient equality over beta-star routes.
 \end{definition}
+\leandef{BEDC.Derived.DependentCodomainClosurePreservationUp.DependentCodomainClosurePreservationUp}
 
 \begin{theorem}[Dependent-codomain closure-preservation obligations]
 \label{thm:dependent-codomain-closure-preservation-obligations}
@@ -56,6 +57,7 @@ $$
 $$
 In particular, the packet exports no dependent-codomain inversion theorem, no typing preservation for dependent application, no context-reduction theorem, no host conversion rule, no closed subject-reduction theorem, and no quotient equality over beta-star routes.
 \end{theorem}
+\leanchecked{BEDC.Derived.DependentCodomainClosurePreservationUp.DependentCodomainClosurePreservationNonescape}
 \begin{proof}
 The only theorem rows in the carrier are $Z$ and $S$, and both are closedness-preservation rows. A consumer can reach them only through the displayed replay row $R$ and the componentwise transport row $H$.
 
@@ -68,6 +70,7 @@ The ledger row $L$ marks the same restriction at the consumer boundary. Since no
 \label{thm:dependent-codomain-closure-preservation-transport}
 Let $K$ be an accepted $\DependentCodomainClosurePreservationUp$ carrier. Any subject-reduction route that transports codomain closedness through the dependent argument step must read beta-star closedness through $Z$, substitution closedness through $S$, the sibling inversion-boundary row through $I$, and the finite transport row through $T$ before exposing the transported codomain-readback surface. The route may then hand the transported closedness row to downstream subject-reduction consumers, but only as closedness data over $C_0$ and $C_1$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DependentCodomainClosurePreservationUp.DependentCodomainClosurePreservationTransport}
 \begin{proof}
 Begin with a subject-reduction consumer requesting codomain transport. Carrier projection exposes both codomain readbacks $C_0$ and $C_1$ together with the argument rows that generated them.
 
@@ -82,6 +85,8 @@ The route is then replayed through $R$ and transported through $H$. Provenance a
 \label{thm:dependent-codomain-closure-preservation-ledger}
 For every accepted $\DependentCodomainClosurePreservationUp$ carrier, the ledger consumed by a subject-reduction route is exactly the closedness-only row $L$ attached to $Z,S,I,T$ and the paired codomain readbacks $C_0,C_1$. No alternate ledger records typed conversion, dependent-codomain inversion, quotient equality, ambient normalization, confluence, or closed subject reduction.
 \end{theorem}
+\leanchecked{BEDC.Derived.DependentCodomainClosurePreservationUp.DependentCodomainClosurePreservationPacket\_closedness\_ledger\_exactness}
+\leanvariant{BEDC.Derived.DependentCodomainClosurePreservationUp.DependentCodomainClosurePreservationLedger}
 \begin{proof}
 Inspect the consumer route. It first reaches the paired codomain readbacks, then the beta-star and substitution closedness rows, then the sibling boundary and transport rows.
 
@@ -89,6 +94,7 @@ The ledger row $L$ records precisely that route. It states that $T$ is a closedn
 
 The non-escape theorem rules out every other consumer coordinate. Thus the ledger exposed by the packet is exactly the finite closedness-only row $L$.
 \end{proof}
+\leanchecked{BEDC.Derived.DependentCodomainClosurePreservationUp.DependentCodomainClosurePreservationPacket\_ledger\_scope}
 
 \closureat{DependentCodomainClosurePreservationUp}{seedStr}
 

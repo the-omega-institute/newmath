@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneSubsequenceUp$}
+\label{ch:concrete-instances-monotone-subsequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\MonotoneSubsequenceUp$ packet records monotone subsequences as displayed finite unary selector rows. It does not select an infinite subsequence by countable choice. The packet sits between the regular-Cauchy subsequence surface of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert}, the cofinal index witness of \autoref{ch:concrete-instances-cofinalsubsequence-namecert}, and the monotone-Cauchy route of \autoref{ch:concrete-instances-monotonecauchy-namecert}. Its endpoint side is read through the $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Monotone subsequence carrier]
+\label{def:monotone-subsequence-carrier}
+A $\MonotoneSubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S,M,Q,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\RegularCauchySubsequenceUp$ row whose inspected finite windows are being selected.
+\item $M$ is the finite monotone unary selector ledger; each displayed entry records a selector value, its source index, and the comparison row certifying monotonicity against the previously displayed selector entries.
+\item $Q$ is the $\CofinalSubsequenceUp$ evidence row for the inspected thresholds, limited to the thresholds actually present in the packet.
+\item $W$ is the finite family of selected $\StreamNameUp$ windows read from $S$ through the ledger $M$ and the cofinal evidence $Q$.
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger extracted from the selected windows.
+\item $R$ is the $\RegSeqRatUp$ handoff row reached from $W$ and $D$.
+\item $E$ is the $\RealUp$ seal row exposed only after the selected regular-rational handoff has been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the source row, monotone selector ledger, cofinality evidence, selected windows, dyadic observations, regular handoff, Real seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from $S,M,Q$ to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $E$.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneSubsequenceUp$, $\RegularCauchySubsequenceUp$, $\CofinalSubsequenceUp$, $\MonotoneCauchyUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneSubsequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven rows. It has no coordinate for a host subsequence equality test, a countable-choice selector, a quotient stream, an ambient completeness principle, or a hidden infinite monotone-subsequence object.
+\end{definition}
+\leanchecked{BEDC.Derived.MonotoneSubsequenceUp.TasteGate.MonotoneSubsequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Monotone subsequence NameCert obligations]
+\label{thm:monotone-subsequence-namecert-obligations}
+For every accepted $\MonotoneSubsequenceUp$ carrier $U=(S,M,Q,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\MonotoneSubsequenceUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the displayed eleven-row packet;
+\item monotone selector stability for the finite unary selector ledger $M$ under the recorded $\hsame$ transports;
+\item cofinal coverage for every inspected threshold listed in $Q$;
+\item selected-window $\RegSeqRatUp$ handoff through $W,D,R$ before the terminal $\RealUp$ seal row $E$ is consumed;
+\item non-escape from host subsequence equality, countable choice, quotient-stream equality, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:monotone-subsequence-carrier}. The source row $S$, selector ledger $M$, cofinality evidence $Q$, selected windows $W$, dyadic observations $D$, handoff $R$, seal $E$, and structural rows $H,C,P,N$ are the only coordinates available to the classifier.
+
+The monotone and cofinal faces are finite. Selector stability reads the displayed comparisons inside $M$, while cofinal coverage reads only the inspected thresholds recorded in $Q$. No step quantifies over an unbounded family of undisplayed requests.
+
+The analytic endpoint is downstream from the same finite route. The selected $\StreamNameUp$ windows $W$ produce the dyadic ledger $D$, the dyadic ledger produces the $\RegSeqRatUp$ handoff $R$, and the Real seal $E$ is available only after that handoff.
+
+Finally inspect the excluded objects. Host subsequence equality, countable choice, quotient streams, and ambient completeness are not rows of $U$, and the structural rows only transport, replay, source, and name the displayed packet. The five listed obligations therefore exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Monotone subsequence regular-Cauchy handoff]
+\label{thm:monotone-subsequence-regular-cauchy-handoff}
+Every accepted $\MonotoneSubsequenceUp$ packet hands its selected monotone finite windows to $\RegSeqRatUp$ before any $\RealUp$ seal can be consumed. Equivalently, every seal-facing route factors through
+$$
+S,M,Q\longmapsto W\longmapsto D\longmapsto R\longmapsto E
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the selected-window rows. The continuation route records that $W$ is read from the source regular-Cauchy subsequence row $S$, the monotone selector ledger $M$, and the cofinal threshold evidence $Q$.
+
+Next read the regular-rational handoff. The dyadic observation ledger $D$ is extracted from the selected StreamName windows, and the row $R$ is the displayed $\RegSeqRatUp$ handoff reached from those dyadic observations.
+
+Only then is the seal row available. The row $E$ is part of the packet as the Real-facing endpoint reached through $R$, while $H,C,P,N$ only preserve the same route by transport, replay, provenance, and local naming.
+
+Thus a consumer that tries to use the $\RealUp$ seal without the selected-window $\RegSeqRatUp$ handoff leaves the accepted $\MonotoneSubsequenceUp$ carrier.
+\end{proof}
+
+\closureat{MonotoneSubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneSubsequenceUp}
+  \constructivestory{A $\MonotoneSubsequenceUp$ packet is generated from a source regular-Cauchy subsequence row, a finite monotone unary selector ledger, inspected-threshold cofinality evidence, selected StreamName windows, DyadicRatCore observations, a RegSeqRat handoff, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-subsequence-carrier}, \autoref{thm:monotone-subsequence-namecert-obligations}, and \autoref{thm:monotone-subsequence-regular-cauchy-handoff} declare the finite selector carrier, its NameCert obligations, and the regular-Cauchy handoff boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim Bolzano-Weierstrass, sequential compactness, choice-selected subsequences, quotient-stream equality, host subsequence equality, Lean verification, bridge checking, or RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone selector stability, inspected-threshold cofinal coverage, selected-window RegSeqRat handoff, and seal-route non-escape for the same packet.}
+\end{closurestatus}

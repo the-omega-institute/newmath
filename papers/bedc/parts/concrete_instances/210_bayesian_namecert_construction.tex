@@ -1,5 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\BayesianUp$}
 \label{ch:concrete-instances-bayesian-namecert}
+\origin{human}
 
 The Bayesian-update interface $\BayesianUp$ packages the conditional-probability rule transforming a prior distribution and likelihood into a posterior distribution. It depends on $\NameCert_{\DistributionUp}$ (\autoref{ch:concrete-instances-distribution-namecert}) and $\NameCert_{\CondExpUp}$ (\autoref{ch:concrete-instances-condexp-namecert}).
 
@@ -84,6 +85,7 @@ N=\Cont(\pi,\lambda,e;\omega).
 $$
 The provenance row $P:\Pkg$ names exactly the two distribution certificates, the conditional-expectation certificate, the prior row, the likelihood row, the evidence row, the posterior endpoint, the classifier row, and the normalisation row. The packet is accepted precisely when all these rows are present with this provenance and no additional posterior-source coordinate is exposed.
 \end{definition}
+\leanchecked{BEDC.Derived.BayesianUp.BayesianTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Bayesian posterior packet carrier introduction]
 \label{thm:bayesian-posterior-packet-carrier-introduction}
@@ -93,6 +95,7 @@ $$
 $$
 In particular, every public posterior read factors through the displayed prior, likelihood, evidence, posterior, classifier, normalisation, and provenance rows, and no host probability kernel, ambient measurable-space quotient, or external conditional-density equality is part of the accepted packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.BayesianUp.BayesianPosteriorPacket\_carrier\_introduction}
 \begin{proof}
 Form the tuple
 $$

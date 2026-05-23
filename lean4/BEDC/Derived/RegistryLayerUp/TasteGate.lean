@@ -223,4 +223,24 @@ theorem RegistryLayerTasteGate_single_carrier_alignment :
       · intro x
         exact ⟨FieldFaithful.fields x, rfl⟩
 
+theorem RegistryLayer_export_control_exactness :
+    (∀ C T G D S K U A F H P N : BHist,
+      registryLayerFields (RegistryLayerUp.mk C T G D S K U A F H P N) =
+        [C, T, G, D, S, K, U, A, F, H, P, N]) ∧
+      (∀ x y : RegistryLayerUp, registryLayerFields x = registryLayerFields y → x = y) ∧
+        RegistryLayerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty ≠
+          RegistryLayerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro C T G D S K U A F H P N
+    rfl
+  · constructor
+    · exact registryLayer_field_faithful
+    · intro h
+      cases h
+
 end BEDC.Derived.RegistryLayerUp

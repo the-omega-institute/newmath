@@ -125,4 +125,185 @@ theorem AuditMapInterfaceCarrier_cross_map_consumer_boundary
   exact
     ⟨crossMapUnary, routeUnary, consumerUnary, crossMapRoute, localCertPkg, consumerPkg⟩
 
+theorem AuditMapInterfaceCarrier_conditional_row_discharge_boundary
+    [AskSetup] [PackageSetup]
+    {established conditional obstruction frontier crossMap transport route provenance localCert
+      conditionalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapInterfaceCarrier established conditional obstruction frontier crossMap transport route
+        provenance localCert bundle pkg ->
+      Cont conditional route conditionalRead ->
+        UnaryHistory established ∧ UnaryHistory conditional ∧ UnaryHistory route ∧
+          UnaryHistory conditionalRead ∧ Cont conditional route conditionalRead ∧
+            PkgSig bundle localCert pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier conditionalRoute
+  obtain ⟨establishedUnary, conditionalUnary, _obstructionUnary, _frontierUnary,
+    _crossMapUnary, _transportUnary, routeUnary, _provenanceUnary, _localCertUnary,
+    _establishedConditionalObstruction, _obstructionFrontierCrossMap,
+    _transportRouteProvenance, localCertPkg⟩ := carrier
+  have conditionalReadUnary : UnaryHistory conditionalRead :=
+    unary_cont_closed conditionalUnary routeUnary conditionalRoute
+  exact
+    ⟨establishedUnary, conditionalUnary, routeUnary, conditionalReadUnary,
+      conditionalRoute, localCertPkg⟩
+
+theorem AuditMapInterfaceCarrier_obstruction_row_nonescape
+    [AskSetup] [PackageSetup]
+    {established conditional obstruction frontier crossMap transport route provenance localCert
+      obstructionRead obstructionPrime : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapInterfaceCarrier established conditional obstruction frontier crossMap transport route
+        provenance localCert bundle pkg ->
+      Cont obstruction route obstructionRead ->
+        hsame obstruction obstructionPrime ->
+          UnaryHistory obstruction ∧ UnaryHistory route ∧ UnaryHistory obstructionRead ∧
+            hsame obstruction obstructionPrime ∧ Cont obstructionPrime route obstructionRead ∧
+              PkgSig bundle localCert pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle PkgSig UnaryHistory
+  intro carrier obstructionRoute obstructionSame
+  obtain ⟨_establishedUnary, _conditionalUnary, obstructionUnary, _frontierUnary,
+    _crossMapUnary, _transportUnary, routeUnary, _provenanceUnary, _localCertUnary,
+    _establishedConditionalObstruction, _obstructionFrontierCrossMap,
+    _transportRouteProvenance, localCertPkg⟩ := carrier
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed obstructionUnary routeUnary obstructionRoute
+  cases obstructionSame
+  exact
+    ⟨obstructionUnary, routeUnary, obstructionReadUnary, hsame_refl obstruction,
+      obstructionRoute, localCertPkg⟩
+
+theorem AuditMapInterfaceCarrier_route_readback_totality
+    [AskSetup] [PackageSetup]
+    {established conditional obstruction frontier crossMap transport route provenance localCert
+      establishedRead conditionalRead obstructionRead frontierRead crossMapRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapInterfaceCarrier established conditional obstruction frontier crossMap transport route
+        provenance localCert bundle pkg ->
+      Cont established route establishedRead ->
+        Cont conditional route conditionalRead ->
+          Cont obstruction route obstructionRead ->
+            Cont frontier route frontierRead ->
+              Cont crossMap route crossMapRead ->
+                PkgSig bundle establishedRead pkg ->
+                  PkgSig bundle conditionalRead pkg ->
+                    PkgSig bundle obstructionRead pkg ->
+                      PkgSig bundle frontierRead pkg ->
+                        PkgSig bundle crossMapRead pkg ->
+                          UnaryHistory establishedRead ∧ UnaryHistory conditionalRead ∧
+                            UnaryHistory obstructionRead ∧ UnaryHistory frontierRead ∧
+                              UnaryHistory crossMapRead ∧ PkgSig bundle localCert pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier establishedRoute conditionalRoute obstructionRoute frontierRoute crossMapRoute
+    _establishedPkg _conditionalPkg _obstructionPkg _frontierPkg _crossMapPkg
+  obtain ⟨establishedUnary, conditionalUnary, obstructionUnary, frontierUnary, crossMapUnary,
+    _transportUnary, routeUnary, _provenanceUnary, _localCertUnary,
+    _establishedConditionalObstruction, _obstructionFrontierCrossMap,
+    _transportRouteProvenance, localCertPkg⟩ := carrier
+  have establishedReadUnary : UnaryHistory establishedRead :=
+    unary_cont_closed establishedUnary routeUnary establishedRoute
+  have conditionalReadUnary : UnaryHistory conditionalRead :=
+    unary_cont_closed conditionalUnary routeUnary conditionalRoute
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed obstructionUnary routeUnary obstructionRoute
+  have frontierReadUnary : UnaryHistory frontierRead :=
+    unary_cont_closed frontierUnary routeUnary frontierRoute
+  have crossMapReadUnary : UnaryHistory crossMapRead :=
+    unary_cont_closed crossMapUnary routeUnary crossMapRoute
+  exact
+    ⟨establishedReadUnary, conditionalReadUnary, obstructionReadUnary, frontierReadUnary,
+      crossMapReadUnary, localCertPkg⟩
+
+theorem AuditMapInterfaceCarrier_template_instantiation_boundary
+    [AskSetup] [PackageSetup]
+    {established conditional obstruction frontier crossMap transport route provenance localCert
+      templateRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapInterfaceCarrier established conditional obstruction frontier crossMap transport route
+        provenance localCert bundle pkg ->
+      Cont provenance route templateRead ->
+        PkgSig bundle templateRead pkg ->
+          UnaryHistory established ∧ UnaryHistory conditional ∧ UnaryHistory obstruction ∧
+            UnaryHistory frontier ∧ UnaryHistory crossMap ∧ UnaryHistory provenance ∧
+              UnaryHistory route ∧ UnaryHistory templateRead ∧
+                Cont provenance route templateRead ∧ PkgSig bundle localCert pkg ∧
+                  PkgSig bundle templateRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier provenanceRoute templatePkg
+  obtain ⟨establishedUnary, conditionalUnary, obstructionUnary, frontierUnary, crossMapUnary,
+    _transportUnary, routeUnary, provenanceUnary, _localCertUnary,
+    _establishedConditionalObstruction, _obstructionFrontierCrossMap,
+    _transportRouteProvenance, localCertPkg⟩ := carrier
+  have templateReadUnary : UnaryHistory templateRead :=
+    unary_cont_closed provenanceUnary routeUnary provenanceRoute
+  exact
+    ⟨establishedUnary, conditionalUnary, obstructionUnary, frontierUnary, crossMapUnary,
+      provenanceUnary, routeUnary, templateReadUnary, provenanceRoute, localCertPkg, templatePkg⟩
+
+theorem AuditMapInterfaceCarrier_frontier_consumer_transport_routing
+    [AskSetup] [PackageSetup]
+    {established conditional obstruction frontier crossMap transport route provenance localCert
+      frontier' crossMap' frontierRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapInterfaceCarrier established conditional obstruction frontier crossMap transport route
+        provenance localCert bundle pkg ->
+      hsame frontier frontier' ->
+        hsame crossMap crossMap' ->
+          Cont frontier' crossMap' frontierRead ->
+            Cont frontierRead route consumerRead ->
+              PkgSig bundle consumerRead pkg ->
+                UnaryHistory frontier' ∧ UnaryHistory crossMap' ∧ UnaryHistory route ∧
+                  UnaryHistory frontierRead ∧ UnaryHistory consumerRead ∧
+                    hsame frontier frontier' ∧ hsame crossMap crossMap' ∧
+                      Cont frontier' crossMap' frontierRead ∧
+                        Cont frontierRead route consumerRead ∧
+                          Cont transport route provenance ∧ PkgSig bundle localCert pkg ∧
+                            PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle PkgSig UnaryHistory
+  intro carrier sameFrontier sameCrossMap frontierCrossMap consumerRoute consumerPkg
+  obtain ⟨_establishedUnary, _conditionalUnary, _obstructionUnary, frontierUnary,
+    crossMapUnary, _transportUnary, routeUnary, _provenanceUnary, _localCertUnary,
+    _establishedConditionalObstruction, _obstructionFrontierCrossMap,
+    transportRouteProvenance, localCertPkg⟩ := carrier
+  have frontierUnary' : UnaryHistory frontier' := unary_transport frontierUnary sameFrontier
+  have crossMapUnary' : UnaryHistory crossMap' := unary_transport crossMapUnary sameCrossMap
+  have frontierReadUnary : UnaryHistory frontierRead :=
+    unary_cont_closed frontierUnary' crossMapUnary' frontierCrossMap
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed frontierReadUnary routeUnary consumerRoute
+  exact
+    ⟨frontierUnary', crossMapUnary', routeUnary, frontierReadUnary, consumerReadUnary,
+      sameFrontier, sameCrossMap, frontierCrossMap, consumerRoute, transportRouteProvenance,
+      localCertPkg, consumerPkg⟩
+
+theorem AuditMapInterfaceCarrier_route_readback_transport_totality
+    [AskSetup] [PackageSetup]
+    {established conditional obstruction frontier crossMap transport route provenance localCert
+      route' localCert' routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapInterfaceCarrier established conditional obstruction frontier crossMap transport route
+        provenance localCert bundle pkg ->
+      hsame route route' ->
+        hsame localCert localCert' ->
+          Cont route' localCert' routeRead ->
+            PkgSig bundle routeRead pkg ->
+              UnaryHistory route' ∧ UnaryHistory localCert' ∧ UnaryHistory routeRead ∧
+                hsame route route' ∧ hsame localCert localCert' ∧
+                  Cont transport route provenance ∧ Cont route' localCert' routeRead ∧
+                    PkgSig bundle localCert pkg ∧ PkgSig bundle routeRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle PkgSig UnaryHistory
+  intro carrier sameRoute sameLocalCert routeLocalCert routeReadPkg
+  obtain ⟨_establishedUnary, _conditionalUnary, _obstructionUnary, _frontierUnary,
+    _crossMapUnary, _transportUnary, routeUnary, _provenanceUnary, localCertUnary,
+    _establishedConditionalObstruction, _obstructionFrontierCrossMap,
+    transportRouteProvenance, localCertPkg⟩ := carrier
+  have routeUnary' : UnaryHistory route' := unary_transport routeUnary sameRoute
+  have localCertUnary' : UnaryHistory localCert' :=
+    unary_transport localCertUnary sameLocalCert
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed routeUnary' localCertUnary' routeLocalCert
+  exact
+    ⟨routeUnary', localCertUnary', routeReadUnary, sameRoute, sameLocalCert,
+      transportRouteProvenance, routeLocalCert, localCertPkg, routeReadPkg⟩
+
 end BEDC.Derived.AuditMapInterfaceUp

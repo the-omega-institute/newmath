@@ -1,6 +1,6 @@
 \chapter{A Concrete Naming Certificate for $\BHistNonaTupleNameCertUp$}
 \label{ch:concrete-instances-b-hist-nona-tuple-name-cert-namecert}
-\origin{ai-composite}
+\origin{ai}
 
 The $\BHistNonaTupleNameCertUp$ packet abstracts the shared arity-nine tag-encoded $\BHist$ carrier pattern used across a carrier-isomorphism bucket. It is composite over the anchor-stability certificate of \autoref{ch:concrete-instances-anchor-stability-certificate-namecert}, the audit-map family of \autoref{ch:concrete-instances-auditmapfamily-namecert}, the BEDC self-substrate packet of \autoref{ch:concrete-instances-bedc-self-substrate-namecert}, the apophatic fixed-point fiber of \autoref{ch:concrete-instances-apophatic-fixed-point-fiber-namecert}, and the beta critical-pair packet of \autoref{ch:concrete-instances-beta-critical-pair-namecert}. Those siblings exhibit the same finite shape: a fixed list of tagged $\BHist$ rows, componentwise comparison, displayed $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. This chapter names that carrier-isomorphism surface directly so downstream rows can cite one BEDC-native packet rather than repeating the same arity-nine pattern.
 
@@ -105,6 +105,22 @@ Use classifier exactness and componentwise stability. They force any carrier-iso
 \end{proof}
 \leanchecked{BEDC.Derived.BHistNonaTupleNameCertUp.BHistNonaTupleNameCertLocalNamingNonescape}
 
+\begin{theorem}[BHistNonaTupleNameCert adjacent arity isolation]
+\label{thm:b-hist-nona-tuple-adjacent-arity-isolation}
+Any classifier-preserving read from $\BHistNonaTupleNameCertUp$ to either adjacent tuple surface, the arity-eight packet of \autoref{ch:concrete-instances-b-hist-octa-tuple-name-cert-namecert} or the arity-ten packet of \autoref{ch:concrete-instances-b-hist-deca-tuple-name-cert-namecert}, must either drop one of
+$$
+R_0,\ldots,R_8
+$$
+or introduce a row outside the nona carrier. Consequently no bijective carrier correspondence preserves the tag list, componentwise $\hsame$ routes, $\Cont$ replay, provenance, and local $\NameCert$ rows simultaneously across the nona packet and either adjacent arity sibling.
+\end{theorem}
+\begin{proof}
+Project the accepted nona carrier with \autoref{thm:b-hist-nona-tuple-name-cert-carrier-admission}. A classifier-preserving read must carry the nine tagged rows and the structural rows $H,C,P,L$ through the exact classifier of \autoref{thm:b-hist-nona-tuple-name-cert-classifier-exactness}.
+
+Componentwise stability then fixes the row inventory. By \autoref{thm:b-hist-nona-tuple-name-cert-componentwise-stability} and \autoref{thm:b-hist-nona-tuple-name-cert-local-naming-nonescape}, the local name may expose only the displayed nona packet; it has no clause that forgets a tagged row or admits an external coordinate.
+
+Compare this fixed inventory with the adjacent tuple surfaces. The octa sibling has only eight tagged carrier rows, so a read into it loses the ninth displayed nona row. The deca sibling has a tenth tagged carrier row, so a read into it adds a coordinate not admitted by the nona carrier. In either direction the purported bijection violates row preservation or the no-extra-coordinate boundary, and therefore cannot preserve tag list, $\hsame$, $\Cont$, provenance, and local naming at once.
+\end{proof}
+
 \begin{theorem}[BHistNonaTupleNameCert scoped support package]
 \label{thm:b-hist-nona-tuple-name-cert-scoped-support-package}
 The carrier admission, classifier exactness, componentwise stability, provenance readback, and local naming nonescape clauses bind the $\BHistNonaTupleNameCertUp$ packet exactly to the displayed BEDC support
@@ -135,11 +151,11 @@ Finally, apply \autoref{thm:b-hist-nona-tuple-name-cert-local-naming-nonescape}.
 \begin{closurestatus}{\BHistNonaTupleNameCertUp}
   \constructivestory{A $\BHistNonaTupleNameCertUp$ packet is generated from nine tag-encoded $\BHist$ carrier rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row; BEDC.Derived.BHistNonaTupleNameCertUp.taste\_gate records the composite TasteGate witness.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:b-hist-nona-tuple-name-cert-carrier}, \autoref{def:b-hist-nona-tuple-name-cert-classifier}, \autoref{thm:b-hist-nona-tuple-name-cert-carrier-admission}, \autoref{thm:b-hist-nona-tuple-name-cert-classifier-exactness}, \autoref{thm:b-hist-nona-tuple-name-cert-componentwise-stability}, \autoref{thm:b-hist-nona-tuple-name-cert-provenance-readback}, \autoref{thm:b-hist-nona-tuple-name-cert-local-naming-nonescape}, and \autoref{thm:b-hist-nona-tuple-name-cert-scoped-support-package} bind the arity-nine tag-encoded carrier-isomorphism surface and its exact BEDC support package.}
+  \scopeclosed{\autoref{def:b-hist-nona-tuple-name-cert-carrier}, \autoref{def:b-hist-nona-tuple-name-cert-classifier}, \autoref{thm:b-hist-nona-tuple-name-cert-carrier-admission}, \autoref{thm:b-hist-nona-tuple-name-cert-classifier-exactness}, \autoref{thm:b-hist-nona-tuple-name-cert-componentwise-stability}, \autoref{thm:b-hist-nona-tuple-name-cert-provenance-readback}, \autoref{thm:b-hist-nona-tuple-name-cert-local-naming-nonescape}, \autoref{thm:b-hist-nona-tuple-adjacent-arity-isolation}, and \autoref{thm:b-hist-nona-tuple-name-cert-scoped-support-package} bind the arity-nine tag-encoded carrier-isomorphism surface and its exact BEDC support package.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.BHistNonaTupleNameCertUp.BHistNonaTupleNameCertTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
-  \origin{ai-composite}
+  \origin{ai}
   \notclaimed{This chapter does not relocate, rewrite, replace, or retire any bucket member chapter, and it does not close bridge checking.}
   \upgradepath{Bridge checking requires a standard bridge from the scoped package to the public acceptance schema.}
 \end{closurestatus}

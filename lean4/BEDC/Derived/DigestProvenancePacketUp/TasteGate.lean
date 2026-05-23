@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DigestProvenancePacketUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -13,6 +23,42 @@ inductive DigestProvenancePacketUp : Type where
   | mk (visibleDigest source fiber gap exactness transport replay provenance name : BHist) :
       DigestProvenancePacketUp
   deriving DecidableEq
+
+def DigestProvenancePacketCarrier [AskSetup] [PackageSetup]
+    (R : DigestProvenancePacketUp) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  ∃ V S F G E H C P N : BHist,
+    R = DigestProvenancePacketUp.mk V S F G E H C P N ∧
+      UnaryHistory V ∧ UnaryHistory S ∧ UnaryHistory F ∧ UnaryHistory G ∧
+        UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+          UnaryHistory N ∧ Cont S F G ∧ Cont G E H ∧ Cont H C P ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem DigestProvenancePacketCarrier_consumer_visibility [AskSetup] [PackageSetup]
+    {R : DigestProvenancePacketUp} {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {consumer : BHist} :
+    DigestProvenancePacketCarrier R bundle pkg →
+      (∀ P N : BHist, PkgSig bundle P pkg → PkgSig bundle N pkg →
+        Cont P N consumer) →
+        PkgSig bundle consumer pkg →
+          ∃ V S F G E H C P N : BHist,
+            R = DigestProvenancePacketUp.mk V S F G E H C P N ∧
+              UnaryHistory V ∧ UnaryHistory S ∧ UnaryHistory F ∧ UnaryHistory G ∧
+                UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+                  UnaryHistory N ∧ UnaryHistory consumer ∧ Cont S F G ∧ Cont G E H ∧
+                    Cont H C P ∧ Cont P N consumer ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle N pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨V, S, F, G, E, H, C, P, N, packetEq, vUnary, sUnary, fUnary, gUnary,
+    eUnary, hUnary, cUnary, pUnary, nUnary, sfRoute, geRoute, hcRoute, pPkg,
+    nPkg⟩ := carrier
+  have pnRoute : Cont P N consumer := consumerRoute P N pPkg nPkg
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed pUnary nUnary pnRoute
+  exact
+    ⟨V, S, F, G, E, H, C, P, N, packetEq, vUnary, sUnary, fUnary, gUnary, eUnary,
+      hUnary, cUnary, pUnary, nUnary, consumerUnary, sfRoute, geRoute, hcRoute,
+      pnRoute, pPkg, nPkg, consumerPkg⟩
 
 def digestProvenancePacketEncodeBHist : BHist → RawEvent
   | BHist.Empty => []

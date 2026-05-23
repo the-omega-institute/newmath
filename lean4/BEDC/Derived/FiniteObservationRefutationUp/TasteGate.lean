@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteObservationRefutationUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -311,5 +313,41 @@ theorem FiniteObservationRefutationTasteGate_single_carrier_alignment :
       · intro x y heq
         exact finiteObservationRefutationToEventFlow_injective heq
       · rfl
+
+theorem FiniteObservationRefutationCarrier_namecert_obligations
+    (x : FiniteObservationRefutationUp) :
+    SemanticNameCert
+      (fun row : BHist => row ∈ FieldFaithful.fields x)
+      (fun row : BHist => row ∈ FieldFaithful.fields x)
+      (fun row : BHist => row ∈ FieldFaithful.fields x)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame NameCert
+  cases x with
+  | mk T Pi O M F D V L E H C P N =>
+      exact {
+        core := {
+          carrier_inhabited :=
+            Exists.intro T (List.Mem.head [Pi, O, M, F, D, V, L, E, H, C, P, N])
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other same
+            exact hsame_symm same
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other same source
+            cases same
+            exact source
+        }
+        pattern_sound := by
+          intro _row source
+          exact source
+        ledger_sound := by
+          intro _row source
+          exact source
+      }
 
 end BEDC.Derived.FiniteObservationRefutationUp

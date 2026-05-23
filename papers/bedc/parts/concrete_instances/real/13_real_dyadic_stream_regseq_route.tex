@@ -215,9 +215,9 @@ equality, or a direct seal bypass, so none of those data can certify a
 terminal exit read.
 \end{proof}
 
-\begin{theorem}[Real completeness four-face exit certificate]
-\label{thm:real-completeness-four-face-exit-certificate}
-A completion-facing public read of the current $\RealUp$ seal is accepted if
+\begin{theorem}[Real current-phase four-face exit certificate]
+\label{thm:real-current-phase-four-face-exit-certificate}
+A current Phase Real and Completion public read of the $\RealUp$ seal is accepted if
 and only if its visible rows factor through the four-face route
 $$
 \DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
@@ -282,7 +282,7 @@ host real equality, countable choice, ambient completion, metric-completeness
 rows, or a direct $\RealUp$ seal bypass.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:real-completeness-four-face-exit-certificate} to each
+Apply \autoref{thm:real-current-phase-four-face-exit-certificate} to each
 member of the finite terminal cover. Each accepted seal read is therefore
 already presented by the ordered dyadic, stream, regular-rational, and local
 Real faces, with only the displayed structural rows available.
@@ -353,4 +353,102 @@ equality, selected limits, countable choice, ambient completion,
 metric-completeness witnesses, or a direct Real seal bypass. The transported
 classifier agreement is therefore exactly equality of the public $\RealUp$
 seal classifier surface on the shared subcover.
+\end{proof}
+
+\begin{theorem}[Real four-face terminal cover classifier finality]
+\label{thm:real-four-face-terminal-cover-classifier-finality}
+Let $C_0$ be a finite terminal cover of current Phase Real and Completion
+$\RealUp$ seal reads satisfying the hypotheses of
+\autoref{thm:real-four-face-terminal-cover-pullback}. Let $C_1$ be a second
+finite terminal presentation of the same terminal read support. Suppose that
+$C_1$ also satisfies those hypotheses, and that $C_0$ and $C_1$ agree on the
+$\DyadicRatCoreUp$ observation rows, the $\StreamNameUp$ finite-window rows,
+the $\RegSeqRatUp$ classifier and readback rows, the local $\RealUp$ seal
+rows, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support coordinates. Then $C_0$ and $C_1$ determine one and the same public
+$\RealUp$ seal classifier surface.
+
+This finality is only over the terminal four-face cover
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+It excludes quotient stream equality, host real equality, selected limits,
+countable choice, ambient completion, metric-completeness rows, and any
+direct $\RealUp$ seal bypass from the data that can affect the public
+classifier surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-four-face-terminal-cover-pullback} separately to
+$C_0$ and $C_1$. The two presentations therefore pull back to terminal
+four-face routes with the same displayed dyadic, stream, regular-rational,
+local Real, and structural support rows.
+
+On every common part of the cover, use
+\autoref{thm:real-four-face-terminal-cover-overlap-compatibility}. The
+agreement of the DyadicRatCore observations, StreamName windows, RegSeqRat
+classifier and readback rows, local Real seal rows, and displayed support
+coordinates identifies the public $\RealUp$ seal classifier surface on each
+overlap.
+
+Next pass through the four named faces. Apply
+\autoref{thm:real-dyadic-stream-regseq-seal-equivalence} to identify the
+classifier surface obtained from the dyadic, stream, regular-rational, and
+local Real presentations.
+
+Finally apply
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. The current
+Phase Real and Completion dependency lattice exposes no fifth public
+coordinate, so quotient stream equality, host real equality, selected limits,
+countable choice, ambient completion, metric-completeness rows, and direct
+Real seal bypasses have no classifier input. The overlap-compatible
+four-face surface is therefore the unique public $\RealUp$ seal classifier
+surface determined by the two presentations.
+\end{proof}
+
+\begin{theorem}[Real four-face terminal subcover localization]
+\label{thm:real-four-face-terminal-subcover-localization}
+Let $C$ be a finite terminal cover of current Phase Real and Completion
+$\RealUp$ seal reads satisfying the hypotheses of
+\autoref{thm:real-four-face-terminal-cover-pullback}. Let $D$ be any displayed
+finite subcover whose local rows, overlap rows, and triple-overlap restriction
+routes are inherited from $C$. Then $D$ pulls back to the same ordered terminal
+four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+Its public $\RealUp$ seal classifier surface is the restriction of the
+classifier surface determined by $C$ to the displayed subcover rows. In
+particular, the localized cover still has no coordinate for quotient stream
+equality, host real equality, selected limits, countable choice, ambient
+completion, metric-completeness rows, or a direct $\RealUp$ seal bypass.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-four-face-terminal-cover-pullback} to the ambient
+cover $C$. This presents every accepted row of $C$ on the ordered dyadic,
+stream, regular-rational, and local Real route, with only the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support coordinates.
+
+Because $D$ inherits its rows and restriction routes from $C$, its pairwise
+overlap agreement and triple-overlap coherence are just the corresponding
+ambient equalities restricted to the chosen finite subcover. Applying
+\autoref{thm:real-four-face-terminal-cover-pullback} to those inherited data
+pastes $D$ to the same ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+
+Now use
+\autoref{thm:real-four-face-terminal-cover-overlap-compatibility} with the
+ambient cover and the displayed subcover. Their rows agree on the subcover by
+inheritance, so the public $\RealUp$ seal classifier surface for $D$ is exactly
+the restriction of the classifier surface obtained from $C$.
+
+Finally apply
+\autoref{thm:real-four-face-terminal-cover-classifier-finality} and
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. Finality makes
+the restricted classifier independent of the chosen terminal presentation, and
+interface totality rules out any fifth coordinate. Hence quotient stream
+equality, host real equality, selected limits, countable choice, ambient
+completion, metric-completeness rows, and direct Real seal bypasses remain
+outside the localized terminal surface.
 \end{proof}

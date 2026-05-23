@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceBoundedUp$}
+\label{ch:concrete-instances-cauchy-sequence-bounded-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchySequenceBoundedUp$ packet records the boundedness surface that a Cauchy sequence exposes before any completed-real consumer is allowed to read it. It sits between the $\StreamNameUp$ schedule of \autoref{ch:concrete-instances-streamname-namecert}, the $\CauchyModulusUp$ threshold rows of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RegSeqRatUp$ handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the convergence boundary of \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert}. The certificate names a finite bound packet for one displayed Cauchy schedule; it does not turn Cauchy data into a host-complete object, quotient stream, or selected limit.
+
+\begin{definition}[Cauchy sequence bounded carrier]
+\label{def:cauchy-sequence-bounded-carrier}
+A $\CauchySequenceBoundedUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,M,D,R,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ request schedule exposing the finite window of sequence reads.
+\item $M$ is the $\CauchyModulusUp$ threshold row that says which tail requests are governed by the displayed Cauchy modulus.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the window reads and tail tolerances in dyadic or rational form.
+\item $R$ is the $\RegSeqRatUp$ handoff row that packages the accepted regular rational readback induced by $S,M,D$.
+\item $E$ is the $\RealUp$ seal row reached only after the stream schedule, modulus row, dyadic tolerance ledger, regular-rational handoff, and bound ledger have been displayed.
+\item $B$ is the explicit dyadic or rational bound ledger, consisting of a finite initial-window bound, a tail-bound row extracted from $M$ and $D$, and a reconciliation row saying that both windows are contained in the same displayed bound.
+\item $H$ stores componentwise $\hsame$ transport for the stream schedule, modulus row, dyadic ledger, regular-rational handoff, real seal, bound ledger, continuation replay, provenance, and local naming row.
+\item $C$ stores displayed $\Cont$ replay from stream requests to modulus thresholds, from thresholds to dyadic tolerances, from tolerances to the bound ledger, and from the bound ledger to the regular-rational and real-facing rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchySequenceBoundedUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequenceBoundedUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,M,D,R,E,B,H,C,P,N$. It has no coordinate for host completeness, quotient streams, selected limits, real trichotomy, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchySequenceBoundedUp.CauchySequenceBoundedTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy boundedness NameCert obligations]
+\label{thm:cauchy-sequence-bounded-namecert-obligations}
+For an accepted $\CauchySequenceBoundedUp$ carrier $X=(S,M,D,R,E,B,H,C,P,N)$, the local $\NameCert_{\CauchySequenceBoundedUp}$ obligations are exactly carrier admission, finite-window classification, modulus-to-bound extraction, dyadic bound ledger stability, $\RealUp$ seal handoff, and ledger non-escape. These obligations are discharged by the displayed route
+$$
+S\longmapsto M\longmapsto D\longmapsto R\longmapsto E\longmapsto B
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceBoundedUp.CauchySequenceBoundedCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier admission is the projection of the displayed tuple in \autoref{def:cauchy-sequence-bounded-carrier}. The finite-window classifier reads the schedule $S$ and then uses $M$ to identify the tail threshold where the Cauchy comparison becomes governed by the displayed modulus row.
+
+The modulus-to-bound extraction applies the tolerance ledger $D$ to the inspected initial window and to the tail window named by $M$. The ledger $B$ records both finite data: an initial-window bound and a tail-bound row, reconciled into one dyadic or rational bound.
+
+The rows $H$ and $C$ transport and replay the same route componentwise, so dyadic bound stability is a property of the displayed ledger rather than of an external order principle. The rows $R$ and $E$ are downstream handoff rows; they receive a bounded sequence packet after $B$ is present.
+
+Finally, $P$ and $N$ source and name the packet. Since the carrier has no coordinate for host completeness, quotient streams, selected limits, trichotomy, open-cover compactness, choice, or ambient real completeness, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy window bound handoff]
+\label{thm:cauchy-sequence-bounded-window-bound-handoff}
+Every accepted boundedness read from a $\CauchySequenceBoundedUp$ packet factors through
+$$
+S\longmapsto M\longmapsto D\longmapsto R\longmapsto E\longmapsto B
+$$
+before any $\RealUp$ consumer or convergence consumer reads the sequence. The exported handoff is the finite tuple $S,M,D,R,E,B,H,C,P,N$, with no hidden host completeness, quotient-stream equality, selected limit, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceBoundedUp.CauchySequenceBoundedCarrier\_window\_bound\_handoff}
+\begin{proof}
+Start with a consumer that asks for boundedness. By \autoref{def:cauchy-sequence-bounded-carrier}, the only visible observation schedule is $S$, and the only tail control row is $M$.
+
+The dyadic tolerance ledger $D$ is read next, because it is the sole row that compares finite observations and tail tolerances in the packet. The regular-rational handoff $R$ and real seal row $E$ are downstream of this tolerance data.
+
+Apply \autoref{thm:cauchy-sequence-bounded-namecert-obligations}. The ledger $B$ is the row where the initial-window bound and the tail bound are reconciled, so every real-facing or convergence-facing read must pass through it before consuming $R$ or $E$ as a public boundary.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same route. No row in the carrier can supply the excluded completeness, quotient, selection, trichotomy, compactness, or ambient-real principle.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealUp$ or Cauchy-convergence read from a $\CauchySequenceBoundedUp$ packet factors through the displayed stream schedule, Cauchy modulus threshold, dyadic tolerance ledger, regular-rational handoff, real seal row, and explicit bound ledger before the sequence is consumed.}
+
+\independenceWitness{streamname, cauchymodulus, dyadicratcore, regseqrat, real, cauchyconvergencecriterion: $\CauchySequenceBoundedUp$ is not bijective to any listed sibling because it jointly carries a stream schedule, modulus threshold row, dyadic tolerance ledger, regular-rational handoff, real seal, explicit bound ledger, componentwise transport, continuation replay, provenance, and local naming.}
+
+\closureat{CauchySequenceBoundedUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceBoundedUp}
+  \constructivestory{A $\CauchySequenceBoundedUp$ packet is generated from a StreamName request schedule, a CauchyModulus threshold row, a DyadicRatCore tolerance ledger, a RegSeqRat handoff, a RealUp seal, an explicit dyadic or rational bound ledger, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-bounded-carrier}, \autoref{thm:cauchy-sequence-bounded-namecert-obligations}, and \autoref{thm:cauchy-sequence-bounded-window-bound-handoff} seed the finite boundedness packet for one displayed Cauchy sequence schedule.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host completeness, quotient streams, selected limits, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window classification, modulus-to-bound extraction, dyadic bound ledger stability, real-seal handoff, and ledger non-escape for BEDC.Derived.CauchySequenceBoundedUp.}
+\end{closurestatus}

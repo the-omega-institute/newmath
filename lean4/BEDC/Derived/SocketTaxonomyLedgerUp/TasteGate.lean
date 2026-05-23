@@ -1,11 +1,18 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SocketTaxonomyLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -189,5 +196,46 @@ theorem SocketTaxonomyLedgerTasteGate_single_carrier_alignment :
       socketTaxonomyLedger_round_trip,
       (fun _ _ heq => socketTaxonomyLedgerToEventFlow_injective heq),
       ⟨socketTaxonomyLedgerFieldFaithful⟩⟩
+
+theorem SocketTaxonomyLedgerNameCert_obligations [AskSetup] [PackageSetup]
+    {K S A R D H C P N kindRead refusalRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont K S kindRead →
+      Cont A R refusalRead →
+        Cont D C routeRead →
+          PkgSig bundle routeRead pkg →
+            List.Mem (socketTaxonomyLedgerEncodeBHist K)
+                (socketTaxonomyLedgerToEventFlow
+                  (SocketTaxonomyLedgerUp.mk K S A R D H C P N)) ∧
+              List.Mem (socketTaxonomyLedgerEncodeBHist A)
+                (socketTaxonomyLedgerToEventFlow
+                  (SocketTaxonomyLedgerUp.mk K S A R D H C P N)) ∧
+              List.Mem (socketTaxonomyLedgerEncodeBHist R)
+                (socketTaxonomyLedgerToEventFlow
+                  (SocketTaxonomyLedgerUp.mk K S A R D H C P N)) ∧
+              List.Mem (socketTaxonomyLedgerEncodeBHist D)
+                (socketTaxonomyLedgerToEventFlow
+                  (SocketTaxonomyLedgerUp.mk K S A R D H C P N)) ∧
+              Cont K S kindRead ∧
+              Cont A R refusalRead ∧
+              Cont D C routeRead ∧
+              PkgSig bundle routeRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Cont PkgSig ProbeBundle Pkg
+  intro kindRoute refusalRoute ledgerRoute pkgRoute
+  constructor
+  · unfold socketTaxonomyLedgerToEventFlow socketTaxonomyLedgerFields
+    exact List.Mem.head _
+  · constructor
+    · unfold socketTaxonomyLedgerToEventFlow socketTaxonomyLedgerFields
+      exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))
+    · constructor
+      · unfold socketTaxonomyLedgerToEventFlow socketTaxonomyLedgerFields
+        exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))
+      · constructor
+        · unfold socketTaxonomyLedgerToEventFlow socketTaxonomyLedgerFields
+          exact
+            List.Mem.tail _
+              (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))))
+        · exact ⟨kindRoute, refusalRoute, ledgerRoute, pkgRoute⟩
 
 end BEDC.Derived.SocketTaxonomyLedgerUp

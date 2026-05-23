@@ -67,3 +67,36 @@ certificate, the mark-level ledger definition, the generic carrier-as-ledger
 implication, and the closed semantic certificate occupy separate roles. In each
 case $\BoolUp$ is derived from mark and history sameness, and is not primitive.
 \end{corollary}
+
+\begin{theorem}[Bool finite-data exit route]
+\label{thm:bool-finite-data-exit-route}
+The public $\BoolUp$ finite-data route consists exactly of the two endpoint
+constructor rows of \autoref{def:bool-public-endpoint-constructors}, the
+constructor case readback of
+\autoref{thm:bool-public-constructor-case-readback}, the no-hidden-leakage
+boundary of \autoref{thm:bool-public-surface-no-hidden-leakage}, and the
+semantic certificate scope of \autoref{cor:bool-certificate-scope}. Any
+$\OptionUp$ absent/present tag read, $\ProdUp$ sibling-lattice read, or
+$\ListUp$ finite-data sibling route that consumes $\BoolUp$ passes through
+those rows and receives no host proposition, eliminator, decidable predicate,
+or truth-table completeness.
+\end{theorem}
+\begin{proof}
+The two constructor rows are the public endpoints displayed in
+\autoref{def:bool-public-endpoint-constructors}. The case readback theorem
+then says that every public endpoint read is one of those rows, with agreement
+measured by $\msame$ rather than by an external Boolean predicate.
+
+The no-hidden-leakage theorem removes the extra host-logic surfaces from the
+public exit, while \autoref{cor:bool-certificate-scope} identifies the checked
+core and semantic certificate roles that remain available to downstream finite
+data consumers.
+
+The consumer list is exactly the existing finite-data route through
+\autoref{thm:bool-option-constructor-disjointness-route},
+\autoref{thm:prod-finite-data-sibling-lattice}, and
+\autoref{thm:list-finite-data-sibling-route}. These routes use the same
+endpoint rows as absent/present tags, product sibling coordinates, and list
+finite-data siblings; none adds a primitive Boolean object or a host
+truth-table principle.
+\end{proof}

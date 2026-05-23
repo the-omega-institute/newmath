@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TypedFailureCertificateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -256,5 +258,123 @@ theorem TypedFailureCertificateTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+theorem TypedFailureCertificateNameCertObligations {N C V S R D H P L localRead : BHist} :
+    hsame localRead L ->
+      typedFailureCertificateFields (TypedFailureCertificateUp.mk N C V S R D H P L) =
+          [N, C, V, S, R, D, H, P, L] ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row L)
+          (fun row : BHist =>
+            hsame row N ∨ hsame row C ∨ hsame row V ∨ hsame row S ∨ hsame row R ∨
+              hsame row D ∨ hsame row H ∨ hsame row P ∨ hsame row L)
+          (fun row : BHist => hsame row localRead)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  intro sameLocal
+  constructor
+  · rfl
+  · exact
+      { core := {
+          carrier_inhabited := ⟨L, hsame_refl L⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro row row' sameRow
+            exact hsame_symm sameRow
+          equiv_trans := by
+            intro row row' row'' sameRowRow' sameRow'Row''
+            exact hsame_trans sameRowRow' sameRow'Row''
+          carrier_respects_equiv := by
+            intro row row' sameRowRow' sameRowL
+            exact hsame_trans (hsame_symm sameRowRow') sameRowL
+        }
+        pattern_sound := by
+          intro row source
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source)))))))
+        ledger_sound := by
+          intro row source
+          exact hsame_trans source (hsame_symm sameLocal)
+      }
+
+theorem TypedFailureCertificateAxisSeparation
+    {N C V S R D H P L branchRead : BHist} :
+    hsame branchRead D →
+      typedFailureCertificateFields (TypedFailureCertificateUp.mk N C V S R D H P L) =
+          [N, C, V, S, R, D, H, P, L] ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row D)
+          (fun row : BHist => hsame row C ∨ hsame row V ∨ hsame row D)
+          (fun row : BHist => hsame row branchRead)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  intro branchReadDiagnostic
+  constructor
+  · rfl
+  · exact {
+      core := {
+        carrier_inhabited := ⟨D, hsame_refl D⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows sourceRow
+          exact hsame_trans (hsame_symm sameRows) sourceRow
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr sourceRow)
+      ledger_sound := by
+        intro _row sourceRow
+        exact hsame_trans sourceRow (hsame_symm branchReadDiagnostic)
+    }
+
+theorem TypedFailureCertificateExportBlocking
+    {N C V S R D H P L exportRead : BHist} :
+    hsame exportRead R →
+      hsame R D →
+      typedFailureCertificateFields (TypedFailureCertificateUp.mk N C V S R D H P L) =
+          [N, C, V, S, R, D, H, P, L] ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row R)
+          (fun row : BHist => hsame row D ∧ hsame R R ∧ hsame row exportRead)
+          (fun row : BHist => hsame row exportRead)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  intro exportReadRefusal refusalDiagnostic
+  constructor
+  · rfl
+  · exact {
+      core := {
+        carrier_inhabited := ⟨R, hsame_refl R⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows sourceRow
+          exact hsame_trans (hsame_symm sameRows) sourceRow
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          ⟨hsame_trans sourceRow refusalDiagnostic, hsame_refl R,
+            hsame_trans sourceRow (hsame_symm exportReadRefusal)⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact hsame_trans sourceRow (hsame_symm exportReadRefusal)
+    }
 
 end BEDC.Derived.TypedFailureCertificateUp

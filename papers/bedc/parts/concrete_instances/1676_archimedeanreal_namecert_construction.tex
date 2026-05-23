@@ -27,6 +27,7 @@ with the following displayed coordinates:
 \end{enumerate}
 The packet is an Archimedean bound certificate for a displayed real name. It stores no host supremum, no selected least bound, no quotient stream equality, and no ambient completeness object.
 \end{definition}
+\leandef{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealUp}
 
 \begin{theorem}[ArchimedeanReal NameCert obligations]
 \label{thm:archimedean-real-namecert-obligations}
@@ -61,6 +62,21 @@ Thus the exported witness is exactly the finite pair $(Q,D)$ with its ledger $B$
 \end{proof}
 \leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealPacket\_rational\_bound\_witness}
 
+\begin{theorem}[ArchimedeanReal rational-dyadic bound coherence]
+\label{thm:archimedean-real-rat-dyadic-bound-coherence}
+For every accepted $\ArchimedeanRealUp$ packet $A=(R,Q,D,S,G,B,H,C,P,N)$, the $\RatUp$ row $Q$ and the $\DyadicRatCoreUp$ row $D$ form one coherent bound witness for the displayed $\RealUp$ name $R$. Every $\RealUp$ order, locatedness, completion, integer-part, or decimal-prefix consumer that reads either row must read both rows through the same finite ledger $B$, $\StreamNameUp$ window $S$, $\RegSeqRatUp$ handoff $G$, $\hsame$ transports $H$, $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\ArchimedeanRealUp}$ row $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_rat\_dyadic\_bound\_coherence}
+\begin{proof}
+Project the carrier in \autoref{def:archimedean-real-carrier}. The accepted packet exposes $Q$ and $D$ as named coordinates of a single finite $\ArchimedeanRealUp$ carrier rather than as two independent bound witnesses.
+
+Apply \autoref{thm:archimedean-real-namecert-obligations}. Its ledger-exactness and rational-bound export clauses say that the comparison of inspected $\RegSeqRatUp$ observations against $Q$ and $D$ is mediated by the same ledger $B$, while the exported consumer surface keeps the same $S,G,H,C,P,N$ rows.
+
+Apply \autoref{thm:archimedean-real-rational-bound-witness}. The public witness for the displayed real name is the pair $Q,D$ together with the finite ledger $B$, so a consumer cannot take the $\RatUp$ row without the dyadic presentation or take the dyadic row without the rational row.
+
+Finally use \autoref{thm:archimedean-real-bound-ledger-nonescape}. Since the packet has no host supremum, selected least bound, quotient stream equality, host limit, or ambient completeness coordinate, there is no second bound surface through which a downstream order, locatedness, completion, integer-part, or decimal-prefix consumer could separate the two rows.
+\end{proof}
+
 \begin{theorem}[ArchimedeanReal transported bound stability]
 \label{thm:archimedean-real-transported-bound-stability}
 Let $A=(R,Q,D,S,G,B,H,C,P,N)$ and $A'=(R',Q',D',S',G',B',H',C',P',N')$ be accepted $\ArchimedeanRealUp$ packets. If the real-name row, rational bound row, dyadic bound row, stream window, regular-Cauchy handoff, bound ledger, transport table, continuation table, provenance row, and local naming row are replaced only by rows classified through the displayed $\hsame$ and $\Cont$ routes, then the rational-bound witness of \autoref{thm:archimedean-real-rational-bound-witness} is transported unchanged as a witness surface: the exported $\RatUp$ row, $\DyadicRatCoreUp$ row, and finite ledger comparison remain the same displayed bound rows for the classified $\RealUp$ name.
@@ -78,6 +94,7 @@ After replacing the packet by classified rows, the displayed $\hsame$ and $\Cont
 \label{thm:archimedean-real-consumer-bound-handoff}
 Every $\RealUp$ order, locatedness, or completion-facing consumer of an accepted $\ArchimedeanRealUp$ packet receives the displayed rows $Q,D,S,G,B,H,C,P,N$ before it uses the bound on $R$. In particular, the consumer reads the rational bound through $\RatUp$, the dyadic presentation through $\DyadicRatCoreUp$, finite observations through $\StreamNameUp$ and $\RegSeqRatUp$, and the comparison through the ledger $B$ with its transport, continuation, provenance, and local naming rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_consumer\_bound\_handoff}
 \begin{proof}
 Start from the carrier tuple. The real name $R$ is not exported with a bare boundedness assertion; the packet also carries $Q,D,S,G,B,H,C,P,N$.
 
@@ -127,6 +144,7 @@ Transported-bound stability from \autoref{thm:archimedean-real-transported-bound
 
 Finally apply \autoref{thm:archimedean-real-bound-ledger-nonescape}. Since the accepted packet has no carrier coordinate for a host supremum, selected least bound, quotient stream equality, host limit, or ambient completeness object, the public export is exactly the displayed BEDC bound surface.
 \end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_public\_bound\_export}
 
 \begin{theorem}[ArchimedeanReal budgeted observation handoff]
 \label{thm:archimedean-real-budgeted-observation-handoff}
@@ -143,6 +161,7 @@ Now route the consumer through the finite observation budget. The readiness theo
 
 The two routes therefore compose in one order: budget rows first, Archimedean bound rows second. The non-escape clauses already present in the Archimedean carrier and in the observation-budget package exclude a host supremum, hidden limit selector, quotient stream equality, and ambient completeness from the combined handoff.
 \end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_budgeted\_observation\_handoff}
 
 \begin{theorem}[ArchimedeanReal dyadic threshold totality]
 \label{thm:archimedean-real-dyadic-threshold-totality}
@@ -152,6 +171,7 @@ A=(R,Q,D,S,G,B,H,C,P,N)
 $$
 be read by a finite $\RealObservationBudgetUp$ request carried by a unary $\BHist$ budget row. For every such finite request, there is a dyadic threshold row whose source is the displayed rational-bound witness $Q,D$ of $A$, whose classifier is stable under the componentwise $\hsame$ transport rows, and whose ledger route is obtained by composing the Archimedean bound witness with the finite-window request route of $\RealObservationBudgetUp$. The row is a finite threshold surface over $\BHist$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ only; it exports no trichotomy row, host-real completeness object, hidden limit selector, quotient stream equality, or least-bound selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_dyadic\_threshold\_totality}
 \begin{proof}
 Start with the rational-bound witness of \autoref{thm:archimedean-real-rational-bound-witness}. It displays the bound source through the rows $Q,D$ and records the finite ledger comparison through $B$, so the requested threshold has a visible Archimedean source before any budget row is consumed.
 
@@ -170,6 +190,7 @@ A=(R,Q,D,S,G,B,H,C,P,N)
 $$
 be consumed by a finite $\RealObservationBudgetUp$ request that uses the same displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ handoff rows, and $\RealUp$ seal rows. Every budgeted Archimedean bound read is exhausted by the displayed observation-budget rows followed by the Archimedean rows $Q,D,S,G,B,H,C,P,N$. No second window family, unbudgeted dyadic threshold, hidden limit selector, quotient stream equality, host supremum, selected least bound, or ambient completeness coordinate may be substituted for that route.
 \end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_budgeted\_bound\_window\_exhaustion}
 \begin{proof}
 Begin with the rational-bound witness of \autoref{thm:archimedean-real-rational-bound-witness} and the public bound export of \autoref{thm:archimedean-real-public-bound-export}. Together they identify $Q,D,S,G,B,H,C,P,N$ as the only Archimedean bound surface available from the accepted packet.
 
@@ -188,6 +209,7 @@ A=(R,Q,D,S,G,B,H,C,P,N)
 $$
 reads the packet only through the public bound surface $Q,D,S,G,B,H,C,P,N$. Precision-sensitive reads must first pass through the relevant $\RealObservationBudgetUp$ rows before they consume the Archimedean bound rows, and every finite unary budget request obtains its dyadic threshold row through \autoref{thm:archimedean-real-dyadic-threshold-totality}. The consumer receives no supremum, selected least bound, quotient stream equality, host limit, or ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_public\_order\_consumer}
 \begin{proof}
 Start with the public bound export of \autoref{thm:archimedean-real-public-bound-export}. It identifies $Q,D,S,G,B,H,C,P,N$ as the public surface seen by order, locatedness, and completion-facing consumers.
 
@@ -196,6 +218,25 @@ Next use the budgeted observation handoff of \autoref{thm:archimedean-real-budge
 The dyadic threshold totality theorem of \autoref{thm:archimedean-real-dyadic-threshold-totality} then supplies the finite threshold row for unary budget requests. Its source is the rational-bound witness through $Q,D$, and its route is the composed budget-window and Archimedean-bound route.
 
 Finally apply the bound-ledger non-escape theorem of \autoref{thm:archimedean-real-bound-ledger-nonescape}. Since none of the forbidden host objects is a carrier coordinate, the public order consumer cannot project a supremum, selected least bound, quotient stream equality, host limit, or ambient completeness object.
+\end{proof}
+
+\begin{theorem}[ArchimedeanReal integer bracket handoff]
+\label{thm:archimedean-real-integer-bracket}
+Let an accepted $\ArchimedeanRealUp$ packet
+$$
+A=(R,Q,D,S,G,B,H,C,P,N)
+$$
+be read by an integer-part or decimal-prefix consumer of the displayed real name. The consumer must first receive the public Archimedean bound surface $Q,D,S,G,B,H,C,P,N$. If it then forms an $\ArchimedeanIntegerPartUp$ packet, the bracket row factors through the existing real or regular-Cauchy read, the Archimedean comparison row, the dyadic floor scale, the $\IntUp$ candidate, and the successor bracket rows of \autoref{thm:archimedean-integer-part-bracket-route}. The combined handoff exports no host floor, trichotomy row, quotient stream equality, hidden integer search, selected representative, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_integer\_bracket}
+\begin{proof}
+Start with the rational-bound witness of \autoref{thm:archimedean-real-rational-bound-witness}. It identifies the Archimedean source available from $A$ as the displayed $Q,D$ rows together with the finite ledger $B$ and its routes $H,C,P,N$.
+
+Apply the public order consumer theorem of \autoref{thm:archimedean-real-public-order-consumer}. An integer-part or decimal-prefix request is therefore not allowed to read the displayed real name through a bare host order; it first passes through the public surface $Q,D,S,G,B,H,C,P,N$.
+
+Now suppose the consumer forms an $\ArchimedeanIntegerPartUp$ packet. The bracket-route theorem \autoref{thm:archimedean-integer-part-bracket-route} forces that packet to expose the real or regular-Cauchy read, then the Archimedean comparison row, then the dyadic floor scale, then the $\IntUp$ candidate, and only then the successor bracket row. This is exactly the integer-bracket surface available downstream of the public Archimedean bound rows.
+
+Finally use the no-hidden-search boundary of \autoref{thm:archimedean-integer-part-no-hidden-search}. Together with the non-escape boundary already attached to the Archimedean real packet, it excludes host floor selection, trichotomy over arbitrary real names, quotient stream equality, hidden integer search, selected representatives, and ambient completeness from the composed route.
 \end{proof}
 
 \closureat{ArchimedeanRealUp}{seedStr}

@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\GershgorinDiskUp$}
+\label{ch:concrete-instances-gershgorindisk-namecert}
+\origin{human}
+
+Following Gershgorin's circle theorem and standard finite-dimensional linear algebra, the $\GershgorinDiskUp$ packet records the finite row-sum surface used to bound spectral locations for a displayed square matrix. It consumes matrix entries from \autoref{ch:concrete-instances-matrix-namecert}, linear-map interpretation from \autoref{ch:concrete-instances-linearmap-namecert}, vector rows from \autoref{ch:concrete-instances-vecspace-namecert}, and scalar comparison data from the real-facing boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the disk-bound route only; it does not assert eigenvalue existence over arbitrary fields, algebraic closure, spectral radius equality, analytic completeness, or a host-library spectrum predicate.
+
+\begin{definition}[Gershgorin disk carrier]\label{def:gershgorin-disk-carrier}
+A $\GershgorinDiskUp$ carrier is a finite $\BHist$ packet
+$$
+G=(M,R,D,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MatrixUp$ square-matrix row, including the finite row index, diagonal entries, and off-diagonal entry slots whose scalar boundary is read through the real-facing comparison surface.
+\item $R$ is the row-sum radius ledger, carrying for each displayed row the finite sum of absolute off-diagonal magnitudes used as the disk radius.
+\item $D$ is the disk-center and radius classifier row, naming the center $a_{ii}$ and radius $r_i$ for every displayed row $i$.
+\item $B$ is the displayed bound route saying that any spectral witness already supplied by a downstream linear-map or eigen-facing packet must be compared against one of the finitely displayed disks.
+\item $H$ stores componentwise $\hsame$ transport for the matrix row, radius ledger, disk classifier, bound route, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from matrix entries to row-sum radii, from radii to disk classifiers, and from the disk classifiers to the bound route.
+\item $P$ is the $\Pkg$ provenance over $\GershgorinDiskUp$, $\MatrixUp$, $\LinearMapUp$, $\VecSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GershgorinDiskUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,R,D,B,H,C,P,N$. It has no coordinate for producing eigenvalues, choosing algebraic closures, asserting spectral radius equality, completing scalar fields, or importing analytic spectral theory.
+\end{definition}
+
+\begin{theorem}[Gershgorin disk NameCert obligations]\label{thm:gershgorin-disk-namecert-obligations}
+For every accepted $\GershgorinDiskUp$ carrier $G=(M,R,D,B,H,C,P,N)$, the local $\NameCert_{\GershgorinDiskUp}$ surface consists exactly of carrier admission for the eight displayed rows, matrix entry access through $M$, finite row-sum radius accounting through $R$, disk-center and radius classification through $D$, the displayed spectral-bound route through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.GershgorinDiskUp.GershgorinDiskUpTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:gershgorin-disk-carrier}. The only matrix data available to the classifier are the square-matrix row $M$, its finite row index, and the displayed diagonal and off-diagonal entry slots read from \autoref{ch:concrete-instances-matrix-namecert}.
+
+The row-sum ledger $R$ and disk classifier $D$ are then read from those displayed entries. They name centers and radii by finite scalar comparisons against the real-facing boundary of \autoref{ch:concrete-instances-real-namecert}; no eigenvalue-producing field extension or analytic completeness row is introduced.
+
+Finally the bound route $B$ and the structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate beyond these rows, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Gershgorin disk row-sum bound]\label{thm:gershgorin-disk-row-sum-bound}
+Every accepted $\GershgorinDiskUp$ carrier exposes its displayed bound through the finite route
+$$
+M\longmapsto R\longmapsto D\longmapsto B
+$$
+together with $H,C,P,N$. For each displayed row $i$, the packet reads the center from the diagonal entry of $M$, reads the radius from the finite off-diagonal row-sum ledger $R$, and records the disk classifier in $D$ without asserting that the matrix has an eigenvalue over the ambient scalar boundary.
+\end{theorem}
+\begin{proof}
+Begin with the matrix row $M$. Its diagonal and off-diagonal slots are finite displayed entry rows, so the row-sum radius ledger $R$ can only add the off-diagonal magnitude rows already exposed by the packet.
+
+Next read the classifier $D$. It pairs the diagonal entry of row $i$ with the radius recorded for the same row, producing the disk surface used by the bound route.
+
+The route $B$ is downstream-facing: it can constrain a spectral witness supplied elsewhere, but it cannot manufacture such a witness. Transport and replay through $H$ and $C$, with provenance and naming through $P$ and $N$, therefore preserve exactly the finite row-sum bound and no additional spectral principle.
+\end{proof}
+
+\begin{theorem}[Gershgorin disk matrix handoff]\label{thm:gershgorin-disk-matrix-handoff}
+The $\LinearMapUp$ and $\VecSpaceUp$ consumers may read a $\GershgorinDiskUp$ packet only through the matrix row of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map interpretation of \autoref{ch:concrete-instances-linearmap-namecert}, the vector-space boundary of \autoref{ch:concrete-instances-vecspace-namecert}, and the displayed route
+$$
+R,D,B,H,C,P,N.
+$$
+Thus the handoff supplies a finite spectral-bound surface for matrix-shaped linear maps while leaving eigenvalue existence, algebraic closure, spectral radius equality, analytic completeness, and host spectral decomposition outside the exported certificate.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:gershgorin-disk-row-sum-bound}. It places every displayed disk read on the route from matrix entries through row-sum radii, disk classification, and the bound route.
+
+The matrix-to-linear-map handoff is read through \autoref{ch:concrete-instances-matrix-namecert}, \autoref{ch:concrete-instances-linearmap-namecert}, and \autoref{ch:concrete-instances-vecspace-namecert}. Those chapters supply the finite rows for entries, linear action, and vector slots; this chapter only adds the row-sum disk ledger on top of those rows.
+
+The structural rows $H,C,P,N$ preserve and name that ledger. Since the carrier lacks any coordinate for generating spectral points, completing scalar fields, or identifying spectral radii, the exported surface is only the finite Gershgorin bound handoff.
+\end{proof}
+
+\falsifiablePrediction{Every $\GershgorinDiskUp$ spectral-bound read factors through a MatrixUp square-matrix row, a finite row-sum radius ledger, disk-center and radius classifiers, a displayed bound route, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{matrix, linearmap, vecspace, real: $\GershgorinDiskUp$ is not bijective to any listed sibling because it jointly carries matrix entries, finite row-sum radii, disk classifiers, a downstream bound route, transport, continuation, provenance, and local naming.}
+
+\closureat{GershgorinDiskUp}{seedStr}
+
+\begin{closurestatus}{\GershgorinDiskUp}
+  \constructivestory{A $\GershgorinDiskUp$ packet is generated from a MatrixUp square-matrix row, finite row-sum radius ledger, disk-center and radius classifier, displayed bound route, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gershgorin-disk-carrier}, \autoref{thm:gershgorin-disk-namecert-obligations}, \autoref{thm:gershgorin-disk-row-sum-bound}, and \autoref{thm:gershgorin-disk-matrix-handoff} bind the finite row-sum spectral-bound packet for MatrixUp consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, eigenvalue existence over arbitrary fields, algebraic closure, spectral radius equality, analytic completeness, or host spectral decomposition.}
+  \upgradepath{Lean closure requires carrier admission, NameCert obligations, row-sum bound preservation, matrix handoff, and TasteGate field faithfulness for BEDC.Derived.GershgorinDiskUp.}
+\end{closurestatus}

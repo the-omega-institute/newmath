@@ -234,3 +234,63 @@ Now remove one face. If $S$ is absent, the ordered source read has no StreamName
 
 It remains to rule out replacement data. By \autoref{thm:streamname-real-completion-gateway-status-exactness}, the status records are exactly the objectwise $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows; by \autoref{thm:real-l10-exit-certificate-face-minimality}, the Real-side current Phase Real and Completion exit certificate also needs each of those four faces. These two minimality reads agree with the gateway obligations, so quotient streams, host sequence equality, selected limits, countable choice, metric-completeness data, standard bridge rows, bridge-row substitutes, and $\RealUp$ completeness cannot fill any deleted face.
 \end{proof}
+
+\begin{theorem}[StreamName Real-completion gateway choice-free face determinacy]
+\label{thm:streamname-real-completion-gateway-choice-free-face-determinacy}
+Let
+$$
+G=(S,D,R,E,B,H,C,P,N)
+$$
+and
+$$
+G'=(S',D',R',E',B',H',C',P',N')
+$$
+be accepted $\StreamNameUp$ Real-completion gateway packets for the current Phase Real and Completion boundary. Suppose the four object faces agree through the displayed componentwise $\hsame$ transports
+$$
+S \hsame S',
+\qquad
+D \hsame D',
+\qquad
+R \hsame R',
+\qquad
+E \hsame E',
+$$
+and suppose the support rows $B,H,C,P,N$ and $B',H',C',P',N'$ agree as local $\NameCert_{\StreamNameUp}$ rows for those transported faces. Then every terminal Real-completion consumer of $G$ and every terminal Real-completion consumer of $G'$ determine the same finite public $\RealUp$ seal row through the route
+$$
+S \longrightarrow D \longrightarrow R \longrightarrow E .
+$$
+The determined public seal row is independent of quotient stream equality, host sequence equality, selected limits, countable choice, metric-completeness data, standard bridge rows, bridge-row substitutes, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-real-completion-gateway-face-record-noncollapse}. For each accepted packet, every public record is read through the four objectwise faces and the support rows $B,H,C,P,N$ or $B',H',C',P',N'$. The displayed $\hsame$ transports identify the two StreamName windows, DyadicRatCore ledgers, RegSeqRat readbacks, and RealUp seal faces as the same public face record.
+
+Next use \autoref{thm:streamname-real-completion-gateway-no-choice-normal-form} for both terminal consumers. Each consumer has the ordered no-choice route
+$$
+S \longrightarrow D \longrightarrow R \longrightarrow E
+$$
+on $G$, and the transported route with faces $S',D',R',E'$ on $G'$. Since the four faces agree componentwise, the two ordered routes have the same public RealUp endpoint.
+
+The support rows cannot introduce a second route. By \autoref{thm:streamname-real-completion-gateway-support-row-minimality}, the rows $B,H,C,P,N$ are exactly the observation, transport, replay, provenance, and local naming rows needed for the displayed gateway surface. Their agreement as local $\NameCert_{\StreamNameUp}$ rows therefore makes the support inventory for $G$ and $G'$ the same finite inventory, not an additional choice parameter.
+
+Finally apply \autoref{thm:streamname-real-completion-gateway-face-minimality}. No replacement face can stand in for $S,D,R,E$, and no excluded coordinate can fill the RealUp endpoint. Thus the two terminal consumers determine the same finite public $\RealUp$ seal row, with no quotient stream equality, host sequence equality, selected limit, countable-choice row, metric-completeness datum, standard bridge row, bridge-row substitute, or ambient Real completeness coordinate added to the route.
+\end{proof}
+
+\begin{theorem}[StreamName Real-completion gateway audit-touchpoint separation]
+\label{thm:streamname-real-completion-gateway-audit-touchpoint-separation}
+Let
+$$
+G=(S,D,R,E,B,H,C,P,N)
+$$
+be an accepted $\StreamNameUp$ Real-completion gateway packet for the current Phase Real and Completion boundary. The audit-facing object records of $G$ are exactly the four objectwise closurestatus, formalstatus, leantarget, and bridgestatus faces for $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. The machine-facing touchpoints of $G$ are exactly the three route positions named by \autoref{thm:streamname-real-completion-gateway-touchpoint-factorization}: the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff.
+
+These two readings do not collapse into one another. The audit-facing records do not create a machine route coordinate, and the machine-facing touchpoints do not create an aggregate formalstatus, replacement leantarget, route-level bridgestatus, standard bridge row, selected limit, quotient stream equality, countable-choice row, metric-completeness datum, or $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-real-completion-gateway-status-exactness}. It identifies the audit-facing status surface as the four objectwise records for $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, with closurestatus, formalstatus, leantarget, and bridgestatus read locally on those faces rather than through a single gateway-wide status row.
+
+Next use \autoref{thm:streamname-real-completion-gateway-touchpoint-factorization}. The machine-facing route is exhausted by the three named touchpoints: the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff. These are positions in the route, not objectwise closurestatus, formalstatus, leantarget, or bridgestatus records.
+
+The two inventories cannot be identified. By \autoref{thm:streamname-real-completion-gateway-face-record-noncollapse}, the public face records remain objectwise over $S,D,R,E$ and their support rows $B,H,C,P,N$. Thus a touchpoint cannot replace an audit record, and an audit record cannot supply an additional machine-facing handoff.
+
+Finally invoke \autoref{thm:streamname-real-completion-gateway-no-choice-normal-form} and \autoref{thm:streamname-real-completion-gateway-nonescape}. Every accepted gateway read stays inside the ordered no-choice route and the displayed support rows, so neither reading can introduce aggregate formalstatus data, replacement leantargets, route-level bridgestatus data, standard bridge rows, selected limits, quotient stream equality, countable-choice rows, metric-completeness data, or $\RealUp$ completeness claims.
+\end{proof}

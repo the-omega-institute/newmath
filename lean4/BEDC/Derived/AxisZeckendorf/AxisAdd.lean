@@ -231,4 +231,19 @@ theorem AxisAdd_semantic_name_certificate {h k : BHist} :
       (And.intro canonicalPattern
         (AxisAddCont_result_zeroSpine sourceH sourceK (cont_intro rfl)))
 
+theorem AxisAddUp_StdBridge {h k : BHist} :
+    AxisAddSourceSpec h k ->
+      SemanticNameCert (AxisAddPatternSpec h k) (AxisAddPatternSpec h k)
+          (AxisAddLedgerPolicy h k) (AxisAddClassifierSpec h k) ∧
+        ∃ r : BHist,
+          AxisAddPatternSpec h k r ∧ (ZeroSpine r ↔ ZeroSpine h ∧ ZeroSpine k) := by
+  intro source
+  have certificate := (AxisAdd_semantic_name_certificate source).left
+  have resultPattern : AxisAddPatternSpec h k (append h k) :=
+    And.intro source.left (And.intro source.right (cont_intro rfl))
+  exact And.intro certificate
+    (Exists.intro (append h k)
+      (And.intro resultPattern
+        (AxisAddCont_zeroSpine_result_sources_iff resultPattern.right.right)))
+
 end BEDC.Derived.AxisZeckendorf.AxisAdd

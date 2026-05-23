@@ -111,4 +111,88 @@ theorem CompactNetModulusSelectorNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, compactReadUnary, modulusReadUnary, precisionReadUnary⟩
 
+theorem CompactNetModulusSelectorCarrier_nonescape [AskSetup] [PackageSetup]
+    {source target tolerance probes centers radii moduli fold precision transport route
+      provenance localName compactRead modulusRead precisionRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactNetModulusSelectorCarrier source target tolerance probes centers radii moduli
+        fold precision transport route provenance localName bundle pkg ->
+      Cont source probes compactRead ->
+        Cont moduli fold modulusRead ->
+          Cont precision route precisionRead ->
+            Cont precisionRead localName publicRead ->
+              PkgSig bundle publicRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row compactRead ∨ hsame row modulusRead ∨
+                        hsame row precisionRead ∨ hsame row publicRead)
+                    (fun row : BHist =>
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg ∧
+                        hsame row publicRead)
+                    hsame ∧
+                  UnaryHistory compactRead ∧ UnaryHistory modulusRead ∧
+                    UnaryHistory precisionRead ∧ UnaryHistory publicRead ∧
+                      Cont source probes compactRead ∧ Cont moduli fold modulusRead ∧
+                        Cont precision route precisionRead ∧
+                          Cont precisionRead localName publicRead ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory
+  intro carrier sourceProbesCompact moduliFoldModulus precisionRouteRead
+    precisionLocalPublic publicReadPkg
+  obtain ⟨sourceUnary, _targetUnary, _toleranceUnary, probesUnary, _centersUnary,
+    _radiiUnary, moduliUnary, foldUnary, precisionUnary, _transportUnary, routeUnary,
+    _provenanceUnary, localNameUnary, _carrierSourceProbesCenters,
+    _carrierModuliFoldPrecision, _carrierPrecisionRouteName, provenancePkg⟩ := carrier
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed sourceUnary probesUnary sourceProbesCompact
+  have modulusReadUnary : UnaryHistory modulusRead :=
+    unary_cont_closed moduliUnary foldUnary moduliFoldModulus
+  have precisionReadUnary : UnaryHistory precisionRead :=
+    unary_cont_closed precisionUnary routeUnary precisionRouteRead
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed precisionReadUnary localNameUnary precisionLocalPublic
+  have sourcePublicRead :
+      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row) publicRead := by
+    exact ⟨hsame_refl publicRead, publicReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row compactRead ∨ hsame row modulusRead ∨
+              hsame row precisionRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg ∧
+              hsame row publicRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourcePublicRead
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, publicReadPkg, source.left⟩
+  }
+  exact
+    ⟨cert, compactReadUnary, modulusReadUnary, precisionReadUnary, publicReadUnary,
+      sourceProbesCompact, moduliFoldModulus, precisionRouteRead, precisionLocalPublic,
+      provenancePkg, publicReadPkg⟩
+
 end BEDC.Derived.CompactNetModulusSelectorUp

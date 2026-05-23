@@ -1,0 +1,48 @@
+\begin{theorem}[RegSeqRat Real seal support-removal obstruction]
+\label{thm:regseqrat-real-seal-support-removal-obstruction}
+Let $P$ be an accepted public $\RegSeqRatUp$ read whose public exit is a
+$\RealUp$ seal through the L10 route displayed by
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. Remove from
+that route any one of the four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+or remove any displayed support row among the $\BHist$ route rows,
+componentwise $\hsame$ rows, $\Cont$ rows, $\mathsf{Pkg}$ provenance rows, or
+local $\NameCert$ rows. Then the remaining data do not form a valid public
+$\RealUp$ seal route for $P$.
+
+No quotient stream, host real equality, selected limit, ambient or
+metric-completeness datum, choice datum, aggregate $\formalstatus$ row,
+aggregate bridge row, or second $\RealUp$ seal coordinate compensates for the
+missing face or support row.
+\end{theorem}
+\begin{proof}
+First remove one displayed face. By
+\autoref{thm:regseqrat-streamname-dyadic-real-four-stage-consumer-minimality},
+every valid public seal consumer for the accepted read passes through the
+StreamName schedule face, the DyadicRatCore endpoint and radius face, the
+RegSeqRat classifier and regularity face, and the Real seal face. Omitting any
+one of these four surfaces therefore places the attempted consumer outside the
+displayed public route.
+
+Next remove a displayed support row. Apply
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness} to identify
+the route as one finite BEDC handoff, with the visible $\BHist$ rows,
+componentwise $\hsame$ rows, $\Cont$ rows, $\mathsf{Pkg}$ provenance rows, and
+local $\NameCert$ rows carrying the same accepted read from source schedules to
+the terminal seal. Without one of those support rows, the four faces no longer
+sit in a single certified handoff route for $P$.
+
+It remains to rule out replacement data. The finite-cover results
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing},
+\autoref{thm:regseqrat-real-seal-finite-cover-induction-step}, and
+\autoref{thm:regseqrat-real-seal-finite-cover-associativity} keep all glued
+and regrouped public seal packets inside the same four displayed faces and
+the same $\BHist$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ support
+rows. Their exclusion clauses leave no coordinate for quotient streams, host
+real equality, selected limits, ambient or metric completeness, choice data,
+aggregate $\formalstatus$ rows, aggregate bridge rows, or second seal
+coordinates. Thus none of these objects can repair the missing displayed face
+or support row, and no valid public $\RealUp$ seal route remains.
+\end{proof}

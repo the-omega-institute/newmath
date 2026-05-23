@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\BoundedRealFamilyUp$}
+\label{ch:concrete-instances-boundedrealfamily-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\BoundedRealFamilyUp$ packet records a bounded family of real names by finite index-window rows, visible StreamName windows, regular rational readback, RealUp family seals, and a closed-bounded interval-net bound row. It is the family-facing analogue of the bounded sequence surface in \autoref{ch:concrete-instances-boundedrealsequence-namecert}, shares the explicit modulus discipline of \autoref{ch:concrete-instances-realcauchymodulus-namecert}, and reads cover-facing interval data through \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}. Its bound row is the finite $\ClosedBoundedIntervalNetUp$ surface of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, and each terminal family member is sealed only through the $\RealUp$ route of \autoref{ch:concrete-instances-real-namecert}. The packet prepares later least-upper-bound, compactness, and cover-selection certificates without importing trichotomy, quotient equality, countable choice, or a supremum principle.
+
+\begin{definition}[Bounded real family carrier]
+\label{def:bounded-real-family-carrier}
+A $\BoundedRealFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,W,Q,R,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index-window ledger. Each row names an inspected family index together with the finite observation window requested at that index.
+\item $W$ is the family of $\StreamNameUp$ windows displayed for the inspected index-window rows of $I$.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those StreamName windows and their visible dyadic tolerance observations.
+\item $R$ is the $\RealUp$ family-seal row. A family member is visible to a Real-facing consumer only after its index row, StreamName window, and RegSeqRat readback have been displayed.
+\item $B$ is the $\ClosedBoundedIntervalNetUp$ bound row carrying the located lower and upper interval data used to witness a common bound for the displayed family rows.
+\item $H$ stores componentwise $\hsame$ transport for the index-window ledger, StreamName windows, regular readback, Real family seals, bound row, continuation replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from index-window rows to StreamName windows, from StreamName windows to RegSeqRat readback, from RegSeqRat readback to Real family seals, and from Real family seals to the common bound ledger.
+\item $P$ is the $\Pkg$ provenance over $\BoundedRealFamilyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ClosedBoundedIntervalNetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedRealFamilyUp}$ row.
+\end{enumerate}
+The bound row is displayed as finite located interval data
+$$
+\begin{gathered}
+B:\ClosedBoundedIntervalNetUp,\\
+\forall i\in I_{\mathrm{shown}}\quad W_i\longmapsto Q_i\longmapsto R_i\in B.
+\end{gathered}
+$$
+Here $I_{\mathrm{shown}}$ denotes only the inspected finite index-window rows carried by the packet. The classifier compares accepted packets only through $I,W,Q,R,B,H,C,P,N$ and has no coordinate for trichotomy, quotient equality of real names, countable choice over indices, an ambient supremum, open-cover compactness, or host completeness.
+\end{definition}
+
+\begin{theorem}[Bounded real family located upper row]
+\label{thm:bounded-real-family-located-upper-row}
+For every accepted $\BoundedRealFamilyUp$ carrier $F=(I,W,Q,R,B,H,C,P,N)$, the bound row $B$ is read through finite located lower and upper interval data. Each displayed family member reaches the common bound by the route
+$$
+I\longmapsto W\longmapsto Q\longmapsto R\longmapsto B
+$$
+together with $H,C,P,N$. Thus the located upper row is a finite certificate row and imports no trichotomy, quotient equality of real names, countable choice, supremum principle, or host completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-real-family-carrier}. The only family data exposed to the classifier are the finite index-window ledger $I$, the displayed $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback $Q$, and the terminal $\RealUp$ family seals $R$.
+
+Read the bound coordinate next. The row $B$ is a $\ClosedBoundedIntervalNetUp$ packet, so its lower and upper interval data are displayed finite rows from \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}. A family member can meet $B$ only after its own window, readback, and seal route has already been replayed.
+
+The structural rows preserve this same route. Componentwise transport $H$, continuation replay $C$, package provenance $P$, and the local name $N$ have no field for trichotomy, quotient equality, countable choice, a supremum, or host completeness. Hence the located upper row is read as finite interval data and nothing stronger.
+\end{proof}
+
+\begin{theorem}[Bounded real family RegSeqRat scope]
+\label{thm:bounded-real-family-regseqrat-scope}
+Every Real-facing read of an accepted $\BoundedRealFamilyUp$ packet factors through the displayed route
+$$
+\StreamNameUp\longmapsto \RegSeqRatUp\longmapsto \RealUp\longmapsto \ClosedBoundedIntervalNetUp
+$$
+as instantiated by the rows $W,Q,R,B$ and transported by $H,C,P,N$. No consumer can read a family member, a bound assertion, or a cover-facing handoff outside the StreamName windows, RegSeqRat readback, RealUp family seals, and bound ledger carried by the packet.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing request for an inspected family row. The carrier first exposes the index-window ledger $I$ and the corresponding $\StreamNameUp$ window in $W$.
+
+The request then passes through the regular rational readback. The row $Q$ is the only $\RegSeqRatUp$ coordinate, and the terminal $\RealUp$ seal $R$ is reached only after $Q$ has been displayed.
+
+Finally the bound assertion is read through $B$. Since $B$ is the only bound ledger and since $H,C,P,N$ only transport, replay, source, and name the displayed rows, the request cannot leave the StreamName, RegSeqRat, RealUp, and bound-ledger scope of the packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\BoundedRealFamilyUp$ Real-facing read factors through finite index windows, StreamName windows, RegSeqRat readback, RealUp family seals, and a ClosedBoundedIntervalNet bound row.}
+
+\independenceWitness{boundedrealsequence, realcauchymodulus, dyadicintervalcover, closedboundedintervalnet, real: $\BoundedRealFamilyUp$ is not bijective to any listed sibling because it jointly carries an index-window family ledger, StreamName windows, RegSeqRat readback, RealUp family seals, a common bound ledger, componentwise transport, continuation replay, provenance, and local naming.}
+
+\closureat{BoundedRealFamilyUp}{seedStr}
+
+\begin{closurestatus}{\BoundedRealFamilyUp}
+  \constructivestory{A $\BoundedRealFamilyUp$ packet is generated from finite index-window rows, StreamName windows, RegSeqRat readback, RealUp family seals, a ClosedBoundedIntervalNet bound row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-real-family-carrier}, \autoref{thm:bounded-real-family-located-upper-row}, and \autoref{thm:bounded-real-family-regseqrat-scope} bind the finite bounded-family source over StreamNameUp, RegSeqRatUp, RealUp, and ClosedBoundedIntervalNetUp.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, trichotomy, quotient equality of real names, countable choice, an ambient supremum principle, open-cover compactness, or host completeness.}
+  \upgradepath{Lean closure requires carrier admission, located upper-row readback, RegSeqRat scope, bound-ledger nonescape, and TasteGate field faithfulness for BEDC.Derived.BoundedRealFamilyUp.}
+\end{closurestatus}

@@ -13,15 +13,27 @@ ROOT="$(cd "$HERE/.." && pwd)"
 cd "$ROOT"
 
 bad=""
-while IFS= read -r f; do
-  n=$(wc -l < "$f")
-  if [ "$n" -gt "$MAX" ]; then
-    bad+="${f}: ${n} lines exceeds cap ${MAX}"$'\n'
-  fi
-done < <(find parts frontmatter appendices -name '*.tex' 2>/dev/null)
+bad="$(MAX_TEX_LINES="$MAX" python3 - <<'PY'
+import os
+from pathlib import Path
+
+max_lines = int(os.environ["MAX_TEX_LINES"])
+roots = [Path("parts"), Path("frontmatter"), Path("appendices")]
+for root in roots:
+    if not root.exists():
+        continue
+    for path in root.rglob("*.tex"):
+        if not path.is_file():
+            continue
+        with path.open("rb") as handle:
+            line_count = sum(1 for _ in handle)
+        if line_count > max_lines:
+            print(f"{path}: {line_count} lines exceeds cap {max_lines}")
+PY
+)"
 
 if [ -n "$bad" ]; then
-  echo "OVERSIZED .TEX (cap ${MAX}) — split required, no PDF build:" >&2
+  echo "OVERSIZED .TEX (cap ${MAX}) - split required, no PDF build:" >&2
   printf '%s' "$bad" >&2
   echo "" >&2
   echo "Fix: split each listed file at a natural section / theorem cluster" >&2

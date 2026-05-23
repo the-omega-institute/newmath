@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\UniformLimitContinuousUp$}
+\label{ch:concrete-instances-uniform-limit-continuous-namecert}
+\origin{human}
+
+Following Bishop--Bridges and Kelley-style uniform convergence of continuous maps, the $\UniformLimitContinuousUp$ packet records the standard constructive handoff from a uniformly convergent displayed family to a continuous displayed endpoint. It refines the uniform-limit certificate of \autoref{ch:concrete-instances-uniformlimit-namecert} by adding the continuity-modulus row that every endpoint consumer must read before it treats the sealed limit as a $\ContinuousMapUp$ object.
+
+The chapter uses the $\StreamNameUp$ finite-window surface, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ rational handoff, $\RealUp$ seal rows, and the $\ContinuousMapUp$ modulus discipline as anchors. It does not introduce quotient-function equality, selected host limits, open-cover compactness, countable choice, or ambient completeness.
+
+\begin{definition}[Uniform-limit-continuous carrier]
+\label{def:uniform-limit-continuous-carrier}
+A $\UniformLimitContinuousUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(F,U,M,W,R,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $F$ is the displayed $\ContinuousMapUp$ family, read only through certified source-window, target-window, and modulus rows;
+\item $U$ is the $\UniformLimitUp$ row tying the family to one uniform-limit endpoint surface;
+\item $M$ is the shared continuity-modulus ledger used by the family and by the endpoint handoff;
+\item $W$ is the finite window schedule containing source requests, target tolerances, and the uniform threshold rows read from $\StreamNameUp$ and $\DyadicRatCoreUp$;
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the same finite windows and uniform-limit comparisons;
+\item $E$ is the $\RealUp$ endpoint seal exposed by the uniform-limit route;
+\item $H$ stores componentwise $\hsame$ transport for the family, uniform-limit row, shared modulus, finite windows, regular-rational handoff, endpoint seal, continuation routes, provenance, and local naming row;
+\item $C$ stores the displayed $\Cont$ routes for reading the continuous-family modulus, entering the uniform-limit ledger, applying the shared window threshold, reaching the regular handoff, and exposing the endpoint as a continuous map read;
+\item $P$ is the $\Pkg$ provenance over $\ContinuousMapUp$, $\UniformLimitUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\UniformLimitContinuousUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows, their transports, their continuation routes, package provenance, and local naming provenance.
+\end{definition}
+\leanchecked{BEDC.Derived.UniformLimitContinuousUp.UniformLimitContinuousTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Uniform-limit-continuous NameCert obligations]
+\label{thm:uniform-limit-continuous-namecert-obligations}
+For the carrier of \autoref{def:uniform-limit-continuous-carrier}, the local $\NameCert_{\UniformLimitContinuousUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the packet $Q=(F,U,M,W,R,E,H,C,P,N)$;
+\item uniform-window stability, requiring every endpoint-facing read to use the same $\UniformLimitUp$ row $U$, finite window schedule $W$, and shared threshold rows;
+\item continuity-modulus handoff, requiring the endpoint continuity read to factor through the displayed modulus ledger $M$ before it is exported as a $\ContinuousMapUp$ read;
+\item $\RealUp$ seal nonescape, requiring the regular-rational handoff $R$ and endpoint seal $E$ to be reached only through the uniform-limit row and the finite windows;
+\item ledger refusal for quotient-function equality, selected limits, open-cover compactness, countable choice, ambient completeness, and any continuity proof not routed through $F,U,M,W,R,E$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-limit-continuous-carrier}. The packet lists the continuous family, uniform-limit row, shared modulus, finite windows, regular handoff, endpoint seal, transports, continuations, provenance, and local certificate.
+
+Uniform-window stability follows because the only endpoint-facing route in $C$ enters the uniform-limit row $U$ and reads the same window schedule $W$. The transport rows in $H$ move those coordinates componentwise, so the accepted classifier cannot switch to a pointwise or externally selected threshold.
+
+The continuity-modulus handoff is the displayed route through $M$. The packet has no coordinate for an ambient open-cover proof, quotient of functions, selected host limit, countable-choice selector, or completeness theorem, so those objects cannot serve as NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Uniform-limit-continuous continuity handoff]
+\label{thm:uniform-limit-continuous-continuity-handoff}
+Every continuity read of the endpoint map exported by an accepted $\UniformLimitContinuousUp$ carrier factors through the finite route
+$$
+F,U,M,W \longmapsto R \longmapsto E.
+$$
+Thus the endpoint is available as a $\ContinuousMapUp$ read only after the displayed continuous-family row, uniform-limit row, shared continuity modulus, finite window schedule, regular-rational handoff, $\RealUp$ seal, and visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance have been consumed. No quotient-function equality, selected limit, open-cover compactness, countable choice, or ambient completeness is exported by the packet.
+\end{theorem}
+\begin{proof}
+Begin with a consumer asking for continuity of the endpoint. By \autoref{def:uniform-limit-continuous-carrier}, the only continuity-facing entrance is the displayed family row $F$ together with the shared modulus ledger $M$.
+
+Next the request enters the uniform-limit row $U$ and the finite window schedule $W$. These rows supply the uniform threshold and finite comparisons needed before the regular-rational handoff $R$ can be read.
+
+Finally the endpoint seal $E$ is exposed through the same continuation and provenance rows. Applying \autoref{thm:uniform-limit-continuous-namecert-obligations}, there is no exported coordinate for quotient-function equality, selected host limits, open-cover compactness, countable choice, or ambient completeness, so every continuity read has the stated finite factorization.
+\end{proof}
+
+\closureat{UniformLimitContinuousUp}{seedStr}
+
+\begin{closurestatus}{\UniformLimitContinuousUp}
+  \constructivestory{A $\UniformLimitContinuousUp$ packet is generated from a displayed ContinuousMap family, a UniformLimit row, a shared continuity modulus, finite StreamName and DyadicRatCore windows, a RegSeqRat handoff, a RealUp endpoint seal, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-limit-continuous-carrier}, \autoref{thm:uniform-limit-continuous-namecert-obligations}, and \autoref{thm:uniform-limit-continuous-continuity-handoff} declare the finite carrier, its NameCert obligations, and the continuity handoff boundary for uniform limits of continuous maps.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient-function equality, selected host limits, open-cover compactness, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-window stability, continuity-modulus handoff, RealUp seal nonescape, and ledger refusal for the same finite packet.}
+\end{closurestatus}

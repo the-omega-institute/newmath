@@ -1,0 +1,113 @@
+\begin{theorem}[DyadicRatCore common-scale terminal refinement]
+\label{thm:dyadicratcore-common-scale-terminal-refinement}
+Let $P$ and $Q$ be two finite dyadic tolerance windows accepted by the $\DyadicRatCoreUp$ carrier. Suppose their signed mantissa rows are read from the same $\IntUp$ ledger, and suppose each window presents its denominator row through a finite positive-unary exponent history. Then $P$ and $Q$ admit one common $\DyadicRatCoreUp$ scale window $T$ with the following BEDC-visible rows:
+\begin{enumerate}
+\item the endpoint comparisons of $P$ and $Q$ transport to $T$ by componentwise $\hsame$ and displayed $\Cont$ replay;
+\item the denominator route of $T$ factors through the same unary exponent tower used by the two input histories, with no host rational order or hidden denominator selector;
+\item the terminal tolerance row of $T$ is exactly the row consumed by the $\StreamNameUp$ finite-window face of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ regularity face of \autoref{ch:concrete-instances-regseqrat-namecert}, and the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}.
+\end{enumerate}
+The refinement exports no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Induct first on the finite positive-unary exponent history for $P$. The empty case leaves $P$ at its displayed scale-window packet. The successor case applies \autoref{thm:dyadicratcore-scale-window-monotonicity} to widen the endpoint comparison, denominator, distance, radius, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\DyadicRatCoreUp}$ rows by one displayed unary exponent step.
+
+Induct in the same way on the finite positive-unary exponent history for $Q$. At each successor step the signed mantissa row remains the same $\IntUp$ ledger row by hypothesis, while the denominator row is transported only through the displayed unary tower. Thus both histories reach accepted terminal packets whose endpoint comparisons are still comparable by componentwise $\hsame$ over the common signed mantissa ledger.
+
+Now apply \autoref{thm:dyadicratcore-common-scale-window-triangle-ledger} to the two terminal dyadic packets together with the downstream L10 face. The common directed-meet window supplies one finite scale window carrying the shared signed mantissa row, refined positive-unary exponent row, denominator ledger, endpoint comparison rows, distance and radius rows, displayed continuations, package provenance, and local DyadicRatCore naming rows.
+
+Finally use \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}. It identifies the terminal tolerance row of that common window with the four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp ,
+$$
+so the same row is the one consumed by the StreamName finite-window chapter, the RegSeqRat regularity chapter, and the Real seal chapter cited in the statement.
+
+The exclusion clauses of scale-window monotonicity, the common scale-window triangle ledger, and terminal four-face tolerance exhaustion leave no quotient rational carrier, quotient stream equality, selected endpoint, countable-choice row, metric-completeness row, bridge row, or ambient Real-completeness coordinate. Hence the terminal refinement is a finite dyadic induction product rather than a prose route through external completion data.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore common-scale terminal refinement uniqueness]
+\label{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness}
+Let $P$ and $Q$ be finite dyadic tolerance windows accepted by the $\DyadicRatCoreUp$ carrier, and let $T$ and $T'$ be two common $\DyadicRatCoreUp$ terminal refinements of those same windows. Suppose $T$ and $T'$ preserve the same signed mantissa row, the same positive-unary exponent histories, the same denominator ledger, the same endpoint comparison rows, the same distance and radius rows, the same $\hsame$ and displayed $\Cont$ rows, the same $\Pkg$ provenance, the same local $\NameCert_{\DyadicRatCoreUp}$ rows, and the same downstream four-face rows through $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Then $T$ and $T'$ determine the same terminal tolerance row and the same finite four-face exit certificate over the route
+
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+
+The uniqueness statement uses no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement} to the two presentations. Both $T$ and $T'$ are placed on common finite scale-window packets whose visible data are the signed mantissa ledger, positive-unary exponent histories, denominator ledger, endpoint comparisons, distance and radius rows, $\hsame$, $\Cont$, $\Pkg$, and local DyadicRatCore naming rows.
+
+Next apply \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}. The comparison of $T$ and $T'$ is therefore a comparison through the displayed four-face route, with the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ regularity surface, the $\RealUp$ seal row, and the DyadicRatCore tolerance ledger all read from the same finite support.
+
+Now use \autoref{thm:dyadicratcore-scale-window-real-exit-source-uniqueness}. Since the downstream StreamName, RegSeqRat, Real, and support rows agree, there is only one dyadic scale-window source for the exit. Hence the two terminal refinements have the same terminal tolerance row.
+
+Finally apply \autoref{thm:dyadicratcore-terminal-real-exit-no-fifth-source}. With the dyadic source and the three downstream faces fixed, no additional route coordinate can distinguish the exits. The common tolerance row therefore determines one finite four-face exit certificate, and the excluded objects cannot supply a second certificate.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore finite directed common-scale terminal refinement]
+\label{thm:dyadicratcore-common-scale-terminal-refinement-directed-system}
+Let $\mathcal{F}$ be a finite family of dyadic tolerance windows accepted by the $\DyadicRatCoreUp$ carrier. Suppose every member of $\mathcal{F}$ reads its signed mantissa row from the same displayed $\IntUp$ ledger and presents its denominator row through a finite positive-unary exponent history. Then repeated application of common-scale terminal refinement produces one accepted terminal $\DyadicRatCoreUp$ window $T_{\mathcal{F}}$ with the following properties:
+\begin{enumerate}
+\item every window in $\mathcal{F}$ maps to $T_{\mathcal{F}}$ by componentwise endpoint transport, denominator replay, distance and radius replay, $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert_{\DyadicRatCoreUp}$ rows;
+\item the terminal tolerance row of $T_{\mathcal{F}}$ is independent of the parenthesization used to combine the finite family;
+\item the finite exit certificate determined by $T_{\mathcal{F}}$ is the same four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+\end{enumerate}
+The construction exports no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the finite family $\mathcal{F}$. In the singleton case, the given accepted window is already the terminal packet for the one-member family after replaying its displayed positive-unary exponent history. The terminal four-face tolerance exhaustion theorem identifies its tolerance row with the route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+For the induction step, let $S$ be the terminal window supplied for the preceding finite subfamily and let $P$ be the next accepted tolerance window. Apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement} to $S$ and $P$. The hypotheses are stable under the induction construction: the signed mantissa ledger remains the displayed $\IntUp$ ledger, and the denominator rows still factor through finite positive-unary exponent histories.
+
+It remains to check that the chosen bracketing has not introduced extra data. Apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness} to two terminal windows obtained from two parenthesizations of the same finite family. Their visible signed mantissa, exponent, denominator, endpoint, distance, radius, $\hsame$, $\Cont$, $\Pkg$, local DyadicRatCore naming, and downstream four-face rows agree by the induction hypothesis and by the pairwise refinement step. Hence the two bracketings determine the same terminal tolerance row.
+
+Finally apply \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}. The terminal row is therefore the finite support consumed by the StreamName finite-window face, the RegSeqRat regularity face, and the Real seal face. The exclusion clauses are inherited from the pairwise refinement and uniqueness theorems, so no quotient carrier, quotient stream equality, selected endpoint, choice row, metric-completeness row, bridge row, or ambient Real-completeness coordinate enters the directed finite meet.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore common-scale terminal refinement permutation invariance]
+\label{thm:dyadicratcore-common-scale-terminal-refinement-permutation-invariance}
+Let $\mathcal{E}$ and $\mathcal{E}'$ be two finite enumerations of the same finite family of dyadic tolerance windows accepted by the $\DyadicRatCoreUp$ carrier. Suppose every enumerated window reads its signed mantissa row from the same displayed $\IntUp$ ledger and presents its denominator row through a finite positive-unary exponent history. Suppose also that $\mathcal{E}$ and $\mathcal{E}'$ preserve the same signed mantissa ledger, the same finite exponent histories, the same denominator rows, the same endpoint comparison rows, the same distance and radius rows, the same $\hsame$ and displayed $\Cont$ rows, the same $\Pkg$ provenance, and the same local $\NameCert_{\DyadicRatCoreUp}$ rows. Then the repeated common-scale terminal refinements determined by $\mathcal{E}$ and by $\mathcal{E}'$ determine the same terminal tolerance row and the same finite four-face exit certificate over
+
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+
+This permutation-invariance statement exports no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+It is enough to compare adjacent swaps of finite enumerations. The usual finite enumeration argument decomposes any reordering of the same family into a finite chain of adjacent transpositions, and each intermediate list preserves the same signed mantissa ledger, exponent histories, denominator rows, endpoint comparisons, distance and radius rows, $\hsame$, $\Cont$, $\Pkg$, and local DyadicRatCore naming rows.
+
+For one adjacent swap, first apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement-directed-system} to the finite family underlying the two neighboring presentations. Both orders produce accepted terminal DyadicRatCore windows for the same finite support, and the directed-system theorem supplies the common terminal refinement row for that support.
+
+Next apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness}. The two terminal windows have the same displayed signed mantissa, exponent, denominator, endpoint, distance, radius, $\hsame$, $\Cont$, $\Pkg$, local $\NameCert_{\DyadicRatCoreUp}$, and downstream four-face rows, so the adjacent swap cannot change the terminal tolerance row.
+
+Induct along the finite chain of adjacent swaps from $\mathcal{E}$ to $\mathcal{E}'$. The base case is the identical enumeration. The step composes the equality of terminal tolerance rows supplied by the adjacent-swap comparison with the induction hypothesis, so the initial and final enumerations determine the same terminal row.
+
+Finally apply \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}. The shared terminal tolerance row is exactly the finite support consumed by the StreamName finite-window face, the RegSeqRat regularity face, and the Real seal face. Since the support rows are fixed throughout the adjacent-swap induction, no quotient rational carrier, quotient stream equality, selected endpoint, countable-choice row, metric-completeness row, bridge row, or ambient Real-completeness coordinate can distinguish a second four-face exit certificate.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore directed common-scale normal form]
+\label{thm:dyadicratcore-common-scale-terminal-refinement-directed-normal-form}
+Let $\mathcal{F}$ be a finite family of accepted $\DyadicRatCoreUp$ tolerance windows whose signed mantissa rows are read from one displayed $\IntUp$ ledger and whose denominator rows are presented by finite positive-unary exponent histories. For every iterated common-scale refinement route through $\mathcal{F}$, there is one consumer-readable normal form $N_{\mathcal{F}}$ with the following rows:
+\begin{enumerate}
+\item each member of $\mathcal{F}$ maps to $N_{\mathcal{F}}$ by endpoint transport, denominator replay, distance and radius replay, $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert_{\DyadicRatCoreUp}$ rows;
+\item every $\StreamNameUp$ finite-window face, $\RegSeqRatUp$ regularity face, and $\RealUp$ seal read from $\mathcal{F}$ factors through $N_{\mathcal{F}}$;
+\item two constructions of $N_{\mathcal{F}}$ from different parenthesizations or refinement routes agree on the terminal tolerance row and on the four-face exit certificate over
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+\end{enumerate}
+The normal form exports no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness data.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-common-scale-terminal-refinement-directed-system} to the finite family $\mathcal{F}$. It supplies an accepted terminal window $T_{\mathcal{F}}$ whose visible rows are exactly the transported endpoint comparisons, denominator histories, distance and radius rows, $\hsame$, displayed $\Cont$, $\Pkg$, local DyadicRatCore naming rows, and terminal four-face exit support. Define $N_{\mathcal{F}}$ to be this displayed terminal packet together with those rows.
+
+Next compare two iterated refinement routes through the same family. The directed-system theorem gives a terminal packet for each route, and \autoref{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness} identifies the two packets because their signed mantissa ledger, exponent histories, denominator ledger, endpoint comparisons, support rows, and downstream four-face rows are the same finite data. Thus parenthesization and route choices cannot change the terminal tolerance row.
+
+It remains to justify the consumer-readable factorization. The terminal four-face certificate of the directed system is the route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Applying \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion} reads the StreamName finite-window face, the RegSeqRat regularity face, and the Real seal from that same terminal support, so each downstream consumer factors through $N_{\mathcal{F}}$ instead of through a separate pairwise refinement argument.
+
+Finally, the exclusion clause follows from the same three inputs. The directed-system construction uses only finite accepted DyadicRatCore windows and positive-unary histories; uniqueness adds no hidden carrier; and terminal four-face exhaustion lists exactly the visible downstream support. Hence quotient rational carriers, quotient stream equality, selected Real endpoints, countable-choice rows, metric-completeness rows, bridge rows, and ambient Real-completeness data have no coordinate in $N_{\mathcal{F}}$.
+\end{proof}

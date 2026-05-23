@@ -4,6 +4,8 @@
 
 The $\BedcTheoryIdentityUp$ packet realizes the framing principle of \autoref{ch:bedc-is-its-own-theory} as a finite naming certificate. It records the five positive commitments of BEDC.MetaCIC as displayed rows, and it uses the proof-ancestry discipline of \autoref{ch:concrete-instances-axiomqueryledger-namecert} as the sibling audit surface for the strict-purity row. The packet is identity-facing: it names what the theory is before any comparison with a neighboring calculus is read.
 
+It joins the BEDC self-theory surface, axiom-query ledger discipline, apophatic boundary rows, and local NameCert provenance into one displayed identity certificate.
+
 \begin{definition}[BEDC theory identity carrier]
 \label{def:bedc-theory-identity-carrier}
 A $\BedcTheoryIdentityUp$ carrier is a finite $\BHist$ packet
@@ -61,12 +63,30 @@ The positive reading of \autoref{ch:bedc-is-its-own-theory} is therefore a row r
 The excluded objects have no carrier coordinate. A consumer may compare BEDC.MetaCIC with classical CIC after reading the packet, but it cannot use that comparison as the source of the packet's identity or as a route around the displayed apophatic boundary.
 \end{proof}
 
+\begin{theorem}[BEDC theory identity commitment factorization]
+\label{thm:bedc-theory-identity-commitment-factorization}
+For every accepted $\BedcTheoryIdentityUp$ packet
+$$
+I=(G,E,R,P,B,H,C,K,N),
+$$
+any downstream MetaCIC identity consumer that classifies a read as internal, boundary-visible, or comparison-only factors the read through exactly one of the five displayed commitment rows $G,E,R,P,B$, transported by $H$, replayed by $C$, and recorded by $K,N$. No host conversion, quotient equality, hidden axiom dependency, or subtractive classical-CIC comparison can serve as the factoring row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:bedc-theory-identity-carrier}. The only identity-facing commitment rows in the carrier are $G,E,R,P,B$; the remaining coordinates $H,C,K,N$ supply transport, replay, provenance, and the local name.
+
+Apply \autoref{thm:bedc-theory-identity-namecert-obligations} to identify the complete NameCert surface. An internal read lands on $G$, $E$, $R$, or $P$ according to whether it reads closed generators, literal AST equality, structural recursors, or strict-purity evidence. A boundary-visible read lands on $B$ because the apophatic boundary is the only displayed coordinate for external supply.
+
+A comparison-only read may compare the already-read packet with another calculus, but \autoref{thm:bedc-theory-identity-boundary-nonescape} excludes any off-carrier source for the identity classification. Thus host conversion, quotient equality, hidden axiom dependencies, and subtractive classical-CIC comparisons cannot be factoring rows.
+
+The existing Lean alignment point $\mathsf{BEDC.Derived.BedcTheoryIdentityUp.BedcTheoryIdentityTasteGate\_single\_carrier\_alignment}$ supplies the formal single-carrier touchpoint: all formal consumers are aligned to the same carrier before field-faithful reads are compared. Hence every admitted downstream read factors through exactly one displayed commitment row and then through $H,C,K,N$.
+\end{proof}
+
 \closureat{BedcTheoryIdentityUp}{seedStr}
 
 \begin{closurestatus}{\BedcTheoryIdentityUp}
   \constructivestory{A $\BedcTheoryIdentityUp$ packet is generated from closed-generator rows, literal AST equality rows, structural-recursor rows, strict-purity rows, apophatic-boundary rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bedc-theory-identity-carrier}, \autoref{thm:bedc-theory-identity-namecert-obligations}, and \autoref{thm:bedc-theory-identity-boundary-nonescape} specify the finite identity packet, its local NameCert obligations, and its comparison non-escape boundary.}
+  \scopeclosed{\autoref{def:bedc-theory-identity-carrier}, \autoref{thm:bedc-theory-identity-namecert-obligations}, \autoref{thm:bedc-theory-identity-boundary-nonescape}, and \autoref{thm:bedc-theory-identity-commitment-factorization} specify the finite identity packet, its local NameCert obligations, its comparison non-escape boundary, and its downstream read factorization.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

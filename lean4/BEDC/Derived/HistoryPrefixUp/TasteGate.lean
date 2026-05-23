@@ -1,13 +1,19 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HistoryPrefixUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -252,5 +258,56 @@ theorem HistoryPrefixCarrier_cont_replay_transport
       ⟨replayed, sameContinuation', sameCompatibility', sameEvidenceLedger',
         hsame_refl name'⟩
   · exact ⟨sameSource, sameContinuationReplay⟩
+
+theorem HistoryPrefixCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source prefixRow residualTail continuation compatibility evidence ledger name replayed : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistoryPrefixCarrier source prefixRow residualTail continuation compatibility evidence ledger
+        name →
+      Cont prefixRow residualTail source →
+        Cont source ledger replayed →
+          PkgSig bundle replayed pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row source)
+                (fun row : BHist => Cont prefixRow residualTail row ∧ hsame compatibility prefixRow)
+                (fun row : BHist => PkgSig bundle replayed pkg ∧ Cont row ledger replayed)
+                hsame ∧
+              Cont prefixRow residualTail source ∧ Cont source ledger replayed := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro carrier prefixRoute ledgerReplay pkgReplay
+  obtain ⟨_route, _continuationSame, compatibilitySame, _evidenceSame, _nameSame⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row source)
+          (fun row : BHist => Cont prefixRow residualTail row ∧ hsame compatibility prefixRow)
+          (fun row : BHist => PkgSig bundle replayed pkg ∧ Cont row ledger replayed)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro source (hsame_refl source)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact hsame_trans (hsame_symm sameRows) sourceRow
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          ⟨cont_result_hsame_transport prefixRoute (hsame_symm sourceRow),
+            compatibilitySame⟩
+      ledger_sound := by
+        intro _row sourceRow
+        cases sourceRow
+        exact ⟨pkgReplay, ledgerReplay⟩
+    }
+  exact ⟨cert, prefixRoute, ledgerReplay⟩
 
 end BEDC.Derived.HistoryPrefixUp

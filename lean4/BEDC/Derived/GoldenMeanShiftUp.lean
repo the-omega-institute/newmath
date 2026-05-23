@@ -101,4 +101,23 @@ theorem GoldenMeanShiftCarrier_semantic_name_certificate [AskSetup] [PackageSetu
       exact source
   }
 
+theorem GoldenMeanShiftUp_StdBridge [AskSetup] [PackageSetup]
+    {window zeroWitness adjacencyLedger provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GoldenMeanShiftCarrier window zeroWitness adjacencyLedger provenance ledger endpoint
+        bundle pkg ->
+      Cont window zeroWitness adjacencyLedger ∧
+        Cont adjacencyLedger provenance ledger ∧
+          Cont ledger zeroWitness endpoint ∧
+            hsame endpoint (append ledger zeroWitness) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  rcases carrier with
+    ⟨_windowUnary, _zeroUnary, _adjacencyUnary, _provenanceUnary, _ledgerUnary,
+      windowRow, ledgerRow, endpointRow, pkgSig⟩
+  have endpointSame : hsame endpoint (append ledger zeroWitness) := by
+    cases endpointRow
+    rfl
+  exact And.intro windowRow
+    (And.intro ledgerRow (And.intro endpointRow (And.intro endpointSame pkgSig)))
+
 end BEDC.Derived.GoldenMeanShiftUp

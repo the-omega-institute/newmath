@@ -4,6 +4,8 @@
 
 The $\AxisCarryDiamondRouteUp$ packet names the two-route diamond that compares displayed Zeckendorf carry-normalization paths. It is adjacent to the finite confluence surface of \autoref{ch:concrete-instances-axis-carry-confluence-namecert}, but its local role is the route certificate itself: two source carry windows, two route rows, one shared normal target row, value ledgers, non-$\hsame$ boundary rows, componentwise transports, continuation replay, provenance, and a local naming row are carried together as a finite packet.
 
+It is an ai over the $\ZCarryUp$, $\ZeckendorfCarryNormalizationUp$, $\ZeckendorfCarryValueUp$, and $\AxisZeckendorfCarryBudgetUp$ sibling surfaces, with the diamond row acting only as the finite shared-target route bundle.
+
 \falsifiablePrediction{Two accepted diamond packets with the same two displayed source carry windows and same shared target row cannot expose two different target-normality ledgers.}
 
 \independenceWitness{zeckendorfcarryclassifier, zeckendorfcarrynormalization, zcarry, zeckendorfcarryvalue, axiszeckendorfcarrybudget: the diamond carrier has two route rows and a shared-target ledger absent from each sibling, while each sibling lacks at least one of the paired-route or shared-normal-target coordinates.}
@@ -46,6 +48,7 @@ Read the normal target and value rows next. The target coordinate $n$ is shared,
 
 Finally replay the support rows. The continuation and provenance rows expose the two routes and the shared target ledger as one packet, and the local $\NameCert$ row names that packet before a consumer may cite the diamond.
 \end{proof}
+\leanchecked{BEDC.Derived.AxisCarryDiamondRouteUp.AxisCarryDiamondRouteCarrier\_names\_two\_step\_confluence}
 
 \begin{theorem}[Axis carry diamond-route non-escape]
 \label{thm:axis-carry-diamond-route-nonescape}
@@ -62,6 +65,7 @@ The route coordinates are finite. Each route row is assembled from the $\ZCarryU
 
 The support rows $H,C,P,N$ preserve and replay only those displayed coordinates. Since the carrier contains no hidden normalizer, global confluence row, source-target $\hsame$ proof, or kernel rewrite rule, no accepted projection can escape the finite diamond-route packet.
 \end{proof}
+\leanchecked{BEDC.Derived.AxisCarryDiamondRouteUp.AxisCarryDiamondRouteNonescape}
 
 The Lean taste-gate file for this carrier should provide explicit \texttt{Nontrivial AxisCarryDiamondRouteUp} and \texttt{FieldFaithful AxisCarryDiamondRouteUp} instances for the displayed row inventory.
 

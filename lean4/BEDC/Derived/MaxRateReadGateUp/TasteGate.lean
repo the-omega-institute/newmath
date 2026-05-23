@@ -265,4 +265,14 @@ theorem MaxRateReadGateTasteGate_single_carrier_alignment :
                   intro h
                   cases h⟩
 
+theorem MaxRateReadGateCarrier_symmetry_nonescape (M R S F L H Q C P N : BHist) :
+    ∃ G : MaxRateReadGateUp,
+      G = MaxRateReadGateUp.mk M R S F L H Q C P N ∧
+        maxRateReadGateFromEventFlow (maxRateReadGateToEventFlow G) = some G ∧
+          maxRateReadGateFields G = [M, R, S, F, L, H, Q, C, P, N] ∧
+            maxRateReadGateEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  refine ⟨MaxRateReadGateUp.mk M R S F L H Q C P N, rfl, ?_, rfl, rfl⟩
+  exact maxRateReadGate_round_trip (MaxRateReadGateUp.mk M R S F L H Q C P N)
+
 end BEDC.Derived.MaxRateReadGateUp

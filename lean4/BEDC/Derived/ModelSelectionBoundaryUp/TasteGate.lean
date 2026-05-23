@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -226,5 +228,23 @@ theorem ModelSelectionBoundaryTasteGate_single_carrier_alignment :
       exact modelSelectionBoundaryToEventFlow_injective heq
     · intro _x _w _m hw hm
       exact event_flow_conservativity hw hm
+
+theorem ModelSelectionBoundary_defeat_surface {M S F D L T P N : BHist} :
+    modelSelectionBoundaryFields (ModelSelectionBoundaryUp.mk M S F D L T P N) =
+        [M, S, F, D, L, T, P, N] ∧
+      Cont M D (append M D) ∧
+        Cont F L (append F L) ∧
+          hsame T T ∧
+            hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont
+  constructor
+  · rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact cont_intro rfl
+  constructor
+  · exact hsame_refl T
+  · exact hsame_refl N
 
 end BEDC.Derived.ModelSelectionBoundaryUp.TasteGate

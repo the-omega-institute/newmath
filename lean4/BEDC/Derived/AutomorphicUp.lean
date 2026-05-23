@@ -416,4 +416,56 @@ theorem AutomorphicAdeleGraph_public_certificate_export {domain value graph : BH
   }
   exact And.intro graphCert graphNonempty
 
+theorem AutomorphicUp_StdBridge {domain value graph bridgeRead : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value -> Cont domain value graph ->
+      Cont graph (append domain value) bridgeRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row graph ∨ hsame row bridgeRead)
+            (fun row : BHist => hsame row graph ∨ hsame row bridgeRead)
+            (fun row : BHist => hsame row graph ∨ hsame row bridgeRead)
+            hsame ∧
+          AutomorphicAdeleGraphCarrier graph ∧ (hsame graph BHist.Empty -> False) := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  intro domainCarrier valueCarrier graphCont bridgeCont
+  have graphNonempty : hsame graph BHist.Empty -> False :=
+    AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier graphCont
+  have graphCarrier : AutomorphicAdeleGraphCarrier graph :=
+    ⟨domain, value, domainCarrier, valueCarrier, graphCont⟩
+  have bridgeSource :
+      (fun row : BHist => hsame row graph ∨ hsame row bridgeRead) bridgeRead := by
+    exact Or.inr (hsame_refl bridgeRead)
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row graph ∨ hsame row bridgeRead)
+          (fun row : BHist => hsame row graph ∨ hsame row bridgeRead)
+          (fun row : BHist => hsame row graph ∨ hsame row bridgeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridgeRead bridgeSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | inl rowGraph =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) rowGraph)
+        | inr rowBridge =>
+            exact Or.inr (hsame_trans (hsame_symm sameRows) rowBridge)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact ⟨cert, graphCarrier, graphNonempty⟩
+
 end BEDC.Derived.AutomorphicUp

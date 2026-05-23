@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyMinUp$}
+\label{ch:concrete-instances-regularcauchymin-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyMinUp$ packet reads the pointwise minimum of two regular Cauchy real names by a finite selector over displayed rational windows. The certificate sits beside the maximum and absolute-value surfaces of \autoref{ch:concrete-instances-regularcauchymax-namecert} and \autoref{ch:concrete-instances-regularcauchyabs-namecert}, uses the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and seals only through the terminal $\RealUp$ boundary of \autoref{ch:concrete-instances-real-namecert}. It does not compare completed reals by host trichotomy, quotient streams, selected limits, or ambient completeness.
+
+\begin{definition}[RegularCauchyMin carrier]
+\label{def:regular-cauchy-min-carrier}
+A $\RegularCauchyMinUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,B,W,D_A,D_B,J,S,R,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $A$ and $B$ are the two source $\RegSeqRatUp$ regular rational Cauchy name rows.
+\item $W$ is the shared $\StreamNameUp$ window schedule used to observe both sources at the same finite precision requests.
+\item $D_A$ and $D_B$ are the displayed $\DyadicRatCoreUp$ endpoint-and-tolerance rows read from the shared window schedule for the two sources.
+\item $J$ is the comparison-selector row whose finite alternatives are $A \preceq_W B$ and $B \preceq_W A$ on the displayed dyadic window data.
+\item $S$ is the resulting $\RegSeqRatUp$ selector row: in the first alternative it replays the $A$ windows, and in the second alternative it replays the $B$ windows.
+\item $R$ is the $\RegSeqRatUp$ readback row assembled from the selected windows and the displayed tolerance ledger.
+\item $E$ is the $\RealUp$ seal row reached only after the readback row $R$ has been exposed.
+\item $H$ records componentwise $\hsame$ transport for the two sources, the shared window, dyadic observations, selector row, selected regular row, readback, seal, provenance, and local name.
+\item $C$ records the displayed $\Cont$ routes from the sources to the shared windows and dyadic rows, through the selector row, through the selected regular row, and onward to the readback and real seal.
+\item $P$ records $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyMaxUp$, $\RegularCauchyAbsUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyMinUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host trichotomy on completed real names, quotient stream equality, selected limits, or a $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[RegularCauchyMin NameCert obligations]
+\label{thm:regular-cauchy-min-namecert-obligations}
+The local $\NameCert_{\RegularCauchyMinUp}$ surface for \autoref{def:regular-cauchy-min-carrier} consists exactly of two-source $\RegSeqRatUp$ admission, shared $\StreamNameUp$ window exposure, $\DyadicRatCoreUp$ tolerance observations, the displayed comparison-selector row, the selected $\RegSeqRatUp$ row, the $\RegSeqRatUp$ readback, the $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $M$. The coordinates expose the two source regular names, their shared stream window, their dyadic endpoint-and-tolerance rows, the selector row, the selected regular row, the readback, the real seal, and the structural rows.
+
+The operation obligation is finite because the only branch point is the displayed row $J$. In the $A \preceq_W B$ alternative, the selected row $S$ replays the $A$ windows and their tolerance ledger; in the $B \preceq_W A$ alternative, it replays the $B$ windows and their tolerance ledger.
+
+The sibling operation surfaces provide the algebraic checks used by consumers that prefer an identity route. The $\RegularCauchyMaxUp$ and $\RegularCauchyAbsUp$ certificates already expose finite window transport for lattice-facing regular Cauchy operations, so the minimum packet can route compatibility checks through the same displayed-window, tolerance-ledger, readback, and seal surfaces without importing host order on completed reals.
+
+The rows $H,C,P,N$ transport, replay, source, and name this same finite route. No clause asks for trichotomy, quotient stream equality, a selected limiting real, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMin selector ledger exactness]
+\label{thm:regular-cauchy-min-selector-ledger}
+For every accepted $\RegularCauchyMinUp$ carrier $M=(A,B,W,D_A,D_B,J,S,R,E,H,C,P,N)$, every selector-facing consumer factors through exactly one of the two displayed selector alternatives in $J$. In the $A \preceq_W B$ case the selected regular row $S$ is the finite replay of $A$ on $W,D_A$; in the $B \preceq_W A$ case $S$ is the finite replay of $B$ on $W,D_B$. No further comparison data are exported.
+\end{theorem}
+\begin{proof}
+Begin with a selector-facing consumer of the accepted packet. The carrier gives it only the two source rows, the shared window, the two dyadic observation ledgers, and the displayed selector row.
+
+Case-split on $J$. In the $A \preceq_W B$ branch, the continuation route in $C$ points from $A,W,D_A$ to the selected row $S$, and the transport row $H$ preserves that same selected replay componentwise. Thus the readback data downstream of $S$ are exactly the $A$ window data recorded in the packet.
+
+In the $B \preceq_W A$ branch, the same argument uses $B,W,D_B$. The selected row $S$ is then the finite replay of the second source and its displayed tolerance ledger.
+
+There is no third branch and no hidden comparison coordinate in \autoref{def:regular-cauchy-min-carrier}. Hence the selector ledger is exhausted by the two displayed alternatives and exports no host trichotomy, quotient stream equality, selected limit, or completeness witness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMin RealAlgOrder handoff]
+\label{thm:regular-cauchy-min-realalgorder-handoff}
+Every $\RealAlgOrderUp$-facing use of an accepted $\RegularCauchyMinUp$ carrier reaches the minimum row through the finite route
+$$
+(A,B,W,D_A,D_B)
+\longrightarrow
+J
+\longrightarrow
+S
+\longrightarrow
+R
+\longrightarrow
+E .
+$$
+The handoff is therefore a regular Cauchy selector ledger over shared windows and dyadic tolerance observations, not a host-order comparison of completed real names.
+\end{theorem}
+\begin{proof}
+Start with a $\RealAlgOrderUp$-facing consumer. The only real-facing endpoint in the carrier is the seal row $E$, and $E$ is downstream of the readback row $R$.
+
+By \autoref{thm:regular-cauchy-min-selector-ledger}, the readback row $R$ is downstream of a selected regular row $S$ obtained by case-splitting only on the displayed selector row $J$. Each selector branch uses the same shared window schedule and one of the two displayed dyadic tolerance ledgers.
+
+The handoff to order-facing consumers is therefore the listed finite route. Compatibility with existing lattice surfaces can be checked against the sibling $\RegularCauchyMaxUp$ and $\RegularCauchyAbsUp$ routes, but the minimum packet itself does not expose host trichotomy, quotient stream equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyMinUp}
+  \constructivestory{A $\RegularCauchyMinUp$ packet is generated from two RegSeqRat source rows, a shared StreamName window schedule, DyadicRatCore endpoint-and-tolerance observations, a comparison-selector row, a selected RegSeqRat row, a RegSeqRat readback row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-min-carrier}, \autoref{thm:regular-cauchy-min-namecert-obligations}, \autoref{thm:regular-cauchy-min-selector-ledger}, and \autoref{thm:regular-cauchy-min-realalgorder-handoff} seed the finite pointwise minimum route over shared regular Cauchy windows, selector ledgers, readback, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host trichotomy on completed real names, quotient stream equality, selected limits, ambient completeness, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector ledger exactness, RealAlgOrder handoff, transport stability, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}

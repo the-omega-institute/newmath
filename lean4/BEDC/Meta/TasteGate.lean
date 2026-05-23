@@ -203,10 +203,8 @@ class Nontrivial (X : Type) where
     usually a counter-witness: an inhabitant in `X` whose forward
     image misses a row required by `Y`, or vice versa.
 
-    This is intentionally OPT-IN. Chapters that are genuinely composite
-    (e.g. `<X>UpProduct YUp ZUp`) decline this class; the paper-side
-    closure block records `\origin{ai-composite}` rather than
-    `\origin{ai}`. Only chapters claiming structural atomicity inhabit. -/
+    This is intentionally OPT-IN. Only chapters claiming structural
+    atomicity inhabit this class. -/
 
 /-- Witness that a chapter carrier is not bijective to any of a
     listed set of sibling carriers. The chapter selects its nearest

@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.30 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.39 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -18,8 +18,15 @@ Source meanings:
 - top_root_unblocks: `critical_path.top_root_unblocks` (root chapters needing theorem support)
 - closure_mark: closurestatus/token work from `critical_path.drift_chapters`, `bridge_sync_pending`, and `top_transitions`
 - carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket in `carrier_isomorphism`
+- human_derivation_gap: `critical_path.human_derivation_gap` chapters with `\origin{human}`, canonical exclusions, and no visible induction-style derivation proof
+- metacic_priority: `critical_path.metacic_priority` chapters or imports on the MetaCIC path
 
 If `dispatch_weights.paper.capstone_candidate` is non-null, you have a pre-picked carrier-isomorphism abstraction candidate. Use the suggested name and slug from that object — do NOT pick your own bucket or invent a different name (the rotation picks the next bucket each cycle so you don't need to choose).
+
+**优先级**: 本管线当前阶段优先做两件事:
+1. 扩展 BEDC-internal derivation: human canonical 章节如果只是 NameCert shell + `\notclaimed` 排除主定理, 优先选择能在 BEDC finite-means 框架内补充真 induction 证明的目标.
+2. MetaCIC 研究: 路径含 `MetaCIC` 的目标优先, 包括 discharge conditional hypothesis / 扩 candidate-mediated SN / confluence 碎片 / decidability fragment.
+Phase Review output 的 priority/score 字段已 reflect 这些权重, 但请明确选择上述类型 target 优先.
 
 The capstone chapter to draft follows the hub + subdir convention:
 - Hub: `papers/bedc/parts/concrete_instances/<NNNN>_<suggested_paper_slug>_namecert_construction.tex`
@@ -54,7 +61,17 @@ This phase emits **between min(5, available) and 5 targets per round**, NEVER ju
 4. `critical_path.top_root_unblocks[0..4]` — root chapters needing theorems.
 5. `critical_path.top[0..9]` — open horizon chapters.
 6. Theory_extension on any chapter file — paper labels without companion theorems.
-7. **Vision concretization** (`kind = "vision_concretization"`) — **PREFERRED DISCOVERY CHANNEL, ALWAYS-ON HARD GATE**. As long as there exists ANY chapter under `papers/bedc/parts/visions/` with `\concretizedIn` count strictly below the number of concretizable directions the vision actually spans (use 0-concretizedIn chapters as the default frontier), the candidate_pool MUST include at least one `vision_concretization` proposal with `selection_rank = 1`. Cap one vision_concretization per round so Phase Revise is not flooded, but the round MAY NOT skip this slot just because closure_mark / drift / bridge work is more "obvious"; that's the trap this gate prevents. Scan `parts/visions/*.tex` and pick a chapter that (a) has NO `\concretizedIn` marker yet, OR has 0-1 markers when the vision spans multiple concretizable directions, AND (b) names a concrete mathematical object/construction NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. Prefer visions whose underlying BEDC kernel infrastructure is ready (BHist / NameCert / hsame / kernel inductives exist); when a vision lacks kernel support, prefer the closest-supported vision rather than skipping the slot entirely (you may register a `notes` entry naming the kernel infra blocker so the operator sees what to build). **Mechanically: follow the same flow as the `human_chapter_extension` HARD GATE below** — `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble.tex"]`, propose new chapter file path under `parts/concrete_instances/`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro, AND additionally append `\concretizedIn{ch:concrete-instances-<slug>-namecert}{<one-line>}` to the source vision chapter in the same diff. The standard NameCert + TasteGate + axiom-purity + Phase D shallow-growth / no-touchpoint / parameter-echo gates automatically apply to the resulting chapter — no additional taste filter is needed in Phase Review beyond verifying the candidate slug is novel and the anchoring vision chapter is real. Genuinely-saturated exemption: only when EVERY vision chapter under `parts/visions/` already has at least one `\concretizedIn` marker AND the operator's recorded vision-coverage target is met (current visions inventory: 16 narrative chapters; treat coverage as saturated only when ≥ 14 have markers) — at that point the slot becomes opt-in again. Until saturation, expect every P-round to ship a vision_concretization Target 1.
+7. **Vision concretization** (`kind = "vision_concretization"`) — **PREFERRED DISCOVERY CHANNEL, ALWAYS-ON HARD GATE**. As long as there exists ANY chapter under `papers/bedc/parts/visions/` with `\concretizedIn` count strictly below the number of concretizable directions the vision actually spans (use 0-concretizedIn chapters as the default frontier), the candidate_pool MUST include at least one `vision_concretization` proposal with `selection_rank = 1`. Cap one vision_concretization per round so Phase Revise is not flooded, but the round MAY NOT skip this slot just because closure_mark / drift / bridge work is more "obvious"; that's the trap this gate prevents. Scan `parts/visions/*.tex` and pick a chapter that (a) has NO `\concretizedIn` marker yet, OR has 0-1 markers when the vision spans multiple concretizable directions, AND (b) names a concrete mathematical object/construction NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. Prefer visions whose underlying BEDC kernel infrastructure is ready (BHist / NameCert / hsame / kernel inductives exist); when a vision lacks kernel support, prefer the closest-supported vision rather than skipping the slot entirely (you may register a `notes` entry naming the kernel infra blocker so the operator sees what to build). **Mechanically: follow the same flow as the `human_chapter_extension` HARD GATE below** — `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble_chapter_macros.tex"]`, propose new chapter file path under `parts/concrete_instances/`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro (appended to `preamble_chapter_macros.tex`), AND additionally append `\concretizedIn{ch:concrete-instances-<slug>-namecert}{<one-line>}` to the source vision chapter in the same diff. The standard NameCert + TasteGate + axiom-purity + Phase D shallow-growth / no-touchpoint / parameter-echo gates automatically apply to the resulting chapter — no additional taste filter is needed in Phase Review beyond verifying the candidate slug is novel and the anchoring vision chapter is real. Genuinely-saturated exemption: only when EVERY vision chapter under `parts/visions/` already has at least one `\concretizedIn` marker AND the operator's recorded vision-coverage target is met (current visions inventory: 16 narrative chapters; treat coverage as saturated only when ≥ 14 have markers) — at that point the slot becomes opt-in again. Until saturation, expect every P-round to ship a vision_concretization Target 1.
+
+7b. **Human chapter extension** (`kind = "human_chapter_extension"`) — **ALWAYS-ON UNCONDITIONAL HARD GATE (v4.37+, STRONGER COMPLIANCE v4.38)**. To bias overall corpus toward traditional-math NameCert reconstructions. **MECHANICAL RULE — NO INTERPRETIVE LATITUDE**:
+
+1. **`candidate_pool` MUST contain exactly ONE entry with `kind = "human_chapter_extension"`, `feasible = true`, `selection_rank = 1` (always rank 1, regardless of gate 7's status).** If gate 7 also wants rank 1, demote vision_concretization to rank 2.
+2. **`targets[0]` MUST be that human_chapter_extension entry.** This is the FIRST target, not an optional second. closure_mark / drift / bridge / theory_extension candidates ALL go to `targets[1+]` as additional targets.
+3. **NO "out of current phase" reasoning** — the gate fires regardless of which open phase the project is in. Current focus phase informs choice of WHICH human chapter, not WHETHER to emit one. If the current phase is "L10 Real and Completion", pick a human-known one-step neighbour from that phase (e.g. Heine-Borel, Bolzano-Weierstrass on RealUp). If the current phase is algebra, pick `ModuleUp` / `RingUp` / `IdealUp` neighbours. Always a relevant human-known mathematical object exists.
+4. **Result chapter MUST have `\origin{human}`** + ground-cite "Following <author>, ..." in orienting paragraph.
+5. **Mechanically**: `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble_chapter_macros.tex"]`, propose `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro (appended to `preamble_chapter_macros.tex`).
+
+This is **rank 1** every round, no exception. Other candidates compete for ranks 2+. Goal: bring corpus split from ~50/50 to ~60/40 (human/ai) over the next ~200 rounds. Violation of this rule (failing to emit human_chapter_extension as `targets[0]`) will be detected and the round will be REJECTED at the orchestrator review gate in a follow-up commit.
 
 8. **Automath candidate intake** (`kind = "automath_concretization"`) — at most ONE per round, opt-in. The sibling Automath project is a READ-ONLY additional-information source for candidate discovery only. You MAY read only summary / theory / publication / discovery surfaces; do not scan large Lean implementation trees and do not write to the sibling repository.
 
@@ -81,17 +98,19 @@ If `candidate_pool` has fewer than 5 feasible candidates, emit only as many as e
 
 ## TOP-LEVEL HARD GATE — origin{ai} chapter NameCert template (Stage F + falsifiable + independence)
 
-Every new `\origin{ai}` chapter MUST include the following four rows beyond the standard 5-row NameCert obligation surface. These are the BEDC analogue of "is this concept a prime, not a composite": each row commits the chapter to substantive structural content that would invalidate the chapter if disproved. `\origin{human}` chapters are EXEMPT (their nontriviality is attested by external mathematical record).
+Every new `\origin{ai}` chapter MUST include the following four rows beyond the standard 5-row NameCert obligation surface. Each row commits the chapter to substantive structural content that would invalidate the chapter if disproved. `\origin{human}` chapters are EXEMPT (their nontriviality is attested by external mathematical record).
+
+Every proposed new `papers/bedc/parts/**/*.tex` chapter file with `\chapter{...}` MUST include exactly one top-level `\origin{human}` or `\origin{ai}` line. If a candidate would create or touch a chapter file with missing, duplicated, or non-`human|ai` origin, reject the candidate.
 
 1. **`\falsifiablePrediction{<one-line>}`** — the chapter commits one BEDC-verifiable consequence. Example: "If `XUp` is atomic, then there exists NO `<X>Up → YUp` morphism preserving NameCert for any current `YUp` with fewer than 5 carrier rows." The prediction must be testable in ≤ N rounds via either direct proof or counter-witness construction; vague philosophical statements ("X is fundamental") are rejected.
 
-2. **`\independenceWitness{<3-5 sibling slugs and why not bijective>}`** — chapter names its 3-5 nearest sibling chapter slugs (drawn from existing `parts/concrete_instances/*_namecert_construction.tex`) and explains in one paragraph why the carrier admits no bijection (injection ∧ surjection) to any of them. Typical justifications: "X has obligation row R that Y lacks", "|X| > |Y| in canonical cardinality argument", "X carries a NameCert obligation that survives no `X → Y` reduction". If the chapter is genuinely a Cartesian product / refinement of siblings, use `\origin{ai-composite}` INSTEAD of `\origin{ai}` — the composite marker opts out of this gate.
+2. **`\independenceWitness{<3-5 sibling slugs and why not bijective>}`** — chapter names its 3-5 nearest sibling chapter slugs (drawn from existing `parts/concrete_instances/*_namecert_construction.tex`) and explains in one paragraph why the carrier admits no bijection (injection ∧ surjection) to any of them. Typical justifications: "X has obligation row R that Y lacks", "|X| > |Y| in canonical cardinality argument", "X carries a NameCert obligation that survives no `X → Y` reduction".
 
 3. **Lean-side `Nontrivial <X>Up` instance** — the chapter's `lean4/BEDC/Derived/<X>Up/TasteGate.lean` must provide `instance : Nontrivial <X>Up` with explicit `witness_pair := ⟨XUp.mk ..., XUp.mk ..., by ...⟩` proof. This closes the `PUnit` / 1-element-carrier loophole that `ChapterTasteGate.layer_separation` cannot catch (vacuous when |X| < 2).
 
 4. **Lean-side `FieldFaithful <X>Up` instance** (already covered in phase_c.txt v5.20 §FieldFaithful, repeated here for paper-side awareness) — the chapter's `lean4/BEDC/Derived/<X>Up/TasteGate.lean` must provide `instance : FieldFaithful <X>Up` with a `.mk`-derived `fields` projection and a `field_faithful` proof by `match` + `injection` chain.
 
-When proposing a `vision_concretization` / `automath_concretization` / `human_chapter_extension` `new_chapter` target with `\origin{ai}`, the `proposed_change` MUST explicitly list which falsifiable prediction the chapter will commit, which 3-5 sibling slugs the independence witness will name, and confirm that Lean TasteGate.lean will include `Nontrivial` + `FieldFaithful` instances. Targets that decline these (e.g. via `\origin{ai-composite}` opt-out) must clearly state in `proposed_change.notes` why the chapter is structurally composite rather than atomic.
+When proposing a `vision_concretization` / `automath_concretization` / `human_chapter_extension` `new_chapter` target with `\origin{ai}`, the `proposed_change` MUST explicitly list which falsifiable prediction the chapter will commit, which 3-5 sibling slugs the independence witness will name, and confirm that Lean TasteGate.lean will include `Nontrivial` + `FieldFaithful` instances.
 
 ## TOP-LEVEL HARD GATE — conjecture-chase target (sieve-orthogonal discovery)
 
@@ -316,7 +335,9 @@ AND `len(top) <= 2`). Both can fire in the same round (the strict gate
 adds a SECOND new chapter on top of this one), or only this one if
 the stricter condition isn't met.
 
-## HARD GATE — human-known chapter extension when frontier saturates
+## HARD GATE — human-known chapter extension when frontier saturates (STRICT MODE)
+
+**The unconditional baseline lives in gate 7b above (v4.36+, ALWAYS-ON, rank=2). This section adds the STRICTER saturation-mode override that promotes human_chapter_extension to rank=1.** When the strict condition fires, the unconditional 7b candidate becomes Target 1 (not 2) and demotes closure_mark / drift / bridge to rank≥2.
 
 When `closed_horizons / open_horizons > 2.0` AND
 `len(critical_path.top) <= 2`, the frontier is saturated. You (the
@@ -330,7 +351,7 @@ reviewer) MUST:
    under saturation the new chapter dominates.
 3. Emit `targets[0]` matching that rank-1 candidate (`candidate_id =
    C1`). closure_mark / drift / bridge as Target 2-N.
-4. Set `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble.tex"]`
+4. Set `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble_chapter_macros.tex"]`
    (NOT the not-yet-created chapter file). The review_gate rejects
    any `paper_files` entry that does not already exist on disk, so
    writing `papers/bedc/parts/concrete_instances/271_<slug>_namecert_construction.tex`
@@ -339,7 +360,7 @@ reviewer) MUST:
    `proposed_change` instead, listing the exact filename, the
    `\input{...}` line to add to `main.tex` after the highest
    existing `\input{parts/concrete_instances/...}` line, and the
-   `\newcommand{\<X>Up}{...}` macro to add to `preamble.tex`.
+   `\newcommand{\<X>Up}{...}` macro (appended to `preamble_chapter_macros.tex`) to add to `preamble_chapter_macros.tex`.
    **Before adding the macro, grep `preamble.tex` for the chapter
    name to ensure no concurrent worker has already added the same
    `\newcommand{\<X>Up}` line** (this happens when multiple workers

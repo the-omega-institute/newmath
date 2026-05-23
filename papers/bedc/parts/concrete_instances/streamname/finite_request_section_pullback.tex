@@ -111,6 +111,95 @@ ambient completeness, countable-choice, and bridge rows are not part of the
 pullback.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request section pullback exactness]
+\label{thm:streamname-finite-request-section-pullback-exactness}
+Let $Q$ and $Q'$ be RealUp-facing finite requests on the terminal L10
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ route. The two requests
+determine the same finite carrier verdict and the same classifier verdict if
+and only if their displayed four-face pullbacks agree on the $\StreamNameUp$
+section schedule, the $\DyadicRatCoreUp$ endpoint-radius ledger, the
+$\RegSeqRatUp$ regularity and readback surface, the $\RealUp$ seal boundary,
+and the support rows $\BHist$, componentwise $\hsame$, displayed $\Cont$
+routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+This equivalence is internal to the finite terminal packet. It excludes
+quotient streams, host sequence equality, selected limits, ambient
+completeness, countable choice, metric-completeness rows, and bridge rows.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume that $Q$ and $Q'$ determine the same finite
+carrier verdict and classifier verdict. Apply
+\autoref{thm:streamname-finite-request-section-classifier-pullback} to read
+each verdict through the displayed terminal four-face route, and apply
+\autoref{thm:streamname-regseqrat-real-finite-request-section-lock} to lock
+the two seal presentations to the same finite request section.
+
+The lock identifies exactly the StreamName schedule, DyadicRatCore
+endpoint-radius ledger, RegSeqRat regularity/readback surface, RealUp seal
+boundary, and support rows named in the statement. Hence the displayed
+four-face pullbacks agree on every coordinate available to the finite verdict.
+
+For the reverse direction, assume that the displayed four-face pullbacks agree
+on those rows. Use \autoref{thm:streamname-finite-request-section-pullback} to
+identify both requests with the same finite section on the terminal L10 route.
+The classifier pullback theorem then reads that common section as the same
+finite carrier verdict and the same classifier verdict.
+
+Finally use \autoref{thm:streamname-finite-request-section-nonescape}. It
+rules out off-route separating coordinates: no quotient stream, host sequence
+equality, selected limit, ambient completeness, countable-choice row,
+metric-completeness row, or bridge row can distinguish the two requests once
+the displayed finite packet agrees.
+\end{proof}
+
+\begin{theorem}[StreamName finite-request section cofinal verdict invariance]
+\label{thm:streamname-finite-request-section-cofinal-verdict-invariance}
+Let $Q$ and $Q'$ be RealUp-facing finite requests on the terminal L10 route
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$. Suppose that $Q'$ is
+obtained from $Q$ by an accepted cofinal refinement preserving the displayed
+$\StreamNameUp$ section schedule, the $\DyadicRatCoreUp$ endpoint-radius
+ledger, the $\RegSeqRatUp$ regularity and readback surface, the $\RealUp$ seal
+boundary, and the support rows $\BHist$, componentwise $\hsame$, displayed
+$\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. Then $Q$ and
+$Q'$ determine the same finite carrier verdict and the same classifier verdict
+on the terminal four-face route.
+
+This invariance is only a finite-request statement. It exports no quotient
+stream equality, no host sequence equality, no selected limit, no ambient
+completeness row, no countable-choice row, no metric-completeness row, and no
+bridge row.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-finite-request-section-pullback-exactness}. It is
+enough to identify the displayed four-face pullbacks for $Q$ and $Q'$: the
+StreamName schedule, DyadicRatCore endpoint-radius ledger, RegSeqRat
+regularity and readback surface, RealUp seal boundary, and named BEDC support
+rows.
+
+The accepted cofinal refinement preserves the displayed StreamName section.
+Use \autoref{thm:streamname-finite-section-restriction-exactness} to read this
+preservation as equality of the finite section restrictions seen by the
+terminal request.
+
+For the RegSeqRat-to-Real part, apply
+\autoref{thm:regseqrat-finite-request-section-refinement-composition}. The
+compatible refinement composition transports the RegSeqRat regularity/readback
+surface together with the RealUp-facing seal boundary, so the refined request
+has the same terminal four-face display.
+
+Now use
+\autoref{thm:streamname-regseqrat-real-finite-request-section-lock}. The lock
+prevents the seal presentation from adding a distinguishing coordinate once
+the displayed StreamName, DyadicRatCore, RegSeqRat, RealUp, and support rows
+agree.
+
+Finally apply \autoref{thm:streamname-finite-request-section-nonescape}. The
+excluded quotient stream equality, host sequence equality, selected limit,
+ambient completeness, countable-choice, metric-completeness, and bridge rows
+therefore cannot separate the finite carrier verdict or the classifier verdict.
+\end{proof}
+
 \begin{theorem}[StreamName finite-request section nonescape]
 \label{thm:streamname-finite-request-section-nonescape}
 The finite-request section pullback of

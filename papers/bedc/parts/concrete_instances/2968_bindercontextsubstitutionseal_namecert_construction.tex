@@ -8,6 +8,7 @@ The $\BinderContextSubstitutionSealUp$ interface packages the closed-boundary su
 \label{thm:binder-context-substitution-seal-closed-term-boundary-dependency}
 Every accepted $\BinderContextSubstitutionSealUp$ packet reads its \texttt{ClosedAt} boundary and inertness row as a refinement of the sibling $\ClosedTermSubstitutionBoundaryUp$ surface of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert} before exporting the binder-depth payload route to compiler or evaluator consumers.
 \end{theorem}
+\leanchecked{BEDC.Derived.BinderContextSubstitutionSealUp.BinderContextSubstitutionSealCarrier\_closed\_term\_boundary\_dependency}
 \begin{proof}
 Project the packet rows as
 $$
@@ -107,6 +108,7 @@ Separating those coordinates gives the stated ledger rows. No additional obligat
 \label{thm:binder-context-substitution-seal-closed-boundary-exactness}
 In every accepted $\BinderContextSubstitutionSealUp$ packet $S=(t,d,v,s,b,H,C,P,N)$, the \texttt{ClosedAt} boundary witness in $b$ forces the substitution result row to remain the original term row: the only exported result is $s=t$. The packet exports no payload insertion, no open-variable occurrence, and no binder capture route.
 \end{theorem}
+\leanchecked{BEDC.Derived.BinderContextSubstitutionSealUp.BinderContextSubstitutionSealCarrier\_closed\_boundary\_exactness}
 \begin{proof}
 Read the boundary witness through \autoref{def:binder-context-substitution-seal-carrier}. The witness $b$ carries both \texttt{ClosedAt} $d$ $t$ and the inertness equality for the replayed substitution row.
 
@@ -140,6 +142,7 @@ S=(t,d,v,s,b,H,C,P,N)
 $$
 factors first through the obligation rows of \autoref{thm:binder-context-substitution-seal-obligation-rows} and then through the route determinacy of \autoref{thm:binder-context-substitution-seal-route-determinacy}. Such a consumer may use the displayed \texttt{Term}, \texttt{ClosedAt}, \texttt{substitute} replay, inertness, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, but it may not use open-term semantics, global evaluator correctness, subject reduction, or a hidden binder context.
 \end{theorem}
+\leanchecked{BEDC.Derived.BinderContextSubstitutionSealUp.BinderContextSubstitutionSealCarrier\_obligation\_consumer}
 \begin{proof}
 Project the carrier through \autoref{def:binder-context-substitution-seal-carrier}. The rows visible to the consumer are exactly $t,d,v,s,b,H,C,P,N$.
 
@@ -187,6 +190,7 @@ provenance rows, and explicitly excludes open-term semantics, global evaluator
 correctness, subject reduction, and unrecorded binder context. The three
 faces therefore exhaust the scoped primitive surface.
 \end{proof}
+\leanchecked{BEDC.Derived.BinderContextSubstitutionSealUp.BinderContextSubstitutionSealCarrier\_scope\_triad}
 
 \closureat{BinderContextSubstitutionSealUp}{seedStr}
 \closureat{BinderContextSubstitutionSealUp}{obligationStr}
