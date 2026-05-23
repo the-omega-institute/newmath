@@ -588,6 +588,7 @@ import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
 import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
+import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
@@ -2489,6 +2490,7 @@ import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
+import BEDC.Derived.DyadicLocatedCutUp
 import BEDC.Derived.DyadicMaxUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicMeshUp.EnclosureExport
@@ -3141,6 +3143,7 @@ import BEDC.Derived.HausdorffCompletionUp.SeparatedReflection
 import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.HausdorffCompletionUp.UniformConsumerPackage
 import BEDC.Derived.HellySelectionUp.TasteGate
+import BEDC.Derived.HilbertCubeUp.TasteGate
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
@@ -3402,6 +3405,7 @@ import BEDC.Derived.LesserLimitedOmniscienceUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.LieGroupUp.AdjointRep
+import BEDC.Derived.LieGroupUp.TasteGate
 import BEDC.Derived.LimitSelectorUp
 import BEDC.Derived.LimitUp.TasteGate
 import BEDC.Derived.LimsupUp.TasteGate
@@ -3956,6 +3960,7 @@ import BEDC.Derived.ObserverTraceKernelUp.TasteGate
 import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ObserverperspectiveclassifierUp
 import BEDC.Derived.OdeUp
+import BEDC.Derived.OnePointCompactificationUp.TasteGate
 import BEDC.Derived.OnticAdequacyAuditUp.NameCert
 import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.OnticResidueLatticeUp.TasteGate
@@ -5013,6 +5018,7 @@ import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.ShortestPathUp
+import BEDC.Derived.SierpinskiSpaceUp.TasteGate
 import BEDC.Derived.SignedBinaryExpansionUp
 import BEDC.Derived.SignedDigitRealUp
 import BEDC.Derived.SignedDigitRealUp.TasteGate
