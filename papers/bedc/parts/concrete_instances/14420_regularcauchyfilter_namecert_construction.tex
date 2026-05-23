@@ -117,12 +117,32 @@ Apply \autoref{thm:regular-cauchy-filter-tail-meet}. The row $M$ supplies the di
 Apply \autoref{thm:regular-cauchy-filter-real-seal-route}. Every Real-facing read factors through the route ending in $E$, while $H,C,P,N$ only transport, replay, package, and name the same finite data. The excluded quotient, choice, host-equality, and completeness coordinates are absent from the carrier, so they cannot be exported by the obligation package.
 \end{proof}
 
+\begin{theorem}[RegularCauchyFilter tail-basis exhaustion]
+\label{thm:regular-cauchy-filter-tail-basis-exhaustion}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. For any two finite windows accepted by the tail schedule $T$, the packet supplies a directed $\CauchyFilterUp$ meet row in $M$ refining both windows inside the same source row $B$. The resulting tail read factors through
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+by first reading the requested StreamName windows in $T$, then the dyadic tolerance rows in $D$, then the regular-rational row $R$, and finally the Real seal $E$.
+
+Thus the tail basis is exhausted by the displayed rows $B,T,D,M,R,E,H,C,P,N$. It exports no quotient filter, selected host limit, countable-choice selector, hidden cofinal tail, host real equality, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the two finite windows in $T$. Since $T$ is an exposed coordinate of the accepted carrier, both windows are already tied to the source $\CauchyFilterUp$ row $B$ and to the same componentwise transport rows $H$.
+
+Apply \autoref{thm:regular-cauchy-filter-tail-meet}. The meet coordinate $M$ names the later base packet refining both requested windows, so the common tail is a displayed directed row rather than an external cofinality assertion.
+
+Apply \autoref{thm:regular-cauchy-filter-basis-factorization}. The windows in $T$, the dyadic ledger $D$, and the meet handoff $M$ form the $\CauchyFilterBasisUp$ row over $B$.
+
+Finally apply \autoref{thm:regular-cauchy-filter-real-seal-route} and \autoref{thm:regular-cauchy-filter-obligation-scope-package}. The downstream read reaches $R$ and then $E$ only through the displayed StreamName, DyadicRatCore, RegSeqRat, and Real seal route, while $C,P,N$ replay, source, and name that same finite packet. The excluded quotient, choice, hidden-tail, host-equality, and completeness coordinates are absent from the carrier.
+\end{proof}
+
 \closureat{RegularCauchyFilterUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyFilterUp}
   \constructivestory{A $\RegularCauchyFilterUp$ packet is generated from a displayed CauchyFilter finite-filterbase row, a RegSeqRat readback row, StreamName tail windows, a DyadicRatCore tolerance ledger, a directed tail-meet row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local NameCert naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-basis-factorization}, and \autoref{thm:regular-cauchy-filter-obligation-scope-package} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis factorization, the scoped obligation package, and the Real seal route.}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-basis-factorization}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, and \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis factorization, the scoped obligation package, the tail-basis exhaustion route, and the Real seal route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient filters, selected host limits, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
