@@ -257,6 +257,53 @@ theorem DyadicStepFunctionCarrier_common_refinement_cell_coverage [AskSetup] [Pa
     ⟨cellsUnary, refinementUnary, commonCellUnary, endpointReadUnary, consumerReadUnary,
       cellsRefinementCommon, commonEndpointRead, endpointLedgerRead, nameRowPkg⟩
 
+theorem DyadicStepFunctionCarrier_refinement_boundary_coverage [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      commonCell endpointRead consumerRead regRead realSeal publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont cells refinement commonCell ->
+        Cont commonCell endpointLedger endpointRead ->
+          Cont endpointRead ledger consumerRead ->
+            Cont ledger route regRead ->
+              Cont regRead route realSeal ->
+                Cont consumerRead realSeal publicRead ->
+                  PkgSig bundle publicRead pkg ->
+                    UnaryHistory commonCell ∧ UnaryHistory endpointRead ∧
+                      UnaryHistory consumerRead ∧ UnaryHistory regRead ∧
+                        UnaryHistory realSeal ∧ UnaryHistory publicRead ∧
+                          Cont cells refinement commonCell ∧
+                            Cont commonCell endpointLedger endpointRead ∧
+                              Cont endpointRead ledger consumerRead ∧ Cont ledger route regRead ∧
+                                Cont regRead route realSeal ∧
+                                  Cont consumerRead realSeal publicRead ∧
+                                    PkgSig bundle nameRow pkg ∧
+                                      PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier cellsRefinementCommon commonEndpointRead endpointLedgerRead ledgerRouteReg
+    regRouteReal consumerRealPublic publicReadPkg
+  obtain ⟨_partitionUnary, cellsUnary, _valuesUnary, _readsUnary, refinementUnary,
+    endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, _refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have commonCellUnary : UnaryHistory commonCell :=
+    unary_cont_closed cellsUnary refinementUnary cellsRefinementCommon
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed commonCellUnary endpointLedgerUnary commonEndpointRead
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed endpointReadUnary ledgerUnary endpointLedgerRead
+  have regReadUnary : UnaryHistory regRead :=
+    unary_cont_closed ledgerUnary routeUnary ledgerRouteReg
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regReadUnary routeUnary regRouteReal
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed consumerReadUnary realSealUnary consumerRealPublic
+  exact
+    ⟨commonCellUnary, endpointReadUnary, consumerReadUnary, regReadUnary, realSealUnary,
+      publicReadUnary, cellsRefinementCommon, commonEndpointRead, endpointLedgerRead,
+      ledgerRouteReg, regRouteReal, consumerRealPublic, nameRowPkg, publicReadPkg⟩
+
 theorem DyadicStepFunctionCarrier_product_closure [AskSetup] [PackageSetup]
     {partitionS cellsS valuesS readsS refinementS endpointLedgerS ledgerS routeS provenanceS
       nameRowS partitionT cellsT valuesT readsT refinementT endpointLedgerT ledgerT routeT

@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\MartingaleConvergenceUp$}
+\label{ch:concrete-instances-martingale-convergence-namecert}
+\origin{human}
+
+Following Doob, the $\MartingaleConvergenceUp$ packet names the finite convergence-preparation surface supplied by upcrossing control over displayed martingale windows. It sits after the probability, random-variable, conditional-expectation, martingale, stopping-time, optional-stopping, upcrossing, and Doob-upcrossing packets of \autoref{ch:concrete-instances-probspace-namecert}, \autoref{ch:concrete-instances-randomvar-namecert}, \autoref{ch:concrete-instances-condexp-namecert}, \autoref{ch:concrete-instances-martingale-namecert}, \autoref{ch:concrete-instances-stoppingtime-namecert}, \autoref{ch:concrete-instances-optionalstopping-namecert}, \autoref{ch:concrete-instances-upcrossing-namecert}, and \autoref{ch:concrete-instances-doob-upcrossing-namecert}. The chapter records the finite NameCert surface consumed by later convergence work; it does not identify paths up to almost-sure quotient equality or import measure completion.
+
+\section{Finite Convergence Carrier}
+\label{sec:martingale-convergence-carrier}
+
+\begin{definition}[Martingale convergence finite packet]
+\label{def:martingale-convergence-carrier}
+A $\MartingaleConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+C=(\Omega,X,E,M,T,O,U,D,S,R,L,A,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ row naming the probability context.
+\item $X$ is the $\RandomVarUp$ endpoint-family row for the displayed martingale window.
+\item $E$ is the $\CondExpUp$ row exposing the successor faces used by the martingale law.
+\item $M$ is the consumed $\MartingaleUp$ finite adapted-sequence packet.
+\item $T$ is the $\StoppingTimeUp$ finite index row for bounded stopping reads.
+\item $O$ is the $\OptionalStoppingUp$ stopped-window row.
+\item $U$ is the $\UpcrossingUp$ crossing-count ledger for fixed lower and upper $\RealUp$ endpoints.
+\item $D$ is the $\DoobUpcrossingUp$ inequality row bounding the displayed crossing-count ledger.
+\item $S$ is the $\StreamNameUp$ observation schedule for finite endpoint prefixes.
+\item $R$ is the $\RegSeqRatUp$ rational regularity row for displayed approximation windows.
+\item $L$ is the $\RealUp$ lower and upper boundary endpoint row, with the comparison row carried as data.
+\item $A$ is the convergence-admission ledger recording which finite windows, boundary pairs, rational tolerances, and upcrossing bounds are available to downstream consumers.
+\item $H$ records componentwise $\hsame$ transport for the probability, endpoint, conditional-expectation, martingale, stopping, upcrossing, schedule, rational, real-boundary, admission, provenance, and naming rows.
+\item $K$ records the displayed $\Cont$ routes from finite endpoint prefixes through bounded stopped windows, upcrossing counts, Doob bounds, and convergence-admission rows.
+\item $P$ is the $\Pkg$ provenance over $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, $\StoppingTimeUp$, $\OptionalStoppingUp$, $\UpcrossingUp$, $\DoobUpcrossingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MartingaleConvergenceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through these displayed rows. In particular, it has no coordinate for almost-sure quotient equality, completed sigma-algebras, Brownian paths, unbounded stopping-time choice, or a bridge theorem.
+\end{definition}
+
+\section{Certificate Obligations}
+\label{sec:martingale-convergence-obligations}
+
+\begin{theorem}[Martingale convergence NameCert obligations]
+\label{thm:martingale-convergence-namecert-obligations}
+For the carrier of \autoref{def:martingale-convergence-carrier}, the local $\NameCert_{\MartingaleConvergenceUp}$ surface consists exactly of carrier admission for the rows
+$$
+\Omega,X,E,M,T,O,U,D,S,R,L,A,H,K,P,N,
+$$
+martingale endpoint exposure through $X,E,M$, bounded stopped-window exposure through $T,O$, finite upcrossing and Doob-bound exposure through $U,D$, schedule and rational-approximation exposure through $S,R,L$, convergence-admission exactness through $A$, componentwise transport through $H$, displayed replay through $K$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:martingale-convergence-carrier}. The carrier lists exactly the probability, endpoint, conditional-expectation, martingale, stopping, optional-stopping, upcrossing, Doob-bound, schedule, rational, real-boundary, admission, transport, replay, provenance, and naming rows.
+
+The martingale-facing rows are $X,E,M$. They supply finite endpoint reads and conditional-expectation faces only through the displayed $\MartingaleUp$ packet.
+
+The stopping-facing rows are $T,O$. They expose bounded stopped windows and do not select an unbounded stopping-time family.
+
+The crossing-facing rows are $U,D$. They consume the finite crossing-count ledger and the finite Doob-bound row, so the convergence packet does not recompute an inequality outside the accepted upcrossing certificates.
+
+The remaining rows $S,R,L,A,H,K,P,N$ record finite prefix scheduling, rational approximation, boundary endpoints, admission, transport, replay, provenance, and naming. Since the carrier contains no quotient-equality, measure-completion, Brownian-path, unbounded-choice, or bridge coordinate, those objects are outside the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Martingale convergence upcrossing route]
+\label{thm:martingale-convergence-upcrossing-route}
+Every accepted $\MartingaleConvergenceUp$ carrier consumes upcrossing information only through the displayed finite handoff from $\UpcrossingUp$ and $\DoobUpcrossingUp$: lower and upper $\RealUp$ boundary rows, finite martingale endpoint rows, lower and upper decision ledgers, bounded $\OptionalStoppingUp$ stopped-window rows, crossing-count ledger, and the Doob-bound row. No convergence consumer may replace that handoff by an ambient limiting event, almost-sure quotient, or unbounded stopping theorem.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and project $U$ and $D$. The row $U$ is the crossing-count ledger supplied by \autoref{ch:concrete-instances-upcrossing-namecert}; the row $D$ is the Doob-bound surface supplied by \autoref{ch:concrete-instances-doob-upcrossing-namecert}.
+
+The boundary rows and endpoint reads are displayed in $L$ and $X$, while the bounded stopped-window route is displayed in $T$ and $O$. The replay row $K$ records the finite path from endpoint prefixes to stopped windows, crossing counts, and Doob bounds.
+
+Thus a downstream consumer receives exactly the finite upcrossing handoff rows carried by $U,D,L,X,T,O,H,K,P,N$. The carrier has no coordinate from which an ambient limiting event, almost-sure quotient, or unbounded stopping theorem could be read.
+\end{proof}
+
+\closureat{MartingaleConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\MartingaleConvergenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:martingale-convergence-carrier}, \autoref{thm:martingale-convergence-namecert-obligations}, and \autoref{thm:martingale-convergence-upcrossing-route} seed the finite convergence-preparation packet over martingale windows, bounded stopping, upcrossing ledgers, Doob bounds, finite prefix schedules, rational approximation rows, and Real boundary endpoints.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close almost-sure quotient equality, measure completion, unbounded choice of stopping times, Brownian convergence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, martingale endpoint exposure, bounded stopped-window exposure, upcrossing handoff exactness, Doob-bound consumption, finite schedule accountability, rational approximation routing, and non-escape for BEDC.Derived.MartingaleConvergenceUp.}
+  \constructivestory{A $\MartingaleConvergenceUp$ packet is generated from probability, random-variable, conditional-expectation, martingale, stopping-time, optional-stopping, upcrossing, Doob-upcrossing, stream-name, regular-rational, Real-boundary, transport, continuation, provenance, and local NameCert rows.}
+\end{closurestatus}
