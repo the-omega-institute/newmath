@@ -1,0 +1,258 @@
+\begin{definition}[Directional saturation]
+\label{def:philosophy-directional-saturation}
+For $S\subseteq Q_{6}$ and a bit coordinate $i$, let $x^{(i)}$ denote
+the codon obtained from $x$ by flipping the $i$th bit. The directional
+saturation of $S$ in direction $i$ is
+$$
+  \operatorname{Sat}_{i}(S)
+  =
+  S\cup\{x^{(i)}:x\in S\}.
+$$
+For the coordinate order
+$$
+  (s_{1},f_{1},s_{2},f_{2},s_{3},f_{3}),
+$$
+the direction $f_{3}$ flips the family bit of the third codon position,
+so it exchanges $\mathrm{U}\leftrightarrow\mathrm{C}$ and
+$\mathrm{A}\leftrightarrow\mathrm{G}$ at that position.
+\end{definition}
+
+\begin{theorem}[Unique non-leaking saturation direction]
+\label{thm:philosophy-unique-nonleaking-saturation-direction}
+Among the six one-bit saturation directions, $f_{3}$ is the unique
+direction for which the saturation of the active support remains inside
+the median closure:
+$$
+  \operatorname{Sat}_{f_{3}}(\mathcal{R})\subseteq M.
+$$
+The six saturation rows are
+$$
+\begin{array}{c|r|l|c}
+  \text{direction} & \text{added codons} & \text{added set}
+  & \subseteq M\\
+  \hline
+  s_{1} & 7 &
+  \mathrm{AAG},\mathrm{ACA},\mathrm{GUA},\mathrm{GUC},
+  \mathrm{GUG},\mathrm{GUU},\mathrm{UGG} & \text{no}\\
+  f_{1} & 11 &
+  \mathrm{CAA},\mathrm{CAG},\mathrm{CCA},\mathrm{CGA},
+  \mathrm{GAA},\mathrm{GGA},\mathrm{GGG},\mathrm{GUA},
+  \mathrm{UUC},\mathrm{UUG},\mathrm{UUU} & \text{no}\\
+  s_{2} & 7 &
+  \mathrm{ACA},\mathrm{ACG},\mathrm{CAA},\mathrm{CAC},
+  \mathrm{CAG},\mathrm{CAU},\mathrm{UUG} & \text{no}\\
+  f_{2} & 7 &
+  \mathrm{AAG},\mathrm{ACA},\mathrm{CCA},\mathrm{CCC},
+  \mathrm{CCG},\mathrm{CCU},\mathrm{UGG} & \text{no}\\
+  s_{3} & 9 &
+  \mathrm{AAU},\mathrm{AGC},\mathrm{AGU},\mathrm{AUU},
+  \mathrm{UAC},\mathrm{UAU},\mathrm{UCU},\mathrm{UGU},
+  \mathrm{UUU} & \text{no}\\
+  f_{3} & 5 &
+  \mathrm{AAG},\mathrm{AUG},\mathrm{UCG},\mathrm{UGG},
+  \mathrm{UUG} & \text{yes}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each coordinate $i$, compute
+$\operatorname{Sat}_{i}(\mathcal{R})$ by flipping the $i$th bit of each
+codon in $\mathcal{R}$ and compare the result with
+$M=\operatorname{Med}(\mathcal{R})$. The displayed finite enumeration
+shows that only the $f_{3}$ row has no point outside $M$.
+\end{proof}
+
+\begin{theorem}[$f_{3}$ saturation misses exactly the Thr pair]
+\label{thm:philosophy-f3-saturation-misses-thr-pair}
+The $f_{3}$ saturation of the active support is
+$$
+  \operatorname{Sat}_{f_{3}}(\mathcal{R})
+  =
+  M\setminus\{\mathrm{ACA},\mathrm{ACG}\}.
+$$
+Equivalently,
+$$
+  \operatorname{Sat}_{f_{3}}(\mathcal{R})\setminus\mathcal{R}
+  =
+  \{\mathrm{AAG},\mathrm{AUG},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}.
+$$
+\end{theorem}
+\begin{proof}
+The five added codons are the $f_{3}$ partners of active codons:
+$$
+\begin{gathered}
+  \mathrm{AAA}\leftrightarrow\mathrm{AAG},\qquad
+  \mathrm{AUA}\leftrightarrow\mathrm{AUG},\\
+  \mathrm{UCA}\leftrightarrow\mathrm{UCG},\qquad
+  \mathrm{UGA}\leftrightarrow\mathrm{UGG},\qquad
+  \mathrm{UUA}\leftrightarrow\mathrm{UUG}.
+\end{gathered}
+$$
+Comparing with the median closure
+$M=\mathrm{WNR}\cup\mathrm{CUN}$ leaves exactly
+$\mathrm{ACA}$ and $\mathrm{ACG}$ outside the saturation.
+\end{proof}
+
+\begin{theorem}[Wobble saturation presentation of median closure]
+\label{thm:philosophy-wobble-saturation-presentation}
+The full median closure is obtained by adjoining either member of the
+missing Thr pair and saturating in the $f_{3}$ direction:
+$$
+  M
+  =
+  \operatorname{Sat}_{f_{3}}(\mathcal{R}\cup\{\mathrm{ACA}\})
+  =
+  \operatorname{Sat}_{f_{3}}(\mathcal{R}\cup\{\mathrm{ACG}\}).
+$$
+Moreover, $\mathrm{ACA}$ and $\mathrm{ACG}$ are the only codons outside
+$\mathcal{R}$ with this property.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-f3-saturation-misses-thr-pair},
+$\operatorname{Sat}_{f_{3}}(\mathcal{R})=M\setminus
+\{\mathrm{ACA},\mathrm{ACG}\}$. Since
+$\mathrm{ACA}^{(f_{3})}=\mathrm{ACG}$ and
+$\mathrm{ACG}^{(f_{3})}=\mathrm{ACA}$, adjoining either one supplies
+both missing vertices after $f_{3}$ saturation. Exhaustive comparison
+over the inactive complement of $\mathcal{R}$ shows that no other
+single codon has saturation equal to $M$.
+\end{proof}
+
+\begin{definition}[Directional boundary]
+\label{def:philosophy-directional-boundary}
+For $S\subseteq Q_{6}$, the directional boundary in bit coordinate $i$
+is
+$$
+  \partial_{i}(S)
+  =
+  |\{x\in S:x^{(i)}\notin S\}|.
+$$
+The normalized Boolean influence is
+$$
+  I_{i}(S)=\partial_{i}(S)/32.
+$$
+\end{definition}
+
+\begin{theorem}[Directional boundary profile of the closure chain]
+\label{thm:philosophy-directional-boundary-profile}
+For the closure chain
+$$
+  \mathcal{R}
+  \subset
+  \overline{\mathcal{R}}
+  \subset
+  \operatorname{Med}_{1}(\mathcal{R})
+  \subset
+  M,
+$$
+the directional boundary counts in the coordinate order
+$(s_{1},f_{1},s_{2},f_{2},s_{3},f_{3})$ are
+$$
+\begin{array}{c|rrrrrr|r}
+  \text{set} & s_{1} & f_{1} & s_{2} & f_{2} & s_{3} & f_{3}
+  & \text{total}\\
+  \hline
+  \mathcal{R} & 7 & 11 & 7 & 7 & 9 & 5 & 46\\
+  \overline{\mathcal{R}} & 4 & 14 & 8 & 4 & 12 & 4 & 46\\
+  \operatorname{Med}_{1}(\mathcal{R}) & 5 & 15 & 5 & 5 & 15 & 1 & 46\\
+  M & 4 & 16 & 4 & 4 & 16 & 0 & 44.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each set $S$ in the displayed chain and each bit coordinate $i$,
+count the codons $x\in S$ for which $x^{(i)}\notin S$. This direct
+enumeration gives the table.
+\end{proof}
+
+\begin{corollary}[Final $f_{3}$ boundary seal]
+\label{cor:philosophy-final-f3-boundary-seal}
+The unique $f_{3}$ boundary edge at the first median layer is
+$$
+  \mathrm{ACA}\leftrightarrow\mathrm{ACG}.
+$$
+Adjoining $\mathrm{ACG}$ changes
+$\partial_{f_{3}}$ from $1$ to $0$.
+\end{corollary}
+\begin{proof}
+The row for $\operatorname{Med}_{1}(\mathcal{R})$ in
+\autoref{thm:philosophy-directional-boundary-profile} has
+$\partial_{f_{3}}=1$, and finite enumeration identifies the single
+edge as $\mathrm{ACA}\leftrightarrow\mathrm{ACG}$. The row for $M$ has
+$\partial_{f_{3}}=0$.
+\end{proof}
+
+\begin{theorem}[$f_{3}$-silent Boolean form]
+\label{thm:philosophy-f3-silent-boolean-form}
+In bit variables
+$$
+  (s_{1},f_{1},s_{2},f_{2},s_{3},f_{3}),
+$$
+the median closure has the Boolean description
+$$
+  M
+  =
+  (\neg f_{1}\land s_{3})
+  \lor
+  (f_{1}\land\neg s_{1}\land\neg s_{2}\land\neg f_{2}).
+$$
+In particular, membership in $M$ is independent of $f_{3}$.
+\end{theorem}
+\begin{proof}
+The identity $M=\mathrm{WNR}\cup\mathrm{CUN}$ gives
+$\mathrm{WNR}=\{\neg f_{1}\land s_{3}\}$, because the first codon
+position is $\mathrm{U}$ or $\mathrm{A}$ and the third position is
+$\mathrm{A}$ or $\mathrm{G}$. It also gives
+$$
+  \mathrm{CUN}
+  =
+  \{f_{1}\land\neg s_{1}\land\neg s_{2}\land\neg f_{2}\},
+$$
+with the third position free. The displayed formula is their union and
+contains no occurrence of $f_{3}$.
+\end{proof}
+
+\begin{corollary}[Gate and silent axes]
+\label{cor:philosophy-gate-and-silent-axes}
+For $M$, the directional boundary vector is
+$$
+  (4,16,4,4,16,0).
+$$
+Thus $f_{1}$ and $s_{3}$ are the two main gate axes, $s_{1}$, $s_{2}$,
+and $f_{2}$ are low-boundary axes, and $f_{3}$ is a silent axis.
+\end{corollary}
+\begin{proof}
+This is the $M$ row of
+\autoref{thm:philosophy-directional-boundary-profile}, together with
+the absence of $f_{3}$ from
+\autoref{thm:philosophy-f3-silent-boolean-form}.
+\end{proof}
+
+\begin{theorem}[Wobble-saturation closure]
+\label{thm:philosophy-wobble-saturation-closure}
+The median closure of the reassigned support is the
+third-position family-bit saturation envelope
+$$
+  M
+  =
+  \operatorname{Sat}_{f_{3}}(\mathcal{R}\cup\{\mathrm{ACA}\})
+  =
+  \operatorname{Sat}_{f_{3}}(\mathcal{R}\cup\{\mathrm{ACG}\}),
+$$
+and $f_{3}$ is the unique active-support saturation direction that does
+not leave $M$. The codon $\mathrm{ACG}$ is simultaneously the median
+sealing corner, the symmetry-restoring corner, the spectral sealing
+corner, and the final $f_{3}$ saturation seal.
+\end{theorem}
+\begin{proof}
+The saturation identity is
+\autoref{thm:philosophy-wobble-saturation-presentation}. The uniqueness
+of the non-leaking direction is
+\autoref{thm:philosophy-unique-nonleaking-saturation-direction}. The
+median sealing role is \autoref{thm:philosophy-median-depth-sealing};
+the symmetry role is
+\autoref{thm:philosophy-symmetry-restoration}; the spectral
+role is \autoref{thm:philosophy-acg-single-point-spectral-optimality};
+and the final $f_{3}$ boundary seal is
+\autoref{cor:philosophy-final-f3-boundary-seal}.
+\end{proof}

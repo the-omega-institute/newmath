@@ -1,0 +1,287 @@
+\begin{definition}[Purine-suffix hotspot cube]
+\label{def:philosophy-wrr-hotspot-cube}
+Let
+$$
+  W:=\{\mathrm{U},\mathrm{A}\},
+  \qquad
+  R:=\{\mathrm{A},\mathrm{G}\}.
+$$
+The purine-suffix hotspot cube is the axis-aligned $Q_{3}$ cube
+$$
+\begin{aligned}
+  C_{\mathrm{WRR}}
+    &:=
+      W\times R\times R\\
+    &=
+      \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG},
+        \mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG}\}.
+\end{aligned}
+$$
+In the six-bit atlas its free coordinates are
+$$
+  b_{1}^{s},\qquad b_{2}^{f},\qquad b_{3}^{f},
+$$
+with $b_{1}^{f}=0$, $b_{2}^{s}=1$, and $b_{3}^{s}=1$ fixed.
+\end{definition}
+
+\begin{theorem}[Purine-suffix hotspot count]
+\label{thm:philosophy-wrr-hotspot-count}
+In the standard-to-comparative reassignment spectrum of
+\autoref{def:philosophy-alternative-code-reassignment-spectrum},
+$C_{\mathrm{WRR}}$ contains $52$ of the $65$ reassignment rows:
+$$
+\begin{array}{c|c|r}
+  \text{codon} & \text{standard label} & \text{reassignment rows}\\
+\hline
+  \mathrm{UAA} & \mathrm{Stop} & 8\\
+  \mathrm{UAG} & \mathrm{Stop} & 10\\
+  \mathrm{UGA} & \mathrm{Stop} & 15\\
+  \mathrm{UGG} & \mathrm{Trp} & 0\\
+  \mathrm{AAA} & \mathrm{Lys} & 3\\
+  \mathrm{AAG} & \mathrm{Lys} & 0\\
+  \mathrm{AGA} & \mathrm{Arg} & 8\\
+  \mathrm{AGG} & \mathrm{Arg} & 8\\
+\hline
+  \text{total} & & 52.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Restrict the finite reassignment enumeration of
+\autoref{thm:philosophy-alternative-code-reassignment-concentration} to
+the eight codons of \autoref{def:philosophy-wrr-hotspot-cube}. Summing
+the displayed codon counts gives
+$$
+  8+10+15+0+3+0+8+8=52.
+$$
+\end{proof}
+
+\begin{corollary}[Comparative variation is concentrated in the hotspot cube]
+\label{cor:philosophy-comparative-variation-concentrated-wrr}
+The cube $C_{\mathrm{WRR}}$ has eight codons, hence one eighth of the
+codon carrier, but it contains four fifths of the standard-to-comparative
+reassignment rows:
+$$
+  \frac{8}{64}=\frac{1}{8},
+  \qquad
+  \frac{52}{65}=\frac{4}{5}.
+$$
+\end{corollary}
+\begin{proof}
+The carrier size is $64$ by \autoref{cor:philosophy-codon-phase-space-bridge}.
+The reassignment count is \autoref{thm:philosophy-wrr-hotspot-count}.
+\end{proof}
+
+\begin{theorem}[The hotspot cube is the highest-scoring $Q_{3}$ cube]
+\label{thm:philosophy-wrr-highest-scoring-q-three-cube}
+For an axis-aligned $Q_{3}$ cube $C\subset Q_{6}$, let
+$$
+  S(C):=\sum_{c\in C}m(c),
+$$
+where $m(c)$ is the number of comparative reassignment rows at codon
+$c$. Among the $160$ axis-aligned $Q_{3}$ cubes, the unique highest
+score is
+$$
+  S(C_{\mathrm{WRR}})=52.
+$$
+The next highest score is $41$.
+\end{theorem}
+\begin{proof}
+Enumerate the $\binom{6}{3}2^{3}=160$ axis-aligned $Q_{3}$ cubes and
+sum the codon-level reassignment counts on each cube. The cube
+$C_{\mathrm{WRR}}$ has the vertex set displayed in
+\autoref{def:philosophy-wrr-hotspot-cube} and score $52$ by
+\autoref{thm:philosophy-wrr-hotspot-count}. The same enumeration gives
+$41$ as the second-largest score.
+\end{proof}
+
+\begin{definition}[Layers of the hotspot cube]
+\label{def:philosophy-wrr-hotspot-layers}
+The first-base layers of $C_{\mathrm{WRR}}$ are
+$$
+\begin{aligned}
+  U\times R\times R
+    &=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\},\\
+  A\times R\times R
+    &=\{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG}\}.
+\end{aligned}
+$$
+Under the standard classifier, the first layer is
+$\mathrm{Stop}_{3}+\mathrm{Trp}_{1}$ and the second layer is
+$\mathrm{Lys}_{2}+\mathrm{Arg}_{2}$. Hence the whole cube has standard
+pattern $3+2+2+1$.
+\end{definition}
+
+\begin{definition}[Transfer square]
+\label{def:philosophy-wrr-transfer-square}
+The transfer square is the $Q_{2}$ face
+$$
+  Q_{\mathrm{transfer}}
+  :=
+  \{\mathrm{UGA},\mathrm{UGG},\mathrm{AGA},\mathrm{AGG}\}
+  \subset C_{\mathrm{WRR}}.
+$$
+It varies the first-base shape bit and the third-base family bit while
+keeping the second base fixed at $\mathrm{G}$ and the third base in the
+purine layer. In the standard classifier its pattern is
+$$
+  \mathrm{Stop}_{1}+\mathrm{Trp}_{1}+\mathrm{Arg}_{2}.
+$$
+\end{definition}
+
+\begin{theorem}[Vertebrate mitochondrial transfer square]
+\label{thm:philosophy-vertebrate-mitochondrial-transfer-square}
+In the vertebrate mitochondrial comparison table, the transfer square
+changes from
+$$
+\begin{array}{c|cc}
+  & \mathrm{A} & \mathrm{G}\\
+\hline
+  \mathrm{U}\mathrm{G} & \mathrm{Stop} & \mathrm{Trp}\\
+  \mathrm{A}\mathrm{G} & \mathrm{Arg} & \mathrm{Arg}
+\end{array}
+$$
+to
+$$
+\begin{array}{c|cc}
+  & \mathrm{A} & \mathrm{G}\\
+\hline
+  \mathrm{U}\mathrm{G} & \mathrm{Trp} & \mathrm{Trp}\\
+  \mathrm{A}\mathrm{G} & \mathrm{Stop} & \mathrm{Stop}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+On $Q_{\mathrm{transfer}}$, the standard classifier assigns
+$\mathrm{UGA}$ to $\mathrm{Stop}$, $\mathrm{UGG}$ to $\mathrm{Trp}$,
+and both $\mathrm{AGA}$ and $\mathrm{AGG}$ to $\mathrm{Arg}$. In the
+vertebrate mitochondrial comparison row, $\mathrm{UGA}$ is assigned to
+$\mathrm{Trp}$ while $\mathrm{AGA}$ and $\mathrm{AGG}$ are assigned to
+$\mathrm{Stop}$; $\mathrm{UGG}$ remains $\mathrm{Trp}$. The two displayed
+tables are therefore the direct restriction of the two classifiers to
+the transfer square.
+\end{proof}
+
+\begin{corollary}[AGA/AGG belongs to the hotspot transfer geometry]
+\label{cor:philosophy-aga-agg-transfer-geometry}
+The AGA/AGG pair is the $A$-layer edge of the transfer square, coupled
+by the first-position shape direction to the UGA/UGG edge.
+\end{corollary}
+\begin{proof}
+The Hamming edges $\mathrm{AGA}\leftrightarrow\mathrm{UGA}$ and
+$\mathrm{AGG}\leftrightarrow\mathrm{UGG}$ differ only in $b_{1}^{s}$.
+Both edges lie inside $Q_{\mathrm{transfer}}$ by
+\autoref{def:philosophy-wrr-transfer-square}.
+\end{proof}
+
+\begin{definition}[Arg and Ser satellite edges]
+\label{def:philosophy-arg-ser-satellite-edges}
+In the standard classifier,
+$$
+\begin{aligned}
+  \mathrm{Arg}
+    &=
+      \{\mathrm{CGU},\mathrm{CGC},\mathrm{CGA},\mathrm{CGG}\}
+      \sqcup
+      \{\mathrm{AGA},\mathrm{AGG}\},\\
+  \mathrm{Ser}
+    &=
+      \{\mathrm{UCU},\mathrm{UCC},\mathrm{UCA},\mathrm{UCG}\}
+      \sqcup
+      \{\mathrm{AGU},\mathrm{AGC}\}.
+\end{aligned}
+$$
+The two-point summands are the Arg and Ser satellite edges.
+\end{definition}
+
+\begin{theorem}[Arg satellite is active while Ser satellite is stable]
+\label{thm:philosophy-arg-satellite-active-ser-satellite-stable}
+Across the comparative reassignment spectrum, the Arg main box
+$\{\mathrm{CGU},\mathrm{CGC},\mathrm{CGA},\mathrm{CGG}\}$ has no
+reassignment rows, while its satellite edge has
+$$
+  m(\mathrm{AGA})=8,
+  \qquad
+  m(\mathrm{AGG})=8.
+$$
+The Ser satellite edge has
+$$
+  m(\mathrm{AGU})=m(\mathrm{AGC})=0.
+$$
+\end{theorem}
+\begin{proof}
+Restrict the codon-level reassignment count $m$ to the displayed
+standard Arg and Ser fibers. The four codons in the Arg main box have
+count zero. The Arg satellite counts are both eight, while the Ser
+satellite counts are both zero.
+\end{proof}
+
+\begin{corollary}[AGR is the active purine satellite]
+\label{cor:philosophy-agr-active-purine-satellite}
+The active satellite is not any detached two-codon sense edge. It is
+specifically the purine satellite
+$$
+  \mathrm{AGR}=\{\mathrm{AGA},\mathrm{AGG}\}\subset C_{\mathrm{WRR}},
+$$
+whereas the pyrimidine-side Ser satellite
+$\mathrm{AGY}=\{\mathrm{AGU},\mathrm{AGC}\}$ remains stable in the
+comparison.
+\end{corollary}
+\begin{proof}
+The activity and stability counts are
+\autoref{thm:philosophy-arg-satellite-active-ser-satellite-stable}.
+The inclusion $\mathrm{AGR}\subset C_{\mathrm{WRR}}$ is immediate from
+\autoref{def:philosophy-wrr-hotspot-cube}.
+\end{proof}
+
+\begin{theorem}[AGA/AGG reassignment targets]
+\label{thm:philosophy-aga-agg-reassignment-targets}
+The observed AGA/AGG reassignment rows have the following pair targets:
+$$
+\begin{array}{c|c|c}
+  \text{table identifiers} & \mathrm{AGA} & \mathrm{AGG}\\
+\hline
+  2 & \mathrm{Stop} & \mathrm{Stop}\\
+  5,9,14,21 & \mathrm{Ser} & \mathrm{Ser}\\
+  13 & \mathrm{Gly} & \mathrm{Gly}\\
+  24,33 & \mathrm{Ser} & \mathrm{Lys}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Compare the AGA and AGG assignments in each non-standard table with the
+standard Arg assignment. The tables with a change are exactly the rows
+displayed, grouped by the resulting pair of labels.
+\end{proof}
+
+\begin{theorem}[Hotspot cube cannot-claim boundary]
+\label{thm:philosophy-wrr-hotspot-cannot-claim-boundary}
+The hotspot-cube spectrum does not license any claim that purine suffixes
+cause genetic-code reassignment, that the displayed comparison family is
+biologically exhaustive, that the vertebrate mitochondrial row is a
+temporal ancestor of the other rows, or that the AGA/AGG edge has already
+been reduced to a biochemical mechanism.
+\end{theorem}
+\begin{proof}
+The hotspot cube is a finite bridge-side spectrum over curated
+translation classifiers. It records codon positions, labels, local cube
+geometry, and reassignment counts. It does not supply biochemical
+causality, evolutionary ordering, exhaustive biological coverage, or a
+mechanistic model of tRNA, release-factor, or ribosome behavior.
+\end{proof}
+
+\begin{corollary}[Allowed hotspot-cube claim]
+\label{cor:philosophy-wrr-hotspot-allowed-claim}
+Under the two-axis codon bridge, the main comparative deformation region
+is the purine-suffix cube $C_{\mathrm{WRR}}$. It contains the Stop/Trp
+tile, the Lys/Arg purine layer, the transfer square, and the active Arg
+satellite edge, and it is the highest-scoring $Q_{3}$ cube under
+codon-level reassignment counts.
+\end{corollary}
+\begin{proof}
+Combine \autoref{thm:philosophy-wrr-hotspot-count},
+\autoref{thm:philosophy-wrr-highest-scoring-q-three-cube},
+\autoref{def:philosophy-wrr-hotspot-layers},
+\autoref{def:philosophy-wrr-transfer-square}, and
+\autoref{thm:philosophy-arg-satellite-active-ser-satellite-stable}.
+\end{proof}

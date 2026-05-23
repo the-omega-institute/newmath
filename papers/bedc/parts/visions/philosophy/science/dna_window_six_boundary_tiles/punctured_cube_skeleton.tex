@@ -1,0 +1,231 @@
+\begin{definition}[Reassignment support graph]
+\label{def:philosophy-reassignment-support-graph}
+Let $G_{\mathcal{R}}=Q_{6}[\mathcal{R}]$ be the Hamming graph induced
+by the reassigned support $\mathcal{R}$. Thus two vertices of
+$G_{\mathcal{R}}$ are adjacent exactly when the corresponding codons
+differ in one bit of the two-axis readback.
+\end{definition}
+
+\begin{theorem}[Reassignment support graph]
+\label{thm:philosophy-reassignment-support-graph}
+The induced graph $G_{\mathcal{R}}$ is connected and has
+$$
+  |V(G_{\mathcal{R}})|=13,
+  \qquad
+  |E(G_{\mathcal{R}})|=16.
+$$
+Its cyclomatic number is therefore
+$$
+  |E|-|V|+1=4.
+$$
+\end{theorem}
+\begin{proof}
+Enumerating one-bit Hamming edges inside $\mathcal{R}$ gives
+$$
+\begin{gathered}
+  \mathrm{UUA}{-}\mathrm{AUA},\quad
+  \mathrm{UAA}{-}\mathrm{AAA},\quad
+  \mathrm{UGA}{-}\mathrm{AGA},\quad
+  \mathrm{UUA}{-}\mathrm{CUA},\\
+  \mathrm{UUA}{-}\mathrm{UAA},\quad
+  \mathrm{UCA}{-}\mathrm{UGA},\quad
+  \mathrm{AUA}{-}\mathrm{AAA},\quad
+  \mathrm{UUA}{-}\mathrm{UCA},\\
+  \mathrm{UAA}{-}\mathrm{UGA},\quad
+  \mathrm{AAA}{-}\mathrm{AGA},\quad
+  \mathrm{CUU}{-}\mathrm{CUA},\quad
+  \mathrm{CUC}{-}\mathrm{CUG},\\
+  \mathrm{UAA}{-}\mathrm{UAG},\quad
+  \mathrm{CUU}{-}\mathrm{CUC},\quad
+  \mathrm{CUA}{-}\mathrm{CUG},\quad
+  \mathrm{AGA}{-}\mathrm{AGG}.
+\end{gathered}
+$$
+These edges connect all $13$ vertices, so the displayed cyclomatic
+number follows.
+\end{proof}
+
+\begin{corollary}[Compact support graph]
+\label{cor:philosophy-compact-support-graph}
+The support graph is significantly denser than a random $13$-vertex
+subset of $Q_{6}$. The random-subset expectation is
+$$
+  192\cdot {13\cdot12\over 64\cdot63}=7.428571\ldots
+$$
+internal Hamming edges, while $G_{\mathcal{R}}$ has $16$ such edges. A
+$100000$-trial fixed-seed random-subset test gives exceedance count
+$19$, hence $p=0.00019$ for observing at least $16$ internal edges.
+\end{corollary}
+\begin{proof}
+The expectation is the number of Hamming edges in $Q_{6}$ times the
+probability that both endpoints of a fixed edge lie in a uniformly
+chosen $13$-element subset. The Monte Carlo count is obtained by the
+same edge statistic over random supports of size $13$.
+\end{proof}
+
+\begin{theorem}[Four square cycles]
+\label{thm:philosophy-four-square-cycles}
+The four independent cycles of $G_{\mathcal{R}}$ are represented by the
+four complete $Q_{2}$ faces
+$$
+\begin{aligned}
+  \mathrm{CUN}&=\{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\},\\
+  \mathrm{UNA}&=\{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA}\},\\
+  \mathrm{WWA}&=\{\mathrm{UUA},\mathrm{UAA},\mathrm{AUA},\mathrm{AAA}\},\\
+  \mathrm{WRA}&=\{\mathrm{UAA},\mathrm{UGA},\mathrm{AAA},\mathrm{AGA}\}.
+\end{aligned}
+$$
+Their reassignment weights are respectively $6$, $25$, $17$, and $34$.
+\end{theorem}
+\begin{proof}
+Each displayed motif is an axis-aligned $Q_{2}$ face contained in
+$\mathcal{R}$, hence contributes a four-cycle to $G_{\mathcal{R}}$.
+Since \autoref{thm:philosophy-reassignment-support-graph} gives
+cyclomatic number $4$, these four square cycles account for the full
+cycle rank.
+\end{proof}
+
+\begin{definition}[Punctured A-ending W-family cube]
+\label{def:philosophy-punctured-wna-cube}
+Let
+$$
+  \mathrm{WNA}=\{\mathrm{U},\mathrm{A}\}
+  \times\{\mathrm{U},\mathrm{C},\mathrm{A},\mathrm{G}\}
+  \times\{\mathrm{A}\}.
+$$
+Equivalently,
+$$
+  \mathrm{WNA}
+  =
+  \{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA},
+    \mathrm{AUA},\mathrm{ACA},\mathrm{AAA},\mathrm{AGA}\}.
+$$
+\end{definition}
+
+\begin{theorem}[Punctured-cube skeleton formula]
+\label{thm:philosophy-punctured-cube-skeleton-formula}
+The reassigned support admits the exact cube-complex skeleton formula
+$$
+  \mathcal{R}
+  =
+  (\mathrm{WNA}\setminus\{\mathrm{ACA}\})
+  \cup
+  \mathrm{CUN}
+  \cup
+  \{\mathrm{UAG},\mathrm{AGG}\}.
+$$
+\end{theorem}
+\begin{proof}
+The punctured cube is
+$$
+  \mathrm{WNA}\setminus\{\mathrm{ACA}\}
+  =
+  \{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA},
+    \mathrm{AUA},\mathrm{AAA},\mathrm{AGA}\}.
+$$
+Adding
+$$
+  \mathrm{CUN}=\{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\}
+$$
+and the two codons $\mathrm{UAG},\mathrm{AGG}$ gives exactly the
+support listed in \autoref{thm:philosophy-reassigned-support}.
+\end{proof}
+
+\begin{theorem}[Cube-complex edge decomposition]
+\label{thm:philosophy-cube-complex-edge-decomposition}
+At the graph level,
+$$
+  G_{\mathcal{R}}
+  =
+  G_{\mathrm{WNA}\setminus\{\mathrm{ACA}\}}
+  \cup
+  G_{\mathrm{CUN}}
+  \cup
+  \{\mathrm{UAA}{-}\mathrm{UAG},
+    \mathrm{AGA}{-}\mathrm{AGG},
+    \mathrm{UUA}{-}\mathrm{CUA}\}.
+$$
+The punctured cube contributes $7$ vertices and $9$ edges, the CUN
+square contributes $4$ vertices and $4$ edges, and the three displayed
+bridges account for the remaining edges.
+\end{theorem}
+\begin{proof}
+Intersect the edge list of
+\autoref{thm:philosophy-reassignment-support-graph} with
+$\mathrm{WNA}\setminus\{\mathrm{ACA}\}$ and with $\mathrm{CUN}$. The
+first induced subgraph has $9$ listed edges, the second has $4$, and
+the complement in the $16$-edge support graph is precisely the three
+displayed bridge edges.
+\end{proof}
+
+\begin{theorem}[Articulation gates]
+\label{thm:philosophy-reassignment-articulation-gates}
+The articulation codons of $G_{\mathcal{R}}$ are exactly
+$$
+  \mathrm{UAA},\quad \mathrm{AGA},\quad \mathrm{UUA},\quad \mathrm{CUA}.
+$$
+The leaf codons are exactly
+$$
+  \mathrm{UAG},\quad \mathrm{AGG}.
+$$
+\end{theorem}
+\begin{proof}
+Delete each vertex of $G_{\mathcal{R}}$ and recompute connected
+components. Only the four displayed codons disconnect the graph.
+The same adjacency list shows that $\mathrm{UAG}$ and $\mathrm{AGG}$
+are the only vertices of degree one.
+\end{proof}
+
+\begin{theorem}[Largest biconnected block]
+\label{thm:philosophy-largest-biconnected-block}
+The largest biconnected component of $G_{\mathcal{R}}$ is the punctured
+cube
+$$
+  \mathrm{WNA}\setminus\{\mathrm{ACA}\}
+  =
+  \{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA},
+    \mathrm{AUA},\mathrm{AAA},\mathrm{AGA}\}.
+$$
+Its reassignment weight is $41$.
+\end{theorem}
+\begin{proof}
+The biconnected components of the support graph are
+$$
+\begin{gathered}
+  \{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA},
+    \mathrm{AUA},\mathrm{AAA},\mathrm{AGA}\},\\
+  \{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\},\quad
+  \{\mathrm{AGA},\mathrm{AGG}\},\quad
+  \{\mathrm{CUA},\mathrm{UUA}\},\quad
+  \{\mathrm{UAA},\mathrm{UAG}\}.
+\end{gathered}
+$$
+The first is largest. Its weight is
+$$
+  1+1+8+15+5+3+8=41.
+$$
+\end{proof}
+
+\begin{theorem}[Support skeleton statement]
+\label{thm:philosophy-support-skeleton-statement}
+The reassigned support has three compatible descriptions:
+$$
+\begin{gathered}
+  \text{prime support formula: }
+  \mathrm{CUN}\cup\mathrm{AGR}\cup\mathrm{UNA}
+  \cup\mathrm{WWA}\cup\mathrm{UAR},\\
+  \text{cube-complex skeleton: }
+  (\mathrm{WNA}\setminus\{\mathrm{ACA}\})
+  \cup\mathrm{CUN}\cup\{\mathrm{UAG},\mathrm{AGG}\},\\
+  \text{mass core: }
+  \mathrm{WRA}\subset\mathrm{WRR}.
+\end{gathered}
+$$
+The first is the prime-implicant support formula, the second is the
+induced-graph skeleton, and the third is the weighted high-mass core.
+\end{theorem}
+\begin{proof}
+Combine \autoref{thm:philosophy-minimal-prime-implicant-cover},
+\autoref{thm:philosophy-punctured-cube-skeleton-formula}, and
+\autoref{thm:philosophy-support-compression-statement}.
+\end{proof}
