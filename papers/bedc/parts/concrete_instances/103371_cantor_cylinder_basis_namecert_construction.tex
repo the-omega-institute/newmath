@@ -1,0 +1,166 @@
+\chapter{A Concrete Naming Certificate for $\CantorCylinderBasisUp$}
+\label{ch:concrete-instances-cantor-cylinder-basis-namecert}
+\origin{human}
+
+Following Brouwer's finite-prefix reading of choice sequences and the
+Bishop--Bridges cylinder terminology for Cantor space, the
+$\CantorCylinderBasisUp$ packet records the basic clopen cylinder surface of
+$\CantorSpaceUp$ as finite NameCert data. It sits after the Cantor-space
+carrier of \autoref{ch:concrete-instances-cantorspace-namecert}, the unary
+finite-window interface of \autoref{ch:concrete-instances-streamname-namecert},
+the two-endpoint discipline of \autoref{ch:concrete-instances-bool-namecert},
+and the ordered prefix spine of \autoref{ch:concrete-instances-list-namecert}.
+The packet names prefix cylinders by displayed finite routes; it is not a
+host function extensionality principle, a quotient of infinite streams, a
+completed infinite product, a fan-theorem compactness argument, a
+countable-choice selector, or an appeal to $\RealUp$ completeness.
+
+\begin{definition}[Cantor cylinder basis carrier]
+\label{def:cantor-cylinder-basis-carrier}
+A $\CantorCylinderBasisUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(C,S,W,B,L,R,H,K,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $C$ is the source $\CantorSpaceUp$ packet whose public observations are
+read only through finite prefix windows;
+\item $S$ is the $\StreamNameUp$ schedule row selecting the requested finite
+prefix positions;
+\item $W$ is the finite cylinder-window row, including the displayed prefix
+and the shorter windows used by downstream refinement reads;
+\item $B$ is the $\BoolUp$ endpoint ledger assigning visible Boolean rows to
+the positions of $W$;
+\item $L$ is the $\ListUp$ spine row ordering the prefix entries and recording
+their finite length;
+\item $R$ is the refinement ledger saying which shorter or longer displayed
+prefix rows are being compared inside the same cylinder family;
+\item $H$ is the componentwise $\hsame$ transport row for $C,S,W,B,L,R$;
+\item $K$ is the displayed $\Cont$ replay row for cylinder reads and prefix
+refinements already accepted by the packet;
+\item $P$ is the $\Pkg$ provenance over $\CantorCylinderBasisUp$,
+$\CantorSpaceUp$, $\StreamNameUp$, $\BoolUp$, $\ListUp$, $\BHist$, $\hsame$,
+$\Cont$, and the local naming row;
+\item $N$ is the local $\NameCert_{\CantorCylinderBasisUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host-level maps $\NatUp \to \BoolUp$,
+quotient stream equality, completed infinite products, fan-theorem
+compactness, countable choice, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{definition}[Cantor cylinder basis classifier]
+\label{def:cantor-cylinder-basis-classifier}
+Two accepted $\CantorCylinderBasisUp$ carriers
+$$
+Z=(C,S,W,B,L,R,H,K,P,N)
+\quad\hbox{and}\quad
+Z'=(C',S',W',B',L',R',H',K',P',N')
+$$
+are classified as the same basis element exactly when their displayed
+$\StreamNameUp$ schedules select the same finite prefix length and their
+$\BoolUp$ rows agree componentwise along the ordered $\ListUp$ spine. The
+comparison is transported only through $H,H'$ and replayed only through
+$K,K'$. It does not compare host functions, quotient streams, infinite tails,
+or completed product coordinates.
+\end{definition}
+
+\begin{theorem}[Cantor cylinder basis NameCert obligations]
+\label{thm:cantor-cylinder-basis-namecert-obligations}
+The local $\NameCert_{\CantorCylinderBasisUp}$ surface of
+\autoref{def:cantor-cylinder-basis-carrier} consists exactly of the finite
+carrier admission, classifier transport, prefix refinement, StreamName--Bool
+scope, continuation replay, provenance, and non-escape obligations displayed
+by
+$$
+C,S,W,B,L,R,H,K,P,N .
+$$
+Every obligation is checked by finite prefix data over the sibling
+$\CantorSpaceUp$, $\StreamNameUp$, $\BoolUp$, and $\ListUp$ packets.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the ten displayed rows in
+\autoref{def:cantor-cylinder-basis-carrier}. The source Cantor packet supplies
+the finite observation context, while $S,W,B,L$ expose the requested prefix as
+StreamName windows, Boolean endpoints, and a List spine.
+
+Classifier transport uses
+\autoref{def:cantor-cylinder-basis-classifier}. Once the finite prefix length
+and componentwise Boolean rows are fixed, $H$ transports the same finite
+rows and $K$ replays them without adding any host-level stream coordinate.
+
+The remaining obligations are inspection of $R,H,K,P,N$. Prefix refinement is
+recorded as a finite relation between displayed prefix rows, continuation
+replay is confined to the accepted rows, and provenance keeps the route inside
+the listed sibling chapters.
+
+Non-escape follows because no carrier coordinate supplies host function
+extensionality, quotient stream equality, completed infinite products,
+fan-theorem compactness, countable choice, or $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Cantor cylinder basis prefix refinement]
+\label{thm:cantor-cylinder-basis-prefix-refinement}
+Let $Z=(C,S,W,B,L,R,H,K,P,N)$ be an accepted
+$\CantorCylinderBasisUp$ carrier. If a displayed prefix row in $R$ extends
+another displayed prefix row in the same carrier, then the longer cylinder
+read factors through the shorter cylinder read together with the additional
+finite $\BoolUp$ rows on the suffix. If the rows are incompatible at a visible
+position, the classifier rejects the shared basis element at that same finite
+position.
+\end{theorem}
+\begin{proof}
+Read the two prefix rows from $R$. The shorter row and the longer row are both
+subwindows of the displayed cylinder-window row $W$, so their positions are
+already scheduled by the same $\StreamNameUp$ row $S$.
+
+In the extension case, the common part is ordered by the same initial segment
+of the $\ListUp$ spine $L$. The suffix is a finite list of additional
+$\BoolUp$ rows from $B$, and replay through $K$ appends only those visible
+rows to the already accepted shorter read.
+
+In the incompatible case, some displayed position carries different
+$\BoolUp$ endpoint rows. The classifier of
+\autoref{def:cantor-cylinder-basis-classifier} reads that position directly
+through the shared finite spine and rejects equality there, without comparing
+infinite tails or host functions.
+\end{proof}
+
+\begin{theorem}[Cantor cylinder basis StreamName-Bool scope]
+\label{thm:cantor-cylinder-basis-streamname-scope}
+Every public read exported by an accepted $\CantorCylinderBasisUp$ carrier
+reaches downstream countable-name consumers only through the finite route
+$$
+\CantorSpaceUp,\ \StreamNameUp,\ \BoolUp,\ \ListUp,\ \NameCert_{\CantorCylinderBasisUp}.
+$$
+The route exposes prefix-cylinder membership, refinement, and incompatibility
+only as displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$
+data. It does not export host function extensionality, quotient streams,
+completed infinite products, fan-theorem compactness, countable choice, or
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a public consumer read of $Z$. The Cantor source $C$ can be read
+only through the finite prefix discipline of
+\autoref{ch:concrete-instances-cantorspace-namecert}; the requested positions
+are then exposed by the $\StreamNameUp$ schedule $S$ and the cylinder window
+$W$.
+
+The visible values are exactly the $\BoolUp$ rows in $B$, ordered by the
+$\ListUp$ spine $L$. Refinement information is read from $R$, transported by
+$H$, and replayed by $K$ before provenance and local naming are recorded in
+$P,N$.
+
+Thus every public route remains inside the displayed finite rows. The excluded
+objects are not supplied by the carrier, classifier, or refinement ledger, so
+no downstream consumer can obtain them from the cylinder-basis packet.
+\end{proof}
+
+\begin{closurestatus}{\CantorCylinderBasisUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-cylinder-basis-carrier}, \autoref{def:cantor-cylinder-basis-classifier}, \autoref{thm:cantor-cylinder-basis-namecert-obligations}, \autoref{thm:cantor-cylinder-basis-prefix-refinement}, and \autoref{thm:cantor-cylinder-basis-streamname-scope} seed the finite prefix-cylinder basis surface over CantorSpace, StreamName, Bool, and List rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close host function extensionality, quotient stream equality, completed infinite products, fan-theorem compactness, countable choice, Real completeness, or a standard bridge.}
+  \upgradepath{The next step is obligationClosure: carrier admission, classifier transport, prefix refinement, StreamName-Bool routing, and non-escape must be discharged as local rows.}
+  \constructivestory{The construction starts from a finite CantorSpace prefix, reads the selected positions through StreamName windows, records Bool endpoints along a List spine, and exposes only hsame, Cont, Pkg, and local NameCert rows to downstream consumers.}
+\end{closurestatus}
