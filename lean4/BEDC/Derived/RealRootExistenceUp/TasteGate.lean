@@ -139,6 +139,31 @@ instance realRootExistenceChapterTasteGate : ChapterTasteGate RealRootExistenceU
     intro x y hxy heq
     exact hxy (RealRootExistenceTasteGate_toEventFlow_injective heq)
 
+instance realRootExistenceFieldFaithful : FieldFaithful RealRootExistenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun
+    | RealRootExistenceUp.mk I F S B R Q D E H C P N => [I, F, S, B, R, Q, D, E, H, C, P, N]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk I1 F1 S1 B1 R1 Q1 D1 E1 H1 C1 P1 N1 =>
+        cases y with
+        | mk I2 F2 S2 B2 R2 Q2 D2 E2 H2 C2 P2 N2 =>
+            cases hfields
+            rfl
+
+instance realRootExistenceNontrivial : Nontrivial RealRootExistenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RealRootExistenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealRootExistenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem RealRootExistenceTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       realRootExistenceDecodeBHist (realRootExistenceEncodeBHist h) = h) ∧
@@ -153,5 +178,29 @@ theorem RealRootExistenceTasteGate_single_carrier_alignment :
       RealRootExistenceTasteGate_round_trip,
       (fun _ _ heq => RealRootExistenceTasteGate_toEventFlow_injective heq),
       rfl⟩
+
+namespace TasteGate
+
+theorem RealRootExistenceTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate RealRootExistenceUp) ∧
+      Nonempty (FieldFaithful RealRootExistenceUp) ∧
+      Nonempty (Nontrivial RealRootExistenceUp) ∧
+      (∀ h : BHist, realRootExistenceDecodeBHist (realRootExistenceEncodeBHist h) = h) ∧
+      (∀ x : RealRootExistenceUp,
+        realRootExistenceFromEventFlow (realRootExistenceToEventFlow x) = some x) ∧
+      (∀ x y : RealRootExistenceUp,
+        realRootExistenceToEventFlow x = realRootExistenceToEventFlow y → x = y) ∧
+      realRootExistenceEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨Nonempty.intro realRootExistenceChapterTasteGate,
+      Nonempty.intro realRootExistenceFieldFaithful,
+      Nonempty.intro realRootExistenceNontrivial,
+      RealRootExistenceTasteGate_decode_encode,
+      RealRootExistenceTasteGate_round_trip,
+      (fun _ _ heq => RealRootExistenceTasteGate_toEventFlow_injective heq),
+      rfl⟩
+
+end TasteGate
 
 end BEDC.Derived.RealRootExistenceUp

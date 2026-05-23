@@ -135,6 +135,30 @@ instance compactMetricProductChapterTasteGate :
     intro x y hxy heq
     exact hxy (CompactMetricProductTasteGate_toEventFlow_injective heq)
 
+instance compactMetricProductFieldFaithful : FieldFaithful CompactMetricProductUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun
+    | CompactMetricProductUp.mk X Y M P T L H C Q N => [X, Y, M, P, T, L, H, C, Q, N]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk X1 Y1 M1 P1 T1 L1 H1 C1 Q1 N1 =>
+        cases y with
+        | mk X2 Y2 M2 P2 T2 L2 H2 C2 Q2 N2 =>
+            cases hfields
+            rfl
+
+instance compactMetricProductNontrivial : Nontrivial CompactMetricProductUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨CompactMetricProductUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CompactMetricProductUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem CompactMetricProductTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       compactMetricProductDecodeBHist (compactMetricProductEncodeBHist h) = h) ∧
@@ -149,5 +173,29 @@ theorem CompactMetricProductTasteGate_single_carrier_alignment :
       CompactMetricProductTasteGate_round_trip,
       (fun _ _ heq => CompactMetricProductTasteGate_toEventFlow_injective heq),
       rfl⟩
+
+namespace TasteGate
+
+theorem CompactMetricProductTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate CompactMetricProductUp) ∧
+      Nonempty (FieldFaithful CompactMetricProductUp) ∧
+      Nonempty (Nontrivial CompactMetricProductUp) ∧
+      (∀ h : BHist, compactMetricProductDecodeBHist (compactMetricProductEncodeBHist h) = h) ∧
+      (∀ x : CompactMetricProductUp,
+        compactMetricProductFromEventFlow (compactMetricProductToEventFlow x) = some x) ∧
+      (∀ x y : CompactMetricProductUp,
+        compactMetricProductToEventFlow x = compactMetricProductToEventFlow y → x = y) ∧
+      compactMetricProductEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨Nonempty.intro compactMetricProductChapterTasteGate,
+      Nonempty.intro compactMetricProductFieldFaithful,
+      Nonempty.intro compactMetricProductNontrivial,
+      CompactMetricProductTasteGate_decode_encode,
+      CompactMetricProductTasteGate_round_trip,
+      (fun _ _ heq => CompactMetricProductTasteGate_toEventFlow_injective heq),
+      rfl⟩
+
+end TasteGate
 
 end BEDC.Derived.CompactMetricProductUp
