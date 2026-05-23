@@ -1210,6 +1210,7 @@ import BEDC.Derived.CauchyProductUp.RootProductObservationRoute
 import BEDC.Derived.CauchyProductUp.RootRealSealConsumerBoundary
 import BEDC.Derived.CauchyProductUp.RootRealSealObligations
 import BEDC.Derived.CauchyProductUp.RootRegSeqRatClassifierLock
+import BEDC.Derived.CauchyProductUp.RootRegularProductBudgetSealExhaustion
 import BEDC.Derived.CauchyProductUp.RootSealLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSourceWindowAdmission
@@ -3975,6 +3976,7 @@ import BEDC.Derived.NegativeNameBoundaryUp.NonInternalization
 import BEDC.Derived.NegativeNameBoundaryUp.ObligationClosure
 import BEDC.Derived.NegativeNameBoundaryUp.PublicExport
 import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
+import BEDC.Derived.NestedClosedIntervalUp
 import BEDC.Derived.NestedDyadicCauchyUp.TasteGate
 import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.NestedIntervalCompactnessUp.TasteGate
@@ -4800,6 +4802,7 @@ import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
 import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
 import BEDC.Derived.RegistryNoSmugglingPredicateUp.TasteGate
+import BEDC.Derived.RegularCauchyAbsUp.NameCert
 import BEDC.Derived.RegularCauchyAbsUp.TasteGate
 import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
@@ -5016,6 +5019,7 @@ import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.RolleTheoremUp.TasteGate
+import BEDC.Derived.RolleUp.TasteGate
 import BEDC.Derived.RootSystemUp
 import BEDC.Derived.RootSystemUp.TasteGate
 import BEDC.Derived.RoundedIdealCompletionUp.TasteGate
@@ -5696,6 +5700,7 @@ import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
+import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionSeparationKernelUp
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
