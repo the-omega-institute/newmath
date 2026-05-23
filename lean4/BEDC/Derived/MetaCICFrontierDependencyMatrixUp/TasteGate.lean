@@ -176,7 +176,7 @@ instance metaCICFrontierDependencyMatrixNontrivial :
 def taste_gate : ChapterTasteGate MetaCICFrontierDependencyMatrixUp :=
   metaCICFrontierDependencyMatrixChapterTasteGate
 
-theorem MetaCICFrontierDependencyMatrixTasteGate_single_carrier_alignment :
+def MetaCICFrontierDependencyMatrixTasteGate_single_carrier_alignment :
     (∀ h : BHist,
         metaCICFrontierDependencyMatrixDecodeBHist
           (metaCICFrontierDependencyMatrixEncodeBHist h) = h) ∧
