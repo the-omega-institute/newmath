@@ -45,6 +45,22 @@ The filter and net branches are visible as the separate rows $F$ and $N$. They c
 Finally $R,H,C,P,L$ seal the route componentwise. The RegSeqRat or Real readback is reached only after the displayed completion and separated-boundary rows, while transport, replay, provenance, and local naming preserve the same finite route for every consumer.
 \end{proof}
 
+\begin{theorem}[UniformCompletionSeparationKernel filter-net branch visibility]
+\label{thm:uniform-completion-separation-kernel-filter-net-branch-visibility}
+Let $K=(M,U,S,F,N,R,H,C,P,L)$ be an accepted $\UniformCompletionSeparationKernelUp$ carrier. Every completion-facing read from $K$ exposes both the $\CauchyFilterUp$ branch row $F$ and the $\CauchyNetUp$ branch row $N$ before the $\RegSeqRatUp$ or $\RealUp$ seal row $R$ is consumed.
+
+The read therefore factors through the displayed $\MetricCompletionUp$, $\UniformCompletionUp$, and $\SeparatedMetricUp$ route before it reaches either terminal seal. It cannot be replaced by a hidden quotient completion, selected limit row, host equality, or one-branch completion presentation.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The coordinates $M,U,S$ expose the metric-completion source, the uniform-completion handoff, and the separated zero-distance boundary before any terminal readback is available.
+
+The branch rows are separate coordinates. The filter branch $F$ and the net branch $N$ are both displayed before $R$, so a completion-facing consumer cannot consume the $\RegSeqRatUp$ or $\RealUp$ seal while hiding one of the two Cauchy presentations.
+
+Now use the ledger order recorded by $H,C,P,L$. Componentwise transport and continuation replay preserve the route through $M,U,S,F,N$ before $R$, while provenance and local naming record that route as the only public packet surface.
+
+Ledger non-escape excludes any hidden quotient completion, selected limit, host equality, or one-branch substitute. Such data are absent from the carrier coordinates and cannot be reconstructed from the displayed NameCert route.
+\end{proof}
+
 \closureat{UniformCompletionSeparationKernelUp}{seedStr}
 
 \begin{closurestatus}{\UniformCompletionSeparationKernelUp}
