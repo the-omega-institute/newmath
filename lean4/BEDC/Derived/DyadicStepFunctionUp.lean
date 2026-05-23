@@ -100,6 +100,29 @@ theorem DyadicStepFunctionCarrier_ledger_exactness [AskSetup] [PackageSetup]
   exact
     ⟨exportedUnary, ledgerUnary, refinementEndpointLedger, exportedRoute, nameRowPkg⟩
 
+theorem DyadicStepFunctionCarrier_nonescape [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      exposedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont ledger route exposedRead ->
+        UnaryHistory cells ∧ UnaryHistory refinement ∧ UnaryHistory endpointLedger ∧
+          UnaryHistory ledger ∧ UnaryHistory exposedRead ∧
+            Cont refinement endpointLedger ledger ∧ Cont ledger route exposedRead ∧
+              PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier exposedRoute
+  obtain ⟨_partitionUnary, cellsUnary, _valuesUnary, _readsUnary, refinementUnary,
+    endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have exposedReadUnary : UnaryHistory exposedRead :=
+    unary_cont_closed ledgerUnary routeUnary exposedRoute
+  exact
+    ⟨cellsUnary, refinementUnary, endpointLedgerUnary, ledgerUnary, exposedReadUnary,
+      refinementEndpointLedger, exposedRoute, nameRowPkg⟩
+
 theorem DyadicStepFunctionCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {partition cells values reads refinement endpointLedger ledger route provenance
       nameRow : BHist}
