@@ -118,16 +118,38 @@ theorem BishopRealComparisonPacket_located_cut_transport [AskSetup] [PackageSetu
     ⟨locatedUnary, cutUnary, realSealUnary, readbackUnary, locatedReadUnary, cutReadUnary,
       realLocated, readbackCut, provenancePkg, locatedReadPkg, cutReadPkg⟩
 
+theorem BishopRealComparisonPacket_nonescape [AskSetup] [PackageSetup]
+    {bishop completion located cut realSeal readback transports provenance localCert
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopRealComparisonPacket bishop completion located cut realSeal readback transports
+        provenance localCert bundle pkg ->
+      Cont realSeal readback consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory bishop ∧ UnaryHistory completion ∧ UnaryHistory located ∧
+            UnaryHistory cut ∧ UnaryHistory realSeal ∧ UnaryHistory readback ∧
+              UnaryHistory consumer ∧ Cont realSeal readback consumer ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet sealReadback consumerPkg
+  obtain ⟨bishopUnary, completionUnary, locatedUnary, cutUnary, realSealUnary, readbackUnary,
+    _transportsUnary, _provenanceUnary, _localCertUnary, provenancePkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed realSealUnary readbackUnary sealReadback
+  exact
+    ⟨bishopUnary, completionUnary, locatedUnary, cutUnary, realSealUnary, readbackUnary,
+      consumerUnary, sealReadback, provenancePkg, consumerPkg⟩
+
 theorem BishopRealComparisonPacket_cauchy_dedekind_boundary [AskSetup] [PackageSetup]
     {bishop completion located cut realSeal readback transports provenance localCert
       completionRead cutRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     BishopRealComparisonPacket bishop completion located cut realSeal readback transports provenance
-        localCert bundle pkg →
-      Cont bishop completion completionRead →
-        Cont readback cut cutRead →
-          PkgSig bundle completionRead pkg →
-            PkgSig bundle cutRead pkg →
+        localCert bundle pkg ->
+      Cont bishop completion completionRead ->
+        Cont readback cut cutRead ->
+          PkgSig bundle completionRead pkg ->
+            PkgSig bundle cutRead pkg ->
               UnaryHistory bishop ∧ UnaryHistory completion ∧ UnaryHistory cut ∧
                 UnaryHistory readback ∧ UnaryHistory completionRead ∧ UnaryHistory cutRead ∧
                   Cont bishop completion completionRead ∧ Cont readback cut cutRead ∧
@@ -151,13 +173,13 @@ theorem BishopRealComparisonPacket_source_induction [AskSetup] [PackageSetup]
       cutRead consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     BishopRealComparisonPacket bishop completion located cut realSeal readback transports provenance
-        localCert bundle pkg →
-      Cont realSeal located locatedRead →
-        Cont readback cut cutRead →
-          Cont realSeal readback consumer →
-            PkgSig bundle locatedRead pkg →
-              PkgSig bundle cutRead pkg →
-                PkgSig bundle consumer pkg →
+        localCert bundle pkg ->
+      Cont realSeal located locatedRead ->
+        Cont readback cut cutRead ->
+          Cont realSeal readback consumer ->
+            PkgSig bundle locatedRead pkg ->
+              PkgSig bundle cutRead pkg ->
+                PkgSig bundle consumer pkg ->
                   UnaryHistory bishop ∧ UnaryHistory completion ∧ UnaryHistory located ∧
                     UnaryHistory cut ∧ UnaryHistory realSeal ∧ UnaryHistory readback ∧
                       UnaryHistory locatedRead ∧ UnaryHistory cutRead ∧ UnaryHistory consumer ∧
