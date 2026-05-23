@@ -161,6 +161,10 @@ instance cauchyRateLatticeNontrivial :
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate CauchyRateLatticeUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchyRateLatticeChapterTasteGate
+
 def CauchyRateLatticeTasteGate_single_carrier_alignment_taste_gate :
     ChapterTasteGate CauchyRateLatticeUp :=
   -- BEDC touchpoint anchor: BHist BMark
