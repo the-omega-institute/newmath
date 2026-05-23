@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\InverseMappingTheoremUp$}
+\label{ch:concrete-instances-inverse-mapping-theorem-namecert}
+\origin{human}
+
+Following Banach and Rudin functional analysis, the $\InverseMappingTheoremUp$ packet records the finite BEDC certificate for reading a bijective bounded linear operator between Banach rows as a bounded inverse row. It consumes the Banach source and target certificates of \autoref{ch:concrete-instances-banach-namecert}, the bounded-operator surface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the open-ball image route of \autoref{ch:concrete-instances-open-mapping-theorem-namecert}, and the graph-read boundary of \autoref{ch:concrete-instances-closed-graph-theorem-namecert}. The packet exposes only displayed rows: Banach endpoints, a bijective bounded-linear-operator row, an open-mapping image witness, an inverse-window ledger, transport, replay, provenance, and local naming.
+
+\begin{definition}[Inverse mapping theorem carrier]
+\label{def:inverse-mapping-theorem-carrier}
+An $\InverseMappingTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,Y,T,B,I,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the source $\BanachUp$ row, including the displayed norm, metric, regular-Cauchy, and completion ledgers used by source-window consumers.
+\item $Y$ is the target $\BanachUp$ row, including the displayed norm, metric, regular-Cauchy, and completion ledgers used by target-window consumers.
+\item $T$ is the $\BoundedLinearOperatorUp$ row from $X$ to $Y$, carrying the endpoint action, linearity ledger, norm-bound endpoint, and bounded-operator provenance over the same Banach endpoints.
+\item $B$ is the bijectivity ledger. Its injective side records that equal target observations of $T$ factor through the source classifier of $X$, and its surjective side records that every displayed target window has a scheduled source preimage window.
+\item $I$ is the $\OpenMappingTheoremUp$ image-row witness. It records the finite open-ball image data and the bounded-inverse-facing source-window handoff supplied by the open-mapping packet for the same $X,Y,T,B$ rows.
+\item $H$ records the inverse-window ledger: target tolerance requests, source preimage windows, norm-bound comparisons for the inverse row, and the finite dependencies on $B$ and $I$.
+\item $C$ records componentwise $\hsame$ transport for $X,Y,T,B,I,H$ and the structural rows.
+\item $P$ records displayed $\Cont$ replay from a bounded-inverse request through the Banach rows, the bounded operator row, the bijectivity ledger, the open-mapping image witness, the inverse-window ledger, and the closed-graph boundary.
+\item $N$ is the local $\NameCert_{\InverseMappingTheoremUp}$ row, with provenance over $\InverseMappingTheoremUp$, $\BanachUp$, $\BoundedLinearOperatorUp$, $\OpenMappingTheoremUp$, $\ClosedGraphTheoremUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{enumerate}
+The carrier has no coordinate for a host inverse function, quotient operator space, selected inverse values outside the displayed windows, or completeness beyond the Banach source and target rows.
+\end{definition}
+
+\begin{theorem}[Inverse mapping theorem NameCert obligations]
+\label{thm:inverse-mapping-theorem-namecert-obligations}
+For an accepted $\InverseMappingTheoremUp$ carrier $Q=(X,Y,T,B,I,H,C,P,N)$, the local $\NameCert_{\InverseMappingTheoremUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the Banach source row, Banach target row, bounded-linear-operator row, bijectivity ledger, open-mapping image-row witness, inverse-window ledger, componentwise transport, replay, provenance, and local naming;
+\item endpoint agreement, requiring $T$, $B$, and $I$ to read the same displayed $X$ and $Y$ Banach rows before any inverse-window request is admitted;
+\item bijective operator exposure, requiring inverse-facing consumers to read injective comparison and surjective preimage data through the bounded-operator row $T$ and the finite ledger $B$;
+\item open-mapping handoff, requiring every bounded-inverse norm estimate to pass through the $\OpenMappingTheoremUp$ image-row witness $I$ before the inverse-window ledger $H$ is public;
+\item closed-graph compatibility, requiring graph-facing consumers to route the displayed inverse graph through \autoref{ch:concrete-instances-closed-graph-theorem-namecert} and the same $X,Y,T,B,I,H$ rows;
+\item structural replay, requiring $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows to preserve the same bounded-inverse route;
+\item ledger non-escape, excluding host inverse functions, quotient operator spaces, selected inverse values outside the displayed windows, and ambient completeness beyond $X$ and $Y$.
+\end{enumerate}
+No inverse mapping theorem obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inverse-mapping-theorem-carrier}. The endpoint data are $X$ and $Y$, the bounded operator is $T$, the bijectivity data are $B$, the open-mapping witness is $I$, and the inverse-window ledger is $H$.
+
+Endpoint agreement is a rowwise condition. Since $T$, $B$, and $I$ are all carried over the same displayed Banach endpoints, an inverse-facing consumer cannot mix an operator row from one source with an image-row witness from another target.
+
+The bounded-inverse estimate is read in two stages. First $B$ supplies the displayed injective and surjective windows for $T$. Then $I$ supplies the open-ball image row from the $\OpenMappingTheoremUp$ packet, and only after that can $H$ expose a source-window request and an inverse norm-bound comparison.
+
+Closed-graph compatibility is the same displayed route viewed through graph reads. The closed-graph chapter supplies only the graph-facing boundary, so it cannot replace the Banach, bounded-operator, bijectivity, open-mapping, or inverse-window rows.
+
+Finally $C,P,N$ transport, replay, record provenance for, and name exactly this finite route. The excluded host inverse, quotient operator, selected-value, and ambient-completeness principles have no coordinate in the tuple.
+\end{proof}
+
+\begin{closurestatus}{\InverseMappingTheoremUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inverse-mapping-theorem-carrier} and \autoref{thm:inverse-mapping-theorem-namecert-obligations} seed the finite bounded-inverse certificate over Banach source and target rows, bounded linear operators, bijectivity ledgers, open-mapping image witnesses, inverse-window ledgers, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host inverse functions, quotient operator spaces, selected inverse values outside displayed windows, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint agreement, bijective operator exposure, open-mapping handoff, closed-graph compatibility, structural replay, and ledger non-escape for BEDC.Derived.InverseMappingTheoremUp.}
+  \constructivestory{An $\InverseMappingTheoremUp$ packet is generated from displayed Banach endpoints, a BoundedLinearOperatorUp row, bijectivity ledgers, an OpenMappingTheoremUp image-row witness, inverse-window norm-bound data, componentwise hsame transport, Cont replay, provenance, and local naming.}
+\end{closurestatus}
