@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CauchyIntegralTestUp$}
+\label{ch:concrete-instances-cauchy-integral-test-namecert}
+\origin{human}
+
+Following Cauchy's integral-test tradition and the constructive real analysis of Bishop and Bridges, the $\CauchyIntegralTestUp$ packet records a finite comparison route from nonnegative monotone real-function data to a regular Cauchy series-tail seal. It consumes the $\RealUp$ readback surface of \autoref{ch:concrete-instances-real-namecert}, the $\RegSeqRatUp$ rational approximation corridor of \autoref{ch:concrete-instances-regseqrat-namecert}, finite observation schedules from \autoref{ch:concrete-instances-streamname-namecert}, and integral-window rows from \autoref{ch:concrete-instances-darbouxintegral-namecert} and \autoref{ch:concrete-instances-riemannintegral-namecert}. The packet names the textbook tail comparison as finite NameCert data; it does not add measure theory, Lebesgue integration, countable choice, or a completeness principle for $\RealUp$.
+
+\begin{definition}[CauchyIntegralTest carrier]
+\label{def:cauchy-integral-test-carrier}
+A $\CauchyIntegralTestUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,I,S,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\RealUp$ nonnegative monotone function row. It records finite real-name observations of the sampled function and the displayed monotone comparison between inspected tail points.
+\item $I$ is the integral tail-window row. It records Darboux or Riemann interval sums over inspected tails, together with the finite comparison between consecutive tail windows.
+\item $S$ is the regular Cauchy series-tail row. It records partial-sum tail windows and the displayed comparison to the integral tail windows.
+\item $W$ is the $\StreamNameUp$ observation row selecting the finite function samples, interval windows, and series-tail windows used by the packet.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to function values, integral bounds, and series tails.
+\item $H$ records componentwise $\hsame$ transport for the function row, integral-window row, series-tail row, stream schedule, regular rational readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a consumer request through $F,I,S,W,R$ and then to $H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyIntegralTestUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, regular series-tail data, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyIntegralTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine displayed rows. It has no coordinate for a host improper integral, a Lebesgue integral, an arbitrary choice of tail witnesses, a hidden completeness theorem, or quotient equality of real functions.
+\end{definition}
+
+\begin{definition}[CauchyIntegralTest classifier]
+\label{def:cauchy-integral-test-classifier}
+Two accepted $\CauchyIntegralTestUp$ packets classify together exactly when their displayed rows are componentwise transported by $\hsame$: the nonnegative monotone $\RealUp$ observations match, the integral tail-window rows match, the regular Cauchy series-tail rows match, the $\StreamNameUp$ schedules and $\RegSeqRatUp$ readbacks match, and the replay, provenance, and local naming rows match.
+No additional classifier row compares external functions, host integrals, or completed real sums.
+\end{definition}
+
+\begin{theorem}[CauchyIntegralTest NameCert obligations]
+\label{thm:cauchy-integral-test-namecert-obligations}
+For every accepted $\CauchyIntegralTestUp$ carrier $K=(F,I,S,W,R,H,C,P,N)$, the local $\NameCert_{\CauchyIntegralTestUp}$ surface consists exactly of carrier admission, nonnegative monotone $\RealUp$ observation, Darboux or Riemann tail-window exposure, regular Cauchy series-tail exposure, $\StreamNameUp$ finite observation, $\RegSeqRatUp$ readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $F$ exposes only the nonnegative monotone real-name observations needed for the integral-test comparison, while the row $I$ exposes the inspected integral tail windows.
+
+The row $S$ records the series-tail windows and their comparison to $I$. The rows $W$ and $R$ are the only routes through which the finite observations and rational readbacks are inspected.
+
+Finally $H,C,P,N$ transport, replay, source, and locally name the same displayed route. Since no row carries a host improper integral, a measure-theoretic integral, a choice functional, or a completeness theorem for $\RealUp$, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CauchyIntegralTest tail boundary]
+\label{thm:cauchy-integral-test-tail-boundary}
+Every accepted $\CauchyIntegralTestUp$ tail comparison factors through the finite route
+$$
+F,W \longmapsto I,R \longmapsto S
+$$
+before it can be used as convergence-test evidence. Thus the packet exports only a displayed tail-window boundary, not an ambient theorem that all monotone real functions have improper integrals.
+\end{theorem}
+\begin{proof}
+Read the function samples through $F$ and the selected observation schedule through $W$. These rows determine the inspected monotone tail windows.
+
+The integral row $I$ and readback row $R$ expose the finite Darboux or Riemann bounds attached to those windows. Only after those rows are visible may the series-tail row $S$ be compared against them.
+
+Therefore a consumer that bypasses $F,W,I,R$ or treats the route as a host improper-integral theorem leaves the accepted carrier surface.
+\end{proof}
+
+\begin{theorem}[CauchyIntegralTest series handoff]
+\label{thm:cauchy-integral-test-series-handoff}
+The $\CauchyIntegralTestUp$ packet hands convergence evidence to the regular Cauchy series-tail corridor only through the displayed row $S$ together with the readback rows $W$ and $R$. It does not choose a completed series sum, assert $\RealUp$ completeness, or identify integral tails with real limits outside the packet.
+\end{theorem}
+\begin{proof}
+The handoff target is the regular Cauchy series-tail row $S$. The finite windows and rational approximations that make $S$ readable are supplied by $W$ and $R$.
+
+The carrier contains no row for a selected infinite sum and no row for a global completeness theorem. The packet therefore supplies a convergence-test handoff to the series-tail corridor, while leaving completed sums and completeness principles outside the named surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyIntegralTestUp$ packet that reaches a series-tail seal without displaying the nonnegative monotone $\RealUp$ row, a Darboux or Riemann integral tail-window row, finite $\StreamNameUp$ observations, and $\RegSeqRatUp$ readback fails the carrier surface.}
+
+\independenceWitness{Real, RegSeqRat, StreamName, DarbouxIntegral, RiemannIntegral, regular series-tail rows: none is bijective to $\CauchyIntegralTestUp$, because the listed siblings separately supply real observations, finite schedules, rational readback, integral windows, or series-tail evidence while this packet binds them to one constructive integral-test route with transport, replay, provenance, and local naming.}
+
+The Lean TasteGate follow-up is \texttt{BEDC.Derived.CauchyIntegralTestUp}, with explicit $\Nontrivial\ \CauchyIntegralTestUp$ and $\FieldFaithful\ \CauchyIntegralTestUp$ instances preserving $F,I,S,W,R,H,C,P,N$ as separate displayed fields.
+
+\closureat{CauchyIntegralTestUp}{seedStr}
+
+\begin{closurestatus}{\CauchyIntegralTestUp}
+  \constructivestory{A $\CauchyIntegralTestUp$ packet is generated from a nonnegative monotone RealUp observation row, a Darboux or Riemann integral tail-window row, a regular Cauchy series-tail row, finite StreamNameUp observations, RegSeqRatUp readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-integral-test-carrier}, \autoref{def:cauchy-integral-test-classifier}, \autoref{thm:cauchy-integral-test-namecert-obligations}, \autoref{thm:cauchy-integral-test-tail-boundary}, and \autoref{thm:cauchy-integral-test-series-handoff} seed the finite integral-test carrier, classifier, tail boundary, and series handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim measure theory, Lebesgue integration, selected improper integrals, countable choice, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, tail-window boundary, series-tail handoff, nontriviality, and field faithfulness for BEDC.Derived.CauchyIntegralTestUp.}
+\end{closurestatus}
