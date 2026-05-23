@@ -138,6 +138,36 @@ For each retained position, the endpoint value is still read from $B$. Component
 
 Thus prefix projection is closed inside the displayed carrier. Since no coordinate names an infinite stream, a quotient-function equality, a branch selector, or compactness data, none of those objects can appear in the projected read.
 \end{proof}
+\leanchecked{BEDC.Derived.CantorSpaceUp.CantorSpaceCarrier\_prefix\_projection\_stability}
+
+\begin{theorem}[CantorSpace prefix cylinder no-confusion]
+\label{thm:cantorspace-prefix-cylinder-no-confusion}
+Let $K=(S,W,B,L,E,H,K_0,P,N)$ and $K'=(S',W',B',L',E',H',K'_0,P',N')$ be
+accepted $\CantorSpaceUp$ carriers whose finite cylinder reads are projected to
+the same certified unary index window. If the displayed $\ListUp$ prefix
+readbacks first disagree at a certified unary index $i$ and the corresponding
+$\BoolUp$ rows in $B$ and $B'$ have separated tags at $i$, then the two
+$\StreamNameUp$ carrier reads are not classifier-equal on that finite window.
+The conclusion is only the finite-window failure of classifier equality for the
+displayed prefixes; it is not an inequality of ambient infinite sequences.
+\end{theorem}
+\begin{proof}
+Project both carrier reads to the common finite window using
+\autoref{thm:cantor-space-prefix-projection-stability}. The projected data are
+exactly the visible schedule rows, the two finite $\ListUp$ prefix spines, and
+the corresponding $\BoolUp$ ledger entries.
+
+At the first certified unary index $i$ where the prefix readbacks disagree,
+$\ListUp$ readback identifies the two compared positions as the same finite
+slot. The separated $\BoolUp$ tags at that slot cannot be transported into the
+same componentwise observation row.
+
+StreamName pointwise classifier stability therefore blocks equality on the
+projected window: any classifier equality for the two carrier reads would have
+to identify the two Boolean rows at $i$. This contradicts the displayed
+tag separation, so no classifier-equality certificate exists on the finite
+window.
+\end{proof}
 
 \begin{theorem}[CantorSpace Bool cylinder endpoint determinacy]
 \label{thm:cantor-space-bool-cylinder-endpoint-determinacy}

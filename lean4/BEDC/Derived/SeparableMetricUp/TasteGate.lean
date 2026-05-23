@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SeparableMetricUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -223,5 +235,59 @@ theorem SeparableMetricTasteGate_single_carrier_alignment :
   · constructor
     · rfl
     · rfl
+
+def SeparableMetricCarrier [AskSetup] [PackageSetup]
+    (metric dense windows tolerance readback sealRow transports routes provenance
+      localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory metric ∧ UnaryHistory dense ∧ UnaryHistory windows ∧
+    UnaryHistory tolerance ∧ UnaryHistory readback ∧ UnaryHistory sealRow ∧
+      UnaryHistory transports ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+        UnaryHistory localCert ∧ Cont dense windows tolerance ∧
+          Cont tolerance readback sealRow ∧ Cont sealRow routes provenance ∧
+            PkgSig bundle provenance pkg ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+                (fun row : BHist => UnaryHistory row ∧ hsame row localCert)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
+                (fun row row' : BHist => hsame row row')
+
+theorem SeparableMetricCarrier_dense_window_stability [AskSetup] [PackageSetup]
+    {metric dense windows tolerance readback sealRow transports routes provenance localCert
+      windows' tolerance' consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableMetricCarrier metric dense windows tolerance readback sealRow transports routes
+        provenance localCert bundle pkg ->
+      hsame windows windows' ->
+        hsame tolerance tolerance' ->
+          Cont dense windows' tolerance' ->
+            Cont tolerance' readback sealRow ->
+              Cont sealRow routes consumer ->
+                PkgSig bundle consumer pkg ->
+                  SeparableMetricCarrier metric dense windows' tolerance' readback sealRow
+                      transports routes provenance localCert bundle pkg ∧
+                    UnaryHistory windows' ∧ UnaryHistory tolerance' ∧
+                      UnaryHistory consumer ∧ Cont dense windows' tolerance' ∧
+                        Cont tolerance' readback sealRow ∧ Cont sealRow routes consumer ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg SemanticNameCert
+  intro carrier sameWindows sameTolerance denseWindowRoute toleranceReadbackRoute
+  intro consumerRoute consumerPkg
+  obtain ⟨metricUnary, denseUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+    transportsUnary, routesUnary, provenanceUnary, localCertUnary, _denseWindowRoute,
+      _toleranceReadbackRoute, sealRoute, provenancePkg, localSemantic⟩ := carrier
+  have windowsUnary' : UnaryHistory windows' :=
+    unary_transport windowsUnary sameWindows
+  have toleranceUnary' : UnaryHistory tolerance' :=
+    unary_transport toleranceUnary sameTolerance
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealUnary routesUnary consumerRoute
+  exact
+    ⟨⟨metricUnary, denseUnary, windowsUnary', toleranceUnary', readbackUnary, sealUnary,
+        transportsUnary, routesUnary, provenanceUnary, localCertUnary, denseWindowRoute,
+        toleranceReadbackRoute, sealRoute, provenancePkg, localSemantic⟩,
+      windowsUnary', toleranceUnary', consumerUnary, denseWindowRoute, toleranceReadbackRoute,
+      consumerRoute, provenancePkg, consumerPkg⟩
 
 end BEDC.Derived.SeparableMetricUp

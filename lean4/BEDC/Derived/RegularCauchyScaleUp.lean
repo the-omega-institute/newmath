@@ -159,4 +159,27 @@ theorem RegularCauchyScaleCarrier_source_factorization [AskSetup] [PackageSetup]
                               · exact provenanceNamecert
                               · exact pkgSig
 
+theorem RegularCauchyScaleCarrier_classifier_route_exhaustion [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg ->
+      hsame routeRead route ->
+        UnaryHistory routeRead ∧ UnaryHistory route ∧ Cont readback route provenance ∧
+          Cont provenance namecert endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameRouteRead
+  obtain ⟨_scalarUnary, _sourceUnary, _windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, _scaledEndpointUnary, _budgetUnary, _readbackUnary,
+    _sameRowsUnary, routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary,
+    _scalarWindow, _sourceWindow, _endpointsScaled, _scaledBudget, readbackRouteProvenance,
+    provenanceNamecertEndpoint, _sameRowsAppend, endpointPkg⟩ := carrier
+  exact
+    ⟨unary_transport routeUnary (hsame_symm sameRouteRead),
+      routeUnary,
+      readbackRouteProvenance,
+      provenanceNamecertEndpoint,
+      endpointPkg⟩
+
 end BEDC.Derived.RegularCauchyScaleUp

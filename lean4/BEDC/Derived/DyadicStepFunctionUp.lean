@@ -290,6 +290,50 @@ theorem DyadicStepFunctionCarrier_product_closure [AskSetup] [PackageSetup]
     ⟨productReadUnary, productSealUnary, valuesProduct, productLedgerSeal, nameRowSPkg,
       productSealPkg⟩
 
+theorem DyadicStepFunctionCarrier_refinement_intersection_closure [AskSetup] [PackageSetup]
+    {partitionS cellsS valuesS readsS refinementS endpointLedgerS ledgerS routeS provenanceS
+      nameRowS partitionT cellsT valuesT readsT refinementT endpointLedgerT ledgerT routeT
+      provenanceT nameRowT intersectionCell endpointReadS endpointReadT mergedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partitionS cellsS valuesS readsS refinementS endpointLedgerS
+        ledgerS routeS provenanceS nameRowS bundle pkg ->
+      DyadicStepFunctionCarrier partitionT cellsT valuesT readsT refinementT endpointLedgerT
+          ledgerT routeT provenanceT nameRowT bundle pkg ->
+        Cont cellsS cellsT intersectionCell ->
+          Cont intersectionCell endpointLedgerS endpointReadS ->
+            Cont intersectionCell endpointLedgerT endpointReadT ->
+              Cont endpointReadS endpointReadT mergedRead ->
+                UnaryHistory intersectionCell ∧ UnaryHistory endpointReadS ∧
+                  UnaryHistory endpointReadT ∧ UnaryHistory mergedRead ∧
+                    Cont cellsS cellsT intersectionCell ∧
+                      Cont intersectionCell endpointLedgerS endpointReadS ∧
+                        Cont intersectionCell endpointLedgerT endpointReadT ∧
+                          Cont endpointReadS endpointReadT mergedRead ∧
+                            PkgSig bundle nameRowS pkg ∧ PkgSig bundle nameRowT pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrierS carrierT cellsIntersection intersectionEndpointS intersectionEndpointT
+    endpointMerge
+  obtain ⟨_partitionSUnary, cellsSUnary, _valuesSUnary, _readsSUnary, _refinementSUnary,
+    endpointLedgerSUnary, _ledgerSUnary, _routeSUnary, _provenanceSUnary, _nameRowSUnary,
+    _partitionCellsValuesS, _valuesReadsRefinementS, _refinementEndpointLedgerS,
+    _routeProvenanceNameRowS, nameRowSPkg⟩ := carrierS
+  obtain ⟨_partitionTUnary, cellsTUnary, _valuesTUnary, _readsTUnary, _refinementTUnary,
+    endpointLedgerTUnary, _ledgerTUnary, _routeTUnary, _provenanceTUnary, _nameRowTUnary,
+    _partitionCellsValuesT, _valuesReadsRefinementT, _refinementEndpointLedgerT,
+    _routeProvenanceNameRowT, nameRowTPkg⟩ := carrierT
+  have intersectionUnary : UnaryHistory intersectionCell :=
+    unary_cont_closed cellsSUnary cellsTUnary cellsIntersection
+  have endpointReadSUnary : UnaryHistory endpointReadS :=
+    unary_cont_closed intersectionUnary endpointLedgerSUnary intersectionEndpointS
+  have endpointReadTUnary : UnaryHistory endpointReadT :=
+    unary_cont_closed intersectionUnary endpointLedgerTUnary intersectionEndpointT
+  have mergedReadUnary : UnaryHistory mergedRead :=
+    unary_cont_closed endpointReadSUnary endpointReadTUnary endpointMerge
+  exact
+    ⟨intersectionUnary, endpointReadSUnary, endpointReadTUnary, mergedReadUnary,
+      cellsIntersection, intersectionEndpointS, intersectionEndpointT, endpointMerge,
+      nameRowSPkg, nameRowTPkg⟩
+
 theorem DyadicStepFunctionCarrier_window_obligations [AskSetup] [PackageSetup]
     {partition cells values reads refinement endpointLedger ledger route provenance nameRow
       commonCell endpointRead consumerRead regRead realSeal : BHist}
@@ -362,5 +406,40 @@ theorem DyadicStepFunctionCarrier_cellwise_sum_closure [AskSetup] [PackageSetup]
     unary_cont_closed sumReadUnary ledgerSUnary sumLedgerSeal
   exact
     ⟨sumReadUnary, sumSealUnary, valuesSum, sumLedgerSeal, nameRowSPkg, sumSealPkg⟩
+
+theorem DyadicStepFunctionCarrier_stepwise_order_window [AskSetup] [PackageSetup]
+    {partitionS cellsS valuesS readsS refinementS endpointLedgerS ledgerS routeS provenanceS
+      nameRowS partitionT cellsT valuesT readsT refinementT endpointLedgerT ledgerT routeT
+      provenanceT nameRowT orderRead orderSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partitionS cellsS valuesS readsS refinementS endpointLedgerS
+        ledgerS routeS provenanceS nameRowS bundle pkg ->
+      DyadicStepFunctionCarrier partitionT cellsT valuesT readsT refinementT endpointLedgerT
+        ledgerT routeT provenanceT nameRowT bundle pkg ->
+        Cont valuesS valuesT orderRead ->
+          Cont orderRead ledgerT orderSeal ->
+            PkgSig bundle orderSeal pkg ->
+              UnaryHistory valuesS ∧ UnaryHistory valuesT ∧ UnaryHistory ledgerT ∧
+                UnaryHistory orderRead ∧ UnaryHistory orderSeal ∧
+                  Cont valuesS valuesT orderRead ∧ Cont orderRead ledgerT orderSeal ∧
+                    PkgSig bundle nameRowS pkg ∧ PkgSig bundle nameRowT pkg ∧
+                      PkgSig bundle orderSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrierS carrierT valuesOrder orderLedgerSeal orderSealPkg
+  obtain ⟨_partitionSUnary, _cellsSUnary, valuesSUnary, _readsSUnary, _refinementSUnary,
+    _endpointLedgerSUnary, _ledgerSUnary, _routeSUnary, _provenanceSUnary, _nameRowSUnary,
+    _partitionCellsValuesS, _valuesReadsRefinementS, _refinementEndpointLedgerS,
+    _routeProvenanceNameRowS, nameRowSPkg⟩ := carrierS
+  obtain ⟨_partitionTUnary, _cellsTUnary, valuesTUnary, _readsTUnary, _refinementTUnary,
+    _endpointLedgerTUnary, ledgerTUnary, _routeTUnary, _provenanceTUnary, _nameRowTUnary,
+    _partitionCellsValuesT, _valuesReadsRefinementT, _refinementEndpointLedgerT,
+    _routeProvenanceNameRowT, nameRowTPkg⟩ := carrierT
+  have orderReadUnary : UnaryHistory orderRead :=
+    unary_cont_closed valuesSUnary valuesTUnary valuesOrder
+  have orderSealUnary : UnaryHistory orderSeal :=
+    unary_cont_closed orderReadUnary ledgerTUnary orderLedgerSeal
+  exact
+    ⟨valuesSUnary, valuesTUnary, ledgerTUnary, orderReadUnary, orderSealUnary,
+      valuesOrder, orderLedgerSeal, nameRowSPkg, nameRowTPkg, orderSealPkg⟩
 
 end BEDC.Derived.DyadicStepFunctionUp
