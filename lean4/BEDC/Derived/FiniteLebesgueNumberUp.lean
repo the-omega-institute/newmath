@@ -15,6 +15,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RootTailRadiusSourcePackage
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRootUnblockObligations
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseNonchoiceCover
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseSourceNonescape
+import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadius
 import BEDC.Derived.FiniteLebesgueNumberUp.RealPhaseSourceExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.RealSourceNonchoice
 import BEDC.Derived.FiniteLebesgueNumberUp.RootUnblockTerminalPackage
