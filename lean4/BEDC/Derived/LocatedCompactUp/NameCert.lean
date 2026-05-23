@@ -44,4 +44,24 @@ theorem LocatedCompactNameCertObligations :
         | e0 nameCert ih => exact congrArg BHist.e0 ih
         | e1 nameCert ih => exact congrArg BHist.e1 ih
 
+theorem LocatedCompactFiniteNet_rows_from_obligation_surface (x : LocatedCompactUp) :
+    LocatedCompactObligationSurface x →
+      ∃ carrier locatedness finiteNet apartness transport continuation provenance
+          nameCert : BHist,
+        x =
+            LocatedCompactUp.mk carrier locatedness finiteNet apartness transport
+              continuation provenance nameCert ∧
+          hsame (locatedCompactDecodeBHist (locatedCompactEncodeBHist locatedness))
+            locatedness ∧
+            hsame (locatedCompactDecodeBHist (locatedCompactEncodeBHist finiteNet))
+              finiteNet := by
+  -- BEDC touchpoint anchor: BHist hsame NameCert
+  intro surface
+  obtain
+    ⟨carrier, locatedness, finiteNet, apartness, transport, continuation, provenance,
+      nameCert, hx, _carrierRow, locatednessRow, finiteNetRow, _nameCertRow⟩ := surface
+  exact
+    ⟨carrier, locatedness, finiteNet, apartness, transport, continuation, provenance,
+      nameCert, hx, locatednessRow, finiteNetRow⟩
+
 end BEDC.Derived.LocatedCompactUp
