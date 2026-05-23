@@ -435,9 +435,55 @@ The separatedness row $S$ can compare displayed limit readings only after that f
 Uniform-completion and L10 real-completion consumers then replay the same route through $H,C,P,N$. Since quotient streams, representatives, selected limits, countable-choice schedules, host equality rows, and ambient complete metric spaces are absent from the tuple, the Real-seal read cannot escape to any of them.
 \end{proof}
 
+\begin{theorem}[MetricCompletion root carrier obligation]
+\label{thm:metriccompletion-root-obligation-carrier}
+Let $M=(X,F,D,R,S,H,C,P,N)$ be an accepted $\MetricCompletionUp$ packet. The root carrier projection of $M$ is exhausted by the displayed route
+$$
+\MetricUp\longmapsto (F:\CauchyFilterUp)\ \text{or}\ (D:\CauchyNetUp)\longmapsto R\longmapsto \SeparatedMetricUp\longmapsto H,C,P,N ,
+$$
+where $R$ is the finite $\RegSeqRatUp$ or $\RealUp$ readback row attached to the selected branch. Thus every root consumer of $M$ must expose the metric source $X$, one selected Cauchy branch, the finite readback row $R$, the separated comparison row $S$, and the structural rows $H,C,P,N$ before it can read any completion-facing endpoint.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:metric-completion-carrier}. Its visible analytic source is $X$, and the only Cauchy evidence available to a consumer is the displayed filter row $F$ or the displayed net row $D$.
+
+Use branch coverage from \autoref{thm:metric-completion-branch-coverage}. The packet selects one branch for the requested read, and the filter-net compatibility theorem \autoref{thm:metric-completion-filter-net-compatibility} allows only the recorded compatibility rows to mediate between the two presentations.
+
+The numerical endpoint then passes through $R$ and the separated comparison row $S$. The finite readback compatibility of \autoref{thm:metric-completion-finite-readback-ledger-nonescape} keeps the $\RegSeqRatUp$ or $\RealUp$ row attached to the selected branch.
+
+Finally the transport, replay, provenance, and naming fields $H,C,P,N$ repack the same carrier. Since there is no additional coordinate, a root consumer cannot read quotient completions, selected representatives, choice schedules, open-cover compactness, or ambient $\RealUp$ completeness from carrier admission.
+\end{proof}
+
+\begin{theorem}[MetricCompletion root classifier obligation]
+\label{thm:metriccompletion-root-obligation-classifier}
+Let $M=(X,F,D,R,S,H,C,P,N)$ and $M'=(X',F',D',R',S',H',C',P',N')$ be accepted $\MetricCompletionUp$ packets. If $X,F,D,R,S,H,C,P,N$ and $X',F',D',R',S',H',C',P',N'$ are related componentwise by the displayed $\hsame$ rows and the replay rows $\Cont$ transport the same selected Cauchy branch, then the root classifier for $\MetricCompletionUp$ is stable between $M$ and $M'$. The stability claim is only this componentwise replay; it does not identify quotient completions, selected representatives, host equality, open-cover compactness, or ambient complete metric spaces.
+\end{theorem}
+\begin{proof}
+Begin with the classifier of \autoref{def:metric-completion-classifier}. It compares packets by reading the metric source, the selected Cauchy branch, the finite readback, the separated comparison, and the structural rows.
+
+Apply carrier projection from \autoref{thm:metriccompletion-root-obligation-carrier}. Componentwise $\hsame$ transport moves each visible row of $M$ to the matching visible row of $M'$ without changing the order in which the branch and readback rows are inspected.
+
+The replay hypothesis supplies the $\Cont$ part of the comparison. It ensures that a request routed through $F$ or $D$ in one packet is routed through the matching branch in the other packet, using only the compatibility rows already displayed by the packets.
+
+Thus the classifier is stable under the stated componentwise transport and replay. The proof has not introduced a quotient completion, representative selector, host equality row, open-cover compactness proof, or ambient complete metric space; those objects remain outside the classifier surface.
+\end{proof}
+
+\begin{theorem}[MetricCompletion root ledger nonescape]
+\label{thm:metriccompletion-root-obligation-ledger}
+For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$, every root ledger read factors through the selected Cauchy branch, the finite readback row $R$, and the separated comparison row $S$. Consequently the packet exports no quotient completion ledger, selected representative ledger, choice ledger, open-cover compactness ledger, ambient complete-metric ledger, or $\RealUp$ completeness ledger.
+\end{theorem}
+\begin{proof}
+Use the finite readback ledger nonescape theorem \autoref{thm:metric-completion-finite-readback-ledger-nonescape}. It places every numerical ledger entry after the selected Cauchy branch and before the downstream separated or uniform-completion read.
+
+Next use separated-limit uniqueness, \autoref{thm:metric-completion-separated-limit-uniqueness} and \autoref{thm:metriccompletion-separated-limit-uniqueness}. These results identify displayed zero-distance comparisons through $S$; they do not create a selected host representative.
+
+The uniform handoff theorem \autoref{thm:metric-completion-uniform-completion-handoff} then exports only the same branch, readback, separatedness, transport, replay, provenance, and naming rows. Downstream consumers therefore see the ledger already present in $M$.
+
+Since quotient completions, representative selectors, countable-choice schedules, open-cover compactness, ambient complete metric spaces, and $\RealUp$ completeness are absent from the carrier tuple, no root ledger read can escape to those objects.
+\end{proof}
+
 \begin{closurestatus}{\MetricCompletionUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metric-completion-carrier}, \autoref{def:metric-completion-classifier}, \autoref{thm:metric-completion-namecert-obligations}, \autoref{thm:metric-completion-cauchy-filter-handoff}, \autoref{thm:metriccompletion-cauchy-filter-net-seal}, \autoref{thm:metric-completion-separated-limit-uniqueness}, \autoref{thm:metriccompletion-separated-limit-uniqueness}, \autoref{thm:metric-completion-cauchy-net-handoff}, \autoref{thm:metric-completion-filter-net-branch-determinacy}, \autoref{thm:metric-completion-finite-readback-ledger-nonescape}, \autoref{thm:metric-completion-branch-coverage}, \autoref{thm:metric-completion-filter-net-compatibility}, \autoref{thm:metric-completion-uniform-completion-handoff}, and \autoref{thm:metriccompletion-uniform-completion-handoff} seed the finite L10 metric-completion interface over metric, Cauchy-filter, Cauchy-net, readback, separatedness, and uniform-completion rows.}
+  \scopeclosed{\autoref{def:metric-completion-carrier}, \autoref{def:metric-completion-classifier}, \autoref{thm:metric-completion-namecert-obligations}, \autoref{thm:metric-completion-cauchy-filter-handoff}, \autoref{thm:metriccompletion-cauchy-filter-net-seal}, \autoref{thm:metric-completion-separated-limit-uniqueness}, \autoref{thm:metriccompletion-separated-limit-uniqueness}, \autoref{thm:metric-completion-cauchy-net-handoff}, \autoref{thm:metric-completion-filter-net-branch-determinacy}, \autoref{thm:metric-completion-finite-readback-ledger-nonescape}, \autoref{thm:metric-completion-branch-coverage}, \autoref{thm:metric-completion-filter-net-compatibility}, \autoref{thm:metric-completion-uniform-completion-handoff}, \autoref{thm:metriccompletion-uniform-completion-handoff}, \autoref{thm:metriccompletion-root-obligation-carrier}, \autoref{thm:metriccompletion-root-obligation-classifier}, and \autoref{thm:metriccompletion-root-obligation-ledger} seed the finite L10 metric-completion interface over metric, Cauchy-filter, Cauchy-net, readback, separatedness, and uniform-completion rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, selected representatives, ambient complete metric spaces, open-cover compactness, countable choice, or $\RealUp$ completeness.}
