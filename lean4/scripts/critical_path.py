@@ -458,6 +458,7 @@ def _git_head_short() -> str:
         out = subprocess.run(
             ["git", "rev-parse", "--short=12", "HEAD"],
             cwd=str(ROOT), capture_output=True, text=True, check=False,
+            timeout=5,
         )
         return out.stdout.strip() or "nohead"
     except Exception:
@@ -762,8 +763,11 @@ def load_objective_formal_grades() -> dict[str, str]:
         return _objective_grades_cache
 
     import tempfile
+    import time as _time
+    tmp_dir = Path(tempfile.gettempdir())
     head = _git_head_short()
-    cache_path = Path(tempfile.gettempdir()) / f"bedc_objective_grades_{head}.json"
+    cache_path = tmp_dir / f"bedc_objective_grades_{head}.json"
+
     if cache_path.exists():
         try:
             data = json.loads(cache_path.read_text(encoding="utf-8"))
@@ -773,18 +777,47 @@ def load_objective_formal_grades() -> dict[str, str]:
         except Exception:
             pass
 
+    STALE_CACHE_MAX_AGE_SECONDS = 6 * 3600  # 6h ceiling
+    now = _time.time()
+    stale_candidates = sorted(
+        tmp_dir.glob("bedc_objective_grades_*.json"),
+        key=lambda p: p.stat().st_mtime if p.exists() else 0,
+        reverse=True,
+    )
+    for stale in stale_candidates:
+        try:
+            age = now - stale.stat().st_mtime
+        except OSError:
+            continue
+        if age > STALE_CACHE_MAX_AGE_SECONDS:
+            break  # everything older is even more stale
+        try:
+            data = json.loads(stale.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not (isinstance(data, dict) and data):
+            continue
+        _objective_grades_cache = data
+        try:
+            cache_path.write_text(json.dumps(data), encoding="utf-8")
+        except Exception:
+            pass
+        return data
+
+    AXIOM_PURITY_BUDGET_SECONDS = 300
     try:
         result = subprocess.run(
             ["python3", "lean4/scripts/bedc_ci.py",
              "axiom-purity", "--strict", "--json"],
             cwd=str(ROOT), capture_output=True, text=True, check=False,
+            timeout=AXIOM_PURITY_BUDGET_SECONDS,
         )
         if result.returncode == 0 and result.stdout.strip():
             payload = json.loads(result.stdout)
             pure_set = set(payload.get("pure", []))
         else:
             pure_set = set()
-    except Exception:
+    except (subprocess.TimeoutExpired, Exception):
         pure_set = set()
 
     # Reuse bedc_ci's declaration inventory to know each target's kind.
@@ -941,7 +974,10 @@ def extract_horizons() -> dict[str, dict]:
     horizons: dict[str, dict] = {}
     for tex in sorted(NAMECERT_GLOB.glob("*_namecert_construction.tex")):
         name = normalize_name(tex.name)
-        text = tex.read_text(encoding="utf-8", errors="replace")
+        try:
+            text = tex.read_text(encoding="utf-8", errors="replace")
+        except (FileNotFoundError, OSError):
+            continue
         # Resolve all included subfiles for closure / dep / marker scanning.
         full_text = _read_chapter_recursive(tex)
         deps = {m.group(1).lower() for m in UP_REF_RE.finditer(full_text)}
