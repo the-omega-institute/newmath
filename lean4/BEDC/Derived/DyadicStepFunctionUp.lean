@@ -100,6 +100,29 @@ theorem DyadicStepFunctionCarrier_ledger_exactness [AskSetup] [PackageSetup]
   exact
     ⟨exportedUnary, ledgerUnary, refinementEndpointLedger, exportedRoute, nameRowPkg⟩
 
+theorem DyadicStepFunctionCarrier_nonescape [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      exposedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont ledger route exposedRead ->
+        UnaryHistory cells ∧ UnaryHistory refinement ∧ UnaryHistory endpointLedger ∧
+          UnaryHistory ledger ∧ UnaryHistory exposedRead ∧
+            Cont refinement endpointLedger ledger ∧ Cont ledger route exposedRead ∧
+              PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier exposedRoute
+  obtain ⟨_partitionUnary, cellsUnary, _valuesUnary, _readsUnary, refinementUnary,
+    endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have exposedReadUnary : UnaryHistory exposedRead :=
+    unary_cont_closed ledgerUnary routeUnary exposedRoute
+  exact
+    ⟨cellsUnary, refinementUnary, endpointLedgerUnary, ledgerUnary, exposedReadUnary,
+      refinementEndpointLedger, exposedRoute, nameRowPkg⟩
+
 theorem DyadicStepFunctionCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {partition cells values reads refinement endpointLedger ledger route provenance
       nameRow : BHist}
@@ -381,6 +404,63 @@ theorem DyadicStepFunctionCarrier_refinement_intersection_closure [AskSetup] [Pa
       cellsIntersection, intersectionEndpointS, intersectionEndpointT, endpointMerge,
       nameRowSPkg, nameRowTPkg⟩
 
+theorem DyadicStepFunctionCarrier_common_refinement_normal_form [AskSetup] [PackageSetup]
+    {partitionS cellsS valuesS readsS refinementS endpointLedgerS ledgerS routeS provenanceS
+      nameRowS partitionT cellsT valuesT readsT refinementT endpointLedgerT ledgerT routeT
+      provenanceT nameRowT normalCell endpointReadS endpointReadT mergedEndpoint consumerRead
+      realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partitionS cellsS valuesS readsS refinementS endpointLedgerS
+        ledgerS routeS provenanceS nameRowS bundle pkg →
+      DyadicStepFunctionCarrier partitionT cellsT valuesT readsT refinementT endpointLedgerT
+          ledgerT routeT provenanceT nameRowT bundle pkg →
+        Cont cellsS cellsT normalCell →
+          Cont normalCell endpointLedgerS endpointReadS →
+            Cont normalCell endpointLedgerT endpointReadT →
+              Cont endpointReadS endpointReadT mergedEndpoint →
+                Cont mergedEndpoint ledgerS consumerRead →
+                  Cont consumerRead routeS realSeal →
+                    PkgSig bundle realSeal pkg →
+                      UnaryHistory normalCell ∧ UnaryHistory endpointReadS ∧
+                        UnaryHistory endpointReadT ∧ UnaryHistory mergedEndpoint ∧
+                          UnaryHistory consumerRead ∧ UnaryHistory realSeal ∧
+                            Cont cellsS cellsT normalCell ∧
+                              Cont normalCell endpointLedgerS endpointReadS ∧
+                                Cont normalCell endpointLedgerT endpointReadT ∧
+                                  Cont endpointReadS endpointReadT mergedEndpoint ∧
+                                    Cont mergedEndpoint ledgerS consumerRead ∧
+                                      Cont consumerRead routeS realSeal ∧
+                                        PkgSig bundle nameRowS pkg ∧
+                                          PkgSig bundle nameRowT pkg ∧
+                                            PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrierS carrierT cellsCommon endpointS endpointT endpointMerge mergedLedger
+    consumerRoute realSealPkg
+  obtain ⟨_partitionSUnary, cellsSUnary, _valuesSUnary, _readsSUnary, _refinementSUnary,
+    endpointLedgerSUnary, ledgerSUnary, routeSUnary, _provenanceSUnary, _nameRowSUnary,
+    _partitionCellsValuesS, _valuesReadsRefinementS, _refinementEndpointLedgerS,
+    _routeProvenanceNameRowS, nameRowSPkg⟩ := carrierS
+  obtain ⟨_partitionTUnary, cellsTUnary, _valuesTUnary, _readsTUnary, _refinementTUnary,
+    endpointLedgerTUnary, _ledgerTUnary, _routeTUnary, _provenanceTUnary, _nameRowTUnary,
+    _partitionCellsValuesT, _valuesReadsRefinementT, _refinementEndpointLedgerT,
+    _routeProvenanceNameRowT, nameRowTPkg⟩ := carrierT
+  have normalCellUnary : UnaryHistory normalCell :=
+    unary_cont_closed cellsSUnary cellsTUnary cellsCommon
+  have endpointReadSUnary : UnaryHistory endpointReadS :=
+    unary_cont_closed normalCellUnary endpointLedgerSUnary endpointS
+  have endpointReadTUnary : UnaryHistory endpointReadT :=
+    unary_cont_closed normalCellUnary endpointLedgerTUnary endpointT
+  have mergedEndpointUnary : UnaryHistory mergedEndpoint :=
+    unary_cont_closed endpointReadSUnary endpointReadTUnary endpointMerge
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed mergedEndpointUnary ledgerSUnary mergedLedger
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed consumerReadUnary routeSUnary consumerRoute
+  exact
+    ⟨normalCellUnary, endpointReadSUnary, endpointReadTUnary, mergedEndpointUnary,
+      consumerReadUnary, realSealUnary, cellsCommon, endpointS, endpointT, endpointMerge,
+      mergedLedger, consumerRoute, nameRowSPkg, nameRowTPkg, realSealPkg⟩
+
 theorem DyadicStepFunctionCarrier_window_obligations [AskSetup] [PackageSetup]
     {partition cells values reads refinement endpointLedger ledger route provenance nameRow
       commonCell endpointRead consumerRead regRead realSeal : BHist}
@@ -421,6 +501,33 @@ theorem DyadicStepFunctionCarrier_window_obligations [AskSetup] [PackageSetup]
     ⟨cellsUnary, commonCellUnary, endpointReadUnary, consumerReadUnary, regReadUnary,
       realSealUnary, cellsRefinementCommon, commonEndpointRead, endpointLedgerRead,
       ledgerRouteReg, regRouteReal, nameRowPkg, realSealPkg⟩
+
+theorem DyadicStepFunctionCarrier_real_regseqrat_scope_lock [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      regRead realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont ledger route regRead ->
+        Cont regRead route realSeal ->
+          PkgSig bundle realSeal pkg ->
+            UnaryHistory cells ∧ UnaryHistory values ∧ UnaryHistory ledger ∧
+              UnaryHistory regRead ∧ UnaryHistory realSeal ∧ Cont partition cells values ∧
+                Cont ledger route regRead ∧ Cont regRead route realSeal ∧
+                  PkgSig bundle nameRow pkg ∧ PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier ledgerRouteReg regRouteReal realSealPkg
+  obtain ⟨_partitionUnary, cellsUnary, valuesUnary, _readsUnary, _refinementUnary,
+    _endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    partitionCellsValues, _valuesReadsRefinement, _refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have regReadUnary : UnaryHistory regRead :=
+    unary_cont_closed ledgerUnary routeUnary ledgerRouteReg
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regReadUnary routeUnary regRouteReal
+  exact
+    ⟨cellsUnary, valuesUnary, ledgerUnary, regReadUnary, realSealUnary,
+      partitionCellsValues, ledgerRouteReg, regRouteReal, nameRowPkg, realSealPkg⟩
 
 theorem DyadicStepFunctionCarrier_cellwise_sum_closure [AskSetup] [PackageSetup]
     {partitionS cellsS valuesS readsS refinementS endpointLedgerS ledgerS routeS provenanceS
