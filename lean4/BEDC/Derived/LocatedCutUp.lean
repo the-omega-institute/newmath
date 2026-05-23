@@ -284,6 +284,32 @@ theorem LocatedCutCarrier_common_window_refinement [AskSetup] [PackageSetup]
   exact ⟨sameWindow, sameTransport, sameProvenance, sameSeal, lowerUpperWindow₁,
     lowerUpperWindow₂⟩
 
+theorem LocatedCutCarrier_ledger_pair_coherence [AskSetup] [PackageSetup]
+    {lower upper window handoff sealRow transportRow route provenance localCert paired : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window handoff sealRow transportRow route provenance localCert
+        bundle pkg ->
+      UnaryHistory lower ->
+        UnaryHistory upper ->
+          Cont lower upper paired ->
+            PkgSig bundle paired pkg ->
+              UnaryHistory paired ∧ Cont lower upper window ∧ Cont lower upper paired ∧
+                hsame window paired ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle paired pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier lowerUnary upperUnary lowerUpperPaired pairedPkg
+  obtain ⟨lowerUpperWindow, _windowHandoffTransport, _transportRouteProvenance,
+    _provenanceLocalCertSeal, provenancePkg, _sameSealHandoff, _sameSealProvenance⟩ :=
+    carrier
+  have pairedUnary : UnaryHistory paired :=
+    unary_cont_closed lowerUnary upperUnary lowerUpperPaired
+  have sameWindowPaired : hsame window paired :=
+    cont_respects_hsame (hsame_refl lower) (hsame_refl upper)
+      lowerUpperWindow lowerUpperPaired
+  exact
+    ⟨pairedUnary, lowerUpperWindow, lowerUpperPaired, sameWindowPaired, provenancePkg,
+      pairedPkg⟩
+
 theorem LocatedCutCarrier_interval_witness_extraction [AskSetup] [PackageSetup]
     {lower upper window handoff sealRow transportRow route provenance localCert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
