@@ -144,7 +144,8 @@ instance locatedArchimedeanFieldFaithful : FieldFaithful LocatedArchimedeanUp wh
   fields := locatedArchimedeanFields
   field_faithful := LocatedArchimedeanTasteGate_single_carrier_alignment_fields_faithful
 
-instance locatedArchimedeanNontrivial : BEDC.Meta.TasteGate.Nontrivial LocatedArchimedeanUp where
+instance locatedArchimedeanNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial LocatedArchimedeanUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨LocatedArchimedeanUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
@@ -162,27 +163,22 @@ def taste_gate : ChapterTasteGate LocatedArchimedeanUp :=
 theorem LocatedArchimedeanTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate LocatedArchimedeanUp) ∧
       Nonempty (FieldFaithful LocatedArchimedeanUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial LocatedArchimedeanUp) ∧
-      (∀ h : BHist, locatedArchimedeanDecodeBHist (locatedArchimedeanEncodeBHist h) = h) ∧
-      (∀ x : LocatedArchimedeanUp,
-        locatedArchimedeanFromEventFlow (locatedArchimedeanToEventFlow x) = some x) ∧
-      (∀ x y : LocatedArchimedeanUp,
-        locatedArchimedeanToEventFlow x = locatedArchimedeanToEventFlow y → x = y) ∧
-      locatedArchimedeanEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact Nonempty.intro locatedArchimedeanChapterTasteGate
-  · constructor
-    · exact Nonempty.intro locatedArchimedeanFieldFaithful
-    · constructor
-      · exact Nonempty.intro locatedArchimedeanNontrivial
-      · constructor
-        · exact LocatedArchimedeanTasteGate_single_carrier_alignment_decode_encode
-        · constructor
-          · exact LocatedArchimedeanTasteGate_single_carrier_alignment_round_trip
-          · constructor
-            · intro x y heq
-              exact LocatedArchimedeanTasteGate_single_carrier_alignment_toEventFlow_injective heq
-            · rfl
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial LocatedArchimedeanUp) ∧
+          (∀ h : BHist, locatedArchimedeanDecodeBHist (locatedArchimedeanEncodeBHist h) = h) ∧
+            (∀ x : LocatedArchimedeanUp,
+              locatedArchimedeanFromEventFlow (locatedArchimedeanToEventFlow x) = some x) ∧
+              (∀ x y : LocatedArchimedeanUp,
+                locatedArchimedeanToEventFlow x = locatedArchimedeanToEventFlow y → x = y) ∧
+                locatedArchimedeanEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨locatedArchimedeanChapterTasteGate⟩,
+      ⟨locatedArchimedeanFieldFaithful⟩,
+      ⟨locatedArchimedeanNontrivial⟩,
+      LocatedArchimedeanTasteGate_single_carrier_alignment_decode_encode,
+      LocatedArchimedeanTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        LocatedArchimedeanTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.LocatedArchimedeanUp.TasteGate
