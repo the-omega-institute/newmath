@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\LocalTimeFiberUp$}
+\label{ch:concrete-instances-local-time-fiber-namecert}
+\origin{ai}
+
+The $\LocalTimeFiberUp$ packet realizes the observer-local reading of \autoref{sec:visions-philosophy-observation-subject-time} as finite NameCert data. It sits between the observer-history identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert}, the local time-stream claims of \autoref{def:philosophy-local-time-stream}, the no-global-clock boundary of \autoref{thm:philosophy-no-kernel-global-clock}, the local clock budget of \autoref{ch:concrete-instances-localclockbudget-namecert}, and the synchronization certificate of \autoref{ch:concrete-instances-synchronization-certificate-namecert}. The packet exposes observer-local Hist growth as finite source, Cont-step, transport, refusal, provenance, and NameCert rows rather than as a global time axis.
+
+\begin{definition}[LocalTimeFiber carrier]
+\label{def:local-time-fiber-carrier}
+A $\LocalTimeFiberUp$ carrier is a finite $\BHist$ packet
+$$
+L=(O,S,K,B,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\ObserverHistIdentityUp$ source row naming the observer as a displayed history surface.
+\item $S$ is the hist-time-stream row recording the local sequence of $\Hist$ constructor growth for that observer.
+\item $K$ is the local-clock-budget row bounding which local steps may be read by a consumer.
+\item $B$ is the $\SynchronizationCertificateUp$ boundary row, present only as a certified comparison surface and not as a global clock.
+\item $R$ is the refusal row excluding a global present, absolute clock, detached observer frame, and host equality of time fibers.
+\item $T$ records componentwise $\hsame$ transport for observer identity, local stream, local budget, synchronization boundary, refusal, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the observer-local step route
+$$
+O,S,K \longmapsto B,R \longmapsto T,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocalTimeFiberUp$, $\ObserverHistIdentityUp$, hist-time-stream, local-clock-budget, $\SynchronizationCertificateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocalTimeFiberUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these nine rows. Its classifier compares accepted local time fibers only through $O,S,K,B,R,T,C,P,N$ and has no coordinate for a global clock, absolute present, detached observer substance, unbudgeted step selector, host equality of histories, Lean verification beyond the encoded carrier, or bridge checking.
+\end{definition}
+
+\begin{theorem}[LocalTimeFiber NameCert obligations]
+\label{thm:local-time-fiber-namecert-obligations}
+For an accepted $\LocalTimeFiberUp$ carrier
+$$
+L=(O,S,K,B,R,T,C,P,N),
+$$
+the local $\NameCert_{\LocalTimeFiberUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the observer-history source, local Hist time stream, local clock budget, synchronization boundary, refusal, transport, replay, provenance, and local naming rows;
+\item observer-time-step exactness, requiring every time read to project the observer-history row $O$ before it projects a local step from $S$;
+\item hist-time-stream locality, requiring each step read to stay within the displayed local stream rather than a shared external index;
+\item local-clock-budget boundedness, requiring $K$ before any consumer can request a local step window;
+\item synchronizationcertificate confinement, allowing $B$ only as a finite comparison certificate and never as a global clock or absolute present;
+\item observerhistidentity transport, requiring $\hsame$ comparison to preserve the observer, stream, budget, synchronization, refusal, replay, provenance, and local naming rows componentwise;
+\item non-escape, excluding a global clock, detached observer frame, host equality of histories, unbudgeted local-step selection, Lean verification beyond the encoded carrier, and bridge checking.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:local-time-fiber-carrier}. The accepted packet exposes exactly the observer-history source, local stream, budget, synchronization boundary, refusal, transport, replay, provenance, and local naming rows.
+
+Observer-time-step exactness starts at $O$. A consumer cannot inspect a local time step until the observer-history source has been displayed, so the time fiber is attached to an observer history rather than to a detached clock carrier.
+
+The stream and budget obligations are confined to $S$ and $K$. The stream row supplies local Hist growth, and the budget row bounds which local windows may be read by downstream consumers.
+
+The synchronization and refusal obligations are supplied by $B$ and $R$. A synchronization certificate may compare displayed local fibers, but the refusal row blocks any reading of that comparison as a global present, absolute clock, detached frame, or host equality.
+
+Finally $T,C,P,N$ preserve the same finite route. Since no excluded host-side time principle has a carrier row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[LocalTimeFiber no-global-clock boundary]
+\label{thm:local-time-fiber-nonescape}
+Every consumer of an accepted $\LocalTimeFiberUp$ carrier reads observer-local time only through
+$$
+\ObserverHistIdentityUp,\ \text{hist-time-stream},\ \text{local-clock-budget},\ \SynchronizationCertificateUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+It cannot read a global clock, absolute present, detached observer frame, host equality of histories, unbudgeted local-step selector, Lean verification beyond the encoded carrier, or standard bridge from this packet.
+\end{theorem}
+\begin{proof}
+The boundary is field exclusion. The carrier of \autoref{def:local-time-fiber-carrier} lists the only rows admitted by the packet, and the NameCert obligations of \autoref{thm:local-time-fiber-namecert-obligations} force every accepted read to project through those rows.
+
+A global clock, absolute present, detached observer frame, host equality of histories, unbudgeted step selector, or standard bridge would require an additional coordinate. Since no such coordinate occurs in $L$, the local classifier has no accepted read for that request.
+\end{proof}
+
+\falsifiablePrediction{A LocalTimeFiberUp read fails whenever a consumer asks for a global clock, absolute present, detached observer frame, host equality of histories, or unbudgeted local-step selector not displayed in the local fiber packet.}
+
+\independenceWitness{observer-time-step, hist-time-stream, local-clock-budget, observerhistidentity, synchronizationcertificate: none is bijective to $\LocalTimeFiberUp$ because the local fiber jointly carries observer source, local Hist stream, budget, synchronization boundary, refusal, transport, replay, provenance, and local NameCert rows, while each sibling exposes only one surface of that route.}
+
+The Lean follow-up must provide \texttt{Nontrivial LocalTimeFiberUp} and \texttt{FieldFaithful LocalTimeFiberUp} in \texttt{lean4/BEDC/Derived/LocalTimeFiberUp/TasteGate.lean}.
+
+\closureat{LocalTimeFiberUp}{seedStr}
+
+\begin{closurestatus}{\LocalTimeFiberUp}
+  \constructivestory{A $\LocalTimeFiberUp$ packet is generated from an ObserverHistIdentityUp source row, local Hist time stream, local clock budget, SynchronizationCertificateUp boundary, global-clock refusal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:local-time-fiber-carrier}, \autoref{thm:local-time-fiber-namecert-obligations}, and \autoref{thm:local-time-fiber-nonescape} seed the observer-local time-fiber surface.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.LocalTimeFiberUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a global clock, absolute present, detached observer frame, host equality of histories, unbudgeted step selection, Lean verification beyond the encoded carrier, or bridge checking.}
+  \upgradepath{Obligation closure requires checked observer-time-step exactness, hist-time-stream locality, local-clock-budget boundedness, synchronizationcertificate confinement, observerhistidentity transport, and non-escape for BEDC.Derived.LocalTimeFiberUp.}
+\end{closurestatus}
