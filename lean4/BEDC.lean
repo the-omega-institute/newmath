@@ -887,6 +887,7 @@ import BEDC.Derived.CauchyChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionAssociativityUp
 import BEDC.Derived.CauchyCompletionAssociativityUp.TasteGate
+import BEDC.Derived.CauchyCompletionContinuationUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionFunctorUp.FiniteApproximationRoute
 import BEDC.Derived.CauchyCompletionFunctorUp.RegseqRealEndofunctor
@@ -963,6 +964,7 @@ import BEDC.Derived.CauchyDiagonalBudgetUp
 import BEDC.Derived.CauchyDiagonalBudgetUp.SharedTailWindowExhaustion
 import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
 import BEDC.Derived.CauchyDiagonalLimitUp.TasteGate
+import BEDC.Derived.CauchyDifferenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyErrorCertificateUp
@@ -1218,6 +1220,7 @@ import BEDC.Derived.CauchySpaceUp
 import BEDC.Derived.CauchySpaceUp.TasteGate
 import BEDC.Derived.CauchySpeedupUp
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
+import BEDC.Derived.CauchyTailBasisUp.TasteGate
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyTailComparisonUp.TasteGate
 import BEDC.Derived.CauchyTailConsensusUp.TasteGate
@@ -1577,6 +1580,7 @@ import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionEmbeddingUp
+import BEDC.Derived.CompletionExtensionUniquenessUp.TasteGate
 import BEDC.Derived.CompletionExtractorUp
 import BEDC.Derived.CompletionExtractorUp.TasteGate
 import BEDC.Derived.CompletionFunctorUp
@@ -2503,6 +2507,7 @@ import BEDC.Derived.DyadicEmbeddingUp.TasteGate
 import BEDC.Derived.DyadicErrorBudgetUp.TasteGate
 import BEDC.Derived.DyadicExponentShiftUp.TasteGate
 import BEDC.Derived.DyadicFloorUp.TasteGate
+import BEDC.Derived.DyadicGeometricTailUp.TasteGate
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
