@@ -888,6 +888,7 @@ import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
 import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
+import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectiveSubcategoryUp.TasteGate
 import BEDC.Derived.CauchyCompletionSplitUp.TasteGate
 import BEDC.Derived.CauchyCompletionTraceUp.TasteGate
@@ -1159,6 +1160,7 @@ import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
 import BEDC.Derived.CauchyRateDominanceUp.TasteGate
 import BEDC.Derived.CauchyRateLatticeUp.NameCertObligations
+import BEDC.Derived.CauchyRateLatticeUp.TasteGate
 import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
@@ -4644,6 +4646,7 @@ import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessOrderUp.TasteGate
+import BEDC.Derived.RegularCauchyBallUp.TasteGate
 import BEDC.Derived.RegularCauchyClassifierNormalFormUp.TasteGate
 import BEDC.Derived.RegularCauchyCofinalLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonPrincipleUp.TasteGate
@@ -4700,6 +4703,7 @@ import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
+import BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyMaxUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
