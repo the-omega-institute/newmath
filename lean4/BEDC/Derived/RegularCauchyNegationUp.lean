@@ -197,6 +197,37 @@ theorem RegularCauchyNegationCarrier_algebraic_handoff [AskSetup] [PackageSetup]
       dyadicClassifierFlipped, flippedSealTransport, flippedClassifierSum, flippedDyadicDiff,
       sumPkg, diffPkg⟩
 
+theorem RegularCauchyNegationCarrier_involutive_seal_boundary [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name
+      secondFlip finalBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg ->
+      Cont flipped dyadic secondFlip ->
+        Cont secondFlip sealRow finalBoundary ->
+          PkgSig bundle secondFlip pkg ->
+            PkgSig bundle finalBoundary pkg ->
+              UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+                UnaryHistory classifier ∧ UnaryHistory flipped ∧ UnaryHistory secondFlip ∧
+                  UnaryHistory finalBoundary ∧ Cont source window dyadic ∧
+                    Cont dyadic classifier flipped ∧ Cont flipped dyadic secondFlip ∧
+                      Cont secondFlip sealRow finalBoundary ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle secondFlip pkg ∧ PkgSig bundle finalBoundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier flippedDyadicSecond secondSealBoundary secondPkg boundaryPkg
+  obtain ⟨sourceUnary, windowUnary, dyadicUnary, classifierUnary, flippedUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, sourceWindowDyadic,
+    dyadicClassifierFlipped, _flippedSealTransport, _transportRouteProvenance,
+    _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have secondUnary : UnaryHistory secondFlip :=
+    unary_cont_closed flippedUnary dyadicUnary flippedDyadicSecond
+  have boundaryUnary : UnaryHistory finalBoundary :=
+    unary_cont_closed secondUnary sealUnary secondSealBoundary
+  exact
+    ⟨sourceUnary, windowUnary, dyadicUnary, classifierUnary, flippedUnary, secondUnary,
+      boundaryUnary, sourceWindowDyadic, dyadicClassifierFlipped, flippedDyadicSecond,
+      secondSealBoundary, provenancePkg, secondPkg, boundaryPkg⟩
+
 theorem RegularCauchyNegationCarrier_transport [AskSetup] [PackageSetup]
     {source window dyadic classifier flipped sealRow transportRow route provenance name
       source' window' dyadic' classifier' flipped' sealRow' transportRow' route'
@@ -336,5 +367,35 @@ theorem RegularCauchyNegationCarrier_real_algebra_bridge_certificate [AskSetup] 
         exact ⟨sourceRow.left, bridgePkg⟩
     }
   · exact ⟨algebraUnary, bridgeUnary⟩
+
+theorem RegularCauchyNegationCarrier_apartness_nonescape [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name
+      apartnessRead apartnessSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg ->
+      Cont flipped classifier apartnessRead ->
+        Cont apartnessRead sealRow apartnessSeal ->
+          PkgSig bundle apartnessSeal pkg ->
+            UnaryHistory flipped ∧ UnaryHistory classifier ∧ UnaryHistory sealRow ∧
+              UnaryHistory apartnessRead ∧ UnaryHistory apartnessSeal ∧
+                Cont dyadic classifier flipped ∧ Cont flipped sealRow transportRow ∧
+                  Cont flipped classifier apartnessRead ∧
+                    Cont apartnessRead sealRow apartnessSeal ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle apartnessSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier flippedClassifierApartness apartnessSealRoute apartnessSealPkg
+  obtain ⟨_sourceUnary, _windowUnary, _dyadicUnary, classifierUnary, flippedUnary,
+    sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _sourceWindowDyadic, dyadicClassifierFlipped, flippedSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have apartnessReadUnary : UnaryHistory apartnessRead :=
+    unary_cont_closed flippedUnary classifierUnary flippedClassifierApartness
+  have apartnessSealUnary : UnaryHistory apartnessSeal :=
+    unary_cont_closed apartnessReadUnary sealUnary apartnessSealRoute
+  exact
+    ⟨flippedUnary, classifierUnary, sealUnary, apartnessReadUnary, apartnessSealUnary,
+      dyadicClassifierFlipped, flippedSealTransport, flippedClassifierApartness,
+      apartnessSealRoute, provenancePkg, apartnessSealPkg⟩
 
 end BEDC.Derived.RegularCauchyNegationUp

@@ -69,4 +69,38 @@ theorem CauchyProductPacket_budgeted_readback_root_boundary [AskSetup] [PackageS
       windowTransport, productRoute, classifierRoute, classifierBudget, budgetSealRoute,
       sealBudgetRead, namePkg, budgetReadPkg⟩
 
+theorem CauchyProductPacket_root_source_window_totality [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name sourceWindowA sourceWindowB joinedWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont sourceA windowA sourceWindowA ->
+        Cont sourceB windowB sourceWindowB ->
+          Cont sourceWindowA sourceWindowB joinedWindow ->
+            PkgSig bundle joinedWindow pkg ->
+              UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+                UnaryHistory windowB ∧ UnaryHistory sourceWindowA ∧
+                  UnaryHistory sourceWindowB ∧ UnaryHistory joinedWindow ∧
+                    Cont sourceA windowA sourceWindowA ∧
+                      Cont sourceB windowB sourceWindowB ∧
+                        Cont sourceWindowA sourceWindowB joinedWindow ∧
+                          Cont windowA windowB transport ∧ PkgSig bundle name pkg ∧
+                            PkgSig bundle joinedWindow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet sourceAWindow sourceBWindow joinedWindowRoute joinedWindowPkg
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, _observationAUnary, _observationBUnary, _routesUnary, _ledgerUnary,
+    windowTransport, _productRoute, _classifierRoute, namePkg⟩ := packet
+  have sourceWindowAUnary : UnaryHistory sourceWindowA :=
+    unary_cont_closed sourceAUnary windowAUnary sourceAWindow
+  have sourceWindowBUnary : UnaryHistory sourceWindowB :=
+    unary_cont_closed sourceBUnary windowBUnary sourceBWindow
+  have joinedWindowUnary : UnaryHistory joinedWindow :=
+    unary_cont_closed sourceWindowAUnary sourceWindowBUnary joinedWindowRoute
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, sourceWindowAUnary,
+      sourceWindowBUnary, joinedWindowUnary, sourceAWindow, sourceBWindow, joinedWindowRoute,
+      windowTransport, namePkg, joinedWindowPkg⟩
+
 end BEDC.Derived.CauchyProductUp
