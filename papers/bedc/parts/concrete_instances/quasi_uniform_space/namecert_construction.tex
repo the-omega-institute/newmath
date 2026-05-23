@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\QuasiUniformSpaceUp$}
+\label{ch:concrete-instances-quasi-uniform-space-namecert}
+\origin{human}
+
+Following Nachbin and Kelley, the $\QuasiUniformSpaceUp$ packet records directed uniform entourage data as finite NameCert evidence before any symmetric uniformity or quotient completion is read. It sits on the L10 Real and Completion route beside \autoref{ch:concrete-instances-uniformspace-namecert}, \autoref{ch:concrete-instances-cauchyfilter-namecert}, \autoref{ch:concrete-instances-cauchynet-namecert}, \autoref{ch:concrete-instances-uniformcompletion-namecert}, and \autoref{ch:concrete-instances-separated-uniform-space-namecert}. The packet exposes the asymmetric substrate used by completion-facing filters and nets without asserting inverse entourages, separated quotient completion, selected limits, open-cover compactness, \texttt{Classical.choice}, or \texttt{Quot.sound}.
+
+\begin{definition}[QuasiUniformSpace carrier]
+\label{def:quasi-uniform-space-carrier}
+A $\QuasiUniformSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(U,D,F,N,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the directed entourage row, recording finite diagonal, refinement, and forward-composition observations.
+\item $D$ is the direction ledger, recording which requests are read forward and which are transported only after a displayed reverse request exists.
+\item $F$ is the $\CauchyFilterUp$ read row, exposing finite filter-base requests whose Cauchy comparisons are evaluated through $U$ and $D$.
+\item $N$ is the $\CauchyNetUp$ read row, exposing directed net tails and common refinements through the same forward-entourage ledger.
+\item $E$ is the uniform reflection row, naming the optional $\UniformSpaceUp$, $\UniformCompletionUp$, or $\SeparatedUniformSpaceUp$ consumer only as a downstream reflection of the directed data.
+\item $H$ records componentwise $\hsame$ transport for the directed entourage, direction ledger, Cauchy-filter read, Cauchy-net read, uniform reflection, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from directed entourage observations through filter or net reads and then to any reflected uniform consumer.
+\item $P$ is the $\Pkg$ provenance over $\QuasiUniformSpaceUp$, $\UniformSpaceUp$, $\CauchyFilterUp$, $\CauchyNetUp$, $\UniformCompletionUp$, $\SeparatedUniformSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\QuasiUniformSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for symmetric uniformity as primitive data, a separated quotient completion, a selected limit, open-cover compactness, countable choice, \texttt{Classical.choice}, or \texttt{Quot.sound}.
+\end{definition}
+
+\begin{theorem}[Quasi-uniform entourage obligations]
+\label{thm:quasi-uniform-space-entourage-obligations}
+For an accepted $\QuasiUniformSpaceUp$ carrier
+$$
+Q=(U,D,F,N,E,H,C,P,L),
+$$
+the local $\NameCert_{\QuasiUniformSpaceUp}$ surface consists exactly of carrier admission for the displayed rows, directed diagonal exposure, forward-refinement stability, forward-composition replay, direction-ledger compatibility, Cauchy-filter and Cauchy-net read discipline, optional uniform reflection, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is stored outside $U,D,F,N,E,H,C,P,L$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:quasi-uniform-space-carrier}. The accepted packet exposes exactly the directed entourage row, direction ledger, Cauchy-filter row, Cauchy-net row, uniform reflection row, transport row, replay row, provenance row, and local naming row.
+
+Directed diagonal exposure, forward-refinement stability, and forward-composition replay are read from $U$. The row records the finite entourage observations used by the packet, so a consumer cannot replace them with a symmetric entourage filter.
+
+The direction discipline is read from $D$. A forward request may be replayed as stored, while a reverse request is accepted only when the ledger displays it as a separate finite observation.
+
+The Cauchy boundary rows are then projected from $F$ and $N$. Filter-base and net-tail reads are evaluated through the displayed $U,D$ route, and therefore cannot bypass the quasi-uniform substrate.
+
+Finally $E,H,C,P,L$ add only reflection, transport, replay, provenance, and naming. They do not introduce inverse entourages, separated quotient completion, selected limits, open-cover compactness, choice, \texttt{Classical.choice}, or \texttt{Quot.sound}.
+\end{proof}
+
+\begin{theorem}[Cauchy boundary for directed entourages]
+\label{thm:quasi-uniform-space-cauchy-filter-boundary}
+Let
+$$
+Q=(U,D,F,N,E,H,C,P,L)
+$$
+be an accepted $\QuasiUniformSpaceUp$ carrier. Every $\CauchyFilterUp$ or $\CauchyNetUp$ consumer read of $Q$ factors through the displayed route
+$$
+U,D \longmapsto F,N \longmapsto H,C,P,L .
+$$
+Thus the Cauchy boundary sees only directed entourage observations, their direction ledger, the displayed filter or net read row, and the structural rows. It does not see a quotient of Cauchy filters, a selected convergent subnet, a symmetric uniformity, or a host completion object.
+\end{theorem}
+\begin{proof}
+Fix a Cauchy-facing consumer of $Q$. Projection gives $U$ and $D$, so the consumer first receives the finite directed entourage observations and the ledger explaining which directions have been displayed.
+
+If the consumer is filter-based, it reads $F$. The finite filter-base requests and Cauchy comparisons in $F$ are accepted only as requests over $U,D$.
+
+If the consumer is net-based, it reads $N$. The finite tail and common-refinement observations in $N$ use the same directed ledger, so no selected subnet or limit representative is exported.
+
+Transport, replay, provenance, and local naming close the route through $H,C,P,L$. These structural rows preserve the displayed data and provide no coordinate for quotient filter equality, selected convergence, symmetric uniformity, or a completed host object.
+\end{proof}
+
+\begin{theorem}[Uniform reflection route for quasi-uniform data]
+\label{thm:quasi-uniform-space-uniform-reflection-route}
+Let
+$$
+Q=(U,D,F,N,E,H,C,P,L)
+$$
+be an accepted $\QuasiUniformSpaceUp$ carrier. Any $\UniformSpaceUp$, $\UniformCompletionUp$, or $\SeparatedUniformSpaceUp$ consumer named by $E$ or $P$ reads only a reflected route downstream of the directed data:
+$$
+U,D \longmapsto F,N \longmapsto E \longmapsto H,C,P,L .
+$$
+The reflection route can record a symmetric or separated consumer as a reader, but it does not promote symmetric uniformity, quotient completion, or separatedness to primitive coordinates of the $\QuasiUniformSpaceUp$ carrier.
+\end{theorem}
+\begin{proof}
+Project the optional reflection row $E$. Its uniform-space, uniform-completion, and separated-uniform-space entries are downstream consumers of the directed route, because the carrier presents $U,D,F,N$ before $E$.
+
+The displayed $\Cont$ row $C$ replays the same order. A reflected consumer can inspect the directed entourage observations, then the Cauchy-filter or Cauchy-net boundary rows, and only then the reflected uniform request.
+
+The provenance row $P$ names the same dependency order. It may cite $\UniformSpaceUp$, $\UniformCompletionUp$, or $\SeparatedUniformSpaceUp$ as consumers, but the local naming row $L$ still names the packet as $\QuasiUniformSpaceUp$ with directed entourage data as its primitive surface.
+
+Componentwise $\hsame$ transport in $H$ preserves these rows without adding an inverse-entourage axiom. Hence symmetric uniformity, separated quotient completion, and selected limits remain outside the carrier.
+\end{proof}
+
+\closureat{QuasiUniformSpaceUp}{seedStr}
+
+\begin{closurestatus}{\QuasiUniformSpaceUp}
+  \constructivestory{A $\QuasiUniformSpaceUp$ packet is generated from directed entourage observations, a direction ledger, CauchyFilter and CauchyNet read rows, optional uniform reflection, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:quasi-uniform-space-carrier}, \autoref{thm:quasi-uniform-space-entourage-obligations}, \autoref{thm:quasi-uniform-space-cauchy-filter-boundary}, and \autoref{thm:quasi-uniform-space-uniform-reflection-route} seed the directed uniform completion substrate over finite quasi-uniform data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close symmetric uniformity, quotient completion, selected limits, open-cover compactness, choice principles, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed entourage exposure, direction-ledger compatibility, Cauchy-filter and Cauchy-net read discipline, uniform reflection non-escape, transport stability, replay stability, and ledger non-escape for BEDC.Derived.QuasiUniformSpaceUp.}
+\end{closurestatus}
