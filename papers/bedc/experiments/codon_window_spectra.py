@@ -2727,7 +2727,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         )
 
     outside_target_by_class: collections.Counter[str] = collections.Counter()
-    for codon in median_set:
+    for codon in sorted(median_set):
         codon_index = median_codon_to_spectral_index[codon]
         word = bits(codon)
         for bit_index in range(6):
@@ -2755,7 +2755,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     exit_probability_by_bit: collections.Counter[str] = collections.Counter()
     outside_target_by_codon: collections.Counter[str] = collections.Counter()
     boundary_exit_entries = []
-    for codon in median_set:
+    for codon in sorted(median_set):
         codon_index = median_codon_to_spectral_index[codon]
         source_mass = median_eigenvector[codon_index] / eigenvector_sum
         for bit_index, bit_name in enumerate(BIT_COORDINATES):
@@ -2773,6 +2773,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                         "probability": probability,
                     }
                 )
+    boundary_exit_entries.sort(key=lambda row: (row["source"], row["target"], row["bit"]))
     exit_bit_rows = [
         {"bit": bit_name, "probability": exit_probability_by_bit.get(bit_name, 0.0)}
         for bit_name in BIT_COORDINATES
@@ -3844,6 +3845,83 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             / energy_biased_total_partition(activity, energy_factor)
         )
 
+    def energy_partition_log_activity_derivative(coordinate_count: int, activity: float, energy_factor: float) -> float:
+        return sum(
+            2.0
+            * math.comb(coordinate_count, support_size)
+            * (
+                (activity * (energy_factor ** support_size))
+                / (1.0 + activity * (energy_factor ** support_size))
+            )
+            for support_size in range(1, coordinate_count + 1)
+        )
+
+    def energy_partition_log_energy_derivative(coordinate_count: int, activity: float, energy_factor: float) -> float:
+        return sum(
+            2.0
+            * math.comb(coordinate_count, support_size)
+            * support_size
+            * (
+                (activity * (energy_factor ** support_size))
+                / (1.0 + activity * (energy_factor ** support_size))
+            )
+            for support_size in range(1, coordinate_count + 1)
+        )
+
+    def energy_biased_trigger_partition(activity: float, energy_factor: float) -> float:
+        return (
+            energy_biased_total_partition(activity, energy_factor)
+            - energy_biased_blocker_partition(activity, energy_factor)
+        )
+
+    def energy_biased_trigger_activity_derivative(activity: float, energy_factor: float) -> float:
+        total = energy_biased_total_partition(activity, energy_factor)
+        blocker_derivative = (
+            4.0
+            * energy_partition_factor(3, activity, energy_factor)
+            * energy_partition_log_activity_derivative(3, activity, energy_factor)
+            - 6.0
+            * energy_partition_factor(2, activity, energy_factor)
+            * energy_partition_log_activity_derivative(2, activity, energy_factor)
+            + 4.0
+            * energy_partition_factor(1, activity, energy_factor)
+            * energy_partition_log_activity_derivative(1, activity, energy_factor)
+        )
+        return (
+            total * energy_partition_log_activity_derivative(4, activity, energy_factor)
+            - blocker_derivative
+        )
+
+    def energy_biased_trigger_energy_derivative(activity: float, energy_factor: float) -> float:
+        total = energy_biased_total_partition(activity, energy_factor)
+        blocker_derivative = (
+            4.0
+            * energy_partition_factor(3, activity, energy_factor)
+            * energy_partition_log_energy_derivative(3, activity, energy_factor)
+            - 6.0
+            * energy_partition_factor(2, activity, energy_factor)
+            * energy_partition_log_energy_derivative(2, activity, energy_factor)
+            + 4.0
+            * energy_partition_factor(1, activity, energy_factor)
+            * energy_partition_log_energy_derivative(1, activity, energy_factor)
+        )
+        return (
+            total * energy_partition_log_energy_derivative(4, activity, energy_factor)
+            - blocker_derivative
+        )
+
+    def conditional_trigger_expected_size(activity: float, energy_factor: float) -> float:
+        return (
+            energy_biased_trigger_activity_derivative(activity, energy_factor)
+            / energy_biased_trigger_partition(activity, energy_factor)
+        )
+
+    def conditional_trigger_expected_energy(activity: float, energy_factor: float) -> float:
+        return (
+            energy_biased_trigger_energy_derivative(activity, energy_factor)
+            / energy_biased_trigger_partition(activity, energy_factor)
+        )
+
     def energy_biased_expected_selected(activity: float, energy_factor: float) -> float:
         return sum(
             2.0
@@ -3895,6 +3973,49 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         (row["trigger_size"], row["codon_count"])
         for row in energy_minimal_trigger_rows
     )
+    conditional_trigger_rows = []
+    for target_probability in (0.5, 0.9):
+        for energy_factor in (1.0, 0.75, 0.5, 0.25, 0.1):
+            activity = energy_biased_activity_threshold(target_probability, energy_factor)
+            conditional_trigger_rows.append(
+                {
+                    "target_probability": target_probability,
+                    "energy_factor": energy_factor,
+                    "activity": activity,
+                    "conditional_expected_size": conditional_trigger_expected_size(activity, energy_factor),
+                    "conditional_expected_energy": conditional_trigger_expected_energy(activity, energy_factor),
+                }
+            )
+
+    def low_energy_partition_distribution(activity: float) -> dict[int, float]:
+        weights = {
+            row["trigger_size"]: row["codon_count"] * (activity ** row["trigger_size"])
+            for row in energy_minimal_trigger_rows
+        }
+        total = sum(weights.values())
+        return {
+            trigger_size: weight / total
+            for trigger_size, weight in weights.items()
+        }
+
+    low_energy_partition_rows = []
+    for activity in (0.1, 0.25, 0.5, 1.0, 2.0, 5.0, 10.0):
+        distribution = low_energy_partition_distribution(activity)
+        low_energy_partition_rows.append(
+            {
+                "activity": activity,
+                "size_probabilities": distribution,
+                "expected_size": sum(
+                    trigger_size * probability
+                    for trigger_size, probability in distribution.items()
+                ),
+            }
+        )
+    low_energy_partition_crossover_rows = [
+        {"left_size": 1, "right_size": 2, "activity": 1.0 / 14.0},
+        {"left_size": 2, "right_size": 3, "activity": 7.0 / 12.0},
+        {"left_size": 3, "right_size": 4, "activity": 3.0},
+    ]
     antipodal_trigger_summary = {
         "mstar": tuple(sorted(mstar_set)),
         "mstar_size": len(mstar_set),
@@ -3987,6 +4108,12 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "energy_biased_low_energy_terms": energy_biased_low_energy_terms,
         "energy_biased_low_energy_polynomial": "y^4(2t+28t^2+48t^3+16t^4)",
         "energy_biased_threshold_rows": energy_biased_threshold_rows,
+        "conditional_trigger_size_formula": "t d_t log Z_trig(t,y)",
+        "conditional_trigger_energy_formula": "y d_y log Z_trig(t,y)",
+        "conditional_trigger_rows": conditional_trigger_rows,
+        "low_energy_partition_distribution_formula": "a_m t^m / (2t+28t^2+48t^3+16t^4)",
+        "low_energy_partition_rows": low_energy_partition_rows,
+        "low_energy_partition_crossover_rows": low_energy_partition_crossover_rows,
         "maximum_nontrigger_external_size": maximum_nontrigger_external_size,
         "maximum_nontrigger_blocker_count": maximum_nontrigger_blocker_count,
         "forced_full_trigger_threshold": maximum_nontrigger_external_size + 1,
@@ -7442,6 +7569,54 @@ def assert_expected(summary: dict[str, object]) -> None:
         (0.95, 0.5, 1.5224, 8.22),
         (0.95, 0.25, 6.0003, 8.8),
         (0.95, 0.1, 28.2281, 8.77),
+    ]
+    assert antipodal["conditional_trigger_size_formula"] == "t d_t log Z_trig(t,y)"
+    assert antipodal["conditional_trigger_energy_formula"] == "y d_y log Z_trig(t,y)"
+    assert [
+        (
+            row["target_probability"],
+            row["energy_factor"],
+            round(row["activity"], 4),
+            round(row["conditional_expected_size"], 3),
+            round(row["conditional_expected_energy"], 3),
+        )
+        for row in antipodal["conditional_trigger_rows"]
+    ] == [
+        (0.5, 1.0, 0.0962, 3.596, 8.184),
+        (0.5, 0.75, 0.2008, 4.013, 8.294),
+        (0.5, 0.5, 0.5108, 4.58, 8.308),
+        (0.5, 0.25, 1.983, 5.318, 8.008),
+        (0.5, 0.1, 8.5128, 5.751, 7.296),
+        (0.9, 1.0, 0.2415, 6.144, 13.237),
+        (0.9, 0.75, 0.4903, 6.699, 13.271),
+        (0.9, 0.5, 1.2207, 7.354, 13.06),
+        (0.9, 0.25, 4.7581, 7.989, 12.201),
+        (0.9, 0.1, 21.7497, 8.07, 10.71),
+    ]
+    assert antipodal["low_energy_partition_distribution_formula"] == "a_m t^m / (2t+28t^2+48t^3+16t^4)"
+    assert [
+        (
+            row["activity"],
+            tuple(round(row["size_probabilities"][trigger_size], 4) for trigger_size in (1, 2, 3, 4)),
+            round(row["expected_size"], 3),
+        )
+        for row in antipodal["low_energy_partition_rows"]
+    ] == [
+        (0.1, (0.3776, 0.5287, 0.0906, 0.003), 1.719),
+        (0.25, (0.1633, 0.5714, 0.2449, 0.0204), 2.122),
+        (0.5, (0.0667, 0.4667, 0.4, 0.0667), 2.467),
+        (1.0, (0.0213, 0.2979, 0.5106, 0.1702), 2.83),
+        (2.0, (0.0053, 0.1481, 0.5079, 0.3386), 3.18),
+        (5.0, (0.0006, 0.0419, 0.3591, 0.5984), 3.555),
+        (10.0, (0.0001, 0.0133, 0.2277, 0.7589), 3.745),
+    ]
+    assert [
+        (row["left_size"], row["right_size"], row["activity"])
+        for row in antipodal["low_energy_partition_crossover_rows"]
+    ] == [
+        (1, 2, 1.0 / 14.0),
+        (2, 3, 7.0 / 12.0),
+        (3, 4, 3.0),
     ]
     assert antipodal["maximum_nontrigger_external_size"] == 14
     assert antipodal["maximum_nontrigger_blocker_count"] == 4
