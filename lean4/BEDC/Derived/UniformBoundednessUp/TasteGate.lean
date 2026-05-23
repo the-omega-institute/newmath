@@ -173,4 +173,14 @@ theorem UniformBoundednessUpTasteGate_single_carrier_alignment :
         UniformBoundednessUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
+theorem UniformBoundednessTasteGate_single_carrier_alignment :
+    (forall h : BHist,
+      uniformBoundednessDecodeBHist (uniformBoundednessEncodeBHist h) = h) /\
+      (forall x : UniformBoundednessUp,
+        uniformBoundednessFromEventFlow (uniformBoundednessToEventFlow x) = some x) /\
+        (forall x y : UniformBoundednessUp,
+          uniformBoundednessToEventFlow x = uniformBoundednessToEventFlow y -> x = y) /\
+          uniformBoundednessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  exact UniformBoundednessUpTasteGate_single_carrier_alignment
+
 end BEDC.Derived.UniformBoundednessUp
