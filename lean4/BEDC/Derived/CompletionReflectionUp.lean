@@ -26,6 +26,21 @@ def CompletionReflectionPacket [AskSetup] [PackageSetup]
         UnaryHistory provenance ∧ UnaryHistory cert ∧ Cont completion universal package ∧
           Cont transport route provenance ∧ PkgSig bundle cert pkg
 
+def CompletionReflectionClassifier [AskSetup] [PackageSetup]
+    (completion universal separated diagonal regular sealRow transport route package provenance cert
+      completion' universal' separated' diagonal' regular' sealRow' transport' route' package'
+      provenance' cert' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+      package provenance cert bundle pkg ∧
+    CompletionReflectionPacket completion' universal' separated' diagonal' regular' sealRow'
+        transport' route' package' provenance' cert' bundle pkg ∧
+      hsame completion completion' ∧ hsame universal universal' ∧ hsame separated separated' ∧
+        hsame diagonal diagonal' ∧ hsame regular regular' ∧ hsame sealRow sealRow' ∧
+          hsame transport transport' ∧ hsame route route' ∧ hsame cert cert' ∧
+            Cont completion' universal' package' ∧ Cont transport' route' provenance' ∧
+              PkgSig bundle cert' pkg
+
 theorem CompletionReflectionPacket_real_seal_boundary [AskSetup] [PackageSetup]
     {completion universal separated diagonal regular sealRow transport route package provenance cert
       reflected : BHist}
