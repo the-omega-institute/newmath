@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegularCauchyMinimumUp.TasteGate
+namespace BEDC.Derived.RegularCauchyMinimumUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -13,20 +13,20 @@ inductive RegularCauchyMinimumUp : Type where
   | mk (X Y T L D A B W H C P N : BHist) : RegularCauchyMinimumUp
   deriving DecidableEq
 
-def regularCauchyMinimumEncodeBHist : BHist -> RawEvent
+def regularCauchyMinimumEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: regularCauchyMinimumEncodeBHist h
   | BHist.e1 h => BMark.b1 :: regularCauchyMinimumEncodeBHist h
 
-def regularCauchyMinimumDecodeBHist : RawEvent -> BHist
+def regularCauchyMinimumDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (regularCauchyMinimumDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyMinimumDecodeBHist tail)
 
-private theorem regularCauchyMinimum_decode_encode_bhist :
-    forall h : BHist, regularCauchyMinimumDecodeBHist (regularCauchyMinimumEncodeBHist h) = h := by
+private theorem RegularCauchyMinimumTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist, regularCauchyMinimumDecodeBHist (regularCauchyMinimumEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,44 +34,68 @@ private theorem regularCauchyMinimum_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def regularCauchyMinimumFields : RegularCauchyMinimumUp -> List BHist
+def regularCauchyMinimumToEventFlow : RegularCauchyMinimumUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyMinimumUp.mk X Y T L D A B W H C P N =>
-      [X, Y, T, L, D, A, B, W, H, C, P, N]
+      [[BMark.b0],
+        regularCauchyMinimumEncodeBHist X,
+        [BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist Y,
+        [BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist T,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist L,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist D,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist A,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist B,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        regularCauchyMinimumEncodeBHist W,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyMinimumEncodeBHist N]
 
-def regularCauchyMinimumToEventFlow : RegularCauchyMinimumUp -> EventFlow :=
-  -- BEDC touchpoint anchor: BHist BMark
-  fun x => (regularCauchyMinimumFields x).map regularCauchyMinimumEncodeBHist
-
-private def regularCauchyMinimumEventAt : Nat -> EventFlow -> RawEvent
+private def regularCauchyMinimumEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => regularCauchyMinimumEventAt index rest
+  | Nat.succ index, _event :: rest => regularCauchyMinimumEventAtDefault index rest
 
-def regularCauchyMinimumFromEventFlow
-    (ef : EventFlow) : Option RegularCauchyMinimumUp :=
+def regularCauchyMinimumFromEventFlow (ef : EventFlow) : Option RegularCauchyMinimumUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (RegularCauchyMinimumUp.mk
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 0 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 1 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 2 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 3 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 4 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 5 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 6 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 7 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 8 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 9 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 10 ef))
-      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAt 11 ef)))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 1 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 3 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 5 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 7 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 9 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 11 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 13 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 15 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 17 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 19 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 21 ef))
+      (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEventAtDefault 23 ef)))
 
-private theorem regularCauchyMinimum_round_trip
-    (x : RegularCauchyMinimumUp) :
-    regularCauchyMinimumFromEventFlow (regularCauchyMinimumToEventFlow x) = some x := by
+private theorem RegularCauchyMinimumTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : RegularCauchyMinimumUp,
+      regularCauchyMinimumFromEventFlow (regularCauchyMinimumToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk X Y T L D A B W H C P N =>
       change
@@ -90,22 +114,22 @@ private theorem regularCauchyMinimum_round_trip
             (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEncodeBHist P))
             (regularCauchyMinimumDecodeBHist (regularCauchyMinimumEncodeBHist N))) =
           some (RegularCauchyMinimumUp.mk X Y T L D A B W H C P N)
-      rw [regularCauchyMinimum_decode_encode_bhist X,
-        regularCauchyMinimum_decode_encode_bhist Y,
-        regularCauchyMinimum_decode_encode_bhist T,
-        regularCauchyMinimum_decode_encode_bhist L,
-        regularCauchyMinimum_decode_encode_bhist D,
-        regularCauchyMinimum_decode_encode_bhist A,
-        regularCauchyMinimum_decode_encode_bhist B,
-        regularCauchyMinimum_decode_encode_bhist W,
-        regularCauchyMinimum_decode_encode_bhist H,
-        regularCauchyMinimum_decode_encode_bhist C,
-        regularCauchyMinimum_decode_encode_bhist P,
-        regularCauchyMinimum_decode_encode_bhist N]
+      rw [RegularCauchyMinimumTasteGate_single_carrier_alignment_decode X,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode Y,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode T,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode L,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode D,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode A,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode B,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode W,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode H,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode C,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode P,
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_decode N]
 
-private theorem regularCauchyMinimumToEventFlow_injective
+private theorem RegularCauchyMinimumTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RegularCauchyMinimumUp} :
-    regularCauchyMinimumToEventFlow x = regularCauchyMinimumToEventFlow y -> x = y := by
+    regularCauchyMinimumToEventFlow x = regularCauchyMinimumToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -113,72 +137,39 @@ private theorem regularCauchyMinimumToEventFlow_injective
         regularCauchyMinimumFromEventFlow (regularCauchyMinimumToEventFlow y) :=
     congrArg regularCauchyMinimumFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (regularCauchyMinimum_round_trip x).symm
-      (Eq.trans hread (regularCauchyMinimum_round_trip y)))
+    (Eq.trans
+      (RegularCauchyMinimumTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (RegularCauchyMinimumTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem regularCauchyMinimum_fields_faithful :
-    forall x y : RegularCauchyMinimumUp,
-      regularCauchyMinimumFields x = regularCauchyMinimumFields y -> x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk X1 Y1 T1 L1 D1 A1 B1 W1 H1 C1 P1 N1 =>
-      cases y with
-      | mk X2 Y2 T2 L2 D2 A2 B2 W2 H2 C2 P2 N2 =>
-          cases hfields
-          rfl
-
-instance regularCauchyMinimumBHistCarrier :
-    BHistCarrier RegularCauchyMinimumUp where
+instance regularCauchyMinimumBHistCarrier : BHistCarrier RegularCauchyMinimumUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := regularCauchyMinimumToEventFlow
   fromEventFlow := regularCauchyMinimumFromEventFlow
 
-instance regularCauchyMinimumChapterTasteGate :
-    ChapterTasteGate RegularCauchyMinimumUp where
+instance regularCauchyMinimumChapterTasteGate : ChapterTasteGate RegularCauchyMinimumUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      regularCauchyMinimumFromEventFlow (regularCauchyMinimumToEventFlow x) = some x
-    exact regularCauchyMinimum_round_trip x
+    change regularCauchyMinimumFromEventFlow (regularCauchyMinimumToEventFlow x) = some x
+    exact RegularCauchyMinimumTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (regularCauchyMinimumToEventFlow_injective heq)
-
-instance regularCauchyMinimumFieldFaithful :
-    FieldFaithful RegularCauchyMinimumUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := regularCauchyMinimumFields
-  field_faithful := regularCauchyMinimum_fields_faithful
-
-instance regularCauchyMinimumNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial RegularCauchyMinimumUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨RegularCauchyMinimumUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      RegularCauchyMinimumUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+    exact hxy (RegularCauchyMinimumTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 theorem RegularCauchyMinimumTasteGate_single_carrier_alignment :
     (forall h : BHist,
-        regularCauchyMinimumDecodeBHist (regularCauchyMinimumEncodeBHist h) = h) ∧
+      regularCauchyMinimumDecodeBHist (regularCauchyMinimumEncodeBHist h) = h) /\
       (forall x : RegularCauchyMinimumUp,
-        regularCauchyMinimumFromEventFlow (regularCauchyMinimumToEventFlow x) = some x) ∧
+        regularCauchyMinimumFromEventFlow (regularCauchyMinimumToEventFlow x) = some x) /\
       (forall x y : RegularCauchyMinimumUp,
-        regularCauchyMinimumToEventFlow x = regularCauchyMinimumToEventFlow y -> x = y) ∧
+        regularCauchyMinimumToEventFlow x = regularCauchyMinimumToEventFlow y -> x = y) /\
       regularCauchyMinimumEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨regularCauchyMinimum_decode_encode_bhist,
-      regularCauchyMinimum_round_trip,
-      (fun _ _ heq => regularCauchyMinimumToEventFlow_injective heq),
+    ⟨RegularCauchyMinimumTasteGate_single_carrier_alignment_decode,
+      RegularCauchyMinimumTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        RegularCauchyMinimumTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.RegularCauchyMinimumUp.TasteGate
+end BEDC.Derived.RegularCauchyMinimumUp

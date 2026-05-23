@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
+namespace BEDC.Derived.DyadicIntervalRefinementUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,140 +10,162 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive DyadicIntervalRefinementUp : Type where
-  | mk (I J0 J1 E R S Q H C P N : BHist) : DyadicIntervalRefinementUp
+  | mk : (parent childLeft childRight endpointReuse refinement window readback : BHist) →
+      DyadicIntervalRefinementUp
   deriving DecidableEq
 
-def dyadicIntervalRefinementEncodeBHist : BHist -> RawEvent
+def DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist :
+    BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: dyadicIntervalRefinementEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: dyadicIntervalRefinementEncodeBHist h
+  | BHist.e0 h => BMark.b0 ::
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e1 h => BMark.b1 ::
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist h
 
-def dyadicIntervalRefinementDecodeBHist : RawEvent -> BHist
+def DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist :
+    RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (dyadicIntervalRefinementDecodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (dyadicIntervalRefinementDecodeBHist tail)
+  | BMark.b0 :: tail =>
+      BHist.e0
+        (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b1 :: tail =>
+      BHist.e1
+        (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist tail)
 
-private theorem dyadicIntervalRefinement_decode_encode_bhist :
-    forall h : BHist,
-      dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEncodeBHist h) = h := by
+private theorem DyadicIntervalRefinementTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist,
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
   | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def dyadicIntervalRefinementFields : DyadicIntervalRefinementUp -> List BHist
+def DyadicIntervalRefinementTasteGate_single_carrier_alignment_fields :
+    DyadicIntervalRefinementUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | DyadicIntervalRefinementUp.mk I J0 J1 E R S Q H C P N =>
-      [I, J0, J1, E, R, S, Q, H, C, P, N]
+  | DyadicIntervalRefinementUp.mk parent childLeft childRight endpointReuse refinement window
+      readback =>
+      [parent, childLeft, childRight, endpointReuse, refinement, window, readback]
 
-def dyadicIntervalRefinementToEventFlow : DyadicIntervalRefinementUp -> EventFlow :=
+def DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow :
+    DyadicIntervalRefinementUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (dyadicIntervalRefinementFields x).map dyadicIntervalRefinementEncodeBHist
+  | x =>
+      [BMark.b1, BMark.b1, BMark.b0, BMark.b0] ::
+        (DyadicIntervalRefinementTasteGate_single_carrier_alignment_fields x).map
+          DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist
 
-private def dyadicIntervalRefinementEventAt : Nat -> EventFlow -> RawEvent
+def DyadicIntervalRefinementTasteGate_single_carrier_alignment_fromEventFlow :
+    EventFlow → Option DyadicIntervalRefinementUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => dyadicIntervalRefinementEventAt index rest
+  | _tag :: parent :: childLeft :: childRight :: endpointReuse :: refinement :: window ::
+      readback :: [] =>
+      some
+        (DyadicIntervalRefinementUp.mk
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist parent)
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist childLeft)
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist childRight)
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist endpointReuse)
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist refinement)
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist window)
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist readback))
+  | _ => none
 
-def dyadicIntervalRefinementFromEventFlow
-    (ef : EventFlow) : Option DyadicIntervalRefinementUp :=
+private theorem DyadicIntervalRefinementTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : DyadicIntervalRefinementUp,
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_fromEventFlow
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (DyadicIntervalRefinementUp.mk
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 0 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 1 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 2 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 3 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 4 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 5 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 6 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 7 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 8 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 9 ef))
-      (dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEventAt 10 ef)))
-
-private theorem dyadicIntervalRefinement_round_trip
-    (x : DyadicIntervalRefinementUp) :
-    dyadicIntervalRefinementFromEventFlow (dyadicIntervalRefinementToEventFlow x) =
-      some x := by
-  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
-  | mk I J0 J1 E R S Q H C P N =>
+  | mk parent childLeft childRight endpointReuse refinement window readback =>
       change
         some
           (DyadicIntervalRefinementUp.mk
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist I))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist J0))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist J1))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist E))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist R))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist S))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist Q))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist H))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist C))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist P))
-            (dyadicIntervalRefinementDecodeBHist
-              (dyadicIntervalRefinementEncodeBHist N))) =
-          some (DyadicIntervalRefinementUp.mk I J0 J1 E R S Q H C P N)
-      rw [dyadicIntervalRefinement_decode_encode_bhist I,
-        dyadicIntervalRefinement_decode_encode_bhist J0,
-        dyadicIntervalRefinement_decode_encode_bhist J1,
-        dyadicIntervalRefinement_decode_encode_bhist E,
-        dyadicIntervalRefinement_decode_encode_bhist R,
-        dyadicIntervalRefinement_decode_encode_bhist S,
-        dyadicIntervalRefinement_decode_encode_bhist Q,
-        dyadicIntervalRefinement_decode_encode_bhist H,
-        dyadicIntervalRefinement_decode_encode_bhist C,
-        dyadicIntervalRefinement_decode_encode_bhist P,
-        dyadicIntervalRefinement_decode_encode_bhist N]
+            (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist
+              (DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist parent))
+            (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist
+              (DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist childLeft))
+            (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist
+              (DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist childRight))
+            (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist
+              (DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist endpointReuse))
+            (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist
+              (DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist refinement))
+            (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist
+              (DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist window))
+            (DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist
+              (DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist readback))) =
+          some
+            (DyadicIntervalRefinementUp.mk parent childLeft childRight endpointReuse refinement window
+              readback)
+      rw [DyadicIntervalRefinementTasteGate_single_carrier_alignment_decode_encode parent,
+        DyadicIntervalRefinementTasteGate_single_carrier_alignment_decode_encode childLeft,
+        DyadicIntervalRefinementTasteGate_single_carrier_alignment_decode_encode childRight,
+        DyadicIntervalRefinementTasteGate_single_carrier_alignment_decode_encode endpointReuse,
+        DyadicIntervalRefinementTasteGate_single_carrier_alignment_decode_encode refinement,
+        DyadicIntervalRefinementTasteGate_single_carrier_alignment_decode_encode window,
+        DyadicIntervalRefinementTasteGate_single_carrier_alignment_decode_encode readback]
 
-private theorem dyadicIntervalRefinementToEventFlow_injective
+private theorem DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : DyadicIntervalRefinementUp} :
-    dyadicIntervalRefinementToEventFlow x = dyadicIntervalRefinementToEventFlow y ->
-      x = y := by
+    DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow x =
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow y →
+    x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      dyadicIntervalRefinementFromEventFlow (dyadicIntervalRefinementToEventFlow x) =
-        dyadicIntervalRefinementFromEventFlow (dyadicIntervalRefinementToEventFlow y) :=
-    congrArg dyadicIntervalRefinementFromEventFlow heq
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_fromEventFlow
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow x) =
+        DyadicIntervalRefinementTasteGate_single_carrier_alignment_fromEventFlow
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow y) :=
+    congrArg DyadicIntervalRefinementTasteGate_single_carrier_alignment_fromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (dyadicIntervalRefinement_round_trip x).symm
-      (Eq.trans hread (dyadicIntervalRefinement_round_trip y)))
+    (Eq.trans (DyadicIntervalRefinementTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (DyadicIntervalRefinementTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem dyadicIntervalRefinement_fields_faithful :
-    forall x y : DyadicIntervalRefinementUp,
-      dyadicIntervalRefinementFields x = dyadicIntervalRefinementFields y -> x = y := by
+private theorem DyadicIntervalRefinementTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : DyadicIntervalRefinementUp,
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_fields x =
+        DyadicIntervalRefinementTasteGate_single_carrier_alignment_fields y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk I1 J01 J11 E1 R1 S1 Q1 H1 C1 P1 N1 =>
+  | mk parent₁ childLeft₁ childRight₁ endpointReuse₁ refinement₁ window₁ readback₁ =>
       cases y with
-      | mk I2 J02 J12 E2 R2 S2 Q2 H2 C2 P2 N2 =>
-          cases hfields
+      | mk parent₂ childLeft₂ childRight₂ endpointReuse₂ refinement₂ window₂ readback₂ =>
+          injection hfields with hparent tail1
+          injection tail1 with hchildLeft tail2
+          injection tail2 with hchildRight tail3
+          injection tail3 with hendpointReuse tail4
+          injection tail4 with hrefinement tail5
+          injection tail5 with hwindow tail6
+          injection tail6 with hreadback _
+          subst hparent
+          subst hchildLeft
+          subst hchildRight
+          subst hendpointReuse
+          subst hrefinement
+          subst hwindow
+          subst hreadback
           rfl
 
 instance dyadicIntervalRefinementBHistCarrier :
     BHistCarrier DyadicIntervalRefinementUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := dyadicIntervalRefinementToEventFlow
-  fromEventFlow := dyadicIntervalRefinementFromEventFlow
+  toEventFlow := DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow
+  fromEventFlow := DyadicIntervalRefinementTasteGate_single_carrier_alignment_fromEventFlow
 
 instance dyadicIntervalRefinementChapterTasteGate :
     ChapterTasteGate DyadicIntervalRefinementUp where
@@ -151,48 +173,54 @@ instance dyadicIntervalRefinementChapterTasteGate :
   round_trip := by
     intro x
     change
-      dyadicIntervalRefinementFromEventFlow (dyadicIntervalRefinementToEventFlow x) =
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_fromEventFlow
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow x) =
         some x
-    exact dyadicIntervalRefinement_round_trip x
+    exact DyadicIntervalRefinementTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (dyadicIntervalRefinementToEventFlow_injective heq)
+    exact hxy
+      (DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance dyadicIntervalRefinementFieldFaithful :
     FieldFaithful DyadicIntervalRefinementUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := dyadicIntervalRefinementFields
-  field_faithful := dyadicIntervalRefinement_fields_faithful
+  fields := DyadicIntervalRefinementTasteGate_single_carrier_alignment_fields
+  field_faithful :=
+    DyadicIntervalRefinementTasteGate_single_carrier_alignment_fields_faithful
 
-instance dyadicIntervalRefinementNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial DyadicIntervalRefinementUp where
+instance dyadicIntervalRefinementNontrivial : Nontrivial DyadicIntervalRefinementUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨DyadicIntervalRefinementUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      DyadicIntervalRefinementUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
+    ⟨DyadicIntervalRefinementUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      DyadicIntervalRefinementUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
-        cases h⟩
+        injection h with hparent
+        cases hparent⟩
+
+def taste_gate : ChapterTasteGate DyadicIntervalRefinementUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  dyadicIntervalRefinementChapterTasteGate
 
 theorem DyadicIntervalRefinementTasteGate_single_carrier_alignment :
-    (forall h : BHist,
-        dyadicIntervalRefinementDecodeBHist (dyadicIntervalRefinementEncodeBHist h) = h) ∧
-      (forall x : DyadicIntervalRefinementUp,
-        dyadicIntervalRefinementFromEventFlow (dyadicIntervalRefinementToEventFlow x) =
-          some x) ∧
-      (forall x y : DyadicIntervalRefinementUp,
-        dyadicIntervalRefinementToEventFlow x = dyadicIntervalRefinementToEventFlow y ->
-          x = y) ∧
-      dyadicIntervalRefinementEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+    (∀ h : BHist,
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicIntervalRefinementTasteGate_single_carrier_alignment_encodeBHist h) =
+        h) ∧
+      DyadicIntervalRefinementTasteGate_single_carrier_alignment_fields
+          (DyadicIntervalRefinementUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty) =
+        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+          BHist.Empty] ∧
+        DyadicIntervalRefinementTasteGate_single_carrier_alignment_toEventFlow
+            (DyadicIntervalRefinementUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty) =
+          [[BMark.b1, BMark.b1, BMark.b0, BMark.b0], [], [], [], [], [], [], []] := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨dyadicIntervalRefinement_decode_encode_bhist,
-      dyadicIntervalRefinement_round_trip,
-      (fun _ _ heq => dyadicIntervalRefinementToEventFlow_injective heq),
-      rfl⟩
+    ⟨DyadicIntervalRefinementTasteGate_single_carrier_alignment_decode_encode, rfl, rfl⟩
 
-end BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
+end BEDC.Derived.DyadicIntervalRefinementUp
