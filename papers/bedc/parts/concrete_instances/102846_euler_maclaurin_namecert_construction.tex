@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\EulerMaclaurinUp$}
+\label{ch:concrete-instances-euler-maclaurin-namecert}
+\origin{human}
+
+Following Euler and Maclaurin, and in the Bishop--Bridges constructive reading, the $\EulerMaclaurinUp$ packet records the finite summation-remainder boundary where a displayed finite partial-sum source is compared with endpoint data, derivative-window rows, Bernoulli-style coefficients, and a dyadic remainder budget before a terminal $\RealUp$ seal is named. It sits beside the summation-by-parts route of \autoref{ch:concrete-instances-abel-summation-namecert}, the finite term and partial-sum surface of \autoref{ch:concrete-instances-realseries-namecert}, the derivative packet of \autoref{ch:concrete-instances-derivative-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the finite BEDC route from inspected terms to a certified remainder budget; it does not import host infinite summation, host integration, selected limits, quotient equality, countable choice, trichotomy, or ambient real completeness.
+
+\begin{definition}[Euler--Maclaurin carrier]
+\label{def:euler-maclaurin-carrier}
+An $\EulerMaclaurinUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,A,L,U,D,B,Q,R,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealSeriesUp$ or finite partial-sum source row, carrying the inspected term windows, finite summation bounds, and the partial-sum observations that are allowed to enter the formula.
+\item $A$ is the Abel-summation comparison row, used only as a finite summation-by-parts route for rearranging the inspected partial sums.
+\item $L$ and $U$ are endpoint $\RealUp$ rows for the lower and upper summation endpoints, including the endpoint readback names consumed by the boundary terms.
+\item $D$ is the derivative-window row, listing the finitely inspected $\DerivativeUp$ observations and the interval windows on which the remainder estimate is read.
+\item $B$ is the Bernoulli-style coefficient ledger. It records only the finite coefficient rows requested by the displayed order of the formula.
+\item $Q$ is the $\DyadicRatCoreUp$ remainder-budget row, with positivity, refinement, and split-budget data for the final error request.
+\item $R$ is the $\RegSeqRatUp$ readback row that exposes rational approximants for the finite sums, endpoint rows, derivative windows, coefficient ledger, and remainder budget.
+\item $Z$ is the terminal $\RealUp$ seal for the finite summation-with-remainder read after $S,A,L,U,D,B,Q,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the series or finite partial-sum source, Abel row, endpoint rows, derivative windows, coefficient ledger, dyadic budget, regular rational readback, terminal real seal, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay through
+$$
+S,A,L,U,D,B,Q,R \longmapsto Z \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EulerMaclaurinUp$, $\RealSeriesUp$, $\AbelSummationUp$, $\DerivativeUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EulerMaclaurinUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,A,L,U,D,B,Q,R,Z,H,C,P,N$. It has no coordinate for a host infinite sum, host integral, selected limit, quotient equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Euler--Maclaurin NameCert obligations]
+\label{thm:euler-maclaurin-namecert-obligations}
+For every accepted $\EulerMaclaurinUp$ carrier
+$$
+E=(S,A,L,U,D,B,Q,R,Z,H,C,P,N),
+$$
+the local $\NameCert_{\EulerMaclaurinUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite series or partial-sum source, Abel row, lower and upper endpoint rows, derivative windows, coefficient ledger, dyadic remainder budget, regular rational readback, terminal real seal, transport, replay, provenance, and local naming row;
+\item summation-window exposure, requiring every formula request to display the finite term windows and partial-sum bounds in $S$ before the Abel row $A$ is read;
+\item endpoint readiness, requiring both endpoint $\RealUp$ rows $L,U$ to be opened before any boundary term is named;
+\item derivative and coefficient readiness, requiring the derivative windows $D$ and the finite Bernoulli-style coefficient ledger $B$ to be displayed before the remainder row is accepted;
+\item dyadic remainder routing, requiring the final remainder request to factor through the $\DyadicRatCoreUp$ positivity, refinement, and split-budget rows in $Q$;
+\item rational readback and Real seal handoff, requiring $R$ to expose all finite rational approximants before the terminal $\RealUp$ seal $Z$ is named;
+\item classifier transport, requiring $H$ and $C$ to preserve the same $S,A,L,U,D,B,Q,R,Z$ inventory under $\hsame$ and displayed $\Cont$ replay;
+\item non-escape, requiring $P$ and $N$ to source and name only the listed route, with no hidden host infinite sum, host integral, selected limit, quotient equality, countable choice, trichotomy, ambient real completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:euler-maclaurin-carrier}. The accepted packet displays the finite source $S$, Abel row $A$, endpoint rows $L,U$, derivative windows $D$, coefficient ledger $B$, dyadic budget $Q$, readback row $R$, terminal seal $Z$, and structural rows $H,C,P,N$.
+
+The summation-window and endpoint obligations are forced by row order. A formula request enters through the finite term and partial-sum source $S$, may use $A$ only as the displayed summation-by-parts route, and reads the endpoint rows $L,U$ before any boundary term is exposed.
+
+The derivative and coefficient obligations are likewise rowwise. The window row $D$ lists the derivative observations that can participate in the remainder estimate, while $B$ lists only the finitely requested coefficient rows.
+
+The dyadic remainder obligation comes from $Q$. Its positivity, refinement, and split-budget data are displayed before the terminal estimate is transported to the regular rational readback row $R$ and the real seal $Z$.
+
+Finally, $H$ and $C$ replay the same inventory under classifier transport, and $P,N$ source and name only that inventory. Since the carrier has no additional coordinate, no unlisted host-analytic or choice-based obligation can be read from the packet.
+\end{proof}
+
+\begin{theorem}[Euler--Maclaurin remainder handoff]
+\label{thm:euler-maclaurin-remainder-handoff}
+Every remainder read exported by an accepted $\EulerMaclaurinUp$ carrier factors through the displayed route
+$$
+\RealSeriesUp,\AbelSummationUp,\RealUp,\DerivativeUp,\DyadicRatCoreUp,\RegSeqRatUp \longmapsto \RealUp .
+$$
+Equivalently, the terminal real seal $Z$ can be opened only after the finite source $S$, Abel row $A$, endpoint rows $L,U$, derivative windows $D$, coefficient ledger $B$, dyadic budget $Q$, and regular rational readback row $R$ have all been displayed.
+\end{theorem}
+\begin{proof}
+Let $E=(S,A,L,U,D,B,Q,R,Z,H,C,P,N)$ be accepted. A remainder consumer begins with the finite formula request, so the first visible data are the term windows and partial-sum bounds in $S$.
+
+The route may then pass through $A$ to express the finite summation-by-parts comparison. The endpoint rows $L,U$ supply the boundary-term seals, while $D$ and $B$ supply the derivative observations and coefficient rows that make the finite correction terms inspectable.
+
+The actual remainder budget is not read until $Q$ is displayed. This dyadic row fixes the positive tolerance, refinements, and budget splits used by the later rational approximants.
+
+The readback row $R$ then exposes rational approximants for each already displayed component, and only afterward does the terminal seal $Z$ become visible. The structural rows $H,C,P,N$ transport and name the same route, so every exported remainder read has the stated factorization.
+\end{proof}
+
+\begin{theorem}[Euler--Maclaurin Real seal non-escape]
+\label{thm:euler-maclaurin-real-seal-nonescape}
+For every accepted $\EulerMaclaurinUp$ carrier, any $\RealUp$ seal read produced by the packet is either one of the displayed endpoint rows $L,U$ or the terminal seal $Z$ reached through the finite route of \autoref{thm:euler-maclaurin-remainder-handoff}. No accepted carrier exports a separate $\RealUp$ seal through host integration, host infinite summation, selected limits, quotient equality, countable choice, trichotomy, ambient real completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $E=(S,A,L,U,D,B,Q,R,Z,H,C,P,N)$. The only rows whose declared target is $\RealUp$ are the endpoint rows $L,U$ and the terminal seal $Z$.
+
+The endpoint rows are already displayed as part of the carrier. They are not computed by a host integral or an infinite summation principle; they are named endpoint seals consumed by the finite boundary-term route.
+
+For the terminal seal, apply \autoref{thm:euler-maclaurin-remainder-handoff}. The seal $Z$ is downstream of $S,A,L,U,D,B,Q,R$ and is therefore reached only after the finite source, boundary, derivative, coefficient, dyadic, and readback rows are visible.
+
+The transport, replay, provenance, and naming rows do not add new real-valued coordinates. Hence there is no remaining path by which a consumer could obtain a detached real seal from an excluded host-analytic or choice-based source.
+\end{proof}
+
+\closureat{EulerMaclaurinUp}{seedStr}
+
+\begin{closurestatus}{\EulerMaclaurinUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euler-maclaurin-carrier}, \autoref{thm:euler-maclaurin-namecert-obligations}, \autoref{thm:euler-maclaurin-remainder-handoff}, and \autoref{thm:euler-maclaurin-real-seal-nonescape} seed the finite Euler--Maclaurin summation-remainder packet over displayed series or finite partial-sum source, Abel row, endpoint RealUp rows, derivative windows, coefficient ledger, dyadic remainder budget, regular rational readback, terminal RealUp seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, host integrals, selected limits, quotient equality, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, summation-window exposure, endpoint readiness, derivative and coefficient readiness, dyadic remainder routing, rational readback, Real seal handoff, classifier transport, remainder factorization, and non-escape for BEDC.Derived.EulerMaclaurinUp.}
+  \constructivestory{An $\EulerMaclaurinUp$ packet is generated from a finite RealSeries or partial-sum source row, Abel summation row, endpoint RealUp rows, derivative-window rows, a Bernoulli-style coefficient ledger, a DyadicRatCore remainder budget, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
