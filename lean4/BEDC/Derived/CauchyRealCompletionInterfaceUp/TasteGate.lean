@@ -207,4 +207,17 @@ theorem CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment :
           heq),
       rfl⟩
 
+theorem CauchyRealCompletionInterfaceTasteGate_single_carrier_alignment :
+    (forall h : BHist,
+      cauchyRealCompletionInterfaceDecodeBHist
+        (cauchyRealCompletionInterfaceEncodeBHist h) = h) /\
+      (forall x : CauchyRealCompletionInterfaceUp,
+        cauchyRealCompletionInterfaceFromEventFlow
+          (cauchyRealCompletionInterfaceToEventFlow x) = some x) /\
+        (forall x y : CauchyRealCompletionInterfaceUp,
+          cauchyRealCompletionInterfaceToEventFlow x =
+            cauchyRealCompletionInterfaceToEventFlow y -> x = y) /\
+          cauchyRealCompletionInterfaceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  exact CauchyRealCompletionInterfaceUpTasteGate_single_carrier_alignment
+
 end BEDC.Derived.CauchyRealCompletionInterfaceUp
