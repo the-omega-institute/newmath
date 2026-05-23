@@ -202,4 +202,36 @@ theorem LocatedMetricCarrier_dyadic_radius_localization [AskSetup] [PackageSetup
       locatedStreamRead,
       provenancePkg⟩
 
+theorem LocatedMetricCarrier_separated_zero_route [AskSetup] [PackageSetup]
+    {point metric located stream regseq real separated transport replay provenance name
+      zeroRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedMetricCarrier point metric located stream regseq real separated transport replay
+        provenance name bundle pkg ->
+      Cont separated transport zeroRead ->
+        Cont zeroRead replay routeRead ->
+          PkgSig bundle routeRead pkg ->
+            UnaryHistory separated ∧ UnaryHistory zeroRead ∧ UnaryHistory routeRead ∧
+              Cont separated transport zeroRead ∧ Cont zeroRead replay routeRead ∧
+                Cont transport replay provenance ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle routeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier separatedTransportZero zeroReplayRoute routeReadPkg
+  obtain ⟨_pointUnary, _metricUnary, _locatedUnary, _streamUnary, _regseqUnary, _realUnary,
+    separatedUnary, transportUnary, replayUnary, _provenanceUnary, _nameUnary,
+    transportReplayProvenance, provenancePkg, _namePkg⟩ := carrier
+  have zeroReadUnary : UnaryHistory zeroRead :=
+    unary_cont_closed separatedUnary transportUnary separatedTransportZero
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed zeroReadUnary replayUnary zeroReplayRoute
+  exact
+    ⟨separatedUnary,
+      zeroReadUnary,
+      routeReadUnary,
+      separatedTransportZero,
+      zeroReplayRoute,
+      transportReplayProvenance,
+      provenancePkg,
+      routeReadPkg⟩
+
 end BEDC.Derived.LocatedMetricUp
