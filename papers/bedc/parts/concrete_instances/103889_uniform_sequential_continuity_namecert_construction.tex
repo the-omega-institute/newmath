@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\UniformSequentialContinuityUp$}
+\label{ch:concrete-instances-uniform-sequential-continuity-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\UniformSequentialContinuityUp$ packet records the finite route by which one displayed uniform modulus transports regular Cauchy sequence data through a continuous map before the $\RealUp$ seal is read. It sits between the map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the uniform-modulus row of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the finite stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a uniform sequential handoff only; it does not assert host sequential continuity, function extensionality, quotient stream equality, countable choice, selected limits, or ambient real completeness.
+
+\begin{definition}[Uniform sequential continuity carrier]
+\label{def:uniform-sequential-continuity-carrier}
+A $\UniformSequentialContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+U=(F,M,S,W_X,W_Y,R_X,R_Y,D_X,D_Y,E_X,E_Y,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\ContinuousMapUp$ row naming the displayed source-to-target map and its local classifier interface.
+\item $M$ is the $\UniformModulusUp$ row. It converts every requested target tolerance into a source tolerance before any target sequence read is consumed.
+\item $S$ is the source sequence surface exposed only through finite $\StreamNameUp$ windows.
+\item $W_X$ and $W_Y$ are the source and image finite-window rows. The row $W_Y$ is read only by applying $F$ to the windows selected by $W_X$.
+\item $R_X$ and $R_Y$ are the source and target $\RegSeqRatUp$ handoff rows attached to the displayed windows.
+\item $D_X$ and $D_Y$ are the $\DyadicRatCoreUp$ tolerance ledgers. The target ledger $D_Y$ records the requested precision and the source ledger $D_X$ records the modulus-returned precision.
+\item $E_X$ and $E_Y$ are the source and target $\RealUp$ seal rows reached only after the corresponding stream, regular-rational, and dyadic rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the map row, modulus row, stream surface, window rows, regular readbacks, dyadic ledgers, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a target tolerance request through $M,D_X,W_X,R_X,F,W_Y,R_Y,D_Y$ before $E_Y$ is exposed.
+\item $P$ is the $\Pkg$ provenance over $\UniformSequentialContinuityUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformSequentialContinuityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $F,M,S,W_X,W_Y,R_X,R_Y,D_X,D_Y,E_X,E_Y,H,C,P,N$. The carrier has no coordinate for host sequential continuity, function extensionality, quotient stream equality, countable choice, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform sequential continuity NameCert obligations]
+\label{thm:uniform-sequential-continuity-namecert-obligations}
+For every accepted $\UniformSequentialContinuityUp$ carrier
+$$
+U=(F,M,S,W_X,W_Y,R_X,R_Y,D_X,D_Y,E_X,E_Y,H,C,P,N),
+$$
+the local $\NameCert_{\UniformSequentialContinuityUp}$ surface consists exactly of carrier admission, displayed continuous-map use, uniform-modulus tolerance conversion, source and image finite-window exposure, source and target $\RegSeqRatUp$ handoff, dyadic tolerance accounting, source and target $\RealUp$ seal ordering, componentwise transport, displayed replay, provenance, local naming, and non-escape from host sequential continuity, function extensionality, quotient stream equality, countable choice, selected limits, and ambient real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-sequential-continuity-carrier}. The projection exposes the displayed map, uniform modulus, source stream surface, finite windows, regular readbacks, dyadic ledgers, Real seals, and structural rows.
+
+A target tolerance request first reads the modulus row $M$. This produces the source-side dyadic tolerance in $D_X$ before any image-window read occurs, so the route cannot start from a detached target limit or a host sequential-continuity theorem.
+
+The source sequence is then inspected through $S,W_X,R_X,D_X,E_X$. The image sequence is obtained by applying the displayed map row $F$ to the same finite source windows, producing $W_Y$ and then the target handoff through $R_Y,D_Y,E_Y$.
+
+Finally $H,C,P,N$ transport, replay, source, and name this same finite route. Since no excluded object is a carrier coordinate, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Uniform sequential continuity Cauchy handoff]
+\label{thm:uniform-sequential-continuity-cauchy-handoff}
+Every accepted $\UniformSequentialContinuityUp$ packet preserves regular Cauchy sequence data through the displayed uniform modulus before either $\RealUp$ seal is consumed. Equivalently, every target-seal-facing route factors through
+$$
+D_Y \longmapsto M \longmapsto D_X \longmapsto W_X \longmapsto R_X
+\qquad\text{and}\qquad
+W_X,F \longmapsto W_Y \longmapsto R_Y \longmapsto E_Y
+$$
+together with $S,E_X,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the target precision request recorded in $D_Y$. The uniform-modulus row $M$ converts that request into the source precision recorded in $D_X$, so the source sequence is inspected at a tolerance already tied to the target demand.
+
+The source route then reads the finite stream windows $W_X$ from $S$ and the regular rational handoff $R_X$ before the source seal row $E_X$ can be used. This is the displayed regular Cauchy data available to the map row.
+
+Apply the continuous-map row $F$ to the displayed source windows. The image windows $W_Y$ are therefore downstream of the same source inspection, and the target regular-rational handoff $R_Y$ precedes the target seal $E_Y$.
+
+The rows $H,C,P,N$ preserve the route under transport, replay, provenance, and local naming. Thus no Real-facing consumer can bypass the uniform modulus, the source regular Cauchy handoff, or the target regular Cauchy handoff.
+\end{proof}
+
+\closureat{UniformSequentialContinuityUp}{seedStr}
+
+\begin{closurestatus}{\UniformSequentialContinuityUp}
+  \constructivestory{A $\UniformSequentialContinuityUp$ packet is generated from a displayed ContinuousMap row, a UniformModulus row, source and image StreamName windows, source and target RegSeqRat readbacks, DyadicRatCore tolerance ledgers, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-sequential-continuity-carrier}, \autoref{thm:uniform-sequential-continuity-namecert-obligations}, and \autoref{thm:uniform-sequential-continuity-cauchy-handoff} seed the finite uniform sequential continuity handoff from a modulus-controlled source regular Cauchy route to the target Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host sequential continuity, function extensionality, quotient stream equality, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, displayed map use, uniform-modulus tolerance conversion, source and image window exactness, RegSeqRat handoff, dyadic ledger accounting, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.UniformSequentialContinuityUp.}
+\end{closurestatus}
