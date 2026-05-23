@@ -111,17 +111,34 @@ Finally the TasteGate row and the Lean-side Nontrivial and FieldFaithful witness
 \end{proof}
 \leanchecked{BEDC.Derived.OnticResidueLedgerUp.TasteGate.OnticResidueLedgerScoped\_consumer\_surface}
 
+\begin{theorem}[Ontic residue ledger bridge export]
+\label{thm:ontic-residue-ledger-bridge-export}
+The public $\OnticResidueLedgerUp$ consumer packet
+$$
+O,M,S,A,C,R,H,T,P,N
+$$
+exports a bridge-facing surface only through the ontic source row $O$, physical model audit row $M$, finite state-space model row $S$, observer-access row $A$, signature classifier $C$, residue ledger $R$, componentwise transport $H$, displayed route replay $T$, provenance $P$, local naming row $N$, and the checked TasteGate row $\texttt{BEDC.Derived.OnticResidueLedgerUp.taste\_gate}$. It exports no state-space exhaustion row, host reality row, unbounded observer authority, residue-erasing quotient, or Lean bridge check.
+\end{theorem}
+\begin{proof}
+Start with the scoped consumer surface of \autoref{thm:ontic-residue-ledger-scoped-consumer-surface}. It binds every accepted consumer to the displayed packet $O,M,S,A,C,R,H,T,P,N$ together with the checked TasteGate row.
+
+Read those rows as the bridge-facing surface. The source, audit, model, observer-access, signature, residue, transport, route, provenance, and naming coordinates are exactly the rows already exposed by the public consumer packet, so the bridge-facing export does not add another carrier coordinate.
+
+The excluded rows are absent from the carrier and from the scoped consumer theorem. Therefore the paper bridge surface records only the displayed export boundary; it does not claim Lean bridge checking.
+\end{proof}
+
 \closureat{OnticResidueLedgerUp}{seedStr}
 \closureat{OnticResidueLedgerUp}{scopedStr}[BEDC.Derived.OnticResidueLedgerUp.taste\_gate]
+\closureat{OnticResidueLedgerUp}{bridgedStr}[BEDC.Derived.OnticResidueLedgerUp.taste\_gate]
 
 \begin{closurestatus}{\OnticResidueLedgerUp}
   \constructivestory{An $\OnticResidueLedgerUp$ packet is generated from an ontic source row, physical model audit row, finite state-space model row, observer-access row, signature classifier, residue ledger, componentwise hsame transport, displayed Cont routes, Pkg provenance, and local NameCert row.}
   \leanchecked{BEDC.Derived.OnticResidueLedgerUp.taste\_gate}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:ontic-residue-ledger-scoped-consumer-surface} binds the public consumer scope to the displayed rows $O,M,S,A,C,R,H,T,P,N$ from \autoref{def:ontic-residue-ledger-carrier}, \autoref{def:ontic-residue-ledger-classifier}, \autoref{thm:ontic-residue-ledger-namecert-obligations}, \autoref{thm:ontic-residue-ledger-signature-exactness}, and \autoref{thm:ontic-residue-ledger-nonescape}.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:ontic-residue-ledger-scoped-consumer-surface} and \autoref{thm:ontic-residue-ledger-bridge-export} bind the public consumer and bridge-facing scopes to the displayed rows $O,M,S,A,C,R,H,T,P,N$ from \autoref{def:ontic-residue-ledger-carrier}, \autoref{def:ontic-residue-ledger-classifier}, \autoref{thm:ontic-residue-ledger-namecert-obligations}, \autoref{thm:ontic-residue-ledger-signature-exactness}, and \autoref{thm:ontic-residue-ledger-nonescape}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, total ontology, state-space exhaustion, host-level reality access, unbounded observation, detached observer authority, or quotienting away residue.}
-  \upgradepath{The next paper obligation is bridge closure for the same displayed rows $O,M,S,A,C,R,H,T,P,N$, with Lean verification and bridge checking recorded on their separate axes.}
+  \upgradepath{Mature closure requires downstream examples and completeness of the same displayed bridge surface $O,M,S,A,C,R,H,T,P,N$, with Lean verification and bridge checking recorded on their separate axes.}
 \end{closurestatus}

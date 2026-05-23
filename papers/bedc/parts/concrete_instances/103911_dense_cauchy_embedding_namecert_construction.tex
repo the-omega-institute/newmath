@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\DenseCauchyEmbeddingUp$}
+\label{ch:concrete-instances-dense-cauchy-embedding-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive completion and Kelley on dense uniform embeddings, the $\DenseCauchyEmbeddingUp$ packet names the finite source-to-completion interface used when a dense metric source is admitted into a Cauchy completion. It sits after the metric source of \autoref{ch:concrete-instances-metric-namecert}, the regular dense Cauchy route of \autoref{ch:concrete-instances-regular-cauchy-dense-embedding-namecert}, the completion embedding surface of \autoref{ch:concrete-instances-completionembedding-namecert}, the sequence-comparison ledger of \autoref{ch:concrete-instances-cauchysequenceequivalence-namecert}, and the metric-completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet exposes density as finite NameCert data rather than as a quotient completion, selected limit, host equality of completion points, countable-choice selector, or ambient completeness principle.
+
+\begin{definition}[Dense Cauchy embedding carrier]
+\label{def:dense-cauchy-embedding-carrier}
+A $\DenseCauchyEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(M,D,Q,J,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\MetricUp$ row, including the source carrier, classifier, distance witness, and finite observation histories.
+\item $D$ is the displayed dense source row, recording the finite approximation schedule that lets completion requests be read back through source observations.
+\item $Q$ is the $\CauchySequenceEquivalenceUp$ or $\CauchyNetUp$ evidence row, exposing the Cauchy comparison route used to identify source approximants before completion consumers read them.
+\item $J$ is the $\CompletionEmbeddingUp$ row that inserts source observations into the completion boundary.
+\item $L$ is the $\MetricCompletionUp$ row consumed only after $M,D,Q,J$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the metric source, dense source row, Cauchy evidence, completion embedding, metric-completion handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M \longmapsto D \longmapsto Q \longmapsto J \longmapsto L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DenseCauchyEmbeddingUp$, $\MetricUp$, $\RegularCauchyDenseEmbeddingUp$, $\CompletionEmbeddingUp$, $\CauchySequenceEquivalenceUp$, $\CauchyNetUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DenseCauchyEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion equality, selected representatives, host equality of completed points, countable choice, ambient metric completeness, or bridge credentials.
+\end{definition}
+
+\begin{theorem}[Dense Cauchy embedding NameCert obligations]
+\label{thm:dense-cauchy-embedding-namecert-obligations}
+For an accepted $\DenseCauchyEmbeddingUp$ carrier $E=(M,D,Q,J,L,H,C,P,N)$, the local $\NameCert_{\DenseCauchyEmbeddingUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source metric row, dense source row, Cauchy equivalence or net evidence, completion embedding, metric-completion handoff, transport, replay, provenance, and local naming rows;
+\item dense-source visibility, requiring every completion-facing approximation request to expose $D$ before it can be read through $J$ or $L$;
+\item Cauchy coherence, requiring the displayed $Q$ row to compare the source approximants through $\CauchySequenceEquivalenceUp$ or $\CauchyNetUp$ before the completion embedding is consumed;
+\item embedding locality, requiring $J$ to insert only the source observations displayed by $M,D,Q$ into the completion-facing boundary;
+\item classifier stability, requiring transported packets with the same displayed $M,D,Q,J,L$ route to be identified through the carried $\hsame$ and $\Cont$ rows;
+\item ledger non-escape, excluding quotient completion equality, selected limits, host equality, countable choice, ambient completeness, and bridge checking.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dense-cauchy-embedding-carrier}. The tuple lists exactly the metric source, dense source, Cauchy evidence, completion embedding, metric-completion handoff, transport, replay, provenance, and local naming rows.
+
+Dense-source visibility is the projection to $D$. A completion-facing request cannot reach the embedding row $J$ or the completion row $L$ until the displayed dense source approximation route has been named.
+
+Cauchy coherence is the projection to $Q$. Whether the local evidence is sequential or net-presented, the packet requires the approximants to be compared before their image is treated as a completion-facing entry.
+
+Embedding locality is the dependency order in $C$. The continuation row replays only the route from $M,D,Q$ through $J$ to $L$, while $H,P,N$ transport, source, and name that same finite packet. Since no excluded host-side datum is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dense Cauchy embedding metric completion handoff]
+\label{thm:dense-cauchy-embedding-metric-completion-handoff}
+Let $E=(M,D,Q,J,L,H,C,P,N)$ be an accepted $\DenseCauchyEmbeddingUp$ carrier. Every $\MetricCompletionUp$ consumer of $E$ reads the completion boundary only through the finite route
+$$
+M \longmapsto D \longmapsto Q \longmapsto J \longmapsto L \longmapsto H,C,P,N .
+$$
+Thus the dense-source embedding interface is a displayed BEDC handoff from $\MetricUp$ source rows through $\RegularCauchyDenseEmbeddingUp$, $\CompletionEmbeddingUp$, and $\CauchySequenceEquivalenceUp$ or $\CauchyNetUp$ evidence into $\MetricCompletionUp$, and not a hidden quotient completion or selected-limit principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier. The source row $M$ supplies the metric observations, and the dense source row $D$ records which finite source approximants answer the completion-facing request.
+
+The Cauchy evidence row $Q$ is read next. It is the only row that compares the selected approximants before they enter the completion boundary, so a completion consumer cannot bypass it and still consume this packet.
+
+The embedding row $J$ then inserts those displayed observations into the completion-facing route. Only after $M,D,Q,J$ have been fixed does the metric-completion row $L$ become available.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same finite route. The packet therefore exports the metric-completion handoff without adding quotient completion equality, selected limits, host equality, countable choice, ambient completeness, or bridge credentials.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DenseCauchyEmbeddingUp$ consumer that reaches $\MetricCompletionUp$ without the displayed $\MetricUp$ source, dense source row, Cauchy evidence, and $\CompletionEmbeddingUp$ route refutes the carrier surface.}
+
+\independenceWitness{metric, regular-cauchy-dense-embedding, completionembedding, cauchysequenceequivalence, cauchynet, metriccompletion: no listed sibling supplies the whole packet $E=(M,D,Q,J,L,H,C,P,N)$, because each sibling contributes only a source metric, dense Cauchy route, embedding row, Cauchy comparison row, or completion boundary while this chapter binds them with transport, replay, provenance, and local naming.}
+
+\closureat{DenseCauchyEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\DenseCauchyEmbeddingUp}
+  \constructivestory{A $\DenseCauchyEmbeddingUp$ packet is generated from a MetricUp source row, displayed dense source data, CauchySequenceEquivalenceUp or CauchyNetUp evidence, a CompletionEmbeddingUp handoff, a MetricCompletionUp consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dense-cauchy-embedding-carrier}, \autoref{thm:dense-cauchy-embedding-namecert-obligations}, and \autoref{thm:dense-cauchy-embedding-metric-completion-handoff} seed the dense Cauchy embedding interface for L10 completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected limits, host equality of completed points, countable choice, ambient metric completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense-source visibility, Cauchy coherence, embedding locality, classifier stability, non-escape, and a Lean carrier/obligation formalization for BEDC.Derived.DenseCauchyEmbeddingUp.}
+\end{closurestatus}
