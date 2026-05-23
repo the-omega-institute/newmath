@@ -291,6 +291,181 @@ Auslander--Buchsbaum give the displayed projective dimension, depth,
 and regularity.
 \end{proof}
 
+\begin{definition}[Saturated blocker faces]
+\label{def:philosophy-saturated-blocker-faces}
+For $J\subsetneq\Omega$, define the saturated face
+$$
+  F_{J}=\{p\in E:\sigma(p)\subseteq J\}.
+$$
+It has size
+$$
+  |F_{J}|=2(2^{|J|}-1).
+$$
+\end{definition}
+
+\begin{theorem}[Link of a saturated face]
+\label{thm:philosophy-saturated-face-link}
+Let $J\subsetneq\Omega$, set $r=|J|$, and put
+$U=\Omega\setminus J$ with $u=|U|=4-r$. Then
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})
+  \cong
+  \mathcal{B}_{u,\,2\cdot2^{r}}.
+$$
+Consequently
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})
+  \simeq
+  S^{u-2}
+  =
+  S^{2-r}.
+$$
+\end{theorem}
+\begin{proof}
+The face $F_{J}$ already covers exactly the coordinates in $J$. A
+codon outside $F_{J}$ contributes to the link through the nonempty
+projection of its support to $U$. For each nonempty $A\subseteq U$, the
+original support can be $A\cup B$ with arbitrary $B\subseteq J$, giving
+$2^{r}$ choices, and each support has two third-position lifts. Hence
+each nonempty support over $U$ has $2\cdot2^{r}$ lifts in the link. The
+condition for remaining in $\mathcal{B}$ is precisely that these
+projected supports do not cover all of $U$, so the link is the
+coverage blocker complex $\mathcal{B}_{u,\,2\cdot2^{r}}$. Its homotopy
+type is $S^{u-2}$ by
+\autoref{thm:philosophy-universal-blocker-topology}.
+\end{proof}
+
+\begin{corollary}[Codon local sphere strata]
+\label{cor:philosophy-codon-local-sphere-strata}
+The saturated faces of rank $r=|J|$ have the following local links:
+$$
+\begin{array}{c|r|r|r|c}
+  r & \text{number of }J & |F_{J}| & \text{link model} & \text{link homotopy}\\
+  \hline
+  0 & 1 & 0 & \mathcal{B}_{4,2} & S^{2}\\
+  1 & 4 & 2 & \mathcal{B}_{3,4} & S^{1}\\
+  2 & 6 & 6 & \mathcal{B}_{2,8} & S^{0}\\
+  3 & 4 & 14 & \mathcal{B}_{1,16} & S^{-1}.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Substitute $r=0,1,2,3$ in
+\autoref{thm:philosophy-saturated-face-link}. The number of saturated
+faces of rank $r$ is $\binom{4}{r}$, and
+Definition~\ref{def:philosophy-saturated-blocker-faces} gives
+$|F_{J}|=2(2^{r}-1)$.
+\end{proof}
+
+\begin{corollary}[Coordinate examples]
+\label{cor:philosophy-local-link-coordinate-examples}
+For $J=\{s_{1}\}$, the saturated face is
+$$
+  F_{J}=\mathrm{GUY}=\{\mathrm{GUU},\mathrm{GUC}\},
+$$
+and
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})\simeq S^{1}.
+$$
+For $J=\{s_{1},f_{1}\}$, the saturated face is
+$$
+  F_{J}
+  =
+  \{\mathrm{UUY},\mathrm{AUY},\mathrm{GUY}\},
+$$
+with two $Y$ lifts in each displayed family, and
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})\simeq S^{0}.
+$$
+\end{corollary}
+\begin{proof}
+The anchor is $\mathrm{CUY}$. Flipping only $s_{1}$ changes the first
+base from $\mathrm{C}$ to $\mathrm{G}$, giving $\mathrm{GUY}$. Allowing
+both first-base bits to vary while the second base stays $\mathrm{U}$
+gives $\mathrm{UUY},\mathrm{CUY},\mathrm{AUY},\mathrm{GUY}$, but
+$\mathrm{CUY}$ lies in $M^{\star}$ rather than $E$. The link homotopy
+types are the $r=1$ and $r=2$ rows of
+\autoref{cor:philosophy-codon-local-sphere-strata}.
+\end{proof}
+
+\begin{theorem}[Non-saturated links are cones]
+\label{thm:philosophy-non-saturated-links-are-cones}
+Let $F\in\mathcal{B}$ and set
+$$
+  J(F)=\bigcup_{p\in F}\sigma(p).
+$$
+If $F\neq F_{J(F)}$, then
+$\operatorname{Lk}_{\mathcal{B}}(F)$ is a cone and is therefore
+contractible.
+\end{theorem}
+\begin{proof}
+Choose $q\in F_{J(F)}\setminus F$. For every
+$G\in\operatorname{Lk}_{\mathcal{B}}(F)$, the face
+$F\cup G$ is still a blocker. Adding $q$ cannot enlarge the covered
+coordinate set, because $\sigma(q)\subseteq J(F)$. Hence
+$F\cup G\cup\{q\}\in\mathcal{B}$ for every link face $G$, so $q$ is a
+cone vertex of the link.
+\end{proof}
+
+\begin{corollary}[Local obstruction support]
+\label{cor:philosophy-local-obstruction-support}
+Every nontrivial local reduced homology group of $\mathcal{B}$ occurs
+in the link of a saturated face. The saturated stratum $F_{J}$ carries
+the local sphere
+$$
+  F_{J}\longmapsto S^{2-|J|}.
+$$
+\end{corollary}
+\begin{proof}
+Saturated links are the spheres of
+\autoref{thm:philosophy-saturated-face-link}. Non-saturated links are
+contractible by \autoref{thm:philosophy-non-saturated-links-are-cones}.
+\end{proof}
+
+\begin{theorem}[Failure of Buchsbaum property]
+\label{thm:philosophy-blocker-not-buchsbaum}
+The blocker complex $\mathcal{B}$ is not Buchsbaum.
+\end{theorem}
+\begin{proof}
+A pure Buchsbaum complex has Cohen--Macaulay links at every nonempty
+face. Take $F_{\{s_{1}\}}=\mathrm{GUY}$. Its link is
+$\mathcal{B}_{3,4}$ by
+\autoref{thm:philosophy-saturated-face-link}; this link has dimension
+$$
+  4(2^{2}-1)-1=11
+$$
+but has the homotopy type $S^{1}$. Thus it has lower-degree homology
+relative to its dimension and is not Cohen--Macaulay.
+\end{proof}
+
+\begin{theorem}[Universal link stratification]
+\label{thm:philosophy-universal-link-stratification}
+For the coverage blocker complex $\mathcal{B}_{n,\ell}$ and
+$J\subsetneq[n]$, set
+$$
+  F_{J}=\{e:\sigma(e)\subseteq J\}.
+$$
+If $r=|J|$ and $u=n-r$, then
+$$
+  |F_{J}|=\ell(2^{r}-1),
+  \qquad
+  \operatorname{Lk}(F_{J})
+  \cong
+  \mathcal{B}_{u,\,\ell2^{r}}
+  \simeq
+  S^{n-r-2}.
+$$
+Every non-saturated face has contractible link.
+\end{theorem}
+\begin{proof}
+The proof of \autoref{thm:philosophy-saturated-face-link} does not use
+the codon-specific values $n=4$ and $\ell=2$. For a projected nonempty
+support $A\subseteq[n]\setminus J$, the old-coordinate part can be any
+subset of $J$, giving $2^{r}$ choices, and each is multiplied by the
+original $\ell$ lifts. The cone argument for non-saturated faces is
+identical to \autoref{thm:philosophy-non-saturated-links-are-cones}.
+\end{proof}
+
 \begin{theorem}[Hilbert--Alexander structure theorem]
 \label{thm:philosophy-hilbert-alexander-structure-theorem}
 The post-$M^{\star}$ blocker system is a thickened tetrahedral
@@ -332,6 +507,16 @@ polynomial is
 $$
   4q^{16}-6q^{24}+4q^{28}-q^{30}.
 $$
+The local links are stratified by saturated faces:
+$$
+  \operatorname{Lk}_{\mathcal{B}}(F_{J})
+  \simeq
+  S^{2-|J|},
+  \qquad
+  J\subsetneq\Omega,
+$$
+while non-saturated faces have contractible links. In particular,
+$\mathcal{B}$ is not Buchsbaum.
 \end{theorem}
 \begin{proof}
 The thickened boundary, Hilbert series, and $h$-polynomial are the
@@ -342,5 +527,9 @@ Cohen--Macaulay defect are
 four-generator Alexander-dual description and the lcm degrees are
 \autoref{thm:philosophy-alexander-dual-blocker-ideal} and
 \autoref{thm:philosophy-alexander-dual-lcm-degrees}. The reliability
-identity is \autoref{thm:philosophy-reliability-from-lcm-lattice}.
+identity is \autoref{thm:philosophy-reliability-from-lcm-lattice}. The
+local link stratification is
+\autoref{thm:philosophy-saturated-face-link} and
+\autoref{thm:philosophy-non-saturated-links-are-cones}; the Buchsbaum
+obstruction is \autoref{thm:philosophy-blocker-not-buchsbaum}.
 \end{proof}

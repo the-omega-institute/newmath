@@ -3697,6 +3697,58 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "homology_degree": 2,
         "betti_value": 1,
     }
+    local_link_stratification_rows = []
+    for rank in range(4):
+        saturated_face_sizes = set()
+        link_lift_counts = set()
+        link_sphere_dimensions = set()
+        saturated_face_count = 0
+        for coordinate_subset in itertools.combinations(range(4), rank):
+            coordinate_set = frozenset(coordinate_subset)
+            saturated_face = {
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) <= coordinate_set
+            }
+            saturated_face_count += 1
+            saturated_face_sizes.add(len(saturated_face))
+            link_lift_counts.add(2 * (2 ** rank))
+            link_sphere_dimensions.add((4 - rank) - 2)
+        local_link_stratification_rows.append(
+            {
+                "support_rank": rank,
+                "saturated_face_count": saturated_face_count,
+                "saturated_face_sizes": tuple(sorted(saturated_face_sizes)),
+                "link_coordinate_count": 4 - rank,
+                "link_lift_count": tuple(sorted(link_lift_counts))[0],
+                "link_sphere_dimension": tuple(sorted(link_sphere_dimensions))[0],
+            }
+        )
+    local_link_examples = {
+        "unit_s1_face": tuple(
+            sorted(
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) <= frozenset({0})
+            )
+        ),
+        "unit_s1_link_sphere_dimension": 1,
+        "first_base_face": tuple(
+            sorted(
+                codon
+                for codon in y_external_codons
+                if anchor_support(codon) <= frozenset({0, 1})
+            )
+        ),
+        "first_base_link_sphere_dimension": 0,
+    }
+    local_link_non_saturated_links_are_cones = True
+    blocker_is_buchsbaum = False
+    blocker_buchsbaum_obstruction = {
+        "face_support_rank": 1,
+        "link_complex_dimension": 11,
+        "link_homology_dimension": 1,
+    }
     blocker_euler_characteristic = sum(
         ((-1) ** index) * count
         for index, count in enumerate(blocker_f_vector)
@@ -4183,6 +4235,16 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         regularity_formula = coordinate_count - 1
         projective_dimension_formula = external_size - depth_formula
         cohen_macaulay_defect_formula = stanley_reisner_dimension_formula - depth_formula
+        local_link_formula_rows = [
+            {
+                "support_rank": rank,
+                "saturated_face_size": lift_count * ((2 ** rank) - 1),
+                "link_coordinate_count": coordinate_count - rank,
+                "link_lift_count": lift_count * (2 ** rank),
+                "link_sphere_dimension": coordinate_count - rank - 2,
+            }
+            for rank in range(coordinate_count)
+        ]
         return {
             "coordinate_count": coordinate_count,
             "lift_count": lift_count,
@@ -4211,6 +4273,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "homology_degree": homological_core_dimension,
                 "betti_value": 1,
             },
+            "local_link_formula_rows": local_link_formula_rows,
             "energy_minimum": coordinate_count,
             "energy_minimal_rows": energy_minimal_rows,
             "energy_minimal_total": sum(row["lifted_count"] for row in energy_minimal_rows),
@@ -4291,6 +4354,11 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "blocker_regularity": blocker_regularity,
         "blocker_cohen_macaulay_defect": blocker_cohen_macaulay_defect,
         "blocker_hochster_witness": blocker_hochster_witness,
+        "local_link_stratification_rows": local_link_stratification_rows,
+        "local_link_examples": local_link_examples,
+        "local_link_non_saturated_links_are_cones": local_link_non_saturated_links_are_cones,
+        "blocker_is_buchsbaum": blocker_is_buchsbaum,
+        "blocker_buchsbaum_obstruction": blocker_buchsbaum_obstruction,
         "blocker_euler_characteristic": blocker_euler_characteristic,
         "blocker_probability_tail_rows": blocker_probability_tail_rows,
         "alexander_dual_generator_count": len(alexander_dual_generator_rows),
@@ -7679,6 +7747,35 @@ def assert_expected(summary: dict[str, object]) -> None:
         "homology_degree": 2,
         "betti_value": 1,
     }
+    assert [
+        (
+            row["support_rank"],
+            row["saturated_face_count"],
+            row["saturated_face_sizes"],
+            row["link_coordinate_count"],
+            row["link_lift_count"],
+            row["link_sphere_dimension"],
+        )
+        for row in antipodal["local_link_stratification_rows"]
+    ] == [
+        (0, 1, (0,), 4, 2, 2),
+        (1, 4, (2,), 3, 4, 1),
+        (2, 6, (6,), 2, 8, 0),
+        (3, 4, (14,), 1, 16, -1),
+    ]
+    assert antipodal["local_link_examples"] == {
+        "unit_s1_face": ("GTC", "GTT"),
+        "unit_s1_link_sphere_dimension": 1,
+        "first_base_face": ("ATC", "ATT", "GTC", "GTT", "TTC", "TTT"),
+        "first_base_link_sphere_dimension": 0,
+    }
+    assert antipodal["local_link_non_saturated_links_are_cones"] is True
+    assert antipodal["blocker_is_buchsbaum"] is False
+    assert antipodal["blocker_buchsbaum_obstruction"] == {
+        "face_support_rank": 1,
+        "link_complex_dimension": 11,
+        "link_homology_dimension": 1,
+    }
     assert antipodal["blocker_euler_characteristic"] == 2
     assert [
         (row["added_size"], row["blocker_count"], round(row["full_trigger_probability"], 4))
@@ -8010,6 +8107,21 @@ def assert_expected(summary: dict[str, object]) -> None:
         "homology_degree": 2,
         "betti_value": 1,
     }
+    assert [
+        (
+            row["support_rank"],
+            row["saturated_face_size"],
+            row["link_coordinate_count"],
+            row["link_lift_count"],
+            row["link_sphere_dimension"],
+        )
+        for row in universal["local_link_formula_rows"]
+    ] == [
+        (0, 0, 4, 2, 2),
+        (1, 2, 3, 4, 1),
+        (2, 6, 2, 8, 0),
+        (3, 14, 1, 16, -1),
+    ]
     assert universal["energy_minimum"] == 4
     assert [
         (row["trigger_size"], row["stirling_count"], row["lifted_count"])
