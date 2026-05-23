@@ -284,6 +284,20 @@ theorem UniformCompletion_cauchy_filter_factorization {F D U E H C P N : BHist} 
       · exact uniformCompletionDecode_encode_bhist F
       · exact uniformCompletionDecode_encode_bhist D
 
+theorem UniformCompletion_directed_net_witness {F D U E H C P N : BHist} :
+    Cont F D U →
+      uniformCompletionFields (UniformCompletionUp.mk F D U E H C P N) =
+          [F, D, U, E, H, C, P, N] ∧
+        hsame (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist D)) D ∧
+          Exists (fun route : BHist => Cont F D route) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro route
+  constructor
+  · rfl
+  · constructor
+    · exact uniformCompletionDecode_encode_bhist D
+    · exact ⟨U, route⟩
+
 theorem UniformCompletion_namecert_obligation_surface
     [AskSetup] [PackageSetup]
     {F D U E H C P N audit : BHist}
@@ -308,7 +322,7 @@ theorem UniformCompletion_universal_extension_uniqueness
           hsame route H →
             hsame route' H →
               UniformCompletionClassifier route route' ∧
-                UniformCompletionLedgerPolicy N ∧
+                  UniformCompletionLedgerPolicy N ∧
                   UniformCompletionCauchyFilterPattern N := by
   -- BEDC touchpoint anchor: BHist Cont hsame NameCert
   intro carrier routeLeft routeRight sameRoute sameRoute'
@@ -321,6 +335,24 @@ theorem UniformCompletion_universal_extension_uniqueness
     · exact
         ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
           extensionRoute, replayRoute, ledgerRoute⟩
+
+theorem UniformCompletion_scope_lock {row : BHist} :
+    UniformCompletionCarrier row →
+      UniformCompletionCauchyFilterPattern row ∧
+        UniformCompletionLedgerPolicy row ∧
+          UniformCompletionClassifier
+            (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist row)) row := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame NameCert
+  intro carrier
+  obtain ⟨F, D, U, E, H, C, P, N, sameName, filterRoute, extensionRoute,
+    replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact
+      ⟨F, D, U, filterRoute, E, H, C, P, N, sameName, extensionRoute,
+        replayRoute, ledgerRoute⟩
+  · constructor
+    · exact ⟨P, N, sameName, ledgerRoute⟩
+    · exact uniformCompletionDecode_encode_bhist row
 
 def taste_gate : ChapterTasteGate UniformCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
