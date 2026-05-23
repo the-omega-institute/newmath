@@ -789,6 +789,7 @@ import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CantorBendixsonUp.TasteGate
 import BEDC.Derived.CantorCompletenessUp.TasteGate
+import BEDC.Derived.CantorDiagonalRealUncountabilityUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp
 import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorSetUp.TasteGate
@@ -2827,6 +2828,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRootUnblockPackage
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PositiveRadiusCompactNetExport
+import BEDC.Derived.FiniteLebesgueNumberUp.PositiveRadiusTotality
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusClassifierStability
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumers
@@ -3516,6 +3518,7 @@ import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
 import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LocalSelfCenterInscriptionSealUp.TasteGate
 import BEDC.Derived.LocalStencilObservationUp.TasteGate
+import BEDC.Derived.LocalTimeFiberUp
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.LocallyCompactUp.TasteGate
@@ -4979,6 +4982,7 @@ import BEDC.Derived.SemiringUp.TasteGate
 import BEDC.Derived.SeparableCompletionUp.TasteGate
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeparableMetricUp.TasteGate
+import BEDC.Derived.SeparatedCompletionReflectorUp
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeqUp
