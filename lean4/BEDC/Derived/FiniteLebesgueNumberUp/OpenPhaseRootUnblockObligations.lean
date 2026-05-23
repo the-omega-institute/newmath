@@ -299,4 +299,91 @@ theorem FiniteLebesgueNumberFourFaceRadiusExitCoverage_semantic_name_certificate
     }
   exact ⟨cert, coverRadiusStream, streamRegularReal, realPkg⟩
 
+theorem FiniteLebesgueNumberFourFaceRadiusExitNonescape [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow phaseRead endpointRead realRead
+      triadRead exitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont cover window phaseRead ->
+        Cont phaseRead radius endpointRead ->
+          Cont endpointRead route realRead ->
+            Cont realRead nameRow triadRead ->
+              Cont triadRead mesh exitRead ->
+                PkgSig bundle exitRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row exitRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row phaseRead ∨ hsame row endpointRead ∨
+                          hsame row realRead ∨ hsame row triadRead ∨ hsame row exitRead)
+                      (fun row : BHist =>
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle exitRead pkg ∧
+                          hsame row exitRead)
+                      hsame ∧
+                    UnaryHistory phaseRead ∧ UnaryHistory endpointRead ∧
+                      UnaryHistory realRead ∧ UnaryHistory triadRead ∧
+                        UnaryHistory exitRead ∧ Cont cover window phaseRead ∧
+                          Cont phaseRead radius endpointRead ∧
+                            Cont endpointRead route realRead ∧ Cont realRead nameRow triadRead ∧
+                              Cont triadRead mesh exitRead ∧ PkgSig bundle provenance pkg ∧
+                                PkgSig bundle exitRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier coverWindowPhase phaseRadiusEndpoint endpointRouteReal realNameTriad
+    triadMeshExit exitPkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have phaseUnary : UnaryHistory phaseRead :=
+    unary_cont_closed coverUnary windowUnary coverWindowPhase
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed phaseUnary radiusUnary phaseRadiusEndpoint
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed endpointUnary routeUnary endpointRouteReal
+  have triadUnary : UnaryHistory triadRead :=
+    unary_cont_closed realUnary nameRowUnary realNameTriad
+  have exitUnary : UnaryHistory exitRead :=
+    unary_cont_closed triadUnary meshUnary triadMeshExit
+  have sourceExit :
+      (fun row : BHist => hsame row exitRead ∧ UnaryHistory row) exitRead := by
+    exact ⟨hsame_refl exitRead, exitUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exitRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row phaseRead ∨ hsame row endpointRead ∨
+              hsame row realRead ∨ hsame row triadRead ∨ hsame row exitRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle exitRead pkg ∧
+              hsame row exitRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro exitRead sourceExit
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+      ledger_sound := by
+        intro _row source
+        exact ⟨provenancePkg, exitPkg, source.left⟩
+    }
+  exact
+    ⟨cert, phaseUnary, endpointUnary, realUnary, triadUnary, exitUnary, coverWindowPhase,
+      phaseRadiusEndpoint, endpointRouteReal, realNameTriad, triadMeshExit, provenancePkg,
+      exitPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
