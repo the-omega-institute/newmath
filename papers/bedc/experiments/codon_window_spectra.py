@@ -3819,6 +3819,55 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 lower = midpoint
         return (lower + upper) / 2.0
 
+    def energy_partition_factor(coordinate_count: int, activity: float, energy_factor: float) -> float:
+        total = 1.0
+        for support_size in range(1, coordinate_count + 1):
+            total *= (1.0 + activity * (energy_factor ** support_size)) ** (
+                2 * math.comb(coordinate_count, support_size)
+            )
+        return total
+
+    def energy_biased_blocker_partition(activity: float, energy_factor: float) -> float:
+        return (
+            4.0 * energy_partition_factor(3, activity, energy_factor)
+            - 6.0 * energy_partition_factor(2, activity, energy_factor)
+            + 4.0 * energy_partition_factor(1, activity, energy_factor)
+            - 1.0
+        )
+
+    def energy_biased_total_partition(activity: float, energy_factor: float) -> float:
+        return energy_partition_factor(4, activity, energy_factor)
+
+    def energy_biased_reliability(activity: float, energy_factor: float) -> float:
+        return 1.0 - (
+            energy_biased_blocker_partition(activity, energy_factor)
+            / energy_biased_total_partition(activity, energy_factor)
+        )
+
+    def energy_biased_expected_selected(activity: float, energy_factor: float) -> float:
+        return sum(
+            2.0
+            * math.comb(4, support_size)
+            * (
+                (activity * (energy_factor ** support_size))
+                / (1.0 + activity * (energy_factor ** support_size))
+            )
+            for support_size in range(1, 5)
+        )
+
+    def energy_biased_activity_threshold(target_probability: float, energy_factor: float) -> float:
+        lower = 0.0
+        upper = 1.0
+        while energy_biased_reliability(upper, energy_factor) < target_probability:
+            upper *= 2.0
+        for _iteration in range(100):
+            midpoint = (lower + upper) / 2.0
+            if energy_biased_reliability(midpoint, energy_factor) >= target_probability:
+                upper = midpoint
+            else:
+                lower = midpoint
+        return (lower + upper) / 2.0
+
     reliability_threshold_rows = []
     for target_probability in (0.5, 0.9, 0.95, 0.99):
         threshold = reliability_threshold(target_probability)
@@ -3829,6 +3878,23 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "expected_selected_codons": len(y_external_codons) * threshold,
             }
         )
+    energy_biased_threshold_rows = []
+    for target_probability in (0.5, 0.9, 0.95):
+        for energy_factor in (1.0, 0.75, 0.5, 0.25, 0.1):
+            activity = energy_biased_activity_threshold(target_probability, energy_factor)
+            energy_biased_threshold_rows.append(
+                {
+                    "target_probability": target_probability,
+                    "energy_factor": energy_factor,
+                    "activity": activity,
+                    "expected_selected_codons": energy_biased_expected_selected(activity, energy_factor),
+                    "reliability": energy_biased_reliability(activity, energy_factor),
+                }
+            )
+    energy_biased_low_energy_terms = tuple(
+        (row["trigger_size"], row["codon_count"])
+        for row in energy_minimal_trigger_rows
+    )
     antipodal_trigger_summary = {
         "mstar": tuple(sorted(mstar_set)),
         "mstar_size": len(mstar_set),
@@ -3915,6 +3981,12 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "stanley_reisner_degree_one_generators": stanley_reisner_degree_one_generators,
         "reliability_polynomial": "1 - 4q^16 + 6q^24 - 4q^28 + q^30",
         "reliability_threshold_rows": reliability_threshold_rows,
+        "energy_biased_total_partition": "(1+ty)^8 (1+ty^2)^12 (1+ty^3)^8 (1+ty^4)^2",
+        "energy_biased_blocker_partition": "4A3(t,y) - 6A2(t,y) + 4A1(t,y) - 1",
+        "energy_biased_reliability_formula": "1 - (4A3(t,y)-6A2(t,y)+4A1(t,y)-1)/A4(t,y)",
+        "energy_biased_low_energy_terms": energy_biased_low_energy_terms,
+        "energy_biased_low_energy_polynomial": "y^4(2t+28t^2+48t^3+16t^4)",
+        "energy_biased_threshold_rows": energy_biased_threshold_rows,
         "maximum_nontrigger_external_size": maximum_nontrigger_external_size,
         "maximum_nontrigger_blocker_count": maximum_nontrigger_blocker_count,
         "forced_full_trigger_threshold": maximum_nontrigger_external_size + 1,
@@ -7335,6 +7407,41 @@ def assert_expected(summary: dict[str, object]) -> None:
         (0.9, 0.19455, 5.84),
         (0.95, 0.23206, 6.96),
         (0.99, 0.30934, 9.28),
+    ]
+    assert antipodal["energy_biased_total_partition"] == "(1+ty)^8 (1+ty^2)^12 (1+ty^3)^8 (1+ty^4)^2"
+    assert antipodal["energy_biased_blocker_partition"] == "4A3(t,y) - 6A2(t,y) + 4A1(t,y) - 1"
+    assert antipodal["energy_biased_reliability_formula"] == "1 - (4A3(t,y)-6A2(t,y)+4A1(t,y)-1)/A4(t,y)"
+    assert antipodal["energy_biased_low_energy_terms"] == (
+        (1, 2),
+        (2, 28),
+        (3, 48),
+        (4, 16),
+    )
+    assert antipodal["energy_biased_low_energy_polynomial"] == "y^4(2t+28t^2+48t^3+16t^4)"
+    assert [
+        (
+            row["target_probability"],
+            row["energy_factor"],
+            round(row["activity"], 4),
+            round(row["expected_selected_codons"], 2),
+        )
+        for row in antipodal["energy_biased_threshold_rows"]
+    ] == [
+        (0.5, 1.0, 0.0962, 2.63),
+        (0.5, 0.75, 0.2008, 3.01),
+        (0.5, 0.5, 0.5108, 3.53),
+        (0.5, 0.25, 1.983, 4.23),
+        (0.5, 0.1, 8.5128, 4.69),
+        (0.9, 1.0, 0.2415, 5.84),
+        (0.9, 0.75, 0.4903, 6.39),
+        (0.9, 0.5, 1.2207, 7.04),
+        (0.9, 0.25, 4.7581, 7.69),
+        (0.9, 0.1, 21.7497, 7.8),
+        (0.95, 1.0, 0.3022, 6.96),
+        (0.95, 0.75, 0.6114, 7.55),
+        (0.95, 0.5, 1.5224, 8.22),
+        (0.95, 0.25, 6.0003, 8.8),
+        (0.95, 0.1, 28.2281, 8.77),
     ]
     assert antipodal["maximum_nontrigger_external_size"] == 14
     assert antipodal["maximum_nontrigger_blocker_count"] == 4
