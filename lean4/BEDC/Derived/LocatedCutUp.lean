@@ -336,4 +336,35 @@ theorem LocatedCutCarrier_standard_bridge_boundary [AskSetup] [PackageSetup]
     unary_cont_closed handoffUnary sealUnary handoffSealBridge
   exact ⟨bridgeUnary, sameHandoffProvenance, handoffSealBridge, bridgePkg⟩
 
+theorem LocatedCutCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
+    {lower upper window handoff sealRow transportRow route provenance localCert realConsumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window handoff sealRow transportRow route provenance localCert
+        bundle pkg ->
+      UnaryHistory provenance ->
+        UnaryHistory localCert ->
+          Cont sealRow provenance realConsumer ->
+            PkgSig bundle realConsumer pkg ->
+              hsame handoff provenance ∧ UnaryHistory realConsumer ∧
+                Cont lower upper window ∧ Cont window handoff transportRow ∧
+                  Cont transportRow route provenance ∧ Cont provenance localCert sealRow ∧
+                    Cont sealRow provenance realConsumer ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle realConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier provenanceUnary localCertUnary sealProvenanceConsumer consumerPkg
+  obtain ⟨lowerUpperWindow, windowHandoffTransport, transportRouteProvenance,
+    provenanceLocalCertSeal, provenancePkg, sameSealHandoff, sameSealProvenance⟩ :=
+    carrier
+  have sameHandoffProvenance : hsame handoff provenance :=
+    hsame_trans (hsame_symm sameSealHandoff) sameSealProvenance
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed provenanceUnary localCertUnary provenanceLocalCertSeal
+  have consumerUnary : UnaryHistory realConsumer :=
+    unary_cont_closed sealUnary provenanceUnary sealProvenanceConsumer
+  exact
+    ⟨sameHandoffProvenance, consumerUnary, lowerUpperWindow, windowHandoffTransport,
+      transportRouteProvenance, provenanceLocalCertSeal, sealProvenanceConsumer, provenancePkg,
+      consumerPkg⟩
+
 end BEDC.Derived.LocatedCutUp
