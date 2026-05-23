@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RealApproximationSchemeUp$}
+\label{ch:concrete-instances-real-approximation-scheme-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealApproximationSchemeUp$ packet records a constructive real approximation interface as finite BEDC NameCert data. It sits between the stream observations of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the sealed real boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the approximation route needed by later Real, metric, and continuous-map certificates without importing host real equality, quotient streams, selected limits, trichotomy, or ambient completeness.
+
+\begin{definition}[Real approximation scheme carrier]
+\label{def:real-approximation-scheme-carrier}
+A $\RealApproximationSchemeUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,D,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ observation row. It records the finite schedule of requested observations, the visible stream-name windows, and the order in which a consumer may read them.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It records the dyadic radii, comparison cells, shrink steps, and budget rows attached to each displayed observation request.
+\item $R$ is the $\RegSeqRatUp$ readback row. It records the regular rational sequence data that consumes $S$ and $D$ before any real-facing seal is exposed.
+\item $Q$ is the $\RealUp$ seal row. It records only the finite real-boundary interface reached through the regular readback, not a host real value.
+\item $H$ records componentwise $\hsame$ transport for the stream observations, dyadic tolerance rows, regular readback, real seal row, continuation route, package provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,D \longmapsto R \longmapsto Q \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RealApproximationSchemeUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealApproximationSchemeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,R,Q,H,C,P,N$. The carrier has no coordinate for host real equality, quotient streams, selected limits, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Real approximation scheme NameCert obligations]
+\label{thm:real-approximation-scheme-namecert-obligations}
+For every accepted $\RealApproximationSchemeUp$ carrier
+$$
+A=(S,D,R,Q,H,C,P,N),
+$$
+the local $\NameCert_{\RealApproximationSchemeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the stream observations, dyadic tolerance ledger, regular readback, real seal boundary, transport, replay, provenance, and local naming row;
+\item stream observability, requiring every approximation request to enter through the finite $\StreamNameUp$ windows in $S$;
+\item dyadic tolerance exactness, requiring every precision demand to be witnessed by a displayed $\DyadicRatCoreUp$ radius, shrink, comparison, or budget row in $D$;
+\item regular readback routing, requiring the $\RegSeqRatUp$ row $R$ to consume the stream and dyadic rows before a real-facing consumer may read the packet;
+\item real seal nonescape, requiring the $\RealUp$ seal row $Q$ to be reached only through $R$ and never through a host real representative;
+\item provenance exhaustion, requiring $H,C,P,N$ to transport, replay, source, and name exactly the rows listed above and no host real equality, quotient stream, selected limit, trichotomy, ambient completeness, Lean verification, or bridge credential.
+\end{enumerate}
+No real-approximation-scheme obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted carrier $A=(S,D,R,Q,H,C,P,N)$. The definition lists the whole visible packet, so carrier admission is just the displayed finite $\BHist$ data together with its transport, replay, provenance, and naming rows.
+
+The observation side is forced by $S$. Every approximation request first reads the $\StreamNameUp$ windows and schedule before any tolerance or readback row can be consumed.
+
+The precision side is forced by $D$. The dyadic radii, shrink steps, comparison cells, and budget rows are the only tolerance coordinates available to the packet, so a consumer cannot replace them by an ambient metric or a host real estimate.
+
+The real-facing route passes through $R$ and then $Q$. The $\RegSeqRatUp$ row reads the stream and dyadic data as a regular rational sequence, and the $\RealUp$ seal row exposes only the finite boundary supplied by that readback.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows componentwise. Since the refused principles have no coordinate and no replay edge, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real approximation scheme RegSeqRat handoff]
+\label{thm:real-approximation-scheme-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer read of an accepted $\RealApproximationSchemeUp$ carrier factors through the finite route
+$$
+S,D \longmapsto R \longmapsto Q \longmapsto H,C,P,N .
+$$
+Thus the consumer receives the $\StreamNameUp$ observation windows, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. It receives no host real equality, quotient stream, selected limit, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+
+\begin{proof}
+Start with a consumer read of the accepted packet. The stream observation row $S$ supplies the finite request schedule and visible windows, so the read begins with a named $\StreamNameUp$ surface rather than an unbounded stream.
+
+Next read the dyadic tolerance row $D$. The row provides the $\DyadicRatCoreUp$ radii, shrink steps, comparison cells, and budget entries attached to the same observations, so the read has a finite precision ledger before it reaches a regular sequence.
+
+The handoff is then the row $R$. It packages the observed stream and tolerance data as the $\RegSeqRatUp$ readback consumed by later real-facing certificates.
+
+The real boundary is last. The row $Q$ records only the $\RealUp$ seal reached through $R$, and the structural rows $H,C,P,N$ preserve exactly this route by componentwise transport, continuation replay, provenance, and local naming.
+\end{proof}
+
+\closureat{RealApproximationSchemeUp}{seedStr}
+
+\begin{closurestatus}{\RealApproximationSchemeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-approximation-scheme-carrier}, \autoref{thm:real-approximation-scheme-namecert-obligations}, and \autoref{thm:real-approximation-scheme-regseqrat-handoff} seed the finite approximation packet over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, quotient streams, selected limits, trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, stream observability, dyadic tolerance exactness, regular readback routing, real seal nonescape, and provenance exhaustion for BEDC.Derived.RealApproximationSchemeUp.}
+  \constructivestory{A $\RealApproximationSchemeUp$ packet is generated from StreamName observation windows, DyadicRatCore tolerance rows, RegSeqRat readback, a Real seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
