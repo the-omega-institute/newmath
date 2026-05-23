@@ -1,0 +1,132 @@
+\chapter{A Concrete Naming Certificate for $\PreRealUp$}
+\label{ch:concrete-instances-pre-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges' regular Cauchy construction of the reals, the
+$\PreRealUp$ packet records the unsealed regular-Cauchy name boundary between
+regular rational sequences and the terminal $\RealUp$ seal. It sits over the
+dyadic tolerance ledger of
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation
+surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular
+rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and
+the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The
+packet exposes the finite name data available before a Real seal is consumed;
+it is not quotient stream equality, a selected limit, host real equality,
+countable choice, or completeness.
+
+\begin{definition}[PreReal carrier]
+\label{def:pre-real-carrier}
+A $\PreRealUp$ carrier is a finite $\BHist$ packet
+$$
+P=(D,S,R,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording finite precision
+requests, denominator windows, and dyadic radius bookkeeping.
+\item $S$ is the $\StreamNameUp$ observation row opened by the same tolerance
+request, recording the finite schedule of inspected name entries.
+\item $R$ is the $\RegSeqRatUp$ regularity row, read only through $D$ and $S$,
+and carrying the displayed Cauchy regularity evidence available before a real
+seal is consumed.
+\item $H$ records componentwise $\hsame$ transport for tolerance, observation,
+regularity, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D,S \longmapsto R \longmapsto H,K,N .
+$$
+\item $K$ is the $\Pkg$ provenance over $\PreRealUp$, $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and
+$\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PreRealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected representatives,
+host real equality, countable choice, a selected limit, or completeness of
+$\RealUp$.
+\end{definition}
+
+\begin{theorem}[PreReal NameCert obligations]
+\label{thm:pre-real-namecert-obligations}
+For an accepted $\PreRealUp$ carrier
+$$
+P=(D,S,R,H,C,K,N),
+$$
+the local $\NameCert_{\PreRealUp}$ surface consists exactly of the following
+finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic tolerance, StreamName observation,
+RegSeqRat regularity, componentwise transport, replay, provenance, and local
+naming rows;
+\item tolerance-window exposure, requiring every PreReal read to start from the
+displayed $\DyadicRatCoreUp$ row $D$ and the matching $\StreamNameUp$ row $S$;
+\item regularity handoff, requiring the opened finite name window to pass
+through the $\RegSeqRatUp$ row $R$ before any Real-facing boundary is named;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the
+same displayed rows componentwise;
+\item provenance non-escape, requiring $K$ and $N$ to export no quotient
+streams, selected representatives, host real equality, countable choice,
+selected limit, or completeness principle.
+\end{enumerate}
+No PreReal obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:pre-real-carrier}. The
+packet lists the tolerance row, finite observation row, regularity row,
+transport, replay, provenance, and local naming row, so admission has no
+additional source.
+
+The tolerance-window exposure obligation reads $D$ and $S$ first. These two
+rows bind the same finite precision request, so a PreReal consumer cannot skip
+directly to a selected limit or quotient stream.
+
+The regularity handoff is row $R$. It consumes the opened finite window through
+the regular rational sequence surface, and therefore presents only regular
+Cauchy name data to any later Real-facing boundary.
+
+Finally $H,C,K,N$ transport, replay, source, and name exactly the displayed
+route. Since the carrier contains no coordinate for the excluded host objects
+or choice principles, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[PreReal constant dyadic route]
+\label{thm:pre-real-constant-dyadic-route}
+Every constant dyadic name admitted by a $\PreRealUp$ packet factors through
+the finite route
+$$
+\DyadicRatCoreUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp
+\longrightarrow \PreRealUp .
+$$
+For a carrier $P=(D,S,R,H,C,K,N)$, the route reads the constant dyadic
+tolerance data from $D$, opens the matching finite StreamName observation row
+$S$, records regularity in $R$, and then consumes only $H,C,K,N$ as structural
+support for the local $\NameCert_{\PreRealUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $P=(D,S,R,H,C,K,N)$. The constant dyadic request
+first reads $D$, because this is the only tolerance row exposed by the carrier.
+
+The matching StreamName observation row is $S$. It records the finite schedule
+at which the constant dyadic data are inspected, and it supplies no selected
+limit or quotient coordinate.
+
+The regularity evidence is then read from $R$. A constant dyadic name satisfies
+the regular rational route by the displayed tolerance and observation rows, so
+the PreReal packet receives a regular name rather than host real data.
+
+The remaining rows $H,C,K,N$ preserve, replay, source, and name the same route.
+Thus the constant dyadic route reaches $\PreRealUp$ without exporting quotient
+streams, selected limits, host real equality, countable choice, or Real
+completeness.
+\end{proof}
+
+\closureat{PreRealUp}{seedStr}
+
+\begin{closurestatus}{\PreRealUp}
+  \constructivestory{A $\PreRealUp$ packet is generated from a DyadicRatCore tolerance row, StreamName finite observation row, RegSeqRat regularity row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row before any RealUp seal is consumed.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pre-real-carrier}, \autoref{thm:pre-real-namecert-obligations}, and \autoref{thm:pre-real-constant-dyadic-route} seed the unsealed regular-Cauchy name boundary between RegSeqRat rows and RealUp seal consumption.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter refuses quotient streams, selected limits, host real equality, countable choice, selected representatives, and completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance-window exposure, regularity handoff, transport and replay stability, provenance non-escape, and constant dyadic routing for BEDC.Derived.PreRealUp.}
+\end{closurestatus}

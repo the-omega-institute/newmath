@@ -35,6 +35,48 @@ private theorem DyadicGeometricTailTasteGate_single_carrier_alignment_decode_enc
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+private theorem DyadicGeometricTailTasteGate_single_carrier_alignment_mk_congr
+    {q q' n n' W W' D D' T T' R R' E E' H H' C C' P P' N N' : BHist}
+    (hq : q' = q)
+    (hn : n' = n)
+    (hW : W' = W)
+    (hD : D' = D)
+    (hT : T' = T)
+    (hR : R' = R)
+    (hE : E' = E)
+    (hH : H' = H)
+    (hC : C' = C)
+    (hP : P' = P)
+    (hN : N' = N) :
+    DyadicGeometricTailUp.mk q' n' W' D' T' R' E' H' C' P' N' =
+      DyadicGeometricTailUp.mk q n W D T R E H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hq
+  cases hn
+  cases hW
+  cases hD
+  cases hT
+  cases hR
+  cases hE
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
+private theorem DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective
+    {a b : BHist} :
+    dyadicGeometricTailEncodeBHist a = dyadicGeometricTailEncodeBHist b → a = b := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  have hd :
+      dyadicGeometricTailDecodeBHist (dyadicGeometricTailEncodeBHist a) =
+        dyadicGeometricTailDecodeBHist (dyadicGeometricTailEncodeBHist b) :=
+    congrArg dyadicGeometricTailDecodeBHist h
+  exact Eq.trans
+    (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode a).symm
+    (Eq.trans hd (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode b))
+
 def dyadicGeometricTailFields : DyadicGeometricTailUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | DyadicGeometricTailUp.mk q n W D T R E H C P N => [q, n, W, D, T, R, E, H, C, P, N]
@@ -43,29 +85,56 @@ def dyadicGeometricTailToEventFlow : DyadicGeometricTailUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (dyadicGeometricTailFields x).map dyadicGeometricTailEncodeBHist
 
-private def dyadicGeometricTailEventAt : Nat → EventFlow → RawEvent
+def dyadicGeometricTailFromEventFlow : EventFlow → Option DyadicGeometricTailUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => dyadicGeometricTailEventAt index rest
-
-def dyadicGeometricTailFromEventFlow (ef : EventFlow) :
-    Option DyadicGeometricTailUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (DyadicGeometricTailUp.mk
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 0 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 1 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 2 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 3 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 4 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 5 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 6 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 7 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 8 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 9 ef))
-      (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEventAt 10 ef)))
+  | [] => none
+  | q :: rest0 =>
+      match rest0 with
+      | [] => none
+      | n :: rest1 =>
+          match rest1 with
+          | [] => none
+          | W :: rest2 =>
+              match rest2 with
+              | [] => none
+              | D :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | T :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | R :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | E :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | H :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | C :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | P :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | N :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (DyadicGeometricTailUp.mk
+                                                      (dyadicGeometricTailDecodeBHist q)
+                                                      (dyadicGeometricTailDecodeBHist n)
+                                                      (dyadicGeometricTailDecodeBHist W)
+                                                      (dyadicGeometricTailDecodeBHist D)
+                                                      (dyadicGeometricTailDecodeBHist T)
+                                                      (dyadicGeometricTailDecodeBHist R)
+                                                      (dyadicGeometricTailDecodeBHist E)
+                                                      (dyadicGeometricTailDecodeBHist H)
+                                                      (dyadicGeometricTailDecodeBHist C)
+                                                      (dyadicGeometricTailDecodeBHist P)
+                                                      (dyadicGeometricTailDecodeBHist N))
+                                              | _ :: _ => none
 
 private theorem DyadicGeometricTailTasteGate_single_carrier_alignment_round_trip
     (x : DyadicGeometricTailUp) :
@@ -88,30 +157,53 @@ private theorem DyadicGeometricTailTasteGate_single_carrier_alignment_round_trip
             (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEncodeBHist P))
             (dyadicGeometricTailDecodeBHist (dyadicGeometricTailEncodeBHist N))) =
           some (DyadicGeometricTailUp.mk q n W D T R E H C P N)
-      rw [DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode q,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode n,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode W,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode D,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode T,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode R,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode E,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode H,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode C,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode P,
-        DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode N]
+      exact
+        congrArg some
+          (DyadicGeometricTailTasteGate_single_carrier_alignment_mk_congr
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode q)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode n)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode W)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode D)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode T)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode R)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode E)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode H)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode C)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode P)
+            (DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode N))
 
 private theorem DyadicGeometricTailTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : DyadicGeometricTailUp} :
     dyadicGeometricTailToEventFlow x = dyadicGeometricTailToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
-  have hread :
-      dyadicGeometricTailFromEventFlow (dyadicGeometricTailToEventFlow x) =
-        dyadicGeometricTailFromEventFlow (dyadicGeometricTailToEventFlow y) :=
-    congrArg dyadicGeometricTailFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (DyadicGeometricTailTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (DyadicGeometricTailTasteGate_single_carrier_alignment_round_trip y)))
+  cases x with
+  | mk q₁ n₁ W₁ D₁ T₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk q₂ n₂ W₂ D₂ T₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
+          injection heq with hq tailq
+          injection tailq with hn tailn
+          injection tailn with hW tailW
+          injection tailW with hD tailD
+          injection tailD with hT tailT
+          injection tailT with hR tailR
+          injection tailR with hE tailE
+          injection tailE with hH tailH
+          injection tailH with hC tailC
+          injection tailC with hP tailP
+          injection tailP with hN _
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hq
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hn
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hW
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hD
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hT
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hR
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hE
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hH
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hC
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hP
+          cases DyadicGeometricTailTasteGate_single_carrier_alignment_encode_injective hN
+          rfl
 
 private theorem DyadicGeometricTailTasteGate_single_carrier_alignment_field_faithful :
     ∀ x y : DyadicGeometricTailUp,

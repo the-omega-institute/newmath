@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\FastCauchySequenceUp$}
+\label{ch:concrete-instances-fast-cauchy-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\FastCauchySequenceUp$ packet records a standard constructive source object for the L10 Real and Completion route. It sits after the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names a fast Cauchy sequence as finite BEDC carrier data; it is not a quotient stream, selected limit, trichotomy principle, countable-choice selector, or ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[Fast Cauchy sequence carrier]
+\label{def:fast-cauchy-sequence-carrier}
+A $\FastCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,S,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger. It stores the dyadic terms visible at each requested index, the positive dyadic tolerance rows, and the comparison windows used by the fast Cauchy test.
+\item $S$ is the $\StreamNameUp$ finite-window row. It specifies which term observations and tolerance requests are visible to downstream consumers.
+\item $M$ is the explicit fast Cauchy modulus ledger. For every displayed request level $k$, it records a finite budget row forcing all scheduled later windows to be within the dyadic tolerance named by $D$ at level $k$.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the same dyadic observations, stream windows, and modulus ledger.
+\item $H$ stores componentwise $\hsame$ transport for $D,S,M,R,C,P,N$.
+\item $C$ stores displayed $\Cont$ replay from dyadic observations through stream windows and modulus checks to the regular rational handoff row.
+\item $P$ is the $\Pkg$ provenance over $\FastCauchySequenceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FastCauchySequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted fast Cauchy sequence packets only through $D,S,M,R,H,C,P,N$. It has no coordinate for quotient streams, selected limits, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Fast Cauchy sequence NameCert obligations]
+\label{thm:fast-cauchy-sequence-namecert-obligations}
+For every accepted $\FastCauchySequenceUp$ carrier $F=(D,S,M,R,H,C,P,N)$, the local $\NameCert_{\FastCauchySequenceUp}$ surface consists exactly of carrier admission, dyadic observation exposure, finite window exposure, explicit fast Cauchy modulus ledger exposure, $\RegSeqRatUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is stored outside $D,S,M,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-sequence-carrier}. The analytic rows are exactly the dyadic observation ledger $D$, finite stream windows $S$, explicit modulus ledger $M$, and regular rational handoff $R$.
+
+The fast Cauchy obligation is the defining use of $M$. Each displayed request level reads its dyadic tolerance from $D$, its visible windows from $S$, and its later-window comparison budget from $M$.
+
+The handoff obligation is then the projection to $R$. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so the displayed list exhausts the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Fast Cauchy sequence RegSeqRat handoff]
+\label{thm:fast-cauchy-sequence-regseqrat-handoff}
+For every accepted $\FastCauchySequenceUp$ carrier $F=(D,S,M,R,H,C,P,N)$, any $\RegSeqRatUp$ consumer reaches the readback row $R$ only through
+$$
+D\longmapsto S\longmapsto M\longmapsto R .
+$$
+Thus the route from fast Cauchy sequence data to regular rational data must display the $\DyadicRatCoreUp$ observations, $\StreamNameUp$ windows, and explicit fast Cauchy modulus ledger before the handoff is consumed.
+\end{theorem}
+\begin{proof}
+Start with a consumer asking for regular rational readback from the packet. The only $\RegSeqRatUp$ coordinate is $R$, and the carrier places it downstream of $D,S,M$.
+
+The dyadic row $D$ supplies the observed terms and tolerances, while $S$ selects the finite windows that may be inspected. The modulus ledger $M$ binds those windows to the fast Cauchy comparison budget.
+
+Transport, replay, provenance, and local naming preserve that route without adding an alternate source for readback data. Hence the consumer reaches $R$ only after the displayed dyadic, stream, and modulus rows are present.
+\end{proof}
+
+\closureat{FastCauchySequenceUp}{seedStr}
+
+\begin{closurestatus}{\FastCauchySequenceUp}
+  \constructivestory{A $\FastCauchySequenceUp$ packet is generated from DyadicRatCore observations, StreamName windows, an explicit fast Cauchy modulus ledger, RegSeqRat handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fast-cauchy-sequence-carrier}, \autoref{thm:fast-cauchy-sequence-namecert-obligations}, and \autoref{thm:fast-cauchy-sequence-regseqrat-handoff} seed the finite fast Cauchy sequence source object for the L10 Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, trichotomy, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic observation exposure, finite window exposure, explicit modulus-ledger exposure, RegSeqRat handoff, transport, replay, provenance, and local naming for BEDC.Derived.FastCauchySequenceUp.}
+\end{closurestatus}

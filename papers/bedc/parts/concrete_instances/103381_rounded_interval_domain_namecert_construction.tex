@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\RoundedIntervalDomainUp$}
+\label{ch:concrete-instances-rounded-interval-domain-namecert}
+\origin{human}
+
+Following Scott domain theory and Bishop--Bridges interval approximation of constructive reals, the $\RoundedIntervalDomainUp$ packet records the finite rounded dyadic interval-domain route by which regular-Cauchy real names are approximated before the terminal real-name seal is exposed. It refines the plain interval-domain carrier of \autoref{ch:concrete-instances-intervaldomain-namecert} by forcing every endpoint, containment, and refinement read through rounded dyadic data from \autoref{ch:concrete-instances-dyadicratcore-namecert}, finite stream windows from \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, and the displayed real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a finite rounded approximation surface; it is not a Dedekind-cut construction, an open-cover compactness principle, trichotomy, a quotient representative selector, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Rounded interval-domain carrier]
+\label{def:rounded-interval-domain-carrier}
+A $\RoundedIntervalDomainUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,B,J,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the rounded lower endpoint row. It records a dyadic rational endpoint, its displayed rounding radius, and the $\DyadicRatCoreUp$ comparison data used to read it.
+\item $U$ is the rounded upper endpoint row. It records the paired dyadic rational endpoint, its displayed rounding radius, and the same dyadic arithmetic surface.
+\item $B$ is the rounded containment row. It records lower-below-upper evidence, slack inequalities, and the fact that the exact real-name request lies inside the displayed rounded dyadic interval.
+\item $J$ is the refinement witness row. It records a finite refinement step from a parent rounded interval to a child rounded interval whose endpoints and radii are again displayed by $L,U,B$-shaped data.
+\item $W$ is the $\StreamNameUp$ observation window. It records the finite indices at which endpoint and containment observations are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row. It records the regular rational values read from the same observation window after the dyadic endpoint and containment rows have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row. It is reachable only downstream of $L,U,B,J,W,R$.
+\item $H$ records componentwise $\hsame$ transport for endpoints, containment, refinement, stream windows, regular readback, Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+L,U \longmapsto B \longmapsto J \longmapsto W \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RoundedIntervalDomainUp$, $\IntervalDomainUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RoundedIntervalDomainUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,B,J,W,R,E,H,C,P,N$. It has no coordinate for Dedekind cuts, open-cover compactness, trichotomy, quotient representatives, selected limits, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Rounded interval-domain NameCert obligations]
+\label{thm:rounded-interval-domain-namecert-obligations}
+For every accepted $\RoundedIntervalDomainUp$ carrier
+$$
+I=(L,U,B,J,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RoundedIntervalDomainUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed rounded lower endpoint, rounded upper endpoint, containment, refinement, stream window, regular readback, Real seal, transport, replay, provenance, and local naming rows;
+\item rounded-refinement stability, requiring every child interval named by $J$ to keep dyadic endpoints, rounding radii, containment evidence, and observation windows inside the displayed packet route;
+\item $\hsame$ transport, requiring $H$ to preserve endpoints, radii, containment checks, refinement witnesses, stream windows, regular readbacks, Real seals, replay rows, provenance, and local naming componentwise;
+\item containment classifier reflexivity on a displayed interval, symmetry for equality of two displayed rounded presentations with the same endpoint and radius rows, and transitivity along a finite chain of displayed refinement witnesses;
+\item ledger non-escape, requiring $C$ and $P$ to replay and source only the rows $L,U,B,J,W,R,E,H,C,P,N$;
+\item Real seal compatibility, requiring every $\RealUp$ consumer of $E$ to read the rounded dyadic endpoint ledger, containment row, refinement witness, stream window, and regular rational readback before the seal is inspected.
+\end{enumerate}
+No rounded interval-domain obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rounded-interval-domain-carrier}. The projection exposes exactly the rounded endpoints, containment, refinement witness, observation window, regular readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Rounded-refinement stability reads $L,U,B,J,W$. A child interval in $J$ is generated from displayed parent endpoint rows and retains displayed rounding radii and containment evidence before any later stream or regular rational consumer is available.
+
+Transport is componentwise. The row $H$ moves each displayed endpoint, radius, containment check, refinement witness, window, readback, seal, replay row, provenance row, and naming row to its transported counterpart, so no detached analytic coordinate appears during transport.
+
+The containment classifier clauses use only the rounded presentation. Reflexivity is the displayed interval compared with itself, symmetry is available when two presentations expose the same rounded endpoint and radius rows, and transitivity is concatenation of the finite refinement witnesses recorded by $J$.
+
+Finally, ledger non-escape and Real seal compatibility follow from the replay order in $C$ and the source row $P$. The terminal seal $E$ is downstream of dyadic endpoint stability, containment, refinement, finite observation, and regular readback, and the carrier has no row for any excluded principle.
+\end{proof}
+
+\begin{theorem}[Rounded interval-domain Cauchy readback]
+\label{thm:rounded-interval-domain-cauchy-readback}
+Let
+$$
+I_0,I_1,I_2,\ldots
+$$
+be a nested family of accepted $\RoundedIntervalDomainUp$ packets whose refinement rows display shrinking dyadic radii and whose observation windows are compatible under $\hsame$. Then the public $\RealUp$ seal read from the nested rounded dyadic interval route is the same seal exposed by its $\RegSeqRatUp$ readback route. The identification uses only $\DyadicRatCoreUp$ endpoint stability, $\StreamNameUp$ pointwise observation, $\RegSeqRatUp$ diagonal readback, and $\RealUp$ classifier transport.
+\end{theorem}
+\begin{proof}
+First read the dyadic endpoint data. Each packet exposes rounded lower and upper endpoints together with radii, and the refinement row identifies the later endpoint rows as contained rounded refinements of the earlier rows. Shrinking radii make the endpoint ledger stable for every displayed precision request.
+
+Next read the stream windows. Compatibility under $\hsame$ means that a fixed finite observation request is eventually served by the same displayed window row, so pointwise $\StreamNameUp$ observation is independent of the chosen later packet.
+
+The regular rational readback is then diagonal. For each displayed precision request, choose a packet far enough along the nested route that its radius and window rows cover the request, and read the corresponding $\RegSeqRatUp$ row. The previous two steps ensure that this readback is stable under further displayed refinements.
+
+Finally compare the Real seals. The seal row in each packet is downstream of the same dyadic endpoint, stream-window, and regular-readback route, and $\RealUp$ classifier transport applies along the displayed $\hsame$ rows. Hence the nested rounded interval route and the diagonal $\RegSeqRatUp$ readback expose the same public $\RealUp$ seal without using quotient representatives, trichotomy, open-cover compactness, Dedekind-cut completeness, or ambient Real completeness.
+\end{proof}
+
+\closureat{RoundedIntervalDomainUp}{seedStr}
+
+\begin{closurestatus}{\RoundedIntervalDomainUp}
+  \theoryclosure{\seedClosure}
+  \constructivestory{A $\RoundedIntervalDomainUp$ packet is generated from rounded lower and upper dyadic endpoint rows, rounded containment evidence, a refinement witness, StreamName observation windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \scopeclosed{\autoref{def:rounded-interval-domain-carrier}, \autoref{thm:rounded-interval-domain-namecert-obligations}, and \autoref{thm:rounded-interval-domain-cauchy-readback} seed the finite rounded dyadic interval-domain route from endpoint rounding through refinement, finite observation, regular rational readback, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind-cut completeness, open-cover compactness, trichotomy, quotient representatives, selected limits, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rounded-refinement stability, hsame transport, containment classifier laws for displayed rounded presentations, ledger non-escape, Real seal compatibility, and Cauchy readback for BEDC.Derived.RoundedIntervalDomainUp.}
+\end{closurestatus}
