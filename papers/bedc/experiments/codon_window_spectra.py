@@ -4315,6 +4315,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         }
         for normal_form in orbit_order
     ]
+    minimal_trigger_orbit_defect_by_normal_form = {
+        row["normal_form"]: row["defect"]
+        for row in minimal_trigger_orbit_rows
+    }
     minimal_trigger_defect_rows = [
         {
             "defect": defect,
@@ -4406,6 +4410,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 {
                     "normal_form": normal_form,
                     "trigger_size": normal_form.count(",") + 1,
+                    "defect": minimal_trigger_orbit_defect_by_normal_form[normal_form],
                     "quotient_count": quotient_count,
                     "lift_pattern": lift_pattern,
                     "pattern_representatives": tuple(bit_string(bits) for bits in lift_orbit),
@@ -4425,6 +4430,91 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     ]
     codon_level_lift_orbit_total = sum(row["lift_orbit_count"] for row in codon_level_lift_orbit_count_rows)
     codon_level_lift_orbit_size_total = sum(row["codon_orbit_size"] for row in codon_level_lift_orbit_rows)
+    orbit_inventory_terms: collections.Counter[tuple[int, int, int]] = collections.Counter()
+    codon_inventory_terms: collections.Counter[tuple[int, int, int]] = collections.Counter()
+    for row in codon_level_lift_orbit_rows:
+        key = (row["trigger_size"], row["defect"], row["lift_imbalance"])
+        orbit_inventory_terms[key] += 1
+        codon_inventory_terms[key] += row["codon_orbit_size"]
+    orbit_inventory_term_rows = [
+        {
+            "trigger_size": trigger_size,
+            "defect": defect,
+            "lift_imbalance": lift_imbalance,
+            "orbit_count": orbit_inventory_terms[(trigger_size, defect, lift_imbalance)],
+            "codon_count": codon_inventory_terms[(trigger_size, defect, lift_imbalance)],
+        }
+        for trigger_size, defect, lift_imbalance in sorted(orbit_inventory_terms)
+    ]
+    inventory_size_defect_rows = [
+        {
+            "trigger_size": trigger_size,
+            "defect_counts": {
+                defect: sum(count for (size, term_defect, _), count in codon_inventory_terms.items() if size == trigger_size and term_defect == defect)
+                for defect in range(3)
+            },
+        }
+        for trigger_size in range(1, 5)
+    ]
+    inventory_defect_lift_rows = [
+        {
+            "defect": defect,
+            "lift_imbalance_counts": {
+                lift_imbalance: sum(count for (_, term_defect, imbalance), count in codon_inventory_terms.items() if term_defect == defect and imbalance == lift_imbalance)
+                for lift_imbalance in range(3)
+            },
+        }
+        for defect in range(3)
+    ]
+    inventory_size_lift_rows = [
+        {
+            "trigger_size": trigger_size,
+            "lift_imbalance_counts": {
+                lift_imbalance: sum(count for (size, _, imbalance), count in codon_inventory_terms.items() if size == trigger_size and imbalance == lift_imbalance)
+                for lift_imbalance in range(3)
+            },
+        }
+        for trigger_size in range(1, 5)
+    ]
+    inventory_size_marginal = {
+        trigger_size: sum(count for (size, _, _), count in codon_inventory_terms.items() if size == trigger_size)
+        for trigger_size in range(1, 5)
+    }
+    inventory_defect_marginal = {
+        defect: sum(count for (_, term_defect, _), count in codon_inventory_terms.items() if term_defect == defect)
+        for defect in range(3)
+    }
+    inventory_lift_imbalance_marginal = {
+        lift_imbalance: sum(count for (_, _, imbalance), count in codon_inventory_terms.items() if imbalance == lift_imbalance)
+        for lift_imbalance in range(3)
+    }
+    inventory_expectation_rows = [
+        {
+            "statistic": "size",
+            "numerator": sum(size * count for (size, _, _), count in codon_inventory_terms.items()),
+            "denominator": codon_level_lift_orbit_size_total,
+        },
+        {
+            "statistic": "defect",
+            "numerator": sum(defect * count for (_, defect, _), count in codon_inventory_terms.items()),
+            "denominator": codon_level_lift_orbit_size_total,
+        },
+        {
+            "statistic": "energy",
+            "numerator": sum((4 + defect) * count for (_, defect, _), count in codon_inventory_terms.items()),
+            "denominator": codon_level_lift_orbit_size_total,
+        },
+        {
+            "statistic": "lift_imbalance",
+            "numerator": sum(imbalance * count for (_, _, imbalance), count in codon_inventory_terms.items()),
+            "denominator": codon_level_lift_orbit_size_total,
+        },
+    ]
+    inventory_max_orbit_rows = [
+        row
+        for row in codon_level_lift_orbit_rows
+        if row["codon_orbit_size"] == max(item["codon_orbit_size"] for item in codon_level_lift_orbit_rows)
+    ]
 
     def graph_metrics(vertices: list[tuple[frozenset[int], ...]], edges: set[tuple[int, int]]) -> tuple[int, int]:
         adjacency = {index: set() for index in range(len(vertices))}
@@ -5012,6 +5102,17 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "codon_level_lift_orbit_rows": codon_level_lift_orbit_rows,
         "codon_level_lift_orbit_total": codon_level_lift_orbit_total,
         "codon_level_lift_orbit_size_total": codon_level_lift_orbit_size_total,
+        "orbit_inventory_orbit_polynomial": "u + u^2((2+2w)+v(1+w)+v^2(1+w)) + u^3((1+2w)+v(1+2w)+v^2(1+w)) + u^4(1+w+w^2)",
+        "orbit_inventory_codon_polynomial": "2u + u^2(1+w)(14+24v+12v^2) + u^3((12+36w)+v(24+72w)+v^2(8+24w)) + u^4(2+8w+6w^2)",
+        "orbit_inventory_term_rows": orbit_inventory_term_rows,
+        "orbit_inventory_size_defect_rows": inventory_size_defect_rows,
+        "orbit_inventory_defect_lift_rows": inventory_defect_lift_rows,
+        "orbit_inventory_size_lift_rows": inventory_size_lift_rows,
+        "orbit_inventory_size_marginal": inventory_size_marginal,
+        "orbit_inventory_defect_marginal": inventory_defect_marginal,
+        "orbit_inventory_lift_imbalance_marginal": inventory_lift_imbalance_marginal,
+        "orbit_inventory_expectation_rows": inventory_expectation_rows,
+        "orbit_inventory_max_orbit_rows": inventory_max_orbit_rows,
         "quotient_flip_graph_rows": quotient_flip_graph_rows,
         "quotient_flip_orbit_edge_rows": quotient_flip_orbit_edge_rows,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
@@ -8901,6 +9002,7 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert [
         (
             row["normal_form"],
+            row["defect"],
             row["lift_pattern"],
             row["pattern_representatives"],
             row["lift_orbit_size"],
@@ -8909,29 +9011,96 @@ def assert_expected(summary: dict[str, object]) -> None:
         )
         for row in antipodal["codon_level_lift_orbit_rows"]
     ] == [
-        ("{1234}", "0/1", ("0", "1"), 2, 2, 0),
-        ("{1,234}", "same", ("00", "11"), 2, 8, 0),
-        ("{1,234}", "opposite", ("01", "10"), 2, 8, 1),
-        ("{12,34}", "same", ("00", "11"), 2, 6, 0),
-        ("{12,34}", "opposite", ("01", "10"), 2, 6, 1),
-        ("{12,234}", "same", ("00", "11"), 2, 24, 0),
-        ("{12,234}", "opposite", ("01", "10"), 2, 24, 1),
-        ("{123,124}", "same", ("00", "11"), 2, 12, 0),
-        ("{123,124}", "opposite", ("01", "10"), 2, 12, 1),
-        ("{1,2,34}", "all same", ("000", "111"), 2, 12, 0),
-        ("{1,2,34}", "pair same, block opposite", ("001", "110"), 2, 12, 1),
-        ("{1,2,34}", "singleton split", ("010", "011", "100", "101"), 4, 24, 1),
-        ("{1,24,34}", "all same", ("000", "111"), 2, 24, 0),
-        ("{1,24,34}", "shared-pair same, singleton opposite", ("011", "100"), 2, 24, 1),
-        ("{1,24,34}", "shared-pair split", ("001", "010", "101", "110"), 4, 48, 1),
-        ("{14,24,34}", "all same", ("000", "111"), 2, 8, 0),
-        ("{14,24,34}", "mixed", ("001", "010", "011", "100", "101", "110"), 6, 24, 1),
-        ("{1,2,3,4}", "all same", ("0000", "1111"), 2, 2, 0),
-        ("{1,2,3,4}", "one-vs-three", ("0001", "0010", "0100", "0111", "1000", "1011", "1101", "1110"), 8, 8, 1),
-        ("{1,2,3,4}", "two-vs-two", ("0011", "0101", "0110", "1001", "1010", "1100"), 6, 6, 2),
+        ("{1234}", 0, "0/1", ("0", "1"), 2, 2, 0),
+        ("{1,234}", 0, "same", ("00", "11"), 2, 8, 0),
+        ("{1,234}", 0, "opposite", ("01", "10"), 2, 8, 1),
+        ("{12,34}", 0, "same", ("00", "11"), 2, 6, 0),
+        ("{12,34}", 0, "opposite", ("01", "10"), 2, 6, 1),
+        ("{12,234}", 1, "same", ("00", "11"), 2, 24, 0),
+        ("{12,234}", 1, "opposite", ("01", "10"), 2, 24, 1),
+        ("{123,124}", 2, "same", ("00", "11"), 2, 12, 0),
+        ("{123,124}", 2, "opposite", ("01", "10"), 2, 12, 1),
+        ("{1,2,34}", 0, "all same", ("000", "111"), 2, 12, 0),
+        ("{1,2,34}", 0, "pair same, block opposite", ("001", "110"), 2, 12, 1),
+        ("{1,2,34}", 0, "singleton split", ("010", "011", "100", "101"), 4, 24, 1),
+        ("{1,24,34}", 1, "all same", ("000", "111"), 2, 24, 0),
+        ("{1,24,34}", 1, "shared-pair same, singleton opposite", ("011", "100"), 2, 24, 1),
+        ("{1,24,34}", 1, "shared-pair split", ("001", "010", "101", "110"), 4, 48, 1),
+        ("{14,24,34}", 2, "all same", ("000", "111"), 2, 8, 0),
+        ("{14,24,34}", 2, "mixed", ("001", "010", "011", "100", "101", "110"), 6, 24, 1),
+        ("{1,2,3,4}", 0, "all same", ("0000", "1111"), 2, 2, 0),
+        ("{1,2,3,4}", 0, "one-vs-three", ("0001", "0010", "0100", "0111", "1000", "1011", "1101", "1110"), 8, 8, 1),
+        ("{1,2,3,4}", 0, "two-vs-two", ("0011", "0101", "0110", "1001", "1010", "1100"), 6, 6, 2),
     ]
     assert antipodal["codon_level_lift_orbit_total"] == 20
     assert antipodal["codon_level_lift_orbit_size_total"] == 294
+    assert antipodal["orbit_inventory_orbit_polynomial"] == "u + u^2((2+2w)+v(1+w)+v^2(1+w)) + u^3((1+2w)+v(1+2w)+v^2(1+w)) + u^4(1+w+w^2)"
+    assert antipodal["orbit_inventory_codon_polynomial"] == "2u + u^2(1+w)(14+24v+12v^2) + u^3((12+36w)+v(24+72w)+v^2(8+24w)) + u^4(2+8w+6w^2)"
+    assert [
+        (row["trigger_size"], row["defect"], row["lift_imbalance"], row["orbit_count"], row["codon_count"])
+        for row in antipodal["orbit_inventory_term_rows"]
+    ] == [
+        (1, 0, 0, 1, 2),
+        (2, 0, 0, 2, 14),
+        (2, 0, 1, 2, 14),
+        (2, 1, 0, 1, 24),
+        (2, 1, 1, 1, 24),
+        (2, 2, 0, 1, 12),
+        (2, 2, 1, 1, 12),
+        (3, 0, 0, 1, 12),
+        (3, 0, 1, 2, 36),
+        (3, 1, 0, 1, 24),
+        (3, 1, 1, 2, 72),
+        (3, 2, 0, 1, 8),
+        (3, 2, 1, 1, 24),
+        (4, 0, 0, 1, 2),
+        (4, 0, 1, 1, 8),
+        (4, 0, 2, 1, 6),
+    ]
+    assert antipodal["orbit_inventory_size_marginal"] == {1: 2, 2: 100, 3: 176, 4: 16}
+    assert antipodal["orbit_inventory_defect_marginal"] == {0: 94, 1: 144, 2: 56}
+    assert antipodal["orbit_inventory_lift_imbalance_marginal"] == {0: 98, 1: 190, 2: 6}
+    assert [
+        (row["trigger_size"], row["defect_counts"])
+        for row in antipodal["orbit_inventory_size_defect_rows"]
+    ] == [
+        (1, {0: 2, 1: 0, 2: 0}),
+        (2, {0: 28, 1: 48, 2: 24}),
+        (3, {0: 48, 1: 96, 2: 32}),
+        (4, {0: 16, 1: 0, 2: 0}),
+    ]
+    assert [
+        (row["defect"], row["lift_imbalance_counts"])
+        for row in antipodal["orbit_inventory_defect_lift_rows"]
+    ] == [
+        (0, {0: 30, 1: 58, 2: 6}),
+        (1, {0: 48, 1: 96, 2: 0}),
+        (2, {0: 20, 1: 36, 2: 0}),
+    ]
+    assert [
+        (row["trigger_size"], row["lift_imbalance_counts"])
+        for row in antipodal["orbit_inventory_size_lift_rows"]
+    ] == [
+        (1, {0: 2, 1: 0, 2: 0}),
+        (2, {0: 50, 1: 50, 2: 0}),
+        (3, {0: 44, 1: 132, 2: 0}),
+        (4, {0: 2, 1: 8, 2: 6}),
+    ]
+    assert [
+        (row["statistic"], row["numerator"], row["denominator"])
+        for row in antipodal["orbit_inventory_expectation_rows"]
+    ] == [
+        ("size", 794, 294),
+        ("defect", 256, 294),
+        ("energy", 1432, 294),
+        ("lift_imbalance", 202, 294),
+    ]
+    assert [
+        (row["normal_form"], row["lift_pattern"], row["codon_orbit_size"], row["trigger_size"], row["defect"], row["lift_imbalance"])
+        for row in antipodal["orbit_inventory_max_orbit_rows"]
+    ] == [
+        ("{1,24,34}", "shared-pair split", 48, 3, 1, 1),
+    ]
     assert [
         (row["trigger_size"], row["vertices"], row["edges"], row["connected_components"], row["diameter"])
         for row in antipodal["quotient_flip_graph_rows"]

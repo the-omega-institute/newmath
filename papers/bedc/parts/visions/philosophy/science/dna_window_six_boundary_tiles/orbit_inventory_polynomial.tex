@@ -1,0 +1,203 @@
+\begin{definition}[Orbit inventory variables]
+\label{def:philosophy-orbit-inventory-variables}
+For a codon-level minimal full trigger $(A,\epsilon)$, write
+$m=|A|$ for its size, write
+$$
+  \delta(A)=\sum_{S\in A}|S|-4
+$$
+for its overlap defect, and write
+$$
+  b(\epsilon)=\min\{w(\epsilon),m-w(\epsilon)\}
+$$
+for its $f_{3}$-lift imbalance. The variable $u$ records $m$, the
+variable $v$ records $\delta$, and the variable $w$ records $b$.
+\end{definition}
+
+\begin{definition}[Orbit and codon inventory polynomials]
+\label{def:philosophy-orbit-codon-inventory-polynomials}
+The orbit inventory polynomial counts symmetry-normal forms:
+$$
+  \mathcal{O}(u,v,w)
+  =
+  \sum_{\mathcal{Q}}u^{m(\mathcal{Q})}
+  v^{\delta(\mathcal{Q})}
+  w^{b(\mathcal{Q})},
+$$
+where $\mathcal{Q}$ ranges over codon-level orbit types. The codon
+inventory polynomial counts actual lifted triggers:
+$$
+  \mathcal{C}(u,v,w)
+  =
+  \sum_{\mathcal{Q}}|\mathcal{Q}|
+  u^{m(\mathcal{Q})}
+  v^{\delta(\mathcal{Q})}
+  w^{b(\mathcal{Q})}.
+$$
+\end{definition}
+
+\begin{theorem}[Orbit inventory polynomial]
+\label{thm:philosophy-orbit-inventory-polynomial}
+For the post-$M^{\star}$ codon-level minimal full triggers,
+$$
+\begin{aligned}
+  \mathcal{O}(u,v,w)
+  &=
+  u
+  +
+  u^{2}\bigl((2+2w)+v(1+w)+v^{2}(1+w)\bigr)
+  \\
+  &\quad+
+  u^{3}\bigl((1+2w)+v(1+2w)+v^{2}(1+w)\bigr)
+  +
+  u^{4}(1+w+w^{2}).
+\end{aligned}
+$$
+Thus $\mathcal{O}(1,1,1)=20$.
+\end{theorem}
+\begin{proof}
+Group the $20$ rows of
+\autoref{thm:philosophy-codon-level-lift-orbit-table} by the triple
+$(m,\delta,b)$. Each orbit row contributes one monomial
+$u^{m}v^{\delta}w^{b}$. Summing the grouped rows gives the displayed
+polynomial, and substituting $u=v=w=1$ counts the orbit types.
+\end{proof}
+
+\begin{theorem}[Codon inventory polynomial]
+\label{thm:philosophy-codon-inventory-polynomial}
+The corresponding codon-count polynomial is
+$$
+\begin{aligned}
+  \mathcal{C}(u,v,w)
+  &=
+  2u
+  +
+  u^{2}(1+w)(14+24v+12v^{2})
+  \\
+  &\quad+
+  u^{3}\bigl((12+36w)+v(24+72w)+v^{2}(8+24w)\bigr)
+  \\
+  &\quad+
+  u^{4}(2+8w+6w^{2}).
+\end{aligned}
+$$
+Thus $\mathcal{C}(1,1,1)=294$.
+\end{theorem}
+\begin{proof}
+Use the same grouping as
+\autoref{thm:philosophy-orbit-inventory-polynomial}, but weight each
+orbit row by its codon orbit size. The orbit sizes in
+\autoref{thm:philosophy-codon-level-lift-orbit-table} sum to $294$.
+\end{proof}
+
+\begin{corollary}[Inventory marginals]
+\label{cor:philosophy-orbit-inventory-marginals}
+The codon-count marginals are
+$$
+  \mathcal{C}(u,1,1)
+  =
+  2u+100u^{2}+176u^{3}+16u^{4},
+$$
+$$
+  \mathcal{C}(1,v,1)
+  =
+  94+144v+56v^{2},
+$$
+and
+$$
+  \mathcal{C}(1,1,w)
+  =
+  98+190w+6w^{2}.
+$$
+\end{corollary}
+\begin{proof}
+These are the three one-variable specializations of
+\autoref{thm:philosophy-codon-inventory-polynomial}.
+\end{proof}
+
+\begin{corollary}[Inventory joint tables]
+\label{cor:philosophy-orbit-inventory-joint-tables}
+The size-defect codon counts are
+$$
+\begin{array}{c|r|r|r|r}
+  m & \delta=0 & \delta=1 & \delta=2 & \text{total}\\
+  \hline
+  1 & 2 & 0 & 0 & 2\\
+  2 & 28 & 48 & 24 & 100\\
+  3 & 48 & 96 & 32 & 176\\
+  4 & 16 & 0 & 0 & 16.
+\end{array}
+$$
+The defect-imbalance counts are
+$$
+\begin{array}{c|r|r|r|r}
+  \delta & b=0 & b=1 & b=2 & \text{total}\\
+  \hline
+  0 & 30 & 58 & 6 & 94\\
+  1 & 48 & 96 & 0 & 144\\
+  2 & 20 & 36 & 0 & 56.
+\end{array}
+$$
+The size-imbalance counts are
+$$
+\begin{array}{c|r|r|r|r}
+  m & b=0 & b=1 & b=2 & \text{total}\\
+  \hline
+  1 & 2 & 0 & 0 & 2\\
+  2 & 50 & 50 & 0 & 100\\
+  3 & 44 & 132 & 0 & 176\\
+  4 & 2 & 8 & 6 & 16.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Set one of the variables in
+\autoref{thm:philosophy-codon-inventory-polynomial} equal to $1$ and
+read off the remaining bivariate coefficients.
+\end{proof}
+
+\begin{corollary}[Inventory means and largest orbit]
+\label{cor:philosophy-orbit-inventory-means-largest-orbit}
+Under the uniform distribution on the $294$ codon-level minimal full
+triggers,
+$$
+  \mathbb{E}[m]=\frac{397}{147},
+  \qquad
+  \mathbb{E}[\delta]=\frac{128}{147},
+$$
+$$
+  \mathbb{E}[E]=\frac{716}{147},
+  \qquad
+  \mathbb{E}[b]=\frac{101}{147}.
+$$
+The largest codon-level orbit has size $48$; it is the
+$\{1,24,34\}$ support orbit with shared-pair split lift pattern, hence
+has $(m,\delta,b)=(3,1,1)$.
+\end{corollary}
+\begin{proof}
+The expectations are obtained from the first logarithmic moments of
+$\mathcal{C}$ at $u=v=w=1$, equivalently from the numerator sums
+$$
+  \sum m=794,\qquad
+  \sum\delta=256,\qquad
+  \sum E=1432,\qquad
+  \sum b=202
+$$
+over the $294$ triggers. The largest orbit is read from
+\autoref{thm:philosophy-codon-level-lift-orbit-table}.
+\end{proof}
+
+\begin{theorem}[Orbit inventory polynomial theorem]
+\label{thm:philosophy-orbit-inventory-polynomial-theorem}
+The post-$M^{\star}$ codon-level minimal trigger space is encoded by the
+two inventory polynomials $\mathcal{O}(u,v,w)$ and
+$\mathcal{C}(u,v,w)$. The first records the $20$ natural orbit types, and
+the second records the $294$ lifted codon triggers with their joint
+statistics $(m,\delta,b)$.
+\end{theorem}
+\begin{proof}
+The orbit classification is
+\autoref{thm:philosophy-codon-level-lift-orbit-classification}. Grouping
+those orbit rows by size, overlap defect, and lift imbalance gives
+\autoref{thm:philosophy-orbit-inventory-polynomial}; weighting by orbit
+size gives \autoref{thm:philosophy-codon-inventory-polynomial}.
+\end{proof}
