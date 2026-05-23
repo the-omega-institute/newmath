@@ -328,4 +328,24 @@ def taste_gate : ChapterTasteGate UniformCompletionUp :=
 
 end TasteGate
 
+theorem UniformCompletion_filter_net_obligations {F D U E H C P N : BHist}
+    (filterRoute : Cont F D U) (extensionRoute : Cont U E H)
+    (replayRoute : Cont H C P) (ledgerRoute : Cont P BHist.Empty N) :
+    TasteGate.UniformCompletionCarrier N ∧
+      TasteGate.UniformCompletionCauchyFilterPattern N ∧
+        TasteGate.UniformCompletionLedgerPolicy N ∧
+          hsame (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist N)) N := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame NameCert
+  constructor
+  · exact
+      ⟨F, D, U, E, H, C, P, N, hsame_refl N, filterRoute, extensionRoute,
+        replayRoute, ledgerRoute⟩
+  · constructor
+    · exact
+        ⟨F, D, U, filterRoute, E, H, C, P, N, hsame_refl N, extensionRoute,
+          replayRoute, ledgerRoute⟩
+    · constructor
+      · exact ⟨P, N, hsame_refl N, ledgerRoute⟩
+      · exact uniformCompletionDecode_encode_bhist N
+
 end BEDC.Derived.UniformCompletionUp
