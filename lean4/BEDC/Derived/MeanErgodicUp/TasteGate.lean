@@ -13,14 +13,14 @@ inductive MeanErgodicUp : Type where
   | mk (E D W T H A P R C Q N : BHist) : MeanErgodicUp
   deriving DecidableEq
 
-def meanErgodicEncodeBHist : BHist → RawEvent :=
+def meanErgodicEncodeBHist : BHist -> RawEvent :=
   -- BEDC touchpoint anchor: BHist BMark
   fun
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: meanErgodicEncodeBHist h
   | BHist.e1 h => BMark.b1 :: meanErgodicEncodeBHist h
 
-def meanErgodicDecodeBHist : RawEvent → BHist :=
+def meanErgodicDecodeBHist : RawEvent -> BHist :=
   -- BEDC touchpoint anchor: BHist BMark
   fun
   | [] => BHist.Empty
@@ -28,7 +28,7 @@ def meanErgodicDecodeBHist : RawEvent → BHist :=
   | BMark.b1 :: tail => BHist.e1 (meanErgodicDecodeBHist tail)
 
 private theorem MeanErgodicTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist, meanErgodicDecodeBHist (meanErgodicEncodeBHist h) = h := by
+    forall h : BHist, meanErgodicDecodeBHist (meanErgodicEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -36,16 +36,16 @@ private theorem MeanErgodicTasteGate_single_carrier_alignment_decode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def meanErgodicFields : MeanErgodicUp → List BHist :=
+def meanErgodicFields : MeanErgodicUp -> List BHist :=
   -- BEDC touchpoint anchor: BHist BMark
   fun
   | MeanErgodicUp.mk E D W T H A P R C Q N => [E, D, W, T, H, A, P, R, C, Q, N]
 
-def meanErgodicToEventFlow : MeanErgodicUp → EventFlow :=
+def meanErgodicToEventFlow : MeanErgodicUp -> EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
   fun x => List.map meanErgodicEncodeBHist (meanErgodicFields x)
 
-private def meanErgodicEventAt : Nat → EventFlow → RawEvent :=
+private def meanErgodicEventAt : Nat -> EventFlow -> RawEvent :=
   -- BEDC touchpoint anchor: BHist BMark
   fun
   | Nat.zero, [] => []
@@ -53,7 +53,7 @@ private def meanErgodicEventAt : Nat → EventFlow → RawEvent :=
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => meanErgodicEventAt index rest
 
-def meanErgodicFromEventFlow : EventFlow → Option MeanErgodicUp :=
+def meanErgodicFromEventFlow : EventFlow -> Option MeanErgodicUp :=
   -- BEDC touchpoint anchor: BHist BMark
   fun ef =>
     some
@@ -71,7 +71,7 @@ def meanErgodicFromEventFlow : EventFlow → Option MeanErgodicUp :=
         (meanErgodicDecodeBHist (meanErgodicEventAt 10 ef)))
 
 private theorem MeanErgodicTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : MeanErgodicUp, meanErgodicFromEventFlow (meanErgodicToEventFlow x) = some x := by
+    forall x : MeanErgodicUp, meanErgodicFromEventFlow (meanErgodicToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -104,7 +104,7 @@ private theorem MeanErgodicTasteGate_single_carrier_alignment_round_trip :
         MeanErgodicTasteGate_single_carrier_alignment_decode N]
 
 private theorem meanErgodicToEventFlow_injective {x y : MeanErgodicUp} :
-    meanErgodicToEventFlow x = meanErgodicToEventFlow y → x = y := by
+    meanErgodicToEventFlow x = meanErgodicToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro hxy
   have hsome : some x = some y := by
@@ -136,9 +136,10 @@ def taste_gate : ChapterTasteGate MeanErgodicUp :=
   meanErgodicChapterTasteGate
 
 theorem MeanErgodicTasteGate_single_carrier_alignment :
-    (∀ h : BHist, meanErgodicDecodeBHist (meanErgodicEncodeBHist h) = h) ∧
-      (∀ x : MeanErgodicUp, meanErgodicFromEventFlow (meanErgodicToEventFlow x) = some x) ∧
-        (∀ x y : MeanErgodicUp, meanErgodicToEventFlow x = meanErgodicToEventFlow y → x = y) ∧
+    (forall h : BHist, meanErgodicDecodeBHist (meanErgodicEncodeBHist h) = h) /\
+      (forall x : MeanErgodicUp,
+        meanErgodicFromEventFlow (meanErgodicToEventFlow x) = some x) /\
+        (forall x y : MeanErgodicUp, meanErgodicToEventFlow x = meanErgodicToEventFlow y -> x = y) /\
           meanErgodicEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
