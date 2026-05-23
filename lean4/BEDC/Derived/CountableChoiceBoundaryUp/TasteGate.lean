@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CountableChoiceBoundaryUp : Type where
-  | mk (Q W R E F L U H C P N : BHist) : CountableChoiceBoundaryUp
+  | mk :
+      (request window readback realSeal finiteWitness localRefusal uniqueReadback transport replay
+        provenance name : BHist) →
+        CountableChoiceBoundaryUp
   deriving DecidableEq
 
 def countableChoiceBoundaryEncodeBHist : BHist → RawEvent
@@ -26,102 +29,138 @@ def countableChoiceBoundaryDecodeBHist : RawEvent → BHist
   | BMark.b1 :: tail => BHist.e1 (countableChoiceBoundaryDecodeBHist tail)
 
 private theorem countableChoiceBoundary_decode_encode_bhist :
-    ∀ h : BHist, countableChoiceBoundaryDecodeBHist
-      (countableChoiceBoundaryEncodeBHist h) = h := by
+    ∀ h : BHist,
+      countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def countableChoiceBoundaryFields : CountableChoiceBoundaryUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CountableChoiceBoundaryUp.mk Q W R E F L U H C P N => [Q, W, R, E, F, L, U, H, C, P, N]
+  | CountableChoiceBoundaryUp.mk request window readback realSeal finiteWitness localRefusal
+      uniqueReadback transport replay provenance name =>
+      [request, window, readback, realSeal, finiteWitness, localRefusal, uniqueReadback,
+        transport, replay, provenance, name]
 
 def countableChoiceBoundaryToEventFlow : CountableChoiceBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map countableChoiceBoundaryEncodeBHist (countableChoiceBoundaryFields x)
+  | x => (countableChoiceBoundaryFields x).map countableChoiceBoundaryEncodeBHist
+
+private def countableChoiceBoundaryDecodePacket
+    (request window readback realSeal finiteWitness localRefusal uniqueReadback transport replay
+      provenance name : RawEvent) :
+    CountableChoiceBoundaryUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  CountableChoiceBoundaryUp.mk
+    (countableChoiceBoundaryDecodeBHist request)
+    (countableChoiceBoundaryDecodeBHist window)
+    (countableChoiceBoundaryDecodeBHist readback)
+    (countableChoiceBoundaryDecodeBHist realSeal)
+    (countableChoiceBoundaryDecodeBHist finiteWitness)
+    (countableChoiceBoundaryDecodeBHist localRefusal)
+    (countableChoiceBoundaryDecodeBHist uniqueReadback)
+    (countableChoiceBoundaryDecodeBHist transport)
+    (countableChoiceBoundaryDecodeBHist replay)
+    (countableChoiceBoundaryDecodeBHist provenance)
+    (countableChoiceBoundaryDecodeBHist name)
+
+private def countableChoiceBoundaryRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => countableChoiceBoundaryRawAt n rest
+
+private def countableChoiceBoundaryLengthEq : Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => countableChoiceBoundaryLengthEq n rest
 
 def countableChoiceBoundaryFromEventFlow : EventFlow → Option CountableChoiceBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | q :: w :: r :: e :: f :: l :: u :: h :: c :: p :: n :: [] =>
-      some
-        (CountableChoiceBoundaryUp.mk
-          (countableChoiceBoundaryDecodeBHist q)
-          (countableChoiceBoundaryDecodeBHist w)
-          (countableChoiceBoundaryDecodeBHist r)
-          (countableChoiceBoundaryDecodeBHist e)
-          (countableChoiceBoundaryDecodeBHist f)
-          (countableChoiceBoundaryDecodeBHist l)
-          (countableChoiceBoundaryDecodeBHist u)
-          (countableChoiceBoundaryDecodeBHist h)
-          (countableChoiceBoundaryDecodeBHist c)
-          (countableChoiceBoundaryDecodeBHist p)
-          (countableChoiceBoundaryDecodeBHist n))
-  | _ => none
+  | flow =>
+      match countableChoiceBoundaryLengthEq 11 flow with
+      | true =>
+          some
+            (countableChoiceBoundaryDecodePacket
+              (countableChoiceBoundaryRawAt 0 flow)
+              (countableChoiceBoundaryRawAt 1 flow)
+              (countableChoiceBoundaryRawAt 2 flow)
+              (countableChoiceBoundaryRawAt 3 flow)
+              (countableChoiceBoundaryRawAt 4 flow)
+              (countableChoiceBoundaryRawAt 5 flow)
+              (countableChoiceBoundaryRawAt 6 flow)
+              (countableChoiceBoundaryRawAt 7 flow)
+              (countableChoiceBoundaryRawAt 8 flow)
+              (countableChoiceBoundaryRawAt 9 flow)
+              (countableChoiceBoundaryRawAt 10 flow))
+      | false => none
 
 private theorem countableChoiceBoundary_round_trip :
     ∀ x : CountableChoiceBoundaryUp,
-      countableChoiceBoundaryFromEventFlow (countableChoiceBoundaryToEventFlow x) =
-        some x := by
+      countableChoiceBoundaryFromEventFlow
+        (countableChoiceBoundaryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk Q W R E F L U H C P N =>
+  | mk request window readback realSeal finiteWitness localRefusal uniqueReadback transport
+      replay provenance name =>
       change
         some
-          (CountableChoiceBoundaryUp.mk
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist Q))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist W))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist R))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist E))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist F))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist L))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist U))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist H))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist C))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist P))
-            (countableChoiceBoundaryDecodeBHist (countableChoiceBoundaryEncodeBHist N))) =
-          some (CountableChoiceBoundaryUp.mk Q W R E F L U H C P N)
-      rw [countableChoiceBoundary_decode_encode_bhist Q,
-        countableChoiceBoundary_decode_encode_bhist W,
-        countableChoiceBoundary_decode_encode_bhist R,
-        countableChoiceBoundary_decode_encode_bhist E,
-        countableChoiceBoundary_decode_encode_bhist F,
-        countableChoiceBoundary_decode_encode_bhist L,
-        countableChoiceBoundary_decode_encode_bhist U,
-        countableChoiceBoundary_decode_encode_bhist H,
-        countableChoiceBoundary_decode_encode_bhist C,
-        countableChoiceBoundary_decode_encode_bhist P,
-        countableChoiceBoundary_decode_encode_bhist N]
+          (countableChoiceBoundaryDecodePacket
+            (countableChoiceBoundaryEncodeBHist request)
+            (countableChoiceBoundaryEncodeBHist window)
+            (countableChoiceBoundaryEncodeBHist readback)
+            (countableChoiceBoundaryEncodeBHist realSeal)
+            (countableChoiceBoundaryEncodeBHist finiteWitness)
+            (countableChoiceBoundaryEncodeBHist localRefusal)
+            (countableChoiceBoundaryEncodeBHist uniqueReadback)
+            (countableChoiceBoundaryEncodeBHist transport)
+            (countableChoiceBoundaryEncodeBHist replay)
+            (countableChoiceBoundaryEncodeBHist provenance)
+            (countableChoiceBoundaryEncodeBHist name)) =
+          some
+            (CountableChoiceBoundaryUp.mk request window readback realSeal finiteWitness
+              localRefusal uniqueReadback transport replay provenance name)
+      unfold countableChoiceBoundaryDecodePacket
+      rw [countableChoiceBoundary_decode_encode_bhist request,
+        countableChoiceBoundary_decode_encode_bhist window,
+        countableChoiceBoundary_decode_encode_bhist readback,
+        countableChoiceBoundary_decode_encode_bhist realSeal,
+        countableChoiceBoundary_decode_encode_bhist finiteWitness,
+        countableChoiceBoundary_decode_encode_bhist localRefusal,
+        countableChoiceBoundary_decode_encode_bhist uniqueReadback,
+        countableChoiceBoundary_decode_encode_bhist transport,
+        countableChoiceBoundary_decode_encode_bhist replay,
+        countableChoiceBoundary_decode_encode_bhist provenance,
+        countableChoiceBoundary_decode_encode_bhist name]
 
 private theorem countableChoiceBoundaryToEventFlow_injective
     {x y : CountableChoiceBoundaryUp} :
-    countableChoiceBoundaryToEventFlow x = countableChoiceBoundaryToEventFlow y → x = y := by
+    countableChoiceBoundaryToEventFlow x =
+      countableChoiceBoundaryToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      countableChoiceBoundaryFromEventFlow (countableChoiceBoundaryToEventFlow x) =
-        countableChoiceBoundaryFromEventFlow (countableChoiceBoundaryToEventFlow y) :=
+      countableChoiceBoundaryFromEventFlow
+          (countableChoiceBoundaryToEventFlow x) =
+        countableChoiceBoundaryFromEventFlow
+          (countableChoiceBoundaryToEventFlow y) :=
     congrArg countableChoiceBoundaryFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (countableChoiceBoundary_round_trip x).symm
       (Eq.trans hread (countableChoiceBoundary_round_trip y)))
 
-private theorem countableChoiceBoundary_field_faithful :
-    ∀ x y : CountableChoiceBoundaryUp, countableChoiceBoundaryFields x =
-      countableChoiceBoundaryFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y h
-  cases x with
-  | mk Q1 W1 R1 E1 F1 L1 U1 H1 C1 P1 N1 =>
-      cases y with
-      | mk Q2 W2 R2 E2 F2 L2 U2 H2 C2 P2 N2 =>
-          cases h
-          rfl
-
-instance countableChoiceBoundaryBHistCarrier : BHistCarrier CountableChoiceBoundaryUp where
+instance countableChoiceBoundaryBHistCarrier :
+    BHistCarrier CountableChoiceBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := countableChoiceBoundaryToEventFlow
   fromEventFlow := countableChoiceBoundaryFromEventFlow
@@ -131,32 +170,30 @@ instance countableChoiceBoundaryChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change countableChoiceBoundaryFromEventFlow
-      (countableChoiceBoundaryToEventFlow x) = some x
+    change
+      countableChoiceBoundaryFromEventFlow
+        (countableChoiceBoundaryToEventFlow x) = some x
     exact countableChoiceBoundary_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (countableChoiceBoundaryToEventFlow_injective heq)
 
-instance countableChoiceBoundaryFieldFaithful : FieldFaithful CountableChoiceBoundaryUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := countableChoiceBoundaryFields
-  field_faithful := countableChoiceBoundary_field_faithful
-
-instance countableChoiceBoundaryNontrivial : Nontrivial CountableChoiceBoundaryUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CountableChoiceBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CountableChoiceBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
 def taste_gate : ChapterTasteGate CountableChoiceBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   countableChoiceBoundaryChapterTasteGate
+
+theorem CountableChoiceBoundaryTasteGate_single_carrier_alignment :
+    Nonempty (BHistCarrier CountableChoiceBoundaryUp) ∧
+      Nonempty (ChapterTasteGate CountableChoiceBoundaryUp) ∧
+        countableChoiceBoundaryEncodeBHist BHist.Empty = ([] : List BMark) ∧
+          (∀ x : CountableChoiceBoundaryUp,
+            countableChoiceBoundaryFromEventFlow
+              (countableChoiceBoundaryToEventFlow x) = some x) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨⟨countableChoiceBoundaryBHistCarrier⟩,
+      ⟨countableChoiceBoundaryChapterTasteGate⟩,
+      rfl,
+      countableChoiceBoundary_round_trip⟩
 
 end BEDC.Derived.CountableChoiceBoundaryUp
