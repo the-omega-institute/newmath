@@ -329,4 +329,178 @@ theorem CauchyProductPacket_streamname_handoff [AskSetup] [PackageSetup]
     ⟨windowAUnary, windowBUnary, transportUnary, streamReadUnary, windowTransport,
       transportRoutesStreamRead, namePkg, streamReadPkg⟩
 
+theorem CauchyProductPacket_source_window_budget_compatibility [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name streamRead budgetClassifier budgetSeal
+      compatibleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont transport routes streamRead ->
+        Cont classifier routes budgetClassifier ->
+          Cont budgetClassifier ledger budgetSeal ->
+            Cont streamRead budgetSeal compatibleRead ->
+              PkgSig bundle compatibleRead pkg ->
+                UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+                  UnaryHistory windowB ∧ UnaryHistory transport ∧ UnaryHistory streamRead ∧
+                    UnaryHistory product ∧ UnaryHistory classifier ∧
+                      UnaryHistory budgetClassifier ∧ UnaryHistory budgetSeal ∧
+                        UnaryHistory compatibleRead ∧ Cont windowA windowB transport ∧
+                          Cont transport routes streamRead ∧
+                            Cont observationA observationB product ∧
+                              Cont product ledger classifier ∧
+                                Cont classifier routes budgetClassifier ∧
+                                  Cont budgetClassifier ledger budgetSeal ∧
+                                    Cont streamRead budgetSeal compatibleRead ∧
+                                      PkgSig bundle name pkg ∧
+                                        PkgSig bundle compatibleRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet transportRoutesStreamRead classifierBudget budgetSealRoute compatibleRoute
+    compatiblePkg
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, observationAUnary, observationBUnary, routesUnary, ledgerUnary,
+    windowTransport, productRoute, classifierRoute, namePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed windowAUnary windowBUnary windowTransport
+  have streamReadUnary : UnaryHistory streamRead :=
+    unary_cont_closed transportUnary routesUnary transportRoutesStreamRead
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed observationAUnary observationBUnary productRoute
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed productUnary ledgerUnary classifierRoute
+  have budgetClassifierUnary : UnaryHistory budgetClassifier :=
+    unary_cont_closed classifierUnary routesUnary classifierBudget
+  have budgetSealUnary : UnaryHistory budgetSeal :=
+    unary_cont_closed budgetClassifierUnary ledgerUnary budgetSealRoute
+  have compatibleReadUnary : UnaryHistory compatibleRead :=
+    unary_cont_closed streamReadUnary budgetSealUnary compatibleRoute
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, transportUnary,
+      streamReadUnary, productUnary, classifierUnary, budgetClassifierUnary, budgetSealUnary,
+      compatibleReadUnary, windowTransport, transportRoutesStreamRead, productRoute,
+      classifierRoute, classifierBudget, budgetSealRoute, compatibleRoute, namePkg,
+      compatiblePkg⟩
+
+theorem CauchyProductPacket_realalgorder_completion_handoff [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name budgetClassifier budgetSeal realAlgOrderConsumer
+      completionConsumer realAlgOrderRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont classifier routes budgetClassifier ->
+        Cont budgetClassifier ledger budgetSeal ->
+          UnaryHistory realAlgOrderConsumer ->
+            UnaryHistory completionConsumer ->
+              Cont budgetSeal realAlgOrderConsumer realAlgOrderRead ->
+                Cont budgetSeal completionConsumer completionRead ->
+                  PkgSig bundle realAlgOrderRead pkg ->
+                    PkgSig bundle completionRead pkg ->
+                      UnaryHistory product ∧ UnaryHistory classifier ∧
+                        UnaryHistory budgetClassifier ∧ UnaryHistory budgetSeal ∧
+                          UnaryHistory realAlgOrderRead ∧ UnaryHistory completionRead ∧
+                            Cont product ledger classifier ∧
+                              Cont classifier routes budgetClassifier ∧
+                                Cont budgetClassifier ledger budgetSeal ∧
+                                  Cont budgetSeal realAlgOrderConsumer realAlgOrderRead ∧
+                                    Cont budgetSeal completionConsumer completionRead ∧
+                                      PkgSig bundle name pkg ∧
+                                        PkgSig bundle realAlgOrderRead pkg ∧
+                                          PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet classifierBudget budgetSealRoute realAlgOrderConsumerUnary
+    completionConsumerUnary realAlgOrderRoute completionRoute realAlgOrderPkg completionPkg
+  obtain ⟨_sourceAUnary, _sourceBUnary, _windowAUnary, _windowBUnary, _radiusAUnary,
+    _radiusBUnary, observationAUnary, observationBUnary, routesUnary, ledgerUnary,
+    _windowTransport, productRoute, classifierRoute, namePkg⟩ := packet
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed observationAUnary observationBUnary productRoute
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed productUnary ledgerUnary classifierRoute
+  have budgetClassifierUnary : UnaryHistory budgetClassifier :=
+    unary_cont_closed classifierUnary routesUnary classifierBudget
+  have budgetSealUnary : UnaryHistory budgetSeal :=
+    unary_cont_closed budgetClassifierUnary ledgerUnary budgetSealRoute
+  have realAlgOrderReadUnary : UnaryHistory realAlgOrderRead :=
+    unary_cont_closed budgetSealUnary realAlgOrderConsumerUnary realAlgOrderRoute
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed budgetSealUnary completionConsumerUnary completionRoute
+  exact
+    ⟨productUnary, classifierUnary, budgetClassifierUnary, budgetSealUnary,
+      realAlgOrderReadUnary, completionReadUnary, classifierRoute, classifierBudget,
+      budgetSealRoute, realAlgOrderRoute, completionRoute, namePkg, realAlgOrderPkg,
+      completionPkg⟩
+
+theorem CauchyProductPacket_budget_triangle_selector_compatibility [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name budgetClassifier budgetSeal selectorRead
+      finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont classifier routes budgetClassifier ->
+      Cont budgetClassifier ledger budgetSeal ->
+          Cont budgetSeal routes selectorRead ->
+            Cont selectorRead ledger finalRead ->
+              PkgSig bundle finalRead pkg ->
+                UnaryHistory product ∧ UnaryHistory classifier ∧
+                  UnaryHistory budgetClassifier ∧ UnaryHistory budgetSeal ∧
+                    UnaryHistory selectorRead ∧ UnaryHistory finalRead ∧
+                      Cont observationA observationB product ∧
+                        Cont product ledger classifier ∧
+                          Cont classifier routes budgetClassifier ∧
+                            Cont budgetClassifier ledger budgetSeal ∧
+                              Cont budgetSeal routes selectorRead ∧
+                                Cont selectorRead ledger finalRead ∧ PkgSig bundle name pkg ∧
+                                  PkgSig bundle finalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet classifierBudget budgetSealRoute sealSelectorRead selectorFinalRead finalReadPkg
+  obtain ⟨_sourceAUnary, _sourceBUnary, _windowAUnary, _windowBUnary, _radiusAUnary,
+    _radiusBUnary, observationAUnary, observationBUnary, routesUnary, ledgerUnary,
+    _windowTransport, productRoute, classifierRoute, namePkg⟩ := packet
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed observationAUnary observationBUnary productRoute
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed productUnary ledgerUnary classifierRoute
+  have budgetClassifierUnary : UnaryHistory budgetClassifier :=
+    unary_cont_closed classifierUnary routesUnary classifierBudget
+  have budgetSealUnary : UnaryHistory budgetSeal :=
+    unary_cont_closed budgetClassifierUnary ledgerUnary budgetSealRoute
+  have selectorReadUnary : UnaryHistory selectorRead :=
+    unary_cont_closed budgetSealUnary routesUnary sealSelectorRead
+  have finalReadUnary : UnaryHistory finalRead :=
+    unary_cont_closed selectorReadUnary ledgerUnary selectorFinalRead
+  exact
+    ⟨productUnary, classifierUnary, budgetClassifierUnary, budgetSealUnary, selectorReadUnary,
+      finalReadUnary, productRoute, classifierRoute, classifierBudget, budgetSealRoute,
+      sealSelectorRead, selectorFinalRead, namePkg, finalReadPkg⟩
+
+theorem CauchyProductPacket_real_seal_source_budget_nonescape [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont transport routes realSeal ->
+        PkgSig bundle realSeal pkg ->
+          UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+            UnaryHistory windowB ∧ UnaryHistory radiusA ∧ UnaryHistory radiusB ∧
+              UnaryHistory observationA ∧ UnaryHistory observationB ∧
+                UnaryHistory transport ∧ UnaryHistory realSeal ∧
+                  Cont windowA windowB transport ∧ Cont transport routes realSeal ∧
+                    PkgSig bundle name pkg ∧ PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet transportRoutesRealSeal realSealPkg
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, radiusAUnary,
+    radiusBUnary, observationAUnary, observationBUnary, routesUnary, _ledgerUnary,
+    windowTransport, _productRoute, _classifierRoute, namePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed windowAUnary windowBUnary windowTransport
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed transportUnary routesUnary transportRoutesRealSeal
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, radiusAUnary, radiusBUnary,
+      observationAUnary, observationBUnary, transportUnary, realSealUnary, windowTransport,
+      transportRoutesRealSeal, namePkg, realSealPkg⟩
+
 end BEDC.Derived.CauchyProductUp
