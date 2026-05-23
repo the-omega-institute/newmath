@@ -1867,13 +1867,21 @@ def _run_phase_paper_gates(wt: WorktreeInfo) -> dict:
         return {}
     if not wt.base_sha:
         return {}
+    # timeout 300s (was 120): under system high load (fseventsd churn from
+    # 40+ worktrees + concurrent lake builds + multiple audit subprocesses),
+    # phase_paper_gates.py routinely exceeds 120s for the git-diff + all-gate
+    # walk. Observed 2026-05-24 05:43-05:51: 5 consecutive P-rounds
+    # (P19660/P19665/P19667/P19669/P19670) timed out -> Drift audit FAILED
+    # -> paper cooldown 7x/h. The script itself is light (--help < 0.3s);
+    # latency is system-IO-bound, not algorithmic. 300s gives a comfortable
+    # margin without changing gate logic.
     try:
         r = subprocess.run(
             ["python3", str(script),
              "--worktree", str(wt.path),
              "--base-sha", wt.base_sha,
              "--gate", "all"],
-            capture_output=True, text=True, timeout=120,
+            capture_output=True, text=True, timeout=300,
         )
     except subprocess.TimeoutExpired:
         logger.error(f"[P{wt.round_number}] phase_paper_gates.py timed out")
