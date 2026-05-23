@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\SequentialUniformCompletionUp$}
+\label{ch:concrete-instances-sequential-uniform-completion-namecert}
+\origin{human}
+
+Following Kelley on uniform spaces and Bishop--Bridges on constructive sequence completion, the $\SequentialUniformCompletionUp$ packet records the finite interface by which a displayed sequential Cauchy-completion route is offered to uniform-completion consumers. It sits between the sequence route of \autoref{ch:concrete-instances-sequential-completion-namecert}, the uniform-completion consumer of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the metric-completion surface of \autoref{ch:concrete-instances-metriccompletion-namecert}, the Cauchy-filter branch of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and the Cauchy-net branch of \autoref{ch:concrete-instances-cauchynet-namecert}. The packet names only a finite handoff surface: it does not quotient Cauchy sequences, choose representatives, invoke countable choice, use open-cover compactness, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Sequential uniform completion carrier]
+\label{def:sequential-uniform-completion-carrier}
+A $\SequentialUniformCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S,M,F,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SequentialCompletionUp$ route. It records the finite stream schedule, regular readback, dyadic tolerance ledger, Cauchy criterion or limit-seal row, and terminal real-seal handoff already accepted by the sequence-completion packet.
+\item $M$ is the $\MetricCompletionUp$ consumer row. It records that the sequential route is read as a metric-completion-facing surface before any uniform consumer inspects it.
+\item $F$ is the $\CauchyFilterUp$ branch extracted from the same displayed sequence route. It records the filter-side neighborhood evidence visible to the uniform-completion surface.
+\item $D$ is the $\CauchyNetUp$ branch extracted from the same displayed sequence route. It records the directed-window evidence visible to the uniform-completion surface.
+\item $H$ records componentwise $\hsame$ transport for the sequential route, metric-completion row, filter branch, net branch, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the handoff
+$$
+S \longmapsto M,F,D \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\SequentialCompletionUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, $\CauchyFilterUp$, $\CauchyNetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialUniformCompletionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion, representative choice, countable choice, open-cover compactness, selected uniform limits, host equality of completions, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Sequential uniform completion NameCert obligations]
+\label{thm:sequential-uniform-completion-namecert-obligations}
+For every accepted $\SequentialUniformCompletionUp$ carrier $U=(S,M,F,D,H,C,P,N)$, the local $\NameCert_{\SequentialUniformCompletionUp}$ surface consists exactly of carrier admission, sequence-route exposure, metric-completion handoff, Cauchy-filter branch exposure, Cauchy-net branch exposure, componentwise transport, displayed replay, provenance, local naming, and non-escape of quotient completions, representative choice, countable choice, open-cover compactness, selected uniform limits, host completion equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:sequential-uniform-completion-carrier}. The first projected row is $S$, so every consumer begins with the same finite $\SequentialCompletionUp$ route rather than with a quotient completion or a selected representative.
+
+The metric and uniform-facing rows are then read through $M,F,D$. The row $M$ supplies the metric-completion handoff, while $F$ and $D$ expose the filter and net presentations consumed by $\UniformCompletionUp$.
+
+Rows $H,C,P,N$ transport, replay, source, and name that same packet. Since the carrier inventory contains no other coordinate, the excluded completion principles cannot be exported by an accepted read.
+\end{proof}
+
+\begin{theorem}[Sequential uniform completion branch handoff]
+\label{thm:sequential-uniform-completion-branch-handoff}
+Every uniform-completion-facing read of an accepted $\SequentialUniformCompletionUp$ carrier factors through the finite route
+$$
+S \longmapsto M,F,D \longmapsto H,C,P,N .
+$$
+Thus the sequential completion surface is handed to the metric-completion, Cauchy-filter, and Cauchy-net consumers before any $\UniformCompletionUp$ read can use it, and the handoff exports no quotient completion, representative choice, countable choice, open-cover compactness, selected uniform limit, host completion equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier $U=(S,M,F,D,H,C,P,N)$. The continuation row $C$ makes $S$ the entry point, so the route starts with the already displayed sequence-completion packet.
+
+The next rows are $M,F,D$. They give the metric-completion surface and the two standard uniform-completion branches over the same sequential route, which prevents a consumer from replacing the route by a hidden quotient object or selected limiting point.
+
+Finally, $H,P,N$ preserve the same handoff under transport, provenance, and local naming. No additional coordinate remains from which a choice principle, compactness principle, completion equality, or ambient real completeness claim could be read.
+\end{proof}
+
+\closureat{SequentialUniformCompletionUp}{seedStr}
+
+\begin{closurestatus}{\SequentialUniformCompletionUp}
+  \constructivestory{A $\SequentialUniformCompletionUp$ packet is generated from one $\SequentialCompletionUp$ route, one $\MetricCompletionUp$ consumer row, one $\CauchyFilterUp$ branch, one $\CauchyNetUp$ branch, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-uniform-completion-carrier}, \autoref{thm:sequential-uniform-completion-namecert-obligations}, and \autoref{thm:sequential-uniform-completion-branch-handoff} seed the finite sequence-to-uniform completion handoff through sequential, metric, filter, and net completion rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, representative choice, countable choice, open-cover compactness, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sequence-route exposure, metric-completion handoff, filter and net branch exactness, transport and replay stability, provenance non-escape, and TasteGate field faithfulness for BEDC.Derived.SequentialUniformCompletionUp.}
+\end{closurestatus}
