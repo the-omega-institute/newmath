@@ -223,6 +223,83 @@ completeness, stream quotient completeness, open-cover compactness,
 fan-theorem compactness, or a choice-selected infinite branch.
 \end{proof}
 
+\begin{theorem}[CantorSpace choice refusal]
+\label{thm:cantor-space-choice-refusal}
+Let $K=(S,W,B,L,E,H,K_0,P,N)$ be an accepted $\CantorSpaceUp$ carrier. Every
+public finite-prefix read through the $\StreamNameUp$, $\BoolUp$, and
+$\ListUp$ surfaces cited in
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-bool-namecert}, and
+\autoref{ch:concrete-instances-list-namecert} is already determined by the
+displayed rows $S,W,B,L,E,H,K_0,P,N$. The read cannot import a selector for an
+infinite branch, a countable-choice schedule, host function extensionality, or
+a fan-theorem compactness witness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its nine displayed rows. The schedule row $S$,
+prefix window $W$, Boolean ledger $B$, and list spine $L$ are the only rows
+that expose prefix positions and endpoint values.
+
+Restrict the public read to the requested finite window. Transport by $H$ and
+replay through $K_0$ preserve exactly those displayed rows, while $P$ and $N$
+record the provenance and local name.
+
+Since no carrier coordinate names an infinite branch selector, a
+countable-choice schedule, host function equality, or a fan-theorem object, the
+read has no route to any such datum. The refusal is therefore a carrier
+projection followed by prefix restriction.
+\end{proof}
+
+\begin{theorem}[CantorSpace cylinder coverage]
+\label{thm:cantor-space-cylinder-coverage}
+For an accepted $\CantorSpaceUp$ carrier
+$K=(S,W,B,L,E,H,K_0,P,N)$, every finite cylinder visible to a downstream
+consumer is covered by the displayed prefix rows $S,W,B,L,E,H,K_0,P,N$. The
+$\StreamNameUp$ row chooses the requested positions, the $\BoolUp$ row supplies
+the endpoint entries, and the $\ListUp$ row orders the finite prefix; no
+cylinder read requires an ambient product space or an open-cover compactness
+argument.
+\end{theorem}
+\begin{proof}
+Begin with a finite cylinder read. Carrier projection supplies the schedule
+$S$, the prefix window $W$, the Boolean ledger $B$, and the ordered spine $L$
+as the visible cylinder data.
+
+Now restrict to the cylinder subwindow. The retained positions are still rows
+of $S$ and $W$, and their endpoint values are still the corresponding entries
+of $B$ ordered by $L$.
+
+The remaining rows $E,H,K_0,P,N$ record endpoint exclusion, componentwise
+transport, continuation replay, provenance, and local naming. Thus the
+cylinder is covered inside the displayed finite packet and does not appeal to
+an ambient infinite product or to open-cover compactness.
+\end{proof}
+
+\begin{theorem}[CantorSpace prefix-window composition]
+\label{thm:cantor-space-prefix-window-composition}
+Let $K=(S,W,B,L,E,H,K_0,P,N)$ be an accepted $\CantorSpaceUp$ carrier. If a
+public read first restricts to a finite prefix subwindow and then restricts
+again to a shorter subwindow, the composite read is the same finite
+$\StreamNameUp$--$\BoolUp$--$\ListUp$ read obtained by restricting $S,W,B,L$
+once to the shorter window and carrying the same $E,H,K_0,P,N$ rows. The
+composition exports no additional stream tail, quotient branch, or Real
+completion datum.
+\end{theorem}
+\begin{proof}
+Project the carrier to $S,W,B,L,E,H,K_0,P,N$. The first prefix restriction
+keeps a subrow of the schedule and window rows and the corresponding Boolean
+entries ordered by the list spine.
+
+Apply the second prefix restriction to that finite subrow. Because both
+restrictions are prefix restrictions of the same displayed window, the result
+is exactly the shorter subrow of $S,W,B,L$.
+
+Transport and replay remain the original componentwise rows $H$ and $K_0$, and
+the same provenance and local naming rows $P,N$ certify the composite read.
+The composition therefore stays within finite prefix data and cannot expose an
+extra stream tail, quotient branch, or Real completion witness.
+\end{proof}
+
 \begin{closurestatus}{\CantorSpaceUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:cantor-space-carrier}, \autoref{def:cantor-space-classifier}, \autoref{thm:cantor-space-namecert-obligation-surface}, \autoref{thm:cantor-space-finite-prefix-cylinder-stability}, and \autoref{thm:cantor-space-streamname-bool-scope} seed the finite Bool-valued StreamName packet for Cantor-space prefix cylinders.}
