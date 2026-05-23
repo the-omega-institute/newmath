@@ -2635,6 +2635,7 @@ import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EvenOddCauchyCriterionUp.TasteGate
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.ExpMapUp
+import BEDC.Derived.ExtendedRealLineUp.TasteGate
 import BEDC.Derived.ExternalSupplyAuditRouteUp.TasteGate
 import BEDC.Derived.ExternalSupplyBoundaryUp
 import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
@@ -4409,6 +4410,7 @@ import BEDC.Derived.RationalBallUp.TasteGate
 import BEDC.Derived.RationalCauchyGapUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
 import BEDC.Derived.RationalEmbeddingUp.TasteGate
+import BEDC.Derived.RationalIntervalCoverUp.TasteGate
 import BEDC.Derived.RationalIntervalEnclosureUp.TasteGate
 import BEDC.Derived.RationalIntervalRefinementUp.TasteGate
 import BEDC.Derived.RationalIntervalUp
@@ -5773,6 +5775,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.ContinuationHandoff
 import BEDC.Derived.ZetaContinuationWitnessUp.ContourRouteObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripBridgeRow
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerNonescape
+import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripConsumerScope
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripHandoff
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripHandoffScope
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripPoleBoundary
