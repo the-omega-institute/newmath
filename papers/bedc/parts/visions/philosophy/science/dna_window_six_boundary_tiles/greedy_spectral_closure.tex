@@ -1,0 +1,327 @@
+\begin{definition}[Fixed-budget spectral expansion]
+\label{def:philosophy-fixed-budget-spectral-expansion}
+For $S\subseteq Q_{6}$ and $m\geq 1$, the fixed-budget spectral
+expansion problem asks for subsets
+$$
+  B\subseteq Q_{6}\setminus S,\qquad |B|=m,
+$$
+maximizing
+$$
+  \lambda(S\cup B),
+$$
+where $\lambda$ is the killed bit-flip spectral radius of
+\autoref{def:philosophy-killed-bit-flip-walk}.
+\end{definition}
+
+\begin{theorem}[Fixed-budget spectral frontier from the active support]
+\label{thm:philosophy-fixed-budget-spectral-frontier}
+For $m=1,2,3,4$, exhaustive finite enumeration from $\mathcal{R}$ gives
+the following spectral optima:
+$$
+\begin{array}{c|l|r|r}
+  m & \text{optimal adjoined set} & \lambda(\mathcal{R}\cup B) & \text{multiplicity}\\
+  \hline
+  1 & \{\mathrm{ACA}\} & 0.5237258 & 1\\
+  2 & \{\mathrm{ACA},\mathrm{UUG}\} & 0.5465038 & 1\\
+  3 & \{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\} & 0.5733331 & 1\\
+  4 & \{\mathrm{AAG},\mathrm{ACA},\mathrm{AUG},\mathrm{UUG}\} & 0.5970778 & 2\\
+  4 & \{\mathrm{ACA},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\} & 0.5970778 & 2.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each $m$, enumerate all $\binom{51}{m}$ subsets of the inactive
+complement of $\mathcal{R}$ and compute the Perron root of the killed
+bit-flip transition matrix on $\mathcal{R}\cup B$. The candidate counts
+are $51$, $1275$, $20825$, and $249900$ for $m=1,2,3,4$, respectively.
+The displayed rows are the maximizers.
+\end{proof}
+
+\begin{corollary}[Fixed-budget non-nesting]
+\label{cor:philosophy-fixed-budget-non-nesting}
+The fixed-budget spectral optima from $\mathcal{R}$ do not form a
+nested chain. In particular,
+$$
+  \{\mathrm{ACA},\mathrm{UUG}\}
+  \nsubseteq
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}.
+$$
+\end{corollary}
+\begin{proof}
+The two displayed sets are the unique optima for budgets $m=2$ and
+$m=3$ in \autoref{thm:philosophy-fixed-budget-spectral-frontier}.
+\end{proof}
+
+\begin{corollary}[Spectral budget frustration]
+\label{cor:philosophy-spectral-budget-frustration}
+The codon $\mathrm{UUG}$ is selected by the optimal two-point expansion
+from $\mathcal{R}$, but is absent from the optimal three-point anchor
+block. Thus small-budget spectral optimization can select a point that
+is not part of the next optimal closure block.
+\end{corollary}
+\begin{proof}
+This is the comparison between the $m=2$ and $m=3$ rows of
+\autoref{thm:philosophy-fixed-budget-spectral-frontier}.
+\end{proof}
+
+\begin{definition}[Layered block spectral optimality]
+\label{def:philosophy-layered-block-spectral-optimality}
+A closure chain is layered block spectral-optimal when each prescribed
+layer size is a spectral maximizer from the previous layer, without
+requiring the fixed-budget optima from the initial set to be nested.
+\end{definition}
+
+\begin{theorem}[Anchor triple optimality]
+\label{thm:philosophy-anchor-triple-spectral-optimality}
+Among all $3$-point subsets $B\subseteq Q_{6}\setminus\mathcal{R}$,
+the unique maximizer of $\lambda(\mathcal{R}\cup B)$ is
+$$
+  B=\{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}.
+$$
+The search has $\binom{51}{3}=20825$ candidates, and
+$$
+  \lambda(\mathcal{R})=0.475879,\qquad
+  \lambda(\mathcal{R}\cup B)=0.573333.
+$$
+\end{theorem}
+\begin{proof}
+This is the $m=3$ row of
+\autoref{thm:philosophy-fixed-budget-spectral-frontier}.
+\end{proof}
+
+\begin{theorem}[Anchor-layer spectral frontier]
+\label{thm:philosophy-anchor-layer-spectral-frontier}
+From
+$$
+  \overline{\mathcal{R}}
+  =
+  \mathcal{R}\cup\{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\},
+$$
+the first three fixed-budget spectral optima are
+$$
+\begin{array}{c|l|r|r}
+  m & \text{optimal adjoined set} & \lambda(\overline{\mathcal{R}}\cup B)
+  & \text{multiplicity}\\
+  \hline
+  1 & \{\mathrm{UUG}\} & 0.5929439 & 1\\
+  2 & \{\mathrm{AUG},\mathrm{UUG}\} & 0.6183868 & 2\\
+  2 & \{\mathrm{UCG},\mathrm{UUG}\} & 0.6183868 & 2\\
+  3 & \{\mathrm{AUG},\mathrm{UCG},\mathrm{UUG}\} & 0.6421817 & 1.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all $m$-point subsets of
+$Q_{6}\setminus\overline{\mathcal{R}}$ for $m=1,2,3$ and compute the
+killed-walk Perron root for each expanded set. The displayed rows are
+the maximizers.
+\end{proof}
+
+\begin{theorem}[First-median triple optimality]
+\label{thm:philosophy-first-median-triple-spectral-optimality}
+Among all $3$-point subsets
+$B\subseteq Q_{6}\setminus\overline{\mathcal{R}}$, the unique maximizer
+of $\lambda(\overline{\mathcal{R}}\cup B)$ is
+$$
+  B=\{\mathrm{AUG},\mathrm{UCG},\mathrm{UUG}\}.
+$$
+Equivalently,
+$$
+  \operatorname{Med}_{1}(\mathcal{R})
+  =
+  \overline{\mathcal{R}}\cup B
+$$
+is the unique optimal three-point spectral stabilization of the anchor
+closure.
+\end{theorem}
+\begin{proof}
+This is the $m=3$ row of
+\autoref{thm:philosophy-anchor-layer-spectral-frontier}, together with
+\autoref{thm:philosophy-median-depth-sealing}.
+\end{proof}
+
+\begin{theorem}[$\mathrm{ACG}$ single-point optimality]
+\label{thm:philosophy-acg-single-point-spectral-optimality}
+Among all single codons
+$p\in Q_{6}\setminus\operatorname{Med}_{1}(\mathcal{R})$, the unique
+maximizer of
+$$
+  \lambda(\operatorname{Med}_{1}(\mathcal{R})\cup\{p\})
+$$
+is
+$$
+  p=\mathrm{ACG}.
+$$
+There are $45$ candidates, and
+$$
+  \lambda(\operatorname{Med}_{1}(\mathcal{R}))=0.642182,\qquad
+  \lambda(\operatorname{Med}_{1}(\mathcal{R})\cup\{\mathrm{ACG}\})
+  =0.675248.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $45$ codons outside $\operatorname{Med}_{1}(\mathcal{R})$
+and compute the killed-walk Perron root after adjoining each one. The
+unique maximum is attained at $\mathrm{ACG}$.
+\end{proof}
+
+\begin{theorem}[Layered block spectral closure chain]
+\label{thm:philosophy-layered-block-spectral-closure-chain}
+The chain
+$$
+  \mathcal{R}
+  \xrightarrow{\mathrm{best}\ +3}
+  \overline{\mathcal{R}}
+  \xrightarrow{\mathrm{best}\ +3}
+  \operatorname{Med}_{1}(\mathcal{R})
+  \xrightarrow{\mathrm{best}\ +1}
+  M
+$$
+is layered block spectral-optimal. The adjoined blocks are
+$$
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\},
+  \qquad
+  \{\mathrm{AUG},\mathrm{UCG},\mathrm{UUG}\},
+  \qquad
+  \{\mathrm{ACG}\}.
+$$
+The corresponding spectral radii are
+$$
+\begin{array}{c|l|r|r}
+  \text{set} & \text{adjoined codons} & \text{vertices} & \lambda\\
+  \hline
+  \mathcal{R} & \varnothing & 13 & 0.475879\\
+  \overline{\mathcal{R}}
+    & \mathrm{AAG},\mathrm{ACA},\mathrm{UGG} & 16 & 0.573333\\
+  \operatorname{Med}_{1}(\mathcal{R})
+    & \mathrm{AUG},\mathrm{UCG},\mathrm{UUG} & 19 & 0.642182\\
+  M
+    & \mathrm{ACG} & 20 & 0.675248.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The three steps are respectively
+\autoref{thm:philosophy-anchor-triple-spectral-optimality},
+\autoref{thm:philosophy-first-median-triple-spectral-optimality}, and
+\autoref{thm:philosophy-acg-single-point-spectral-optimality}.
+\end{proof}
+
+\begin{definition}[Spectral gain]
+\label{def:philosophy-spectral-gain}
+For $S\subseteq S'\subseteq Q_{6}$, define
+$$
+  \Delta\lambda(S,S')=\lambda(S')-\lambda(S).
+$$
+\end{definition}
+
+\begin{corollary}[Diminishing block gain]
+\label{cor:philosophy-diminishing-block-gain}
+The layered block gains are
+$$
+  0.097454,\qquad
+  0.068849,\qquad
+  0.033066,
+$$
+and therefore strictly decrease.
+\end{corollary}
+\begin{proof}
+Subtract consecutive spectral radii in
+\autoref{thm:philosophy-layered-block-spectral-closure-chain}.
+\end{proof}
+
+\begin{theorem}[Budget-four spectral branching]
+\label{thm:philosophy-budget-four-spectral-branching}
+At budget $m=4$ from $\mathcal{R}$, the two optimal adjoined sets are
+$$
+  B_4^{(1)}
+  =
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{AUG},\mathrm{UUG}\},
+$$
+and
+$$
+  B_4^{(2)}
+  =
+  \{\mathrm{ACA},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}.
+$$
+They have the same spectral radius $0.5970778$ and are exchanged by
+the support symmetry $\tau:s_1\leftrightarrow f_2$.
+\end{theorem}
+\begin{proof}
+The two optimal sets are the $m=4$ rows of
+\autoref{thm:philosophy-fixed-budget-spectral-frontier}. Under $\tau$,
+$\mathrm{AAG}$ is exchanged with $\mathrm{UGG}$, $\mathrm{AUG}$ is
+exchanged with $\mathrm{UCG}$, while $\mathrm{ACA}$ and $\mathrm{UUG}$
+are fixed.
+\end{proof}
+
+\begin{corollary}[Anchor layer is a block stabilizer]
+\label{cor:philosophy-anchor-layer-block-stabilizer}
+The anchor triple
+$\{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}$ is a joint spectral
+optimizer, not the result of nested fixed-budget optimization from
+$\mathcal{R}$.
+\end{corollary}
+\begin{proof}
+The non-nesting statement is
+\autoref{cor:philosophy-fixed-budget-non-nesting}. The triple
+optimality is \autoref{thm:philosophy-anchor-triple-spectral-optimality}.
+\end{proof}
+
+\begin{theorem}[$\tau$-invariant inactive frontier]
+\label{thm:philosophy-tau-invariant-inactive-frontier}
+If the adjoined inactive set $B\subseteq Q_{6}\setminus\mathcal{R}$ is
+required to satisfy $\tau(B)=B$, the optimal symmetric frontier includes
+the following representatives:
+$$
+\begin{array}{c|l}
+  |B| & \text{optimal }\tau\text{-invariant adjoined set}\\
+  \hline
+  1 & \{\mathrm{ACA}\}\\
+  2 & \{\mathrm{ACA},\mathrm{UUG}\}\\
+  3 & \{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}\\
+  4 & \{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG},\mathrm{UUG}\}\\
+  5 & \{\mathrm{AAG},\mathrm{AUG},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}\\
+  6 & \{\mathrm{AAG},\mathrm{ACA},\mathrm{AUG},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}\\
+  6 & \{\mathrm{AAG},\mathrm{ACG},\mathrm{AUG},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}\\
+  7 & \{\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AUG},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Take the $\tau$-orbits in $Q_{6}\setminus\mathcal{R}$ and enumerate
+orbit unions of the prescribed cardinality. For each orbit union,
+compute the killed-walk Perron root after adjoining it to
+$\mathcal{R}$. The displayed sets are the maximizing orbit unions.
+\end{proof}
+
+\begin{corollary}[Symmetric completion recovers the inactive median layer]
+\label{cor:philosophy-symmetric-completion-inactive-layer}
+At cardinality $7$, the optimal $\tau$-invariant inactive completion is
+$$
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},
+    \mathrm{AUG},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}
+  =
+  M\setminus\mathcal{R}.
+$$
+\end{corollary}
+\begin{proof}
+The $|B|=7$ row of
+\autoref{thm:philosophy-tau-invariant-inactive-frontier} is exactly the
+inactive layer of \autoref{thm:philosophy-inactive-median-layer}.
+\end{proof}
+
+\begin{theorem}[Block-optimal budget-frustrated spectral closure]
+\label{thm:philosophy-block-optimal-budget-frustrated-spectral-closure}
+The median closure chain is not a nested fixed-budget optimum from
+$\mathcal{R}$. It is instead a layered block spectral-optimal chain,
+with a symmetric seven-point inactive completion equal to
+$M\setminus\mathcal{R}$.
+\end{theorem}
+\begin{proof}
+Non-nesting is \autoref{cor:philosophy-fixed-budget-non-nesting}. The
+layered block optimality is
+\autoref{thm:philosophy-layered-block-spectral-closure-chain}. The
+symmetric completion statement is
+\autoref{cor:philosophy-symmetric-completion-inactive-layer}.
+\end{proof}

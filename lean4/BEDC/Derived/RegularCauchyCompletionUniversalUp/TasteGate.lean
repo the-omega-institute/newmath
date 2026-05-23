@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyCompletionUniversalUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -267,5 +270,32 @@ theorem RegularCauchyCompletionUniversalTasteGate_single_carrier_alignment :
       regularCauchyCompletionUniversal_round_trip,
       fun _ _ hxy => regularCauchyCompletionUniversalToEventFlow_injective hxy,
       rfl⟩
+
+theorem RegularCauchyCompletionUniversal_extension_route
+    {S W D R A E L H C P N extensionConsumer : BHist} :
+    regularCauchyCompletionUniversalFields
+          (RegularCauchyCompletionUniversalUp.mk S W D R A E L H C P N) =
+        [S, W, D, R, A, E, L, H, C, P, N] →
+      UnaryHistory S →
+      UnaryHistory W →
+      UnaryHistory R →
+      UnaryHistory E →
+      Cont S W D →
+      Cont D R A →
+      Cont A E extensionConsumer →
+      UnaryHistory D ∧ UnaryHistory A ∧ UnaryHistory extensionConsumer ∧
+        Cont S W D ∧ Cont D R A ∧ Cont A E extensionConsumer := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont
+  intro _fields sourceUnary windowUnary comparisonUnary extensionUnary sourceWindowRoute
+    realSealRoute extensionRoute
+  have toleranceUnary : UnaryHistory D :=
+    unary_cont_closed sourceUnary windowUnary sourceWindowRoute
+  have sealUnary : UnaryHistory A :=
+    unary_cont_closed toleranceUnary comparisonUnary realSealRoute
+  have consumerUnary : UnaryHistory extensionConsumer :=
+    unary_cont_closed sealUnary extensionUnary extensionRoute
+  exact
+    ⟨toleranceUnary, sealUnary, consumerUnary, sourceWindowRoute, realSealRoute,
+      extensionRoute⟩
 
 end BEDC.Derived.RegularCauchyCompletionUniversalUp

@@ -1,0 +1,337 @@
+\begin{definition}[Reassignment weight and subcube mass]
+\label{def:philosophy-reassignment-weight-subcube-mass}
+For a codon $c$, define its comparative reassignment weight by
+$$
+  w(c)=|\{t:E_{t}(c)\neq E_{1}(c)\}|,
+$$
+where $E_{1}$ is the standard classifier and $E_{t}$ ranges over the
+curated comparison tables. For a subcube $S\subset Q_{6}$, define its
+reassignment mass by
+$$
+  M(S)=\sum_{c\in S}w(c).
+$$
+\end{definition}
+
+\begin{theorem}[Nested maximum-mass subcubes]
+\label{thm:philosophy-nested-maximum-mass-subcubes}
+Among all axis-aligned subcubes of the indicated dimension, the unique
+maximum-mass subcubes form the following nested chain:
+$$
+\begin{array}{c|c|c|r|r}
+  \text{dimension} & \text{fixed conditions} & \text{codon reading}
+    & \text{mass} & \text{fraction}\\
+\hline
+  Q_{5} & b_{3}^{s}=1
+    & c_{3}\in\{\mathrm{A},\mathrm{G}\} & 63 & 63/65\\
+  Q_{4} & b_{1}^{f}=0,\ b_{3}^{s}=1
+    & c_{1}\in\{\mathrm{U},\mathrm{A}\},\ c_{3}\in\{\mathrm{A},\mathrm{G}\}
+    & 59 & 59/65\\
+  Q_{3} & b_{1}^{f}=0,\ b_{2}^{s}=1,\ b_{3}^{s}=1
+    & c_{1}\in\{\mathrm{U},\mathrm{A}\},\
+      c_{2},c_{3}\in\{\mathrm{A},\mathrm{G}\}
+    & 52 & 52/65\\
+  Q_{2} & \{\mathrm{AAA},\mathrm{AGA},\mathrm{UAA},\mathrm{UGA}\}
+    & \text{A-ending purine-core square} & 34 & 34/65.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all axis-aligned $Q_{d}$ subcubes for $d=5,4,3,2$ and compute
+$M(S)$ from \autoref{def:philosophy-reassignment-weight-subcube-mass}.
+At each dimension, the maximum is attained by exactly one subcube, and
+the four maximizers are the displayed nested subcubes.
+\end{proof}
+
+\begin{corollary}[Purine-ending constraint]
+\label{cor:philosophy-purine-ending-reassignment-constraint}
+The strongest single-bit constraint on reassignment mass is
+$b_{3}^{s}=1$: $63$ of the $65$ reassignment rows have third codon base
+in $\{\mathrm{A},\mathrm{G}\}$.
+\end{corollary}
+\begin{proof}
+This is the $Q_{5}$ row of
+\autoref{thm:philosophy-nested-maximum-mass-subcubes}.
+\end{proof}
+
+\begin{definition}[Purine-core cube]
+\label{def:philosophy-purine-core-cube}
+The purine-core cube is
+$$
+  Q_{3}^{\mathrm{pur}}
+  =
+  \{\mathrm{U},\mathrm{A}\}
+  \times
+  \{\mathrm{A},\mathrm{G}\}
+  \times
+  \{\mathrm{A},\mathrm{G}\}.
+$$
+Equivalently,
+$$
+  Q_{3}^{\mathrm{pur}}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG},
+    \mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG}\}.
+$$
+\end{definition}
+
+\begin{theorem}[Purine-core cube is the maximum-mass $Q_{3}$]
+\label{thm:philosophy-purine-core-maximum-q-three}
+The purine-core cube is the unique maximum-mass $Q_{3}$ subcube. Its
+standard labels and reassignment weights are
+$$
+\begin{array}{c|c|r}
+  \text{codon} & \text{standard label} & w(c)\\
+\hline
+  \mathrm{UAA} & \mathrm{Stop} & 8\\
+  \mathrm{UAG} & \mathrm{Stop} & 10\\
+  \mathrm{UGA} & \mathrm{Stop} & 15\\
+  \mathrm{UGG} & \mathrm{Trp} & 0\\
+  \mathrm{AAA} & \mathrm{Lys} & 3\\
+  \mathrm{AAG} & \mathrm{Lys} & 0\\
+  \mathrm{AGA} & \mathrm{Arg} & 8\\
+  \mathrm{AGG} & \mathrm{Arg} & 8.
+\end{array}
+$$
+Thus $M(Q_{3}^{\mathrm{pur}})=52$.
+\end{theorem}
+\begin{proof}
+The $Q_{3}$ maximum in
+\autoref{thm:philosophy-nested-maximum-mass-subcubes} is fixed by
+$b_{1}^{f}=0$, $b_{2}^{s}=1$, and $b_{3}^{s}=1$, which is exactly
+\autoref{def:philosophy-purine-core-cube}. Summing the displayed weights
+gives $52$.
+\end{proof}
+
+\begin{corollary}[Stop/Trp sits inside the Stop/Lys/Arg/Trp core]
+\label{cor:philosophy-stop-trp-inside-purine-core}
+The Stop/Trp tile is not the whole comparative hotspot. It is embedded
+inside the larger standard-code pattern
+$$
+  \mathrm{Stop}_{3}+\mathrm{Lys}_{2}+\mathrm{Arg}_{2}+\mathrm{Trp}_{1}
+$$
+on $Q_{3}^{\mathrm{pur}}$.
+\end{corollary}
+\begin{proof}
+Read the standard labels in
+\autoref{thm:philosophy-purine-core-maximum-q-three}. The first four
+codons are the Stop/Trp tile; the other four codons are the Lys and Arg
+doubletons.
+\end{proof}
+
+\begin{definition}[A-ending purine-core square]
+\label{def:philosophy-a-ending-purine-core-square}
+The A-ending purine-core square is
+$$
+  Q_{2}^{\mathrm{Aend}}
+  =
+  \{\mathrm{AAA},\mathrm{AGA},\mathrm{UAA},\mathrm{UGA}\}.
+$$
+\end{definition}
+
+\begin{theorem}[A-ending square is the maximum-mass $Q_{2}$]
+\label{thm:philosophy-a-ending-square-maximum-q-two}
+The square $Q_{2}^{\mathrm{Aend}}$ is the unique maximum-mass $Q_{2}$
+face. Its weights are
+$$
+\begin{array}{c|c|r}
+  \text{codon} & \text{standard label} & w(c)\\
+\hline
+  \mathrm{AAA} & \mathrm{Lys} & 3\\
+  \mathrm{AGA} & \mathrm{Arg} & 8\\
+  \mathrm{UAA} & \mathrm{Stop} & 8\\
+  \mathrm{UGA} & \mathrm{Stop} & 15.
+\end{array}
+$$
+Thus $M(Q_{2}^{\mathrm{Aend}})=34$.
+\end{theorem}
+\begin{proof}
+Enumerating the $240$ axis-aligned $Q_{2}$ faces and summing
+reassignment weights gives a unique maximum of $34$, attained at
+$\{\mathrm{AAA},\mathrm{AGA},\mathrm{UAA},\mathrm{UGA}\}$.
+\end{proof}
+
+\begin{corollary}[Static and comparative faces differ]
+\label{cor:philosophy-static-comparative-faces-differ}
+The static $3+1$ control tile is
+$$
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\},
+$$
+with reassignment mass $33$. The maximum-mass comparative $Q_{2}$ face
+is
+$$
+  \{\mathrm{AAA},\mathrm{AGA},\mathrm{UAA},\mathrm{UGA}\},
+$$
+with reassignment mass $34$. Thus the static coding-control face and the
+comparative maximum-mass face are adjacent but not identical.
+\end{corollary}
+\begin{proof}
+The Stop/Trp mass is $8+10+15+0=33$ by
+\autoref{thm:philosophy-purine-core-maximum-q-three}. The comparative
+maximum $Q_{2}$ mass is
+\autoref{thm:philosophy-a-ending-square-maximum-q-two}.
+\end{proof}
+
+\begin{theorem}[Complete reassignment $Q_{2}$ faces]
+\label{thm:philosophy-complete-reassignment-q-two-faces}
+Among the $240$ axis-aligned $Q_{2}$ faces, the distribution by number
+of reassigned vertices is
+$$
+\begin{array}{c|rrrrr}
+  \text{reassigned vertices in the face} & 0 & 1 & 2 & 3 & 4\\
+\hline
+  \text{face count} & 123 & 60 & 40 & 13 & 4.
+\end{array}
+$$
+The four faces whose vertices are all reassigned codons are
+$$
+\begin{array}{c|r|l}
+  \text{face} & \text{mass} & \text{reading}\\
+\hline
+  \{\mathrm{AAA},\mathrm{AGA},\mathrm{UAA},\mathrm{UGA}\}
+    & 34 & \text{A-ending purine-core square}\\
+  \{\mathrm{UAA},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}
+    & 25 & \text{U-first A-ending square}\\
+  \{\mathrm{AAA},\mathrm{AUA},\mathrm{UAA},\mathrm{UUA}\}
+    & 17 & \text{A-ending first-position square}\\
+  \{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\}
+    & 6 & \text{CUN Leu square}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each $Q_{2}$ face, count how many of its four vertices have positive
+reassignment weight. The resulting finite distribution and the four
+complete faces are displayed.
+\end{proof}
+
+\begin{corollary}[Reassignment support contains a small surface]
+\label{cor:philosophy-reassignment-support-small-surface}
+The reassigned codon support contains four complete $Q_{2}$ faces. Thus
+the support is not only Hamming-connected; it contains a small local
+surface made from square faces.
+\end{corollary}
+\begin{proof}
+Connectivity was established in
+\autoref{thm:philosophy-connected-reassignment-support}. The complete
+square faces are
+\autoref{thm:philosophy-complete-reassignment-q-two-faces}.
+\end{proof}
+
+\begin{definition}[Co-reassignment edge weight]
+\label{def:philosophy-co-reassignment-edge-weight}
+For adjacent codons $c\sim d$ in the reassignment support, define
+$$
+  \omega(c,d)
+  =
+  |\{t:E_{t}(c)\neq E_{1}(c)\ \text{and}\ E_{t}(d)\neq E_{1}(d)\}|.
+$$
+\end{definition}
+
+\begin{theorem}[Positive co-reassignment edges]
+\label{thm:philosophy-positive-co-reassignment-edges}
+The positive co-reassignment edges are
+$$
+\begin{array}{c|r}
+  \text{edge} & \omega\\
+\hline
+  \mathrm{UGA}{-}\mathrm{AGA} & 8\\
+  \mathrm{AGA}{-}\mathrm{AGG} & 8\\
+  \mathrm{UAA}{-}\mathrm{UAG} & 6\\
+  \mathrm{UAA}{-}\mathrm{UGA} & 5\\
+  \mathrm{AGA}{-}\mathrm{AAA} & 3\\
+  \mathrm{AUA}{-}\mathrm{AAA} & 1\\
+  \mathrm{UAA}{-}\mathrm{AAA} & 1\\
+  \mathrm{CUA}{-}\mathrm{CUG} & 1\\
+  \mathrm{CUC}{-}\mathrm{CUG} & 1\\
+  \mathrm{CUU}{-}\mathrm{CUA} & 1\\
+  \mathrm{CUU}{-}\mathrm{CUC} & 1.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Restrict the $Q_{6}$ Hamming graph to reassigned codons. For each
+internal edge, intersect the two sets of comparison tables in which its
+endpoints are reassigned. The positive intersections are exactly the
+displayed finite table.
+\end{proof}
+
+\begin{corollary}[Weighted deformation spine]
+\label{cor:philosophy-weighted-deformation-spine}
+The highest-weight co-reassignment path is
+$$
+  \mathrm{UAG}-\mathrm{UAA}-\mathrm{UGA}-\mathrm{AGA}-\mathrm{AGG},
+$$
+with branch
+$$
+  \mathrm{AGA}-\mathrm{AAA}-\mathrm{AUA}.
+$$
+In particular, $\mathrm{UGA}$ is not only a Stop/Trp tile leaf; it is
+also the Hamming bridge from the stop side to the AGR side.
+\end{corollary}
+\begin{proof}
+Read the positive edge weights in
+\autoref{thm:philosophy-positive-co-reassignment-edges}. The edges
+$\mathrm{UGA}{-}\mathrm{AGA}$ and $\mathrm{AGA}{-}\mathrm{AGG}$ have
+weight $8$, and the stop-arm edges have weights $6$ and $5$.
+\end{proof}
+
+\begin{theorem}[Positive co-reassignment components]
+\label{thm:philosophy-positive-co-reassignment-components}
+The graph on reassigned codons using only positive co-reassignment edges
+has components
+$$
+\begin{gathered}
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},
+    \mathrm{AAA},\mathrm{AUA},\mathrm{AGA},\mathrm{AGG}\},\\
+  \{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\},\\
+  \{\mathrm{UCA}\},\qquad \{\mathrm{UUA}\}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Use the positive edge list of
+\autoref{thm:philosophy-positive-co-reassignment-edges} and compute
+connected components. The isolated vertices are reassigned codons whose
+Hamming-neighbor co-reassignment intersections are zero.
+\end{proof}
+
+\begin{corollary}[Geometric support and co-reassignment support differ]
+\label{cor:philosophy-geometric-and-co-reassignment-support-differ}
+The full reassignment support is connected as a Hamming subgraph, but
+positive co-reassignment separates a Stop/AGR/AUA/AAA component from a
+CUN component and two isolated low-frequency codons.
+\end{corollary}
+\begin{proof}
+Hamming connectivity is
+\autoref{thm:philosophy-connected-reassignment-support}. Positive
+co-reassignment connectivity is
+\autoref{thm:philosophy-positive-co-reassignment-components}.
+\end{proof}
+
+\begin{theorem}[Nested-core comparative dynamics statement]
+\label{thm:philosophy-nested-core-comparative-dynamics-statement}
+The comparative reassignment spectrum is concentrated along a nested
+subcube core
+$$
+  Q_{5}\supset Q_{4}\supset Q_{3}\supset Q_{2},
+$$
+where the $Q_{3}$ core is
+$$
+  Q_{3}^{\mathrm{pur}}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG},
+    \mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG}\}.
+$$
+The same data define a positive co-reassignment spine
+$$
+  \mathrm{UAG}-\mathrm{UAA}-\mathrm{UGA}-\mathrm{AGA}-\mathrm{AGG}
+$$
+with branch $\mathrm{AGA}-\mathrm{AAA}-\mathrm{AUA}$.
+\end{theorem}
+\begin{proof}
+The nested subcube core is
+\autoref{thm:philosophy-nested-maximum-mass-subcubes}. The $Q_{3}$ core
+is identified in \autoref{thm:philosophy-purine-core-maximum-q-three}.
+The weighted spine is
+\autoref{cor:philosophy-weighted-deformation-spine}.
+\end{proof}

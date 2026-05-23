@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\CauchyApproximationSchemeUp$}
+\label{ch:concrete-instances-cauchy-approximation-scheme-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive approximation of Cauchy names, the $\CauchyApproximationSchemeUp$ packet records the finite schedule that lets a consumer request dyadic precision, read a finite window of a name, and hand the resulting regular rational data toward the real boundary. It sits between the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the convergence schedule of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}, the net-facing carrier of \autoref{ch:concrete-instances-cauchynet-namecert}, and the sealed real interface of \autoref{ch:concrete-instances-real-namecert}. The chapter packages the approximation schedule before quotient completion, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness is available.
+
+\begin{definition}[Cauchy approximation scheme carrier]
+\label{def:cauchy-approximation-scheme-carrier}
+A $\CauchyApproximationSchemeUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,S,M,R,W,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the dyadic radii, comparison cells, shrink rows, and precision budgets available to the approximation consumer.
+\item $S$ is the $\StreamNameUp$ observation row. It records the finite name windows whose entries may be inspected at each displayed precision demand.
+\item $M$ is the $\CauchyConvergenceModulusUp$ schedule row. It assigns to each tolerance request a finite window boundary that is allowed to justify a Cauchy comparison.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed dyadic ledger, stream windows, and schedule.
+\item $W$ is the $\CauchyNetUp$ compatibility row. It records the net-facing approximation window reached from the same finite schedule.
+\item $Q$ is the $\RealUp$ seal row. It records only the boundary interface reached through $R$ and $W$, not a host real representative.
+\item $H$ records componentwise $\hsame$ transport for the tolerance ledger, stream windows, convergence schedule, regular readback, net window, real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D,S,M \longmapsto R,W \longmapsto Q \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyConvergenceModulusUp$, $\CauchyNetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyApproximationSchemeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the ten displayed rows. It has no coordinate for quotient completion, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy approximation scheme NameCert obligations]
+\label{thm:cauchy-approximation-scheme-namecert-obligations}
+For every accepted $\CauchyApproximationSchemeUp$ carrier
+$$
+A=(D,S,M,R,W,Q,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyApproximationSchemeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic tolerance ledger, stream observation windows, convergence schedule, regular readback, net window, real seal, transport, replay, provenance, and local naming row;
+\item dyadic precision exposure, requiring every tolerance demand to be witnessed by a displayed $\DyadicRatCoreUp$ radius, shrink row, comparison cell, or budget entry in $D$;
+\item stream-window exposure, requiring every inspected name value to enter through the finite $\StreamNameUp$ row $S$;
+\item modulus routing, requiring $M$ to bind each displayed precision request to a finite Cauchy window before $R$, $W$, or $Q$ is read;
+\item regular and net handoff, requiring $R$ and $W$ to consume the same displayed $D,S,M$ data before any real-facing boundary is exposed;
+\item provenance exhaustion, requiring $H,C,P,N$ to transport, replay, source, and name exactly the rows listed above and no quotient completion, selected limit, countable-choice row, trichotomy row, host real equality, or ambient completeness principle.
+\end{enumerate}
+No Cauchy-approximation-scheme obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the carrier tuple $A=(D,S,M,R,W,Q,H,C,P,N)$. The carrier definition lists every coordinate visible to the local certificate, so admission is just the displayed finite packet with its transport, replay, provenance, and naming rows.
+
+The precision request first reads $D$ and $S$. The dyadic ledger supplies the tolerance data, while the stream row supplies only finite windows of the Cauchy name.
+
+The schedule row $M$ then fixes the Cauchy window that may justify the request. Since $M$ is displayed before $R,W,Q$, no later consumer can replace the finite window by a selected limit or an ambient completeness assertion.
+
+Finally $R$ and $W$ are the regular-sequence and net-facing handoffs, and $Q$ is only the real seal reached after those handoffs. The rows $H,C,P,N$ preserve and name that same route, so the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy approximation scheme window stability]
+\label{thm:cauchy-approximation-scheme-window-stability}
+Let
+$$
+A=(D,S,M,R,W,Q,H,C,P,N)
+$$
+and
+$$
+A'=(D',S',M',R',W',Q',H',C',P',N')
+$$
+be accepted $\CauchyApproximationSchemeUp$ packets. If the displayed $\hsame$ rows identify the dyadic tolerance ledgers, stream windows, and convergence schedules $D,S,M$ with $D',S',M'$ componentwise, then every $\RegSeqRatUp$, $\CauchyNetUp$, or $\RealUp$ consumer sees the same finite approximation window from $A$ and $A'$. The consumer can distinguish packets only through the displayed route
+$$
+D,S,M \longmapsto R,W \longmapsto Q
+$$
+together with its transport, continuation replay, provenance, and local naming rows.
+\end{theorem}
+
+\begin{proof}
+Start with the NameCert obligation theorem. Every consumer-facing read of the packet must pass through the dyadic ledger, stream windows, and convergence schedule before it reaches a regular readback, net window, or real seal.
+
+Apply the componentwise $\hsame$ hypotheses to those first three rows. They identify the tolerance request, the inspected stream window, and the scheduled Cauchy boundary in the two packets.
+
+The handoff rows $R,W,Q$ are read only after the identified data, and the structural rows $H,C,P,N$ and $H',C',P',N'$ transport, replay, source, and name that same route. Thus the consumer-visible approximation window is stable under the displayed transport, with no additional coordinate available to refine the comparison.
+\end{proof}
+
+\closureat{CauchyApproximationSchemeUp}{seedStr}
+
+\begin{closurestatus}{\CauchyApproximationSchemeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-approximation-scheme-carrier}, \autoref{thm:cauchy-approximation-scheme-namecert-obligations}, and \autoref{thm:cauchy-approximation-scheme-window-stability} seed the finite Cauchy approximation schedule over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyConvergenceModulusUp$, $\CauchyNetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic precision exposure, stream-window exposure, modulus routing, regular and net handoff, window stability, and provenance exhaustion for BEDC.Derived.CauchyApproximationSchemeUp.}
+  \constructivestory{A $\CauchyApproximationSchemeUp$ packet is generated from dyadic tolerance rows, finite StreamName windows, a Cauchy convergence schedule, RegSeqRat readback, CauchyNet compatibility, a Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

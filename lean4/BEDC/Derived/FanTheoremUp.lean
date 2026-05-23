@@ -25,6 +25,33 @@ def FanTheoremPacket [AskSetup] [PackageSetup]
         Cont depth window endpoint ∧ Cont transport traversal provenance ∧
           PkgSig bundle endpoint pkg
 
+def FanTheoremPacket_bar_classifier [AskSetup] [PackageSetup]
+    (tree bar depth window transport traversal provenance nameCert endpoint tree' bar'
+      depth' window' transport' traversal' provenance' nameCert' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont PkgSig
+  FanTheoremPacket tree bar depth window transport traversal provenance nameCert endpoint
+      bundle pkg ∧
+    FanTheoremPacket tree' bar' depth' window' transport' traversal' provenance' nameCert'
+      endpoint' bundle pkg ∧
+      hsame tree tree' ∧ hsame bar bar' ∧ hsame depth depth' ∧
+        hsame window window' ∧ hsame transport transport' ∧ hsame traversal traversal' ∧
+          hsame provenance provenance' ∧ hsame nameCert nameCert' ∧
+      hsame endpoint endpoint' ∧ Cont tree bar depth ∧ Cont tree' bar' depth' ∧
+              PkgSig bundle endpoint pkg ∧ PkgSig bundle endpoint' pkg
+
+def FanTheoremBarClassifier [AskSetup] [PackageSetup]
+    (tree bar depth window transport traversal provenance nameCert endpoint tree' bar' depth'
+      window' transport' traversal' provenance' nameCert' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  FanTheoremPacket tree bar depth window transport traversal provenance nameCert endpoint
+      bundle pkg ∧
+    FanTheoremPacket tree' bar' depth' window' transport' traversal' provenance' nameCert'
+        endpoint' bundle pkg ∧
+      hsame tree tree' ∧ hsame bar bar' ∧ hsame depth depth' ∧
+        hsame window window' ∧ hsame endpoint endpoint' ∧ Cont tree bar depth ∧
+          Cont depth window endpoint ∧ PkgSig bundle endpoint pkg
+
 theorem FanTheoremPacket_finite_bar_handoff [AskSetup] [PackageSetup]
     {tree bar depth window transport traversal provenance nameCert endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

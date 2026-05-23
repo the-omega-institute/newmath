@@ -143,6 +143,7 @@ M\longmapsto S\longmapsto D\longmapsto Q\longmapsto E.
 $$
 No quotient stream equality, selected limit, host real equality, countable-choice principle, or ambient Real completeness theorem can admit $Q$ to the seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusUp.RealCauchyModulusCarrier\_regseqrat\_seal\_admission}
 \begin{proof}
 Read the accepted packet through \autoref{def:real-cauchy-modulus-carrier}. The row $Q$ is a displayed coordinate between the dyadic ledger $D$ and the terminal seal $E$, not a detached regular sequence or an external limit object.
 
@@ -260,6 +261,7 @@ Now read the sibling cofinal data only as route data. The $\CauchyModulusRefinem
 
 Finally apply the seal handoff theorem \autoref{thm:real-cauchy-modulus-seal-handoff}. Since every Real-facing consumer of $B$ reaches $\RealUp$ only through $M,S,D,Q,E$ and the support rows $H,C,P,N$, the cofinal or monotone schedule preserves the same StreamName--DyadicRatCore--RegSeqRat--Real seal route and leaves the excluded completeness, choice, quotient, and host-equality alternatives outside the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCauchyModulusUp.RealCauchyModulusCarrier\_cofinal\_refinement\_handoff}
 
 \begin{theorem}[Real Cauchy modulus bounded tail-ledger factorization]
 \label{thm:real-cauchy-modulus-bounded-tail-ledger-factorization}
@@ -299,6 +301,20 @@ On the bounded side, apply tail-window induction \autoref{thm:bounded-regular-ca
 The componentwise $\hsame$ assumptions transport the modulus, window, dyadic ledger, readback, and seal rows across the interface. Hence the two readbacks terminate at the same finite Real-facing route, and any alleged detached seal would have to be a row not present in either displayed carrier.
 \end{proof}
 
+\begin{theorem}[Real Cauchy modulus uniform tail extraction]
+\label{thm:real-cauchy-modulus-uniform-tail-extraction}
+Let $B=(M,S,D,Q,E,H,C,P,N)$ be an accepted $\RealCauchyModulusUp$ packet whose threshold row has passed through the cofinal refinement handoff of \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff}. Then there is a single displayed finite tail window, read from the same $M,S,D,Q,E$ route, that every $\RegSeqRatUp$ and $\RealUp$ consumer named in the bounded readback coherence theorem \autoref{thm:real-cauchy-modulus-bounded-readback-coherence} may use. Enlarging a requested tolerance only replaces the displayed window by a later cofinal window; it does not introduce quotient stream equality, selected limits, host real equality, countable choice, trichotomy, open-cover compactness, Real completeness, or a detached Real seal.
+\end{theorem}
+\begin{proof}
+Start with threshold stability, \autoref{thm:real-cauchy-modulus-threshold-stability}. It transports a stronger tolerance request along the same modulus row $M$, finite window row $S$, dyadic ledger $D$, RegSeqRat readback $Q$, and terminal Real seal $E$.
+
+Next use the cofinal refinement handoff, \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff}. A later cofinal threshold may replace the initially requested tail window, but the replacement is still a displayed finite window in the same carrier route and is replayed by the same structural rows $H,C,P,N$.
+
+Finally apply bounded readback coherence, \autoref{thm:real-cauchy-modulus-bounded-readback-coherence}. Its componentwise $\hsame$ matches force the RegSeqRat and Real-facing bounded consumers to read the same terminal finite route, so the cofinal window obtained above is uniform for all those consumers.
+
+The excluded alternatives have no coordinate in either carrier and cannot be inserted between the matched readback and seal rows. Therefore the accepted packet exposes one reusable finite tail window for the bounded RegSeqRat and Real consumers.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\RealCauchyModulusUp$ consumer that reads a terminal Real seal without the explicit modulus threshold, finite StreamName window, DyadicRatCore tolerance ledger, and RegSeqRat readback refutes the carrier surface.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchymodulus: no listed sibling supplies the whole nine-row packet $B=(M,S,D,Q,E,H,C,P,N)$, because each sibling contributes only a window, readback, tolerance, seal, or generic schedule surface while this chapter binds all five analytic faces with transport, replay, provenance, and local naming.}
@@ -306,7 +322,7 @@ The componentwise $\hsame$ assumptions transport the modulus, window, dyadic led
 \begin{closurestatus}{\RealCauchyModulusUp}
   \constructivestory{A $\RealCauchyModulusUp$ packet is generated from an explicit $\CauchyModulusUp$ precision schedule, finite $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-cauchy-modulus-carrier}, \autoref{def:real-cauchy-modulus-classifier}, \autoref{thm:real-cauchy-modulus-namecert-obligations}, \autoref{thm:real-cauchy-modulus-window-modulus-route}, \autoref{thm:real-cauchy-modulus-real-seal-nonescape}, \autoref{thm:real-cauchy-modulus-threshold-stability}, \autoref{thm:real-cauchy-modulus-ledger-exhaustion}, \autoref{thm:real-cauchy-modulus-root-unblock-scope}, \autoref{thm:real-cauchy-modulus-threshold-window-totality}, \autoref{thm:real-cauchy-modulus-regseqrat-seal-admission}, \autoref{thm:real-cauchy-modulus-precision-induction}, \autoref{thm:real-cauchy-modulus-window-monotonicity}, \autoref{thm:real-cauchy-modulus-seal-determinacy}, \autoref{thm:real-cauchy-modulus-window-scope}, \autoref{thm:real-cauchy-modulus-tail-threshold-determinacy}, \autoref{thm:real-cauchy-modulus-seal-handoff}, \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff}, \autoref{thm:real-cauchy-modulus-bounded-tail-ledger-factorization}, and \autoref{thm:real-cauchy-modulus-bounded-readback-coherence} seed the explicit modulus-controlled Real Cauchy read over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\BoundedRegularCauchyUp$.}
+  \scopeclosed{\autoref{def:real-cauchy-modulus-carrier}, \autoref{def:real-cauchy-modulus-classifier}, \autoref{thm:real-cauchy-modulus-namecert-obligations}, \autoref{thm:real-cauchy-modulus-window-modulus-route}, \autoref{thm:real-cauchy-modulus-real-seal-nonescape}, \autoref{thm:real-cauchy-modulus-threshold-stability}, \autoref{thm:real-cauchy-modulus-ledger-exhaustion}, \autoref{thm:real-cauchy-modulus-root-unblock-scope}, \autoref{thm:real-cauchy-modulus-threshold-window-totality}, \autoref{thm:real-cauchy-modulus-regseqrat-seal-admission}, \autoref{thm:real-cauchy-modulus-precision-induction}, \autoref{thm:real-cauchy-modulus-window-monotonicity}, \autoref{thm:real-cauchy-modulus-seal-determinacy}, \autoref{thm:real-cauchy-modulus-window-scope}, \autoref{thm:real-cauchy-modulus-tail-threshold-determinacy}, \autoref{thm:real-cauchy-modulus-seal-handoff}, \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff}, \autoref{thm:real-cauchy-modulus-bounded-tail-ledger-factorization}, \autoref{thm:real-cauchy-modulus-bounded-readback-coherence}, and \autoref{thm:real-cauchy-modulus-uniform-tail-extraction} seed the explicit modulus-controlled Real Cauchy read over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\BoundedRegularCauchyUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, countable choice, trichotomy, selected limits, open-cover compactness, or a Lean theorem.}

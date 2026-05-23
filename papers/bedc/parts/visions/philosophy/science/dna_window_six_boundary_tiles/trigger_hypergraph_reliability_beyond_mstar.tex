@@ -1,0 +1,218 @@
+\begin{definition}[Trigger hypergraph]
+\label{def:philosophy-trigger-hypergraph}
+Let $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$ and let
+$$
+  E=Q_{6}\setminus M^{\star},
+  \qquad
+  \Omega=\{s_{1},f_{1},s_{2},f_{2}\}.
+$$
+The post-$M^{\star}$ trigger hypergraph has vertex set $E$ and edge set
+$$
+  \mathcal{T}
+  =
+  \{T\subseteq E:T\text{ is minimal with }J(T)=\Omega\}.
+$$
+Equivalently, its edges are the minimal full triggers of
+\autoref{thm:philosophy-minimal-full-triggers}.
+\end{definition}
+
+\begin{theorem}[Trigger hypergraph as nonface data]
+\label{thm:philosophy-trigger-hypergraph-nonfaces}
+The trigger hypergraph $\mathcal{T}$ is the set of minimal nonfaces of
+the blocker complex $\mathcal{B}$.
+\end{theorem}
+\begin{proof}
+By \autoref{def:philosophy-blocker-complex}, a subset $B\subseteq E$ is
+a face of $\mathcal{B}$ exactly when $J(B)\subsetneq\Omega$. Thus a
+minimal subset not belonging to $\mathcal{B}$ is exactly a minimal
+subset with $J(B)=\Omega$, which is the defining condition for an edge
+of $\mathcal{T}$.
+\end{proof}
+
+\begin{theorem}[Minimal-trigger polynomials]
+\label{thm:philosophy-minimal-trigger-polynomials}
+The quotient-level minimal-trigger generating polynomial is
+$$
+  T_{q}(z)=z+25z^{2}+22z^{3}+z^{4}.
+$$
+At codon level it is
+$$
+  T_{c}(z)=2z+100z^{2}+176z^{3}+16z^{4}.
+$$
+\end{theorem}
+\begin{proof}
+The quotient coefficients are the four rows of
+\autoref{thm:philosophy-minimal-full-triggers}. At codon level, each
+quotient support has two $f_{3}$-lifts, so a trigger of size $m$
+contributes a factor $2^{m}$.
+\end{proof}
+
+\begin{theorem}[Minimal-trigger support types]
+\label{thm:philosophy-minimal-trigger-support-types}
+At quotient level, the minimal full triggers have the following
+support-size types:
+$$
+\begin{array}{c|l|r|r}
+  \text{trigger size} & \text{support-size type} & \text{quotient count} & \text{codon count}\\
+  \hline
+  1 & (4) & 1 & 2\\
+  \hline
+  2 & (1,3) & 4 & 16\\
+  2 & (2,2) & 3 & 12\\
+  2 & (2,3) & 12 & 48\\
+  2 & (3,3) & 6 & 24\\
+  \hline
+  3 & (1,1,2) & 6 & 48\\
+  3 & (1,2,2) & 12 & 96\\
+  3 & (2,2,2) & 4 & 32\\
+  \hline
+  4 & (1,1,1,1) & 1 & 16.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all minimal set covers of the four-coordinate set $\Omega$ by
+nonempty supports and sort each cover by the cardinalities of its
+members. The codon counts again multiply the quotient counts by
+$2^{m}$ for trigger size $m$.
+\end{proof}
+
+\begin{theorem}[Bernoulli reliability polynomial]
+\label{thm:philosophy-bernoulli-reliability-polynomial}
+Suppose each external codon in $E$ is independently adjoined with
+probability $p$, and put $q=1-p$. The probability of full-cube
+triggering is
+$$
+  R(p)
+  =
+  1-4q^{16}+6q^{24}-4q^{28}+q^{30}.
+$$
+\end{theorem}
+\begin{proof}
+Failure to trigger is the event that at least one coordinate of
+$\Omega$ is absent. For one fixed coordinate, the $16$ codons whose
+support contains that coordinate must all be omitted, giving
+$q^{16}$. For two fixed coordinates to be absent, the $24$ codons
+containing at least one of them must be omitted, giving $q^{24}$.
+For three fixed coordinates, the exponent is $28$, and for all four it
+is $30$. Inclusion-exclusion over the four missing-coordinate events
+therefore gives
+$$
+  \Pr(\text{non-trigger})
+  =
+  4q^{16}-6q^{24}+4q^{28}-q^{30},
+$$
+and $R(p)$ is its complement.
+\end{proof}
+
+\begin{corollary}[Reliability thresholds]
+\label{cor:philosophy-reliability-thresholds}
+Solving $R(p)=\alpha$ gives
+$$
+\begin{array}{c|r|r}
+  \alpha & p_{\alpha} & 30p_{\alpha}\\
+  \hline
+  0.50 & 0.08779 & 2.63\\
+  0.90 & 0.19455 & 5.84\\
+  0.95 & 0.23206 & 6.96\\
+  0.99 & 0.30934 & 9.28.
+\end{array}
+$$
+Thus an independent activation rate of about $8.779\%$ already gives
+a half-probability full trigger.
+\end{corollary}
+\begin{proof}
+The entries are the unique roots in $[0,1]$ of the equation in
+\autoref{thm:philosophy-bernoulli-reliability-polynomial}. The final
+column is the expected number of selected external codons.
+\end{proof}
+
+\begin{corollary}[Fixed-size and Bernoulli blocker probabilities]
+\label{cor:philosophy-blocker-probability-models}
+The fixed-size non-trigger probability and the Bernoulli non-trigger
+probability are two evaluations of the same blocker complex:
+$$
+  \Pr(\text{non-trigger after }m\text{ external codons})
+  =
+  \frac{
+  4\binom{14}{m}
+  -
+  6\binom{6}{m}
+  +
+  4\binom{2}{m}
+  -
+  \binom{0}{m}
+  }{\binom{30}{m}},
+$$
+with the final term only affecting $m=0$, while
+$$
+  \Pr(\text{Bernoulli non-trigger})
+  =
+  4q^{16}-6q^{24}+4q^{28}-q^{30}.
+$$
+\end{corollary}
+\begin{proof}
+The first formula is the blocker $f$-vector count of
+\autoref{thm:philosophy-blocker-f-vector} divided by the total number
+of $m$-subsets, with the empty four-fold intersection included for the
+empty face. The second is the missing-coordinate inclusion-exclusion
+used in \autoref{thm:philosophy-bernoulli-reliability-polynomial}.
+\end{proof}
+
+\begin{theorem}[Stanley-Reisner trigger ideal]
+\label{thm:philosophy-stanley-reisner-trigger-ideal}
+Let $x_{p}$ be a squarefree variable for each $p\in E$. The
+Stanley-Reisner ideal of $\mathcal{B}$ is
+$$
+  I_{\mathcal{B}}
+  =
+  \left\langle
+  \prod_{p\in T}x_{p}
+  :
+  T\in\mathcal{T}
+  \right\rangle .
+$$
+It has $294$ minimal squarefree monomial generators, with degree
+distribution
+$$
+\begin{array}{c|r}
+  \text{degree} & \text{minimal generators}\\
+  \hline
+  1 & 2\\
+  2 & 100\\
+  3 & 176\\
+  4 & 16.
+\end{array}
+$$
+The degree-one generators are $x_{\mathrm{AGU}}$ and
+$x_{\mathrm{AGC}}$.
+\end{theorem}
+\begin{proof}
+The Stanley-Reisner ideal is generated by the minimal nonfaces of the
+complex. By \autoref{thm:philosophy-trigger-hypergraph-nonfaces},
+these are precisely the minimal full triggers. The degree distribution
+is the codon-level table in
+\autoref{thm:philosophy-minimal-trigger-polynomials}, and the
+degree-one generators are the two codon lifts of the quotient support
+$\mathrm{AGY}$ from \autoref{cor:philosophy-antipodal-singleton-trigger}.
+\end{proof}
+
+\begin{theorem}[Trigger hypergraph and reliability theorem]
+\label{thm:philosophy-trigger-hypergraph-reliability-theorem}
+Beyond $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, the full-cube trigger
+problem is equivalently a four-coordinate set-cover hypergraph, an
+$S^{2}$ blocker complex, a $294$-edge minimal-nonface system, and the
+Bernoulli reliability polynomial
+$$
+  R(p)=1-4(1-p)^{16}+6(1-p)^{24}-4(1-p)^{28}+(1-p)^{30}.
+$$
+\end{theorem}
+\begin{proof}
+The set-cover criterion is \autoref{cor:philosophy-trigger-rank-size}.
+The blocker homotopy type is
+\autoref{cor:philosophy-blocker-homotopy-type}. The minimal nonface
+identification is \autoref{thm:philosophy-trigger-hypergraph-nonfaces},
+with the codon-level count from
+\autoref{thm:philosophy-minimal-trigger-polynomials}. The reliability
+polynomial is \autoref{thm:philosophy-bernoulli-reliability-polynomial}.
+\end{proof}

@@ -1,0 +1,147 @@
+\begin{definition}[Rank Markov state]
+\label{def:philosophy-rank-markov-state}
+Let $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, and draw external codons
+without replacement from $Q_{6}\setminus M^{\star}$. For
+$B_{m}=\{p_{1},\ldots,p_{m}\}$, put
+$$
+  J_{m}=\bigcup_{p\in B_{m}}\sigma(p),
+  \qquad
+  r_{m}=|J_{m}|.
+$$
+The state of the random trigger process is the pair $(m,r_{m})$.
+\end{definition}
+
+\begin{theorem}[Rank Markov transition]
+\label{thm:philosophy-rank-markov-transition}
+If the current state is $(m,r)$ with $r<4$, then the next rank change
+$\ell=r_{m+1}-r_{m}$ has probabilities
+$$
+  \Pr(\ell=0\mid m,r)
+  =
+  \frac{2(2^{r}-1)-m}{30-m},
+$$
+and, for $1\leq \ell\leq 4-r$,
+$$
+  \Pr(\ell\mid m,r)
+  =
+  \frac{2\cdot 2^{r}\binom{4-r}{\ell}}{30-m}.
+$$
+Thus $(m,r_{m})$ is a finite Markov process.
+\end{theorem}
+\begin{proof}
+Given a covered coordinate set $J$ of size $r$, the external codons
+whose support is contained in $J$ number $2(2^{r}-1)$. Since all $m$
+drawn codons are already contained in this class when the rank does not
+increase, the remaining non-increasing codons number
+$2(2^{r}-1)-m$. If exactly $\ell$ fresh coordinates are added, choose
+those $\ell$ from the $4-r$ uncovered coordinates, choose any subset of
+the $r$ covered coordinates, and choose one of the two $f_{3}$-lifts.
+Dividing by the $30-m$ remaining external codons gives the formula.
+\end{proof}
+
+\begin{corollary}[Rank drift]
+\label{cor:philosophy-rank-markov-drift}
+The one-step expected rank change is
+$$
+  \mathbb{E}[r_{m+1}-r_{m}\mid m,r]
+  =
+  \frac{16(4-r)}{30-m}.
+$$
+\end{corollary}
+\begin{proof}
+Using \autoref{thm:philosophy-rank-markov-transition},
+$$
+  \mathbb{E}[\Delta r\mid m,r]
+  =
+  \sum_{\ell=1}^{4-r}
+  \ell\frac{2\cdot 2^{r}\binom{4-r}{\ell}}{30-m}.
+$$
+The binomial identity
+$$
+  \sum_{\ell=1}^{n}\ell\binom{n}{\ell}=n2^{n-1}
+$$
+with $n=4-r$ gives the result.
+\end{proof}
+
+\begin{corollary}[Direct trigger probability]
+\label{cor:philosophy-direct-trigger-probability}
+For $r<4$,
+$$
+  \Pr(r_{m+1}=4\mid m,r)=\frac{2^{r+1}}{30-m}.
+$$
+In particular, from state $(3,3)$ the next draw triggers the full cube
+with probability $16/27=0.5926$.
+\end{corollary}
+\begin{proof}
+Direct triggering is the change $\ell=4-r$ in
+\autoref{thm:philosophy-rank-markov-transition}.
+\end{proof}
+
+\begin{theorem}[Markov trigger moments]
+\label{thm:philosophy-markov-trigger-moments}
+Let $T=\min\{m:r_{m}=4\}$. The Markov recursion gives
+$$
+  \mathbb{E}[T]=3.12998,
+  \qquad
+  \operatorname{Var}(T)=1.81588,
+  \qquad
+  \operatorname{sd}(T)=1.34755.
+$$
+The first trigger-time probabilities are the same as in
+\autoref{thm:philosophy-trigger-time-law}; in particular, the mode is
+$T=3$.
+\end{theorem}
+\begin{proof}
+Let $E(m,r)$ be the expected remaining number of draws until rank $4$.
+Then $E(m,4)=0$ and
+$$
+  E(m,r)=1+\sum_{r'}\Pr(r'\mid m,r)E(m+1,r').
+$$
+The second moment satisfies the analogous recursion for
+$(1+T')^{2}$. Applying these finite recursions from $(0,0)$ gives the
+displayed values.
+\end{proof}
+
+\begin{theorem}[Conditional remaining trigger time]
+\label{thm:philosophy-conditional-remaining-trigger-time}
+The expected remaining draw counts at representative states are
+$$
+\begin{array}{c|r}
+  \text{state} & E(m,r)\\
+  \hline
+  (0,0) & 3.130\\
+  (1,1) & 2.729\\
+  (1,2) & 2.329\\
+  (1,3) & 1.765\\
+  (2,1) & 2.638\\
+  (2,2) & 2.252\\
+  (2,3) & 1.706\\
+  (3,2) & 2.174\\
+  (3,3) & 1.647\\
+  (6,2) & 1.941\\
+  (6,3) & 1.471.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+These are the values of the finite recursion in
+\autoref{thm:philosophy-markov-trigger-moments}. They depend on both
+the number of consumed external codons and the currently covered
+coordinate rank.
+\end{proof}
+
+\begin{theorem}[Markov trigger theorem]
+\label{thm:philosophy-markov-trigger-theorem}
+Beyond $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, random median
+percolation is exactly the four-coordinate set-cover Markov process on
+states $(m,r)$. Its transition law is
+\autoref{thm:philosophy-rank-markov-transition}, its drift is
+\autoref{cor:philosophy-rank-markov-drift}, and its full-trigger time
+has mean $3.12998$ with deterministic worst-case threshold $15$.
+\end{theorem}
+\begin{proof}
+The equivalence between full median closure and rank $4$ is
+\autoref{cor:philosophy-trigger-rank-size}. The transition law follows
+from support counting, and the threshold $15$ is
+\autoref{thm:philosophy-maximum-nontrigger-blockers}.
+\end{proof}

@@ -368,4 +368,64 @@ theorem RegularCauchyNegationCarrier_real_algebra_bridge_certificate [AskSetup] 
     }
   · exact ⟨algebraUnary, bridgeUnary⟩
 
+theorem RegularCauchyNegationCarrier_limit_classifier_compatibility [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name
+      limitRead realBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg ->
+      Cont classifier flipped limitRead ->
+        Cont limitRead sealRow realBoundary ->
+          PkgSig bundle limitRead pkg ->
+            PkgSig bundle realBoundary pkg ->
+              UnaryHistory classifier ∧ UnaryHistory flipped ∧ UnaryHistory limitRead ∧
+                UnaryHistory sealRow ∧ UnaryHistory realBoundary ∧
+                  Cont dyadic classifier flipped ∧ Cont classifier flipped limitRead ∧
+                    Cont limitRead sealRow realBoundary ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle limitRead pkg ∧ PkgSig bundle realBoundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier classifierFlippedLimit limitSealBoundary limitPkg boundaryPkg
+  obtain ⟨_sourceUnary, _windowUnary, _dyadicUnary, classifierUnary, flippedUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, _sourceWindowDyadic,
+    dyadicClassifierFlipped, _flippedSealTransport, _transportRouteProvenance,
+    _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have limitUnary : UnaryHistory limitRead :=
+    unary_cont_closed classifierUnary flippedUnary classifierFlippedLimit
+  have boundaryUnary : UnaryHistory realBoundary :=
+    unary_cont_closed limitUnary sealUnary limitSealBoundary
+  exact
+    ⟨classifierUnary, flippedUnary, limitUnary, sealUnary, boundaryUnary,
+      dyadicClassifierFlipped, classifierFlippedLimit, limitSealBoundary, provenancePkg,
+      limitPkg, boundaryPkg⟩
+
+theorem RegularCauchyNegationCarrier_apartness_nonescape [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name
+      apartnessRead apartnessSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg ->
+      Cont flipped classifier apartnessRead ->
+        Cont apartnessRead sealRow apartnessSeal ->
+          PkgSig bundle apartnessSeal pkg ->
+            UnaryHistory flipped ∧ UnaryHistory classifier ∧ UnaryHistory sealRow ∧
+              UnaryHistory apartnessRead ∧ UnaryHistory apartnessSeal ∧
+                Cont dyadic classifier flipped ∧ Cont flipped sealRow transportRow ∧
+                  Cont flipped classifier apartnessRead ∧
+                    Cont apartnessRead sealRow apartnessSeal ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle apartnessSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier flippedClassifierApartness apartnessSealRoute apartnessSealPkg
+  obtain ⟨_sourceUnary, _windowUnary, _dyadicUnary, classifierUnary, flippedUnary,
+    sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _sourceWindowDyadic, dyadicClassifierFlipped, flippedSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have apartnessReadUnary : UnaryHistory apartnessRead :=
+    unary_cont_closed flippedUnary classifierUnary flippedClassifierApartness
+  have apartnessSealUnary : UnaryHistory apartnessSeal :=
+    unary_cont_closed apartnessReadUnary sealUnary apartnessSealRoute
+  exact
+    ⟨flippedUnary, classifierUnary, sealUnary, apartnessReadUnary, apartnessSealUnary,
+      dyadicClassifierFlipped, flippedSealTransport, flippedClassifierApartness,
+      apartnessSealRoute, provenancePkg, apartnessSealPkg⟩
+
 end BEDC.Derived.RegularCauchyNegationUp

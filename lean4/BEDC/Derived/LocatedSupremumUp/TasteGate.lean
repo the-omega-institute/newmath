@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LocatedSupremumUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -169,5 +172,22 @@ theorem LocatedSupremumTasteGate_single_carrier_alignment :
                   (by
                     intro h
                     cases h))
+
+theorem LocatedSupremum_real_seal_boundary {L U A W R E H C P N consumer : BHist} :
+    locatedSupremumFields (LocatedSupremumUp.mk L U A W R E H C P N) =
+        [L, U, A, W, R, E, H, C, P, N] →
+      UnaryHistory W →
+      UnaryHistory R →
+      UnaryHistory H →
+      Cont W R E →
+      Cont E H consumer →
+      UnaryHistory E ∧ UnaryHistory consumer ∧ Cont W R E ∧ Cont E H consumer := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont
+  intro _fields windowUnary handoffUnary transportUnary sealRoute consumerRoute
+  have sealUnary : UnaryHistory E :=
+    unary_cont_closed windowUnary handoffUnary sealRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealUnary transportUnary consumerRoute
+  exact ⟨sealUnary, consumerUnary, sealRoute, consumerRoute⟩
 
 end BEDC.Derived.LocatedSupremumUp

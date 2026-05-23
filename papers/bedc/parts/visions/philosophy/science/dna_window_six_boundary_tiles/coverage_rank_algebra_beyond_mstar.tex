@@ -1,0 +1,268 @@
+\begin{definition}[Coverage rank]
+\label{def:philosophy-coverage-rank}
+Let $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$ and
+$E=Q_{6}\setminus M^{\star}$. For $p\in E$, let
+$\sigma(p)\subseteq\Omega$ be its anchor support, where
+$$
+  \Omega=\{s_{1},f_{1},s_{2},f_{2}\}.
+$$
+For $B\subseteq E$, put
+$$
+  J(B)=\bigcup_{p\in B}\sigma(p),
+  \qquad
+  r(B)=|J(B)|.
+$$
+The function $r$ is the coverage rank of the external set $B$.
+\end{definition}
+
+\begin{theorem}[Coverage-closure formula]
+\label{thm:philosophy-coverage-closure-formula}
+For every $B\subseteq E$,
+$$
+  \operatorname{Med}(M^{\star}\cup B)
+  =
+  M^{\star}\cup\{p\in E:\sigma(p)\subseteq J(B)\}.
+$$
+Equivalently,
+$$
+  \operatorname{Med}(M^{\star}\cup B)
+  =
+  \mathrm{NNR}\cup(Q_{J(B)}(\mathrm{CU})\times Y).
+$$
+\end{theorem}
+\begin{proof}
+This is the anchor-subcube formula of
+\autoref{thm:philosophy-trigger-lattice} written on the external
+vertex set $E$. The complete $R$ halfspace supplies every coordinate
+choice needed to median-generate the $Y$-side subcube based at
+$\mathrm{CU}$ with free coordinate set $J(B)$. The external vertices in
+that subcube are exactly those whose supports are contained in $J(B)$.
+\end{proof}
+
+\begin{corollary}[Rank size formula]
+\label{cor:philosophy-coverage-rank-size}
+If $r(B)=r$, then
+$$
+  |\operatorname{Med}(M^{\star}\cup B)|
+  =
+  34+2(2^{r}-1)
+  =
+  32+2^{r+1}.
+$$
+Thus
+$$
+\begin{array}{c|r|r}
+  r & |\operatorname{cl}_{E}(B)| & |\operatorname{Med}(M^{\star}\cup B)|\\
+  \hline
+  0 & 0 & 34\\
+  1 & 2 & 36\\
+  2 & 6 & 40\\
+  3 & 14 & 48\\
+  4 & 30 & 64.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+For fixed $J\subseteq\Omega$ with $|J|=r$, the external codons closed
+under $J$ have nonempty supports contained in $J$. There are
+$2^{r}-1$ such quotient supports and two $f_{3}$-lifts for each.
+Adding the $34$ codons already in $M^{\star}$ gives the displayed
+formula.
+\end{proof}
+
+\begin{definition}[External trigger closure]
+\label{def:philosophy-external-trigger-closure}
+For $B\subseteq E$, define
+$$
+  \operatorname{cl}_{E}(B)
+  =
+  \{p\in E:\sigma(p)\subseteq J(B)\}.
+$$
+Then
+$$
+  \operatorname{Med}(M^{\star}\cup B)
+  =
+  M^{\star}\cup\operatorname{cl}_{E}(B).
+$$
+\end{definition}
+
+\begin{theorem}[Closed-set lattice]
+\label{thm:philosophy-coverage-closed-set-lattice}
+The closed sets of $\operatorname{cl}_{E}$ are exactly
+$$
+  E_{J}=\{p\in E:\sigma(p)\subseteq J\},
+  \qquad J\subseteq\Omega.
+$$
+There are $16$ closed sets, and
+$$
+  E_{I}\cap E_{J}=E_{I\cap J},
+  \qquad
+  \operatorname{cl}_{E}(E_{I}\cup E_{J})=E_{I\cup J}.
+$$
+Thus the closed-set lattice is isomorphic to $2^{\Omega}$.
+\end{theorem}
+\begin{proof}
+The operator $\operatorname{cl}_{E}$ depends on a subset only through
+the union support $J(B)$. If $C$ is closed, then
+$C=\operatorname{cl}_{E}(C)=E_{J(C)}$. Conversely each $E_{J}$ is fixed
+by $\operatorname{cl}_{E}$. The two displayed identities follow
+directly from support containment.
+\end{proof}
+
+\begin{theorem}[Coverage polymatroid rank]
+\label{thm:philosophy-coverage-polymatroid-rank}
+The function $r(B)=|J(B)|$ is monotone and submodular:
+$$
+  A\subseteq B \Longrightarrow r(A)\leq r(B),
+$$
+and
+$$
+  r(A)+r(B)\geq r(A\cup B)+r(A\cap B).
+$$
+It is a coverage polymatroid rank rather than a matroid rank.
+\end{theorem}
+\begin{proof}
+Write
+$$
+  r(B)=\sum_{i\in\Omega}\mathbf{1}[i\in J(B)].
+$$
+Each coordinate indicator is monotone and submodular as a set function
+on $E$, and finite sums preserve these two properties. However
+$\mathrm{AGU}$ and $\mathrm{AGC}$ each have support $\Omega$, so
+$r(\{\mathrm{AGU}\})=r(\{\mathrm{AGC}\})=4$. A matroid rank function
+has singleton rank at most $1$.
+\end{proof}
+
+\begin{definition}[Rank enumerator]
+\label{def:philosophy-rank-enumerator}
+The coverage-rank enumerator is
+$$
+  Z(t,u)=\sum_{B\subseteq E}t^{|B|}u^{r(B)}.
+$$
+\end{definition}
+
+\begin{theorem}[Rank-enumerator formula]
+\label{thm:philosophy-rank-enumerator-formula}
+The rank enumerator has the closed form
+$$
+  Z(t,u)
+  =
+  \sum_{d=0}^{4}
+  \binom{4}{d}u^{d}
+  \sum_{k=0}^{d}
+  (-1)^{d-k}
+  \binom{d}{k}
+  (1+t)^{2(2^{k}-1)}.
+$$
+\end{theorem}
+\begin{proof}
+Fix a coordinate set $J$ with $|J|=d$. The choices with
+$J(B)\subseteq J$ form a simplex on $2(2^{d}-1)$ external codons, so
+their ordinary generating function is $(1+t)^{2(2^{d}-1)}$.
+Inclusion-exclusion over the coordinates of $J$ extracts the choices
+with $J(B)=J$. Multiplying by $\binom{4}{d}$ and $u^{d}$ gives the
+formula.
+\end{proof}
+
+\begin{corollary}[Fixed-size rank counts]
+\label{cor:philosophy-fixed-size-rank-counts}
+The coefficient of $t^{m}u^{d}$ in $Z(t,u)$ is
+$$
+  N(m,d)
+  =
+  \binom{4}{d}
+  \sum_{j=0}^{d}
+  (-1)^{j}
+  \binom{d}{j}
+  \binom{2(2^{d-j}-1)}{m}.
+$$
+For $m\leq 4$ this gives
+$$
+\begin{array}{c|rrrr}
+  m & r=1 & r=2 & r=3 & r=4\\
+  \hline
+  1 & 8 & 12 & 8 & 2\\
+  2 & 4 & 78 & 196 & 157\\
+  3 & 0 & 120 & 1216 & 2724\\
+  4 & 0 & 90 & 3824 & 23491.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Extract the coefficient of $t^{m}u^{d}$ in
+\autoref{thm:philosophy-rank-enumerator-formula} and substitute
+$j=d-k$.
+\end{proof}
+
+\begin{theorem}[Blocker independence polynomial]
+\label{thm:philosophy-blocker-independence-polynomial}
+The independence polynomial of the non-trigger complex
+$$
+  \mathcal{B}=\{B\subseteq E:r(B)<4\}
+$$
+is
+$$
+  I_{\mathcal{B}}(t)
+  =
+  4(1+t)^{14}
+  -
+  6(1+t)^{6}
+  +
+  4(1+t)^{2}
+  -
+  1.
+$$
+\end{theorem}
+\begin{proof}
+The complex $\mathcal{B}$ is the union of four maximal blocker
+simplices, one for each omitted coordinate. Their one-, two-, and
+three-fold intersections have $14$, $6$, and $2$ vertices respectively,
+while the four-fold intersection contains only the empty face. Applying
+inclusion-exclusion to the face generating functions gives the
+displayed polynomial.
+\end{proof}
+
+\begin{corollary}[Reliability from blocker independence]
+\label{cor:philosophy-reliability-from-blocker-independence}
+For independent external activation probability $p$ and $q=1-p$,
+$$
+  \Pr(\text{non-trigger})
+  =
+  q^{30}I_{\mathcal{B}}\left(\frac{p}{q}\right)
+  =
+  4q^{16}-6q^{24}+4q^{28}-q^{30}.
+$$
+Hence
+$$
+  R(p)=1-4q^{16}+6q^{24}-4q^{28}+q^{30}.
+$$
+\end{corollary}
+\begin{proof}
+Weighting a blocker face of size $m$ by $p^{m}q^{30-m}$ gives
+$q^{30}I_{\mathcal{B}}(p/q)$. Substituting the polynomial from
+\autoref{thm:philosophy-blocker-independence-polynomial} and
+simplifying recovers the reliability polynomial of
+\autoref{thm:philosophy-bernoulli-reliability-polynomial}.
+\end{proof}
+
+\begin{theorem}[Coverage-rank algebra theorem]
+\label{thm:philosophy-coverage-rank-algebra-theorem}
+Beyond $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, the codon median
+dynamics are completely controlled by the coverage-rank algebra on
+$\Omega=\{s_{1},f_{1},s_{2},f_{2}\}$. The same support-union function
+determines the median closure, the closed-set lattice, the submodular
+rank, the rank enumerator, the blocker independence polynomial, the
+reliability polynomial, and the trigger ideal.
+\end{theorem}
+\begin{proof}
+The closure formula is
+\autoref{thm:philosophy-coverage-closure-formula}. The closed-set
+lattice is \autoref{thm:philosophy-coverage-closed-set-lattice}, and
+the rank structure is \autoref{thm:philosophy-coverage-polymatroid-rank}.
+The enumerator and blocker polynomial are
+\autoref{thm:philosophy-rank-enumerator-formula} and
+\autoref{thm:philosophy-blocker-independence-polynomial}. The
+reliability polynomial follows from
+\autoref{cor:philosophy-reliability-from-blocker-independence}, and the
+trigger ideal is \autoref{thm:philosophy-stanley-reisner-trigger-ideal}.
+\end{proof}

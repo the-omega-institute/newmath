@@ -1,0 +1,225 @@
+\begin{definition}[Radial quotient states]
+\label{def:philosophy-radial-quotient-states}
+In the $f_{3}$ quotient $P=\pi(M)$ of
+\autoref{def:philosophy-f3-quotient}, the $Q_{3}$ core has coordinates
+$s_{1}$, $s_{2}$, and $f_{2}$. The $S_{3}$ action permuting these three
+coordinates gives the six radial states
+$$
+\begin{array}{c|c|c}
+  \text{state} & \text{quotient codons} & \text{lift in }M\\
+  \hline
+  X_{3} & \mathrm{AGR} & \mathrm{AGA},\mathrm{AGG}\\
+  X_{2} & \mathrm{AAR},\mathrm{ACR},\mathrm{UGR}
+    & \mathrm{AAA}/\mathrm{AAG},\mathrm{ACA}/\mathrm{ACG},
+      \mathrm{UGA}/\mathrm{UGG}\\
+  X_{1} & \mathrm{AUR},\mathrm{UAR},\mathrm{UCR}
+    & \mathrm{AUA}/\mathrm{AUG},\mathrm{UAA}/\mathrm{UAG},
+      \mathrm{UCA}/\mathrm{UCG}\\
+  X_{0} & \mathrm{UUR} & \mathrm{UUA},\mathrm{UUG}\\
+  Y_{R} & \mathrm{CUR} & \mathrm{CUA},\mathrm{CUG}\\
+  Y_{Y} & \mathrm{CUY} & \mathrm{CUC},\mathrm{CUU}.
+\end{array}
+$$
+\end{definition}
+
+\begin{theorem}[Radial adjacency matrix]
+\label{thm:philosophy-radial-adjacency-matrix}
+For the Hamming graph of $P$, the equitable radial quotient in the
+state order
+$$
+  X_{3},X_{2},X_{1},X_{0},Y_{R},Y_{Y}
+$$
+has adjacency matrix
+$$
+  A_{\mathrm{rad}}
+  =
+  \begin{pmatrix}
+    0&3&0&0&0&0\\
+    1&0&2&0&0&0\\
+    0&2&0&1&0&0\\
+    0&0&3&0&1&0\\
+    0&0&0&1&0&1\\
+    0&0&0&0&1&0
+  \end{pmatrix}.
+$$
+Equivalently, the Perron equations are
+$$
+\begin{gathered}
+  \mu h_{3}=3h_{2},\qquad
+  \mu h_{2}=h_{3}+2h_{1},\\
+  \mu h_{1}=2h_{2}+h_{0},\qquad
+  \mu h_{0}=3h_{1}+h_{R},\\
+  \mu h_{R}=h_{0}+h_{Y},\qquad
+  \mu h_{Y}=h_{R}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Inside the $Q_{3}$ core, a vertex of weight $k$ has $k$ neighbors in
+weight $k-1$ and $3-k$ neighbors in weight $k+1$. The tail contributes
+the additional edges $X_{0}-Y_{R}$ and $Y_{R}-Y_{Y}$. These local
+neighbor counts give the displayed matrix.
+\end{proof}
+
+\begin{theorem}[Radial spectral equation]
+\label{thm:philosophy-radial-spectral-equation}
+The characteristic polynomial of $A_{\mathrm{rad}}$ is
+$$
+  \mu^{6}-12\mu^{4}+26\mu^{2}-9.
+$$
+Equivalently, with $r=\mu^{2}$,
+$$
+  r^{3}-12r^{2}+26r-9=0.
+$$
+The largest root satisfies
+$$
+  r_{\max}=9.311576483\ldots,
+  \qquad
+  \mu_{\max}=3.051487585\ldots.
+$$
+Since $M=P\times Q_{1}^{f_{3}}$, the killed bit-flip spectral radius is
+$$
+  \lambda(M)
+  =
+  \frac{\mu_{\max}+1}{6}
+  =
+  0.675247931\ldots.
+$$
+\end{theorem}
+\begin{proof}
+Compute $\det(\mu I-A_{\mathrm{rad}})$ from the matrix of
+\autoref{thm:philosophy-radial-adjacency-matrix}. The polynomial is even,
+so substituting $r=\mu^{2}$ gives the cubic equation. The product
+decomposition of \autoref{thm:philosophy-wobble-product-decomposition}
+adds the $K_{2}$ eigenvalue $1$ to the largest quotient eigenvalue, and
+the killed walk divides adjacency eigenvalues by $6$.
+\end{proof}
+
+\begin{corollary}[Analytic compression of the killed-walk spectrum]
+\label{cor:philosophy-analytic-compression-killed-walk-spectrum}
+The killed-walk spectral radius of the $20$-codon median closure is
+determined by the largest root of the cubic
+$$
+  r^{3}-12r^{2}+26r-9=0.
+$$
+Thus the spectral computation compresses as
+$$
+  20\ \text{codons}
+  \longrightarrow
+  10\ \text{quotient vertices}
+  \longrightarrow
+  6\ \text{radial states}
+  \longrightarrow
+  1\ \text{cubic equation}.
+$$
+\end{corollary}
+\begin{proof}
+This is the combination of
+\autoref{thm:philosophy-median-closure-quotient},
+\autoref{thm:philosophy-radial-adjacency-matrix}, and
+\autoref{thm:philosophy-radial-spectral-equation}.
+\end{proof}
+
+\begin{theorem}[Radial quasi-stationary data]
+\label{thm:philosophy-radial-quasi-stationary-data}
+Normalize the positive Perron vector of $A_{\mathrm{rad}}$ so that
+$X_{0}$ has survival potential $1$. The radial survival potentials are
+$$
+\begin{array}{c|r}
+  \text{state} & \text{survival potential}\\
+  \hline
+  X_{3}=\mathrm{AGR} & 0.8506\\
+  X_{2}=\mathrm{Anchor}_{6} & 0.8652\\
+  X_{1}=\mathrm{StopStart}_{6} & 0.8948\\
+  X_{0}=\mathrm{UUR} & 1.0000\\
+  Y_{R}=\mathrm{CUR} & 0.3671\\
+  Y_{Y}=\mathrm{CUY} & 0.1203.
+\end{array}
+$$
+After weighting by the lift sizes in $M$, the quasi-stationary masses are
+$$
+\begin{array}{c|r|r}
+  \text{state} & \text{lift size} & \text{quasi-stationary mass}\\
+  \hline
+  X_{3}=\mathrm{AGR} & 2 & 0.1117\\
+  X_{2}=\mathrm{Anchor}_{6} & 6 & 0.3407\\
+  X_{1}=\mathrm{StopStart}_{6} & 6 & 0.3524\\
+  X_{0}=\mathrm{UUR} & 2 & 0.1313\\
+  Y_{R}=\mathrm{CUR} & 2 & 0.0482\\
+  Y_{Y}=\mathrm{CUY} & 2 & 0.0158.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Solve $A_{\mathrm{rad}}h=\mu_{\max}h$ for the positive Perron vector.
+The displayed survival potentials are the entries normalized by the
+$X_{0}$ entry. The quasi-stationary mass of a radial state is its lift
+size times the Perron entry, divided by the corresponding total over
+all six states.
+\end{proof}
+
+\begin{corollary}[Radial mass core and survival bridge]
+\label{cor:philosophy-radial-mass-core-survival-bridge}
+The radial quasi-stationary mass on
+$X_{2}\cup X_{1}$ is
+$$
+  0.3407+0.3524=0.6931.
+$$
+Thus $\mathrm{Anchor}_{6}\cup\mathrm{StopStart}_{6}$ is the mass core,
+whereas $X_{0}=\mathrm{UUR}$ is the highest-potential survival bridge.
+\end{corollary}
+\begin{proof}
+The mass statement and the maximum survival potential are read directly
+from \autoref{thm:philosophy-radial-quasi-stationary-data}.
+\end{proof}
+
+\begin{theorem}[$f_{3}$ self-loop contribution]
+\label{thm:philosophy-f3-self-loop-contribution}
+In the six-state killed-walk quotient on $M$, every radial state has
+self-retention probability
+$$
+  1/6
+$$
+coming from the $f_{3}$ edge. Without the wobble edge the normalized
+spectral value would be
+$$
+  \mu_{\max}/6=0.508581264\ldots,
+$$
+whereas the saturated median closure has
+$$
+  (\mu_{\max}+1)/6=0.675247931\ldots.
+$$
+The wobble edge contributes the additive term $1/6$.
+\end{theorem}
+\begin{proof}
+Every codon of $M$ has its $f_{3}$ neighbor still in $M$ by
+\autoref{thm:philosophy-wobble-saturation-closure}. In the quotient
+state model this direction is a self-loop. The product spectrum adds
+the $K_{2}$ eigenvalue $1$, and division by the six available bit-flip
+directions gives the contribution $1/6$.
+\end{proof}
+
+\begin{theorem}[Radial wobble spectrum]
+\label{thm:philosophy-radial-wobble-spectrum}
+The killed bit-flip spectrum, quasi-stationary mass, and survival
+potential of $M$ are determined by the six-state radial matrix
+$A_{\mathrm{rad}}$ together with the $f_{3}$ wobble edge. In particular,
+$$
+  \lambda(M)
+  =
+  \frac{1+\sqrt{r_{\max}}}{6},
+$$
+where $r_{\max}$ is the largest root of
+$$
+  r^{3}-12r^{2}+26r-9=0.
+$$
+\end{theorem}
+\begin{proof}
+The quotient geometry is
+$M=P\times Q_{1}^{f_{3}}$ by
+\autoref{thm:philosophy-wobble-product-decomposition}. The $S_{3}$
+radial quotient of $P$ is
+\autoref{thm:philosophy-radial-adjacency-matrix}. The Perron equation
+and the product spectral shift are
+\autoref{thm:philosophy-radial-spectral-equation}.
+\end{proof}

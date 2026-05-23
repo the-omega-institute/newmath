@@ -480,4 +480,36 @@ theorem RegularCauchyProductCarrier_public_export_certificate [AskSetup] [Packag
       realConsumerUnary, publicExportUnary, readbackProvenanceConsumer, consumerRouteReal,
       realBudgetExport, namePkg, publicExportPkg⟩
 
+theorem RegularCauchyProductCarrier_real_pair_seal [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name pairRead realPairSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product
+        budget readback transport route provenance name bundle pkg ->
+      Cont sourceA sourceB pairRead ->
+        Cont readback provenance realPairSeal ->
+          PkgSig bundle realPairSeal pkg ->
+            UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory pairRead ∧
+              UnaryHistory product ∧ UnaryHistory readback ∧ UnaryHistory realPairSeal ∧
+                Cont sourceA sourceB pairRead ∧ Cont endpointA endpointB product ∧
+                  Cont product budget readback ∧ Cont readback provenance realPairSeal ∧
+                    PkgSig bundle name pkg ∧ PkgSig bundle realPairSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier sourcePairRead readbackProvenanceSeal realPairSealPkg
+  obtain ⟨sourceAUnary, sourceBUnary, _windowAUnary, _windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, _routeUnary, provenanceUnary, _windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have pairReadUnary : UnaryHistory pairRead :=
+    unary_cont_closed sourceAUnary sourceBUnary sourcePairRead
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed productUnary budgetUnary productBudgetRow
+  have realPairSealUnary : UnaryHistory realPairSeal :=
+    unary_cont_closed readbackUnary provenanceUnary readbackProvenanceSeal
+  exact
+    ⟨sourceAUnary, sourceBUnary, pairReadUnary, productUnary, readbackUnary,
+      realPairSealUnary, sourcePairRead, endpointProductRow, productBudgetRow,
+      readbackProvenanceSeal, namePkg, realPairSealPkg⟩
+
 end BEDC.Derived.RegularCauchyProductUp
