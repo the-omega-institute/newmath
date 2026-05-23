@@ -789,6 +789,7 @@ import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CantorBendixsonUp.TasteGate
 import BEDC.Derived.CantorCompletenessUp.TasteGate
+import BEDC.Derived.CantorDiagonalRealUncountabilityUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp
 import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorSetUp.TasteGate
@@ -2829,6 +2830,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRootUnblockPackage
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PositiveRadiusCompactNetExport
+import BEDC.Derived.FiniteLebesgueNumberUp.PositiveRadiusTotality
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusClassifierStability
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumers
@@ -3540,6 +3542,7 @@ import BEDC.Derived.LocatedIntervalUp.StdBridge
 import BEDC.Derived.LocatedIntervalUp.TasteGate
 import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedMetricUp
+import BEDC.Derived.LocatedMetricUp.TasteGate
 import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealFieldUp
@@ -3557,6 +3560,7 @@ import BEDC.Derived.LocatednessModulusUp
 import BEDC.Derived.LocatednessModulusUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
+import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
