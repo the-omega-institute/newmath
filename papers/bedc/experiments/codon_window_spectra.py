@@ -3208,6 +3208,37 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         for support_size in range(5)
         for pattern in itertools.combinations(range(4), support_size)
     )
+    external_closure_sets = {
+        support_pattern: frozenset(
+            codon
+            for codon in y_external_codons
+            if anchor_support(codon) <= support_pattern
+        )
+        for support_pattern in support_patterns
+    }
+    coverage_closure_rows = [
+        {
+            "rank": len(support_pattern),
+            "support": tuple(BIT_COORDINATES[index] for index in support_pattern),
+            "external_closure_size": len(external_closure_sets[support_pattern]),
+            "external_closure_formula_size": 2 * ((2 ** len(support_pattern)) - 1),
+            "median_closure_size": len(mstar_set) + len(external_closure_sets[support_pattern]),
+        }
+        for support_pattern in support_patterns
+    ]
+    coverage_closure_formula_verified = all(
+        row["external_closure_size"] == row["external_closure_formula_size"]
+        and row["median_closure_size"] == 32 + (2 ** (row["rank"] + 1))
+        for row in coverage_closure_rows
+    )
+    coverage_closure_lattice_verified = all(
+        (external_closure_sets[left] & external_closure_sets[right])
+        == external_closure_sets[left & right]
+        and external_closure_sets[left] | external_closure_sets[right]
+        <= external_closure_sets[left | right]
+        for left in support_patterns
+        for right in support_patterns
+    )
     span_size_rows = [
         {
             "span_dimension": dimension,
@@ -3624,6 +3655,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         + 4 * math.comb(2, face_size)
         for face_size in range(1, 15)
     )
+    blocker_independence_coefficients = (1,) + blocker_f_vector
     blocker_euler_characteristic = sum(
         ((-1) ** index) * count
         for index, count in enumerate(blocker_f_vector)
@@ -3685,6 +3717,36 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     minimal_trigger_polynomial_codon = tuple(
         (row["trigger_size"], row["codon_count"])
         for row in minimal_trigger_rows
+    )
+    rank_enumerator_rows = [
+        {
+            "added_size": added_size,
+            "rank_counts": {
+                rank: (
+                    1
+                    if added_size == 0 and rank == 0
+                    else (
+                        trigger_rank_count(added_size, rank)
+                        if added_size > 0 and rank > 0
+                        else 0
+                    )
+                )
+                for rank in range(5)
+            },
+        }
+        for added_size in range(0, 5)
+    ]
+    rank_enumerator_rows = [
+        {
+            **row,
+            "candidate_count": math.comb(len(y_external_codons), row["added_size"]),
+            "counts_sum_to_candidate_count": sum(row["rank_counts"].values())
+            == math.comb(len(y_external_codons), row["added_size"]),
+        }
+        for row in rank_enumerator_rows
+    ]
+    coverage_rank_singleton_witnesses = tuple(
+        sorted(codon for codon in y_external_codons if len(anchor_support(codon)) == 4)
     )
     stanley_reisner_degree_rows = tuple(
         {
@@ -3755,6 +3817,12 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "single_span_rows": single_span_rows,
         "trigger_count_rows": trigger_count_rows,
         "support_pattern_verification_rows": support_pattern_verification_rows,
+        "coverage_closure_rows": coverage_closure_rows,
+        "coverage_closure_formula_verified": coverage_closure_formula_verified,
+        "coverage_closure_lattice_verified": coverage_closure_lattice_verified,
+        "coverage_rank_coordinates": BIT_COORDINATES[:4],
+        "coverage_rank_is_submodular_formula": "r(B)=sum_i 1[i in J(B)]",
+        "coverage_rank_singleton_witnesses": coverage_rank_singleton_witnesses,
         "full_trigger_condition_coordinates": BIT_COORDINATES[:4],
         "agy_support": tuple(sorted(BIT_COORDINATES[index] for index in anchor_support("AGT"))),
         "boolean_lattice_closure_count": len(support_patterns),
@@ -3781,6 +3849,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "blocker_intersection_rows": blocker_intersection_rows,
         "blocker_nerve": blocker_nerve,
         "blocker_f_vector": blocker_f_vector,
+        "blocker_independence_polynomial": "4(1+t)^14 - 6(1+t)^6 + 4(1+t)^2 - 1",
+        "blocker_independence_coefficients": blocker_independence_coefficients,
         "blocker_euler_characteristic": blocker_euler_characteristic,
         "blocker_probability_tail_rows": blocker_probability_tail_rows,
         "minimal_trigger_rows": minimal_trigger_rows,
@@ -3789,6 +3859,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "minimal_trigger_polynomial_quotient": minimal_trigger_polynomial_quotient,
         "minimal_trigger_polynomial_codon": minimal_trigger_polynomial_codon,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
+        "rank_enumerator_formula": "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))",
+        "rank_enumerator_rows": rank_enumerator_rows,
         "stanley_reisner_generator_count": sum(row["codon_count"] for row in minimal_trigger_rows),
         "stanley_reisner_degree_rows": stanley_reisner_degree_rows,
         "stanley_reisner_degree_one_generators": stanley_reisner_degree_one_generators,
@@ -6824,6 +6896,27 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert antipodal["agy_support"] == ("f1", "f2", "s1", "s2")
     assert len(antipodal["support_pattern_verification_rows"]) == 15
     assert all(row["matches_formula"] for row in antipodal["support_pattern_verification_rows"])
+    assert antipodal["coverage_closure_formula_verified"] is True
+    assert antipodal["coverage_closure_lattice_verified"] is True
+    assert [
+        (
+            row["rank"],
+            row["external_closure_size"],
+            row["external_closure_formula_size"],
+            row["median_closure_size"],
+        )
+        for row in antipodal["coverage_closure_rows"]
+        if row["support"] in ((), ("s1",), ("s1", "f1"), ("s1", "f1", "s2"), ("s1", "f1", "s2", "f2"))
+    ] == [
+        (0, 0, 0, 34),
+        (1, 2, 2, 36),
+        (2, 6, 6, 40),
+        (3, 14, 14, 48),
+        (4, 30, 30, 64),
+    ]
+    assert antipodal["coverage_rank_coordinates"] == ("s1", "f1", "s2", "f2")
+    assert antipodal["coverage_rank_is_submodular_formula"] == "r(B)=sum_i 1[i in J(B)]"
+    assert antipodal["coverage_rank_singleton_witnesses"] == ("AGC", "AGT")
     assert antipodal["boolean_lattice_closure_count"] == 16
     assert antipodal["boolean_lattice_intersection_verified"] is True
     assert antipodal["boolean_lattice_median_join_verified"] is True
@@ -7042,6 +7135,24 @@ def assert_expected(summary: dict[str, object]) -> None:
         56,
         4,
     )
+    assert antipodal["blocker_independence_polynomial"] == "4(1+t)^14 - 6(1+t)^6 + 4(1+t)^2 - 1"
+    assert antipodal["blocker_independence_coefficients"] == (
+        1,
+        28,
+        278,
+        1336,
+        3914,
+        7972,
+        12006,
+        13728,
+        12012,
+        8008,
+        4004,
+        1456,
+        364,
+        56,
+        4,
+    )
     assert antipodal["blocker_euler_characteristic"] == 2
     assert [
         (row["added_size"], row["blocker_count"], round(row["full_trigger_probability"], 4))
@@ -7081,6 +7192,17 @@ def assert_expected(summary: dict[str, object]) -> None:
         (3, 176),
         (4, 16),
     )
+    assert antipodal["rank_enumerator_formula"] == "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))"
+    assert [
+        (row["added_size"], row["rank_counts"], row["counts_sum_to_candidate_count"])
+        for row in antipodal["rank_enumerator_rows"]
+    ] == [
+        (0, {0: 1, 1: 0, 2: 0, 3: 0, 4: 0}, True),
+        (1, {0: 0, 1: 8, 2: 12, 3: 8, 4: 2}, True),
+        (2, {0: 0, 1: 4, 2: 78, 3: 196, 4: 157}, True),
+        (3, {0: 0, 1: 0, 2: 120, 3: 1216, 4: 2724}, True),
+        (4, {0: 0, 1: 0, 2: 90, 3: 3824, 4: 23491}, True),
+    ]
     assert [
         (row["support_size_type"], row["quotient_count"], row["codon_count"])
         for row in antipodal["minimal_trigger_type_rows"]
