@@ -3657,6 +3657,36 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         for face_size in range(1, 15)
     )
     blocker_independence_coefficients = (1,) + blocker_f_vector
+    blocker_dimension = 13
+    stanley_reisner_dimension = blocker_dimension + 1
+    thickened_sphere_rows = (
+        {"intersection_kind": "facet", "vertex_count": 14, "simplex_dimension": 13, "multiplicity": 4},
+        {"intersection_kind": "pair", "vertex_count": 6, "simplex_dimension": 5, "multiplicity": 6},
+        {"intersection_kind": "triple", "vertex_count": 2, "simplex_dimension": 1, "multiplicity": 4},
+        {
+            "intersection_kind": "quadruple",
+            "vertex_count": 0,
+            "simplex_dimension": -1,
+            "multiplicity": 1,
+        },
+    )
+    blocker_hilbert_series = "4/(1-z)^14 - 6/(1-z)^6 + 4/(1-z)^2 - 1"
+    blocker_h_polynomial = "4 - 6(1-z)^8 + 4(1-z)^12 - (1-z)^14"
+    blocker_h_vector = [0 for _degree in range(stanley_reisner_dimension + 1)]
+    blocker_h_vector[0] += 4
+    for degree in range(9):
+        blocker_h_vector[degree] -= 6 * ((-1) ** degree) * math.comb(8, degree)
+    for degree in range(13):
+        blocker_h_vector[degree] += 4 * ((-1) ** degree) * math.comb(12, degree)
+    for degree in range(15):
+        blocker_h_vector[degree] -= ((-1) ** degree) * math.comb(14, degree)
+    blocker_h_vector = tuple(blocker_h_vector)
+    blocker_is_cohen_macaulay = False
+    blocker_non_cm_witness = {
+        "complex_dimension": blocker_dimension,
+        "homology_degree": 2,
+        "reduced_homology_rank": 1,
+    }
     blocker_euler_characteristic = sum(
         ((-1) ** index) * count
         for index, count in enumerate(blocker_f_vector)
@@ -4217,9 +4247,17 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "blocker_coordinate_rows": blocker_coordinate_rows,
         "blocker_intersection_rows": blocker_intersection_rows,
         "blocker_nerve": blocker_nerve,
+        "blocker_dimension": blocker_dimension,
+        "stanley_reisner_dimension": stanley_reisner_dimension,
+        "thickened_sphere_rows": thickened_sphere_rows,
         "blocker_f_vector": blocker_f_vector,
         "blocker_independence_polynomial": "4(1+t)^14 - 6(1+t)^6 + 4(1+t)^2 - 1",
         "blocker_independence_coefficients": blocker_independence_coefficients,
+        "blocker_hilbert_series": blocker_hilbert_series,
+        "blocker_h_polynomial": blocker_h_polynomial,
+        "blocker_h_vector": blocker_h_vector,
+        "blocker_is_cohen_macaulay": blocker_is_cohen_macaulay,
+        "blocker_non_cm_witness": blocker_non_cm_witness,
         "blocker_euler_characteristic": blocker_euler_characteristic,
         "blocker_probability_tail_rows": blocker_probability_tail_rows,
         "alexander_dual_generator_count": len(alexander_dual_generator_rows),
@@ -7553,6 +7591,51 @@ def assert_expected(summary: dict[str, object]) -> None:
         56,
         4,
     )
+    assert antipodal["blocker_dimension"] == 13
+    assert antipodal["stanley_reisner_dimension"] == 14
+    assert [
+        (
+            row["intersection_kind"],
+            row["vertex_count"],
+            row["simplex_dimension"],
+            row["multiplicity"],
+        )
+        for row in antipodal["thickened_sphere_rows"]
+    ] == [
+        ("facet", 14, 13, 4),
+        ("pair", 6, 5, 6),
+        ("triple", 2, 1, 4),
+        ("quadruple", 0, -1, 1),
+    ]
+    assert antipodal["blocker_hilbert_series"] == (
+        "4/(1-z)^14 - 6/(1-z)^6 + 4/(1-z)^2 - 1"
+    )
+    assert antipodal["blocker_h_polynomial"] == (
+        "4 - 6(1-z)^8 + 4(1-z)^12 - (1-z)^14"
+    )
+    assert antipodal["blocker_h_vector"] == (
+        1,
+        14,
+        5,
+        -180,
+        559,
+        -830,
+        525,
+        312,
+        -1029,
+        1122,
+        -737,
+        316,
+        -87,
+        14,
+        -1,
+    )
+    assert antipodal["blocker_is_cohen_macaulay"] is False
+    assert antipodal["blocker_non_cm_witness"] == {
+        "complex_dimension": 13,
+        "homology_degree": 2,
+        "reduced_homology_rank": 1,
+    }
     assert antipodal["blocker_euler_characteristic"] == 2
     assert [
         (row["added_size"], row["blocker_count"], round(row["full_trigger_probability"], 4))

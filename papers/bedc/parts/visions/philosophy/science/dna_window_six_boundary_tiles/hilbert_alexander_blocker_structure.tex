@@ -1,0 +1,207 @@
+\begin{theorem}[Thickened tetrahedral blocker boundary]
+\label{thm:philosophy-thickened-tetrahedral-blocker-boundary}
+For the post-$M^{\star}$ blocker complex
+$$
+  \mathcal{B}
+  =
+  \{B\subseteq E:\bigcup_{p\in B}\sigma(p)\subsetneq\Omega\},
+$$
+one has
+$$
+  \mathcal{B}
+  =
+  B_{\neg s_{1}}
+  \cup
+  B_{\neg f_{1}}
+  \cup
+  B_{\neg s_{2}}
+  \cup
+  B_{\neg f_{2}},
+$$
+where $B_{\neg i}=\{p\in E:i\notin\sigma(p)\}$. The intersection
+profile is
+$$
+\begin{array}{c|r|r|r}
+  \text{intersection type} & \text{multiplicity} & \text{vertices} & \text{simplex dimension}\\
+  \hline
+  \text{facet} & 4 & 14 & 13\\
+  \text{pair} & 6 & 6 & 5\\
+  \text{triple} & 4 & 2 & 1\\
+  \text{quadruple} & 1 & 0 & -1.
+\end{array}
+$$
+Thus the nerve is $\partial\Delta^{3}$.
+\end{theorem}
+\begin{proof}
+Missing one trigger coordinate leaves the nonempty supports inside a
+three-coordinate set, hence $2(2^{3}-1)=14$ codons. Missing two
+coordinates leaves $2(2^{2}-1)=6$ codons, and missing three coordinates
+leaves $2(2^{1}-1)=2$ codons. Missing all four trigger coordinates
+leaves no nonempty support. These are exactly the intersection numbers
+of the four maximal blockers, so their nerve is the tetrahedral
+boundary.
+\end{proof}
+
+\begin{corollary}[Dimension and homotopy type]
+\label{cor:philosophy-blocker-thickened-sphere-dimension}
+The blocker complex satisfies
+$$
+  \mathcal{B}\simeq S^{2},
+  \qquad
+  \dim\mathcal{B}=13,
+  \qquad
+  \widetilde{H}_{2}(\mathcal{B};k)\cong k.
+$$
+\end{corollary}
+\begin{proof}
+All nonempty members of the cover in
+\autoref{thm:philosophy-thickened-tetrahedral-blocker-boundary} and all
+their nonempty intersections are simplices. The nerve theorem gives
+$\mathcal{B}\simeq\partial\Delta^{3}\simeq S^{2}$. Since every maximal
+blocker has $14$ vertices, the facets of $\mathcal{B}$ are
+$13$-simplices.
+\end{proof}
+
+\begin{theorem}[Blocker face polynomial]
+\label{thm:philosophy-blocker-face-polynomial}
+The face polynomial of $\mathcal{B}$ is
+$$
+  I_{\mathcal{B}}(t)
+  =
+  \sum_{B\in\mathcal{B}}t^{|B|}
+  =
+  4(1+t)^{14}-6(1+t)^{6}+4(1+t)^{2}-1.
+$$
+Its positive-dimensional face counts are
+$$
+  (28,278,1336,3914,7972,12006,13728,
+  12012,8008,4004,1456,364,56,4).
+$$
+The Euler characteristic is $2$.
+\end{theorem}
+\begin{proof}
+The four facets contribute $4(1+t)^{14}$. Their six pairwise
+intersections contribute $6(1+t)^{6}$ and are subtracted. Their four
+triple intersections contribute $4(1+t)^{2}$ and are added. The
+quadruple intersection is empty, whose face polynomial is $1$, and is
+subtracted. Expanding gives the stated face counts, and their
+alternating sum is $2$.
+\end{proof}
+
+\begin{theorem}[Hilbert series of the blocker ring]
+\label{thm:philosophy-blocker-hilbert-series}
+Let $R_{0}=k[x_{p}:p\in E]$ and let $k[\mathcal{B}]=R_{0}/I_{\mathcal{B}}$.
+Then
+$$
+  H_{k[\mathcal{B}]}(z)
+  =
+  \frac{4}{(1-z)^{14}}
+  -
+  \frac{6}{(1-z)^{6}}
+  +
+  \frac{4}{(1-z)^{2}}
+  -
+  1.
+$$
+\end{theorem}
+\begin{proof}
+For a simplex on $m$ vertices,
+$$
+  \sum_{F}
+  \left(\frac{z}{1-z}\right)^{|F|}
+  =
+  \left(1+\frac{z}{1-z}\right)^{m}
+  =
+  \frac{1}{(1-z)^{m}}.
+$$
+Applying the same inclusion-exclusion pattern as in
+\autoref{thm:philosophy-blocker-face-polynomial} to the four
+$14$-vertex facets, the six $6$-vertex intersections, the four
+$2$-vertex intersections, and the empty total intersection gives the
+displayed Hilbert series.
+\end{proof}
+
+\begin{theorem}[$h$-polynomial]
+\label{thm:philosophy-blocker-h-polynomial}
+Since $\dim k[\mathcal{B}]=14$, write
+$$
+  H_{k[\mathcal{B}]}(z)=\frac{h_{\mathcal{B}}(z)}{(1-z)^{14}}.
+$$
+Then
+$$
+  h_{\mathcal{B}}(z)
+  =
+  4-6(1-z)^{8}+4(1-z)^{12}-(1-z)^{14}.
+$$
+Equivalently, the $h$-vector is
+$$
+  (1,14,5,-180,559,-830,525,312,
+  -1029,1122,-737,316,-87,14,-1).
+$$
+\end{theorem}
+\begin{proof}
+Multiplying the Hilbert series in
+\autoref{thm:philosophy-blocker-hilbert-series} by $(1-z)^{14}$ gives
+the stated numerator. The coefficient vector is the binomial expansion
+of that numerator.
+\end{proof}
+
+\begin{theorem}[Non-Cohen--Macaulay blocker ring]
+\label{thm:philosophy-blocker-ring-non-cohen-macaulay}
+The Stanley-Reisner ring $k[\mathcal{B}]$ is not Cohen--Macaulay.
+\end{theorem}
+\begin{proof}
+The complex has dimension $13$, while
+\autoref{cor:philosophy-blocker-thickened-sphere-dimension} gives
+nonzero reduced homology in degree $2$. A Cohen--Macaulay
+$13$-dimensional simplicial complex over $k$ has no such lower-degree
+reduced homology in its global Reisner condition. Equivalently, the
+$h$-vector in \autoref{thm:philosophy-blocker-h-polynomial} contains
+negative entries, which is incompatible with Cohen--Macaulay
+nonnegativity for a standard Stanley-Reisner ring.
+\end{proof}
+
+\begin{theorem}[Hilbert--Alexander structure theorem]
+\label{thm:philosophy-hilbert-alexander-structure-theorem}
+The post-$M^{\star}$ blocker system is a thickened tetrahedral
+boundary with
+$$
+  \mathcal{B}\simeq S^{2},
+  \qquad
+  \dim\mathcal{B}=13,
+  \qquad
+  k[\mathcal{B}]\ \text{not Cohen--Macaulay}.
+$$
+Its face polynomial is
+$$
+  4(1+t)^{14}-6(1+t)^{6}+4(1+t)^{2}-1,
+$$
+its Hilbert series is
+$$
+  \frac{4}{(1-z)^{14}}
+  -
+  \frac{6}{(1-z)^{6}}
+  +
+  \frac{4}{(1-z)^{2}}
+  -
+  1,
+$$
+and its $h$-polynomial is
+$$
+  4-6(1-z)^{8}+4(1-z)^{12}-(1-z)^{14}.
+$$
+At the same time, the Alexander dual ideal has only four generators,
+with lcm degrees $16,24,28,30$, and the non-trigger reliability
+polynomial is
+$$
+  4q^{16}-6q^{24}+4q^{28}-q^{30}.
+$$
+\end{theorem}
+\begin{proof}
+The thickened boundary, Hilbert series, $h$-polynomial, and
+non-Cohen--Macaulay conclusion are the preceding theorems. The
+four-generator Alexander-dual description and the lcm degrees are
+\autoref{thm:philosophy-alexander-dual-blocker-ideal} and
+\autoref{thm:philosophy-alexander-dual-lcm-degrees}. The reliability
+identity is \autoref{thm:philosophy-reliability-from-lcm-lattice}.
+\end{proof}
