@@ -1640,6 +1640,7 @@ import BEDC.Derived.ConsciousObserverStateUp.RoutePackageExactness
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
+import BEDC.Derived.ConstructiveCompletionModulusUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ContactUp.TasteGate
@@ -5374,6 +5375,8 @@ import BEDC.Derived.UnaryContinuationEndofunctorUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.UnaryDirectionNormalizerUp.TasteGate
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp
+import BEDC.Derived.UniformBoundednessUp
+import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformCauchyCriterionUp.BudgetedRealSealFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.Carrier
