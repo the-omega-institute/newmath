@@ -883,6 +883,7 @@ import BEDC.Derived.CauchyCompletionFunctorUp.RegseqRealEndofunctor
 import BEDC.Derived.CauchyCompletionFunctorUp.SelectorBudgetDeterminacy
 import BEDC.Derived.CauchyCompletionFunctorUp.TailBudgetCoherenceFactorization
 import BEDC.Derived.CauchyCompletionFunctorUp.TasteGate
+import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
@@ -1320,6 +1321,7 @@ import BEDC.Derived.CertifiedOnticTowerUp.TasteGate
 import BEDC.Derived.CertifiedPhysicalTruthUp
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.CertifiedUseProcessUp.TasteGate
+import BEDC.Derived.CesaroConvergenceUp.TasteGate
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
