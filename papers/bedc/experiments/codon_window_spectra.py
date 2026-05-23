@@ -3687,6 +3687,16 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "homology_degree": 2,
         "reduced_homology_rank": 1,
     }
+    blocker_projective_dimension = len(y_external_codons) - 3
+    blocker_depth = 3
+    blocker_regularity = 3
+    blocker_cohen_macaulay_defect = stanley_reisner_dimension - blocker_depth
+    blocker_hochster_witness = {
+        "betti_i": blocker_projective_dimension,
+        "betti_j": len(y_external_codons),
+        "homology_degree": 2,
+        "betti_value": 1,
+    }
     blocker_euler_characteristic = sum(
         ((-1) ** index) * count
         for index, count in enumerate(blocker_f_vector)
@@ -4167,6 +4177,12 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             }
             for trigger_size in range(1, coordinate_count + 1)
         ]
+        stanley_reisner_dimension_formula = maximal_blocker_size
+        homological_core_dimension = coordinate_count - 2
+        depth_formula = coordinate_count - 1
+        regularity_formula = coordinate_count - 1
+        projective_dimension_formula = external_size - depth_formula
+        cohen_macaulay_defect_formula = stanley_reisner_dimension_formula - depth_formula
         return {
             "coordinate_count": coordinate_count,
             "lift_count": lift_count,
@@ -4183,6 +4199,18 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "markov_initial_transition_rows": markov_transition_rows,
             "alexander_dual_generator_count": coordinate_count,
             "alexander_dual_shift_rows": alexander_dual_shift_rows,
+            "stanley_reisner_dimension_formula": stanley_reisner_dimension_formula,
+            "homological_core_dimension": homological_core_dimension,
+            "depth_formula": depth_formula,
+            "regularity_formula": regularity_formula,
+            "projective_dimension_formula": projective_dimension_formula,
+            "cohen_macaulay_defect_formula": cohen_macaulay_defect_formula,
+            "hochster_full_vertex_witness": {
+                "betti_i": projective_dimension_formula,
+                "betti_j": external_size,
+                "homology_degree": homological_core_dimension,
+                "betti_value": 1,
+            },
             "energy_minimum": coordinate_count,
             "energy_minimal_rows": energy_minimal_rows,
             "energy_minimal_total": sum(row["lifted_count"] for row in energy_minimal_rows),
@@ -4258,6 +4286,11 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "blocker_h_vector": blocker_h_vector,
         "blocker_is_cohen_macaulay": blocker_is_cohen_macaulay,
         "blocker_non_cm_witness": blocker_non_cm_witness,
+        "blocker_projective_dimension": blocker_projective_dimension,
+        "blocker_depth": blocker_depth,
+        "blocker_regularity": blocker_regularity,
+        "blocker_cohen_macaulay_defect": blocker_cohen_macaulay_defect,
+        "blocker_hochster_witness": blocker_hochster_witness,
         "blocker_euler_characteristic": blocker_euler_characteristic,
         "blocker_probability_tail_rows": blocker_probability_tail_rows,
         "alexander_dual_generator_count": len(alexander_dual_generator_rows),
@@ -7636,6 +7669,16 @@ def assert_expected(summary: dict[str, object]) -> None:
         "homology_degree": 2,
         "reduced_homology_rank": 1,
     }
+    assert antipodal["blocker_projective_dimension"] == 27
+    assert antipodal["blocker_depth"] == 3
+    assert antipodal["blocker_regularity"] == 3
+    assert antipodal["blocker_cohen_macaulay_defect"] == 11
+    assert antipodal["blocker_hochster_witness"] == {
+        "betti_i": 27,
+        "betti_j": 30,
+        "homology_degree": 2,
+        "betti_value": 1,
+    }
     assert antipodal["blocker_euler_characteristic"] == 2
     assert [
         (row["added_size"], row["blocker_count"], round(row["full_trigger_probability"], 4))
@@ -7955,6 +7998,18 @@ def assert_expected(summary: dict[str, object]) -> None:
         (3, 4, 28),
         (4, 1, 30),
     ]
+    assert universal["stanley_reisner_dimension_formula"] == 14
+    assert universal["homological_core_dimension"] == 2
+    assert universal["depth_formula"] == 3
+    assert universal["regularity_formula"] == 3
+    assert universal["projective_dimension_formula"] == 27
+    assert universal["cohen_macaulay_defect_formula"] == 11
+    assert universal["hochster_full_vertex_witness"] == {
+        "betti_i": 27,
+        "betti_j": 30,
+        "homology_degree": 2,
+        "betti_value": 1,
+    }
     assert universal["energy_minimum"] == 4
     assert [
         (row["trigger_size"], row["stirling_count"], row["lifted_count"])

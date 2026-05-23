@@ -161,6 +161,136 @@ negative entries, which is incompatible with Cohen--Macaulay
 nonnegativity for a standard Stanley-Reisner ring.
 \end{proof}
 
+\begin{theorem}[Hochster witness]
+\label{thm:philosophy-blocker-hochster-witness}
+For the Stanley-Reisner ring $k[\mathcal{B}]$, Hochster's formula
+detects the full-vertex Betti number
+$$
+  \beta_{27,30}(k[\mathcal{B}])=1.
+$$
+\end{theorem}
+\begin{proof}
+Hochster's formula gives
+$$
+  \beta_{i,j}(k[\mathcal{B}])
+  =
+  \sum_{|W|=j}
+  \dim_{k}\widetilde{H}_{j-i-1}(\mathcal{B}_{W};k).
+$$
+Take $W=E$, so $j=30$ and $\mathcal{B}_{W}=\mathcal{B}$. By
+\autoref{cor:philosophy-blocker-thickened-sphere-dimension},
+$\widetilde{H}_{2}(\mathcal{B};k)\cong k$. The equation
+$j-i-1=2$ with $j=30$ gives $i=27$, hence the displayed Betti number.
+\end{proof}
+
+\begin{theorem}[Depth and regularity]
+\label{thm:philosophy-blocker-depth-regularity}
+The blocker Stanley-Reisner ring satisfies
+$$
+  \operatorname{pd}_{R_{0}}k[\mathcal{B}]=27,
+  \qquad
+  \operatorname{depth}k[\mathcal{B}]=3,
+  \qquad
+  \operatorname{reg}k[\mathcal{B}]=3.
+$$
+\end{theorem}
+\begin{proof}
+The Hochster witness in
+\autoref{thm:philosophy-blocker-hochster-witness} gives
+$\operatorname{pd}_{R_{0}}k[\mathcal{B}]\geq27$. On the Alexander-dual
+side, \autoref{thm:philosophy-alexander-dual-minimal-taylor-resolution}
+has shifts $16,24,28,30$, so
+$$
+  \operatorname{reg}(I_{\mathcal{B}}^{\vee})
+  =
+  \max\{16-1,24-2,28-3,30-4\}
+  =
+  27.
+$$
+Terai duality gives
+$$
+  \operatorname{pd}_{R_{0}}k[\mathcal{B}]
+  =
+  \operatorname{reg}(I_{\mathcal{B}}^{\vee}),
+$$
+hence the projective dimension is $27$. Since $R_{0}$ has $30$
+variables, Auslander--Buchsbaum gives
+$$
+  \operatorname{depth}k[\mathcal{B}]=30-27=3.
+$$
+Terai duality also gives
+$$
+  \operatorname{reg}k[\mathcal{B}]
+  =
+  \operatorname{pd}(I_{\mathcal{B}}^{\vee}).
+$$
+The four-generator dual ideal has minimal Taylor resolution of length
+$3$ as an ideal, so $\operatorname{reg}k[\mathcal{B}]=3$. This is also
+realized by the Hochster Betti number, where $30-27=3$.
+\end{proof}
+
+\begin{corollary}[Cohen--Macaulay defect]
+\label{cor:philosophy-blocker-cohen-macaulay-defect}
+The Cohen--Macaulay defect of $k[\mathcal{B}]$ is
+$$
+  \dim k[\mathcal{B}]-\operatorname{depth}k[\mathcal{B}]
+  =
+  14-3
+  =
+  11.
+$$
+\end{corollary}
+\begin{proof}
+The dimension is $14$ by
+\autoref{thm:philosophy-blocker-h-polynomial}, and the depth is $3$ by
+\autoref{thm:philosophy-blocker-depth-regularity}.
+\end{proof}
+
+\begin{theorem}[Homological invariants for coverage blockers]
+\label{thm:philosophy-universal-coverage-blocker-homological-invariants}
+For the coverage blocker complex $\mathcal{B}_{n,\ell}$, let
+$$
+  N=\ell(2^{n}-1).
+$$
+Then
+$$
+  \dim k[\mathcal{B}_{n,\ell}]
+  =
+  \ell(2^{n-1}-1),
+$$
+and
+$$
+  \operatorname{depth}k[\mathcal{B}_{n,\ell}]
+  =
+  n-1,
+  \qquad
+  \operatorname{reg}k[\mathcal{B}_{n,\ell}]
+  =
+  n-1,
+$$
+$$
+  \operatorname{pd}k[\mathcal{B}_{n,\ell}]
+  =
+  N-(n-1).
+$$
+The full-vertex Hochster witness is
+$$
+  \beta_{N-(n-1),\,N}(k[\mathcal{B}_{n,\ell}])=1.
+$$
+\end{theorem}
+\begin{proof}
+The maximal blocker has $\ell(2^{n-1}-1)$ vertices, giving the
+Stanley-Reisner dimension. By
+\autoref{thm:philosophy-universal-blocker-topology},
+$\mathcal{B}_{n,\ell}\simeq S^{n-2}$; applying Hochster's formula to
+the full vertex set gives $j=N$ and $j-i-1=n-2$, hence
+$i=N-(n-1)$. The Alexander-dual ideal has $n$ generators by
+\autoref{thm:philosophy-universal-alexander-dual}, and its Taylor
+resolution has ideal projective dimension $n-1$. Terai duality and
+Auslander--Buchsbaum give the displayed projective dimension, depth,
+and regularity.
+\end{proof}
+
 \begin{theorem}[Hilbert--Alexander structure theorem]
 \label{thm:philosophy-hilbert-alexander-structure-theorem}
 The post-$M^{\star}$ blocker system is a thickened tetrahedral
@@ -170,8 +300,14 @@ $$
   \qquad
   \dim\mathcal{B}=13,
   \qquad
-  k[\mathcal{B}]\ \text{not Cohen--Macaulay}.
+  \operatorname{depth}k[\mathcal{B}]
+  =
+  \operatorname{reg}k[\mathcal{B}]
+  =
+  3.
 $$
+Its projective dimension over the $30$-variable ring is $27$, and its
+Cohen--Macaulay defect is $11$.
 Its face polynomial is
 $$
   4(1+t)^{14}-6(1+t)^{6}+4(1+t)^{2}-1,
@@ -198,8 +334,11 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-The thickened boundary, Hilbert series, $h$-polynomial, and
-non-Cohen--Macaulay conclusion are the preceding theorems. The
+The thickened boundary, Hilbert series, and $h$-polynomial are the
+preceding theorems. The depth, regularity, projective dimension, and
+Cohen--Macaulay defect are
+\autoref{thm:philosophy-blocker-depth-regularity} and
+\autoref{cor:philosophy-blocker-cohen-macaulay-defect}. The
 four-generator Alexander-dual description and the lcm degrees are
 \autoref{thm:philosophy-alexander-dual-blocker-ideal} and
 \autoref{thm:philosophy-alexander-dual-lcm-degrees}. The reliability
