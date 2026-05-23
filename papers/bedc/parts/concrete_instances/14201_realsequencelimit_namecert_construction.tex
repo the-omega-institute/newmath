@@ -48,6 +48,43 @@ The real-seal boundary is inherited from the sibling route of \autoref{ch:concre
 The refusal row is an inventory check. The carrier has no coordinate for host sequence equality, quotient limits, countable-choice selection, trichotomy, or ambient real completeness, so none of those principles can be exported by the local certificate.
 \end{proof}
 
+\begin{theorem}[RealSequenceLimit observation-tail carrier]\label{thm:realsequencelimit-observation-tail-carrier}
+Every accepted $\RealSequenceLimitUp$ packet exposes only scheduled $\StreamNameUp$ and $\RegSeqRatUp$ observations of the sequence and candidate limit through the finite schedule rows $W$ and $D$. No consumer can read a sequence-to-limit comparison outside those displayed observation windows before the $\RealUp$ seal is reached.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:real-sequence-limit-carrier}. The sequence row $S$ and candidate limit row $L$ are visible only through the $\StreamNameUp$ windows and $\RegSeqRatUp$ readback rows selected by the packet.
+
+Apply the obligation surface of \autoref{thm:real-sequence-limit-namecert-obligation-surface}. Its carrier-admission and convergence-classification rows force every comparison to use the finite tail-window schedule $W$ and the dyadic tolerance ledger $D$ before the real-seal boundary can be consumed.
+
+The sibling references in the chapter introduction identify the available sources: $\RealUp$ contributes the terminal seal, $\RegSeqRatUp$ contributes regular rational readback, $\StreamNameUp$ contributes finite windows, and $\DyadicRatCoreUp$ contributes the tolerance ledger. None of these routes supplies an unscheduled host sequence observation.
+\end{proof}
+
+\begin{theorem}[RealSequenceLimit classifier stability]\label{thm:realsequencelimit-limit-classifier-stability}
+For an accepted $\RealSequenceLimitUp$ carrier $(S,L,W,D,E,H,C,P,N)$, the convergence classifier $E$ is stable under componentwise $\hsame$ transports of $S$, $L$, $W$, and $D$. Transported consumers therefore inspect the same scheduled sequence windows, candidate-limit windows, and dyadic tolerances before reaching the $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+The carrier definition gives $H$ as the componentwise $\hsame$ row for the sequence rows, limit row, window schedule, tolerance ledger, and convergence classifier. Hence a transported packet still has displayed coordinates of the same shape.
+
+Use \autoref{thm:real-sequence-limit-namecert-obligation-surface}. The convergence classification row is finite because it reads only the windows listed in $W$ and the tolerances listed in $D$, and the tail-window transport row preserves that scheduled comparison surface.
+
+The $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ sibling surfaces named in the introduction supply only their displayed rows. Since $H$ transports those rows componentwise, $E$ cannot acquire a host sequence equality, quotient limit, choice-selected tail, trichotomy row, or ambient completeness witness.
+\end{proof}
+
+\begin{theorem}[RealSequenceLimit tail-window transport]\label{thm:realsequencelimit-tail-window-transport}
+Every consumer read of a $\RealSequenceLimitUp$ sequence-to-limit comparison factors through the finite tail-window schedule $W$ and the dyadic ledger $D$ before reaching the $\RealUp$ seal. The route is
+$$
+S,L\longmapsto W,D\longmapsto E\longmapsto C\longmapsto P,N
+$$
+with componentwise transport supplied by $H$.
+\end{theorem}
+\begin{proof}
+Start with a displayed sequence-to-limit comparison request. By \autoref{def:real-sequence-limit-carrier}, the only sequence and limit coordinates available to the packet are $S$ and $L$, and both are accompanied by scheduled finite observations.
+
+Next apply \autoref{thm:real-sequence-limit-namecert-obligation-surface}. The convergence classifier row requires the request to pass through $W$ and $D$, while the real-seal boundary prevents equality-facing reads from bypassing the regular-Cauchy comparison route named in the introduction.
+
+The continuation row $C$ replays the same scheduled comparison for consumers, and $P,N$ record provenance and local naming for that route. The transport row $H$ preserves the packet componentwise, so every replayed comparison remains attached to the same finite tail-window schedule before the $\RealUp$ seal is consumed.
+\end{proof}
+
 \begin{closurestatus}{\RealSequenceLimitUp}
   \constructivestory{A $\RealSequenceLimitUp$ packet is generated from a displayed sequence of RealUp names, a candidate limit RealUp row, finite StreamName windows and RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a finite convergence classifier, componentwise transport, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
