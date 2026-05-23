@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalEnclosureUp$}
+\label{ch:concrete-instances-bishop-interval-enclosure-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopIntervalEnclosureUp$ packet records the finite interval-enclosure surface by which lower and upper endpoint data are read as rational enclosures, dyadic refinements, regular rational readback, and a terminal real-name seal. It sits after the located endpoint carrier of \autoref{ch:concrete-instances-locatedinterval-namecert}, the rational enclosure ledger of \autoref{ch:concrete-instances-rational-interval-enclosure-namecert}, the real interval enclosure boundary of \autoref{ch:concrete-instances-real-interval-enclosure-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The packet gives real-completion and approximation consumers a named finite route for Bishop-style interval enclosures without importing host intervals, quotient real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[BishopIntervalEnclosure carrier]
+\label{def:bishop-interval-enclosure-carrier}
+A $\BishopIntervalEnclosureUp$ carrier is a finite $\BHist$ packet
+$$
+E=(L,U,Q,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower enclosure row. It records the displayed lower endpoint name, lower rational bounds, and lower endpoint admission cells inherited from the $\LocatedIntervalUp$ surface.
+\item $U$ is the upper enclosure row. It records the displayed upper endpoint name, upper rational bounds, and upper endpoint admission cells inherited from the same $\LocatedIntervalUp$ surface.
+\item $Q$ is the rational interval ledger. It records the $\RationalIntervalEnclosureUp$ containment checks tying $L$ and $U$ to one finite interval-enclosure request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and refinement row. It records every dyadic radius, endpoint slack comparison, and refinement request consumed by the lower and upper enclosure rows.
+\item $R$ is the $\RegSeqRatUp$ readback row. It records the regular rational data exposed by the displayed lower and upper enclosure rows after the rational and dyadic ledgers have been read.
+\item $S$ is the terminal $\RealUp$ seal row. It is reachable only after $L,U,Q,D,R$ have been displayed, and it exposes the real-facing enclosure boundary without selecting quotient representatives.
+\item $H$ records componentwise $\hsame$ transport for lower and upper endpoint rows, rational ledger, dyadic refinement row, regular readback, real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+L,U \longmapsto Q \longmapsto D \longmapsto R \longmapsto S .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalEnclosureUp$, $\LocatedIntervalUp$, $\RationalIntervalEnclosureUp$, $\RealIntervalEnclosureUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalEnclosureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,Q,D,R,S,H,C,P,N$. It has no coordinate for host intervals, selected real endpoints, quotient equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BishopIntervalEnclosure NameCert obligations]
+\label{thm:bishop-interval-enclosure-namecert-obligations}
+For every accepted $\BishopIntervalEnclosureUp$ carrier
+$$
+E=(L,U,Q,D,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\BishopIntervalEnclosureUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the lower enclosure row, upper enclosure row, rational interval ledger, dyadic tolerance and refinement row, regular rational readback, terminal real seal, transport, replay, provenance, and local naming;
+\item endpoint order, requiring the displayed lower and upper enclosure rows to be admitted through the same located interval request before any rational containment row is consumed;
+\item containment coverage, requiring $Q$ to record the rational interval checks that place the requested real-facing datum between the lower and upper rows;
+\item dyadic refinement, requiring $D$ to account for every endpoint slack comparison, tolerance radius, and refinement read used by $L,U,Q,R$;
+\item Real seal nonescape, requiring $S$ to remain downstream of $L,U,Q,D,R$ and to export no host interval, selected real endpoint, quotient equality, countable-choice selector, trichotomy branch, or ambient completeness theorem;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the lower endpoint, upper endpoint, rational ledger, dyadic refinement, regular readback, real seal, provenance, and local naming rows componentwise;
+\item provenance and local naming, requiring $P$ and $N$ to name only the displayed Bishop interval-enclosure route.
+\end{enumerate}
+No Bishop interval-enclosure obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $E=(L,U,Q,D,R,S,H,C,P,N)$. The projection exposes exactly the lower enclosure row, upper enclosure row, rational interval ledger, dyadic refinement row, regular rational readback, real seal, transport, replay, provenance, and local naming row.
+
+Endpoint order is internal to the displayed located interval request. The rows $L$ and $U$ are read as paired endpoint-facing data before the rational interval ledger $Q$ is available, so a consumer cannot inspect containment while ignoring either endpoint row.
+
+Containment coverage is the role of $Q$. The rational ledger binds the lower and upper rows to one interval-enclosure request and records the finite containment checks that are later replayed by $C$.
+
+Dyadic refinement is exhausted by $D$. Every tolerance radius, endpoint slack comparison, and refinement read used by $L,U,Q,R$ is a coordinate of $D$, so no hidden precision source remains for a downstream consumer.
+
+The regular readback and real seal are downstream. Row $R$ reads only the displayed lower, upper, rational, and dyadic rows, and row $S$ is visible only after $R$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since none of the carrier coordinates stores a host interval, selected real endpoint, quotient equality, choice selector, trichotomy branch, or ambient completeness theorem, the local $\NameCert$ surface cannot export any of them.
+\end{proof}
+
+\begin{theorem}[BishopIntervalEnclosure endpoint nonescape]
+\label{thm:bishop-interval-enclosure-endpoint-nonescape}
+Every endpoint-facing consumer of an accepted $\BishopIntervalEnclosureUp$ packet factors through the displayed rows
+$$
+L,U,Q,D,R,S,H,C,P,N .
+$$
+Consequently the packet exports only the finite Bishop interval-enclosure route and exports no host interval, selected real endpoint, quotient equality, countable choice, trichotomy, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an endpoint-facing consumer of an accepted packet. The only lower endpoint access is $L$, and the only upper endpoint access is $U$, so the consumer first factors through the paired endpoint rows.
+
+The rational enclosure stage is $Q$. It records the containment checks attached to the same lower and upper rows, and it provides no independent host interval object.
+
+The dyadic and regular stages are $D$ and $R$. The row $D$ supplies the finite tolerance and refinement ledger, while $R$ reads regular rational data only after $L,U,Q,D$ have been displayed.
+
+The real-facing boundary is $S$. Since $S$ is downstream of the endpoint, rational, dyadic, and regular rows, it cannot serve as a selected endpoint or quotient-real witness outside the displayed route.
+
+The structural rows close the factorization. Componentwise transport in $H$, continuation replay in $C$, provenance in $P$, and local naming in $N$ preserve only the same finite route, leaving no coordinate for host intervals, selected real endpoints, quotient equality, countable choice, trichotomy, or $\RealUp$ completeness.
+\end{proof}
+
+\closureat{BishopIntervalEnclosureUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalEnclosureUp}
+  \theoryclosure{\seedClosure}
+  \constructivestory{A $\BishopIntervalEnclosureUp$ packet is generated from lower and upper enclosure rows, a rational interval ledger, a DyadicRatCore tolerance and refinement row, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \scopeclosed{\autoref{def:bishop-interval-enclosure-carrier}, \autoref{thm:bishop-interval-enclosure-namecert-obligations}, and \autoref{thm:bishop-interval-enclosure-endpoint-nonescape} seed the finite Bishop interval-enclosure route over displayed endpoint, rational ledger, dyadic refinement, regular readback, Real seal, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host intervals, quotient reals, selected real endpoints, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint order, containment coverage, dyadic refinement, Real seal nonescape, transport and replay stability, provenance, and local naming for the $\BishopIntervalEnclosureUp$ packet.}
+\end{closurestatus}
