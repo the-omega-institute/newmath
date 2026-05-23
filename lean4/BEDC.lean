@@ -916,7 +916,9 @@ import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
+import BEDC.Derived.CauchyConvergenceCriterionUp.NameCert
 import BEDC.Derived.CauchyConvergenceCriterionUp.TasteGate
+import BEDC.Derived.CauchyConvergenceModulusTailMonotonicityUp.TasteGate
 import BEDC.Derived.CauchyConvergenceModulusUp
 import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyCriterionUp
@@ -964,6 +966,7 @@ import BEDC.Derived.CauchyCriterionUp.TerminalSelectorSealNochoiceExhaustion
 import BEDC.Derived.CauchyCriterionUp.UniformCriterionFiniteFamilyReduction
 import BEDC.Derived.CauchyCriterionUp.UniformSelectorSealCompatibility
 import BEDC.Derived.CauchyCriterionUp.VisibleTerminalClosure
+import BEDC.Derived.CauchyDiagonalArgumentUp.TasteGate
 import BEDC.Derived.CauchyDiagonalBudgetUp
 import BEDC.Derived.CauchyDiagonalBudgetUp.SharedTailWindowExhaustion
 import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
@@ -1183,6 +1186,7 @@ import BEDC.Derived.CauchyProductUp.RootAdmission
 import BEDC.Derived.CauchyProductUp.RootBudgetObligations
 import BEDC.Derived.CauchyProductUp.RootBudgetProductLock
 import BEDC.Derived.CauchyProductUp.RootBudgetRoutePackage
+import BEDC.Derived.CauchyProductUp.RootBudgetTriangle
 import BEDC.Derived.CauchyProductUp.RootClassifierStability
 import BEDC.Derived.CauchyProductUp.RootSealLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
@@ -1190,6 +1194,7 @@ import BEDC.Derived.CauchyProductUp.RootWindowObligations
 import BEDC.Derived.CauchyProductUp.RootWindowReadStability
 import BEDC.Derived.CauchyProductUp.SharedTailSelectorFactorization
 import BEDC.Derived.CauchyProductUp.SourceBudgetConsumerLock
+import BEDC.Derived.CauchyProductUp.SourceWindowSealConsumerExactness
 import BEDC.Derived.CauchyProductUp.SourceWindowTailAgreement
 import BEDC.Derived.CauchyProductUp.StreamnameRegseqratSourceLock
 import BEDC.Derived.CauchyProductUp.TasteGate
@@ -2519,6 +2524,7 @@ import BEDC.Derived.DyadicCompactnessUp
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
+import BEDC.Derived.DyadicCoverRefinementUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.DyadicCoverUp.FiniteCoverConsumerDeterminacy
 import BEDC.Derived.DyadicCoverUp.FiniteSubcoverExhaustion
@@ -3094,6 +3100,7 @@ import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GoldenMeanShiftUp.PrefixTransportScope
 import BEDC.Derived.GoldenMeanShiftUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
+import BEDC.Derived.GramSchmidtUp.TasteGate
 import BEDC.Derived.GraphUp
 import BEDC.Derived.GroundCompilerAuditMapUp
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
@@ -3542,6 +3549,7 @@ import BEDC.Derived.LocatedCauchyFilterUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCompactUp.Carrier
+import BEDC.Derived.LocatedCompactUp.NameCert
 import BEDC.Derived.LocatedCompactUp.TasteGate
 import BEDC.Derived.LocatedCompletionSealUp.TasteGate
 import BEDC.Derived.LocatedCutUp
@@ -5004,6 +5012,7 @@ import BEDC.Derived.SeparableMetricUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectorUp
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.TasteGate
+import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
@@ -5758,6 +5767,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.FunctionalFactorNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicExport
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicLedger
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicNonescape
+import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryScope
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaCriticalStripReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaFunctionalBoundaryTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaHorizonConsumerBoundary
