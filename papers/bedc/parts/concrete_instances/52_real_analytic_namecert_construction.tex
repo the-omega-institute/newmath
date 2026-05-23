@@ -353,6 +353,17 @@ The supplied uniqueness rows then identify the real-history value of $\exp(y)$ w
 \end{proof}
 \leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticLogExpInverse\_supplied\_boundary\_unary}
 
+\begin{theorem}[Logarithm handoff to RealExponential]\label{thm:real-analytic-log-real-exponential-handoff}
+For a positive $\RealUp$-history $x$, assume the supplied positivity and apartness rows for $x$, the supplied dyadic bisection rows used by \autoref{def:real-analytic-log}, and the supplied rational-embedding rows for the dyadic endpoints. Assume further that every exponential comparison row used in those bisection steps is supplied by an accepted $\RealExponentialUp$ packet whose public reads satisfy \autoref{thm:real-exponential-series-route}. If $\mathsf{Log}(x,y)$ and $\mathsf{Exp}(y,e_y)$ are read with the supplied $\RealUp$ limit witnesses and limit-uniqueness classifier rows of \autoref{thm:real-analytic-log-exp-inverse}, then the inverse read factors through $\RealExponentialUp$, $\RealPowerSeriesUp$, $\UniformCauchySeriesUp$, $\CauchyProductUp$, $\CauchyRealFieldUp$, $\RealEqualityUp$, and $\RealUp$ before the classifier conclusion $\mathsf{RealClassifier}(e_y,x)$ is consumed.
+\end{theorem}
+\begin{proof}
+Project the accepted $\RealExponentialUp$ packet attached to each exponential comparison row. By \autoref{thm:real-exponential-series-route}, the comparison can be read only after the coefficient ledger, uniform Cauchy-series modulus, Cauchy-product route, Cauchy-real-field arithmetic row, real-equality boundary, and terminal real seal have been displayed.
+
+These routed comparison rows are exactly the exponential inputs required by the bisection construction in \autoref{def:real-analytic-log}. With the supplied positivity, apartness, rational-embedding, limit, and uniqueness rows in place, \autoref{thm:real-analytic-log-exp-inverse} applies to the same $\mathsf{Log}(x,y)$ and $\mathsf{Exp}(y,e_y)$ reads and yields $\mathsf{RealClassifier}(e_y,x)$.
+
+Since the only exponential comparisons available to the bisection are those projected from the accepted $\RealExponentialUp$ packet, the inverse read exposes no host $\exp$ or $\log$, quotient real equality, selected limit, countable choice, or ambient $\RealUp$ completeness principle.
+\end{proof}
+
 \begin{theorem}[Logarithm of a unary natural]
 \label{thm:real-analytic-log-unary}
 For positive unary natural $n$, assume supplied rational-embedding rows sending the unary numeral $\Eone^n(\emp)$ into the positive $\RealUp$ carrier, supplied positivity and apartness rows for that embedded value, supplied dyadic bisection rows with the modulus determined by the unary length of $n$, and supplied $\RealUp$ limit uniqueness rows for the resulting $\mathsf{Log}(\Eone^n(\emp),y_n)$ witness. Under these rows, $y_n$ is the constructive $\log n$ input used by the Dirichlet term construction (\autoref{ch:concrete-instances-dirichlet-series-namecert}).

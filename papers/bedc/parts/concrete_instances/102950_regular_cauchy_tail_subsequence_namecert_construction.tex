@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailSubsequenceUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-subsequence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyTailSubsequenceUp$ packet records the finite route by which a regular Cauchy rational name is restricted to a displayed tail before any downstream real-name consumer inspects the seal. It sits over the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. It is the ordinary tail-restriction surface that later cofinal routes, including \autoref{ch:concrete-instances-regular-cauchy-cofinal-subsequence-namecert}, can consume as finite BEDC data rather than as host stream reasoning.
+
+\begin{definition}[Regular-Cauchy tail-subsequence carrier]
+\label{def:regular-cauchy-tail-subsequence-carrier}
+A $\RegularCauchyTailSubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,W,k,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source regular Cauchy row, exposing only the finite $\StreamNameUp$ windows and regular rational data admitted by the source certificate.
+\item $W$ is the tail-window ledger, listing the source windows that remain visible after the cutoff is displayed.
+\item $k$ is a unary tail cutoff. It is a finite natural-number row, not an infinite selector or choice function.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger shared by the source row, the retained windows, the shifted readback, and the terminal real seal.
+\item $R$ is the shifted $\RegSeqRatUp$ readback row. A request at displayed index $n$ is read from the source regular Cauchy data at the shifted index $k+n$ through the window ledger $W$.
+\item $E$ is the $\RealUp$ seal exposed only after $S,W,k,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source row, tail windows, cutoff, tolerance ledger, shifted readback, seal row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite tail read through
+$$
+S,W,k,D,R \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailSubsequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailSubsequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,k,D,R,E,H,C,P,N$. It has no coordinate for a quotient stream, selected limit, countable choice principle, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy tail-subsequence NameCert obligations]
+\label{thm:regular-cauchy-tail-subsequence-namecert-obligations}
+For every accepted $\RegularCauchyTailSubsequenceUp$ carrier
+$$
+T=(S,W,k,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyTailSubsequenceUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source regular Cauchy row, tail-window ledger, unary cutoff, dyadic tolerance ledger, shifted regular rational readback, real seal, componentwise transport, continuation replay, provenance, and local naming rows;
+\item tail cutoff exactness, requiring every retained observation to pass through the displayed unary row $k$ and the corresponding retained window in $W$;
+\item shifted readback exactness, requiring $R$ to read the displayed tail index $n$ only as the source observation at $k+n$;
+\item tolerance preservation, requiring $D$ to be the same dyadic ledger consumed by $S,W,R$ and the seal row $E$;
+\item structural exhaustion, requiring $H,C,P,N$ to transport, replay, source, and name only the listed finite tail route.
+\end{enumerate}
+No NameCert obligation is stored outside those five rows, and none exports a quotient stream, selected limit, countable choice principle, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge credential.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-tail-subsequence-carrier}. The visible analytic rows are exactly the source regular Cauchy row $S$, tail windows $W$, unary cutoff $k$, dyadic ledger $D$, shifted readback $R$, and real seal $E$.
+
+Tail cutoff exactness is read from $k$ and $W$. A tail observation cannot be inspected until the cutoff row has been displayed and the retained source window has been named in the window ledger.
+
+Shifted readback exactness is read from $R$. Each displayed tail index $n$ is interpreted by the finite arithmetic row $k+n$, so the packet uses a visible unary shift rather than an external subsequence function.
+
+Tolerance preservation is the projection to $D$. The source row, retained windows, shifted readback, and real seal all consume that same dyadic ledger, so no detached modulus can alter the tail read.
+
+Finally $H,C,P,N$ are structural rows. They preserve, replay, source, and name only the displayed finite route, leaving no row from which a consumer could extract quotient streams, selected limits, countable choice, host equality, trichotomy, ambient completeness, Lean verification, or bridge data.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy tail-subsequence Real seal stability]
+\label{thm:regular-cauchy-tail-subsequence-real-seal-stability}
+Let
+$$
+T=(S,W,k,D,R,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailSubsequenceUp$ carrier. Every $\RealUp$ consumer of the tail packet factors through
+$$
+S,W,k,D,R,E,H,C,P,N.
+$$
+Consequently the consumer reads the tail as a finite cutoff, retained-window ledger, shifted regular rational readback, shared dyadic tolerance ledger, and terminal seal. It exports no quotient stream, selected limit, countable choice principle, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$ consumer request. The carrier exposes the seal row $E$ only downstream of $S,W,k,D,R$, so the consumer must first read the source row, retained windows, displayed cutoff, dyadic ledger, and shifted regular rational readback.
+
+The tail operation is finite. The cutoff row $k$ supplies the unary shift, and the window ledger $W$ records the retained source windows; no host subsequence function is available to the consumer.
+
+The shifted readback and tolerance rows then determine the seal-facing data. The row $R$ reads index $n$ through the source observation at $k+n$, while $D$ is the sole dyadic ledger shared by the source, tail windows, readback, and seal.
+
+The structural rows close the route. Componentwise transport, continuation replay, package provenance, and local naming preserve only $S,W,k,D,R,E$, so the consumer has no coordinate for quotient streams, selected limits, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{RegularCauchyTailSubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailSubsequenceUp}
+  \constructivestory{A $\RegularCauchyTailSubsequenceUp$ packet is generated from a source regular Cauchy row, retained StreamName windows, a unary tail cutoff, a shared DyadicRatCore tolerance ledger, shifted RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-subsequence-carrier}, \autoref{thm:regular-cauchy-tail-subsequence-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-subsequence-real-seal-stability} seed the finite tail-restriction route for regular Cauchy rational names over displayed StreamName windows, a unary cutoff, dyadic tolerance ledgers, shifted RegSeqRat readback, and the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail cutoff exactness, shifted readback exactness, tolerance preservation, and Real-seal stability for BEDC.Derived.RegularCauchyTailSubsequenceUp.}
+\end{closurestatus}
