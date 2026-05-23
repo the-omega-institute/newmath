@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\JordanContentUp$}
+\label{ch:concrete-instances-jordan-content-namecert}
+\origin{human}
+
+Following Jordan and Bishop--Bridges constructive analysis, the $\JordanContentUp$ packet records finite Jordan content data through bounded rational boxes, dyadic partitions, lower and upper content sums, and common-refinement ledgers. It consumes the Darboux finite-sum surface of \autoref{ch:concrete-instances-darboux-sum-namecert}, the Darboux integration carrier of \autoref{ch:concrete-instances-darbouxintegral-namecert}, the dyadic partition ledger of \autoref{ch:concrete-instances-dyadic-partition-namecert}, the rational box endpoint rows of \autoref{ch:concrete-instances-rationalinterval-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the finite content ledger; it does not claim countable additivity, measure completion, selected limiting partitions, quotient equality of sets, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Jordan content finite carrier]
+\label{def:jordan-content-carrier}
+A $\JordanContentUp$ carrier is a finite $\BHist$ packet
+$$
+J=(B,P,L,U,R,S,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded rational-box row, built from finitely many $\RationalIntervalUp$ endpoint and width ledgers.
+\item $P$ is the $\DyadicPartitionUp$ row cutting the bounded box into finitely many named cells, together with the common-refinement data used when two ledgers are compared.
+\item $L$ and $U$ are lower and upper content-sum rows, read through the $\DarbouxSumUp$ surface over the displayed partition row $P$.
+\item $R$ is the refinement row: it records the common dyadic refinement carrying $B,P,L,U$ to any comparison partition without selecting a limiting partition family.
+\item $S$ is the $\RegSeqRatUp/\RealUp$ handoff row for a displayed content value window, obtained only after the lower and upper sums meet the recorded dyadic gap budget.
+\item $H$ records componentwise $\hsame$ transport for rational boxes, dyadic partitions, lower and upper content sums, common refinement, the real-facing handoff, continuation replay, provenance, and the local naming row.
+\item $C$ records displayed $\Cont$ replay from rational boxes to dyadic partition cells, from cells to the lower and upper content sums, from those sums to common refinement, and from the gap ledger to the $\RegSeqRatUp/\RealUp$ handoff.
+\item $Q$ is the $\Pkg$ provenance over $\JordanContentUp$, $\RationalIntervalUp$, $\DyadicPartitionUp$, $\DarbouxSumUp$, $\DarbouxIntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\JordanContentUp}$ row naming this finite content packet.
+\end{enumerate}
+The classifier compares accepted packets only through $B,P,L,U,R,S,H,C,Q,N$. It has no coordinate for a sigma algebra, countable additivity, measure completion, selected partition limits, quotient equality of sets, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Jordan content NameCert obligations]
+\label{thm:jordan-content-namecert-obligations}
+For the carrier of \autoref{def:jordan-content-carrier}, the local $\NameCert_{\JordanContentUp}$ surface consists exactly of the following six finite obligations:
+\begin{enumerate}
+\item carrier admission for the packet $J=(B,P,L,U,R,S,H,C,Q,N)$;
+\item rational-box admission, requiring every bounded box read to factor through the finitely displayed $\RationalIntervalUp$ endpoint and width rows in $B$;
+\item dyadic partition compatibility, requiring every content cell to be named by $P$ and every comparison to pass through the common-refinement row $R$;
+\item lower and upper content-sum exactness, requiring $L$ and $U$ to be computed from the displayed cells and their carried lower and upper occupancy rows;
+\item real-facing handoff, requiring $S$ to be downstream of the finite lower/upper gap ledger before any $\RegSeqRatUp$ or $\RealUp$ consumer can read it;
+\item ledger non-escape, stating that $H,C,Q,N$ preserve and name only these finite rows and exclude countable additivity, measure completion, selected limiting partitions, quotient set equality, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. Carrier admission is exactly the finite packet of \autoref{def:jordan-content-carrier}, with rational boxes, a dyadic partition, two content-sum rows, a common-refinement row, a real-facing handoff, transport, replay, provenance, and a local name.
+
+The rational-box and partition clauses are read before any content sum. The row $B$ supplies the bounded rational endpoints, while $P$ supplies the finite dyadic cells cut from those endpoints. Refinement data are stored in $R$, so comparing two packets uses a displayed common refinement rather than a selected limiting partition family.
+
+The content-sum clauses follow from the Darboux-sum surface. The lower row $L$ and upper row $U$ are finite sums over the cells named by $P$, and common refinement transports those sums through $R$ before the gap can be inspected.
+
+Finally inspect the handoff and structural rows. The row $S$ is downstream of the finite gap ledger, while $H,C,Q,N$ only transport, replay, source, and name the already displayed rows. No excluded measure-theoretic or quotient object is a carrier coordinate, so the six obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Jordan content finite additivity scope]
+\label{thm:jordan-content-finite-additivity-scope}
+For accepted $\JordanContentUp$ carriers whose bounded rational boxes have a displayed disjoint dyadic decomposition inside a common refinement, finite additivity is available only as an equality of the transported lower and upper content-sum rows over that refinement. The statement exports a finite box-and-partition ledger to Darboux and Riemann consumers, not a measure-completion object and not countable additivity.
+\end{theorem}
+\begin{proof}
+Start with the two accepted carriers and read their rational-box rows. The displayed disjoint decomposition supplies a common dyadic refinement, so all cells used in the comparison are named by one finite partition row.
+
+Transport both content packets through the refinement row $R$. Componentwise $\hsame$ transport preserves the rational-box coordinates, dyadic cell names, and lower and upper content-sum rows, while $\Cont$ replay recomputes the sums over the transported cells.
+
+Finite additivity is then a ledger statement about finite cell lists. Disjoint cells contribute once, shared boundary rows are already part of the rational-box endpoint ledger, and the lower and upper transported sums combine by the same finite Darboux-sum route used to define $L$ and $U$.
+
+The exported scope stops at the transported finite sums and the real-facing handoff row $S$. Since no carrier coordinate stores a sigma algebra, measure completion, selected partition limit, quotient set equality, or countable family, the additivity claim cannot be read as a countable or completed measure theorem.
+\end{proof}
+
+\closureat{JordanContentUp}{seedStr}
+
+\begin{closurestatus}{\JordanContentUp}
+  \constructivestory{A $\JordanContentUp$ packet is generated from bounded rational boxes, a dyadic partition row, lower and upper content-sum rows, a common-refinement ledger, a RegSeqRat/Real handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:jordan-content-carrier}, \autoref{thm:jordan-content-namecert-obligations}, and \autoref{thm:jordan-content-finite-additivity-scope} seed the finite Jordan content ledger over bounded rational boxes and dyadic partitions.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable additivity, measure completion, selected limiting partitions, quotient equality of sets, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational-box admission, dyadic partition compatibility, lower and upper content-sum exactness, common-refinement transport, real-facing handoff, finite additivity scope, and ledger non-escape for BEDC.Derived.JordanContentUp.}
+\end{closurestatus}
