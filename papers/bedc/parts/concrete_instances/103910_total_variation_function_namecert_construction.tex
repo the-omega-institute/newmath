@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\TotalVariationFunctionUp$}
+\label{ch:concrete-instances-total-variation-function-namecert}
+\origin{human}
+
+Following Jordan's decomposition theorem and the total-variation functions used in Rudin and Folland for bounded-variation analysis, the $\TotalVariationFunctionUp$ packet records the cumulative variation route as finite BEDC data. It consumes the finite partition-variation surface of \autoref{ch:concrete-instances-boundedvariation-namecert}, the positive and negative variation rows of \autoref{ch:concrete-instances-jordan-variation-decomposition-namecert}, the terminal endpoint surfaces of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regulated-function handoff of \autoref{ch:concrete-instances-regulatedrealfunction-namecert}, and the Riemann--Stieltjes consumer boundary of \autoref{ch:concrete-instances-riemannstieltjes-namecert}. The packet names cumulative variation as a displayed finite-prefix ledger, not as a host supremum over all partitions or as a quotient of real-valued functions.
+
+\begin{definition}[Total variation function carrier]
+\label{def:total-variation-function-carrier}
+A $\TotalVariationFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(B,L,J,X,D,G,S,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the source $\BoundedVariationUp$ packet whose finite partition ledgers supply all edge-variation reads.
+\item $L$ is the partition-prefix ledger, listing the finite initial subpartitions used to read cumulative variation from the left endpoint to a displayed endpoint.
+\item $J$ is the $\JordanVariationDecompositionUp$ row, exposing positive and negative variation ledgers for the same finite prefixes.
+\item $X$ records endpoint rows through $\RealUp$ or $\RegSeqRatUp$, including the left endpoint, the queried endpoint, and the terminal seal used by downstream consumers.
+\item $D$ is the $\DyadicRatCoreUp$ edge-observation ledger for endpoint differences, sign separation, and finite prefix sums.
+\item $G$ is the graph row for the cumulative total-variation function, read only as the finite sum of the positive and negative prefix ledgers displayed by $J$.
+\item $S$ is the $\RegulatedFunctionUp$ consumer row, recording the finite regulated-function handoff obtained from the bounded-variation and cumulative-variation ledgers.
+\item $I$ is the $\RiemannStieltjesUp$ consumer row, recording that a Stieltjes-facing read of the integrator first consumes $B,L,J,X,D,G,S$.
+\item $H$ records componentwise $\hsame$ transport for the bounded-variation source, prefix ledger, Jordan rows, endpoint rows, dyadic observations, graph row, consumer rows, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a consumer request through the finite prefix ledger, dyadic edge observations, Jordan split, cumulative graph row, and regulated or Stieltjes handoff.
+\item $P$ is the $\Pkg$ provenance over $\TotalVariationFunctionUp$, $\BoundedVariationUp$, $\JordanVariationDecompositionUp$, $\RegulatedFunctionUp$, $\RiemannStieltjesUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TotalVariationFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for a completed variation measure, a supremum over all partitions, host function equality, quotient real-valued functions, selected representatives, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Total variation function NameCert obligations]
+\label{thm:total-variation-function-namecert-obligations}
+For every accepted $\TotalVariationFunctionUp$ carrier $T=(B,L,J,X,D,G,S,I,H,C,P,N)$, the local $\NameCert_{\TotalVariationFunctionUp}$ surface consists exactly of carrier admission for the source $\BoundedVariationUp$ packet, finite partition-prefix ledger, $\JordanVariationDecompositionUp$ positive and negative variation rows, $\RealUp$ and $\RegSeqRatUp$ endpoint rows, $\DyadicRatCoreUp$ edge observations, cumulative graph row, $\RegulatedFunctionUp$ and $\RiemannStieltjesUp$ consumer rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+Every cumulative variation read exported by the packet factors through
+$$
+\BoundedVariationUp,\ L,\ \JordanVariationDecompositionUp,\ \RealUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ G,\ \RegulatedFunctionUp,\ \RiemannStieltjesUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+No local obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:total-variation-function-carrier}. The projection exposes exactly $B,L,J,X,D,G,S,I,H,C,P,N$.
+
+The cumulative variation read starts with the bounded-variation source $B$ and the finite prefix ledger $L$. The Jordan row $J$ then separates each displayed edge into positive and negative variation rows, while $X$ and $D$ supply the endpoint names and dyadic observations used by those finite sums.
+
+The graph row $G$ stores only the resulting finite prefix sum. Downstream regulated-function and Stieltjes consumers must read $S$ or $I$ after $B,L,J,X,D,G$ have been displayed, and the structural rows $H,C,P,N$ only transport, replay, source, and name that same route.
+
+Since no carrier coordinate stores all partitions at once, host function equality, selected representatives, a variation measure, choice, or ambient completeness, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Total variation function regulated handoff]
+\label{thm:total-variation-function-regulated-handoff}
+Let $T=(B,L,J,X,D,G,S,I,H,C,P,N)$ be an accepted $\TotalVariationFunctionUp$ carrier. Every $\RegulatedFunctionUp$ or $\RiemannStieltjesUp$ consumer read of the cumulative total-variation function first reads the displayed $\BoundedVariationUp$ source, then the finite partition-prefix ledger, then the $\JordanVariationDecompositionUp$ positive and negative variation rows, then the $\RealUp$ or $\RegSeqRatUp$ endpoint rows and $\DyadicRatCoreUp$ edge observations, and only then reaches the graph row $G$ and consumer rows $S,I$.
+
+Consequently the handoff supplies a finite cumulative-variation route, not a completed variation measure, quotient function object, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with a regulated-function or Stieltjes consumer of $T$. By the carrier definition, the only consumer rows are $S$ and $I$, and both are downstream of the graph row $G$.
+
+The graph row is itself downstream of the finite route $B,L,J,X,D$: the bounded-variation packet supplies the edge ledgers, the prefix ledger selects the displayed initial subpartitions, the Jordan row splits positive and negative variation, and the endpoint and dyadic rows provide the named observations for the finite sums.
+
+The replay row $C$ records the same ordering for every accepted consumer request, while $H,P,N$ preserve transport, provenance, and local naming. Thus no consumer can bypass the finite prefix route through a host variation measure, quotient function equality, choice principle, or ambient completeness claim.
+\end{proof}
+
+\closureat{TotalVariationFunctionUp}{seedStr}
+
+\begin{closurestatus}{\TotalVariationFunctionUp}
+  \constructivestory{A $\TotalVariationFunctionUp$ packet is generated from a $\BoundedVariationUp$ source packet, finite partition-prefix ledgers, $\JordanVariationDecompositionUp$ positive and negative variation rows, $\RealUp$ and $\RegSeqRatUp$ endpoint rows, $\DyadicRatCoreUp$ edge observations, cumulative graph data, $\RegulatedFunctionUp$ and $\RiemannStieltjesUp$ consumer rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:total-variation-function-carrier}, \autoref{thm:total-variation-function-namecert-obligations}, and \autoref{thm:total-variation-function-regulated-handoff} seed the finite cumulative total-variation route over bounded-variation, Jordan-split, endpoint, dyadic, regulated-function, and Stieltjes consumer rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed variation measures, suprema over all partitions, quotient function equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition-prefix exactness, Jordan positive and negative variation routing, endpoint and dyadic observation routing, regulated-function handoff, Stieltjes handoff, transport, replay, provenance, and local naming for BEDC.Derived.TotalVariationFunctionUp.}
+\end{closurestatus}
