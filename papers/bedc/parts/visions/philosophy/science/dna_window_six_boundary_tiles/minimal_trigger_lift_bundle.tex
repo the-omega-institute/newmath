@@ -1,0 +1,224 @@
+\begin{definition}[Minimal trigger lift fiber]
+\label{def:philosophy-minimal-trigger-lift-fiber}
+Let $A=\{S_{1},\ldots,S_{m}\}$ be a quotient-level minimal full trigger.
+Each support $S_{i}$ has two $f_{3}$-lifts. The lift fiber over $A$ is
+the set of choices
+$$
+  \epsilon=(\epsilon_{1},\ldots,\epsilon_{m})\in\{0,1\}^{m},
+$$
+with lifted trigger
+$$
+  A^{\epsilon}
+  =
+  \{S_{1}^{(\epsilon_{1})},\ldots,S_{m}^{(\epsilon_{m})}\}.
+$$
+\end{definition}
+
+\begin{theorem}[Lift-bundle decomposition]
+\label{thm:philosophy-minimal-trigger-lift-bundle-decomposition}
+Let $\mathcal{T}_{q}$ be the quotient-level minimal full triggers and
+let $\mathcal{T}_{c}$ be the codon-level minimal full triggers. Then
+$$
+  \mathcal{T}_{c}
+  =
+  \bigsqcup_{A\in\mathcal{T}_{q}}Q_{|A|}.
+$$
+In the codon case this gives
+$$
+  \mathcal{T}_{c}
+  =
+  Q_{1}
+  \sqcup
+  25Q_{2}
+  \sqcup
+  22Q_{3}
+  \sqcup
+  Q_{4}.
+$$
+\end{theorem}
+\begin{proof}
+Projection along the $f_{3}$ coordinate sends a codon-level minimal
+trigger to a quotient-level minimal support cover. Conversely, every
+support in a size-$m$ quotient trigger has two independent $f_{3}$-lift
+choices, and these choices do not change the support union or
+minimality. Hence the fiber over the quotient trigger is $Q_{m}$, and
+distinct quotient triggers have disjoint lift sets.
+\end{proof}
+
+\begin{corollary}[Lift-fiber distribution]
+\label{cor:philosophy-minimal-trigger-lift-fiber-distribution}
+The fiber dimensions and codon counts are
+$$
+\begin{array}{c|r|c|r}
+  m & \text{quotient count} & \text{fiber} & \text{codon count}\\
+  \hline
+  1 & 1 & Q_{1} & 2\\
+  2 & 25 & Q_{2} & 100\\
+  3 & 22 & Q_{3} & 176\\
+  4 & 1 & Q_{4} & 16.
+\end{array}
+$$
+Thus $|\mathcal{T}_{c}|=294$.
+\end{corollary}
+\begin{proof}
+This is the size distribution of quotient-level minimal triggers from
+\autoref{thm:philosophy-private-coordinate-codon-counts}, with the
+fiber $Q_{m}$ attached to each size-$m$ trigger.
+\end{proof}
+
+\begin{corollary}[Orbit fibers]
+\label{cor:philosophy-minimal-trigger-orbit-fibers}
+The nine quotient orbit types carry the following lift fibers:
+$$
+\begin{array}{c|r|r|c|r}
+  \text{normal form} & m & \text{quotient count} & \text{fiber} & \text{codon count}\\
+  \hline
+  \{1234\} & 1 & 1 & Q_{1} & 2\\
+  \{1,234\} & 2 & 4 & Q_{2} & 16\\
+  \{12,34\} & 2 & 3 & Q_{2} & 12\\
+  \{12,234\} & 2 & 12 & Q_{2} & 48\\
+  \{123,124\} & 2 & 6 & Q_{2} & 24\\
+  \{1,2,34\} & 3 & 6 & Q_{3} & 48\\
+  \{1,24,34\} & 3 & 12 & Q_{3} & 96\\
+  \{14,24,34\} & 3 & 4 & Q_{3} & 32\\
+  \{1,2,3,4\} & 4 & 1 & Q_{4} & 16.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Combine \autoref{thm:philosophy-nine-orbit-minimal-trigger-classification}
+with \autoref{thm:philosophy-minimal-trigger-lift-bundle-decomposition}.
+\end{proof}
+
+\begin{definition}[Lift-flip graph]
+\label{def:philosophy-minimal-trigger-lift-flip-graph}
+Inside one fiber over $A=\{S_{1},\ldots,S_{m}\}$, two lifted triggers
+are adjacent if their lift choices differ in exactly one coordinate.
+\end{definition}
+
+\begin{theorem}[Lift-flip edge count]
+\label{thm:philosophy-minimal-trigger-lift-flip-edge-count}
+The total number of lift-flip edges inside all fibers is $397$.
+\end{theorem}
+\begin{proof}
+The fiber over a size-$m$ quotient trigger is $Q_{m}$, whose edge count
+is $m2^{m-1}$. Therefore the total number of lift-flip edges is
+$$
+  1\cdot1
+  +
+  25\cdot4
+  +
+  22\cdot12
+  +
+  1\cdot32
+  =
+  397.
+$$
+\end{proof}
+
+\begin{definition}[Quotient support-flip graph]
+\label{def:philosophy-quotient-support-flip-graph}
+For fixed size $m$, two quotient-level minimal triggers are adjacent if
+they have the same size and differ by replacing exactly one support:
+$$
+  |A\triangle B|=2.
+$$
+\end{definition}
+
+\begin{theorem}[Quotient support-flip graph]
+\label{thm:philosophy-quotient-support-flip-graph}
+The fixed-size quotient support-flip graphs have the following
+statistics:
+$$
+\begin{array}{c|r|r|r|r}
+  m & \text{vertices} & \text{edges} & \text{components} & \text{diameter}\\
+  \hline
+  1 & 1 & 0 & 1 & 0\\
+  2 & 25 & 102 & 1 & 3\\
+  3 & 22 & 48 & 1 & 4\\
+  4 & 1 & 0 & 1 & 0.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the quotient-level minimal full triggers at each size. In a
+fixed-size layer, join two vertices when their symmetric difference has
+size two. Computing the connected components and graph diameters gives
+the displayed table.
+\end{proof}
+
+\begin{theorem}[Orbit-edge structure]
+\label{thm:philosophy-minimal-trigger-orbit-edge-structure}
+In the $m=2$ quotient support-flip graph, the orbit-edge counts are
+$$
+\begin{array}{c|r}
+  \text{orbit pair} & \text{edge count}\\
+  \hline
+  \{1,234\}\text{--}\{12,234\} & 12\\
+  \{1,234\}\text{--}\{123,124\} & 12\\
+  \{12,34\}\text{--}\{12,234\} & 12\\
+  \{12,234\}\text{--}\{12,234\} & 18\\
+  \{12,234\}\text{--}\{123,124\} & 36\\
+  \{123,124\}\text{--}\{123,124\} & 12.
+\end{array}
+$$
+In the $m=3$ layer the counts are
+$$
+\begin{array}{c|r}
+  \text{orbit pair} & \text{edge count}\\
+  \hline
+  \{1,2,34\}\text{--}\{1,24,34\} & 24\\
+  \{1,24,34\}\text{--}\{1,24,34\} & 12\\
+  \{1,24,34\}\text{--}\{14,24,34\} & 12.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Refine the support-flip graph of
+\autoref{thm:philosophy-quotient-support-flip-graph} by the orbit labels
+of \autoref{thm:philosophy-nine-orbit-minimal-trigger-classification}
+and count edges by unordered orbit pair.
+\end{proof}
+
+\begin{corollary}[Defect-one transition layer]
+\label{cor:philosophy-defect-one-transition-layer}
+In the nontrivial quotient flip layers, defect-$1$ orbit types form the
+transition layer between partition triggers and high-overlap triggers.
+\end{corollary}
+\begin{proof}
+In the $m=3$ layer, the partition orbit $\{1,2,34\}$ only connects to
+the defect-$1$ orbit $\{1,24,34\}$, and the defect-$2$ orbit
+$\{14,24,34\}$ also only connects to that defect-$1$ orbit. In the
+$m=2$ layer, every partition-to-overlap path passes through or touches
+the displayed defect-$1$ orbit $\{12,234\}$, while the high-overlap
+orbit also has internal edges.
+\end{proof}
+
+\begin{theorem}[Minimal-trigger bundle theorem]
+\label{thm:philosophy-minimal-trigger-bundle-theorem}
+The post-$M^{\star}$ codon-level minimal trigger space is an
+$f_{3}$-lift hypercube bundle over the quotient minimal-cover base:
+$$
+  \mathcal{T}_{c}
+  =
+  Q_{1}
+  \sqcup
+  25Q_{2}
+  \sqcup
+  22Q_{3}
+  \sqcup
+  Q_{4}.
+$$
+Its base has $49$ vertices arranged in nine $S_{4}$-orbit types, the
+lift fibers contribute $397$ internal lift-flip edges, and the nontrivial
+fixed-size quotient layers are connected.
+\end{theorem}
+\begin{proof}
+The bundle decomposition is
+\autoref{thm:philosophy-minimal-trigger-lift-bundle-decomposition}. The
+orbit stratification is
+\autoref{thm:philosophy-nine-orbit-minimal-trigger-classification}. The
+lift-flip count and quotient connectivity are
+\autoref{thm:philosophy-minimal-trigger-lift-flip-edge-count} and
+\autoref{thm:philosophy-quotient-support-flip-graph}.
+\end{proof}

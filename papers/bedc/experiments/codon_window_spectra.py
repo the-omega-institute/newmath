@@ -4068,6 +4068,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "{1,2,3,4}",
     )
     quotient_minimal_trigger_orbit_counts: collections.Counter[str] = collections.Counter()
+    quotient_minimal_trigger_families_by_size: dict[int, list[tuple[frozenset[int], ...]]] = {trigger_size: [] for trigger_size in range(1, 5)}
     for trigger_size in range(1, 5):
         for family in itertools.combinations(nonempty_support_patterns, trigger_size):
             union_support = frozenset().union(*family)
@@ -4084,6 +4085,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 quotient_minimal_trigger_type_counts[support_size_type] += 1
                 canonical_orbit = canonical_support_family(family)
                 quotient_minimal_trigger_orbit_counts[chosen_orbit_representatives[canonical_orbit]] += 1
+                quotient_minimal_trigger_families_by_size[trigger_size].append(family)
     minimal_trigger_rows = [
         {
             "trigger_size": trigger_size,
@@ -4192,6 +4194,84 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         }
         for defect in range(3)
     ]
+    minimal_trigger_lift_bundle_rows = [
+        {
+            "trigger_size": row["trigger_size"],
+            "quotient_count": row["quotient_count"],
+            "fiber": f"Q_{row['trigger_size']}",
+            "codon_count": row["codon_count"],
+            "lift_flip_edges_per_fiber": row["trigger_size"] * (2 ** (row["trigger_size"] - 1)),
+            "lift_flip_edges": row["quotient_count"] * row["trigger_size"] * (2 ** (row["trigger_size"] - 1)),
+        }
+        for row in minimal_trigger_rows
+    ]
+    minimal_trigger_lift_flip_edge_total = sum(row["lift_flip_edges"] for row in minimal_trigger_lift_bundle_rows)
+
+    def graph_metrics(vertices: list[tuple[frozenset[int], ...]], edges: set[tuple[int, int]]) -> tuple[int, int]:
+        adjacency = {index: set() for index in range(len(vertices))}
+        for left, right in edges:
+            adjacency[left].add(right)
+            adjacency[right].add(left)
+        seen: set[int] = set()
+        components = 0
+        diameter = 0
+        for start in range(len(vertices)):
+            if start in seen:
+                continue
+            components += 1
+            queue = collections.deque([start])
+            seen.add(start)
+            component_vertices = []
+            while queue:
+                vertex = queue.popleft()
+                component_vertices.append(vertex)
+                for neighbor in adjacency[vertex]:
+                    if neighbor not in seen:
+                        seen.add(neighbor)
+                        queue.append(neighbor)
+            for source in component_vertices:
+                distances = {source: 0}
+                queue = collections.deque([source])
+                while queue:
+                    vertex = queue.popleft()
+                    for neighbor in adjacency[vertex]:
+                        if neighbor not in distances:
+                            distances[neighbor] = distances[vertex] + 1
+                            queue.append(neighbor)
+                diameter = max(diameter, max(distances.values(), default=0))
+        return components, diameter
+
+    quotient_flip_graph_rows = []
+    quotient_flip_orbit_edge_rows = []
+    for trigger_size, families in quotient_minimal_trigger_families_by_size.items():
+        family_sets = [frozenset(family) for family in families]
+        edge_indices: set[tuple[int, int]] = set()
+        orbit_edge_counts: collections.Counter[tuple[str, str]] = collections.Counter()
+        for left_index, right_index in itertools.combinations(range(len(family_sets)), 2):
+            if len(family_sets[left_index] ^ family_sets[right_index]) == 2:
+                edge_indices.add((left_index, right_index))
+                left_orbit = chosen_orbit_representatives[canonical_support_family(families[left_index])]
+                right_orbit = chosen_orbit_representatives[canonical_support_family(families[right_index])]
+                orbit_edge_counts[tuple(sorted((left_orbit, right_orbit), key=orbit_order.index))] += 1
+        component_count, diameter = graph_metrics(families, edge_indices)
+        quotient_flip_graph_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "vertices": len(families),
+                "edges": len(edge_indices),
+                "connected_components": component_count,
+                "diameter": diameter,
+            }
+        )
+        for (left_orbit, right_orbit), edge_count in sorted(orbit_edge_counts.items(), key=lambda item: (trigger_size, orbit_order.index(item[0][0]), orbit_order.index(item[0][1]))):
+            quotient_flip_orbit_edge_rows.append(
+                {
+                    "trigger_size": trigger_size,
+                    "left_orbit": left_orbit,
+                    "right_orbit": right_orbit,
+                    "edge_count": edge_count,
+                }
+            )
     rank_enumerator_rows = [
         {
             "added_size": added_size,
@@ -4702,6 +4782,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "private_coordinate_formula_rows": private_coordinate_formula_rows,
         "minimal_trigger_orbit_rows": minimal_trigger_orbit_rows,
         "minimal_trigger_defect_rows": minimal_trigger_defect_rows,
+        "minimal_trigger_lift_bundle_rows": minimal_trigger_lift_bundle_rows,
+        "minimal_trigger_lift_flip_edge_total": minimal_trigger_lift_flip_edge_total,
+        "quotient_flip_graph_rows": quotient_flip_graph_rows,
+        "quotient_flip_orbit_edge_rows": quotient_flip_orbit_edge_rows,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
         "trigger_energy_minimum": trigger_energy_minimum,
         "trigger_energy_minimum_condition": "support partition of Omega",
@@ -8528,6 +8612,46 @@ def assert_expected(summary: dict[str, object]) -> None:
         (0, 15, 94),
         (1, 24, 144),
         (2, 10, 56),
+    ]
+    assert [
+        (
+            row["trigger_size"],
+            row["quotient_count"],
+            row["fiber"],
+            row["codon_count"],
+            row["lift_flip_edges_per_fiber"],
+            row["lift_flip_edges"],
+        )
+        for row in antipodal["minimal_trigger_lift_bundle_rows"]
+    ] == [
+        (1, 1, "Q_1", 2, 1, 1),
+        (2, 25, "Q_2", 100, 4, 100),
+        (3, 22, "Q_3", 176, 12, 264),
+        (4, 1, "Q_4", 16, 32, 32),
+    ]
+    assert antipodal["minimal_trigger_lift_flip_edge_total"] == 397
+    assert [
+        (row["trigger_size"], row["vertices"], row["edges"], row["connected_components"], row["diameter"])
+        for row in antipodal["quotient_flip_graph_rows"]
+    ] == [
+        (1, 1, 0, 1, 0),
+        (2, 25, 102, 1, 3),
+        (3, 22, 48, 1, 4),
+        (4, 1, 0, 1, 0),
+    ]
+    assert [
+        (row["trigger_size"], row["left_orbit"], row["right_orbit"], row["edge_count"])
+        for row in antipodal["quotient_flip_orbit_edge_rows"]
+    ] == [
+        (2, "{1,234}", "{12,234}", 12),
+        (2, "{1,234}", "{123,124}", 12),
+        (2, "{12,34}", "{12,234}", 12),
+        (2, "{12,234}", "{12,234}", 18),
+        (2, "{12,234}", "{123,124}", 36),
+        (2, "{123,124}", "{123,124}", 12),
+        (3, "{1,2,34}", "{1,24,34}", 24),
+        (3, "{1,24,34}", "{1,24,34}", 12),
+        (3, "{1,24,34}", "{14,24,34}", 12),
     ]
     assert antipodal["rank_enumerator_formula"] == "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))"
     assert [
