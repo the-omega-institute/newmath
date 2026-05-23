@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\SeriesLimitComparisonUp$}
+\label{ch:concrete-instances-series-limit-comparison-namecert}
+\origin{human}
+
+From Bishop and Bridges constructive analysis, the series limit-comparison test is a finite comparison route between two positive series, not an appeal to a host real limit of quotients. The $\SeriesLimitComparisonUp$ packet sits after the finite tail criterion of \autoref{ch:concrete-instances-real-series-cauchy-criterion-namecert} and the regular-Cauchy comparison surface of \autoref{ch:concrete-instances-regular-cauchy-comparison-namecert}. It reads source and comparator series only through $\StreamNameUp$ windows from \autoref{ch:concrete-instances-streamname-namecert}, $\RegSeqRatUp$ readback from \autoref{ch:concrete-instances-regseqrat-namecert}, and the $\DyadicRatCoreUp$ budget of \autoref{ch:concrete-instances-dyadicratcore-namecert}, then seals the accepted endpoint through the $\RealUp$ boundary of \autoref{ch:concrete-instances-real-namecert}. The packet records a constructive comparison certificate for eventual positive ratio control; it does not import host limits, quotient series equality, countable choice, trichotomy, or ambient real completeness.
+
+\begin{definition}[Series limit comparison carrier]\label{def:series-limit-comparison-carrier}
+A $\SeriesLimitComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,B,S,T,R,D,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source-series row, recording finite term and partial-sum observations for the series whose Cauchy behavior is being certified.
+\item $B$ is the comparator-series row, recording the matched finite term and partial-sum observations used as the comparison source.
+\item $S$ is the source partial-sum thread exposed to the $\RealSeriesCauchyCriterionUp$ route.
+\item $T$ is the comparator partial-sum thread exposed to the same criterion surface.
+\item $R$ is the eventual positive comparison and ratio ledger: it records the displayed threshold after which comparator terms are positive and the source terms are bounded by a carried dyadic multiple of the comparator terms.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance budget, including the ratio slack, product budget, tail tolerance, and comparison radii consumed by $R,S,T$.
+\item $W$ is the $\StreamNameUp$ window family opening exactly the inspected source terms, comparator terms, partial sums, and endpoint-facing approximations.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the source and comparator windows and to the dyadic requests in $D$.
+\item $E$ is the $\RealUp$ seal available only after the source row, comparator row, ratio ledger, dyadic budget, stream windows, regular readback, and Cauchy handoff rows have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the source series, comparator series, two partial-sum threads, ratio ledger, dyadic budget, stream windows, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from source and comparator series rows to their partial-sum threads, from those threads to the ratio ledger, from the ratio ledger to the dyadic budget and regular readback, and from that readback to the real seal.
+\item $P$ is the $\Pkg$ provenance over $\SeriesLimitComparisonUp$, $\LimitComparisonTestUp$, $\RealSeriesCauchyCriterionUp$, $\RegularCauchyComparisonUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SeriesLimitComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,S,T,R,D,W,Q,E,H,C,P,N$. It has no coordinate for a host quotient limit, a host infinite sum, quotient equality of series, countable-choice selector, trichotomy row, ambient $\RealUp$ completeness theorem, Lean verification, or standard bridge.
+\end{definition}
+
+\begin{theorem}[Series limit comparison NameCert obligations]\label{thm:series-limit-comparison-namecert-obligations}
+For every accepted $\SeriesLimitComparisonUp$ carrier $K=(A,B,S,T,R,D,W,Q,E,H,C,P,N)$, the local $\NameCert_{\SeriesLimitComparisonUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed source series, comparator series, partial-sum threads, eventual positivity and ratio ledger, dyadic budget, stream windows, regular readback, real seal, transport, replay, provenance, and local naming rows;
+\item source-thread exactness, requiring every source partial sum and tail observation consumed by the certificate to pass through $A,S,W,Q,D$;
+\item comparator-thread exactness, requiring every comparator partial sum and tail observation consumed by the certificate to pass through $B,T,W,Q,D$;
+\item eventual positive comparison, requiring the ledger $R$ to display the finite threshold and the positive comparator rows used in every later comparison;
+\item ratio-budget exactness, requiring $R$ and $D$ to display the carried dyadic multiple, slack, and tail budget before the source Cauchy handoff is read;
+\item real-seal nonescape, requiring $E$ to be downstream of the displayed $\RealSeriesCauchyCriterionUp$ and $\RegularCauchyComparisonUp$ routes and to export no host limit, quotient series equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge datum;
+\item componentwise transport, displayed replay, provenance, and local naming for the same route through $H,C,P,N$.
+\end{enumerate}
+No series limit-comparison obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $K=(A,B,S,T,R,D,W,Q,E,H,C,P,N)$. The carrier definition exposes exactly the source and comparator rows, their partial-sum threads, the ratio ledger, dyadic budget, finite windows, regular readback, real seal, and structural rows.
+
+The source and comparator threads are read separately. The source side must pass through $A,S,W,Q,D$, while the comparator side must pass through $B,T,W,Q,D$.
+
+The eventual positivity and ratio ledger $R$ is then displayed. Its finite threshold and dyadic multiple are measured only against the tolerance and slack rows carried by $D$.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same route. Since no excluded analytic or choice object appears as a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Series limit comparison Cauchy handoff]\label{thm:series-limit-comparison-cauchy-handoff}
+Let $K=(A,B,S,T,R,D,W,Q,E,H,C,P,N)$ be an accepted $\SeriesLimitComparisonUp$ carrier. Every completion-facing read of the source series factors through
+$$
+B,T,W,Q,D \longmapsto R \longmapsto A,S,W,Q,D \longmapsto E,H,C,P,N .
+$$
+Thus comparator Cauchy control is handed to the source series only through the displayed eventual positive ratio ledger and dyadic tolerance budget, not through a host quotient limit, quotient equality of series, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing request for the source series. The comparator rows $B,T,W,Q,D$ are the only comparator data available to the carrier, so the request first reads the comparator partial-sum and tolerance surface.
+
+The ratio ledger $R$ supplies the finite threshold, eventual positivity rows, and dyadic multiple used to compare later source terms with later comparator terms. This is a displayed ledger row, not a host limit assertion.
+
+The request then returns to the source rows $A,S,W,Q,D$. The same stream windows, regular readback, and dyadic budget record the finite tail comparison needed by the $\RealSeriesCauchyCriterionUp$ route.
+
+The seal $E$ and structural rows $H,C,P,N$ preserve this handoff. Since the carrier has no coordinate for quotient series equality, choice, trichotomy, or ambient completeness, every source completion read is exhausted by the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Series limit comparison ratio nonescape]\label{thm:series-limit-comparison-ratio-nonescape}
+For every accepted $\SeriesLimitComparisonUp$ carrier, the ratio ledger $R$ cannot be read as a standalone quotient-limit object. Any consumer of $R$ must also receive the source-series row, comparator-series row, stream-window family, regular readback, dyadic tolerance budget, real seal, transport table, continuation table, package provenance, and local naming row displayed in \autoref{def:series-limit-comparison-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:series-limit-comparison-carrier}. The row $R$ is listed between the two partial-sum threads and the dyadic budget, and the classifier compares accepted packets componentwise through the full tuple.
+
+Apply \autoref{thm:series-limit-comparison-namecert-obligations}. The eventual positive comparison and ratio-budget exactness rows require $R$ to be displayed together with the dyadic budget $D$, stream windows $W$, and regular readback $Q$ before a real-seal consumer can use it.
+
+Apply \autoref{thm:series-limit-comparison-cauchy-handoff}. The only completion-facing use of the ratio ledger is the finite handoff from comparator Cauchy control to the source Cauchy route.
+
+Therefore $R$ is a local ledger row inside the finite packet. It cannot be detached as a host quotient limit or used to supply quotient series equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\SeriesLimitComparisonUp$ completion-facing read factors through source and comparator series rows, two partial-sum threads, an eventual positive ratio ledger, a DyadicRatCore tolerance budget, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{real-series-cauchy-criterion, regular-cauchy-comparison, streamname, regseqrat, dyadicratcore, real: $\SeriesLimitComparisonUp$ is not bijective to any listed sibling because it jointly carries two series rows, two partial-sum threads, eventual positivity, ratio-budget control, Cauchy handoff, real sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{SeriesLimitComparisonUp}{seedStr}
+
+\begin{closurestatus}{\SeriesLimitComparisonUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:series-limit-comparison-carrier}, \autoref{thm:series-limit-comparison-namecert-obligations}, \autoref{thm:series-limit-comparison-cauchy-handoff}, and \autoref{thm:series-limit-comparison-ratio-nonescape} seed the finite constructive series limit-comparison route from comparator Cauchy control through eventual positive ratio budgeting to source-series RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.SeriesLimitComparisonUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host limits, quotient series equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, source and comparator thread exactness, eventual positive ratio-ledger stability, DyadicRatCore and RegSeqRat budget handoff, Real seal nonescape, and TasteGate field faithfulness for BEDC.Derived.SeriesLimitComparisonUp.}
+  \constructivestory{A $\SeriesLimitComparisonUp$ packet is generated from source and comparator series rows, two partial-sum threads, an eventual positive comparison and ratio ledger, a DyadicRatCore tolerance budget, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
