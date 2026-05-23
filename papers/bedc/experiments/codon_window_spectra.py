@@ -4070,6 +4070,16 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         (row["trigger_size"], row["codon_count"])
         for row in minimal_trigger_rows
     )
+    minimal_trigger_homology_core_rows = [
+        {
+            "trigger_size": row["trigger_size"],
+            "homology_degree": row["trigger_size"] - 2,
+            "sphere": f"S^{row['trigger_size'] - 2}",
+            "quotient_count": row["quotient_count"],
+            "codon_count": row["codon_count"],
+        }
+        for row in minimal_trigger_rows
+    ]
     rank_enumerator_rows = [
         {
             "added_size": added_size,
@@ -4574,6 +4584,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
         "minimal_trigger_polynomial_quotient": minimal_trigger_polynomial_quotient,
         "minimal_trigger_polynomial_codon": minimal_trigger_polynomial_codon,
+        "minimal_trigger_homology_core_rows": minimal_trigger_homology_core_rows,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
         "trigger_energy_minimum": trigger_energy_minimum,
         "trigger_energy_minimum_condition": "support partition of Omega",
@@ -8341,6 +8352,21 @@ def assert_expected(summary: dict[str, object]) -> None:
         (3, 176),
         (4, 16),
     )
+    assert [
+        (
+            row["trigger_size"],
+            row["homology_degree"],
+            row["sphere"],
+            row["quotient_count"],
+            row["codon_count"],
+        )
+        for row in antipodal["minimal_trigger_homology_core_rows"]
+    ] == [
+        (1, -1, "S^-1", 1, 2),
+        (2, 0, "S^0", 25, 100),
+        (3, 1, "S^1", 22, 176),
+        (4, 2, "S^2", 1, 16),
+    ]
     assert antipodal["rank_enumerator_formula"] == "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))"
     assert [
         (row["added_size"], row["rank_counts"], row["counts_sum_to_candidate_count"])
