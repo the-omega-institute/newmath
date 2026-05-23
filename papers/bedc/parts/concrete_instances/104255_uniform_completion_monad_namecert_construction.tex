@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\UniformCompletionMonadUp$}
+\label{ch:concrete-instances-uniform-completion-monad-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform completion, the $\UniformCompletionMonadUp$ packet records the completion unit and idempotent multiplication route as finite $\NameCert$ data over \autoref{ch:concrete-instances-uniformcompletion-namecert}, \autoref{ch:concrete-instances-completionfunctor-namecert}, \autoref{ch:concrete-instances-completion-unit-triangle-namecert}, \autoref{ch:concrete-instances-cauchy-completion-idempotent-namecert}, and \autoref{ch:concrete-instances-metriccompletion-namecert}. It names the monadic completion surface as a ledger of displayed rows; it does not identify quotient completions, select representatives, compare host equality, use choice, or invoke ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniform completion monad carrier]\label{def:uniform-completion-monad-carrier}
+A $\UniformCompletionMonadUp$ carrier is a finite $\BHist$ packet
+$$
+M=(U,F,T,I,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformCompletionUp$ row naming the separated completion route over the source uniform presentation.
+\item $F$ is the $\CompletionFunctorUp$ row that transports displayed uniformly continuous maps through the same completion route.
+\item $T$ is the $\CompletionUnitTriangleUp$ row recording the unit-return triangle for source data entering the completion boundary.
+\item $I$ is the $\CauchyCompletionIdempotentUp$ row recording that a repeated completion read contributes no additional public completion object.
+\item $Q$ is the $\MetricCompletionUp$ row serving metric consumers that read the same completion-facing surface.
+\item $R$ is the finite route ledger that orders the unit leg before the functorial read and the idempotent multiplication leg after the repeated completion read.
+\item $H$ stores componentwise $\hsame$ transport for the uniform completion, functor, unit triangle, idempotent, metric completion, route ledger, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay for unit admission, functorial transport, repeated completion, idempotent multiplication, metric readback, and terminal naming.
+\item $P$ is the $\Pkg$ provenance over $\UniformCompletionMonadUp$, $\UniformCompletionUp$, $\CompletionFunctorUp$, $\CompletionUnitTriangleUp$, $\CauchyCompletionIdempotentUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformCompletionMonadUp}$ row.
+\end{enumerate}
+The carrier exposes the monad only as the displayed unit route and idempotent multiplication route through these rows. It carries no quotient completion object, no selected representative, no host equality of completed uniform spaces, no choice schedule, and no completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Uniform completion monad NameCert obligations]\label{thm:uniform-completion-monad-namecert-obligations}
+For an accepted $\UniformCompletionMonadUp$ carrier $M=(U,F,T,I,Q,R,H,C,P,N)$, the local $\NameCert_{\UniformCompletionMonadUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the uniform completion, completion functor, unit triangle, idempotent, metric completion, route ledger, transport, replay, provenance, and local naming rows;
+\item unit-route visibility, requiring every source-to-completion read to pass through $U$, $F$, and $T$ before any metric completion consumer reads it;
+\item idempotent multiplication visibility, requiring every repeated completion read to pass through $I$ after the repeated functorial read has been displayed;
+\item classifier stability, requiring transported monad evidence to replay through $H$ and $C$ before it is exported;
+\item ledger non-escape, requiring $P$ and $N$ to export no quotient completion, selected representative, host equality, choice schedule, or ambient $\RealUp$ completeness theorem.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-completion-monad-carrier}. The tuple lists exactly the uniform completion, functor, unit triangle, idempotent, metric completion, route ledger, transport, replay, provenance, and local naming rows.
+
+Unit-route visibility is the first completion face of the tuple. A source datum enters through $U$, is transported through $F$, and returns through the triangle row $T$ before the metric completion row $Q$ can be read.
+
+Idempotent multiplication visibility is the repeated-completion face. The repeated read is ordered by $R$ and replayed by $C$ so that $I$ is the only multiplication row available to consumers.
+
+Classifier stability is componentwise transport through $H$ followed by the same replay through $C$. Ledger non-escape is the inventory statement for $P$ and $N$: neither row contains a quotient completion, selected representative, host equality coordinate, choice schedule, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[Uniform completion monad unit route]\label{thm:uniform-completion-monad-unit-route}
+Every accepted $\UniformCompletionMonadUp$ unit read factors through the displayed route
+$$
+\UniformCompletionUp,\ \CompletionFunctorUp,\ \CompletionUnitTriangleUp,\ \MetricCompletionUp .
+$$
+The route is a finite $\NameCert$ ledger over the carrier rows of \autoref{def:uniform-completion-monad-carrier}; it is not a quotient-completion map, a selected representative, a host equality of completed objects, a choice principle, or an ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:uniform-completion-monad-carrier}. The only rows available before a metric completion consumer reads a unit datum are $U,F,T,Q$ together with the route, transport, replay, provenance, and naming rows.
+
+Apply the unit-route visibility clause of \autoref{thm:uniform-completion-monad-namecert-obligations}. It orders the source-to-completion read through $U$, $F$, and $T$ before exposing $Q$.
+
+The package and local naming rows contain no further completion object or host equality coordinate. Therefore the exported unit route is exhausted by the displayed finite ledger and cannot supply quotient completions, selected representatives, choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Uniform completion monad idempotent multiplication]\label{thm:uniform-completion-monad-idempotent-multiplication}
+Every accepted $\UniformCompletionMonadUp$ repeated completion read factors through the displayed route
+$$
+\UniformCompletionUp,\ \CompletionFunctorUp,\ \CauchyCompletionIdempotentUp,\ \MetricCompletionUp .
+$$
+The multiplication face records idempotence as reuse of the same finite completion ledger, not as equality of host completion objects.
+\end{theorem}
+\begin{proof}
+Read the carrier rows $U,F,I,Q,R,C$ from \autoref{def:uniform-completion-monad-carrier}. They are the only rows that can serve a repeated completion consumer.
+
+Apply the idempotent multiplication visibility clause of \autoref{thm:uniform-completion-monad-namecert-obligations}. The route ledger $R$ orders the repeated functorial read, and the replay row $C$ forces the multiplication face through $I$ before $Q$ is exposed.
+
+Since $P$ and $N$ contain no quotient completion or host equality coordinate, idempotence is available only as the finite reuse of the displayed completion ledger. No selected representative, choice schedule, or ambient $\RealUp$ completeness theorem is exported.
+\end{proof}
+
+\begin{theorem}[Uniform completion monad ledger non-escape]\label{thm:uniform-completion-monad-ledger-nonescape}
+Every consumer route exported by an accepted $\UniformCompletionMonadUp$ carrier is exhausted by the unit route of \autoref{thm:uniform-completion-monad-unit-route}, the idempotent multiplication route of \autoref{thm:uniform-completion-monad-idempotent-multiplication}, the classifier transport row $H$, the replay row $C$, the provenance row $P$, and the local naming row $N$. No exported route can obtain quotient completions, selected representatives, host equality, choice, $\RealUp$ completeness, Lean verification, or bridge checking from the packet.
+\end{theorem}
+\begin{proof}
+The carrier has only the rows displayed in \autoref{def:uniform-completion-monad-carrier}. The unit route and the idempotent multiplication route account for the two completion-facing monad reads.
+
+Apply the classifier stability and ledger non-escape clauses of \autoref{thm:uniform-completion-monad-namecert-obligations}. Transported evidence must pass through $H$ and $C$, while $P$ and $N$ only record provenance and local naming.
+
+Thus every consumer route is already one of the displayed finite routes. The packet contains no row from which quotient completions, selected representatives, host equality, choice, $\RealUp$ completeness, Lean verification, or bridge checking could be read.
+\end{proof}
+
+\begin{closurestatus}{\UniformCompletionMonadUp}
+  \constructivestory{A $\UniformCompletionMonadUp$ packet is generated from a uniform completion row, completion functor row, completion unit triangle row, completion idempotent row, metric completion row, finite route ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-completion-monad-carrier}, \autoref{thm:uniform-completion-monad-namecert-obligations}, \autoref{thm:uniform-completion-monad-unit-route}, \autoref{thm:uniform-completion-monad-idempotent-multiplication}, and \autoref{thm:uniform-completion-monad-ledger-nonescape} seed the finite monadic completion packet over unit, functorial, idempotent, metric, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.UniformCompletionMonadUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completions, selected representatives, host equality, choice, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, unit-route visibility, idempotent multiplication visibility, classifier stability, and ledger non-escape for BEDC.Derived.UniformCompletionMonadUp.}
+\end{closurestatus}
