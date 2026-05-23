@@ -84,6 +84,7 @@ Next apply \autoref{thm:real-sequence-limit-namecert-obligation-surface}. The co
 
 The continuation row $C$ replays the same scheduled comparison for consumers, and $P,N$ record provenance and local naming for that route. The transport row $H$ preserves the packet componentwise, so every replayed comparison remains attached to the same finite tail-window schedule before the $\RealUp$ seal is consumed.
 \end{proof}
+\leanchecked{BEDC.Derived.RealSequenceLimitUp.RealSequenceLimitTailWindowTransport}
 
 \begin{theorem}[RealSequenceLimit modulus extraction]\label{thm:real-sequence-limit-modulus-extraction}
 For an accepted $\RealSequenceLimitUp$ carrier $(S,L,W,D,E,H,C,P,N)$, the rows $W,D,E$ expose a $\CauchyModulusUp$-compatible tail threshold for the displayed sequence-to-limit claim. A tolerance request is first read through the $\DyadicRatCoreUp$ ledger $D$, then matched with a scheduled tail window in $W$, and finally admitted by the convergence classifier $E$ before any $\RealUp$ seal is consumed.
@@ -95,6 +96,7 @@ Apply the NameCert surface of \autoref{thm:real-sequence-limit-namecert-obligati
 
 The resulting threshold is compatible with $\CauchyModulusUp$ because it is a displayed tail-window response to a dyadic tolerance request. It supplies only the scheduled tail index and the associated readback windows, not a host-level modulus function or a choice-selected tail.
 \end{proof}
+\leanchecked{BEDC.Derived.RealSequenceLimitUp.RealSequenceLimitModulusExtraction}
 
 \begin{theorem}[RealSequenceLimit tail refinement ledger]\label{thm:real-sequence-limit-tail-refinement-ledger}
 For an accepted $\RealSequenceLimitUp$ carrier $(S,L,W,D,E,H,C,P,N)$, refining a dyadic tolerance request remains inside the same $\StreamNameUp/\RegSeqRatUp/\DyadicRatCoreUp$ route. The refined request may shrink the scheduled windows recorded in $W$ and the tolerance row recorded in $D$, but its classifier read still factors through $E,H,C,P,N$ before the $\RealUp$ seal.
