@@ -76,6 +76,45 @@ theorem FiniteLebesgueNumberCompactRadiusWindowPullback [AskSetup] [PackageSetup
       pullbackUnary, coverWindowRadius, coverRadiusCompact, compactMeshWindow,
       windowRoutePullback, provenancePkg, pullbackPkg⟩
 
+def FiniteLebesgueNumberCompactRadiusWindowPullbackPacket [AskSetup] [PackageSetup]
+    (cover window radius mesh transport route provenance nameRow compactRadius compactWindow
+      pullbackRead : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+      bundle pkg ∧
+    Cont cover radius compactRadius ∧ Cont compactRadius mesh compactWindow ∧
+      Cont compactWindow route pullbackRead ∧ PkgSig bundle pullbackRead pkg
+
+theorem FiniteLebesgueNumberCompactRadiusWindowPullbackPacket_admission
+    [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow compactRadius compactWindow
+      pullbackRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCompactRadiusWindowPullbackPacket cover window radius mesh transport
+        route provenance nameRow compactRadius compactWindow pullbackRead bundle pkg →
+      UnaryHistory cover ∧ UnaryHistory radius ∧ UnaryHistory mesh ∧
+        UnaryHistory compactRadius ∧ UnaryHistory compactWindow ∧
+          UnaryHistory pullbackRead ∧ Cont cover radius compactRadius ∧
+            Cont compactRadius mesh compactWindow ∧ Cont compactWindow route pullbackRead ∧
+              PkgSig bundle pullbackRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet
+  obtain ⟨carrier, coverRadiusCompact, compactMeshWindow, windowRoutePullback,
+    pullbackPkg⟩ := packet
+  obtain ⟨coverUnary, _windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, _provenancePkg⟩ := carrier
+  have compactRadiusUnary : UnaryHistory compactRadius :=
+    unary_cont_closed coverUnary radiusUnary coverRadiusCompact
+  have compactWindowUnary : UnaryHistory compactWindow :=
+    unary_cont_closed compactRadiusUnary meshUnary compactMeshWindow
+  have pullbackUnary : UnaryHistory pullbackRead :=
+    unary_cont_closed compactWindowUnary routeUnary windowRoutePullback
+  exact
+    ⟨coverUnary, radiusUnary, meshUnary, compactRadiusUnary, compactWindowUnary,
+      pullbackUnary, coverRadiusCompact, compactMeshWindow, windowRoutePullback,
+      pullbackPkg⟩
+
 theorem FiniteLebesgueNumberBudgetedRealCompletionNonescape [AskSetup] [PackageSetup]
     {cover window radius mesh transport route provenance nameRow compactRadius compactWindow
       uniformRead realCompletionRead : BHist}
