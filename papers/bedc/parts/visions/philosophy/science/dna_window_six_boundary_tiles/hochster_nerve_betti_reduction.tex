@@ -219,6 +219,116 @@ These are the coefficients of $B_{0}(x)$ and $B_{1}(x)$ in
 \autoref{thm:philosophy-complete-hochster-diagonal-series}.
 \end{proof}
 
+\begin{definition}[Support-level Betti polynomials]
+\label{def:philosophy-support-level-betti-polynomials}
+Let
+$$
+  \mathcal{S}=2^{\Omega}\setminus\{\varnothing\}.
+$$
+For $A\subseteq\mathcal{S}$, define the support nerve
+$$
+  N_{A}
+  =
+  \bigcup_{S\in A}2^{\Omega\setminus S}.
+$$
+For $q=-1,0,1,2$, set
+$$
+  Q_{q}(z)
+  =
+  \sum_{A\subseteq\mathcal{S}}
+  \dim_{k}\widetilde{H}_{q}(N_{A};k)z^{|A|}.
+$$
+\end{definition}
+
+\begin{theorem}[Support-level Betti polynomials]
+\label{thm:philosophy-support-level-betti-polynomials}
+The support-level Hochster polynomials are
+$$
+  Q_{-1}(z)=1+z,
+$$
+$$
+  Q_{0}(z)
+  =
+  z^{2}(1+z)
+  \left(
+  4z^{6}+28z^{5}+87z^{4}+152z^{3}
+  +157z^{2}+92z+25
+  \right),
+$$
+$$
+  Q_{1}(z)
+  =
+  z^{3}(1+z)^{5}
+  \left(
+  6z^{5}+38z^{4}+99z^{3}+132z^{2}+89z+22
+  \right),
+$$
+and
+$$
+  Q_{2}(z)=z^{4}(1+z)^{11}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $2^{15}$ subsets of the support-type set
+$\mathcal{S}$. For each $A$, the nerve is the four-vertex complex
+$N_{A}$. Computing its reduced homology and summing by $|A|$ gives the
+four displayed polynomials. The highest polynomial has the direct
+form $Q_{2}(z)=z^{4}(1+z)^{11}$ because $\widetilde{H}_{2}$ occurs
+exactly when the four singleton supports are present, while the other
+$11$ support types are unrestricted.
+\end{proof}
+
+\begin{theorem}[Support-lift Betti transform]
+\label{thm:philosophy-support-lift-betti-transform}
+If each support type has $\ell$ lifts, then the lifted Hochster
+diagonal series is
+$$
+  B_{q}^{(\ell)}(x)
+  =
+  Q_{q}\left((1+x)^{\ell}-1\right).
+$$
+In the codon case $\ell=2$, so
+$$
+  B_{q}(x)=Q_{q}(2x+x^{2}).
+$$
+\end{theorem}
+\begin{proof}
+For a fixed support type, either no lift is chosen, or a nonempty
+subset of its $\ell$ lifts is chosen. The nonempty choice generating
+function is $(1+x)^{\ell}-1$. If the support-type set is $A$, its lift
+contribution is therefore $\left((1+x)^{\ell}-1\right)^{|A|}$, while
+the homology factor is $\dim\widetilde{H}_{q}(N_{A})$. Summing over
+$A$ gives the formula.
+\end{proof}
+
+\begin{corollary}[Codon support-lift compression]
+\label{cor:philosophy-codon-support-lift-compression}
+The complete $30$-variable Betti table of $k[\mathcal{B}]$ is
+determined by the four support-level polynomials
+$$
+  Q_{-1},\ Q_{0},\ Q_{1},\ Q_{2}
+$$
+and the substitution
+$$
+  z\mapsto (1+x)^{2}-1=2x+x^{2}.
+$$
+Equivalently,
+$$
+  30\text{-variable Betti data}
+  \longrightarrow
+  15\text{-support-type nerves}
+  \longrightarrow
+  4\text{ support polynomials}.
+$$
+\end{corollary}
+\begin{proof}
+The four codon-level diagonal series are
+\autoref{thm:philosophy-complete-hochster-diagonal-series}. By
+\autoref{thm:philosophy-support-lift-betti-transform}, each is obtained
+from the corresponding support-level polynomial by the codon
+substitution $z=2x+x^{2}$.
+\end{proof}
+
 \begin{corollary}[Top Betti strand values]
 \label{cor:philosophy-top-betti-strand-values}
 The nonzero values of the top strand are
@@ -343,8 +453,10 @@ homology degrees $\widetilde{H}_{-1},\widetilde{H}_{0},
 \widetilde{H}_{1},\widetilde{H}_{2}$, has regularity $3$, has
 projective dimension $27$, and has depth $3$. The four Hochster
 diagonal generating functions are those of
-\autoref{thm:philosophy-complete-hochster-diagonal-series}; in
-particular, its top strand is
+\autoref{thm:philosophy-complete-hochster-diagonal-series}, and they
+are obtained from the support-level polynomials of
+\autoref{thm:philosophy-support-level-betti-polynomials} by the
+substitution $z=2x+x^{2}$. In particular, its top strand is
 $$
   \beta_{j-3,j}
   =
@@ -358,6 +470,8 @@ and regularity are
 \autoref{cor:philosophy-hochster-homology-range}. The top strand is
 \autoref{thm:philosophy-top-betti-strand}, and the four diagonal
 series are \autoref{thm:philosophy-complete-hochster-diagonal-series}.
+The support-lift compression is
+\autoref{thm:philosophy-support-lift-betti-transform}.
 The projective dimension and depth are
 \autoref{thm:philosophy-blocker-depth-regularity}.
 \end{proof}

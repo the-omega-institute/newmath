@@ -3874,6 +3874,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
 
     nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
     hochster_diagonal_coefficients = {-1: [0 for _degree in range(31)], 0: [0 for _degree in range(31)], 1: [0 for _degree in range(31)], 2: [0 for _degree in range(31)]}
+    support_level_betti_coefficients = {-1: [0 for _degree in range(16)], 0: [0 for _degree in range(16)], 1: [0 for _degree in range(16)], 2: [0 for _degree in range(16)]}
     for support_type_size in range(len(nonempty_support_patterns) + 1):
         lift_coefficients = [
             math.comb(support_type_size, double_lift_count) * (2 ** (support_type_size - double_lift_count))
@@ -3888,9 +3889,19 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                         nerve_faces.add(coordinate_mask)
             reduced_betti = simplicial_reduced_betti(nerve_faces, 4)
             for homology_degree, betti_value in reduced_betti.items():
+                support_level_betti_coefficients[homology_degree][support_type_size] += betti_value
                 for double_lift_count, coefficient in enumerate(lift_coefficients):
                     total_degree = support_type_size + double_lift_count
                     hochster_diagonal_coefficients[homology_degree][total_degree] += betti_value * coefficient
+    support_level_betti_rows = [
+        {
+            "homology_degree": homology_degree,
+            "coefficients": tuple(coefficients),
+            "nonzero_count": sum(1 for coefficient in coefficients if coefficient),
+            "total_support_mass": sum(coefficients),
+        }
+        for homology_degree, coefficients in sorted(support_level_betti_coefficients.items())
+    ]
     hochster_diagonal_rows = [
         {
             "homology_degree": homology_degree,
@@ -3907,6 +3918,13 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         1: "x^3(x+1)^10(x+2)^3P1(x)",
         2: "x^4(x+1)^22(x+2)^4",
     }
+    support_level_betti_generating_functions = {
+        -1: "1+z",
+        0: "z^2(1+z)(4z^6+28z^5+87z^4+152z^3+157z^2+92z+25)",
+        1: "z^3(1+z)^5(6z^5+38z^4+99z^3+132z^2+89z+22)",
+        2: "z^4(1+z)^11",
+    }
+    support_lift_substitution = "z=(1+x)^2-1=2x+x^2"
     hochster_p0_coefficients_desc = (4, 48, 268, 920, 2167, 3704, 4736, 4592, 3373, 1844, 720, 184, 25)
     hochster_p1_coefficients_desc = (6, 60, 278, 784, 1491, 2002, 1928, 1320, 617, 178, 22)
     quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
@@ -4468,6 +4486,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "betti_table_diagonal_rows": betti_table_diagonal_rows,
         "hochster_diagonal_rows": hochster_diagonal_rows,
         "hochster_diagonal_generating_functions": hochster_diagonal_generating_functions,
+        "support_level_betti_rows": support_level_betti_rows,
+        "support_level_betti_generating_functions": support_level_betti_generating_functions,
+        "support_lift_substitution": support_lift_substitution,
         "hochster_p0_coefficients_desc": hochster_p0_coefficients_desc,
         "hochster_p1_coefficients_desc": hochster_p1_coefficients_desc,
         "blocker_euler_characteristic": blocker_euler_characteristic,
@@ -7938,6 +7959,76 @@ def assert_expected(summary: dict[str, object]) -> None:
         1: "x^3(x+1)^10(x+2)^3P1(x)",
         2: "x^4(x+1)^22(x+2)^4",
     }
+    assert antipodal["support_lift_substitution"] == "z=(1+x)^2-1=2x+x^2"
+    assert antipodal["support_level_betti_generating_functions"] == {
+        -1: "1+z",
+        0: "z^2(1+z)(4z^6+28z^5+87z^4+152z^3+157z^2+92z+25)",
+        1: "z^3(1+z)^5(6z^5+38z^4+99z^3+132z^2+89z+22)",
+        2: "z^4(1+z)^11",
+    }
+    assert [
+        (
+            row["homology_degree"],
+            tuple((degree, coefficient) for degree, coefficient in enumerate(row["coefficients"]) if coefficient),
+            row["nonzero_count"],
+            row["total_support_mass"],
+        )
+        for row in antipodal["support_level_betti_rows"]
+    ] == [
+        (-1, ((0, 1), (1, 1)), 2, 2),
+        (
+            0,
+            (
+                (2, 25),
+                (3, 117),
+                (4, 249),
+                (5, 309),
+                (6, 239),
+                (7, 115),
+                (8, 32),
+                (9, 4),
+            ),
+            8,
+            1090,
+        ),
+        (
+            1,
+            (
+                (3, 22),
+                (4, 199),
+                (5, 797),
+                (6, 1869),
+                (7, 2853),
+                (8, 2973),
+                (9, 2149),
+                (10, 1067),
+                (11, 349),
+                (12, 68),
+                (13, 6),
+            ),
+            11,
+            12352,
+        ),
+        (
+            2,
+            (
+                (4, 1),
+                (5, 11),
+                (6, 55),
+                (7, 165),
+                (8, 330),
+                (9, 462),
+                (10, 462),
+                (11, 330),
+                (12, 165),
+                (13, 55),
+                (14, 11),
+                (15, 1),
+            ),
+            12,
+            2048,
+        ),
+    ]
     assert antipodal["hochster_p0_coefficients_desc"] == (
         4,
         48,
