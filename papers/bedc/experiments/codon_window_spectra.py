@@ -3702,6 +3702,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         {
             "trigger_size": len(support_size_type),
             "support_size_type": support_size_type,
+            "energy": sum(support_size_type),
             "quotient_count": quotient_count,
             "codon_count": quotient_count * (2 ** len(support_size_type)),
         }
@@ -3710,6 +3711,44 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             key=lambda item: (len(item[0]), item[0]),
         )
     ]
+    quotient_minimal_trigger_energy_counts: collections.Counter[int] = collections.Counter()
+    codon_minimal_trigger_energy_counts: collections.Counter[int] = collections.Counter()
+    for row in minimal_trigger_type_rows:
+        quotient_minimal_trigger_energy_counts[row["energy"]] += row["quotient_count"]
+        codon_minimal_trigger_energy_counts[row["energy"]] += row["codon_count"]
+    minimal_trigger_energy_rows = [
+        {
+            "energy": energy,
+            "quotient_count": quotient_minimal_trigger_energy_counts[energy],
+            "codon_count": codon_minimal_trigger_energy_counts[energy],
+        }
+        for energy in sorted(quotient_minimal_trigger_energy_counts)
+    ]
+    energy_minimal_trigger_rows = [
+        {
+            "trigger_size": trigger_size,
+            "partition_type": partition_type,
+            "quotient_count": quotient_count,
+            "codon_count": quotient_count * (2 ** trigger_size),
+        }
+        for trigger_size, partition_type, quotient_count in (
+            (1, "4", 1),
+            (2, "1+3 or 2+2", 7),
+            (3, "1+1+2", 6),
+            (4, "1+1+1+1", 1),
+        )
+    ]
+    trigger_energy_minimum = len(coordinate_universe)
+    energy_minimal_quotient_total = sum(row["quotient_count"] for row in energy_minimal_trigger_rows)
+    energy_minimal_codon_total = sum(row["codon_count"] for row in energy_minimal_trigger_rows)
+    quotient_bivariate_minimal_trigger_terms = tuple(
+        (row["trigger_size"], row["energy"], row["quotient_count"])
+        for row in minimal_trigger_type_rows
+    )
+    codon_bivariate_minimal_trigger_terms = tuple(
+        (row["trigger_size"], row["energy"], row["codon_count"])
+        for row in minimal_trigger_type_rows
+    )
     minimal_trigger_polynomial_quotient = tuple(
         (row["trigger_size"], row["quotient_count"])
         for row in minimal_trigger_rows
@@ -3859,6 +3898,16 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "minimal_trigger_polynomial_quotient": minimal_trigger_polynomial_quotient,
         "minimal_trigger_polynomial_codon": minimal_trigger_polynomial_codon,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
+        "trigger_energy_minimum": trigger_energy_minimum,
+        "trigger_energy_minimum_condition": "support partition of Omega",
+        "energy_minimal_trigger_rows": energy_minimal_trigger_rows,
+        "energy_minimal_quotient_total": energy_minimal_quotient_total,
+        "energy_minimal_codon_total": energy_minimal_codon_total,
+        "minimal_trigger_energy_rows": minimal_trigger_energy_rows,
+        "quotient_bivariate_minimal_trigger_terms": quotient_bivariate_minimal_trigger_terms,
+        "codon_bivariate_minimal_trigger_terms": codon_bivariate_minimal_trigger_terms,
+        "quotient_bivariate_minimal_trigger_polynomial": "z y^4 + z^2(7y^4+12y^5+6y^6) + z^3(6y^4+12y^5+4y^6) + z^4 y^4",
+        "codon_bivariate_minimal_trigger_polynomial": "2z y^4 + z^2(28y^4+48y^5+24y^6) + z^3(48y^4+96y^5+32y^6) + 16z^4 y^4",
         "rank_enumerator_formula": "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))",
         "rank_enumerator_rows": rank_enumerator_rows,
         "stanley_reisner_generator_count": sum(row["codon_count"] for row in minimal_trigger_rows),
@@ -7204,19 +7253,64 @@ def assert_expected(summary: dict[str, object]) -> None:
         (4, {0: 0, 1: 0, 2: 90, 3: 3824, 4: 23491}, True),
     ]
     assert [
-        (row["support_size_type"], row["quotient_count"], row["codon_count"])
+        (row["support_size_type"], row["energy"], row["quotient_count"], row["codon_count"])
         for row in antipodal["minimal_trigger_type_rows"]
     ] == [
-        ((4,), 1, 2),
-        ((1, 3), 4, 16),
-        ((2, 2), 3, 12),
-        ((2, 3), 12, 48),
-        ((3, 3), 6, 24),
-        ((1, 1, 2), 6, 48),
-        ((1, 2, 2), 12, 96),
-        ((2, 2, 2), 4, 32),
-        ((1, 1, 1, 1), 1, 16),
+        ((4,), 4, 1, 2),
+        ((1, 3), 4, 4, 16),
+        ((2, 2), 4, 3, 12),
+        ((2, 3), 5, 12, 48),
+        ((3, 3), 6, 6, 24),
+        ((1, 1, 2), 4, 6, 48),
+        ((1, 2, 2), 5, 12, 96),
+        ((2, 2, 2), 6, 4, 32),
+        ((1, 1, 1, 1), 4, 1, 16),
     ]
+    assert antipodal["trigger_energy_minimum"] == 4
+    assert antipodal["trigger_energy_minimum_condition"] == "support partition of Omega"
+    assert [
+        (row["trigger_size"], row["partition_type"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["energy_minimal_trigger_rows"]
+    ] == [
+        (1, "4", 1, 2),
+        (2, "1+3 or 2+2", 7, 28),
+        (3, "1+1+2", 6, 48),
+        (4, "1+1+1+1", 1, 16),
+    ]
+    assert antipodal["energy_minimal_quotient_total"] == 15
+    assert antipodal["energy_minimal_codon_total"] == 94
+    assert [
+        (row["energy"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["minimal_trigger_energy_rows"]
+    ] == [
+        (4, 15, 94),
+        (5, 24, 144),
+        (6, 10, 56),
+    ]
+    assert antipodal["quotient_bivariate_minimal_trigger_terms"] == (
+        (1, 4, 1),
+        (2, 4, 4),
+        (2, 4, 3),
+        (2, 5, 12),
+        (2, 6, 6),
+        (3, 4, 6),
+        (3, 5, 12),
+        (3, 6, 4),
+        (4, 4, 1),
+    )
+    assert antipodal["codon_bivariate_minimal_trigger_terms"] == (
+        (1, 4, 2),
+        (2, 4, 16),
+        (2, 4, 12),
+        (2, 5, 48),
+        (2, 6, 24),
+        (3, 4, 48),
+        (3, 5, 96),
+        (3, 6, 32),
+        (4, 4, 16),
+    )
+    assert antipodal["quotient_bivariate_minimal_trigger_polynomial"] == "z y^4 + z^2(7y^4+12y^5+6y^6) + z^3(6y^4+12y^5+4y^6) + z^4 y^4"
+    assert antipodal["codon_bivariate_minimal_trigger_polynomial"] == "2z y^4 + z^2(28y^4+48y^5+24y^6) + z^3(48y^4+96y^5+32y^6) + 16z^4 y^4"
     assert antipodal["stanley_reisner_generator_count"] == 294
     assert [
         (row["degree"], row["minimal_generator_count"])
