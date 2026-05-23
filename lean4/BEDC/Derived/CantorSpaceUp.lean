@@ -125,4 +125,34 @@ theorem CantorSpaceCarrier_prefix_projection_stability [AskSetup] [PackageSetup]
       carrier.right.right.right.right.right.right.right.right.right.right.right.right.right,
       prefixPkg⟩
 
+theorem CantorSpaceCarrier_streamname_prefix_consumer_exhaustion [AskSetup] [PackageSetup]
+    {schedule window boolLedger listSpine endpointExclusion transport replay provenance
+      localName publicRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CantorSpaceCarrier schedule window boolLedger listSpine endpointExclusion transport replay
+        provenance localName bundle pkg →
+      Cont schedule window publicRead →
+        Cont boolLedger listSpine endpoint →
+          PkgSig bundle publicRead pkg →
+            PkgSig bundle endpoint pkg →
+              UnaryHistory schedule ∧ UnaryHistory window ∧ UnaryHistory boolLedger ∧
+                UnaryHistory listSpine ∧ UnaryHistory publicRead ∧ UnaryHistory endpoint ∧
+                  Cont schedule window publicRead ∧ Cont boolLedger listSpine endpoint ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg ∧
+                      PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier publicCont endpointCont publicPkg endpointPkg
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      unary_cont_closed carrier.left carrier.right.left publicCont,
+      unary_cont_closed carrier.right.right.left carrier.right.right.right.left endpointCont,
+      publicCont,
+      endpointCont,
+      carrier.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      publicPkg,
+      endpointPkg⟩
+
 end BEDC.Derived.CantorSpaceUp

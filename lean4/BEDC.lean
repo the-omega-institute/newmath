@@ -4245,6 +4245,7 @@ import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PicardContractionUp.RootUnblockPackage
 import BEDC.Derived.PicardContractionUp.SourceReadback
 import BEDC.Derived.PicardContractionUp.SourceWindow
+import BEDC.Derived.PicardLindelofUp.TasteGate
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.PinGroupUp.CliffordConjugationLedger
 import BEDC.Derived.PinGroupUp.ReflectionExtension
@@ -5718,6 +5719,7 @@ import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VietorisRipsComplexUp
 import BEDC.Derived.VonneumannalgebraUp
+import BEDC.Derived.WeaklyCauchySequenceUp.TasteGate
 import BEDC.Derived.WeierstrassApproximationUp.TasteGate
 import BEDC.Derived.WeierstrassMTestUp
 import BEDC.Derived.WeierstrassMTestUp.MajorantDominationPackage
