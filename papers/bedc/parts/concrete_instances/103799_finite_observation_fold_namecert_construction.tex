@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationFoldUp$}
+\label{ch:concrete-instances-finite-observation-fold-namecert}
+\origin{ai}
+
+The $\FiniteObservationFoldUp$ packet realizes the bounded MetaCIC checker-output surface of \autoref{sec:metacic-decidable-audit-map-conditional} as finite NameCert data. It sits beside the critical-path route of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the bounded evaluator of \autoref{ch:concrete-instances-finitetraceevaluator-namecert}, the typed endpoint boundary of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, the consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}, and the export refusal gate of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}. The packet separates checked finite observations from any claim of global closed-term conversion decidability.
+
+\begin{definition}[Finite observation fold carrier]
+\label{def:finite-observation-fold-carrier}
+A $\FiniteObservationFoldUp$ carrier is a finite $\BHist$ packet
+$$
+O=(K,T,R,N,S,G,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\MetaCICCriticalPathUp$ source row, recording the current bounded decidability frontier and the open global-conversion boundary.
+\item $T$ is the $\FiniteTraceEvaluatorUp$ observation row, recording the finite checker trace, bounded inputs, accepted checkpoint reads, and validation boundary.
+\item $R$ is the $\TypedReductionNormalFormUp$ endpoint row, recording the typed normal-form boundary reached by the bounded observation.
+\item $N$ is the $\NormalFormConsistencySealUp$ seal row, recording the closed-normal consistency data available at the displayed endpoint.
+\item $S$ is the finite fold row, recording the ordered aggregation of checker-output observations from $T,R,N$ under the same critical-path source $K$.
+\item $G$ is the $\CannotClaimExportGateUp$ refusal row, recording that the finite fold cannot be exported as global beta-conversion decidability or as a checked target outside the displayed bounded rows.
+\item $H$ records componentwise $\hsame$ transport for $K,T,R,N,S,G$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from the critical-path source through finite trace observations, typed endpoint, consistency seal, fold row, refusal gate, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\FiniteObservationFoldUp$, $\MetaCICCriticalPathUp$, $\FiniteTraceEvaluatorUp$, $\TypedReductionNormalFormUp$, $\NormalFormConsistencySealUp$, $\CannotClaimExportGateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\FiniteObservationFoldUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,T,R,N,S,G,H,C,P,L$. It has no coordinate for unbounded evaluation, global conversion decidability, closed subject reduction, full consistency, host validation, or an exported checked target beyond the displayed finite observation fold.
+\end{definition}
+
+\begin{theorem}[Finite observation fold NameCert obligations]
+\label{thm:finite-observation-fold-namecert-obligations}
+For every accepted $\FiniteObservationFoldUp$ carrier $O=(K,T,R,N,S,G,H,C,P,L)$, the local $\NameCert_{\FiniteObservationFoldUp}$ surface consists exactly of carrier admission for the critical-path source, finite trace observation, typed normal-form endpoint, normal-form consistency seal, finite fold row, cannot-claim export gate, structural rows $H,C,P$, and local naming row $L$; observation exactness through $T$; endpoint accountability through $R,N$; finite-fold ordering through $S$; export refusal through $G$; and componentwise transport, replay, provenance, and naming for the same bounded route.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $O=(K,T,R,N,S,G,H,C,P,L)$. The carrier definition exposes exactly the critical-path, trace, endpoint, seal, fold, refusal, transport, replay, provenance, and naming rows.
+
+The finite observation rows are read before any fold is public. The trace row $T$ records bounded checker output, while $R$ and $N$ record the typed endpoint and consistency seal available for that bounded output.
+
+The fold row $S$ aggregates only those displayed observations, and the refusal row $G$ blocks export as a stronger global decision procedure. Since the excluded unbounded and global claims are absent from the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite observation fold vision handoff]
+\label{thm:finite-observation-fold-vision-handoff}
+Every $\FiniteObservationFoldUp$ consumer receives the route
+$$
+K \longmapsto T \longmapsto R,N \longmapsto S \longmapsto G \longmapsto H,C,P,L .
+$$
+Thus the MetaCIC decidability reading is a finite checker-output packet over bounded observations, typed normal-form endpoints, normal-form consistency seals, refusal export rows, componentwise transport, displayed replay, provenance, and local naming. It is not a global closed-term beta-conversion decider.
+\end{theorem}
+\begin{proof}
+Start from a consumer of the fold. The critical-path row $K$ fixes the frontier and keeps the global conversion boundary visible.
+
+The finite trace row $T$ supplies the bounded observations. The endpoint row $R$ and seal row $N$ are read only as data attached to those bounded observations, not as an unbounded normalisation theorem.
+
+The fold row $S$ then aggregates the displayed observations, and the export gate $G$ refuses any checked-target reading stronger than that finite packet. The structural rows $H,C,P,L$ preserve this route under transport, replay, provenance, and naming.
+\end{proof}
+
+\falsifiablePrediction{Every $\FiniteObservationFoldUp$ consumer reads MetaCICCriticalPath, FiniteTraceEvaluator, TypedReductionNormalForm, NormalFormConsistencySeal, CannotClaimExportGate, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any bounded checker-output packet is public.}
+
+\independenceWitness{MetaCICCriticalPath, FiniteTraceEvaluator, TypedReductionNormalForm, NormalFormConsistencySeal, CannotClaimExportGate: none is bijective to FiniteObservationFoldUp because the fold jointly carries critical-path source, finite trace observation, typed endpoint, normal-form consistency seal, bounded aggregation, export refusal, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{FiniteObservationFoldUp}{seedStr}
+
+\begin{closurestatus}{\FiniteObservationFoldUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-observation-fold-carrier}, \autoref{thm:finite-observation-fold-namecert-obligations}, and \autoref{thm:finite-observation-fold-vision-handoff} seed the finite bounded-observation fold over MetaCIC critical-path, finite-trace, typed-normal-form, normal-form-consistency, and cannot-claim export rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global beta-conversion decidability, unbounded evaluation, closed subject reduction, full MetaCIC consistency, host validation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite observation exactness, typed-endpoint accountability, consistency-seal handoff, fold ordering, export refusal, and route preservation for BEDC.Derived.FiniteObservationFoldUp.}
+  \constructivestory{A $\FiniteObservationFoldUp$ packet is generated from a MetaCICCriticalPath source row, a FiniteTraceEvaluator observation row, a TypedReductionNormalForm endpoint row, a NormalFormConsistencySeal row, a finite fold row, a CannotClaimExportGate refusal row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
