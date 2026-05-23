@@ -792,6 +792,7 @@ import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CantorBendixsonUp.TasteGate
 import BEDC.Derived.CantorCompletenessUp.TasteGate
 import BEDC.Derived.CantorDiagonalRealUncountabilityUp.TasteGate
+import BEDC.Derived.CantorFanBarrierUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp
 import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorSetUp.TasteGate
@@ -1202,6 +1203,7 @@ import BEDC.Derived.CauchyProductUp.RootClassifierStability
 import BEDC.Derived.CauchyProductUp.RootProductObservationRoute
 import BEDC.Derived.CauchyProductUp.RootRealSealConsumerBoundary
 import BEDC.Derived.CauchyProductUp.RootRealSealObligations
+import BEDC.Derived.CauchyProductUp.RootRegSeqRatClassifierLock
 import BEDC.Derived.CauchyProductUp.RootSealLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootUnblockCertificate
