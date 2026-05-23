@@ -4409,7 +4409,6 @@ import BEDC.Derived.RationalBallUp.TasteGate
 import BEDC.Derived.RationalCauchyGapUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
 import BEDC.Derived.RationalEmbeddingUp.TasteGate
-import BEDC.Derived.RationalIntervalCoverUp.TasteGate
 import BEDC.Derived.RationalIntervalEnclosureUp.TasteGate
 import BEDC.Derived.RationalIntervalRefinementUp.TasteGate
 import BEDC.Derived.RationalIntervalUp
