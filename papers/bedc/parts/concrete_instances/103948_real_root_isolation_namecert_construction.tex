@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\RealRootIsolationUp$}
+\label{ch:concrete-instances-real-root-isolation-namecert}
+\origin{human}
+
+Following Sturm root isolation and Bishop--Bridges constructive real analysis, the $\RealRootIsolationUp$ packet records a complete polynomial-root isolation surface as finite BEDC NameCert data. It composes the sign-variation route of \autoref{ch:concrete-instances-sturmrootisolation-namecert}, the retained-window route of \autoref{ch:concrete-instances-bisectionrootisolation-namecert}, the real-polynomial evaluation surface of \autoref{ch:concrete-instances-real-polynomial-namecert}, the dyadic interval carrier of \autoref{ch:concrete-instances-dyadicinterval-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names an isolating certificate for one displayed real polynomial window; it does not select a host algebraic root, invoke algebraic closure, quotient real equality, trichotomy, countable choice, or ambient completeness.
+
+\begin{definition}[Real root isolation carrier]
+\label{def:real-root-isolation-carrier}
+A $\RealRootIsolationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(P,E,S,B,D,T,L,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the polynomial source row. It records the finite coefficient ledger and the polynomial name read from the source $\PolynomialUp$ or $\RealPolynomialUp$ surface.
+\item $E$ is the real-polynomial evaluation row. It records the endpoint evaluation windows, sign rows, and requested precision route over the $\RealPolynomialUp$ packet.
+\item $S$ is the Sturm or sign-variation row. It records the displayed Sturm-chain sign table or the finite sign-variation ledger used to certify the accepted root count in each inspected cell.
+\item $B$ is the bisection refinement row. It stores the branch prefix, retained endpoint signs, and discarded-branch ledgers supplied by the $\BisectionRootIsolationUp$ surface.
+\item $D$ is the dyadic interval tree row. It records the ordered dyadic cells, parent-child containment rows, endpoint windows, and the final retained isolating interval.
+\item $T$ is the $\RealUp$ seal row reached by the retained endpoint names and by the downstream real-facing consumer of the isolating window.
+\item $L$ is the local classifier row. It admits two carriers together exactly when $P,E,S,B,D,T$ expose the same polynomial source, evaluation windows, variation ledger, bisection branch, dyadic interval tree, and seal route.
+\item $H$ records componentwise $\hsame$ transport for polynomial source, evaluation, sign-variation, bisection, dyadic interval tree, real seal, classifier, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a root-isolation request through $P,E,S,B,D,T,L,H$ in that order.
+\item $Q$ is the $\Pkg$ provenance over $\RealRootIsolationUp$, $\SturmRootIsolationUp$, $\BisectionRootIsolationUp$, $\RealPolynomialUp$, $\DyadicIntervalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealRootIsolationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. No coordinate stores a selected host root, a factorization theorem, a global algebraic closure object, quotient real equality, real trichotomy, countable choice, or ambient completeness for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Real root isolation NameCert obligations]
+\label{thm:real-root-isolation-namecert-obligations}
+For every accepted $\RealRootIsolationUp$ carrier $R=(P,E,S,B,D,T,L,H,C,Q,N)$, the local $\NameCert_{\RealRootIsolationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the polynomial source, evaluation, sign-variation, bisection, dyadic interval tree, real seal, classifier, transport, replay, provenance, and local naming rows;
+\item polynomial-source exactness, requiring every coefficient and polynomial-name read to pass through $P$;
+\item evaluation exactness, requiring endpoint signs and precision windows to pass through the $\RealPolynomialUp$ evaluation row $E$;
+\item Sturm or sign-variation exactness, requiring every accepted root-count read to be one of the finite rows displayed by $S$;
+\item bisection refinement exactness, requiring the retained branch and discarded-branch evidence to pass through $B$;
+\item dyadic interval handoff, requiring the retained interval to be exported only through the dyadic interval tree row $D$ and the $\RealUp$ seal row $T$;
+\item componentwise transport, replay, provenance, classifier stability, and local naming through $L,H,C,Q,N$.
+\end{enumerate}
+No obligation outside these rows is part of the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:real-root-isolation-carrier}. The tuple inventory already lists the whole finite packet, so carrier admission is exhausted by the rows $P,E,S,B,D,T,L,H,C,Q,N$.
+
+The polynomial source row $P$ fixes the coefficient ledger and polynomial name. Endpoint evaluation cannot be read directly from a host real polynomial; it passes through $E$, where the displayed precision windows and sign rows are recorded.
+
+The root-count evidence is then confined to $S$. Whether the row is read as a Sturm-chain variation ledger or as an equivalent finite sign-variation table, every accepted count is a displayed row over the same polynomial and interval endpoints.
+
+The bisection row $B$ chooses the retained branch only after that sign-variation evidence is visible. The dyadic interval tree $D$ records the parent-child containment and retained endpoint windows, and $T$ seals the same retained interval for $\RealUp$ consumers.
+
+The classifier $L$ compares only these visible rows. Since $H,C,Q,N$ merely transport, replay, source, and name the same route, no hidden host root, factorization theorem, algebraic closure object, quotient equality, trichotomy, choice, or completeness witness can be exported.
+\end{proof}
+
+\begin{theorem}[Real root isolation dyadic interval handoff]
+\label{thm:real-root-isolation-dyadic-interval-handoff}
+Every accepted $\RealRootIsolationUp$ read handed to a downstream interval or real-seal consumer factors through
+$$
+P,E,S,B \longmapsto D,T \longmapsto L,H,C,Q,N .
+$$
+Thus the consumer receives a displayed polynomial source row, real-polynomial evaluation row, Sturm or sign-variation row, bisection refinement row, dyadic interval tree row, $\RealUp$ seal row, classifier row, componentwise transport, replay, provenance, and local naming. It receives no selected host root, algebraic factorization, quotient real equality, trichotomy, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a downstream read of the isolating interval. The polynomial source and endpoint evaluation are fixed by $P$ and $E$, so the read cannot inspect a retained interval before the source polynomial and its endpoint signs are displayed.
+
+Next read $S$ and $B$. The sign-variation ledger supplies the accepted root-count evidence, and the bisection row records the retained branch together with the discarded-branch evidence.
+
+The dyadic interval tree $D$ is then the only export row for the retained cell. The real seal $T$ packages that same endpoint window for $\RealUp$ consumers.
+
+Finally $L,H,C,Q,N$ compare, transport, replay, source, and locally name the route. Since none of those structural rows adds an analytic object, the handoff remains the displayed finite packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealRootIsolationUp$ consumer that reaches a $\DyadicIntervalUp$ retained cell or $\RealUp$ seal without first reading the polynomial source row, real-polynomial evaluation row, Sturm or sign-variation row, and bisection refinement row refutes the carrier surface.}
+
+\independenceWitness{sturmrootisolation, bisectionrootisolation, real-polynomial, dyadicinterval, real: none is bijective to $\RealRootIsolationUp$ because this packet jointly carries the polynomial source, evaluation row, sign-variation ledger, bisection refinement, dyadic interval tree, real seal, classifier, transport, replay, provenance, and local naming.}
+
+\closureat{RealRootIsolationUp}{seedStr}
+
+\begin{closurestatus}{\RealRootIsolationUp}
+  \constructivestory{A $\RealRootIsolationUp$ packet is generated from a polynomial source row, real-polynomial evaluation row, Sturm or sign-variation row, bisection refinement row, dyadic interval tree row, $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-root-isolation-carrier}, \autoref{thm:real-root-isolation-namecert-obligations}, and \autoref{thm:real-root-isolation-dyadic-interval-handoff} seed the finite real-root isolation packet over Sturm, bisection, dyadic interval, real-polynomial evaluation, and real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host root selection, algebraic factorization, algebraic closure, quotient real equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the eleven-row carrier and prove source exactness, evaluation exactness, sign-variation exactness, bisection refinement, dyadic interval handoff, and structural stability for BEDC.Derived.RealRootIsolationUp.}
+\end{closurestatus}

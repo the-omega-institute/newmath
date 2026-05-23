@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\PointwiseLimitUp$}
+\label{ch:concrete-instances-pointwise-limit-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Bourbaki's function-limit terminology, the $\PointwiseLimitUp$ packet records an indexwise limit route for displayed real-valued maps without importing a uniform ledger or a host function-space object. It reads continuous approximants from \autoref{ch:concrete-instances-continuousmap-namecert}, keeps the limiting observations separate from the $\UniformLimitUp$ surface of \autoref{ch:concrete-instances-uniformlimit-namecert}, schedules finite observations through \autoref{ch:concrete-instances-streamname-namecert}, checks regular rational readbacks through \autoref{ch:concrete-instances-regseqrat-namecert}, seals values only at \autoref{ch:concrete-instances-real-namecert}, keeps source and target distance rows visible through \autoref{ch:concrete-instances-metric-namecert}, and supplies the generic pointwise-limit sibling read consumed by \autoref{ch:concrete-instances-baireonefunction-namecert} and \autoref{ch:concrete-instances-dini-continuity-namecert}.
+
+\begin{definition}[PointwiseLimit carrier]
+\label{def:pointwise-limit-carrier}
+A $\PointwiseLimitUp$ carrier is a finite $\BHist$ packet
+$$
+P=(X,Y,F,I,S,Q,R,E,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ context row naming the points at which the family is inspected.
+\item $Y$ is the target $\MetricUp$ and $\RealUp$ value-seal context for the observed outputs.
+\item $F$ is the finite ledger of displayed maps, including the $\ContinuousMapUp$ rows when the source family is continuous.
+\item $I$ is the point-index row saying that each convergence request is attached to one displayed source point and one requested tolerance.
+\item $S$ is the $\StreamNameUp$ schedule selecting the finite approximant windows inspected for that point and tolerance.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the selected output windows.
+\item $R$ is the pointwise convergence ledger asserting that the selected windows are adequate for the displayed point and tolerance.
+\item $E$ is the terminal $\RealUp$ value-seal row reached only after $X,Y,F,I,S,Q,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, target, map ledger, point-index row, schedule, readback, convergence ledger, value seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a point-and-tolerance request through the finite schedule, readback, pointwise ledger, and RealUp seal.
+\item $K$ is the $\Pkg$ provenance over $\PointwiseLimitUp$, $\ContinuousMapUp$, $\UniformLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricUp$, $\BaireOneFunctionUp$, $\DiniContinuityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PointwiseLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for uniform convergence, continuity preservation, host function equality, quotient function spaces, choice-selected pointwise limits, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[PointwiseLimit NameCert obligations]
+\label{thm:pointwise-limit-namecert-obligations}
+For every accepted $\PointwiseLimitUp$ carrier $P=(X,Y,F,I,S,Q,R,E,H,C,K,N)$, the local $\NameCert_{\PointwiseLimitUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source metric context, target metric and RealUp value context, displayed map ledger, point-index row, stream schedule, regular rational readback, pointwise convergence ledger, terminal value seal, transport, replay, provenance, and local naming row;
+\item point-index visibility, requiring each convergence request to display its source point and requested tolerance through $I$ before any schedule in $S$ is read;
+\item finite-window scheduling, requiring the requested approximant windows to be selected by $S$ and checked by $Q$ before the pointwise convergence row $R$ can be consumed;
+\item Real-seal routing, requiring the value row $E$ to be downstream of $X,Y,F,I,S,Q,R$ rather than of an ambient function-space limit;
+\item sibling handoff compatibility, allowing $\BaireOneFunctionUp$ and $\DiniContinuityUp$ consumers to read the pointwise route while keeping $\UniformLimitUp$ as a separate stronger ledger;
+\item nonescape from uniform convergence, continuity preservation, host function equality, quotient function spaces, choice-selected pointwise limits, and completeness of $\RealUp$.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:pointwise-limit-carrier}. The accepted packet exposes exactly the source and target metric rows, map ledger, point-index row, finite schedule, regular rational readback, convergence ledger, value seal, transport, replay, provenance, and local naming row.
+
+Point-index visibility is forced by $I$. A consumer must name the displayed source point and tolerance before it can inspect the corresponding schedule, so the packet does not contain an unindexed host function limit.
+
+Finite-window scheduling is then read through $S$ and $Q$. The schedule selects only finite approximant windows, and the regular rational row checks those windows before $R$ records the pointwise convergence ledger for the displayed point.
+
+The RealUp value seal $E$ is downstream of this route. The sibling handoff rows in $K$ name $\BaireOneFunctionUp$ and $\DiniContinuityUp$ as consumers of the pointwise route, while $\UniformLimitUp$ remains a separate stronger ledger. Since no excluded coordinate appears in the carrier, the listed rows exhaust the local surface.
+\end{proof}
+
+\begin{theorem}[PointwiseLimit Real seal handoff]
+\label{thm:pointwise-limit-real-seal-handoff}
+Every $\RealUp$, $\BaireOneFunctionUp$, or $\DiniContinuityUp$ consumer of an accepted $\PointwiseLimitUp$ packet reads the limiting value through the finite route
+$$
+X,Y,F,I,S,Q,R \longmapsto E.
+$$
+The route first displays the source and target metric rows, then the map ledger and point-index row, then the StreamName schedule, RegSeqRat readback, and pointwise convergence ledger, and only then exposes the RealUp value seal. It exports no uniform convergence ledger, continuity-preservation theorem, host function equality, quotient function-space object, choice-selected pointwise limit, or RealUp completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for the value seal $E$. By \autoref{def:pointwise-limit-carrier}, $E$ is a coordinate of the same finite packet as $X,Y,F,I,S,Q,R$, and the replay row $C$ records the only displayed route into it.
+
+The source and target rows $X,Y$ are read first, followed by the displayed map ledger $F$ and the point-index request $I$. The finite schedule $S$ and regular rational readback $Q$ then supply the observed approximant windows for that point and tolerance.
+
+The convergence row $R$ certifies only this pointwise route before $E$ is exposed. Transport, replay, provenance, and local naming through $H,C,K,N$ preserve that order for $\BaireOneFunctionUp$ and $\DiniContinuityUp$ consumers, while no carrier coordinate supplies the excluded stronger objects.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PointwiseLimitUp$ value-seal read factors through a displayed point-index row and finite StreamName and RegSeqRat windows before any RealUp value is exposed.}
+
+\independenceWitness{continuousmap, uniformlimit, streamname, regseqrat, baireonefunction: PointwiseLimitUp is not bijective to any listed sibling because it jointly carries a source-point request, an approximant ledger, finite schedule and readback rows, a pointwise convergence ledger, a RealUp value seal, and explicit refusal of the UniformLimitUp ledger.}
+
+\closureat{PointwiseLimitUp}{seedStr}
+
+\begin{closurestatus}{\PointwiseLimitUp}
+  \constructivestory{A $\PointwiseLimitUp$ packet is generated from source and target MetricUp rows, a displayed map ledger, a point-index row, StreamName schedules, RegSeqRat readbacks, a pointwise convergence ledger, a RealUp value seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pointwise-limit-carrier}, \autoref{thm:pointwise-limit-namecert-obligations}, and \autoref{thm:pointwise-limit-real-seal-handoff} seed the finite pointwise-limit certificate over displayed source points, approximant windows, regular rational readbacks, and RealUp value seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close uniform convergence, continuity preservation, host function equality, quotient function spaces, choice-selected pointwise limits, completeness of $\RealUp$, Lean verification, or standard bridge closure.}
+  \upgradepath{Obligation closure requires checked carrier admission, point-index visibility, finite-window scheduling, Real-seal routing, sibling handoff compatibility, and nonescape for BEDC.Derived.PointwiseLimitUp.}
+\end{closurestatus}
