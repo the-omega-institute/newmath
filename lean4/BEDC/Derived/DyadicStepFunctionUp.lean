@@ -422,6 +422,33 @@ theorem DyadicStepFunctionCarrier_window_obligations [AskSetup] [PackageSetup]
       realSealUnary, cellsRefinementCommon, commonEndpointRead, endpointLedgerRead,
       ledgerRouteReg, regRouteReal, nameRowPkg, realSealPkg⟩
 
+theorem DyadicStepFunctionCarrier_real_regseqrat_scope_lock [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      regRead realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont ledger route regRead ->
+        Cont regRead route realSeal ->
+          PkgSig bundle realSeal pkg ->
+            UnaryHistory cells ∧ UnaryHistory values ∧ UnaryHistory ledger ∧
+              UnaryHistory regRead ∧ UnaryHistory realSeal ∧ Cont partition cells values ∧
+                Cont ledger route regRead ∧ Cont regRead route realSeal ∧
+                  PkgSig bundle nameRow pkg ∧ PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier ledgerRouteReg regRouteReal realSealPkg
+  obtain ⟨_partitionUnary, cellsUnary, valuesUnary, _readsUnary, _refinementUnary,
+    _endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    partitionCellsValues, _valuesReadsRefinement, _refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have regReadUnary : UnaryHistory regRead :=
+    unary_cont_closed ledgerUnary routeUnary ledgerRouteReg
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regReadUnary routeUnary regRouteReal
+  exact
+    ⟨cellsUnary, valuesUnary, ledgerUnary, regReadUnary, realSealUnary,
+      partitionCellsValues, ledgerRouteReg, regRouteReal, nameRowPkg, realSealPkg⟩
+
 theorem DyadicStepFunctionCarrier_cellwise_sum_closure [AskSetup] [PackageSetup]
     {partitionS cellsS valuesS readsS refinementS endpointLedgerS ledgerS routeS provenanceS
       nameRowS partitionT cellsT valuesT readsT refinementT endpointLedgerT ledgerT routeT
