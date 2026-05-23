@@ -1197,6 +1197,7 @@ import BEDC.Derived.CauchyProductUp.RootBudgetProductLock
 import BEDC.Derived.CauchyProductUp.RootBudgetRoutePackage
 import BEDC.Derived.CauchyProductUp.RootBudgetTriangle
 import BEDC.Derived.CauchyProductUp.RootClassifierStability
+import BEDC.Derived.CauchyProductUp.RootProductObservationRoute
 import BEDC.Derived.CauchyProductUp.RootRealSealConsumerBoundary
 import BEDC.Derived.CauchyProductUp.RootRealSealObligations
 import BEDC.Derived.CauchyProductUp.RootSealLedgerExactness
@@ -3362,6 +3363,7 @@ import BEDC.Derived.InterHistTransportSealUp.TasteGate
 import BEDC.Derived.InterInscriptionCoherenceUp.TasteGate
 import BEDC.Derived.IntermediateValueBisectionUp
 import BEDC.Derived.IntermediateValueBisectionUp.TasteGate
+import BEDC.Derived.IntermediateValueUp.BisectionNesting
 import BEDC.Derived.IntermediateValueUp.RealSealHandoff
 import BEDC.Derived.IntermediateValueUp.TasteGate
 import BEDC.Derived.InterpolationUp
@@ -5662,6 +5664,7 @@ import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
+import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
