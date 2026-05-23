@@ -588,9 +588,11 @@ import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
 import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
+import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
+import BEDC.Derived.BishopRealComparisonUp.CauchyDedekindBoundary
 import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
 import BEDC.Derived.BishopRealUniformCompletionUp.TasteGate
@@ -2923,6 +2925,7 @@ import BEDC.Derived.FiniteWitnessRouteUp
 import BEDC.Derived.FiniteWitnessedRefutationUp
 import BEDC.Derived.FiniteWitnessedRefutationUp.CarrierAlignment
 import BEDC.Derived.FinsetUp
+import BEDC.Derived.FirstCountableSpaceUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.FocusedLedgerUp.TasteGate
@@ -4748,6 +4751,7 @@ import BEDC.Derived.RegularCauchyNameUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
+import BEDC.Derived.RegularCauchyProductProjectionUp
 import BEDC.Derived.RegularCauchyProductUp
 import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
@@ -5009,6 +5013,7 @@ import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.ShortestPathUp
+import BEDC.Derived.SierpinskiSpaceUp.TasteGate
 import BEDC.Derived.SignedBinaryExpansionUp
 import BEDC.Derived.SignedDigitRealUp
 import BEDC.Derived.SignedDigitRealUp.TasteGate
@@ -5103,6 +5108,7 @@ import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
+import BEDC.Derived.StreamMapUp.TasteGate
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.StreamNameUp.CertifiedObservationDeterminacy
 import BEDC.Derived.StreamNameUp.CommonRefinementTerminalRealSeal
