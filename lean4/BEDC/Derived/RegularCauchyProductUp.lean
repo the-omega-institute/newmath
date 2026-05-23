@@ -255,6 +255,38 @@ theorem RegularCauchyProductCarrier_downstream_source_lock [AskSetup] [PackageSe
       productBudgetRow, readbackProvenanceConsumer, consumerRouteReal, namePkg,
       realConsumerPkg⟩
 
+theorem RegularCauchyProductCarrier_real_algebra_boundary [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name algebraRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product budget
+        readback transport route provenance name bundle pkg ->
+      Cont readback provenance algebraRead ->
+        PkgSig bundle algebraRead pkg ->
+          UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+            UnaryHistory windowB ∧ UnaryHistory endpointA ∧ UnaryHistory endpointB ∧
+              UnaryHistory product ∧ UnaryHistory budget ∧ UnaryHistory readback ∧
+                UnaryHistory algebraRead ∧ Cont windowA windowB transport ∧
+                  Cont endpointA endpointB product ∧ Cont product budget readback ∧
+                    Cont readback provenance algebraRead ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle algebraRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier readbackProvenanceAlgebra algebraReadPkg
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, _routeUnary, provenanceUnary, windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed productUnary budgetUnary productBudgetRow
+  have algebraReadUnary : UnaryHistory algebraRead :=
+    unary_cont_closed readbackUnary provenanceUnary readbackProvenanceAlgebra
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, endpointAUnary,
+      endpointBUnary, productUnary, budgetUnary, readbackUnary, algebraReadUnary,
+      windowTransportRow, endpointProductRow, productBudgetRow, readbackProvenanceAlgebra,
+      namePkg, algebraReadPkg⟩
+
 theorem RegularCauchyProductCarrier_real_seal_product_budget [AskSetup] [PackageSetup]
     {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
       provenance name budgetRead realSeal : BHist}
