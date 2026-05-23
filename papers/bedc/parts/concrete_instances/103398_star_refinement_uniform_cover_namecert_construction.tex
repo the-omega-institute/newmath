@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\StarRefinementUniformCoverUp$}
+\label{ch:concrete-instances-star-refinement-uniform-cover-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on uniform spaces and star refinements of uniform covers, the $\StarRefinementUniformCoverUp$ packet records the finite cover-refinement surface needed by the L10 completion route. It sits after the uniform-space surface of \autoref{ch:concrete-instances-uniformspace-namecert}, the entourage-base surface of \autoref{ch:concrete-instances-entourage-base-namecert}, the filter-base surface of \autoref{ch:concrete-instances-filterbase-namecert}, the rounded-ideal completion surface of \autoref{ch:concrete-instances-rounded-ideal-completion-namecert}, and the metric-completion surface of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet names displayed cover and star-refinement rows only; it does not import open-cover compactness, selected refinements, choice, or ambient completeness.
+
+\begin{definition}[StarRefinementUniformCover carrier]
+\label{def:star-refinement-uniform-cover-carrier}
+A $\StarRefinementUniformCoverUp$ carrier is a finite $\BHist$ packet
+$$
+S=(U,E,F,R,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the uniform-cover row. It records the finite cover family read from the $\UniformSpaceUp$ entourage interface and the membership windows through which a downstream completion consumer may inspect it.
+\item $E$ is the $\EntourageBaseUp$ row. It supplies the entourage-basis refinement data whose square or composite containment witnesses the star-refinement relation.
+\item $F$ is the $\FilterBaseUp$ row. It records the directed finite base route that transports cover refinements to Cauchy and completion consumers.
+\item $R$ is the $\RoundedIdealCompletionUp$ row. It records the rounded-ideal completion consumer that may request the refinement as a formal-ball neighbourhood boundary.
+\item $M$ is the $\MetricCompletionUp$ row. It records the metric-completion consumer that may read the same refinement through metric entourage or ball data.
+\item $H$ records componentwise $\hsame$ transport for the uniform cover, entourage base, filter base, rounded-ideal completion, metric completion, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+U,E,F \longmapsto R,M \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\StarRefinementUniformCoverUp$, $\UniformSpaceUp$, $\EntourageBaseUp$, $\FilterBaseUp$, $\RoundedIdealCompletionUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StarRefinementUniformCoverUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these nine rows. Its classifier compares accepted packets only through $U,E,F,R,M,H,C,P,N$ and has no coordinate for open-cover compactness, a choice-selected refinement, a host star operation, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[StarRefinementUniformCover NameCert obligations]
+\label{thm:star-refinement-uniform-cover-namecert-obligations}
+For an accepted $\StarRefinementUniformCoverUp$ carrier
+$$
+S=(U,E,F,R,M,H,C,P,N),
+$$
+the local $\NameCert_{\StarRefinementUniformCoverUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the uniform-cover row, entourage-base row, filter-base row, rounded-ideal completion row, metric-completion row, transport, replay, provenance, and local naming row;
+\item star-refinement containment, requiring the displayed entourage basis in $E$ to witness that every star of the refined cover lies inside a displayed member of the cover row $U$;
+\item filter-base handoff, requiring the directed base row $F$ to preserve the same refinement relation for Cauchy and completion consumers;
+\item rounded-ideal completion handoff, requiring $R$ to read the refinement only as a formal-ball neighbourhood boundary already routed through $U,E,F$;
+\item metric-completion handoff, requiring $M$ to read the same refinement only through the displayed metric entourage or ball data already routed through $U,E,F$;
+\item classifier transport, requiring $\hsame$ comparison to preserve the uniform-cover, entourage-base, filter-base, rounded-ideal, metric-completion, replay, provenance, and local naming rows componentwise;
+\item non-escape, excluding open-cover compactness, choice, selected refinements, host star operations, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:star-refinement-uniform-cover-carrier}. The accepted packet exposes exactly the uniform-cover, entourage-base, filter-base, rounded-ideal completion, metric-completion, transport, replay, provenance, and local naming rows.
+
+Star-refinement containment is read from $E$ against $U$. The entourage-basis row supplies the finite refinement witness, and the cover row supplies the displayed members into which each star is contained.
+
+The completion handoffs then consume the same route. The filter-base row $F$ carries directed refinement data to Cauchy-style consumers, while $R$ and $M$ read the route as rounded-ideal and metric-completion neighbourhood data.
+
+Finally $H,C,P,N$ preserve the route componentwise. Since the carrier has no row for compactness of arbitrary open covers, selected refinements, choice, a host star operation, or ambient completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[StarRefinementUniformCover completion handoff]
+\label{thm:star-refinement-uniform-cover-completion-handoff}
+Let
+$$
+S=(U,E,F,R,M,H,C,P,N)
+$$
+be an accepted $\StarRefinementUniformCoverUp$ carrier. Every completion-facing consumer of the star-refinement row factors through the finite route
+$$
+U\longmapsto E\longmapsto F\longmapsto R,M\longmapsto H,C,P,N .
+$$
+The handoff supplies $\RoundedIdealCompletionUp$ and $\MetricCompletionUp$ with a displayed refinement row for uniform-cover arguments. It does not export open-cover compactness, choice, selected refinements, a host star operation, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier $S$. The uniform-cover row $U$ is the only cover entry point, so every completion-facing read first exposes the finite cover family and its membership windows.
+
+The entourage-base row $E$ then supplies the star-refinement witness. Its containment data refine the cover row already displayed by $U$, and the filter-base row $F$ preserves that relation as a directed finite base route.
+
+The completion consumers are downstream of this route. The rounded-ideal row $R$ reads the refinement as a formal-ball neighbourhood boundary, while the metric-completion row $M$ reads it through displayed metric entourage or ball data.
+
+Transport by $H$, replay by $C$, provenance by $P$, and naming by $N$ preserve the same finite route. No excluded host-side principle is available to any completion consumer.
+\end{proof}
+
+\closureat{StarRefinementUniformCoverUp}{seedStr}
+
+\begin{closurestatus}{\StarRefinementUniformCoverUp}
+  \constructivestory{A $\StarRefinementUniformCoverUp$ packet is generated from a uniform-cover row, an EntourageBaseUp refinement witness, a FilterBaseUp directed base route, RoundedIdealCompletionUp and MetricCompletionUp consumer rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:star-refinement-uniform-cover-carrier}, \autoref{thm:star-refinement-uniform-cover-namecert-obligations}, and \autoref{thm:star-refinement-uniform-cover-completion-handoff} seed the uniform-cover star-refinement surface for L10 completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, choice, selected refinements, host star operations, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, star-refinement containment, filter-base handoff, rounded-ideal completion handoff, metric-completion handoff, classifier transport, and non-escape for BEDC.Derived.StarRefinementUniformCoverUp.}
+\end{closurestatus}
