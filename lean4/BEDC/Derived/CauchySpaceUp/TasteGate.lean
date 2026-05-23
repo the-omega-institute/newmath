@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchySpaceUp.TasteGate
+namespace BEDC.Derived.CauchySpaceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -13,20 +13,20 @@ inductive CauchySpaceUp : Type where
   | mk (F U R Q T H C P N : BHist) : CauchySpaceUp
   deriving DecidableEq
 
-def cauchySpaceEncodeBHist : BHist → RawEvent
+def cauchySpaceEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cauchySpaceEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cauchySpaceEncodeBHist h
 
-def cauchySpaceDecodeBHist : RawEvent → BHist
+def cauchySpaceDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cauchySpaceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchySpaceDecodeBHist tail)
 
-private theorem CauchySpaceTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist, cauchySpaceDecodeBHist (cauchySpaceEncodeBHist h) = h := by
+private theorem CauchySpaceTasteGate_single_carrier_alignment_decode :
+    forall h : BHist, cauchySpaceDecodeBHist (cauchySpaceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,40 +34,40 @@ private theorem CauchySpaceTasteGate_single_carrier_alignment_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cauchySpaceFields : CauchySpaceUp → List BHist
+def cauchySpaceFields : CauchySpaceUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CauchySpaceUp.mk F U R Q T H C P N => [F, U, R, Q, T, H, C, P, N]
 
-def cauchySpaceToEventFlow : CauchySpaceUp → EventFlow
+def cauchySpaceToEventFlow : CauchySpaceUp -> EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (cauchySpaceFields x).map cauchySpaceEncodeBHist
+  fun x => (cauchySpaceFields x).map cauchySpaceEncodeBHist
 
-private def cauchySpaceEventAt : Nat → EventFlow → RawEvent
+private def cauchySpaceEventAtDefault : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchySpaceEventAt index rest
+  | Nat.succ index, _event :: rest => cauchySpaceEventAtDefault index rest
 
 def cauchySpaceFromEventFlow (ef : EventFlow) : Option CauchySpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CauchySpaceUp.mk
-      (cauchySpaceDecodeBHist (cauchySpaceEventAt 0 ef))
-      (cauchySpaceDecodeBHist (cauchySpaceEventAt 1 ef))
-      (cauchySpaceDecodeBHist (cauchySpaceEventAt 2 ef))
-      (cauchySpaceDecodeBHist (cauchySpaceEventAt 3 ef))
-      (cauchySpaceDecodeBHist (cauchySpaceEventAt 4 ef))
-      (cauchySpaceDecodeBHist (cauchySpaceEventAt 5 ef))
-      (cauchySpaceDecodeBHist (cauchySpaceEventAt 6 ef))
-      (cauchySpaceDecodeBHist (cauchySpaceEventAt 7 ef))
-      (cauchySpaceDecodeBHist (cauchySpaceEventAt 8 ef)))
+      (cauchySpaceDecodeBHist (cauchySpaceEventAtDefault 0 ef))
+      (cauchySpaceDecodeBHist (cauchySpaceEventAtDefault 1 ef))
+      (cauchySpaceDecodeBHist (cauchySpaceEventAtDefault 2 ef))
+      (cauchySpaceDecodeBHist (cauchySpaceEventAtDefault 3 ef))
+      (cauchySpaceDecodeBHist (cauchySpaceEventAtDefault 4 ef))
+      (cauchySpaceDecodeBHist (cauchySpaceEventAtDefault 5 ef))
+      (cauchySpaceDecodeBHist (cauchySpaceEventAtDefault 6 ef))
+      (cauchySpaceDecodeBHist (cauchySpaceEventAtDefault 7 ef))
+      (cauchySpaceDecodeBHist (cauchySpaceEventAtDefault 8 ef)))
 
-private theorem CauchySpaceTasteGate_single_carrier_alignment_round_trip
-    (x : CauchySpaceUp) :
-    cauchySpaceFromEventFlow (cauchySpaceToEventFlow x) = some x := by
+private theorem CauchySpaceTasteGate_single_carrier_alignment_round_trip :
+    forall x : CauchySpaceUp, cauchySpaceFromEventFlow (cauchySpaceToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  cases x with
+  intro token
+  cases token with
   | mk F U R Q T H C P N =>
       change
         some
@@ -82,19 +82,19 @@ private theorem CauchySpaceTasteGate_single_carrier_alignment_round_trip
             (cauchySpaceDecodeBHist (cauchySpaceEncodeBHist P))
             (cauchySpaceDecodeBHist (cauchySpaceEncodeBHist N))) =
           some (CauchySpaceUp.mk F U R Q T H C P N)
-      rw [CauchySpaceTasteGate_single_carrier_alignment_decode_encode F,
-        CauchySpaceTasteGate_single_carrier_alignment_decode_encode U,
-        CauchySpaceTasteGate_single_carrier_alignment_decode_encode R,
-        CauchySpaceTasteGate_single_carrier_alignment_decode_encode Q,
-        CauchySpaceTasteGate_single_carrier_alignment_decode_encode T,
-        CauchySpaceTasteGate_single_carrier_alignment_decode_encode H,
-        CauchySpaceTasteGate_single_carrier_alignment_decode_encode C,
-        CauchySpaceTasteGate_single_carrier_alignment_decode_encode P,
-        CauchySpaceTasteGate_single_carrier_alignment_decode_encode N]
+      rw [CauchySpaceTasteGate_single_carrier_alignment_decode F,
+        CauchySpaceTasteGate_single_carrier_alignment_decode U,
+        CauchySpaceTasteGate_single_carrier_alignment_decode R,
+        CauchySpaceTasteGate_single_carrier_alignment_decode Q,
+        CauchySpaceTasteGate_single_carrier_alignment_decode T,
+        CauchySpaceTasteGate_single_carrier_alignment_decode H,
+        CauchySpaceTasteGate_single_carrier_alignment_decode C,
+        CauchySpaceTasteGate_single_carrier_alignment_decode P,
+        CauchySpaceTasteGate_single_carrier_alignment_decode N]
 
 private theorem CauchySpaceTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchySpaceUp} :
-    cauchySpaceToEventFlow x = cauchySpaceToEventFlow y → x = y := by
+    cauchySpaceToEventFlow x = cauchySpaceToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -102,17 +102,18 @@ private theorem CauchySpaceTasteGate_single_carrier_alignment_toEventFlow_inject
         cauchySpaceFromEventFlow (cauchySpaceToEventFlow y) :=
     congrArg cauchySpaceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CauchySpaceTasteGate_single_carrier_alignment_round_trip x).symm
+    (Eq.trans
+      (CauchySpaceTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (CauchySpaceTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem CauchySpaceTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : CauchySpaceUp, cauchySpaceFields x = cauchySpaceFields y → x = y := by
+private theorem CauchySpaceTasteGate_single_carrier_alignment_fields :
+    forall x y : CauchySpaceUp, cauchySpaceFields x = cauchySpaceFields y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk F₁ U₁ R₁ Q₁ T₁ H₁ C₁ P₁ N₁ =>
+  | mk F1 U1 R1 Q1 T1 H1 C1 P1 N1 =>
       cases y with
-      | mk F₂ U₂ R₂ Q₂ T₂ H₂ C₂ P₂ N₂ =>
+      | mk F2 U2 R2 Q2 T2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -134,7 +135,7 @@ instance cauchySpaceChapterTasteGate : ChapterTasteGate CauchySpaceUp where
 instance cauchySpaceFieldFaithful : FieldFaithful CauchySpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := cauchySpaceFields
-  field_faithful := CauchySpaceTasteGate_single_carrier_alignment_fields_faithful
+  field_faithful := CauchySpaceTasteGate_single_carrier_alignment_fields
 
 instance cauchySpaceNontrivial : Nontrivial CauchySpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -147,22 +148,20 @@ instance cauchySpaceNontrivial : Nontrivial CauchySpaceUp where
         intro h
         cases h⟩
 
-def CauchySpaceTasteGate_single_carrier_alignment_taste_gate :
-    ChapterTasteGate CauchySpaceUp :=
+def taste_gate : ChapterTasteGate CauchySpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchySpaceChapterTasteGate
 
 theorem CauchySpaceTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate CauchySpaceUp) ∧
-      (∀ h : BHist, cauchySpaceDecodeBHist (cauchySpaceEncodeBHist h) = h) ∧
-        (∀ x : CauchySpaceUp,
-          cauchySpaceFromEventFlow (cauchySpaceToEventFlow x) = some x) ∧
-          cauchySpaceEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+    (forall h : BHist, cauchySpaceDecodeBHist (cauchySpaceEncodeBHist h) = h) /\
+      (forall x : CauchySpaceUp, cauchySpaceFromEventFlow (cauchySpaceToEventFlow x) = some x) /\
+        (forall x y : CauchySpaceUp, cauchySpaceToEventFlow x = cauchySpaceToEventFlow y -> x = y) /\
+          cauchySpaceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   exact
-    ⟨⟨cauchySpaceChapterTasteGate⟩,
-      CauchySpaceTasteGate_single_carrier_alignment_decode_encode,
+    ⟨CauchySpaceTasteGate_single_carrier_alignment_decode,
       CauchySpaceTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => CauchySpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.CauchySpaceUp.TasteGate
+end BEDC.Derived.CauchySpaceUp
