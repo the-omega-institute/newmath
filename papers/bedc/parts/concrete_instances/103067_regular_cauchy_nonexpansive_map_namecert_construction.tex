@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyNonexpansiveMapUp$}
+\label{ch:concrete-instances-regular-cauchy-nonexpansive-map-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyNonexpansiveMapUp$ packet records the finite route by which a $1$-Lipschitz, hence nonexpansive, map transports regular Cauchy rational names without enlarging the requested tolerance. It refines the bound-carrying map surface of \autoref{ch:concrete-instances-lipschitzmap-namecert} by fixing the Lipschitz ledger at the nonexpansive unit boundary, and it consumes the input regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a precise nonexpansive transport boundary rather than reusing a broader Lipschitz packet with an arbitrary displayed bound.
+
+\begin{definition}[Regular Cauchy nonexpansive map carrier]
+\label{def:regular-cauchy-nonexpansive-map-carrier}
+A $\RegularCauchyNonexpansiveMapUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M_{\mathrm{src}},M_{\mathrm{tgt}},L,R_{\mathrm{in}},W_{\mathrm{in}},W_{\mathrm{out}},D,R_{\mathrm{out}},E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M_{\mathrm{src}}$ and $M_{\mathrm{tgt}}$ are the source and target metric rows on which the transport is read.
+\item $L$ is the $\LipschitzMapUp$ row carrying the displayed graph and a bound ledger fixed to the nonexpansive unit boundary.
+\item $R_{\mathrm{in}}$ is the input $\RegSeqRatUp$ regular Cauchy name row.
+\item $W_{\mathrm{in}}$ is the finite $\StreamNameUp$ window opened on the input name for the requested target tolerance.
+\item $W_{\mathrm{out}}$ is the finite $\StreamNameUp$ window opened on the transported output readings.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the target radius, the unchanged input radius justified by the unit-bound row, and the comparison cells used by the nonexpansive inequality.
+\item $R_{\mathrm{out}}$ is the output $\RegSeqRatUp$ readback row obtained after $L$, $R_{\mathrm{in}}$, $W_{\mathrm{in}}$, $W_{\mathrm{out}}$, and $D$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal reached only after the output regular readback row is exposed.
+\item $H$ records componentwise $\hsame$ transport for the metric rows, Lipschitz row, input readback, both stream windows, dyadic ledger, output readback, Real seal, continuation replay, package provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each finite Real or Completion tolerance request through
+$$
+M_{\mathrm{src}},M_{\mathrm{tgt}},L,R_{\mathrm{in}},W_{\mathrm{in}},W_{\mathrm{out}},D,R_{\mathrm{out}} \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyNonexpansiveMapUp$, $\LipschitzMapUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyNonexpansiveMapUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, host function extensionality, selected limits, differentiability, countable choice, trichotomy, ambient $\RealUp$ completeness, a detached Lipschitz bound greater than the unit row, or a detached output seal.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy nonexpansive map NameCert obligations]
+\label{thm:regular-cauchy-nonexpansive-map-namecert-obligations}
+For every accepted $\RegularCauchyNonexpansiveMapUp$ carrier
+$$
+T=(M_{\mathrm{src}},M_{\mathrm{tgt}},L,R_{\mathrm{in}},W_{\mathrm{in}},W_{\mathrm{out}},D,R_{\mathrm{out}},E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyNonexpansiveMapUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source metric, target metric, Lipschitz map, input regular name, finite input and output windows, dyadic tolerance ledger, output regular readback, Real seal, componentwise transport, continuation replay, provenance, and local naming rows;
+\item nonexpansive bound discipline, requiring the displayed Lipschitz row $L$ to use only the unit-bound ledger and requiring $D$ to route a target tolerance to the same input tolerance rather than to a bound-scaled radius;
+\item input regular-name exposure, requiring every transported read to begin with the displayed $\RegSeqRatUp$ row $R_{\mathrm{in}}$ and the finite input window $W_{\mathrm{in}}$;
+\item output regular readback, requiring $R_{\mathrm{out}}$ to be obtained from the displayed Lipschitz row, windows, and dyadic unit-bound comparisons;
+\item Real-seal nonescape, requiring $E$ to be downstream of $R_{\mathrm{out}}$ and to export no quotient stream equality, selected limit, host function extensionality, differentiability, countable choice, trichotomy, or ambient $\RealUp$ completeness;
+\item provenance and local naming, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed nonexpansive route.
+\end{enumerate}
+No $\RegularCauchyNonexpansiveMapUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-nonexpansive-map-carrier}. The accepted packet displays exactly the metric, Lipschitz, regular-name, stream-window, dyadic, output-readback, seal, transport, replay, provenance, and naming coordinates.
+
+The nonexpansive bound discipline is the special role of $L$ and $D$. The Lipschitz row supplies the map surface, but the accepted bound ledger is fixed at the unit row, so the dyadic tolerance request is replayed without multiplication by a larger rational bound.
+
+Input exposure and output readback are then forced by the route $R_{\mathrm{in}},W_{\mathrm{in}},W_{\mathrm{out}},D,R_{\mathrm{out}}$. The output regular row is visible only after the source regular name, finite windows, and unit-bound comparisons have all been displayed.
+
+Finally $E,H,C,P,N$ close the route. The Real seal is downstream of the output readback, and the structural rows preserve only the displayed coordinates, leaving no carrier position from which an accepted consumer could extract the excluded objects.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy nonexpansive map Real handoff]
+\label{thm:regular-cauchy-nonexpansive-map-real-handoff}
+Every $\RealUp$-facing consumer read accepted by a $\RegularCauchyNonexpansiveMapUp$ carrier factors through the finite transport route
+$$
+\LipschitzMapUp,\ \RegSeqRatUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Equivalently, an accepted terminal seal read may consume the displayed nonexpansive Lipschitz row, the input regular name, finite input and output stream windows, the dyadic unit-bound tolerance ledger, and the output regular readback, but it cannot bypass them by quotient stream equality, selected limits, host function extensionality, differentiability data, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use the obligation theorem \autoref{thm:regular-cauchy-nonexpansive-map-namecert-obligations}. It exposes the terminal seal row $E$ only after the Lipschitz row with unit-bound ledger, the input regular-name row, both finite stream windows, the dyadic tolerance ledger, and the output regular readback have been displayed.
+
+The displayed $\Cont$ route then replays each Real-facing request through the same rows. Since the dyadic ledger records the target tolerance as the input tolerance, the handoff uses the nonexpansive boundary rather than a detached larger Lipschitz constant.
+
+Finally inspect the carrier definition. There is no coordinate for quotient stream equality, selected limits, host function extensionality, differentiability, countable choice, trichotomy, ambient Real completeness, or a second Real seal. A terminal read omitting one of the displayed transport rows is therefore not accepted by the local classifier.
+\end{proof}
+
+\closureat{RegularCauchyNonexpansiveMapUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyNonexpansiveMapUp}
+  \constructivestory{A $\RegularCauchyNonexpansiveMapUp$ packet is generated from source and target metric rows, a LipschitzMap row whose bound ledger is fixed at the nonexpansive unit boundary, an input RegSeqRat name row, finite StreamName input and output windows, a DyadicRatCore tolerance ledger, an output RegSeqRat readback row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-nonexpansive-map-carrier}, \autoref{thm:regular-cauchy-nonexpansive-map-namecert-obligations}, and \autoref{thm:regular-cauchy-nonexpansive-map-real-handoff} seed the finite nonexpansive transport route from displayed regular Cauchy input names through unit-bound dyadic accounting to output regular readback and the terminal RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host function extensionality, differentiability, countable choice, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nonexpansive bound stability, output readback, Real-seal nonescape, and BEDC.Derived.RegularCauchyNonexpansiveMapUp formalization.}
+\end{closurestatus}
