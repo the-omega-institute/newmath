@@ -64,4 +64,73 @@ theorem DiagonalLimitCompatibility_formal_target_packet [AskSetup] [PackageSetup
         ⟨provenancePkg, endpointPkg, dyadicWindowsReadback, readbackEndpoint⟩
   }
 
+theorem DiagonalLimitCompatibilityFormalTargetPacket [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      formalRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont windows readback formalRead ->
+        Cont formalRead realSeal terminalRead ->
+          PkgSig bundle terminalRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row diagonal ∨ hsame row windows ∨ hsame row formalRead ∨
+                    hsame row terminalRead)
+                (fun row : BHist =>
+                  hsame row terminalRead ∧ PkgSig bundle terminalRead pkg)
+                hsame ∧
+              UnaryHistory formalRead ∧ UnaryHistory terminalRead ∧
+                Cont windows readback formalRead ∧ Cont formalRead realSeal terminalRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier windowsReadbackFormal formalRealTerminal terminalReadPkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealUnary, _dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, _provenancePkg⟩ := carrier
+  have formalReadUnary : UnaryHistory formalRead :=
+    unary_cont_closed windowsUnary readbackUnary windowsReadbackFormal
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed formalReadUnary realSealUnary formalRealTerminal
+  have sourceTerminal :
+      (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row) terminalRead := by
+    exact ⟨hsame_refl terminalRead, terminalReadUnary⟩
+  have certPacket :
+      SemanticNameCert
+          (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row diagonal ∨ hsame row windows ∨ hsame row formalRead ∨
+              hsame row terminalRead)
+          (fun row : BHist => hsame row terminalRead ∧ PkgSig bundle terminalRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro terminalRead sourceTerminal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr source.left))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, terminalReadPkg⟩
+    }
+  exact
+    ⟨certPacket, formalReadUnary, terminalReadUnary, windowsReadbackFormal,
+      formalRealTerminal⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
