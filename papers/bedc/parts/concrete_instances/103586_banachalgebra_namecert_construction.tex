@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\BanachAlgebraUp$}
+\label{ch:concrete-instances-banachalgebra-namecert}
+\origin{human}
+
+Following Bourbaki and Gelfand--Naimark, the $\BanachAlgebraUp$ packet records the classical complete normed algebra interface as finite BEDC NameCert data. It sits between the Banach carrier of \autoref{ch:concrete-instances-banach-namecert}, the multiplication surface of \autoref{ch:concrete-instances-ring-namecert}, the norm rows of \autoref{ch:concrete-instances-norm-namecert}, the completion witnesses of \autoref{ch:concrete-instances-completemetric-namecert} and \autoref{ch:concrete-instances-completion-namecert}, and the C*-algebra consumer of \autoref{ch:concrete-instances-cstaralgebra-namecert}. The packet names a complete normed algebra row before involution, spectrum, representation, or $C^*$-identity data are available.
+
+\begin{definition}[Banach algebra carrier]
+\label{def:banach-algebra-carrier}
+A $\BanachAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+A=(R,N,B,Q,M,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RingUp$ multiplication row, including product, additive carrier compatibility, distributivity, associativity, and unit data when the source algebra displays a unit.
+\item $N$ is the $\NormUp$ norm row over the same carried additive carrier, including non-negativity, zero exactness, homogeneity, triangle, and classifier transport for norm values.
+\item $B$ is the $\BanachUp$ complete normed carrier row. It supplies the vector-additive carrier, scalar action, norm-induced metric, and regular Cauchy limit surface used by the algebra packet.
+\item $Q$ is the product-norm control row. For carried endpoints $x,y$, it records the finite ledger comparing the norm of the displayed product with the product of the displayed norms:
+$$
+\nu(x\cdot y)\leq \nu(x)\nu(y).
+$$
+\item $M$ is the $\CompleteMetricUp$ and $\MetricCompletionUp$ completion seal. It states that completion-facing reads of the norm-induced metric land back in the same algebra carrier and may inspect multiplication only through the displayed product row $R$ and product-control row $Q$.
+\item $H$ records componentwise $\hsame$ transport for the RingUp multiplication row, NormUp norm row, BanachUp complete carrier row, completion seal, product-control ledger, replay data, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\RingUp,\NormUp,\BanachUp \longmapsto \CompleteMetricUp,\MetricCompletionUp \longmapsto \BanachAlgebraUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BanachAlgebraUp$, $\RingUp$, $\NormUp$, $\BanachUp$, $\CompleteMetricUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\BanachAlgebraUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these nine rows. Its classifier compares accepted packets only through $R,N,B,Q,M,H,C,P,L$ and has no coordinate for involution, spectrum, Gelfand transform, weak-operator closure, Hilbert-space representation, host algebra equality, quotient completion, selected limits, or countable choice.
+\end{definition}
+
+\begin{theorem}[Banach algebra NameCert obligations]
+\label{thm:banach-algebra-namecert-obligations}
+For an accepted $\BanachAlgebraUp$ carrier
+$$
+A=(R,N,B,Q,M,H,C,P,L),
+$$
+the local $\NameCert_{\BanachAlgebraUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed $\RingUp$ multiplication row, $\NormUp$ norm row, $\BanachUp$ complete normed carrier row, product-control row, completion seal, transport, replay, provenance, and local naming row;
+\item algebra-norm compatibility, requiring the product row $R$ and norm row $N$ to share the carried additive carrier supplied by the Banach row $B$;
+\item submultiplicative product control, requiring each product read to pass through the ledger $Q$ before a norm estimate can be exported;
+\item completion stability, requiring every $\CompleteMetricUp$ or $\MetricCompletionUp$ read to return to the same carried algebra surface before multiplication is replayed;
+\item classifier transport, requiring $H$ and $C$ to preserve the product, norm, Banach, completion, and product-control coordinates componentwise;
+\item consumer non-escape, allowing $\CStarAlgUp$ to consume the complete normed algebra surface while excluding involution, $C^*$-identity, spectrum, representation, and host star-algebra data from the root packet.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:banach-algebra-carrier}. The accepted packet exposes exactly the multiplication, norm, Banach, product-control, completion, transport, replay, provenance, and local naming rows.
+
+Algebra-norm compatibility is forced by the shared carrier. The RingUp multiplication row and NormUp row are read over the same additive carrier already packaged by the BanachUp row, so a product read and a norm read cannot move to different representatives without passing through the same $\hsame$ transport.
+
+Submultiplicative control is the row $Q$. Every product estimate has to name the product from $R$, the norm values from $N$, and the comparison endpoint displayed by $Q$ before it can be exported.
+
+Completion stability is the row $M$. A completion-facing consumer first reads the $\CompleteMetricUp$ and $\MetricCompletionUp$ seal, and the seal returns to the same Banach carrier before multiplication is replayed.
+
+Finally $H,C,P,L$ transport, replay, source, and name only the listed rows. Since the excluded operator-algebra and host-completion principles have no coordinate in the carrier, they cannot appear as local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Banach algebra completion-product nonescape]
+\label{thm:banach-algebra-completion-product-nonescape}
+Let
+$$
+A=(R,N,B,Q,M,H,C,P,L)
+$$
+be an accepted $\BanachAlgebraUp$ carrier. Every completion-facing product read exported by $A$ factors through the finite route
+$$
+\RingUp,\NormUp,\BanachUp \longmapsto Q \longmapsto \CompleteMetricUp,\MetricCompletionUp \longmapsto \BanachAlgebraUp .
+$$
+Consequently a $\CStarAlgUp$ consumer may cite the complete normed algebra surface only as displayed multiplication, norm, completeness, product-control, transport, replay, provenance, and local naming data. The route exports no involution, no $C^*$-identity, no spectrum, no representation, no weak-operator closure, no quotient completion, and no selected limit.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier and project its completion and product rows. The product row $R$ and norm row $N$ are already tied to the complete Banach row $B$ by the carrier predicate.
+
+The product-control row $Q$ is the only place where multiplication and norm estimates meet. Thus a product read cannot pass directly from the RingUp row into a completion consumer; it must first expose the norm comparison ledger.
+
+The completion seal $M$ then checks the same norm-induced metric surface through $\CompleteMetricUp$ and $\MetricCompletionUp$. Because $M$ returns to the displayed Banach carrier, completion does not add a quotient product or a selected representative.
+
+Replay through $C$ and transport through $H$ preserve the route componentwise, while $P$ and $L$ name only that finite surface. A $\CStarAlgUp$ consumer can therefore use the complete normed algebra boundary as a dependency, but its involution and $C^*$-identity rows must be supplied by the C*-algebra packet itself.
+\end{proof}
+
+\closureat{BanachAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\BanachAlgebraUp}
+  \constructivestory{A $\BanachAlgebraUp$ packet is generated from a displayed RingUp multiplication row, a NormUp norm row over the same carried additive carrier, a BanachUp complete normed carrier row, a product-control ledger, a CompleteMetricUp and MetricCompletionUp completion seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-algebra-carrier}, \autoref{thm:banach-algebra-namecert-obligations}, and \autoref{thm:banach-algebra-completion-product-nonescape} seed the finite complete normed algebra route over RingUp multiplication, NormUp norm, BanachUp completeness, completion seals, product control, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim involution, the $C^*$-identity, spectrum, representation theory, weak-operator closure, host algebra equality, quotient completion, selected limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, algebra-norm compatibility, submultiplicative product control, completion stability, classifier transport, and consumer non-escape for BEDC.Derived.BanachAlgebraUp.}
+\end{closurestatus}
