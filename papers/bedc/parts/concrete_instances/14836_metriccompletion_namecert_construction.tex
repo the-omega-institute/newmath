@@ -294,6 +294,43 @@ Next apply \autoref{thm:metric-completion-obligation-branch-readback} and \autor
 Finally use \autoref{thm:metric-completion-obligation-uniform-handoff}. The $\UniformCompletionUp$ consumer sees the same displayed branch, readback, separatedness, transport, replay, provenance, and naming rows, so classifier transport preserves the handoff rather than adding an independent completion surface.
 \end{proof}
 
+\begin{definition}[MetricCompletion branch-interface scope]
+\label{def:metriccompletion-branch-interface-scope}
+For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$, the branch-interface rows are the displayed source metric row $X$, exactly one Cauchy-evidence branch $F$ or $D$, the finite $\RegSeqRatUp$ or $\RealUp$ readback row $R$, the $\SeparatedMetricUp$ comparison row $S$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\MetricCompletionUp}$ row $N$. This scope is a row boundary: it names what filter and net consumers may read, and it does not add carrier/classifier transport beyond the accepted packet.
+\end{definition}
+
+\begin{theorem}[MetricCompletion filter-branch scope]
+\label{thm:metriccompletion-filter-branch-scope}
+On the filter branch of an accepted $\MetricCompletionUp$ packet, every completion-facing read consumes the rows in the order
+$$
+\MetricUp,\ \CauchyFilterUp,\ \RegSeqRatUp\hbox{ or }\RealUp,\ \SeparatedMetricUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Equivalently, in the carrier notation it reads $X$, then $F$, then $R$, then $S$, and finally $H,C,P,N$. It has no route to a net branch, quotient completion row, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the branch-interface scope of \autoref{def:metriccompletion-branch-interface-scope}. The filter case selects the displayed row $F$ after the source metric row $X$.
+
+Apply the branch-readback and separated-comparison obligations, \autoref{thm:metric-completion-obligation-branch-readback} and \autoref{thm:metric-completion-obligation-separated-comparison}. These place $R$ after the chosen filter branch and place comparison at $S$ together with $H,C,P,N$.
+
+Finally use the filter handoff and finite-readback ledger non-escape theorems, \autoref{thm:metric-completion-cauchy-filter-handoff} and \autoref{thm:metric-completion-finite-readback-ledger-nonescape}. The selected route remains $X,F,R,S,H,C,P,N$, and no absent completion principle is introduced downstream.
+\end{proof}
+
+\begin{theorem}[MetricCompletion net-branch scope]
+\label{thm:metriccompletion-net-branch-scope}
+On the net branch of an accepted $\MetricCompletionUp$ packet, every completion-facing read consumes the rows in the order
+$$
+\MetricUp,\ \CauchyNetUp,\ \RegSeqRatUp\hbox{ or }\RealUp,\ \SeparatedMetricUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Equivalently, in the carrier notation it reads $X$, then $D$, then $R$, then $S$, and finally $H,C,P,N$. It has no route to a filter branch, quotient completion row, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the branch-interface scope of \autoref{def:metriccompletion-branch-interface-scope}. The net case selects the displayed row $D$ after the source metric row $X$.
+
+Apply the branch-readback and separated-comparison obligations, \autoref{thm:metric-completion-obligation-branch-readback} and \autoref{thm:metric-completion-obligation-separated-comparison}. These place $R$ after the chosen net branch and place comparison at $S$ together with $H,C,P,N$.
+
+Finally use the net handoff and finite-readback ledger non-escape theorems, \autoref{thm:metric-completion-cauchy-net-handoff} and \autoref{thm:metric-completion-finite-readback-ledger-nonescape}. The selected route remains $X,D,R,S,H,C,P,N$, and no absent completion principle is introduced downstream.
+\end{proof}
+
 \begin{theorem}[MetricCompletion Cauchy-evidence handoff]
 \label{thm:metric-completion-cauchy-evidence-handoff}
 Every completion-facing consumer of an accepted $\MetricCompletionUp$ packet reaches separated comparison only after the exact Cauchy-evidence handoff
