@@ -3643,6 +3643,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
 
     nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
     quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
+    quotient_minimal_trigger_type_counts: collections.Counter[tuple[int, ...]] = collections.Counter()
     for trigger_size in range(1, 5):
         for family in itertools.combinations(nonempty_support_patterns, trigger_size):
             union_support = frozenset().union(*family)
@@ -3655,6 +3656,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             )
             if is_minimal:
                 quotient_minimal_trigger_counts[trigger_size] += 1
+                support_size_type = tuple(sorted(len(support) for support in family))
+                quotient_minimal_trigger_type_counts[support_size_type] += 1
     minimal_trigger_rows = [
         {
             "trigger_size": trigger_size,
@@ -3663,6 +3666,68 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         }
         for trigger_size in range(1, 5)
     ]
+    minimal_trigger_type_rows = [
+        {
+            "trigger_size": len(support_size_type),
+            "support_size_type": support_size_type,
+            "quotient_count": quotient_count,
+            "codon_count": quotient_count * (2 ** len(support_size_type)),
+        }
+        for support_size_type, quotient_count in sorted(
+            quotient_minimal_trigger_type_counts.items(),
+            key=lambda item: (len(item[0]), item[0]),
+        )
+    ]
+    minimal_trigger_polynomial_quotient = tuple(
+        (row["trigger_size"], row["quotient_count"])
+        for row in minimal_trigger_rows
+    )
+    minimal_trigger_polynomial_codon = tuple(
+        (row["trigger_size"], row["codon_count"])
+        for row in minimal_trigger_rows
+    )
+    stanley_reisner_degree_rows = tuple(
+        {
+            "degree": row["trigger_size"],
+            "minimal_generator_count": row["codon_count"],
+        }
+        for row in minimal_trigger_rows
+    )
+    stanley_reisner_degree_one_generators = tuple(
+        sorted(codon for codon in y_external_codons if anchor_support(codon) == coordinate_universe)
+    )
+
+    def reliability_probability(activation_probability: float) -> float:
+        omission_probability = 1.0 - activation_probability
+        return (
+            1.0
+            - 4.0 * (omission_probability ** 16)
+            + 6.0 * (omission_probability ** 24)
+            - 4.0 * (omission_probability ** 28)
+            + omission_probability ** 30
+        )
+
+    def reliability_threshold(target_probability: float) -> float:
+        lower = 0.0
+        upper = 1.0
+        for _iteration in range(100):
+            midpoint = (lower + upper) / 2.0
+            if reliability_probability(midpoint) >= target_probability:
+                upper = midpoint
+            else:
+                lower = midpoint
+        return (lower + upper) / 2.0
+
+    reliability_threshold_rows = []
+    for target_probability in (0.5, 0.9, 0.95, 0.99):
+        threshold = reliability_threshold(target_probability)
+        reliability_threshold_rows.append(
+            {
+                "target_probability": target_probability,
+                "activation_probability": threshold,
+                "expected_selected_codons": len(y_external_codons) * threshold,
+            }
+        )
     antipodal_trigger_summary = {
         "mstar": tuple(sorted(mstar_set)),
         "mstar_size": len(mstar_set),
@@ -3721,6 +3786,14 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "minimal_trigger_rows": minimal_trigger_rows,
         "minimal_trigger_quotient_total": sum(row["quotient_count"] for row in minimal_trigger_rows),
         "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
+        "minimal_trigger_polynomial_quotient": minimal_trigger_polynomial_quotient,
+        "minimal_trigger_polynomial_codon": minimal_trigger_polynomial_codon,
+        "minimal_trigger_type_rows": minimal_trigger_type_rows,
+        "stanley_reisner_generator_count": sum(row["codon_count"] for row in minimal_trigger_rows),
+        "stanley_reisner_degree_rows": stanley_reisner_degree_rows,
+        "stanley_reisner_degree_one_generators": stanley_reisner_degree_one_generators,
+        "reliability_polynomial": "1 - 4q^16 + 6q^24 - 4q^28 + q^30",
+        "reliability_threshold_rows": reliability_threshold_rows,
         "maximum_nontrigger_external_size": maximum_nontrigger_external_size,
         "maximum_nontrigger_blocker_count": maximum_nontrigger_blocker_count,
         "forced_full_trigger_threshold": maximum_nontrigger_external_size + 1,
@@ -6996,6 +7069,57 @@ def assert_expected(summary: dict[str, object]) -> None:
     ]
     assert antipodal["minimal_trigger_quotient_total"] == 49
     assert antipodal["minimal_trigger_codon_total"] == 294
+    assert antipodal["minimal_trigger_polynomial_quotient"] == (
+        (1, 1),
+        (2, 25),
+        (3, 22),
+        (4, 1),
+    )
+    assert antipodal["minimal_trigger_polynomial_codon"] == (
+        (1, 2),
+        (2, 100),
+        (3, 176),
+        (4, 16),
+    )
+    assert [
+        (row["support_size_type"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["minimal_trigger_type_rows"]
+    ] == [
+        ((4,), 1, 2),
+        ((1, 3), 4, 16),
+        ((2, 2), 3, 12),
+        ((2, 3), 12, 48),
+        ((3, 3), 6, 24),
+        ((1, 1, 2), 6, 48),
+        ((1, 2, 2), 12, 96),
+        ((2, 2, 2), 4, 32),
+        ((1, 1, 1, 1), 1, 16),
+    ]
+    assert antipodal["stanley_reisner_generator_count"] == 294
+    assert [
+        (row["degree"], row["minimal_generator_count"])
+        for row in antipodal["stanley_reisner_degree_rows"]
+    ] == [
+        (1, 2),
+        (2, 100),
+        (3, 176),
+        (4, 16),
+    ]
+    assert antipodal["stanley_reisner_degree_one_generators"] == ("AGC", "AGT")
+    assert antipodal["reliability_polynomial"] == "1 - 4q^16 + 6q^24 - 4q^28 + q^30"
+    assert [
+        (
+            row["target_probability"],
+            round(row["activation_probability"], 5),
+            round(row["expected_selected_codons"], 2),
+        )
+        for row in antipodal["reliability_threshold_rows"]
+    ] == [
+        (0.5, 0.08779, 2.63),
+        (0.9, 0.19455, 5.84),
+        (0.95, 0.23206, 6.96),
+        (0.99, 0.30934, 9.28),
+    ]
     assert antipodal["maximum_nontrigger_external_size"] == 14
     assert antipodal["maximum_nontrigger_blocker_count"] == 4
     assert antipodal["forced_full_trigger_threshold"] == 15
