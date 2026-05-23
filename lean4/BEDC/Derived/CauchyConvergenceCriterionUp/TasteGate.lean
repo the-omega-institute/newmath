@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyConvergenceCriterionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -234,5 +246,78 @@ theorem CauchyConvergenceCriterionTasteGate_single_carrier_alignment :
       cauchyConvergenceCriterion_round_trip,
       (fun _ _ heq => cauchyConvergenceCriterionToEventFlow_injective heq),
       rfl⟩
+
+def CauchyConvergenceCriterionCarrier [AskSetup] [PackageSetup]
+    (schedule modulus dyadic handoff sealRow transportRow route provenance localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame Cont PkgSig
+  UnaryHistory schedule ∧ UnaryHistory modulus ∧ UnaryHistory dyadic ∧
+    UnaryHistory handoff ∧ UnaryHistory sealRow ∧ UnaryHistory transportRow ∧
+      UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+        Cont schedule modulus dyadic ∧ Cont dyadic handoff sealRow ∧
+          Cont sealRow transportRow route ∧ Cont route provenance localCert ∧
+            hsame sealRow handoff ∧ hsame sealRow provenance ∧
+              PkgSig bundle provenance pkg
+
+theorem CauchyConvergenceCriterionCarrier_namecert_obligations [AskSetup]
+    [PackageSetup]
+    {schedule modulus dyadic handoff sealRow transportRow route provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyConvergenceCriterionCarrier schedule modulus dyadic handoff sealRow transportRow
+        route provenance localCert bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          CauchyConvergenceCriterionCarrier schedule modulus dyadic handoff sealRow
+              transportRow route provenance localCert bundle pkg ∧
+            hsame row sealRow)
+        (fun row : BHist =>
+          CauchyConvergenceCriterionCarrier schedule modulus dyadic handoff sealRow
+              transportRow route provenance localCert bundle pkg ∧
+            hsame row handoff)
+        (fun row : BHist =>
+          CauchyConvergenceCriterionCarrier schedule modulus dyadic handoff sealRow
+              transportRow route provenance localCert bundle pkg ∧
+            hsame row provenance)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame SemanticNameCert NameCert
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sealRow (And.intro carrier (hsame_refl sealRow))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      obtain ⟨carrierRows, sameRowSeal⟩ := source
+      have carrierRowsCopy := carrierRows
+      obtain ⟨_scheduleUnary, _modulusUnary, _dyadicUnary, _handoffUnary, _sealUnary,
+        _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary,
+        _scheduleModulusDyadic, _dyadicHandoffSeal, _sealTransportRoute,
+        _routeProvenanceLocal, sameSealHandoff, _sameSealProvenance,
+        _provenancePkg⟩ := carrierRows
+      exact And.intro carrierRowsCopy (hsame_trans sameRowSeal sameSealHandoff)
+    ledger_sound := by
+      intro _row source
+      obtain ⟨carrierRows, sameRowSeal⟩ := source
+      have carrierRowsCopy := carrierRows
+      obtain ⟨_scheduleUnary, _modulusUnary, _dyadicUnary, _handoffUnary, _sealUnary,
+        _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary,
+        _scheduleModulusDyadic, _dyadicHandoffSeal, _sealTransportRoute,
+        _routeProvenanceLocal, _sameSealHandoff, sameSealProvenance,
+        _provenancePkg⟩ := carrierRows
+      exact And.intro carrierRowsCopy (hsame_trans sameRowSeal sameSealProvenance)
+  }
 
 end BEDC.Derived.CauchyConvergenceCriterionUp
