@@ -1,0 +1,198 @@
+\begin{definition}[Walsh spectrum of reassignment weight]
+\label{def:philosophy-reassignment-walsh-spectrum}
+Let $w:Q_{6}\to\mathbb{R}_{\ge 0}$ be the reassignment weight function.
+For $S\subseteq\{1,\ldots,6\}$, define
+$$
+  \chi_{S}(x)=(-1)^{\sum_{i\in S}x_{i}},
+  \qquad
+  \widehat{w}(S)=2^{-6}\sum_{x\in Q_{6}}w(x)\chi_{S}(x).
+$$
+\end{definition}
+
+\begin{theorem}[Dominant Walsh coefficients]
+\label{thm:philosophy-dominant-walsh-coefficients}
+The largest non-constant Walsh coefficients of $w$ are
+$$
+\begin{array}{c|c|r|l}
+  \text{rank} & S & \widehat{w}(S) & \text{reading}\\
+\hline
+  1 & b_{3}^{s} & -0.953125 & \text{third base biased to purine}\\
+  2 & b_{1}^{f}b_{3}^{s} & -0.890625
+    & \text{first family with third purine}\\
+  3 & b_{1}^{f} & 0.828125 & \text{first base biased to }\{\mathrm{U},\mathrm{A}\}\\
+  4 & b_{1}^{f}b_{2}^{s} & -0.796875
+    & \text{first family with second purine}\\
+  5 & b_{1}^{f}b_{2}^{s}b_{3}^{s} & 0.734375
+    & \text{purine-core interaction}\\
+  6 & b_{2}^{s}b_{3}^{s} & 0.671875
+    & \text{second and third purine interaction}\\
+  7 & b_{2}^{s} & -0.609375 & \text{second base biased to purine}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Evaluate the finite Walsh transform of
+\autoref{def:philosophy-reassignment-walsh-spectrum} over all $64$
+codons and sort the non-empty subsets by absolute coefficient.
+\end{proof}
+
+\begin{corollary}[Walsh spectrum recovers the purine-core variables]
+\label{cor:philosophy-walsh-recovers-purine-core-variables}
+The dominant spectral variables are exactly the coordinates defining
+the purine-core cube:
+$$
+  b_{1}^{f}=0,\qquad b_{2}^{s}=1,\qquad b_{3}^{s}=1.
+$$
+\end{corollary}
+\begin{proof}
+The variables $b_{3}^{s}$, $b_{1}^{f}$, and $b_{2}^{s}$ and their
+low-order interactions occupy the leading rows of
+\autoref{thm:philosophy-dominant-walsh-coefficients}. These are exactly
+the fixed coordinates of $Q_{3}^{\mathrm{pur}}$ in
+\autoref{def:philosophy-purine-core-cube}.
+\end{proof}
+
+\begin{theorem}[Low-order spectral compressibility]
+\label{thm:philosophy-low-order-spectral-compressibility}
+After removing the constant coefficient, the Walsh energy
+$\sum_{S\neq\varnothing}\widehat{w}(S)^{2}$ has degree distribution
+$$
+\begin{array}{c|rrrrrr}
+  \text{degree} & 1 & 2 & 3 & 4 & 5 & 6\\
+\hline
+  \text{energy share}
+    & 0.275 & 0.320 & 0.194 & 0.137 & 0.065 & 0.009.
+\end{array}
+$$
+Consequently, degrees at most $3$ account for approximately $0.789$ of
+the non-constant energy, and degrees at most $4$ account for
+approximately $0.926$.
+\end{theorem}
+\begin{proof}
+Compute $\widehat{w}(S)^{2}$ for each non-empty subset
+$S\subseteq\{1,\ldots,6\}$, group by $|S|$, and normalize by the total
+non-constant energy.
+\end{proof}
+
+\begin{corollary}[Reassignment weight is low-order in $Q_{6}$]
+\label{cor:philosophy-reassignment-weight-low-order}
+The reassignment weight function is largely controlled by low-order bit
+conditions rather than by high-degree oscillation on the full codon
+cube.
+\end{corollary}
+\begin{proof}
+This is the cumulative degree statement in
+\autoref{thm:philosophy-low-order-spectral-compressibility}.
+\end{proof}
+
+\begin{definition}[Weight-permutation null model]
+\label{def:philosophy-weight-permutation-null-model}
+The permutation null model keeps the multiset of reassignment weights
+fixed and randomly assigns those weights to the $64$ vertices of $Q_{6}$.
+For each randomized weight function and each $d$, record
+$$
+  \max_{Q_{d}\subset Q_{6}}M(Q_{d}).
+$$
+\end{definition}
+
+\begin{theorem}[Subcube mass significance under permutation]
+\label{thm:philosophy-subcube-mass-significance-permutation}
+Using $100000$ fixed-seed random permutations of the reassignment weight
+multiset, the maximum subcube masses have the following null comparison:
+$$
+\begin{array}{c|r|r|r}
+  \text{dimension} & \text{observed maximum mass}
+    & \text{random mean maximum mass} & p\\
+\hline
+  Q_{2} & 34 & 24.97 & 0.01415\\
+  Q_{3} & 52 & 31.46 & 0.00020\\
+  Q_{4} & 59 & 39.82 & 0.00053\\
+  Q_{5} & 63 & 50.94 & 0.01003.
+\end{array}
+$$
+Here $p$ is the fraction of randomized trials whose maximum subcube mass
+is at least the observed maximum.
+\end{theorem}
+\begin{proof}
+For each trial in the permutation null model of
+\autoref{def:philosophy-weight-permutation-null-model}, enumerate all
+axis-aligned $Q_{d}$ subcubes for $d=2,3,4,5$ and record the maximum
+mass. The displayed means and tail fractions are the resulting finite
+Monte Carlo counts with fixed seed.
+\end{proof}
+
+\begin{corollary}[The strongest subcube signal is three-dimensional]
+\label{cor:philosophy-strongest-subcube-signal-three-dimensional}
+Although the $Q_{5}$ condition captures $63/65$ of the mass, the
+strongest permutation-null signal is the purine-core $Q_{3}$, which
+captures $52/65$ of the mass on only eight codons.
+\end{corollary}
+\begin{proof}
+Compare the $p$ column in
+\autoref{thm:philosophy-subcube-mass-significance-permutation} with the
+subcube identities in
+\autoref{thm:philosophy-nested-maximum-mass-subcubes}.
+\end{proof}
+
+\begin{theorem}[Three-module geometric compression]
+\label{thm:philosophy-three-module-geometric-compression}
+The reassigned support cannot be covered by two $Q_{2}/Q_{3}$ subcubes,
+but it can be covered by three. One such cover is
+$$
+\begin{array}{c|c|r}
+  \text{module} & \text{covered reassigned codons} & \text{mass}\\
+\hline
+  Q_{3}^{\mathrm{pur}}
+    & \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},
+       \mathrm{AAA},\mathrm{AGA},\mathrm{AGG}\} & 52\\
+  \mathrm{CUN\ square}
+    & \{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\} & 6\\
+  \mathrm{A\text{-}ending\ residual\ square}
+    & \{\mathrm{UUA},\mathrm{UCA},\mathrm{AUA}\} & 7.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+This is the finite $Q_{2}/Q_{3}$ set-cover enumeration of
+\autoref{thm:philosophy-three-block-low-dimensional-cover}. The first
+nonempty covers occur at size $3$; the displayed cover is the canonical
+three-module reading used there.
+\end{proof}
+
+\begin{corollary}[Purine core dominates the minimal compression]
+\label{cor:philosophy-purine-core-dominates-minimal-compression}
+In the three-module compression, $Q_{3}^{\mathrm{pur}}$ carries
+$52/65$ of the total reassignment mass. The two remaining $Q_{2}$
+modules cover the low-mass residual support.
+\end{corollary}
+\begin{proof}
+Read the mass column of
+\autoref{thm:philosophy-three-module-geometric-compression}.
+\end{proof}
+
+\begin{theorem}[Spectral compression statement]
+\label{thm:philosophy-spectral-compression-statement}
+The reassignment weight function is recovered by four independent
+finite signals:
+$$
+\begin{gathered}
+  \text{dominant Walsh variables } b_{3}^{s},b_{1}^{f},b_{2}^{s},\\
+  \text{low-order spectral energy concentration},\\
+  \text{permutation-significant maximum }Q_{3}^{\mathrm{pur}},\\
+  \text{and a three-module }Q_{2}/Q_{3}\text{ cover}.
+\end{gathered}
+$$
+Thus the purine-core $Q_{3}$ is not an externally chosen block; it is
+selected by the spectrum, by subcube mass, by the permutation null
+model, and by geometric compression.
+\end{theorem}
+\begin{proof}
+The Walsh variables are
+\autoref{thm:philosophy-dominant-walsh-coefficients}. The energy
+concentration is
+\autoref{thm:philosophy-low-order-spectral-compressibility}. The
+permutation-null statement is
+\autoref{thm:philosophy-subcube-mass-significance-permutation}. The
+geometric cover is
+\autoref{thm:philosophy-three-module-geometric-compression}.
+\end{proof}

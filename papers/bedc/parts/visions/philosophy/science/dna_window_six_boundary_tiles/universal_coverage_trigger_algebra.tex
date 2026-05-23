@@ -1,0 +1,277 @@
+\begin{definition}[Coverage-trigger system]
+\label{def:philosophy-coverage-trigger-system}
+For integers $n\geq1$ and $\ell\geq1$, let
+$$
+  E_{n,\ell}
+  =
+  \{(S,a):\varnothing\neq S\subseteq[n],\ a\in[\ell]\}.
+$$
+The support of $(S,a)$ is $\sigma(S,a)=S$. Thus
+$$
+  |E_{n,\ell}|=\ell(2^{n}-1).
+$$
+For $B\subseteq E_{n,\ell}$, set
+$$
+  J(B)=\bigcup_{e\in B}\sigma(e).
+$$
+The subset $B$ is a full trigger when $J(B)=[n]$.
+\end{definition}
+
+\begin{theorem}[Universal coverage closure]
+\label{thm:philosophy-universal-coverage-closure}
+Define
+$$
+  \operatorname{cl}(B)
+  =
+  \{e\in E_{n,\ell}:\sigma(e)\subseteq J(B)\}.
+$$
+Then
+$$
+  \operatorname{cl}(B)=E_{J(B)},
+  \qquad
+  E_{J}=\{e:\sigma(e)\subseteq J\}.
+$$
+The closed-set lattice is isomorphic to $2^{[n]}$, and if
+$|J(B)|=r$, then
+$$
+  |\operatorname{cl}(B)|=\ell(2^{r}-1).
+$$
+\end{theorem}
+\begin{proof}
+The identity is the definition of $\operatorname{cl}$ with
+$J(B)$ substituted. Every $J\subseteq[n]$ gives a closed set $E_{J}$,
+and the operations satisfy
+$$
+  E_{I}\cap E_{J}=E_{I\cap J},
+  \qquad
+  \operatorname{cl}(E_{I}\cup E_{J})=E_{I\cup J}.
+$$
+The size formula counts the nonempty supports contained in a fixed
+$r$-coordinate set and multiplies by $\ell$ lifts.
+\end{proof}
+
+\begin{theorem}[Universal blocker topology]
+\label{thm:philosophy-universal-blocker-topology}
+Let
+$$
+  \mathcal{B}_{n,\ell}
+  =
+  \{B\subseteq E_{n,\ell}:J(B)\neq[n]\}.
+$$
+Then
+$$
+  \mathcal{B}_{n,\ell}\simeq S^{n-2}.
+$$
+The maximal blockers are
+$$
+  B_{\neg i}=\{e:i\notin\sigma(e)\},
+  \qquad i\in[n],
+$$
+and have size $\ell(2^{n-1}-1)$. If $k$ coordinates are omitted
+simultaneously, the corresponding intersection has size
+$$
+  \ell(2^{n-k}-1).
+$$
+\end{theorem}
+\begin{proof}
+The complex is the union of the $n$ simplices $B_{\neg i}$. Any
+proper intersection is a simplex on the elements whose supports avoid
+the omitted coordinates, hence contractible when at least one
+coordinate remains. The intersection of all $n$ blockers is empty
+because supports are nonempty. The nerve is therefore
+$\partial\Delta^{n-1}\simeq S^{n-2}$.
+\end{proof}
+
+\begin{theorem}[Universal blocker counts and threshold]
+\label{thm:philosophy-universal-blocker-counts}
+The number of $m$-element non-trigger subsets is
+$$
+  F_{m}(n,\ell)
+  =
+  \sum_{k=1}^{n}
+  (-1)^{k+1}
+  \binom{n}{k}
+  \binom{\ell(2^{n-k}-1)}{m}.
+$$
+The largest blocker has size $\ell(2^{n-1}-1)$, so every subset of
+size at least
+$$
+  \ell(2^{n-1}-1)+1
+$$
+is a full trigger.
+\end{theorem}
+\begin{proof}
+Apply inclusion-exclusion to the $n$ events that a coordinate is
+missed. If a specified set of $k$ coordinates is missed, the available
+elements are precisely those whose supports are nonempty subsets of
+the remaining $n-k$ coordinates, with $\ell$ lifts. The threshold is
+one more than the largest maximal blocker size.
+\end{proof}
+
+\begin{theorem}[Universal Bernoulli reliability]
+\label{thm:philosophy-universal-bernoulli-reliability}
+If each element of $E_{n,\ell}$ is independently activated with
+probability $p$ and $q=1-p$, then
+$$
+  R_{n,\ell}(p)
+  =
+  1-
+  \sum_{k=1}^{n}
+  (-1)^{k+1}
+  \binom{n}{k}
+  q^{\ell(2^{n}-2^{n-k})}.
+$$
+\end{theorem}
+\begin{proof}
+If a specified set of $k$ coordinates is missed, every element whose
+support intersects that set must be inactive. The number of such
+elements is
+$$
+  \ell(2^{n}-1)-\ell(2^{n-k}-1)=\ell(2^{n}-2^{n-k}).
+$$
+Inclusion-exclusion over missed coordinates gives the non-trigger
+probability; the reliability is its complement.
+\end{proof}
+
+\begin{theorem}[Universal Markov rank transition]
+\label{thm:philosophy-universal-markov-rank-transition}
+Draw elements without replacement. If $m$ elements have been drawn and
+the current covered rank is $r$, then
+$$
+  \Pr(\Delta r=0\mid m,r)
+  =
+  \frac{\ell(2^{r}-1)-m}{\ell(2^{n}-1)-m},
+$$
+and for $1\leq j\leq n-r$,
+$$
+  \Pr(\Delta r=j\mid m,r)
+  =
+  \frac{\ell 2^{r}\binom{n-r}{j}}
+  {\ell(2^{n}-1)-m}.
+$$
+Moreover,
+$$
+  \mathbb{E}[\Delta r\mid m,r]
+  =
+  \frac{\ell 2^{n-1}(n-r)}
+  {\ell(2^{n}-1)-m}.
+$$
+\end{theorem}
+\begin{proof}
+Rank-preserving elements have nonempty support contained in the current
+$r$-coordinate set; after $m$ draws, $\ell(2^{r}-1)-m$ remain. To add
+exactly $j$ coordinates, choose those $j$ coordinates among the
+$n-r$ uncovered coordinates and choose any subset of the old $r$
+coordinates, giving $\ell 2^{r}\binom{n-r}{j}$ elements. The drift
+formula uses
+$$
+  \sum_{j=1}^{n-r}j\binom{n-r}{j}=(n-r)2^{n-r-1}.
+$$
+\end{proof}
+
+\begin{theorem}[Universal Alexander dual]
+\label{thm:philosophy-universal-alexander-dual}
+For each $i\in[n]$, set
+$$
+  U_{i}=\prod_{\sigma(e)\ni i}x_{e}.
+$$
+Then
+$$
+  I_{\mathcal{B}_{n,\ell}}^{\vee}
+  =
+  \langle U_{1},\ldots,U_{n}\rangle.
+$$
+The degree of $U_{i}$ is $\ell2^{n-1}$, and the lcm degree of any
+$k$ generators is
+$$
+  D_{k}=\ell(2^{n}-2^{n-k}).
+$$
+\end{theorem}
+\begin{proof}
+The facets of $\mathcal{B}_{n,\ell}$ are the blockers $B_{\neg i}$.
+Their complements are the elements whose supports contain $i$, which
+give the monomials $U_{i}$. The lcm of $k$ such generators contains
+exactly the elements whose supports meet the chosen $k$ coordinates,
+whose number is $\ell(2^{n}-2^{n-k})$.
+\end{proof}
+
+\begin{theorem}[Universal energy-minimal triggers]
+\label{thm:philosophy-universal-energy-minimal-triggers}
+Let the energy of an element be $|\sigma(e)|$ and the energy of a
+trigger be the sum of element energies. Every full trigger has energy
+at least $n$, with equality exactly when its supports form a set
+partition of $[n]$. Therefore the quotient-level energy-minimal
+triggers are counted by the Bell number $B_{n}$, and by trigger size
+$m$ by the Stirling number $S(n,m)$. With $\ell$ lifts, the
+energy-minimal trigger polynomial is
+$$
+  \sum_{m=1}^{n}\ell^{m}S(n,m)z^{m}y^{n}.
+$$
+\end{theorem}
+\begin{proof}
+Every coordinate of $[n]$ must be covered at least once, so total
+energy is at least $n$. Equality means that every coordinate is counted
+exactly once, which is precisely a set partition. Each block has
+$\ell$ lift choices, giving the factor $\ell^{m}$ for an $m$-block
+partition.
+\end{proof}
+
+\begin{theorem}[Codon case as $(4,2)$]
+\label{thm:philosophy-codon-case-coverage-trigger}
+The post-$M^{\star}$ codon trigger system is the
+$(n,\ell)=(4,2)$ coverage-trigger system. Substituting $n=4$ and
+$\ell=2$ gives
+$$
+  |E|=30,\qquad
+  \mathcal{B}_{4,2}\simeq S^{2},
+  \qquad
+  \ell(2^{3}-1)+1=15,
+$$
+$$
+  R_{4,2}(p)=1-4q^{16}+6q^{24}-4q^{28}+q^{30},
+$$
+$$
+  D_{1},D_{2},D_{3},D_{4}=16,24,28,30,
+$$
+and
+$$
+  2zy^{4}+28z^{2}y^{4}+48z^{3}y^{4}+16z^{4}y^{4}
+$$
+for the energy-minimal codon-level trigger polynomial.
+\end{theorem}
+\begin{proof}
+The four coordinates are $s_{1},f_{1},s_{2},f_{2}$ and the two lifts
+are the two third-position $Y$ codons in each support class. Each
+formula is the specialization of the preceding universal theorems at
+$(n,\ell)=(4,2)$.
+\end{proof}
+
+\begin{theorem}[Universal coverage-trigger algebra theorem]
+\label{thm:philosophy-universal-coverage-trigger-algebra-theorem}
+For every $n\geq1$ and $\ell\geq1$, the system
+$E_{n,\ell}$ has Boolean closed-set lattice $2^{[n]}$, blocker complex
+homotopy type $S^{n-2}$, forcing threshold
+$\ell(2^{n-1}-1)+1$, Bernoulli reliability
+\autoref{thm:philosophy-universal-bernoulli-reliability}, Markov rank
+transition \autoref{thm:philosophy-universal-markov-rank-transition},
+Alexander-dual ideal
+$\langle U_{1},\ldots,U_{n}\rangle$, and energy-minimal partition
+polynomial
+$$
+  \sum_{m=1}^{n}\ell^{m}S(n,m)z^{m}y^{n}.
+$$
+The codon terminal system after $M^{\star}$ is exactly the
+$(4,2)$ instance.
+\end{theorem}
+\begin{proof}
+This is the collection of
+\autoref{thm:philosophy-universal-coverage-closure},
+\autoref{thm:philosophy-universal-blocker-topology},
+\autoref{thm:philosophy-universal-blocker-counts},
+\autoref{thm:philosophy-universal-bernoulli-reliability},
+\autoref{thm:philosophy-universal-markov-rank-transition},
+\autoref{thm:philosophy-universal-alexander-dual}, and
+\autoref{thm:philosophy-universal-energy-minimal-triggers}, with the
+codon specialization supplied by
+\autoref{thm:philosophy-codon-case-coverage-trigger}.
+\end{proof}

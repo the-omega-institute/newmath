@@ -1,0 +1,181 @@
+\begin{definition}[Blocker complex]
+\label{def:philosophy-blocker-complex}
+Let $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$ and let
+$$
+  \Omega=\{s_{1},f_{1},s_{2},f_{2}\}.
+$$
+For an external set $B\subseteq Q_{6}\setminus M^{\star}$, define
+$J(B)=\bigcup_{p\in B}\sigma(p)$. The blocker complex is
+$$
+  \mathcal{B}
+  =
+  \{B\subseteq Q_{6}\setminus M^{\star}:J(B)\subsetneq\Omega\}.
+$$
+It is a simplicial complex because every subset of a non-trigger set is
+again non-trigger.
+\end{definition}
+
+\begin{theorem}[Maximal blockers]
+\label{thm:philosophy-maximal-blockers}
+The maximal faces of $\mathcal{B}$ are the four blockers obtained by
+omitting one trigger coordinate:
+$$
+  B_{\neg s_{1}},\quad
+  B_{\neg f_{1}},\quad
+  B_{\neg s_{2}},\quad
+  B_{\neg f_{2}}.
+$$
+Each has $14$ vertices. In IUPAC notation they are
+$$
+  \mathrm{YNY}\setminus\mathrm{CUY},\quad
+  \mathrm{SNY}\setminus\mathrm{CUY},\quad
+  \mathrm{NYY}\setminus\mathrm{CUY},\quad
+  \mathrm{NWY}\setminus\mathrm{CUY}.
+$$
+\end{theorem}
+\begin{proof}
+If coordinate $i$ is absent, every support lies in
+$\Omega\setminus\{i\}$. The nonempty supports inside the remaining
+three coordinates number $2^{3}-1$, and each has two $f_{3}$-lifts.
+Thus each maximal blocker has $2(2^{3}-1)=14$ codons. The four displayed
+motifs express the four possible missing coordinates relative to the
+anchor $\mathrm{CUY}$.
+\end{proof}
+
+\begin{corollary}[Forcing threshold]
+\label{cor:philosophy-blocker-forcing-threshold}
+The largest non-trigger external sets have size $14$. Hence every
+external set $B$ with $|B|\geq 15$ satisfies
+$$
+  \operatorname{Med}(M^{\star}\cup B)=Q_{6}.
+$$
+\end{corollary}
+\begin{proof}
+Every blocker is contained in one of the four maximal blockers of
+\autoref{thm:philosophy-maximal-blockers}.
+\end{proof}
+
+\begin{theorem}[Blocker intersections]
+\label{thm:philosophy-blocker-intersections}
+If $\ell$ trigger coordinates are simultaneously omitted, then the
+corresponding maximal-blocker intersection has size
+$$
+  2(2^{4-\ell}-1).
+$$
+Consequently the intersection sizes are
+$$
+\begin{array}{c|r}
+  \ell & \text{intersection size}\\
+  \hline
+  1 & 14\\
+  2 & 6\\
+  3 & 2\\
+  4 & 0.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+After omitting a set $L$ of $\ell$ coordinates, the allowed nonempty
+supports are precisely the nonempty subsets of $\Omega\setminus L$.
+There are $2^{4-\ell}-1$ such supports, each with two $f_{3}$-lifts.
+\end{proof}
+
+\begin{theorem}[Blocker nerve]
+\label{thm:philosophy-blocker-nerve}
+The nerve of the four-simplex cover of $\mathcal{B}$ by its maximal
+blockers is the tetrahedron boundary $\partial\Delta^{3}$.
+\end{theorem}
+\begin{proof}
+Every one-, two-, and three-fold intersection of maximal blockers is
+nonempty by \autoref{thm:philosophy-blocker-intersections}, while the
+four-fold intersection is empty. The nerve therefore has four vertices,
+six edges, four triangular faces, and no three-simplex.
+\end{proof}
+
+\begin{corollary}[Blocker homotopy type]
+\label{cor:philosophy-blocker-homotopy-type}
+The blocker complex satisfies
+$$
+  \mathcal{B}\simeq S^{2}.
+$$
+Hence its only nonzero reduced homology is
+$$
+  \widetilde{H}_{2}(\mathcal{B})\cong\mathbb{Z}.
+$$
+\end{corollary}
+\begin{proof}
+Each maximal blocker and every nonempty intersection of maximal
+blockers is a simplex, hence contractible. The nerve theorem applies,
+and the nerve is $\partial\Delta^{3}\cong S^{2}$ by
+\autoref{thm:philosophy-blocker-nerve}.
+\end{proof}
+
+\begin{theorem}[Blocker f-vector]
+\label{thm:philosophy-blocker-f-vector}
+For $m\geq 1$, the number of $m$-codon blocker faces is
+$$
+  F_{m}
+  =
+  4\binom{14}{m}
+  -
+  6\binom{6}{m}
+  +
+  4\binom{2}{m}.
+$$
+Thus the blocker-complex $f$-vector is
+$$
+  (28,278,1336,3914,7972,12006,13728,
+  12012,8008,4004,1456,364,56,4),
+$$
+and its Euler characteristic is $2$.
+\end{theorem}
+\begin{proof}
+Use inclusion-exclusion over the four maximal blockers. Single maximal
+blockers have size $14$, pairwise intersections have size $6$, triple
+intersections have size $2$, and the four-fold intersection is empty.
+The alternating sum of the displayed $f$-vector is $2$.
+\end{proof}
+
+\begin{corollary}[Probability tail from blockers]
+\label{cor:philosophy-blocker-probability-tail}
+For a uniformly chosen $m$-codon external subset,
+$$
+  \Pr(T>m)
+  =
+  \frac{F_{m}}{\binom{30}{m}},
+$$
+and hence
+$$
+  \Pr(T\leq m)
+  =
+  1-
+  \frac{
+  4\binom{14}{m}
+  -
+  6\binom{6}{m}
+  +
+  4\binom{2}{m}
+  }{\binom{30}{m}}.
+$$
+\end{corollary}
+\begin{proof}
+The event $T>m$ is exactly the event that the chosen subset is a face of
+$\mathcal{B}$. Count those faces by
+\autoref{thm:philosophy-blocker-f-vector}.
+\end{proof}
+
+\begin{theorem}[Trigger-blocker duality theorem]
+\label{thm:philosophy-trigger-blocker-duality-theorem}
+Beyond $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, full triggering is the
+set-cover condition $J(B)=\Omega$, while non-triggering is the blocker
+complex $\mathcal{B}\simeq S^{2}$. The minimal full triggers are the
+minimal nonfaces of $\mathcal{B}$, and there are $294$ such nonfaces at
+codon level.
+\end{theorem}
+\begin{proof}
+The trigger criterion is \autoref{cor:philosophy-trigger-rank-size}.
+The blocker homotopy type is
+\autoref{cor:philosophy-blocker-homotopy-type}. Minimal full triggers
+are precisely minimal subsets not belonging to $\mathcal{B}$, and their
+codon-level count is \autoref{thm:philosophy-minimal-full-triggers}.
+\end{proof}
