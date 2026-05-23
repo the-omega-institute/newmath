@@ -62,6 +62,31 @@ Finite-prefix monotonicity is read from $I$ together with the inclusion cells in
 The seal row $E$ is downstream of those displayed rows, while $H,C,P,N$ transport, replay, source, and name only that finite route. The excluded compactness, choice, selected-endpoint, quotient-equality, and infinite-intersection coordinates therefore do not belong to the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[NestedIntervalCompactness finite-prefix monotonicity]
+\label{thm:nested-interval-compactness-prefix-monotonicity}
+Let $K=(I,L,D,W,R,E,H,C,P,N)$ be an accepted $\NestedIntervalCompactnessUp$
+carrier. Any consumer extending the displayed finite prefix must preserve the
+same nesting cells in $I$ and the same inclusion cells in $D$ before it reads
+the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback row $R$, or the
+$\RealUp$ seal row $E$. The extension therefore introduces no selected
+endpoint, quotient equality, countable choice, or open-cover compactness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:nested-interval-compactness-carrier}. The
+rows visible before any analytic read are the nested interval prefix $I$, the
+located endpoint row $L$, and the dyadic interval ledger $D$.
+
+Apply the finite-prefix monotonicity row from
+\autoref{thm:nested-interval-compactness-namecert-obligations}. It requires
+each accepted consumer read to preserve the displayed nesting and inclusion
+cells in $I$ and $D$ when the finite prefix is extended.
+
+Only after those cells are fixed may the route expose $W$, $R$, and $E$.
+Because the local obligation surface contains no row for selected endpoints,
+quotient equality, countable choice, or open-cover compactness, extending the
+prefix cannot introduce any such coordinate.
+\end{proof}
+
 \begin{theorem}[NestedIntervalCompactness Real seal boundary]
 \label{thm:nested-interval-compactness-real-seal-boundary}
 Every $\RealUp$ consumer admitted by an accepted $\NestedIntervalCompactnessUp$ packet factors through a displayed finite nested-window route
