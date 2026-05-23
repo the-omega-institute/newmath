@@ -176,6 +176,33 @@ theorem DyadicStepFunctionCarrier_endpoint_value_transport_determinacy [AskSetup
     ⟨endpointReadUnary, valueReadUnary, endpointValueRead, valueReadRow, sameRead,
       nameRowPkg⟩
 
+theorem DyadicStepFunctionCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      handoffRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont values ledger handoffRead ->
+        Cont handoffRead route realRead ->
+          PkgSig bundle realRead pkg ->
+            UnaryHistory partition ∧ UnaryHistory values ∧ UnaryHistory ledger ∧
+              UnaryHistory handoffRead ∧ UnaryHistory realRead ∧
+                Cont values ledger handoffRead ∧ Cont handoffRead route realRead ∧
+                  PkgSig bundle nameRow pkg ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier valuesLedgerHandoff handoffRouteReal realReadPkg
+  obtain ⟨partitionUnary, _cellsUnary, valuesUnary, _readsUnary, _refinementUnary,
+    _endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, _refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed valuesUnary ledgerUnary valuesLedgerHandoff
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed handoffReadUnary routeUnary handoffRouteReal
+  exact
+    ⟨partitionUnary, valuesUnary, ledgerUnary, handoffReadUnary, realReadUnary,
+      valuesLedgerHandoff, handoffRouteReal, nameRowPkg, realReadPkg⟩
+
 theorem DyadicStepFunctionCarrier_real_seal_window_exactness [AskSetup] [PackageSetup]
     {partition cells values reads refinement endpointLedger ledger route provenance nameRow
       realSeal : BHist}
