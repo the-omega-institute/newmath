@@ -1,0 +1,220 @@
+\begin{definition}[First-exit channel]
+\label{def:philosophy-first-exit-channel}
+For the killed bit-flip walk on
+$M=\operatorname{Med}(\mathcal R)$, a first-exit step is a transition
+$$
+  x\in M,\qquad x^{(i)}\notin M.
+$$
+The associated channel records the origin state of $x$, the flipped bit
+$i$, and the outside target codon $x^{(i)}$ together with its standard
+genetic-code class.
+\end{definition}
+
+\begin{theorem}[Quasi-stationary exit origins]
+\label{thm:philosophy-quasi-stationary-exit-origins}
+Under the quasi-stationary distribution of the killed walk on $M$, the
+pre-exit origin state has distribution
+$$
+\begin{array}{c|r}
+  \text{origin state} & \text{conditional probability}\\
+  \hline
+  \mathrm{StopStart}_{6} & 0.3617\\
+  \mathrm{Anchor}_{6} & 0.3497\\
+  \mathrm{AGR} & 0.1146\\
+  \mathrm{CUR} & 0.0742\\
+  \mathrm{UUR} & 0.0674\\
+  \mathrm{CUY} & 0.0324.
+\end{array}
+$$
+Thus
+$$
+  \Pr(\mathrm{Anchor}_{6}\cup\mathrm{StopStart}_{6}\mid
+  \text{first exit})=0.7114\ldots.
+$$
+\end{theorem}
+\begin{proof}
+For each boundary half-edge $x\in M$, $x^{(i)}\notin M$, add
+$q(x)/6$, where $q$ is the quasi-stationary distribution. Normalizing by
+the total exit probability $1-\lambda(M)$ and grouping by the six radial
+states gives the table.
+\end{proof}
+
+\begin{corollary}[Tail leakage is not the dominant exit source]
+\label{cor:philosophy-tail-not-dominant-exit-source}
+The two CUN tail states $\mathrm{CUR}$ and $\mathrm{CUY}$ contribute
+only
+$$
+  0.0742+0.0324=0.1066
+$$
+of quasi-stationary first exits.
+\end{corollary}
+\begin{proof}
+This is the sum of the $\mathrm{CUR}$ and $\mathrm{CUY}$ rows of
+\autoref{thm:philosophy-quasi-stationary-exit-origins}.
+\end{proof}
+
+\begin{theorem}[Quasi-stationary exit bits]
+\label{thm:philosophy-quasi-stationary-exit-bits}
+The bit direction of a quasi-stationary first exit has distribution
+$$
+\begin{array}{c|l|r}
+  \text{bit} & \text{reading} & \text{conditional probability}\\
+  \hline
+  s_{3} & \text{third-position shape} & 0.4804\\
+  f_{1} & \text{first-position family} & 0.4211\\
+  f_{2} & \text{second-position family} & 0.0328\\
+  s_{1} & \text{first-position shape} & 0.0328\\
+  s_{2} & \text{second-position shape} & 0.0328\\
+  f_{3} & \text{third-position family} & 0.
+\end{array}
+$$
+Consequently,
+$$
+  \Pr(s_{3}\ \text{or}\ f_{1}\mid\text{first exit})
+  =
+  0.9015\ldots.
+$$
+\end{theorem}
+\begin{proof}
+Sum the quasi-stationary boundary weights $q(x)/6$ over all boundary
+half-edges with the same flipped bit. The $f_{3}$ row is zero because
+$M$ is $f_{3}$-saturated by
+\autoref{thm:philosophy-wobble-saturation-closure}.
+\end{proof}
+
+\begin{corollary}[Silent escape axis]
+\label{cor:philosophy-f3-silent-escape-axis}
+The third-position family bit is a silent escape axis:
+$$
+  \Pr(f_{3}\ \text{exit})=0.
+$$
+\end{corollary}
+\begin{proof}
+This is the final row of
+\autoref{thm:philosophy-quasi-stationary-exit-bits}, equivalently the
+$f_{3}$ saturation statement of
+\autoref{thm:philosophy-wobble-saturation-closure}.
+\end{proof}
+
+\begin{theorem}[Eventual first-exit bit by start state]
+\label{thm:philosophy-eventual-first-exit-bit-by-state}
+Let $u_{i}(x)$ be the probability that the eventual first exit from
+$M$, starting at $x$, occurs through bit $i$. Averaged over the six
+radial states, the probabilities are
+$$
+\begin{array}{c|rrrrrr}
+  \text{start state} & s_{1}&f_{1}&s_{2}&f_{2}&s_{3}&f_{3}\\
+  \hline
+  \mathrm{AGR} & 0.0041&0.4860&0.0041&0.0041&0.5017&0\\
+  \mathrm{Anchor}_{6} & 0.0068&0.4766&0.0068&0.0068&0.5029&0\\
+  \mathrm{StopStart}_{6} & 0.0151&0.4486&0.0151&0.0151&0.5063&0\\
+  \mathrm{UUR} & 0.0616&0.2895&0.0616&0.0616&0.5257&0\\
+  \mathrm{CUR} & 0.2628&0.1020&0.2628&0.2628&0.1095&0\\
+  \mathrm{CUY} & 0.2526&0.2204&0.2526&0.2526&0.0219&0.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each bit $i$, solve the harmonic first-exit equation
+$$
+  u_{i}(x)=
+  \frac{1}{6}\mathbf 1[x^{(i)}\notin M]
+  +
+  \sum_{\substack{y\in M\\y\sim x}}\frac{1}{6}u_{i}(y).
+$$
+Equivalently,
+$$
+  (I-Q_{M})u_{i}=r_{i},
+$$
+where $r_{i}(x)=1/6$ exactly when the $i$-flip leaves $M$. Averaging the
+solution over each radial state gives the displayed table.
+\end{proof}
+
+\begin{corollary}[Core and tail exit mechanisms]
+\label{cor:philosophy-core-tail-exit-mechanisms}
+The core states $\mathrm{AGR}$, $\mathrm{Anchor}_{6}$, and
+$\mathrm{StopStart}_{6}$ exit almost entirely through $f_{1}$ and
+$s_{3}$. The CUN tail states $\mathrm{CUR}$ and $\mathrm{CUY}$ instead
+place most eventual exit probability on $s_{1}$, $s_{2}$, and $f_{2}$.
+\end{corollary}
+\begin{proof}
+In \autoref{thm:philosophy-eventual-first-exit-bit-by-state}, the
+$f_{1}+s_{3}$ sums for the three core states are respectively
+$0.9877$, $0.9795$, and $0.9549$. For $\mathrm{CUR}$ and $\mathrm{CUY}$,
+the sums over $s_{1}$, $s_{2}$, and $f_{2}$ are $0.7884$ and $0.7577$.
+\end{proof}
+
+\begin{theorem}[Outside target classes]
+\label{thm:philosophy-outside-target-classes}
+Quasi-stationary first exits land in the following standard-code classes:
+$$
+\begin{array}{c|r}
+  \text{outside class} & \text{conditional probability}\\
+  \hline
+  \mathrm{S} & 0.1176\\
+  \mathrm{P} & 0.0931\\
+  \mathrm{V} & 0.0931\\
+  \mathrm{Q} & 0.0850\\
+  \mathrm{F} & 0.0755\\
+  \mathrm{I} & 0.0603\\
+  \mathrm{Y} & 0.0603\\
+  \mathrm{A} & 0.0583\\
+  \mathrm{C} & 0.0583\\
+  \mathrm{E} & 0.0583\\
+  \mathrm{N} & 0.0583\\
+  \mathrm{R} & 0.0583\\
+  \mathrm{T} & 0.0583\\
+  \mathrm{G} & 0.0573\\
+  \mathrm{H} & 0.0081.
+\end{array}
+$$
+No first-exit target lies in the standard Stop class.
+\end{theorem}
+\begin{proof}
+For each boundary half-edge $x\in M$, $y=x^{(i)}\notin M$, add the
+quasi-stationary boundary weight $q(x)/6$ to the standard-code class of
+$y$, then normalize by $1-\lambda(M)$. The absence of a Stop target
+follows because $\mathrm{UAA}$, $\mathrm{UAG}$, and $\mathrm{UGA}$ lie
+inside $M$.
+\end{proof}
+
+\begin{theorem}[Outside codon targets]
+\label{thm:philosophy-outside-codon-targets}
+The largest quasi-stationary outside codon targets are
+$$
+\begin{array}{c|c|r}
+  \text{outside codon} & \text{class} & \text{conditional probability}\\
+  \hline
+  \mathrm{CAA},\mathrm{CAG} & \mathrm{Q} & 0.0425\\
+  \mathrm{CCA},\mathrm{CCG} & \mathrm{P} & 0.0425\\
+  \mathrm{GUA},\mathrm{GUG} & \mathrm{V} & 0.0425\\
+  \mathrm{UUC},\mathrm{UUU} & \mathrm{F} & 0.0377\\
+  \mathrm{AUC},\mathrm{AUU} & \mathrm{I} & 0.0301\\
+  \mathrm{UAC},\mathrm{UAU} & \mathrm{Y} & 0.0301\\
+  \mathrm{UCC},\mathrm{UCU} & \mathrm{S} & 0.0301.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The same boundary half-edge weights as in
+\autoref{thm:philosophy-outside-target-classes} are aggregated by
+outside codon rather than by standard-code class. Equal-probability
+targets are grouped in the table.
+\end{proof}
+
+\begin{theorem}[First-exit channel geometry]
+\label{thm:philosophy-first-exit-channel-geometry}
+The first-exit geometry of the wobble-saturated median closure is
+controlled by two gate axes, $s_{3}$ and $f_{1}$, while the $f_{3}$
+wobble axis is internally closed. Quasi-stationary exits mostly originate
+from $\mathrm{Anchor}_{6}\cup\mathrm{StopStart}_{6}$ and land in ordinary
+sense classes outside $M$, not in the Stop class.
+\end{theorem}
+\begin{proof}
+The origin statement is
+\autoref{thm:philosophy-quasi-stationary-exit-origins}. The gate-axis
+statement is \autoref{thm:philosophy-quasi-stationary-exit-bits}; the
+silent-axis statement is
+\autoref{cor:philosophy-f3-silent-escape-axis}. The target-class
+statement is \autoref{thm:philosophy-outside-target-classes}.
+\end{proof}

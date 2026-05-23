@@ -1,0 +1,274 @@
+\begin{definition}[Hotspot state vector]
+\label{def:philosophy-wrr-hotspot-state-vector}
+For a genetic-code table $t$, the $C_{\mathrm{WRR}}$ state vector is
+$$
+\begin{aligned}
+  S_{t}(C_{\mathrm{WRR}})
+  :=
+  (&E_{t}(\mathrm{UAA}),
+    E_{t}(\mathrm{UAG}),
+    E_{t}(\mathrm{UGA}),
+    E_{t}(\mathrm{UGG}),\\
+   &E_{t}(\mathrm{AAA}),
+    E_{t}(\mathrm{AAG}),
+    E_{t}(\mathrm{AGA}),
+    E_{t}(\mathrm{AGG})).
+\end{aligned}
+$$
+This is a finite assignment vector over the hotspot cube, not a claim
+about biochemical transition time.
+\end{definition}
+
+\begin{theorem}[Hotspot state spectrum]
+\label{thm:philosophy-wrr-hotspot-state-spectrum}
+Across the current curated genetic-code tables, the one-letter
+assignment vectors $S_{t}(C_{\mathrm{WRR}})$ realize $19$ distinct
+states. The standard hotspot state
+$$
+  (*,*,*,W,K,K,R,R)
+$$
+appears in exactly the tables
+$$
+  1,\quad 11,\quad 12,\quad 23,\quad 26.
+$$
+\end{theorem}
+\begin{proof}
+For each table, read the eight assignments in the order fixed by
+\autoref{def:philosophy-wrr-hotspot-state-vector} and identify equal
+one-letter assignment vectors. The finite enumeration gives $19$
+distinct vectors. The vector equal to the standard one occurs precisely
+in the five displayed table identifiers.
+\end{proof}
+
+\begin{theorem}[Invariant anchors of the hotspot cube]
+\label{thm:philosophy-wrr-invariant-anchors}
+The codons $\mathrm{UGG}$ and $\mathrm{AAG}$ are invariant across the
+comparison family:
+$$
+  E_{t}(\mathrm{UGG})=W,
+  \qquad
+  E_{t}(\mathrm{AAG})=K
+$$
+for every table $t$ in the comparison.
+\end{theorem}
+\begin{proof}
+The codon-level reassignment counts in
+\autoref{thm:philosophy-wrr-hotspot-count} are zero for $\mathrm{UGG}$
+and $\mathrm{AAG}$. Their standard labels are $W$ and $K$, respectively.
+\end{proof}
+
+\begin{corollary}[Active hotspot support]
+\label{cor:philosophy-wrr-active-hotspot-support}
+The active support of the hotspot cube is the six-point set
+$$
+  C_{\mathrm{active}}
+  =
+  C_{\mathrm{WRR}}\setminus\{\mathrm{UGG},\mathrm{AAG}\}
+  =
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},
+    \mathrm{AAA},\mathrm{AGA},\mathrm{AGG}\}.
+$$
+\end{corollary}
+\begin{proof}
+Remove the two invariant anchors of
+\autoref{thm:philosophy-wrr-invariant-anchors} from the eight vertices
+of \autoref{def:philosophy-wrr-hotspot-cube}.
+\end{proof}
+
+\begin{definition}[Reassignment-set preorder]
+\label{def:philosophy-reassignment-set-preorder}
+For codons $x$ and $y$, write
+$$
+  x\preceq y
+$$
+when every table that reassigns $x$ also reassigns $y$:
+$$
+  \Delta(x)\subseteq\Delta(y).
+$$
+This is an observed inclusion relation on finite comparison rows. It is
+not a causality relation.
+\end{definition}
+
+\begin{theorem}[Arg satellite reassignment is contained in UGA reassignment]
+\label{thm:philosophy-arg-satellite-contained-in-uga}
+The Arg satellite codons satisfy
+$$
+  \Delta(\mathrm{AGA})
+  =
+  \Delta(\mathrm{AGG})
+  \subseteq
+  \Delta(\mathrm{UGA}).
+$$
+Moreover,
+$$
+  |\Delta(\mathrm{AGA})|
+  =
+  |\Delta(\mathrm{AGG})|
+  =
+  |\Delta(\mathrm{AGA})\cap\Delta(\mathrm{UGA})|
+  =
+  |\Delta(\mathrm{AGG})\cap\Delta(\mathrm{UGA})|
+  =
+  8.
+$$
+\end{theorem}
+\begin{proof}
+The finite reassignment enumeration gives
+$$
+\begin{aligned}
+  \Delta(\mathrm{AGA})
+    &=\{2,5,9,13,14,21,24,33\},\\
+  \Delta(\mathrm{AGG})
+    &=\{2,5,9,13,14,21,24,33\}.
+\end{aligned}
+$$
+Each displayed table identifier also lies in $\Delta(\mathrm{UGA})$.
+The cardinality and co-occurrence equations follow.
+\end{proof}
+
+\begin{theorem}[AAA reassignment is a deeper hotspot event]
+\label{thm:philosophy-aaa-deeper-hotspot-event}
+The lysine codon $\mathrm{AAA}$ satisfies
+$$
+  \Delta(\mathrm{AAA})
+  \subseteq
+  \Delta(\mathrm{UGA})
+  \cap
+  \Delta(\mathrm{AGA})
+  \cap
+  \Delta(\mathrm{AGG}),
+$$
+and $|\Delta(\mathrm{AAA})|=3$.
+\end{theorem}
+\begin{proof}
+The finite comparison gives
+$$
+  \Delta(\mathrm{AAA})=\{9,14,21\}.
+$$
+Each of these table identifiers also reassigns $\mathrm{UGA}$,
+$\mathrm{AGA}$, and $\mathrm{AGG}$. Thus the displayed inclusion holds,
+with cardinality three.
+\end{proof}
+
+\begin{theorem}[Ile/Met active point is contained in UGA reassignment]
+\label{thm:philosophy-aua-contained-in-uga}
+The Ile/Met active point satisfies
+$$
+  \Delta(\mathrm{AUA})\subseteq\Delta(\mathrm{UGA}),
+  \qquad
+  |\Delta(\mathrm{AUA})|=5.
+$$
+\end{theorem}
+\begin{proof}
+The AUA-to-Met reassignment occurs in exactly the tables
+$2,3,5,13,21$, as recorded in
+\autoref{thm:philosophy-coupled-ten-to-eleven-control-tile-reassignment}.
+Each of those tables also reassigns $\mathrm{UGA}$.
+\end{proof}
+
+\begin{corollary}[Core reassignment preorder]
+\label{cor:philosophy-core-reassignment-preorder}
+Inside the hotspot core, the observed reassignment inclusions include
+$$
+  \mathrm{AUA}\preceq\mathrm{UGA},
+  \qquad
+  \mathrm{AGA}\preceq\mathrm{UGA},
+  \qquad
+  \mathrm{AGG}\preceq\mathrm{UGA},
+$$
+and
+$$
+  \mathrm{AAA}\preceq\mathrm{AGA},
+  \qquad
+  \mathrm{AAA}\preceq\mathrm{AGG},
+  \qquad
+  \mathrm{AAA}\preceq\mathrm{UGA}.
+$$
+\end{corollary}
+\begin{proof}
+This is the preorder notation of
+\autoref{def:philosophy-reassignment-set-preorder} applied to
+\autoref{thm:philosophy-arg-satellite-contained-in-uga},
+\autoref{thm:philosophy-aaa-deeper-hotspot-event}, and
+\autoref{thm:philosophy-aua-contained-in-uga}.
+\end{proof}
+
+\begin{definition}[Core hotspot support]
+\label{def:philosophy-core-hotspot-support}
+The core hotspot support is
+$$
+  \mathcal H_{\mathrm{core}}
+  :=
+  C_{\mathrm{WRR}}\cup\{\mathrm{AUA}\}.
+$$
+It has nine codons. Its state vector appends $E_{t}(\mathrm{AUA})$ to
+$S_{t}(C_{\mathrm{WRR}})$.
+\end{definition}
+
+\begin{theorem}[Core hotspot captures most reassignment rows]
+\label{thm:philosophy-core-hotspot-captures-reassignment-rows}
+The support $C_{\mathrm{WRR}}$ captures $52$ of the $65$ reassignment
+rows. The support $\mathcal H_{\mathrm{core}}$ captures $57$ of the
+$65$ reassignment rows:
+$$
+  \frac{52}{65}=\frac45,
+  \qquad
+  \frac{57}{65}\approx 0.877.
+$$
+The one-letter assignment vectors on $\mathcal H_{\mathrm{core}}$
+realize $21$ distinct states across the comparison family.
+\end{theorem}
+\begin{proof}
+The first count is \autoref{thm:philosophy-wrr-hotspot-count}. The codon
+$\mathrm{AUA}$ contributes five reassignment rows by
+\autoref{thm:philosophy-aua-contained-in-uga}. Since $\mathrm{AUA}$ is
+not a vertex of $C_{\mathrm{WRR}}$, the combined support captures
+$52+5=57$ rows. Enumerating the resulting nine-coordinate assignment
+vectors gives $21$ distinct states.
+\end{proof}
+
+\begin{corollary}[Finite state reading of the hotspot core]
+\label{cor:philosophy-hotspot-core-finite-state-reading}
+The comparative spectrum can be read as a finite state system on
+$\mathcal H_{\mathrm{core}}$: two coordinates of $C_{\mathrm{WRR}}$ are
+fixed anchors, $\mathrm{UGA}$ is the main reassignment hub, the Arg
+satellite edge is contained in UGA reassignment, $\mathrm{AAA}$ appears
+only inside the stronger hotspot event, and $\mathrm{AUA}$ couples the
+Ile/Met control tile to the same UGA hub.
+\end{corollary}
+\begin{proof}
+The fixed anchors are \autoref{thm:philosophy-wrr-invariant-anchors}.
+The inclusion relations are
+\autoref{cor:philosophy-core-reassignment-preorder}. The nine-point
+support and capture count are
+\autoref{thm:philosophy-core-hotspot-captures-reassignment-rows}.
+\end{proof}
+
+\begin{theorem}[Hotspot state-system cannot-claim boundary]
+\label{thm:philosophy-hotspot-state-system-cannot-claim-boundary}
+The finite state reading does not license any claim that $\mathrm{UGA}$
+causes the other reassignments, that table identifiers are temporal
+steps, that the observed preorder is an evolutionary tree, that all
+unobserved states are biologically impossible, or that the nine-point
+support determines translation dynamics without context.
+\end{theorem}
+\begin{proof}
+The construction uses finite assignment vectors and inclusion relations
+among observed reassignment sets. It has no temporal parameter, no
+mechanistic biochemical transition rule, no exhaustive biological state
+space, and no ribosome-context model. These would require separate
+external biological bridge rows.
+\end{proof}
+
+\begin{corollary}[Allowed hotspot state-system claim]
+\label{cor:philosophy-hotspot-state-system-allowed-claim}
+Under the two-axis codon bridge and the curated comparison family,
+standard-to-comparative genetic-code variation is strongly compressed by
+the nine-point support $\mathcal H_{\mathrm{core}}$. The support captures
+$57$ of $65$ reassignment rows and organizes the main observed
+co-occurrences through the reassignment-set preorder.
+\end{corollary}
+\begin{proof}
+Combine \autoref{thm:philosophy-core-hotspot-captures-reassignment-rows}
+and \autoref{cor:philosophy-core-reassignment-preorder}.
+\end{proof}

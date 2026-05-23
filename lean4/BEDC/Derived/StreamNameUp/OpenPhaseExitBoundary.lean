@@ -73,4 +73,32 @@ theorem StreamNameOpenPhaseExitBoundary [AskSetup] [PackageSetup]
     ⟨cert, supportUnary, exitUnary, terminalUnary, streamDyadicSupport, regseqRealExit,
       supportExitTerminal, terminalPkg⟩
 
+theorem StreamNameOpenPhaseFourObjectSufficiency [AskSetup] [PackageSetup]
+    {streamWindow dyadicLedger regseqRead realSeal support exitRead terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory streamWindow ->
+      UnaryHistory dyadicLedger ->
+        UnaryHistory regseqRead ->
+          UnaryHistory realSeal ->
+            Cont streamWindow dyadicLedger support ->
+              Cont regseqRead realSeal exitRead ->
+                Cont support exitRead terminal ->
+                  PkgSig bundle terminal pkg ->
+                    UnaryHistory support ∧ UnaryHistory exitRead ∧ UnaryHistory terminal ∧
+                      Cont streamWindow dyadicLedger support ∧
+                        Cont regseqRead realSeal exitRead ∧ Cont support exitRead terminal ∧
+                          PkgSig bundle terminal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro streamUnary dyadicUnary regseqUnary realUnary streamDyadicSupport regseqRealExit
+    supportExitTerminal terminalPkg
+  have supportUnary : UnaryHistory support :=
+    unary_cont_closed streamUnary dyadicUnary streamDyadicSupport
+  have exitReadUnary : UnaryHistory exitRead :=
+    unary_cont_closed regseqUnary realUnary regseqRealExit
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed supportUnary exitReadUnary supportExitTerminal
+  exact
+    ⟨supportUnary, exitReadUnary, terminalUnary, streamDyadicSupport, regseqRealExit,
+      supportExitTerminal, terminalPkg⟩
+
 end BEDC.Derived.StreamNameUp
