@@ -95,6 +95,36 @@ theorem CauchyProductPacket_window_product_stability [AskSetup] [PackageSetup]
     ⟨windowAUnary, windowBUnary, observationAUnary, observationBUnary, productUnary,
       productRoute, windowTransport⟩
 
+theorem CauchyProductPacket_left_factor_classifier_congruence [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name replacementSource replacementWindow
+      replacementProduct : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      hsame replacementSource sourceA ->
+        Cont replacementSource windowA replacementWindow ->
+          Cont replacementWindow windowB replacementProduct ->
+            hsame replacementProduct product ->
+              UnaryHistory replacementSource ∧ UnaryHistory replacementWindow ∧
+                UnaryHistory replacementProduct ∧ hsame replacementProduct product ∧
+                  Cont replacementWindow windowB replacementProduct ∧
+                    Cont product ledger classifier ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet sameSource replacementWindowRoute replacementProductRoute sameProduct
+  obtain ⟨sourceAUnary, _sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, _observationAUnary, _observationBUnary, _routesUnary, _ledgerUnary,
+    _windowTransport, _productRoute, classifierRoute, namePkg⟩ := packet
+  have replacementSourceUnary : UnaryHistory replacementSource :=
+    unary_transport sourceAUnary (hsame_symm sameSource)
+  have replacementWindowUnary : UnaryHistory replacementWindow :=
+    unary_cont_closed replacementSourceUnary windowAUnary replacementWindowRoute
+  have replacementProductUnary : UnaryHistory replacementProduct :=
+    unary_cont_closed replacementWindowUnary windowBUnary replacementProductRoute
+  exact
+    ⟨replacementSourceUnary, replacementWindowUnary, replacementProductUnary, sameProduct,
+      replacementProductRoute, classifierRoute, namePkg⟩
+
 theorem CauchyProductPacket_root_budget_classifier_coverage [AskSetup] [PackageSetup]
     {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
       classifier transport routes ledger name budgetClassifier budgetSeal : BHist}
