@@ -1,0 +1,280 @@
+\begin{definition}[Connected deformation candidate]
+\label{def:philosophy-connected-deformation-candidate}
+Let $R=\{c:w(c)>0\}$ be the reassigned codon support. A subset
+$S\subseteq R$ is a connected deformation candidate when the Hamming
+subgraph $Q_{6}[S]$ is connected. Its mass is
+$$
+  M(S)=\sum_{c\in S}w(c).
+$$
+For each cardinality $k$, define a maximum-mass connected candidate by
+maximizing $M(S)$ over connected $S\subseteq R$ with $|S|=k$.
+\end{definition}
+
+\begin{theorem}[Maximum-mass connected candidates]
+\label{thm:philosophy-maximum-mass-connected-candidates}
+For $k=1,\ldots,7$, the maximum-mass connected candidates are
+$$
+\begin{array}{c|r|l}
+  k & \text{maximum mass} & \text{maximizing connected support}\\
+\hline
+  1 & 15 & \{\mathrm{UGA}\}\\
+  2 & 23 & \{\mathrm{UGA},\mathrm{AGA}\}\ \text{or}\ \{\mathrm{UGA},\mathrm{UAA}\}\\
+  3 & 33 & \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}\\
+  4 & 41 & \{\mathrm{AGA},\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}\\
+  5 & 49 & \{\mathrm{AGA},\mathrm{AGG},\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}\\
+  6 & 52 & \{\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}\\
+  7 & 57 & \{\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},
+              \mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{array}
+$$
+From $k=3$ through $k=7$, the maximizer is unique and the supports form
+a nested chain.
+\end{theorem}
+\begin{proof}
+Enumerate all subsets of $R$ of cardinality $k$, discard those whose
+induced Hamming subgraph is disconnected, and compute the mass from
+\autoref{def:philosophy-reassignment-weight-subcube-mass}. The finite
+enumeration gives the displayed table. The $k=2$ row has two maximizers;
+the rows $k=3,\ldots,7$ have one maximizer each, and direct inclusion
+checks give the nested chain.
+\end{proof}
+
+\begin{corollary}[Stop triplet is the first stable connected core]
+\label{cor:philosophy-stop-triplet-first-stable-connected-core}
+The first unique connected optimum beyond the singleton case is
+$$
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\},
+$$
+the standard Stop tripleton.
+\end{corollary}
+\begin{proof}
+This is the $k=3$ row of
+\autoref{thm:philosophy-maximum-mass-connected-candidates}.
+\end{proof}
+
+\begin{corollary}[UGA is the stop-to-AGR bridge]
+\label{cor:philosophy-uga-stop-agr-bridge}
+The connected optimum grows from the Stop tripleton by adding
+$\mathrm{AGA}$ through the Hamming edge
+$$
+  \mathrm{UGA}-\mathrm{AGA}.
+$$
+Thus $\mathrm{UGA}$ is both the $10$ leaf of the Stop/Trp tile and the
+bridge from the stop side into the AGR side of the comparative support.
+\end{corollary}
+\begin{proof}
+The $k=4$ optimum in
+\autoref{thm:philosophy-maximum-mass-connected-candidates} adds
+$\mathrm{AGA}$ to the Stop tripleton. The edge
+$\mathrm{UGA}-\mathrm{AGA}$ is a Hamming edge, and it is one of the
+highest-weight co-reassignment edges in
+\autoref{thm:philosophy-positive-co-reassignment-edges}.
+\end{proof}
+
+\begin{definition}[Bit majority mass]
+\label{def:philosophy-bit-majority-mass}
+For a bit coordinate $i$, define
+$$
+  M_{i}(\epsilon)=\sum_{c:b_{i}(c)=\epsilon}w(c),
+  \qquad
+  \epsilon\in\{0,1\}.
+$$
+The majority mass at bit $i$ is
+$$
+  M_{i}^{\max}=\max(M_{i}(0),M_{i}(1)).
+$$
+\end{definition}
+
+\begin{theorem}[Bit-level reassignment concentration]
+\label{thm:philosophy-bit-level-reassignment-concentration}
+The six bit coordinates have the following majority masses:
+$$
+\begin{array}{c|c|r|r}
+  \text{bit} & \text{majority condition} & \text{majority mass}
+    & \text{fraction}\\
+\hline
+  b_{1}^{s} & 0 & 41 & 41/65\\
+  b_{1}^{f} & 0 & 59 & 59/65\\
+  b_{2}^{s} & 1 & 52 & 52/65\\
+  b_{2}^{f} & 0 & 33 & 33/65\\
+  b_{3}^{s} & 1 & 63 & 63/65\\
+  b_{3}^{f} & 0 & 43 & 43/65.
+\end{array}
+$$
+The strongest single-bit condition is $b_{3}^{s}=1$, the third-position
+purine condition.
+\end{theorem}
+\begin{proof}
+For each reassigned codon, add its weight to the $0$ or $1$ bucket of
+each bit coordinate. Taking the larger bucket at each bit gives the
+displayed table.
+\end{proof}
+
+\begin{corollary}[Third-position dual role]
+\label{cor:philosophy-third-position-dual-role}
+The third codon position has two distinct roles in the two-axis
+spectrum: $b_{3}^{f}$ is the dominant same-class Hamming direction in
+\autoref{cor:philosophy-third-position-softness}, while $b_{3}^{s}=1$
+is the dominant single-bit concentration condition for reassignment
+mass.
+\end{corollary}
+\begin{proof}
+The same-class edge statement is
+\autoref{cor:philosophy-third-position-softness}. The reassignment-mass
+statement is
+\autoref{thm:philosophy-bit-level-reassignment-concentration}.
+\end{proof}
+
+\begin{theorem}[High-mass core and broad-support core]
+\label{thm:philosophy-high-mass-and-broad-support-cores}
+Among $Q_{3}$ subcubes, the maximum-mass core is the purine-core cube
+of \autoref{def:philosophy-purine-core-cube}, with mass $52$ and six
+reassigned vertices. The unique $Q_{3}$ subcube containing the largest
+number of reassigned vertices is
+$$
+  \{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA},
+    \mathrm{AUA},\mathrm{ACA},\mathrm{AAA},\mathrm{AGA}\}.
+$$
+It is fixed by
+$$
+  b_{1}^{f}=0,\qquad b_{3}^{s}=1,\qquad b_{3}^{f}=0,
+$$
+contains seven reassigned vertices, and has mass $41$.
+\end{theorem}
+\begin{proof}
+Enumerate the $160$ axis-aligned $Q_{3}$ subcubes. Sorting by
+reassignment mass gives the purine-core cube as in
+\autoref{thm:philosophy-purine-core-maximum-q-three}. Sorting by the
+number of vertices with positive reassignment weight gives the displayed
+A-ending cube, uniquely.
+\end{proof}
+
+\begin{corollary}[Two cores in the reassignment zone]
+\label{cor:philosophy-two-cores-reassignment-zone}
+The reassignment zone has a high-mass core
+$$
+  Q_{3}^{\mathrm{pur}},\qquad M=52,
+$$
+and a broad-support A-ending core with seven reassigned vertices and
+mass $41$.
+\end{corollary}
+\begin{proof}
+This is a restatement of
+\autoref{thm:philosophy-high-mass-and-broad-support-cores}.
+\end{proof}
+
+\begin{theorem}[Three-block low-dimensional cover]
+\label{thm:philosophy-three-block-low-dimensional-cover}
+All $13$ reassigned codons can be covered by three low-dimensional
+subcubes:
+$$
+\begin{array}{c|c|r}
+  \text{block} & \text{covered reassigned codons} & \text{mass}\\
+\hline
+  Q_{3}^{\mathrm{pur}}
+    & \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},
+       \mathrm{AAA},\mathrm{AGA},\mathrm{AGG}\}
+    & 52\\
+  \{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\}
+    & \{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\}
+    & 6\\
+  \{\mathrm{UUA},\mathrm{UCA},\mathrm{AUA},\mathrm{ACA}\}
+    & \{\mathrm{UUA},\mathrm{UCA},\mathrm{AUA}\}
+    & 7.
+\end{array}
+$$
+The minimum number of $Q_{2}$ and $Q_{3}$ blocks needed to cover all
+reassigned codons is $3$.
+\end{theorem}
+\begin{proof}
+Enumerate all $Q_{2}$ and $Q_{3}$ subcubes and solve the finite set
+cover problem over the reassigned support. No one-block or two-block
+cover exists, and the displayed three blocks cover all $13$ reassigned
+codons.
+\end{proof}
+
+\begin{corollary}[Three-module compression]
+\label{cor:philosophy-three-module-compression}
+The comparative support admits a three-module compression:
+$$
+  \text{purine-core }Q_{3}
+  \quad+\quad
+  \text{CUN square}
+  \quad+\quad
+  \text{A-ending residual square}.
+$$
+\end{corollary}
+\begin{proof}
+This is the semantic reading of the three blocks in
+\autoref{thm:philosophy-three-block-low-dimensional-cover}.
+\end{proof}
+
+\begin{theorem}[Weighted deformation spine]
+\label{thm:philosophy-weighted-deformation-spine}
+The comparative reassignment spectrum is governed by the nested
+connected spine
+$$
+\begin{gathered}
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}
+  \subset
+  \{\mathrm{AGA},\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}\\
+  \subset
+  \{\mathrm{AGA},\mathrm{AGG},\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}
+  \subset
+  \{\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},
+    \mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}\\
+  \subset
+  \{\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},
+    \mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{gathered}
+$$
+As a Hamming graph, its main path is
+$$
+  \mathrm{UAG}-\mathrm{UAA}-\mathrm{UGA}-\mathrm{AGA}-\mathrm{AGG},
+$$
+with branch
+$$
+  \mathrm{AGA}-\mathrm{AAA}-\mathrm{AUA}.
+$$
+\end{theorem}
+\begin{proof}
+The nested connected supports are the unique maximum-mass connected
+candidates for $k=3,\ldots,7$ in
+\autoref{thm:philosophy-maximum-mass-connected-candidates}. Drawing the
+Hamming edges among those vertices gives the displayed path and branch.
+\end{proof}
+
+\begin{corollary}[Stop, AGR, AAA, and AUA are one comparative spine]
+\label{cor:philosophy-stop-agr-aaa-aua-one-spine}
+The Stop, AGR, AAA, and AUA reassignment modules are not separated in
+the weighted Hamming geometry. They lie on a single connected
+deformation spine.
+\end{corollary}
+\begin{proof}
+The spine in \autoref{thm:philosophy-weighted-deformation-spine}
+contains the Stop triplet, the AGR doublet, $\mathrm{AAA}$, and
+$\mathrm{AUA}$.
+\end{proof}
+
+\begin{theorem}[Weighted-spine comparative dynamics statement]
+\label{thm:philosophy-weighted-spine-comparative-dynamics-statement}
+The comparative genetic-code spectrum has three simultaneous finite
+geometric descriptions:
+$$
+\begin{gathered}
+  \text{a maximum-mass subcube chain }Q_{5}\supset Q_{4}\supset Q_{3}\supset Q_{2},\\
+  \text{a high-mass purine-core }Q_{3}
+  =\mathrm{Stop}_{3}+\mathrm{Lys}_{2}+\mathrm{Arg}_{2}+\mathrm{Trp}_{1},\\
+  \text{and a weighted deformation spine }
+  \mathrm{UAG}-\mathrm{UAA}-\mathrm{UGA}-\mathrm{AGA}-\mathrm{AGG}
+  \text{ with branch }
+  \mathrm{AGA}-\mathrm{AAA}-\mathrm{AUA}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+The subcube chain is
+\autoref{thm:philosophy-nested-maximum-mass-subcubes}. The purine-core
+identification is \autoref{thm:philosophy-purine-core-maximum-q-three}.
+The spine is \autoref{thm:philosophy-weighted-deformation-spine}.
+\end{proof}
