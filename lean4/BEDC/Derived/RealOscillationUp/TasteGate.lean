@@ -169,4 +169,13 @@ theorem RealOscillationUpTasteGate_single_carrier_alignment :
       (fun _ _ heq => RealOscillationUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
+theorem RealOscillationTasteGate_single_carrier_alignment :
+    (forall h : BHist, realOscillationDecodeBHist (realOscillationEncodeBHist h) = h) /\
+      (forall x : RealOscillationUp,
+        realOscillationFromEventFlow (realOscillationToEventFlow x) = some x) /\
+        (forall x y : RealOscillationUp,
+          realOscillationToEventFlow x = realOscillationToEventFlow y -> x = y) /\
+          realOscillationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  exact RealOscillationUpTasteGate_single_carrier_alignment
+
 end BEDC.Derived.RealOscillationUp
