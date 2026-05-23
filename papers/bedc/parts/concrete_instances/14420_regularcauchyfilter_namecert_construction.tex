@@ -100,12 +100,28 @@ Transport and replay do not add coordinates. The rows $H$ and $C$ move the same 
 Finally apply \autoref{thm:regular-cauchy-filter-real-seal-route}. Once the basis has handed off to $B$, the regular-rational readback remains the displayed row $R$, and the only Real-facing endpoint is the seal $E$. The excluded quotient, choice, host-equality, and completeness coordinates are absent from the carrier, so they cannot be exported by the factorization.
 \end{proof}
 
+\begin{theorem}[RegularCauchyFilter obligation scope package]
+\label{thm:regular-cauchy-filter-obligation-scope-package}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. It exports exactly the obligation-scope package formed by CauchyFilter source exposure through $B$, CauchyFilterBasis factorization through the displayed tail windows in $T$, DyadicRatCore tolerance exactness through $D$, directed tail-meet refinement through $M$, RegSeqRat readback through $R$, and RealUp seal handoff through $E$. The remaining rows $H,C,P,N$ supply only componentwise transport, displayed replay, provenance, and local naming.
+
+Consequently the package exports no quotient filter, selected host limit, countable-choice selector, host real equality, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-filter-namecert-obligations}. It identifies the local certificate surface as the displayed CauchyFilter source row, StreamName tail windows, RegSeqRat readback, DyadicRatCore tolerance ledger, directed meet row, Real seal row, and the structural transport, replay, provenance, and naming rows.
+
+Apply \autoref{thm:regular-cauchy-filter-basis-factorization}. The tail windows in $T$, the dyadic rows in $D$, and the meet handoff in $M$ determine the $\CauchyFilterBasisUp$ factorization over the same source row $B$.
+
+Apply \autoref{thm:regular-cauchy-filter-tail-meet}. The row $M$ supplies the directed common-refinement witnesses for the displayed tails and preserves the same $R$ and $E$ through the recorded transports.
+
+Apply \autoref{thm:regular-cauchy-filter-real-seal-route}. Every Real-facing read factors through the route ending in $E$, while $H,C,P,N$ only transport, replay, package, and name the same finite data. The excluded quotient, choice, host-equality, and completeness coordinates are absent from the carrier, so they cannot be exported by the obligation package.
+\end{proof}
+
 \closureat{RegularCauchyFilterUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyFilterUp}
   \constructivestory{A $\RegularCauchyFilterUp$ packet is generated from a displayed CauchyFilter finite-filterbase row, a RegSeqRat readback row, StreamName tail windows, a DyadicRatCore tolerance ledger, a directed tail-meet row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local NameCert naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, and \autoref{thm:regular-cauchy-filter-basis-factorization} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis factorization, and the Real seal route.}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-basis-factorization}, and \autoref{thm:regular-cauchy-filter-obligation-scope-package} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis factorization, the scoped obligation package, and the Real seal route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient filters, selected host limits, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
