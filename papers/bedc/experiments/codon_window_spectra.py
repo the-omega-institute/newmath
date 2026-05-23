@@ -4397,6 +4397,55 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             "shared_coordinates": (),
         },
     ]
+    private_shared_orbit_by_normal_form = {
+        row["normal_form"]: row
+        for row in private_shared_orbit_rows
+    }
+    defect_flow_orbit_rows = []
+    for orbit_row in minimal_trigger_orbit_rows:
+        normal_form = orbit_row["normal_form"]
+        shared_coordinates = private_shared_orbit_by_normal_form[normal_form]["shared_coordinates"]
+        shared_row_sizes = tuple(
+            shared_coordinate.split(":", 1)[1].count(",") + 1
+            for shared_coordinate in shared_coordinates
+        )
+        quotient_outdegree = sum(row_size for row_size in shared_row_sizes)
+        partition_core_count = math.prod(shared_row_sizes) if shared_row_sizes else 1
+        defect_flow_orbit_rows.append(
+            {
+                "normal_form": normal_form,
+                "trigger_size": orbit_row["trigger_size"],
+                "defect": orbit_row["defect"],
+                "quotient_count": orbit_row["quotient_count"],
+                "codon_count": orbit_row["codon_count"],
+                "quotient_outdegree": quotient_outdegree,
+                "codon_outdegree": quotient_outdegree,
+                "partition_core_count": partition_core_count,
+                "quotient_edge_contribution": orbit_row["quotient_count"] * quotient_outdegree,
+                "codon_edge_contribution": orbit_row["codon_count"] * quotient_outdegree,
+                "quotient_core_incidence": orbit_row["quotient_count"] * partition_core_count,
+                "codon_core_incidence": orbit_row["codon_count"] * partition_core_count,
+            }
+        )
+    defect_flow_edge_rows = [
+        {
+            "source_defect": defect,
+            "target_defect": defect - 1,
+            "quotient_edges": sum(row["quotient_edge_contribution"] for row in defect_flow_orbit_rows if row["defect"] == defect),
+            "codon_edges": sum(row["codon_edge_contribution"] for row in defect_flow_orbit_rows if row["defect"] == defect),
+        }
+        for defect in range(1, 3)
+    ]
+    defect_flow_summary = {
+        "quotient_vertices": sum(row["quotient_count"] for row in minimal_trigger_orbit_rows),
+        "codon_vertices": sum(row["codon_count"] for row in minimal_trigger_orbit_rows),
+        "quotient_edges": sum(row["quotient_edge_contribution"] for row in defect_flow_orbit_rows),
+        "codon_edges": sum(row["codon_edge_contribution"] for row in defect_flow_orbit_rows),
+        "quotient_sinks": sum(row["quotient_count"] for row in defect_flow_orbit_rows if row["defect"] == 0),
+        "codon_sinks": sum(row["codon_count"] for row in defect_flow_orbit_rows if row["defect"] == 0),
+        "quotient_core_incidence": sum(row["quotient_core_incidence"] for row in defect_flow_orbit_rows),
+        "codon_core_incidence": sum(row["codon_core_incidence"] for row in defect_flow_orbit_rows),
+    }
     codon_level_lift_orbit_rows = []
     for normal_form in orbit_order:
         quotient_count = quotient_minimal_trigger_orbit_counts[normal_form]
@@ -5097,6 +5146,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "private_shared_defect_formula": "sum_h binom(n,h) S(n-h,m) (sum_{r=2}^m binom(m,r) y^(r-1))^h",
         "private_shared_decoration_rows": private_shared_decoration_rows,
         "private_shared_orbit_rows": private_shared_orbit_rows,
+        "defect_flow_move": "delete one shared-coordinate incidence while preserving at least one incidence",
+        "defect_flow_orbit_rows": defect_flow_orbit_rows,
+        "defect_flow_edge_rows": defect_flow_edge_rows,
+        "defect_flow_summary": defect_flow_summary,
         "codon_level_lift_orbit_group": "S_4 x C_2^(f_3)",
         "codon_level_lift_orbit_count_rows": codon_level_lift_orbit_count_rows,
         "codon_level_lift_orbit_rows": codon_level_lift_orbit_rows,
@@ -8984,6 +9037,49 @@ def assert_expected(summary: dict[str, object]) -> None:
         ("{14,24,34}", ("{1}", "{2}", "{3}"), ("4:{1,2,3}",)),
         ("{1,2,3,4}", ("{1}", "{2}", "{3}", "{4}"), ()),
     ]
+    assert antipodal["defect_flow_move"] == "delete one shared-coordinate incidence while preserving at least one incidence"
+    assert [
+        (
+            row["normal_form"],
+            row["defect"],
+            row["quotient_count"],
+            row["codon_count"],
+            row["quotient_outdegree"],
+            row["partition_core_count"],
+            row["quotient_edge_contribution"],
+            row["codon_edge_contribution"],
+            row["quotient_core_incidence"],
+            row["codon_core_incidence"],
+        )
+        for row in antipodal["defect_flow_orbit_rows"]
+    ] == [
+        ("{1234}", 0, 1, 2, 0, 1, 0, 0, 1, 2),
+        ("{1,234}", 0, 4, 16, 0, 1, 0, 0, 4, 16),
+        ("{12,34}", 0, 3, 12, 0, 1, 0, 0, 3, 12),
+        ("{12,234}", 1, 12, 48, 2, 2, 24, 96, 24, 96),
+        ("{123,124}", 2, 6, 24, 4, 4, 24, 96, 24, 96),
+        ("{1,2,34}", 0, 6, 48, 0, 1, 0, 0, 6, 48),
+        ("{1,24,34}", 1, 12, 96, 2, 2, 24, 192, 24, 192),
+        ("{14,24,34}", 2, 4, 32, 3, 3, 12, 96, 12, 96),
+        ("{1,2,3,4}", 0, 1, 16, 0, 1, 0, 0, 1, 16),
+    ]
+    assert [
+        (row["source_defect"], row["target_defect"], row["quotient_edges"], row["codon_edges"])
+        for row in antipodal["defect_flow_edge_rows"]
+    ] == [
+        (1, 0, 48, 288),
+        (2, 1, 36, 192),
+    ]
+    assert antipodal["defect_flow_summary"] == {
+        "quotient_vertices": 49,
+        "codon_vertices": 294,
+        "quotient_edges": 84,
+        "codon_edges": 480,
+        "quotient_sinks": 15,
+        "codon_sinks": 94,
+        "quotient_core_incidence": 99,
+        "codon_core_incidence": 574,
+    }
     assert antipodal["codon_level_lift_orbit_group"] == "S_4 x C_2^(f_3)"
     assert [
         (row["normal_form"], row["quotient_count"], row["lift_orbit_count"])

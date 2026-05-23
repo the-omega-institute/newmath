@@ -1,0 +1,152 @@
+\begin{definition}[Defect-lowering move]
+\label{def:philosophy-defect-lowering-move}
+Let $A=\{S_{1},\ldots,S_{m}\}$ be a quotient-level minimal full trigger
+with private-shared decomposition as in
+\autoref{thm:philosophy-private-shared-decomposition}. If $a\in H$ is a
+shared coordinate and $i\in R_{a}$, a defect-lowering move deletes the
+single incidence $a\in S_{i}$, equivalently replacing
+$$
+  R_{a}
+  \quad\text{by}\quad
+  R_{a}\setminus\{i\},
+$$
+under the condition that $R_{a}\setminus\{i\}$ remains nonempty.
+\end{definition}
+
+\begin{theorem}[Defect lowering preserves minimality]
+\label{thm:philosophy-defect-lowering-preserves-minimality}
+If a quotient-level minimal full trigger admits a defect-lowering move,
+then the result is again a quotient-level minimal full trigger, and the
+defect decreases by one.
+\end{theorem}
+\begin{proof}
+Only one shared-coordinate incidence is removed. Since the coordinate
+remains in at least one other support, the union of the supports remains
+$\Omega$. Since the removed coordinate was shared, no private block
+$P_{i}$ changes. Hence every support still has a private coordinate, so
+\autoref{thm:philosophy-private-coordinate-criterion} gives minimality.
+The formula
+$$
+  \delta(A)=\sum_{a\in H}(|R_{a}|-1)
+$$
+from \autoref{thm:philosophy-defect-from-shared-coordinates} shows that
+removing one shared incidence decreases $\delta$ by one.
+\end{proof}
+
+\begin{theorem}[Defect flow to the partition skeleton]
+\label{thm:philosophy-defect-flow-partition-skeleton}
+Every quotient-level minimal full trigger flows by repeated
+defect-lowering moves to a partition trigger. The number of moves in any
+maximal decreasing path is exactly the initial defect.
+\end{theorem}
+\begin{proof}
+Each defect-lowering move reduces $\delta$ by one and never makes
+$\delta$ negative. Hence the process terminates after exactly the
+initial value of $\delta$. At termination, no shared incidence remains
+removable, so every coordinate occurs in exactly one support. The
+supports therefore form a partition of $\Omega$.
+\end{proof}
+
+\begin{corollary}[Partition sinks]
+\label{cor:philosophy-defect-flow-partition-sinks}
+The sink set of the defect flow is the partition trigger skeleton. It
+has $15$ quotient-level vertices and $94$ codon-level vertices.
+\end{corollary}
+\begin{proof}
+The quotient sink count is the Bell number $B_{4}=15$. With two
+$f_{3}$-lifts per support, the codon sink count is
+$$
+  2S(4,1)+2^{2}S(4,2)+2^{3}S(4,3)+2^{4}S(4,4)
+  =
+  94.
+$$
+\end{proof}
+
+\begin{theorem}[Defect-flow edge counts]
+\label{thm:philosophy-defect-flow-edge-counts}
+The quotient-level defect-flow graph has $49$ vertices and $84$
+directed edges. The codon-level defect-flow graph has $294$ vertices and
+$480$ directed edges. The edge counts by layer are
+$$
+\begin{array}{c|r|r}
+  \text{layer} & \text{quotient edges} & \text{codon edges}\\
+  \hline
+  \delta=1\to0 & 48 & 288\\
+  \delta=2\to1 & 36 & 192.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The defect-$1$ quotient orbits are $\{12,234\}$ and $\{1,24,34\}$.
+Each has one shared coordinate covered by two supports, hence outdegree
+two. Their quotient contributions are $12\cdot2$ and $12\cdot2$,
+giving $48$ quotient edges; after lift multiplication they contribute
+$48\cdot2$ and $96\cdot2$, giving $288$ codon edges.
+
+The defect-$2$ quotient orbits are $\{123,124\}$ and $\{14,24,34\}$.
+The first has two shared coordinates of row-size two, hence outdegree
+four; the second has one shared coordinate of row-size three, hence
+outdegree three. Their quotient contributions are $6\cdot4$ and
+$4\cdot3$, giving $36$ quotient edges; after lift multiplication they
+contribute $24\cdot4$ and $32\cdot3$, giving $192$ codon edges.
+\end{proof}
+
+\begin{theorem}[Partition-core incidence]
+\label{thm:philosophy-partition-core-incidence}
+For a minimal full trigger $A$ with shared-coordinate row sets $R_{a}$,
+the number of partition cores below $A$ is
+$$
+  N_{\mathrm{core}}(A)
+  =
+  \prod_{a\in H}|R_{a}|.
+$$
+The total quotient-level trigger--partition incidence is $99$, and the
+total codon-level incidence is $574$.
+\end{theorem}
+\begin{proof}
+For each shared coordinate $a$, a terminal partition core is obtained by
+choosing exactly one row of $R_{a}$ to retain $a$. These choices are
+independent, giving the product formula.
+
+By quotient orbit type, the incidences are
+$$
+\begin{array}{c|r|r|r}
+  \text{normal form} & \text{quotient count} & N_{\mathrm{core}} & \text{contribution}\\
+  \hline
+  \{1234\} & 1 & 1 & 1\\
+  \{1,234\} & 4 & 1 & 4\\
+  \{12,34\} & 3 & 1 & 3\\
+  \{12,234\} & 12 & 2 & 24\\
+  \{123,124\} & 6 & 4 & 24\\
+  \{1,2,34\} & 6 & 1 & 6\\
+  \{1,24,34\} & 12 & 2 & 24\\
+  \{14,24,34\} & 4 & 3 & 12\\
+  \{1,2,3,4\} & 1 & 1 & 1.
+\end{array}
+$$
+The quotient contributions sum to $99$. Multiplying each row by its
+codon lift count gives codon contributions
+$$
+  2,16,12,96,96,48,192,96,16,
+$$
+which sum to $574$.
+\end{proof}
+
+\begin{theorem}[Defect-flow theorem]
+\label{thm:philosophy-defect-flow-theorem}
+The post-$M^{\star}$ minimal full trigger system carries a natural
+acyclic defect-lowering flow. Its height function is the overlap defect
+$$
+  \delta\in\{0,1,2\},
+$$
+its sinks are exactly the partition triggers, and the $f_{3}$-lift
+coordinates are passive along the flow.
+\end{theorem}
+\begin{proof}
+Acyclicity follows because every directed edge lowers $\delta$ by one.
+The sink identification is
+\autoref{thm:philosophy-defect-flow-partition-skeleton}. The lift vector
+does not enter the definition of a defect-lowering move, so each
+quotient-level edge lifts horizontally across the corresponding
+$f_{3}$-fiber.
+\end{proof}
