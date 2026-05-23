@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveMetricCompletionUp$}
+\label{ch:concrete-instances-effective-metric-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive metric completion, the $\EffectiveMetricCompletionUp$ packet records the finite BEDC route by which located metric data is completed through explicit approximation schedules rather than quotient names or selected representatives. It sits between the metric-completion surface of \autoref{ch:concrete-instances-metriccompletion-namecert}, the located metric surface of \autoref{ch:concrete-instances-locatedmetric-namecert}, and the Real-and-Completion route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Effective metric completion carrier]
+\label{def:effective-metric-completion-carrier}
+An $\EffectiveMetricCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+Y=(M,L,A,S,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the $\MetricCompletionUp$ branch consumed from \autoref{ch:concrete-instances-metriccompletion-namecert}, read only as a displayed completion route.
+\item $L$ is the $\LocatedMetricUp$ source row from \autoref{ch:concrete-instances-locatedmetric-namecert}, including the located distance comparisons visible to the packet.
+\item $A$ is an effective approximation and modulus ledger, listing finite precision requests, response windows, and the monotone schedule by which later requests refine earlier windows.
+\item $S$ is the $\StreamNameUp$ row naming the finite observation windows inspected by the completion route.
+\item $R$ is the $\RegSeqRatUp$ readback row for rational regular-sequence data emitted by the approximation ledger.
+\item $E$ is the terminal $\RealUp$ seal row used for distance and convergence comparisons after $S$ and $R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the completion branch, located metric source, approximation ledger, stream windows, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from located metric admission through effective approximation, stream inspection, readback, and terminal Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\EffectiveMetricCompletionUp$, $\MetricCompletionUp$, $\LocatedMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\EffectiveMetricCompletionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion equality, a selected Cauchy representative, host metric equality, countable choice, open-cover compactness, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[EffectiveMetricCompletion NameCert obligations]
+\label{thm:effective-metric-completion-namecert-obligations}
+For an accepted $\EffectiveMetricCompletionUp$ carrier $Y=(M,L,A,S,R,E,H,C,P,N)$, the local $\NameCert_{\EffectiveMetricCompletionUp}$ surface consists exactly of carrier admission for the metric-completion branch and located metric source, effective approximation ledger admission, stream-window readiness, regular-rational readback, terminal Real sealing, componentwise transport, displayed replay, provenance, local naming, and ledger non-escape for the excluded host-side principles.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:effective-metric-completion-carrier}. The packet lists the completion branch, located metric source, approximation ledger, stream windows, readback, Real seal, transport, replay, provenance, and local naming rows.
+
+The effective approximation row $A$ is downstream of both $M$ and $L$. A consumer must therefore read the completion request through the displayed metric-completion branch and the located metric source before it can inspect any finite precision window.
+
+The numerical route is then forced through $S,R,E$. Stream names provide the finite windows, regular rational sequences provide the readback, and the Real row supplies only the terminal seal for comparisons already exposed by the earlier rows.
+
+Finally $H,C,P,N$ preserve the same displayed route under transport, replay, provenance, and local naming. Since the carrier has no remaining row, quotient completion equality, selected representatives, countable choice, host equality, open-cover compactness, and $\RealUp$ completeness cannot be exported.
+\end{proof}
+
+\begin{theorem}[EffectiveMetricCompletion Real-seal handoff]
+\label{thm:effective-metric-completion-real-seal-handoff}
+Every Real-facing consumer of an accepted $\EffectiveMetricCompletionUp$ carrier factors through the finite handoff
+$$
+M\longmapsto L\longmapsto A\longmapsto S\longmapsto R\longmapsto E\longmapsto H,C,P,N .
+$$
+In particular, the terminal $\RealUp$ seal is read only after the metric-completion branch, located metric source, effective approximation ledger, StreamName windows, and RegSeqRat readback have all been displayed.
+\end{theorem}
+\begin{proof}
+Start with the completion branch $M$ and located source $L$. The carrier exposes no completion-facing request unless those two rows have already been displayed in the same finite history packet.
+
+Next route through the approximation ledger $A$. Its finite modulus entries bind each requested precision to a displayed window, so the consumer cannot choose a hidden representative or import a countable-choice schedule.
+
+The handoff to Real data proceeds through $S$ and $R$. The stream row names the inspected window, and the regular rational row supplies the finite readback consumed by the terminal Real seal.
+
+It remains to check non-escape. Transport, replay, provenance, and local naming keep the same row order, so route exhaustion leaves no coordinate for quotient completion equality, selected representatives, host equality, open-cover compactness, or $\RealUp$ completeness.
+\end{proof}
+
+\begin{closurestatus}{\EffectiveMetricCompletionUp}
+  \constructivestory{An $\EffectiveMetricCompletionUp$ packet is generated from a metric-completion branch, a located metric source, an effective approximation and modulus ledger, StreamName windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-metric-completion-carrier}, \autoref{thm:effective-metric-completion-namecert-obligations}, and \autoref{thm:effective-metric-completion-real-seal-handoff} seed the finite effective metric completion surface over located metric data, explicit approximation schedules, stream windows, rational readback, Real sealing, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, countable choice, host equality, open-cover compactness, or completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, approximation-ledger routing, stream-window readiness, RegSeqRat readback coherence, Real-seal handoff, and ledger non-escape over the same displayed packet.}
+\end{closurestatus}
