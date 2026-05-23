@@ -5693,6 +5693,7 @@ import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
+import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
