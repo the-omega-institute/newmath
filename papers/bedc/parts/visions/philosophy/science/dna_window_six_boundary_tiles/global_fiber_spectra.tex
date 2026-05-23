@@ -1,0 +1,322 @@
+\begin{definition}[Complete global fiber $3+1$ tile]
+\label{def:philosophy-complete-global-fiber-three-one-tile}
+Let $E:Q_{6}\to C$ be a translation classifier. An axis-aligned
+$Q_{2}$ face $F$ is a complete global fiber $3+1$ tile when there are
+classes $a,b\in C$ such that
+$$
+  F=E^{-1}(a)\sqcup E^{-1}(b),
+  \qquad
+  |E^{-1}(a)|=3,
+  \qquad
+  |E^{-1}(b)|=1.
+$$
+Thus the local three-point side is not merely a local multiplicity:
+it is the whole global tripleton fiber. Likewise the singleton corner is
+the whole global singleton fiber.
+\end{definition}
+
+\begin{theorem}[Complete global fiber tiles in the standard code]
+\label{thm:philosophy-complete-global-fiber-tiles-standard-code}
+Under the two-axis readback and the standard translation classifier, the
+complete global fiber $3+1$ tiles are exactly
+$$
+\begin{array}{c|c|c|c}
+  \text{face} & \text{global tripleton} & \text{global singleton}
+    & \text{singleton corner}\\
+\hline
+  \{\mathrm{AUU},\mathrm{AUC},\mathrm{AUA},\mathrm{AUG}\}
+    & \mathrm{Ile} & \mathrm{Met} & 11\\
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG}\}
+    & \mathrm{Stop} & \mathrm{Trp} & 11.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{cor:philosophy-standard-code-degeneracy-spectrum}, the only
+global tripleton classes of the standard classifier are $\mathrm{Ile}$
+and $\mathrm{Stop}$, and the only global singleton classes are
+$\mathrm{Met}$ and $\mathrm{Trp}$. The exhaustive local $Q_{2}$
+enumeration of \autoref{thm:philosophy-standard-code-axis-aligned-three-one-face-enumeration}
+has four $3+1$ faces. The two Phe/Leu faces are excluded because
+$\mathrm{Phe}$ is a global doubleton and $\mathrm{Leu}$ is a global
+sextupleton. The remaining two faces are the displayed Ile/Met and
+Stop/Trp faces, and both have singleton corner $11$.
+\end{proof}
+
+\begin{corollary}[Global fibers select the dual control tiles]
+\label{cor:philosophy-global-fibers-select-dual-control-tiles}
+The pair $\mathrm{Ile}/\mathrm{Met}$ and $\mathrm{Stop}/\mathrm{Trp}$ is
+not selected by choosing two examples from the four local $3+1$ faces.
+It is selected by imposing the global-fiber condition on the local
+$Q_{2}$ spectrum.
+\end{corollary}
+\begin{proof}
+The global-fiber condition eliminates the Phe/Leu local slices and keeps
+exactly the two rows of
+\autoref{thm:philosophy-complete-global-fiber-tiles-standard-code}.
+\end{proof}
+
+\begin{theorem}[Standard-code $Q_{1}$ edge spectrum]
+\label{thm:philosophy-standard-code-q-one-edge-spectrum}
+The standard translation classifier has $50$ same-class Hamming edges
+and $142$ cross-class Hamming edges in $Q_{6}$. By bit direction
+$$(b_{1}^{s},b_{1}^{f},b_{2}^{s},b_{2}^{f},b_{3}^{s},b_{3}^{f}),$$
+the same-class edge counts are
+$$
+\begin{array}{c|rrrrrr}
+  \text{direction}
+    & b_{1}^{s} & b_{1}^{f} & b_{2}^{s}
+    & b_{2}^{f} & b_{3}^{s} & b_{3}^{f}\\
+\hline
+  \text{same-class edges}
+    & 0 & 2 & 0 & 1 & 17 & 30\\
+  \text{cross-class edges}
+    & 32 & 30 & 32 & 31 & 15 & 2.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each of the six bit directions, enumerate the $32$ Hamming edges
+$x\leftrightarrow x\oplus e_i$. Decode both endpoints to codons and
+compare their standard translation labels. The displayed table is the
+finite count over the resulting $6\cdot 32=192$ edges.
+\end{proof}
+
+\begin{corollary}[Third-position softness]
+\label{cor:philosophy-third-position-softness}
+The third-position family bit $b_{3}^{f}$ is the most stable Hamming
+direction in the standard classifier, with $30$ same-class edges out of
+$32$. The first and second shape bits have no same-class edge.
+\end{corollary}
+\begin{proof}
+Read the direction counts in
+\autoref{thm:philosophy-standard-code-q-one-edge-spectrum}.
+\end{proof}
+
+\begin{theorem}[Same-histogram random edge baseline]
+\label{thm:philosophy-same-histogram-random-edge-baseline}
+Keep only the standard-code degeneracy histogram
+$$
+  1:2,\qquad 2:9,\qquad 3:2,\qquad 4:5,\qquad 6:3,
+$$
+and randomly assign the resulting fibers to the $64$ codons. For a
+random unordered pair of distinct codons, the same-class probability is
+$$
+  p_{\mathrm{same}}
+  =
+  \frac{\sum_{a}\binom{d_{a}}{2}}{\binom{64}{2}}
+  =
+  \frac{5}{112}.
+$$
+Thus the expected number of same-class Hamming edges among the $192$
+edges of $Q_{6}$ is
+$$
+  192\,p_{\mathrm{same}}
+  =
+  \frac{60}{7}
+  \approx 8.57.
+$$
+The observed standard-code value is $50$, namely
+$$
+  \frac{50}{60/7}=\frac{35}{6}\approx5.83
+$$
+times the same-histogram random expectation.
+The exact variance of the same-edge count under this same-histogram
+model is
+$$
+  \frac{686964}{92659}\approx7.41,
+$$
+so the standard deviation is about $2.72$ and the observed value has
+z-score about $15.2$.
+\end{theorem}
+\begin{proof}
+The standard degeneracy histogram gives
+$$
+  \sum_{a}\binom{d_{a}}{2}
+  =
+  2\binom{1}{2}
+  +9\binom{2}{2}
+  +2\binom{3}{2}
+  +5\binom{4}{2}
+  +3\binom{6}{2}
+  =
+  90.
+$$
+Since $\binom{64}{2}=2016$, the probability is
+$90/2016=5/112$. Multiplying by the $192$ Hamming edges gives $60/7$.
+The observed count $50$ is
+\autoref{thm:philosophy-standard-code-q-one-edge-spectrum}.
+For the variance, separate unordered pairs of Hamming edges into
+adjacent edge-pairs, of which there are $64\binom{6}{2}=960$, and
+disjoint edge-pairs, of which there are
+$\binom{192}{2}-960=17376$. Evaluating the two corresponding
+same-fiber probabilities from the fixed fiber sizes gives the displayed
+finite variance.
+\end{proof}
+
+\begin{corollary}[Local edge smoothness is not a histogram artifact]
+\label{cor:philosophy-local-edge-smoothness-not-histogram-artifact}
+The standard classifier is not merely a code table with the listed
+global degeneracy histogram. It is locally smooth on the Hamming graph:
+same-class adjacency is about $5.83$ times the same-histogram random
+expectation, and the smoothness is concentrated in the third-base
+directions.
+\end{corollary}
+\begin{proof}
+The excess over the histogram baseline is
+\autoref{thm:philosophy-same-histogram-random-edge-baseline}. The
+directional concentration is
+\autoref{cor:philosophy-third-position-softness}.
+\end{proof}
+
+\begin{theorem}[Single-nucleotide substitution edge spectrum]
+\label{thm:philosophy-single-nucleotide-substitution-edge-spectrum}
+If edges are taken to be ordinary one-base substitutions rather than
+one-bit flips, then there are $288$ unordered edges. The standard
+classifier has the following position-wise spectrum:
+$$
+\begin{array}{c|rrr|r}
+  \text{codon position} & 1 & 2 & 3 & \text{total}\\
+\hline
+  \text{same-class substitution edges} & 4 & 1 & 64 & 69\\
+  \text{cross-class substitution edges} & 92 & 95 & 32 & 219.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each codon position, fix the other two bases in $4^{2}$ ways and
+connect the four choices at the chosen position by the complete graph
+on four bases. This gives $16\binom{4}{2}=96$ edges per position and
+$288$ total edges. Decoding both endpoints and comparing their standard
+translation labels gives the displayed finite spectrum.
+\end{proof}
+
+\begin{corollary}[Two-axis stability matches nucleotide substitution]
+\label{cor:philosophy-two-axis-stability-matches-nucleotide-substitution}
+The two-axis $Q_{6}$ edge spectrum is not only a formal bit-cube
+phenomenon. Ordinary one-base substitution edges show the same
+asymmetry: the third codon position has $64$ same-class edges out of
+$96$, while the first two positions have only $4$ and $1$.
+\end{corollary}
+\begin{proof}
+Compare \autoref{thm:philosophy-standard-code-q-one-edge-spectrum} with
+\autoref{thm:philosophy-single-nucleotide-substitution-edge-spectrum}.
+\end{proof}
+
+\begin{theorem}[Standard-code $Q_{2}$ face spectrum]
+\label{thm:philosophy-standard-code-q-two-face-spectrum}
+The $240$ axis-aligned $Q_{2}$ faces of the standard classifier have
+the following multiplicity spectrum:
+$$
+\begin{array}{c|rrrrr}
+  \text{local pattern}
+    & 4 & 3+1 & 2+2 & 2+1+1 & 1+1+1+1\\
+\hline
+  \text{face count}
+    & 9 & 4 & 83 & 44 & 100.
+\end{array}
+$$
+By geometric type, the same spectrum refines to
+$$
+\begin{array}{c|rrrrr|r}
+  \text{face type}
+    & 4 & 3+1 & 2+2 & 2+1+1 & 1+1+1+1 & \text{total}\\
+\hline
+  \text{same base}
+    & 8 & 1 & 6 & 6 & 27 & 48\\
+  \text{cross-base same axis}
+    & 1 & 1 & 39 & 18 & 37 & 96\\
+  \text{cross-base mixed axis}
+    & 0 & 2 & 38 & 20 & 36 & 96.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The first table is the exhaustive face enumeration already used in
+\autoref{thm:philosophy-standard-code-axis-aligned-three-one-face-enumeration},
+with all multiplicity patterns retained rather than only the $3+1$
+rows. The second table partitions the same faces by whether the two
+free bits lie in the same base, in different bases along the same
+axis, or in different bases along different axes.
+\end{proof}
+
+\begin{theorem}[Standard-code $Q_{3}$ cube spectrum]
+\label{thm:philosophy-standard-code-q-three-cube-spectrum}
+The $160$ axis-aligned $Q_{3}$ cubes of the standard classifier have
+the following multiplicity spectrum:
+$$
+\begin{array}{c|r}
+  \text{local pattern} & \text{cube count}\\
+\hline
+  2+2+2+2 & 46\\
+  1+1+1+1+1+1+1+1 & 21\\
+  2+1+1+1+1+1+1 & 21\\
+  2+2+2+1+1 & 18\\
+  2+2+1+1+1+1 & 11\\
+  4+2+2 & 10\\
+  4+4 & 10\\
+  3+2+2+1 & 9\\
+  3+2+1+1+1 & 5\\
+  4+2+1+1 & 4\\
+  3+1+1+1+1+1 & 2\\
+  4+3+1 & 2\\
+  6+2 & 1.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Choose three free bit positions and fix the remaining three bits, giving
+$\binom{6}{3}2^{3}=160$ cubes. On each cube, decode the eight vertices
+and count the translation-label multiplicities. The displayed table is
+the resulting finite spectrum.
+\end{proof}
+
+\begin{corollary}[Phe/Leu is the unique $6+2$ cube]
+\label{cor:philosophy-phe-leu-unique-six-two-cube}
+The unique $6+2$ cube is
+$$
+  \{\mathrm{UUU},\mathrm{UUC},\mathrm{UUA},\mathrm{UUG},
+    \mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\},
+$$
+with $\{\mathrm{UUU},\mathrm{UUC}\}=\mathrm{Phe}$ and the remaining
+six codons classified as $\mathrm{Leu}$.
+\end{corollary}
+\begin{proof}
+The exhaustive $Q_{3}$ enumeration in
+\autoref{thm:philosophy-standard-code-q-three-cube-spectrum} contains
+one cube of type $6+2$. Its vertices are the displayed Phe/Leu support.
+\end{proof}
+
+\begin{theorem}[Neighborhoods of the complete control tiles]
+\label{thm:philosophy-complete-control-tile-q-three-neighborhoods}
+The Stop/Trp tile is contained in four axis-aligned $Q_{3}$ cubes, and
+all four have pattern $3+2+2+1$. The Ile/Met tile is contained in four
+axis-aligned $Q_{3}$ cubes; two have pattern $3+2+2+1$, and two have
+pattern $4+3+1$.
+\end{theorem}
+\begin{proof}
+Every $Q_{2}$ face in $Q_{6}$ has four one-bit extensions to a $Q_{3}$
+cube. Enumerating those four extensions for the Stop/Trp face gives
+four cubes whose labels are
+$$
+  \mathrm{Stop}_{3}+\mathrm{Trp}_{1}
+  +\text{doubleton}+\text{doubleton}.
+$$
+Enumerating the four extensions for the Ile/Met face gives two cubes of
+the same $3+2+2+1$ form and two cubes of the form
+$$
+  \text{quadrupleton}+\mathrm{Ile}_{3}+\mathrm{Met}_{1}.
+$$
+\end{proof}
+
+\begin{corollary}[Control-tile neighborhood contrast]
+\label{cor:philosophy-control-tile-neighborhood-contrast}
+The Stop/Trp tile is locally isolated as a boundary/continuation tile in
+all of its $Q_{3}$ neighborhoods. The Ile/Met tile retains the same
+$11$-corner control form, but two of its $Q_{3}$ neighborhoods embed it
+beside a four-codon sense block.
+\end{corollary}
+\begin{proof}
+This is the distinction between the two neighborhood spectra in
+\autoref{thm:philosophy-complete-control-tile-q-three-neighborhoods}.
+\end{proof}
