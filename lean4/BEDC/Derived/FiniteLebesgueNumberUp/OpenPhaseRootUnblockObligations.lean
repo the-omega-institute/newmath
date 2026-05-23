@@ -236,4 +236,67 @@ theorem FiniteLebesgueNumberOpenPhasePositiveRadiusStability [AskSetup] [Package
     ⟨rootUnary, phaseUnary, stabilizedUnary, rootRadiusPhase, stabilizedCont,
       provenancePkg⟩
 
+theorem FiniteLebesgueNumberFourFaceRadiusExitCoverage_semantic_name_certificate
+    [AskSetup] [PackageSetup]
+    {cover radius mesh stream regular real transport replay provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover stream radius mesh transport replay provenance nameRow
+        bundle pkg →
+      Cont cover radius stream →
+        Cont stream regular real →
+          PkgSig bundle real pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row real ∧
+                    FiniteLebesgueNumberCarrier cover stream radius mesh transport replay provenance
+                      nameRow bundle pkg)
+                (fun row : BHist =>
+                  hsame row real ∧ Cont cover radius stream ∧ Cont stream regular real)
+                (fun row : BHist => hsame row real ∧ PkgSig bundle real pkg)
+                hsame ∧
+              Cont cover radius stream ∧ Cont stream regular real ∧
+                PkgSig bundle real pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier coverRadiusStream streamRegularReal realPkg
+  have sourceReal :
+      (fun row : BHist =>
+        hsame row real ∧
+          FiniteLebesgueNumberCarrier cover stream radius mesh transport replay provenance
+            nameRow bundle pkg) real := by
+    exact ⟨hsame_refl real, carrier⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row real ∧
+              FiniteLebesgueNumberCarrier cover stream radius mesh transport replay provenance
+                nameRow bundle pkg)
+          (fun row : BHist =>
+            hsame row real ∧ Cont cover radius stream ∧ Cont stream regular real)
+          (fun row : BHist => hsame row real ∧ PkgSig bundle real pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro real sourceReal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, coverRadiusStream, streamRegularReal⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, realPkg⟩
+    }
+  exact ⟨cert, coverRadiusStream, streamRegularReal, realPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
