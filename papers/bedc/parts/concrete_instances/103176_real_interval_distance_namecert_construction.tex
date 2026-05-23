@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\RealIntervalDistanceUp$}
+\label{ch:concrete-instances-real-interval-distance-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis and Moore--Kearfott--Cloud interval analysis, the $\RealIntervalDistanceUp$ packet records the finite point-to-interval distance route by which a displayed real source point, a located real interval, a clamp value, and an absolute-value magnitude are read before any downstream Real or Completion consumer sees a distance. It consumes the clamping surface of \autoref{ch:concrete-instances-real-clamping-namecert}, the absolute-value surface of \autoref{ch:concrete-instances-real-abs-namecert}, the located interval surface of \autoref{ch:concrete-instances-located-real-interval-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet gives L10 Real and Completion routes a named finite handoff for distance from a point to a located interval; it is not host order, quotient real equality, a selected closest point theorem, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RealIntervalDistance carrier]
+\label{def:real-interval-distance-carrier}
+A $\RealIntervalDistanceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,I,K,A,T,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source point row. It records the displayed $\RealUp$ name of the point whose distance from the interval is requested.
+\item $I$ is the source interval row. It records the $\LocatedRealIntervalUp$ endpoint names, locator reads, radius data, and locatedness budget for the interval being queried.
+\item $K$ is the clamp row. It records the $\RealClampingUp$ value obtained by clamping the point row $X$ against the displayed interval row $I$.
+\item $A$ is the distance-magnitude row. It records the $\RealAbsUp$ read of the displayed difference between the source point and the clamp value.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger. It records every dyadic radius, slack comparison, endpoint budget, and absolute-value precision request consumed by $K$ and $A$.
+\item $S$ is the $\StreamNameUp$ window row. It records the finite observations used to read the point, endpoints, clamp value, and distance magnitude at the requested tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row. It records the regular rational data exposed by the point, endpoint, clamp, and absolute-value streams.
+\item $H$ records componentwise $\hsame$ transport for the point row, interval row, clamp row, absolute-value row, tolerance ledger, stream windows, regular readback, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+X,I \longmapsto K \longmapsto A \longmapsto T,S,R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RealIntervalDistanceUp$, $\RealUp$, $\LocatedRealIntervalUp$, $\RealClampingUp$, $\RealAbsUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealIntervalDistanceUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these eleven rows form one finite point-to-interval distance packet. It has no coordinate for host order, quotient real equality, a selected closest point, open-cover compactness, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[RealIntervalDistance NameCert obligations]
+\label{thm:real-interval-distance-namecert-obligations}
+For every accepted $\RealIntervalDistanceUp$ carrier
+$$
+D=(X,I,K,A,T,S,R,H,C,P,N),
+$$
+the local $\NameCert_{\RealIntervalDistanceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source $\RealUp$ point, source $\LocatedRealIntervalUp$ interval, $\RealClampingUp$ clamp value, $\RealAbsUp$ distance magnitude, dyadic tolerance ledger, stream windows, regular rational readback, transport, replay, provenance, and local name;
+\item interval exposure, requiring every endpoint, locator, radius, and locatedness request to pass through the displayed interval row $I$ before the clamp row is read;
+\item clamp handoff, requiring $K$ to consume only the displayed point row $X$, interval row $I$, tolerance ledger $T$, stream windows $S$, and regular readback row $R$;
+\item absolute-distance readback, requiring $A$ to read the magnitude of the displayed difference between $X$ and $K$ through the same $T,S,R$ rows before any distance consumer sees the result;
+\item tolerance exactness, requiring the dyadic ledger $T$ to record the endpoint, clamp, absolute-value, and consumer precision requests used in the packet;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the point, interval, clamp, absolute-value, tolerance, window, readback, provenance, and local naming rows componentwise;
+\item non-escape from host trichotomy, quotient equality, selected limits, countable choice, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No point-to-interval distance obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted packet $D=(X,I,K,A,T,S,R,H,C,P,N)$. The projection exposes exactly the point, interval, clamp, absolute-value, tolerance, window, readback, transport, replay, provenance, and naming rows.
+
+The interval and clamp stages are ordered by the displayed route. Endpoint, locator, radius, and locatedness requests begin at $I$, while the clamp row $K$ is read only after the point row $X$, the interval row $I$, and the finite tolerance and readback rows $T,S,R$ have been displayed.
+
+The distance magnitude is downstream of the clamp row. The row $A$ records the $\RealAbsUp$ read of the displayed difference between $X$ and $K$, using the same dyadic ledger, stream windows, and regular rational readback that admitted the clamp request.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since none of the carrier coordinates stores host trichotomy, quotient real equality, a selected limit or closest point, countable choice, or ambient real completeness, no such principle can be exported by the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[RealIntervalDistance clamp-absolute handoff]
+\label{thm:real-interval-distance-clamp-abs-handoff}
+Every accepted $\RealIntervalDistanceUp$ distance consumer factors through the displayed route
+$$
+\RealUp_{\mathrm{source}}
+\longmapsto \LocatedRealIntervalUp
+\longmapsto \RealClampingUp
+\longmapsto \RealAbsUp
+\longmapsto \DyadicRatCoreUp/\StreamNameUp/\RegSeqRatUp
+\longmapsto (\hsame,\Cont,\Pkg,\NameCert).
+$$
+Thus the packet exports only the finite clamp-absolute distance handoff and exports no host order, quotient equality, selected closest point, open-cover compactness, countable choice, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+
+\begin{proof}
+Start from an accepted distance consumer. The only source point coordinate is $X$, and the only interval coordinate is $I$, so the consumer cannot read a distance before those two rows expose their finite real-name and located-interval data.
+
+The clamp coordinate comes next. The row $K$ is the displayed $\RealClampingUp$ output for the point and interval rows, under the precision and readback rows $T,S,R$.
+
+The absolute-value coordinate supplies the distance magnitude. The row $A$ reads the displayed difference between the source point and the clamp value, again through $T,S,R$, so the magnitude is tied to the same finite data as the clamp.
+
+The structural rows close the route. Componentwise transport in $H$, continuation replay in $C$, provenance in $P$, and local naming in $N$ preserve exactly the displayed rows, leaving no coordinate for the excluded host, quotient, selection, compactness, choice, or completeness principles.
+\end{proof}
+
+\closureat{RealIntervalDistanceUp}{seedStr}
+
+\begin{closurestatus}{\RealIntervalDistanceUp}
+  \constructivestory{A $\RealIntervalDistanceUp$ packet is generated from a source RealUp point row, a LocatedRealIntervalUp interval row, a RealClampingUp clamp row, a RealAbsUp distance-magnitude row, a DyadicRatCoreUp tolerance ledger, StreamNameUp finite windows, RegSeqRatUp readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-interval-distance-carrier}, \autoref{thm:real-interval-distance-namecert-obligations}, and \autoref{thm:real-interval-distance-clamp-abs-handoff} seed the finite point-to-interval distance route over displayed point, located interval, clamp, absolute-value, dyadic tolerance, stream-window, regular-readback, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host order, quotient equality, selected closest points, open-cover compactness, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval exposure, clamp handoff, absolute-distance readback, tolerance exactness, transport stability, and replay confinement for the $\RealIntervalDistanceUp$ packet.}
+\end{closurestatus}
