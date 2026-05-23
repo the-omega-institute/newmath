@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BanachDualUp$}
+\label{ch:concrete-instances-banach-dual-namecert}
+\origin{human}
+
+Following Banach and Bourbaki, the $\BanachDualUp$ packet records the continuous scalar-functional surface of a displayed Banach carrier as finite NameCert data. It reads its source through the Banach carrier of \autoref{ch:concrete-instances-banach-namecert}, the normed-space rows of \autoref{ch:concrete-instances-normedspace-namecert}, the bounded-linear-operator surface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the scalar boundary of \autoref{ch:concrete-instances-real-namecert}, and the functional-analysis interface of \autoref{ch:concrete-instances-functionalanalysis-namecert}. The packet is the scalar-functional neighbour of the Banach and operator certificates, not a host-level function space.
+
+\begin{definition}[BanachDual carrier]
+\label{def:banach-dual-carrier}
+For a displayed $\BanachUp$ carrier $C$, a $\BanachDualUp(C)$ carrier is a finite $\BHist$ packet
+$$
+\Phi=(C,L,K,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the source $\BanachUp$ carrier, including its $\NormedSpaceUp$ rows and completeness handoff.
+\item $L$ is a $\BoundedLinearOperatorUp(C,\RealUp)$ row whose target is the scalar singleton interface supplied by $\RealUp$.
+\item $K$ is the operator-norm bound endpoint read through the same $\RealUp$ scalar surface as $L$.
+\item $H$ records componentwise $\hsame$ transport for the source carrier, scalar-functional row, norm-bound row, replay row, provenance row, and local naming row.
+\item $R$ records displayed $\Cont$ replay from a scalar-functional request through $C,L,K,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BanachDualUp$, $\BanachUp$, $\NormedSpaceUp$, $\BoundedLinearOperatorUp$, $\RealUp$, $\FunctionalAnalysisUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BanachDualUp}$ row.
+\end{enumerate}
+The classifier compares accepted dual rows only through the displayed source carrier, scalar-functional operator row, norm-bound endpoint, transport, replay, provenance, and local naming rows. It has no coordinate for host function extensionality, quotient dual spaces, Hahn--Banach separation data, selected representatives, or bridge checking.
+\end{definition}
+
+\begin{theorem}[BanachDual NameCert obligations]
+\label{thm:banach-dual-namecert-obligations}
+For every accepted $\BanachDualUp(C)$ carrier $\Phi=(C,L,K,H,R,P,N)$, the local $\NameCert_{\BanachDualUp}$ surface consists exactly of source Banach admission, scalar-functional bounded-operator admission, RealUp norm-bound exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A scalar-functional consumer can inspect the source carrier $C$, the operator row $L$, the bound endpoint $K$, and the structural rows $H,R,P,N$, but cannot replace them by a host function, quotient dual object, chosen representative, or Hahn--Banach witness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only analytic coordinates are the source Banach row $C$, the scalar-functional bounded-operator row $L$, and the RealUp bound endpoint $K$.
+
+The structural rows $H,R,P,N$ preserve those coordinates through classifier transport, replay, provenance, and local naming. Because the target of $L$ is the displayed scalar interface, every scalar-functional read is already routed through $\BoundedLinearOperatorUp(C,\RealUp)$.
+
+No further row is present in the carrier. Hence host function extensionality, quotient dual spaces, Hahn--Banach strong forms, selected representatives, and bridge checks are outside the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BanachDual operator handoff]
+\label{thm:banach-dual-operator-handoff}
+Every accepted $\BanachDualUp(C)$ scalar-functional read factors through the displayed route
+$$
+\BanachUp,\ \NormedSpaceUp,\ \BoundedLinearOperatorUp,\ \RealUp,\ \FunctionalAnalysisUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The handoff first reads the source Banach carrier $C$, then the scalar-valued bounded operator row $L$, then the RealUp norm-bound endpoint $K$, and only then the local transport, replay, provenance, and naming rows $H,R,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with an accepted scalar-functional read. By \autoref{def:banach-dual-carrier}, the read is carried by $\Phi=(C,L,K,H,R,P,N)$.
+
+The row $L$ is already a $\BoundedLinearOperatorUp(C,\RealUp)$ row, so it exposes the Banach source, normed-space obligations, and scalar target before any local dual row is consumed. The endpoint bound $K$ is a RealUp row attached to that same operator surface.
+
+Replaying the request through $H,R,P,N$ preserves the displayed route and adds no host function, quotient dual object, selected representative, or bridge check.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BanachDualUp$ scalar-functional read factors through a displayed $\BanachUp$ source, a $\BoundedLinearOperatorUp(C,\RealUp)$ row, a $\RealUp$ norm-bound endpoint, and the local $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+
+\independenceWitness{banach, normedspace, boundedlinearoperator, real, and functionalanalysis: no listed sibling is bijective to $\BanachDualUp$ because this packet stores the scalar-valued bounded-operator face together with the source Banach carrier, norm-bound endpoint, transport, replay, provenance, and local naming rows.}
+
+\closureat{BanachDualUp}{seedStr}
+
+\begin{closurestatus}{\BanachDualUp}
+  \constructivestory{A $\BanachDualUp$ packet is generated from a displayed $\BanachUp$ source carrier, a scalar-valued $\BoundedLinearOperatorUp(C,\RealUp)$ row, a $\RealUp$ norm-bound endpoint, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-dual-carrier}, \autoref{thm:banach-dual-namecert-obligations}, and \autoref{thm:banach-dual-operator-handoff} seed the scalar-functional carrier surface over the displayed Banach and bounded-operator rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function extensionality, quotient dual spaces, Hahn--Banach strong form, selected representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, scalar-functional bounded-operator routing, norm-bound exactness, transport, replay, provenance, and local naming for BEDC.Derived.BanachDualUp.}
+\end{closurestatus}
