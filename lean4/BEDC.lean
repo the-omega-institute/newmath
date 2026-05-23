@@ -2979,10 +2979,12 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.DyadicSealFactorization
+import BEDC.Derived.FiniteRealSectionUp.ObligationClosureCertificate
 import BEDC.Derived.FiniteRealSectionUp.ObligationClosurePackage
 import BEDC.Derived.FiniteRealSectionUp.PublicBridge
 import BEDC.Derived.FiniteRealSectionUp.RefinementNoncollapse
 import BEDC.Derived.FiniteRealSectionUp.RouteConsumerExactness
+import BEDC.Derived.FiniteRealSectionUp.StdBridge
 import BEDC.Derived.FiniteRealSectionUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.TransportStability
 import BEDC.Derived.FiniteRealSectionUp.WindowReadbackDeterminacy
@@ -4264,6 +4266,7 @@ import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PicardContractionUp.RootUnblockPackage
 import BEDC.Derived.PicardContractionUp.SourceReadback
 import BEDC.Derived.PicardContractionUp.SourceWindow
+import BEDC.Derived.PicardLindelofLocalFlowUp.TasteGate
 import BEDC.Derived.PicardLindelofUp.TasteGate
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.PinGroupUp.CliffordConjugationLedger
@@ -4834,6 +4837,7 @@ import BEDC.Derived.RegularCauchyEquivalenceUp.RefinementTransport
 import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyFamilyUp.TasteGate
+import BEDC.Derived.RegularCauchyFilterUp
 import BEDC.Derived.RegularCauchyFilterUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteProductUp
