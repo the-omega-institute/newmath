@@ -1,0 +1,130 @@
+\chapter{A Concrete Naming Certificate for $\EilenbergMooreCompletionAlgebraUp$}
+\label{ch:concrete-instances-eilenberg-moore-completion-algebra-namecert}
+\origin{human}
+
+Following Eilenberg and Moore, and the standard monad-algebra treatment of completion monads, the $\EilenbergMooreCompletionAlgebraUp$ packet names the finite L10 surface where completion monad data can be consumed as an algebra object rather than as an external quotient completion. It is grounded in the completion monad row of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the unit row of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the counit landing of \autoref{ch:concrete-instances-cauchy-completion-counit-namecert}, the idempotent law surface of \autoref{ch:concrete-instances-cauchy-completion-idempotent-namecert}, and the Kleisli comparison of \autoref{ch:concrete-instances-cauchy-completion-kleisli-adjunction-namecert}. Its analytic landing is the metric-completion and real-readback chain through \autoref{ch:concrete-instances-metriccompletion-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+The packet does not construct a quotient of Cauchy names. It records only the finite carrier, law, Kleisli-consumption, and ledger rows by which a downstream Real or CompleteMetric consumer can read the completion monad as an Eilenberg--Moore algebra surface.
+
+\begin{definition}[Eilenberg--Moore completion algebra carrier]
+\label{def:eilenberg-moore-completion-algebra-carrier}
+An $\EilenbergMooreCompletionAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,U,K,I,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyCompletionMonadUp$ row, displaying the completion monad source, unit, bind, tolerance, readback, and terminal seal data available to the algebra.
+\item $U$ is the $\CauchyCompletionUnitUp$ row, displaying the finite unit admission by which an input name is copied into the completion surface.
+\item $K$ is the Kleisli or extension row inherited from the $\CauchyCompletionKleisliAdjunctionUp$ comparison, displaying the finite consumer request that reads completion data through the monad route.
+\item $I$ is the idempotent or multiplication law row from $\CauchyCompletionIdempotentUp$, recording that a second completion pass is consumed by the same finite completion surface rather than by a selected quotient representative.
+\item $L$ is the $\MetricCompletionUp$ landing row, exposing the metric-completion readback that a downstream Real or CompleteMetric consumer may inspect after $M,U,K,I$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the monad, unit, Kleisli, law, landing, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,U \longmapsto K,I \longmapsto L \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EilenbergMooreCompletionAlgebraUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionCounitUp$, $\CauchyCompletionIdempotentUp$, $\CauchyCompletionKleisliAdjunctionUp$, $\MetricCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EilenbergMooreCompletionAlgebraUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,U,K,I,L,H,C,P,N$. The carrier has no coordinate for quotient completion, selected limits, countable choice, host equality of completion names, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Eilenberg--Moore completion algebra NameCert obligations]
+\label{thm:eilenberg-moore-completion-algebra-namecert-obligations}
+For every accepted $\EilenbergMooreCompletionAlgebraUp$ carrier
+$$
+A=(M,U,K,I,L,H,C,P,N),
+$$
+the local $\NameCert_{\EilenbergMooreCompletionAlgebraUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the completion monad row, unit row, Kleisli or extension row, idempotent or multiplication law row, metric-completion landing row, transport, replay, provenance, and local naming row;
+\item unit exposure, requiring $U$ to be displayed before any algebra consumer can read the Kleisli or law rows;
+\item Kleisli consumption, requiring $K$ to consume only the displayed completion monad and unit data before opening the algebra law surface;
+\item law exactness, requiring $I$ to identify the second completion pass with the same displayed algebra surface through finite idempotent or multiplication rows;
+\item landing exactness, requiring $L$ to be the only metric-completion landing visible downstream of the monad, unit, Kleisli, and law rows;
+\item structural exhaustion, requiring $H,C,P,N$ to preserve, replay, source, and name the listed rows without adding quotient completions, selected limits, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:eilenberg-moore-completion-algebra-carrier}. The accepted packet displays exactly the completion monad, unit, Kleisli or extension, idempotent or multiplication, metric-completion landing, and structural rows.
+
+Unit exposure is read from $U$. Since $U$ is displayed before the Kleisli and law rows, an algebra consumer starts from the same finite admission route as the completion unit packet.
+
+Kleisli consumption is read from $K$. The row records a finite consumer request over the displayed monad and unit data, so it cannot introduce a second source family, a selected limit, or a quotient representative before the law row is opened.
+
+Law exactness is read from $I$. The row identifies the second completion pass with the displayed algebra surface by replaying the idempotent or multiplication route already available in the sibling completion chapters.
+
+Landing exactness is read from $L$. The metric-completion landing is downstream of $M,U,K,I$ and therefore receives only the displayed algebra route.
+
+Finally $H,C,P,N$ add no analytic, quotient, Lean, or bridge coordinate. They transport, replay, source, and name the same finite route, so no obligation can escape the displayed rows.
+\end{proof}
+
+\begin{theorem}[Eilenberg--Moore completion algebra law surface]
+\label{thm:eilenberg-moore-completion-algebra-law-surface}
+For every accepted $\EilenbergMooreCompletionAlgebraUp$ carrier
+$$
+A=(M,U,K,I,L,H,C,P,N),
+$$
+the algebra law surface is the displayed finite route
+$$
+M,U \longmapsto K,I \longmapsto L \longmapsto H,C,P,N .
+$$
+The unit law is read by projecting $U$ against the monad row $M$, and the multiplication or idempotence law is read by projecting $I$ against the same $M,U,K$ route. Thus the law surface is a NameCert comparison of displayed completion rows, not a quotient-completion equality, selected limit, host equality, ambient completeness theorem, Lean credential, or bridge credential.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The monad row $M$ supplies the finite completion route, and $U$ supplies the finite unit admission into that route.
+
+The unit law is therefore a comparison of displayed $M$ and $U$ rows. It asks only whether the unit admission replays the source data carried by the monad surface.
+
+Next inspect $K$ and $I$. The Kleisli or extension row exposes the consumer request over the displayed monad data, and the idempotent or multiplication row records that applying completion again is consumed by the same algebra surface.
+
+The landing row $L$ is downstream of these law rows. A consumer can see a metric-completion landing only after the unit and multiplication or idempotence reads have already been displayed.
+
+The structural rows $H,C,P,N$ preserve this route componentwise. Since the packet contains no quotient, selection, host-equality, ambient-completeness, Lean, or bridge row, the algebra laws are exactly the displayed NameCert comparisons of $M,U,K,I,L,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Eilenberg--Moore completion algebra Kleisli consumption]
+\label{thm:eilenberg-moore-completion-algebra-kleisli-consumption}
+Every L10 Completion consumer that reads an accepted $\EilenbergMooreCompletionAlgebraUp$ carrier through a Kleisli or extension request factors through the displayed rows $M,U,K,I,L,H,C,P,N$. In particular, the consumer first reads the completion monad and unit rows, then the Kleisli request, then the idempotent or multiplication row, and only then the metric-completion landing and structural rows.
+\end{theorem}
+\begin{proof}
+Start with an L10 Completion consumer using a Kleisli or extension request. Projection of the accepted carrier supplies $M$ and $U$ before $K$ is available.
+
+The Kleisli row $K$ consumes that displayed completion data. Its source is the finite monad-and-unit route, so the consumer cannot bypass $M$ or $U$ to reach a separate completion object.
+
+The law row $I$ is then read against the same route. It records that the second completion pass is absorbed by the displayed algebra surface rather than exported as a quotient or selected representative.
+
+Only after $M,U,K,I$ have been displayed does the landing row $L$ become visible. The final rows $H,C,P,N$ transport, replay, source, and name the same route, so the consumer factors through exactly the listed packet coordinates.
+\end{proof}
+
+\begin{theorem}[Eilenberg--Moore completion algebra ledger non-escape]
+\label{thm:eilenberg-moore-completion-algebra-ledger-nonescape}
+For every accepted $\EilenbergMooreCompletionAlgebraUp$ carrier
+$$
+A=(M,U,K,I,L,H,C,P,N),
+$$
+the ledger visible to a downstream $\RealUp$ or CompleteMetric consumer is exhausted by the displayed route of \autoref{thm:eilenberg-moore-completion-algebra-law-surface}. No read of the packet can export a quotient completion, selected limit, countable-choice selector, host equality of completion names, ambient $\RealUp$ completeness theorem, Lean verification credential, or bridge-checked surface.
+\end{theorem}
+\begin{proof}
+Begin with a downstream Real or CompleteMetric read. The law-surface theorem forces the read through $M,U,K,I$ before it can inspect the metric-completion landing.
+
+The landing row $L$ is the only analytic landing coordinate in the carrier. It is attached to the displayed monad, unit, Kleisli, and law rows, and it does not carry an additional quotient or selected-limit field.
+
+Now inspect the structural rows. Componentwise transport $H$ and continuation replay $C$ preserve the same finite route, while $P$ and $N$ source and name only the listed completion-algebra rows.
+
+Because the carrier predicate has no coordinate for quotient completion, selected limits, countable choice, host equality, ambient completeness, Lean verification, or bridge checking, no downstream consumer can export any of those objects from the packet ledger.
+\end{proof}
+
+\closureat{EilenbergMooreCompletionAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\EilenbergMooreCompletionAlgebraUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eilenberg-moore-completion-algebra-carrier}, \autoref{thm:eilenberg-moore-completion-algebra-namecert-obligations}, \autoref{thm:eilenberg-moore-completion-algebra-law-surface}, \autoref{thm:eilenberg-moore-completion-algebra-kleisli-consumption}, and \autoref{thm:eilenberg-moore-completion-algebra-ledger-nonescape} seed the finite Eilenberg--Moore algebra surface for L10 completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, countable choice, host equality of completion names, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, unit exposure, Kleisli consumption, law exactness, metric-completion landing exactness, structural replay, and ledger non-escape for BEDC.Derived.EilenbergMooreCompletionAlgebraUp.}
+  \constructivestory{An $\EilenbergMooreCompletionAlgebraUp$ packet is generated from a Cauchy completion monad row, unit row, Kleisli or extension row, idempotent or multiplication law row, metric-completion landing row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
