@@ -179,4 +179,32 @@ theorem DyadicGeometricTailTasteGate_single_carrier_alignment :
         DyadicGeometricTailTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
+namespace TasteGate
+
+theorem DyadicGeometricTailTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate DyadicGeometricTailUp) ∧
+      Nonempty (FieldFaithful DyadicGeometricTailUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial DyadicGeometricTailUp) ∧
+          (∀ h : BHist,
+            dyadicGeometricTailDecodeBHist (dyadicGeometricTailEncodeBHist h) = h) ∧
+            (∀ x : DyadicGeometricTailUp,
+              dyadicGeometricTailFromEventFlow (dyadicGeometricTailToEventFlow x) =
+                some x) ∧
+              (∀ x y : DyadicGeometricTailUp,
+                dyadicGeometricTailToEventFlow x = dyadicGeometricTailToEventFlow y →
+                  x = y) ∧
+                dyadicGeometricTailEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨⟨dyadicGeometricTailChapterTasteGate⟩,
+      ⟨dyadicGeometricTailFieldFaithful⟩,
+      ⟨dyadicGeometricTailNontrivial⟩,
+      DyadicGeometricTailTasteGate_single_carrier_alignment_decode_encode,
+      DyadicGeometricTailTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        DyadicGeometricTailTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
+
+end TasteGate
+
 end BEDC.Derived.DyadicGeometricTailUp
