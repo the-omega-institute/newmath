@@ -794,6 +794,7 @@ import BEDC.Derived.CantorBendixsonUp.TasteGate
 import BEDC.Derived.CantorCompletenessUp.TasteGate
 import BEDC.Derived.CantorDiagonalRealUncountabilityUp.TasteGate
 import BEDC.Derived.CantorFanBarrierUp.TasteGate
+import BEDC.Derived.CantorFunctionUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp
 import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorSetUp.TasteGate
