@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\GroebnerBasisUp$}
+\label{ch:concrete-instances-groebner-basis-namecert}
+\origin{human}
+
+Following Buchberger's finite basis construction, the $\GroebnerBasisUp$ packet names the reduction certificate that turns a finite polynomial generator list into a displayed leading-term and S-polynomial completion surface. It consumes the normalized coefficient-list and operation rows of \autoref{ch:concrete-instances-polynomial-namecert} together with the membership and absorption rows of \autoref{ch:concrete-instances-ideal-namecert}. The chapter records a finite reduction trace, not a host polynomial-ring quotient, algebraic closure, selected term order outside the ledger, or global ideal-membership decision procedure.
+
+\begin{definition}[Groebner basis carrier]
+\label{def:groebner-basis-carrier}
+A $\GroebnerBasisUp$ carrier is a finite $\BHist$ packet
+$$
+G=(P,I,O,L,S,R,F,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the polynomial source row. It records the ambient $\PolynomialUp$ coefficient ledger, the finite variable list, the displayed addition and multiplication rows, and the normal-form syntax used by every polynomial in the packet.
+\item $I$ is the ideal-generator row. It lists the carried generator polynomials and the $\IdealUp$ predicate row that certifies their ambient ideal membership and closure under displayed polynomial multiplication.
+\item $O$ is the monomial-order row. It is a finite comparison ledger for the monomials inspected by this packet, including well-founded descent evidence for the listed reduction steps and no coordinate for an external global ordering oracle.
+\item $L$ is the leading-term ledger. For each displayed polynomial it records the leading monomial, leading coefficient, leading term, and divisibility comparison against the inspected reducers.
+\item $S$ is the S-polynomial row. It records each critical pair, common multiple row, multiplier row, subtraction row, and the source polynomials used to form the displayed S-polynomial.
+\item $R$ is the finite reduction trace. It lists the ordered reducer choices, multiplier rows, subtraction steps, strictly descending leading monomial witnesses, and terminal remainder for every inspected S-polynomial.
+\item $F$ is the normal-form row. It records exactly which inspected reductions terminate at zero and which terminal remainders remain visible as refusal rows for stronger ideal-membership claims.
+\item $H$ records componentwise $\hsame$ transport for polynomial sources, ideal generators, monomial-order comparisons, leading-term rows, S-polynomial rows, reduction traces, normal-form rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a requested reduction certificate through polynomial inspection, ideal-generator lookup, leading-term comparison, S-polynomial construction, finite reduction, and normal-form readback.
+\item $K$ is the $\Pkg$ provenance over $\GroebnerBasisUp$, $\PolynomialUp$, $\IdealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GroebnerBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven rows. It has no coordinate for a host quotient ring, a hidden global monomial-order oracle, algebraic closure, a completed ideal-membership algorithm, selected normal forms outside $F$, or Lean-side verification.
+\end{definition}
+
+\begin{theorem}[Groebner basis NameCert obligations]
+\label{thm:groebner-basis-namecert-obligations}
+For every accepted $\GroebnerBasisUp$ carrier $G=(P,I,O,L,S,R,F,H,C,K,N)$, the local $\NameCert_{\GroebnerBasisUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the polynomial source, ideal-generator list, monomial-order ledger, leading-term ledger, S-polynomial row, finite reduction trace, normal-form row, transport, replay, provenance, and local naming;
+\item polynomial-source compatibility, requiring every polynomial used by $I,L,S,R,F$ to be read through the same $\PolynomialUp$ coefficient and operation rows;
+\item ideal-source compatibility, requiring every generator in $I$ and every reducer used by $R$ to be carried by the displayed $\IdealUp$ predicate surface;
+\item monomial-order and leading-term exposure, requiring $O$ and $L$ to display every comparison and leading-term read used by the reduction trace;
+\item S-polynomial exactness, requiring $S$ to display the two source polynomials, common multiple, multiplier rows, and subtraction row for each critical pair;
+\item reduction-trace exactness, requiring $R$ to display each reducer choice, multiplier, subtraction, and strictly descending leading-monomial witness until the terminal row in $F$ is reached;
+\item transport, continuation, provenance, and naming, requiring $H,C,K,N$ to replay only the displayed rows of the same packet.
+\end{enumerate}
+No Groebner-basis obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:groebner-basis-carrier}. The rows $P$ and $I$ give the only polynomial and ideal sources. Every later row must project back to those two sources before it can be read as part of the packet.
+
+The monomial-order and leading-term obligations are finite because $O$ and $L$ list the comparisons actually used in the displayed reductions. The certificate never asks for an unbounded ordering oracle; it asks only for the inspected comparison rows and their descent witnesses.
+
+For each critical pair, the row $S$ displays the common multiple, the two multipliers, and the subtraction that forms the S-polynomial. The reduction row $R$ then records the finite sequence of reducer choices and subtraction steps, and each step carries its strictly descending leading-monomial witness from $O$ and $L$.
+
+The terminal row $F$ records whether the inspected S-polynomial reduces to zero or leaves a visible remainder. Zero terminal rows support the displayed basis obligation. Nonzero terminal rows remain refusal data, so the certificate does not promote the packet to a complete ideal-membership decision procedure.
+
+Finally, componentwise transport in $H$, continuation replay in $C$, package provenance in $K$, and local naming in $N$ preserve exactly the rows already listed. Since the carrier has no coordinate for host quotient rings, hidden ordering oracles, algebraic closure, or selected normal forms outside $F$, no additional NameCert obligation can be read from the packet.
+\end{proof}
+
+\begin{theorem}[Groebner basis reduction certificate]
+\label{thm:groebner-basis-reduction-certificate}
+Let $G=(P,I,O,L,S,R,F,H,C,K,N)$ be an accepted $\GroebnerBasisUp$ carrier. For every S-polynomial row displayed in $S$, the reduction certificate exported to downstream polynomial-normal-form and ideal-membership consumers factors through the finite route
+$$
+P,I,O,L,S \longmapsto R \longmapsto F,H,C,K,N .
+$$
+If the corresponding terminal row in $F$ is zero, the inspected critical-pair reduction is certified by displayed polynomial operations and ideal-generator membership rows. If the terminal row is nonzero, the same row is retained as refusal data for any claim that would require a completed Groebner basis beyond the displayed packet.
+\end{theorem}
+\begin{proof}
+Fix an inspected S-polynomial row in $S$. Its source polynomials, common multiple, multipliers, and subtraction row are already displayed over the polynomial source $P$ and the ideal-generator source $I$.
+
+Read the ordered reduction trace in $R$. Each step chooses a displayed reducer, checks divisibility against the current leading term using $O$ and $L$, forms the multiplier row through $P$, subtracts the corresponding multiple, and records the descent witness needed for the next step.
+
+Because $R$ is finite, the route reaches the terminal row recorded in $F$. If that row is zero, the certificate exports exactly the displayed zero-reduction trace and the ideal-generator membership needed by downstream consumers. If it is not zero, the terminal polynomial remains visible as a refusal row, so a consumer cannot silently read a stronger ideal-membership or normal-form claim.
+
+The structural rows $H,C,K,N$ then transport, replay, source, and name the same reduction route. They add no hidden basis completion, quotient-ring equality, external term ordering, algebraic closure, or selected normal form outside the displayed trace.
+\end{proof}
+
+\falsifiablePrediction{Every $\GroebnerBasisUp$ read factors through one $\PolynomialUp$ source row, one $\IdealUp$ generator row, one finite monomial-order comparison ledger, one leading-term ledger, one S-polynomial table, one finite reduction trace, one normal-form or refusal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+
+\independenceWitness{polynomial, ideal: $\GroebnerBasisUp$ is not bijective to either listed sibling because it jointly carries critical-pair formation, leading-term comparison, finite reduction traces, and terminal normal-form or refusal rows over the shared polynomial-and-ideal source.}
+
+\closureat{GroebnerBasisUp}{seedStr}
+
+\begin{closurestatus}{\GroebnerBasisUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groebner-basis-carrier}, \autoref{thm:groebner-basis-namecert-obligations}, and \autoref{thm:groebner-basis-reduction-certificate} seed the finite Groebner reduction packet over displayed $\PolynomialUp$ and $\IdealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a global ideal-membership decision procedure, a quotient-ring normal-form theorem, algebraic closure, a host monomial-order oracle, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, polynomial and ideal source compatibility, leading-term exposure, S-polynomial exactness, reduction-trace exactness, terminal-row discipline, and transport-replay coverage for BEDC.Derived.GroebnerBasisUp.}
+  \constructivestory{A $\GroebnerBasisUp$ packet is generated from a polynomial source row, an ideal-generator list, a monomial-order comparison ledger, a leading-term ledger, S-polynomial rows, finite reduction traces, terminal normal-form or refusal rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
