@@ -1152,6 +1152,7 @@ import BEDC.Derived.CauchyNullDifferenceUp.TasteGate
 import BEDC.Derived.CauchyNullEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
+import BEDC.Derived.CauchyPrecompletionUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyProductUp.TasteGate
@@ -3467,6 +3468,7 @@ import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocatedApartnessUp.TasteGate
+import BEDC.Derived.LocatedArchimedeanUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.LocatedCauchyUp
@@ -5380,6 +5382,7 @@ import BEDC.Derived.UnaryContinuationEndofunctorUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.UnaryDirectionNormalizerUp.TasteGate
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp
+import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformCauchyCriterionUp.BudgetedRealSealFactorization
