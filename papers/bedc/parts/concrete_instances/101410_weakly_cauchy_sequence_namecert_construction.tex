@@ -72,6 +72,28 @@ The dyadic scale is read through $D$, and the actual weak-tail comparison is one
 The structural rows $H,C,P,N$ transport, replay, source, and name that same route. No row produces a global threshold function, quotient equality, selected limit, choice selector, trichotomy decision, or ambient completeness theorem, so every accepted read remains a finite-window boundary read.
 \end{proof}
 
+\begin{theorem}[Weakly Cauchy regular-modulus refusal]
+\label{thm:weakly-cauchy-sequence-regular-modulus-refusal}
+Let
+$$
+W=(S,R,D,T,E,H,C,P,N)
+$$
+be an accepted $\WeaklyCauchySequenceUp$ carrier. Any route that exports a $\RegSeqRatUp$ regular modulus or a $\RealUp$ limit from $W$ must factor through an additional modulus row not contained in $S,R,D,T,E,H,C,P,N$. The displayed weak-tail ledger $T$ alone supplies only inspected pairwise tail comparisons at displayed dyadic tolerances.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:weakly-cauchy-sequence-carrier}. Its displayed inventory contains StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, the finite weak-tail ledger, the optional Real boundary row, transport, replay, provenance, and local naming; it contains no coordinate that chooses a threshold function for every tolerance.
+
+Apply \autoref{thm:weakly-cauchy-sequence-namecert-obligations}. The weak-tail exposure obligation identifies $T$ as finite inspected tail evidence and explicitly prevents that ledger from being read as a global regular modulus.
+
+Apply \autoref{thm:weakly-cauchy-sequence-finite-window-boundary}. Every consumer-visible read passes through
+$$
+\StreamNameUp(S)\longrightarrow \RegSeqRatUp(R)\longrightarrow \DyadicRatCoreUp(D)\longrightarrow T ,
+$$
+before the structural rows replay or name the route, so a regular-modulus export needs data beyond the displayed finite route.
+
+Finally apply \autoref{thm:weakly-cauchy-sequence-specker-boundary}. The Specker-facing boundary excludes selected limits, located suprema, countable choice, trichotomy, and ambient $\RealUp$ completeness, so no $\RealUp$ limit can be obtained from $W$ unless an additional modulus row is supplied outside the accepted carrier.
+\end{proof}
+
 \begin{theorem}[Weakly Cauchy sequence Specker boundary]
 \label{thm:weakly-cauchy-sequence-specker-boundary}
 For an accepted $\WeaklyCauchySequenceUp$ carrier $W=(S,R,D,T,E,H,C,P,N)$, every Specker-style or Real-facing consumer route is exhausted by the displayed rows
@@ -99,9 +121,9 @@ The Specker obstruction remains visible because the packet stops at finite weak-
 \begin{closurestatus}{\WeaklyCauchySequenceUp}
   \constructivestory{A $\WeaklyCauchySequenceUp$ packet is generated from inspected StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, finite weak-Cauchy tail comparisons, an optional RealUp boundary row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:weakly-cauchy-sequence-carrier}, \autoref{thm:weakly-cauchy-sequence-namecert-obligations}, \autoref{thm:weakly-cauchy-sequence-finite-window-boundary}, and \autoref{thm:weakly-cauchy-sequence-specker-boundary} seed the finite weak-Cauchy boundary over inspected StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, finite tail comparisons, RealUp boundary exposure, transport, replay, provenance, and local naming.}
+  \scopeclosed{\autoref{def:weakly-cauchy-sequence-carrier}, \autoref{thm:weakly-cauchy-sequence-namecert-obligations}, \autoref{thm:weakly-cauchy-sequence-finite-window-boundary}, \autoref{thm:weakly-cauchy-sequence-regular-modulus-refusal}, and \autoref{thm:weakly-cauchy-sequence-specker-boundary} seed the finite weak-Cauchy boundary over inspected StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, finite tail comparisons, RealUp boundary exposure, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close regular moduli, selected limits, located suprema, quotient stream equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, window exactness, readback exactness, tolerance exactness, weak-tail exposure, finite-window boundary, and Specker boundary proofs for BEDC.Derived.WeaklyCauchySequenceUp.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exactness, readback exactness, tolerance exactness, weak-tail exposure, finite-window boundary, regular-modulus refusal, and Specker boundary proofs for BEDC.Derived.WeaklyCauchySequenceUp.}
 \end{closurestatus}
