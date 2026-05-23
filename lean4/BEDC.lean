@@ -1181,6 +1181,7 @@ import BEDC.Derived.CauchyProductUp.BudgetSelectorDistributiveLock
 import BEDC.Derived.CauchyProductUp.L10DependencyLattice
 import BEDC.Derived.CauchyProductUp.LimitSealSiblingDependency
 import BEDC.Derived.CauchyProductUp.PairedWindowLedgerClassifier
+import BEDC.Derived.CauchyProductUp.RealBudgetSealBoundary
 import BEDC.Derived.CauchyProductUp.RealSealSelector
 import BEDC.Derived.CauchyProductUp.RealSealUpstreamDependency
 import BEDC.Derived.CauchyProductUp.RightFactorClassifierCongruence
@@ -1213,6 +1214,8 @@ import BEDC.Derived.CauchyRateLatticeUp.TasteGate
 import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
+import BEDC.Derived.CauchyRealApartnessUp
+import BEDC.Derived.CauchyRealApartnessUp.TasteGate
 import BEDC.Derived.CauchyRealCompletionInterfaceUp.TasteGate
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
