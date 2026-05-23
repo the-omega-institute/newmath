@@ -4,6 +4,8 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.RegularCauchyDifferenceUp
+import BEDC.Derived.RegularCauchySumUp
 
 namespace BEDC.Derived.RegularCauchyProductUp
 
@@ -220,6 +222,46 @@ theorem RegularCauchyProductCarrier_source_window_transport [AskSetup] [PackageS
     ⟨transportSame, sourceAUnary', sourceBUnary', windowAUnary', windowBUnary',
       windowTransportRow, transportedWindow⟩
 
+theorem RegularCauchyProductCarrier_window_comparison [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport
+      route provenance name sumEndpoint sumBudget sumReadback sumTransports sumRoutes
+      sumProvenance sumLocalCert diffSchedule diffTolerance diffNullConsumer diffTransport
+      diffRoute diffProvenance diffLocalCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB
+        product budget readback transport route provenance name bundle pkg ->
+      BEDC.Derived.RegularCauchySumUp.RegularCauchySumCarrier sourceA sourceB windowA
+        windowB endpointA endpointB sumEndpoint sumBudget sumReadback sumTransports
+        sumRoutes sumProvenance sumLocalCert bundle pkg ->
+        BEDC.Derived.RegularCauchyDifferenceUp.RegularCauchyDifferenceCarrier sourceA
+          sourceB diffSchedule diffTolerance diffNullConsumer diffTransport diffRoute
+          diffProvenance diffLocalCert bundle pkg ->
+          UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+            UnaryHistory windowB ∧ Cont windowA windowB transport ∧
+              Cont endpointA endpointB product ∧ Cont endpointA endpointB sumEndpoint ∧
+                Cont sourceA sourceB diffSchedule ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle sumProvenance pkg ∧ PkgSig bundle diffProvenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro productCarrier sumCarrier diffCarrier
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, _endpointAUnary,
+    _endpointBUnary, _budgetUnary, _routeUnary, _provenanceUnary, windowTransportRow,
+    endpointProductRow, _productBudgetRow, _provenanceTransportName, namePkg⟩ :=
+    productCarrier
+  obtain ⟨_sumSourceAUnary, _sumSourceBUnary, _sumWindowAUnary, _sumWindowBUnary,
+    _sumEndpointAUnary, _sumEndpointBUnary, _sumBudgetUnary, _sumTransportsUnary,
+    _sumRoutesUnary, _sumProvenanceUnary, _sumLocalCertUnary, _sumLeftRoute,
+    _sumRightRoute, sumEndpointRow, _sumReadbackRow, _sumProvenanceRow,
+    sumProvenancePkg⟩ := sumCarrier
+  obtain ⟨_diffSourceAUnary, _diffSourceBUnary, _diffScheduleUnary,
+    _diffToleranceUnary, _diffNullConsumerUnary, _diffTransportUnary, _diffRouteUnary,
+    _diffProvenanceUnary, _diffLocalCertUnary, diffScheduleRow, _diffNullConsumerRow,
+    _diffRouteRow, _diffProvenanceRow, diffProvenancePkg, _diffNameCert⟩ :=
+    diffCarrier
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, windowTransportRow,
+      endpointProductRow, sumEndpointRow, diffScheduleRow, namePkg, sumProvenancePkg,
+      diffProvenancePkg⟩
+
 theorem RegularCauchyProductCarrier_classifier_stability [AskSetup] [PackageSetup]
     {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
       provenance name sourceA' sourceB' endpointA' endpointB' product' budget' readback'
@@ -372,6 +414,36 @@ theorem RegularCauchyProductCarrier_real_seal_product_budget [AskSetup] [Package
   exact
     ⟨budgetReadUnary, realSealUnary, readbackBudgetRead, budgetRouteSeal, namePkg,
       realSealPkg⟩
+
+theorem RegularCauchyProductCarrier_coordinate_regularity [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name coordinateRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product budget
+        readback transport route provenance name bundle pkg ->
+      Cont readback product coordinateRead ->
+        PkgSig bundle coordinateRead pkg ->
+          UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory endpointA ∧
+            UnaryHistory endpointB ∧ UnaryHistory product ∧ UnaryHistory budget ∧
+              UnaryHistory readback ∧ UnaryHistory coordinateRead ∧
+                Cont endpointA endpointB product ∧ Cont product budget readback ∧
+                  Cont readback product coordinateRead ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle coordinateRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier coordinateRoute coordinatePkg
+  obtain ⟨sourceAUnary, sourceBUnary, _windowAUnary, _windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, _routeUnary, _provenanceUnary, _windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed productUnary budgetUnary productBudgetRow
+  have coordinateUnary : UnaryHistory coordinateRead :=
+    unary_cont_closed readbackUnary productUnary coordinateRoute
+  exact
+    ⟨sourceAUnary, sourceBUnary, endpointAUnary, endpointBUnary, productUnary,
+      budgetUnary, readbackUnary, coordinateUnary, endpointProductRow, productBudgetRow,
+      coordinateRoute, namePkg, coordinatePkg⟩
 
 theorem RegularCauchyProductCarrier_public_export_certificate [AskSetup] [PackageSetup]
     {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
