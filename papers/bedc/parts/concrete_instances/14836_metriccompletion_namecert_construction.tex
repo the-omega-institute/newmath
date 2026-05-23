@@ -172,6 +172,18 @@ Separated comparison is performed at $S$. The separated-limit uniqueness theorem
 Since no carrier coordinate stores quotient equality or a selected representative, the filter-net comparison is exhausted by the listed rows.
 \end{proof}
 
+\begin{theorem}[MetricCompletion filter-net branch exhaustion]
+\label{thm:metric-completion-filter-net-branch-exhaustion}
+For an accepted $\MetricCompletionUp$ carrier $M=(X,F,D,R,S,H,C,P,N)$, every completion-facing consumer reads exactly one of the displayed Cauchy evidence branches before readback: either the $\CauchyFilterUp$ branch $F$ or the $\CauchyNetUp$ branch $D$. The remaining rows $R,S,H,C,P,N$ can transport, replay, compare, package, and name the selected route, but they cannot introduce a third completion evidence route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-completion-carrier}. The only Cauchy evidence rows in the accepted tuple are $F$ and $D$, and the classifier of \autoref{def:metric-completion-classifier} reads one of them before the finite readback row $R$ is available.
+
+Use the NameCert obligations together with branch determinacy and compatibility, \autoref{thm:metric-completion-namecert-obligations}, \autoref{thm:metric-completion-filter-net-branch-determinacy}, and \autoref{thm:metric-completion-filter-net-compatibility}. These keep the selected branch attached to the same source metric, readback row, separatedness comparison, transport, replay, provenance, and local naming route.
+
+It remains to exclude a hidden third route. The finite-readback ledger non-escape theorem, \autoref{thm:metric-completion-finite-readback-ledger-nonescape}, rules out quotient completions, selected representatives, ambient complete spaces, countable choice, and $\RealUp$ completeness. Since $R,S,H,C,P,N$ are structural or readback rows downstream of the chosen branch, they cannot supply independent Cauchy evidence.
+\end{proof}
+
 \begin{theorem}[MetricCompletion UniformCompletion handoff]
 \label{thm:metric-completion-uniform-completion-handoff}
 Every $\UniformCompletionUp$ consumer of an accepted $\MetricCompletionUp$ packet reads the packet only through the displayed $\CauchyFilterUp$ or $\CauchyNetUp$ evidence, the finite $\RegSeqRatUp$ or $\RealUp$ readback row, the $\SeparatedMetricUp$ uniqueness row, componentwise transport, replay, provenance, and local naming. The handoff provides no quotient row, no selected representative row, no host equality row, and no $\RealUp$ completeness row.
