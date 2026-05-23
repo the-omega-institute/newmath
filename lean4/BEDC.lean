@@ -2609,6 +2609,7 @@ import BEDC.Derived.DyadicShrinkScheduleUp
 import BEDC.Derived.DyadicSplineUp
 import BEDC.Derived.DyadicSplineUp.TasteGate
 import BEDC.Derived.DyadicStepFunctionUp
+import BEDC.Derived.DyadicStepFunctionUp.RefinementLedgerScope
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicSubdivisionUp.TasteGate
 import BEDC.Derived.DyadicSupremumUp.TasteGate
@@ -4625,6 +4626,7 @@ import BEDC.Derived.RealUp.PrefixTailExtension
 import BEDC.Derived.RealUp.PrefixTruncation
 import BEDC.Derived.RealUp.Readback
 import BEDC.Derived.RealUp.RegseqratFiniteRequestFusion
+import BEDC.Derived.RealUp.RegseqratFiniteWindowSealExactness
 import BEDC.Derived.RealUp.RegseqratStreamCertificateSpine
 import BEDC.Derived.RealUp.ReindexedStreamName
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
@@ -5696,6 +5698,7 @@ import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
+import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionSeparationKernelUp
 import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
