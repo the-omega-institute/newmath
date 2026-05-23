@@ -159,4 +159,76 @@ theorem FiniteLebesgueNumberCompactUniformBridgeSoundness [AskSetup] [PackageSet
     }
   exact ⟨cert, compactUnary, compactNetUnary, uniformUnary⟩
 
+theorem FiniteLebesgueNumberBridgeNonescape [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow dyadicRead radiusRead meshRead
+      bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont cover window dyadicRead →
+        Cont dyadicRead radius radiusRead →
+          Cont radius mesh meshRead →
+            Cont mesh route bridgeRead →
+              PkgSig bundle bridgeRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row cover ∨ hsame row window ∨ hsame row radius ∨
+                        hsame row mesh ∨ hsame row route ∨ hsame row bridgeRead)
+                    (fun row : BHist =>
+                      hsame row bridgeRead ∧ PkgSig bundle bridgeRead pkg)
+                    hsame ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle bridgeRead pkg ∧
+                    hsame bridgeRead bridgeRead := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg SemanticNameCert hsame
+  intro carrier coverWindowDyadic dyadicRadiusRead radiusMeshRead meshRouteBridge bridgePkg
+  obtain ⟨coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed coverUnary windowUnary coverWindowDyadic
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed dyadicUnary radiusUnary dyadicRadiusRead
+  have _meshReadUnary : UnaryHistory meshRead :=
+    unary_cont_closed radiusUnary meshUnary radiusMeshRead
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed meshUnary routeUnary meshRouteBridge
+  have sourceBridge :
+      (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row) bridgeRead := by
+    exact ⟨hsame_refl bridgeRead, bridgeUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row cover ∨ hsame row window ∨ hsame row radius ∨ hsame row mesh ∨
+              hsame row route ∨ hsame row bridgeRead)
+          (fun row : BHist => hsame row bridgeRead ∧ PkgSig bundle bridgeRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro bridgeRead sourceBridge
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, bridgePkg⟩
+    }
+  exact ⟨cert, provenancePkg, bridgePkg, hsame_refl bridgeRead⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
