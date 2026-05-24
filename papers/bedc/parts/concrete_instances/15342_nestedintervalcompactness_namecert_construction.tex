@@ -172,6 +172,20 @@ The Real seal boundary theorem, \autoref{thm:nested-interval-compactness-real-se
 \end{proof}
 \leanchecked{BEDC.Derived.NestedIntervalCompactnessUp.NestedIntervalCompactnessCarrier\_stream\_real\_route}
 
+\begin{theorem}[NestedIntervalCompactness finite-window exhaustion]
+\label{thm:nested-interval-finite-window-exhaustion}
+Every accepted $\NestedIntervalCompactnessUp$ consumer of a $\RealUp$-facing nested interval read factors through the finite-prefix monotonicity row, located endpoint scope, dyadic mesh exhaustion, prefix readback coverage, and stream-to-real route before any terminal $\RealUp$ seal is visible. The visible route is therefore exhausted by the finite packet rows $I,L,D,W,R,E,H,C,P,N$, with no exported selected endpoint, quotient real equality, countable choice, arbitrary open-cover compactness, or full countable-intersection principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer read that reaches the terminal $\RealUp$ seal. By \autoref{thm:nested-interval-compactness-stream-real-route}, the read reaches $E$ only after the $\StreamNameUp$ window $W$ has passed through the $\RegSeqRatUp$ readback $R$, and that route remains downstream of the displayed interval rows $I,L,D$.
+
+The finite-prefix monotonicity theorem, \autoref{thm:nested-interval-compactness-prefix-monotonicity}, keeps the nesting cells in $I$ and the inclusion cells in $D$ fixed under prefix extension. The located endpoint scope theorem, \autoref{thm:nested-interval-compactness-located-endpoint-scope}, binds $L$ to the same displayed prefix before any stream, readback, or real-seal row is consumed.
+
+Use \autoref{thm:nested-interval-compactness-dyadic-mesh-exhaustion} to exhaust the mesh row $D$ over $I,L$, and then apply \autoref{thm:nested-interval-compactness-prefix-readback-coverage}. These two rows force every Real-facing finite prefix request to display $I,L,D,W,R$ before $E$ is visible.
+
+Thus the consumer sees exactly the finite-window route carried by $K=(I,L,D,W,R,E,H,C,P,N)$. The excluded endpoint-selection, quotient-equality, choice, arbitrary open-cover, and full countable-intersection coordinates have no carrier row from which they could be exported.
+\end{proof}
+
 \closureat{NestedIntervalCompactnessUp}{seedStr}
 
 \begin{closurestatus}{\NestedIntervalCompactnessUp}
