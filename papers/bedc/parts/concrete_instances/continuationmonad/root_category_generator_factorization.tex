@@ -126,3 +126,19 @@ coordinate for host function composition, quotient Kleisli arrows, ambient hom
 sets, independent category carriers, or unlisted continuation generators, so
 the displayed route is the public root export.
 \end{proof}
+
+\begin{lemma}[ContinuationMonad root category-generator bridge determinacy]
+\label{lem:continuation-monad-root-category-generator-bridge-determinacy}
+Let $Z=(A,B,C,f,g,u,H,K,L,N)$ be an accepted $\ContinuationMonadUp$ packet. Every consumer-facing use of the root category-generator bridge, whether it is presented as a displayed route, componentwise transport, public readback, or downstream handoff, is determined by the same finite rows
+$$
+A,B,C,f,g,u,H,K,L,N.
+$$
+The category side may read only the $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ rows exposed by the displayed continuation tails and route ledger; the generator side may read only the $\GeneratorClosureUp$ refusal surface attached to those rows; and the downstream side may read only the $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ coordinates already carried by the packet. No bridge coordinate remains for host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, external evaluators, detached handoff witnesses, or unlisted continuation generators.
+\end{lemma}
+\begin{proof}
+Apply \autoref{thm:continuation-monad-root-category-generator-factorization}. It places every root category-generator read on one finite surface: the $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ rows are read from $f,g,u,K,L,H,N$, and the $\GeneratorClosureUp$ refusal surface accepts no generator outside the same packet. Hence any consumer route that touches the category face or the generator face has already factored through $A,B,C,f,g,u,H,K,L,N$.
+
+Now apply \autoref{thm:continuation-monad-root-downstream-surface-exactness}. The downstream root surface is exactly the package assembled from the category row, generator refusal row, carrier rows, classifier stability, ledger exactness, package provenance, and local $\NameCert$ row over the same displayed packet. Thus a transport use is the componentwise $\hsame$ row already present in $H$, a route or replay use is one of the displayed $\Cont$ rows carried by $f,g,u$ and $K$, a readback use is one of the listed carrier, classifier, ledger, category, or generator-refusal rows, and a handoff use is the $\Pkg$ provenance together with the local naming row $N$.
+
+These two exactness statements have the same source rows and the same refusal boundary. Therefore a consumer cannot vary the bridge by changing only an unlisted coordinate: any such variation would have to be a host composition row, quotient Kleisli arrow, ambient hom set, independent category carrier, external evaluator, detached handoff witness, or unlisted generator, and \autoref{thm:continuation-monad-root-downstream-surface-exactness} states that none of those coordinates is exported. The bridge is therefore determined by the displayed finite packet.
+\end{proof}

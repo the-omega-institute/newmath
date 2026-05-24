@@ -7,8 +7,13 @@ Upstream sources have proposed new BOARD target candidates:
   research directions noticed while proving)
 - paper_review (editorial/referee discovery over the current paper surface)
 
-Your job: combine both lists, dedup against existing BOARD, judge each on
-fit_score and novelty, and decide which deserve their own BOARD entry.
+Your job: combine both lists, dedup against existing BOARD, and classify each
+candidate for executable BOARD intake.  Candidate discovery and candidate_inbox
+are the wide-in layers.  BOARD is the execution queue, so this gate is already
+strict-out: accepted entries must be ready for Codex to attempt a concrete
+paper theorem/lemma, not merely promising ideas.  Final paper text is still
+rejected later unless codex/oracle writeback, hygiene, logic-packet checks,
+and `make check` all pass.
 
 Existing BOARD.md (existing target ids and Object names):
 {board_content}
@@ -56,6 +61,19 @@ For each candidate, run the following audit:
    inversion, coverage, determinacy, uniqueness, bridge, or obstruction
    targets.
 
+   Also drop candidates whose whole content is only:
+   - "forgetful projection boundary" over displayed rows;
+   - "classifier alignment boundary" saying transported rows are exactly the
+     displayed rows;
+   - "substrate bisimulation boundary" that only says no hidden host equality;
+   - "mirror boundary" that only asks for the same packet under row renaming;
+   - claims justified only by "re-read local rows", "consumes only displayed
+     rows", "no copied source excerpt", or generic NameCert/resource traces.
+   These may remain in candidate_inbox for refinement, but they are not
+   BOARD-ready unless they name a concrete inversion, obstruction,
+   determinacy, coverage, uniqueness, counterexample, normal form, failure
+   mode, or minimal witness.
+
 7. **Landing-file safety**. If `local_inputs` points only at a hub file
    mostly made of `\input{{...}}` lines, or at a file already near the
    800-line cap with no child-file landing path, drop as too risky.
@@ -71,8 +89,14 @@ For each candidate, run the following audit:
 10. **maker/checker dual judgment**. For each candidate:
    - codex's evaluation (already present in candidate's source — codex
      wouldn't have surfaced it without finding value)
-   - your independent claude evaluation (this gate)
-   Both fit_score and novelty must satisfy thresholds.
+   - your independent Codex evaluation at this gate
+   The second-pass evaluation must classify the candidate, not merely score
+   it.  Use `rejected_candidates` for duplicate, already_in_paper,
+   out_of_scope, marker-only/verification-axis, unsafe landing,
+   external-source-as-evidence, conjecture fallback, non-BEDC input, and
+   generic row-projection or NameCert-surface restatements.  Weak-but-local
+   ideas should stay outside BOARD unless they are already executable as a
+   concrete local theorem with named substance beyond displayed-row scope.
 
 11. **Bridge continuation candidates**. If a candidate title, claim, or
     rationale contains `Automath continuation`, `Bridge continuation target`,
@@ -87,10 +111,20 @@ For each candidate, run the following audit:
     `rationale`; do not collapse it to a generic open problem. Drop
     `bridge_consumption_mode=evidence_only` candidates from BOARD intake.
 
-Acceptance thresholds:
-- fit_score ≥ 7
-- novelty ≥ 6
-- Did not duplicate BOARD or paper
+Acceptance guidance:
+- Hard requirements: did not duplicate BOARD or paper; has a BEDC-native
+  local landing; is not marker-only, verification-axis, or external proof
+  evidence; is expressible as a concrete implication/obligation; and carries
+  a positive mathematical burden beyond "the displayed rows remain displayed".
+- fit_score and novelty are advisory risk signals with a default intake floor
+  of fit_score at least 7 and novelty at least 6.  Preserve them honestly, but
+  do not use them to rescue a generic candidate.
+- If a candidate may need deep proof search, set or preserve
+  `oracle_mode=proof_search` as an escalation hint only.  This does not skip
+  Codex: every accepted BOARD target still goes through Codex deep reasoning
+  first, and oracle is invoked only after Codex reports a concrete missing
+  structure, failed proof step, or exhausted local route.  If it looks
+  deterministic/local, keep `oracle_mode=candidate_generation` or omit it.
 
 Return one JSON object on stdout:
 
@@ -117,11 +151,11 @@ Return one JSON object on stdout:
   ]
 }}
 
-Be selective. An accepted BOARD entry creates downstream work (codex round +
-possible oracle escalate + Stage write). False positives cost more than
-false negatives. When in doubt, reject with rationale; if it's truly
-important the same candidate will surface again from a future target's
-research.
+Be execution-strict. An accepted BOARD entry creates downstream work (codex
+round + possible oracle escalate + Stage write), so do not admit items that
+are likely to be rejected immediately by the substance or writeback gates.
+When in doubt between "weak but local" and "reject", reject or leave it for
+candidate_inbox refinement rather than adding a BOARD target.
 
 Empty `accepted_candidates` is acceptable. Do NOT invent candidates that
 neither codex nor oracle proposed. Do NOT propose anything outside BEDC

@@ -456,3 +456,71 @@ associativity then reconstruct the descended composite hom-carrier
 $\mathsf{CategoryHomCarrier}(a,s,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_e1\_morphism\_tail\_result\_descent}
+
+\begin{corollary}[Category empty one-headed endpoint consumer determinacy]
+\label{cor:category-empty-e1-endpoint-consumer-determinacy}
+For histories $a,r,x,b,c,f,g,k,l',m':\BHist$, suppose the nonempty composite
+surface fixes the displayed factor rows
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(x,b,f)\land
+\mathsf{CategoryHomCarrier}(b,c,g)\land
+\ContR(f,g,\Eone(k))\\
+&\quad\land (f\hsame\emp\to\mathsf{False})\land
+(g\hsame\emp\to\mathsf{False})\land f=\Eone(l')\land g=\Eone(m').
+\end{aligned}
+$$
+Then the empty morphism between the one-headed endpoints has the single
+chapter exactness decision
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),\emp)
+\Longleftrightarrow
+\UnaryHistory(a)\land\HSame(a,r),
+$$
+and the nonempty visible-composite readback has the forced finite factor route
+$$
+\exists u,v:\BHist.\;
+b=\Eone(u)\land c=\Eone(v)\land
+\mathsf{CategoryHomCarrier}(x,u,l')
+$$
+$$
+{}\land
+\mathsf{CategoryHomCarrier}(\Eone(u),v,m')\land
+\ContR(\Eone(l'),\Eone(m'),\Eone(k)).
+$$
+Consequently, once these rows are fixed, every accepted consumer-facing route,
+normal-form read, or exactness decision for the empty one-headed endpoint and
+its attached nonempty visible composite factors through the same listed rows:
+the empty row supplies only $\UnaryHistory(a)$ and $\HSame(a,r)$, while
+the nonempty row supplies only the displayed tails $l',m'$ and the recovered
+endpoints $u,v$. There is no alternate hidden coordinate and no duplicate
+classifier source for this packet.
+\end{corollary}
+\begin{proof}
+The empty endpoint part is exactly
+\autoref{thm:category-hom-carrier-e1-source-e1-target-empty-morphism-iff}.
+It reads the carrier
+$\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),\emp)$ as unary membership of
+the exposed source tail together with the endpoint classifier $\HSame(a,r)$,
+and it provides the converse reconstruction from precisely those two rows.
+Thus the empty morphism exposes no visible tail, middle endpoint, or second
+classifier coordinate.
+
+For the nonempty visible-composite part, apply
+\autoref{thm:category-comp-nonempty-e1-morphism-factor-tail-unique} to the
+fixed hom-carrier rows, the fixed continuation row, the two internal
+nonemptiness assumptions, and the displayed identities $f=\Eone(l')$ and
+$g=\Eone(m')$. The theorem returns histories $u$ and $v$ with
+$b=\Eone(u)$ and $c=\Eone(v)$, together with the descended carrier rows
+$\mathsf{CategoryHomCarrier}(x,u,l')$ and
+$\mathsf{CategoryHomCarrier}(\Eone(u),v,m')$, and the visible composite
+continuation $\ContR(\Eone(l'),\Eone(m'),\Eone(k))$.
+
+These are exactly the route and readback rows displayed in the conclusion. An
+accepted consumer use that keeps the hypotheses fixed cannot choose a different
+empty exactness decision without contradicting the first iff, and cannot choose
+different visible factor tails without contradicting the factor-tail uniqueness
+readback, because the displayed equalities have already identified the exposed
+tails with $l'$ and $m'$. Hence every accepted use factors through the listed
+finite rows and no unlisted coordinate remains available.
+\end{proof}
