@@ -947,6 +947,7 @@ import BEDC.Derived.CauchyCriterionUp.CommonSelectorRefinement
 import BEDC.Derived.CauchyCriterionUp.CompleteMetricConsumerBoundary
 import BEDC.Derived.CauchyCriterionUp.CompletionBoundary
 import BEDC.Derived.CauchyCriterionUp.CompletionReadback
+import BEDC.Derived.CauchyCriterionUp.CompletionUniformFamilyDownstreamCoverage
 import BEDC.Derived.CauchyCriterionUp.CompletionUniformFamilyFactorization
 import BEDC.Derived.CauchyCriterionUp.DiagonalBudgetReadback
 import BEDC.Derived.CauchyCriterionUp.DiagonalSelectorTerminality
@@ -4019,6 +4020,7 @@ import BEDC.Derived.MonotoneCauchyUp.ObligationPackage
 import BEDC.Derived.MonotoneCauchyUp.PublicTailWindowCertificate
 import BEDC.Derived.MonotoneCauchyUp.RealSealScopePackage
 import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
+import BEDC.Derived.MonotoneInverseUp.TasteGate
 import BEDC.Derived.MonotoneSequenceConvergenceUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.MooreOsgoodUp.TasteGate
