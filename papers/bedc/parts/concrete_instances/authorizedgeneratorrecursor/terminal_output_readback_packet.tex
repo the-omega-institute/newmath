@@ -88,3 +88,26 @@ the L10 output authorization closure. These surfaces route all downstream L10
 reads through the displayed packet, so the consumer ledger has no additional
 coordinate beyond $R$ and the named handoff rows.
 \end{proof}
+
+\begin{lemma}[AuthorizedGeneratorRecursor terminal-output downstream coverage]
+\label{lem:authorized-generator-recursor-terminal-output-downstream-coverage}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ finite packet, and let $c$ be an accepted local consumer of the terminal output row $O$. If the consumer-facing use of $c$ is visible through a $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ surface, then the use is exhausted by the displayed terminal-output coverage already carried by the packet:
+\begin{enumerate}
+\item the terminal readback route through the same $\BHist$ packet;
+\item the componentwise transport row $H$ and displayed $\Cont$ replay row $C$;
+\item the package provenance row $P$, boundary ledger row $G$, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$;
+\item the finite consumer ledger over $I,E,M,B,D,O,A,H,C,P,G,N$ together with the named $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ handoff rows.
+\end{enumerate}
+Consequently every attempted downstream read that asks for hidden generator state, a selected limit, quotient stream equality, host completeness, host induction, host equality, a detached completion object, or an off-packet proof channel remains outside the BEDC packet.
+\end{lemma}
+\begin{proof}
+Start with terminal-output readback, \autoref{thm:authorized-generator-recursor-terminal-output-readback}. It applies directly to the output row $O$ of the accepted packet $R$ and forces every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ readback to expose the same $\BHist$ packet before the read is available. The same theorem also preserves the componentwise $\hsame$ row $H$, replays the displayed $\Cont$ row $C$, retains the $\Pkg$ provenance row $P$, and names the read by the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$. Thus the consumer cannot begin from a bare output token or from a detached generator state; its first three coverage coordinates are already the displayed packet-local readback, transport, continuation, provenance, boundary, and naming rows.
+
+Now apply consumer ledger exhaustion, \autoref{thm:authorized-generator-recursor-consumer-ledger-exhaustion}. That theorem identifies the downstream terminal-output ledger with the finite rows $I,E,M,B,D,O,A,H,C,P,G,N$ together with the existing $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ handoff rows. Hence an accepted local consumer visible through one of the three named surfaces has no independent ledger beyond the rows listed in the statement: the stream-name read, regular-rational readback, and Real-facing read are all ledger entries over the same finite route.
+
+It remains only to check the excluded alternatives. The readback theorem says that the terminal read is packet-local and not a selected real value, quotient stream datum, host equality, detached generator state, or off-packet proof channel. The ledger-exhaustion theorem adds that no downstream L10 consumer obtains a ledger extension for hidden generator state, selected limits, quotient stream equality, host completeness, host induction, or an off-packet proof channel. A request for any excluded object would therefore require either a readback coordinate not supplied by $H,C,P,G,N$ or a consumer ledger coordinate not present in $I,E,M,B,D,O,A,H,C,P,G,N$ and the three named handoff rows. Since both cited theorems exhaust those coordinates, the request remains outside the accepted $\AuthorizedGeneratorRecursorUp$ packet.
+\end{proof}

@@ -44,3 +44,29 @@ Now use the audit ledger and terminal generator facts. \autoref{thm:authorized-g
 It remains to exclude private terminal audit routes. \autoref{thm:authorized-generator-recursor-terminal-audit-namecert-nonescape} attaches terminal output consumption to the audit, boundary, package, and local $\NameCert$ rows, and \autoref{thm:authorized-generator-recursor-closed-substitution-gate} keeps closed-substitution reads behind $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. Thus terminal consumers cannot escape to hidden generator state, host evaluation, unchecked recursion, or private audit routes.
 \end{proof}
 \leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTerminalReaderNonescape}
+
+\begin{corollary}[AuthorizedGeneratorRecursor terminal authorize strict obstruction]
+\label{cor:authorized-generator-recursor-terminal-authorize-strict-obstruction}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Suppose a displayed failure, refusal, separation, or countermodel row is attached to a named terminal-authorize converse, reuse, or readback route in the terminal authorized-output surface of $R$. Then the row is a strict local obstruction: it blocks only the named route whose consumer-facing use tries to read, omit, replace, detach, or bypass one of the displayed terminal coordinates
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Every permitted terminal-authorize use factors through the displayed branch, descent, output, audit, transport, continuation, package provenance, ground-boundary, and local $\NameCert$ rows of the same packet. The same displayed row cannot be reinterpreted as a global impossibility theorem, a host theorem about recursors, hidden external validation of the failed route, an unchecked generator, hidden generator state, host evaluation, unchecked recursion, a private audit route, or an obstruction to any terminal consumer route that still factors through those displayed rows.
+\end{corollary}
+\begin{proof}
+Fix the accepted packet $R$. By \autoref{thm:authorized-generator-recursor-terminal-reader-nonescape}, every terminal read of generator output, branch evidence, descent evidence, audit provenance, continuation replay, package provenance, or local naming data remains inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $R$. The same theorem also excludes hidden generator state, host evaluation, unchecked recursion, and private audit routes. Thus a consumer-facing terminal-authorize use has no coordinate outside
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+from which to obtain an alternate generator, host evaluator, private audit path, or external certificate.
+
+Apply \autoref{thm:authorized-generator-recursor-terminal-branch-ledger-lock} to the branch side of the same terminal use. A terminal consumer may read a branch, recursive call, or output-facing generator result only through the branch row $B$, descent row $D$, audit row $A$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, package provenance row $P$, ground-boundary row $G$, and local $\NameCert$ row $N$ carried by the same finite packet. Hence the terminal branch ledger supplies no independent branch authority and no second authorization route beyond the closed-substitution and ground-compiler rows already displayed by $R$.
+
+Now consider the displayed failure, refusal, separation, or countermodel row. If the row is attached to a named terminal-authorize converse, reuse, or readback route, the reader nonescape theorem forces any consumer-facing use of that row to remain on the displayed reader coordinates, while the branch ledger lock forces the branch, recursive-call, and output-facing parts of the use to remain on $B,D,A,H,C,P,G,N$. Therefore the row can obstruct only the named local route at the coordinate where that route tries to read, omit, replace, detach, or bypass one of the displayed packet rows.
+
+A stronger reading would require data that neither cited theorem exposes. A global impossibility theorem would require a theorem surface beyond the finite terminal packet; a host theorem about recursors would require host evaluation or host recursion data; hidden external validation would require an external certificate route; an unchecked generator, hidden generator state, unchecked recursion, or private audit route would require exactly the off-packet coordinates ruled out by terminal reader nonescape; and an independent branch authorization would contradict the terminal branch ledger lock. Since every permitted terminal consumer still factors through the displayed rows of $R$, the obstruction is strict and local to the named terminal-authorize route.
+\end{proof}

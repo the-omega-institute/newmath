@@ -203,3 +203,57 @@ route, and the absent rows listed in the statement have no coordinate from
 which a distinction could be read.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_real\_seal\_unique\_finite\_route}
+
+\begin{corollary}[CauchyCriterion finite-window Real seal handoff determinacy]
+\label{cor:cauchy-criterion-finite-window-real-seal-handoff-determinacy}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Fix
+the displayed rows $M,Q,T,W,E,H,C,P,N$ through the visible $\BHist$ packet,
+componentwise $\hsame$ transports, $\Cont$ replay, and matching $\Pkg$ and
+$\NameCert$ coordinates. Then every accepted consumer-facing use of the
+finite-window Real seal handoff of $K$ determines the same terminal route
+$$
+\StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \DyadicRatCoreUp
+\longmapsto \RealUp
+\longmapsto \CauchyLimitSealUp .
+$$
+In particular, a $\RealUp$-facing, $\CompletionUp$-facing,
+$\RealCauchyCompletionUp$-facing, or $\CauchyLimitSealUp$-facing consumer must
+use the same finite-route normal form and the same source-route exactness
+verdict named by the chapter. No accepted use can introduce an alternate
+hidden coordinate, a duplicate classifier source, a quotient stream, host real
+equality, a selected limit, countable choice, ambient completeness, a bridge
+row, or a completion endpoint outside the fixed rows.
+\end{corollary}
+\begin{proof}
+Take two accepted consumer-facing uses of the handoff after the rows
+$M,Q,T,W,E,H,C,P,N$ have been fixed. The needed transport comparison is the
+finite-route uniqueness result, \autoref{thm:cauchy-criterion-real-seal-unique-finite-route}: its hypotheses are precisely the common visible $\BHist$ packet,
+componentwise $\hsame$ transports, $\Cont$ replay, and matching $\Pkg$ and
+$\NameCert$ coordinates over the fixed rows. Regard the second use as a
+displayed replay of the first along that cited comparison surface. By
+\autoref{thm:cauchy-criterion-limit-seal-route-stability}, the replay cannot
+move the handoff away from the displayed
+$\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealUp \to
+\CauchyLimitSealUp$ route, and it cannot substitute any quotient stream,
+hidden tail oracle, host real equality, selected limit, ambient completeness
+principle, or off-route completion endpoint.
+
+Now compare the two public-boundary reads. The hypotheses are exactly the row
+identifications required by
+\autoref{thm:cauchy-criterion-real-seal-unique-finite-route}. Hence the two
+reads determine one terminal finite route, rather than two independently chosen
+consumer surfaces. The same comparison fixes the chapter's terminal
+finite-route normal form, because the normal form is read only after the
+StreamName, RegSeqRat, DyadicRatCore, Real, and CauchyLimitSeal faces have been
+placed on that route.
+
+For the exactness decision, use the same exhaustion of sources. The unique
+finite route already excludes any source outside the ordered finite-window
+route, while route stability keeps every replay on the same rows. Therefore an
+accepted consumer use has no coordinate from which to read a second classifier,
+a hidden exactness source, or an alternate completion endpoint. The only
+available decision is the source-route exactness verdict attached to the fixed
+finite-window Real seal handoff.
+\end{proof}

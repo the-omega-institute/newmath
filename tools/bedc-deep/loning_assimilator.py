@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Assimilate useful loning-side pipeline signals into BEDC operating advice.
+"""Assimilate useful loning-side pipeline signals into BEDC state.
 
 This is intentionally local and non-invasive.  It reads the fetch/report output
-from loning_watch.py, classifies recent relevant commits, and emits a compact
-advice block for our BOARD/refill gates.  It never merges, checks out, or edits
-paper/Lean sources.
+from loning_watch.py, classifies recent relevant commits, and emits structured
+signal counts for our local gates and dashboards.  It never merges, checks out,
+edits paper/Lean sources, or injects upstream advice text into prompts.
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ASSIM_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LATEST_PATH = STATE_DIR / "loning_assimilation_latest.md"
 
-VERSION = "loning-assimilation-v2"
+VERSION = "loning-pipeline-signals"
 
 
 PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
@@ -105,7 +105,6 @@ def summarize(entries: list[dict[str, Any]], *, max_items: int) -> dict[str, Any
                 "files": [str(f) for f in (item.get("files") or [])[:12]],
             })
 
-    advice = build_advice(counts)
     return {
         "version": VERSION,
         "checked_at": now_iso(),
@@ -113,62 +112,12 @@ def summarize(entries: list[dict[str, Any]], *, max_items: int) -> dict[str, Any
         "relevant_commits": len(commits),
         "classified_commits": classified[-max_items:],
         "signal_counts": dict(sorted(counts.items())),
-        "advice": advice,
-        "prompt_block": render_prompt_block_from_advice(advice),
     }
-
-
-def build_advice(counts: dict[str, int]) -> list[str]:
-    advice: list[str] = []
-    if counts.get("tastegate_hardening"):
-        advice.append("Require pre-TasteGate surfaces before accepting any new_chapter BOARD candidate: carrier_surface, classifier_surface, nontrivial_witness_plan, field_faithful_plan, structural_atomicity, falsifiable_prediction, independence_witness, elimination_plan.")
-    if counts.get("paper_gate_hardening"):
-        advice.append("For AI-origin or review-derived candidates, require falsifiable_prediction and independence_witness; otherwise downgrade to existing_chapter_obligation or reject.")
-    if counts.get("conjecture_channel"):
-        advice.append("If a signal is promising but lacks a witness/certificate surface, route it as conjecture_fallback instead of creating an executable BOARD theorem target.")
-    if counts.get("ripeness_signal"):
-        advice.append("Treat low in-degree or orphan surfaces as soft risk: prefer strengthening existing chapters before spawning another chapter.")
-    if counts.get("over_chapterization_risk"):
-        advice.append("Resist new concrete_instances inflation from vision or external theorem signals; a new chapter must show three BEDC dependency anchors and a downstream consumer.")
-    if counts.get("lean_target_surface"):
-        advice.append("Keep Lean/TasteGate target evidence as gate metadata only; BOARD candidates must remain paper-native theorem/lemma/obligation targets.")
-    if counts.get("resource_witness_obligation"):
-        advice.append("Prefer candidates that expose witness, budget, tail bound, modulus, or finite threshold surfaces over abstract carrier field transport.")
-    if counts.get("board_surface"):
-        advice.append("When loning changes BOARD-like surfaces, import only the gate discipline; do not replay its accepted targets directly.")
-    if counts.get("prompt_candidate_pool"):
-        advice.append("Treat upstream proposals as a candidate pool, not a FIFO queue: enumerate alternatives, preserve selection_rank when present, and prefer the best evidenced candidate rather than the first plausible one.")
-    if counts.get("prompt_quality_score"):
-        advice.append("Require visible quality signals when available: verifiability, locality, downstream_use, line_cap_safety, nontriviality, cross_chapter_unification, and difficulty. Reject inflated difficulty or total quality below the gate threshold.")
-    if counts.get("prompt_landing_safety"):
-        advice.append("Run landing safety before BOARD admission: reject hub-file appends, near-line-cap targets, and inspiration-only paths; route such evidence into rationale rather than executable local_inputs.")
-    if not advice:
-        advice.append("No new actionable loning gate signal was detected; keep current BEDC refill discipline.")
-    return advice
-
-
-def render_prompt_block_from_advice(advice: list[str]) -> str:
-    lines = [
-        "## Loning assimilation advice for BEDC BOARD intake",
-        "",
-        "Use these as gate hints, not as source provenance. Do not copy loning",
-        "targets, paths, JSON, Automath data, or Lean coordinates into paper body.",
-        "",
-    ]
-    for idx, item in enumerate(advice, start=1):
-        lines.append(f"{idx}. {item}")
-    lines.extend([
-        "",
-        "New-chapter candidates must pass pre-TasteGate admission. If any required",
-        "surface is missing, downgrade to an existing-chapter lemma/obligation/ledger",
-        "row, or return conjecture_fallback rather than inflating BOARD.",
-    ])
-    return "\n".join(lines).rstrip() + "\n"
 
 
 def render_latest(summary: dict[str, Any]) -> str:
     lines = [
-        "# loning assimilation latest",
+        "# loning pipeline signals latest",
         "",
         f"- version: {summary['version']}",
         f"- checked_at: {summary['checked_at']}",
@@ -176,16 +125,16 @@ def render_latest(summary: dict[str, Any]) -> str:
         f"- relevant_commits: {summary['relevant_commits']}",
         f"- signal_counts: {json.dumps(summary['signal_counts'], sort_keys=True)}",
         "",
-        "## Advice",
+        "These are pipeline signals only. They are not prompt advice, source",
+        "provenance, BOARD entries, or paper evidence.",
+        "",
+        "## Classified commits",
         "",
     ]
-    for item in summary["advice"]:
-        lines.append(f"- {item}")
-    lines.extend(["", "## Classified commits", ""])
     for item in summary["classified_commits"]:
         labels = ", ".join(item["labels"])
         lines.append(f"- {item['short']} {item['subject']} [{labels}]")
-    lines.extend(["", "## Prompt block", "", "```", summary["prompt_block"].rstrip(), "```", ""])
+    lines.append("")
     return "\n".join(lines)
 
 
@@ -196,26 +145,29 @@ def write_summary(summary: dict[str, Any]) -> None:
     LATEST_PATH.write_text(render_latest(summary), encoding="utf-8")
 
 
-def latest_prompt_block() -> str:
+def latest_signal_summary() -> dict[str, Any]:
     if LATEST_PATH.exists():
-        text = LATEST_PATH.read_text(encoding="utf-8", errors="replace")
-        match = re.search(r"## Prompt block\s+```(?:\n|\r\n)(.*?)(?:\n|\r\n)```", text, flags=re.S)
-        if match:
-            return match.group(1).strip() + "\n"
-    summary = summarize(load_watch_entries(8), max_items=20)
-    return summary["prompt_block"]
+        try:
+            lines = ASSIM_JOURNAL.read_text(encoding="utf-8", errors="replace").splitlines()
+            for line in reversed(lines):
+                rec = json.loads(line)
+                if isinstance(rec, dict) and rec.get("version") == VERSION:
+                    return rec
+        except (OSError, json.JSONDecodeError):
+            pass
+    return summarize(load_watch_entries(8), max_items=20)
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Assimilate loning watch signals into BEDC gate advice.")
+    parser = argparse.ArgumentParser(description="Assimilate loning watch signals into BEDC pipeline state.")
     parser.add_argument("--watch-tail", type=int, default=8)
     parser.add_argument("--max-items", type=int, default=30)
-    parser.add_argument("--prompt-block", action="store_true", help="Print only the compact prompt block.")
+    parser.add_argument("--json", action="store_true", help="Print the full structured signal summary.")
     parser.add_argument("--no-write", action="store_true", help="Compute without updating state files.")
     args = parser.parse_args()
 
-    if args.prompt_block:
-        print(latest_prompt_block().rstrip())
+    if args.json:
+        print(json.dumps(latest_signal_summary(), ensure_ascii=False, sort_keys=True))
         return 0
 
     summary = summarize(load_watch_entries(args.watch_tail), max_items=args.max_items)
@@ -225,7 +177,6 @@ def main() -> int:
         "version": summary["version"],
         "relevant_commits": summary["relevant_commits"],
         "signal_counts": summary["signal_counts"],
-        "advice_count": len(summary["advice"]),
         "latest": str(LATEST_PATH.relative_to(REPO_ROOT)) if "REPO_ROOT" in globals() else str(LATEST_PATH),
     }, ensure_ascii=False, sort_keys=True))
     return 0
