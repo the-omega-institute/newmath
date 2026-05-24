@@ -1259,6 +1259,7 @@ import BEDC.Derived.CauchyRealFieldUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
 import BEDC.Derived.CauchyRealOrderUp.TasteGate
 import BEDC.Derived.CauchyRealizerSequenceUp.TasteGate
+import BEDC.Derived.CauchyRealizerTailModulusUp.TasteGate
 import BEDC.Derived.CauchyRealizerUp.TasteGate
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
