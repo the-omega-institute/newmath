@@ -119,6 +119,34 @@ instance intervalLengthChapterTasteGate : ChapterTasteGate IntervalLengthUp wher
     intro x y hxy heq
     exact hxy (intervalLengthToEventFlow_injective heq)
 
+private theorem intervalLength_fields_faithful :
+    ∀ x y : IntervalLengthUp, intervalLengthFields x = intervalLengthFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk L₁ R₁ O₁ D₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk L₂ R₂ O₂ D₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
+instance intervalLengthFieldFaithful : FieldFaithful IntervalLengthUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := intervalLengthFields
+  field_faithful := intervalLength_fields_faithful
+
+instance intervalLengthNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial IntervalLengthUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨IntervalLengthUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      IntervalLengthUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate IntervalLengthUp :=
   -- BEDC touchpoint anchor: BHist BMark
   intervalLengthChapterTasteGate
@@ -133,6 +161,25 @@ theorem IntervalLengthTasteGate_single_carrier_alignment :
     ⟨intervalLength_decode_encode_bhist,
       ⟨intervalLengthBHistCarrier⟩,
       ⟨intervalLengthChapterTasteGate⟩,
+      rfl⟩
+
+theorem IntervalLengthUpTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate IntervalLengthUp) ∧
+      Nonempty (FieldFaithful IntervalLengthUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial IntervalLengthUp) ∧
+      (∀ h : BHist, intervalLengthDecodeBHist (intervalLengthEncodeBHist h) = h) ∧
+      (∀ x : IntervalLengthUp, intervalLengthFromEventFlow (intervalLengthToEventFlow x) = some x) ∧
+      (∀ x y : IntervalLengthUp,
+        intervalLengthToEventFlow x = intervalLengthToEventFlow y → x = y) ∧
+      intervalLengthEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨⟨intervalLengthChapterTasteGate⟩,
+      ⟨intervalLengthFieldFaithful⟩,
+      ⟨intervalLengthNontrivial⟩,
+      intervalLength_decode_encode_bhist,
+      intervalLength_round_trip,
+      (fun _ _ heq => intervalLengthToEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.IntervalLengthUp
