@@ -740,6 +740,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceTailSynchronization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceToSealTriad
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SynchronizerGridRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailBudgetSealCorrespondence
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailEnvelopeStrictLocalObstruction
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailFilterLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailModulusScope
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailRealSealRouteTotality
@@ -947,6 +948,7 @@ import BEDC.Derived.CauchyCriterionUp.CommonSelectorRefinement
 import BEDC.Derived.CauchyCriterionUp.CompleteMetricConsumerBoundary
 import BEDC.Derived.CauchyCriterionUp.CompletionBoundary
 import BEDC.Derived.CauchyCriterionUp.CompletionReadback
+import BEDC.Derived.CauchyCriterionUp.CompletionUniformFamilyDownstreamCoverage
 import BEDC.Derived.CauchyCriterionUp.CompletionUniformFamilyFactorization
 import BEDC.Derived.CauchyCriterionUp.DiagonalBudgetReadback
 import BEDC.Derived.CauchyCriterionUp.DiagonalSelectorTerminality
@@ -1086,6 +1088,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.L10HandoffSufficiency
 import BEDC.Derived.CauchyModulusRefinementUp.L10RootWindowPullbackExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.L10SiblingRoute
 import BEDC.Derived.CauchyModulusRefinementUp.L10SupportRowMinimality
+import BEDC.Derived.CauchyModulusRefinementUp.L10WindowLatticeDownstreamCoverage
 import BEDC.Derived.CauchyModulusRefinementUp.L10WindowLatticeExactness
 import BEDC.Derived.CauchyModulusRefinementUp.MeetThresholdNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.NameCertScope
@@ -4069,6 +4072,7 @@ import BEDC.Derived.NestedIntervalCompactnessUp
 import BEDC.Derived.NestedIntervalCompactnessUp.TasteGate
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NestedIntervalIntersectionUp.TasteGate
+import BEDC.Derived.NestedIntervalRealUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
