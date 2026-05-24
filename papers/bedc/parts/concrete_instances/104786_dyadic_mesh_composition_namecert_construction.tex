@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\DyadicMeshCompositionUp$}
+\label{ch:concrete-instances-dyadic-mesh-composition-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\DyadicMeshCompositionUp$ packet records the finite common-refinement route used when two displayed dyadic meshes are composed before a Real-and-Completion consumer reads a closed interval net. It sits between the dyadic mesh surface of \autoref{ch:concrete-instances-dyadicmesh-namecert}, the interval-net route of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, the dyadic rational arithmetic surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the stream-window readbacks of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}. The packet is a finite naming certificate for mesh composition; it is not an open-cover compactness theorem, quotient stream equality, selected limit, host real equality, or ambient completeness primitive.
+
+\begin{definition}[DyadicMeshComposition carrier]
+\label{def:dyadic-mesh-composition-carrier}
+A $\DyadicMeshCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M_0,M_1,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M_0$ is the source $\DyadicMeshUp$ row naming the first finite ordered dyadic mesh and its inspected cell ledger.
+\item $M_1$ is the target $\DyadicMeshUp$ row naming the second finite ordered dyadic mesh and its inspected cell ledger.
+\item $R$ is the common-refinement relation row, listing for each displayed source cell the finite family of target cells that refines it and recording the reverse containment reads needed by downstream consumers.
+\item $Q$ is the $\DyadicRatCoreUp$ cell-bound ledger storing the endpoint comparisons, radius splits, and dyadic slack witnesses used by the refinement relation.
+\item $H$ records componentwise $\hsame$ transport for $M_0,M_1,R,Q,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a mesh-composition request through the two mesh rows, the common-refinement relation, and the dyadic bound ledger.
+\item $P$ is the $\Pkg$ provenance over $\DyadicMeshUp$, $\ClosedBoundedIntervalNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicMeshCompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for an infinite mesh, selected subcover, quotient equality of streams, host real equality, hidden point chooser, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[DyadicMeshComposition NameCert obligations]
+\label{thm:dyadic-mesh-composition-namecert-obligations}
+For every accepted $\DyadicMeshCompositionUp$ carrier $T=(M_0,M_1,R,Q,H,C,P,N)$, the local $\NameCert_{\DyadicMeshCompositionUp}$ surface consists exactly of carrier admission for the two $\DyadicMeshUp$ rows, common-refinement relation exposure, $\DyadicRatCoreUp$ cell-bound ledger admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance over the mesh, interval-net, stream, readback, history, transport, continuation, and naming rows, and local naming. Every $\ClosedBoundedIntervalNetUp$ consumer of the packet must read $M_0,M_1,R,Q$ before it can use the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-mesh-composition-carrier}. The rows $M_0$ and $M_1$ expose the two finite dyadic mesh ledgers, while $R$ records the displayed common-refinement relation between their cells.
+
+Read the cell-bound ledger next. The row $Q$ supplies the dyadic endpoint comparisons and radius splits that witness each refinement edge in $R$, so the relation is checked through $\DyadicRatCoreUp$ data rather than through a host-level order on real intervals.
+
+The remaining rows add only structure. The transport row $H$ preserves the displayed coordinates, $C$ replays the finite route, $P$ records provenance for the named dependencies, and $N$ names the local certificate. These projections exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[DyadicMeshComposition refinement transitivity]
+\label{thm:dyadic-mesh-composition-refinement-transitivity}
+Let
+$$
+T=(M_0,M_1,R,Q,H,C,P,N)
+$$
+be an accepted $\DyadicMeshCompositionUp$ carrier. If a displayed cell of $M_0$ refines through a finite $R$-row into displayed cells of $M_1$, and those target cells are later inspected by a second accepted dyadic mesh row, then the composite inspection is again represented by finite refinement rows over the same $\DyadicRatCoreUp$ endpoint and radius ledger. The composite exports no infinite refinement tree, quotient cell equality, hidden selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Induct over the finite $\BHist$ rows displaying the refinement relation $R$. The empty row has no cell to export, so the composite route is the empty displayed refinement.
+
+For the step row, project the current source cell and the finite family of target cells named by $R$. The ledger $Q$ supplies the endpoint comparisons and radius splits for that row, while the induction hypothesis composes the remaining displayed rows.
+
+Transport and replay preserve the constructed route. Componentwise $\hsame$ in $H$ keeps the source mesh, target mesh, refinement row, and dyadic ledger aligned, and the $\Cont$ row $C$ replays the same finite sequence of inspections. Thus the composite remains a finite mesh-refinement packet with no extra analytic coordinate.
+\end{proof}
+
+\begin{theorem}[DyadicMeshComposition closed-interval-net handoff]
+\label{thm:dyadic-mesh-composition-closed-interval-net-handoff}
+Every $\ClosedBoundedIntervalNetUp$ consumer that uses a $\DyadicMeshCompositionUp$ packet reads the interval net through the displayed mesh rows $M_0,M_1$, the common-refinement relation $R$, the $\DyadicRatCoreUp$ cell-bound ledger $Q$, and the structural rows $H,C,P,N$. The handoff supplies the finite mesh-composition route needed by closed bounded interval nets without adding open-cover compactness, selected subcovers, quotient stream equality, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the accepted closed-interval-net consumer. By \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, the consumer already reads interval coverage through finite dyadic mesh rows and their rational and dyadic cell ledgers.
+
+Now insert the mesh-composition packet. The rows $M_0,M_1,R,Q$ identify the finite common-refinement route, and \autoref{thm:dyadic-mesh-composition-namecert-obligations} shows that this route is the complete local certificate surface before the structural rows are consumed.
+
+Finally apply the refinement transitivity theorem. It keeps successive mesh inspections inside the displayed dyadic ledger and finite $\BHist$ induction. The closed-interval-net handoff is therefore exhausted by the stated rows and cannot expose any of the excluded compactness, quotient, selector, host-equality, or completeness data.
+\end{proof}
+
+\closureat{DyadicMeshCompositionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicMeshCompositionUp}
+  \constructivestory{A $\DyadicMeshCompositionUp$ packet is generated from two DyadicMesh rows, a finite common-refinement relation, a DyadicRatCore cell-bound ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-mesh-composition-carrier}, \autoref{thm:dyadic-mesh-composition-namecert-obligations}, \autoref{thm:dyadic-mesh-composition-refinement-transitivity}, and \autoref{thm:dyadic-mesh-composition-closed-interval-net-handoff} seed the finite common-refinement route consumed by closed bounded interval nets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers, quotient stream equality, infinite refinement trees, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-refinement exactness, DyadicRatCore cell-bound accounting, transport stability, replay stability, closed-interval-net handoff, and provenance exhaustion for BEDC.Derived.DyadicMeshCompositionUp.}
+\end{closurestatus}
