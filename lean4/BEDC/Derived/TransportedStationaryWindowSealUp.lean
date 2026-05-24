@@ -109,4 +109,27 @@ theorem TransportedStationaryWindowSealPacket_real_factorization
     ⟨realUnary, routesUnary, realReadUnary, sealEnvelopeReal, realDiagonalRoutes,
       realReadRoute, endpointPkg⟩
 
+theorem TransportedStationaryWindowSealLedgerNonescape [AskSetup] [PackageSetup]
+    {ratRow streamWindow sealRow envelope realRow diagonalRow routes provenance nameCert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TransportedStationaryWindowSealPacket ratRow streamWindow sealRow envelope realRow
+        diagonalRow routes provenance nameCert endpoint bundle pkg ->
+      UnaryHistory ratRow ∧ UnaryHistory streamWindow ∧ UnaryHistory sealRow ∧
+        UnaryHistory envelope ∧ UnaryHistory realRow ∧ UnaryHistory routes ∧
+          UnaryHistory provenance ∧ UnaryHistory nameCert ∧
+            Cont ratRow streamWindow sealRow ∧ Cont sealRow envelope realRow ∧
+              Cont realRow diagonalRow routes ∧ Cont routes provenance nameCert ∧
+                Cont envelope sealRow endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  obtain ⟨ratUnary, streamUnary, sealUnary, envelopeUnary, _diagonalUnary, routesUnary,
+    provenanceUnary, nameCertUnary, ratStreamSeal, sealEnvelopeReal, realDiagonalRoutes,
+    routesProvenanceNameCert, endpointCont, endpointPkg⟩ := packet
+  have realUnary : UnaryHistory realRow :=
+    unary_cont_closed sealUnary envelopeUnary sealEnvelopeReal
+  exact
+    ⟨ratUnary, streamUnary, sealUnary, envelopeUnary, realUnary, routesUnary,
+      provenanceUnary, nameCertUnary, ratStreamSeal, sealEnvelopeReal, realDiagonalRoutes,
+      routesProvenanceNameCert, endpointCont, endpointPkg⟩
+
 end BEDC.Derived.TransportedStationaryWindowSealUp
