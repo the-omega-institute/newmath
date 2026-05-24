@@ -75,6 +75,20 @@ Finally the completion witness is $L$, with $T$ recording the route from compati
 No row in the packet contains a selected branch, quotient stream equality, countable choice, or ambient Real completeness theorem. Therefore every accepted limit extraction factors through the displayed prefix-Cauchy route.
 \end{proof}
 
+\begin{theorem}[CompleteBaireSpace prefix-window stability]
+\label{thm:complete-baire-space-prefix-window-stability}
+Let $X=(B,M,S,R,L,T,H,C,P,N)$ and $X'=(B',M',S',R',L',T',H',C',P',N')$ be accepted $\CompleteBaireSpaceUp$ carriers. Suppose the displayed $\BaireSpaceUp$ prefix rows, $\BaireMetricUp$ prefix-metric rows, $\StreamNameUp$ window rows, and $\RegSeqRatUp$ readback rows agree componentwise under $\hsame$ and replay through displayed $\Cont$ routes. Then the completion witness rows $L,L'$ and trace ledgers $T,T'$ transport to the same finite prefix-Cauchy route.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:complete-baire-space-carrier}. The completion-facing data can only be reached after the rows $B,M,S,R$ and $B',M',S',R'$ have been displayed.
+
+Use \autoref{thm:complete-baire-space-prefix-cauchy-limit}. It forces every prefix-Cauchy consumer read through the route $B,M,S,R,L$ for $X$ and through the corresponding route $B',M',S',R',L'$ for $X'$.
+
+The componentwise $\hsame$ hypotheses identify the displayed prefix rows, prefix-metric rows, StreamName windows, and regular readback rows. The displayed $\Cont$ replays keep those reads on the same finite windows, so the two prefix-Cauchy routes have the same visible source.
+
+The completion witness and trace ledger are downstream of that source. Repack the transported rows with $L,T,H,C,P,N$ and $L',T',H',C',P',N'$; the resulting completion witness rows and trace ledgers therefore describe the same finite prefix-Cauchy route.
+\end{proof}
+
 \begin{theorem}[CompleteBaireSpace Real-completion boundary]
 \label{thm:complete-baire-space-real-completion-boundary}
 For an accepted $\CompleteBaireSpaceUp$ carrier $X=(B,M,S,R,L,T,H,C,P,N)$, every Real or Completion consumer route is exhausted by the displayed prefix packet

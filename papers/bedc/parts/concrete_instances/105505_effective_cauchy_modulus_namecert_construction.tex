@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveCauchyModulusUp$}
+\label{ch:concrete-instances-effective-cauchy-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\EffectiveCauchyModulusUp$ packet records the finite precision-to-tail schedule that lets a Cauchy name serve L10 Real and Completion consumers without importing ambient completeness. It sits over the generic modulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the fast threshold discipline of \autoref{ch:concrete-instances-fast-cauchy-modulus-namecert}, the request-to-tail realizer of \autoref{ch:concrete-instances-regular-cauchy-modulus-realizer-namecert}, the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal. The packet supplies one displayed schedule row before any $\RegSeqRatUp$ or $\RealUp$ consumer reads a seal.
+
+\begin{definition}[Effective Cauchy modulus carrier]
+\label{def:effective-cauchy-modulus-carrier}
+An $\EffectiveCauchyModulusUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,D,M,T,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row whose observations are opened only through finite windows.
+\item $D$ is the dyadic precision ledger consumed by the tail estimates and regular rational readbacks.
+\item $M$ is the effective precision-to-tail modulus row, assigning each displayed precision request a finite tail index.
+\item $T$ is the tail-index comparison row showing that the selected index is stable under stronger displayed precision requests.
+\item $W$ is the finite tail-window row opened from $S$ at the index selected by $M$.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from $W$ under the dyadic ledger $D$.
+\item $E$ is the $\RealUp$ handoff row, exposed only after $S,D,M,T,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream, dyadic ledger, effective modulus, tail comparison, window, readback, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $S,D,M,T,W,Q,E_H,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EffectiveCauchyModulusUp$, $\CauchyModulusUp$, $\FastCauchyModulusUp$, $\RegularCauchyModulusRealizerUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EffectiveCauchyModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,M,T,W,Q,E,H,C,P,N$. It has no coordinate for quotient limits, countable choice, host convergence, trichotomy, selected representatives, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Effective Cauchy modulus NameCert obligations]
+\label{thm:effective-cauchy-modulus-namecert-obligations}
+For every accepted $\EffectiveCauchyModulusUp$ carrier
+$$
+X=(S,D,M,T,W,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\EffectiveCauchyModulusUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier exposure for the stream source, dyadic precision ledger, effective modulus row, tail comparison row, finite window, regular readback, Real handoff, transport, replay, provenance, and local naming rows;
+\item schedule classification, requiring $M$ to be the only precision-to-tail row read by a downstream $\RegSeqRatUp$ or $\RealUp$ consumer;
+\item monotone tail-index stability, requiring $T$ to certify that stronger displayed precision requests never require a weaker tail boundary than the row already exposed by $M$;
+\item $\RegSeqRatUp$ and $\RealUp$ seal compatibility, requiring $W$ and $Q$ to be read before the handoff row $E$ exposes a terminal Real seal;
+\item ledger refusal for quotient limits, countable choice, host convergence, trichotomy, selected representatives, and ambient completeness as local certificate data.
+\end{enumerate}
+No effective Cauchy modulus obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic coordinates are exactly the stream source, dyadic ledger, effective modulus, tail comparison, finite window, regular readback, and Real handoff rows.
+
+The schedule classifier is the row $M$. Since every consumer reaches a tail window only after reading $M$, no hidden convergence selector or external completeness principle can choose the boundary.
+
+The monotonicity information is stored in $T$. It relates stronger displayed precision requests to tail indices already chosen by $M$, so transport through $H$ and replay through $C$ preserve the same schedule.
+
+Finally, the readback and seal are downstream of the finite window. The rows $Q$ and $E$ can expose regular rational and Real-facing data only after $S,D,M,T,W$ have been displayed, and the refused objects have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy modulus seal route]
+\label{thm:effective-cauchy-modulus-seal-route}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\EffectiveCauchyModulusUp$ packet factors through
+$$
+S,D,M,T \longmapsto W \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+The route exports a displayed finite tail schedule and does not export quotient limits, countable choice, host convergence, trichotomy, selected representatives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates in order. A precision request first sees the stream and dyadic rows $S,D$, then the effective modulus and tail-stability rows $M,T$.
+
+Only after those rows are displayed can the finite window $W$ be opened. The regular rational readback $Q$ and terminal handoff $E_H$ are downstream of that finite window.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier contains no coordinate for the refused principles, the exported object remains the finite schedule-to-window packet.
+\end{proof}
+
+\closureat{EffectiveCauchyModulusUp}{seedStr}
+
+\begin{closurestatus}{\EffectiveCauchyModulusUp}
+  \constructivestory{An $\EffectiveCauchyModulusUp$ packet is generated from a StreamName source row, a dyadic precision ledger, an effective precision-to-tail modulus row, a monotone tail-index comparison row, a finite tail-window row, a RegSeqRat readback, a RealUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-cauchy-modulus-carrier}, \autoref{thm:effective-cauchy-modulus-namecert-obligations}, and \autoref{thm:effective-cauchy-modulus-seal-route} seed the finite schedule object consumed by L10 StreamName, RegSeqRat, and Real routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealUp completeness, quotient limits, countable choice, host convergence, trichotomy, selected representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, schedule classification, monotone tail-index stability, RegSeqRat and RealUp seal compatibility, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.EffectiveCauchyModulusUp.}
+\end{closurestatus}
