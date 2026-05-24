@@ -257,6 +257,7 @@ import BEDC.Derived.AuditMapCoverageLedgerUp.TasteGate
 import BEDC.Derived.AuditMapDependencyWeaveUp
 import BEDC.Derived.AuditMapFamilyLedgerUp.TasteGate
 import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
+import BEDC.Derived.AuditMapFamilyUp.StrictLocalObstruction
 import BEDC.Derived.AuditMapFamilyUp.TasteGate
 import BEDC.Derived.AuditMapFrontierIndexUp.TasteGate
 import BEDC.Derived.AuditMapInterfaceUp
@@ -1541,6 +1542,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootNamecertHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootUnblockObligationPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
@@ -2774,6 +2776,7 @@ import BEDC.Derived.FastConvergentSeriesUp.TasteGate
 import BEDC.Derived.FastRegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastSeriesProductUp.TasteGate
+import BEDC.Derived.FejerKernelUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FibonacciCubeUp
@@ -3789,6 +3792,7 @@ import BEDC.Derived.MatroidUp
 import BEDC.Derived.MaxCausalRateUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
 import BEDC.Derived.MaxRateReadGateUp.TasteGate
+import BEDC.Derived.McShaneExtensionUp.TasteGate
 import BEDC.Derived.MeanErgodicUp.TasteGate
 import BEDC.Derived.MeanValueTheoremUp.TasteGate
 import BEDC.Derived.MeasureUp
