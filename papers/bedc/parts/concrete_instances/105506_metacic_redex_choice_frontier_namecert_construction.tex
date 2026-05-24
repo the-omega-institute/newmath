@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\MetacicRedexChoiceFrontierUp$}
+\label{ch:concrete-instances-metacic-redex-choice-frontier-namecert}
+\origin{ai}
+
+The $\MetacicRedexChoiceFrontierUp$ packet realizes the MetaCIC audit-map frontier of \autoref{ch:visions-subhub-metacic} as finite BEDC rows. It sits next to the redex frontier, normalization frontier, confluence-audit packet, and decidable-boundary anchors already used by the MetaCIC vision, but it names the smaller object needed by a candidate-mediated reducer: a displayed finite choice surface for which redex rows may be inspected, which normalization and confluence-audit rows are available, and which boundaries remain undecided. The packet does not assert global normalization, Church--Rosser, subject reduction for all terms, or a complete MetaCIC semantics.
+
+\begin{definition}[MetaCIC redex-choice frontier carrier]
+\label{def:metacic-redex-choice-frontier-carrier}
+A $\MetacicRedexChoiceFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,N,F,D,B,H,K,L,C,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the MetaCIC redex row, listing the candidate redexs exposed by the local term-and-context window.
+\item $N$ is the normalization-frontier row, recording which candidates have a displayed bounded reduction trace.
+\item $F$ is the confluence-audit row, recording local fork and join checks for the same candidate set.
+\item $D$ is the decidable-boundary row, recording which redex choices are classified by finite inspection and which remain outside the packet.
+\item $B$ is the $\BHist$ replay ledger for the term window, candidate row, trace row, fork row, boundary row, and local naming row.
+\item $H$ records componentwise $\hsame$ transport for the redex, normalization, confluence-audit, decidability, replay, continuation, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from a term-window request through $A,N,F,D,B,H,P,Q$.
+\item $L$ is the $\Pkg$ provenance over $\MetacicRedexChoiceFrontierUp$, MetaCIC redex rows, normalization-frontier rows, confluence-audit rows, decidable-boundary rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $C$ records the candidate-choice classifier: it exposes only the redex choices whose $A,N,F,D$ rows are present in the packet.
+\item $P$ records the local package boundary for Nontrivial and FieldFaithful TasteGate instances to be checked by a later Lean development over the displayed carrier.
+\item $Q$ is the local $\NameCert_{\MetacicRedexChoiceFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,N,F,D,B,H,K,L,C,P,Q$. It has no coordinate for global normalization, global confluence, unrestricted redex selection, subject reduction for all terms, quotient syntax, host evaluator soundness, or a completed MetaCIC model.
+\end{definition}
+
+\begin{theorem}[MetaCIC redex-choice frontier NameCert obligations]
+\label{thm:metacic-redex-choice-frontier-namecert-obligations}
+For every accepted $\MetacicRedexChoiceFrontierUp$ carrier
+$$
+R=(A,N,F,D,B,H,K,L,C,P,Q),
+$$
+the local $\NameCert_{\MetacicRedexChoiceFrontierUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier exposure for MetaCIC redex rows, normalization-frontier traces, confluence-audit fork rows, decidable-boundary classifiers, replay, transport, continuation, provenance, candidate-choice, TasteGate boundary, and local naming rows;
+\item redex-choice classification, requiring the candidate-choice row $C$ to inspect only redexs displayed in $A$ and only boundary outcomes displayed in $D$;
+\item normalization-frontier compatibility, requiring every candidate exported by $C$ to carry either the bounded trace row in $N$ or the explicit boundary refusal in $D$;
+\item confluence-audit compatibility, requiring every fork exported by $C$ to use the same candidate set as $A$ and the same local fork rows as $F$;
+\item TasteGate preparation, requiring the packet to expose the Nontrivial and FieldFaithful instance boundary in $P$ without claiming those Lean instances as paper-side evidence;
+\item ledger refusal for global normalization, global confluence, unrestricted redex selection, subject reduction for all terms, quotient syntax, host evaluator soundness, and a completed MetaCIC model.
+\end{enumerate}
+No redex-choice frontier obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The term-facing data are the redex row $A$, the normalization-frontier row $N$, the confluence-audit row $F$, the decidable-boundary row $D$, and the candidate-choice row $C$.
+
+The candidate classifier cannot inspect a redex outside $A$, because $C$ is downstream of the displayed redex row. It cannot treat an undecided boundary as decided, because every exported choice must pass through $D$.
+
+The normalization and confluence rows are tied to the same candidate set. A selected candidate therefore carries the bounded trace information from $N$ and the local fork information from $F$ exactly when those rows are displayed by the packet.
+
+The TasteGate boundary row $P$ records the intended Nontrivial and FieldFaithful instance surface for Lean without adding a marker or treating the instances as verified. The refused global principles have no carrier coordinate, so the NameCert surface remains finite.
+\end{proof}
+
+\begin{theorem}[MetaCIC redex-choice frontier nonescape]
+\label{thm:metacic-redex-choice-frontier-nonescape}
+Every reducer-facing read from an accepted $\MetacicRedexChoiceFrontierUp$ packet factors through
+$$
+A,N,F,D \longmapsto C \longmapsto B,H,K,L,P,Q .
+$$
+The exported object is a finite candidate-mediated frontier for local redex choice, not global normalization, global confluence, unrestricted redex selection, quotient syntax, host evaluator soundness, or a completed MetaCIC model.
+\end{theorem}
+\begin{proof}
+Start with the displayed redex, normalization, confluence-audit, and decidable-boundary rows. These rows are the only inputs to the candidate-choice classifier.
+
+The classifier $C$ exports only the candidates that survive those displayed rows. Replay through $B$, transport through $H$, continuation through $K$, provenance through $L$, TasteGate boundary through $P$, and naming through $Q$ preserve the same finite route.
+
+Since no global normalization theorem, global confluence theorem, unrestricted redex selector, quotient syntax object, host evaluator soundness proof, or completed MetaCIC model appears in the carrier, the reducer-facing read cannot escape the finite frontier.
+\end{proof}
+
+\falsifiablePrediction{A $\MetacicRedexChoiceFrontierUp$ reducer-facing read factors through displayed MetaCIC redex rows, normalization-frontier traces, confluence-audit fork rows, decidable-boundary classifiers, candidate-choice rows, BHist replay, hsame transport, Cont replay, Pkg provenance, TasteGate boundary rows, and local NameCert data.}
+
+\independenceWitness{metacic-redex, metacic-normalization-frontier, metacic-confluence-audit, metacic-decidable-boundary: $\MetacicRedexChoiceFrontierUp$ is not bijective to any listed anchor because it jointly carries candidate-choice classification, shared redex-boundary routing, Nontrivial and FieldFaithful TasteGate boundaries, replay, transport, provenance, and local naming.}
+
+\closureat{MetacicRedexChoiceFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetacicRedexChoiceFrontierUp}
+  \constructivestory{A $\MetacicRedexChoiceFrontierUp$ packet is generated from MetaCIC redex rows, normalization-frontier rows, confluence-audit rows, decidable-boundary rows, BHist replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, a candidate-choice classifier, Nontrivial and FieldFaithful TasteGate boundary rows, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-redex-choice-frontier-carrier}, \autoref{thm:metacic-redex-choice-frontier-namecert-obligations}, and \autoref{thm:metacic-redex-choice-frontier-nonescape} seed the finite candidate-mediated redex-choice frontier for MetaCIC audit maps.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global normalization, global confluence, unrestricted redex selection, subject reduction for all terms, quotient syntax, host evaluator soundness, a completed MetaCIC model, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, redex-choice classification, normalization-frontier compatibility, confluence-audit compatibility, Nontrivial and FieldFaithful TasteGate instances, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.MetacicRedexChoiceFrontierUp.}
+\end{closurestatus}
