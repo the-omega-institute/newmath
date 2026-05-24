@@ -256,4 +256,123 @@ theorem FilterBaseCarrier_refinement_stability [AskSetup] [PackageSetup]
     ⟨cert, refinementUnary, replayUnary, provenanceUnary, directedRefinementReplay,
       transportReplayProvenance, localNamePkg⟩
 
+theorem FilterBaseCarrier_ledger_refusal [AskSetup] [PackageSetup]
+    {index baseElement directed refinement transport replay provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FilterBaseCarrier index baseElement directed refinement transport replay provenance
+        localName bundle pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row index ∨ hsame row baseElement ∨ hsame row directed ∨
+              hsame row refinement ∨ hsame row transport ∨ hsame row replay ∨
+                hsame row provenance ∨ hsame row localName)
+          (fun row : BHist =>
+            hsame row index ∨ hsame row baseElement ∨ hsame row directed ∨
+              hsame row refinement ∨ hsame row transport ∨ hsame row replay ∨
+                hsame row provenance ∨ hsame row localName)
+          (fun row : BHist =>
+            PkgSig bundle localName pkg ∧
+              (hsame row index ∨ hsame row baseElement ∨ hsame row directed ∨
+                hsame row refinement ∨ hsame row transport ∨ hsame row replay ∨
+                  hsame row provenance ∨ hsame row localName))
+          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨_indexUnary, _baseUnary, _refinementUnary, _transportUnary, _localNameUnary,
+    _indexBaseDirected, _directedRefinementReplay, _transportReplayProvenance,
+    _provenancePkg, localNamePkg⟩ := carrier
+  refine {
+    core := {
+      carrier_inhabited := ?carrier_inhabited
+      equiv_refl := ?equiv_refl
+      equiv_symm := ?equiv_symm
+      equiv_trans := ?equiv_trans
+      carrier_respects_equiv := ?carrier_respects_equiv
+    }
+    pattern_sound := ?pattern_sound
+    ledger_sound := ?ledger_sound
+  }
+  · exact Exists.intro index (Or.inl (hsame_refl index))
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro _row _row' sameRows source
+    cases source with
+    | inl sameIndex =>
+        exact Or.inl (hsame_trans (hsame_symm sameRows) sameIndex)
+    | inr rest =>
+        cases rest with
+        | inl sameBase =>
+            exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameBase))
+        | inr rest =>
+            cases rest with
+            | inl sameDirected =>
+                exact
+                  Or.inr
+                    (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameDirected)))
+            | inr rest =>
+                cases rest with
+                | inl sameRefinement =>
+                    exact
+                      Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inl
+                              (hsame_trans (hsame_symm sameRows) sameRefinement))))
+                | inr rest =>
+                    cases rest with
+                    | inl sameTransport =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inl
+                                    (hsame_trans (hsame_symm sameRows) sameTransport)))))
+                    | inr rest =>
+                        cases rest with
+                        | inl sameReplay =>
+                            exact
+                              Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inl
+                                          (hsame_trans
+                                            (hsame_symm sameRows) sameReplay))))))
+                        | inr rest =>
+                            cases rest with
+                            | inl sameProvenance =>
+                                exact
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inl
+                                                (hsame_trans
+                                                  (hsame_symm sameRows)
+                                                  sameProvenance)))))))
+                            | inr sameLocalName =>
+                                exact
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (hsame_trans
+                                                  (hsame_symm sameRows)
+                                                  sameLocalName)))))))
+  · intro _row source
+    exact source
+  · intro _row source
+    exact ⟨localNamePkg, source⟩
+
 end BEDC.Derived.FilterBaseUp
