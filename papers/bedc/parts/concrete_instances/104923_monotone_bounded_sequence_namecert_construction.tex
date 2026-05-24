@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneBoundedSequenceUp$}
+\label{ch:concrete-instances-monotone-bounded-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\MonotoneBoundedSequenceUp$ packet records the finite carrier surface for a monotone sequence of constructive real names together with an explicit boundedness ledger. It sits between the $\RealUp$ rows of \autoref{ch:concrete-instances-real-namecert}, the bounded sequence discipline of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, the limit interface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the tail-modulus handoff of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}, and the located monotone convergence route of \autoref{ch:concrete-instances-located-monotone-convergence-namecert}. The packet names the data available before a constructive monotone-convergence consumer asks for a limit; it does not smuggle a completed limit into the source carrier.
+
+\begin{definition}[MonotoneBoundedSequence carrier]
+\label{def:monotone-bounded-sequence-carrier}
+A $\MonotoneBoundedSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,W,R,O,B,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealUp$ source-row family for the sequence values, read only through the finite sequence schedule admitted by the packet.
+\item $W$ is the $\StreamNameUp$ window ledger recording the inspected indices and observation windows for each displayed sequence value.
+\item $R$ is the real-readback row that ties each scheduled observation in $W$ to the corresponding $\RealUp$ source row in $S$.
+\item $O$ is the monotonicity ledger, listing the finite comparison rows by which the packet certifies that later scheduled values do not move below earlier scheduled values.
+\item $B$ is the boundedness ledger, read through the $\BoundedRealSequenceUp$ surface, which records the common real bound and the finite comparisons keeping every inspected source row below that bound.
+\item $T$ is the $\CauchyConvergenceModulusUp$ handoff row exposed to downstream convergence consumers when the monotonicity and boundedness ledgers have been inspected together.
+\item $H$ records componentwise $\hsame$ transport for the source rows, stream windows, real readbacks, monotonicity ledger, boundedness ledger, modulus handoff, replay route, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a convergence request through $S,W,R,O,B,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneBoundedSequenceUp$, $\RealUp$, $\BoundedRealSequenceUp$, $\RealSequenceLimitUp$, $\CauchyConvergenceModulusUp$, $\LocatedMonotoneConvergenceUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneBoundedSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$$
+S,W,R,O,B,T,H,C,P,N.
+$$
+It has no coordinate for quotient limits, countable choice, trichotomy, selected representatives, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[MonotoneBoundedSequence NameCert obligations]
+\label{thm:monotone-bounded-sequence-namecert-obligations}
+For every accepted $\MonotoneBoundedSequenceUp$ carrier
+$$
+M=(S,W,R,O,B,T,H,C,P,N),
+$$
+the local $\NameCert_{\MonotoneBoundedSequenceUp}$ surface consists exactly of the finite rows for carrier admission, source-row scheduling, stream-window readback, monotonicity-ledger admission, boundedness-ledger admission, $\CauchyConvergenceModulusUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Each obligation reads the same $\RealUp$ source rows and the same $\StreamNameUp$ windows before the boundedness ledger or modulus handoff is exposed. No obligation may appeal to quotient limits, countable choice, trichotomy, selected representatives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:monotone-bounded-sequence-carrier}. Carrier admission exposes precisely the rows $S,W,R,O,B,T,H,C,P,N$, so every source value is read as a scheduled $\RealUp$ row through the displayed stream windows.
+
+The order-facing rows are then forced to use the same source schedule. The monotonicity ledger $O$ compares only scheduled values from $S,W,R$, while the boundedness ledger $B$ is the $\BoundedRealSequenceUp$ read of the same scheduled source rows against a common bound.
+
+The convergence-facing handoff comes last. The $\CauchyConvergenceModulusUp$ row $T$ may be exposed only after the monotonicity and boundedness ledgers have both been inspected, and the $\RealSequenceLimitUp$ and $\LocatedMonotoneConvergenceUp$ consumers can read only that displayed handoff.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the excluded quotient, choice, trichotomy, representative-selection, and ambient-completeness coordinates do not occur in the carrier, they cannot occur among the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MonotoneBoundedSequence finite limit boundary]
+\label{thm:monotone-bounded-sequence-finite-limit-boundary}
+Let
+$$
+M=(S,W,R,O,B,T,H,C,P,N)
+$$
+be an accepted $\MonotoneBoundedSequenceUp$ carrier. Every $\RealSequenceLimitUp$ or $\LocatedMonotoneConvergenceUp$ consumer of $M$ must first read the $\RealUp$ source rows, $\StreamNameUp$ windows, monotonicity ledger, boundedness ledger, $\CauchyConvergenceModulusUp$ handoff, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ through the same finite surface. The consumer receives a limit-boundary route for monotone bounded data, not a quotient limit, countable-choice-selected tail, trichotomy decision, selected representative, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with a limit-facing consumer. By \autoref{def:monotone-bounded-sequence-carrier}, the only available sequence data are the scheduled $\RealUp$ source rows $S$, their $\StreamNameUp$ windows $W$, and the readback row $R$.
+
+Apply \autoref{thm:monotone-bounded-sequence-namecert-obligations}. The monotonicity ledger $O$ and boundedness ledger $B$ are attached to that same scheduled source surface, and the modulus row $T$ is available only after both ledgers have been displayed.
+
+The $\RealSequenceLimitUp$ route may therefore inspect a finite tail-boundary surface, and the $\LocatedMonotoneConvergenceUp$ route may inspect the same bounded monotone handoff before reaching its located-supremum data. Neither route can replace the packet by a completed real limit or a host-level sequence theorem.
+
+The structural rows $H,C,P,N$ preserve this boundary under transport, replay, provenance, and naming. The absent quotient-limit, choice, trichotomy, representative, and ambient-completeness coordinates remain absent for every downstream consumer.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MonotoneBoundedSequenceUp$ consumer that claims access to a convergence boundary must display the Real source rows, StreamName windows, monotonicity ledger, boundedness ledger, CauchyConvergenceModulus handoff, hsame transport, Cont replay, Pkg provenance, and local NameCert before any RealSequenceLimit or LocatedMonotoneConvergence read is inspected.}
+
+\independenceWitness{boundedrealsequence, realsequencelimit, cauchyconvergencemodulus, locatedmonotoneconvergence, real: $\MonotoneBoundedSequenceUp$ is not bijective to any listed sibling because it jointly carries a monotonicity ledger, boundedness ledger, and finite modulus handoff before any limit-facing consumer may read the source sequence.}
+
+\closureat{MonotoneBoundedSequenceUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneBoundedSequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-bounded-sequence-carrier}, \autoref{thm:monotone-bounded-sequence-namecert-obligations}, and \autoref{thm:monotone-bounded-sequence-finite-limit-boundary} seed the finite source carrier, local obligation surface, and limit-boundary route for monotone bounded real sequences.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient limits, countable choice, trichotomy, selected representatives, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification can encode carrier admission, monotonicity-ledger admission, boundedness-ledger admission, CauchyConvergenceModulus handoff, transport replay, provenance, and local naming for BEDC.Derived.MonotoneBoundedSequenceUp.}
+  \constructivestory{A $\MonotoneBoundedSequenceUp$ packet is generated from Real source rows, StreamName windows, real readback, monotonicity and boundedness ledgers, a CauchyConvergenceModulus handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
