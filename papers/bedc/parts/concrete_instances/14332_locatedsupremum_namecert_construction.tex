@@ -98,6 +98,42 @@ Apply \autoref{thm:located-supremum-real-seal-boundary}. It identifies the exact
 The continuation row $C$ replays only that route, and the componentwise transports in $H$ preserve each displayed coordinate. Therefore every exported approximation factors through $R$ before $E$, with no detached real object, quotient cut, selected supremum, or ambient order-completeness principle.
 \end{proof}
 
+\begin{theorem}[LocatedSupremum root upper-lower window]
+\label{thm:locatedsupremum-root-upper-lower-window}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. The upper-bound reads exported through $U$ and the lower-approximation reads exported through $A$ are exposed through the same finite precision window $W$. Thus a root consumer that asks for both sides of the located-supremum surface receives one shared windowed route through $L,U,A,W,R,E,H,C,P,N$, rather than separate upper and lower access paths.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:located-supremum-carrier}. The carrier has one $\StreamNameUp$ precision-window row $W$, and both the upper-bound ledger $U$ and the lower-approximation ledger $A$ are displayed before the regular handoff $R$ and the $\RealUp$ seal $E$.
+
+Apply the located upper-bound stability and lower-approximation cofinality rows of \autoref{thm:located-supremum-namecert-obligations}. They read their respective ledgers through the same $W,R,E,H,C,P,N$ support rows.
+
+Finally use \autoref{thm:located-supremum-real-seal-boundary}. Every real-facing read is forced through $U,A,W,R,E$ together with the structural rows, so the root upper and lower observations share the same finite precision window.
+\end{proof}
+
+\begin{theorem}[LocatedSupremum StreamName cut scope]
+\label{thm:locatedsupremum-streamname-cut-scope}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Every located-cut or located-real read exported by $S$ is scoped through the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance surface carried by the windowed approximation ledger, the terminal $\RealUp$ seal $E$, the componentwise $\hsame$ transports $H$, the displayed $\Cont$ replay $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\LocatedSupremumUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Begin with a located-cut or located-real consumer of $S$. The source row $L$ is admitted only as part of the displayed packet, and the carrier stores no independent cut or real object apart from the route through $W,R,E$.
+
+Use \autoref{thm:locatedsupremum-root-upper-lower-window}. It places the upper-bound and lower-approximation ledgers under one finite precision window, so the cut-facing read and the real-facing read share the same inspected finite observations.
+
+Now apply \autoref{thm:located-supremum-regseqrat-real-handoff-stability}. The regular-rational handoff and terminal seal remain stable under $H$ and $C$, while $P$ and $N$ name the same route. The dyadic tolerance information is read only as the tolerance surface carried by the windowed approximation ledger, so no detached cut, selected supremum, or ambient completeness coordinate enters the scope.
+\end{proof}
+
+\begin{theorem}[LocatedSupremum Real seal nonescape]
+\label{thm:locatedsupremum-real-seal-nonescape}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. No $\RealUp$-facing consumer can bypass $L,U,A,W,R,E,H,C,P,N$ to obtain a selected supremum, trichotomy row, quotient cut, host real equality test, or ambient order-completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the Real-facing boundary theorem \autoref{thm:located-supremum-real-seal-boundary}. It identifies every exported real read with the finite route through the located family, upper-bound ledger, lower-approximation ledger, precision window, regular handoff, terminal seal, transports, continuations, provenance, and local name.
+
+The root upper-lower window theorem \autoref{thm:locatedsupremum-root-upper-lower-window} and the StreamName cut-scope theorem \autoref{thm:locatedsupremum-streamname-cut-scope} keep the two order-facing sides on that same route before the seal is exposed.
+
+The excluded objects are absent from the carrier of \autoref{def:located-supremum-carrier}. Since $H$ and $C$ can only transport and replay displayed rows, a consumer has no coordinate from which to read selected suprema, trichotomy, quotient cuts, host equality, or ambient order completeness.
+\end{proof}
+
 \begin{closurestatus}{\LocatedSupremumUp}
   \constructivestory{A $\LocatedSupremumUp$ packet is generated from a located family row, an upper-bound ledger, a lower-approximation ledger, a StreamName precision window, a RegSeqRat handoff, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
