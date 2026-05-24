@@ -32,6 +32,7 @@ def main() -> int:
         predictable = []
         boundary_only = []
         anchors = []
+        classification = {}
         rows = []
         for codon in sorted(r_codons):
             r_minus = set(r_codons)
@@ -45,19 +46,41 @@ def main() -> int:
                 category = "boundary"
                 boundary_only.append(codon)
             else:
-                category = "structural_anchor"
+                category = "anchor"
                 anchors.append(codon)
+            classification[codon] = category
             rows.append({"codon": codon, "category": category, "M_minus_size": len(m_minus)})
+        predictable_count = len(predictable)
+        boundary_count = len(boundary_only)
+        anchor_count = len(anchors)
+        recovery_rate = (predictable_count + boundary_count) / float(len(r_codons))
         checks = [
-            {"name": "structural_anchors_identified", "passed": bool(anchors), "actual": anchors, "expected": "non-empty"},
+            {
+                "name": "recovery_rate_above_threshold",
+                "passed": recovery_rate >= 0.85,
+                "actual": recovery_rate,
+                "expected_greater_equal": 0.85,
+            },
+            {
+                "name": "closure_coverage_high",
+                "passed": predictable_count >= 5,
+                "actual": predictable_count,
+                "expected_greater_equal": 5,
+            },
         ]
         result.update({
             "status": "passed" if all(check["passed"] for check in checks) else "failed",
             "completed_at": now_iso(),
             "checks": checks,
             "result": {
+                "predictable_count": predictable_count,
+                "boundary_count": boundary_count,
+                "anchor_count": anchor_count,
+                "recovery_rate": recovery_rate,
+                "classification": classification,
                 "predictable": predictable,
                 "boundary": boundary_only,
+                "anchor": anchors,
                 "structural_anchor": anchors,
                 "rows": rows,
             },

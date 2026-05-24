@@ -88,11 +88,17 @@ def evaluate_vision(path: Path, store: BioRealityStore) -> dict[str, Any]:
     front, body = parse_front_matter(text)
     slug = str(front.get("slug") or path.stem)
     contact_ids = _ids(store.load_contacts(), "contact_id")
+    conjectures = store.load_conjectures()
     gate_results = read_jsonl(store.paths.gate_results)
     passed_gate_ids = {
         str(item.get("packet_id") or "")
         for item in gate_results
         if item.get("gate_status") == "gate_passed"
+    }
+    passed_conjecture_ids = {
+        str(item.get("packet_id") or "")
+        for item in gate_results
+        if item.get("packet_kind") == "conjecture" and item.get("gate_status") == "gate_passed"
     }
     issues: list[str] = []
     if not SLUG_RE.match(slug):
@@ -107,6 +113,17 @@ def evaluate_vision(path: Path, store: BioRealityStore) -> dict[str, Any]:
     required_contacts = [str(item) for item in front.get("required_reality_contacts", []) if isinstance(item, str)]
     required_gates = [str(item) for item in front.get("required_gates", []) if isinstance(item, str)]
     forbidden_claims = [str(item) for item in front.get("forbidden_claims_to_check", []) if isinstance(item, str)]
+    required_contact_set = set(required_contacts)
+    already_materialized = any(
+        str(conjecture.get("conjecture_id") or "") in passed_conjecture_ids
+        and {
+            str(item)
+            for item in conjecture.get("reality_contact_refs", [])
+            if isinstance(item, str)
+        }
+        == required_contact_set
+        for conjecture in conjectures
+    )
     for contact in required_contacts:
         if contact not in contact_ids:
             issues.append(f"missing reality contact: {contact}")
@@ -116,7 +133,10 @@ def evaluate_vision(path: Path, store: BioRealityStore) -> dict[str, Any]:
     if not forbidden_claims:
         issues.append("forbidden_claims_to_check is empty")
 
-    decision = "ready" if not issues else "blocked"
+    if already_materialized:
+        decision = "already_materialized"
+    else:
+        decision = "ready" if not issues else "blocked"
     return {
         "row_id": stable_id("vision-row", {"slug": slug, "issues": issues, "decision": decision}),
         "checked_at": now_iso(),
@@ -147,6 +167,8 @@ def events_from_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
         decision = str(row.get("decision") or "")
         if decision == "ready":
             events.append(_event("vision_ready", "bio-V", "vision", slug, "vision is ready for research agent planning", row))
+        elif decision == "already_materialized":
+            row["skip_reason"] = "already_materialized"
         else:
             issues = row.get("issues") if isinstance(row.get("issues"), list) else []
             reason = "; ".join(str(issue) for issue in issues[:3]) or "vision blocked"
@@ -172,7 +194,8 @@ def run_vision_lane(store: BioRealityStore, *, write: bool = True) -> dict[str, 
         "lane": "bio-V",
         "visions": len(rows),
         "ready": sum(1 for row in rows if row.get("decision") == "ready"),
-        "blocked": sum(1 for row in rows if row.get("decision") != "ready"),
+        "blocked": sum(1 for row in rows if row.get("decision") == "blocked"),
+        "already_materialized": sum(1 for row in rows if row.get("decision") == "already_materialized"),
         "events": len(events),
     }
 
@@ -205,6 +228,7 @@ def self_test() -> int:
         )
         paths = BioRealityPaths(
             root=SCRIPT_DIR,
+            conjectures=base / "conjectures.jsonl",
             contacts=base / "contacts.jsonl",
             gate_results=base / "gate_results.jsonl",
             events=base / "events.jsonl",
@@ -220,6 +244,38 @@ def self_test() -> int:
         events = store.load_events()
         if summary["visions"] != 1 or summary["ready"] != 1 or not events:
             print(json.dumps({"summary": summary, "events": events}, indent=2), file=sys.stderr)
+            return 1
+        paths.conjectures.write_text(
+            json.dumps(
+                {
+                    "conjecture_id": "dna.to.protein.boundary.materialized",
+                    "reality_contact_refs": ["curated.standard.code.table"],
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        paths.gate_results.write_text(
+            json.dumps(
+                {
+                    "packet_kind": "conjecture",
+                    "packet_id": "dna.to.protein.boundary.materialized",
+                    "gate_status": "gate_passed",
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        materialized_summary = run_vision_lane(store)
+        materialized_rows = store.load_vision_ledger()
+        if materialized_summary["already_materialized"] < 1 or materialized_summary["events"] != 0:
+            print(json.dumps({"summary": materialized_summary, "rows": materialized_rows[-2:]}, indent=2), file=sys.stderr)
+            return 1
+        last_row = materialized_rows[-1] if materialized_rows else {}
+        if last_row.get("decision") != "already_materialized" or last_row.get("skip_reason") != "already_materialized":
+            print(json.dumps(last_row, indent=2), file=sys.stderr)
             return 1
     print("[bio-reality-vision] self-test ok")
     return 0

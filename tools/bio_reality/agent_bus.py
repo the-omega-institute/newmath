@@ -67,15 +67,57 @@ def stable_id(prefix: str, payload: dict[str, Any]) -> str:
     return f"{prefix}.{digest}"
 
 
+def _stable_event_key(event_kind: str, subject_kind: str, subject_id: str) -> str:
+    return f"{event_kind}::{subject_kind}::{subject_id}"
+
+
+def _event_stable_key(event: dict[str, Any]) -> str:
+    return str(
+        event.get("stable_event_key")
+        or _stable_event_key(
+            str(event.get("event_kind") or ""),
+            str(event.get("subject_kind") or ""),
+            str(event.get("subject_id") or ""),
+        )
+    )
+
+
 def _dedup(records: list[dict[str, Any]], key: str) -> list[dict[str, Any]]:
     seen: set[str] = set()
     out: list[dict[str, Any]] = []
+    status_rank = {"archived": 0, "consumed": 1, "open": 2}
+    by_stable_key: dict[str, dict[str, Any]] = {}
     for record in records:
         value = str(record.get(key) or stable_id(key, record))
         if value in seen:
             continue
         seen.add(value)
-        out.append(record)
+        if key != "event_id":
+            out.append(record)
+            continue
+        normalized = _normalize_event(record)
+        stable_key = _event_stable_key(normalized)
+        normalized["stable_event_key"] = stable_key
+        previous = by_stable_key.get(stable_key)
+        if previous is None:
+            by_stable_key[stable_key] = normalized
+            out.append(normalized)
+            continue
+        previous_status = str(previous.get("status") or "open")
+        current_status = str(normalized.get("status") or "open")
+        keep_status = previous_status
+        if status_rank.get(current_status, 2) > status_rank.get(previous_status, 2):
+            keep_status = current_status
+        created_values = [str(item.get("created_at") or "") for item in (previous, normalized) if item.get("created_at")]
+        merged = dict(previous)
+        merged.update(normalized)
+        merged["event_id"] = previous.get("event_id") or normalized.get("event_id")
+        merged["status"] = keep_status
+        if created_values:
+            merged["created_at"] = min(created_values)
+        index = out.index(previous)
+        out[index] = merged
+        by_stable_key[stable_key] = merged
     return out
 
 
@@ -83,6 +125,7 @@ def _normalize_event(event: dict[str, Any]) -> dict[str, Any]:
     normalized = dict(event)
     status = str(normalized.get("status") or "open")
     normalized["status"] = status if status in EVENT_STATUSES else "open"
+    normalized["stable_event_key"] = _event_stable_key(normalized)
     return normalized
 
 
@@ -103,6 +146,7 @@ def _status_sort(task: dict[str, Any]) -> tuple[int, str, str]:
 
 
 def _event(event_kind: str, source: str, subject_kind: str, subject_id: str, reason: str, payload: dict[str, Any]) -> dict[str, Any]:
+    stable_event_key = _stable_event_key(event_kind, subject_kind, subject_id)
     base = {
         "event_kind": event_kind,
         "source": source,
@@ -115,6 +159,7 @@ def _event(event_kind: str, source: str, subject_kind: str, subject_id: str, rea
         "event_id": stable_id("event", base),
         "created_at": now_iso(),
         "status": "open",
+        "stable_event_key": stable_event_key,
         **base,
     }
 
@@ -169,12 +214,11 @@ def build_events(store: BioRealityStore) -> list[dict[str, Any]]:
 
 def _task_for_event(event: dict[str, Any], agent_id: str, action: str, priority: int) -> dict[str, Any]:
     agent = AGENTS[agent_id]
+    stable_event_key = _event_stable_key(event)
     base = {
         "agent_id": agent_id,
-        "event_id": event["event_id"],
         "action": action,
-        "subject_kind": event["subject_kind"],
-        "subject_id": event["subject_id"],
+        "stable_event_key": stable_event_key,
     }
     return {
         "task_id": stable_id("agent-task", base),
@@ -186,6 +230,7 @@ def _task_for_event(event: dict[str, Any], agent_id: str, action: str, priority:
         "agent_id": agent_id,
         "lane": agent["lane"],
         "event_id": event["event_id"],
+        "stable_event_key": stable_event_key,
         "action": action,
         "reason": event["reason"],
         "allowed_writes": agent["writes"],
@@ -193,26 +238,49 @@ def _task_for_event(event: dict[str, Any], agent_id: str, action: str, priority:
     }
 
 
-def plan_agent_tasks(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _active_task_key(task: dict[str, Any]) -> tuple[str, str, str]:
+    return (
+        str(task.get("agent_id") or ""),
+        str(task.get("action") or ""),
+        str(task.get("stable_event_key") or ""),
+    )
+
+
+def plan_agent_tasks(events: list[dict[str, Any]], existing_tasks: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
     tasks: list[dict[str, Any]] = []
+    active_task_statuses = {"queued", "in_flight", "completed"}
+    active_task_keys = {
+        _active_task_key(task)
+        for task in (existing_tasks or [])
+        if str(task.get("status") or "queued") in active_task_statuses and str(task.get("stable_event_key") or "")
+    }
+
+    def append_task(event: dict[str, Any], agent_id: str, action: str, priority: int) -> None:
+        stable_key = _event_stable_key(event)
+        if (agent_id, action, stable_key) in active_task_keys:
+            return
+        task = _task_for_event(event, agent_id, action, priority)
+        active_task_keys.add(_active_task_key(task))
+        tasks.append(task)
+
     for event in events:
         if str(event.get("status") or "open") != "open":
             continue
         kind = str(event.get("event_kind") or "")
         if kind == "research_deepening_needed":
-            tasks.append(_task_for_event(event, "bio-researcher", "extend_research_memory", 90))
+            append_task(event, "bio-researcher", "extend_research_memory", 85)
         elif kind == "research_review_ready":
-            tasks.append(_task_for_event(event, "bio-researcher", "seek_next_reality_boundary", 40))
+            append_task(event, "bio-researcher", "seek_next_reality_boundary", 40)
         elif kind == "vision_ready":
-            tasks.append(_task_for_event(event, "bio-researcher", "materialize_vision_into_research_memory", 100))
+            append_task(event, "bio-researcher", "materialize_vision_into_research_memory", 88)
         elif kind == "vision_blocked":
-            tasks.append(_task_for_event(event, "bio-gate-curator", "harden_vision_intake_or_dependencies", 80))
+            append_task(event, "bio-gate-curator", "harden_vision_intake_or_dependencies", 80)
         elif kind == "gate_failure":
-            tasks.append(_task_for_event(event, "bio-gate-curator", "harden_gate_or_schema", 95))
+            append_task(event, "bio-gate-curator", "harden_gate_or_schema", 95)
         elif kind in {"experiment_failed", "experiment_error"}:
-            tasks.append(_task_for_event(event, "bio-experimentalist", "repair_experiment_script", 92))
+            append_task(event, "bio-experimentalist", "repair_experiment_script", 98)
         elif kind == "data_contact_needed":
-            tasks.append(_task_for_event(event, "bio-experimentalist", "add_data_manifest", 92))
+            append_task(event, "bio-experimentalist", "add_data_manifest", 96)
     tasks.sort(key=_status_sort)
     return _dedup(tasks, "task_id")
 
@@ -221,6 +289,7 @@ def merge_agent_tasks(existing: list[dict[str, Any]], planned: list[dict[str, An
     task_by_id: dict[str, dict[str, Any]] = {}
     order: list[str] = []
     planned_event_ids = {str(task.get("event_id") or "") for task in planned}
+    planned_stable_keys = {str(task.get("stable_event_key") or "") for task in planned}
     for task in existing:
         normalized = _normalize_task(task)
         task_id = str(normalized.get("task_id") or stable_id("agent-task", normalized))
@@ -234,7 +303,10 @@ def merge_agent_tasks(existing: list[dict[str, Any]], planned: list[dict[str, An
         previous = task_by_id.get(task_id)
         if previous is not None:
             merged = {**normalized, **previous}
-            if str(merged.get("status") or "") == "failed" and str(merged.get("event_id") or "") in planned_event_ids:
+            if str(merged.get("status") or "") == "failed" and (
+                str(merged.get("event_id") or "") in planned_event_ids
+                or str(merged.get("stable_event_key") or "") in planned_stable_keys
+            ):
                 merged["status"] = "queued"
             task_by_id[task_id] = _normalize_task(merged)
         else:
@@ -554,8 +626,9 @@ def apply_dispatch_lifecycle(
 
 def run_agent_lane(store: BioRealityStore, *, execute_codex: bool = True, max_dispatch: int = 1) -> dict[str, Any]:
     events = build_events(store)
-    planned_tasks = plan_agent_tasks(events)
-    tasks = merge_agent_tasks(store.load_agent_tasks(), planned_tasks)
+    existing_tasks = store.load_agent_tasks()
+    planned_tasks = plan_agent_tasks(events, existing_tasks)
+    tasks = merge_agent_tasks(existing_tasks, planned_tasks)
     planned_reviews = review_tasks(planned_tasks, events)
     queued = [task for task in tasks if str(task.get("status") or "queued") == "queued"]
     queued.sort(key=_status_sort)
@@ -658,6 +731,66 @@ def self_test() -> int:
         quality = run_quality_lane(store)
         if agent["events"] != 3 or agent["agent_tasks"] != 3:
             print(json.dumps(agent, indent=2), file=sys.stderr)
+            return 1
+        duplicate_a = _event(
+            "vision_ready",
+            "bio-V",
+            "vision",
+            "same-vision",
+            "old reason",
+            {"checked_at": "2026-05-25T00:00:00+00:00", "value": "old"},
+        )
+        duplicate_b = _event(
+            "vision_ready",
+            "bio-V",
+            "vision",
+            "same-vision",
+            "new reason",
+            {"checked_at": "2026-05-25T00:00:01+00:00", "value": "new"},
+        )
+        duplicate_a["created_at"] = "2026-05-25T00:00:00+00:00"
+        duplicate_a["status"] = "consumed"
+        duplicate_b["created_at"] = "2026-05-25T00:00:01+00:00"
+        duplicate_b["status"] = "open"
+        duplicate_events = _dedup([duplicate_a, duplicate_b], "event_id")
+        if (
+            len(duplicate_events) != 1
+            or duplicate_events[0].get("created_at") != duplicate_a["created_at"]
+            or duplicate_events[0].get("reason") != "new reason"
+            or duplicate_events[0].get("status") != "open"
+        ):
+            print(json.dumps(duplicate_events, indent=2), file=sys.stderr)
+            return 1
+        priority_tasks = plan_agent_tasks(
+            [
+                _event("vision_ready", "bio-V", "vision", "priority-vision", "ready", {}),
+                _event("experiment_failed", "bio-X", "experiment", "priority-experiment", "failed", {}),
+            ]
+        )
+        priority_by_kind = {
+            str(task.get("action") or ""): int(task.get("priority") or 0)
+            for task in priority_tasks
+        }
+        if (
+            priority_by_kind.get("repair_experiment_script") != 98
+            or priority_by_kind.get("materialize_vision_into_research_memory") != 88
+            or priority_by_kind["repair_experiment_script"] <= priority_by_kind["materialize_vision_into_research_memory"]
+        ):
+            print(json.dumps(priority_tasks, indent=2), file=sys.stderr)
+            return 1
+        stable_event = _event("experiment_failed", "bio-X", "experiment", "same-experiment", "failed", {})
+        in_flight = _task_for_event(stable_event, "bio-experimentalist", "repair_experiment_script", 98)
+        in_flight["status"] = "in_flight"
+        repeat_event = _event(
+            "experiment_failed",
+            "bio-X",
+            "experiment",
+            "same-experiment",
+            "failed again",
+            {"checked_at": "2026-05-25T00:00:02+00:00"},
+        )
+        if plan_agent_tasks([repeat_event], [in_flight]):
+            print(json.dumps({"existing": in_flight, "event": repeat_event}, indent=2), file=sys.stderr)
             return 1
         experimentalist_task = next((task for task in store.load_agent_tasks() if task.get("agent_id") == "bio-experimentalist"), {})
         if experimentalist_task.get("action") != "repair_experiment_script":

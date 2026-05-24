@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import json
 import random
 from datetime import datetime, timezone
@@ -25,8 +26,39 @@ def now_iso() -> str:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--samples", type=int, default=10000)
+    parser.add_argument("--position-samples", type=int, default=2000)
     parser.add_argument("--seed", type=int, default=42)
     return parser.parse_args()
+
+
+def base_counts_by_position(codons: set[str]) -> list[dict[str, int]]:
+    return [dict(Counter(codon[position] for codon in codons)) for position in range(3)]
+
+
+def position_base_multisets(codons: set[str]) -> list[list[str]]:
+    return [[codon[position] for codon in sorted(codons)] for position in range(3)]
+
+
+def sample_position_preserving(multisets: list[list[str]], rng: random.Random) -> set[str] | None:
+    shuffled = []
+    for bases in multisets:
+        position_bases = list(bases)
+        rng.shuffle(position_bases)
+        shuffled.append(position_bases)
+    sample = {"".join(parts) for parts in zip(*shuffled)}
+    if len(sample) != len(multisets[0]):
+        return None
+    return sample
+
+
+def median_closure_size_summary(closure_sizes: list[int], ge_observed: int, samples: int) -> dict:
+    return {
+        "N": samples,
+        "min": min(closure_sizes),
+        "max": max(closure_sizes),
+        "median": median(closure_sizes),
+        "count_ge_observed": ge_observed,
+    }
 
 
 def main() -> int:
@@ -40,35 +72,70 @@ def main() -> int:
     try:
         if args.samples <= 0:
             raise ValueError("--samples must be positive")
+        if args.position_samples <= 0:
+            raise ValueError("--position-samples must be positive")
         codons = all_codons()
         observed_r = reassignment_set(json.loads(DATA_PATH.read_text()))
         observed_m_size = len(median_closure(observed_r))
-        rng = random.Random(args.seed)
-        closure_sizes = []
-        ge_observed = 0
+        rng_uniform = random.Random(args.seed)
+        uniform_closure_sizes = []
+        uniform_ge_observed = 0
         for _ in range(args.samples):
-            sample = set(rng.sample(codons, 13))
+            sample = set(rng_uniform.sample(codons, 13))
             size = len(median_closure(sample))
-            closure_sizes.append(size)
+            uniform_closure_sizes.append(size)
             if size >= observed_m_size:
-                ge_observed += 1
-        p_value = ge_observed / float(args.samples)
+                uniform_ge_observed += 1
+        p_uniform = uniform_ge_observed / float(args.samples)
+
+        rng_position = random.Random(args.seed)
+        position_multisets = position_base_multisets(observed_r)
+        position_closure_sizes = []
+        position_ge_observed = 0
+        duplicate_retries = 0
+        max_attempts = args.position_samples * 1000
+        attempts = 0
+        while len(position_closure_sizes) < args.position_samples:
+            if attempts >= max_attempts:
+                raise RuntimeError("could not draw enough distinct position-preserving samples")
+            attempts += 1
+            sample = sample_position_preserving(position_multisets, rng_position)
+            if sample is None:
+                duplicate_retries += 1
+                continue
+            size = len(median_closure(sample))
+            position_closure_sizes.append(size)
+            if size >= observed_m_size:
+                position_ge_observed += 1
+        p_position = position_ge_observed / float(args.position_samples)
+
         checks = [
-            {"name": "p_value_significant", "passed": p_value < 0.01, "actual": p_value, "expected_less_than": 0.01},
+            {"name": "p_value_uniform_significant", "passed": p_uniform < 0.01, "actual": p_uniform, "expected_less_than": 0.01},
+            {
+                "name": "p_value_position_preserving_significant",
+                "passed": p_position < 0.05,
+                "actual": p_position,
+                "expected_less_than": 0.05,
+            },
         ]
         result.update({
-            "status": "passed" if all(check["passed"] for check in checks) else "failed",
+            "status": "passed" if any(check["passed"] for check in checks) else "failed",
             "completed_at": now_iso(),
             "checks": checks,
             "result": {
-                "samples": args.samples,
                 "seed": args.seed,
                 "observed_M_size": observed_m_size,
-                "min": min(closure_sizes),
-                "max": max(closure_sizes),
-                "median": median(closure_sizes),
-                "p_value": p_value,
-                "count_ge_observed": ge_observed,
+                "observed_position_base_counts": base_counts_by_position(observed_r),
+                "uniform_null": {
+                    **median_closure_size_summary(uniform_closure_sizes, uniform_ge_observed, args.samples),
+                    "p_uniform": p_uniform,
+                },
+                "position_preserving_null": {
+                    **median_closure_size_summary(position_closure_sizes, position_ge_observed, args.position_samples),
+                    "p_value_position_preserving": p_position,
+                    "distinct_sample_attempts": attempts,
+                    "duplicate_retries": duplicate_retries,
+                },
             },
         })
     except Exception as exc:
