@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RealBoundedSequenceUp$}
+\label{ch:concrete-instances-real-bounded-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealBoundedSequenceUp$ packet records the finite bounded-sequence neighbour needed by the L10 real route. It reads terminal real names from \autoref{ch:concrete-instances-real-namecert}, finite observation windows from \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, and dyadic tolerance ledgers from \autoref{ch:concrete-instances-dyadicratcore-namecert}; its downstream consumer is the subsequence compactness surface of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert}. The packet names bounded real sequence inspection as displayed NameCert data, not as ambient sequential compactness, trichotomy, quotient equality of streams, a selected subsequence, or host completeness of $\RealUp$.
+
+\begin{definition}[RealBoundedSequence carrier]
+\label{def:real-bounded-sequence-carrier}
+A $\RealBoundedSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,B,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sequence source row, listing the admitted real-name positions whose values are inspected by the packet.
+\item $B$ is the bound witness row, recording the displayed lower and upper bounding data and the finite ledger that each inspected value stays inside those bounds.
+\item $W$ is the $\StreamNameUp$ window row, exposing only finite observation windows of the source sequence.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational approximants used by the inspected windows.
+\item $E$ is the terminal $\RealUp$ seal row for each displayed value and for the bound endpoints consumed by the packet.
+\item $H$ records componentwise $\hsame$ transport for $S,B,W,R,E$ and the structural rows below.
+\item $C$ records the displayed $\Cont$ replay from source sequence windows through regular rational readback to the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RealBoundedSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealBoundedSequenceUp}$ row.
+\end{enumerate}
+The carrier exposes only the source sequence, displayed bound witness, finite windows, regular rational readbacks, terminal Real seals, transport, replay, provenance, and local naming. It has no coordinate for arbitrary subsequence choice, host sequence equality, quotient stream equality, trichotomy on reals, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealBoundedSequence NameCert obligations]
+\label{thm:real-bounded-sequence-namecert-obligations}
+For every accepted $\RealBoundedSequenceUp$ carrier $K=(S,B,W,R,E,H,C,P,N)$, the local $\NameCert_{\RealBoundedSequenceUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed sequence source $S$;
+\item bound-ledger exactness for the row $B$, including the displayed endpoint reads and the finite evidence that inspected values stay within the bound;
+\item sequence-window stability for every $\StreamNameUp$ window in $W$ and its $\RegSeqRatUp$ readback in $R$;
+\item Real-seal nonescape, requiring every value and bound endpoint read to pass through the terminal $\RealUp$ row $E$;
+\item downstream handoff through $H,C,P,N$ before any $\BolzanoWeierstrassUp$ consumer may inspect the bounded source.
+\end{enumerate}
+No accepted obligation is discharged by host sequence convergence, quotient equality of streams, a selected infinite subsequence, trichotomy, open-cover compactness, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-bounded-sequence-carrier}. The visible rows are exactly $S,B,W,R,E,H,C,P,N$, so carrier admission, bound evidence, windows, readback, seal, transport, replay, provenance, and naming exhaust the local certificate surface.
+
+The bound row is read only through displayed windows. A request for an inspected sequence value first enters the source row $S$, then the finite $\StreamNameUp$ window $W$, and then the $\RegSeqRatUp$ readback $R$ before the bound witness $B$ can compare the value with its endpoints.
+
+The terminal Real row is downstream of that finite route. Componentwise transport in $H$ and displayed replay in $C$ preserve the same rows, while $P,N$ package and name the packet. Since the excluded host and compactness coordinates are absent, they cannot discharge any local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[RealBoundedSequence Real-seal handoff]
+\label{thm:real-bounded-sequence-real-seal-handoff}
+Every $\RealUp$-facing read of an accepted $\RealBoundedSequenceUp$ carrier $K=(S,B,W,R,E,H,C,P,N)$ factors through the finite route
+$$
+S,B \longmapsto W \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus sequence values and bounding endpoints reach the terminal Real seal only after the displayed source row, bound witness, finite StreamName window, and RegSeqRat readback have been exposed.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing read of a sequence value or bound endpoint. The carrier has no Real coordinate outside $E$, so the read must use the terminal seal row of \autoref{def:real-bounded-sequence-carrier}.
+
+Before $E$ is visible, the requested value is displayed through $S$ and the requested inspection window is displayed through $W$. The regular rational readback $R$ then supplies the rational approximants against which the bound witness $B$ is checked.
+
+Transport and replay do not introduce a second Real seal. The rows $H$ and $C$ preserve the same finite route, and $P,N$ source and name it for consumers. Hence a Real-facing consumer cannot bypass the sequence source, bound ledger, StreamName window, or RegSeqRat readback.
+\end{proof}
+
+\begin{theorem}[RealBoundedSequence monotone-subsequence boundary]
+\label{thm:real-bounded-sequence-monotone-subsequence-boundary}
+The $\BolzanoWeierstrassUp$ consumer of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert} may read a bounded source from an accepted $\RealBoundedSequenceUp$ carrier only through the displayed route of \autoref{thm:real-bounded-sequence-real-seal-handoff}. In particular, any monotone-subsequence or cluster-point boundary downstream receives the sequence source $S$, bound witness $B$, finite windows $W$, regular readback $R$, terminal Real seal $E$, transport $H$, replay $C$, provenance $P$, and local name $N$, but it receives no arbitrary subsequence selector, quotient stream equality, trichotomy principle, open-cover compactness proof, or ambient Real-completeness row.
+\end{theorem}
+\begin{proof}
+Read the bounded source demanded by the Bolzano--Weierstrass carrier. By \autoref{thm:real-bounded-sequence-namecert-obligations}, the only bounded-sequence surface available to that consumer is the finite package $S,B,W,R,E,H,C,P,N$.
+
+Apply \autoref{thm:real-bounded-sequence-real-seal-handoff}. The downstream route reaches $\RealUp$ only after the source sequence, bound witness, finite windows, and regular readback have been displayed, so the consumer cannot replace the packet with a host sequence or quotient stream.
+
+The monotone-subsequence and cluster-point boundaries can therefore inherit only this bounded-source surface. Since the carrier contains no row for arbitrary subsequence selection, trichotomy, open-cover compactness, or ambient completeness, those principles remain outside the handoff.
+\end{proof}
+
+\closureat{RealBoundedSequenceUp}{seedStr}
+
+\begin{closurestatus}{\RealBoundedSequenceUp}
+  \constructivestory{A $\RealBoundedSequenceUp$ packet is generated from a displayed sequence source, a bound witness row, finite StreamName windows, RegSeqRat readback, terminal Real seals, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-bounded-sequence-carrier}, \autoref{thm:real-bounded-sequence-namecert-obligations}, \autoref{thm:real-bounded-sequence-real-seal-handoff}, and \autoref{thm:real-bounded-sequence-monotone-subsequence-boundary} seed the finite bounded-sequence source consumed by Bolzano-Weierstrass and monotone-subsequence routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host sequence convergence, arbitrary subsequence choice, quotient stream equality, trichotomy, open-cover compactness, ambient RealUp completeness, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bound-ledger exactness, sequence-window stability, Real-seal nonescape, and downstream handoff for BEDC.Derived.RealBoundedSequenceUp.}
+\end{closurestatus}

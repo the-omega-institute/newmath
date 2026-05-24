@@ -53,6 +53,47 @@ Endpoint and containment admission are read before the Real seal. The rational a
 The structural rows close the naming surface. The componentwise $\hsame$ transports and displayed $\Cont$ routes preserve exactly the rows listed in the carrier, and the $\Pkg$ and $\NameCert$ rows name that finite route without adding any hidden selector, quotient equality, trichotomy, or completeness datum.
 \end{proof}
 
+\begin{definition}[Closed bounded interval finite-cover window]
+\label{def:closed-bounded-interval-finite-cover-window}
+For an accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ as in \autoref{def:closed-bounded-interval-carrier}, a finite-cover window is a finite $\BHist$ row
+$$
+W_I=(S_0,R_0,Q_0,D_0,E_0)
+$$
+whose $\StreamNameUp$ coordinate $S_0$ is a subwindow of the carried row $S$, whose $\RegSeqRatUp$ coordinate $R_0$ is read through $R$, whose rational and dyadic containment ledgers $Q_0,D_0$ are subledgers of $Q,D$, and whose endpoint seal $E_0$ is reached through the same $\RealUp$ row $E$. The window is admissible only when its lower-endpoint, upper-endpoint, endpoint-order, rational-containment, dyadic-containment, readback, and seal reads are all classifier-preserved by the carrier rows $H$ and $C$ of \autoref{def:closed-bounded-interval-classifier}.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval finite-cover nonescape]
+\label{thm:closed-bounded-interval-finite-cover-nonescape}
+Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier, and let $W_I=(S_0,R_0,Q_0,D_0,E_0)$ be a finite-cover window in the sense of \autoref{def:closed-bounded-interval-finite-cover-window}. Every finite-cover read exported to an interval-net, nested-window, or uniform-modulus consumer factors through
+$$
+L,U,O,Q_0,D_0,S_0,R_0,E_0,H,C,P,N .
+$$
+Consequently the read cannot escape to a host open cover, a selected subcover, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the finite-cover window. By definition, $S_0$ and $R_0$ are read through the carried $\StreamNameUp$ and $\RegSeqRatUp$ rows, while $Q_0$ and $D_0$ are subledgers of the rational and dyadic containment rows attached to the same endpoints.
+
+The endpoint route is fixed before the cover window is visible. The rows $L,U,O$ must be displayed before $Q_0,D_0,S_0,R_0$ can be read, and the terminal seal $E_0$ is reached only through the carried $\RealUp$ row $E$.
+
+The structural rows close the nonescape claim. Since $H$ and $C$ preserve exactly the carrier and window rows named above, and since $P,N$ only source and name that route, no exported finite-cover read contains a host open cover, selected subcover, quotient real equality, trichotomy, choice selector, or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval located endpoint readback]
+\label{thm:closed-bounded-interval-located-endpoint-readback}
+For an accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$, every endpoint-facing $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ readback of the lower or upper endpoint factors through the displayed route
+$$
+L,U,O \longmapsto S,R \longmapsto E \longmapsto H,C,P,N .
+$$
+The readback therefore preserves the endpoint-order row and the rational and dyadic containment ledgers of \autoref{def:closed-bounded-interval-carrier}; it does not replace the endpoints by host reals or by quotient representatives.
+\end{theorem}
+\begin{proof}
+Start with an endpoint-facing request. The carrier exposes lower and upper endpoint data only as $L$ and $U$, and the order row $O$ is carried before any rational, dyadic, stream, or regular-readback inspection.
+
+The finite readback rows are next. The $\StreamNameUp$ windows in $S$ and the $\RegSeqRatUp$ rows in $R$ inspect the displayed endpoint names and containment ledgers, and the $\RealUp$ seal $E$ is downstream of those finite windows.
+
+Finally apply the classifier of \autoref{def:closed-bounded-interval-classifier}. Its componentwise $\hsame$ rows and displayed $\Cont$ replay preserve the same endpoint, order, containment, window, readback, and seal coordinates, so the readback cannot be reinterpreted as a host-real endpoint or as a quotient representative outside the accepted packet.
+\end{proof}
+
 \begin{theorem}[Closed bounded interval endpoint-order transport]
 \label{thm:closed-bounded-interval-endpoint-order-transport}
 Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ and $I'=(L',U',O',Q',D',S',R',E',H',C',P',N')$ be accepted $\ClosedBoundedIntervalUp$ carriers classified together by \autoref{def:closed-bounded-interval-classifier}. Every containment read transported from $I$ to $I'$ carries the endpoint-order row $O$ to $O'$ before it transports the rational ledger $Q$ to $Q'$ or the dyadic ledger $D$ to $D'$. Consequently no consumer can preserve containment while dropping endpoint order or replacing it by a host-level comparison.
@@ -91,6 +132,46 @@ Start with the accepted $\ClosedBoundedIntervalUp$ carrier. By \autoref{thm:clos
 Apply \autoref{thm:closed-bounded-interval-net-handoff}. The finite consumer receives the base interval only through the displayed route $L,U,O,Q,D,S,R,E,H,C,P,N$, so a nested prefix displayed inside that interval must inherit the same endpoint, containment, window, readback, and seal rows.
 
 The nested-window side then reads exactly the finite route isolated by \autoref{thm:nested-interval-compactness-real-seal-boundary}. Since neither source packet contains an open cover, endpoint selector, quotient-real equality, trichotomy decision, countable-choice selector, or ambient completeness datum, the handoff cannot add any such row.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval dyadic-net obligations]
+\label{thm:closed-bounded-interval-dyadic-net-obligations}
+Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. Every $\DyadicIntervalUp$ net or $\LocatedIntervalUp$ refinement read attached to $I$ must display the endpoint rows $L,U$, the endpoint-order row $O$, the rational and dyadic containment ledgers $Q,D$, and the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ readback route $S,R,E$ before the local $\NameCert_{\ClosedBoundedIntervalUp}$ row is consumed. The dyadic-net obligations are therefore rows of the same $\BHist$ packet and not an open-cover compactness principle, a selected mesh point, quotient real equality, trichotomy, or countable choice.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its endpoint, order, rational containment, dyadic containment, finite-window, regular readback, and Real seal rows are already displayed as $L,U,O,Q,D,S,R,E$.
+
+A dyadic-net consumer may refine the interval only through the dyadic ledger $D$ and the rational containment ledger $Q$ over the same located endpoints. The rows $S,R,E$ then read those finite tests through StreamName, RegSeqRat, and Real-facing windows without replacing the interval by a host set.
+
+Transport and replay preserve the same route. Since $H,C,P,N$ only carry componentwise $\hsame$, displayed $\Cont$, provenance, and local naming for the listed rows, no dyadic-net read can add an open cover, selected mesh point, quotient equality, trichotomy decision, choice schedule, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval located-cover handoff]
+\label{thm:closed-bounded-interval-located-cover-handoff}
+Every located-cover consumer of an accepted $\ClosedBoundedIntervalUp$ carrier factors through the displayed route
+$$
+L,U,O,Q,D,S,R,E,H,C,P,N
+$$
+before reading any $\NestedIntervalCompactnessUp$ or compactness-facing row. The $\LocatedIntervalUp$ and $\RationalIntervalUp$ data supply finite containment tests, the $\DyadicIntervalUp$ ledger supplies the mesh boundary, and the $\RealUp$ readback remains downstream of the same displayed packet.
+\end{theorem}
+\begin{proof}
+Start with the located endpoint surface. The rows $L,U,O$ must be visible before a located-cover row can decide which rational or dyadic containment tests are being inspected.
+
+The cover handoff then reads $Q,D,S,R,E$. Rational and dyadic ledgers provide finite containment data, while StreamName and RegSeqRat windows carry those tests to the Real seal without choosing a subcover or a point of the interval.
+
+Finally use $H,C,P,N$. These structural rows replay and name exactly the displayed route, so a compactness-facing consumer receives a located-cover handoff over the accepted packet and not an open-cover theorem, quotient real equality, trichotomy, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval compactness consumer boundary]
+\label{thm:closed-bounded-interval-compactness-consumer-boundary}
+Any $\NestedIntervalCompactnessUp$ consumer, finite-net compactness consumer, or Real-completion consumer that reads an accepted $\ClosedBoundedIntervalUp$ packet must keep the endpoint rows, dyadic-net rows, located-cover rows, and nested compactness rows displayed before any compactness conclusion is consumed. Thus every such consumer factors through the carrier route of \autoref{def:closed-bounded-interval-carrier}, the dyadic-net obligations of \autoref{thm:closed-bounded-interval-dyadic-net-obligations}, the located-cover handoff of \autoref{thm:closed-bounded-interval-located-cover-handoff}, and the nested compactness handoff of \autoref{thm:closed-bounded-interval-nested-compactness-handoff}.
+\end{theorem}
+\begin{proof}
+First read the source carrier. The endpoint, order, containment, window, readback, seal, transport, replay, provenance, and naming rows of $I$ are the only rows a consumer can project from $\ClosedBoundedIntervalUp$.
+
+Next apply the dyadic-net and located-cover handoffs. They force finite mesh and cover consumers to pass through $Q,D,S,R,E$ over the same $L,U,O$ endpoint route.
+
+Finally pass to nested compactness. The nested-window consumer reads the same displayed interval data before it uses any compactness-facing row, so the boundary excludes open-cover compactness, selected subcovers, selected endpoints, quotient real equality, trichotomy, countable choice, and ambient completeness as hidden inputs.
 \end{proof}
 
 \falsifiablePrediction{Every interval-net or uniform-modulus read of a ClosedBoundedIntervalUp packet factors through displayed lower and upper located endpoints, endpoint order, rational and dyadic containment ledgers, StreamName windows, RegSeqRat readback, and a RealUp seal.}

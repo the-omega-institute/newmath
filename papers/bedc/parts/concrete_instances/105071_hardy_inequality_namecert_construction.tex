@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\HardyInequalityUp$}
+\label{ch:concrete-instances-hardy-inequality-namecert}
+\origin{human}
+
+Following Hardy, Littlewood, and Polya on Hardy's classical inequality, the $\HardyInequalityUp$ packet records the finite weighted-average surface needed by BEDC real-series consumers. It sits between the $\RealSeriesUp$ summation interface of \autoref{ch:concrete-instances-realseries-namecert}, the positive rational weight surface of \autoref{ch:concrete-instances-rat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names Hardy-style partial-sum control as finite RealSeries data; it does not import host analytic inequalities, choose infinite sums, assume monotone convergence, or use ambient $\RealUp$ completeness.
+
+\begin{definition}[Hardy inequality carrier]
+\label{def:hardy-inequality-carrier}
+A $\HardyInequalityUp$ carrier is a finite $\BHist$ packet
+$$
+H=(A,W,S,Q,D,U,E,T,J,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RealSeriesUp$ source row. It stores the finite real-series prefix whose Hardy averages are inspected.
+\item $W$ is the $\RatUp$ positive-weight row. Each inspected denominator and coefficient is displayed as a rational-positive entry, not as a host real scalar.
+\item $S$ is the partial-sum ledger. Its rows name the inspected prefix sums and weighted averages over the same finite windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the inspected averages.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by every comparison between a weighted average and its controlling series prefix.
+\item $U$ is the $\StreamNameUp$ window schedule. It records which finite prefix, denominator, and tolerance request are open at each read.
+\item $E$ is the $\RealUp$ seal row available only after the RealSeries source, rational weights, partial sums, readback, dyadic tolerance, and window schedule have all been displayed.
+\item $T$ records componentwise $\hsame$ transport for $A,W,S,Q,D,U,E$.
+\item $J$ records displayed $\Cont$ replay from a Hardy comparison request through the window schedule, partial-sum ledger, readback row, dyadic tolerance ledger, and Real seal.
+\item $K$ is the $\Pkg$ provenance over $\HardyInequalityUp$, $\RealSeriesUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $P$ records the finite boundary predicate saying that each displayed average reads only entries already present in the source prefix and positive-weight row.
+\item $N$ is the local $\NameCert_{\HardyInequalityUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for an infinite summation operator, a choice of limiting representative, a host analytic norm, countable choice, quotient equality of streams, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Hardy inequality NameCert obligations]
+\label{thm:hardy-inequality-namecert-obligations}
+For every accepted $\HardyInequalityUp$ carrier $H=(A,W,S,Q,D,U,E,T,J,K,P,N)$, the local $\NameCert_{\HardyInequalityUp}$ surface consists exactly of carrier admission, $\RealSeriesUp$ source exposure through $A$, positive $\RatUp$ weight exposure through $W$, finite partial-sum exposure through $S$, $\RegSeqRatUp$ readback through $Q$, $\DyadicRatCoreUp$ tolerance exposure through $D$, $\StreamNameUp$ window exposure through $U$, terminal $\RealUp$ sealing through $E$, componentwise transport through $T$, displayed replay through $J$, package provenance through $K$, boundary-predicate exposure through $P$, and local naming through $N$.
+
+These obligations bind the finite Hardy route
+$$
+\RealSeriesUp \longmapsto \RatUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp
+$$
+without adding host analytic inequalities, infinite sums, selected limits, countable choice, quotient stream equality, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hardy-inequality-carrier}. Every accepted read begins with the displayed RealSeries source row and the positive rational weight row, so the weighted averages are finite BEDC rows rather than host-level analytic expressions.
+
+The partial-sum ledger and window schedule are read next. The row $S$ lists only prefix sums and weighted averages whose indices are opened by $U$, and the boundary row $P$ requires each such average to use entries already present in $A$ and weights already present in $W$.
+
+Readback and tolerance data then enter through $Q$ and $D$. The $\RegSeqRatUp$ row supplies regular rational approximants for the inspected averages, and the $\DyadicRatCoreUp$ row supplies the finite tolerance ledger for each comparison.
+
+Finally $E,T,J,K,N$ seal, transport, replay, source, and name the same ordered route. Since the excluded objects are absent from the carrier, no additional Hardy obligation can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hardy inequality partial-sum boundary]
+\label{thm:hardy-inequality-partial-sum-boundary}
+Let $H=(A,W,S,Q,D,U,E,T,J,K,P,N)$ be an accepted $\HardyInequalityUp$ packet. Every Hardy average or partial-sum comparison exported by $H$ factors through a displayed $\StreamNameUp$ window in $U$, a finite $\RealSeriesUp$ prefix in $A$, a positive $\RatUp$ weight row in $W$, the partial-sum ledger $S$, the $\RegSeqRatUp$ readback $Q$, and the $\DyadicRatCoreUp$ tolerance ledger $D$ before any $\RealUp$ seal $E$ is available downstream.
+
+Consequently the packet records Hardy's classical inequality only as finite weighted-prefix control. It does not assert convergence of the whole series, import an external $L^p$ inequality, choose a limiting representative, quotient streams, invoke countable choice, or assume ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the window row $U$. A Hardy request is accepted only after it names a finite prefix, denominator, and tolerance request, so no read can inspect a term outside the displayed window.
+
+The source and weight rows supply the numeric data for that request. The $\RealSeriesUp$ row $A$ gives the inspected prefix, while the $\RatUp$ row $W$ gives the positive rational weights used by the displayed average.
+
+The partial-sum ledger $S$ and readback row $Q$ then expose the finite average as regular rational data. The dyadic ledger $D$ is the only tolerance surface available for comparing that readback with the controlling prefix.
+
+The Real seal $E$ is downstream from all of these rows, and $T,J,K,N$ only transport, replay, source, and name the same route. Thus every exported comparison is bounded by the finite prefix data, and the excluded analytic and completeness principles remain outside the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HardyInequalityUp$ read exposes a $\RealSeriesUp$ prefix, positive $\RatUp$ weights, a finite partial-sum ledger, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal, componentwise transport, displayed continuation replay, package provenance, boundary-predicate exposure, and local $\NameCert$ before any Hardy comparison is exported.}
+
+\independenceWitness{realseries, rat, dyadicratcore, streamname, regseqrat, real: $\HardyInequalityUp$ is not bijective to any listed sibling because it jointly carries a weighted partial-sum ledger and a boundary predicate tying Hardy averages to finite RealSeries prefixes and positive rational weights.}
+
+\closureat{HardyInequalityUp}{seedStr}
+
+\begin{closurestatus}{\HardyInequalityUp}
+  \constructivestory{A $\HardyInequalityUp$ packet is generated from a RealSeries source prefix, positive Rat weights, a finite partial-sum ledger, RegSeqRat readback, a DyadicRatCore tolerance ledger, StreamName windows, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, a finite boundary predicate, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hardy-inequality-carrier}, \autoref{thm:hardy-inequality-namecert-obligations}, and \autoref{thm:hardy-inequality-partial-sum-boundary} seed the finite Hardy weighted-prefix route over displayed $\RealSeriesUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host analytic Hardy inequalities, convergence of infinite sums, selected limits, quotient stream equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, positive-weight exposure, partial-sum boundary exposure, readback handoff, tolerance ledger nonescape, Real seal handoff, and transport stability for BEDC.Derived.HardyInequalityUp.}
+\end{closurestatus}

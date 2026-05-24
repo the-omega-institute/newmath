@@ -49,3 +49,27 @@ Use \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}
 
 Finally apply \autoref{thm:closed-term-substitution-boundary-root-substitution-nonescape}. Since substitution reads themselves remain inside the audited packet, the root audit gate prevents host substitution semantics from appearing as an additional consumer coordinate.
 \end{proof}
+
+\begin{corollary}[Closed-term substitution boundary root closedness strict local obstruction]
+\label{cor:closed-term-substitution-boundary-root-closedness-strict-local-obstruction}
+Let $O$ be a displayed failure, refusal, separation, or countermodel row attached to a consumer-facing converse or reuse attempt for a root substitution read of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N).
+$$
+If the attempt uses the root closedness boundary, then $O$ is a strict local obstruction. It can block only the named route that tries to consume $R$ without the displayed source and value closedness gates, or the named reuse route that tries to read the closed-substitution row outside
+$$
+C_{\mathsf{src}},C_{\mathsf{val}},R,L,A,H,C,P,N.
+$$
+Every consumer-facing admissible use factors through those rows inside the displayed packet, and every unlisted coordinate is rejected. Hence $O$ cannot be reinterpreted as a global impossibility statement, a host theorem, ambient subject reduction, host substitution semantics, unchecked compiler state, or hidden external validation.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:closed-term-substitution-boundary-root-closedness-gate}. It gives the only closedness gates available at the root boundary: $C_{\mathsf{src}}$ gates a closed shift read through $Q$, and the pair $C_{\mathsf{src}},C_{\mathsf{val}}$ gates a closed substitution read through $R$. The same theorem keeps both operation reads inside the displayed carrier, classifier, ledger, audit, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Thus a converse or reuse attempt that cites the root closedness boundary has no independent closedness source and no operation coordinate before these gates are exposed.
+
+Now use \autoref{thm:closed-term-substitution-boundary-root-substitution-nonescape}. Every root substitution read stays inside
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N,
+$$
+and it may consume $R$ only through the displayed closedness gates, the ledger $L$, the audit row $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, package provenance $P$, and local $\NameCert$ row $N$. Therefore any consumer-facing use of the alleged converse or reuse route must factor through exactly the listed closedness, substitution, ledger, audit, transport, route, provenance, and naming rows.
+
+The obstruction row $O$ has only this local target. If the attempted route asks to read $R$ before $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ have gated it, then $O$ blocks that named closedness failure. If the attempted route asks to reuse $R$ beyond $L,A,H,C,P,N$, then $O$ blocks that named non-escape failure. If the attempted route asks for a global impossibility statement, a host theorem, ambient subject reduction, host substitution semantics, unchecked compiler state, hidden external validation, or any other unlisted coordinate, the two cited root rows supply no projection for that request. The row is therefore a strict local obstruction to the named converse or reuse route and not an external validation principle.
+\end{proof}

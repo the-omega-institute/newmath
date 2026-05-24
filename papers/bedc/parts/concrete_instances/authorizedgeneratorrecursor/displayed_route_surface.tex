@@ -49,3 +49,28 @@ Route determinacy follows because $K$ is the only continuation coordinate. Once 
 Ledger exhaustion and non-escape are exactly the content of \autoref{thm:authorized-generator-recursor-ledger-exhaustion}. The route therefore packages the carrier, classifier, deterministic continuation, exhaustive ledger, and refusal of unrecorded host recursors into the local $\NameCert$ surface.
 \end{proof}
 \leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorNameCertRoute}
+
+\begin{lemma}[AuthorizedGeneratorRecursor displayed route downstream coverage]
+\label{lem:authorized-generator-recursor-displayed-route-downstream-coverage}
+Let $c$ be an accepted local consumer of an $\AuthorizedGeneratorRecursorUp$ displayed route. Then the consumer read is exhausted by the finite displayed-route packet
+$$
+R=(A,G,F,K,P,N)
+$$
+of \autoref{def:authorized-generator-recursor-displayed-route}. More precisely, $c$ factors through one of the following local alternatives:
+\begin{enumerate}
+\item the authorization row $A$ for the accepted generator signature;
+\item the generator row $G$ naming the generator whose recursor is being read;
+\item the recursion-fuel row $F$ bounding the displayed recursive descent;
+\item the continuation route $K$ exposing each branch, recursive call, and output row through displayed $\Cont$ data;
+\item the package provenance row $P$ over the accepted signature, generator row, fuel row, branch package, output route, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$ for the displayed route.
+\end{enumerate}
+Consequently every request for an unrecorded host recursor, an unbounded recursion principle, an extra generator branch, or a detached output channel has no accepted coordinate in the $\AuthorizedGeneratorRecursorUp$ displayed-route packet.
+\end{lemma}
+\begin{proof}
+Start with an accepted local consumer read of the displayed route. By \autoref{thm:authorized-generator-recursor-ledger-exhaustion}, every consumer read of an accepted $\AuthorizedGeneratorRecursorUp$ displayed route factors through the authorization row $A$, generator row $G$, recursion-fuel row $F$, continuation route $K$, package provenance row $P$, and local naming row $N$.
+
+Project those rows through \autoref{def:authorized-generator-recursor-displayed-route}. The displayed route is the finite $\BHist$ packet $R=(A,G,F,K,P,N)$, and the definition assigns each public coordinate a fixed role: $A$ admits the accepted generator signature, $G$ names the generator whose recursor is public, $F$ bounds the recursive descent, $K$ carries the displayed continuation data for branches, recursive calls, and output rows, $P$ records the package provenance for the route data, and $N$ supplies the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row. Thus the factorization supplied by ledger exhaustion lands in exactly the six alternatives listed in the statement.
+
+It remains to exclude requests not listed among those alternatives. An unrecorded host recursor would require a second recursor coordinate, but \autoref{def:authorized-generator-recursor-displayed-route} states that the route has no coordinate for one and \autoref{thm:authorized-generator-recursor-ledger-exhaustion} blocks importing one through a consumer read. An unbounded recursion principle would have to bypass $F$, while ledger exhaustion requires every recursive access to factor through the displayed fuel row. An extra generator branch would require a branch coordinate outside the continuation route $K$, but the displayed route exposes branches only through $K$. A detached output channel would require an output read not attached to $A,G,F,K,P,N$, while ledger exhaustion states that no consumer can read such an output. Hence every accepted local consumer is covered by the displayed finite rows, and every unlisted alternative remains outside the BEDC packet.
+\end{proof}

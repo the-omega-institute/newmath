@@ -297,4 +297,71 @@ theorem BoundedRealSequenceWindow_envelope
     unary_cont_closed boundUnary transportUnary boundEnvelope
   exact ⟨sourceReadUnary, boundUnary, envelopeUnary, rfl⟩
 
+theorem BoundedRealSequenceRegSeqRat_readback
+    {S W Q R I H C P N windowRead sealRead boundRead attachedRead : BHist} :
+    UnaryHistory W ->
+      UnaryHistory Q ->
+        UnaryHistory R ->
+          UnaryHistory I ->
+            UnaryHistory H ->
+              Cont W Q windowRead ->
+                Cont windowRead R sealRead ->
+                  Cont sealRead I boundRead ->
+                    Cont boundRead H attachedRead ->
+                      UnaryHistory windowRead ∧ UnaryHistory sealRead ∧
+                        UnaryHistory boundRead ∧ UnaryHistory attachedRead ∧
+                          BHistCarrier.toEventFlow
+                              (BoundedRealSequenceUp.mk S W Q R I H C P N) =
+                            BoundedRealSequenceTasteGate_single_carrier_alignment_to_event_flow
+                              (BoundedRealSequenceUp.mk S W Q R I H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  intro windowUnary readbackUnary realUnary intervalUnary transportUnary windowRoute
+    sealRoute boundRoute attachedRoute
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowUnary readbackUnary windowRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowReadUnary realUnary sealRoute
+  have boundReadUnary : UnaryHistory boundRead :=
+    unary_cont_closed sealReadUnary intervalUnary boundRoute
+  have attachedReadUnary : UnaryHistory attachedRead :=
+    unary_cont_closed boundReadUnary transportUnary attachedRoute
+  exact ⟨windowReadUnary, sealReadUnary, boundReadUnary, attachedReadUnary, rfl⟩
+
+theorem BoundedRealSequenceBolzano_frontier
+    {S W Q R I H C P N sourceRead readbackRead sealRead boundRead frontierRead : BHist} :
+    UnaryHistory S ->
+      UnaryHistory W ->
+        UnaryHistory Q ->
+          UnaryHistory R ->
+            UnaryHistory I ->
+              UnaryHistory H ->
+                Cont S W sourceRead ->
+                  Cont sourceRead Q readbackRead ->
+                    Cont readbackRead R sealRead ->
+                      Cont sealRead I boundRead ->
+                        Cont boundRead H frontierRead ->
+                          UnaryHistory sourceRead ∧ UnaryHistory readbackRead ∧
+                            UnaryHistory sealRead ∧ UnaryHistory boundRead ∧
+                              UnaryHistory frontierRead ∧
+                                BHistCarrier.toEventFlow
+                                    (BoundedRealSequenceUp.mk S W Q R I H C P N) =
+                                  BoundedRealSequenceTasteGate_single_carrier_alignment_to_event_flow
+                                    (BoundedRealSequenceUp.mk S W Q R I H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark UnaryHistory Cont
+  intro sourceUnary windowUnary readbackUnary realUnary intervalUnary transportUnary
+    sourceWindow readbackRoute sealRoute boundRoute frontierRoute
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed sourceUnary windowUnary sourceWindow
+  have readbackReadUnary : UnaryHistory readbackRead :=
+    unary_cont_closed sourceReadUnary readbackUnary readbackRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackReadUnary realUnary sealRoute
+  have boundReadUnary : UnaryHistory boundRead :=
+    unary_cont_closed sealReadUnary intervalUnary boundRoute
+  have frontierReadUnary : UnaryHistory frontierRead :=
+    unary_cont_closed boundReadUnary transportUnary frontierRoute
+  exact
+    ⟨sourceReadUnary, readbackReadUnary, sealReadUnary, boundReadUnary, frontierReadUnary,
+      rfl⟩
+
 end BEDC.Derived.BoundedRealSequenceUp

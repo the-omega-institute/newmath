@@ -11,6 +11,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -46,5 +47,66 @@ theorem IntermediateValueCarrier_real_seal_handoff [AskSetup] [PackageSetup]
     ⟨locatedUnary, bisectionUnary, nestedUnary, realSealUnary, consumerUnary,
       modulusBisectionNested, bisectionNestedSeal, nestedSealConsumer, provenancePkg,
       consumerPkg⟩
+
+theorem IntermediateValueCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
+    {locatedInterval endpointNegative endpointPositive continuousMap modulusBudget
+      bisectionLedger nestedWindow realSeal transports routes provenance localNameCert
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntermediateValueCarrier locatedInterval endpointNegative endpointPositive continuousMap
+        modulusBudget bisectionLedger nestedWindow realSeal transports routes provenance
+        localNameCert bundle pkg ->
+      Cont nestedWindow realSeal consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row consumerRead ∧ Cont nestedWindow realSeal consumerRead)
+              (fun row : BHist =>
+                hsame row consumerRead ∧ Cont modulusBudget bisectionLedger nestedWindow ∧
+                  Cont bisectionLedger nestedWindow realSeal ∧
+                    Cont nestedWindow realSeal consumerRead)
+              (fun row : BHist =>
+                hsame row consumerRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle consumerRead pkg)
+              hsame ∧
+            UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier nestedSealConsumer consumerPkg
+  obtain ⟨_locatedUnary, _endpointNegativeUnary, _endpointPositiveUnary, _continuousUnary,
+    modulusUnary, bisectionUnary, _transportsUnary, _routesUnary, _provenanceUnary,
+    _localNameCertUnary, modulusBisectionNested, bisectionNestedSeal, provenancePkg,
+    _localNameCertPkg⟩ := carrier
+  have nestedUnary : UnaryHistory nestedWindow :=
+    unary_cont_closed modulusUnary bisectionUnary modulusBisectionNested
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed bisectionUnary nestedUnary bisectionNestedSeal
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed nestedUnary realSealUnary nestedSealConsumer
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro consumerRead (And.intro (hsame_refl consumerRead) nestedSealConsumer)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨source.left, modulusBisectionNested, bisectionNestedSeal, source.right⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, provenancePkg, consumerPkg⟩
+    }
+  · exact consumerUnary
 
 end BEDC.Derived.IntermediateValueUp
