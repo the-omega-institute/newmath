@@ -195,6 +195,7 @@ import BEDC.Derived.ApophaticNameUp.RootLedgerCoverage
 import BEDC.Derived.ApophaticNameUp.RootPublicCitationSelectorExclusion
 import BEDC.Derived.ApophaticNameUp.RootReflectionAxisRefusal
 import BEDC.Derived.ApophaticNameUp.RootRefusalBoundaryExhaustion
+import BEDC.Derived.ApophaticNameUp.RootRefusalBoundaryStrictObstruction
 import BEDC.Derived.ApophaticNameUp.RootRefusalGateTotality
 import BEDC.Derived.ApophaticNameUp.RootRefusalLedgerExactness
 import BEDC.Derived.ApophaticNameUp.RootRefusalLedgerExhaustion
@@ -1135,6 +1136,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RootLedgerNonescapeTotality
 import BEDC.Derived.CauchyModulusRefinementUp.RootRealSealExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.RootRealSealNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.RootRouteCompleteness
+import BEDC.Derived.CauchyModulusRefinementUp.RootSourceBindingStrictObstruction
 import BEDC.Derived.CauchyModulusRefinementUp.RootSourceMeetDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.RootTerminalSelectorReadback
 import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdOpenPhaseHandoff
@@ -1144,6 +1146,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdSurfaces
 import BEDC.Derived.CauchyModulusRefinementUp.RootUnblockObligationSurface
 import BEDC.Derived.CauchyModulusRefinementUp.RootUnblockPackage
 import BEDC.Derived.CauchyModulusRefinementUp.RootWindowRealSealDeterminacy
+import BEDC.Derived.CauchyModulusRefinementUp.RootWindowSelectorStrictObstruction
 import BEDC.Derived.CauchyModulusRefinementUp.RootWindowSelectorTotality
 import BEDC.Derived.CauchyModulusRefinementUp.RootWindowSelectorUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetDependency
