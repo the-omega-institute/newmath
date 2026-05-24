@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ConvergentNetUp$}
+\label{ch:concrete-instances-convergent-net-namecert}
+\origin{human}
+
+Following Moore--Smith and Kelley, the $\ConvergentNetUp$ packet records ordinary convergent-net evidence as finite BEDC naming data. It sits over the directed-index substrate of \autoref{ch:concrete-instances-directedset-namecert}, beside the Cauchy-tail surface of \autoref{ch:concrete-instances-cauchynet-namecert}, and before the convergence boundary of \autoref{ch:concrete-instances-mooresmithconvergence-namecert} and \autoref{ch:concrete-instances-cauchynetlimit-namecert}. The same finite route is readable by the completion consumers in \autoref{ch:concrete-instances-uniformcompletion-namecert} and \autoref{ch:concrete-instances-metriccompletion-namecert}, without turning convergence into a quotient of nets, a selected host limit, countable choice, or an ambient completeness assertion.
+
+\begin{definition}[ConvergentNet carrier]
+\label{def:convergent-net-carrier}
+A $\ConvergentNetUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,V,T,L,M,C,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DirectedSetUp$ index-window row, naming the inspected indices, tail windows, and displayed upper-window witnesses.
+\item $V$ is the net-value row over the indices displayed by $D$.
+\item $T$ is the convergence-test row, recording the finite neighborhoods, entourages, or metric tolerances that the packet actually inspects.
+\item $L$ is the displayed boundary row toward which the packet tests convergence, read only as finite naming data.
+\item $M$ is the $\MooreSmithConvergenceUp$ boundary row that packages the same directed-window, value, test, and boundary evidence.
+\item $C$ is the optional $\CauchyNetUp$ tail row consumed by completion-facing readers that need Cauchy evidence.
+\item $H$ records componentwise $\hsame$ transport for the directed-window, value, test, boundary, convergence, Cauchy-tail, continuation, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from directed windows through net values, tests, boundary reads, Moore--Smith convergence, optional Cauchy-tail evidence, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\ConvergentNetUp$, $\DirectedSetUp$, $\CauchyNetUp$, $\MooreSmithConvergenceUp$, $\CauchyNetLimitUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConvergentNetUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for quotient nets, selected host limits, countable-choice selectors, cofinal choice functions, host equality of boundary points, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[ConvergentNet NameCert obligations]
+\label{thm:convergent-net-namecert-obligations}
+For every accepted $\ConvergentNetUp$ carrier $G=(D,V,T,L,M,C,H,K,P,N)$, the local $\NameCert_{\ConvergentNetUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed directed index windows, net values, convergence tests, boundary row, Moore--Smith row, Cauchy-tail row, transport, continuation, provenance, and local naming;
+\item directed-window coverage, requiring every convergence test in $T$ to be attached to a tail window displayed by $D$;
+\item value exposure, requiring each accepted test to inspect only net values displayed by $V$;
+\item boundary exposure, requiring $L$ to be read only after $D,V,T$ have been displayed;
+\item Moore--Smith packaging, requiring $M$ to preserve the same finite route before any completion-facing consumer reads it;
+\item completion handoff readiness, requiring the optional Cauchy-tail row $C$ before $\CauchyNetLimitUp$, $\UniformCompletionUp$, or $\MetricCompletionUp$ consumes the packet;
+\item ledger refusal, excluding quotient nets, selected host limits, countable choice, cofinal choice, host equality of limits, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:convergent-net-carrier}. The tuple exposes directed windows, net values, convergence tests, a boundary row, the Moore--Smith convergence row, the optional Cauchy-tail row, and the structural rows $H,K,P,N$.
+
+Directed-window coverage and value exposure are forced by the continuation row $K$. A convergence test is replayed first through $D$, then through $V$, and only then reaches $T$ and the boundary row $L$.
+
+The Moore--Smith row $M$ packages the same displayed route. If a completion-facing reader also needs Cauchy evidence, it must consume the row $C$ before the route can be handed to $\CauchyNetLimitUp$, $\UniformCompletionUp$, or $\MetricCompletionUp$.
+
+Since the carrier has no coordinate for quotient nets, selected limits, choice operators, host equality, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[ConvergentNet Cauchy handoff]
+\label{thm:convergent-net-cauchy-handoff}
+Let $G=(D,V,T,L,M,C,H,K,P,N)$ be an accepted $\ConvergentNetUp$ packet. Any completion-facing consumer that reads $G$ as Cauchy-directed evidence must first display the $\DirectedSetUp$ index substrate $D$, the net-value row $V$, the convergence-test row $T$, the boundary row $L$, the $\MooreSmithConvergenceUp$ row $M$, and then the $\CauchyNetUp$ tail row $C$. The handoff preserves the finite directed-net route toward \autoref{ch:concrete-instances-cauchynetlimit-namecert}, \autoref{ch:concrete-instances-uniformcompletion-namecert}, and \autoref{ch:concrete-instances-metriccompletion-namecert}, and exports no quotient net, selected limit, countable-choice selector, cofinal-choice operator, host equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from a completion-facing read of the packet. Carrier admission gives the directed-window substrate $D$ and the values $V$, but no completion consumer is visible before the convergence tests and boundary row have been replayed.
+
+Use the continuation row $K$. It routes the read through $D,V,T,L$ and then into the Moore--Smith row $M$, so the convergence evidence remains a finite directed-net display.
+
+For a Cauchy-directed completion consumer, the row $C$ is the required tail-evidence handoff. After $C$ is displayed, the same finite route can be consumed by the directed-net limit, uniform-completion, or metric-completion surface.
+
+The omitted coordinates are exactly the forbidden exits: quotient nets, selected limits, countable choice, cofinal choice, host equality, and ambient completeness. Hence the handoff preserves only the displayed finite route.
+\end{proof}
+
+\closureat{ConvergentNetUp}{seedStr}
+
+\begin{closurestatus}{\ConvergentNetUp}
+  \constructivestory{A $\ConvergentNetUp$ packet is generated from a DirectedSet index-window row, net values, convergence tests, a displayed boundary row, Moore--Smith convergence data, optional CauchyNet tail evidence, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:convergent-net-carrier}, \autoref{thm:convergent-net-namecert-obligations}, and \autoref{thm:convergent-net-cauchy-handoff} seed the finite convergent-net surface between directed index data, Moore--Smith convergence, and completion-facing Cauchy handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient nets, selected host limits, countable choice, cofinal choice, host equality of boundary points, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-window coverage, value exposure, boundary exposure, Moore--Smith packaging, Cauchy handoff, provenance, and ledger refusal for the same finite packet.}
+\end{closurestatus}
