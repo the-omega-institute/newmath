@@ -123,3 +123,25 @@ Next apply \autoref{thm:bounded-monotone-cauchy-witness-window-exhaustion}. The 
 
 Finally use \autoref{thm:bounded-monotone-cauchy-witness-trap-seal-exactness} together with \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. The located trap and $\RealUp$ seal are exact for the scheduled envelope, and the ledger has no remaining coordinate for any excluded completion, equality, compactness, or choice principle.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness scheduled tail downstream coverage]
+\label{thm:bounded-monotone-cauchy-witness-scheduled-tail-downstream-coverage}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and let $E=(S,F,\sigma,\mu,\lambda,I,H,C,P,N)$ be its scheduled tail envelope. Every accepted local consumer of the scheduled tail is covered by the displayed finite packet
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N.
+$$
+More precisely, a tolerance consumer is exhausted by the source, regular-rational handoff, scheduled-window, modulus, and dyadic-ledger rows $S,F,\sigma,\mu,\lambda$; a finite-observation consumer is exhausted by those rows together with the located trap and seal rows $I,Q$; a trap or seal consumer is exhausted by $E$ followed by $Q$; and any transport, continuation, provenance, or naming consumer is exhausted by $H,C,P,N$.
+
+Thus the scheduled tail has no accepted downstream coordinate for quotient equality, host real equality, selected limits, trichotomy, ambient completeness, open-cover compactness, hidden tail thresholds, or choice-selected tails. Those alternatives remain outside the accepted $\BoundedMonotoneCauchyWitnessUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the scheduled envelope from \autoref{def:bounded-monotone-cauchy-witness-scheduled-tail-envelope}. The envelope displays exactly the pre-seal rows $S,F,\sigma,\mu,\lambda,I,H,C,P,N$, and the only post-envelope row of the accepted carrier is the $\RealUp$ seal row $Q$.
+
+First consider a tolerance consumer. By \autoref{thm:bounded-monotone-cauchy-witness-window-coverage}, every tolerance request factors through $E$ and specifically through $S,F,\sigma,\mu,\lambda$ before either $I$ or $Q$ can be read. Hence the tolerance side is already exhausted by the finite service rows of the envelope, with no hidden tail selector or completion input.
+
+Next consider a finite-observation, trap, or seal consumer. The finite-observation route of \autoref{thm:bounded-monotone-cauchy-witness-finite-observation-lock} reads the same source, window, modulus, dyadic-budget, located-trap, and seal rows. For direct trap and seal reads, \autoref{thm:bounded-monotone-cauchy-witness-trap-seal-exactness} says that every read of $I$ or $Q$ factors through $E$ before export and is exact for the displayed source, handoff, schedule, modulus, budget, transport, continuation, provenance, and naming rows.
+
+The remaining local consumers in this file are the root, window-exhaustion, and seal-handoff consumers. By \autoref{thm:bounded-monotone-cauchy-witness-root-unblock}, the root consumer receives the finite package $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. By \autoref{thm:bounded-monotone-cauchy-witness-window-exhaustion}, the scheduled windows and dyadic ledger exhaust the public tail service. By \autoref{thm:bounded-monotone-cauchy-witness-seal-handoff}, the public handoff is the same finite-row package, first serving the tail windows, then extracting the modulus, then reading the located trap, and finally exporting $Q$.
+
+Combining these cases, every accepted local consumer reads one of the enumerated finite service, ledger, coverage, trap, seal, transport, continuation, provenance, or naming rows. Since the carrier has no coordinate beyond those rows, the excluded quotient-equality, host-equality, selected-limit, trichotomy, completeness, compactness, hidden-threshold, and choice-selected-tail alternatives cannot be accepted downstream reads of the packet.
+\end{proof}

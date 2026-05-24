@@ -96,3 +96,29 @@ The non-$\HSame$ boundary prevents the generator from becoming a history equalit
 
 Together these rows exhaust the concrete certificate surface. There is no carrier coordinate for Fibonacci values, value preservation, uniqueness of arithmetic value, or a quotient of histories, so those claims are not exported by $\ZCarryUp$.
 \end{proof}
+
+\begin{corollary}[Zeckendorf carry strict local obstruction]
+\label{cor:zeckendorfcarry-strict-local-obstruction}
+Let $K=(h,k,G,S,T,B,L,N)$ be an accepted $\ZCarryUp$ packet. Suppose a displayed failure, refusal, separation, or countermodel row is attached to a consumer of $K$ and is used against a named converse or reuse route. Then the row is a strict local obstruction: it blocks only the route whose read asks to add or replace one of the displayed carry coordinates
+$$
+\mathsf{ZCarry}(\mathtt{word\_011},\mathtt{word\_100}),\quad
+S:\neg\mathsf{ZNormal}(\mathtt{word\_011}),\quad
+T:\mathsf{ZNormal}(\mathtt{word\_100}),\quad
+B:\neg\HSame(h,k),\quad
+L,\quad N.
+$$
+Every permitted consumer-facing use factors through these rows, with source $\mathtt{word\_011}$ and target $\mathtt{word\_100}$ fixed. A request for a second carry generator, a hidden target, an $\HSame(h,k)$ identification, an arithmetic equality, a Fibonacci value row, a history quotient, a global normalizer, a host theorem, or hidden external validation has no coordinate in the accepted packet.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:zeckendorfcarry-generator-boundary}. It fixes the only generated carry row as
+$$
+\mathsf{ZCarry}(\mathtt{word\_011},\mathtt{word\_100}),
+$$
+forces the source row to $\mathtt{word\_011}$ and the target row to $\mathtt{word\_100}$, and excludes any second generator, hidden target, or arithmetic equality row from the carrier. Thus a consumer cannot reinterpret a negative row as ranging over arbitrary carry windows or over an ambient arithmetic comparison; the only carry window available to the consumer is the displayed one.
+
+Next apply \autoref{thm:zeckendorfcarry-namecert-obligations}. The carrier-habitation obligation supplies the displayed packet $K$. The classifier-transport obligation routes comparison through $G$ rather than through $\HSame(h,k)$. The source and target boundary obligations expose exactly $S:\neg\mathsf{ZNormal}(\mathtt{word\_011})$ and $T:\mathsf{ZNormal}(\mathtt{word\_100})$. The ledger obligation packages carry transport, source rejection, target acceptance, and non-$\HSame$ separation without exporting an arithmetic value or history quotient.
+
+Now let the proposed converse or reuse route be consumer-facing. To consume $K$ it must first read the generator, normality, separation, ledger, and local naming rows just listed. If the displayed failure, refusal, separation, or countermodel row denies one of those reads, it blocks that named route at the corresponding packet coordinate. If the route instead asks for a second generator, hidden target, source-target $\HSame$ proof, arithmetic equality, value row, quotient, global normalizer, host theorem, or external validation channel, the carrier and obligation theorems give no coordinate through which that request can be read.
+
+Therefore the obstruction is exact and local. It is a negative certificate for the named converse or reuse route inside the displayed $\ZCarryUp$ packet, and it supplies no global impossibility statement, no host-side theorem, and no hidden validation of an unlisted route.
+\end{proof}

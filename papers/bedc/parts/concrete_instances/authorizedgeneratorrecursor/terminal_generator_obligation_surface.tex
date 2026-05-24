@@ -40,3 +40,29 @@ Next use the output and boundary readiness results. \autoref{thm:authorized-gene
 
 Finally apply terminal consumer readiness. \autoref{thm:authorized-generator-recursor-terminal-consumer-readiness} leaves no terminal normalization, closed-substitution, or generator-audit route outside the finite packet, so $O$ has no consumer apart from $A,G,N$ and the displayed rows that carry them.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor terminal generator strict obstruction]
+\label{cor:authorized-generator-recursor-terminal-generator-strict-obstruction}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Suppose a displayed failure, refusal, separation, or countermodel row is cited against a named terminal-generator converse or reuse route in the terminal generator obligation surface of $R$. Then the row is a strict local obstruction: it blocks only the named route whose consumer-facing use tries to read, omit, detach, replace, or bypass one of the displayed packet coordinates
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Every permitted terminal-generator use of the row factors through the same route block $I,E,M,B,D,O,A$, the componentwise transport row $H$, the displayed continuation readback row $C$, the provenance row $P$, the ground-boundary row $G$, and the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$. The same displayed row cannot be reinterpreted as a global impossibility theorem, a host theorem about generators, hidden external validation, or an obstruction to any terminal consumer route that still remains inside those displayed rows.
+\end{corollary}
+\begin{proof}
+Start with terminal generator admission, \autoref{thm:authorized-generator-recursor-terminal-generator-admission}. It admits every terminal generator-facing consumer route only through the finite packet rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+It also states that terminal normalization, closed-substitution, and generator-audit consumers may read $O$ only as a row of this finite carrier and never as detached generator authority. Hence a consumer-facing use of the cited failure, refusal, separation, or countermodel row has no initial terminal-generator coordinate outside the displayed packet.
+
+Now apply terminal audit $\NameCert$ nonescape, \autoref{thm:authorized-generator-recursor-terminal-audit-namecert-nonescape}. Terminal output cannot be consumed apart from the audit row $A$, the ground-boundary row $G$, and the local $\NameCert$ row $N$ carried by the same packet. Thus any terminal use that speaks about $O$ must retain the route rows that carry the output and audit, the transport and continuation rows $H,C$, the provenance row $P$, and the boundary-certificate rows $G,N$.
+
+Consider the named converse or reuse route against which the displayed row is cited. If that route tries to read $O$ before the route block $I,E,M,B,D,O,A$ is present, or tries to omit the transport row $H$, the continuation readback row $C$, the provenance row $P$, the ground-boundary row $G$, or the local certificate row $N$, the two cited theorems locate the obstruction at that missing displayed coordinate. Therefore the row blocks precisely that named terminal-generator route, namely the route whose consumer-facing use fails to remain inside the admitted finite carrier and the audit-certificate nonescape route.
+
+It remains to exclude stronger readings. A global impossibility theorem would require a conclusion not indexed by the accepted packet $R$ and not confined to the named failed route. A host theorem about generators would require a host-facing generator coordinate outside $I,E,M,B,D,O,A,H,C,P,G,N$. Hidden external validation would require an additional validation or certificate row beyond $A,G,N$ and the same displayed packet rows that carry them. Terminal generator admission exposes no such coordinate, and terminal audit $\NameCert$ nonescape prevents $O$ from being read apart from the displayed audit, boundary, provenance, transport, continuation, and local naming data. Hence the obstruction is strict and local to the named terminal-generator converse or reuse route.
+\end{proof}
