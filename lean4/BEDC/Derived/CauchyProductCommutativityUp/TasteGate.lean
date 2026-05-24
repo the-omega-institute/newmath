@@ -201,6 +201,18 @@ private theorem cauchyProductCommutativityToEventFlow_injective
     (Eq.trans (cauchyProductCommutativity_round_trip x).symm
       (Eq.trans hread (cauchyProductCommutativity_round_trip y)))
 
+private theorem cauchyProductCommutativityFields_faithful :
+    ∀ x y : CauchyProductCommutativityUp,
+      cauchyProductCommutativityFields x = cauchyProductCommutativityFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk Pxy₁ Pyx₁ Wx₁ Wy₁ Dxy₁ Dyx₁ Rxy₁ Ryx₁ Exy₁ Eyx₁ H₁ C₁ Q₁ N₁ =>
+      cases y with
+      | mk Pxy₂ Pyx₂ Wx₂ Wy₂ Dxy₂ Dyx₂ Rxy₂ Ryx₂ Exy₂ Eyx₂ H₂ C₂ Q₂ N₂ =>
+          cases hfields
+          rfl
+
 instance cauchyProductCommutativityBHistCarrier :
     BHistCarrier CauchyProductCommutativityUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -219,6 +231,12 @@ instance cauchyProductCommutativityChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (cauchyProductCommutativityToEventFlow_injective heq)
+
+instance cauchyProductCommutativityFieldFaithful :
+    FieldFaithful CauchyProductCommutativityUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := cauchyProductCommutativityFields
+  field_faithful := cauchyProductCommutativityFields_faithful
 
 instance cauchyProductCommutativityNontrivial :
     BEDC.Meta.TasteGate.Nontrivial CauchyProductCommutativityUp where
