@@ -372,6 +372,56 @@ theorem UniformCompletion_universal_ledger_nonescape {F D U E H C P N route : BH
         ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
           extensionRoute, replayRoute, ledgerRoute⟩
 
+theorem UniformCompletion_filter_net_exactness
+    {F D U E H C P N request witness extensionRead : BHist} :
+    UniformCompletionCarrier N →
+      Cont F D U →
+        Cont F request witness →
+          hsame request D →
+            Cont U E extensionRead →
+              UniformCompletionCauchyFilterPattern N ∧
+                UniformCompletionLedgerPolicy N ∧
+                  UniformCompletionClassifier request D ∧
+                    Exists (fun route : BHist => Cont F D route) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro carrier displayedRoute _requestRoute sameRequest _extensionRead
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    extensionRoute, replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact
+      ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+        extensionRoute, replayRoute, ledgerRoute⟩
+  · constructor
+    · exact ⟨P0, N0, sameName, ledgerRoute⟩
+    · constructor
+      · exact sameRequest
+      · exact ⟨U, displayedRoute⟩
+
+theorem UniformCompletion_directed_subwindow_extraction
+    {F D U E H C P N subwindow routeRead extensionRead : BHist} :
+    UniformCompletionCarrier N →
+      Cont F D U →
+        Cont D subwindow routeRead →
+          Cont U E extensionRead →
+            hsame subwindow D →
+              Exists (fun route : BHist => Cont D subwindow route) ∧
+                UniformCompletionCauchyFilterPattern N ∧
+                  UniformCompletionLedgerPolicy N ∧
+                    UniformCompletionClassifier subwindow D := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro carrier _displayedRoute subwindowRoute _extensionRead sameSubwindow
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    extensionRoute, replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact ⟨routeRead, subwindowRoute⟩
+  · constructor
+    · exact
+        ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+          extensionRoute, replayRoute, ledgerRoute⟩
+    · constructor
+      · exact ⟨P0, N0, sameName, ledgerRoute⟩
+      · exact sameSubwindow
+
 theorem UniformCompletion_real_regseqrat_handoff {F D U E H C P N realRead : BHist} :
     UniformCompletionCarrier N →
       Cont P realRead N →
