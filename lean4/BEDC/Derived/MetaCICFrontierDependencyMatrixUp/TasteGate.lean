@@ -132,18 +132,212 @@ private theorem metaCICFrontierDependencyMatrix_round_trip :
             (metaCICFrontierDependencyMatrixDecodeBHist
               (metaCICFrontierDependencyMatrixEncodeBHist K))) =
           some (MetaCICFrontierDependencyMatrixUp.mk B A L P Q N D J R H C K)
-      rw [metaCICFrontierDependencyMatrixDecode_encode_bhist B,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist A,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist L,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist P,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist Q,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist N,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist D,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist J,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist R,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist H,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist C,
-        metaCICFrontierDependencyMatrixDecode_encode_bhist K]
+      exact
+        Eq.trans
+          (congrArg
+            (fun v =>
+              some
+                (MetaCICFrontierDependencyMatrixUp.mk v
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist A))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist L))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist P))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist Q))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist N))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist D))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist J))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist R))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist H))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist C))
+                  (metaCICFrontierDependencyMatrixDecodeBHist
+                    (metaCICFrontierDependencyMatrixEncodeBHist K))))
+            (metaCICFrontierDependencyMatrixDecode_encode_bhist B))
+          (Eq.trans
+            (congrArg
+              (fun v =>
+                some
+                  (MetaCICFrontierDependencyMatrixUp.mk B v
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist L))
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist P))
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist Q))
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist N))
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist D))
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist J))
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist R))
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist H))
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist C))
+                    (metaCICFrontierDependencyMatrixDecodeBHist
+                      (metaCICFrontierDependencyMatrixEncodeBHist K))))
+              (metaCICFrontierDependencyMatrixDecode_encode_bhist A))
+            (Eq.trans
+              (congrArg
+                (fun v =>
+                  some
+                    (MetaCICFrontierDependencyMatrixUp.mk B A v
+                      (metaCICFrontierDependencyMatrixDecodeBHist
+                        (metaCICFrontierDependencyMatrixEncodeBHist P))
+                      (metaCICFrontierDependencyMatrixDecodeBHist
+                        (metaCICFrontierDependencyMatrixEncodeBHist Q))
+                      (metaCICFrontierDependencyMatrixDecodeBHist
+                        (metaCICFrontierDependencyMatrixEncodeBHist N))
+                      (metaCICFrontierDependencyMatrixDecodeBHist
+                        (metaCICFrontierDependencyMatrixEncodeBHist D))
+                      (metaCICFrontierDependencyMatrixDecodeBHist
+                        (metaCICFrontierDependencyMatrixEncodeBHist J))
+                      (metaCICFrontierDependencyMatrixDecodeBHist
+                        (metaCICFrontierDependencyMatrixEncodeBHist R))
+                      (metaCICFrontierDependencyMatrixDecodeBHist
+                        (metaCICFrontierDependencyMatrixEncodeBHist H))
+                      (metaCICFrontierDependencyMatrixDecodeBHist
+                        (metaCICFrontierDependencyMatrixEncodeBHist C))
+                      (metaCICFrontierDependencyMatrixDecodeBHist
+                        (metaCICFrontierDependencyMatrixEncodeBHist K))))
+                (metaCICFrontierDependencyMatrixDecode_encode_bhist L))
+              (Eq.trans
+                (congrArg
+                  (fun v =>
+                    some
+                      (MetaCICFrontierDependencyMatrixUp.mk B A L v
+                        (metaCICFrontierDependencyMatrixDecodeBHist
+                          (metaCICFrontierDependencyMatrixEncodeBHist Q))
+                        (metaCICFrontierDependencyMatrixDecodeBHist
+                          (metaCICFrontierDependencyMatrixEncodeBHist N))
+                        (metaCICFrontierDependencyMatrixDecodeBHist
+                          (metaCICFrontierDependencyMatrixEncodeBHist D))
+                        (metaCICFrontierDependencyMatrixDecodeBHist
+                          (metaCICFrontierDependencyMatrixEncodeBHist J))
+                        (metaCICFrontierDependencyMatrixDecodeBHist
+                          (metaCICFrontierDependencyMatrixEncodeBHist R))
+                        (metaCICFrontierDependencyMatrixDecodeBHist
+                          (metaCICFrontierDependencyMatrixEncodeBHist H))
+                        (metaCICFrontierDependencyMatrixDecodeBHist
+                          (metaCICFrontierDependencyMatrixEncodeBHist C))
+                        (metaCICFrontierDependencyMatrixDecodeBHist
+                          (metaCICFrontierDependencyMatrixEncodeBHist K))))
+                  (metaCICFrontierDependencyMatrixDecode_encode_bhist P))
+                (Eq.trans
+                  (congrArg
+                    (fun v =>
+                      some
+                        (MetaCICFrontierDependencyMatrixUp.mk B A L P v
+                          (metaCICFrontierDependencyMatrixDecodeBHist
+                            (metaCICFrontierDependencyMatrixEncodeBHist N))
+                          (metaCICFrontierDependencyMatrixDecodeBHist
+                            (metaCICFrontierDependencyMatrixEncodeBHist D))
+                          (metaCICFrontierDependencyMatrixDecodeBHist
+                            (metaCICFrontierDependencyMatrixEncodeBHist J))
+                          (metaCICFrontierDependencyMatrixDecodeBHist
+                            (metaCICFrontierDependencyMatrixEncodeBHist R))
+                          (metaCICFrontierDependencyMatrixDecodeBHist
+                            (metaCICFrontierDependencyMatrixEncodeBHist H))
+                          (metaCICFrontierDependencyMatrixDecodeBHist
+                            (metaCICFrontierDependencyMatrixEncodeBHist C))
+                          (metaCICFrontierDependencyMatrixDecodeBHist
+                            (metaCICFrontierDependencyMatrixEncodeBHist K))))
+                    (metaCICFrontierDependencyMatrixDecode_encode_bhist Q))
+                  (Eq.trans
+                    (congrArg
+                      (fun v =>
+                        some
+                          (MetaCICFrontierDependencyMatrixUp.mk B A L P Q v
+                            (metaCICFrontierDependencyMatrixDecodeBHist
+                              (metaCICFrontierDependencyMatrixEncodeBHist D))
+                            (metaCICFrontierDependencyMatrixDecodeBHist
+                              (metaCICFrontierDependencyMatrixEncodeBHist J))
+                            (metaCICFrontierDependencyMatrixDecodeBHist
+                              (metaCICFrontierDependencyMatrixEncodeBHist R))
+                            (metaCICFrontierDependencyMatrixDecodeBHist
+                              (metaCICFrontierDependencyMatrixEncodeBHist H))
+                            (metaCICFrontierDependencyMatrixDecodeBHist
+                              (metaCICFrontierDependencyMatrixEncodeBHist C))
+                            (metaCICFrontierDependencyMatrixDecodeBHist
+                              (metaCICFrontierDependencyMatrixEncodeBHist K))))
+                      (metaCICFrontierDependencyMatrixDecode_encode_bhist N))
+                    (Eq.trans
+                      (congrArg
+                        (fun v =>
+                          some
+                            (MetaCICFrontierDependencyMatrixUp.mk B A L P Q N v
+                              (metaCICFrontierDependencyMatrixDecodeBHist
+                                (metaCICFrontierDependencyMatrixEncodeBHist J))
+                              (metaCICFrontierDependencyMatrixDecodeBHist
+                                (metaCICFrontierDependencyMatrixEncodeBHist R))
+                              (metaCICFrontierDependencyMatrixDecodeBHist
+                                (metaCICFrontierDependencyMatrixEncodeBHist H))
+                              (metaCICFrontierDependencyMatrixDecodeBHist
+                                (metaCICFrontierDependencyMatrixEncodeBHist C))
+                              (metaCICFrontierDependencyMatrixDecodeBHist
+                                (metaCICFrontierDependencyMatrixEncodeBHist K))))
+                        (metaCICFrontierDependencyMatrixDecode_encode_bhist D))
+                      (Eq.trans
+                        (congrArg
+                          (fun v =>
+                            some
+                              (MetaCICFrontierDependencyMatrixUp.mk B A L P Q N D v
+                                (metaCICFrontierDependencyMatrixDecodeBHist
+                                  (metaCICFrontierDependencyMatrixEncodeBHist R))
+                                (metaCICFrontierDependencyMatrixDecodeBHist
+                                  (metaCICFrontierDependencyMatrixEncodeBHist H))
+                                (metaCICFrontierDependencyMatrixDecodeBHist
+                                  (metaCICFrontierDependencyMatrixEncodeBHist C))
+                                (metaCICFrontierDependencyMatrixDecodeBHist
+                                  (metaCICFrontierDependencyMatrixEncodeBHist K))))
+                          (metaCICFrontierDependencyMatrixDecode_encode_bhist J))
+                        (Eq.trans
+                          (congrArg
+                            (fun v =>
+                              some
+                                (MetaCICFrontierDependencyMatrixUp.mk B A L P Q N D J v
+                                  (metaCICFrontierDependencyMatrixDecodeBHist
+                                    (metaCICFrontierDependencyMatrixEncodeBHist H))
+                                  (metaCICFrontierDependencyMatrixDecodeBHist
+                                    (metaCICFrontierDependencyMatrixEncodeBHist C))
+                                  (metaCICFrontierDependencyMatrixDecodeBHist
+                                    (metaCICFrontierDependencyMatrixEncodeBHist K))))
+                            (metaCICFrontierDependencyMatrixDecode_encode_bhist R))
+                          (Eq.trans
+                            (congrArg
+                              (fun v =>
+                                some
+                                  (MetaCICFrontierDependencyMatrixUp.mk B A L P Q N D J R v
+                                    (metaCICFrontierDependencyMatrixDecodeBHist
+                                      (metaCICFrontierDependencyMatrixEncodeBHist C))
+                                    (metaCICFrontierDependencyMatrixDecodeBHist
+                                      (metaCICFrontierDependencyMatrixEncodeBHist K))))
+                              (metaCICFrontierDependencyMatrixDecode_encode_bhist H))
+                            (Eq.trans
+                              (congrArg
+                                (fun v =>
+                                  some
+                                    (MetaCICFrontierDependencyMatrixUp.mk B A L P Q N D J R H
+                                      v
+                                      (metaCICFrontierDependencyMatrixDecodeBHist
+                                        (metaCICFrontierDependencyMatrixEncodeBHist K))))
+                                (metaCICFrontierDependencyMatrixDecode_encode_bhist C))
+                              (congrArg
+                                (fun v =>
+                                  some
+                                    (MetaCICFrontierDependencyMatrixUp.mk B A L P Q N D J R H C
+                                      v))
+                                (metaCICFrontierDependencyMatrixDecode_encode_bhist K))))))))))))
 
 private theorem metaCICFrontierDependencyMatrixToEventFlow_injective
     {x y : MetaCICFrontierDependencyMatrixUp} :
