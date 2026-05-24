@@ -347,12 +347,14 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseConsumerHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseLedgerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseSourceTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputAuthorizationClosure
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputDownstreamCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamHandoffRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamOutputFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RouteFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RouteFactorizationAndBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceTriadStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerNonescapeSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerProvenanceClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerSeparation
@@ -608,6 +610,7 @@ import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
 import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
+import BEDC.Derived.BishopIntervalCompletionUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
@@ -1652,6 +1655,7 @@ import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CompactBaireUp.TasteGate
+import BEDC.Derived.CompactCauchyCoverUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.UniformModulusHandoff
@@ -3137,6 +3141,7 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
 import BEDC.Derived.FinitePrefixLimitStabilityUp.StdBridge
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
+import BEDC.Derived.FiniteRealCoverUp.TasteGate
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.DyadicSealFactorization
 import BEDC.Derived.FiniteRealSectionUp.ObligationClosureCertificate
@@ -3794,6 +3799,7 @@ import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealFieldUp
 import BEDC.Derived.LocatedRealIntervalUp.TasteGate
 import BEDC.Derived.LocatedRealNestedIntervalsUp.TasteGate
+import BEDC.Derived.LocatedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedRealTailEnvelopeUp.TasteGate
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
@@ -4172,6 +4178,7 @@ import BEDC.Derived.NatTransUp.VerticalWhisker
 import BEDC.Derived.NatTransUp.ZeroHeadedComposition
 import BEDC.Derived.NatUp
 import BEDC.Derived.NatUp.TasteGate
+import BEDC.Derived.NatUp.UnaryBridgeCutBoundary
 import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeNameBoundaryUp
 import BEDC.Derived.NegativeNameBoundaryUp.NameCertObligations
@@ -4659,6 +4666,7 @@ import BEDC.Derived.RatUp.StdBridge
 import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RationalBallUp
 import BEDC.Derived.RationalBallUp.TasteGate
+import BEDC.Derived.RationalBestApproximationUp.TasteGate
 import BEDC.Derived.RationalCauchyGapUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
 import BEDC.Derived.RationalEmbeddingUp.TasteGate
@@ -5274,6 +5282,7 @@ import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.RieszLemmaUp.TasteGate
+import BEDC.Derived.RieszMarkovUp.TasteGate
 import BEDC.Derived.RieszRepresentationUp.TasteGate
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.RingUp
@@ -6038,6 +6047,7 @@ import BEDC.Derived.VerifiedOutputHarnessUp.PublicAuditChain
 import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VietorisRipsComplexUp
+import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WeaklyCauchySequenceUp.TasteGate
 import BEDC.Derived.WeierstrassApproximationUp.TasteGate
