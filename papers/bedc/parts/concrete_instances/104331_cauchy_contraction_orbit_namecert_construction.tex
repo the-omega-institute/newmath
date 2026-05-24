@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyContractionOrbitUp$}
+\label{ch:concrete-instances-cauchy-contraction-orbit-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive analysis, a $\CauchyContractionOrbitUp$ packet names the finite Picard-orbit ledger used by constructive contraction fixed-point routes before an endpoint is sealed. It sits between the map-level contraction packet of \autoref{ch:concrete-instances-contractionmapping-namecert}, the one-step Picard route of \autoref{ch:concrete-instances-picardcontraction-namecert}, the modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the completion consumer of \autoref{ch:concrete-instances-completemetric-namecert}, the regular rational sequence handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the final real-number seal of \autoref{ch:concrete-instances-real-namecert}. The packet records the finite orbit and ratio data that make a Cauchy-modulus route visible without selecting a fixed point.
+
+\begin{definition}[CauchyContractionOrbit carrier]
+\label{def:cauchy-contraction-orbit-carrier}
+A $\CauchyContractionOrbitUp$ carrier is a finite packet
+$$
+O=(X,T,I,L,M,R,E,H,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $X$ is the metric carrier and distance-read row inherited from the contraction-map surface.
+\item $T$ is the self-map graph row whose accepted applications generate the displayed Picard iterates.
+\item $I$ is the finite Picard-iterate ledger, recording the initial point and the visible rows $x_0,x_1,\ldots,x_n$ produced by repeated graph reads of $T$.
+\item $L$ is the strict rational contraction ledger, storing a nonnegative bound below one and the adjacent-distance comparisons attached to the iterate ledger.
+\item $M$ is the $\CauchyModulusUp$ route extracted from the finite orbit ledger and the strict ratio ledger.
+\item $R$ is the $\RegSeqRatUp$ handoff row used when the orbit is read as a regular rational sequence approximation.
+\item $E$ is the $\CompleteMetricUp$ consumer row, exposing where a completion argument may later consume the orbit without being supplied by it.
+\item $H$ is componentwise $\hsame$ transport for the metric carrier, self-map graph, iterate ledger, ratio ledger, modulus route, regular-sequence handoff, completion consumer, replay, provenance, and local naming rows.
+\item $C$ is the displayed $\Cont$ replay from contraction-map admission through Picard iteration, ratio comparison, Cauchy-modulus handoff, regular-sequence handoff, and completion-facing use.
+\item $P$ is the $\Pkg$ provenance over $\ContractionMappingUp$, $\PicardContractionUp$, $\CauchyModulusUp$, $\CompleteMetricUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyContractionOrbitUp}$ row.
+\end{enumerate}
+The carrier exposes a finite orbit-to-modulus surface. It contains no coordinate for a selected fixed point, host limit, quotient stream, ambient completeness proof, countable-choice principle, or $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[CauchyContractionOrbit NameCert obligations]
+\label{thm:cauchy-contraction-orbit-namecert-obligations}
+For an accepted $\CauchyContractionOrbitUp$ carrier $O=(X,T,I,L,M,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyContractionOrbitUp}$ surface consists of carrier admission, contraction-map visibility, finite Picard-iterate ledger visibility, strict ratio-ledger stability, Cauchy-modulus exposure, $\RegSeqRatUp$ and $\CompleteMetricUp$ handoff visibility, $\RealUp$ seal separation, componentwise transport, continuation replay, provenance, and local naming for the finite packet of \autoref{def:cauchy-contraction-orbit-carrier}.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the displayed tuple. The metric row $X$, graph row $T$, finite Picard ledger $I$, and strict ratio ledger $L$ give the contraction-map and iterate data read by the certificate.
+
+The Cauchy-modulus row $M$ is exposed only after those finite rows are visible. The handoff rows $R$ and $E$ record where regular rational sequence and complete-metric consumers may later read the orbit, while the $\RealUp$ entry in the provenance row remains a seal boundary rather than an endpoint proof.
+
+Transport, replay, provenance, and local naming are componentwise. The rows $H,C,P,N$ preserve exactly the carrier coordinates listed above, so the certificate exports the orbit-to-modulus surface without adding host limits, quotient streams, countable choice, or real completeness.
+\end{proof}
+
+\begin{theorem}[CauchyContractionOrbit Cauchy-modulus handoff]
+\label{thm:cauchy-contraction-orbit-cauchy-modulus-handoff}
+Every accepted $\CauchyContractionOrbitUp$ carrier exposes a $\CauchyModulusUp$ route before any $\RealUp$ seal is read. The finite orbit ledger $I$ and strict ratio ledger $L$ determine the modulus row $M$, and every regular-sequence or complete-metric consumer must pass through
+$$
+X,\ T,\ I,\ L,\ M,\ R,\ E,\ H,\ C,\ P,\ N.
+$$
+Thus the packet supplies a Cauchy-modulus handoff for the constructive contraction route, not a selected fixed point, host limit, quotient stream, ambient completeness theorem, countable-choice construction, or $\RealUp$ completeness proof.
+\end{theorem}
+\begin{proof}
+Read the finite Picard ledger $I$. It contains only displayed iterate rows generated from the self-map graph $T$, so each downstream distance comparison is anchored in the same metric carrier $X$.
+
+Read the strict ratio ledger $L$. Its below-one rational bound and adjacent-distance comparisons are the data used by the modulus row $M$; no infinite stream or host limit is consulted.
+
+The rows $R$ and $E$ are therefore downstream handoff rows. They may consume the already exposed modulus surface for regular rational sequence or complete-metric purposes, but neither row turns the packet into a real-number endpoint or a fixed-point selector.
+
+Finally $H,C,P,N$ transport and replay the same finite route. Since the $\RealUp$ dependency appears only in the provenance and seal boundary, the Cauchy-modulus route is available before any real-completeness seal is read.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyContractionOrbitUp$ read factors through a contraction-map row, finite Picard-iterate ledger, strict ratio ledger, CauchyModulus row, RegSeqRat handoff, CompleteMetric consumer row, hsame transport, Cont replay, Pkg provenance, and NameCert row before any RealUp endpoint seal.}
+
+\independenceWitness{contractionmapping, picardcontraction, cauchymodulus, completemetric, regseqrat, real: none is bijective with $\CauchyContractionOrbitUp$ because the packet jointly stores the map graph, finite orbit ledger, strict ratio ledger, modulus extraction row, regular-sequence handoff, completion-facing consumer row, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyContractionOrbitUp}{seedStr}
+
+\begin{closurestatus}{\CauchyContractionOrbitUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-contraction-orbit-carrier}, \autoref{thm:cauchy-contraction-orbit-namecert-obligations}, and \autoref{thm:cauchy-contraction-orbit-cauchy-modulus-handoff} seed the finite contraction-orbit packet that exposes a Cauchy-modulus handoff before endpoint sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected fixed points, host limits, quotient streams, ambient completeness, countable choice, or $\RealUp$ completeness.}
+  \upgradepath{Obligation closure asks for checked carrier admission, contraction-map visibility, Picard-ledger visibility, strict ratio stability, Cauchy-modulus exposure, RegSeqRat and CompleteMetric handoff visibility, Real seal separation, transport, replay, provenance, and local naming.}
+  \constructivestory{A $\CauchyContractionOrbitUp$ packet is generated from a metric carrier, self-map graph, finite Picard ledger, strict ratio ledger, CauchyModulus route, RegSeqRat handoff, CompleteMetric consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+\end{closurestatus}
