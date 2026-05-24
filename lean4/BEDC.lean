@@ -1234,6 +1234,7 @@ import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyPrecompletionUp.TasteGate
 import BEDC.Derived.CauchyProductCommutativityUp.TasteGate
+import BEDC.Derived.CauchyProductMetricUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductUp
