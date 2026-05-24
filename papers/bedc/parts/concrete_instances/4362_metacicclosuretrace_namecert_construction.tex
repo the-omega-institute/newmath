@@ -40,6 +40,18 @@ Read the generator row $G$. Its shift coordinate is backed by the same closednes
 Finally inspect $H,C,P,N$. Transport and continuation replay preserve the displayed package rows, while provenance and local naming bind them to the ClosurePreservation audit map. Since no other generator coordinate occurs in $T$, the exported generator package is exhausted by $S,U,V,G$.
 \end{proof}
 
+\begin{theorem}[MetaCICClosureTrace closed-substitution route]
+\label{thm:metacicclosuretrace-closed-substitution-route}
+Every closed-substitution consumer of an accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$ must read the shift row $S$, the variable-substitution row $U$, the full-substitution row $V$, the generator row $G$, and the kernel-acceptance row $K$ before exporting closedness preservation. The route exports only the closure-preservation boundary for closed substitution; it exports no typing, conversion, confluence, normalization, subject-reduction, or kernel-soundness conclusion.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier $T$. The rows $S,U,V,G,K$ are separate coordinates, so a closed-substitution consumer can identify the shift, variable-substitution, full-substitution, generator, and acceptance ledger data before any beta-chain or continuation row is inspected.
+
+Use \autoref{thm:metacicclosuretrace-substitution-shift-generator-package}. It identifies $S,U,V,G$ as the finite generator package for the closedness classifier, with $U$ and $V$ supplying the substitution coordinates and $S$ supplying the boundary shift coordinate.
+
+The row $K$ then records kernel acceptance for the displayed ClosurePreservation declarations. The substitution audit-map boundary supplies the prose routing discipline: accepted closed-substitution reads stop at closedness preservation and do not acquire typing, conversion, confluence, normalization, subject-reduction, or kernel-soundness data from any hidden carrier coordinate.
+\end{proof}
+
 \begin{theorem}[MetaCICClosureTrace beta-star preservation readback]
 \label{thm:metacicclosuretrace-beta-star-preservation-readback}
 Every downstream consumer that reads finite beta-chain closedness from an accepted $\MetaCICClosureTraceUp$ carrier receives it through the route
