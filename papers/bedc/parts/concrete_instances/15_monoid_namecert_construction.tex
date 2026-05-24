@@ -62,6 +62,26 @@ Use the concrete instance of \autoref{def:concrete-history-monoid-instance} for 
 The Lean-side names \texttt{BEDC.Derived.MonoidUp.unary\_append\_monoid\_semantic\_name\_certificate} and \texttt{BEDC.Derived.MonoidUp.concrete\_history\_monoid\_laws} are the intended formal anchors for this concrete unlock surface. No abstract carrier parameter, abstract classifier parameter, or transport between unrelated monoid presentations is introduced; downstream schemas consume the displayed $\mathsf{UnaryHistory}$ append instance directly.
 \end{proof}
 
+\begin{theorem}[Unary Cont unit replay for the concrete monoid]
+\label{thm:monoid-unary-cont-unit-replay}
+For every unary history $h$, multiplication by $\emp$ in the concrete $\MonoidUp$ instance of \autoref{def:concrete-history-monoid-instance} is read through the kernel continuation rows
+$$
+\Cont(\emp,h,h)
+$$
+and
+$$
+\Cont(h,\emp,h).
+$$
+Thus the left and right unit laws of the concrete $\MonoidUp$ packet are displayed $\Cont$ rows of the unary-history kernel, not abstract operator laws detached from the carrier.
+\end{theorem}
+\begin{proof}
+Begin with the concrete instance of \autoref{def:concrete-history-monoid-instance}. Its multiplication is $\mathsf{append}$, its unit is $\emp$, and its carrier is $\mathsf{UnaryHistory}$.
+
+Apply \autoref{thm:concrete-history-monoid-laws}. The first two clauses are the left and right unit laws for $\emp$ on unary histories, and the proof identifies them with \texttt{BEDC.FKernel.Cont.cont\_left\_unit} and \texttt{BEDC.FKernel.Cont.cont\_right\_unit}.
+
+Finally use \autoref{thm:monoid-concrete-history-instance-unlock-surface}. Downstream algebra reads the same displayed carrier, multiplication, unit, classifier, $\BHist$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows, so the unit laws remain kernel continuation rows rather than external algebraic fields.
+\end{proof}
+
 The $\MonoidUp$ schema is instantiated by this concrete $BHist$ carrier and
 operation, so subsequent certificates can refer to this instance rather than
 only to abstract operator fields.
