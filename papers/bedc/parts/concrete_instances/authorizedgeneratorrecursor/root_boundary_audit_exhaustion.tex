@@ -52,3 +52,21 @@ Detached substitution is handled by the root-unblock packet rows. Theorems~\ref{
 
 Finally apply boundary audit exhaustion and output provenance coverage above. They keep $A,H,C,P,G,N$ attached before $O$ is public. Therefore every rejected recursion channel is recorded at the displayed boundary rather than exported as a public proof-producing route.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor boundary audit strict obstruction]
+\label{cor:authorized-generator-recursor-boundary-audit-strict-obstruction}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet, the obstruction recorded by the boundary-audit exhaustion and recursion-channel refusal is strictly local. It blocks only the attempted non-structural recursion channel, missing-branch repair, detached substitution step, or hidden proof-producing generator named in \autoref{thm:authorized-generator-recursor-recursion-channel-refusal}. Its consumer-facing use must factor through the displayed packet
+
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+
+Consequently the same obstruction cannot be reread as a global impossibility theorem, a host theorem, or an external validation route for any coordinate not displayed in that packet.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:authorized-generator-recursor-boundary-audit-exhaustion}. It identifies the output-facing boundary audit with the finite $\BHist$ surface $I,E,M,B,D,O,A,H,C,P,G,N$ and says that a consumer may reach the boundary row $G$ only through the audited carrier retaining $A,H,C,P$ and the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$. Thus the boundary row is not a detached witness and is not available through the public output name alone.
+
+Now apply \autoref{thm:authorized-generator-recursor-recursion-channel-refusal}. The only failed uses routed to $G$ are the named attempts: non-structural recursion, missing-branch repair, detached substitution, and hidden proof production. The theorem sends those attempts back to the audited rows $A,H,C,P,N$ and states that the packet exports only the structural recursor route witnessed by the same displayed rows.
+
+These two statements exhaust the consumer-facing cases. A listed failed route factors through $G$ together with $A,H,C,P,N$, so it is blocked as a local misuse of the accepted recursor packet. An unlisted use would require an additional public coordinate, such as a global impossibility certificate, host theorem row, or external validation row. The carrier displayed in \autoref{thm:authorized-generator-recursor-boundary-audit-exhaustion} has no such coordinate, and \autoref{thm:authorized-generator-recursor-recursion-channel-refusal} exports no route besides the structural recursor route. Therefore the obstruction is exactly the local obstruction stated above.
+\end{proof}

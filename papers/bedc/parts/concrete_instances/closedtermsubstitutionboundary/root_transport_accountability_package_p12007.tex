@@ -45,3 +45,19 @@ Next cover the downstream consumers. By \autoref{thm:closed-term-substitution-bo
 
 Finally combine the root audit and compiler rows. The audit side is total by \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, while the compiler side is non-escaping by \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. Together with \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}, these rows provide the downstream root-unblock certificate over the single displayed packet.
 \end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root transport downstream coverage]
+\label{thm:closed-term-substitution-boundary-root-transport-downstream-coverage}
+Every accepted local downstream consumer of $\ClosedTermSubstitutionBoundaryUp$ whose root use is self-compilation, proof-erasure, or compiler-facing accountable transport is exhausted by the displayed packet
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The accepted alternatives are only the closed shift row $Q$, substitute-closed row $R$, ledger row $L$, audit row $A$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$, together with the term, value, depth, and closedness inputs $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$. Host substitution semantics, a subject reduction theorem, a host syntax quotient, a hidden evaluator, hidden compiler state, an extra compiler object, and any operation row outside this packet remain unavailable to the downstream consumer.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:closed-term-substitution-boundary-root-consumer-coverage} to the accepted downstream consumer. It covers the consumer-facing cases named in the statement: self-compilation, proof-erasure, and compiler-facing reads. In each case the consumer may read closed shift, substitute-closed, ledger, audit, transport, continuation, provenance, and naming data only through the displayed closed-boundary packet.
+
+Now apply \autoref{thm:closed-term-substitution-boundary-root-transport-accountability} to the same root use when it makes closed substitution transport accountable. Accountability forces the root consumer to expose exactly the rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ before transport is available. Thus the transport coordinate does not create a second route; it is one of the displayed rows already covered by the consumer-coverage packet.
+
+The exclusions are common to the two rows. Consumer coverage blocks host substitution semantics, subject reduction, a host syntax quotient, hidden evaluator state, hidden compiler state, and extra compiler objects from entering the accepted consumer read. Transport accountability blocks accountable transport from any host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or operation row outside this packet. Therefore every accepted local downstream use factors through the enumerated finite rows, and every unlisted alternative remains outside the $\ClosedTermSubstitutionBoundaryUp$ packet.
+\end{proof}
