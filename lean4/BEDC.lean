@@ -1251,6 +1251,7 @@ import BEDC.Derived.CauchyProductUp.RealSealRootSurface
 import BEDC.Derived.CauchyProductUp.RealSealRootUnblockSurface
 import BEDC.Derived.CauchyProductUp.RealSealSelector
 import BEDC.Derived.CauchyProductUp.RealSealUpstreamDependency
+import BEDC.Derived.CauchyProductUp.RealSeriesBudgetExhaustion
 import BEDC.Derived.CauchyProductUp.RealSeriesSharedSelectorHandoff
 import BEDC.Derived.CauchyProductUp.RealTailAgreementHandoff
 import BEDC.Derived.CauchyProductUp.RegseqSealNonescape
@@ -1660,6 +1661,7 @@ import BEDC.Derived.CompactOpenFunctionSpaceUp
 import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactOpenMetricUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
+import BEDC.Derived.CompactOperatorUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.CompactUniformContinuityUp.BridgeModulusAssembly
 import BEDC.Derived.CompactUniformContinuityUp.BridgeNonEscapeBoundary
@@ -3767,6 +3769,7 @@ import BEDC.Derived.LocatedSpaceUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.Carrier
 import BEDC.Derived.LocatedSupremumUp.RegSeqRatHandoffRoute
 import BEDC.Derived.LocatedSupremumUp.RootUpperLowerWindow
+import BEDC.Derived.LocatedSupremumUp.StreamNameCutScope
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
 import BEDC.Derived.LocatedUniformContinuityUp.TasteGate
@@ -5129,6 +5132,7 @@ import BEDC.Derived.RegularCauchySquareUp.TasteGate
 import BEDC.Derived.RegularCauchySqueezeUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceInvarianceUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceLimitUp.TasteGate
+import BEDC.Derived.RegularCauchySubsequenceStabilityUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchySubtractionUp.TasteGate
