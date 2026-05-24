@@ -38,6 +38,57 @@ Apply \autoref{thm:concrete-history-monoid-laws}. The associativity, left-unit, 
 Finally use \autoref{thm:group-singleton-empty-history-laws}. The singleton carrier restriction and the constant empty inverse row provide exactly the inverse closure and inverse laws. No additional host group carrier, operation table, or classifier is imported, so the concrete $\GroupUp$ instance refines the $\MonoidUp$ unary append NameCert.
 \end{proof}
 
+\begin{definition}[Group unary Cont concrete carrier]
+\label{def:group-unary-cont-concrete-carrier}
+The $\GroupUp$ unary $\Cont$ concrete carrier is the $\mathsf{UnaryHistory}$
+append surface of \autoref{def:concrete-history-monoid-instance} restricted by
+the singleton empty-history carrier of
+\autoref{def:group-concrete-history-instance}. Its carried endpoints are
+unary $\mathsf{BHist}$ values $h$ with $A_{\emp}(h)$, its product row is
+$$
+\mathsf{mul}_{\emp}(h,k):=\mathsf{append}(h,k),
+$$
+equivalently displayed by $\Cont(h,k,\mathsf{append}(h,k))$, and its unit row
+is the empty endpoint $\emp$. The classifier is the inherited
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$ together with the
+singleton $\hsame$ restriction to $\emp$. Thus the carrier names the concrete
+append-and-empty operation surface consumed by the $\GroupUp$ singleton
+instance, not an abstract group parameter.
+\end{definition}
+
+\begin{theorem}[Group unary Cont concrete monoid handoff]
+\label{thm:group-unary-cont-concrete-monoid}
+Every multiplication and unit read of the concrete $\GroupUp$ history instance
+of \autoref{def:group-concrete-history-instance} factors through the unary
+$\Cont$ carrier of \autoref{def:group-unary-cont-concrete-carrier}. In
+particular, the $\GroupUp$ singleton packet reads multiplication as the
+$\mathsf{UnaryHistory}$ append row, reads the unit as $\emp$, and obtains
+closure, associativity, left unit, right unit, and multiplication congruence
+from \autoref{thm:concrete-history-monoid-laws} before it adds the constant
+empty inverse rows of \autoref{thm:group-singleton-empty-history-laws}.
+\end{theorem}
+\begin{proof}
+Project the concrete group instance. Its multiplication is
+$\mathsf{append}$, its unit is $\emp$, and its carried endpoints are singleton
+empty-history endpoints inside the unary $\mathsf{BHist}$ surface.
+
+Apply \autoref{thm:concrete-history-monoid-laws}. The unary append carrier
+supplies closure, associativity, both empty-unit laws, and multiplication
+congruence for exactly the same $\Cont$ product and unit rows.
+
+Now restrict those rows along
+\autoref{def:group-unary-cont-concrete-carrier}. The singleton carrier only
+adds the requirement that the endpoints classify with $\emp$; it does not
+replace append, the unit, or the monoid classifier by a separate algebraic
+operation.
+
+Finally apply \autoref{thm:group-singleton-empty-history-laws}. The only
+additional group data are inverse closure and the two inverse laws for the
+constant empty inverse row. Therefore the concrete $\GroupUp$ multiplication
+and unit handoff is the unary $\Cont$ monoid surface followed by singleton
+inverse packaging.
+\end{proof}
+
 \begin{theorem}[Group concrete inverse surface]
 \label{thm:group-concrete-inverse-surface}
 For the concrete $\GroupUp$ history instance of

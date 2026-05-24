@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\DominatedConvergenceUp$}
+\label{ch:concrete-instances-dominated-convergence-namecert}
+\origin{human}
+
+Following Lebesgue's convergence theorem and Bishop-style constructive integration, the $\DominatedConvergenceUp$ packet records the finite visible route by which pointwise limit data, an integrable majorant, and integral readback rows are retained before any limit-of-integrals consumer reads the conclusion. It sits after the measure surface of \autoref{ch:concrete-instances-measure-namecert}, the public integral row of \autoref{ch:concrete-instances-integral-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the series-style bounded handoff of \autoref{ch:concrete-instances-tannery-theorem-namecert}. The packet names dominated convergence as finite NameCert data; it does not assert ambient measure-theoretic completeness, quotient function equality, host almost-everywhere equality, selected representatives, or an unbounded convergence theorem.
+
+\begin{definition}[Dominated convergence carrier]
+\label{def:dominated-convergence-carrier}
+A $\DominatedConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(M,I,F,G,L,R,E,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MeasureUp$ source row, exposing only the finite measure requests that the convergence packet may inspect.
+\item $I$ is the $\IntegralUp$ readback row for the displayed integrands and the majorant.
+\item $F$ is the finite family row for the indexed integrands.
+\item $G$ is the integrable majorant row, read through the same measure and integral surfaces as $I$.
+\item $L$ is the pointwise-limit row, recording only the displayed convergence windows used by the packet.
+\item $R$ is the $\RegSeqRatUp$ readback row for rational integral approximants and tolerance requests.
+\item $E$ is the terminal $\RealUp$ seal row reached after the measure, integral, majorant, limit, and readback rows have been displayed.
+\item $T$ is the sibling handoff row to $\TanneryTheoremUp$, used only as a bounded finite-sum and series-style domination boundary.
+\item $H$ records componentwise $\hsame$ transports for $M,I,F,G,L,R,E,T$.
+\item $C$ is the displayed $\Cont$ replay of the same route.
+\item $P$ is the $\Pkg$ provenance over $\DominatedConvergenceUp$, $\MeasureUp$, $\IntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\TanneryTheoremUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DominatedConvergenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for ambient measure completion, quotient function equality, host almost-everywhere equality, selected representatives, countable choice, or a detached completeness theorem.
+\end{definition}
+
+\begin{theorem}[Dominated convergence NameCert obligations]
+\label{thm:dominated-convergence-namecert-obligations}
+For every accepted $\DominatedConvergenceUp$ carrier $D=(M,I,F,G,L,R,E,T,H,C,P,N)$, the local $\NameCert_{\DominatedConvergenceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the measure row, integral row, indexed integrand family, majorant, pointwise-limit row, regular rational readback, Real seal, Tannery handoff, transport, replay, provenance, and local naming;
+\item majorant visibility, requiring every domination read to pass through $G$ together with the same $\MeasureUp$ and $\IntegralUp$ rows used by $I$;
+\item limit-window visibility, requiring every pointwise convergence read to pass through the displayed row $L$ before any integral-limit read is available;
+\item readback exactness, requiring integral approximants and tolerance requests to pass through $R$ before the $\RealUp$ seal row $E$ is consumed;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the rows already listed.
+\end{enumerate}
+No dominated-convergence obligation is stored outside $D$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dominated-convergence-carrier}. The projection exposes exactly the measure row, integral row, integrand-family row, majorant row, pointwise-limit row, regular rational readback, Real seal, Tannery handoff, and structural rows.
+
+Majorant visibility is the row $G$ together with $M$ and $I$. A domination read therefore uses the same finite measure and integral surfaces as the integral readback, rather than a hidden host boundedness or function-equality predicate.
+
+Limit-window visibility is the row $L$. The theorem permits a consumer to inspect only the displayed convergence windows before reaching the integral-limit read, and it does not add a coordinate for ambient almost-everywhere equality.
+
+The readback and seal route is $R \longmapsto E$. The regular rational approximants and tolerance requests are displayed before the terminal real-name seal is available. The rows $H,C,P,N$ transport, replay, source, and name this same packet, so the listed obligations exhaust the local surface.
+\end{proof}
+
+\begin{theorem}[Dominated convergence majorant handoff]
+\label{thm:dominated-convergence-majorant-handoff}
+Every $\IntegralUp$ or $\RealUp$ consumer of an accepted $\DominatedConvergenceUp$ carrier $D=(M,I,F,G,L,R,E,T,H,C,P,N)$ reads the majorant side of the packet only through the displayed route
+$$
+M \longmapsto I \longmapsto G \longmapsto L \longmapsto R \longmapsto E \longmapsto T \longmapsto H,C,P,N .
+$$
+Thus the consumer first receives the measure row, integral readback row, integrable majorant, pointwise-limit windows, regular rational readback, Real seal, bounded Tannery handoff, componentwise transport, displayed replay, provenance, and local naming before it can use the dominated-convergence conclusion.
+\end{theorem}
+\begin{proof}
+Start with an integral-facing or Real-facing read of $D$. By \autoref{def:dominated-convergence-carrier}, the only measure and integral coordinates are $M$ and $I$, and the only domination coordinate is $G$.
+
+The limit part is forced through $L$ and $R$. The row $L$ displays the pointwise-limit windows, while $R$ records the regular rational readback and tolerance requests before the terminal seal $E$ is reached.
+
+The bounded handoff is $T$. It points to the finite domination discipline already visible in $\TanneryTheoremUp$ without importing the ambient dominated convergence theorem as a hidden premise.
+
+Finally, $H,C,P,N$ preserve and name the same route. Since the carrier lacks coordinates for measure completion, quotient function equality, host almost-everywhere equality, selected representatives, and countable choice, every consumer factors through the displayed majorant handoff.
+\end{proof}
+
+\falsifiablePrediction{Every $\DominatedConvergenceUp$ integral-facing or Real-facing read factors through displayed Measure, Integral, majorant, pointwise-limit, RegSeqRat readback, Real seal, Tannery handoff, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{measure, integral, regseqrat, real, tannery-theorem: $\DominatedConvergenceUp$ is not bijective to any listed sibling because it jointly carries measure source, integral readback, indexed integrand family, integrable majorant, pointwise-limit windows, regular rational approximants, Real seal, bounded Tannery handoff, transport, replay, provenance, and local naming.}
+
+\closureat{DominatedConvergenceUp}{seedStr}
+\begin{closurestatus}{\DominatedConvergenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dominated-convergence-carrier}, \autoref{thm:dominated-convergence-namecert-obligations}, and \autoref{thm:dominated-convergence-majorant-handoff} seed the finite dominated-convergence route through $\MeasureUp$, $\IntegralUp$, $\RegSeqRatUp$, $\RealUp$, and $\TanneryTheoremUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient measure-theoretic completeness, quotient function equality, host almost-everywhere equality, selected representatives, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, majorant visibility, limit-window visibility, regular rational readback exactness, Real seal handoff, transport and replay stability, and nonescape for BEDC.Derived.DominatedConvergenceUp.}
+  \constructivestory{A $\DominatedConvergenceUp$ packet is generated from a displayed Measure row, Integral readback row, indexed integrand-family row, integrable majorant row, pointwise-limit windows, RegSeqRat readback, terminal Real seal, bounded Tannery handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

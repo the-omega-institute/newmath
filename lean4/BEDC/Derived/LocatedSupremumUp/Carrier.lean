@@ -41,4 +41,26 @@ theorem LocatedSupremumCarrier_real_seal_boundary [AskSetup] [PackageSetup]
       exact hsame_refl (append R A)
     · exact pkgSig
 
+theorem LocatedSupremumCarrier_lower_approximation_cofinality [AskSetup] [PackageSetup]
+    {L U A W R E H C P N approximationRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedSupremumCarrier L U A W R E H C P N bundle pkg →
+      Cont A W approximationRead →
+        Cont approximationRead R sealRead →
+          UnaryHistory approximationRead ∧
+            UnaryHistory sealRead ∧ hsame L U ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame PkgSig
+  intro carrier approximationRoute sealRoute
+  have unaryR : UnaryHistory R := carrier.left
+  have unaryA : UnaryHistory A := carrier.right.left
+  have hLU : hsame L U := carrier.right.right.right.left
+  have unaryW : UnaryHistory W := carrier.right.right.right.right.left
+  have pkgSig : PkgSig bundle P pkg :=
+    carrier.right.right.right.right.right.right.right.left
+  have unaryApproximation : UnaryHistory approximationRead :=
+    unary_cont_closed unaryA unaryW approximationRoute
+  have unarySeal : UnaryHistory sealRead :=
+    unary_cont_closed unaryApproximation unaryR sealRoute
+  exact ⟨unaryApproximation, unarySeal, hLU, pkgSig⟩
+
 end BEDC.Derived.LocatedSupremumUp
