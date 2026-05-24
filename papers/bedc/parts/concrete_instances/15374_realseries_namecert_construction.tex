@@ -174,6 +174,50 @@ Read $S,D,M,E,H,C,P,N$ from \autoref{def:real-series-shared-tail-consumer-surfac
 Thus the downstream Cauchy-style consumers receive a finite criterion surface rather than a completed host sum. Since the classifier has no coordinate for selected limits, quotient equality, countable choice, or ambient real completeness, none of those principles is introduced by the readiness package.
 \end{proof}
 
+\begin{theorem}[RealSeries finite partial-sum carrier]
+\label{thm:realseries-root-unblock-carrier}
+For an accepted $\RealSeriesUp$ carrier $K=(T,S,W,Q,D,M,E,H,C,P,N)$, every downstream root-facing read of finite partial sums is already determined by the displayed $\BHist$ rows $T,S,W,Q,D,M,E,H,C,P,N$. The row $T$ supplies the term stream, $S$ supplies the finite partial-sum windows, $W$ supplies selected $\StreamNameUp$ windows, $Q$ supplies $\RegSeqRatUp$ readback, $D$ supplies the $\DyadicRatCoreUp$ tolerance ledger, $M$ supplies the shared threshold, $E$ supplies the endpoint seal, and $H,C,P,N$ provide componentwise $\hsame$ transport, $\Cont$ replay, provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-series-carrier}. The finite partial-sum data is stored in $S$ and is read only after the term stream $T$ has been admitted.
+
+Route those finite sums through the selected windows $W$ and regular readback $Q$. The dyadic ledger $D$ and shared threshold $M$ then account for the comparisons before the endpoint row $E$ is available.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same finite route. Since the carrier has no coordinate for host infinite sums, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness, no root-facing read can bypass the displayed rows.
+\end{proof}
+
+\begin{theorem}[RealSeries tail ledger]
+\label{thm:realseries-tail-ledger}
+For every accepted $\RealSeriesUp$ carrier $K=(T,S,W,Q,D,M,E,H,C,P,N)$, each tail comparison exported to a $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, $\CauchyMajorantSeriesUp$, or $\CauchyProductUp$ consumer factors through the single ledger chain
+$$
+S\longmapsto W\longmapsto Q\longmapsto D\longmapsto M
+$$
+together with $T,E,H,C,P,N$. In particular, the threshold row $M$ is shared across the exported tail requests and cannot be replaced by a family of selected tail indices.
+\end{theorem}
+\begin{proof}
+Begin with the finite partial-sum windows $S$. A tail request selects only finitely many windows through $W$ and reads the corresponding rational data through $Q$.
+
+The comparisons are then recorded in the dyadic tolerance ledger $D$. The shared threshold $M$ is the only row admitted after $D$, so all exported tail bounds use the same displayed threshold surface.
+
+Endpoint access through $E$ and structural access through $H,C,P,N$ preserve that route. The downstream consumers receive a tail ledger over finite rows, not a host infinite-sum principle or a chosen sequence of tail witnesses.
+\end{proof}
+
+\begin{theorem}[RealSeries endpoint readback]
+\label{thm:realseries-endpoint-readback}
+Every endpoint read of an accepted $\RealSeriesUp$ carrier $K=(T,S,W,Q,D,M,E,H,C,P,N)$ reaches $\RealUp$ through $E$ only after the finite rows $T,S,W,Q,D,M$ have been displayed. The readback route is therefore
+$$
+T,S,W,Q,D,M \longmapsto E \longmapsto H,C,P,N,
+$$
+with $\BHist$ admission, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming attached to the same packet.
+\end{theorem}
+\begin{proof}
+Read the endpoint row from the carrier only after the term stream, finite partial sums, selected windows, regular readback, dyadic ledger, and shared threshold have been projected.
+
+Apply \autoref{thm:real-series-endpoint-nonescape-obligation}. It places every $\RealUp$ endpoint seal behind $T,S,W,Q,D,M$ and refuses selected limits, quotient equality of partial-sum streams, countable choice, and ambient completeness.
+
+Finally replay the endpoint read through $H,C,P,N$. These rows preserve and name the finite packet; they do not provide a second endpoint channel outside the displayed $\RealSeriesUp$ carrier.
+\end{proof}
+
 \begin{definition}[Real series tail-majorant carrier]
 \label{def:realseries-tail-majorant-carrier}
 A $\RealSeriesUp$ tail-majorant carrier is a finite $\BHist$ packet
