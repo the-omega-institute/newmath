@@ -188,6 +188,20 @@ For the lower side, apply \autoref{thm:located-supremum-lower-approximation-cofi
 Finally use \autoref{thm:located-supremum-regseqrat-handoff}. The common bracket is repacked through $R$ before $E$, and the route is replayed only by $H,C,P,N$. Thus every accepted completion-facing request receives a single finite window carrying both the upper-bound and cofinal lower-approximation reads.
 \end{proof}
 
+\begin{theorem}[LocatedSupremum monotone sequence handoff]
+\label{thm:located-supremum-monotone-sequence-handoff}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Any monotone bounded real-sequence consumer that reads $S$ must pass through the same upper-bound ledger $U$, lower-approximation ledger $A$, $\StreamNameUp$ window $W$, $\RegSeqRatUp$ handoff $R$, $\DyadicRatCoreUp$ tolerance surface carried by the windowed approximation ledger, terminal $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\LocatedSupremumUp}$ row $N$. The handoff exports no ambient $\RealUp$ completeness principle, selected supremum, trichotomy row, quotient cut, host sequence equality, or countable-choice selector.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-supremum-carrier}. A monotone bounded real-sequence consumer can inspect the source family only through $L$ and can read its upper and lower order information only through the displayed ledgers $U$ and $A$.
+
+Apply \autoref{thm:located-supremum-real-seal-boundary}. The theorem places every real-facing export downstream of the upper-bound ledger, lower-approximation ledger, precision window, regular-rational handoff, and terminal Real seal.
+
+Use \autoref{thm:located-supremum-lower-approximation-cofinality} and \autoref{thm:located-supremum-cofinal-window-totality}. The lower ledger supplies the requested cofinal approximation inside the same window that carries the upper-bound read, and the shared dyadic tolerance surface is the one carried by the windowed approximation ledger.
+
+Finally replay the route through $H,C,P,N$. Componentwise transport and continuation replay preserve the displayed rows but cannot add an ambient completeness coordinate, selected supremum, trichotomy row, quotient cut, host sequence equality, or countable-choice selector.
+\end{proof}
+
 \begin{theorem}[LocatedSupremum window transport refusal]
 \label{thm:located-supremum-window-transport}
 Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Transporting the common finite window of \autoref{thm:located-supremum-cofinal-window-totality} through $H$ and replaying it through $C$ cannot introduce a selected supremum, a trichotomy row, a quotient cut, a host real equality test, countable choice, or ambient $\RealUp$ completeness. Every transported completion-facing read remains a read of $L,U,A,W,R,E,H,C,P,N$.
