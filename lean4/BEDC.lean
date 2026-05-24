@@ -2929,6 +2929,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RadiusClassifierStability
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumers
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusCover
+import BEDC.Derived.FiniteLebesgueNumberUp.RadiusCoverMonotoneReadback
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusLedgerExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusReadback
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
