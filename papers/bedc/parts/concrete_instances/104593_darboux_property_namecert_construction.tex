@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxPropertyUp$}
+\label{ch:concrete-instances-darboux-property-namecert}
+\origin{human}
+
+Following Darboux and Bishop--Bridges constructive analysis, the $\DarbouxPropertyUp$ packet records the finite intermediate-value route for a displayed real-valued map whose interval image cannot jump over a visible value row. It sits after the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the pointwise graph and modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the bisection handoff of \autoref{ch:concrete-instances-intermediate-value-bisection-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The chapter names the Darboux property as finite BEDC carrier data, not as a host theorem about all real functions or a choice-selected intermediate point.
+
+\begin{definition}[DarbouxProperty carrier]
+\label{def:darboux-property-carrier}
+A $\DarbouxPropertyUp$ carrier is a finite $\BHist$ packet
+$$
+D=(I,F,A,B,Y,S,M,R,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source interval row, exposing the inspected endpoint cells and orientation data used by the property request.
+\item $F$ is the $\ContinuousMapUp$ row carrying the graph window, pointwise modulus, and metric-distance witnesses for the displayed map.
+\item $A$ and $B$ are the endpoint value rows, read as $\RealUp$ names attached to the two endpoint cells of $I$.
+\item $Y$ is the target value row whose placement between the displayed endpoint values is tested only through finite real-name windows.
+\item $S$ is the sign or bracket row for the residual comparison $F(-)-Y$, expressed through dyadic and regular rational windows rather than host real subtraction.
+\item $M$ is the finite modulus budget row selecting the precision at which endpoint, target, and midpoint reads are inspected.
+\item $R$ is the $\IntermediateValueBisectionUp$ route that retains a branch whose residual signs still bracket the target value row.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the retained branch windows and requested tolerances.
+\item $E$ is the terminal $\RealUp$ seal offered to a downstream intermediate-value consumer after the displayed route has been read.
+\item $H$ stores componentwise $\hsame$ transport for interval, map, endpoint value, target value, residual bracket, modulus, bisection, regular readback, seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a Darboux request through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\DarbouxPropertyUp$, $\ContinuousMapUp$, $\IntermediateValueBisectionUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DarbouxPropertyUp}$ row.
+\end{enumerate}
+The carrier exposes a finite bracketing certificate for target-value passage. It has no coordinate for host real equality, quotient real equality, a selected intermediate point, real trichotomy, ambient $\RealUp$ completeness, or open-cover compactness.
+\end{definition}
+
+\begin{theorem}[DarbouxProperty NameCert obligations]
+\label{thm:darboux-property-namecert-obligations}
+For every accepted $\DarbouxPropertyUp$ carrier $D=(I,F,A,B,Y,S,M,R,Q,E,H,C,P,N)$, the local $\NameCert_{\DarbouxPropertyUp}$ surface consists of carrier admission, endpoint and target value visibility, residual bracketing visibility, finite modulus control, intermediate-value bisection handoff, regular rational readback, terminal real seal exposure, componentwise transport, continuation replay, provenance, and local naming for the displayed packet of \autoref{def:darboux-property-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:darboux-property-carrier}. The interval row $I$, continuous-map row $F$, endpoint rows $A,B$, and target row $Y$ are the only rows from which a Darboux request may be read.
+
+The residual bracket is the row $S$. It is inspected at the precision selected by $M$, so the endpoint and target comparison remains inside finite dyadic and regular rational windows.
+
+The bisection row $R$ is then the only route to a retained branch. Its output is read back through $Q$ before the real-name seal $E$ is exposed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same packet. Since no coordinate stores host equality, quotient equality, a selected point, trichotomy, ambient completeness, or open-cover compactness, none of those objects can appear in the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[DarbouxProperty intermediate-value route]
+\label{thm:darboux-property-ivt-route}
+Every target-value consumer of an accepted $\DarbouxPropertyUp$ carrier factors through
+$$
+\ContinuousMapUp,\ \DyadicRatCoreUp,\ \IntermediateValueBisectionUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+In particular, a request for a displayed value between the endpoint reads first reaches the continuous-map and residual-bracket rows, then the finite bisection route, then the regular rational readback, and only then the real-name seal.
+\end{theorem}
+\begin{proof}
+Start from $D=(I,F,A,B,Y,S,M,R,Q,E,H,C,P,N)$. The continuation row $C$ exposes the interval, map, endpoint, and target rows before any branch row is visible.
+
+The residual bracket $S$ is measured at the budget $M$, with dyadic tolerance data supplied by the $\DyadicRatCoreUp$ component named in provenance. This gives a finite sign or comparison surface for $F(-)-Y$.
+
+The branch handoff is exactly $R$. It is the $\IntermediateValueBisectionUp$ route, so the retained branch is visible only through the same finite bisection ledger used by the constructive intermediate-value surface.
+
+The retained branch is then read through $Q$ and sealed by $E$. The remaining rows $H,C,P,N$ keep the route attached to one BEDC packet, so the consumer cannot bypass the route by appealing to a host intermediate-value theorem or a selected point.
+\end{proof}
+
+\begin{theorem}[DarbouxProperty real seal nonescape]
+\label{thm:darboux-property-real-seal-nonescape}
+Every $\RealUp$-facing read exported by an accepted $\DarbouxPropertyUp$ carrier is downstream of the endpoint value rows, the target value row, the residual bracket row, the modulus budget, the $\IntermediateValueBisectionUp$ route, and the $\RegSeqRatUp$ readback row. The export is a named finite real-seal handoff, not host real equality, quotient real equality, a selected intermediate point, trichotomy, ambient $\RealUp$ completeness, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Read the route to the seal. The real-facing row $E$ appears after the endpoint and target rows $A,B,Y$, the residual bracket $S$, the budget $M$, the bisection route $R$, and the regular readback $Q$ in the displayed carrier.
+
+The transport and replay rows $H$ and $C$ preserve those dependencies componentwise. Provenance $P$ and local naming $N$ record that the exposed seal belongs to the $\DarbouxPropertyUp$ packet.
+
+Therefore every real-facing read is exhausted by the finite rows already listed. There is no carrier field through which host equality, quotient equality, a selected intermediate point, trichotomy, ambient completeness, or open-cover compactness could be exported.
+\end{proof}
+
+\closureat{DarbouxPropertyUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxPropertyUp}
+  \constructivestory{A $\DarbouxPropertyUp$ packet is generated from an interval row, a ContinuousMap row, endpoint Real rows, a target Real row, a finite residual-bracket row, a modulus budget, an IntermediateValueBisection route, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-property-carrier}, \autoref{thm:darboux-property-namecert-obligations}, \autoref{thm:darboux-property-ivt-route}, and \autoref{thm:darboux-property-real-seal-nonescape} seed the finite Darboux target-value route and its real-seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real equality, quotient real equality, a selected intermediate point, trichotomy, ambient RealUp completeness, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-bracket stability, intermediate-value bisection handoff, regular rational readback, and real-seal nonescape for BEDC.Derived.DarbouxPropertyUp.}
+\end{closurestatus}
