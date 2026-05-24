@@ -66,6 +66,7 @@ The rows $R$ and $E$ then give the regular-rational and real-name handoff for ex
 \label{thm:located-supremum-upper-bound-ledger-stability}
 Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Every upper-bound read exported by $S$ is stable under the componentwise transports recorded in $H$: transporting the located family row, upper-bound ledger, precision window, regular handoff, Real seal, continuation route, provenance, and local naming row preserves the same finite upper-bound ledger reads through $U$ and no additional order-completeness coordinate is exposed.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_upper\_bound\_ledger\_stability}
 \begin{proof}
 Project the carrier of \autoref{def:located-supremum-carrier}. The upper-bound information is stored only in $U$, and the transport row $H$ lists the componentwise transports for $L,U,A,W,R,E,C,P,N$.
 
@@ -171,9 +172,11 @@ Apply the RegSeqRat Real handoff stability theorem \autoref{thm:located-supremum
 Finally use \autoref{thm:locatedsupremum-real-seal-nonescape}. The terminal seal can expose only the displayed rows $L,U,A,W,R,E,H,C,P,N$, so the handoff cannot export selected suprema, trichotomy, quotient cuts, host equality, countable choice, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\closureat{LocatedSupremumUp}{obligationStr}[BEDC.Derived.LocatedSupremumUp.LocatedSupremum\_real\_seal\_boundary]
+
 \begin{closurestatus}{\LocatedSupremumUp}
   \constructivestory{A $\LocatedSupremumUp$ packet is generated from a located family row, an upper-bound ledger, a lower-approximation ledger, a StreamName precision window, a RegSeqRat handoff, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:located-supremum-carrier}, \autoref{thm:located-supremum-namecert-obligations}, and \autoref{thm:located-supremum-real-seal-boundary} bind the located upper-bound and lower-approximation seed over the L10 Real and Completion route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
