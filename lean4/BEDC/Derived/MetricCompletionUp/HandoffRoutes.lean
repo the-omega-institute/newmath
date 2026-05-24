@@ -80,4 +80,66 @@ theorem MetricCompletion_filter_branch_handoff [AskSetup] [PackageSetup]
   exact
     ⟨cert, sourceUnary, filterUnary, readbackUnary, filterRoute, separatedRoute⟩
 
+theorem MetricCompletion_net_branch_handoff [AskSetup] [PackageSetup]
+    {source filterBranch netBranch readback separated transport replay provenance
+      localCert netRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricCompletionCarrier source filterBranch netBranch readback separated transport replay
+        provenance localCert bundle pkg →
+      Cont source netBranch netRead →
+        Cont netRead readback exportRead →
+          PkgSig bundle exportRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row source ∨ hsame row netBranch ∨ hsame row netRead ∨
+                    hsame row readback ∨ hsame row exportRead)
+                (fun row : BHist => hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+                hsame ∧
+              UnaryHistory source ∧ UnaryHistory netBranch ∧ UnaryHistory netRead ∧
+                UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig SemanticNameCert hsame Cont
+  intro carrier sourceNetRoute netReadRoute exportPkg
+  obtain ⟨sourceUnary, _filterUnary, netUnary, readbackUnary, _separatedUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localCertUnary, _replayRoute,
+    _transportSame, _provenancePkg, _localCertPkg⟩ := carrier
+  have netReadUnary : UnaryHistory netRead :=
+    unary_cont_closed sourceUnary netUnary sourceNetRoute
+  have exportReadUnary : UnaryHistory exportRead :=
+    unary_cont_closed netReadUnary readbackUnary netReadRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row netBranch ∨ hsame row netRead ∨
+              hsame row readback ∨ hsame row exportRead)
+          (fun row : BHist => hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro exportRead ⟨hsame_refl exportRead, exportReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, exportPkg⟩
+    }
+  exact ⟨cert, sourceUnary, netUnary, netReadUnary, exportReadUnary⟩
+
 end BEDC.Derived.MetricCompletionUp.HandoffRoutes

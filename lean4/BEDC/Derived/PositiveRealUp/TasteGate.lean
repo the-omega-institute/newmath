@@ -2,6 +2,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PositiveRealUp
@@ -10,6 +11,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -221,5 +223,36 @@ theorem PositiveRealNameCert_obligations (x : PositiveRealUp) :
     exact ⟨source, cont_right_unit h⟩
   · intro h source
     exact ⟨source, append_empty_right h⟩
+
+def PositiveRealCarrier (R A D W Q H C P N : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist UnaryHistory
+  UnaryHistory R ∧ UnaryHistory A ∧ UnaryHistory D ∧ UnaryHistory W ∧
+    UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+      UnaryHistory N
+
+theorem PositiveRealCarrier_apartness_handoff
+    {R A D W Q H C P N apartnessRead : BHist} :
+    PositiveRealCarrier R A D W Q H C P N ->
+      Cont A D apartnessRead ->
+        UnaryHistory apartnessRead /\ Cont A D apartnessRead /\ hsame R R /\
+          SemanticNameCert
+            (fun row : BHist =>
+              List.Mem row (positiveRealFields (PositiveRealUp.mk R A D W Q H C P N)))
+            (fun row : BHist =>
+              List.Mem row (positiveRealFields (PositiveRealUp.mk R A D W Q H C P N)) /\
+                Cont row BHist.Empty row)
+            (fun row : BHist =>
+              List.Mem row (positiveRealFields (PositiveRealUp.mk R A D W Q H C P N)) /\
+                hsame (append row BHist.Empty) row)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont Empty append hsame SemanticNameCert UnaryHistory
+  intro carrier apartnessRoute
+  obtain ⟨_realUnary, apartnessUnary, radiusUnary, _windowUnary, _readbackUnary,
+    _transportUnary, _replayUnary, _pkgUnary, _nameUnary⟩ := carrier
+  have apartnessReadUnary : UnaryHistory apartnessRead :=
+    unary_cont_closed apartnessUnary radiusUnary apartnessRoute
+  exact
+    ⟨apartnessReadUnary, apartnessRoute, hsame_refl R,
+      PositiveRealNameCert_obligations (PositiveRealUp.mk R A D W Q H C P N)⟩
 
 end BEDC.Derived.PositiveRealUp
