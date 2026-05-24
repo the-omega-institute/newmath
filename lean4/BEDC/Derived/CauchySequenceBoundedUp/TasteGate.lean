@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
@@ -14,6 +15,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -239,6 +241,83 @@ theorem CauchySequenceBoundedCarrier_window_bound_handoff [AskSetup] [PackageSet
     ⟨scheduleUnary, modulusUnary, toleranceUnary, readbackUnary, realSealUnary, boundUnary,
       boundedConsumerUnary, scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal,
       realSealBoundConsumer, namePkg, boundedConsumerPkg⟩
+
+theorem CauchySequenceBoundedCarrier_real_seal_handoff [AskSetup] [PackageSetup]
+    {schedule modulus tolerance readback realSeal bound transport route provenance name
+      boundedConsumer sealedConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceBoundedCarrier schedule modulus tolerance readback realSeal bound transport
+        route provenance name bundle pkg →
+      Cont realSeal bound boundedConsumer →
+        Cont boundedConsumer route sealedConsumer →
+          PkgSig bundle sealedConsumer pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row sealedConsumer ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row schedule ∨ hsame row modulus ∨ hsame row tolerance ∨
+                    hsame row readback ∨ hsame row realSeal ∨ hsame row bound ∨
+                      hsame row boundedConsumer ∨ hsame row sealedConsumer)
+                (fun row : BHist => hsame row sealedConsumer ∧
+                  PkgSig bundle sealedConsumer pkg)
+                hsame ∧
+              UnaryHistory schedule ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+                UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory bound ∧
+                  UnaryHistory boundedConsumer ∧ UnaryHistory sealedConsumer ∧
+                    Cont realSeal bound boundedConsumer ∧
+                      Cont boundedConsumer route sealedConsumer ∧ PkgSig bundle name pkg ∧
+                        PkgSig bundle sealedConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier realSealBoundConsumer boundedConsumerRoute sealedConsumerPkg
+  obtain ⟨scheduleUnary, modulusUnary, toleranceUnary, boundUnary, routeUnary,
+    _provenanceUnary, _scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal,
+    _provenanceTransportName, namePkg⟩ := carrier
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed toleranceUnary boundUnary toleranceBoundReadback
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed readbackUnary routeUnary readbackRouteSeal
+  have boundedConsumerUnary : UnaryHistory boundedConsumer :=
+    unary_cont_closed realSealUnary boundUnary realSealBoundConsumer
+  have sealedConsumerUnary : UnaryHistory sealedConsumer :=
+    unary_cont_closed boundedConsumerUnary routeUnary boundedConsumerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealedConsumer ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row schedule ∨ hsame row modulus ∨ hsame row tolerance ∨
+              hsame row readback ∨ hsame row realSeal ∨ hsame row bound ∨
+                hsame row boundedConsumer ∨ hsame row sealedConsumer)
+          (fun row : BHist => hsame row sealedConsumer ∧ PkgSig bundle sealedConsumer pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro sealedConsumer ⟨hsame_refl sealedConsumer,
+          sealedConsumerUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          constructor
+          · exact hsame_trans (hsame_symm sameRows) sourceRow.left
+          · exact unary_transport sourceRow.right sameRows
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, sealedConsumerPkg⟩
+    }
+  exact
+    ⟨cert, scheduleUnary, modulusUnary, toleranceUnary, readbackUnary, realSealUnary,
+      boundUnary, boundedConsumerUnary, sealedConsumerUnary, realSealBoundConsumer,
+      boundedConsumerRoute, namePkg, sealedConsumerPkg⟩
 
 theorem CauchySequenceBoundedCarrier_modulus_tail_bound [AskSetup] [PackageSetup]
     {schedule modulus tolerance readback realSeal bound transport route provenance name
