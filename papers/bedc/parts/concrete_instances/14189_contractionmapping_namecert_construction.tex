@@ -60,6 +60,46 @@ The distance row $d$ reads both the source distance and the target distance. The
 The one-step Picard route $I$ records exactly this application-and-comparison pattern. Since $I$ has no infinite-orbit coordinate, the theorem exports only the adjacent-step contraction surface consumed by $\PicardContractionUp$.
 \end{proof}
 
+\begin{definition}[ContractionMapping Cauchy orbit ledger]
+\label{def:contraction-mapping-cauchy-orbit-ledger}
+For an accepted $\ContractionMappingUp$ carrier $K=(X,d,T,G,\lambda,M,I,H,C,P,N)$, a finite Cauchy-orbit ledger is a displayed packet
+$$
+O=(x_0,\ell,B,R,W)
+$$
+where $x_0$ is the starting point row in $X$, $\ell$ is a finite $\ListUp$ of Picard iterates $x_0,T(x_0),\ldots,T^n(x_0)$ read through $G$, $B$ is the rational bound-power row storing the inspected powers of $\lambda$, $R$ is the dyadic tolerance row used for adjacent and tail comparisons, and $W$ is the displayed distance-contraction route
+$$
+d(x_{i+1},x_{i+2})\leq \lambda\,d(x_i,x_{i+1})
+\quad\text{and}\quad
+d(x_i,x_j)\leq B(i,j)\,d(x_0,x_1)
+$$
+for the finite indices carried by $\ell$ and $R$.
+The ledger contains no selected limit point, no completed orbit, no ambient completeness row, and no host fixed-point equality.
+\end{definition}
+
+\begin{theorem}[ContractionMapping Cauchy-orbit contractivity]
+\label{thm:contraction-mapping-cauchy-orbit-contractivity}
+For every accepted $\ContractionMappingUp$ carrier $K=(X,d,T,G,\lambda,M,I,H,C,P,N)$ and every finite Cauchy-orbit ledger $O=(x_0,\ell,B,R,W)$ of \autoref{def:contraction-mapping-cauchy-orbit-ledger}, each adjacent iterate comparison in $\ell$ factors through the stored $\MetricUp$ carrier row $X,d$, the graph row $G$, the rational bound ledger $\lambda$, and the $\PicardContractionUp$ route $I$. The dyadic tolerance row $R$ and bound-power row $B$ only replay those finite comparisons; they do not introduce a separate convergence theorem.
+\end{theorem}
+\begin{proof}
+Project the contraction carrier. The metric carrier and distance row $X,d$ are the only source of distance comparisons, and the self-map is available only through $T$ and the graph row $G$.
+
+Use \autoref{thm:contraction-mapping-picard-step-contraction} at each displayed adjacent pair in the finite list $\ell$. The theorem supplies the comparison through $G$, $\lambda$, and the Picard route $I$ for that pair.
+
+The ledger rows $B,R,W$ then record only finite replay data: bound powers, dyadic tolerances, and the displayed chain of inequalities already obtained from the adjacent-step route. Since no row of $O$ carries a limit or an ambient completeness witness, the contractivity statement remains a finite orbit ledger.
+\end{proof}
+
+\begin{theorem}[ContractionMapping Banach handoff]
+\label{thm:contraction-mapping-banach-handoff}
+Every $\BanachFixedPointUp$ consumer of an accepted $\ContractionMappingUp$ carrier receives the finite Cauchy-orbit ledger of \autoref{def:contraction-mapping-cauchy-orbit-ledger} together with a separate $\CompleteMetricUp$ row. The handoff exports the displayed Picard iterates, dyadic tolerances, rational bound powers, graph reads, and finite Cauchy comparison route; it does not export a selected fixed point, a completed orbit endpoint, host fixed-point equality, quotient equality of maps, or ambient completeness from the contraction packet alone.
+\end{theorem}
+\begin{proof}
+Begin with the complete-metric handoff of \autoref{thm:contraction-mapping-complete-metric-handoff}. It makes the metric carrier, graph-exact self-map, rational contraction ledger, induced modulus, and Picard one-step route visible, but it explicitly does not supply completeness as a contraction-packet coordinate.
+
+Attach the finite orbit ledger $O$. By \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}, every adjacent and tail comparison in $O$ is replayed through $X,d,G,\lambda,I$ and the ledger rows $B,R,W$.
+
+A $\BanachFixedPointUp$ consumer must therefore add the separate $\CompleteMetricUp$ row before any endpoint seal can be read. The contraction packet and orbit ledger give only finite Cauchy evidence; fixed-point selection, completed endpoints, host equality, quotient map equality, and ambient completeness remain outside the handoff.
+\end{proof}
+
 \begin{theorem}[ContractionMapping complete-metric handoff]
 \label{thm:contraction-mapping-complete-metric-handoff}
 Every $\CompleteMetricUp$ or $\BanachFixedPointUp$ consumer of an accepted $\ContractionMappingUp$ carrier must pass through the rows
@@ -80,8 +120,8 @@ Completeness is not a coordinate of the contraction packet. A $\CompleteMetricUp
 
 \begin{closurestatus}{\ContractionMappingUp}
   \constructivestory{A $\ContractionMappingUp$ packet is generated from a $\MetricUp$ carrier row, a metric-distance row, a self-map row, a graph row, a rational contraction-bound ledger below one, an induced modulus row, a one-step $\PicardContractionUp$ route, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:contraction-mapping-carrier}, \autoref{thm:contraction-mapping-namecert-obligations}, \autoref{thm:contraction-mapping-picard-step-contraction}, and \autoref{thm:contraction-mapping-complete-metric-handoff} seed the constructive self-map contraction surface for the Picard and completion routes.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:contraction-mapping-carrier}, \autoref{thm:contraction-mapping-namecert-obligations}, \autoref{thm:contraction-mapping-picard-step-contraction}, \autoref{def:contraction-mapping-cauchy-orbit-ledger}, \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}, \autoref{thm:contraction-mapping-banach-handoff}, and \autoref{thm:contraction-mapping-complete-metric-handoff} bind the carrier, Picard-step contraction, finite orbit ledger, Banach handoff, and complete-metric handoff obligation surface for the constructive self-map contraction packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
