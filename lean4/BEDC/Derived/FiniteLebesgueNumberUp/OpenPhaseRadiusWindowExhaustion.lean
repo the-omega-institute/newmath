@@ -117,4 +117,86 @@ theorem FiniteLebesgueNumberRealSourceLedgerCoverage [AskSetup] [PackageSetup]
     ⟨streamUnary, regularUnary, realUnary, windowRadiusStream, streamMeshRegular,
       regularNameReal, provenancePkg, realPkg⟩
 
+theorem FiniteLebesgueNumberOpenPhaseRadiusWindowLedgerExhaustion
+    [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow rootRead radiusRead
+      windowRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg →
+      Cont route nameRow rootRead →
+        Cont rootRead radius radiusRead →
+          Cont radiusRead window windowRead →
+            Cont windowRead mesh terminalRead →
+              PkgSig bundle terminalRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row rootRead ∨ hsame row radiusRead ∨
+                        hsame row windowRead ∨ hsame row terminalRead)
+                    (fun row : BHist => hsame row terminalRead ∧
+                      PkgSig bundle terminalRead pkg)
+                    hsame ∧
+                  UnaryHistory rootRead ∧ UnaryHistory radiusRead ∧
+                    UnaryHistory windowRead ∧ UnaryHistory terminalRead ∧
+                      Cont route nameRow rootRead ∧ Cont rootRead radius radiusRead ∧
+                        Cont radiusRead window windowRead ∧
+                          Cont windowRead mesh terminalRead ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier routeNameRoot rootRadiusRead radiusWindowRead windowMeshTerminal
+    terminalPkg
+  obtain ⟨_coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary nameRowUnary routeNameRoot
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed rootUnary radiusUnary rootRadiusRead
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed radiusReadUnary windowUnary radiusWindowRead
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed windowReadUnary meshUnary windowMeshTerminal
+  have sourceTerminal :
+      (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row) terminalRead := by
+    exact ⟨hsame_refl terminalRead, terminalUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row rootRead ∨ hsame row radiusRead ∨ hsame row windowRead ∨
+              hsame row terminalRead)
+          (fun row : BHist =>
+            hsame row terminalRead ∧ PkgSig bundle terminalRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro terminalRead sourceTerminal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr source.left))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, terminalPkg⟩
+    }
+  exact
+    ⟨cert, rootUnary, radiusReadUnary, windowReadUnary, terminalUnary, routeNameRoot,
+      rootRadiusRead, radiusWindowRead, windowMeshTerminal, provenancePkg, terminalPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp

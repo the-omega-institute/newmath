@@ -38,6 +38,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RootRadiusWindowConsumerExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusLedgerCoherence
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowCoverageExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.SourceChainAdmission
+import BEDC.Derived.FiniteLebesgueNumberUp.ObligationCoverageRow
 
 namespace BEDC.Derived.FiniteLebesgueNumberUp
 
