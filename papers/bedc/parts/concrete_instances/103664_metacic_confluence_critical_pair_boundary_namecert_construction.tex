@@ -155,6 +155,30 @@ Apply \autoref{thm:metacic-confluence-critical-pair-common-reduct-boundary}. It 
 The rows $S$ and $U$ record the non-claim separation. They keep subject-reduction discharge, arbitrary closed-term Church--Rosser, full parallel diamond, and residual-substitution compatibility outside the local critical-pair packet, while $H,C,P,N$ only transport, replay, source, and name the displayed finite route.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence critical-pair field-faithful prediction]
+\label{thm:metacic-confluence-critical-pair-fieldfaithful-prediction}
+Let $B=(R,K,J,E,D,S,U,H,C,P,N)$ and $B'=(R',K',J',E',D',S',U',H',C',P',N')$ be accepted $\MetaCICConfluenceCriticalPairBoundaryUp$ carriers. If their displayed field projections agree componentwise on $R,K,J,E,D,S,U,H,C,P,N$, then they expose the same critical-pair and common-reduct boundary route. In particular, the critical-pair table $K$ and common-reduct table $J$ cannot be erased or replaced by aliases of $R,E,D,S,U,H,C,P,N$ without changing the public packet classifier.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:metacic-confluence-critical-pair-boundary-carrier}. Componentwise equality of the displayed fields identifies the same redex-frontier row, the same critical-pair table, the same common-reduct table, the same bounded and normal checker rows, and the same boundary classifier route.
+
+Apply \autoref{thm:metacic-confluence-critical-pair-common-reduct-boundary}. The confluence audit route must read $R,K,J$ before it reaches $E,D,S,U$, so agreement of all displayed projections fixes the same critical-pair and common-reduct boundary route.
+
+Finally apply \autoref{thm:metacic-confluence-critical-pair-local-join}. A displayed critical pair is joinable only through its corresponding row in $J$. Erasing $K$ or $J$ would remove a field used by the local join route, so the public classifier changes rather than preserving a field-faithful packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence critical-pair nontrivial witness surface]
+\label{thm:metacic-confluence-critical-pair-nontrivial-witness-surface}
+There are two classifier-separated $\MetaCICConfluenceCriticalPairBoundaryUp$ packet surfaces: one whose $K,J$ boundary rows are empty and whose $U$ row records that no displayed critical-pair join is available, and one with a displayed critical-pair row in $K$ together with a corresponding common-reduct row in $J$. The separation is witnessed by the $K,J,U$ fields and is visible to the local $\NameCert_{\MetaCICConfluenceCriticalPairBoundaryUp}$ classifier.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The fields $K$ and $J$ are independent displayed rows: $K$ lists inspected critical pairs, and $J$ lists the corresponding common-reduct candidates.
+
+For the empty surface, the classifier reads empty $K,J$ rows together with the boundary row $U$ that denies a displayed local join route. For the inhabited surface, the classifier reads one critical-pair entry in $K$ and the matching common-reduct entry in $J$ before $U$ records the bounded boundary route.
+
+Apply \autoref{thm:metacic-confluence-critical-pair-common-reduct-boundary} and \autoref{thm:metacic-confluence-critical-pair-local-join}. The local join claim cannot be consumed without the displayed $K,J$ rows, so the empty and inhabited surfaces are separated by $K,J,U$ rather than by an external confluence principle.
+\end{proof}
+
 The Lean obligation for this packet is to provide
 \texttt{Nontrivial MetaCICConfluenceCriticalPairBoundaryUp} and
 \texttt{FieldFaithful MetaCICConfluenceCriticalPairBoundaryUp} TasteGate

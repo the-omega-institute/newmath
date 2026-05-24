@@ -69,4 +69,29 @@ theorem CauchyConvergenceCriterionCarrier_nullsequence_factorization [AskSetup]
   exact
     ⟨cert, nullUnary, sameHandoffEmpty, emptyDyadicHandoff, provenancePkg, nullPkg⟩
 
+theorem CauchyConvergenceCriterionCarrier_null_sequence_scope [AskSetup] [PackageSetup]
+    {schedule modulus dyadic handoff sealRow transportRow route provenance localCert
+      zeroDiff nullPacket : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyConvergenceCriterionCarrier schedule modulus dyadic handoff sealRow transportRow
+        route provenance localCert bundle pkg →
+      Cont handoff dyadic zeroDiff →
+        Cont zeroDiff schedule nullPacket →
+          PkgSig bundle nullPacket pkg →
+            UnaryHistory zeroDiff ∧ UnaryHistory nullPacket ∧
+              Cont handoff dyadic zeroDiff ∧ Cont zeroDiff schedule nullPacket ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle nullPacket pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier handoffDyadicZero zeroScheduleNull nullPkg
+  obtain ⟨scheduleUnary, _modulusUnary, dyadicUnary, handoffUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _scheduleModulusDyadic,
+    _dyadicHandoffSeal, _sealTransportRoute, _routeProvenanceLocal, _sameSealHandoff,
+    _sameSealProvenance, provenancePkg⟩ := carrier
+  have zeroUnary : UnaryHistory zeroDiff :=
+    unary_cont_closed handoffUnary dyadicUnary handoffDyadicZero
+  have nullUnary : UnaryHistory nullPacket :=
+    unary_cont_closed zeroUnary scheduleUnary zeroScheduleNull
+  exact
+    ⟨zeroUnary, nullUnary, handoffDyadicZero, zeroScheduleNull, provenancePkg, nullPkg⟩
+
 end BEDC.Derived.CauchyConvergenceCriterionUp
