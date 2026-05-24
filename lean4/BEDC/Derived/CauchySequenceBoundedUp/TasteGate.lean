@@ -240,4 +240,27 @@ theorem CauchySequenceBoundedCarrier_window_bound_handoff [AskSetup] [PackageSet
       boundedConsumerUnary, scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal,
       realSealBoundConsumer, namePkg, boundedConsumerPkg⟩
 
+theorem CauchySequenceBoundedCarrier_modulus_tail_bound [AskSetup] [PackageSetup]
+    {schedule modulus tolerance readback realSeal bound transport route provenance name
+      tailBound : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceBoundedCarrier schedule modulus tolerance readback realSeal bound transport
+        route provenance name bundle pkg ->
+      Cont modulus tolerance tailBound ->
+        PkgSig bundle tailBound pkg ->
+          UnaryHistory schedule ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+            UnaryHistory tailBound ∧ Cont schedule modulus tolerance ∧
+              Cont modulus tolerance tailBound ∧ PkgSig bundle name pkg ∧
+                PkgSig bundle tailBound pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier modulusToleranceTailBound tailBoundPkg
+  obtain ⟨scheduleUnary, modulusUnary, toleranceUnary, _boundUnary, _routeUnary,
+    _provenanceUnary, scheduleModulusTolerance, _toleranceBoundReadback, _readbackRouteSeal,
+    _provenanceTransportName, namePkg⟩ := carrier
+  have tailBoundUnary : UnaryHistory tailBound :=
+    unary_cont_closed modulusUnary toleranceUnary modulusToleranceTailBound
+  exact
+    ⟨scheduleUnary, modulusUnary, toleranceUnary, tailBoundUnary, scheduleModulusTolerance,
+      modulusToleranceTailBound, namePkg, tailBoundPkg⟩
+
 end BEDC.Derived.CauchySequenceBoundedUp
