@@ -209,6 +209,7 @@ before it reaches the local $\NameCert_{\CompletionReflectionUp}$ row $N$. The f
 
 No reflected regular-source tail read may replace this route by quotient streams, selected host limits, host real equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_regular\_source\_tail\_reflection}
 \begin{proof}
 Start with the accepted carrier. By \autoref{thm:completionreflection-carrier-scope}, the only regular-source data visible to the packet are the diagonal reflection row $D$, the regular rational source row $Q$, the real-seal row $A$, the Hausdorff boundary row $H$, and the completion construction row $C$.
 
@@ -234,6 +235,24 @@ Next route the real-facing and extension-facing reads. Apply \autoref{thm:comple
 Now restrict the consumers and provenance routes. Apply \autoref{thm:completionreflection-consumer-scope} and \autoref{thm:completionreflection-classifier-scope} to ensure that every admitted read uses only the rows already visible in the chapter.
 
 Finally apply \autoref{thm:completionreflection-public-export}. The public export exposes exactly the finite completion-reflection tuple and excludes quotient completion objects, host equality, selected host limits, and ambient completeness. This is precisely the standard bridge boundary over the displayed rows, with no additional completion-side coordinate.
+\end{proof}
+
+\begin{theorem}[CompletionReflection real-completion functor handoff]
+\label{thm:completion-reflection-real-completion-functor-handoff}
+Let $R=(C,U,H,D,Q,A,S,T,K,P,N)$ be an accepted $\CompletionReflectionUp$ packet whose regular-source row $Q$ and real-seal row $A$ are consumed by an accepted $\RealCompletionFunctorUp$ packet. Then every completion-facing read handed from $R$ to $\CauchyCompletionFunctorUp$ factors through the displayed L10 route
+$$
+\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\RealUp,\CompletionUniversalPropertyUp,\hsame,\Cont,\Pkg,\NameCert .
+$$
+In particular, the handoff uses only the reflection rows $C,U,H,D,Q,A,S,T,K,P,N$, the four-face functor rows of $\RealCompletionFunctorUp$, and the unit-and-bind surface of $\CauchyCompletionFunctorUp$. It exports no quotient completion object, selected limit, host real equality, ambient completeness theorem, or hidden completion coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the accepted reflection packet. By \autoref{thm:completion-reflection-standard-bridge-boundary}, any standard bridge boundary read from $R$ is already confined to the displayed regular-source, real-seal, classifier, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Read the consuming $\RealCompletionFunctorUp$ packet next. Its terminal-seal non-escape theorem, \autoref{thm:real-completion-functor-terminal-seal-nonescape}, forces the same completion-facing request through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before the completion-functor and universal-property rows are inspected.
+
+Now attach the $\CauchyCompletionFunctorUp$ unit-and-bind surface. The unit laws of \autoref{thm:cauchycompletionfunctor-unit-laws} and the multiplication laws of \autoref{thm:cauchycompletionfunctor-multiplication-laws} read only the displayed source, regular-Cauchy, completion-seal, unit, bind, universal-property, transport, provenance, and local naming rows.
+
+Composing these three routes gives the asserted handoff. Each step preserves the same displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance, so there is no point at which a quotient completion object, selected limit, host real equality, ambient completeness theorem, or hidden completion coordinate can enter.
 \end{proof}
 
 \closureat{CompletionReflectionUp}{seedStr}
