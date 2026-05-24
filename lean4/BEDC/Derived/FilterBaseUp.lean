@@ -375,6 +375,50 @@ theorem FilterBaseCarrier_ledger_refusal [AskSetup] [PackageSetup]
   · intro _row source
     exact ⟨localNamePkg, source⟩
 
+theorem FilterBaseCarrier_completion_branch_coverage [AskSetup] [PackageSetup]
+    {index baseElement directed refinement transport replay provenance localName handoff
+      completionRead branchRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FilterBaseCarrier index baseElement directed refinement transport replay provenance
+        localName bundle pkg ->
+      Cont replay provenance handoff ->
+        Cont handoff localName completionRead ->
+          Cont directed refinement branchRead ->
+            PkgSig bundle completionRead pkg ->
+              PkgSig bundle branchRead pkg ->
+                UnaryHistory directed ∧ UnaryHistory refinement ∧ UnaryHistory replay ∧
+                  UnaryHistory provenance ∧ UnaryHistory handoff ∧
+                    UnaryHistory completionRead ∧ UnaryHistory branchRead ∧
+                      Cont directed refinement replay ∧ Cont replay provenance handoff ∧
+                        Cont handoff localName completionRead ∧
+                          Cont directed refinement branchRead ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle completionRead pkg ∧
+                                PkgSig bundle branchRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier replayProvenanceHandoff handoffLocalCompletion
+    directedRefinementBranch completionPkg branchPkg
+  obtain ⟨indexUnary, baseUnary, refinementUnary, transportUnary, localNameUnary,
+    indexBaseDirected, directedRefinementReplay, transportReplayProvenance,
+    provenancePkg, _localNamePkg⟩ := carrier
+  have directedUnary : UnaryHistory directed :=
+    unary_cont_closed indexUnary baseUnary indexBaseDirected
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed directedUnary refinementUnary directedRefinementReplay
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed transportUnary replayUnary transportReplayProvenance
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed replayUnary provenanceUnary replayProvenanceHandoff
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed handoffUnary localNameUnary handoffLocalCompletion
+  have branchUnary : UnaryHistory branchRead :=
+    unary_cont_closed directedUnary refinementUnary directedRefinementBranch
+  exact
+    ⟨directedUnary, refinementUnary, replayUnary, provenanceUnary, handoffUnary,
+      completionUnary, branchUnary, directedRefinementReplay, replayProvenanceHandoff,
+      handoffLocalCompletion, directedRefinementBranch, provenancePkg, completionPkg,
+      branchPkg⟩
+
 theorem FilterBaseCarrier_classifier_stability [AskSetup] [PackageSetup]
     {index baseElement directed refinement transport replay provenance localName index'
       baseElement' directed' refinement' transport' replay' provenance' localName' : BHist}
