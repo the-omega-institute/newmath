@@ -519,3 +519,33 @@ $\hsame(k,l)$. Repack each unary tail and continuation with the original
 source carrier, deriving the target carrier $r$ by unary continuation closure.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_nonempty\_morphism\_tail\_carrier\_alignment}
+
+\begin{corollary}[Category source specification endpoint determinacy]
+\label{cor:category-source-specification-endpoint-determinacy}
+Let $a,r,morph$ be histories and suppose a $\CategoryUp$ source specification use, in the sense of \autoref{def:category-source-specification}, is accepted through the licensed one-headed endpoint hom-carrier row
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),morph)
+$$
+with $morph$ not $\HSame$ to $\emp$. Then the finite source route forced on that use is determined: there is a history $k$ such that
+$$
+morph=\Eone(k)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(\Eone(a),r,k).
+$$
+For any second consumer readback, normal-form choice, or exactness decision in the same source specification, if it displays a one-headed descent
+$$
+morph=\Eone(k')
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(\Eone(a),r,k'),
+$$
+then $k\hsame k'$. Hence the accepted source specification use cannot introduce a hidden coordinate, a second finite route, or a duplicate classifier source beyond the visible row named by the chapter.
+\end{corollary}
+\begin{proof}
+By \autoref{def:category-source-specification}, the source data consists of the licensed object carrier together with each licensed hom-carrier. Thus an accepted use at the displayed endpoint must be read through the concrete hom-carrier row
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),morph),
+$$
+rather than through an external coordinate. The nonempty hypothesis rejects the empty exactness decision, so the only admissible visible branch is the one-headed descent branch. Applying \autoref{thm:category-hom-carrier-e1-source-e1-target-nonempty-morphism-descent-unique} gives a displayed tail $k$ with $morph=\Eone(k)$ and the descended licensed row $\mathsf{CategoryHomCarrier}(\Eone(a),r,k)$.
+
+Now take any second accepted readback, normal-form choice, or exactness decision for the same source specification. To remain accepted under \autoref{def:category-source-specification}, it must again present a licensed hom-carrier row; if it displays $morph=\Eone(k')$ and $\mathsf{CategoryHomCarrier}(\Eone(a),r,k')$, the universal clause of \autoref{thm:category-hom-carrier-e1-source-e1-target-nonempty-morphism-descent-unique} gives $k\hsame k'$. Therefore every accepted consumer-facing use factors through the same descended tail up to $\HSame$, and no unlisted coordinate or duplicate classifier source survives the displayed finite row list.
+\end{proof}

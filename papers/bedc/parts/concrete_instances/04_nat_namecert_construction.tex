@@ -429,3 +429,77 @@ $\AddUp$, $\MulUp$, and $\OrderUp$ interfaces.
   \notclaimed{Non-unary external arithmetic theorem inventories and checked standard-model bridge targets are not claimed here.}
   \upgradepath{Bridge-checked status requires machine-checked standard-model bridge targets.}
 \end{closurestatus}
+
+\begin{theorem}[Unary bridge cut boundary]
+\label{thm:unary-bridge-cut-boundary}
+Let a consumer use the $\NatUp$ packet through the unary-history certificate of
+\autoref{thm:concrete-natup-namecert}, the semantic certificate of
+\autoref{thm:natup-semantic-namecert}, and the standard bridge of
+\autoref{thm:natup-unary-standard-bridge}. Then every datum crossing from this
+chapter to a consumer is forced into one of the following rows:
+\begin{enumerate}
+  \item the unary source row $\Unary(h)$, equivalently
+  $\UnarySource(h)$;
+  \item the unary pattern row generated from $\emp$ by repeated $\Eone$;
+  \item the classifier row $h\hsame k$ between unary histories;
+  \item the unary ledger row recording the same admitted history;
+  \item, when the consumer asks for continuation, the BEDC continuation row
+  $\Cont(h,t,k)$ with unary source and unary tail.
+\end{enumerate}
+The finite unary word, external length readback, encode map, decode map,
+round-trip witnesses, and bridge preservation witnesses are eliminable bridge
+cuts: after the consumer-facing projection they leave only the listed BEDC
+rows. A proposed crossing row whose carrier is a host natural number, a host
+operation, a non-unary history, or any source coordinate not listed above is
+not admitted by the $\NatUp$ packet.
+\end{theorem}
+\begin{proof}
+The concrete certificate of \autoref{thm:concrete-natup-namecert} displays
+exactly five BEDC rows: source, pattern, classifier, stability, and ledger.
+By \autoref{def:unary-source-specification}, the source row is the judgment
+$\Unary(h)$. By \autoref{def:unary-pattern-specification}, the pattern
+row is the closed generation spine from $\emp$ by $\Eone$. By
+\autoref{def:unary-classifier-specification}, the classifier row is internal
+history-sameness restricted to unary histories. By
+\autoref{def:unary-stability-certificate}, the stability row contributes only
+base generation, one-extension closure, and no-zero exclusion. By
+\autoref{def:unary-ledger-policy}, the ledger row records the same source
+history rather than a separate external coordinate.
+
+The semantic certificate of \autoref{thm:natup-semantic-namecert} adds no new
+consumer carrier. It says that source, pattern, and ledger predicates preserve
+the same unary-history witness. Therefore any handoff through the semantic
+certificate projects back to the unary source, unary pattern, classifier,
+stability, and ledger rows already listed.
+
+It remains to inspect the standard bridge. In
+\autoref{thm:natup-unary-standard-bridge}, the finite unary word, length
+readback, encode field, decode field, and round-trip witnesses are bridge-side
+interpretation data. The proof of that theorem eliminates them by induction
+back to the BEDC constructors: $\emp$ for zero, $\Eone$ for successor, and the
+no-zero rule for the absent $\Ezero$ branch. Its exactness clause projects
+external equality of readback lengths back to the classifier row $h\hsame k$,
+and its continuation clause projects a bridge-side addition reading back to the
+BEDC row $\Cont(h,t,k)$ with unary tail. Thus these bridge-side names are cuts
+inside the interpretation, not additional public rows.
+
+Consequently a downstream consumer such as the continuation interface cited in
+\autoref{ch:concrete-instances-add-namecert} can receive only the unary source,
+pattern, classifier, ledger, and displayed continuation rows. If a proposed
+handoff starts from a host natural number, a host operation, a non-unary
+history, or any coordinate not produced by those rows, then neither the
+certificate nor the standard bridge has a clause admitting it. Such a row is
+therefore rejected at the boundary.
+\end{proof}
+
+\begin{proposition}[Unary history judgment codomain mirror boundary]
+\label{prop:nat-unary-history-codomain-mirror-boundary}
+For the $\NatUp$ certificate of \autoref{thm:concrete-natup-namecert}, the unary history judgment has no independent codomain mirror row. A unary domain row is a single witness $\Unary(h)$, and the source, pattern, stability, and ledger fields of \autoref{def:unary-source-specification}, \autoref{def:unary-pattern-specification}, \autoref{def:unary-stability-certificate}, and \autoref{def:unary-ledger-policy} all reuse that same displayed history. If a target history $k$ is read from the same local packet, then either it is only a classifier comparison $h\hsame k$, or it is supplied by an additional unary continuation tail $t$ with $\Cont(h,t,k)$. In the latter case \autoref{lem:nat-unary-prefix-cont-tail-cases} gives exactly the two endpoint cases: $h\hsame k$, or $h$ is a strict unary prefix of $k$. Hence a non-identity codomain side is not obtained by renaming the unary judgment; it belongs to the continuation or strict-prefix surface.
+\end{proposition}
+\begin{proof}
+Unpack the unary judgment of \autoref{def:unary-history-judgment}. Its generators produce judgments of the form $\Unary(h)$: the empty history is admitted, the one-extension of an admitted history is admitted, and no zero-extension is admitted. Thus the judgment itself names one history at a time.
+
+The certificate fields keep that arity. The source specification of \autoref{def:unary-source-specification} is governed by $\Unary(h)$. The pattern specification of \autoref{def:unary-pattern-specification} is repeated one-extension from $\emp$, again on the same history. The stability certificate of \autoref{def:unary-stability-certificate} records the base, one-extension, and no-zero facts for this same unary predicate. The ledger policy of \autoref{def:unary-ledger-policy} records the source unary history rather than replacing it by a separate emitted target. These are exactly the rows assembled in \autoref{thm:concrete-natup-namecert}.
+
+The only binary row already present in the unary certificate is the classifier row of \autoref{def:unary-classifier-specification}, which compares admitted unary histories by $\hsame$. Reading this as a codomain mirror gives no new target construction: it says only that the displayed target is history-same to the source. To obtain a target history not supplied merely by classifier comparison, one must add a continuation witness $\Cont(h,t,k)$ with a unary tail $t$. Then \autoref{lem:nat-unary-prefix-cont-tail-cases} applies. The empty-tail branch gives endpoint sameness $h\hsame k$, while the nonempty one-tail branch is precisely the strict unary prefix relation of \autoref{def:nat-unary-strict-prefix}. Therefore the local chapter supports identity comparison and continuation-generated targets, but it does not support a separate codomain copy of the unary judgment obtained by renaming the same unary row.
+\end{proof}

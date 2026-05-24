@@ -48,3 +48,19 @@ Next add the closed-substitution and ground-compiler consumers. Theorems~\ref{th
 Finally synchronize the audit route with the operational membrane and the TasteGate handoff already cited by the chapter. Apply \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}, \autoref{thm:operational-membrane-scoped-boundary}, and the checked carrier handoff named by \texttt{BEDC.Derived.AuthorizedGeneratorRecursorUp.taste\_gate}. These identify the audit and carrier-alignment reads with the same displayed packet, so downstream consumers cannot replace $I,E,M,B,D,O,A,H,C,P,G,N$ by an off-packet route.
 \end{proof}
 \leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorAuditNameCertLock}
+
+\begin{lemma}[AuthorizedGeneratorRecursor accepted signature downstream coverage]
+\label{lem:authorized-generator-recursor-accepted-signature-downstream-coverage}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every accepted local consumer of the accepted signature output is exhausted by the finite rows displayed in $R$. More precisely, the consumer can read only an admission alternative among $I,E,M,B,D$, an output-boundary ledger row among $O,A,H,C,P,G,N$, or the same-packet coverage obtained by keeping those two surfaces coupled inside the carrier. A request for a detached branch table, motive-free recursive channel, hidden generator source, off-packet signature route, free induction principle, external axiom channel, unaudited dependency route, or naming certificate outside $R$ remains outside the accepted $\BEDC$ packet.
+\end{lemma}
+\begin{proof}
+Fix an accepted root packet and project the displayed carrier $R$. By \autoref{thm:authorized-generator-recursor-accepted-signature-route}, any public read that consumes $O$ must first expose the accepted signature row $I$, emitted recursor row $E$, checked motive row $M$, authorized branch package $B$, and structural-descent row $D$. The same theorem also says that the subsequent read of $O$ is a read of the output row of this carrier, with no detached branch table, motive-free recursive channel, hidden generator source, or off-packet signature route. Thus the admission side of any accepted local consumer is already exhausted by the finite alternatives $I,E,M,B,D$.
+
+Now apply \autoref{thm:authorized-generator-recursor-output-boundary-totality} to the output side. Once $O$ is public, the audit row $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, boundary row $G$, and local $\NameCert$ row $N$ remain attached to the same carrier. Hence a downstream consumer that passes the admission side can only proceed through the displayed output-boundary ledger $O,A,H,C,P,G,N$.
+
+Combining the two cited theorems leaves no third source of consumer-facing data. A local consumer either stops on the admission alternatives $I,E,M,B,D$, reads the output-boundary ledger $O,A,H,C,P,G,N$, or uses their same-packet coupling as the coverage row for $R$. The alternatives excluded by the accepted signature route are absent before $O$, and the alternatives excluded by output boundary totality are absent after $O$. Therefore every unlisted coordinate remains outside the accepted $\BEDC$ packet.
+\end{proof}

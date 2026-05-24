@@ -47,7 +47,6 @@ coordinate for a beta-only shortcut, a three-row discharge interface, a hidden
 substitution oracle, a closed subject-reduction theorem, or a consumer route
 that bypasses $E$.
 \end{definition}
-\leanchecked{BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[MetaCICRedexFrontier NameCert obligations]
 \label{thm:metacic-redex-frontier-namecert-obligations}
@@ -146,12 +145,39 @@ is rejected rather than completed by transport, continuation replay,
 provenance, or local naming.
 \end{proof}
 
-\closureat{MetaCICRedexFrontierUp}{obligationStr}[BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierCarrier\_namecert\_obligations]
+\begin{theorem}[MetaCICRedexFrontier scoped package]
+\label{thm:metacic-redex-frontier-scope-package}
+Let $R=(B,A,L,P,O,E,H,C,G,N)$ be an accepted $\MetaCICRedexFrontierUp$ carrier. Its scoped package is exactly the finite primitive surface formed by the typed term window carried by the four discharge rows $B,A,L,P$, the beta-boundary row $E$, the obstruction rows in $O$, componentwise $\BHist$ and $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $G$, local $\NameCert$ naming through $N$, and the TasteGate alignment of the same carrier.
+
+The scoped package exports no subject-reduction theorem, global confluence theorem, normalization theorem, hidden substitution oracle, three-row discharge interface, or beta-only shortcut.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the accepted carrier. The typed term window is not a separate ambient context; it is the finite window read by the four displayed discharge rows $B,A,L,P$.
+
+The beta and obstruction boundaries are explicit. The row $E$ routes beta-redex consumption before any subject-reduction consumer, while $O$ records why the carrier remains a frontier packet rather than a closed theorem.
+
+The structural rows preserve this same surface. The rows $H,C,G,N$ supply transport, replay, provenance, and local naming, and the TasteGate alignment identifies this single carrier as the accepted package. Since no off-packet theorem or oracle coordinate appears in the carrier, the excluded global claims are outside the scoped package.
+\end{proof}
+
+\begin{theorem}[MetaCICRedexFrontier normalization-window handoff]
+\label{thm:metacic-redex-frontier-normalization-window-handoff}
+Every normalization-window consumer of an accepted $\MetaCICRedexFrontierUp$ carrier factors through the scoped package of \autoref{thm:metacic-redex-frontier-scope-package} before it may hand data to the normalization-window confluence packet of \autoref{ch:concrete-instances-metacic-normalization-window-confluence-namecert}. The handoff exports the typed term window, beta-boundary row, obstruction rows, transport, replay, provenance, and local naming rows; it does not export subject reduction, global confluence, or normalization.
+\end{theorem}
+\begin{proof}
+Begin with the obstruction non-escape theorem, \autoref{thm:metacic-redex-frontier-nonescape}. Every consumer read factors through the displayed rows $B,A,L,P,O,E,H,C,G,N$.
+
+Apply \autoref{thm:metacic-redex-frontier-scope-package}. The same rows form the scoped primitive surface, including the beta-boundary route and obstruction ledger needed before a normalization-window reader can consume the packet.
+
+The target confluence packet is a downstream consumer named by \autoref{ch:concrete-instances-metacic-normalization-window-confluence-namecert}. This chapter hands off only the finite redex-frontier rows; the closed subject-reduction, global confluence, and normalization claims are not coordinates of the carrier.
+\end{proof}
+
+\closureat{MetaCICRedexFrontierUp}{scopedStr}[BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\MetaCICRedexFrontierUp}
   \constructivestory{A $\MetaCICRedexFrontierUp$ packet is generated from beta-redex, application-argument, lambda-domain, and Pi-domain discharge rows, an obstruction ledger, a beta-boundary route, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metacic-redex-frontier-carrier}, \autoref{thm:metacic-redex-frontier-namecert-obligations}, \autoref{thm:metacic-redex-frontier-beta-boundary}, and \autoref{thm:metacic-redex-frontier-nonescape} bind the finite beta-redex frontier packet and its obstruction non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:metacic-redex-frontier-carrier}, \autoref{thm:metacic-redex-frontier-namecert-obligations}, \autoref{thm:metacic-redex-frontier-beta-boundary}, \autoref{thm:metacic-redex-frontier-nonescape}, \autoref{thm:metacic-redex-frontier-scope-package}, and \autoref{thm:metacic-redex-frontier-normalization-window-handoff} bind the finite beta-redex frontier packet, its primitive scoped package, and its normalization-window handoff boundary.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierCarrier\_namecert\_obligations}
   \leanchecked{BEDC.Derived.MetaCICRedexFrontierUp.taste\_gate}

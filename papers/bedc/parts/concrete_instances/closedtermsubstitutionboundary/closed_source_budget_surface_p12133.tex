@@ -42,3 +42,19 @@ Second take operation totality as the consumer boundary. The substitution budget
 
 Third attach the audit witness. Apply \autoref{thm:closed-term-substitution-boundary-audit-route-coverage}, \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}, and \autoref{thm:closed-term-substitution-boundary-root-audit-totality}. These rows keep the consumer inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet and prevent escape to host substitution semantics, hidden compiler state, or an untracked audit route.
 \end{proof}
+
+\begin{theorem}[Closed-term substitution boundary closed-source downstream coverage]
+\label{thm:closed-term-substitution-boundary-closed-source-downstream-coverage}
+Every accepted local consumer of the closed-source downstream surface of a $\ClosedTermSubstitutionBoundaryUp$ packet is exhausted by the displayed alternatives
+$$
+C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+over the carrier rows $T,V,d$. The only admissible operation alternatives are the closed shift row $Q$, the closed substitution row $R$, the ledger rows $L,A$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ route row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$. Host substitution semantics, ambient subject reduction, host syntax quotients, hidden evaluator state, hidden compiler state, external substitution relations, unregistered free-variable coordinates, and additional operation rows remain outside the BEDC packet.
+\end{theorem}
+\begin{proof}
+Start with the closed-source budget surface of \autoref{thm:closed-term-substitution-boundary-closed-source-budget-surface}. It exposes the finite packet rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ and places $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ before any use of the closed shift budget $Q$ or closed substitution budget $R$. Thus a local consumer cannot enter the downstream operation boundary through a source other than the displayed closedness rows.
+
+Apply substitution budget totality from \autoref{thm:closed-term-substitution-boundary-substitution-budget-totality}. It says that every substitution consumer factors through source closedness, value closedness, the closed shift row, the closed substitution row, the finite ledger, the audit row, componentwise transports, displayed continuation routes, package provenance, and the local naming row. Therefore the downstream consumer has exactly the listed alternatives $C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ over $T,V,d$.
+
+Finally use the consumer-facing triad of \autoref{thm:closed-term-substitution-boundary-consumer-audit-triad}. The triad identifies the same closedness entry, operation budget, and audit-visible route as one finite BEDC packet. Since the closed-source surface and the substitution budget totality contain no coordinate for host substitution semantics, ambient subject reduction, host syntax quotients, hidden evaluator state, hidden compiler state, external substitution relations, unregistered free-variable coordinates, or an extra operation row, those excluded alternatives remain outside the packet for every accepted local consumer.
+\end{proof}

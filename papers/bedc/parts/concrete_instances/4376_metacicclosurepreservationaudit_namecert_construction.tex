@@ -68,3 +68,19 @@ The closedness rows $R,V,U,B,Z$ remain available as evidence rows. They are tran
 
 The normal-form consistency seal receives beta-star closedness only as a bounded input. Because the packet has no coordinate for closed subject reduction or full consistency, the frontier read stops at the socket and the normal-form boundary.
 \end{proof}
+
+\begin{corollary}[MetaCIC closure-preservation audit strict local obstruction]
+\label{cor:metacic-closure-preservation-audit-strict-local-obstruction}
+Let an accepted $\MetaCICClosurePreservationAuditUp$ packet be read through the carrier
+$$
+M=(A,S,R,V,U,B,Z,X,H,C,P,N)
+$$
+of \autoref{def:metacic-closure-preservation-audit-packet}. Any consumer-facing negative use of its subject-reduction frontier is a strict local obstruction: it blocks only the converse route from closedness preservation to closed subject reduction, only the reuse of beta-star closedness as typed preservation, and only the bypass of the socket and normal-form boundary named in \autoref{thm:metacic-closure-preservation-audit-sr-frontier-separation}. It cannot be reread as a global impossibility theorem, a host theorem, a countermodel to closure preservation, an external validation principle, or a hidden discharge of an unlisted coordinate.
+\end{corollary}
+\begin{proof}
+Project the packet using \autoref{def:metacic-closure-preservation-audit-packet}. Its positive closedness coordinates are exactly the rows $R,V,U,B,Z$, with $Z$ singled out by \autoref{thm:metacic-closure-preservation-audit-beta-star-closedness-export} as the beta-star closedness export. The carrier also displays the frontier row $X$, the componentwise transport row $H$, the continuation row $C$, the provenance row $P$, and the local naming row $N$.
+
+The only subject-reduction-facing crossing supplied by the packet is the one identified in \autoref{thm:metacic-closure-preservation-audit-sr-frontier-separation}: a read factors through $X$ and then through the finite subject-reduction socket. The same theorem allows $R,V,U,B,Z$ to be used as audit evidence, but it denies manufacture of closed subject reduction, discharge of the subject-reduction rows, and bypass of the normal-form boundary. Thus the obstruction applies to the attempted converse or reuse route that treats closedness evidence as typed preservation evidence.
+
+No stronger negative reading is available from the finite carrier. The definition explicitly omits coordinates for closed subject reduction, full typed preservation, quotient equality of beta paths, host conversion, global normalization, and confluence. The transport, continuation, provenance, and naming rows $H,C,P,N$ preserve access to displayed rows; they do not add a host theorem, a global countermodel, or an external validation channel. Therefore every negative consumer-facing use remains the named local obstruction and rejects any unlisted coordinate.
+\end{proof}

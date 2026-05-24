@@ -33,3 +33,74 @@ $c\hsame\emp$. The same exactness row supplies emptiness of both factor
 morphisms.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_empty\_middle\_empty\_result\_components}
+
+\begin{corollary}[Category empty-middle displayed morphism consumer determinacy]
+\label{cor:category-hom-carrier-comp-empty-middle-displayed-morphism-consumer-determinacy}
+For histories $a,c,f,g,fg,\mathit{displayed},\mathit{alternate}:\BHist$, fix the empty-middle
+composition rows
+$$
+\mathsf{CategoryHomCarrier}(a,\emp,f),\qquad
+\mathsf{CategoryHomCarrier}(\emp,c,g),\qquad
+\ContR(f,g,fg).
+$$
+Suppose two accepted consumer-facing uses of this same surface display
+hom-carrier rows over the empty source and endpoint $c$:
+$$
+\mathsf{CategoryHomCarrier}(\emp,c,\mathit{displayed})
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(\emp,c,\mathit{alternate}).
+$$
+Then the displayed morphism choice is determined:
+$$
+\HSame(\mathit{displayed},\mathit{alternate}).
+$$
+If either accepted use also reads an empty normal form for its displayed
+morphism, for instance $\HSame(\mathit{alternate},\emp)$, then the exactness decision is
+forced to be the chapter component row
+$$
+\hsame(a,\emp)\wedge\hsame(c,\emp)\wedge
+\hsame(f,\emp)\wedge\hsame(g,\emp).
+$$
+Consequently every accepted route, normal form read, or exactness decision for
+the fixed empty-middle packet factors through the displayed $\mathsf{CategoryHomCarrier}$
+and $\ContR$ rows named above. There is no alternate hidden coordinate and no
+second accepted displayed hom-carrier row from which a different displayed
+morphism or empty-result readback could be obtained.
+\end{corollary}
+\begin{proof}
+Apply
+\autoref{thm:category-hom-carrier-comp-empty-middle-displayed-morphism-deterministic}
+to the first displayed hom-carrier row. The fixed rows
+$\mathsf{CategoryHomCarrier}(a,\emp,f)$,
+$\mathsf{CategoryHomCarrier}(\emp,c,g)$, and $\ContR(f,g,fg)$ give the
+history-sameness comparison between $\mathit{displayed}$ and the canonical composite
+morphism $fg$:
+$$
+\HSame(\mathit{displayed},fg).
+$$
+Apply the same theorem to the second displayed hom-carrier row to obtain
+$$
+\HSame(\mathit{alternate},fg).
+$$
+Symmetry and transitivity of $\hsame$ therefore give
+$\HSame(\mathit{displayed},\mathit{alternate})$. Thus a consumer that keeps the empty-middle
+rows fixed has no second displayed morphism coordinate: every accepted displayed
+hom-carrier over $\emp$ and $c$ is the same finite route up to $\HSame$, namely
+the canonical composite $fg$.
+
+Now suppose an accepted use also reads $\HSame(\mathit{alternate},\emp)$. Combining this
+empty read with $\HSame(\mathit{alternate},fg)$ gives $\HSame(fg,\emp)$ by symmetry and
+transitivity. The hypotheses of
+\autoref{thm:category-hom-carrier-comp-empty-middle-empty-result-components}
+are then exactly the fixed empty-middle rows together with this empty-result
+read. That theorem returns
+$$
+\hsame(a,\emp)\wedge\hsame(c,\emp)\wedge
+\hsame(f,\emp)\wedge\hsame(g,\emp).
+$$
+Hence the only empty-result exactness decision available to the consumer is the
+listed component readback. The determinacy row fixes the displayed morphism
+route, and the empty-result component row fixes the endpoint and factor
+emptiness readback; no unlisted coordinate remains from which a different
+normal form or accepted row could be read.
+\end{proof}

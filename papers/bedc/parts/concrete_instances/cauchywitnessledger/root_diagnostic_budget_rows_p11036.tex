@@ -94,3 +94,25 @@ Now apply \autoref{thm:cauchy-witness-ledger-root-budget-classifier-determinacy}
 It remains to identify the terminal surface. Apply \autoref{thm:cauchy-witness-ledger-root-forbidden-coordinate-exclusion-packet} and \autoref{thm:cauchy-witness-ledger-root-terminal-route-exhaustion}. The terminal completion-facing read is exhausted by the same finite ledger surface, and none of the forbidden coordinates can be supplied by transport through $H,H'$ or $C,C'$.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_root\_diagnostic\_budget\_transport}
+
+\begin{corollary}[Cauchy witness ledger root diagnostic budget use determinacy]
+\label{cor:cauchy-witness-ledger-root-diagnostic-budget-use-determinacy}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet, and let $t$ be an accepted consumer-facing root diagnostic budget use of $L$. Once the displayed rows $Q,B,S,H,C,P,N$ are fixed, the use $t$ has only one accepted landing: it factors through the finite route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+with route replay supplied by $C$, componentwise transport supplied by $H$, provenance supplied by $P$, and local naming supplied by $N$. Hence any other accepted consumer presentation over the same fixed rows chooses the same route-bound completion-seal classifier $K$, the same replay normal form through $C$, and the same exactness/readback decision named by the chapter. No alternate hidden coordinate, detached tail, selected external limit, duplicate classifier source, quotient stream equality, host real equality, countable-choice row, or ambient completeness coordinate can be used to produce a second accepted diagnostic budget use.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:cauchy-witness-ledger-root-diagnostic-budget-totality} to the accepted use $t$. Every root diagnostic read of $L$ consumes exactly the diagonal-budget row $Q$, observation-budget row $B$, seal-synchronizer row $S$, completion-seal classifier row $K$, componentwise transport row $H$, displayed continuation row $C$, provenance row $P$, and local NameCert row $N$. In particular, after $Q,B,S,H,C,P,N$ are fixed, the only remaining classifier-facing row visible to $t$ is the route-bound row $K$.
+
+Now compare $t$ with any second accepted consumer presentation over the same fixed local rows. The hypotheses give agreement on the displayed budget route
+$$
+Q \longmapsto B \longmapsto S
+$$
+and on the structural rows $H,C,P,N$. By \autoref{thm:cauchy-witness-ledger-root-budget-classifier-determinacy}, the completion-seal classifier read is determined on that public route: the second presentation cannot attach a different stream source, $\RegSeqRat$ source, $\DyadicRatCore$ source, $\RealUp$ source, tail source, limit source, or seal source to the same diagnostic budget use.
+
+The replay and exactness components are also fixed. By \autoref{thm:cauchy-witness-ledger-route-replay-exactness}, the displayed $\Cont$ row $C$ replays the route through $Q \longmapsto B \longmapsto S \longmapsto K$ before any $\RealUp$-facing read is admitted. By \autoref{thm:cauchy-witness-ledger-completion-classifier-readback}, the classifier readback for $K$ is public exactly through that displayed route with $H,C,P,N$. Thus an accepted presentation over the fixed rows has the same replay normal form and the same exactness/readback decision.
+
+Finally use \autoref{thm:cauchy-witness-ledger-root-terminal-route-exhaustion} together with \autoref{thm:cauchy-witness-ledger-root-forbidden-coordinate-exclusion-packet}. The terminal diagnostic surface is exhausted by the displayed finite ledger rows, and the forbidden external coordinates are not root coordinates. Therefore no hidden coordinate or duplicate classifier source remains from which a second accepted use of $t$ could be produced.
+\end{proof}

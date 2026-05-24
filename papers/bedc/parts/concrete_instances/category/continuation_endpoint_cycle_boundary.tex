@@ -40,3 +40,124 @@ compose the adjacent endpoint comparisons $\hsame(a,b)$ and $\hsame(b,c)$ to
 obtain $\hsame(a,c)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_cycle\_boundary\_iff}
+
+\begin{lemma}[Continuation morphism endpoint-cycle bridge determinacy]
+\label{lem:continuation-morphism-endpoint-cycle-bridge-determinacy}
+For histories $a,b,c:\BHist$, let $left:a\to b$ and $right:b\to c$ be
+continuation morphisms, and write $\ell:\BHist$ and $r:\BHist$ for the left
+and right continuation-tail history witnesses associated to $left$ and $right$.
+The consumer-facing endpoint-cycle bridge for this composable pair is determined
+by the outer endpoint row and the four local boundary rows
+$$
+\hsame(\ell,\emp),\qquad
+\hsame(r,\emp),\qquad
+\hsame(a,b),\qquad
+\hsame(b,c).
+$$
+Concretely, every accepted route, transport, readback, or handoff from the
+outer cycle to boundary data factors through the projection supplied by
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-boundary}, with transport
+constrained by \autoref{thm:continuation-morphism-comp-endpoint-hsame-tail-transport},
+and every accepted route, transport, readback, or handoff from boundary data
+back to the outer cycle factors through the reverse implication supplied by
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-boundary-iff}, with the
+same transport constraint. Hence the bridge exports exactly the equivalence
+$$
+\hsame(a,c)\Longleftrightarrow
+\hsame(\ell,\emp)\land
+\hsame(r,\emp)\land
+\hsame(a,b)\land
+\hsame(b,c),
+$$
+and it exports no separate composite-tail coordinate, alternate middle endpoint
+coordinate, hidden continuation tail, ambient category carrier, host equality,
+or external handoff.
+\end{lemma}
+\begin{proof}
+Assume first that a consumer reads the bridge from the outer endpoint cycle.
+The only local theorem with that source row is
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-boundary}. Applying it
+to $left$, $right$, and the row $\hsame(a,c)$ gives precisely the four displayed
+boundary rows: the empty left tail, the empty right tail, the source-middle
+endpoint comparison, and the middle-target endpoint comparison. Any route,
+transport, readback, or handoff that starts from the outer cycle and reaches
+consumer boundary data is therefore one of these four projections, or a
+repackaging of their conjunction, with its transport component governed by
+\autoref{thm:continuation-morphism-comp-endpoint-hsame-tail-transport}.
+
+Conversely, assume that a consumer starts from the four displayed boundary
+rows. The reverse direction of
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-boundary-iff} composes
+the adjacent endpoint comparisons $\hsame(a,b)$ and $\hsame(b,c)$ and returns
+exactly the outer endpoint row $\hsame(a,c)$. Thus any readback from the
+boundary packet to the endpoint cycle factors through that reverse implication.
+
+The forward boundary theorem and the two-way boundary theorem mention no data
+beyond $\hsame(a,c)$ and the four displayed rows. A proposed coordinate outside
+this list is not a conjunct produced by the forward theorem and is not a premise
+consumed by the reverse direction of the equivalence. Such a coordinate has no
+local factor through which this endpoint-cycle bridge can expose it to a
+consumer.
+\end{proof}
+
+\begin{corollary}[Continuation morphism endpoint-cycle boundary consumer determinacy]
+\label{cor:continuation-morphism-endpoint-cycle-boundary-consumer-determinacy}
+For histories $a,b,c:\BHist$, let $left:a\to b$ and $right:b\to c$ be
+continuation morphisms, and let $\ell:\BHist$ and $r:\BHist$ be their
+associated left and right continuation-tail witnesses. Once the outer endpoint
+cycle row and the four boundary rows
+$$
+\hsame(a,c),\qquad
+\hsame(\ell,\emp),\qquad
+\hsame(r,\emp),\qquad
+\hsame(a,b),\qquad
+\hsame(b,c)
+$$
+are fixed, every accepted consumer-facing use of this endpoint-cycle boundary
+surface has the same chapter-named finite data. In the outward direction the
+route is the projection of the four boundary rows supplied by
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-boundary}; in the
+readback direction the route is the reverse implication of
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-boundary-iff}; and every
+normal form or exactness decision exposed to a consumer is one of those five
+rows or their displayed conjunction
+$$
+\hsame(a,c)\Longleftrightarrow
+\hsame(\ell,\emp)\land
+\hsame(r,\emp)\land
+\hsame(a,b)\land
+\hsame(b,c).
+$$
+Thus two accepted consumers over the same fixed rows cannot choose different
+finite routes, different boundary normal forms, or different exactness
+decisions, and no accepted use can introduce an unlisted hidden coordinate,
+ambient category carrier, host equality, or external handoff.
+\end{corollary}
+\begin{proof}
+The endpoint-cycle bridge determinacy lemma lists the complete consumer-facing
+surface for the composable pair. Its outward clause says that any accepted
+route, transport, readback, or handoff starting from the outer endpoint cycle
+factors through the projection supplied by
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-boundary}. That theorem
+has exactly one displayed boundary packet for the fixed pair: the empty left
+tail row, the empty right tail row, the source-middle endpoint row, and the
+middle-target endpoint row. Hence every outward consumer route has the same
+finite target packet and the same boundary normal form.
+
+The same lemma also gives the only accepted readback from boundary data to the
+outer cycle: it factors through the reverse implication of
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-boundary-iff}. With the
+four boundary rows fixed, that reverse implication returns exactly the row
+$\hsame(a,c)$, so every readback normal form and exactness decision about the
+endpoint cycle is determined by the same displayed equivalence.
+
+It remains to exclude further consumer choices. By
+\autoref{lem:continuation-morphism-endpoint-cycle-bridge-determinacy}, the
+bridge exports no separate composite-tail coordinate, no alternate middle
+endpoint coordinate, no hidden continuation tail, no ambient category carrier,
+no host equality, and no external handoff. A proposed consumer coordinate
+outside the five fixed rows is therefore neither a conjunct produced by the
+forward boundary theorem nor a premise consumed by the reverse readback. It has
+no local factor through the endpoint-cycle boundary bridge, so it is not an
+accepted route, normal form, or exactness decision for this surface.
+\end{proof}
