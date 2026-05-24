@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\NormalizationCandidateSocketUp$}
+\label{ch:concrete-instances-normalization-candidate-socket-namecert}
+\origin{ai}
+
+The $\NormalizationCandidateSocketUp$ packet realizes the candidate-mediated normalization evidence of \autoref{ch:metacic-normalization-audit-map} as a finite socket object. It sits beside the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, and the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}. The packet separates candidate rows from closed-candidate rows and candidate-set rows, records the Pi and App adequacy surfaces, and keeps no-infinite-reduction exports downstream of supplied candidate evidence. It is not an unconditional closed-term strong-normalization theorem.
+
+\begin{definition}[Normalization candidate socket carrier]
+\label{def:normalization-candidate-socket-carrier}
+A $\NormalizationCandidateSocketUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,K,D,E,A,B,I,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the closed typed MetaCIC term window, exposing the empty-context term, type, and closedness checks available to the audit map.
+\item $K$ is the reducibility candidate row, carrying the candidate predicate and its strong-normalization consequence.
+\item $D$ is the closed-candidate row, carrying closedness together with candidate evidence.
+\item $E$ is the candidate-set membership row, carrying membership, soundness, and beta-closure data.
+\item $A$ is the application adequacy row, recording the function-side Pi evidence, argument candidate evidence, and application candidate handoff.
+\item $B$ is the Pi adequacy row, recording Pi-candidate and neutral-normal evidence consumed by typed application routes.
+\item $I$ is the no-infinite-reduction row, downstream of the candidate-mediated strong-normalization projection.
+\item $F$ is the frontier row, retaining the refusal of any read that asks for closed-term strong normalization after deleting $K$, $D$, or $E$.
+\item $H$ records componentwise $\hsame$ transport for the term window, candidate row, closed-candidate row, candidate-set row, App adequacy row, Pi adequacy row, no-infinite-reduction row, frontier row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a normalization-candidate socket request through $M,K,D,E,A,B,I,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\NormalizationCandidateSocketUp$, \autoref{ch:metacic-normalization-audit-map}, \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\NormalizationCandidateSocketUp}$ row.
+\end{enumerate}
+The classifier compares accepted sockets only through $M,K,D,E,A,B,I,F,H,C,P,N$. It has no coordinate for global closed-term strong normalization, evidence-erased candidate projection, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, completed closed consistency, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Normalization candidate socket boundary]
+\label{thm:normalization-candidate-socket-boundary}
+For every accepted $\NormalizationCandidateSocketUp$ carrier
+$$
+S=(M,K,D,E,A,B,I,F,H,C,P,N),
+$$
+the local socket exports closed typed strong-normalization and no-infinite-reduction evidence only through at least one of the candidate rows $K,D,E$. Application adequacy $A$ and Pi adequacy $B$ are admissible only as route data for that same candidate-mediated socket. Any consumer missing the candidate row, the closed-candidate row, or the candidate-set row reaches $F$ and cannot export closed-term strong normalization from this packet.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:normalization-candidate-socket-carrier}. The closed term window $M$ is present, but the socket does not attach strong normalization directly to $M$.
+
+The candidate rows are the gate. A read may use $K$ as reducibility candidate evidence, $D$ as closed-candidate evidence, or $E$ as candidate-set membership evidence. The strong-normalization export is downstream of one of these rows.
+
+The adequacy rows refine the same gate. The application row $A$ and Pi row $B$ supply route data for function, argument, Pi, and neutral cases, but neither row replaces candidate evidence.
+
+The no-infinite-reduction row $I$ is downstream of the candidate-mediated strong-normalization projection. If a consumer omits $K,D,E$ or asks to erase them, the frontier row $F$ records the refusal.
+
+Transport, replay, provenance, and local naming preserve this row order through $H,C,P,N$. Because no global normalization, unrestricted subject-reduction, global confluence, quotient syntax equality, host evaluator soundness, or completed consistency row occurs in the carrier, the socket cannot export one.
+\end{proof}
+
+\falsifiablePrediction{Any consumer missing candidate, closed-candidate, or candidate-set rows in a $\NormalizationCandidateSocketUp$ packet cannot export closed-term strong normalization from that packet.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacicconfluenceauditpacket, normalformconsistencyseal: $\NormalizationCandidateSocketUp$ is not bijective to any listed sibling because it jointly carries candidate, closed-candidate, candidate-set, App adequacy, Pi adequacy, no-infinite-reduction, frontier, transport, replay, provenance, and local naming rows.}
+
+Lean $\mathsf{TasteGate}$ coverage for this packet must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the candidate row family, the closed-candidate row family, the candidate-set row family, and the socket classifier.
+
+\closureat{NormalizationCandidateSocketUp}{seedStr}
+
+\begin{closurestatus}{\NormalizationCandidateSocketUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:normalization-candidate-socket-carrier} and \autoref{thm:normalization-candidate-socket-boundary} seed the finite candidate-mediated normalization socket over candidate, closed-candidate, candidate-set, App adequacy, Pi adequacy, no-infinite-reduction, and frontier rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global closed-term strong normalization, evidence-erased candidate projection, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, completed closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate gate exactness, App and Pi adequacy compatibility, no-infinite-reduction routing, frontier refusal, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.NormalizationCandidateSocketUp.}
+  \constructivestory{A $\NormalizationCandidateSocketUp$ packet is generated from one closed typed MetaCIC term window, candidate evidence, closed-candidate evidence, candidate-set evidence, App adequacy, Pi adequacy, no-infinite-reduction, frontier refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
