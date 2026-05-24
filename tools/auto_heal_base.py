@@ -874,49 +874,59 @@ def _mark_ci_seen(run_id: int) -> None:
 
 
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
-    """Query GitHub Actions for recently-failed workflow runs on BASE_BRANCH.
+    """Query GitHub Actions for recently-failed workflow runs on BASE_BRANCH
+    AND the sibling `auto-dev` branch (which receives every codex-auto-dev
+    sync from sync_with_auto_dev.py — CI primarily runs there because
+    `auto-dev` is the durable upstream branch with cache + permissions).
 
-    Returns a list of {run_id, workflow, name, created_at} dicts ordered
-    newest-first. Empty if `gh` CLI is unavailable, no runs in the window
-    failed, or any query error occurred (auto_heal stays passive).
+    Returns a list of {run_id, workflow, name, created_at, branch} dicts
+    ordered newest-first. Empty if `gh` CLI is unavailable, no runs in
+    the window failed, or any query error occurred (auto_heal stays
+    passive).
     """
     if not shutil.which("gh"):
         return []
-    try:
-        r = run([
-            "gh", "run", "list",
-            "--branch", BASE_BRANCH,
-            "--limit", "20",
-            "--json", "status,conclusion,name,workflowName,databaseId,createdAt",
-        ], check=False, capture=True, timeout=60)
-    except Exception:
-        return []
-    if r.returncode != 0:
-        return []
-    try:
-        rows = json.loads(r.stdout or "[]")
-    except Exception:
-        return []
-    cutoff = time.time() - window_minutes * 60
+    # Probe both branches: codex-auto-dev (integration) + auto-dev (CI host).
+    # bidirectional sync means a fix on codex-auto-dev reaches auto-dev
+    # within 10 min, so healing either side is equivalent.
+    branches_to_probe = [BASE_BRANCH, "auto-dev"]
     failures: list[dict] = []
-    for row in rows:
-        if row.get("status") != "completed":
-            continue
-        if row.get("conclusion") != "failure":
-            continue
-        ts = row.get("createdAt", "")
+    cutoff = time.time() - window_minutes * 60
+    for branch in branches_to_probe:
         try:
-            t = time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            r = run([
+                "gh", "run", "list",
+                "--branch", branch,
+                "--limit", "20",
+                "--json", "status,conclusion,name,workflowName,databaseId,createdAt",
+            ], check=False, capture=True, timeout=60)
         except Exception:
-            t = time.time()
-        if t < cutoff:
             continue
-        failures.append({
-            "run_id": int(row.get("databaseId", 0)),
-            "workflow": row.get("workflowName", "?"),
-            "name": row.get("name", "?"),
-            "created_at": ts,
-        })
+        if r.returncode != 0:
+            continue
+        try:
+            rows = json.loads(r.stdout or "[]")
+        except Exception:
+            continue
+        for row in rows:
+            if row.get("status") != "completed":
+                continue
+            if row.get("conclusion") != "failure":
+                continue
+            ts = row.get("createdAt", "")
+            try:
+                t = time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            except Exception:
+                t = time.time()
+            if t < cutoff:
+                continue
+            failures.append({
+                "run_id": int(row.get("databaseId", 0)),
+                "workflow": row.get("workflowName", "?"),
+                "name": row.get("name", "?"),
+                "created_at": ts,
+                "branch": branch,
+            })
     return failures
 
 
