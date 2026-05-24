@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\CharacterTableUp$}
+\label{ch:concrete-instances-character-table-namecert}
+\origin{human}
+
+Following Serre and Fulton--Harris on finite-group characters, the $\CharacterTableUp$ packet records a finite character table as displayed NameCert data rather than as a host matrix. It consumes the finite group source of \autoref{ch:concrete-instances-group-namecert}, the trace and class-function rows of \autoref{ch:concrete-instances-charactertheory-namecert}, the Grothendieck ledger of \autoref{ch:concrete-instances-representationring-namecert}, and the Schur row and column ledger of \autoref{ch:concrete-instances-schurorthogonality-namecert}.
+
+\begin{definition}[CharacterTable carrier sketch]
+\label{def:character-table-carrier-sketch}
+A $\CharacterTableUp$ carrier is a finite $\BHist$ packet
+$$
+T=(G,C,I,V,\Omega,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed finite $\NameCert_{\GroupUp}$ row.
+\item $C$ is the finite class-row ledger, listing the displayed conjugacy-class readbacks only through the group packet and not through a quotient carrier.
+\item $I$ is the irreducible-character row ledger, read through $\NameCert_{\CharacterTheoryUp}$ and the representation-ring classifier rows.
+\item $V$ is the value-table row ledger, whose entries are displayed trace readbacks indexed by the accepted $C$ and $I$ rows.
+\item $\Omega$ is the Schur-orthogonality ledger imported as finite row-normalization, column-normalization, and off-diagonal-zero rows.
+\item $H$ records componentwise $\hsame$ transport for the group, class, irreducible-character, value-table, orthogonality, provenance, and naming rows.
+\item $P$ is the $\Pkg$ provenance over the four sibling certificates named above, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CharacterTableUp}$ row.
+\end{enumerate}
+The carrier contains no host character matrix, no quotient conjugacy-class object, no ambient complex inner product, and no selected list of representatives outside these rows.
+\end{definition}
+
+\begin{theorem}[CharacterTable NameCert obligations]
+\label{thm:character-table-namecert-obligations}
+Every accepted $\CharacterTableUp$ packet satisfies the following five local NameCert obligations:
+\begin{enumerate}
+\item carrier admission exposes exactly the group, class-row, irreducible-character-row, value-table, Schur ledger, transport, provenance, and local naming rows of \autoref{def:character-table-carrier-sketch};
+\item class-row exactness requires each class read to be sourced by the displayed finite group packet of \autoref{ch:concrete-instances-group-namecert};
+\item irreducible-row exactness requires each row name to pass through the trace and class-function surface of \autoref{ch:concrete-instances-charactertheory-namecert} and the representation-ring classifier of \autoref{ch:concrete-instances-representationring-namecert};
+\item value-table stability requires $\hsame$ transport to preserve the displayed value rows together with the Schur row and column constraints of \autoref{ch:concrete-instances-schurorthogonality-namecert};
+\item nonescape prevents a consumer from replacing the finite rows by a host character table, quotient class carrier, selected representative list, ambient matrix equality, or external representation category.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:character-table-carrier-sketch}. The class ledger is available only through the consumed group row, and the irreducible-character ledger is available only through the character-theory and representation-ring source rows.
+
+The value-table entries are then read as displayed trace values indexed by those two ledgers. The Schur ledger supplies the row and column normalization and off-diagonal rows that make the table stable under accepted transport.
+
+Finally repack the displayed rows with $H$, $P$, and $N$. Since the carrier has no coordinate for a host matrix, quotient class carrier, representative selector, or external representation category, every accepted table read remains inside the finite NameCert packet.
+\end{proof}
+
+\closureat{CharacterTableUp}{seedStr}
+
+\begin{closurestatus}{\CharacterTableUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:character-table-carrier-sketch} and \autoref{thm:character-table-namecert-obligations} seed the finite character-table route over displayed $\GroupUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, and $\SchurOrthogonalityUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close character-table computation, quotient conjugacy classes, host matrix equality, complete representation categories, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, class-row exactness, irreducible-row exactness, value-table stability, and no-host-matrix boundary for the same finite packet.}
+  \constructivestory{A $\CharacterTableUp$ packet is generated from a finite group source, displayed class rows, displayed irreducible-character rows, value-table trace rows, Schur orthogonality rows, componentwise transport, package provenance, and a local NameCert row.}
+\end{closurestatus}
