@@ -20,20 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-24T02:54:32Z
+> 最后刷新: 2026-05-24T14:15:34Z
 
-**Daemon 状态**: monitor (monitor cycle 52, adjust_since_research 3, round_counter 13034, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 53, adjust_since_research 3, round_counter 14635, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (358 条 finding):
-- isolated_theorem: 325 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+**待处理 queue** (386 条 finding):
+- isolated_theorem: 353 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - low_entropy_template: 31 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 - missing_origin: 2 条; 代表样本 `dyadic`, `cauchy_completion_idempotent`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 273 次
+- TASTE ALERT category=isolated_theorem: 135 次
 - TASTE ALERT category=low_entropy_template: 8 次
-- TASTE ALERT category=missing_origin: 4 次
-- TASTE ALERT category=resolution_merge_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -164,6 +162,8 @@ to case-by-case judgment.
 - 2026-05-23T06:55:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_uniform_modulus_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_uniform_modulus_boundary:e21c0c1b`). Rationale: The target is structurally meaningful: it extracts the Lipschitz modulus, consumer row, graph-bound route, modulus-provenance route, and package provenance from the carrier plus a consumer continuation. Exact full-name grep found no prior downstream Lean consumer, while the paper uses the corresponding ledger nonescape theorem as an active narrative anchor. I added a same-family completion consumer theorem that explicitly calls the target and routes its boundary output into a real-seal/completion handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-05-23T08:17:18Z: `resolved` `add_downstream_user` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_common_bound_completion_route` (flag `isolated_theorem`, finding `isolated_theorem:lipschitzmap:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_common_bound_completion_route:20b6701a`). Rationale: The target is not a disposable wrapper: it assembles the Lipschitz carrier, shared bound-to-real-seal route, completion read route, and package signatures into a completion-facing row package. It had no Lean downstream references beyond its paper marker, so I added a sibling consumer theorem, `LipschitzMapCarrier_common_bound_completion_namecert_route`, which uses the target to build a `SemanticNameCert` surface for the completion read and exports the relevant completion route facts. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-24T14:15:21Z: `resolved` `leave_with_rationale` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_target_distance_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_target_distance_exactness:e21c0c1b`). Rationale: The theorem is not a disposable wrapper: it is the Lean target for the paper's LipschitzMap target-distance exactness claim, and the surrounding paper proof uses that exactness as the source route for contraction-threshold consumers. I attempted to add a downstream sibling consumer in BoundDependencyLock tying this exactness theorem to the contraction-threshold handoff, but the required gate failed on that edited file, so I reverted the attempted edit and leave the theorem with rationale under the task rule. Gate results: lake_build=error: Some required targets logged failures: - BEDC.Derived.LipschitzMapUp.BoundDependencyLock; BEDC/Derived/LipschitzMapUp/BoundDependencyLock.lean:66:27: Application type mismatch: exactness.right.right.right.right.right.right.left has type Cont sourceDistance bound targetDistance but expected Cont graph bound modulus, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
