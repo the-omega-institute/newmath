@@ -2885,6 +2885,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
 import BEDC.Derived.FiniteLebesgueNumberUp.DyadicCoverUniformModulusHandoff
+import BEDC.Derived.FiniteLebesgueNumberUp.FiniteRadiusNonchoice
 import BEDC.Derived.FiniteLebesgueNumberUp.L10PhaseConsumerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.L10SiblingRoute
 import BEDC.Derived.FiniteLebesgueNumberUp.L10SourceLock
@@ -5343,7 +5344,6 @@ import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.StdBridge
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
-import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SubgroupUp
