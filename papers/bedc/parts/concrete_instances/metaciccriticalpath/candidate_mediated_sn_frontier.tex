@@ -62,3 +62,19 @@ Use the candidate-mediated SN frontier theorem and the confluence-decidability c
 
 The inductive hypothesis applies to the remaining frontier. Since neither the current replay row nor the previous frontier rows add an explicit closed subject-reduction coordinate, no constructor fills $D$. Thus the obstruction row is preserved and the discharge socket stays open until a separate subject-reduction row is supplied.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate-normalization budget]
+\label{thm:metacic-critical-path-candidate-normalization-budget}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+every confluence-facing or decidability-facing use of candidate-mediated strong-normalization evidence is budgeted by the finite rows $S,N,U,H,C,P,L$ together with the four L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The obstruction row $O$ and discharge socket $D$ remain visible boundary rows throughout the read. The budget exports no closed subject reduction, arbitrary strong normalization, full confluence, global beta-conversion decidability, quotient term equality, host equality, selected limits, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply the candidate-mediated SN frontier theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places any candidate-mediated read on the finite rows $S,N,U,D,H,C,P,L$ and the four L10 faces, with $O$ and $D$ still visible to the surrounding packet.
+
+Next use the confluence-decidability consumer boundary, \autoref{thm:metacic-critical-path-confluence-decidability-consumer-boundary}. A confluence-facing or decidability-facing consumer may inspect the frontier and the handoff row $U$, but it receives no closed subject-reduction row, no full confluence theorem, and no global beta-conversion decision procedure.
+
+Apply the candidate-mediated SN discharge row and the discharge-socket induction, \autoref{thm:metacic-critical-path-candidate-mediated-sn-discharge-row} and \autoref{thm:metacic-critical-path-discharge-socket-induction}. These results keep $D$ separate from the budget rows and preserve $O$ while finite frontier rows are consumed. Since the packet has no coordinate for quotient term equality, host equality, selected limits, or $\RealUp$ completeness, the displayed budget is the whole normalization surface available to the consumer.
+\end{proof}
