@@ -106,4 +106,55 @@ theorem RealSequenceLimit_regular_tail_scope_lock [AskSetup] [PackageSetup]
       exportedUnary, tailWindowRoute, tailReadRoute, tailSealRoute, exportRoute,
       provenancePkg, exportedPkg⟩
 
+theorem RealSequenceLimitSqueezeHandoff [AskSetup] [PackageSetup]
+    {lowerSeq middleSeq upperSeq limitRow lowerWindow middleWindow upperWindow lowerDyadic
+      middleDyadic upperDyadic lowerClassifier middleClassifier upperClassifier lowerTransport
+      middleTransport upperTransport lowerRoute middleRoute upperRoute lowerProvenance
+      middleProvenance upperProvenance lowerName middleName upperName squeezeWindow lowerModulus
+      upperModulus middleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSequenceLimitCarrier lowerSeq limitRow lowerWindow lowerDyadic lowerClassifier
+        lowerTransport lowerRoute lowerProvenance lowerName bundle pkg ->
+      RealSequenceLimitCarrier middleSeq limitRow middleWindow middleDyadic middleClassifier
+          middleTransport middleRoute middleProvenance middleName bundle pkg ->
+        RealSequenceLimitCarrier upperSeq limitRow upperWindow upperDyadic upperClassifier
+            upperTransport upperRoute upperProvenance upperName bundle pkg ->
+          UnaryHistory squeezeWindow ->
+            Cont lowerClassifier squeezeWindow lowerModulus ->
+              Cont upperClassifier squeezeWindow upperModulus ->
+                Cont middleClassifier squeezeWindow middleRead ->
+                  PkgSig bundle middleRead pkg ->
+                    UnaryHistory lowerModulus ∧ UnaryHistory upperModulus ∧
+                      UnaryHistory middleRead ∧ Cont lowerClassifier squeezeWindow lowerModulus ∧
+                        Cont upperClassifier squeezeWindow upperModulus ∧
+                          Cont middleClassifier squeezeWindow middleRead ∧
+                            PkgSig bundle middleName pkg ∧ PkgSig bundle middleRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro lowerCarrier middleCarrier upperCarrier squeezeUnary lowerCont upperCont middleCont
+    middleReadPkg
+  rcases lowerCarrier with
+    ⟨_lowerSeqUnary, _lowerLimitUnary, _lowerWindowUnary, _lowerDyadicUnary,
+      lowerClassifierUnary, _lowerTransportUnary, _lowerRouteUnary, _lowerProvenanceUnary,
+      _lowerNameUnary, _lowerSequenceRoute, _lowerClassifierRoute, _lowerTransportSame,
+      _lowerRouteSame, _lowerProvenancePkg, _lowerNamePkg⟩
+  rcases middleCarrier with
+    ⟨_middleSeqUnary, _middleLimitUnary, _middleWindowUnary, _middleDyadicUnary,
+      middleClassifierUnary, _middleTransportUnary, _middleRouteUnary, _middleProvenanceUnary,
+      _middleNameUnary, _middleSequenceRoute, _middleClassifierRoute, _middleTransportSame,
+      _middleRouteSame, _middleProvenancePkg, middleNamePkg⟩
+  rcases upperCarrier with
+    ⟨_upperSeqUnary, _upperLimitUnary, _upperWindowUnary, _upperDyadicUnary,
+      upperClassifierUnary, _upperTransportUnary, _upperRouteUnary, _upperProvenanceUnary,
+      _upperNameUnary, _upperSequenceRoute, _upperClassifierRoute, _upperTransportSame,
+      _upperRouteSame, _upperProvenancePkg, _upperNamePkg⟩
+  have lowerModulusUnary : UnaryHistory lowerModulus :=
+    unary_cont_closed lowerClassifierUnary squeezeUnary lowerCont
+  have upperModulusUnary : UnaryHistory upperModulus :=
+    unary_cont_closed upperClassifierUnary squeezeUnary upperCont
+  have middleReadUnary : UnaryHistory middleRead :=
+    unary_cont_closed middleClassifierUnary squeezeUnary middleCont
+  exact
+    ⟨lowerModulusUnary, upperModulusUnary, middleReadUnary, lowerCont, upperCont, middleCont,
+      middleNamePkg, middleReadPkg⟩
+
 end BEDC.Derived.RealSequenceLimitUp
