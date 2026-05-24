@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\PuncturedCubeSkeletonUp$}
+\label{ch:concrete-instances-punctured-cube-skeleton-namecert}
+\origin{ai}
+
+The $\PuncturedCubeSkeletonUp$ packet realizes the punctured WNA cube, CUN square, bridge-edge, and articulation-gate support graph of \autoref{thm:philosophy-punctured-cube-skeleton-formula} as finite NameCert data. Its carrier records the cube vertex rows, the deleted $\mathrm{ACA}$ row, the CUN square, the $\mathrm{UAG}$ and $\mathrm{AGG}$ bridge rows, adjacency ledgers, biconnected-component rows, transport, replay, provenance, and local naming. The packet is a finite combinatorial support certificate; it does not assert a biochemical mechanism, a selected evolutionary path, or a host-level graph quotient.
+
+\begin{definition}[Punctured cube skeleton carrier]
+\label{def:punctured-cube-skeleton-carrier}
+A $\PuncturedCubeSkeletonUp$ carrier is a finite $\BHist$ packet
+$$
+P=(W,A,C,B,G,E,H,T,Q,R,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the WNA cube row listing the eight codon vertices with first coordinate in $\{\mathrm{U},\mathrm{A}\}$, middle coordinate in $\{\mathrm{U},\mathrm{C},\mathrm{A},\mathrm{G}\}$, and terminal coordinate $\mathrm{A}$;
+\item $A$ is the puncture row deleting $\mathrm{ACA}$ and retaining the seven displayed WNA vertices;
+\item $C$ is the CUN square row over $\{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\}$;
+\item $B$ is the bridge-edge row carrying $\{\mathrm{CUA},\mathrm{UUA}\}$, $\{\mathrm{UAA},\mathrm{UAG}\}$, and $\{\mathrm{AGA},\mathrm{AGG}\}$;
+\item $G$ is the articulation-gate row identifying the finite support graph induced by $A,C,B$;
+\item $E$ is the edge-decomposition ledger comparing the cube face, CUN square, bridge edges, and biconnected components;
+\item $H$ records componentwise $\hsame$ transport for the vertex, puncture, square, bridge, gate, and edge-decomposition rows;
+\item $T$ records displayed $\Cont$ replay from the support formula to the induced graph and component rows;
+\item $Q$ is the $\Pkg$ provenance over $\PuncturedCubeSkeletonUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $R$ is the TasteGate requirement row for later $\mathsf{Nontrivial}\ \PuncturedCubeSkeletonUp$ and $\mathsf{FieldFaithful}\ \PuncturedCubeSkeletonUp$ instances;
+\item $N$ is the local $\NameCert_{\PuncturedCubeSkeletonUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Punctured cube skeleton NameCert obligations]
+\label{thm:punctured-cube-skeleton-namecert-obligations}
+For the carrier of \autoref{def:punctured-cube-skeleton-carrier}, the local $\NameCert_{\PuncturedCubeSkeletonUp}$ surface consists exactly of WNA cube admission, puncture admission, CUN square admission, bridge-edge admission, articulation-gate admission, edge-decomposition admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, TasteGate nontriviality and field-faithfulness requirements, and local naming. The future Lean-facing TasteGate surface must distinguish the puncture row $A$ from the unpunctured cube row $W$ and must preserve every field $W,A,C,B,G,E,H,T,Q,R,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $W,A,C,B,G,E$ display the finite support formula, the puncture, the CUN square, the bridge edges, the articulation gate, and the induced edge-decomposition ledger.
+
+Transport and replay are structural. The rows $H,T,Q,N$ preserve and name the same finite graph support data without adding a host quotient or a biological mechanism.
+
+The TasteGate requirement row $R$ records the exact Lean obligations: nontriviality must separate the punctured packet from a collapsed graph, and field faithfulness must preserve every displayed vertex, puncture, bridge, gate, and decomposition row. These obligations are part of the carrier surface and do not assert that the Lean instances already exist.
+\end{proof}
+
+\begin{theorem}[Punctured cube skeleton boundary nonescape]
+\label{thm:punctured-cube-skeleton-boundary-nonescape}
+Every consumer of an accepted $\PuncturedCubeSkeletonUp$ carrier factors through
+$$
+W,A,C,B,G,E,H,T,Q,R,N
+$$
+before reading the punctured cube skeleton as finite NameCert data. Consequently the consumer cannot erase the $\mathrm{ACA}$ puncture, collapse the CUN square into the WNA cube, drop the bridge-edge rows, replace the articulation gate by a host graph quotient, or bypass the later $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate requirements.
+\end{theorem}
+\begin{proof}
+Start from the support rows. The WNA cube, puncture, CUN square, bridge edges, articulation gate, and edge-decomposition ledger are separate coordinates of the carrier.
+
+Now use componentwise transport and replay. The rows $H$ and $T$ preserve those coordinates as finite $\BHist$ data, while $Q$ and $N$ record provenance and local naming for the same route.
+
+Finally read the TasteGate row. Because $R$ is displayed before a downstream carrier can be admitted, any later Lean realization must keep nontriviality and field faithfulness visible. Thus no consumer can erase the puncture, collapse the support graph, or bypass the stated gate requirements.
+\end{proof}
+
+\falsifiablePrediction{A packet that omits the $\mathrm{ACA}$ puncture row, the CUN square row, or one of the bridge-edge rows cannot be accepted as a $\PuncturedCubeSkeletonUp$ carrier.}
+
+\independenceWitness{codon-window-six-bridge, dna-window-six-dynamics-bridge, codon-window-spectral-inverse: none is bijective to $\PuncturedCubeSkeletonUp$ because this carrier binds the punctured WNA cube, CUN square, bridge edges, articulation gate, edge decomposition, TasteGate requirement row, transport, replay, provenance, and local naming as one finite support graph packet.}
+
+\closureat{PuncturedCubeSkeletonUp}{seedStr}
+
+\begin{closurestatus}{\PuncturedCubeSkeletonUp}
+  \constructivestory{A $\PuncturedCubeSkeletonUp$ packet is generated from WNA cube vertices, the deleted ACA puncture row, CUN square rows, bridge-edge rows, an articulation-gate support graph, an edge-decomposition ledger, hsame transports, Cont replay, Pkg provenance, a TasteGate requirement row, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:punctured-cube-skeleton-carrier}, \autoref{thm:punctured-cube-skeleton-namecert-obligations}, and \autoref{thm:punctured-cube-skeleton-boundary-nonescape} bind the finite punctured cube skeleton support graph and its TasteGate requirements.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, biochemical mechanism, evolutionary pathway selection, host graph quotients, or completed TasteGate instances.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary nonescape, transport stability, replay, provenance, local naming, and explicit Nontrivial and FieldFaithful TasteGate instances for BEDC.Derived.PuncturedCubeSkeletonUp.}
+\end{closurestatus}
