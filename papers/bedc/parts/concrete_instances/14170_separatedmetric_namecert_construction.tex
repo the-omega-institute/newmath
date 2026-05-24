@@ -406,6 +406,20 @@ For identity consumers, apply \autoref{thm:separatedmetric-public-identity-expor
 Since the same support rows $H,C,P,N$ preserve both routes, no public consumer can reinterpret the Real seal as a stronger host-side principle.
 \end{proof}
 
+\begin{theorem}[SeparatedMetric bridged-closure readiness]
+\label{thm:separatedmetric-bridged-closure-readiness}
+Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ carrier. Its bridge-facing public surface consists exactly of the $\MetricUp$ distance witness, the $\CompleteMetricUp$ limit rows, the $\CauchySequenceEquivalenceUp$ route, the $\RealUp$ zero seal, the separation classifier row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. This is the complete surface exported to a bridge consumer.
+
+The surface exports no quotient completion equality, selected limit, host equality, trichotomy, representative-selection row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the public identity export of \autoref{thm:separatedmetric-public-identity-export}. It identifies the identity-facing part of the surface as the metric-distance witness, the $\RealUp$ zero seal, the separation classifier, and the support rows $H,C,P,N$.
+
+Next apply the public completion uniqueness export of \autoref{thm:separatedmetric-public-completion-uniqueness-export}. It adds the two $\CompleteMetricUp$ limit rows and the $\CauchySequenceEquivalenceUp$ route, but it does not add a quotient completion equality, selected limit, or host equality row.
+
+Finally use the public Real-seal nonescape export of \autoref{thm:separatedmetric-public-real-seal-nonescape-export}. The Real row remains a zero-distance seal inside the displayed finite certificate route, and the support rows provide only transport, replay, provenance, and local naming. Therefore the listed rows are exactly the bridge-facing readiness surface.
+\end{proof}
+
 \begin{closurestatus}{\SeparatedMetricUp}
   \constructivestory{A $\SeparatedMetricUp$ packet is generated from a $\MetricUp$ carrier, a $\RealUp$-valued distance witness, a zero-distance separation row, two $\CompleteMetricUp$ Cauchy-limit rows for one regular Cauchy point name, a $\CauchySequenceEquivalenceUp$ route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\publicClosure}
