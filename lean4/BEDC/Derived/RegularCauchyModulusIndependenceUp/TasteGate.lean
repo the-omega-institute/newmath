@@ -244,4 +244,23 @@ theorem RegularCauchyModulusIndependenceTasteGate_single_carrier_alignment :
       regularCauchyModulusIndependence_round_trip,
       rfl⟩
 
+theorem RegularCauchyModulusIndependenceTasteGate_transport_alignment :
+    (∀ x y : RegularCauchyModulusIndependenceUp,
+      regularCauchyModulusIndependenceToEventFlow x =
+          regularCauchyModulusIndependenceToEventFlow y →
+        x = y) ∧
+      (∀ x y : RegularCauchyModulusIndependenceUp,
+        regularCauchyModulusIndependenceFields x =
+            regularCauchyModulusIndependenceFields y →
+          x = y) ∧
+        (∀ x : RegularCauchyModulusIndependenceUp,
+          regularCauchyModulusIndependenceFromEventFlow
+              (regularCauchyModulusIndependenceToEventFlow x) =
+            some x) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨(fun _ _ heq => regularCauchyModulusIndependenceToEventFlow_injective heq),
+      regularCauchyModulusIndependence_fields_faithful,
+      regularCauchyModulusIndependence_round_trip⟩
+
 end BEDC.Derived.RegularCauchyModulusIndependenceUp
