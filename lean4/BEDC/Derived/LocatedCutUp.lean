@@ -362,6 +362,38 @@ theorem LocatedCutCarrier_standard_bridge_boundary [AskSetup] [PackageSetup]
     unary_cont_closed handoffUnary sealUnary handoffSealBridge
   exact ⟨bridgeUnary, sameHandoffProvenance, handoffSealBridge, bridgePkg⟩
 
+theorem LocatedCutCarrier_window_monotonic_refinement [AskSetup] [PackageSetup]
+    {lower upper coarseWindow narrowWindow handoff sealCoarse sealNarrow transportCoarse
+      transportNarrow route provenanceCoarse provenanceNarrow localCert bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper coarseWindow handoff sealCoarse transportCoarse route
+        provenanceCoarse localCert bundle pkg ->
+      LocatedCutCarrier lower upper narrowWindow handoff sealNarrow transportNarrow route
+          provenanceNarrow localCert bundle pkg ->
+        UnaryHistory lower ->
+          UnaryHistory upper ->
+            UnaryHistory handoff ->
+              UnaryHistory route ->
+                UnaryHistory localCert ->
+                  Cont handoff sealNarrow bridge ->
+                    PkgSig bundle bridge pkg ->
+                      hsame coarseWindow narrowWindow ∧
+                        hsame provenanceCoarse provenanceNarrow ∧
+                          UnaryHistory bridge ∧ Cont lower upper narrowWindow ∧
+                            Cont handoff sealNarrow bridge ∧ PkgSig bundle bridge pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro coarseCarrier narrowCarrier lowerUnary upperUnary handoffUnary routeUnary
+    localCertUnary handoffSealBridge bridgePkg
+  obtain ⟨sameWindow, _sameTransport, sameProvenance, _sameSeal, _coarseWindowRoute,
+    narrowWindowRoute⟩ :=
+    LocatedCutCarrier_common_window_refinement coarseCarrier narrowCarrier
+  obtain ⟨bridgeUnary, _sameHandoffProvenance, bridgeRoute, bridgePackage⟩ :=
+    LocatedCutCarrier_standard_bridge_boundary narrowCarrier lowerUnary upperUnary
+      handoffUnary routeUnary localCertUnary handoffSealBridge bridgePkg
+  exact
+    ⟨sameWindow, sameProvenance, bridgeUnary, narrowWindowRoute, bridgeRoute,
+      bridgePackage⟩
+
 theorem LocatedCutCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
     {lower upper window handoff sealRow transportRow route provenance localCert realConsumer :
       BHist}
