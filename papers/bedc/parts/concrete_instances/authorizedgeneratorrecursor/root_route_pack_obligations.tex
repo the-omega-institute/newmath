@@ -100,3 +100,21 @@ the same single carrier alignment witness. Since the ledger has no coordinate
 for substitution authority, an extra generator, or an outside naming
 certificate, the listed consumers receive exactly the displayed rows.
 \end{proof}
+
+\begin{lemma}[AuthorizedGeneratorRecursor route-pack downstream coverage]
+\label{lem:authorized-generator-recursor-route-pack-downstream-coverage}
+Let $c$ be an accepted local consumer of an accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed route pack
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N).
+$$
+Then the read made by $c$ is exhausted by the finite alternatives already displayed in the packet. Its branch-facing part is one of the constructor, eliminator, motive, branch-package, or structural-descent rows $I,E,M,B,D$; its output-facing ledger part is one of $O,A,H,C,P,G,N$; and its consumer-facing coverage row is one of the carrier, branch, descent, audit, $\hsame$, $\Cont$, $\Pkg$, $\mathsf{GAP}$, or local $\NameCert$ rows enumerated for the packet. Consequently an unlisted constructor alternative, detached recursive call, second branch budget, extra generator row, off-packet substitution authority, unaudited dependency channel, or outside naming certificate remains outside the BEDC packet and has no accepted local consumer route.
+\end{lemma}
+\begin{proof}
+Fix an accepted local consumer $c$ of the displayed packet. By \autoref{thm:authorized-generator-recursor-route-pack-exactness}, every accepted recursor route factors through the finite carrier of \autoref{def:authorized-generator-recursor-carrier}. Thus the consumer-facing route of $c$ has no coordinate except the displayed rows $I,E,M,B,D,O,A,H,C,P,G,N$.
+
+Apply \autoref{thm:authorized-generator-recursor-branch-budget-exhaustion} to the branch-facing part of the read. Any public branch read must use only the constructor branches listed by $I$ and authorized through $E,M,B,D$. Hence the alternatives available to $c$ on the branch side are exactly the displayed constructor, eliminator, motive, branch-package, and structural-descent rows, and there is no accepted coordinate for an unlisted constructor branch, detached recursive call, or second branch budget.
+
+For the downstream ledger side, use \autoref{thm:authorized-generator-recursor-consumer-ledger-cover}. It confines every downstream $\RecursorGeneratorUp$, $\ClosedTermSubstitutionBoundaryUp$, and $\TasteGate$ consumer to the carrier, branch, descent, audit, $\hsame$, $\Cont$, $\Pkg$, $\mathsf{GAP}$, and local $\NameCert$ rows displayed by the same tuple. Therefore the output-facing part of $c$ can reach only $O,A,H,C,P,G,N$ after the admitted branch and descent rows have been read.
+
+Combining the route exactness, branch-budget exhaustion, and consumer-ledger cover leaves no remaining packet coordinate from which $c$ could obtain an extra generator row, off-packet substitution authority, unaudited dependency channel, or outside naming certificate. All excluded alternatives are therefore refused by absence of a displayed BEDC row, and every accepted local consumer read is exhausted by the finite route pack.
+\end{proof}
