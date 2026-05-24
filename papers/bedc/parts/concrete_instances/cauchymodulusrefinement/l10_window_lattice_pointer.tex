@@ -106,3 +106,25 @@ Project the four support rows. The row $H$ is the componentwise history and $\hs
 
 Finally apply face-order rigidity, \autoref{thm:cauchy-modulus-refinement-l10-face-order-rigidity}, to keep the support ledger downstream of the fixed source and face order. Dropping any one of $H,C,P,N$ removes the corresponding obligation just projected, while adding a further coordinate would be a route not present in the exact finite pullback inventory. Hence the accepted support ledger is precisely $H,C,P,N$.
 \end{proof}
+
+\begin{lemma}[Cauchy modulus refinement L10 window lattice downstream coverage]
+\label{lem:cauchy-modulus-refinement-l10-window-lattice-downstream-coverage}
+Let $c$ be an accepted local consumer of an accepted $\CauchyModulusRefinementUp$ packet with displayed L10 window lattice
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N).
+$$
+Then the consumer-facing read made by $c$ is exhausted by the finite alternatives, ledger rows, and coverage rows already displayed in $R$. More precisely, the source-facing alternatives are only $M_0,M_1,U,V$; the selector and L10 ledger rows are only $T,W,Q,E$ in the downstream order
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp;
+$$
+and the coverage rows are only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support carried by $H,C,P,N$. Consequently a quotient stream equality, selected host limit, host real equality, hidden selector, second meet row, countable-choice row, metric-completeness row, bridge aggregation, ambient $\RealUp$ completeness, or ambient completion principle has no accepted local consumer coordinate in the $\CauchyModulusRefinementUp$ packet.
+\end{lemma}
+\begin{proof}
+Fix the accepted local consumer $c$ and the displayed packet $R$. By \autoref{thm:cauchy-modulus-refinement-l10-window-lattice-exactness}, any $\RealUp$-facing or Completion-facing route through $R$ must first read the source meet, extraction, and selector-budget rows, then the four L10 faces, and then the support rows $H,C,P,N$. Thus the consumer-facing route of $c$ has no starting coordinate outside the displayed source, face, and support surfaces.
+
+Apply \autoref{thm:cauchy-modulus-refinement-l10-root-window-pullback-exhaustion} to identify the whole route with the finite pullback spine. The first segment is the root source-window front $M_0,M_1,U,V$; the second segment is the selector and L10 face block $T,W,Q,E$; and the terminal support segment is $H,C,P,N$. The converse part of that theorem says that a displayed packet with exactly these rows repacks as the same L10 consumer route, so the listed alternatives are not merely sufficient rows but the complete accepted inventory for $c$.
+
+The three parts of the read are therefore forced. A source-facing demand can only land on $M_0,M_1,U,V$. A downstream analytic demand can only pass through the selector row and the four displayed faces $T,W,Q,E$ in the order fixed by the window lattice. A coverage demand can only use the displayed history, transport, continuation, provenance, and naming rows carried by $H,C,P,N$.
+
+It remains to inspect the excluded alternatives. Each excluded object named in the statement would require either an additional source coordinate, an alternate L10 face, or an additional support row beyond $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. The exactness theorem excludes such additions from every $\RealUp$-facing or Completion-facing route, and the pullback exhaustion theorem excludes them from the repacked finite spine. Hence every accepted local consumer is covered by the displayed finite rows, and every excluded alternative remains outside the accepted $\CauchyModulusRefinementUp$ packet.
+\end{proof}

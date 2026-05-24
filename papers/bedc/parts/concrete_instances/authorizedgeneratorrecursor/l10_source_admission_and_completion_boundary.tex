@@ -44,3 +44,25 @@ Finally apply terminal-output readback and terminal authorized output cover. The
 
 The excluded data would require an additional carrier coordinate or a separate completion-seal row. Neither is supplied by the AuthorizedGeneratorRecursor packet, so the completion boundary cannot escape the displayed BEDC route.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor L10 source-admission strict obstruction]
+\label{cor:authorized-generator-recursor-l10-source-admission-strict-obstruction}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Suppose an L10-facing $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, or completion-facing consumer displays a failure, refusal, separation, or countermodel row against a named converse or reuse route for source admission of $R$. Then the displayed row is a strict local obstruction: it blocks only that named converse or reuse route as a consumer-facing read through the finite rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+with the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, boundary, audit, terminal readback, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ evidence. It cannot be reinterpreted as a global impossibility result, a host theorem about recursors or completion, hidden external validation of the failed route, a selected real limit, quotient stream equality, detached generator state, ambient completion principle, or off-packet proof channel.
+\end{corollary}
+\begin{proof}
+Apply source-row admission, \autoref{thm:authorized-generator-recursor-l10-source-row-admission}. It fixes the source surface for every L10-facing accepted output packet: the $\RealUp$, $\StreamNameUp$, and $\RegSeqRatUp$ source rows are exposed only as displayed finite $\BHist$ rows inside the authorized output route, and only together with authorization, branch, descent, audit, componentwise $\hsame$, $\Cont$, $\Pkg$, boundary, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ rows of $R$.
+
+Apply completion-boundary nonescape, \autoref{thm:authorized-generator-recursor-l10-completion-boundary-nonescape}. It says that no $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, or completion-facing consumer of $R$ can recover a selected Real limit, quotient stream equality, host evaluation, detached generator state, ambient completion principle, or off-packet proof channel from the packet. Every such read remains bounded by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, boundary, audit, and local $\NameCert$ route.
+
+Now consider the displayed failure, refusal, separation, or countermodel row. If the row is used against the named source-admission converse or reuse route, the admission theorem makes its consumer-facing use factor through the listed finite source rows, and the nonescape theorem prevents that use from acquiring any unlisted completion, host, generator, or external proof coordinate. The row therefore obstructs exactly the requested route at the displayed packet coordinate where the route asks to read, replace, or bypass the source-admission evidence.
+
+A stronger reading would require a coordinate not exported by $R$. A global impossibility result would require a theorem surface beyond the finite packet; a host theorem would require host evaluation or host completeness data; hidden external validation would require an off-packet certificate channel; and selected limits, quotient stream equalities, detached generator states, ambient completion principles, or proof-producing channels are exactly the data excluded by \autoref{thm:authorized-generator-recursor-l10-completion-boundary-nonescape}. Since the accepted packet supplies none of those coordinates, the obstruction remains strict and local to the named L10 source-admission route.
+\end{proof}

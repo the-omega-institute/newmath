@@ -88,3 +88,21 @@ Use \autoref{thm:closed-term-substitution-boundary-root-audit-replay-totality} a
 
 Finally combine the original root audit and compiler rows, \autoref{thm:closed-term-substitution-boundary-root-audit-totality} and \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. Downstream self-compilation consumers therefore receive one ready ledger packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with no ambient compiler semantics attached.
 \end{proof}
+
+\begin{corollary}[Closed-term substitution boundary root compiler strict local obstruction]
+\label{cor:closed-term-substitution-boundary-root-compiler-strict-local-obstruction}
+For an accepted $\ClosedTermSubstitutionBoundaryUp$ packet, the obstruction supplied by the root compiler non-escape row is strict and local. It blocks only a compiler-facing root read that either cites $\ClosedTermSubstitutionCompilerUp$ before the displayed boundary rows
+
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+
+are exposed, or reuses that citation as a subject-reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, host substitution semantics, or hidden external validation. After the read factors through the root $\NameCert$ handoff, every consumer-facing use is only the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route of the packet. Thus the obstruction cannot be reinterpreted as a global impossibility claim, a host theorem, or a validation source outside the displayed closed-term substitution boundary.
+\end{corollary}
+\begin{proof}
+Start with \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. It gives the exact admission condition for a compiler-facing root read: the citation of $\ClosedTermSubstitutionCompilerUp$ is allowed only after the accepted $\ClosedTermSubstitutionBoundaryUp$ packet has exposed the displayed rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$. The same theorem also lists the forbidden exports: subject reduction, a host syntax quotient, hidden evaluator state, hidden compiler state, and host substitution semantics. Therefore the obstruction applies to this citation boundary and to those reuse routes, not to an ambient host theory.
+
+Now apply \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The handoff identifies the downstream self-compilation surface with the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route obtained from the root audit totality row and the root compiler non-escape row. Hence a consumer-facing use of the compiler citation factors through the named packet rows, and an unlisted coordinate has no handoff projection.
+
+Finally use the replay and readiness rows in this body file. By \autoref{thm:closed-term-substitution-boundary-root-audit-replay-totality}, replay is total on exactly the displayed finite route and exports no host substitution semantics, subject-reduction theorem, host syntax quotient, hidden evaluator state, or hidden compiler state. By \autoref{thm:closed-term-substitution-boundary-root-substitution-route-exactness} and \autoref{thm:closed-term-substitution-boundary-root-ledger-readiness}, the downstream root ledger remains the same closed-term substitution packet rather than an external compiler or validation object. Thus the non-escape row is a local obstruction to the named bad reuse of this packet, and it carries no claim of global impossibility or hidden host validation.
+\end{proof}

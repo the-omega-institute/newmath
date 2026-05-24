@@ -633,4 +633,70 @@ different valid read.
   \upgradepath{No further upgrade -- chapter at the top of the formal axis.}
 \end{closurestatus}
 
-The Lean TasteGate file supplies $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances for the displayed finite carrier; bridge checking remains governed by the verification axis.
+The Lean TasteGate file at \texttt{lean4/BEDC/Derived/RealCompletionExactBoundaryUp/TasteGate.lean} supplies $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances for the displayed finite carrier; bridge checking remains governed by the verification axis.
+
+\begin{lemma}[Real completion exact-boundary forgetful projection]
+\label{lem:real-completion-exact-boundary-forgetful-projection}
+Let
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet. The displayed boundary admits the finite target projection
+$$
+\operatorname{Forget}_{\mathrm{target}}(B)=(E,K,J,N),
+$$
+where $E$ is the terminal $\RealUp$ target row, $K$ is the displayed completion-seal classifier row, $J$ is the displayed witness-ledger row, and $N$ is the local $\NameCert_{\RealCompletionExactBoundaryUp}$ row. This projection is exact for target-facing reads: every accepted consumer that asks only for the target row, classifier row, ledger row, and local NameCert row factors through $(E,K,J,N)$, while any accepted read that distinguishes two packets with the same $(E,K,J,N)$ must inspect one of the dropped rows $L,S,W,R,D,H,C,P$ and is therefore not a read of the target projection. No quotient stream row, host real equality row, selected-limit row, countable-choice row, ambient-completeness row, metric-completeness row, or machine row is exported by this projection.
+\end{lemma}
+\begin{proof}
+Project the accepted carrier through \autoref{def:real-completion-exact-boundary-carrier}. The displayed packet has exactly the rows $L,K,J,S,W,R,D,E,H,C,P,N$. Among them, the terminal target coordinate is $E$, the classifier coordinate is $K$, the witness-ledger coordinate is $J$, and the local naming coordinate is $N$.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. It identifies the same finite row inventory as the local $\NameCert_{\RealCompletionExactBoundaryUp}$ surface: $K$ is read as classifier exposure, $J$ as witness-ledger exposure, $E$ as terminal $\RealUp$ seal exposure, and $N$ as local naming. The remaining rows $L,S,W,R,D,H,C,P$ are respectively seal, synchronizer, finite-window, readback, dyadic-tolerance, transport, replay, and provenance support for the full boundary.
+
+Thus the target projection is obtained by dropping exactly the support rows and retaining $(E,K,J,N)$. A consumer whose request is restricted to target, classifier, ledger, and local NameCert data has no coordinate in that request for $L,S,W,R,D,H,C,P$, so its read factors through the displayed four-row projection.
+
+It remains to rule out hidden coordinates. By \autoref{thm:real-completion-exact-boundary-nonescape}, every accepted consumer of the full boundary factors through the displayed finite route and receives no quotient stream equality, host real equality, hidden selector, second seal route, detached witness ledger, or ambient completeness coordinate. By \autoref{thm:real-completion-exact-boundary-no-completeness-escape}, there is also no insertion point for selected limits, metric completeness, or a machine row between the accepted boundary and the terminal $\RealUp(E)$ seal. Therefore two accepted packets with the same $(E,K,J,N)$ can be distinguished only by inspecting one of the dropped displayed support rows, which is outside the target projection, or by asking for an absent ambient coordinate, which is not exported by the packet.
+\end{proof}
+
+\begin{theorem}[Real completion exact-boundary substrate relation boundary]
+\label{thm:real-completion-exact-boundary-substrate-relation-boundary}
+Let
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet. Any reading of this packet into a Rule~110, cellular, binary, $\mathsf{FKernel}$, or $\BHist$ substrate must be a typed relation certificate over the displayed rows
+$$
+L,K,J,S,W,R,D,E,H,C,P,N,
+$$
+with relation kind one of bisimulation, row embedding, or substrate mirror. It cannot be a definitional equality between the Real-completion boundary and the chosen substrate. The source side of the certificate is the displayed Real-completion route, the target side is the named substrate read, and the direction is fixed by the consumer route from the seal, classifier, witness-ledger, and budget rows through $W,R,D,E$ to $H,C,P,N$. Any certificate that uses an unlisted host coordinate, unlisted source coordinate, quotient stream equality, host real equality, selected limit, countable choice, metric-completeness, ambient-completeness, or machine bridge row is not a certificate for the accepted boundary. Any displayed row among $L,K,J,S,W,R,D,E,H,C,P,N$ that is needed by that relation remains named in the certificate and is not eliminated by the substrate interpretation.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:real-completion-exact-boundary-carrier}. Its full displayed inventory is exactly the seal row $L$, classifier row $K$, witness-ledger row $J$, synchronizer row $S$, StreamName finite-window row $W$, RegSeqRat readback row $R$, DyadicRatCore tolerance row $D$, terminal Real seal row $E$, componentwise transport row $H$, continuation replay row $C$, package provenance row $P$, and local naming row $N$.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The local NameCert surface exposes those rows as one finite packet and exposes no coordinate for quotient stream equality, host real equality, hidden selection, a second seal route, detached witness evidence, or ambient completeness. Hence a substrate-facing read has no object from which to form a definitional equality with a Rule~110, cellular, binary, $\mathsf{FKernel}$, or external $\BHist$ substrate.
+
+Use \autoref{thm:real-completion-exact-boundary-streamname-regseq-route} and \autoref{thm:real-completion-exact-boundary-seal-classifier-witness-balance}. They force the consumer direction: the rows $L,K,J,S$ govern the route, the rows $W,R,D,E$ are the visible completion and terminal faces, and the rows $H,C,P,N$ transport, replay, package, and name that same route. Thus the only admissible substrate comparison is relational data attached to this route. If the comparison is symmetric behavioral matching, it is a bisimulation; if it injects the displayed route rows into a substrate ledger, it is a row embedding; if it interprets the same visible route in the substrate vocabulary without identifying carriers, it is a substrate mirror.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-scoped-obligation-closure} and \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. The scoped obligation surface is exhausted by $L,K,J,S,W,R,D,E,H,C,P,N$, and the excluded host, equality, selection, choice, completeness, and machine rows have no carrier slot or insertion point. Therefore every accepted substrate relation certificate must be read from the displayed rows, every unlisted coordinate is rejected, and every noneliminable displayed row remains named at the boundary rather than being collapsed into definitional equality.
+\end{proof}
+
+\begin{theorem}[Real completion exact-boundary left-right mirror boundary]
+\label{thm:real-completion-exact-boundary-left-right-mirror-boundary}
+Let
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionExactBoundaryUp$ packet. A proposed left-right mirror read of this boundary is accepted only in the following rowwise sense: its source side is the displayed Real-completion route
+$$
+L,K,J,S,W,R,D,E,H,C,P,N,
+$$
+and its target side is an interpretation of exactly the same named history, observation, result, termination, provenance, and certificate rows. Thus the mirror has no independent right-side seal, no independent right-side witness ledger, no second terminal Real row, and no separate right-side certificate row. If a proposed counterpart is obtained by renaming the displayed rows while preserving the roles of $L,K,J,S,W,R,D,E,H,C,P,N$, it is only a substrate-mirror interpretation of the same packet; if it requires any unlisted right-side row, then the asymmetry is a boundary condition rather than an accepted counterpart.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:real-completion-exact-boundary-carrier}. The carrier exposes exactly the rows $L,K,J,S,W,R,D,E,H,C,P,N$: the completion seal $L$, seal classifier $K$, witness ledger $J$, synchronizer $S$, StreamName window $W$, RegSeqRat readback $R$, DyadicRatCore tolerance row $D$, terminal $\RealUp$ seal $E$, componentwise transport $H$, displayed $\Cont$ replay $C$, package provenance $P$, and local $\NameCert_{\RealCompletionExactBoundaryUp}$ row $N$.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The local NameCert surface consists exactly of those rows. In particular, the seal and classifier side $L,K$ and the witness and budget side $J,S$ are not two independent boundary objects; they are governing rows of the same displayed packet, and the later rows $W,R,D,E$ are consumed only inside that packet.
+
+Now use \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness}. Every completion-facing or terminal $\RealUp$ consumer reads exactly the finite route $L,K,J,S,W,R,D,E,H,C,P,N$. Therefore a mirror read cannot add a right-side history row, a right-side observation row, a second result row, a second terminal row, or a separate certificate row without leaving the accepted consumer route.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-substrate-relation-boundary}. A substrate mirror is permitted only as typed relation data over the displayed rows, with source side, target side, and direction fixed by the consumer route; it is not a definitional equality with a second carrier. Together with \autoref{thm:real-completion-exact-boundary-nonescape} and \autoref{thm:real-completion-exact-boundary-no-completeness-escape}, this excludes quotient stream equality, host real equality, selected limits, countable choice, metric completeness, ambient completeness, machine coordinates, and unlisted source or target coordinates. Hence the only accepted left-right mirror is the row-preserving interpretation of the same finite packet, and any stronger right-side counterpart is recorded as the exact-boundary asymmetry.
+\end{proof}
