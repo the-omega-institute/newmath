@@ -64,3 +64,35 @@ The Cauchy comparison is then ledgered. The row $D$ records dyadic tolerances an
 Finally the endpoint seal $E$ is reached only after the finite route has been displayed. The rows $H,C,P,N$ transport, replay, source, and name the same route, so no convergence-facing consumer can bypass finite tail windows for a host infinite-sum or completeness principle.
 \end{proof}
 \leanchecked{BEDC.Derived.RealSeriesUp.RealSeriesRootTailFactorization}
+
+\begin{theorem}[RealSeries root-tail threshold fusion]
+\label{thm:realseries-root-tail-threshold-fusion}
+For an accepted $\RealSeriesUp$ carrier $K=(T,S,W,Q,D,M,E,H,C,P,N)$, every root-facing Cauchy consumer that inspects partial-sum windows must use the same threshold row $M$ after the route
+$$
+S\longmapsto W\longmapsto Q\longmapsto D
+$$
+and before the endpoint row $E$. Thus no family of selected tail indices can replace the shared finite threshold while still claiming to consume the $\RealSeriesUp$ packet.
+\end{theorem}
+\begin{proof}
+Start from the finite partial-sum carrier. The row $S$ supplies the displayed partial-sum windows, and the route through $W$ and $Q$ exposes only finite StreamName windows and RegSeqRat readback.
+
+Use the tail ledger and endpoint readback. The dyadic comparison row $D$ is followed by the single threshold row $M$, and the endpoint seal $E$ is not available until that threshold has been read.
+
+Apply root tail factorization to downstream Cauchy consumers. Since every root-facing read factors through the same $S,W,Q,D,M,E$ chain, selected families of tail indices have no carrier coordinate and cannot replace the shared threshold.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy consumer finite readback]
+\label{thm:realseries-cauchy-consumer-finite-readback}
+Every $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, $\CauchyMajorantSeriesUp$, or $\CauchyProductUp$ consumer of an accepted $\RealSeriesUp$ carrier receives only the finite route
+$$
+T,S,W,Q,D,M,E,H,C,P,N.
+$$
+The consumer receives the term stream, finite partial-sum windows, selected StreamName windows, RegSeqRat readback, DyadicRatCore ledger, shared threshold, endpoint seal, componentwise transport, displayed replay, provenance, and local NameCert rows, but it receives no host infinite sum, selected limit, quotient equality, countable-choice tail selector, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the finite partial-sum carrier and tail ledger. They expose $T,S,W,Q,D,M$ as the only route by which a Cauchy-series consumer can inspect terms, partial sums, windows, readback, tolerances, and the shared threshold.
+
+Apply endpoint readback and root-tail threshold fusion. The endpoint seal $E$ sits after the same finite threshold, so no consumer can reach a real-facing series claim by choosing separate tail indices.
+
+Finally use root tail factorization to attach the structural rows $H,C,P,N$. These rows preserve and name the finite packet, while host infinite sums, selected limits, quotient equality, countable-choice tail selectors, and ambient completeness principles are absent from the carrier.
+\end{proof}
