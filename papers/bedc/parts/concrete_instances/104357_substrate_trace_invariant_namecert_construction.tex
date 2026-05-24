@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\SubstrateTraceInvariantUp$}
+\label{ch:concrete-instances-substrate-trace-invariant-namecert}
+\origin{ai}
+
+The $\SubstrateTraceInvariantUp$ packet realizes the cellular manifest and audit route of \autoref{ch:visions-cellular-automaton-substrate-reading} as finite NameCert data. It reads the substrate not as an unbounded physical claim but as a bounded manifest over cellular rules, trace windows, locality cells, continuation rows, audit classifiers, transport, replay, provenance, and local naming. The packet is BEDC-native: it packages the audit invariant that a displayed cellular trace remains accountable to its manifest rows before any downstream trust or universality reading is consumed.
+
+\begin{definition}[SubstrateTraceInvariant carrier]
+\label{def:substrate-trace-invariant-carrier}
+A $\SubstrateTraceInvariantUp$ carrier is a finite packet
+$$
+S=(M,A,T,W,L,R,U,H,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $M$ is the manifest row, naming the finite cellular rule table, boundary convention, alphabet, origin cell, and public audit handle.
+\item $A$ is the audit classifier row, recording which manifest entries must be visible before a trace row is trusted.
+\item $T$ is the bounded trace row, storing the finite time-window and cell-window observations under the manifest.
+\item $W$ is the window-consistency row, checking that each observed cell in $T$ lies inside the displayed bounded window.
+\item $L$ is the locality-cell row, exposing the finite neighborhood reads used by each transition check.
+\item $R$ is the rule-application row, replaying the cellular transition table against the locality rows.
+\item $U$ is the bounded-universal-trace handoff row, marking where a continuation automaton or cellular trust substrate may consume the trace after audit.
+\item $H$ is componentwise $\hsame$ transport for the manifest, audit classifier, bounded trace, window check, locality cells, rule applications, continuation handoff, replay, provenance, and local naming rows.
+\item $C$ is the displayed $\Cont$ replay from manifest admission through local trace checking, rule replay, audit classification, and continuation handoff.
+\item $P$ is the $\Pkg$ provenance over $\SubstrateTraceInvariantUp$, cellular trust substrate rows, cellular automaton rows, bounded-universal-trace rows, locality-cell rows, continuation-automaton rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SubstrateTraceInvariantUp}$ row.
+\end{enumerate}
+The carrier exposes a finite manifest/audit invariant. It has no coordinate for an unbounded cellular universe, a metaphysical substrate commitment, a completed universal simulator, a host trace equality principle, or a choice-selected infinite orbit.
+\end{definition}
+
+\begin{theorem}[SubstrateTraceInvariant NameCert obligations]
+\label{thm:substrate-trace-invariant-namecert-obligations}
+For an accepted $\SubstrateTraceInvariantUp$ carrier $S=(M,A,T,W,L,R,U,H,C,P,N)$, the local $\NameCert_{\SubstrateTraceInvariantUp}$ surface consists of carrier admission, manifest visibility, audit-classifier visibility, bounded-trace visibility, window consistency, locality-cell visibility, rule-application replay, bounded-universal-trace handoff separation, componentwise transport, continuation replay, provenance, and local naming for the finite packet of \autoref{def:substrate-trace-invariant-carrier}.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the displayed tuple. The manifest row $M$ and audit row $A$ are read before the trace row, so the trace cannot be trusted without its finite public manifest and classifier.
+
+The bounded trace row $T$ is then checked by $W,L,R$. Window consistency keeps every observation inside the displayed cell-time window, locality cells expose the finite neighborhood reads, and the rule-application row replays the manifest rule table against those local rows.
+
+The handoff row $U$ is downstream of the audit route. It permits a trust-substrate or continuation-automaton consumer to cite the trace only after the manifest and local replay rows are visible.
+
+Finally $H,C,P,N$ preserve the same route under transport, continuation replay, provenance, and local naming. The packet therefore exports a finite audit invariant and not an unbounded substrate theorem.
+\end{proof}
+
+\begin{theorem}[SubstrateTraceInvariant manifest route]
+\label{thm:substrate-trace-invariant-manifest-route}
+Every accepted $\SubstrateTraceInvariantUp$ trace read factors through
+$$
+M,\ A,\ T,\ W,\ L,\ R,\ U,\ H,\ C,\ P,\ N .
+$$
+In particular, the bounded trace is visible only after the manifest and audit classifier are displayed, and every transition read is replayed through the locality-cell and rule-application rows. The route exposes no unbounded orbit, host trace equality, completed simulator, or independent substrate commitment.
+\end{theorem}
+\begin{proof}
+Start with manifest admission. The rows $M$ and $A$ determine which finite rule, boundary, alphabet, and audit obligations govern the trace.
+
+Now read the displayed trace. The row $T$ is paired with the window row $W$, so only observations inside the finite manifest window can enter the route.
+
+Finally replay the local dynamics. The locality row $L$ and rule row $R$ supply the finite transition checks, and $U,H,C,P,N$ only hand off, transport, replay, source, and name that checked route. Since no carrier coordinate stores an infinite orbit or completed simulator, the manifest route is exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[SubstrateTraceInvariant audit handoff]
+\label{thm:substrate-trace-invariant-audit-handoff}
+Every audit-facing consumer of an accepted $\SubstrateTraceInvariantUp$ packet receives a trace only through the manifest route of \autoref{thm:substrate-trace-invariant-manifest-route}. The handoff to cellular trust substrates, cellular automata, bounded-universal traces, locality cells, and continuation automata is therefore mediated by the same finite manifest, audit classifier, bounded trace, window check, locality replay, rule replay, transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+First expose the local manifest route. By \autoref{thm:substrate-trace-invariant-manifest-route}, any trace read has already passed through $M,A,T,W,L,R$.
+
+Next expose the handoff row. The row $U$ records the bounded downstream use of the trace; it does not create another trace, enlarge the window, or add an independent cellular substrate.
+
+Finally carry the route through $H,C,P,N$. Componentwise transport, continuation replay, provenance, and local naming preserve the same audited rows, so every downstream consumer receives the finite invariant rather than an unbounded substrate claim.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SubstrateTraceInvariantUp$ read factors through a manifest row, audit classifier, bounded trace, window consistency check, locality-cell row, rule-application row, bounded-universal-trace handoff, hsame transport, Cont replay, Pkg provenance, and NameCert row before any cellular trust or continuation consumer reads the trace.}
+
+\independenceWitness{cellulartrustsubstrate, cellularautomaton, bounded-universal-trace, localitycell, continuationautomaton: none is bijective with $\SubstrateTraceInvariantUp$ because the packet jointly stores a manifest, audit classifier, bounded trace, window consistency row, locality-cell row, rule-application row, downstream handoff, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate work for this packet must later provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances preserving $M,A,T,W,L,R,U,H,C,P,N$.
+
+\closureat{SubstrateTraceInvariantUp}{seedStr}
+
+\begin{closurestatus}{\SubstrateTraceInvariantUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:substrate-trace-invariant-carrier}, \autoref{thm:substrate-trace-invariant-namecert-obligations}, \autoref{thm:substrate-trace-invariant-manifest-route}, and \autoref{thm:substrate-trace-invariant-audit-handoff} seed the finite cellular manifest/audit invariant packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim an unbounded cellular universe, metaphysical substrate commitment, completed universal simulator, host trace equality, choice-selected infinite orbit, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, manifest visibility, audit-classifier visibility, bounded-trace visibility, window consistency, locality-cell visibility, rule-application replay, bounded-universal-trace handoff separation, transport, replay, provenance, and local naming.}
+  \constructivestory{A $\SubstrateTraceInvariantUp$ packet is generated from a finite cellular manifest, audit classifier, bounded trace, window consistency row, locality-cell row, rule-application row, bounded-universal-trace handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
