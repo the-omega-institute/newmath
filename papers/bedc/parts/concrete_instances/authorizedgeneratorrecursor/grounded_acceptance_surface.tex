@@ -48,3 +48,21 @@ Next attach output provenance through the readback surface above. Any read of $O
 
 Finally combine consumer nonescape with terminal readiness. Theorems~\ref{thm:authorized-generator-recursor-consumer-nonescape}, \ref{thm:authorized-generator-recursor-terminal-reader-nonescape}, and \ref{thm:authorized-generator-recursor-output-readiness} keep closed-substitution, terminal output, and ground-compiler-facing consumers inside the same displayed carrier. Thus the ledger has no escape coordinate beyond the concrete AuthorizedGeneratorRecursor root carrier surface.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor grounded acceptance strict obstruction]
+\label{cor:authorized-generator-recursor-grounded-acceptance-strict-obstruction}
+Let an accepted $\AuthorizedGeneratorRecursorUp$ root packet be read through the grounded acceptance surface. If a displayed failure, refusal, separation, or countermodel row is cited against a converse or reuse route for that packet, then the obstruction is strict local data: it blocks only the named route whose read leaves one of the displayed coordinates
+
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+
+Equivalently, the obstruction applies only to a read that tries to detach the generator row $E$, the output row $O$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, the boundary ledger row $G$, or the local $\NameCert$ row $N$ from the same root packet. It cannot be read as a global impossibility theorem, a host theorem, or hidden external validation for any coordinate not displayed by the packet.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:authorized-generator-recursor-grounded-acceptance-surface}, grounded acceptance admits the generator-row input only as a displayed $\BHist$ row of the same root packet. The accepted read of $E$ is therefore routed through the source signature $I$, branch package $B$, structural descent row $D$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, boundary ledger row $G$, and local $\NameCert$ row $N$. This already fixes the domain of any consumer-facing objection: it may inspect the shown packet rows, but it has no separate host recursor, carrier-equivalence route, or unstated authorization token to inspect.
+
+Apply \autoref{thm:authorized-generator-recursor-ledger-nonescape-surface}. Ledger-facing reads of the same accepted packet cannot export an unlicensed generator, hidden authorization, host recursion oracle, detached substitution step, or provenance-free output. Every such read remains inside the displayed $\BHist$ packet and its $\hsame$, $\Cont$, $\Pkg$, boundary, and $\NameCert$ rows. Hence any cited failure, refusal, separation, or countermodel row has force only at the coordinate where the attempted converse or reuse route leaves those rows.
+
+Now suppose the same displayed row were reinterpreted as a global impossibility theorem, a host theorem, or hidden external validation. Such a reinterpretation would have to supply a conclusion beyond the grounded acceptance packet: either a host-side theorem not routed through $I,E,M,B,D,O,A,H,C,P,G,N$, an impossibility claim not indexed by the named failed route, or a validation certificate not carried by $H,C,P,G,N$. The grounded acceptance surface gives no such coordinate, and ledger nonescape forbids exporting one from the ledger. Therefore the obstruction remains strict and local to the named converse or reuse route.
+\end{proof}
