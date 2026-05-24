@@ -4,6 +4,8 @@
 
 Following Bishop--Bridges constructive analysis, the $\RealSequenceLimitUp$ packet records a displayed limit interface for sequences of constructive real names without importing host sequence convergence. It sits after the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the nonquotient finite-window equality boundary of \autoref{ch:concrete-instances-regularcauchyequivalence-namecert}.
 
+The sibling dependency route is explicit: \autoref{ch:concrete-instances-real-namecert} supplies the terminal $\RealUp$ seal, \autoref{ch:concrete-instances-regseqrat-namecert} supplies rational readback, \autoref{ch:concrete-instances-streamname-namecert} supplies finite observation windows, and \autoref{ch:concrete-instances-dyadicratcore-namecert} supplies the tolerance ledgers consumed by the limit-modulus obligations.
+
 \begin{definition}[RealSequenceLimit carrier]\label{def:real-sequence-limit-carrier}
 A $\RealSequenceLimitUp$ carrier is a finite $\BHist$ packet
 $$
@@ -178,6 +180,7 @@ Next use \autoref{thm:realsequencelimit-tail-window-transport}. The observations
 
 Finally apply \autoref{thm:real-sequence-limit-cauchy-modulus-handoff}. The resulting $M$ is exactly the finite $\CauchyModulusUp$-compatible handoff row. The $\RealUp$ seal nonescape clause follows from \autoref{thm:real-sequence-limit-real-seal-nonescape}, while $P$ and $N$ record provenance and local naming for the same finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.RealSequenceLimitUp.RealSequenceLimitModulusNameCertObligations}
 
 \begin{theorem}[RealSequenceLimit modulus RealUp handoff]\label{thm:real-sequence-limit-modulus-realup-handoff}
 Every $\RealUp$-facing consumer of a $\RealSequenceLimitUp$ sequence-limit packet must read the finite modulus packet $(S,L,W,D,E,M,H,C,P,N)$ of \autoref{def:real-sequence-limit-modulus-carrier} before the terminal $\RealUp$ seal is consumed. Thus the consumer route factors through
@@ -293,6 +296,19 @@ Apply \autoref{thm:realsequencelimit-subsequence-tail-stability}. A subsequence-
 The regular readback and classifier transport are supplied by \autoref{thm:realsequencelimit-regular-classifier-transport}. They keep the composed route inside the same $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows after componentwise $\hsame$ transport and displayed $\Cont$ replay.
 
 Finally, \autoref{thm:realsequencelimit-tail-window-transport} identifies the transported windows with the finite route already used by the limit packet. The resulting modulus route reaches $P,N$ and the terminal $\RealUp$ seal only after the finite composition has been displayed, so no quotient equality, ambient completeness, countable choice, or selected host limit enters the proof.
+\end{proof}
+
+\begin{theorem}[RealSequenceLimit squeeze handoff]\label{thm:squeeze-theorem-real-sequence-limit-handoff}
+Let $K^-=(S^-,L,W^-,D^-,E^-,H^-,C^-,P^-,N^-)$, $K=(S,L,W,D,E,H,C,P,N)$, and $K^+=(S^+,L,W^+,D^+,E^+,H^+,C^+,P^+,N^+)$ be accepted $\RealSequenceLimitUp$ packets with the same displayed limit row $L$. Suppose the middle sequence row $S$ shares a finite tail-window bound with the lower and upper rows $S^-,S^+$ through the same $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ observation route, and suppose the two bounding packets expose finite modulus rows for convergence to $L$. Then the middle packet inherits the same $\RealSequenceLimitUp$ finite modulus surface: each tolerance request for $K$ factors through the displayed squeeze window, the bounding modulus rows, the regular classifier transport, diagonal-window uniqueness, and the terminal $\RealUp$ seal before $P,N$ are read.
+\end{theorem}
+\begin{proof}
+Start with the displayed squeeze window. The hypothesis supplies a common $\StreamNameUp/\RegSeqRatUp/\DyadicRatCoreUp$ route relating $S^-$, $S$, and $S^+$ on the finite tail requested by the tolerance ledger. Hence the middle packet receives no host order argument, no quotient sequence equality, and no selected infinite tail outside the displayed rows.
+
+Apply \autoref{thm:realsequencelimit-limit-modulus-composition} to the two bounding packets. Their convergence to the shared limit row $L$ exposes finite modulus routes through their dyadic ledgers, scheduled windows, classifiers, transports, replays, provenance rows, and local names.
+
+Use \autoref{thm:realsequencelimit-regular-classifier-transport} to move the middle comparison through the same regular readback route. The squeeze window makes the transported middle read a $\StreamNameUp/\RegSeqRatUp/\DyadicRatCoreUp$ comparison already bounded by the two displayed modulus rows.
+
+Finally apply \autoref{thm:realsequencelimit-diagonal-window-uniqueness}. The lower, middle, and upper reads meet at one finite diagonal window before any classifier-facing read reaches the terminal $\RealUp$ seal. Therefore the middle packet inherits the finite modulus surface already exposed by the bounding packets, and no ambient completeness, countable choice, trichotomy, selected host limit, or quotient sequence equality enters the handoff.
 \end{proof}
 
 \begin{closurestatus}{\RealSequenceLimitUp}
