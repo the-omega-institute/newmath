@@ -1,0 +1,13 @@
+\begin{theorem}[Prod Bool-Sum-List route audit]
+\label{thm:prod-bool-sum-list-route-audit}
+Every public $\ProdUp$ finite-data read factors through the Bool endpoint discriminator, Sum branch surface, List spine surface, and Option absence surface before it exports the product component ledger. Equivalently, the product consumer reaches component data only after reading \autoref{ch:concrete-instances-bool-namecert}, \autoref{ch:concrete-instances-sum-namecert}, \autoref{ch:concrete-instances-list-namecert}, \autoref{ch:concrete-instances-option-namecert}, the finite-data sibling lattice of \autoref{thm:prod-finite-data-sibling-lattice}, and the option-sum component route of \autoref{thm:prod-option-sum-component-sibling-route}.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:prod-finite-data-sibling-lattice}. It records that the ordered pair certificate is not read as an isolated host tuple: the Bool tag discipline, Sum branch partition, List transport surface, and Option possible-absence surface all precede the public product exit.
+
+Next apply \autoref{thm:prod-option-sum-component-sibling-route}. It forces every component read through the Option absence surface and the Sum branch surface before the component can be used as an optional projection or case-split input.
+
+The Bool endpoint discriminator supplies the finite endpoint separation, while the List spine surface supplies the finite repeated-data route used by product component ledgers. These routes are the same sibling surfaces cited by the local lattice rows, so they do not add host tuple equality or an outside projection.
+
+Therefore every public finite-data read of $\ProdUp$ reaches the product component ledger only after the Bool, Sum, List, and Option routes have been displayed.
+\end{proof}
