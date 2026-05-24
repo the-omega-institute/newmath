@@ -1,13 +1,17 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NestedIntervalCompactnessUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -317,5 +321,109 @@ theorem NestedIntervalCompactnessCarrier_real_seal_boundary
         E
     exact nestedIntervalCompactness_decode_encode E
   exact ⟨prefixUnary, sealReadUnary, prefixRoute, sealRoute, sealDecode⟩
+
+theorem NestedIntervalCompactnessCarrier_finite_intersection_window
+    {I L D W R E H C P N windowRead sealRead : BHist} :
+    nestedIntervalCompactnessFields (NestedIntervalCompactnessUp.mk I L D W R E H C P N) =
+        [I, L, D, W, R, E, H, C, P, N] →
+      UnaryHistory I →
+        UnaryHistory L →
+          UnaryHistory D →
+            UnaryHistory W →
+              UnaryHistory R →
+                UnaryHistory H →
+                  Cont I L D →
+                    Cont D W windowRead →
+                      Cont W R E →
+                        Cont E H sealRead →
+                          UnaryHistory windowRead ∧
+                            UnaryHistory E ∧
+                              UnaryHistory sealRead ∧ Cont W R E := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont
+  intro fieldRows unaryI unaryL unaryD unaryW unaryR unaryH intervalRoute windowRoute
+    readbackRoute sealRoute
+  cases fieldRows
+  have unaryWindow : UnaryHistory windowRead :=
+    unary_cont_closed unaryD unaryW windowRoute
+  have unaryE : UnaryHistory E :=
+    unary_cont_closed unaryW unaryR readbackRoute
+  have unarySeal : UnaryHistory sealRead :=
+    unary_cont_closed unaryE unaryH sealRoute
+  exact ⟨unaryWindow, unaryE, unarySeal, readbackRoute⟩
+
+def NestedIntervalCompactnessCarrier [AskSetup] [PackageSetup]
+    (I L D W R E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  UnaryHistory I ∧ UnaryHistory L ∧ UnaryHistory D ∧ UnaryHistory W ∧
+    UnaryHistory R ∧ UnaryHistory H ∧ Cont I D W ∧ Cont W R E ∧ PkgSig bundle P pkg ∧
+      hsame H C ∧ hsame N N
+
+theorem NestedIntervalCompactnessCarrier_finite_prefix_monotonicity [AskSetup]
+    [PackageSetup]
+    {I L D W R E H C P N prefixRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalCompactnessCarrier I L D W R E H C P N bundle pkg →
+      Cont I D prefixRead →
+        UnaryHistory prefixRead ∧ hsame W (append I D) ∧ hsame E (append W R) ∧
+          PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro carrier prefixRoute
+  obtain ⟨iUnary, _lUnary, dUnary, _wUnary, _rUnary, _hUnary, intervalRoute,
+    realSealRoute, packageRead, _transportRoute, _nameRoute⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed iUnary dUnary prefixRoute
+  exact ⟨prefixUnary, intervalRoute, realSealRoute, packageRead⟩
+
+theorem NestedIntervalCompactnessCarrier_dyadic_mesh_exhaustion [AskSetup]
+    [PackageSetup]
+    {I L D W R E H C P N dyadicRead windowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalCompactnessCarrier I L D W R E H C P N bundle pkg →
+      Cont L D dyadicRead →
+        Cont dyadicRead W windowRead →
+          UnaryHistory dyadicRead ∧ UnaryHistory windowRead ∧ Cont L D dyadicRead ∧
+            Cont dyadicRead W windowRead ∧ hsame W (append I D) ∧
+              hsame E (append W R) ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro carrier dyadicRoute windowRoute
+  obtain ⟨_iUnary, lUnary, dUnary, wUnary, _rUnary, _hUnary, intervalRoute,
+    realSealRoute, packageRead, _transportRoute, _nameRoute⟩ := carrier
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed lUnary dUnary dyadicRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicUnary wUnary windowRoute
+  exact
+    ⟨dyadicUnary, windowUnary, dyadicRoute, windowRoute, intervalRoute, realSealRoute,
+      packageRead⟩
+
+theorem NestedIntervalCompactnessCarrier_finite_window_exhaustion [AskSetup]
+    [PackageSetup]
+    {I L D W R E H C P N dyadicRead windowRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalCompactnessCarrier I L D W R E H C P N bundle pkg →
+      Cont L D dyadicRead →
+        Cont dyadicRead W windowRead →
+          Cont W R E →
+            Cont E H sealRead →
+              UnaryHistory dyadicRead ∧ UnaryHistory windowRead ∧ UnaryHistory E ∧
+                UnaryHistory sealRead ∧ Cont L D dyadicRead ∧
+                  Cont dyadicRead W windowRead ∧ Cont W R E ∧ Cont E H sealRead ∧
+                    hsame W (append I D) ∧ hsame E (append W R) ∧
+                      PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro carrier dyadicRoute windowRoute readbackRoute sealRoute
+  obtain ⟨_iUnary, lUnary, dUnary, wUnary, rUnary, hUnary, intervalRoute,
+    _realSealRoute, packageRead, _transportRoute, _nameRoute⟩ := carrier
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed lUnary dUnary dyadicRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicUnary wUnary windowRoute
+  have eUnary : UnaryHistory E :=
+    unary_cont_closed wUnary rUnary readbackRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed eUnary hUnary sealRoute
+  exact
+    ⟨dyadicUnary, windowUnary, eUnary, sealUnary, dyadicRoute, windowRoute,
+      readbackRoute, sealRoute, intervalRoute, readbackRoute, packageRead⟩
 
 end BEDC.Derived.NestedIntervalCompactnessUp
