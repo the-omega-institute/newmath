@@ -117,6 +117,35 @@ instance realDyadicEmbeddingChapterTasteGate : ChapterTasteGate RealDyadicEmbedd
     intro x y hxy heq
     exact hxy (realDyadicEmbeddingToEventFlow_injective heq)
 
+private theorem realDyadicEmbedding_fields_faithful :
+    ∀ x y : RealDyadicEmbeddingUp, realDyadicEmbeddingFields x = realDyadicEmbeddingFields y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk D₁ S₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk D₂ S₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
+instance realDyadicEmbeddingFieldFaithful : FieldFaithful RealDyadicEmbeddingUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := realDyadicEmbeddingFields
+  field_faithful := realDyadicEmbedding_fields_faithful
+
+instance realDyadicEmbeddingNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial RealDyadicEmbeddingUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RealDyadicEmbeddingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealDyadicEmbeddingUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate RealDyadicEmbeddingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realDyadicEmbeddingChapterTasteGate
@@ -131,6 +160,26 @@ theorem RealDyadicEmbeddingTasteGate_single_carrier_alignment :
     ⟨realDyadicEmbedding_decode_encode_bhist,
       ⟨realDyadicEmbeddingBHistCarrier⟩,
       ⟨realDyadicEmbeddingChapterTasteGate⟩,
+      rfl⟩
+
+theorem RealDyadicEmbeddingUpTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate RealDyadicEmbeddingUp) ∧
+      Nonempty (FieldFaithful RealDyadicEmbeddingUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RealDyadicEmbeddingUp) ∧
+      (∀ h : BHist, realDyadicEmbeddingDecodeBHist (realDyadicEmbeddingEncodeBHist h) = h) ∧
+      (∀ x : RealDyadicEmbeddingUp,
+        realDyadicEmbeddingFromEventFlow (realDyadicEmbeddingToEventFlow x) = some x) ∧
+      (∀ x y : RealDyadicEmbeddingUp,
+        realDyadicEmbeddingToEventFlow x = realDyadicEmbeddingToEventFlow y → x = y) ∧
+      realDyadicEmbeddingEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨⟨realDyadicEmbeddingChapterTasteGate⟩,
+      ⟨realDyadicEmbeddingFieldFaithful⟩,
+      ⟨realDyadicEmbeddingNontrivial⟩,
+      realDyadicEmbedding_decode_encode_bhist,
+      realDyadicEmbedding_round_trip,
+      (fun _ _ heq => realDyadicEmbeddingToEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.RealDyadicEmbeddingUp
