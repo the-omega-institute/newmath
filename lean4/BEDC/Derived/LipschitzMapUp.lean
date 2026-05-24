@@ -235,6 +235,69 @@ theorem LipschitzMapCarrier_namecert_obligation_certificate [AskSetup] [PackageS
     ⟨cert, sourceUnary, targetUnary, boundUnary, graphUnary, modulusUnary, graphBoundModulus,
       modulusRoutesProvenance, pkgSig⟩
 
+theorem LipschitzMapCarrier_semantic_carrier_package [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row target ∨ hsame row bound ∨ hsame row graph ∨
+              hsame row modulus ∨ hsame row localCert)
+          (fun row : BHist =>
+            hsame row localCert ∧ PkgSig bundle provenance pkg)
+          hsame ∧
+        UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory bound ∧
+          UnaryHistory graph ∧ UnaryHistory modulus ∧ Cont graph bound modulus ∧
+            Cont modulus routes provenance ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier
+  obtain ⟨sourceUnary, targetUnary, boundUnary, graphUnary, _transportsUnary, routesUnary,
+    localCertUnary, graphBoundModulus, modulusRoutesProvenance, provenancePkg⟩ := carrier
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed graphUnary boundUnary graphBoundModulus
+  have sourceLocal :
+      (fun row : BHist => hsame row localCert ∧ UnaryHistory row) localCert := by
+    exact ⟨hsame_refl localCert, localCertUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row target ∨ hsame row bound ∨ hsame row graph ∨
+              hsame row modulus ∨ hsame row localCert)
+          (fun row : BHist =>
+            hsame row localCert ∧ PkgSig bundle provenance pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro localCert sourceLocal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, provenancePkg⟩
+    }
+  exact
+    ⟨cert, sourceUnary, targetUnary, boundUnary, graphUnary, modulusUnary,
+      graphBoundModulus, modulusRoutesProvenance, provenancePkg⟩
+
 theorem LipschitzMapCarrier_target_distance_exactness [AskSetup] [PackageSetup]
     {source target bound graph modulus transports routes provenance localCert sourceDistance
       targetDistance : BHist}
