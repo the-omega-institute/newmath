@@ -547,6 +547,7 @@ import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BHistPentaSequenceNameCertUp
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
+import BEDC.Derived.BaireUltrametricUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
@@ -1495,7 +1496,6 @@ import BEDC.Derived.ClassifierTypingUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
-import BEDC.Derived.ClosedBoundedIntervalNetUp.CellCenterReadback
 import BEDC.Derived.ClosedBoundedIntervalNetUp.FiniteMeshCoverage
 import BEDC.Derived.ClosedBoundedIntervalNetUp.LocatedEndpointStability
 import BEDC.Derived.ClosedBoundedIntervalNetUp.PublicFiniteNetExport
@@ -3026,6 +3026,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.TerminalRadiusExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalRadiusStability
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadinessExitHandoff
+import BEDC.Derived.FiniteLebesgueNumberUp.TotalBoundedConsumerFactorization
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowCoverageExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusLedgerCoherence
 import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
@@ -4760,6 +4761,7 @@ import BEDC.Derived.RealSequenceLimitUp.TailRefinementLedger
 import BEDC.Derived.RealSequenceLimitUp.TailWindowTransport
 import BEDC.Derived.RealSequenceLimitUp.TasteGate
 import BEDC.Derived.RealSeriesCauchyCriterionUp
+import BEDC.Derived.RealSeriesUp.EndpointReadback
 import BEDC.Derived.RealSeriesUp.RootCauchyProductBudget
 import BEDC.Derived.RealSeriesUp.RootTailFactorization
 import BEDC.Derived.RealSeriesUp.TasteGate
