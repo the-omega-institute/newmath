@@ -524,6 +524,42 @@ The uniform handoff theorem \autoref{thm:metric-completion-uniform-completion-ha
 Since quotient completions, representative selectors, countable-choice schedules, open-cover compactness, ambient complete metric spaces, and $\RealUp$ completeness are absent from the carrier tuple, no root ledger read can escape to those objects.
 \end{proof}
 
+\begin{theorem}[MetricCompletion root carrier witness obligation]
+\label{thm:metriccompletion-root-obligation-carrier-witness}
+For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$ and any $\BHist$-anchored root carrier request, the displayed witness is the finite row sequence consisting of the metric source $X$, the selected Cauchy branch, the finite readback row $R$, the separatedness row $S$, and the structural rows $H,C,P,N$. If the selected branch is the filter route, the witness reads $F$ before $R$; if it is the net route, the witness reads $D$ before $R$. No root carrier witness may consume a completion endpoint before this same route has exposed $R,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with carrier projection from \autoref{thm:metriccompletion-root-obligation-carrier}. It already exhausts the accepted packet by $X$, one chosen Cauchy branch, $R,S,H,C,P,N$.
+
+Use branch coverage from \autoref{thm:metric-completion-branch-coverage}. The request selects exactly the displayed filter row $F$ or the displayed net row $D$ for the root read, so the witness cannot mix the two routes.
+
+Finally apply finite-readback nonescape, \autoref{thm:metric-completion-finite-readback-ledger-nonescape}. The readback row $R$ remains downstream of the selected branch and upstream of separatedness and structural replay, giving the required $\BHist$-anchored witness form.
+\end{proof}
+
+\begin{theorem}[MetricCompletion root classifier witness obligation]
+\label{thm:metriccompletion-root-obligation-classifier-witness}
+Let $M=(X,F,D,R,S,H,C,P,N)$ and $M'=(X',F',D',R',S',H',C',P',N')$ be accepted $\MetricCompletionUp$ packets. A $\BHist$-anchored root classifier witness between them consists of componentwise $\hsame$ rows for the metric source, the selected Cauchy branch, the finite readback row $R$, the separatedness row $S$, and the structural rows $H,C,P,N$, together with replay evidence that the same selected branch is read on both sides. Thus the classifier witness is branch-specific and cannot be replaced by quotient completion equality, selected representatives, or host metric equality.
+\end{theorem}
+\begin{proof}
+Begin with the root classifier obligation, \autoref{thm:metriccompletion-root-obligation-classifier}. It states classifier stability using componentwise transport and replay for the displayed rows of the two packets.
+
+The branch-specific part is supplied by branch coverage and filter-net compatibility. The selected Cauchy route is fixed before $R$ is read, and compatibility can only mediate through recorded rows of the accepted packets.
+
+The witness is therefore the finite transport data for the selected route plus $R,S,H,C,P,N$. Since the cited classifier theorem never introduces a quotient completion, representative selector, or host metric equality, the witness has no coordinate for those objects.
+\end{proof}
+
+\begin{theorem}[MetricCompletion root ledger witness obligation]
+\label{thm:metriccompletion-root-obligation-ledger-witness}
+For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$, every $\BHist$-anchored root ledger witness is the displayed ledger route through the selected Cauchy branch, the finite readback row $R$, the separatedness row $S$, and the structural rows $H,C,P,N$. The witness records whether the selected branch is $F$ or $D$, records the finite readback row $R$ attached to that branch, and records the separatedness row $S$ before any uniform-completion or Real-facing consumer may use the ledger.
+\end{theorem}
+\begin{proof}
+Use the root ledger nonescape theorem \autoref{thm:metriccompletion-root-obligation-ledger}. It places every root ledger read behind the selected branch, $R$, and $S$.
+
+Refine the ledger route by finite-readback nonescape. The row $R$ is not an ambient endpoint; it is the finite $\RegSeqRatUp$ or $\RealUp$ readback attached to the displayed Cauchy branch.
+
+Finally use carrier projection and branch coverage to repack the same rows as a witness. The structural rows $H,C,P,N$ transport, replay, source, and name this ledger, while no additional coordinate supplies quotient completion ledgers, selected representatives, choice schedules, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[MetricCompletion source-separated scope]
 \label{thm:metriccompletion-source-separated-scope}
 Let $M=(X,F,D,R,S,H,C,P,N)$ be an accepted $\MetricCompletionUp$ packet that reaches a completion-facing consumer. The consumer first exposes the $\MetricUp$ source row $X$, exactly one cofinal Cauchy branch, either the $\CauchyFilterUp$ row $F$ or the $\CauchyNetUp$ row $D$, the finite $\RegSeqRatUp$ or $\RealUp$ readback row $R$, the $\SeparatedMetricUp$ zero-distance uniqueness row $S$, and then the $\UniformCompletionUp$ handoff through $H,C,P,N$. Thus the source-separated scope of the packet is exactly the displayed route
