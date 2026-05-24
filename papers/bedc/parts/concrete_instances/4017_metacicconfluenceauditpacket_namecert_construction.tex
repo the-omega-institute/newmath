@@ -308,6 +308,28 @@ Residual critical-pair data can only be attached to those rows through the bound
 The provenance and local naming rows $P,L$ close the packet boundary. Since the carrier has no coordinate for subject reduction, arbitrary closed Church--Rosser, full substitution compatibility, or an unrecorded substitution oracle, no residual critical-pair read can export one.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit critical-pair coverage]
+\label{thm:metacic-confluence-audit-critical-pair-coverage}
+Every accepted residual critical-pair consumer of a $\MetaCICConfluenceAuditPacketUp$ carrier
+$$
+A=(D,C,N,A_0,S,R,H,T,P,L)
+$$
+is covered by exactly one of the displayed finite routes: the conditional diamond rows $D,C$, the normal and source-shape fragments $N,A_0$, the closed substitution-boundary row $S$, the subject-reduction separation row $R$, or the candidate-normalization handoff. In every case transport, replay, provenance, and local naming pass through $H,T,P,L$. The coverage exports no full substitution compatibility, arbitrary strong-normalization theorem, subject reduction, closed Church--Rosser theorem, or host quotient over reductions.
+\end{theorem}
+\begin{proof}
+Project the residual consumer to the carrier rows. The carrier exposes only $D,C,N,A_0,S,R$ as analytic confluence-audit rows and $H,T,P,L$ as the structural rows by which those reads are transported and replayed.
+
+If the consumer asks for the conditional diamond route, apply \autoref{thm:metacic-confluence-audit-packet-conditional-boundary}. The rows $D,C$ cover exactly the conditional parallel-diamond and closed-star handoff, while the substitution input remains named as a boundary.
+
+If the consumer asks for a normal or source-shape fragment, apply \autoref{thm:metacic-confluence-audit-normal-fragment}. The rows $N,A_0$ cover the closed-normal, atom, sort, closed-variable-impossible, and non-lambda-application fragments without adding the full substitution row as a proved theorem.
+
+If the consumer asks for substitution or subject-reduction data, use \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary} and \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation}. These rows cover $S$ and $R$ as boundary and separation data, not as full substitution compatibility or subject reduction.
+
+It remains to cover candidate-mediated normalization reads. Apply \autoref{thm:metacic-confluence-audit-candidate-normalization-handoff}; the candidate row enters only through the displayed audit surface and is replayed by $T$ with transport through $H$.
+
+Finally apply \autoref{thm:metacic-confluence-audit-residual-critical-pair-boundary} and \autoref{thm:metacic-confluence-audit-obstruction-ledger-exhaustion}. The first forces every residual critical-pair read into one of the displayed windows, and the second says the listed windows exhaust the obstruction ledger. Thus coverage is finite and exclusive at the packet boundary, with $P,L$ naming the same source and with no export of the stronger MetaCIC principles excluded in the statement.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit candidate-normalization handoff]
 \label{thm:metacic-confluence-audit-candidate-normalization-handoff}
 Any candidate-normalization row consumed by an accepted $\MetaCICConfluenceAuditPacketUp$ carrier must enter through the substitution-boundary row $S$, the normal-fragment row $N$, or the source-shape fragment row $A_0$, and must be replayed through $T$ with componentwise transport $H$. The handoff may route a candidate witness to a displayed normal-fragment or closed-face obstruction check, but it does not convert that witness into arbitrary strong normalization, subject reduction, full substitution compatibility, or global confluence.
