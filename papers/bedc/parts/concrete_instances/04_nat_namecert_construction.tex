@@ -79,6 +79,18 @@ $h$, choose $h$ as the common upper and use the empty tail on the $h$-side.
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryPrefix\_directed\_common\_upper}
 
+\begin{theorem}[Nat source spine for addition]
+\label{thm:nat-add-source-spine-forward-link}
+Every $\AddUp$ continuation read over unary histories factors through the $\NatUp$ unary carrier before it is consumed as addition. Concretely, the source side must display the unary judgment of \autoref{def:unary-history-judgment}, closure under one-extension from \autoref{lem:unary-closure-under-one-extension}, prefix totality from \autoref{thm:nat-unary-prefix-total}, and the common-upper row of \autoref{thm:nat-unary-prefix-directed-common-upper}; only after those rows are present may the continuation be read by \autoref{ch:concrete-instances-add-namecert} as an $\AddUp$ operation.
+\end{theorem}
+\begin{proof}
+Read the unary source first. The judgment of \autoref{def:unary-history-judgment} supplies exactly the empty history and one-extension histories, while \autoref{lem:unary-closure-under-one-extension} keeps the carrier closed under the successor step used by addition.
+
+Next use \autoref{thm:nat-unary-prefix-total} and \autoref{thm:nat-unary-prefix-directed-common-upper}. They make any two unary inputs comparable through unary tails and then place them under a displayed unary common upper, so the continuation has a source spine before any addition row is consumed.
+
+Finally pass that displayed spine to \autoref{ch:concrete-instances-add-namecert}. Since $\AddUp$ reads addition as continuation over $\NatUp$ unary histories, any continuation lacking the unary carrier, closure, prefix totality, and common-upper rows is not an addition read from the $\NatUp$ source.
+\end{proof}
+
 \begin{definition}[Strict unary prefix]
 \label{def:nat-unary-strict-prefix}
 A strict unary prefix from $h$ to $k$ is a unary tail $t$ such that $t$ is not
