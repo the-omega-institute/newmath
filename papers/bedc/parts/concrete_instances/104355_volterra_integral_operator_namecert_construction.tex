@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\VolterraIntegralOperatorUp$}
+\label{ch:concrete-instances-volterra-integral-operator-namecert}
+\origin{human}
+
+Following Volterra and Picard--Lindelof constructive integral-equation methods, the $\VolterraIntegralOperatorUp$ packet records the finite operator surface by which a displayed kernel and an input history produce a causal integral history before any completion-facing consumer may read a fixed-point or convergence route. It sits over the endpoint seal of \autoref{ch:concrete-instances-real-namecert}, the graph and modulus rows of \autoref{ch:concrete-instances-continuous-namecert} and \autoref{ch:concrete-instances-uniformmodulus-namecert}, the finite completion handoff of \autoref{ch:concrete-instances-uniformcompletion-namecert}, and the finite partial-sum and tail rows of \autoref{ch:concrete-instances-realseries-namecert}. The packet names the constructive Volterra operator boundary; it does not import Banach fixed point, host function extensionality, selected limits, quotient equality of functions, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Volterra integral operator carrier]
+\label{def:volterra-integral-operator-carrier}
+A $\VolterraIntegralOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,T,X,Y,G,M,Q,S,R,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite interval-window row naming the inspected initial segment of the source history.
+\item $T$ is the time-order row, recording only pairs of displayed times with the triangular relation $s\leq t$ inside $I$.
+\item $X$ is the input-history row read through $\ContinuousUp$ and $\UniformModulusUp$ windows.
+\item $Y$ is the output-history row whose values are exposed only as $\RealUp$ endpoint seals.
+\item $G$ is the kernel graph row, visible on the triangular domain determined by $T$.
+\item $M$ is the shared $\UniformModulusUp$ row for the input history, kernel graph, and finite Riemann-window estimates used by the operator.
+\item $Q$ is the quadrature-window row, storing finite tagged subintervals and dyadic error budgets for the displayed integral reads.
+\item $S$ is the $\RealSeriesUp$ finite-sum row that records the partial-sum approximation of the integral window.
+\item $R$ is the $\UniformCompletionUp$ handoff row for completion-facing consumers of the output history.
+\item $L$ is the successive-approximation ledger, storing only the finite Picard-window route $X\mapsto Y$ through $G,M,Q,S,R$.
+\item $E$ is the terminal $\RealUp$ endpoint seal for each displayed output value.
+\item $H$ records componentwise $\hsame$ transport for the interval, time-order, input, output, kernel, modulus, quadrature, series, completion, ledger, endpoint, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an accepted operator request through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\VolterraIntegralOperatorUp$, $\RealUp$, $\ContinuousUp$, $\UniformModulusUp$, $\UniformCompletionUp$, $\RealSeriesUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VolterraIntegralOperatorUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite Volterra operator packet. It has no coordinate for Banach fixed point, host function extensionality, quotient equality of functions, selected limits, countable choice, ambient $\RealUp$ completeness, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Volterra integral operator NameCert obligations]
+\label{thm:volterra-integral-operator-namecert-obligations}
+For every accepted $\VolterraIntegralOperatorUp$ carrier $K=(I,T,X,Y,G,M,Q,S,R,L,E,H,C,P,N)$, the local $\NameCert_{\VolterraIntegralOperatorUp}$ surface consists exactly of carrier admission for the interval window, triangular time-order row, input-history row, output-history row, kernel graph row, uniform-modulus row, quadrature-window row, RealSeries finite-sum row, UniformCompletion handoff row, successive-approximation ledger, Real endpoint seal, componentwise transport, displayed continuation replay, package provenance, and local naming. Every accepted operator request is classified only by the displayed finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are $I,T,X,Y,G,M,Q,S,R,L,E$, and the structural support rows are $H,C,P,N$.
+
+Carrier admission reads those rows in the displayed order. The input and kernel rows are continuous and uniformly controlled only through $X,G,M$, the integral window is approximated only through $Q,S$, and the completion-facing handoff is the row $R$ before the endpoint seal $E$ is read.
+
+Classifier stability is componentwise. The $\hsame$ row transports each finite coordinate, while $C$ replays the same operator route for later consumers and $P,N$ source and name it.
+
+Since the carrier has no field for a host function space, a quotient function, a selected fixed point, a selected limit, countable choice, ambient real completeness, or a standard bridge, none of those principles can be exported by the local naming certificate.
+\end{proof}
+
+\begin{theorem}[Volterra triangular causality]
+\label{thm:volterra-integral-operator-triangular-causality}
+For every accepted $\VolterraIntegralOperatorUp$ carrier, the output value at a displayed time $t$ is read only through source times $s$ with $s\leq t$ recorded in the triangular row $T$. In BEDC rows, every causal read factors through
+$$
+I,T \longmapsto X,G,M \longmapsto Q,S \longmapsto Y,E \longmapsto H,C,P,N .
+$$
+Thus a downstream consumer cannot inspect future input-history rows, replace the triangular domain by a host function-space domain, or identify two histories by external function extensionality.
+\end{theorem}
+\begin{proof}
+Start with a displayed time request. The interval row $I$ fixes the finite time window, and the triangular row $T$ permits only source indices already recorded with $s\leq t$.
+
+The kernel and input rows are then read through $X,G,M$. The uniform-modulus row controls the finite estimates over the same triangular domain, so no future time coordinate is introduced by continuity data.
+
+The integral read is discharged by the quadrature and RealSeries rows $Q,S$, followed by the output and endpoint rows $Y,E$. Transport, replay, provenance, and naming preserve this same finite route.
+
+The excluded host function-space and extensionality principles are absent from every carrier coordinate, so the displayed triangular route is the entire causality surface.
+\end{proof}
+
+\begin{theorem}[Volterra successive approximation surface]
+\label{thm:volterra-integral-operator-successive-approximation-surface}
+The successive-approximation ledger of an accepted $\VolterraIntegralOperatorUp$ carrier exposes only finite Picard windows. Each displayed Picard step reads the previous history through $X$, the kernel through $G$, the shared modulus through $M$, the quadrature and finite RealSeries rows through $Q,S$, the completion-facing handoff through $R$, and the endpoint seal through $E$. The exported surface is therefore
+$$
+X,G,M,Q,S,R,E,L,H,C,P,N ,
+$$
+not a Banach fixed-point theorem, a selected limit of iterates, a quotient equality of histories, countable choice over iteration indices, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the Picard ledger $L$. By definition it stores only displayed approximation windows, each tied to the same input, kernel, modulus, quadrature, finite-sum, completion, and endpoint rows.
+
+For one step, the previous history is consumed through $X$ and the triangular kernel through $G$. The shared modulus row $M$ and quadrature row $Q$ supply the finite estimate data, while $S$ records the partial-sum approximation used by the integral read.
+
+The completion-facing row $R$ is a handoff boundary rather than a fixed-point principle. The endpoint seal $E$ is downstream of the finite rows, and $H,C,P,N$ transport, replay, source, and name exactly that surface.
+
+Thus successive approximation is present as finite BEDC ledger data only. No selected limit, Banach fixed point, quotient-history equality, countable-choice selector, or ambient completeness coordinate is available to the consumer.
+\end{proof}
+
+\falsifiablePrediction{Every $\VolterraIntegralOperatorUp$ operator read factors through an interval window, triangular time-order row, continuous input and kernel rows, a shared UniformModulusUp ledger, finite quadrature windows, RealSeriesUp partial-sum rows, a UniformCompletionUp handoff, a RealUp endpoint seal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{real, continuous, uniformmodulus, uniformcompletion, realseries: $\VolterraIntegralOperatorUp$ is not bijective to any listed sibling because it jointly carries triangular causality, kernel graph data, input and output histories, quadrature windows, finite series approximations, completion handoff, Picard-window ledgers, endpoint sealing, transport, replay, provenance, and local naming.}
+
+\closureat{VolterraIntegralOperatorUp}{seedStr}
+
+\begin{closurestatus}{\VolterraIntegralOperatorUp}
+  \constructivestory{A $\VolterraIntegralOperatorUp$ packet is generated from an interval window, triangular time-order row, continuous input-history row, continuous kernel graph row, shared UniformModulusUp row, finite quadrature row, RealSeriesUp partial-sum row, UniformCompletionUp handoff row, successive-approximation ledger, RealUp endpoint seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:volterra-integral-operator-carrier}, \autoref{thm:volterra-integral-operator-namecert-obligations}, \autoref{thm:volterra-integral-operator-triangular-causality}, and \autoref{thm:volterra-integral-operator-successive-approximation-surface} seed the finite Volterra operator boundary for triangular constructive integral-equation reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Banach fixed point, host function extensionality, quotient equality of functions, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, triangular causality, quadrature-window exactness, finite RealSeries approximation, UniformCompletion handoff, successive-approximation ledger non-escape, and TasteGate field faithfulness for BEDC.Derived.VolterraIntegralOperatorUp.}
+\end{closurestatus}

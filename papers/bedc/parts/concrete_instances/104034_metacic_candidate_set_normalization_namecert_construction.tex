@@ -25,6 +25,15 @@ with the following displayed rows:
 The classifier compares accepted carriers only through $K,T,A,I,O,H,C,P,N$. It contains no coordinate for evidence-free closed-term normalization, componentwise application normalization, host reduction normalization, quotient reduction equality, subject-reduction discharge, or a global normalization oracle.
 \end{definition}
 
+\begin{definition}[Candidate-set normalization frontier filter]
+\label{def:candidate-set-normalization-frontier-filter}
+For an accepted $\CandidateSetNormalizationUp$ carrier $S=(K,T,A,I,O,H,C,P,N)$, its public frontier filter is the finite $\BHist$ subpacket
+$$
+\mathsf{Frontier}(S)=(K,T,A,I,O,H,C,P,N)
+$$
+read in the displayed order: candidate-set evidence $K$, closed-term projection $T$, adequacy row $A$, no-infinite-reduction row $I$, obstruction row $O$, transport $H$, replay $C$, provenance $P$, and local naming $N$. A consumer reaches the redex-facing normalization frontier only through this subpacket, so the filter contains no coordinate for candidate-free strong normalization, closed subject reduction, arbitrary confluence, host conversion equality, or a global normalizer.
+\end{definition}
+
 \begin{theorem}[MetaCIC candidate-set normalization obligations]
 \label{thm:metacic-candidate-set-normalization-obligations}
 For every accepted $\CandidateSetNormalizationUp$ carrier $S=(K,T,A,I,O,H,C,P,N)$, the local $\NameCert_{\CandidateSetNormalizationUp}$ surface consists exactly of finite candidate-set evidence through $K$; closed-term projection through $T$; application and Pi adequacy through $A$; no-infinite-reduction through $I$; obstruction when the candidate-set row is absent through $O$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; local naming through $N$; and non-escape from unconditional MetaCIC strong normalization.
@@ -39,6 +48,32 @@ The closed-term projection is $T$, and the application and Pi adequacy route is 
 The no-infinite-reduction row $I$ is downstream of that evidence. If $K$ is absent, $O$ records the obstruction, so the packet refuses an evidence-free theorem over all closed typed terms.
 
 Finally $H,C,P,N$ transport, replay, source, and name the same finite branch. Since no global normalization oracle or quotient reduction equality is present in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Candidate-set normalization redex non-escape]
+\label{thm:candidate-set-normalization-redex-nonescape}
+Every redex-frontier consumer of an accepted $\CandidateSetNormalizationUp$ carrier must pass through the frontier filter $K,T,A,I,O,H,C,P,N$ of \autoref{def:candidate-set-normalization-frontier-filter}. It exports no candidate-free strong normalization, no closed subject-reduction theorem, and no arbitrary confluence principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and then read its frontier filter. The first row is $K$, so the consumer starts from candidate-set evidence rather than from a redex-normalization oracle.
+
+The closed-term row $T$ and adequacy row $A$ are downstream of the same candidate evidence. They can expose closed projection and application or Pi adequacy only through that evidence.
+
+The no-infinite-reduction row $I$ and obstruction row $O$ complete the normalization-facing branch. If the candidate evidence is absent, $O$ records refusal instead of supplying a candidate-free theorem.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same branch. Since the filter has no subject-reduction, confluence, or global-normalizer coordinate, no consumer can export those conclusions from this packet.
+\end{proof}
+
+\begin{theorem}[Candidate-set normalization candidate-closed handoff]
+\label{thm:candidate-set-normalization-candidate-closed-handoff}
+For every accepted $\CandidateSetNormalizationUp$ carrier, the handoff from candidate-set evidence to the closed-term projection remains mediated by $K,T,A,I,O,H,C,P,N$. In particular, the closed projection row $T$ is not a candidate-free closed normalization theorem and cannot be reused without the candidate-set evidence row $K$.
+\end{theorem}
+\begin{proof}
+Read the carrier as $S=(K,T,A,I,O,H,C,P,N)$. The closed-term projection row is named as $T$, but its admissibility is part of the same finite packet as $K$.
+
+The adequacy and no-infinite-reduction rows $A$ and $I$ also consume the candidate-set route. They do not create a detached closed-term theorem, because the obstruction row $O$ records refusal when $K$ is absent.
+
+Transport and replay through $H$ and $C$, with provenance and naming through $P$ and $N$, preserve the same candidate-mediated route. Thus the closed projection remains a handoff inside the frontier filter rather than a standalone normalization principle.
 \end{proof}
 
 \begin{theorem}[MetaCIC candidate-set normalization idempotence]
