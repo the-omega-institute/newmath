@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CofinalFilterBaseUp$}
+\label{ch:concrete-instances-cofinal-filter-base-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on cofinal filter bases, the $\CofinalFilterBaseUp$ packet records the finite comparison interface by which one displayed filter base may replace another in Cauchy and completion consumers. It sits between the displayed base surface of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the uniform completion route of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the metric completion route of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the Cauchy-filter completion route of \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert}. The packet names cofinal replacement without quotient filters, selected representatives, selected limits, ultrafilters, Zorn arguments, or ambient completeness.
+
+\begin{definition}[CofinalFilterBase carrier]
+\label{def:cofinal-filter-base-carrier}
+A $\CofinalFilterBaseUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,T,\rho,R,F,U,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\FilterBaseUp$ row whose displayed packets may be used after replacement.
+\item $T$ is the target $\FilterBaseUp$ row whose requests are issued by a downstream consumer.
+\item $\rho$ is the cofinal map row. For every target request it names a source base packet lying inside the requested target packet.
+\item $R$ is the containment and refinement witness ledger, recording the source-to-target containment reads, common-refinement reads, and replay edges used by $\rho$.
+\item $F$ is the $\CauchyFilterUp$ handoff row, recording that the Cauchy-filter consumer reads the same cofinal replacement route.
+\item $U$ is the $\UniformCompletionUp$ consumer row, exposing the entourage-facing completion route after cofinal replacement.
+\item $M$ is the $\MetricCompletionUp$ consumer row, exposing the metric-completion route after cofinal replacement.
+\item $H$ records componentwise $\hsame$ transport for $S,T,\rho,R,F,U,M,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a target base request through $\rho$, through the source base packet, and through the refinement ledger exposed to downstream consumers.
+\item $P$ is the $\Pkg$ provenance over $\CofinalFilterBaseUp$, the five sibling chapters named above, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalFilterBaseUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient filters, ultrafilters, Zorn arguments, selected representatives, selected limits, countable choice, host filter equality, or ambient completion.
+\end{definition}
+
+\begin{theorem}[CofinalFilterBase NameCert obligations]
+\label{thm:cofinal-filter-base-namecert-obligations}
+For every accepted $\CofinalFilterBaseUp$ carrier $B=(S,T,\rho,R,F,U,M,H,C,P,N)$, the local $\NameCert_{\CofinalFilterBaseUp}$ surface consists exactly of carrier admission for the source and target $\FilterBaseUp$ rows, cofinal map row, containment and refinement ledger, CauchyFilter handoff, UniformCompletion consumer row, MetricCompletion consumer row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every accepted target request must be witnessed by a displayed source packet through $\rho$ and $R$ before any Cauchy or completion consumer can read the replacement.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-filter-base-carrier}. The rows $S$ and $T$ expose the two displayed filter bases, while $\rho$ and $R$ store the only containment and refinement data connecting them.
+
+The consumer rows are downstream of that comparison. The CauchyFilter row $F$, UniformCompletion row $U$, and MetricCompletion row $M$ may read the replacement only after the target request has been replayed through $\rho$ and the ledger $R$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since quotient filters, ultrafilters, Zorn arguments, selected representatives, selected limits, countable choice, host filter equality, and ambient completion are absent from the carrier, no additional NameCert obligation is available.
+\end{proof}
+
+\begin{theorem}[CofinalFilterBase CauchyFilter handoff]
+\label{thm:cofinal-filter-base-cauchyfilter-handoff}
+Every $\CauchyFilterUp$ consumer of an accepted $\CofinalFilterBaseUp$ packet factors through
+$$
+T \longmapsto \rho \longmapsto S \longmapsto R \longmapsto F,H,C,P,N .
+$$
+Thus a Cauchy-filter request against the target base is answered by a displayed source base packet and its containment ledger before the Cauchy row is read. The handoff supplies no quotient filter, ultrafilter, selected representative, selected limit, or choice schedule.
+\end{theorem}
+\begin{proof}
+Begin with a Cauchy-filter consumer. The request is a target-base read through $T$, so the carrier forces the request to pass first through the cofinal map row $\rho$.
+
+Apply \autoref{thm:cofinal-filter-base-namecert-obligations}. The row $\rho$ names a source packet in $S$, and $R$ records the containment and common-refinement reads that justify the replacement.
+
+The handoff row $F$ is read only after those rows. Transport by $H$ and replay by $C$ preserve the same displayed route, while $P$ and $N$ expose the packet as finite provenance and local naming. No excluded quotient, ultrafilter, selected representative, selected limit, or choice coordinate remains.
+\end{proof}
+
+\begin{theorem}[CofinalFilterBase completion nonescape]
+\label{thm:cofinal-filter-base-completion-nonescape}
+Every $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer citing an accepted $\CofinalFilterBaseUp$ packet receives only the displayed cofinal replacement route from target requests to source base packets. The completion-facing read is exhausted by $S,T,\rho,R,F,U,M,H,C,P,N$ and cannot escape to quotient filters, selected limits, host filter equality, ultrafilters, Zorn arguments, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from a completion-facing request. By \autoref{def:cofinal-filter-base-carrier}, the only completion rows are $U$ and $M$, and the Cauchy-filter completion consumer must pass through the same Cauchy handoff row $F$.
+
+Apply \autoref{thm:cofinal-filter-base-cauchyfilter-handoff}. The target request is first replayed through $\rho$ into the source base row $S$, then through the containment and refinement ledger $R$.
+
+The sibling completion chapters named in the opening paragraph therefore receive a displayed cofinal-base route, not a detached completion principle. The structural rows $H,C,P,N$ preserve that route under transport, replay, provenance, and local naming, so no quotient, selected limit, host equality, ultrafilter, Zorn argument, choice schedule, or ambient completeness object is exported.
+\end{proof}
+
+\closureat{CofinalFilterBaseUp}{seedStr}
+
+\begin{closurestatus}{\CofinalFilterBaseUp}
+  \constructivestory{A $\CofinalFilterBaseUp$ packet is generated from source and target FilterBase rows, a cofinal map from target requests to source base packets, containment and refinement witnesses, CauchyFilter handoff, UniformCompletion and MetricCompletion consumer rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-filter-base-carrier}, \autoref{thm:cofinal-filter-base-namecert-obligations}, \autoref{thm:cofinal-filter-base-cauchyfilter-handoff}, and \autoref{thm:cofinal-filter-base-completion-nonescape} seed the cofinal-base replacement interface between FilterBase, CauchyFilter, and completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, host filter equality, ultrafilters, Zorn arguments, countable choice, Lean verification, bridge checking, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal map exactness, containment replay, CauchyFilter handoff, UniformCompletion and MetricCompletion consumer nonescape, and ledger-refusal proofs for BEDC.Derived.CofinalFilterBaseUp.}
+\end{closurestatus}
