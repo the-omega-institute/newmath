@@ -227,6 +227,34 @@ theorem WeierstrassMTestCarrier_uniform_cauchy_handoff [AskSetup] [PackageSetup]
     ⟨handoffUnary, sealReadUnary, tailRegseqRoute, regseqRealSealReadRow, sameSealRead,
       routePkg, namePkg⟩
 
+theorem WeierstrassMTestCarrier_uniform_tail_budget_scope [AskSetup] [PackageSetup]
+    {family majorant domination tail regseq realSeal transport route provenance name handoff
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WeierstrassMTestCarrier family majorant domination tail regseq realSeal transport route
+        provenance name bundle pkg ->
+      Cont tail regseq handoff ->
+        Cont regseq realSeal sealRead ->
+          UnaryHistory handoff ∧ UnaryHistory sealRead ∧ Cont domination tail regseq ∧
+            Cont tail regseq handoff ∧ Cont regseq realSeal sealRead ∧
+              hsame transport sealRead ∧ PkgSig bundle route pkg ∧
+                PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg
+  intro carrier tailRegseqHandoff regseqRealSealRead
+  have closure :
+      UnaryHistory handoff ∧ UnaryHistory sealRead ∧ Cont domination tail regseq ∧
+        Cont tail regseq handoff ∧ Cont regseq realSeal transport ∧
+          Cont regseq realSeal sealRead ∧ hsame transport sealRead ∧
+            PkgSig bundle route pkg ∧ PkgSig bundle name pkg :=
+    WeierstrassMTestCarrier_obligation_closure_package carrier tailRegseqHandoff
+      regseqRealSealRead
+  obtain ⟨handoffUnary, sealReadUnary, dominationTailRegseq, tailRegseqRoute,
+    _regseqRealSealTransport, regseqRealSealReadRow, sameSealRead, routePkg, namePkg⟩ :=
+    closure
+  exact
+    ⟨handoffUnary, sealReadUnary, dominationTailRegseq, tailRegseqRoute,
+      regseqRealSealReadRow, sameSealRead, routePkg, namePkg⟩
+
 theorem WeierstrassMTestCarrier_real_seal_boundary [AskSetup] [PackageSetup]
     {family majorant domination tail regseq realSeal transport route provenance name
       sealRead : BHist}
