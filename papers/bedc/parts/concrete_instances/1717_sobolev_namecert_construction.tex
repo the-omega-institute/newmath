@@ -210,6 +210,54 @@ Use the derivative norm ledger. It identifies the analytic handoff as a route fr
 The completion boundary then applies to the same route. The structural rows record transport, replay, provenance, and local naming only, so no completed Sobolev space, distributional dual, quotient function equality, density, compactness, trace, or selected representative can be read by descent.
 \end{proof}
 
+\begin{theorem}[Sobolev weak-gradient ledger exhaustion]
+\label{thm:sobolev-weak-gradient-ledger-exhaustion}
+Let $S=(D,M,V,L,G,H,C,P,N)$ be an accepted $\SobolevUp$ packet. Every weak-gradient read exported by $S$ is exhausted by the displayed rows $D,M,V,L,G$ together with the structural rows $H,C,P,N$. In particular, the read reaches $\RealUp$ only through $D$, $\MetricSpaceUp$ or $\CompleteMetricUp$ only through $M$, $\NormUp$ or $\HilbertUp$ only through $V$, $\IntegralUp$ only through $L$, $\DerivativeUp$ only through $G$, and $\BHist,\hsame,\Cont,\Pkg,\NameCert$ only through the carrier and structural rows already displayed by $S$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The weak-gradient route has no analytic coordinate beyond $D,M,V,L,G$, and its structural support is exactly $H,C,P,N$.
+
+Apply the Sobolev weak-derivative ledger theorem. It forces each derivative-facing observation to pass through the domain, metric or complete-metric base, codomain, magnitude ledger, and weak-gradient test row before the observation is exported.
+
+The BHist carrier scope theorem then accounts for the structural rows. The $\hsame$ transports, $\Cont$ replay, package provenance, and local NameCert evidence preserve the displayed weak-gradient route without adding an ambient analytic object.
+\end{proof}
+
+\begin{theorem}[Sobolev integral-derivative transport stability]
+\label{thm:sobolev-integral-derivative-transport-stability}
+Let $S=(D,M,V,L,G,H,C,P,N)$ and $S'=(D',M',V',L',G',H',C',P',N')$ be accepted $\SobolevUp$ packets compared by the displayed componentwise $\hsame$ transport rows. Any consumer that transports an integral or derivative read from $S$ to $S'$ must transport the same route
+$$
+D \longmapsto M \longmapsto V \longmapsto L \longmapsto G
+$$
+to
+$$
+D' \longmapsto M' \longmapsto V' \longmapsto L' \longmapsto G'
+$$
+through the displayed $\Cont$ replay rows, with provenance and local naming preserved by $P,N$ and $P',N'$. The transport cannot introduce a host distribution, quotient function equality, completed measure carrier, compact embedding row, or trace row.
+\end{theorem}
+\begin{proof}
+Begin with classifier locality. The classifier compares accepted packets only through the displayed carrier rows and the $\hsame$ transport surface.
+
+Use carrier transport to move the route. The source read through $D,M,V,L,G$ is replaced componentwise by the target read through $D',M',V',L',G'$, and the replay rows $C,C'$ preserve the same consumer order.
+
+Finally apply weak-gradient ledger exhaustion. Since the source and target packets expose only the listed Real, metric, complete-metric, norm, Hilbert, integral, derivative, BHist, transport, replay, provenance, and NameCert rows, no excluded analytic object can appear during transport.
+\end{proof}
+
+\begin{theorem}[Sobolev completion-facing root scope]
+\label{thm:sobolev-completion-facing-root-scope}
+Every completion-facing, PDE-facing, variational, compact-embedding, Hilbert, metric, or derivative consumer of an accepted $\SobolevUp$ packet must first read the finite root scope
+$$
+D,M,V,L,G,H,C,P,N .
+$$
+Thus completion-facing access remains confined to $\RealUp$, $\MetricSpaceUp$ or $\CompleteMetricUp$, $\NormUp$ or $\HilbertUp$, $\IntegralUp$, $\DerivativeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ as displayed carrier rows. It does not provide a completed Sobolev space, distributional dual, quotient equality of functions, density theorem, compact embedding theorem, trace theorem, or selected representative.
+\end{theorem}
+\begin{proof}
+Start with Sobolev Hilbert completion descent. It sends every Hilbert-facing or completion-facing request to the carrier rows before weak-derivative data are cited.
+
+Apply weak-gradient ledger exhaustion to identify the analytic portion of the root scope. The rows $D,M,V,L,G$ are the only path to Real, metric, complete-metric, norm, Hilbert, integral, and derivative reads.
+
+Apply integral-derivative transport stability for transported consumers. The rows $H,C,P,N$ preserve, replay, source, and name the same finite root scope, so downstream PDE, variational, compactness-facing, and completion-facing consumers cannot read outside it.
+\end{proof}
+
 \closureat{SobolevUp}{seedStr}
 
 \begin{closurestatus}{\SobolevUp}
