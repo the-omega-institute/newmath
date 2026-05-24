@@ -4776,6 +4776,155 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "m3_perron_mode": "uniform",
         "all_spectra_verified": all(row["spectrum_verified"] for row in partition_core_kernel_rows),
     }
+
+    def permutation_cycle_type(permutation: tuple[int, ...]) -> tuple[int, ...]:
+        seen: set[int] = set()
+        cycle_lengths = []
+        for start in range(len(permutation)):
+            if start in seen:
+                continue
+            current = start
+            length = 0
+            while current not in seen:
+                seen.add(current)
+                length += 1
+                current = permutation[current]
+            cycle_lengths.append(length)
+        return tuple(sorted(cycle_lengths, reverse=True))
+
+    s4_character_table = {
+        "trivial": {(1, 1, 1, 1): 1, (2, 1, 1): 1, (2, 2): 1, (3, 1): 1, (4,): 1},
+        "sign": {(1, 1, 1, 1): 1, (2, 1, 1): -1, (2, 2): 1, (3, 1): 1, (4,): -1},
+        "standard": {(1, 1, 1, 1): 3, (2, 1, 1): 1, (2, 2): -1, (3, 1): 0, (4,): -1},
+        "sign_standard": {(1, 1, 1, 1): 3, (2, 1, 1): -1, (2, 2): -1, (3, 1): 0, (4,): 1},
+        "two_dimensional": {(1, 1, 1, 1): 2, (2, 1, 1): 0, (2, 2): 2, (3, 1): -1, (4,): 0},
+    }
+    s4_irrep_dimensions = {
+        "trivial": 1,
+        "sign": 1,
+        "standard": 3,
+        "sign_standard": 3,
+        "two_dimensional": 2,
+    }
+    s4_conjugacy_sizes = collections.Counter(
+        permutation_cycle_type(permutation)
+        for permutation in itertools.permutations(range(4))
+    )
+
+    def relabel_support(support: frozenset[int], permutation: tuple[int, ...]) -> frozenset[int]:
+        return frozenset(permutation[index] for index in support)
+
+    def relabel_family(family: tuple[frozenset[int], ...], permutation: tuple[int, ...]) -> frozenset[frozenset[int]]:
+        return frozenset(relabel_support(support, permutation) for support in family)
+
+    def relabel_partition(partition: tuple[frozenset[int], ...], permutation: tuple[int, ...]) -> frozenset[frozenset[int]]:
+        return frozenset(relabel_support(block, permutation) for block in partition)
+
+    def permutation_character(objects: tuple[object, ...], action) -> dict[tuple[int, ...], int]:
+        character: dict[tuple[int, ...], int] = collections.Counter()
+        for permutation in itertools.permutations(range(4)):
+            cycle_type = permutation_cycle_type(permutation)
+            fixed = sum(1 for item in objects if action(item, permutation) == item)
+            character[cycle_type] += fixed
+        return {
+            cycle_type: character[cycle_type] // s4_conjugacy_sizes[cycle_type]
+            for cycle_type in sorted(s4_conjugacy_sizes)
+        }
+
+    def character_multiplicities(character: dict[tuple[int, ...], int]) -> dict[str, int]:
+        multiplicities = {}
+        for irrep_name, irrep_character in s4_character_table.items():
+            inner_product = sum(
+                s4_conjugacy_sizes[cycle_type] * character[cycle_type] * irrep_character[cycle_type]
+                for cycle_type in s4_conjugacy_sizes
+            )
+            multiplicities[irrep_name] = inner_product // 24
+        return multiplicities
+
+    def representation_dimension(multiplicities: dict[str, int]) -> int:
+        return sum(
+            multiplicity * s4_irrep_dimensions[irrep_name]
+            for irrep_name, multiplicity in multiplicities.items()
+        )
+
+    def character_terms(character: dict[tuple[int, ...], int]) -> tuple[tuple[str, int], ...]:
+        return tuple(
+            ("+".join(str(length) for length in cycle_type), value)
+            for cycle_type, value in sorted(character.items())
+        )
+
+    partition_representation_rows = []
+    trigger_representation_rows = []
+    kernel_representation_rows = []
+    for trigger_size in range(1, 5):
+        partition_objects = tuple(frozenset(core) for core in partition_cores_by_size[trigger_size])
+        trigger_objects = tuple(frozenset(family) for family in quotient_minimal_trigger_families_by_size[trigger_size])
+        partition_character = permutation_character(partition_objects, relabel_partition)
+        trigger_character = permutation_character(trigger_objects, relabel_family)
+        partition_multiplicities = character_multiplicities(partition_character)
+        trigger_multiplicities = character_multiplicities(trigger_character)
+        kernel_multiplicities = {
+            irrep_name: trigger_multiplicities[irrep_name] - partition_multiplicities[irrep_name]
+            for irrep_name in s4_character_table
+        }
+        partition_representation_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "dimension": len(partition_objects),
+                "character_terms": character_terms(partition_character),
+                "multiplicities": partition_multiplicities,
+                "dimension_verified": representation_dimension(partition_multiplicities) == len(partition_objects),
+            }
+        )
+        trigger_representation_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "dimension": len(trigger_objects),
+                "character_terms": character_terms(trigger_character),
+                "multiplicities": trigger_multiplicities,
+                "dimension_verified": representation_dimension(trigger_multiplicities) == len(trigger_objects),
+            }
+        )
+        kernel_representation_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "dimension": len(trigger_objects) - len(partition_objects),
+                "multiplicities": kernel_multiplicities,
+                "dimension_verified": representation_dimension(kernel_multiplicities) == len(trigger_objects) - len(partition_objects),
+            }
+        )
+
+    def add_multiplicities(rows: list[dict[str, object]]) -> dict[str, int]:
+        total: collections.Counter[str] = collections.Counter()
+        for row in rows:
+            total.update(row["multiplicities"])
+        return dict(total)
+
+    partition_representation_total = add_multiplicities(partition_representation_rows)
+    trigger_representation_total = add_multiplicities(trigger_representation_rows)
+    kernel_representation_total = add_multiplicities(kernel_representation_rows)
+    partition_core_representation_summary = {
+        "partition_total_multiplicities": partition_representation_total,
+        "trigger_total_multiplicities": trigger_representation_total,
+        "kernel_total_multiplicities": kernel_representation_total,
+        "partition_total_dimension": representation_dimension(partition_representation_total),
+        "trigger_total_dimension": representation_dimension(trigger_representation_total),
+        "kernel_total_dimension": representation_dimension(kernel_representation_total),
+        "sign_standard_invisible": (
+            partition_representation_total["sign_standard"] == 0
+            and trigger_representation_total["sign_standard"] == kernel_representation_total["sign_standard"]
+        ),
+        "m2_gram_eigen_irreps": (
+            ("22,1", "trivial_mixture"),
+            ("7", "two_dimensional"),
+            ("6", "standard"),
+        ),
+        "m3_gram_eigen_irreps": (
+            ("15", "trivial"),
+            ("7", "standard"),
+            ("3", "two_dimensional"),
+        ),
+    }
     descending_path_orbit_rows = []
     for row in defect_flow_orbit_rows:
         paths_per_trigger = math.factorial(row["defect"]) * row["partition_core_count"]
@@ -5520,6 +5669,10 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "partition_basin_summary": partition_basin_summary,
         "partition_core_kernel_rows": partition_core_kernel_rows,
         "partition_core_kernel_summary": partition_core_kernel_summary,
+        "partition_core_representation_rows": partition_representation_rows,
+        "minimal_trigger_representation_rows": trigger_representation_rows,
+        "partition_core_incidence_kernel_representation_rows": kernel_representation_rows,
+        "partition_core_representation_summary": partition_core_representation_summary,
         "descending_path_formula": "delta! prod_a |R_a|",
         "descending_path_orbit_rows": descending_path_orbit_rows,
         "descending_path_summary": descending_path_summary,
@@ -9585,6 +9738,44 @@ def assert_expected(summary: dict[str, object]) -> None:
         "m2_perron_weight_ratio_2_plus_2_to_3_plus_1": "4/3",
         "m3_perron_mode": "uniform",
         "all_spectra_verified": True,
+    }
+    assert [
+        (row["trigger_size"], row["dimension"], row["multiplicities"], row["dimension_verified"])
+        for row in antipodal["partition_core_representation_rows"]
+    ] == [
+        (1, 1, {"trivial": 1, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+        (2, 7, {"trivial": 2, "sign": 0, "standard": 1, "sign_standard": 0, "two_dimensional": 1}, True),
+        (3, 6, {"trivial": 1, "sign": 0, "standard": 1, "sign_standard": 0, "two_dimensional": 1}, True),
+        (4, 1, {"trivial": 1, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+    ]
+    assert [
+        (row["trigger_size"], row["dimension"], row["multiplicities"], row["dimension_verified"])
+        for row in antipodal["minimal_trigger_representation_rows"]
+    ] == [
+        (1, 1, {"trivial": 1, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+        (2, 25, {"trivial": 4, "sign": 0, "standard": 4, "sign_standard": 1, "two_dimensional": 3}, True),
+        (3, 22, {"trivial": 3, "sign": 0, "standard": 4, "sign_standard": 1, "two_dimensional": 2}, True),
+        (4, 1, {"trivial": 1, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+    ]
+    assert [
+        (row["trigger_size"], row["dimension"], row["multiplicities"], row["dimension_verified"])
+        for row in antipodal["partition_core_incidence_kernel_representation_rows"]
+    ] == [
+        (1, 0, {"trivial": 0, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+        (2, 18, {"trivial": 2, "sign": 0, "standard": 3, "sign_standard": 1, "two_dimensional": 2}, True),
+        (3, 16, {"trivial": 2, "sign": 0, "standard": 3, "sign_standard": 1, "two_dimensional": 1}, True),
+        (4, 0, {"trivial": 0, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+    ]
+    assert antipodal["partition_core_representation_summary"] == {
+        "partition_total_multiplicities": {"trivial": 5, "sign": 0, "standard": 2, "sign_standard": 0, "two_dimensional": 2},
+        "trigger_total_multiplicities": {"trivial": 9, "sign": 0, "standard": 8, "sign_standard": 2, "two_dimensional": 5},
+        "kernel_total_multiplicities": {"trivial": 4, "sign": 0, "standard": 6, "sign_standard": 2, "two_dimensional": 3},
+        "partition_total_dimension": 15,
+        "trigger_total_dimension": 49,
+        "kernel_total_dimension": 34,
+        "sign_standard_invisible": True,
+        "m2_gram_eigen_irreps": (("22,1", "trivial_mixture"), ("7", "two_dimensional"), ("6", "standard")),
+        "m3_gram_eigen_irreps": (("15", "trivial"), ("7", "standard"), ("3", "two_dimensional")),
     }
     assert antipodal["descending_path_formula"] == "delta! prod_a |R_a|"
     assert [
