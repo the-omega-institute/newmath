@@ -47,24 +47,41 @@ def metaCICFrontierDependencyMatrixToEventFlow :
       (metaCICFrontierDependencyMatrixFields x).map
         metaCICFrontierDependencyMatrixEncodeBHist
 
+def metaCICFrontierDependencyMatrixEventAtDefault : Nat → EventFlow → RawEvent
+  | _index, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ index, _event :: rest =>
+      metaCICFrontierDependencyMatrixEventAtDefault index rest
+
 def metaCICFrontierDependencyMatrixFromEventFlow :
-    EventFlow → Option MetaCICFrontierDependencyMatrixUp
-  | B :: A :: L :: P :: Q :: N :: D :: J :: R :: H :: C :: K :: [] =>
-      some
-        (MetaCICFrontierDependencyMatrixUp.mk
-          (metaCICFrontierDependencyMatrixDecodeBHist B)
-          (metaCICFrontierDependencyMatrixDecodeBHist A)
-          (metaCICFrontierDependencyMatrixDecodeBHist L)
-          (metaCICFrontierDependencyMatrixDecodeBHist P)
-          (metaCICFrontierDependencyMatrixDecodeBHist Q)
-          (metaCICFrontierDependencyMatrixDecodeBHist N)
-          (metaCICFrontierDependencyMatrixDecodeBHist D)
-          (metaCICFrontierDependencyMatrixDecodeBHist J)
-          (metaCICFrontierDependencyMatrixDecodeBHist R)
-          (metaCICFrontierDependencyMatrixDecodeBHist H)
-          (metaCICFrontierDependencyMatrixDecodeBHist C)
-          (metaCICFrontierDependencyMatrixDecodeBHist K))
-  | _ => none
+    EventFlow → Option MetaCICFrontierDependencyMatrixUp :=
+  fun ef =>
+    some
+      (MetaCICFrontierDependencyMatrixUp.mk
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 0 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 1 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 2 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 3 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 4 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 5 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 6 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 7 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 8 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 9 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 10 ef))
+        (metaCICFrontierDependencyMatrixDecodeBHist
+          (metaCICFrontierDependencyMatrixEventAtDefault 11 ef)))
 
 private theorem metaCICFrontierDependencyMatrix_round_trip :
     ∀ x : MetaCICFrontierDependencyMatrixUp,
