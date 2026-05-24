@@ -148,6 +148,16 @@ def taste_gate : ChapterTasteGate RieszLemmaUp :=
   -- BEDC touchpoint anchor: BHist BMark
   rieszLemmaChapterTasteGate
 
+theorem RieszLemmaTasteGate_single_carrier_alignment :
+    (∀ h : BHist, rieszLemmaDecodeBHist (rieszLemmaEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier RieszLemmaUp) ∧
+        Nonempty (ChapterTasteGate RieszLemmaUp) ∧
+          rieszLemmaEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨rieszLemmaDecode_encode,
+      ⟨⟨rieszLemmaBHistCarrier⟩, ⟨⟨rieszLemmaChapterTasteGate⟩, rfl⟩⟩⟩
+
 def RieszLemmaCarrier [AskSetup] [PackageSetup]
     (source subspace unit tolerance avoidance distance witness complete transport replay provenance
       name : BHist)
