@@ -54,6 +54,54 @@ The selected windows $W$ expose only the coefficients, real-point readbacks, pow
 The majorant row $M$ is then the only route from the finite partial sums to endpoint convergence data. Reading $E$ and the structural rows $H,C,P,N$ therefore hands off a finite radius-window certificate and no host convergence theorem.
 \end{proof}
 
+\begin{theorem}[Real power series coefficient-window transport]\label{thm:real-power-series-coefficient-window-transport}
+Let $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ be an accepted $\RealPowerSeriesUp$ carrier. Any coefficient-window consumer transported along $H$ and replayed along $C$ reaches the partial-sum row $S$ only through the displayed coefficient row $A$ and the finite window row $W$. The transported read preserves the same center row $Z$, argument row $X$, radius row $R$, majorant row $M$, endpoint seal $E$, provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-power-series-carrier}. The only coefficient-facing coordinate is $A$, and the only row that exposes coefficient observations to downstream evaluation is $W$.
+
+Apply \autoref{thm:real-power-series-radius-window-handoff}. The handoff places $W$ before $S$, so transport through $H$ and replay through $C$ can move a coefficient-window read only along the displayed $A,W,S$ route.
+
+The remaining rows are carried componentwise. Thus $Z,X,R,M,E,P,N$ stay attached to the same packet, and no host coefficient stream, quotient function space, or selected infinite coefficient object is introduced.
+\end{proof}
+
+\begin{theorem}[Real power series radius subwindow monotonicity]\label{thm:real-power-series-radius-subwindow-monotonicity}
+For an accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, replacing the displayed radius-window row $R$ by a finite subwindow already admitted by $W$ preserves the evaluation route
+$$
+A,Z,X,R\longmapsto W\longmapsto S\longmapsto M\longmapsto E
+$$
+and keeps the same transport, replay, provenance, and naming rows $H,C,P,N$. The subwindow operation narrows the inspected radius evidence; it does not create an endpoint outside the displayed majorant route.
+\end{theorem}
+\begin{proof}
+Read the radius clause in \autoref{def:real-power-series-carrier}. The row $R$ is only a displayed radius or subradius row, while $W$ records the finite windows through which the evaluation is inspected.
+
+Use \autoref{thm:real-power-series-radius-window-handoff}. A smaller admitted radius window remains before the same finite-window row $W$, the same partial-sum row $S$, and the same majorant row $M$.
+
+The endpoint seal $E$ is still downstream of the majorant route. Since the carrier has no coordinate for ambient analytic continuation or completeness, narrowing $R$ cannot export a new endpoint principle.
+\end{proof}
+
+\begin{theorem}[Real power series partial-sum majorant readback]\label{thm:real-power-series-partial-sum-majorant-readback}
+Every partial-sum readback from an accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ factors from the finite polynomial-sum row $S$ into the selected majorant row $M$ before the endpoint seal $E$ can be read. The readback may cite $\RealSeriesUp$, $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ through $S$ and $M$, but it receives no selected infinite sum or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the partial-sum clause of \autoref{def:real-power-series-carrier}. The row $S$ lists only the inspected polynomial sums and their finite $\RealSeriesUp$ handoff.
+
+Apply \autoref{thm:real-power-series-radius-window-handoff}. The endpoint-facing path from $S$ must pass through $M$, where the selected M-test, ratio-test, or root-test route is displayed.
+
+Finally use \autoref{thm:real-power-series-nonescape}. The carrier exports the finite majorant readback and the endpoint seal, not a host infinite series object, selected sum, or completeness theorem.
+\end{proof}
+
+\begin{theorem}[Real power series endpoint-seal factorization]\label{thm:real-power-series-endpoint-seal-factorization}
+The endpoint row $E$ of an accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ factors through the coefficient row $A$, center row $Z$, argument row $X$, radius row $R$, window row $W$, partial-sum row $S$, and majorant row $M$ before it can be transported or replayed through $H,C,P,N$. Thus the endpoint seal is a packet-local $\RealUp$ read, not a host analytic continuation, quotient function value, selected infinite sum, countable-choice output, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Use the factorization displayed in \autoref{thm:real-power-series-radius-window-handoff}. It places every endpoint-facing read after $A,Z,X,R,W,S,M$.
+
+Use \autoref{thm:real-power-series-namecert-obligations} to attach $H,C,P,N$ to the same route. These rows transport, replay, source, and name the packet-local endpoint seal without adding analytic coordinates.
+
+The excluded objects are absent from the carrier and from the handoff route. Therefore $E$ remains the finite endpoint seal of the accepted packet.
+\end{proof}
+
 \begin{theorem}[Real power series nonescape]\label{thm:real-power-series-nonescape}
 Every endpoint-facing read from an accepted $\RealPowerSeriesUp$ carrier passes through $A,Z,X,R,W,S,M,E,H,C,P,N$. Consequently a consumer may use the displayed $\RealSeriesUp$, $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, $\RegularCauchyRootTestUp$, $\FormalPowerSeriesUp$, and $\ConvergenceRadiusUp$ interfaces named by the packet, but it receives no host analytic continuation, quotient function space, selected infinite sum, countable-choice selector, or ambient $\RealUp$ completeness principle.
 \end{theorem}
