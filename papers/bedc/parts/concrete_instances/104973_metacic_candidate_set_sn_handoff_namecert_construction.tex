@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCandidateSetSNHandoffUp$}
+\label{ch:concrete-instances-metacic-candidate-set-sn-handoff-namecert}
+\origin{ai}
+
+The $\MetaCICCandidateSetSNHandoffUp$ packet realizes the candidate-set strong-normalization handoff of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It is narrower than the candidate-set normalization surface of \autoref{ch:concrete-instances-metacic-candidate-set-normalization-namecert}: this packet records exactly the route from Candidate and CandidateSet membership evidence to a closed typed term strong-normalization export, with beta-closure and no-infinite-reduction kept visible. It sits beside the MetaCIC critical path of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the closed substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, the finite trace evaluator of \autoref{ch:concrete-instances-finitetraceevaluator-namecert}, the kernel category surface of \autoref{ch:concrete-instances-kernelcategory-namecert}, and the halting distinction packet of \autoref{ch:concrete-instances-haltingdistinction-namecert}.
+
+\begin{definition}[MetaCIC candidate-set SN handoff carrier]
+\label{def:metacic-candidate-set-sn-handoff-carrier}
+A $\MetaCICCandidateSetSNHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+H=(A,S,T,B,E,N,R,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the Candidate row, naming the reducibility-candidate evidence admitted by the normalization audit map.
+\item $S$ is the CandidateSet membership row, recording finite membership, soundness, and the selected candidate-set witness consumed by the handoff.
+\item $T$ is the closed typed term evidence row, recording the empty-context term, its type, and the closedness evidence to which the candidate-set row is attached.
+\item $B$ is the beta-closure row, exposing the one-step beta stability supplied by the same CandidateSet route.
+\item $E$ is the strong-normalization export row, read only after $A,S,T,B$ have all been displayed.
+\item $N$ is the no-infinite-reduction projection row obtained from the exported strong-normalization evidence.
+\item $R$ records componentwise $\hsame$ transport for candidate, candidate-set, closed-term, beta-closure, export, no-infinite, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a closed-term request through CandidateSet membership, beta closure, strong-normalization export, and no-infinite-reduction projection.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCandidateSetSNHandoffUp$, Candidate, CandidateSet, closed typed term evidence, beta-closure evidence, strong-normalization export, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\MetaCICCandidateSetSNHandoffUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,S,T,B,E,N,R,C,P,L$. It has no coordinate for candidate-free strong normalization, closed subject reduction, global confluence, host evaluator normalization, quotient conversion equality, or a proof-producing oracle outside the displayed handoff.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate-set SN handoff obligations]
+\label{thm:metacic-candidate-set-sn-handoff-obligations}
+For every accepted $\MetaCICCandidateSetSNHandoffUp$ carrier $H=(A,S,T,B,E,N,R,C,P,L)$, the local $\NameCert_{\MetaCICCandidateSetSNHandoffUp}$ surface consists exactly of carrier admission; Candidate evidence through $A$; CandidateSet membership, soundness, and witness exposure through $S$; closed typed term evidence through $T$; beta-closure stability through $B$; strong-normalization export through $E$; no-infinite-reduction projection through $N$; componentwise transport through $R$; displayed replay through $C$; provenance through $P$; and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:metacic-candidate-set-sn-handoff-carrier}. The visible rows are exactly $A,S,T,B,E,N,R,C,P,L$.
+
+The positive route begins with $A$ and $S$. Candidate evidence and CandidateSet membership are displayed before the closed typed term row can be read as a normalization input.
+
+The closed-term and beta rows are $T$ and $B$. They keep the empty-context typing, closedness, and one-step beta stability attached to the same CandidateSet witness.
+
+The export rows are $E$ and $N$. Strong normalization is exported only after $A,S,T,B$ are present, and no-infinite-reduction is only a projection from that export. The transport, replay, provenance, and naming rows preserve the same handoff, so no excluded host route can appear in the NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-set SN export nonescape]
+\label{thm:metacic-candidate-set-sn-export-nonescape}
+Every public strong-normalization or no-infinite-reduction read exported by an accepted $\MetaCICCandidateSetSNHandoffUp$ packet factors through
+$$
+A,S\longmapsto T,B\longmapsto E,N\longmapsto R,C,P,L .
+$$
+Thus a closed typed term consumer receives the route only as CandidateSet membership, closed-term, beta-closure, and SN export NameCert data, not as an unconditional theorem over all closed MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Read the source rows $A$ and $S$. They name the candidate evidence and CandidateSet membership that the normalization audit map requires for the public closed-term route.
+
+Next read $T$ and $B$. The closed typed term row and beta-closure row attach the term and its local reduction stability to the same finite evidence route.
+
+Finally read $E,N,R,C,P,L$. The strong-normalization export and no-infinite projection are downstream of the candidate-set source, while transport, replay, provenance, and local naming preserve that order. Since the carrier has no coordinate for candidate-free strong normalization, closed subject reduction, global confluence, host evaluator normalization, quotient conversion equality, or a proof-producing oracle, no consumer can escape the displayed route.
+\end{proof}
+
+\falsifiablePrediction{A closed typed term read that reaches $\MetaCICCandidateSetSNHandoffUp$ strong-normalization export without displaying CandidateSet membership, closed typed term evidence, beta-closure stability, and the SN export row fails the carrier surface.}
+
+\independenceWitness{metaciccriticalpath, closedtermsubstitutionboundary, finitetraceevaluator, kernelcategory, haltingdistinction: none is bijective because $\MetaCICCandidateSetSNHandoffUp$ binds Candidate evidence, CandidateSet membership, closed typed term evidence, beta closure, SN export, no-infinite projection, transport, replay, provenance, and local NameCert rows in one finite handoff packet.}
+
+The Lean follow-up is \texttt{BEDC.Derived.MetaCICCandidateSetSNHandoffUp}. Its TasteGate surface must provide $\mathsf{Nontrivial}\ \MetaCICCandidateSetSNHandoffUp$ and $\mathsf{FieldFaithful}\ \MetaCICCandidateSetSNHandoffUp$ instances that keep $A,S,T,B,E,N,R,C,P,L$ as separate displayed fields.
+
+\closureat{MetaCICCandidateSetSNHandoffUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCandidateSetSNHandoffUp}
+  \constructivestory{A $\MetaCICCandidateSetSNHandoffUp$ packet is generated from Candidate evidence, CandidateSet membership, closed typed term evidence, beta-closure evidence, strong-normalization export, no-infinite-reduction projection, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-candidate-set-sn-handoff-carrier}, \autoref{thm:metacic-candidate-set-sn-handoff-obligations}, and \autoref{thm:metacic-candidate-set-sn-export-nonescape} seed the finite candidate-set strong-normalization handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unconditional MetaCIC strong normalization, closed subject reduction, global confluence, host evaluator normalization, quotient conversion equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked Candidate evidence, CandidateSet membership, closed typed term evidence, beta-closure stability, SN export, no-infinite projection, transport, replay, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.MetaCICCandidateSetSNHandoffUp.}
+\end{closurestatus}
