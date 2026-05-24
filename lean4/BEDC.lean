@@ -1219,6 +1219,7 @@ import BEDC.Derived.CauchyProductUp.RadiusBudgetConservation
 import BEDC.Derived.CauchyProductUp.RealAlgOrderProductObservationExport
 import BEDC.Derived.CauchyProductUp.RealBudgetSealBoundary
 import BEDC.Derived.CauchyProductUp.RealRegSeqRatStreamNameHandoff
+import BEDC.Derived.CauchyProductUp.RealSealRootSurface
 import BEDC.Derived.CauchyProductUp.RealSealSelector
 import BEDC.Derived.CauchyProductUp.RealSealUpstreamDependency
 import BEDC.Derived.CauchyProductUp.RealTailAgreementHandoff
@@ -1254,6 +1255,7 @@ import BEDC.Derived.CauchyProductUp.RootWindowObligations
 import BEDC.Derived.CauchyProductUp.RootWindowReadStability
 import BEDC.Derived.CauchyProductUp.RootWindowSealStability
 import BEDC.Derived.CauchyProductUp.SharedSelectorRealSealStability
+import BEDC.Derived.CauchyProductUp.SharedTailBudgetConsumer
 import BEDC.Derived.CauchyProductUp.SharedTailSelectorFactorization
 import BEDC.Derived.CauchyProductUp.SourceBudgetConsumerLock
 import BEDC.Derived.CauchyProductUp.SourceWindowSealConsumerExactness
