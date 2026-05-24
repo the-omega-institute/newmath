@@ -5401,6 +5401,7 @@ import BEDC.Derived.StreamNameUp.RegSeqRatRealDyadicPullbackSealDeterminacy
 import BEDC.Derived.StreamNameUp.RegseqratRealDyadicWindowPullback
 import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.StdBridge
+import BEDC.Derived.StreamNameUp.StreamnameRegseqratUniformFiniteWindowSeal
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
