@@ -35,6 +35,7 @@ I,L,D \longmapsto W \longmapsto R \longmapsto E \longmapsto H,C,P,N .
 $$
 Consequently the finite-window intersection witness available to a Real-facing consumer is the regular-rational readback over the same displayed dyadic and located interval rows. The witness is not a selected point of the full countable intersection and is not an open-cover compactness certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalCompactnessUp.NestedIntervalCompactnessCarrier\_finite\_intersection\_window}
 \begin{proof}
 Project the carrier of \autoref{def:nested-interval-compactness-carrier}. The prefix request first exposes $I$, then the located endpoint row $L$, and then the dyadic interval row $D$ for the same finite prefix.
 
@@ -55,6 +56,7 @@ For every accepted $\NestedIntervalCompactnessUp$ carrier $K=(I,L,D,W,R,E,H,C,P,
 \end{enumerate}
 No local NameCert obligation is stored outside those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalCompactnessUp.NestedIntervalCompactnessCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is the row projection of \autoref{def:nested-interval-compactness-carrier}. It exposes exactly $I,L,D,W,R,E,H,C,P,N$.
 
@@ -87,6 +89,7 @@ Because the local obligation surface contains no row for selected endpoints,
 quotient equality, countable choice, or open-cover compactness, extending the
 prefix cannot introduce any such coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.NestedIntervalCompactnessUp.NestedIntervalCompactnessCarrier\_finite\_prefix\_monotonicity}
 
 \begin{theorem}[NestedIntervalCompactness Real seal boundary]
 \label{thm:nested-interval-compactness-real-seal-boundary}
@@ -109,6 +112,7 @@ Thus the exported Real boundary is exhausted by the displayed nested-window rout
 \label{thm:nested-interval-compactness-located-endpoint-scope}
 For every accepted $\NestedIntervalCompactnessUp$ carrier $K=(I,L,D,W,R,E,H,C,P,N)$, the located endpoint row $L$ is scoped by the same displayed $\NestedIntervalUp$ prefix $I$ and the same $\DyadicIntervalUp$ ledger $D$ before any $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $R$, or $\RealUp$ seal $E$ is consumed. Thus a consumer reads located endpoints only as finite packet data, not as selected real endpoints or quotient real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalCompactnessUp.NestedIntervalCompactnessCarrier\_located\_endpoint\_scope}
 \begin{proof}
 Project $I,L,D$ from the carrier of \autoref{def:nested-interval-compactness-carrier}. The located endpoint row is not an independent real object; it is listed as the endpoint-location row for the same displayed prefix named by $I$.
 
@@ -121,12 +125,40 @@ Finally apply \autoref{thm:nested-interval-compactness-real-seal-boundary}. Any 
 \label{thm:nested-interval-compactness-dyadic-mesh-exhaustion}
 Let $K=(I,L,D,W,R,E,H,C,P,N)$ be an accepted $\NestedIntervalCompactnessUp$ carrier. Every finite nested-window read that reaches $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ has already exhausted the displayed $\DyadicIntervalUp$ mesh row $D$ over the same $\NestedIntervalUp$ and $\LocatedIntervalUp$ rows $I,L$. No later consumer can replace that mesh by open-cover compactness, countable choice, trichotomy, or an ambient completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalCompactnessUp.NestedIntervalCompactnessCarrier\_dyadic\_mesh\_exhaustion}
 \begin{proof}
 Start with a read reaching $W$, $R$, or $E$. By \autoref{thm:nested-interval-compactness-finite-intersection-window}, the read travels through the route $I,L,D \longmapsto W \longmapsto R \longmapsto E$ for the displayed finite prefix.
 
 Use \autoref{thm:nested-interval-compactness-prefix-monotonicity}. Extending the prefix preserves the nesting cells in $I$ and inclusion cells in $D$ before any stream, regular-rational, or real-seal row can be read.
 
 The NameCert obligation theorem, \autoref{thm:nested-interval-compactness-namecert-obligations}, supplies the ledger non-escape clause. Since the carrier has no row for open-cover compactness, countable choice, trichotomy, or ambient $\RealUp$ completeness, the dyadic mesh row $D$ is the whole finite mesh surface available to the later consumer.
+\end{proof}
+
+\begin{theorem}[NestedIntervalCompactness located dyadic scope]
+\label{thm:nested-interval-compactness-located-dyadic-scope}
+For every accepted $\NestedIntervalCompactnessUp$ carrier $K=(I,L,D,W,R,E,H,C,P,N)$, each located endpoint read is scoped by the same $\NestedIntervalUp$ prefix $I$ and the same $\DyadicIntervalUp$ mesh row $D$ before any $\StreamNameUp$ window $W$ or $\RegSeqRatUp$ readback $R$ is exposed. Thus the located data consumed by a $\RealUp$ boundary read is finite packet data over the displayed prefix, not a selected endpoint or quotient-real equality.
+\end{theorem}
+\begin{proof}
+Start with a located endpoint read. The carrier definition exposes $L$ only as the endpoint-location row for the prefix named by $I$, while the dyadic mesh row $D$ records the finite boxes and inclusion checks for that same prefix.
+
+Apply the NameCert obligation theorem. Its located dyadic exactness clause binds $L$ and $D$ to the same interval prefix before a readback row can be consumed, and its finite-prefix monotonicity clause preserves those nesting and inclusion cells when the prefix is extended.
+
+Finally use \autoref{thm:nested-interval-compactness-dyadic-mesh-exhaustion}. Any read reaching $W$, $R$, or $E$ has already exhausted the displayed dyadic mesh over $I,L$. Therefore the located endpoint scope is the displayed finite prefix and not an external endpoint choice.
+\end{proof}
+
+\begin{theorem}[NestedIntervalCompactness prefix readback coverage]
+\label{thm:nested-interval-compactness-prefix-readback-coverage}
+Every finite prefix request reaching the $\RealUp$ seal of an accepted $\NestedIntervalCompactnessUp$ packet has already displayed the nested interval prefix $I$, located endpoint row $L$, dyadic mesh row $D$, $\StreamNameUp$ windows $W$, and $\RegSeqRatUp$ readback $R$. No Real-facing consumer can bypass those rows by appealing to open-cover compactness, countable choice, quotient real equality, or an ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with a finite prefix request that reaches $E$. By the finite-intersection window theorem, the route to the Real seal is
+$$
+I,L,D \longmapsto W \longmapsto R \longmapsto E .
+$$
+
+Use prefix monotonicity to keep the displayed nesting cells in $I$ and inclusion cells in $D$ fixed under prefix extension. The located endpoint scope theorem then places $L$ on the same prefix and mesh before stream or regular-rational reads are exposed.
+
+The real seal boundary theorem identifies $E$ as downstream of the displayed route, and the dyadic mesh exhaustion theorem rules out replacing $D$ by a later compactness or choice row. Hence every finite prefix request reaching $\RealUp$ has already displayed $I,L,D,W,R$ inside the packet.
 \end{proof}
 
 \begin{theorem}[NestedIntervalCompactness stream-to-real route]
@@ -142,10 +174,24 @@ The Real seal boundary theorem, \autoref{thm:nested-interval-compactness-real-se
 \end{proof}
 \leanchecked{BEDC.Derived.NestedIntervalCompactnessUp.NestedIntervalCompactnessCarrier\_stream\_real\_route}
 
-\closureat{NestedIntervalCompactnessUp}{seedStr}
+\begin{theorem}[NestedIntervalCompactness finite-window exhaustion]
+\label{thm:nested-interval-finite-window-exhaustion}
+Every accepted $\NestedIntervalCompactnessUp$ consumer of a $\RealUp$-facing nested interval read factors through the finite-prefix monotonicity row, located endpoint scope, dyadic mesh exhaustion, prefix readback coverage, and stream-to-real route before any terminal $\RealUp$ seal is visible. The visible route is therefore exhausted by the finite packet rows $I,L,D,W,R,E,H,C,P,N$, with no exported selected endpoint, quotient real equality, countable choice, arbitrary open-cover compactness, or full countable-intersection principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer read that reaches the terminal $\RealUp$ seal. By \autoref{thm:nested-interval-compactness-stream-real-route}, the read reaches $E$ only after the $\StreamNameUp$ window $W$ has passed through the $\RegSeqRatUp$ readback $R$, and that route remains downstream of the displayed interval rows $I,L,D$.
+
+The finite-prefix monotonicity theorem, \autoref{thm:nested-interval-compactness-prefix-monotonicity}, keeps the nesting cells in $I$ and the inclusion cells in $D$ fixed under prefix extension. The located endpoint scope theorem, \autoref{thm:nested-interval-compactness-located-endpoint-scope}, binds $L$ to the same displayed prefix before any stream, readback, or real-seal row is consumed.
+
+Use \autoref{thm:nested-interval-compactness-dyadic-mesh-exhaustion} to exhaust the mesh row $D$ over $I,L$, and then apply \autoref{thm:nested-interval-compactness-prefix-readback-coverage}. These two rows force every Real-facing finite prefix request to display $I,L,D,W,R$ before $E$ is visible.
+
+Thus the consumer sees exactly the finite-window route carried by $K=(I,L,D,W,R,E,H,C,P,N)$. The excluded endpoint-selection, quotient-equality, choice, arbitrary open-cover, and full countable-intersection coordinates have no carrier row from which they could be exported.
+\end{proof}
+
+\closureat{NestedIntervalCompactnessUp}{obligationStr}
 
 \begin{closurestatus}{\NestedIntervalCompactnessUp}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:nested-interval-compactness-carrier}, \autoref{thm:nested-interval-compactness-finite-intersection-window}, \autoref{thm:nested-interval-compactness-namecert-obligations}, and \autoref{thm:nested-interval-compactness-real-seal-boundary} seed the finite-window nested interval compactness surface from displayed located and dyadic interval rows through StreamName, RegSeqRat, and Real seal reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

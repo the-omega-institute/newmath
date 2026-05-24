@@ -128,6 +128,7 @@ Finally apply \autoref{thm:real-cauchy-modulus-window-modulus-route} and \autore
 \label{thm:real-cauchy-modulus-threshold-window-totality}
 For every accepted $\RealCauchyModulusUp$ packet and every displayed precision request, the consumer first reads a threshold from $M$ and then a finite window from $S$ before the dyadic ledger $D$, the regular readback $Q$, or the terminal $\RealUp$ seal $E$ is available. This ordering is total for the displayed route: there is no accepted access path from the precision request directly to $D,Q,E$, to a quotient stream, to a selected limit, to host real equality, to countable choice, or to ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusUp.RealCauchyModulusCarrier\_threshold\_window\_totality}
 \begin{proof}
 Start with the route theorem \autoref{thm:real-cauchy-modulus-window-modulus-route}. It factors every accepted precision request through $M\longmapsto S\longmapsto D\longmapsto Q\longmapsto E$ before the structural rows are consumed.
 
@@ -198,6 +199,7 @@ It remains to compare the terminal seal route. The witnesses for $E$ and $E'$ id
 
 The Real seal nonescape theorem \autoref{thm:real-cauchy-modulus-real-seal-nonescape} prevents either packet from exposing a detached seal. Hence the classifier exposes one terminal $\RealUp$ route, carried by the componentwise $\hsame$ data, for both accepted packets.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCauchyModulusUp.RealCauchyModulusCarrier\_seal\_determinacy}
 
 \begin{theorem}[Real Cauchy modulus window scope]
 \label{thm:real-cauchy-modulus-window-scope}
@@ -226,6 +228,24 @@ The monotonicity theorem \autoref{thm:real-cauchy-modulus-window-monotonicity} a
 Finally, \autoref{thm:real-cauchy-modulus-ledger-exhaustion} rules out selected limits and other non-displayed analytic sources at every induction stage. Thus the stronger request changes only the finite amount of displayed tail data, not the threshold route or the seal handoff.
 \end{proof}
 \leanchecked{BEDC.Derived.RealCauchyModulusUp.RealCauchyModulusCarrier\_tail\_threshold\_determinacy}
+
+\begin{theorem}[Real Cauchy modulus tail handoff]
+\label{thm:real-cauchy-modulus-tail-handoff}
+Every $\RealUp$ or $\RegSeqRatUp$ completion consumer of an accepted $\RealCauchyModulusUp$ packet must pass through the displayed rows
+$$
+M,S,D,Q,E,H,C,P,N.
+$$
+Tail-threshold determinacy composes with window monotonicity and seal determinacy: a stronger tail request may enlarge the finite $\StreamNameUp$ window selected by $M$, but it preserves the $\DyadicRatCoreUp$ ledger $D$, the $\RegSeqRatUp$ readback $Q$, the terminal $\RealUp$ seal $E$, and the structural rows that transport, replay, source, and name the route. No completion consumer can replace this handoff by quotient stream equality, selected limits, host real equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite route theorem \autoref{thm:real-cauchy-modulus-window-modulus-route}. It fixes the consumer route through $M,S,D,Q,E$ before the structural rows are used.
+
+Use window monotonicity from \autoref{thm:real-cauchy-modulus-window-monotonicity}. Strengthening the requested tail may enlarge the displayed finite window, but it does not delete the earlier window, ledger entry, readback row, or terminal seal.
+
+Apply seal determinacy from \autoref{thm:real-cauchy-modulus-seal-determinacy}. Componentwise $\hsame$ agreement on the displayed rows exposes the same terminal $\RealUp$ route to the consumer.
+
+Finally use tail-threshold determinacy, \autoref{thm:real-cauchy-modulus-tail-threshold-determinacy}. The stronger tail request remains on the same modulus-controlled path, so every $\RealUp$ or $\RegSeqRatUp$ completion consumer receives exactly the displayed handoff rows and no non-displayed completion principle.
+\end{proof}
 
 \begin{theorem}[Real Cauchy modulus seal handoff]
 \label{thm:real-cauchy-modulus-seal-handoff}
@@ -290,6 +310,7 @@ Now pass to the bounded consumer. The obligation surface of \autoref{thm:bounded
 
 The assumed componentwise matches identify the shared modulus, window, dyadic, readback, and seal rows at the interface. Thus a bounded tail-ledger read has only the composite finite passage displayed above, while the excluded completeness, quotient, choice, compactness, trichotomy, selected-limit, and host-equality coordinates remain absent from both carriers.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCauchyModulusUp.RealCauchyModulusCarrier\_bounded\_tail\_ledger\_factorization}
 
 \begin{theorem}[Real Cauchy modulus bounded readback coherence]
 \label{thm:real-cauchy-modulus-bounded-readback-coherence}
@@ -316,6 +337,7 @@ Finally apply bounded readback coherence, \autoref{thm:real-cauchy-modulus-bound
 
 The excluded alternatives have no coordinate in either carrier and cannot be inserted between the matched readback and seal rows. Therefore the accepted packet exposes one reusable finite tail window for the bounded RegSeqRat and Real consumers.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCauchyModulusUp.RealCauchyModulusCarrier\_uniform\_tail\_extraction}
 
 \begin{theorem}[Real Cauchy modulus finite-window tightening]
 \label{thm:realcauchymodulus-finite-window-tightening}
@@ -374,7 +396,7 @@ Finally apply ledger exhaustion from \autoref{thm:real-cauchy-modulus-ledger-exh
 \begin{closurestatus}{\RealCauchyModulusUp}
   \constructivestory{A $\RealCauchyModulusUp$ packet is generated from an explicit $\CauchyModulusUp$ precision schedule, finite $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-cauchy-modulus-carrier}, \autoref{def:real-cauchy-modulus-classifier}, \autoref{thm:real-cauchy-modulus-namecert-obligations}, \autoref{thm:real-cauchy-modulus-window-modulus-route}, \autoref{thm:real-cauchy-modulus-real-seal-nonescape}, \autoref{thm:real-cauchy-modulus-threshold-stability}, \autoref{thm:real-cauchy-modulus-ledger-exhaustion}, \autoref{thm:real-cauchy-modulus-root-unblock-scope}, \autoref{thm:real-cauchy-modulus-threshold-window-totality}, \autoref{thm:real-cauchy-modulus-regseqrat-seal-admission}, \autoref{thm:real-cauchy-modulus-precision-induction}, \autoref{thm:real-cauchy-modulus-window-monotonicity}, \autoref{thm:real-cauchy-modulus-seal-determinacy}, \autoref{thm:real-cauchy-modulus-window-scope}, \autoref{thm:real-cauchy-modulus-tail-threshold-determinacy}, \autoref{thm:real-cauchy-modulus-seal-handoff}, \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff}, \autoref{thm:real-cauchy-modulus-bounded-tail-ledger-factorization}, \autoref{thm:real-cauchy-modulus-bounded-readback-coherence}, \autoref{thm:real-cauchy-modulus-uniform-tail-extraction}, and \autoref{thm:realcauchymodulus-finite-window-tightening} seed the explicit modulus-controlled Real Cauchy read over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\BoundedRegularCauchyUp$.}
+  \scopeclosed{\autoref{def:real-cauchy-modulus-carrier}, \autoref{def:real-cauchy-modulus-classifier}, \autoref{thm:real-cauchy-modulus-namecert-obligations}, \autoref{thm:real-cauchy-modulus-window-modulus-route}, \autoref{thm:real-cauchy-modulus-real-seal-nonescape}, \autoref{thm:real-cauchy-modulus-threshold-stability}, \autoref{thm:real-cauchy-modulus-ledger-exhaustion}, \autoref{thm:real-cauchy-modulus-root-unblock-scope}, \autoref{thm:real-cauchy-modulus-threshold-window-totality}, \autoref{thm:real-cauchy-modulus-regseqrat-seal-admission}, \autoref{thm:real-cauchy-modulus-precision-induction}, \autoref{thm:real-cauchy-modulus-window-monotonicity}, \autoref{thm:real-cauchy-modulus-seal-determinacy}, \autoref{thm:real-cauchy-modulus-window-scope}, \autoref{thm:real-cauchy-modulus-tail-threshold-determinacy}, \autoref{thm:real-cauchy-modulus-tail-handoff}, \autoref{thm:real-cauchy-modulus-seal-handoff}, \autoref{thm:real-cauchy-modulus-cofinal-refinement-handoff}, \autoref{thm:real-cauchy-modulus-bounded-tail-ledger-factorization}, \autoref{thm:real-cauchy-modulus-bounded-readback-coherence}, \autoref{thm:real-cauchy-modulus-uniform-tail-extraction}, and \autoref{thm:realcauchymodulus-finite-window-tightening} seed the explicit modulus-controlled Real Cauchy read over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\BoundedRegularCauchyUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, countable choice, trichotomy, selected limits, open-cover compactness, or a Lean theorem.}
