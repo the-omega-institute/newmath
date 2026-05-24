@@ -145,6 +145,7 @@ $\NameCert$ rows of the two packets. The transported read cannot use
 trichotomy, host order, quotient stream equality, selected limits, or
 $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.PositiveRealUp.PositiveRealCarrier\_multiplicative\_radius\_transport}
 \begin{proof}
 Project the two accepted carriers of \autoref{def:positivereal-carrier}. Each
 projection exposes a sealed real row, an apartness-to-zero row, a positive
@@ -165,6 +166,38 @@ The carrier definition supplies no trichotomy coordinate, host order predicate,
 quotient stream equality, selected limit, or completeness witness. Hence the
 product-facing positivity read cannot draw on any evidence outside the two
 finite PositiveReal packets.
+\end{proof}
+
+\begin{theorem}[PositiveReal dyadic radius lower bound]
+\label{thm:positive-real-dyadic-radius-lower-bound}
+Every accepted $\PositiveRealUp$ packet whose positivity is read through the
+$\RealUp$ apartness row exposes a finite $\DyadicRatCoreUp$ radius row below
+the positive witness. The row is transported through the displayed
+$\RegSeqRatUp$ readback and $\StreamNameUp$ observation windows, and it is
+available to $\MetricBallUp$ and $\RealAlgOrderUp$ consumers as finite
+apartness-radius evidence without trichotomy, a host real selector, quotient
+stream equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:positivereal-carrier}. Its
+apartness coordinate $A$ is read over the sealed real row $R$, and its dyadic
+radius ledger $D$ is already displayed before any downstream order or metric
+consumer can inspect the packet.
+
+Use the apartness handoff of \autoref{thm:positivereal-apartness-handoff}. The
+handoff keeps the positive witness attached to the same finite
+$\StreamNameUp$ window and the same $\RegSeqRatUp$ readback row, so $D$ is read
+as a lower-radius row beneath that witness rather than as a host real choice.
+
+Transport follows the multiplicative radius route of
+\autoref{thm:positivereal-multiplicative-radius-transport}. The $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows preserve the dyadic radius ledger,
+the finite observation window, and the regular-rational readback componentwise.
+
+Thus a $\MetricBallUp$ or $\RealAlgOrderUp$ consumer receives exactly the
+displayed dyadic lower-radius row. Since the carrier contains no trichotomy,
+selector, quotient equality, selected limit, or completeness coordinate, no
+stronger real-order principle is exported.
 \end{proof}
 
 \closureat{PositiveRealUp}{seedStr}

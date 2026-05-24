@@ -40,3 +40,28 @@ Then apply \autoref{thm:authorized-generator-recursor-phase-real-ledger-nonescap
 
 Finally appeal to \autoref{thm:authorized-generator-recursor-real-stream-route} and the sibling chapters \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. Their readback and seal surfaces consume packet rows; they do not turn the AuthorizedGeneratorRecursor output into selected Real evidence, quotient stream equality, host equality, or an external proof producer.
 \end{proof}
+
+\begin{lemma}[AuthorizedGeneratorRecursor L10 output downstream coverage]
+\label{lem:authorized-generator-recursor-l10-output-downstream-coverage}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet, and let $c$ be an accepted local L10 consumer of the public output row $O$. If $c$ is visible to a $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer surface, then $c$ is exhausted by the finite alternatives and ledger rows already carried by $R$:
+\begin{enumerate}
+\item a $\StreamNameUp$ finite-request read of the displayed output row $O$;
+\item a $\RegSeqRatUp$ readback handoff through the same authorized output route;
+\item a $\RealUp$ seal consumer of the same output route;
+\item the ledger surface $A,H,C,P,G,N$, with $I,E,M,B,D$ retained as the upstream generator route.
+\end{enumerate}
+Consequently every request for a host-recursive output, quotient stream datum, selected Real witness, detached completion object, host equality, hidden generator state, or off-packet proof channel remains outside the BEDC packet.
+\end{lemma}
+\begin{proof}
+Start with the authorization closure in \autoref{thm:authorized-generator-recursor-l10-output-authorization-closure}. It states that any L10 public output read visible to $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumers must retain the full finite route $I,E,M,B,D,O,A,H,C,P,G,N$ before the consumer rows are public. Thus an accepted local consumer of $O$ cannot begin from a bare output token: it already carries the output row together with the audit, transport, continuation, package provenance, boundary, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ rows.
+
+For the stream-name alternative, apply \autoref{thm:authorized-generator-recursor-streamname-finite-request-publicity}. A finite-request section reads the recursor output only through $O,A,H,C,P,G,N$, with $I,E,M,B,D$ retained as the upstream generator route. Hence the $\StreamNameUp$ case lands in the first listed alternative and has no unbounded stream or detached recursion channel.
+
+For the regular-rational and Real-facing alternatives, apply \autoref{thm:authorized-generator-recursor-regseqrat-real-seal-output-exhaustion}. It says that every $\RegSeqRatUp$ readback consumer and every $\RealUp$ seal consumer exhausts the output route through the same finite packet. The only available public data are $O,A,H,C,P,G,N$ together with $I,E,M,B,D$, so these two cases land in the second and third alternatives, with the common ledger surface recorded in the fourth.
+
+The exclusion clause is the intersection of the two cited closures. The authorization closure rules out a host-recursive output, quotient stream datum, selected real witness, and off-packet proof channel at the point where $O$ becomes public. The readback-and-seal exhaustion theorem also rules out selected limits, quotient stream equality, host equality, detached completion objects, hidden generator state, and proof channels outside $R$. Since every accepted local consumer visible to the three named consumer surfaces has already been placed in one of the displayed finite alternatives, any excluded request would require a coordinate not present in $I,E,M,B,D,O,A,H,C,P,G,N$. Such a coordinate is not part of the accepted $\AuthorizedGeneratorRecursorUp$ packet.
+\end{proof}
