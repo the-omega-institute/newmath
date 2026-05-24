@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RealArchimedeanPropertyUp$}
+\label{ch:concrete-instances-real-archimedean-property-namecert}
+\origin{human}
+
+Bishop--Bridges constructive analysis treats Archimedean bounding as an explicit witness route rather than as a consequence of classical completeness. The $\RealArchimedeanPropertyUp$ packet records the finite route by which a displayed $\RealUp$ name obtains a dyadic bound usable by order-facing and completion-facing consumers. It sits over the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the dyadic presentation of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream window of \autoref{ch:concrete-instances-streamname-namecert}, the natural-number witness surface of \autoref{ch:concrete-instances-nat-namecert}, and the rational carrier of \autoref{ch:concrete-instances-rat-namecert}. The packet records a bounded inspection procedure for a named real; it does not assert host Archimedean completeness, trichotomy, quotient reals, selected bounds by choice, or Lean verification.
+
+\begin{definition}[Real Archimedean property carrier]
+\label{def:real-archimedean-property-carrier}
+A $\RealArchimedeanPropertyUp$ carrier is a finite $\BHist$ packet
+$$
+A=(R,D,N,Q,W,H,C,P,M)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $R$ is the displayed $\RealUp$ name whose finite Archimedean bound route is being certified.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger through which dyadic inspection bounds are recorded.
+\item $N$ is the $\NatUp$ witness row naming the integral stage at which the inspected real name is bounded.
+\item $Q$ is the $\RatUp$ comparison row translating the natural witness and dyadic tolerance into a rational bound statement.
+\item $W$ stores the paired $\StreamNameUp$ and $\RegSeqRatUp$ windows used to inspect the real name at the named tolerance level.
+\item $H$ stores componentwise $\hsame$ transport for the real name, dyadic ledger, natural witness, rational comparison row, window data, continuation row, provenance, and local naming.
+\item $C$ stores the displayed $\Cont$ replay from a consumer request through $R,D,N,Q,W,H,P,M$.
+\item $P$ is the $\Pkg$ provenance over $\RealArchimedeanPropertyUp$, $\RealUp$, $\DyadicRatCoreUp$, $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\RealArchimedeanPropertyUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $R,D,N,Q,W,H,C,P,M$. No host completeness theorem, trichotomy oracle, quotient-real equality, selected bound by choice, or ambient real-number principle is a coordinate of the carrier.
+\end{definition}
+
+\begin{theorem}[Real Archimedean property NameCert obligations]
+\label{thm:real-archimedean-property-namecert-obligations}
+For every accepted $\RealArchimedeanPropertyUp$ carrier $A=(R,D,N,Q,W,H,C,P,M)$, the local $\NameCert_{\RealArchimedeanPropertyUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed real name, dyadic tolerance ledger, natural witness row, rational comparison row, stream and regular-sequence windows, transport rows, continuation route, provenance, and local naming;
+\item witness coherence, requiring the natural-number row $N$ and rational row $Q$ to be read as the same bound witness for the inspected real name $R$;
+\item dyadic tolerance compatibility, requiring every bound read to pass through $D$ before the rational comparison row $Q$ is used by a consumer;
+\item window/readback compatibility, requiring finite inspections of $R$ to enter through the $\StreamNameUp$ and $\RegSeqRatUp$ windows stored in $W$;
+\item ledger non-escape, excluding host Archimedean completeness, trichotomy, quotient reals, selected bounds by choice, and ambient $\RealUp$ completeness from the local certificate.
+\end{enumerate}
+No Real Archimedean property obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:real-archimedean-property-carrier}. The real-name coordinate is $R$, the dyadic tolerance surface is $D$, the bound witness rows are $N$ and $Q$, and the inspection windows are stored in $W$.
+
+Witness coherence is componentwise. The same transport row $H$ carries $N$ and $Q$, while the same continuation row $C$ replays the route from a consumer request to both witness rows. Thus the natural and rational presentations cannot be separated by the classifier.
+
+Dyadic tolerance compatibility follows from the route order. A bound read first consults the dyadic ledger $D$, then uses $W$ to inspect the stream and regular rational data for $R$, and only then reaches the rational comparison row $Q$.
+
+The remaining clauses are the non-escape boundary. Since the carrier has no coordinate for host Archimedean completeness, trichotomy, quotient-real equality, selected choice data, or ambient real completeness, the local certificate exposes only the displayed rows $R,D,N,Q,W,H,C,P,M$.
+\end{proof}
+
+\begin{theorem}[Real Archimedean property dyadic-bound handoff]
+\label{thm:real-archimedean-property-dyadic-bound-handoff}
+Every order-facing, locatedness-facing, or completion-facing consumer of an accepted $\RealArchimedeanPropertyUp$ carrier reads the Archimedean bound through the finite route
+$$
+R \longmapsto W \longmapsto D \longmapsto N,Q,H,C,P,M .
+$$
+The consumer therefore receives a displayed $\RealUp$ name, $\StreamNameUp$ and $\RegSeqRatUp$ windows, a $\DyadicRatCoreUp$ tolerance ledger, $\NatUp$ and $\RatUp$ witness rows, structural transport, continuation replay, provenance, and local naming before using the bound. The route supplies no host Archimedean completeness theorem, no trichotomy principle, no quotient real, no selected bound by choice, and no Lean-checked theorem.
+\end{theorem}
+\begin{proof}
+Begin with a consumer of the accepted carrier $A$. By \autoref{def:real-archimedean-property-carrier}, the consumer can inspect the real name $R$ only through the stream and regular rational windows stored in $W$.
+
+The dyadic tolerance ledger $D$ is the only tolerance coordinate. Once the inspection window is fixed, the bound witness is read through the natural row $N$ and rational comparison row $Q$, with $H$ and $C$ transporting and replaying the same finite route.
+
+Apply \autoref{thm:real-archimedean-property-namecert-obligations}. Its witness coherence, dyadic compatibility, window compatibility, and non-escape clauses force all public consumers to use the same $W,D,N,Q,H,C,P,M$ route and prevent the excluded completeness, trichotomy, quotient, choice, and Lean-verification coordinates from entering the handoff.
+\end{proof}
+
+\closureat{RealArchimedeanPropertyUp}{seedStr}
+
+\begin{closurestatus}{\RealArchimedeanPropertyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-archimedean-property-carrier}, \autoref{thm:real-archimedean-property-namecert-obligations}, and \autoref{thm:real-archimedean-property-dyadic-bound-handoff} seed the finite Archimedean property route from displayed $\RealUp$ names through $\StreamNameUp$ and $\RegSeqRatUp$ windows, $\DyadicRatCoreUp$ tolerance ledgers, $\NatUp$ and $\RatUp$ witness rows, structural transport, continuation replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Archimedean completeness, trichotomy, quotient reals, selected bounds by choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, witness coherence, dyadic tolerance compatibility, window/readback compatibility, ledger non-escape, and consumer handoff for BEDC.Derived.RealArchimedeanPropertyUp.}
+  \constructivestory{A $\RealArchimedeanPropertyUp$ packet is generated from a RealUp name, a DyadicRatCoreUp tolerance ledger, NatUp and RatUp witness rows, StreamNameUp and RegSeqRatUp inspection windows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
