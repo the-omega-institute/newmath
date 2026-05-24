@@ -49,3 +49,23 @@ Next pass to the normalization-frontier and recursor-generator consumers. They m
 It remains to rule out hidden producers. A second generator, hidden induction principle, or proof-producing branch would require an additional constructor, eliminator, branch, descent, or output coordinate. Branch exhaustion, structural-descent locality, audit provenance factorization, and admission exhaustion leave no such coordinate, so the consumers remain locked to the finite packet.
 \end{proof}
 \leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorCarrier\_normalization\_frontier\_consumer\_lock}
+
+\begin{corollary}[AuthorizedGeneratorRecursor output-route strict local obstruction]
+\label{cor:authorized-generator-recursor-output-route-strict-local-obstruction}
+Let an accepted $\AuthorizedGeneratorRecursorUp$ packet
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be consumed by a normalization-frontier or recursor-generator downstream route as in \autoref{thm:authorized-generator-recursor-normalization-frontier-consumer-lock}. If that consumer displays a failure, refusal, separation, or countermodel row against a converse output reading, a reuse of the recursor output, or a second generator interpretation, then the displayed row obstructs only that named consumer-facing route through
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+It cannot be reinterpreted as a global impossibility theorem, a host theorem about all recursors, a hidden external validation of the failed route, or a second meaning of $O$ outside the authorized packet.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:authorized-generator-recursor-output-route-determinacy} first. Any accepted read of $O$ is determined by the displayed signature, eliminator, motive, branch, descent, audit, route, package, boundary, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ rows. In particular, there is no accepted output route detached from these rows and no downstream consumer may recover a second output meaning from the packet.
+
+Now pass to the normalization-frontier and recursor-generator consumers. By \autoref{thm:authorized-generator-recursor-normalization-frontier-consumer-lock}, every such route consumes $O$ only through the same finite packet and cannot add a second generator, hidden induction principle, or proof-producing branch source beyond the displayed rows.
+
+Consider a displayed failure, refusal, separation, or countermodel row in such a consumer. For the row to bear on the authorized output, the two cited theorems force its consumer-facing use to factor through the named packet coordinates. Therefore the row can block the advertised converse reading, reuse route, or second-generator interpretation only at those coordinates. Reading it as a global impossibility would require a theorem coordinate outside the packet; reading it as a host theorem would require a host-facing induction or proof row outside the packet; reading it as hidden external validation would require an external certificate route outside the packet. The determinacy theorem and the consumer lock exclude all three additional coordinates, so the obstruction remains strict and local to the named route.
+\end{proof}

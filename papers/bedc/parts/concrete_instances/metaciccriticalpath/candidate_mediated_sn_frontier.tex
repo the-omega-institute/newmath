@@ -1,0 +1,30 @@
+\begin{definition}[MetaCIC candidate-mediated SN frontier]
+\label{def:metacic-critical-path-candidate-mediated-frontier}
+For an accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+the candidate-mediated strong-normalization frontier is the finite subroute that displays the strong-normalization row $S$, the normal-form endpoint $N$, the handoff row $U$, the discharge socket $D$, the componentwise transport row $H$, the continuation row $C$, the provenance row $P$, and the local naming row $L$, together with the four local source faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ already recorded for the open-phase source ledger. The frontier may be consumed only as a boundary between the candidate-mediated SN evidence and the confluence-decidability handoff; it contains no coordinate for closed subject reduction, arbitrary strong normalization, global confluence, global beta-conversion decidability, quotient term equality, host equality, selected limits, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate-mediated SN frontier]\label{thm:metacic-critical-path-candidate-mediated-sn-frontier}
+Every candidate-mediated strong-normalization read of an accepted $\MetaCICCriticalPathUp$ packet that is passed to the confluence-decidability handoff must factor through the frontier of \autoref{def:metacic-critical-path-candidate-mediated-frontier}. In particular, the read must display $S,N,U,D,H,C,P,L$, keep the obstruction row $O$ and discharge socket $D$ available to the surrounding packet, and expose the four local faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before any confluence-facing or decidability-facing consumer reads the handoff row $U$.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated SN finite socket normal form, \autoref{thm:metacic-critical-path-candidate-sn-finite-socket-normal-form}. It confines the candidate-mediated read to the socket-aware packet rows $S,N,O,U,D,H,C,P,L$ together with the four local source faces.
+
+Next apply the SN confluence-decidability budget theorem, \autoref{thm:metacic-critical-path-sn-confluence-budget}. It requires any confluence-facing or decidability-facing consumer to read the same candidate budget surface before it consumes the handoff row $U$.
+
+The frontier definition simply names the common boundary needed by these two routes: the candidate-mediated read supplies $S,N,U,D,H,C,P,L$ and the four local faces, while the enclosing packet still retains $O$ and $D$ as visible blocked-route data. Since neither cited theorem supplies a coordinate for closed subject reduction, arbitrary strong normalization, global confluence, global beta-conversion decidability, quotient equality, host equality, selected limits, or $\RealUp$ completeness, the factorization cannot export any of those claims.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence-decidability consumer boundary]\label{thm:metacic-critical-path-confluence-decidability-consumer-boundary}
+Any confluence-facing or decidability-facing consumer that uses candidate-mediated strong-normalization evidence from $\MetaCICCriticalPathUp$ must consume only the frontier rows of \autoref{def:metacic-critical-path-candidate-mediated-frontier} and the existing handoff row $U$. The consumer may route closed-normal-form membership through $C,P,L$, but it may not treat the frontier as closed subject reduction, full consistency, arbitrary Church--Rosser, global beta-conversion decidability, a discharged socket, or an ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} to place the candidate-mediated read on the frontier rows and the four local faces. This supplies the SN-facing evidence that the confluence-decidability handoff is allowed to inspect.
+
+Now apply the MetaCIC SN confluence-decidability handoff, \autoref{thm:metacic-critical-path-sn-confluence-decidability-handoff}. It sends closed-normal-form membership decisions through the strong-normalization, confluence, and decidability budget rows and then through $C,P,L$ before the open-phase ledger is exported.
+
+Finally keep the socket and obstruction boundaries visible. The frontier does not fill $D$, and the handoff theorem does not erase $O$ or convert $U$ into a global theorem. Therefore the consumer obtains only the finite candidate-mediated boundary plus the existing handoff route, while the excluded subject-reduction, consistency, Church--Rosser, beta-decidability, socket-discharge, and completeness claims remain outside the packet.
+\end{proof}
