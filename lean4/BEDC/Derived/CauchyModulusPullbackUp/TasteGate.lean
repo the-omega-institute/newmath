@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -141,6 +142,20 @@ private theorem CauchyModulusPullback_toEventFlow_injective {x y : CauchyModulus
     (Eq.trans (CauchyModulusPullback_round_trip x).symm
       (Eq.trans hread (CauchyModulusPullback_round_trip y)))
 
+private theorem CauchyModulusPullback_fields_faithful :
+    ∀ x y : CauchyModulusPullbackUp,
+      cauchyModulusPullbackFields x = cauchyModulusPullbackFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk sourceX reindexedX routeX modulusX dyadicX readbackX realSealX transportX replayX
+      provenanceX nameX =>
+      cases y with
+      | mk sourceY reindexedY routeY modulusY dyadicY readbackY realSealY transportY replayY
+          provenanceY nameY =>
+          cases hfields
+          rfl
+
 instance cauchyModulusPullbackBHistCarrier : BHistCarrier CauchyModulusPullbackUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := cauchyModulusPullbackToEventFlow
@@ -153,6 +168,15 @@ instance cauchyModulusPullbackChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (CauchyModulusPullback_toEventFlow_injective heq)
+
+instance cauchyModulusPullbackFieldFaithful : FieldFaithful CauchyModulusPullbackUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := cauchyModulusPullbackFields
+  field_faithful := CauchyModulusPullback_fields_faithful
+
+def taste_gate : ChapterTasteGate CauchyModulusPullbackUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchyModulusPullbackChapterTasteGate
 
 def CauchyModulusPullbackCarrier [AskSetup] [PackageSetup]
     (source reindexed route modulus dyadic readback realSeal transport replay provenance name :
@@ -263,5 +287,33 @@ theorem CauchyModulusPullbackCarrier_namecert_obligations [AskSetup] [PackageSet
   exact
     ⟨sourceUnary, reindexedUnary, routeUnary, modulusUnary, dyadicUnary, readbackUnary,
       sealUnary, pulledUnary, routePull, thresholdPull, pkgSig, cert⟩
+
+namespace TasteGate
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+theorem CauchyModulusPullbackTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate CauchyModulusPullbackUp) ∧
+      Nonempty (FieldFaithful CauchyModulusPullbackUp) ∧
+        (∀ h : BHist,
+          cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist h) = h) ∧
+          (∀ x : CauchyModulusPullbackUp,
+            cauchyModulusPullbackFromEventFlow (cauchyModulusPullbackToEventFlow x) =
+              some x) ∧
+            (∀ x y : CauchyModulusPullbackUp,
+              cauchyModulusPullbackToEventFlow x = cauchyModulusPullbackToEventFlow y →
+                x = y) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨⟨cauchyModulusPullbackChapterTasteGate⟩,
+      ⟨cauchyModulusPullbackFieldFaithful⟩,
+      CauchyModulusPullback_decode_encode,
+      CauchyModulusPullback_round_trip,
+      fun _ _ heq => CauchyModulusPullback_toEventFlow_injective heq⟩
+
+end TasteGate
 
 end BEDC.Derived.CauchyModulusPullbackUp
