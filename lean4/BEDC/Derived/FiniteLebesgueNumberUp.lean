@@ -9,6 +9,8 @@ import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowNoExtraSource
 import BEDC.Derived.FiniteLebesgueNumberUp.RootRoutes
 import BEDC.Derived.FiniteLebesgueNumberUp.PositiveRadiusCompactNetExport
 import BEDC.Derived.FiniteLebesgueNumberUp.DyadicCoverUniformModulusHandoff
+import BEDC.Derived.FiniteLebesgueNumberUp.DyadicCoverCellSelection
+import BEDC.Derived.FiniteLebesgueNumberUp.FiniteRadiusNonchoice
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusCover
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
