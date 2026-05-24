@@ -3883,6 +3883,8 @@ import BEDC.Derived.MetricCompletionReflectorUp
 import BEDC.Derived.MetricCompletionUniquenessUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.BranchCoverage
 import BEDC.Derived.MetricCompletionUp.BranchDeterminacy
+import BEDC.Derived.MetricCompletionUp.BranchReadback
+import BEDC.Derived.MetricCompletionUp.Compatibility
 import BEDC.Derived.MetricCompletionUp.HandoffRoutes
 import BEDC.Derived.MetricCompletionUp.NameCertObligations
 import BEDC.Derived.MetricCompletionUp.ReadbackLedger
