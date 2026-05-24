@@ -32,6 +32,7 @@ The classifier compares accepted carriers only by the displayed interval row, th
 \label{thm:regulated-real-function-namecert-obligations}
 For the carrier of \autoref{def:regulated-real-function-namecert-surface}, the local $\NameCert_{\RegulatedRealFunctionUp}$ surface consists exactly of carrier admission for $G=(I,A,T,U,E,H,C,P,N)$, interval-domain admission through \autoref{ch:concrete-instances-closed-unit-interval-namecert}, finite step-approximation admission through \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, uniform-tail routing through \autoref{ch:concrete-instances-uniformlimit-namecert}, endpoint sealing through \autoref{ch:concrete-instances-regular-located-cauchy-real-namecert}, componentwise transport, continuation replay, provenance, local naming, and non-escape from hidden function-space equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegulatedRealFunctionUp.RegulatedRealFunctionCarrier\_namecert\_obligations}
 \begin{proof}
 Project the accepted carrier. The interval row $I$, approximation ledger $A$, uniform tail ledger $T$, uniform-limit route $U$, endpoint seal row $E$, transports $H$, continuations $C$, provenance $P$, and local name $N$ are the only public coordinates.
 
@@ -98,6 +99,20 @@ Step-approximation coverage is supplied by \autoref{thm:regulated-real-function-
 The tail and endpoint boundary is supplied by \autoref{thm:regulated-real-function-uniform-limit-seal-nonescape}. It places endpoint-facing reads on the route from $I,A,T$ to $U$ and then to $E$, excluding host limits, quotient equality, compactness, and ambient completeness.
 
 Finally use \autoref{thm:regulated-real-function-integration-facing-handoff-boundary}. Later Darboux, Riemann, or regulated-integral consumers may consume the displayed interval, approximation, uniform-tail, uniform-limit, and endpoint rows, but they do not add an integration coordinate to the regulated-function packet. These four rows close the obligation surface exactly at the stated boundary.
+\end{proof}
+
+\begin{theorem}[Regulated real function uniform step route]
+\label{thm:regulatedrealfunction-uniform-step-route}
+Every consumer of an accepted $\RegulatedRealFunctionUp$ packet reads the $\ClosedUnitIntervalUp$ row, the $\DyadicStepFunctionUp$ approximation ledger, the $\UniformLimitUp$ route, and the $\RegularLocatedCauchyRealUp$ endpoint seal in that order. The supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are preserved componentwise along the same route, so no consumer can reach an endpoint, integration-facing handoff, or local certificate row without first replaying the closed-domain and dyadic-step data.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regulated-real-function-namecert-obligations}. They identify the only public rows as $I,A,T,U,E,H,C,P,N$, with $I$ carrying the closed interval, $A$ the dyadic step approximations, $T$ the uniform tail ledger, $U$ the uniform-limit route, and $E$ the endpoint seal.
+
+Apply \autoref{thm:regulated-real-function-step-approximation-coverage}. A consumer request first enters through the $\ClosedUnitIntervalUp$ row and then chooses a displayed $\DyadicStepFunctionUp$ approximant; the approximation ledger cannot be bypassed because the request is scoped by $I$ and $A$ before $T$ is inspected.
+
+Next use \autoref{thm:regulated-real-function-uniform-limit-seal-nonescape}. The tail ledger feeds the $\UniformLimitUp$ route, and endpoint-facing data appears only after that route reaches the $\RegularLocatedCauchyRealUp$ seal.
+
+Finally combine \autoref{thm:regulated-real-function-integration-facing-handoff-boundary} with \autoref{thm:regulated-real-function-obligation-closure}. Integration-facing reads and local certificate reads consume the same ordered surface, while $H,C,P,N$ preserve transport, replay, provenance, and naming without adding any alternate endpoint or integration coordinate.
 \end{proof}
 
 \begin{closurestatus}{\RegulatedRealFunctionUp}
