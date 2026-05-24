@@ -40,3 +40,19 @@ Next use the ledger and audit rows. \autoref{thm:authorized-generator-recursor-a
 
 Finally use the boundary rows. The ground-compiler handoff and public-consumer boundary theorems keep $G,N$ attached to any terminal readback. Since the carrier has no coordinate for a hidden generator, detached branch budget, unaudited output, off-packet boundary witness, or external recursion principle, the displayed rows exhaust the terminal readback surface.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor acceptance budget strict obstruction]
+\label{cor:authorized-generator-recursor-acceptance-budget-strict-obstruction}
+In the acceptance-budget surface for $\AuthorizedGeneratorRecursorUp$, a ground-route attempt missing the boundary row $G$ is a strict local obstruction. It blocks exactly the attempted converse or reuse route that reads $O$ as a public ground-compiler handoff through the displayed carrier
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+It does not assert that accepted recursor output is globally impossible, that the host has supplied an independent theorem, or that hidden external validation has been found. Any such reading would require a coordinate outside the accepted source, branch, budget, audit, transport, continuation, package, boundary, and local $\NameCert$ rows.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:authorized-generator-recursor-acceptance-budget-cover}, every consumer-facing read of an accepted output factors through the finite carrier $I,E,M,B,D,O,A,H,C,P,G,N$ before $O$ is public. Thus a consumer route can use source data through $I,E,M$, branch and descent budget data through $B,D$, output and audit data through $O,A$, transport and continuation data through $H,C$, package provenance through $P$, boundary data through $G$, and the local certificate through $N$; there is no additional consumer coordinate in the acceptance-budget cover.
+
+Now apply \autoref{thm:authorized-generator-recursor-ground-route-refusal-surface}. When $G$ is absent, the named route is retained as $\mathsf{GAP}$-ledger content and is not exported as a public ground route. The refusal therefore attaches to the single missing boundary coordinate required for ground-compiler consumption. It leaves the listed source, branch, output, audit, continuation, provenance, and naming rows in their ledger roles, but it denies the readback that would reuse those rows as a completed ground-compiler handoff.
+
+The obstruction is strict because both cited theorems keep the argument on the same finite packet. A global impossibility claim would need a row saying that no accepted $\AuthorizedGeneratorRecursorUp$ output can exist, but the acceptance-budget cover instead starts from accepted output and lists its required rows. A host theorem reading would need a coordinate that exports a theorem outside the carrier, while the refusal surface exports only when $G$ is present in that carrier. A hidden external validation reading would need an off-packet certificate or validation row, but the displayed carrier ends at the local $\NameCert$ row $N$. Hence the failure blocks only the named ground-route converse or reuse attempt and cannot be reinterpreted as a global impossibility, a host theorem, or hidden external validation.
+\end{proof}

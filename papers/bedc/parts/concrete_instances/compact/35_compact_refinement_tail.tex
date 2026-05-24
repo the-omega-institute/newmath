@@ -314,3 +314,51 @@ checked compact finite refinement chain compact-nonempty-forward theorem.
 Together these components form the advertised refinement certificate package.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_finite\_refinement\_complete\_package}
+
+\begin{corollary}[Compact located refinement chain continuation determinacy]
+\label{cor:compact-located-refinement-chain-continuation-determinacy}
+Fix the compact located refinement-chain rows
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,
+finalLocated,finalIntermediate,finalCompact)
+$$
+and the starting compactness ledger $\Cont(intermediate,finite,compact)$. Any
+consumer-facing continuation use accepted by this chapter factors through the
+following displayed rows and through no further coordinate: the located
+refinement tail from $located$ to $finalLocated$, the intermediate refinement
+tail from $intermediate$ to $finalIntermediate$, and the finite compactness
+suffix $\Cont(finalIntermediate,finite,finalCompact)$. Consequently, if a second
+accepted use has the same starting compactness ledger and the same named final
+located and intermediate ledgers, then it names the same finite route, the same
+normal-form endpoint, and the same exactness decision up to $\hsame$; in
+particular, it cannot choose an alternate hidden coordinate or a duplicate
+classifier source.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:compact-located-refinement-chain-continuation-witness} to the
+accepted chain and the fixed starting compactness ledger. The witness exposes a
+unary refinement history $extra$ together with exactly three continuation rows:
+$$
+\Cont(located,extra,finalLocated),\quad
+\Cont(intermediate,extra,finalIntermediate),\quad
+\Cont(finalIntermediate,finite,finalCompact).
+$$
+These are the only route, transport, and readback rows made available by the
+continuation witness, so a consumer-facing use that is admitted by the compact
+located refinement-chain surface must read its finite route from $extra$, its
+normal form from the two named endpoints, and its compact exactness decision
+from the displayed finite suffix.
+
+Now compare with any second accepted use over the same starting compactness
+ledger and the same final located and intermediate ledgers. By
+\autoref{thm:compact-located-refinement-chain-common-source-final-located-deterministic},
+the common source and final intermediate row identify the located endpoints and
+supply a common located refinement witness. With the located and intermediate
+rows fixed, \autoref{thm:compact-located-refinement-chain-final-compact-deterministic}
+identifies the final compact endpoints. Thus the two accepted uses have the
+same exposed refinement tail and the same compact suffix up to $\hsame$. Any
+purported extra coordinate would have to change either the located endpoint,
+the intermediate endpoint, or the final compact endpoint; the cited determinacy
+rows identify all three, so no unlisted coordinate or second classifier source
+survives the comparison.
+\end{proof}

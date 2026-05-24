@@ -35,3 +35,45 @@ Use the RealUp consumer boundary, \autoref{thm:cauchy-limit-seal-realup-consumer
 
 The non-escape boundary then rules out any second route through quotient streams, selected limits, host equality, hidden tail data, independent completion objects, or ambient completeness. Thus the displayed factorization is not merely sufficient for a Real-facing read; it is exactly the accepted CauchyLimitSeal handoff surface.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal RegSeq--Real bridge determinacy]
+\label{thm:cauchy-limit-seal-regseq-real-bridge-determinacy}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Any consumer-facing use of the RegSeq--Real sibling bridge for $L$, whether presented as a route, a transport, a readback, or a handoff, is admitted only through the local rows displayed by \autoref{thm:cauchy-limit-seal-regseqrat-real-handoff-exactness}: the $\StreamNameUp$ finite window $S$, the matching $\RegSeqRatUp$ regular row $X$, the $\DyadicRatCoreUp$ observation ledger $D$, the local $\RealUp$ seal row $E$, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by $T,P,N$.
+
+Consequently the bridge is determinate at the consumer surface: every accepted use factors through the finite public route
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealUp
+$$
+inside the public route packet of $L$. A requested quotient stream, selected host limit, host real equality, hidden tail oracle, independent completion object, alternate readback, second finite window, or ambient completeness coordinate is not a bridge coordinate of this RegSeq--Real sibling dependency.
+\end{theorem}
+\begin{proof}
+Start with the sibling dependency theorem \autoref{thm:cauchy-limit-seal-regseq-real-sibling-dependency}. It says that an accepted $\CauchyLimitSealUp$ handoff is not a standalone completion principle: the handoff consumes the StreamName finite observations, the RegSeqRat regular Cauchy rows, and the RealUp public seal and readback row.
+
+Refine that dependency by the handoff exactness theorem \autoref{thm:cauchy-limit-seal-regseqrat-real-handoff-exactness}. Exactness identifies the consumer-facing bridge as the displayed finite route through the $\StreamNameUp$ window, the $\RegSeqRatUp$ regular row, the $\DyadicRatCoreUp$ ledger, and the $\RealUp$ seal, with transport carried only by the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Thus any route, transport, readback, or handoff that is accepted by the consumer has already been forced through those local rows.
+
+It remains to rule out hidden alternatives. The root L10 sibling route of \autoref{thm:cauchy-limit-seal-root-l10-sibling-route} places every Real-facing or completion-facing route through the same finite-window, regular-readback, dyadic-ledger, and Real-seal surface and exports no quotient stream, selected host limit, host real equality, hidden tail oracle, or ambient completeness row.
+
+Finally use the public route packet and boundary, \autoref{def:cauchy-limit-seal-public-route-packet} and \autoref{thm:cauchy-limit-seal-public-route-boundary}. They identify the public coordinates of $L$ as the displayed carrier rows and their visible transport, package, and naming data. The non-escape boundary \autoref{thm:cauchy-limit-seal-non-escape} prevents any omitted coordinate from being supplied after the route reaches the public surface. Therefore the cited local rows exhaust the RegSeq--Real sibling bridge, and every unlisted coordinate is unavailable to a consumer.
+\end{proof}
+
+\begin{corollary}[CauchyLimitSeal RegSeq--Real sibling dependency determinacy]
+\label{cor:cauchy-limit-seal-regseq-real-sibling-dependency-determinacy}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier, and suppose a consumer-facing use of the RegSeq--Real sibling dependency is accepted after the displayed local rows
+$$
+S,X,D,E,T,P,N
+$$
+are fixed. Then the use has only the finite consumer surface named in \autoref{thm:cauchy-limit-seal-regseq-real-bridge-determinacy}: the route
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealUp,
+$$
+the corresponding window-ledger normal form, and the exactness decision supplied by \autoref{thm:cauchy-limit-seal-regseqrat-real-handoff-exactness} are all read from the same displayed rows. In particular, an accepted route, transport, readback, handoff, normal-form claim, or exactness claim cannot choose an alternate finite window, a second regular row, a duplicate classifier source, a hidden tail coordinate, a quotient stream, a selected host limit, host real equality, an independent completion object, or ambient completeness data.
+\end{corollary}
+\begin{proof}
+Apply the RegSeq--Real bridge determinacy theorem, \autoref{thm:cauchy-limit-seal-regseq-real-bridge-determinacy}. It states that every consumer-facing use of the sibling bridge, whether presented as a route, transport, readback, or handoff, is admitted only through the local rows displayed by \autoref{thm:cauchy-limit-seal-regseqrat-real-handoff-exactness}: the finite window $S$, the regular row $X$, the dyadic ledger $D$, the seal row $E$, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by $T,P,N$.
+
+Now use the handoff exactness theorem, \autoref{thm:cauchy-limit-seal-regseqrat-real-handoff-exactness}. Its exactness criterion identifies the accepted Real-facing handoff precisely with the displayed finite route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$, with all transport carried only by the visible packet rows. Hence a consumer that asks for an exactness decision has no independent source from which to answer that decision; it must answer by checking whether the proposed use factors through the same finite route.
+
+The same reasoning fixes the normal-form reading. A normal-form claim for this sibling dependency is a consumer-facing presentation of the accepted bridge, so by bridge determinacy it is already confined to the displayed rows. Since exactness makes those rows the entire Real-facing handoff surface, the normal form cannot split off a second window, a second regular readback, or a duplicate classifier source.
+
+The excluded coordinates are therefore unavailable for every accepted consumer presentation. A quotient stream, selected host limit, host real equality, hidden tail coordinate, independent completion object, ambient completeness datum, alternate finite window, or duplicate classifier source is not among the rows named by determinacy and is also not part of the exact handoff surface. Once the local rows are fixed, every accepted use must pick the same finite route, the same normal-form surface, and the same exactness decision named by the chapter.
+\end{proof}
