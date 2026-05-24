@@ -39,4 +39,32 @@ theorem LocatedSupremumCarrier_regseqrat_handoff_route [AskSetup] [PackageSetup]
     ⟨bracketUnary, handoffUnary, consumerUnary, bracketRoute, handoffRoute, consumerRoute,
       pkgSig⟩
 
+theorem LocatedSupremumCarrier_regseqrat_real_handoff_stability [AskSetup] [PackageSetup]
+    {L U A W R E H C P N approximationRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedSupremumCarrier L U A W R E H C P N bundle pkg ->
+      Cont A R approximationRead ->
+        Cont approximationRead E realRead ->
+          PkgSig bundle realRead pkg ->
+            UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory approximationRead ∧
+              UnaryHistory realRead ∧ Cont A R approximationRead ∧
+                Cont approximationRead E realRead ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: LocatedSupremumCarrier BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier approximationRoute realRoute realPkg
+  have unaryR : UnaryHistory R := carrier.left
+  have unaryA : UnaryHistory A := carrier.right.left
+  have carrierRoute : Cont R A E := carrier.right.right.left
+  have pkgSig : PkgSig bundle P pkg :=
+    carrier.right.right.right.right.right.right.right.left
+  have unaryE : UnaryHistory E :=
+    unary_cont_closed unaryR unaryA carrierRoute
+  have approximationUnary : UnaryHistory approximationRead :=
+    unary_cont_closed unaryA unaryR approximationRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed approximationUnary unaryE realRoute
+  exact
+    ⟨unaryR, unaryE, approximationUnary, realUnary, approximationRoute, realRoute, pkgSig,
+      realPkg⟩
+
 end BEDC.Derived.LocatedSupremumUp
