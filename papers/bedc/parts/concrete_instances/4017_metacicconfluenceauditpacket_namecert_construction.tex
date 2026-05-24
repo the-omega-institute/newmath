@@ -272,6 +272,30 @@ coordinate for full substitution compatibility, subject reduction, arbitrary
 closed-term Church--Rosser, or a quotient over reductions.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-pair normalization audit]
+\label{thm:metacic-confluence-audit-critical-pair-normalization}
+For an accepted $\MetaCICConfluenceAuditPacketUp$ carrier
+$$
+A=(D,C,N,A_0,S,R,H,T,P,L),
+$$
+any critical-pair normalization consumer of the audit packet must route through the candidate-mediated strong-normalization row, the normal-fragment row $N$, the conditional parallel-diamond boundary $D,C$, the closed substitution boundary $S$, and the subject-reduction separation row $R$ before any confluence claim is read. The carrier may therefore audit a critical-pair normalization path only through the finite route
+$$
+D,C,N,A_0,S,R \longmapsto H,T,P,L.
+$$
+It exports no full substitution compatibility, no arbitrary strong-normalization theorem, no subject-reduction discharge, and no closed Church--Rosser theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $D,C,N,A_0,S,R,H,T,P,L$. These are the only rows visible to a critical-pair normalization consumer.
+
+First read the candidate-mediated strong-normalization boundary of \autoref{thm:metacic-confluence-audit-candidate-mediated-sn}. It permits a candidate witness to be recorded as audit data attached to the obstruction surface, but it does not turn that witness into arbitrary strong normalization.
+
+Next read the normal-fragment route of \autoref{thm:metacic-confluence-audit-normal-fragment}. The row $N$ and the source-shape row $A_0$ cover only the listed closed-normal and atom or source-shape fragments, with $H,T,P,L$ preserving and replaying that finite surface.
+
+The conditional and closed-substitution boundaries must still be crossed. Apply \autoref{thm:metacic-confluence-audit-packet-conditional-boundary} for the $D,C$ bridge rows, and \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary} for the substitution row $S$.
+
+Finally apply the subject-reduction separation of \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation}. The row $R$ keeps the confluence audit apart from the sibling subject-reduction discharge packets, so the consumer can read a normalization audit route but cannot extract full substitution compatibility, arbitrary strong normalization, subject reduction, or closed Church--Rosser.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit residual critical-pair boundary]
 \label{thm:metacic-confluence-audit-residual-critical-pair-boundary}
 Every residual critical-pair read of an accepted $\MetaCICConfluenceAuditPacketUp$ carrier factors through the displayed rows $D,C,N,A_0,S,R,H,T,P,L$ and through the same $\mathsf{BetaCriticalPair}$-facing boundary named by the confluence audit packet. The read may classify a residual pair as belonging to the conditional diamond window, the normal-fragment window, or the substitution-obstruction window, but it does not prove closed Church--Rosser, subject reduction, full substitution compatibility, or a hidden substitution oracle.
