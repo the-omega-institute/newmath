@@ -45,3 +45,45 @@ Next use the branch audit ledger. It ties the branch package and audit row toget
 
 Finally apply root host-boundary NameCert exhaustion and the closed-substitution boundary sibling. The boundary row $G$ exports only the displayed NameCert packet, while $\ClosedSubstitutionBoundaryUp$ and $\ClosedTermSubstitutionUp$ consume closed substitution as finite boundary rows rather than as a general substitution theorem. Hence the handoff remains inside $I,E,M,B,D,O,A,H,C,P,G,N$ and none of the excluded external principles is exported.
 \end{proof}
+
+\begin{lemma}[AuthorizedGeneratorRecursor output readiness bridge determinacy]
+\label{lem:authorized-generator-recursor-output-readiness-bridge-determinacy}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+any downstream consumer that reads the output row $O$ as a route, transport, readback, or closed-substitution handoff factors through the same finite rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The route part is $I,E,M,B,D,O,A$, the transport and readback part is $H,C,P$, and the boundary-certificate part is $G,N$. In particular, there is no consumer-facing bridge coordinate for an unlisted branch table, detached transport, off-packet readback, ambient substitution calculus, hidden generator, host equality, external axiom channel, or second $\NameCert$ row.
+\end{lemma}
+\begin{proof}
+Start with output readiness. By \autoref{thm:authorized-generator-recursor-output-readiness}, the row $O$ is public for downstream closed-substitution and generator-audit consumers only after the accepted signature, emitted recursor, motive, branch package, descent row, audit row, componentwise transport, continuation route, package provenance, host-boundary row, and local naming row have all been retained in the same packet. Thus a consumer-facing read of $O$ already begins from the displayed carrier $R$, not from an independent output surface.
+
+Apply the branch audit ledger to the route side. \autoref{thm:authorized-generator-recursor-branch-audit-ledger} says that any public branch read reaching $O$ must pass through $I,E,M,B,D$ and then through $A,H,C,P,G,N$. This makes the bridge deterministic on branch routes: the consumer may cite the branch package only together with the audit ledger and the later transport, continuation, provenance, boundary, and naming rows, so a detached branch table has no route to the closed-substitution boundary, recursor generator, or authorization row.
+
+Now apply the closed-substitution handoff. \autoref{thm:authorized-generator-recursor-closed-substitution-handoff} sends every closed-substitution, closed-term substitution, and generator-audit consumer through the displayed finite route $I,E,M,B,D,O,A,H,C,P,G,N$. It also states that the handoff preserves the boundary, recursor-generator, and authorization data only as finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Hence the transport and readback surfaces are exactly $H,C,P$ attached to $O,A$, and the boundary certificate surface is exactly $G,N$.
+
+The cited rows exhaust the consumer-facing bridge. A displayed route is covered by the branch-audit prefix and audit suffix, a transport or readback is covered by the $\hsame$, $\Cont$, and $\Pkg$ rows, and a closed-substitution handoff is covered by the boundary and local $\NameCert$ rows of the same packet. Since the carrier of \autoref{def:authorized-generator-recursor-carrier} displays no coordinate outside $R$, an unlisted bridge coordinate has no factor through which a consumer can read $O$.
+\end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor output readiness determinacy]
+\label{cor:authorized-generator-recursor-output-readiness-determinacy}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet, and fix the displayed rows of $R$. Any accepted downstream use of the output readiness surface that reads $O$ as a finite route, packet-local normal-form readiness claim, readback, closed-substitution handoff, or exactness decision must use the route, transport, readback, boundary, and local certificate already named by those rows. The route side is fixed by $I,E,M,B,D,O,A$, the transport and readback side is fixed by $H,C,P$, and the boundary-certificate side is fixed by $G,N$. Hence two accepted consumers over the fixed rows determine the same finite route and the same packet-local readiness or exactness decision named by the chapter; there is no alternate hidden coordinate, detached branch table, off-packet readback, ambient substitution calculus, hidden generator, host equality, external axiom channel, second $\NameCert$ row, or duplicate classifier source.
+\end{corollary}
+\begin{proof}
+Apply \autoref{lem:authorized-generator-recursor-output-readiness-bridge-determinacy}. It says that every downstream consumer reading $O$ as a route, transport, readback, or closed-substitution handoff factors through the same finite rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+It also separates the rows by role: the route part is $I,E,M,B,D,O,A$, the transport and readback part is $H,C,P$, and the boundary-certificate part is $G,N$. Thus a consumer-facing normal-form readiness claim or exactness decision has no independent surface; it is a packet-local reading of the displayed route, transport, readback, and boundary rows attached to $O$.
+
+Use \autoref{thm:authorized-generator-recursor-branch-audit-ledger} on the route side. Any public branch read that reaches $O$ must pass through $I,E,M,B,D$ and then through $A,H,C,P,G,N$, and it cannot cite a branch table detached from the audit ledger. Therefore the branch package cannot supply a second source for the same output readiness decision after the rows of $R$ have been fixed.
+
+The remaining possible alternatives are exactly the interfaces excluded by the bridge determinacy lemma: an unlisted branch table, detached transport, off-packet readback, ambient substitution calculus, hidden generator, host equality, external axiom channel, or second $\NameCert$ row. A duplicate classifier source would have to enter through one of those excluded interfaces or through an additional carrier coordinate outside $R$. Since the fixed carrier displays no such coordinate, every accepted consumer use factors through the same listed rows and therefore selects the same chapter-named route, readiness readback, or exactness decision.
+\end{proof}

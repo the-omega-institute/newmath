@@ -44,3 +44,25 @@ The boundary side is supplied by \autoref{thm:authorized-generator-recursor-root
 
 Finally apply \autoref{thm:authorized-generator-recursor-ground-compiler-authorization}. Since every ground-compiler consumer reads $O$ only after the carrier, audit, boundary, package, and local $\NameCert$ rows are retained, the output row has no nonescaping consumer route apart from $A,G,N$ and the finite packet that carries them.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor ground-compiler authorization strict obstruction]
+\label{cor:authorized-generator-recursor-ground-compiler-authorization-strict-obstruction}
+Let an accepted $\AuthorizedGeneratorRecursorUp$ root packet be read by a ground-compiler consumer. Suppose a displayed failure, refusal, separation, or countermodel row is cited against a named converse or reuse route for the output row $O$. Then the row is a strict local obstruction: it blocks only the named route whose consumer-facing use tries to read, omit, detach, replace, or bypass one of the displayed packet rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+In particular every permitted consumer-facing use of the cited row factors through the audit row $A$, the componentwise transport row $H$, the displayed $\Cont$ row $C$, the package row $P$, the ground-compiler boundary row $G$, and the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$ before it can speak about $O$. The same row cannot be reinterpreted as a global impossibility theorem, a host theorem, hidden external validation, or a certificate for any coordinate not displayed by the accepted packet.
+\end{corollary}
+\begin{proof}
+Start with finite route exposure. By \autoref{thm:authorized-generator-recursor-finite-route-exposure}, every public route exposed by the accepted packet is exhausted by
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The theorem also excludes an unregistered branch, a hidden induction channel, and an off-packet generator path beyond the accepted signature, eliminator, motive, branch, descent, output, audit, transport, continuation, package, boundary, and local certificate rows. Hence any consumer-facing use of a displayed failure, refusal, separation, or countermodel row has no public coordinate outside that finite list.
+
+Now apply output-audit nonescape, \autoref{thm:authorized-generator-recursor-output-audit-nonescape}. A consumer of $O$ cannot detach the output row from audit provenance $A$, boundary exposure $G$, and local certification $N$; it must preserve the same displayed route through those rows. Together with the ground-compiler authorization route already displayed in the chapter, this forces the consumer-facing readback through $A,H,C,P,G,N$, where $H$ carries componentwise transport, $C$ carries the displayed $\Cont$ replay, $P$ carries package provenance, $G$ carries the ground-compiler boundary, and $N$ carries the local name certificate.
+
+Consider the cited displayed row. If the named converse or reuse route asks to read $O$ while omitting, replacing, detaching, or bypassing one of the rows above, the two cited theorems place the obstruction exactly at that missing packet coordinate. Thus the row blocks that named route and no other route that remains inside the displayed carrier.
+
+It remains to rule out stronger readings. A global impossibility theorem would require a public conclusion not confined to the accepted packet and not indexed by the named failed route. A host theorem would require a host-facing theorem coordinate not among $I,E,M,B,D,O,A,H,C,P,G,N$. Hidden external validation would require an extra validation or certificate row outside $A,H,C,P,G,N$. Finite route exposure gives no such coordinate, and output-audit nonescape prevents $O$ from being read apart from the displayed audit, boundary, transport, continuation, package, and local naming route. Therefore the obstruction remains strict and local to the named ground-compiler converse or reuse route.
+\end{proof}
