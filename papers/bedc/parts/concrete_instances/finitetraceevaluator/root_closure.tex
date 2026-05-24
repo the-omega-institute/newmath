@@ -86,19 +86,51 @@ predicate, self-validator, total halting predicate, or unbounded evaluator can
 be repacked from the root boundary package.
 \end{proof}
 
+\begin{theorem}[FiniteTraceEvaluator public root export]
+\label{thm:finite-trace-evaluator-public-root-export}
+For an accepted $\FiniteTraceEvaluatorUp$ packet $E=(I,T,A,V,H,C,P,N)$, the
+public export surface consists exactly of coded input rows, finite trace-step
+rows, accepted-result classifier rows, validation-boundary rows, componentwise
+$\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, the local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row, and the checked TasteGate marker
+\texttt{BEDC.Derived.FiniteTraceEvaluatorUp.taste\_gate}. The export contains
+no host validation, total halting predicate, truth predicate for
+$\mathrm{CIC}^{*}$ sentences, unbounded evaluator, or bridge-level semantics.
+\end{theorem}
+\begin{proof}
+Project the carrier rows named in \autoref{def:finite-trace-evaluator-carrier}.
+They are exactly the coded input, trace-step, accepted-result classifier,
+validation-boundary, transport, continuation, provenance, and local naming rows
+of $E$.
+
+Apply \autoref{thm:finite-trace-evaluator-root-trace-result-totality}. It
+places every accepted-result read on the route $I \to T \to A$ before any
+public consumer can inspect the remaining rows.
+
+Apply \autoref{thm:finite-trace-evaluator-root-validation-boundary} and
+\autoref{thm:finite-trace-evaluator-root-boundary-package}. They make
+$V,H,C,P,N$ the full validation-facing boundary and keep the checkpoint
+consumer inside the same displayed packet.
+
+The checked TasteGate marker records that the same finite packet is visible as
+one carrier for downstream reflection consumers. Since the refused objects have
+no carrier row, the public export surface has no host validator, total halting
+predicate, truth predicate, unbounded evaluator, or bridge-level semantic row.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FiniteTraceEvaluatorUp$ packet whose public read treats the input-only trace shape and the accepted-result shape as the same packet fails the carrier separation witnessed by the displayed $A,V$ rows.}
 \independenceWitness{runtimecandidateboundary, haltingdistinctiontrace, finite-trace-gap-socket, reflection-runtime-checkpoint: none is bijective to $\FiniteTraceEvaluatorUp$ because those siblings expose runtime candidate, halting distinction, gap socket, or reflection checkpoint rows, while this carrier binds coded input, finite trace, accepted-result classifier, validation boundary, transport, continuation, provenance, and local naming in one evaluator packet.}
 
-\closureat{FiniteTraceEvaluatorUp}{scopedStr}[BEDC.Derived.FiniteTraceEvaluatorUp.FiniteTraceEvaluatorTasteGate\_single\_carrier\_alignment]
+\closureat{FiniteTraceEvaluatorUp}{publicStr}[BEDC.Derived.FiniteTraceEvaluatorUp.FiniteTraceEvaluatorTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\FiniteTraceEvaluatorUp}
   \constructivestory{A $\FiniteTraceEvaluatorUp$ packet is generated from coded input rows, finite trace-step rows, accepted-result classifier rows, a validation-boundary row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:finite-trace-evaluator-carrier}, \autoref{thm:finite-trace-evaluator-namecert-obligations}, \autoref{thm:finite-trace-evaluator-obligation-closure-status}, \autoref{thm:finite-trace-evaluator-root-trace-result-totality}, \autoref{thm:finite-trace-evaluator-root-validation-boundary}, and \leanchecked{BEDC.Derived.FiniteTraceEvaluatorUp.taste\_gate} bind the finite evaluator trace carrier, accepted-result classifier, validation boundary, ledger exhaustion surface, downstream consumer boundary, and TasteGate instance.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:finite-trace-evaluator-carrier}, \autoref{thm:finite-trace-evaluator-namecert-obligations}, \autoref{thm:finite-trace-evaluator-obligation-closure-status}, \autoref{thm:finite-trace-evaluator-root-trace-result-totality}, \autoref{thm:finite-trace-evaluator-root-validation-boundary}, \autoref{thm:finite-trace-evaluator-root-boundary-package}, \autoref{thm:finite-trace-evaluator-public-root-export}, and \leanchecked{BEDC.Derived.FiniteTraceEvaluatorUp.taste\_gate} bind the finite evaluator trace carrier, accepted-result classifier, validation boundary, ledger exhaustion surface, downstream consumer boundary, public export surface, and TasteGate instance.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.FiniteTraceEvaluatorUp.FiniteTraceEvaluatorTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close host validation, total halting, truth for $\mathrm{CIC}^{*}$ sentences, unbounded evaluation, infinite traces, or bridge-level public semantics.}
-  \upgradepath{The next closure grade requires Lean-checked carrier admission, finite trace-step exposure, accepted-result classifier exactness, runtime-validation non-escape, ledger exhaustion, and consumer-route factorization for the same packet.}
+  \upgradepath{The next closure grade is bridgedClosure, requiring bridge-level public semantics for the same finite evaluator packet and its checked TasteGate carrier.}
 \end{closurestatus}
