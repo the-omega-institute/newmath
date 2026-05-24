@@ -75,6 +75,22 @@ The compactness-shaped data remain finite. The rows $N,C,E$ route the request th
 The Real-facing seal and structural rows preserve that order. The row $R$ is reachable only after $J,F,A,Q,N,C,E$, while $H,T,P,M$ transport, replay, source, and name the same displayed route. Thus every consumer factors through the stated finite handoff.
 \end{proof}
 
+\begin{theorem}[Finite intersection property Real seal nesting]
+\label{thm:finite-intersection-property-real-seal-nesting}
+For any accepted $\FiniteIntersectionPropertyUp$ carrier
+$$
+K=(J,F,A,Q,N,C,E,R,H,T,P,M),
+$$
+the terminal $\RealUp$ seal row $R$ is accessible only after the finite family rows $J,F,A$, the $\ClosedIntervalCauchyCompletionUp$ row $Q$, and the compactness-shaped rows $N,C,E$. Therefore the packet cannot export open-cover compactness, arbitrary closed-family compactness, selected endpoints, quotient real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-intersection-property-carrier}. The finite family index $J$, closed-family row $F$, finite-acceptance ledger $A$, closed-interval completion row $Q$, compactness-shaped rows $N,C,E$, and terminal seal $R$ are the only analytic rows available before transport and replay.
+
+Use the Real seal routing clause in \autoref{thm:finite-intersection-property-namecert-obligations}. It requires $R$ to remain downstream of $J,F,A,Q,N,C,E$ and upstream only of $H,T,P,M$.
+
+Finally apply \autoref{thm:closed-interval-cauchy-completion-finite-intersection-property}. The handoff route places the finite family rows before $Q$, then the nested-window, Cantor, and finite-net rows before $R$. Since the excluded compactness, endpoint-selection, quotient, trichotomy, and ambient-completeness objects are absent from the carrier, the Real seal read cannot export them.
+\end{proof}
+
 \falsifiablePrediction{Every $\FiniteIntersectionPropertyUp$ read factors through one displayed finite family index, one closed-family row, one finite-acceptance ledger, one ClosedIntervalCauchyCompletion row, NestedIntervalCompactness and CantorIntersection handoff rows, one FiniteEpsilonNet or interval-net witness, one RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{closed-interval-cauchy-completion, nestedintervalcompactness, cantor-intersection, finite-epsilon-net, real: $\FiniteIntersectionPropertyUp$ is not bijective to any listed sibling because it jointly carries finite closed-family indexing, closed-interval completion, compactness-shaped nested and Cantor handoffs, finite-net or interval-net witnesses, and the terminal Real seal as one finite intersection packet.}
