@@ -70,4 +70,40 @@ theorem RealSequenceLimitNameCert_obligation_surface [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem RealSequenceLimit_regular_tail_scope_lock [AskSetup] [PackageSetup]
+    {sequenceRow limitRow windowSchedule dyadicLedger classifierRow transport route provenance
+      name tailWindow tailRead tailSeal exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSequenceLimitCarrier sequenceRow limitRow windowSchedule dyadicLedger classifierRow
+        transport route provenance name bundle pkg →
+      Cont windowSchedule dyadicLedger tailWindow →
+        Cont tailWindow classifierRow tailRead →
+          Cont tailRead route tailSeal →
+            Cont tailSeal name exported →
+              PkgSig bundle exported pkg →
+                UnaryHistory windowSchedule ∧ UnaryHistory dyadicLedger ∧
+                  UnaryHistory tailWindow ∧ UnaryHistory tailRead ∧ UnaryHistory tailSeal ∧
+                    UnaryHistory exported ∧ Cont windowSchedule dyadicLedger tailWindow ∧
+                      Cont tailWindow classifierRow tailRead ∧ Cont tailRead route tailSeal ∧
+                        Cont tailSeal name exported ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier tailWindowRoute tailReadRoute tailSealRoute exportRoute exportedPkg
+  rcases carrier with
+    ⟨_sequenceUnary, _limitUnary, windowUnary, dyadicUnary, classifierUnary,
+      _transportUnary, routeUnary, _provenanceUnary, nameUnary, _sequenceRoute,
+      _classifierRoute, _transportSame, _routeSame, provenancePkg, _namePkg⟩
+  have tailWindowUnary : UnaryHistory tailWindow :=
+    unary_cont_closed windowUnary dyadicUnary tailWindowRoute
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed tailWindowUnary classifierUnary tailReadRoute
+  have tailSealUnary : UnaryHistory tailSeal :=
+    unary_cont_closed tailReadUnary routeUnary tailSealRoute
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed tailSealUnary nameUnary exportRoute
+  exact
+    ⟨windowUnary, dyadicUnary, tailWindowUnary, tailReadUnary, tailSealUnary,
+      exportedUnary, tailWindowRoute, tailReadRoute, tailSealRoute, exportRoute,
+      provenancePkg, exportedPkg⟩
+
 end BEDC.Derived.RealSequenceLimitUp
