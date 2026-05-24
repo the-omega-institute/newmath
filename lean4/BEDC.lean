@@ -2847,6 +2847,7 @@ import BEDC.Derived.FilterRefinementUp.CauchyPreservation
 import BEDC.Derived.FilterRefinementUp.TasteGate
 import BEDC.Derived.FilterUp
 import BEDC.Derived.FilteredCauchyCompletionUp.TasteGate
+import BEDC.Derived.FiniteBracketingIntervalUp.TasteGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonNetUp.TasteGate
@@ -4578,7 +4579,9 @@ import BEDC.Derived.RealSealCongruenceUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
 import BEDC.Derived.RealSequenceAlgebraUp.TasteGate
 import BEDC.Derived.RealSequenceClusterPointUp.TasteGate
+import BEDC.Derived.RealSequenceLimitUp.ModulusExtraction
 import BEDC.Derived.RealSequenceLimitUp.NameCertObligations
+import BEDC.Derived.RealSequenceLimitUp.TailWindowTransport
 import BEDC.Derived.RealSequenceLimitUp.TasteGate
 import BEDC.Derived.RealSeriesCauchyCriterionUp
 import BEDC.Derived.RealSeriesUp.TasteGate

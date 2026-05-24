@@ -322,6 +322,53 @@ theorem UniformCompletion_universal_extension_uniqueness
         ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
           extensionRoute, replayRoute, ledgerRoute⟩
 
+theorem UniformCompletion_root_source_admission {F D U E H C P N : BHist} :
+    Cont F D U →
+      Cont U E H →
+        Cont H C P →
+          Cont P BHist.Empty N →
+            uniformCompletionFields (UniformCompletionUp.mk F D U E H C P N) =
+                [F, D, U, E, H, C, P, N] ∧
+              UniformCompletionCarrier N ∧
+                UniformCompletionCauchyFilterPattern N ∧ UniformCompletionLedgerPolicy N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro filterRoute extensionRoute replayRoute ledgerRoute
+  constructor
+  · rfl
+  · constructor
+    · exact
+        ⟨F, D, U, E, H, C, P, N, hsame_refl N, filterRoute, extensionRoute,
+          replayRoute, ledgerRoute⟩
+    · constructor
+      · exact
+          ⟨F, D, U, filterRoute, E, H, C, P, N, hsame_refl N, extensionRoute,
+            replayRoute, ledgerRoute⟩
+      · exact ⟨P, N, hsame_refl N, ledgerRoute⟩
+
+theorem UniformCompletion_root_readback_nonescape {F D U E H C P N realRead : BHist} :
+    Cont F D U →
+      Cont U E H →
+        Cont H C P →
+          Cont P BHist.Empty N →
+            hsame realRead P →
+              UniformCompletionCarrier N ∧
+                UniformCompletionLedgerPolicy N ∧
+                  UniformCompletionClassifier realRead P ∧
+                    hsame
+                      (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist realRead))
+                      realRead := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame NameCert
+  intro filterRoute extensionRoute replayRoute ledgerRoute readbackSame
+  constructor
+  · exact
+      ⟨F, D, U, E, H, C, P, N, hsame_refl N, filterRoute, extensionRoute,
+        replayRoute, ledgerRoute⟩
+  · constructor
+    · exact ⟨P, N, hsame_refl N, ledgerRoute⟩
+    · constructor
+      · exact readbackSame
+      · exact uniformCompletionDecode_encode_bhist realRead
+
 def taste_gate : ChapterTasteGate UniformCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   BEDC.Derived.UniformCompletionUp.taste_gate
