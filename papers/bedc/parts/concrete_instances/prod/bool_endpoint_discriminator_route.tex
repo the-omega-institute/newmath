@@ -32,3 +32,31 @@ transport, replay, and provenance rows remain the product rows displayed above,
 there is no untagged finite-data quotient and no host ordered-pair primitive
 available to the consumer.
 \end{proof}
+
+\begin{theorem}[Prod Bool endpoint readback exhaustion]
+\label{thm:prod-bool-endpoint-readback-exhaustion}
+Let a public $\ProdUp$ component read have endpoint discriminator rows agreeing
+with the left and right $\BoolUp$ rows used in
+\autoref{thm:prod-bool-endpoint-discriminator-route}. Then the readback recovers
+only the displayed component payload, the source $\NameCert$ rows, the
+componentwise $\hsame$ transports, the displayed $\Cont$ replays, and the
+$\Pkg$ provenance listed by
+\autoref{thm:prod-public-finite-data-exit-package}. It cannot introduce an
+untagged quotient of product data or a host pair coordinate outside the public
+$\ProdUp$ packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:prod-bool-endpoint-discriminator-route}. The two $\BoolUp$
+rows identify only the left or right endpoint position in the displayed product
+route. They do not carry a product payload, a product classifier, or an
+independent ordered-pair coordinate.
+
+Next use \autoref{thm:prod-public-finite-data-exit-package}. That theorem
+exhausts the public read surface by the displayed component payload rows, source
+$\NameCert$ rows, $\hsame$ transports, $\Cont$ replays, and $\Pkg$ provenance.
+
+Combining the two statements leaves no unread endpoint data. The discriminator
+chooses the displayed component route, and the exit package lists every row that
+can be recovered from that route. Hence a quotient product object or host pair
+coordinate has no public readback source.
+\end{proof}
