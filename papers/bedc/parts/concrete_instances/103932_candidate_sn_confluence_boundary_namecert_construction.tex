@@ -63,13 +63,31 @@ The discharge row $S$ and confluence-boundary row $J$ determine which subject-re
 Finally $H,C,P,L$ transport, replay, source, and name the same finite route. They do not add closed subject reduction, arbitrary Church--Rosser, candidate-free strong normalization, or closed consistency evidence.
 \end{proof}
 
+\begin{theorem}[CandidateSNConfluenceBoundary Real-phase handoff]
+\label{thm:candidate-sn-confluence-boundary-real-phase-handoff}
+Any Real-phase consumer using an accepted $\CandidateSNConfluenceBoundaryUp$ packet must pass through the candidate admission row $N$, redex frontier row $R$, bounded normal-equality row $E$, subject-reduction discharge row $S$, confluence-boundary row $J$, nonescape row $U$, and the L10 source faces before reaching a $\RealUp$-facing audit conclusion. The resulting handoff is the finite route
+$$
+K \longmapsto N \longmapsto R,E \longmapsto S,J \longmapsto U \longmapsto H,C,P,L
+$$
+with the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ faces read only as downstream Real and Completion source surfaces, not as closed subject reduction, arbitrary Church--Rosser, candidate-free strong normalization, or completed MetaCIC audit-map closure.
+\end{theorem}
+\begin{proof}
+Project the carrier $B=(K,N,R,E,S,J,U,H,C,P,L)$. The only positive candidate-mediated normalization input is the admission row $N$, and the only confluence-facing local data are the redex frontier $R$ and bounded normal-equality checker $E$.
+
+Apply \autoref{thm:candidate-sn-confluence-boundary-route}. It forces every MetaCIC consumer through $N$, then through $R,E$, and then through the subject-reduction discharge and confluence-boundary rows $S,J$ before the nonescape row $U$ is replayed.
+
+A Real-phase audit can therefore attach the L10 source faces only after that boundary route is visible. The $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ reads are downstream source surfaces for a completion-facing audit, while $H,C,P,L$ transport, replay, source, and name the same finite route.
+
+Because $U$ excludes closed subject reduction, arbitrary Church--Rosser, candidate-free strong normalization, and completed MetaCIC audit-map closure, the handoff does not promote the packet beyond the displayed boundary.
+\end{proof}
+
 The Lean follow-up for this packet is to provide \texttt{Nontrivial CandidateSNConfluenceBoundaryUp} and \texttt{FieldFaithful CandidateSNConfluenceBoundaryUp} instances in \texttt{TasteGate.lean}. Those instances must check that candidate admission, redex-frontier inspection, bounded equality checking, subject-reduction discharge, and confluence-boundary handoff are genuine carrier fields rather than aliases for a closed consistency endpoint.
 
 \closureat{CandidateSNConfluenceBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\CandidateSNConfluenceBoundaryUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:candidate-sn-confluence-boundary-carrier}, \autoref{thm:candidate-sn-confluence-boundary-namecert-obligations}, and \autoref{thm:candidate-sn-confluence-boundary-route} seed the finite MetaCIC packet separating candidate-mediated strong normalization from confluence and subject-reduction endpoints.}
+  \scopeclosed{\autoref{def:candidate-sn-confluence-boundary-carrier}, \autoref{thm:candidate-sn-confluence-boundary-namecert-obligations}, \autoref{thm:candidate-sn-confluence-boundary-route}, and \autoref{thm:candidate-sn-confluence-boundary-real-phase-handoff} seed the finite MetaCIC packet separating candidate-mediated strong normalization from confluence, subject-reduction endpoints, and Real-phase audit handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, closed subject reduction, arbitrary Church--Rosser, unrestricted parallel diamond, candidate-free strong normalization, closed consistency, or completed MetaCIC audit-map closure.}
