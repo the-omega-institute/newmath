@@ -37,3 +37,23 @@ Next use the existing consumer rows. The self-compilation route of \autoref{thm:
 
 Finally apply \autoref{thm:closed-term-substitution-boundary-namecert-export-totality} and \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}. The displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows therefore exhaust the downstream read, with no route to hidden substitution or compiler data.
 \end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root value downstream coverage]
+\label{thm:closed-term-substitution-boundary-root-value-downstream-coverage}
+Every accepted local consumer of the root value row $V$ in a $\ClosedTermSubstitutionBoundaryUp$ packet is exhausted by the displayed finite coverage alternatives
+$$
+(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}),\qquad (Q,R),\qquad (\BHist,\hsame,\Cont,\Pkg,\NameCert).
+$$
+The first alternative covers the visible value and closedness read, the second covers the certified closed-shift and substitute-closed operation rows, and the third covers downstream self-compilation or normalization consumption through the packet ledger. No excluded route through an unregistered free-variable coordinate, host equality, hidden evaluator, hidden compiler state, subject-reduction theorem, or host substitution semantics belongs to the accepted BEDC packet.
+\end{theorem}
+\begin{proof}
+Let an accepted local consumer ask for the root value row $V$. By \autoref{thm:closed-term-substitution-boundary-root-value-visibility}, the consumer must first expose
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}
+$$
+inside the same finite $\BHist$ packet before either operation row can be used. Any consumer whose read stops at the value, inspected depth, or closedness witnesses is therefore covered by the first displayed alternative.
+
+If the consumer continues to an operation read, \autoref{thm:closed-term-substitution-boundary-root-operation-dependency} identifies $Q$ and $R$ as dependent operation rows over the displayed witnesses $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$. Thus the operation continuation is covered by the certified closed-shift and substitute-closed rows, not by a host shift rule, host substitution rule, evaluator equation, or subject-reduction theorem.
+
+It remains to cover consumers that pass the operation rows downstream. This is exactly the exhaustion statement of \autoref{thm:closed-term-substitution-boundary-root-consumer-exhaustion}: downstream self-compilation and normalization consumers factor through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet, with no route to an unregistered free-variable coordinate, host equality, hidden evaluator, hidden compiler state, subject reduction, or host substitution semantics. The three displayed alternatives therefore cover every accepted local root-value consumer, and all excluded alternatives remain outside the accepted BEDC packet.
+\end{proof}

@@ -41,3 +41,60 @@ normalizer collapse, and the middle-four cancellation forms. Since none of the
 cited rows constructs host equality, a quotient carrier, a subgroup primitive,
 or a module equivalence, the public surface adds none of those structures.
 \end{proof}
+
+\begin{lemma}[AbGroup forgetful bridge determinacy]
+\label{lem:abgroup-forgets-group-bridge-determinacy}
+For the public singleton empty-history $\AbGroupUp$ surface, the bridge-facing
+$\GroupUp$ consumer obtained by applying
+\autoref{prop:abgroup-forgets-group-certificate} to
+\autoref{thm:abgroup-singleton-terminal-standard-bridge} is determined by the
+following finite local rows: the retained carrier, source, pattern, classifier,
+stability, and ledger fields of the forgetful reduct; the unchanged
+multiplication, unit, inverse, and classifier; the constant encode row to
+$\emp$; the terminal decode row; the terminal decode-encode row; the
+encode-decode readback row $\rho_{\emp}(h,\emp)$ for each carried endpoint
+$h:A_{\emp}$; the operation-translation row reading the same displayed
+operation as the group multiplication, $\emp$ as the unit, and the constant
+operation as inverse; the theorem-preservation rows for carrier, closure, unit,
+inverse, and associativity; and the no-host-leak surface $\BHist$, $A_{\emp}$,
+$\rho_{\emp}$, $\emp$, and the displayed operations. Hence every displayed
+route, transport, readback, or handoff available to such a consumer factors
+through these rows, and no unlisted bridge coordinate, host equality, quotient
+carrier, subgroup primitive, module equivalence, or commutativity obligation is
+available as part of the $\GroupUp$ handoff.
+\end{lemma}
+\begin{proof}
+Apply \autoref{prop:abgroup-forgets-group-certificate}. It says exactly that
+the $\GroupUp$ certificate retained from an $\AbGroupUp$ certificate consists
+of the carrier, source, pattern, classifier, stability, and ledger fields, with
+the carrier, multiplication, identity, inverse operation, and classifier copied
+unchanged. Thus any consumer-facing route or transport that asks only for a
+group certificate must enter through one of these retained rows.
+
+Now read \autoref{thm:abgroup-singleton-terminal-standard-bridge} through this
+reduct. Its encode row is the constant map from the unique terminal host point
+to $\emp$, and its decode row sends every carried endpoint of $A_{\emp}$ to the
+unique host point. The two round-trip rows are therefore fixed: decode-encode is
+terminal equality, while encode-decode is precisely the displayed classifier
+witness $\rho_{\emp}(h,\emp)$. Consequently every readback available to the
+consumer factors through this single carrier-and-classifier surface.
+
+The same theorem fixes the operation handoff. After forgetting commutativity,
+the group-facing operation translation is the unchanged displayed operation,
+with $\emp$ as unit and the constant operation as inverse. The theorem-
+preservation rows needed by a $\GroupUp$ consumer are exactly the carrier,
+closure, unit, inverse, and associativity rows, all of which are retained by the
+forgetful certificate. The abelian commutativity and double-negation rows remain
+rows of the abelian bridge, but they are not additional coordinates of the
+$\GroupUp$ handoff.
+
+Finally, the no-host-leak clause of
+\autoref{thm:abgroup-singleton-terminal-standard-bridge} restricts the exported
+BEDC-facing surface to $\BHist$, $A_{\emp}$, $\rho_{\emp}$, $\emp$, and the
+displayed operations. Since \autoref{prop:abgroup-forgets-group-certificate}
+adds no field while forming the reduct, a consumer has no route to any bridge
+coordinate outside the listed rows. The omitted commutativity obligation,
+commutativity-compatibility data, host equality, quotient carrier, subgroup
+primitive, and module equivalence are therefore unavailable as $\GroupUp$ bridge
+handoff data.
+\end{proof}
