@@ -25,7 +25,7 @@ def brouwerOperationDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (brouwerOperationDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (brouwerOperationDecodeBHist tail)
 
-private theorem BrouwerOperationTasteGate_single_carrier_alignment_decode_aux :
+private theorem BrouwerOperationTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, brouwerOperationDecodeBHist (brouwerOperationEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,9 +38,9 @@ def brouwerOperationFields : BrouwerOperationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | BrouwerOperationUp.mk T O M W R E H C P N => [T, O, M, W, R, E, H, C, P, N]
 
-def brouwerOperationToEventFlow : BrouwerOperationUp → EventFlow
+def brouwerOperationToEventFlow : BrouwerOperationUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (brouwerOperationFields x).map brouwerOperationEncodeBHist
+  fun x => (brouwerOperationFields x).map brouwerOperationEncodeBHist
 
 private def brouwerOperationEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -64,7 +64,7 @@ def brouwerOperationFromEventFlow (ef : EventFlow) : Option BrouwerOperationUp :
       (brouwerOperationDecodeBHist (brouwerOperationEventAtDefault 8 ef))
       (brouwerOperationDecodeBHist (brouwerOperationEventAtDefault 9 ef)))
 
-private theorem BrouwerOperationTasteGate_single_carrier_alignment_round_trip_aux :
+private theorem BrouwerOperationTasteGate_single_carrier_alignment_round_trip :
     ∀ x : BrouwerOperationUp,
       brouwerOperationFromEventFlow (brouwerOperationToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -85,18 +85,18 @@ private theorem BrouwerOperationTasteGate_single_carrier_alignment_round_trip_au
             (brouwerOperationDecodeBHist (brouwerOperationEncodeBHist P))
             (brouwerOperationDecodeBHist (brouwerOperationEncodeBHist N))) =
           some (BrouwerOperationUp.mk T O M W R E H C P N)
-      rw [BrouwerOperationTasteGate_single_carrier_alignment_decode_aux T,
-        BrouwerOperationTasteGate_single_carrier_alignment_decode_aux O,
-        BrouwerOperationTasteGate_single_carrier_alignment_decode_aux M,
-        BrouwerOperationTasteGate_single_carrier_alignment_decode_aux W,
-        BrouwerOperationTasteGate_single_carrier_alignment_decode_aux R,
-        BrouwerOperationTasteGate_single_carrier_alignment_decode_aux E,
-        BrouwerOperationTasteGate_single_carrier_alignment_decode_aux H,
-        BrouwerOperationTasteGate_single_carrier_alignment_decode_aux C,
-        BrouwerOperationTasteGate_single_carrier_alignment_decode_aux P,
-        BrouwerOperationTasteGate_single_carrier_alignment_decode_aux N]
+      rw [BrouwerOperationTasteGate_single_carrier_alignment_decode T,
+        BrouwerOperationTasteGate_single_carrier_alignment_decode O,
+        BrouwerOperationTasteGate_single_carrier_alignment_decode M,
+        BrouwerOperationTasteGate_single_carrier_alignment_decode W,
+        BrouwerOperationTasteGate_single_carrier_alignment_decode R,
+        BrouwerOperationTasteGate_single_carrier_alignment_decode E,
+        BrouwerOperationTasteGate_single_carrier_alignment_decode H,
+        BrouwerOperationTasteGate_single_carrier_alignment_decode C,
+        BrouwerOperationTasteGate_single_carrier_alignment_decode P,
+        BrouwerOperationTasteGate_single_carrier_alignment_decode N]
 
-private theorem BrouwerOperationTasteGate_single_carrier_alignment_injective_aux
+private theorem BrouwerOperationTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : BrouwerOperationUp} :
     brouwerOperationToEventFlow x = brouwerOperationToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -107,9 +107,8 @@ private theorem BrouwerOperationTasteGate_single_carrier_alignment_injective_aux
     congrArg brouwerOperationFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
-      (BrouwerOperationTasteGate_single_carrier_alignment_round_trip_aux x).symm
-      (Eq.trans hread
-        (BrouwerOperationTasteGate_single_carrier_alignment_round_trip_aux y)))
+      (BrouwerOperationTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (BrouwerOperationTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem BrouwerOperationTasteGate_single_carrier_alignment_fields_aux :
     ∀ x y : BrouwerOperationUp, brouwerOperationFields x = brouwerOperationFields y → x = y := by
@@ -132,10 +131,10 @@ instance brouwerOperationChapterTasteGate : ChapterTasteGate BrouwerOperationUp 
   round_trip := by
     intro x
     change brouwerOperationFromEventFlow (brouwerOperationToEventFlow x) = some x
-    exact BrouwerOperationTasteGate_single_carrier_alignment_round_trip_aux x
+    exact BrouwerOperationTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (BrouwerOperationTasteGate_single_carrier_alignment_injective_aux heq)
+    exact hxy (BrouwerOperationTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance brouwerOperationFieldFaithful : FieldFaithful BrouwerOperationUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -154,6 +153,24 @@ instance brouwerOperationNontrivial : Nontrivial BrouwerOperationUp where
       by
         intro h
         cases h⟩
+
+def taste_gate : ChapterTasteGate BrouwerOperationUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  brouwerOperationChapterTasteGate
+
+theorem BrouwerOperationTasteGate_single_carrier_alignment :
+    (∀ h : BHist, brouwerOperationDecodeBHist (brouwerOperationEncodeBHist h) = h) ∧
+      (∀ x : BrouwerOperationUp,
+        brouwerOperationFromEventFlow (brouwerOperationToEventFlow x) = some x) ∧
+        (∀ x y : BrouwerOperationUp,
+          brouwerOperationToEventFlow x = brouwerOperationToEventFlow y → x = y) ∧
+          brouwerOperationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨BrouwerOperationTasteGate_single_carrier_alignment_decode,
+      BrouwerOperationTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => BrouwerOperationTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 namespace TasteGate
 
@@ -175,12 +192,12 @@ theorem BrouwerOperationTasteGate_single_carrier_alignment :
     · constructor
       · exact ⟨brouwerOperationNontrivial⟩
       · constructor
-        · exact BrouwerOperationTasteGate_single_carrier_alignment_decode_aux
+        · exact BrouwerOperationTasteGate_single_carrier_alignment_decode
         · constructor
-          · exact BrouwerOperationTasteGate_single_carrier_alignment_round_trip_aux
+          · exact BrouwerOperationTasteGate_single_carrier_alignment_round_trip
           · constructor
             · intro x y heq
-              exact BrouwerOperationTasteGate_single_carrier_alignment_injective_aux heq
+              exact BrouwerOperationTasteGate_single_carrier_alignment_toEventFlow_injective heq
             · rfl
 
 end TasteGate
