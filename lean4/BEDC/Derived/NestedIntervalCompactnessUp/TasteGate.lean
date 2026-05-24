@@ -318,4 +318,33 @@ theorem NestedIntervalCompactnessCarrier_real_seal_boundary
     exact nestedIntervalCompactness_decode_encode E
   exact ⟨prefixUnary, sealReadUnary, prefixRoute, sealRoute, sealDecode⟩
 
+theorem NestedIntervalCompactnessCarrier_finite_intersection_window
+    {I L D W R E H C P N windowRead sealRead : BHist} :
+    nestedIntervalCompactnessFields (NestedIntervalCompactnessUp.mk I L D W R E H C P N) =
+        [I, L, D, W, R, E, H, C, P, N] →
+      UnaryHistory I →
+        UnaryHistory L →
+          UnaryHistory D →
+            UnaryHistory W →
+              UnaryHistory R →
+                UnaryHistory H →
+                  Cont I L D →
+                    Cont D W windowRead →
+                      Cont W R E →
+                        Cont E H sealRead →
+                          UnaryHistory windowRead ∧
+                            UnaryHistory E ∧
+                              UnaryHistory sealRead ∧ Cont W R E := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont
+  intro fieldRows unaryI unaryL unaryD unaryW unaryR unaryH intervalRoute windowRoute
+    readbackRoute sealRoute
+  cases fieldRows
+  have unaryWindow : UnaryHistory windowRead :=
+    unary_cont_closed unaryD unaryW windowRoute
+  have unaryE : UnaryHistory E :=
+    unary_cont_closed unaryW unaryR readbackRoute
+  have unarySeal : UnaryHistory sealRead :=
+    unary_cont_closed unaryE unaryH sealRoute
+  exact ⟨unaryWindow, unaryE, unarySeal, readbackRoute⟩
+
 end BEDC.Derived.NestedIntervalCompactnessUp
