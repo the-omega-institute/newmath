@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchyCompletenessUp$}
+\label{ch:concrete-instances-real-cauchy-completeness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealCauchyCompletenessUp$ packet records the classical regular-Cauchy completeness route as finite BEDC NameCert data. It sits over the dyadic radius ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Cauchy-limit seal of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet exposes a displayed completion handoff for regular Cauchy streams; it does not assert that $\RealUp$ already carries ambient completeness.
+
+\begin{definition}[Real Cauchy completeness carrier]
+\label{def:real-cauchy-completeness-carrier}
+A $\RealCauchyCompletenessUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,M,D,R,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule of finite windows used to inspect the Cauchy stream.
+\item $M$ is the explicit Cauchy-modulus row, exposing the threshold at which requested dyadic tolerances are met.
+\item $D$ is the $\DyadicRatCoreUp$ ledger for positive radii, halving steps, comparison budgets, and tolerance addition.
+\item $R$ is the $\RegSeqRatUp$ diagonal readback assembled from the retained windows and the modulus row.
+\item $L$ is the $\CauchyLimitSealUp$ handoff row consuming the same $S,M,D,R$ route before any real-facing read is exported.
+\item $E$ is the $\RealUp$ seal reached only after the limit-seal handoff.
+\item $H$ records componentwise $\hsame$ transport for $S,M,D,R,L,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the diagonal route
+$$
+S,M,D \longmapsto R \longmapsto L \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RealCauchyCompletenessUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCauchyCompletenessUp}$ row.
+\end{enumerate}
+The classifier accepts only packets that display the finite windows, explicit modulus, dyadic budgets, diagonal readback, limit-seal handoff, real seal, transport, replay, provenance, and local naming. It has no coordinate for quotient streams, selected limits, countable choice, open-cover compactness, host convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real Cauchy completeness NameCert obligations]
+\label{thm:real-cauchy-completeness-namecert-obligations}
+For every accepted $\RealCauchyCompletenessUp$ carrier $K=(S,M,D,R,L,E,H,C,P,N)$, the local $\NameCert_{\RealCauchyCompletenessUp}$ surface consists exactly of carrier admission for the finite stream windows, explicit Cauchy modulus, dyadic tolerance ledger, diagonal regular readback, CauchyLimitSeal handoff, Real seal, componentwise transport, displayed replay, provenance, and local naming. The completion-facing read is accepted only when the modulus row $M$ is exposed before the diagonal readback $R$, the handoff row $L$ consumes the same $S,M,D,R$ route, and every $\RealUp$ consumer reaches $E$ through that displayed route.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-cauchy-completeness-carrier}. The rows $S,M,D$ display the finite stream windows, the explicit Cauchy modulus, and the dyadic tolerance ledger before any completion-facing read is available.
+
+The diagonal limit handoff is then assembled in $R$. The row $R$ reads the retained windows through the modulus thresholds and dyadic budgets, so the construction is a displayed regular rational readback rather than a quotient of streams or a selected host limit.
+
+Classifier stability follows from $H$ and $C$. Componentwise $\hsame$ transport preserves the same window, modulus, dyadic, readback, seal, provenance, and naming rows, while displayed $\Cont$ replay keeps the route ordered as $S,M,D \to R \to L \to E$.
+
+The ledger rows $P,N$ expose no extra coordinate. Since quotient streams, selected limits, countable choice, open-cover compactness, host convergence, and ambient $\RealUp$ completeness are absent from the carrier, every accepted completion read remains inside the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Real Cauchy completeness seal non-escape]
+\label{thm:real-cauchy-completeness-seal-nonescape}
+Every $\RealUp$ read exported by an accepted $\RealCauchyCompletenessUp$ carrier factors through the displayed route
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \CauchyLimitSealUp,\ \RealUp .
+$$
+The read therefore supplies a finite Cauchy-completeness handoff to real-name consumers without adding quotient stream equality, a selected limit, countable choice, or the claim that $\RealUp$ is already complete.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(S,M,D,R,L,E,H,C,P,N)$. By the carrier definition, the only real-facing endpoint is $E$, and $E$ is downstream of the limit-seal row $L$.
+
+The row $L$ consumes the diagonal readback $R$. That readback is itself downstream of the finite stream schedule $S$, the explicit modulus $M$, and the dyadic ledger $D$.
+
+Thus any $\RealUp$ consumer reaches the seal only through $S,M,D,R,L,E$ and the structural rows $H,C,P,N$. The excluded host-side data have no carrier coordinate, so they cannot be introduced by the handoff.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\RealCauchyCompletenessUp$ consumer reaching a $\RealUp$ read without the displayed StreamName windows, explicit Cauchy modulus, DyadicRatCore ledger, RegSeqRat diagonal readback, and CauchyLimitSeal row refutes the carrier.}
+
+\independenceWitness{DyadicRatCore, StreamName, RegSeqRat, CauchyLimitSeal, and Real are not individually bijective with $\RealCauchyCompletenessUp$ because the packet carries the ordered completion route across all five surfaces together with transport, replay, provenance, and local naming.}
+
+\closureat{RealCauchyCompletenessUp}{seedStr}
+
+\begin{closurestatus}{\RealCauchyCompletenessUp}
+  \constructivestory{A $\RealCauchyCompletenessUp$ packet is generated from finite StreamName windows, an explicit Cauchy-modulus row, a DyadicRatCore tolerance ledger, a RegSeqRat diagonal readback, a CauchyLimitSeal handoff, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-completeness-carrier}, \autoref{thm:real-cauchy-completeness-namecert-obligations}, and \autoref{thm:real-cauchy-completeness-seal-nonescape} seed the finite constructive Cauchy-completeness route through StreamName, RegSeqRat, DyadicRatCore, CauchyLimitSeal, Real, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, open-cover compactness, host convergence, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, explicit Cauchy-modulus exposure, diagonal limit handoff, classifier stability, and ledger non-escape for BEDC.Derived.RealCauchyCompletenessUp.}
+\end{closurestatus}
