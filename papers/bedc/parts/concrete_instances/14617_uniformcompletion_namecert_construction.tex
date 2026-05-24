@@ -291,6 +291,56 @@ The Real-facing read is downstream of that ledger. It can only consume the regul
 Finally inspect the remaining excluded data. Ambient complete uniform spaces, open-cover compactness principles, and choice operators occur neither as carrier coordinates nor as classifier branches, continuation targets, or provenance sources. The readback therefore stays inside the finite BEDC ledger.
 \end{proof}
 
+\begin{theorem}[UniformCompletion filter-net canonical readback]
+\label{thm:uniform-completion-filter-net-canonical-readback}
+Every canonical readback from an accepted $\UniformCompletionUp$ carrier factors first through the displayed Cauchy-filter row $F$ and directed-net row $D$, then through the universal row $U$ and structural rows $H,C,P,N$. The readback boundary is
+$$
+F,D \longmapsto U \longmapsto H,C,P,N ,
+$$
+with any $\RegSeqRatUp$ or $\RealUp$ seal visible only through the provenance already carried by $P$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:uniform-completion-cauchy-filter-factorization}. It identifies $F$ as the finite filter request and $D$ as the directed witness route for that request.
+
+Use \autoref{thm:uniform-completion-directed-net-witness} and \autoref{thm:uniform-completion-filter-net-obligations}. The directed-net witness is the public canonical readback source, and the structural rows preserve that source rather than adding a quotient completion coordinate.
+
+Finally apply \autoref{thm:uniform-completion-root-readback-nonescape}. The RegSeqRat and Real seals are downstream provenance reads, so canonical readback remains inside $F,D,U,H,C,P,N$ before any seal handoff.
+\end{proof}
+
+\begin{theorem}[UniformCompletion separated Real-seal uniqueness]
+\label{thm:uniform-completion-separated-real-seal-uniqueness}
+If two accepted $\UniformCompletionUp$ packets expose the same displayed Cauchy-filter row, directed-net witness row, universal-extension comparison row, and RegSeqRat-to-Real provenance route by componentwise $\hsame$ transport, then their $\RealUp$ seal handoffs are unique inside the displayed separated completion scope. The comparison is read only through
+$$
+F,D,U,E,H,C,P,N ,
+$$
+and never through quotient representatives, host equality of completed points, selected limits, or ambient complete-uniform-space extensionality.
+\end{theorem}
+\begin{proof}
+Project the two accepted packets and compare their displayed rows componentwise. The rows $F$ and $D$ fix the filter-net source data, while $U$ fixes the universal-extension comparison route.
+
+Apply \autoref{thm:uniform-completion-universal-extension-uniqueness}. Within the carrier, extension comparison is already confined to the universal row and classifier row $E$.
+
+Use \autoref{thm:uniform-completion-real-regseqrat-handoff}. The Real-facing seal is downstream of the same RegSeqRat route named by $P$, and $H,C,N$ only transport, replay, and name that route.
+
+Therefore the separated Real-seal comparison is unique relative to the displayed rows. The excluded quotient, selected-limit, host-equality, and ambient-completeness principles are not coordinates of either packet.
+\end{proof}
+
+\begin{theorem}[UniformCompletion universal property scope]
+\label{thm:uniform-completion-universal-property-scope}
+The universal property exported by an accepted $\UniformCompletionUp$ carrier is scoped exactly to finite filter-net rows before any RegSeqRat or Real seal handoff. A consumer may read
+$$
+F,D,U,E,H,C,P,N
+$$
+as carrier admission, filter-to-net factorization, directed witness extraction, universal comparison, classifier stability, continuation replay, provenance, and local naming, but may not read a quotient completion object, a selected representative, an ambient complete uniform space, open-cover compactness, or choice.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:uniform-completion-filter-net-canonical-readback}. It places every canonical readback behind the finite filter-net rows $F,D$ and the universal row $U$.
+
+Apply \autoref{thm:uniform-completion-separated-real-seal-uniqueness}. The Real-seal comparison remains a separated handoff through $E,H,C,P,N$, not an equality principle for an ambient completed object.
+
+Finally use \autoref{thm:uniform-completion-universal-ledger-nonescape}. The universal ledger has no field for quotient completions, selected representatives, ambient complete uniform spaces, open-cover compactness, or choice. The displayed finite scope is therefore the whole public universal-property surface.
+\end{proof}
+
 \begin{closurestatus}{\UniformCompletionUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:uniform-completion-carrier}, \autoref{thm:uniform-completion-namecert-obligation-surface}, \autoref{thm:uniform-completion-cauchy-filter-factorization}, \autoref{thm:uniform-completion-directed-net-witness}, \autoref{thm:uniform-completion-universal-extension-uniqueness}, \autoref{thm:uniform-completion-ledger-nonescape}, \autoref{thm:uniform-completion-filter-net-obligations}, \autoref{thm:uniform-completion-universal-ledger-nonescape}, \autoref{thm:uniform-completion-real-regseqrat-handoff}, and \autoref{thm:uniform-completion-scope-lock} close the local obligation surface and scoped filter-net boundary for carrier admission, filter-net factorization, directed-net witness extraction, universal-extension uniqueness, Real-RegSeqRat handoff, and ledger non-escape.}
