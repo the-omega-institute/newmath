@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\SpeckerSequenceBoundaryUp$}
+\label{ch:concrete-instances-specker-sequence-boundary-namecert}
+\origin{human}
+
+Following Specker's constructive counterexample tradition and Bishop--Bridges constructive analysis, the $\SpeckerSequenceBoundaryUp$ packet isolates the reusable nonlocated-supremum obstruction behind monotone bounded rational streams. It sits after $\SpeckerSequenceUp$ in \autoref{ch:concrete-instances-speckersequence-namecert} and reads only the finite windows supplied by $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\LocatedCutUp$ in \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-locatedcut-namecert}. The packet names the obstruction surface; it does not supply Real completeness, a located supremum, trichotomy, quotient stream equality, countable choice, or selected limits.
+
+\begin{definition}[Specker sequence boundary carrier]\label{def:specker-sequence-boundary-carrier}
+A $\SpeckerSequenceBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,W,D,M,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SpeckerSequenceUp$ source row naming the monotone bounded rational stream and its nonlocated-supremum boundary.
+\item $W$ is the $\StreamNameUp$ schedule selecting the finite source windows inspected by the boundary packet.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and bound ledger read from the same selected windows.
+\item $M$ is the monotone and bounded obstruction ledger recording the displayed comparison and bound data that can be read before any real-facing seal.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational windows certified by $S,W,D,M$.
+\item $L$ is the $\RealUp$ seal or $\LocatedCutUp$ refusal row; it records that the displayed windows may be sealed as finite real readback data, while a located-cut or supremum witness remains external.
+\item $H$ stores componentwise $\hsame$ transport for the source, schedule, dyadic ledger, obstruction ledger, regular readback, seal-or-refusal row, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from $S,W$ into $D$, from $D$ into $M$, from $M$ into $R$, and from $R$ into the seal-or-refusal row $L$.
+\item $P$ is the $\Pkg$ provenance over $\SpeckerSequenceBoundaryUp$, $\SpeckerSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\LocatedCutUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SpeckerSequenceBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,D,M,R,L,H,C,P,N$. It has no coordinate for a located supremum, a selected limiting real, quotient stream equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Specker sequence boundary NameCert obligations]\label{thm:specker-sequence-boundary-namecert-obligations}
+For every accepted $\SpeckerSequenceBoundaryUp$ carrier $B=(S,W,D,M,R,L,H,C,P,N)$, the local $\NameCert_{\SpeckerSequenceBoundaryUp}$ surface consists exactly of source admission through $S$, finite schedule selection through $W$, dyadic tolerance and bound admission through $D$, monotone bounded obstruction admission through $M$, regular rational readback through $R$, the $\RealUp$ seal or $\LocatedCutUp$ refusal row $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:specker-sequence-boundary-carrier}. The analytic rows are exactly the Specker source, stream schedule, dyadic ledger, monotone bounded obstruction ledger, regular readback, and seal-or-refusal row.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name those same coordinates. Since the carrier contains no further analytic field, the listed rows exhaust the local NameCert obligations.
+
+The missing fields are also part of the boundary. A located supremum, quotient stream equality, countable-choice selector, trichotomy branch, or selected limit would require an additional coordinate, and no such coordinate is present.
+\end{proof}
+
+\begin{theorem}[Specker sequence boundary Cauchy readback]\label{thm:specker-sequence-boundary-cauchy-readback}
+Every Cauchy-facing read from an accepted $\SpeckerSequenceBoundaryUp$ carrier factors through
+$$
+S,W\longmapsto D\longmapsto M\longmapsto R\longmapsto L
+$$
+together with $H,C,P,N$. The row $R$ exports only the $\RegSeqRatUp$ window readback certified by the displayed schedule and dyadic ledger, and the row $L$ exports only a finite $\RealUp$ seal or a $\LocatedCutUp$ refusal boundary.
+\end{theorem}
+\begin{proof}
+Start with the source route. The $\SpeckerSequenceUp$ row $S$ and the $\StreamNameUp$ schedule $W$ determine which finite rational windows are inspected.
+
+Read the dyadic and obstruction ledgers next. The row $D$ supplies the tolerance and bound data for those windows, while $M$ records the monotone bounded obstruction information available at the same finite stages.
+
+The regular readback row $R$ is downstream of those data, and the seal-or-refusal row $L$ is downstream of $R$. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve this route, so no located supremum or selected limiting real is produced by the Cauchy readback.
+\end{proof}
+
+\begin{theorem}[Specker sequence boundary nonescape]\label{thm:specker-sequence-boundary-nonescape}
+Every consumer of an accepted $\SpeckerSequenceBoundaryUp$ carrier receives only the finite rows $S,W,D,M,R,L,H,C,P,N$. Consequently the packet may reuse the $\SpeckerSequenceUp$ nonlocated-supremum obstruction and its $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\LocatedCutUp$ interfaces, but it exports no $\RealUp$ completeness principle, located supremum, trichotomy, quotient stream equality, countable-choice selector, or selected limit.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:specker-sequence-boundary-namecert-obligations} to identify the complete public surface of the accepted packet. All analytic reads pass through the six displayed rows $S,W,D,M,R,L$.
+
+Use \autoref{thm:specker-sequence-boundary-cauchy-readback} to order those rows. The regular readback and seal-or-refusal row appear only after finite windows, dyadic data, and monotone bounded obstruction data have been displayed.
+
+Finally read the structural rows. Componentwise transport, displayed replay, provenance, and local naming do not add analytic coordinates, so none of the excluded completeness, choice, equality, order-decision, or selected-limit principles can escape from the packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\SpeckerSequenceBoundaryUp$ Cauchy-facing read factors through a SpeckerSequence source row, StreamName schedule, DyadicRatCore tolerance ledger, monotone bounded obstruction ledger, RegSeqRat readback, Real seal or LocatedCut refusal row, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{speckersequence, streamname, regseqrat, dyadicratcore, real, locatedcut: $\SpeckerSequenceBoundaryUp$ is not bijective to any listed sibling because it jointly carries the nonlocated-supremum obstruction route, regular readback, seal-or-refusal boundary, transport, continuation, provenance, and local naming.}
+
+\closureat{SpeckerSequenceBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\SpeckerSequenceBoundaryUp}
+  \constructivestory{A $\SpeckerSequenceBoundaryUp$ packet is generated from a $\SpeckerSequenceUp$ source row, a $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ tolerance and bound rows, a monotone bounded obstruction ledger, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal or $\LocatedCutUp$ refusal row, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:specker-sequence-boundary-carrier}, \autoref{thm:specker-sequence-boundary-namecert-obligations}, \autoref{thm:specker-sequence-boundary-cauchy-readback}, and \autoref{thm:specker-sequence-boundary-nonescape} bind the finite nonlocated-supremum obstruction certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, located supremum construction, trichotomy, quotient stream equality, countable choice, selected limits, bridge checking, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, Cauchy readback, nonescape, and TasteGate field faithfulness for BEDC.Derived.SpeckerSequenceBoundaryUp.}
+\end{closurestatus}
