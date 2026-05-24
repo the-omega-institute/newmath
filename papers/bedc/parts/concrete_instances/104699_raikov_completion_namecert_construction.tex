@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RaikovCompletionUp$}
+\label{ch:concrete-instances-raikov-completion-namecert}
+\origin{human}
+
+Following Raikov and the Bourbaki--Kelley treatment of two-sided uniform completion, the $\RaikovCompletionUp$ packet records the completion route for a separated uniform group as finite BEDC NameCert data. It sits after the entourage carrier of \autoref{ch:concrete-instances-uniformspace-namecert}, the separated comparison boundary of \autoref{ch:concrete-instances-separated-uniform-space-namecert}, the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and the completion handoff of \autoref{ch:concrete-instances-uniformcompletion-namecert}. The packet names the two-sided Cauchy-filter route without quotient representatives, selected limits, host equality of completion points, trichotomy, countable choice, or ambient complete-group structure.
+
+\begin{definition}[Raikov completion carrier]
+\label{def:raikov-completion-carrier}
+A $\RaikovCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(G,U,S,L,R,F,C,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the source group row, read only through the finite multiplication, inverse, and unit observations needed by uniform consumers.
+\item $U$ is the $\UniformSpaceUp$ entourage row on the source, carrying both left and right translate requests as displayed finite entourage data.
+\item $S$ is the $\SeparatedUniformSpaceUp$ comparison row, recording that the diagonal boundary is separated before completion-facing reads are exported.
+\item $L$ is the left Cauchy-filter ledger and $R$ is the right Cauchy-filter ledger, each read through the $\CauchyFilterUp$ surface.
+\item $F$ is the two-sided compatibility row asserting that the same displayed filter packet satisfies the left and right Cauchy requests after common finite refinement.
+\item $C$ is the $\UniformCompletionUp$ handoff row consumed by completion-facing readers only after $U,S,L,R,F$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the group, uniformity, separated comparison, two Cauchy-filter ledgers, compatibility, handoff, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\RaikovCompletionUp$, $\UniformSpaceUp$, $\SeparatedUniformSpaceUp$, $\CauchyFilterUp$, $\UniformCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RaikovCompletionUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one two-sided uniform completion packet. It has no coordinate for quotient representatives, selected limits, host equality, trichotomy, choice, or an ambient completed group.
+\end{definition}
+
+\begin{theorem}[Raikov completion NameCert obligations]
+\label{thm:raikov-completion-namecert-obligations}
+For every accepted $\RaikovCompletionUp$ carrier $K=(G,U,S,L,R,F,C,H,P,N)$, the local $\NameCert_{\RaikovCompletionUp}$ surface consists exactly of carrier admission, left and right Cauchy-filter visibility, two-sided common-refinement compatibility, separated-boundary visibility, uniform-completion handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+
+Every obligation is read through the finite rows
+$$
+G,U,S,L,R,F,C,H,P,N .
+$$
+No obligation is stored as a quotient completion, a chosen representative, a selected limit, host equality of completion points, trichotomy, countable choice, or an ambient complete-group principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:raikov-completion-carrier}. The projection exposes the source group row, uniform entourage row, separated comparison row, left and right Cauchy-filter ledgers, two-sided compatibility row, completion handoff, transport row, provenance row, and local naming row.
+
+The left and right Cauchy obligations are exactly the rows $L$ and $R$. The compatibility row $F$ is downstream of both, so a completion-facing consumer cannot read only one side of the uniform structure and call it a Raikov route.
+
+The separated boundary is the row $S$, and the completion handoff is the row $C$. The replay data require the route through $U,S,L,R,F$ before $C$ is available, while $H,P,N$ preserve transport, provenance, and local naming for the same finite packet.
+
+Since the carrier has no quotient, representative-selection, host-equality, trichotomy, choice, or ambient complete-group coordinate, none of the listed obligations can export such data.
+\end{proof}
+
+\begin{theorem}[Raikov completion two-sided Cauchy-filter route]
+\label{thm:raikov-completion-two-sided-cauchy-filter-route}
+Every completion-facing read of an accepted $\RaikovCompletionUp$ packet factors through the finite two-sided route
+$$
+\UniformSpaceUp \longrightarrow \SeparatedUniformSpaceUp \longrightarrow
+(\CauchyFilterUp_{\mathrm{left}},\CauchyFilterUp_{\mathrm{right}})
+\longrightarrow \UniformCompletionUp .
+$$
+Equivalently, a consumer first reads the displayed uniform entourage row $U$, then the separated comparison row $S$, then the paired left and right Cauchy-filter ledgers $L,R$ together with their compatibility row $F$, and only then the completion handoff row $C$. The route exports no quotient representative, chosen limit, host equality of completion points, trichotomy, countable choice, or ambient complete-group object.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(G,U,S,L,R,F,C,H,P,N)$. The only uniform data available to a completion-facing consumer is the displayed row $U$, and the only separated comparison data is the displayed row $S$.
+
+The Cauchy-filter part of the route is two-sided. The left ledger $L$ and right ledger $R$ are both required before the compatibility row $F$ can be read, so the packet does not expose a one-sided completion boundary.
+
+The completion handoff is the row $C$. By \autoref{thm:raikov-completion-namecert-obligations}, $C$ is downstream of the uniform, separated, left-filter, right-filter, and compatibility rows, with the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance.
+
+Thus every completion-facing read factors through the displayed two-sided Cauchy-filter route. The exclusions follow from the carrier inventory in \autoref{def:raikov-completion-carrier}.
+\end{proof}
+
+\closureat{RaikovCompletionUp}{seedStr}
+
+\begin{closurestatus}{\RaikovCompletionUp}
+  \constructivestory{A $\RaikovCompletionUp$ packet is generated from a source group row, UniformSpaceUp entourage row, SeparatedUniformSpaceUp comparison row, left and right CauchyFilterUp ledgers, a two-sided compatibility row, UniformCompletionUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:raikov-completion-carrier}, \autoref{thm:raikov-completion-namecert-obligations}, and \autoref{thm:raikov-completion-two-sided-cauchy-filter-route} seed the two-sided uniform completion route over UniformSpace, SeparatedUniformSpace, CauchyFilter, and UniformCompletion rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion construction, uniqueness of completion points, selected representatives, host equality, trichotomy, countable choice, ambient complete-group structure, or bridge checking.}
+  \upgradepath{Formal verification remains the route from the paper carrier and two-sided handoff rows to checked theorem, axiom-clean, and bridge-checked status for BEDC.Derived.RaikovCompletionUp.}
+\end{closurestatus}
