@@ -121,6 +121,33 @@ use the closed-normal contradiction route through $T,F,N,K,H,C,P,L$ and no
 stronger subject-reduction route.
 \end{proof}
 
+\begin{theorem}[Normal-form consistency seal finite-window determinacy]
+\label{thm:normal-form-consistency-seal-finite-window-determinacy}
+Let $S=(T,F,N,K,X,H,C,P,L)$ and $S'=(T',F',N',K',X',H',C',P',L')$ be accepted
+$\NormalFormConsistencySealUp$ packets. Suppose the two packets agree
+componentwise on the displayed typing row, false-type row, beta-strong
+normality row, checked closed-normal consistency row, subject-reduction
+boundary row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local
+$\NameCert$ row. Then every closed-normal consumer read exposed by $S$ and
+$S'$ has the same BEDC classifier boundary.
+\end{theorem}
+\begin{proof}
+Project both carriers through
+\autoref{def:normal-form-consistency-seal-carrier}. The displayed agreement
+identifies the paired rows $T,T'$, $F,F'$, $N,N'$, $K,K'$, $X,X'$, $H,H'$,
+$C,C'$, $P,P'$, and $L,L'$ componentwise.
+
+The closed-normal read is routed through the same $K$ row together with the
+same typing, false-type, and beta-strong normality rows. The boundary row $X$
+is only the visible subject-reduction frontier, so the comparison does not
+assert arbitrary subject reduction or move an arbitrary closed proof candidate
+to a normal endpoint.
+
+The remaining agreement on $H,C,P,L$ transports, replays, sources, and names
+the same finite packet. Therefore the two exposed consumer reads meet the same
+BEDC classifier boundary.
+\end{proof}
+
 \begin{theorem}[Normal-form consistency seal non-escape]
 \label{thm:normal-form-consistency-seal-nonescape}
 No consumer of an accepted $\NormalFormConsistencySealUp$ packet can read a
