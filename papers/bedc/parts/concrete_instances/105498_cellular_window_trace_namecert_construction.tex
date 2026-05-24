@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\CellularWindowTraceUp$}
+\label{ch:concrete-instances-cellular-window-trace-namecert}
+\origin{ai}
+
+The $\CellularWindowTraceUp$ packet realizes the cellular-carrier alternative of \autoref{ch:visions-cellular-substrate-as-carrier-alternative} as finite orbit-window NameCert rows while leaving the BEDC kernel carrier as $\BHist$. It consumes the cellular automaton and substrate readings of \autoref{ch:concrete-instances-cellularautomaton-namecert} and \autoref{ch:concrete-instances-cellularsubstrate-namecert}, the finite $\BHist$ encoding discipline of \autoref{ch:concrete-instances-cellularcarrierencoding-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, and the bounded universal trace boundary of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}. The packet names a finite window of a cellular orbit, not a replacement foundation for BEDC histories.
+
+\begin{definition}[Cellular window trace carrier]\label{def:cellular-window-trace-carrier}
+A $\CellularWindowTraceUp$ carrier is a finite $\BHist$ packet
+$$
+(w,r,i,o,B,H,C,P,N).
+$$
+Here $w$ is the displayed width row, $r$ is the local-rule row, $i$ is the initial cell-row encoding, $o$ is the finite orbit-window ledger, $B$ is the $\BHist$ encoding of the selected rows, $H$ records componentwise $\hsame$ transport, $C$ records $\Cont$ replay of the local update route, $P$ records $\Pkg$ provenance from the cellular-substrate sources, and $N$ is the local $\NameCert_{\CellularWindowTraceUp}$ row.
+\end{definition}
+
+\begin{theorem}[Cellular window trace NameCert obligations]\label{thm:cellular-window-trace-namecert-obligations}
+For every accepted $\CellularWindowTraceUp$ carrier $(w,r,i,o,B,H,C,P,N)$, the local $\NameCert_{\CellularWindowTraceUp}$ surface consists exactly of width, local-rule, initial-row, finite orbit-window, $\BHist$ encoding, transport, replay, provenance, and local naming rows. A consumer may read the cellular window only by first consuming these rows; it receives no global orbit, no infinite cellular history, no substrate replacement of $\BHist$, and no bijection between cellular traces and all BEDC histories.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier rows. The width and local-rule rows determine which finite cell row can be updated, and the initial row gives the only starting configuration available to the packet.
+
+The orbit-window ledger $o$ records the finite segment that is actually visible. Its $\BHist$ encoding row $B$ translates that segment into the BEDC kernel carrier without changing the carrier used by the surrounding certificate.
+
+Finally $H,C,P,N$ export the route. Transport preserves the displayed rows, replay records the local update computation, provenance ties the route to the cellular-substrate sources, and the local certificate names this finite window only.
+\end{proof}
+
+\begin{theorem}[Cellular window trace finite-read factorization]\label{thm:cellular-window-trace-finite-read-factorization}
+Every accepted read of a $\CellularWindowTraceUp$ packet factors through
+$$
+w\longmapsto r\longmapsto i\longmapsto o\longmapsto B\longmapsto H,C,P,N .
+$$
+Thus the cellular-carrier alternative is exposed as finite orbit-window data before any downstream consumer can treat it as a cellular trace.
+\end{theorem}
+\begin{proof}
+Read the packet in dependency order. Width and local rule are needed before the initial row can be updated, and the finite orbit window is the only displayed result of those updates.
+
+The $\BHist$ encoding row then returns the trace to the BEDC carrier. Since transport, replay, provenance, and naming are all downstream of that encoding, the public consumer sees a finite cellular-window certificate rather than a direct cellular replacement for $\BHist$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted cellular-window read of $\CellularWindowTraceUp$ factors through width, local-rule, initial-row, finite orbit-window, $\BHist$ encoding, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming rows before any downstream cellular-trace consumer can inspect it.}
+
+\independenceWitness{cellularsubstrate, cellularautomaton, streamname, bhist-arity16-eventflow, boundeduniversaltrace: the cellular-window packet is not bijective with the BEDC carrier. It records one finite orbit window with a displayed encoding, while $\BHist$ supplies the kernel carrier independently of any chosen cellular width, rule, initial row, or orbit segment.}
+
+On the Lean side, the formal carrier should supply `Nontrivial CellularWindowTraceUp` and `FieldFaithful CellularWindowTraceUp` instances in `lean4/BEDC/Derived/CellularWindowTraceUp/TasteGate.lean`.
+
+\begin{closurestatus}{\CellularWindowTraceUp}
+  \constructivestory{A $\CellularWindowTraceUp$ packet is generated from a width row, local-rule row, initial-row encoding, finite orbit-window ledger, BHist encoding, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cellular-window-trace-carrier}, \autoref{thm:cellular-window-trace-namecert-obligations}, and \autoref{thm:cellular-window-trace-finite-read-factorization} declare the finite orbit-window certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, a global cellular orbit, an infinite cellular history, a substrate replacement for BHist, or a bijection between cellular traces and all BEDC histories.}
+  \upgradepath{Checked closure requires Lean carrier admission, finite orbit-window factorization, BHist encoding transport, and TasteGate instance rows for the same finite packet.}
+\end{closurestatus}
