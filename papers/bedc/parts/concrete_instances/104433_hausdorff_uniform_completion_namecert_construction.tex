@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\HausdorffUniformCompletionUp$}
+\label{ch:concrete-instances-hausdorff-uniform-completion-namecert}
+\origin{human}
+
+Following Kelley on uniform spaces and Bishop--Bridges constructive completion, the $\HausdorffUniformCompletionUp$ packet records the separated uniform-completion boundary required when a completion route must expose both Cauchy-filter data and Hausdorff uniqueness data as finite rows. It sits between the uniform completion carrier of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the separated completion seal of \autoref{ch:concrete-instances-hausdorffcompletion-namecert}, the Cauchy-filter source of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the Cauchy-net witness surface of \autoref{ch:concrete-instances-cauchynet-namecert}, and the separated uniform-space packet of \autoref{ch:concrete-instances-separated-uniform-space-namecert}. The packet names the point at which the L10 completion route may read separatedness explicitly rather than treating it as implicit in uniform completion.
+
+\begin{definition}[Hausdorff uniform completion carrier]
+\label{def:hausdorff-uniform-completion-carrier}
+A $\HausdorffUniformCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,D,U,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ source row fixing the completion-facing filter request.
+\item $D$ is the $\CauchyNetUp$ directed witness row extracted from the same request.
+\item $U$ is the $\UniformCompletionUp$ universal-extension row, read only after $F$ and $D$ have displayed the completion source.
+\item $S$ is the Hausdorff and separated classifier row, read through $\HausdorffCompletionUp$ and the separated uniform-space boundary, which compares two completion reads without introducing a quotient representative.
+\item $H$ records componentwise $\hsame$ transport for $F,D,U,S,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from completion consumers through the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\HausdorffUniformCompletionUp$, $\CauchyFilterUp$, $\CauchyNetUp$, $\UniformCompletionUp$, $\HausdorffCompletionUp$, $\SeparatedUniformSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HausdorffUniformCompletionUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one separated uniform-completion packet. It contains no coordinate for a quotient completion object, selected representative, host equality of completed points, countable choice, or ambient complete uniform space.
+\end{definition}
+
+\begin{theorem}[Hausdorff uniform completion NameCert obligations]
+\label{thm:hausdorff-uniform-completion-namecert-obligations}
+For an accepted $\HausdorffUniformCompletionUp$ carrier $K=(F,D,U,S,H,C,P,N)$, the local $\NameCert_{\HausdorffUniformCompletionUp}$ surface consists exactly of the following five obligations:
+\begin{enumerate}
+\item carrier admission for the displayed Cauchy-filter row, Cauchy-net row, uniform-completion universal row, separated classifier row, transport row, replay row, provenance row, and local naming row;
+\item filter-net exactness, requiring every completion-facing read to pass through $F$ and then through the finite directed witness row $D$ before $U$ is available;
+\item separated classifier stability, requiring $S$ to compare completed reads only through the displayed $\HausdorffCompletionUp$ and separated uniform-space rows;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same row order under componentwise sameness and displayed continuation replay;
+\item ledger non-escape, requiring $P$ and $N$ to name no quotient completion, selected representative, host equality, countable-choice schedule, or ambient complete uniform-space coordinate.
+\end{enumerate}
+No separated uniform-completion obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hausdorff-uniform-completion-carrier}. The projected coordinates are exactly the filter row $F$, net row $D$, universal row $U$, separated classifier row $S$, and structural rows $H,C,P,N$.
+
+Filter-net exactness reads the same finite route as \autoref{thm:uniform-completion-filter-net-obligations}. The filter row fixes the request, and the directed-net row supplies the finite witness before any universal-extension comparison is visible.
+
+Separated classifier stability is the role of $S$. The comparison can cite the Hausdorff completion boundary of \autoref{ch:concrete-instances-hausdorffcompletion-namecert} and the separated uniform-space packet of \autoref{ch:concrete-instances-separated-uniform-space-namecert}, but it receives no quotient class or selected representative.
+
+The transport and replay rows $H$ and $C$ preserve that same route. Since $P$ and $N$ package and name only the displayed packet, every excluded object is outside the carrier and outside the continuation ledger.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HausdorffUniformCompletionUp$ consumer reads $\CauchyFilterUp$, $\CauchyNetUp$, $\UniformCompletionUp$, and a Hausdorff separated classifier row before citing separated uniform-completion uniqueness.}
+
+\independenceWitness{cauchyfilter, cauchynet, uniformcompletion, hausdorffcompletion, separateduniformspace: $\HausdorffUniformCompletionUp$ is not bijective to any listed sibling because it jointly carries the filter request, directed witness, universal-extension route, separated classifier, transport, replay, provenance, and local NameCert rows as one boundary packet.}
+
+\closureat{HausdorffUniformCompletionUp}{seedStr}
+\begin{closurestatus}{\HausdorffUniformCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hausdorff-uniform-completion-carrier} and \autoref{thm:hausdorff-uniform-completion-namecert-obligations} seed the separated uniform-completion boundary over displayed Cauchy-filter, Cauchy-net, uniform-completion, Hausdorff classifier, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient completion equality, selected representatives, host equality, countable choice, or ambient complete uniform-space existence.}
+  \upgradepath{Obligation closure requires checked carrier admission, filter-net exactness, separated classifier stability, transport and replay stability, and ledger non-escape for BEDC.Derived.HausdorffUniformCompletionUp.}
+  \constructivestory{A $\HausdorffUniformCompletionUp$ packet is generated from CauchyFilter, CauchyNet, UniformCompletion, HausdorffCompletion, SeparatedUniformSpace, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+\end{closurestatus}
