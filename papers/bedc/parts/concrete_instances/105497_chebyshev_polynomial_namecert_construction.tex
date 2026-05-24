@@ -1,0 +1,49 @@
+\chapter{A Concrete Naming Certificate for $\ChebyshevPolynomialUp$}
+\label{ch:concrete-instances-chebyshev-polynomial-namecert}
+\origin{human}
+
+Following Chebyshev and the classical approximation-theory presentation of Chebyshev polynomials, the $\ChebyshevPolynomialUp$ packet names the finite recurrence surface for the displayed family $T_n$ without importing an ambient real-function algebra. It sits after the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}. The packet supplies a traditional approximation-theory object as finite NameCert data for later minimax and constructive approximation routes.
+
+\begin{definition}[Chebyshev polynomial carrier]\label{def:chebyshev-polynomial-carrier}
+A $\ChebyshevPolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+(d,T_0,T_1,R,W,Q,H,C,P,N).
+$$
+Here $d$ is the unary degree row, $T_0$ and $T_1$ are the displayed recurrence seeds, $R$ is the recurrence-step ledger for $T_{n+1}=2xT_n-T_{n-1}$, $W$ is the dyadic evaluation-window schedule, $Q$ is the $\RealUp/\RegSeqRatUp$ readback row, $H$ records componentwise $\hsame$ transport, $C$ records $\Cont$ replay of the recurrence route, $P$ records $\Pkg$ provenance from the polynomial and real-name sources, and $N$ is the local $\NameCert_{\ChebyshevPolynomialUp}$ row. A consumer of the packet may inspect a Chebyshev read only through these displayed rows.
+\end{definition}
+
+\begin{theorem}[Chebyshev polynomial NameCert obligations]\label{thm:chebyshev-polynomial-namecert-obligations}
+For every accepted $\ChebyshevPolynomialUp$ carrier $(d,T_0,T_1,R,W,Q,H,C,P,N)$, the local $\NameCert_{\ChebyshevPolynomialUp}$ surface consists exactly of the finite rows in \autoref{def:chebyshev-polynomial-carrier}. The degree row chooses the recurrence depth, the seed rows display $T_0$ and $T_1$, the recurrence ledger displays each finite step, the dyadic window and regular readback rows mediate evaluation, and the transport, replay, provenance, and local naming rows export the resulting polynomial certificate. The packet imports no host polynomial equality, selected infinite family, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the packet rows in order. The degree row $d$ bounds the visible recurrence segment, so the seed rows and recurrence ledger already determine every displayed polynomial row consumed by the packet.
+
+The evaluation side factors through $W$ and $Q$. The dyadic windows give the finite tolerance requests, while the $\RegSeqRatUp$ readback and terminal $\RealUp$ seal keep coefficient and value reads inside the existing real-name route.
+
+Finally use $H,C,P,N$. These rows transport equal displayed histories, replay the recurrence computation, remember the polynomial and real-name provenance, and attach the local certificate name. No additional host equality or infinite polynomial family is available to a consumer outside the listed rows.
+\end{proof}
+
+\begin{theorem}[Chebyshev recurrence handoff]\label{thm:chebyshev-polynomial-recurrence-handoff}
+Every accepted $\ChebyshevPolynomialUp$ recurrence read factors through
+$$
+d\longmapsto T_0,T_1\longmapsto R\longmapsto W\longmapsto Q\longmapsto H,C,P,N
+$$
+before any approximation-facing consumer receives a polynomial value or coefficient row. Thus the Chebyshev recurrence is handed to later constructive approximation packets as finite degree, seed, recurrence, dyadic-window, real-readback, transport, replay, provenance, and naming data, not as an external analytic theorem about an infinite sequence of polynomials.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:chebyshev-polynomial-carrier}. The only recurrence coordinates exposed by the packet are $d,T_0,T_1,R$, so any accepted recurrence read is bounded by the displayed unary degree and the finite seed-and-step ledger.
+
+Next read the evaluation interface. The route through $W$ and $Q$ forces every value-facing request to pass through dyadic windows, $\RegSeqRatUp$ readback, and the $\RealUp$ seal before it can be consumed as approximation data.
+
+The remaining rows provide structural export. Componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same finite recurrence route for downstream minimax, interpolation, and approximation packets.
+\end{proof}
+
+\begin{closurestatus}{\ChebyshevPolynomialUp}
+  \constructivestory{A $\ChebyshevPolynomialUp$ packet is generated from a unary degree row, recurrence seed rows, a finite recurrence-step ledger, dyadic evaluation windows, regular rational and Real readback, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:chebyshev-polynomial-carrier}, \autoref{thm:chebyshev-polynomial-namecert-obligations}, and \autoref{thm:chebyshev-polynomial-recurrence-handoff} declare the finite recurrence certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, minimax optimality, Markov or Bernstein inequalities, Jackson approximation, host polynomial equality, selected infinite families, or ambient RealUp completeness.}
+  \upgradepath{Checked closure requires Lean carrier admission, recurrence ledger stability, evaluation-window readback, and recurrence handoff for the same finite packet.}
+\end{closurestatus}
