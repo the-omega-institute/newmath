@@ -322,6 +322,43 @@ theorem UniformCompletion_universal_extension_uniqueness
         ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
           extensionRoute, replayRoute, ledgerRoute⟩
 
+theorem UniformCompletion_universal_ledger_nonescape {F D U E H C P N route : BHist} :
+    UniformCompletionCarrier N →
+      Cont U E route →
+        hsame route H →
+          UniformCompletionLedgerPolicy N ∧
+            UniformCompletionClassifier route H ∧ UniformCompletionCauchyFilterPattern N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro carrier _displayedRoute sameRoute
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    extensionRoute, replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact ⟨P0, N0, sameName, ledgerRoute⟩
+  · constructor
+    · exact sameRoute
+    · exact
+        ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+          extensionRoute, replayRoute, ledgerRoute⟩
+
+theorem UniformCompletion_real_regseqrat_handoff {F D U E H C P N realRead : BHist} :
+    UniformCompletionCarrier N →
+      Cont P realRead N →
+        hsame realRead P →
+          UniformCompletionCauchyFilterPattern N ∧
+            UniformCompletionLedgerPolicy N ∧
+              hsame (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist N)) N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro carrier _realRoute _sameRead
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    extensionRoute, replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact
+      ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+        extensionRoute, replayRoute, ledgerRoute⟩
+  · constructor
+    · exact ⟨P0, N0, sameName, ledgerRoute⟩
+    · exact uniformCompletionDecode_encode_bhist N
+
 def taste_gate : ChapterTasteGate UniformCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   BEDC.Derived.UniformCompletionUp.taste_gate
