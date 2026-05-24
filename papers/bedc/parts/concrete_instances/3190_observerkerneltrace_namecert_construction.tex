@@ -71,18 +71,35 @@ Apply the NameCert obligations of \autoref{thm:observer-kernel-trace-namecert-ob
 Finally use \autoref{thm:observer-kernel-trace-non-escape}. A subject carrier, host equality of subjects, hidden owner, or global observation equivalence would require a coordinate absent from the carrier, so the public export is exactly the displayed route.
 \end{proof}
 
+\begin{theorem}[ObserverKernelTrace public bridge route]
+\label{thm:observer-kernel-trace-public-bridge-route}
+For an accepted $\ObserverKernelTraceUp$ packet, the public bridge route from the packet to downstream observer-history consumers is exactly
+$$
+T,H,C,B,S,L,P,N.
+$$
+The probe-bundle row $B$ and signature row $S$ are visible before any observer-history identity consumer reads the trace, and the route carries no subject carrier, host subject equality, hidden owner, or observer-substance coordinate outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:observer-kernel-trace-carrier}. Its finite rows are $T,H,C,B,S,L,P,N$, and no additional subject coordinate is part of the carrier.
+
+Use \autoref{thm:observer-kernel-trace-public-export-boundary} to identify the public export with the same finite tuple. The probe and signature rows $B$ and $S$ are listed in that export before the no-subject ledger, provenance, and local naming rows are consumed by downstream observers.
+
+Finally apply \autoref{thm:observer-kernel-trace-non-escape}. Any subject carrier, host subject equality, hidden owner, or observer-substance coordinate would have to be a packet row outside $T,H,C,B,S,L,P,N$, which the carrier and public export do not contain.
+\end{proof}
+
 \closureat{ObserverKernelTraceUp}{seedStr}
 \closureat{ObserverKernelTraceUp}{obligationStr}
 \closureat{ObserverKernelTraceUp}{scopedStr}
 \closureat{ObserverKernelTraceUp}{publicStr}
+\closureat{ObserverKernelTraceUp}{bridgedStr}
 
 \begin{closurestatus}{\ObserverKernelTraceUp}
   \constructivestory{An $\ObserverKernelTraceUp$ packet is generated from finite $\BHist$ trace rows, componentwise $\hsame$ transport, displayed $\Cont$ routes, licensed $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ observations, a no-subject ledger, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:observer-kernel-trace-carrier}, \autoref{thm:observer-kernel-trace-namecert-obligations}, \autoref{thm:observer-kernel-trace-non-escape}, and \autoref{thm:observer-kernel-trace-public-export-boundary} bind the carrier, NameCert obligation rows, no-subject non-escape surface, and public export boundary for observer-kernel traces.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:observer-kernel-trace-carrier}, \autoref{thm:observer-kernel-trace-namecert-obligations}, \autoref{thm:observer-kernel-trace-non-escape}, \autoref{thm:observer-kernel-trace-public-export-boundary}, and \autoref{thm:observer-kernel-trace-public-bridge-route} bind the carrier, NameCert obligation rows, no-subject non-escape surface, public export boundary, and public bridge route for observer-kernel traces.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close a Lean theorem, a host observer model, subject identity, hidden ownership, global observation equivalence, or equality of subjects.}
-  \upgradepath{Bridged closure requires a bridge theorem for the same trace, probe, signature, transport, replay, provenance, and local NameCert packet.}
+  \upgradepath{Mature closure requires completeness examples or downstream consumer coverage for the same trace, probe, signature, transport, replay, provenance, and local NameCert packet.}
 \end{closurestatus}
