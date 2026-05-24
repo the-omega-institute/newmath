@@ -67,4 +67,36 @@ theorem DiagonalLimitCompatibility_real_seal_exactness [AskSetup] [PackageSetup]
       sealRowReadbackSealRead, sealReadRealSealEndpoint, routeCertTransport, provenancePkg,
       realEndpointPkg⟩
 
+theorem DiagonalLimitCompatibilityTriangleSelectorAlignment [AskSetup] [PackageSetup]
+    {source selector triangle sealRow _transport route provenance _nameRow selectorRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source →
+      UnaryHistory selector →
+        UnaryHistory sealRow →
+          UnaryHistory route →
+            Cont source selector triangle →
+              Cont triangle sealRow selectorRead →
+                Cont selectorRead route sealRead →
+                  PkgSig bundle provenance pkg →
+                    PkgSig bundle sealRead pkg →
+                      UnaryHistory triangle ∧ UnaryHistory selectorRead ∧
+                        UnaryHistory sealRead ∧ Cont source selector triangle ∧
+                          Cont triangle sealRow selectorRead ∧
+                            Cont selectorRead route sealRead ∧
+                              PkgSig bundle provenance pkg ∧
+                                PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro sourceUnary selectorUnary sealUnary routeUnary sourceSelectorTriangle
+    triangleSealSelector selectorRouteSeal provenancePkg sealPkg
+  have triangleUnary : UnaryHistory triangle :=
+    unary_cont_closed sourceUnary selectorUnary sourceSelectorTriangle
+  have selectorReadUnary : UnaryHistory selectorRead :=
+    unary_cont_closed triangleUnary sealUnary triangleSealSelector
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed selectorReadUnary routeUnary selectorRouteSeal
+  exact
+    ⟨triangleUnary, selectorReadUnary, sealReadUnary, sourceSelectorTriangle,
+      triangleSealSelector, selectorRouteSeal, provenancePkg, sealPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
