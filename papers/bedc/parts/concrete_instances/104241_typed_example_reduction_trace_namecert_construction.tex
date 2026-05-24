@@ -2,7 +2,9 @@
 \label{ch:concrete-instances-typed-example-reduction-trace-namecert}
 \origin{ai}
 
-The $\TypedExampleReductionTraceUp$ packet realizes the MetaCIC typed-example gallery as a finite NameCert carrier. It reads the audit map of \autoref{ch:metacic-typedexamples-audit-map} as a concrete route connecting a displayed typed term, its type, a selected reduction step, the checker result, closedness evidence, transport, replay, provenance, and local naming.
+The $\TypedExampleReductionTraceUp$ packet realizes the MetaCIC typed-example gallery as a finite NameCert carrier. It reads the audit map of \autoref{ch:metacic-typedexamples-audit-map} as a concrete route connecting a displayed typed term, its type, a selected reduction step, the checker result, closedness evidence, transport, replay, provenance, and local naming. The packet consumes the bounded MetaCIC critical-path and confluence-boundary surfaces through \autoref{ch:concrete-instances-metaciccriticalpath-namecert} and \autoref{ch:concrete-instances-candidate-sn-confluence-boundary-namecert} before the checker result row is read.
+
+Before the checker and reduction rows are public, the packet also consumes the closed context seal of \autoref{ch:concrete-instances-closedtermcontextseal-namecert}. That seal supplies the finite context row read by $Z$, so the displayed type $A$, reduction step $R$, and checker result $K$ are not interpreted over an open or implicit environment. The subject-reduction frontier is then reached through \autoref{ch:concrete-instances-subjectreductiondischarge-namecert} or \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}: those packets provide the boundary rows saying which beta-substitution and subject-reduction obligations must be visible before the typed-example trace may treat $R$ and $K$ as a coherent public row.
 
 \begin{definition}[TypedExampleReductionTrace carrier]
 \label{def:typed-example-reduction-trace-carrier}
