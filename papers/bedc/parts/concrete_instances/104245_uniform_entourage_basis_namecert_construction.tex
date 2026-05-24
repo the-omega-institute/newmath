@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\UniformEntourageBasisUp$}
+\label{ch:concrete-instances-uniform-entourage-basis-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform spaces, a uniformity can be read through a directed family of entourages whose finite refinements control diagonal, symmetry, and composition requests. The $\UniformEntourageBasisUp$ packet records that basis surface as finite BEDC NameCert data. It sits between the ambient uniform-space interface of \autoref{ch:concrete-instances-uniformspace-namecert}, the separated boundary of \autoref{ch:concrete-instances-separated-uniform-space-namecert}, the complete-uniform consumer of \autoref{ch:concrete-instances-complete-uniform-space-namecert}, the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and the metric basis model of \autoref{ch:concrete-instances-metric-namecert}. The packet gives L10 completion consumers an explicit finite entourage-basis carrier rather than an implicit convention about available uniform neighborhoods.
+
+\begin{definition}[Uniform entourage basis carrier]
+\label{def:uniform-entourage-basis-carrier}
+A $\UniformEntourageBasisUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,B,D,R,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the point-source row, carrying the displayed source histories and point classifier read by the ambient $\UniformSpaceUp$ packet.
+\item $B$ is the finite entourage-basis ledger, listing the named basic entourage rows available to completion, Cauchy-filter, separated-uniform, and metric consumers.
+\item $D$ is the diagonal ledger, recording that each listed basic entourage admits the displayed diagonal point pairs from $X$.
+\item $R$ is the pairwise refinement ledger, recording for each two displayed basic entourages a further listed basic entourage refined into both.
+\item $S$ is the symmetry ledger, recording for each listed basic entourage a displayed basic entourage whose reversed point-pair reads refine the original row.
+\item $Q$ is the composition ledger, recording for each listed basic entourage a displayed basic entourage whose two-step relational composition refines the original row.
+\item $H$ records componentwise $\hsame$ transport for the point source, basis ledger, diagonal rows, pairwise refinement rows, symmetry rows, and composition rows.
+\item $C$ records displayed $\Cont$ replay from any completion or Cauchy-filter consumer request through $X,B,D,R,S,Q$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\UniformEntourageBasisUp$, $\UniformSpaceUp$, $\SeparatedUniformSpaceUp$, $\CompleteUniformSpaceUp$, $\CauchyFilterUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformEntourageBasisUp}$ row.
+\end{enumerate}
+The carrier exports no quotient completion, host equality of points, selected limit, countable-choice schedule, open-cover compactness principle, ambient $\RealUp$ completeness row, Lean verification, or bridge certificate.
+\end{definition}
+
+\begin{theorem}[Uniform entourage basis NameCert obligations]
+\label{thm:uniform-entourage-basis-namecert-obligations}
+For the carrier of \autoref{def:uniform-entourage-basis-carrier}, the local $\NameCert_{\UniformEntourageBasisUp}$ surface consists exactly of carrier admission for $K=(X,B,D,R,S,Q,H,C,P,N)$, point-source admission through $X$, finite basic-entourage admission through $B$, diagonal admission through $D$, pairwise common-refinement admission through $R$, symmetry admission through $S$, composition admission through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The point-source row and finite basis ledger are displayed before any uniform consumer can ask for a Cauchy, separated, complete, or metric-facing read.
+
+The obligation rows are the uniformity laws restricted to the named basis. The diagonal row $D$, pairwise refinement row $R$, symmetry row $S$, and composition row $Q$ certify exactly the finite requests needed to treat $B$ as an entourage basis.
+
+The structural rows preserve that basis surface. The transport row $H$ moves all six data rows componentwise, the replay row $C$ forces consumers through the same route, the package row $P$ records the sibling dependencies, and the local name $N$ certifies no additional completion or choice coordinate.
+\end{proof}
+
+\begin{theorem}[Uniform entourage basis refinement stability]
+\label{thm:uniform-entourage-basis-refinement-stability}
+Every accepted $\UniformEntourageBasisUp$ packet keeps completion-facing refinement reads inside the finite route
+$$
+X,B,D,R,S,Q,H,C,P,N.
+$$
+A request for a smaller common entourage is discharged by the pairwise refinement row $R$; a request for a reversed entourage is discharged by $S$; and a request for a two-step entourage whose composition remains inside a displayed target entourage is discharged by $Q$. The resulting read is transported by $H$, replayed by $C$, sourced by $P$, and named by $N$, with no quotient completion, host equality, selected limit, countable choice, open-cover compactness, or ambient Real completeness exposed.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing or Cauchy-filter request. The consumer can inspect only the point source $X$ and the finite basis ledger $B$ before asking for a refinement row.
+
+There are three refinement forms. Pairwise narrowing is the row $R$, reversed-point stability is the row $S$, and two-step composition stability is the row $Q$; the diagonal row $D$ supplies the identity-pair side condition used by all three forms.
+
+Finally apply the structural route. Componentwise $\hsame$ transport keeps the selected basis rows attached to the same point source, $\Cont$ replay prevents the consumer from skipping the displayed rows, and the $\Pkg$ and local NameCert rows name only this finite basis packet.
+\end{proof}
+
+\falsifiablePrediction{Every L10 completion read that consumes a UniformEntourageBasisUp packet must factor through the displayed point source, finite basis ledger, diagonal rows, pairwise refinement rows, symmetry rows, composition rows, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{uniformspace, separateduniformspace, completeuniformspace, cauchyfilter, metric: UniformEntourageBasisUp is not bijective to any listed sibling because it jointly carries a point-source row, a finite entourage-basis ledger, diagonal rows, pairwise refinement rows, symmetry rows, composition rows, transport, replay, provenance, and local naming.}
+
+\closureat{UniformEntourageBasisUp}{seedStr}
+
+\begin{closurestatus}{\UniformEntourageBasisUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-entourage-basis-carrier}, \autoref{thm:uniform-entourage-basis-namecert-obligations}, and \autoref{thm:uniform-entourage-basis-refinement-stability} seed the finite entourage-basis carrier over point-source rows, basic entourage ledgers, diagonal rows, pairwise refinement rows, symmetry rows, composition rows, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completions, host equality, selected limits, countable choice, open-cover compactness, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, basis-law stability, completion-consumer nonescape, and TasteGate field faithfulness for BEDC.Derived.UniformEntourageBasisUp.}
+  \constructivestory{A $\UniformEntourageBasisUp$ packet is generated from a point-source row, finite entourage-basis ledger, diagonal rows, pairwise refinement rows, symmetry rows, composition rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

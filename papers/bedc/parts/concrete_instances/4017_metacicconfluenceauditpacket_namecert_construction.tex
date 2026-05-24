@@ -179,12 +179,105 @@ there is no hidden confluence theorem, unrecorded substitution lemma, host
 quotient over reductions, or conversion into arbitrary closed Church--Rosser.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit packet obligation-closure package]
+\label{thm:metacic-confluence-audit-packet-obligation-closure-package}
+For an accepted $\MetaCICConfluenceAuditPacketUp$ carrier, the carrier row, conditional confluence boundary, closed substitution boundary, subject-reduction separation, and non-escape theorem form the whole obligation surface of the packet. The surface packages the conditional confluence rows and their obstruction boundary; it does not claim arbitrary closed Church--Rosser, unparameterized subject reduction, a proof of full substitution compatibility, or a hidden conversion from conditional bridges into unconditional endpoints.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-audit-packet-carrier} and the NameCert obligations of \autoref{thm:metacic-confluence-audit-packet-namecert-obligations}. They expose the conditional bridge rows, unconditional fragments, substitution-boundary row, subject-reduction separation row, transport, replay, provenance, and local naming.
+
+Use the conditional boundary and closed substitution boundary, \autoref{thm:metacic-confluence-audit-packet-conditional-boundary} and \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}. These keep the MetaCIC audit-map obstruction visible instead of turning it into full substitution compatibility or a closed parallel diamond.
+
+Apply the subject-reduction separation and non-escape rows, \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation} and \autoref{thm:metacic-confluence-audit-packet-nonescape}. The first prevents fusion with the sibling subject-reduction packets, and the second exhausts every consumer read by $D,C,N,A_0,S,R,H,T,P,L$. Hence the packaged surface is obligation closure for the finite packet and not a stronger MetaCIC metatheorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence audit obligation surface]
+\label{thm:metacic-confluence-audit-obligation-surface}
+For an accepted $\MetaCICConfluenceAuditPacketUp$ carrier
+$A=(D,C,N,A_0,S,R,H,T,P,L)$, the confluence audit obligations are exactly the
+conditional diamond row $D$, the closed-diamond-to-star row $C$, the
+closed-normal fragment row $N$, the atom and source-shape fragment row $A_0$,
+the substitution-boundary row $S$, the subject-reduction separation row $R$,
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$
+provenance, and the local $\NameCert$ row. The TasteGate alignment named in
+the chapter's Lean marker reads these obligations as rows of the same finite
+packet rather than as a second MetaCIC confluence object.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply
+\autoref{thm:metacic-confluence-audit-packet-namecert-obligations}. The
+positive confluence reads are $D,C,N,A_0$, while the negative boundary and
+horizontal separation reads are $S$ and $R$.
+
+The kernel support rows are $H,T,P,L$. They give componentwise transport,
+consumer replay, provenance, and local naming for precisely those confluence
+and boundary entries.
+
+Finally use the already displayed TasteGate carrier alignment: it reads the
+same carrier as the public audit packet. Thus the obligations are not
+transported into an untracked confluence theorem or a second carrier surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence audit candidate-mediated strong normalization]
+\label{thm:metacic-confluence-audit-candidate-mediated-sn}
+Any candidate-mediated strong-normalization witness consumed by an accepted
+$\MetaCICConfluenceAuditPacketUp$ carrier must enter as a finite audit row
+attached to $S$ and replayed through $T$. The packet may record that such a
+candidate row blocks the substitution obstruction for the displayed closed
+face, and it may transport the row through $H$ with provenance $P$ and local
+name $L$. It may not convert the candidate witness into an unconditional proof
+of $\mathsf{BetaParallelSubstitutionCompatibility}$, arbitrary strong
+normalization, or closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Start with the substitution-boundary row $S$. It is the only coordinate that
+names the obstruction, so any candidate-mediated witness relevant to the
+obstruction must be recorded there as audit data.
+
+Next replay the candidate row through $T$ and transport it through $H$. The
+replay can feed the closed-face boundary described by
+\autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}, but
+it remains a row of the same finite packet with provenance $P$ and local name
+$L$.
+
+The conditional-boundary theorem then prevents the final step from becoming
+unconditional. Since $A$ has no coordinate for full substitution compatibility,
+arbitrary strong normalization, or closed Church--Rosser, the candidate witness
+is an audit row and not an exported MetaCIC theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence audit normal-fragment route]
+\label{thm:metacic-confluence-audit-normal-fragment}
+The normal-fragment confluence route of an accepted
+$\MetaCICConfluenceAuditPacketUp$ carrier is exactly the finite read of
+$N,A_0,H,T,P,L$. It covers the closed-normal, atom, sort,
+closed-variable-impossible, and non-lambda-application fragments named by the
+carrier, and it cites $D,C,S,R$ only as the surrounding conditional and
+separation boundary. The route does not export full substitution
+compatibility, subject reduction, arbitrary closed-term Church--Rosser, or a
+host quotient over reductions.
+\end{theorem}
+\begin{proof}
+Project the unconditional fragment rows. The row $N$ carries the closed-normal
+fragment, and $A_0$ carries the atom, sort, closed-variable-impossible, and
+non-lambda-application source-shape fragments.
+
+Read those rows through $H,T,P,L$. Transport and replay keep the fragments
+inside the finite audit packet, while provenance and local naming record the
+same public carrier read used by the TasteGate alignment.
+
+The remaining rows $D,C,S,R$ are boundary data. They explain the conditional
+diamond route and the subject-reduction separation, but they do not add a
+coordinate for full substitution compatibility, subject reduction, arbitrary
+closed-term Church--Rosser, or a quotient over reductions.
+\end{proof}
+
 \closureat{MetaCICConfluenceAuditPacketUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICConfluenceAuditPacketUp}
   \constructivestory{A $\MetaCICConfluenceAuditPacketUp$ packet is generated from conditional confluence bridges, unconditional closed-normal and atom fragments, a substitution-compatibility boundary row, a subject-reduction separation row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-confluence-audit-packet-carrier}, \autoref{thm:metacic-confluence-audit-packet-namecert-obligations}, \autoref{thm:metacic-confluence-audit-packet-conditional-boundary}, \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation}, and \autoref{thm:metacic-confluence-audit-packet-nonescape} bind the confluence audit-map boundary as a finite NameCert packet.}
+  \scopeclosed{\autoref{def:metacic-confluence-audit-packet-carrier}, \autoref{thm:metacic-confluence-audit-packet-namecert-obligations}, \autoref{thm:metacic-confluence-audit-packet-conditional-boundary}, \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}, \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation}, \autoref{thm:metacic-confluence-audit-packet-nonescape}, and \autoref{thm:metacic-confluence-audit-packet-obligation-closure-package} bind the confluence audit-map boundary as a finite NameCert obligation surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MetaCICConfluenceAuditPacketUp.MetaCICConfluenceAuditPacketTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
