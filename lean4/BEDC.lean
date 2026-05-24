@@ -4505,6 +4505,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamPackage
 import BEDC.Derived.QuotientSoundnessBoundaryUp.FormalTargetFrontier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
+import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelDependencyRoute
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.NameCertLedger
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameBridgeHandoff
@@ -5026,6 +5027,7 @@ import BEDC.Derived.RegularCauchyModulusNormalizerUp.SharedTailMeetDeterminacy
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.WitnessLedgerHandoff
 import BEDC.Derived.RegularCauchyModulusRealizerUp.TasteGate
+import BEDC.Derived.RegularCauchyModulusStabilityUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.BridgeRequestSurface
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.RootConsumerHandoff
