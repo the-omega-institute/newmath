@@ -1,4 +1,5 @@
 import BEDC.Derived.CompactOperatorUp
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
@@ -92,6 +93,11 @@ private theorem CompactOperatorTasteGate_single_carrier_alignment_toEventFlow_in
   intro _heq
   cases x
   cases y
+  rfl
+
+private theorem CompactOperatorTasteGate_single_carrier_alignment_empty_encode :
+    compactOperatorEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   rfl
 
 instance compactOperatorBHistCarrier : BHistCarrier CompactOperatorUp where
