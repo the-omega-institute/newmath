@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRegSeqRatUp$}
+\label{ch:concrete-instances-located-regseqrat-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedRegSeqRatUp$ packet records a located regular sequence of rational approximants as finite BEDC NameCert data. It sits after the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the located real boundary of \autoref{ch:concrete-instances-locatedreal-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies Real and Completion consumers with a nonquotient route from displayed regular sequence data to located real-name handoff, without importing selected limits, quotient stream equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[LocatedRegSeqRat carrier]
+\label{def:located-regseqrat-carrier}
+A $\LocatedRegSeqRatUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,S,R,Q,W,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, exposing finite dyadic scales and comparison rows used by later location requests.
+\item $S$ is the $\StreamNameUp$ observation schedule, naming the finite windows at which rational approximants may be read.
+\item $R$ is the $\RegSeqRatUp$ regular-sequence source row, carrying rational readback and regularity evidence for the scheduled windows.
+\item $Q$ is the located comparison row, recording for each displayed dyadic tolerance the finite branch that locates the regular sequence relative to the requested rational cut.
+\item $W$ is the tail-window row, binding the location read to a finite suffix of the scheduled regular sequence.
+\item $H$ records componentwise $\hsame$ transport for $D,S,R,Q,W,K,P,N$.
+\item $K$ records displayed $\Cont$ replay from a location request through the dyadic, stream, regular-sequence, comparison, tail-window, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedRealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRegSeqRatUp}$ row.
+\end{enumerate}
+The classifier reads accepted packets only through $D,S,R,Q,W,H,K,P,N$. It has no coordinate for quotient stream equality, a selected limit representative, countable choice, trichotomy, host rational order, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[LocatedRegSeqRat NameCert obligations]
+\label{thm:located-regseqrat-namecert-obligations}
+For every accepted $\LocatedRegSeqRatUp$ carrier $L=(D,S,R,Q,W,H,K,P,N)$, the local $\NameCert_{\LocatedRegSeqRatUp}$ surface consists exactly of carrier admission, dyadic tolerance exposure, finite stream-window exposure, regular rational readback, located comparison classification, tail-window binding, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, local naming, and ledger refusal for quotient streams, selected limit representatives, countable choice, trichotomy, host rational order, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-regseqrat-carrier}. The packet exposes the dyadic ledger $D$, the observation schedule $S$, the regular rational row $R$, the located comparison row $Q$, and the tail-window row $W$ before the transport, replay, provenance, and local naming rows can be consumed.
+
+The NameCert obligations are precisely these projections. The dyadic and stream rows determine which finite tolerance and observation windows are available; the regular rational row supplies the readback; the located comparison and tail-window rows state where the location request is decided.
+
+Transport and replay are exhausted by $H$ and $K$. Since the classifier has no additional coordinate beyond $D,S,R,Q,W,H,K,P,N$, the local naming row cannot import quotient stream equality, selected limit representatives, countable choice, trichotomy, host rational order, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[LocatedRegSeqRat tail-window stability]
+\label{thm:located-regseqrat-tail-window-stability}
+Every transported $\LocatedRegSeqRatUp$ location read preserves the same finite tail-window route. If a consumer requests a dyadic tolerance through $D$, the transported packet must still read the scheduled stream windows $S$, the regular rational source $R$, the located comparison row $Q$, and the tail-window row $W$ before it can inspect the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the transport row $H$ from the carrier. It acts componentwise on the dyadic ledger, stream schedule, regular rational source, located comparison row, tail-window row, replay, provenance, and local naming rows.
+
+The replay row $K$ then repeats the same finite route after transport. A tolerance request first reads $D$, then the scheduled windows $S$, then the regular rational source $R$, and then the located comparison row $Q$ bound to the suffix named by $W$.
+
+No transported read can bypass this suffix because the local naming row is not exposed until the displayed route has been replayed. Thus tail-window stability is internal to the carrier surface.
+\end{proof}
+
+\begin{theorem}[LocatedRegSeqRat RealUp handoff]
+\label{thm:located-regseqrat-realup-handoff}
+Every $\RealUp$-facing consumer of an accepted $\LocatedRegSeqRatUp$ packet factors through the located regular-sequence carrier before the terminal real-name seal is read. The handoff exposes only $D,S,R,Q,W,H,K,P,N$ and the sibling $\LocatedRealUp$ and $\RealUp$ certificate surfaces, so it cannot supply a quotient completion, selected limit, countable-choice schedule, trichotomy decision, host real equality, or ambient $\RealUp$ completeness proof.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing read. The carrier forces the read through the dyadic tolerance ledger, finite stream schedule, regular rational source, located comparison classifier, and tail-window row before it reaches provenance or local naming.
+
+The sibling $\LocatedRealUp$ boundary consumes the displayed location row and not a host cut predicate. The $\RealUp$ seal is therefore terminal for the displayed route rather than a source of further completeness data.
+
+Since no classifier coordinate stores quotient completion, selected limits, countable choice, trichotomy, host real equality, or ambient completeness, the handoff exports only the finite located regular-sequence certificate surface.
+\end{proof}
+
+\closureat{LocatedRegSeqRatUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRegSeqRatUp}
+  \constructivestory{A $\LocatedRegSeqRatUp$ packet is generated from a DyadicRatCore tolerance ledger, StreamName observation windows, RegSeqRat readbacks, a located comparison row, a finite tail-window row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-regseqrat-carrier}, \autoref{thm:located-regseqrat-namecert-obligations}, \autoref{thm:located-regseqrat-tail-window-stability}, and \autoref{thm:located-regseqrat-realup-handoff} seed the finite route from displayed regular rational sequence data to located Real-facing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, location classification, tail-window stability, RealUp handoff, and ledger refusal for BEDC.Derived.LocatedRegSeqRatUp.}
+\end{closurestatus}
