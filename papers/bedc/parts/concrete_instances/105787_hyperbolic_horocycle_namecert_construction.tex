@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicHorocycleUp$}
+\label{ch:concrete-instances-hyperbolic-horocycle-namecert}
+\origin{human}
+
+Following classical hyperbolic geometry in the Poincare disk, the $\HyperbolicHorocycleUp$ packet realizes the boundary-tangent horocycle rows requested by \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} as finite NameCert data. It sits after the disk-coordinate carrier of \autoref{ch:concrete-instances-unitdisk-namecert}, the metric-read surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the boundary-fixed transport route of \autoref{ch:concrete-instances-poincare-boundary-fixed-transport-namecert}, and the geodesic metric carrier of \autoref{ch:concrete-instances-geodesic-metric-namecert}. The packet names a displayed horocycle certificate rather than a host circle model, a completed ideal-boundary quotient, a global geodesic foliation, or a physical observer trajectory.
+
+\begin{definition}[Hyperbolic horocycle carrier]
+\label{def:hyperbolic-horocycle-carrier}
+A $\HyperbolicHorocycleUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,M,B,G,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\UnitDiskUp$ disk-coordinate row for the finite source observations.
+\item $M$ is the $\HyperbolicMetricUp$ metric-read row over the same disk data.
+\item $B$ is the boundary-anchor row, recording the displayed ideal boundary point only as a finite boundary-facing observation.
+\item $G$ is the $\GeodesicMetricUp$ incidence row used to compare tangent geodesic directions near the boundary anchor.
+\item $T$ is the $\PoincareBoundaryFixedTransportUp$ transport row preserving the boundary anchor during admissible disk transport.
+\item $L$ is the horocycle ledger row: boundary tangency, constant hyperbolic-distance readback relative to the anchored geodesic family, and finite incidence compatibility are recorded here.
+\item $H$ records componentwise $\hsame$ transport for disk, metric, boundary, geodesic, transport, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through disk admission, metric readback, boundary anchoring, geodesic incidence, boundary-fixed transport, and horocycle ledger inspection.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicHorocycleUp$, $\UnitDiskUp$, $\HyperbolicMetricUp$, $\PoincareBoundaryFixedTransportUp$, $\GeodesicMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicHorocycleUp}$ row.
+\end{enumerate}
+The carrier exports horocycle reads only through $D,M,B,G,T,L,H,C,P,N$. It has no coordinate for a host Euclidean circle, quotient ideal boundary, global horocycle foliation, selected geodesic representative, physical observer motion, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Hyperbolic horocycle NameCert obligations]
+\label{thm:hyperbolic-horocycle-namecert-obligations}
+For every accepted $\HyperbolicHorocycleUp$ carrier
+$$
+Q=(D,M,B,G,T,L,H,C,P,N),
+$$
+the local $\NameCert_{\HyperbolicHorocycleUp}$ surface consists exactly of disk-coordinate admission, hyperbolic-metric readback, boundary-anchor admission, geodesic-incidence readback, boundary-fixed transport compatibility, horocycle ledger inspection, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+
+Every boundary-tangent horocycle read exported by the packet must factor through
+$$
+\UnitDiskUp,\ \HyperbolicMetricUp,\ \PoincareBoundaryFixedTransportUp,\ \GeodesicMetricUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The disk surface is row $D$, the hyperbolic metric read is row $M$, the boundary anchor is row $B$, the geodesic incidence read is row $G$, and the boundary-fixed transport route is row $T$.
+
+The horocycle-specific content is row $L$. It records boundary tangency, constant hyperbolic-distance readback relative to the anchored geodesic family, and finite incidence compatibility only after the disk, metric, boundary, geodesic, and transport rows have been displayed.
+
+The structural rows $H,C,P,N$ preserve and name that route. Since the carrier contains no host Euclidean circle, quotient ideal boundary, global horocycle foliation, selected geodesic representative, physical observer motion, Lean verification, or bridge checking, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HyperbolicHorocycleUp$ boundary-tangent read factors through displayed $\UnitDiskUp$, $\HyperbolicMetricUp$, $\PoincareBoundaryFixedTransportUp$, $\GeodesicMetricUp$, provenance, transport, replay, and local $\NameCert$ rows.}
+
+\independenceWitness{unitdisk, hyperbolic-metric, poincare-boundary-fixed-transport, geodesic-metric: the UnitDisk packet records disk coordinates without hyperbolic tangency, the HyperbolicMetric packet records metric reads without a boundary anchor ledger, the PoincareBoundaryFixedTransport packet records fixed-boundary transport without horocycle incidence, and the GeodesicMetric packet records geodesic metric data without a boundary-tangent horocycle row. None is bijective to $\HyperbolicHorocycleUp$.}
+
+\closureat{HyperbolicHorocycleUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicHorocycleUp}
+  \constructivestory{A $\HyperbolicHorocycleUp$ packet is generated from UnitDisk disk-coordinate rows, HyperbolicMetric metric reads, a boundary-anchor row, GeodesicMetric incidence, PoincareBoundaryFixedTransport compatibility, a horocycle ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-horocycle-carrier} and \autoref{thm:hyperbolic-horocycle-namecert-obligations} seed the finite horocycle certificate over disk, metric, boundary, geodesic, transport, ledger, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Euclidean circle models, ideal-boundary quotient equality, global horocycle foliations, selected geodesic representatives, physical observer motion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked disk admission, metric readback, boundary anchoring, geodesic incidence, boundary-fixed transport compatibility, horocycle ledger exactness, and a Lean carrier/obligation formalization for BEDC.Derived.HyperbolicHorocycleUp.}
+\end{closurestatus}
