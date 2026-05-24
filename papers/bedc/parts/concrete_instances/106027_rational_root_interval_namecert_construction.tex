@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RationalRootIntervalUp$}
+\label{ch:concrete-instances-rational-root-interval-namecert}
+\origin{human}
+
+Following Sturm and Bishop--Bridges constructive interval methods, the $\RationalRootIntervalUp$ packet records a finite rational interval certificate for a displayed polynomial sign change and its bisection route. It sits after the dyadic rational carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located interval carrier of \autoref{ch:concrete-instances-located-real-interval-namecert}, the bisection route of \autoref{ch:concrete-instances-located-interval-bisection-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite interval-certificate route used by L10 Real and Completion consumers; it is not a host real equality test, quotient root set, global root selector, or ambient $\RealUp$ completeness principle.
+
+\begin{definition}[RationalRootInterval carrier]
+\label{def:rational-root-interval-carrier}
+A $\RationalRootIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,L,U,G,B,W,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite coefficient row for the inspected rational polynomial, including the displayed degree bound and the rational coefficient reads used by the certificate.
+\item $L$ and $U$ are the left and right endpoint rows, carried through $\DyadicRatCoreUp$ or rational endpoint data and then embedded into the located interval surface.
+\item $G$ is the sign-read ledger, recording the endpoint sign observations and every comparison row used to treat the interval as bracketing a rational root candidate.
+\item $B$ is the $\LocatedIntervalBisectionUp$ provenance row, recording the displayed bisection path from the original endpoint pair to the certified subinterval.
+\item $W$ is the finite $\StreamNameUp$ window family opened for coefficient reads, endpoint reads, sign reads, and bisection-stage observations.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $W$ and the dyadic or rational endpoint ledgers, so every exported approximation is sourced by finite observations.
+\item $S$ is the terminal $\RealUp$ seal reached only after the coefficient row, endpoint rows, sign-read ledger, bisection provenance, stream windows, and regular rational readback have been replayed.
+\item $H$ records componentwise $\hsame$ transport for coefficient data, endpoints, sign reads, bisection provenance, stream windows, regular readback, terminal seal, replay, provenance, and local naming data.
+\item $C$ records displayed $\Cont$ replay for consumers that inspect the polynomial row, endpoint interval, sign ledger, bisection route, regular readback, or terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\RationalRootIntervalUp$, $\DyadicRatCoreUp$, $\LocatedRealIntervalUp$, $\LocatedIntervalBisectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalRootIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,L,U,G,B,W,R,S,H,C,P,N$. It has no coordinate for host real equality, quotient root sets, global root selectors, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[RationalRootInterval bisection seal]
+\label{thm:rational-root-interval-bisection-seal}
+For every accepted $\RationalRootIntervalUp$ carrier
+$$
+Q=(A,L,U,G,B,W,R,S,H,C,P,N),
+$$
+the $\RealUp$-facing interval seal is exported only by the finite route
+$$
+A,L,U,G \longrightarrow B \longrightarrow W \longrightarrow R \longrightarrow S .
+$$
+The coefficient row fixes the inspected rational polynomial, the dyadic or rational endpoint rows fix the displayed interval, the sign-read ledger records the endpoint comparisons, the bisection provenance supplies the certified narrowing route, the $\StreamNameUp$ windows expose finite observations, the $\RegSeqRatUp$ row packages the regular rational readback, and $\RealUp$ consumes exactly that seal.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:rational-root-interval-carrier}. The rows $A,L,U,G$ display the polynomial coefficients, the two endpoint carriers, and the sign-read ledger; there is no separate coordinate for a host-level polynomial root or for equality of ambient reals.
+
+The bisection data are then forced through $B$. The route records the finite interval refinements and their provenance, so a consumer cannot replace the displayed path by a global root selector or by a quotient root set.
+
+Regular readback starts only after the finite observations have been opened. The windows in $W$ expose coefficient, endpoint, sign, and bisection-stage reads; the row $R$ packages those reads as regular rational data; and the terminal row $S$ is the only $\RealUp$ seal available to the packet.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier contains no host real equality, quotient root set, global root selector, or $\RealUp$ completeness coordinate, none of those principles is claimed by the bisection seal.
+\end{proof}
+
+\closureat{RationalRootIntervalUp}{seedStr}
+
+\begin{closurestatus}{\RationalRootIntervalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-root-interval-carrier} and \autoref{thm:rational-root-interval-bisection-seal} seed the finite rational root interval route over coefficient rows, dyadic or rational endpoint rows, sign-read ledgers, bisection provenance, StreamName windows, RegSeqRat readback, Real seals, and local NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, quotient root sets, global root selectors, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-row exactness, endpoint routing, sign-read stability, bisection provenance, StreamName window exposure, RegSeqRat readback, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RationalRootIntervalUp.}
+  \constructivestory{A $\RationalRootIntervalUp$ packet is generated from finite polynomial coefficient rows, dyadic or rational endpoint rows, a sign-read ledger, located-interval bisection provenance, finite StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
