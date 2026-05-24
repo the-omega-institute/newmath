@@ -1,0 +1,11 @@
+\begin{theorem}[$\BoolUp$ sibling carrier boundary]
+\label{thm:bool-sibling-carrier-boundary}
+The two endpoint histories exported by $\BoolUp$ are consumed by $\OptionUp$ as the nullable discriminator of \autoref{ch:concrete-instances-option-namecert} and by $\SumUp$ as the finite branch discriminator of \autoref{ch:concrete-instances-sum-namecert}. The $\BoolUp$ packet exports only the two endpoint rows and their displayed classifier boundary; it exports no option payload carrier, sum payload carrier, nullable payload classifier, or tagged-sum classifier.
+\end{theorem}
+\begin{proof}
+Project the public endpoint surface of $\BoolUp$. Its exported rows are exactly the empty endpoint and the one-step endpoint, together with the classifier rows that distinguish those two histories.
+
+The $\OptionUp$ consumer reads the same two histories as absent and present tags before any payload row is inspected. The $\SumUp$ consumer reads them as left and right branch tags before any branch payload row is inspected.
+
+Because payload carriers and payload classifiers are supplied by the option and sum sibling chapters, no accepted $\BoolUp$ read can own those rows. The boundary therefore stops at the two endpoint histories and their finite discriminator role.
+\end{proof}
