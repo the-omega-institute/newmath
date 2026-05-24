@@ -49,6 +49,58 @@ Selector stability is inherited from the selector row $D$ and the transported wi
 The $\RegSeqRatUp$ handoff exactness is the statement that $R$ is read from $E$, not from an invisible tail of the chain. The $\RealUp$ seal nonescape then follows by routing $H$ through $R$ together with the displayed transport, package, and local certificate rows.
 \end{proof}
 
+\begin{theorem}[Cantor intersection width-window transport]
+\label{thm:cantor-intersection-width-window-transport}
+For every accepted $\CantorIntersectionUp$ carrier
+$$
+K=(N,W,D,E,R,H,C,P,Q),
+$$
+the cofinal width-window row $W$ is transported only together with the nested-interval intersection packet $N$, the diagonal selector row $D$, the selected endpoint enclosure row $E$, and the displayed transport rows $C$. After any displayed $\hsame$ or $\Cont$ route, a precision request still lands in a finite window already present in $N$.
+\end{theorem}
+\begin{proof}
+Project $K$ through \autoref{def:cantor-intersection-carrier}. The rows $N,W,D,E$ are stored in the same finite packet, and $C$ is the only displayed transport coordinate for them.
+
+Apply \autoref{thm:cantor-intersection-namecert-obligations}. The selector-stability obligation says that transporting the nested-interval packet and width ledger transports the selected finite window with them.
+
+Thus the cofinal window remains a visible row of $N$ after transport. No hidden tail, point selector, or ambient completeness datum is introduced by the width-window route.
+\end{proof}
+
+\begin{theorem}[Cantor intersection RegSeqRat handoff exactness]
+\label{thm:cantor-intersection-regseqrat-handoff-exactness}
+For every accepted $\CantorIntersectionUp$ carrier
+$$
+K=(N,W,D,E,R,H,C,P,Q),
+$$
+the $\RegSeqRatUp$ row $R$ is obtained exactly from the selected endpoint enclosure row $E$, where $E$ is selected by $D$ from the cofinal width-window ledger $W$ inside $N$. The handoff does not read a second completion name, an unrecorded interval tail, or quotient equality of real names.
+\end{theorem}
+\begin{proof}
+Start with the rows $W,D,E,R$ in \autoref{def:cantor-intersection-carrier}. The endpoint enclosure row $E$ is not free-standing; it is the endpoint row selected by $D$ from the finite ledger $W$ attached to $N$.
+
+Apply the handoff-exactness clause of \autoref{thm:cantor-intersection-namecert-obligations}. That clause identifies $R$ with the regular-rational read from $E$ and excludes any invisible tail of the interval chain.
+
+The displayed transport and package rows $C,P,Q$ only replay that finite route. They do not add a second regular name or quotient-real equality coordinate.
+\end{proof}
+
+\begin{theorem}[Cantor intersection real seal nonescape]
+\label{thm:cantor-intersection-real-seal-nonescape}
+For every accepted $\CantorIntersectionUp$ carrier
+$$
+K=(N,W,D,E,R,H,C,P,Q),
+$$
+the $\RealUp$ seal row $H$ may be consumed only through the finite route
+$$
+N,W,D,E,R,C,P,Q.
+$$
+In particular, the seal cannot be used as a proof of point choice, uniqueness of an intersection point, open-cover compactness, host real equality, quotient equality of real names, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the real-facing row $H$ from $K$. Its source rows are exactly the selected nested-interval data, the regular-rational handoff, the displayed transports, package provenance, and local naming certificate.
+
+Apply \autoref{thm:cantor-intersection-namecert-obligations}. The real-seal nonescape obligation states that every read through $H$ factors through $N,W,D,E,R,C,P,Q$.
+
+The excluded principles have no coordinate in that route. The seal is therefore a terminal consumer of the finite Cantor-intersection handoff, not an ambient completeness or choice principle.
+\end{proof}
+
 \begin{theorem}[Cantor intersection real seal handoff]
 \label{thm:cantor-intersection-real-seal-handoff}
 For every accepted $\CantorIntersectionUp$ carrier

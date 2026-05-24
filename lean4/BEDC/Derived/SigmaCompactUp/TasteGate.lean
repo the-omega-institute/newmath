@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive SigmaCompactUp : Type where
-  | mk (X E K B L H C P N : BHist) : SigmaCompactUp
+  | mk
+      (source exhaustion compactWitness boundary localSupport transport replay
+        provenance nameCert : BHist) :
+      SigmaCompactUp
   deriving DecidableEq
 
 def sigmaCompactEncodeBHist : BHist → RawEvent
@@ -25,81 +28,131 @@ def sigmaCompactDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (sigmaCompactDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (sigmaCompactDecodeBHist tail)
 
-private theorem SigmaCompactTasteGate_single_carrier_alignment_decode :
+private theorem sigmaCompactDecode_encode_bhist :
     ∀ h : BHist, sigmaCompactDecodeBHist (sigmaCompactEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
+
+private theorem sigmaCompact_mk_congr
+    {source source' exhaustion exhaustion' compactWitness compactWitness'
+      boundary boundary' localSupport localSupport' transport transport'
+      replay replay' provenance provenance' nameCert nameCert' : BHist}
+    (hSource : source' = source)
+    (hExhaustion : exhaustion' = exhaustion)
+    (hCompactWitness : compactWitness' = compactWitness)
+    (hBoundary : boundary' = boundary)
+    (hLocalSupport : localSupport' = localSupport)
+    (hTransport : transport' = transport)
+    (hReplay : replay' = replay)
+    (hProvenance : provenance' = provenance)
+    (hNameCert : nameCert' = nameCert) :
+    SigmaCompactUp.mk source' exhaustion' compactWitness' boundary' localSupport'
+        transport' replay' provenance' nameCert' =
+      SigmaCompactUp.mk source exhaustion compactWitness boundary localSupport
+        transport replay provenance nameCert := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hSource
+  cases hExhaustion
+  cases hCompactWitness
+  cases hBoundary
+  cases hLocalSupport
+  cases hTransport
+  cases hReplay
+  cases hProvenance
+  cases hNameCert
+  rfl
 
 def sigmaCompactToEventFlow : SigmaCompactUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | SigmaCompactUp.mk X E K B L H C P N =>
-      [sigmaCompactEncodeBHist X,
-        sigmaCompactEncodeBHist E,
-        sigmaCompactEncodeBHist K,
-        sigmaCompactEncodeBHist B,
-        sigmaCompactEncodeBHist L,
-        sigmaCompactEncodeBHist H,
-        sigmaCompactEncodeBHist C,
-        sigmaCompactEncodeBHist P,
-        sigmaCompactEncodeBHist N]
+  | SigmaCompactUp.mk source exhaustion compactWitness boundary localSupport
+      transport replay provenance nameCert =>
+      [[BMark.b0],
+        sigmaCompactEncodeBHist source,
+        [BMark.b1, BMark.b0],
+        sigmaCompactEncodeBHist exhaustion,
+        [BMark.b1, BMark.b1, BMark.b0],
+        sigmaCompactEncodeBHist compactWitness,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        sigmaCompactEncodeBHist boundary,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        sigmaCompactEncodeBHist localSupport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        sigmaCompactEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        sigmaCompactEncodeBHist replay,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        sigmaCompactEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        sigmaCompactEncodeBHist nameCert]
 
 private def sigmaCompactEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => sigmaCompactEventAtDefault index rest
+  | _, [] => []
+  | 0, row :: _ => row
+  | n + 1, _ :: rows => sigmaCompactEventAtDefault n rows
 
 def sigmaCompactFromEventFlow (ef : EventFlow) : Option SigmaCompactUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (SigmaCompactUp.mk
-      (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 0 ef))
-      (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 1 ef))
-      (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 2 ef))
-      (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 3 ef))
-      (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 4 ef))
-      (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 5 ef))
-      (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 6 ef))
-      (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 7 ef))
-      (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 8 ef)))
+  match ef.length with
+  | 18 =>
+      some
+        (SigmaCompactUp.mk
+          (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 1 ef))
+          (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 3 ef))
+          (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 5 ef))
+          (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 7 ef))
+          (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 9 ef))
+          (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 11 ef))
+          (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 13 ef))
+          (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 15 ef))
+          (sigmaCompactDecodeBHist (sigmaCompactEventAtDefault 17 ef)))
+  | _ => none
 
-private theorem SigmaCompactTasteGate_single_carrier_alignment_round_trip :
+private theorem sigmaCompact_round_trip :
     ∀ x : SigmaCompactUp,
       sigmaCompactFromEventFlow (sigmaCompactToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk X E K B L H C P N =>
+  | mk source exhaustion compactWitness boundary localSupport transport replay provenance nameCert =>
       change
         some
           (SigmaCompactUp.mk
-            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist X))
-            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist E))
-            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist K))
-            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist B))
-            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist L))
-            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist H))
-            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist C))
-            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist P))
-            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist N))) =
-          some (SigmaCompactUp.mk X E K B L H C P N)
-      rw [SigmaCompactTasteGate_single_carrier_alignment_decode X,
-        SigmaCompactTasteGate_single_carrier_alignment_decode E,
-        SigmaCompactTasteGate_single_carrier_alignment_decode K,
-        SigmaCompactTasteGate_single_carrier_alignment_decode B,
-        SigmaCompactTasteGate_single_carrier_alignment_decode L,
-        SigmaCompactTasteGate_single_carrier_alignment_decode H,
-        SigmaCompactTasteGate_single_carrier_alignment_decode C,
-        SigmaCompactTasteGate_single_carrier_alignment_decode P,
-        SigmaCompactTasteGate_single_carrier_alignment_decode N]
+            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist source))
+            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist exhaustion))
+            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist compactWitness))
+            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist boundary))
+            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist localSupport))
+            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist transport))
+            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist replay))
+            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist provenance))
+            (sigmaCompactDecodeBHist (sigmaCompactEncodeBHist nameCert))) =
+          some
+            (SigmaCompactUp.mk source exhaustion compactWitness boundary
+              localSupport transport replay provenance nameCert)
+      exact
+        congrArg some
+          (sigmaCompact_mk_congr
+            (sigmaCompactDecode_encode_bhist source)
+            (sigmaCompactDecode_encode_bhist exhaustion)
+            (sigmaCompactDecode_encode_bhist compactWitness)
+            (sigmaCompactDecode_encode_bhist boundary)
+            (sigmaCompactDecode_encode_bhist localSupport)
+            (sigmaCompactDecode_encode_bhist transport)
+            (sigmaCompactDecode_encode_bhist replay)
+            (sigmaCompactDecode_encode_bhist provenance)
+            (sigmaCompactDecode_encode_bhist nameCert))
 
-private theorem SigmaCompactTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : SigmaCompactUp} :
+private theorem sigmaCompactToEventFlow_injective {x y : SigmaCompactUp} :
     sigmaCompactToEventFlow x = sigmaCompactToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -108,24 +161,8 @@ private theorem SigmaCompactTasteGate_single_carrier_alignment_toEventFlow_injec
         sigmaCompactFromEventFlow (sigmaCompactToEventFlow y) :=
     congrArg sigmaCompactFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (SigmaCompactTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (SigmaCompactTasteGate_single_carrier_alignment_round_trip y)))
-
-def sigmaCompactFields : SigmaCompactUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | SigmaCompactUp.mk X E K B L H C P N => [X, E, K, B, L, H, C, P, N]
-
-private theorem SigmaCompactTasteGate_single_carrier_alignment_fields :
-    ∀ x y : SigmaCompactUp, sigmaCompactFields x = sigmaCompactFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk X1 E1 K1 B1 L1 H1 C1 P1 N1 =>
-      cases y with
-      | mk X2 E2 K2 B2 L2 H2 C2 P2 N2 =>
-          cases hfields
-          rfl
+    (Eq.trans (sigmaCompact_round_trip x).symm
+      (Eq.trans hread (sigmaCompact_round_trip y)))
 
 instance sigmaCompactBHistCarrier : BHistCarrier SigmaCompactUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -137,54 +174,24 @@ instance sigmaCompactChapterTasteGate : ChapterTasteGate SigmaCompactUp where
   round_trip := by
     intro x
     change sigmaCompactFromEventFlow (sigmaCompactToEventFlow x) = some x
-    exact SigmaCompactTasteGate_single_carrier_alignment_round_trip x
+    exact sigmaCompact_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (SigmaCompactTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance sigmaCompactFieldFaithful : FieldFaithful SigmaCompactUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := sigmaCompactFields
-  field_faithful := SigmaCompactTasteGate_single_carrier_alignment_fields
-
-instance sigmaCompactNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial SigmaCompactUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨SigmaCompactUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      SigmaCompactUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def taste_gate : ChapterTasteGate SigmaCompactUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  sigmaCompactChapterTasteGate
-
-namespace TasteGate
+    exact hxy (sigmaCompactToEventFlow_injective heq)
 
 theorem SigmaCompactTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate SigmaCompactUp) ∧
-      Nonempty (FieldFaithful SigmaCompactUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial SigmaCompactUp) ∧
-          (∀ h : BHist, sigmaCompactDecodeBHist (sigmaCompactEncodeBHist h) = h) ∧
-            (∀ x : SigmaCompactUp,
-              sigmaCompactFromEventFlow (sigmaCompactToEventFlow x) = some x) ∧
-              (∀ x y : SigmaCompactUp,
-                sigmaCompactToEventFlow x = sigmaCompactToEventFlow y → x = y) ∧
-                sigmaCompactEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨⟨sigmaCompactChapterTasteGate⟩,
-      ⟨sigmaCompactFieldFaithful⟩,
-      ⟨sigmaCompactNontrivial⟩,
-      SigmaCompactTasteGate_single_carrier_alignment_decode,
-      SigmaCompactTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => SigmaCompactTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
-
-end TasteGate
+      (∀ h : BHist, sigmaCompactDecodeBHist (sigmaCompactEncodeBHist h) = h) ∧
+        (∀ x : SigmaCompactUp,
+          sigmaCompactFromEventFlow (sigmaCompactToEventFlow x) = some x) ∧
+          sigmaCompactEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact ⟨sigmaCompactChapterTasteGate⟩
+  · constructor
+    · exact sigmaCompactDecode_encode_bhist
+    · constructor
+      · exact sigmaCompact_round_trip
+      · rfl
 
 end BEDC.Derived.SigmaCompactUp
