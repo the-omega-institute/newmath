@@ -182,6 +182,7 @@ import BEDC.Derived.ApophaticNameUp.RootBridgeTupleGateRefusalInterface
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleNoninternalization
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleRows
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleSourceRoute
+import BEDC.Derived.ApophaticNameUp.RootBridgeTupleSourceStrictObstruction
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleTransportNamingExhaustion
 import BEDC.Derived.ApophaticNameUp.RootCitationExport
 import BEDC.Derived.ApophaticNameUp.RootCitationNonescape
@@ -203,6 +204,7 @@ import BEDC.Derived.ApophaticNameUp.RootRefusalRouteExhaustion
 import BEDC.Derived.ApophaticNameUp.RootRequestClassifierTotality
 import BEDC.Derived.ApophaticNameUp.RootSocketExposure
 import BEDC.Derived.ApophaticNameUp.RootSocketRequestTotality
+import BEDC.Derived.ApophaticNameUp.RootStdBridgePremiseStrictObstruction
 import BEDC.Derived.ApophaticNameUp.RootUnblockRefusalBoundary
 import BEDC.Derived.ApophaticNameUp.SocketBoundaryRouteExhaustion
 import BEDC.Derived.ApophaticNameUp.SocketCarrier
@@ -1564,6 +1566,7 @@ import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
+import BEDC.Derived.CodonWindowSpectralInverseUp.TasteGate
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CofinalDiagonalSealUp.TasteGate
 import BEDC.Derived.CofinalModulusNormalizationSealUp.TasteGate
@@ -3686,6 +3689,7 @@ import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LocalSelfCenterInscriptionSealUp.TasteGate
 import BEDC.Derived.LocalStencilObservationUp.TasteGate
 import BEDC.Derived.LocalTimeFiberUp
+import BEDC.Derived.LocalTimeFiberUp.TasteGate
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.LocallyCompactUp.TasteGate
@@ -4718,6 +4722,7 @@ import BEDC.Derived.RealSequenceLimitUp.NameCertObligations
 import BEDC.Derived.RealSequenceLimitUp.ObservationTailCarrier
 import BEDC.Derived.RealSequenceLimitUp.ObservationWindowObligation
 import BEDC.Derived.RealSequenceLimitUp.RealSealNonescape
+import BEDC.Derived.RealSequenceLimitUp.RegularCauchyTailFactorization
 import BEDC.Derived.RealSequenceLimitUp.RegularClassifierTransport
 import BEDC.Derived.RealSequenceLimitUp.SubsequenceTailStability
 import BEDC.Derived.RealSequenceLimitUp.TailRefinementLedger
