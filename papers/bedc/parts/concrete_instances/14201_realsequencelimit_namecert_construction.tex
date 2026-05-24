@@ -367,6 +367,21 @@ Next apply \autoref{thm:realsequencelimit-regular-classifier-transport}. The reg
 The Real boundary is fixed by \autoref{thm:real-sequence-limit-real-seal-nonescape}, and diagonal reuse is controlled by \autoref{thm:realsequencelimit-diagonal-window-uniqueness}. Therefore every admitted regular tail remains locked to the same finite dependency route before $P,N$ export the named limit certificate.
 \end{proof}
 
+\begin{theorem}[RealSequenceLimit bounded source handoff]\label{thm:realsequencelimit-cauchy-sequence-bounded-source-handoff}
+Let $K=(S,L,W,D,E,H,C,P,N)$ be an accepted $\RealSequenceLimitUp$ packet whose displayed source sequence is supplied by an accepted $\CauchySequenceBoundedUp$ packet $X=(S_0,M_0,D_0,R_0,E_0,B_0,H_0,C_0,P_0,N_0)$. Before the limit classifier $E$ and the terminal $\RealUp$ seal of $K$ may be read, the source route must consume the boundedness rows
+$$
+S_0\longmapsto M_0\longmapsto D_0\longmapsto R_0\longmapsto E_0\longmapsto B_0,H_0,C_0,P_0,N_0 .
+$$
+Consequently a RealSequenceLimit read from a bounded Cauchy source exposes the finite bound ledger $B_0$ before any limit-classifier or Real-seal consumer receives the source sequence, and it imports no host boundedness theorem, selected limit, quotient stream equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the source packet. Apply \autoref{thm:cauchy-sequence-bounded-window-bound-handoff}: every real-facing or convergence-facing read from $X$ passes through $S_0,M_0,D_0,R_0,E_0,B_0,H_0,C_0,P_0,N_0$, with $B_0$ carrying the explicit finite bound ledger.
+
+Now use \autoref{thm:realsequencelimit-regular-tail-scope-lock}. The RealSequenceLimit packet can admit a source tail only through the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route already stored in $W,D,E,H,C,P,N$.
+
+Finally apply \autoref{thm:real-sequence-limit-real-seal-nonescape}. The terminal Real seal cannot be reached before the finite dyadic, window, rational-readback, and transport rows are displayed. Since the bounded source supplies those rows only after $B_0$ is present, the limit classifier and Real seal inherit the boundedness route stated above.
+\end{proof}
+
 \begin{closurestatus}{\RealSequenceLimitUp}
   \constructivestory{A $\RealSequenceLimitUp$ packet is generated from a displayed sequence of RealUp names, a candidate limit RealUp row, finite StreamName windows and RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a finite convergence classifier, componentwise transport, continuation routes, package provenance, and local naming.}
   \theoryclosure{\obligationClosure}
