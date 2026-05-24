@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RieszMarkovUp$}
+\label{ch:concrete-instances-riesz-markov-namecert}
+\origin{human}
+
+Following Riesz and Markov, the $\RieszMarkovUp$ packet isolates the compact positive functional representation surface: a positive linear functional on continuous real-valued observables over a displayed compact source is read only through a representing Radon row and an integral-readback ledger. It consumes the real scalar boundary of \autoref{ch:concrete-instances-real-namecert}, the compact source of \autoref{ch:concrete-instances-compact-namecert}, the continuous observable rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the regular measure packet of \autoref{ch:concrete-instances-radon-measure-namecert}, and the broader representation boundary of \autoref{ch:concrete-instances-rieszrepresentation-namecert}. The chapter names the finite BEDC obligation surface needed by compact-analysis consumers without choosing a representing measure from a host theorem.
+
+\section{Compact positive functional carrier}
+\label{sec:riesz-markov-compact-positive-functional-carrier}
+
+\begin{definition}[RieszMarkov compact positive functional carrier]
+\label{def:riesz-markov-compact-positive-functional-carrier}
+A $\RieszMarkovUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{RieszMarkov}(K,F,L,M,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+  \item $K$ is the compact source row, read through $\CompactUp$ over the inherited $\RealUp$ scalar boundary;
+  \item $F$ is the continuous real-valued observable row, read through $\ContinuousMapUp$ with codomain $\RealUp$;
+  \item $L$ is the positive functional ledger, recording linear scalar reads and positivity reads on the displayed observable rows;
+  \item $M$ is the representing $\RadonMeasureUp$ row over the same compact source;
+  \item $I$ is the integral-readback row comparing each displayed functional value with the corresponding integral against $M$;
+  \item $H$ is the componentwise $\hsame$ transport ledger for $K,F,L,M,I,C,P,N$;
+  \item $C$ is the displayed $\Cont$ replay ledger for compact source, observable, functional, representing measure, and integral-readback routes;
+  \item $P$ is the $\Pkg$ provenance over $\RieszMarkovUp$, $\RealUp$, $\CompactUp$, $\ContinuousMapUp$, $\RadonMeasureUp$, $\RieszRepresentationUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+  \item $N$ is the local $\NameCert_{\RieszMarkovUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,F,L,M,I,H,C,P,N$. It does not identify host functions, host measures, arbitrary sigma-algebras, quotient measure classes, selected representing measures, or ambient functional extensionality.
+\end{definition}
+
+\section{Certificate obligations}
+\label{sec:riesz-markov-namecert-obligations}
+
+\begin{theorem}[RieszMarkov NameCert obligations]
+\label{thm:riesz-markov-namecert-obligations}
+For every accepted $\RieszMarkovUp$ carrier
+$$
+R=\mathsf{RieszMarkov}(K,F,L,M,I,H,C,P,N),
+$$
+the local $\NameCert_{\RieszMarkovUp}$ surface consists exactly of compact-source admission through $K$, real-valued continuity admission through $F$, positive-functional ledger visibility through $L$, representing Radon row visibility through $M$, integral-readback exactness through $I$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+
+The certificate refuses arbitrary choice of representing measures, host sigma-algebras beyond the displayed $\RadonMeasureUp$ rows, quotient equality of measures, host equality of functionals, and ambient functional extensionality. A consumer may use the representation only by reading the finite rows of $R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riesz-markov-compact-positive-functional-carrier}. The compact source and continuous observable are fixed by $K$ and $F$, so the functional ledger $L$ is read on displayed observables rather than on a host function space.
+
+The representing object is the displayed Radon row $M$. The readback row $I$ is the only route from a functional value to an integral value, and it is attached to the same compact source and observable rows.
+
+Transport and replay are componentwise through $H$ and $C$, while $P$ and $N$ source and name the route. Since no carrier coordinate stores a selector for representing measures, a larger host sigma-algebra, a quotient measure equality, host functional equality, or functional extensionality, the stated rows exhaust the NameCert surface.
+\end{proof}
+
+\closureat{RieszMarkovUp}{seedStr}
+
+\begin{closurestatus}{\RieszMarkovUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riesz-markov-compact-positive-functional-carrier} and \autoref{thm:riesz-markov-namecert-obligations} seed the compact positive functional representation packet over Real, Compact, ContinuousMap, RadonMeasure, RieszRepresentation, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary representing-measure choice, host sigma-algebras beyond displayed Radon rows, quotient measure equality, ambient functional extensionality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive-functional ledger visibility, representing Radon row visibility, integral-readback exactness, transport replay, and consumer refusal for BEDC.Derived.RieszMarkovUp.}
+  \constructivestory{A $\RieszMarkovUp$ packet is generated from compact source, continuous real-valued observable, positive functional ledger, representing Radon row, integral-readback row, componentwise transport, replay, provenance, and local NameCert rows.}
+\end{closurestatus}
