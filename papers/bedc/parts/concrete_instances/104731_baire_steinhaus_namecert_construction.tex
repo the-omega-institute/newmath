@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BaireSteinhausUp$}
+\label{ch:concrete-instances-baire-steinhaus-namecert}
+\origin{human}
+
+Following Baire, Steinhaus, and Banach--Steinhaus, the $\BaireSteinhausUp$ packet records the finite BEDC handoff by which a Baire-category witness, a complete metric source, norm rows, functional-analysis probes, and a uniform-boundedness consumer are named in one certificate. The packet sits between the Baire-category surface of \autoref{ch:concrete-instances-bairecategory-namecert}, the complete-metric surface of \autoref{ch:concrete-instances-completemetric-namecert}, the norm surface of \autoref{ch:concrete-instances-norm-namecert}, the functional-analysis source of \autoref{ch:concrete-instances-functionalanalysis-namecert}, and the uniform-boundedness boundary of \autoref{ch:concrete-instances-uniformboundedness-namecert}. It is a traditional analysis reconstruction in the BEDC carrier language: the certificate names the finite pointwise-bounded handoff without asserting host Banach-space completeness, countable choice, quotient equality of function spaces, or an unrestricted uniform-boundedness theorem.
+
+\begin{definition}[Baire--Steinhaus carrier]
+\label{def:baire-steinhaus-carrier}
+A $\BaireSteinhausUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,M,R,F,U,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BaireCategoryUp$ dense-open row read by the pointwise-bounded argument.
+\item $M$ is the $\CompleteMetricUp$ source row supplying the complete metric carrier on which the Baire row is interpreted.
+\item $R$ is the $\NormUp$ row used to read boundedness witnesses as finite norm estimates.
+\item $F$ is the $\FunctionalAnalysisUp$ source row naming the family of linear probes and the finite test windows visible to the packet.
+\item $U$ is the $\UniformBoundednessUp$ consumer row that may receive a uniform-bound request only after $B,M,R,F$ have been displayed.
+\item $W$ is the pointwise-boundedness ledger, recording the inspected point, operator family window, norm bound, and finite comparison tolerance.
+\item $E$ is the Baire--Steinhaus handoff row from the pointwise ledger $W$ to the uniform-boundedness consumer $U$.
+\item $H$ records componentwise $\hsame$ transport for $B,M,R,F,U,W,E$.
+\item $C$ records displayed $\Cont$ replay from a pointwise-bounded request through the Baire, complete-metric, norm, functional-analysis, and handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\BaireSteinhausUp$, $\BaireCategoryUp$, $\CompleteMetricUp$, $\NormUp$, $\FunctionalAnalysisUp$, $\UniformBoundednessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BaireSteinhausUp}$ row.
+\end{enumerate}
+The carrier accepts only packets whose Baire, complete-metric, norm, functional-analysis, pointwise-boundedness, uniform-boundedness, transport, replay, provenance, and local naming rows are displayed in the same finite certificate.
+\end{definition}
+
+\begin{theorem}[Baire--Steinhaus NameCert obligations]
+\label{thm:baire-steinhaus-namecert-obligations}
+For every accepted $\BaireSteinhausUp$ carrier $S=(B,M,R,F,U,W,E,H,C,P,N)$, the local $\NameCert_{\BaireSteinhausUp}$ surface consists exactly of carrier admission for the displayed $\BaireCategoryUp$ row, $\CompleteMetricUp$ row, $\NormUp$ row, $\FunctionalAnalysisUp$ row, $\UniformBoundednessUp$ consumer row, pointwise-boundedness ledger, Baire--Steinhaus handoff, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$. No obligation may read host Banach-space completeness, countable choice, quotient equality of function spaces, a selected dense point, or an unrestricted uniform-boundedness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:baire-steinhaus-carrier}. The rows $B,M,R,F,U,W,E,H,C,P,N$ are the only coordinates available to the local certificate, so every obligation is a finite row obligation.
+
+The Baire-category side is read through $B$ over the complete metric row $M$. The norm and functional-analysis rows $R$ and $F$ supply only the displayed finite observations used by the pointwise-boundedness ledger $W$.
+
+The handoff row $E$ is then the only route from $W$ to the uniform-boundedness consumer $U$. Transport, replay, provenance, and local naming preserve that same route, and the carrier contains no coordinate for the excluded host-level principles.
+\end{proof}
+
+\begin{theorem}[Baire--Steinhaus pointwise-bounded handoff]
+\label{thm:baire-steinhaus-pointwise-bounded-handoff}
+Every pointwise-boundedness read accepted by a $\BaireSteinhausUp$ packet factors through the finite route
+$$
+\BaireCategoryUp,\ \CompleteMetricUp,\ \NormUp,\ \FunctionalAnalysisUp \longmapsto \UniformBoundednessUp .
+$$
+The pointwise ledger $W$ is exposed before the handoff row $E$ can feed $U$, and the $\UniformBoundednessUp$ consumer receives only that displayed handoff. It receives no host Banach-space completeness theorem, no global operator-family supremum, no countable-choice selector, no quotient equality of function spaces, and no selected dense point.
+\end{theorem}
+\begin{proof}
+Begin with a pointwise-bounded request. The continuation row $C$ first routes the request through the Baire row $B$ and the complete-metric row $M$, so the category argument is anchored in the displayed metric source.
+
+Next the request reads the norm row $R$ and functional-analysis row $F$. These rows expose the finite operator-family windows and norm estimates stored in $W$, not a host family of all operators.
+
+Finally the handoff row $E$ repacks the displayed pointwise ledger for the uniform-boundedness consumer $U$. Since $H,P,N$ only transport, source, and name the same finite rows, the consumer cannot recover any excluded completeness, choice, quotient, supremum, or selected-point principle.
+\end{proof}
+
+\closureat{BaireSteinhausUp}{seedStr}
+
+\begin{closurestatus}{\BaireSteinhausUp}
+  \constructivestory{A $\BaireSteinhausUp$ packet is generated from a BaireCategory row, CompleteMetric row, Norm row, FunctionalAnalysis source row, UniformBoundedness consumer row, pointwise-boundedness ledger, handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-steinhaus-carrier}, \autoref{thm:baire-steinhaus-namecert-obligations}, and \autoref{thm:baire-steinhaus-pointwise-bounded-handoff} seed the finite pointwise-boundedness handoff over BaireCategory, CompleteMetric, Norm, FunctionalAnalysis, and UniformBoundedness rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Banach-space completeness, countable choice, quotient equality of function spaces, selected dense points, global operator-family suprema, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, pointwise-boundedness ledger exposure, Baire-category routing, norm and functional-analysis compatibility, uniform-boundedness handoff, transport replay, provenance, and local naming for BEDC.Derived.BaireSteinhausUp.}
+\end{closurestatus}

@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCriterionEquivalenceUp$}
+\label{ch:concrete-instances-cauchy-criterion-equivalence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyCriterionEquivalenceUp$ packet records the finite equivalence between the Cauchy criterion read and an explicit convergence-modulus schedule before any completion or real-name consumer sees a terminal seal. It sits between the criterion surface of \autoref{ch:concrete-instances-cauchycriterion-namecert}, the convergence-modulus schedule of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite-tail equivalence object for L10 Real and Completion consumers; it is not a quotient-stream equality, selected limit, countable-choice schedule, host convergence theorem, or ambient $\RealUp$ completeness principle.
+
+\begin{definition}[CauchyCriterionEquivalence carrier]
+\label{def:cauchy-criterion-equivalence-carrier}
+A $\CauchyCriterionEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,Q,M,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source sequence and source-window row, exposing only the inspected $\StreamNameUp$ windows of the sequence under discussion.
+\item $Q$ is the criterion tail request row, naming the finite late-pair request consumed by the $\CauchyCriterionUp$ surface.
+\item $M$ is the convergence-modulus schedule row, naming the finite threshold data consumed by the $\CauchyConvergenceModulusUp$ surface.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the requested dyadic radius, split tolerances, slack cells, and comparison budget shared by $Q$ and $M$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed source windows and tolerance ledger.
+\item $E$ is the $\RealUp$ seal row reached only after $S,Q,M,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source windows, criterion request, modulus schedule, dyadic tolerance ledger, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from source windows to criterion requests, from criterion requests to modulus schedules, from both finite surfaces to dyadic tolerance reads, and from the tolerance-readback route to the real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCriterionEquivalenceUp$, $\CauchyCriterionUp$, $\CauchyConvergenceModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCriterionEquivalenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,Q,M,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable-choice selection of thresholds, host real equality, detached convergence proofs, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyCriterionEquivalence NameCert obligations]
+\label{thm:cauchy-criterion-equivalence-namecert-obligations}
+For every accepted $\CauchyCriterionEquivalenceUp$ carrier
+$$
+K=(S,Q,M,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyCriterionEquivalenceUp}$ surface consists exactly of the bidirectional finite criterion/modulus obligations over the displayed packet. A criterion-facing read of $Q$ may expose a convergence-modulus schedule only by reading the same source windows $S$, dyadic tolerance ledger $D$, regular readback $R$, real seal $E$, and structural rows $H,C,P,N$. Conversely, a modulus-facing read of $M$ may expose the corresponding Cauchy-criterion tail request only through those same displayed rows. Neither direction exports quotient stream equality, a selected limit, countable choice over thresholds, host convergence, detached $\RealUp$ completeness, or an ambient completion principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-criterion-equivalence-carrier}. The criterion request $Q$ and the convergence-modulus schedule $M$ are separate displayed rows, but they share the source-window row $S$, the dyadic tolerance row $D$, the regular readback $R$, the real seal $E$, and the structural rows.
+
+For the criterion-to-modulus direction, read a finite late-pair request through $Q$. The continuation row $C$ permits replay only along the displayed route from $S$ through $D$ and $R$ before the schedule row $M$ is exposed, so the modulus threshold is a packet-local finite row rather than an external selector.
+
+For the modulus-to-criterion direction, read a displayed threshold in $M$. The same tolerance ledger $D$ and readback $R$ supply the late-pair comparison consumed by $Q$, and the transports in $H$ preserve all rows componentwise under the local classifier.
+
+Finally, the real seal $E$ is downstream of both finite surfaces, while $P$ and $N$ only source and name the same packet. Since the carrier contains no quotient stream, selected limit, countable-choice schedule, host convergence theorem, detached real-completeness row, or ambient completion coordinate, the two finite directions exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{CauchyCriterionEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCriterionEquivalenceUp}
+  \constructivestory{A $\CauchyCriterionEquivalenceUp$ packet is generated from source sequence windows, a criterion tail request, a convergence-modulus schedule, a DyadicRatCore tolerance ledger, a RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-criterion-equivalence-carrier} and \autoref{thm:cauchy-criterion-equivalence-namecert-obligations} seed the finite bidirectional criterion/modulus surface over $\CauchyCriterionUp$, $\CauchyConvergenceModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable-choice schedules, host convergence, detached $\RealUp$ completeness, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, criterion-to-modulus projection, modulus-to-criterion projection, shared tolerance-readback exactness, Real seal nonescape, transport stability, replay stability, and provenance exhaustion for BEDC.Derived.CauchyCriterionEquivalenceUp.}
+\end{closurestatus}

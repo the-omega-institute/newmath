@@ -406,6 +406,20 @@ Next apply the recognizer refutation test, \autoref{thm:finite-bhist-injection-r
 Finally use obstruction completeness, \autoref{thm:finite-bhist-injection-recognizer-carrier-obstruction-completeness}. The only remaining open strengthening is the carrier construction row itself, so the post-landing obstruction must identify a failure of that row to preserve the recognizer acceptance, tuple extraction, readback, componentwise transport, and taste-gate data already displayed.
 \end{proof}
 
+\begin{theorem}[Finite BHist injection recognizer finite-row obstruction test]
+\label{thm:finite-bhist-injection-recognizer-finite-row-obstruction-test}
+After the landing rows of \autoref{prop:finite-bhist-injection-recognizer-closed-landing-test} are displayed, the remaining open recognizer-to-carrier claim is exactly the existence of a carrier row $K$ such that $K$ preserves recognizer acceptance through $\GroundCompilerRecognizerFlowUp$, finite tuple extraction through $\FiniteReflectionTupleUp$, component readback into $\BHist$, componentwise $\hsame$ and $\NameCert$ transport, and the $\ChapterTasteGate$ row. A valid obstruction is therefore a finite-row obstruction to constructing such a $K$; it is not a missing landing row, not a fixed-tuple $\StdBridge$ obstruction, and not an external bridge claim.
+\end{theorem}
+\begin{proof}
+Start with the closed landing test. It identifies the recognizer acceptance, generated-recognizer mediation, certificate-gate admission, finite tuple extraction, component readback, componentwise transport, and $\ChapterTasteGate$ rows as the whole finite landing surface.
+
+Apply recognizer construction obstruction localization. Once those rows are present, any remaining negative result must identify failure of the carrier construction row to preserve the displayed recognizer, tuple, readback, transport, and taste-gate data.
+
+Now use obstruction completeness. It says that the only remaining open strengthening is the carrier construction row itself, while the conjecture stays on the weakened surface and does not assert a $\StdBridge$ theorem.
+
+Thus the test is exact: either such a carrier row $K$ exists and preserves the listed rows, or the obstruction is a finite-row failure to construct $K$ after landing. No broader bridge claim is introduced.
+\end{proof}
+
 \begin{theorem}[Finite BHist injection recognizer status sharpness]
 \label{thm:finite-bhist-injection-recognizer-status-sharpness}
 After the seven landing rows of \autoref{prop:finite-bhist-injection-recognizer-closed-landing-test} are displayed, the remaining open issue in \autoref{conj:finite-bhist-injection-recognizer-to-carrier} is exactly recognizer-to-carrier construction. It is not a fixed-tuple $\StdBridge$ issue, not missing landing data, not a missing finite tuple image or readback row, and not a missing bridge theorem.
