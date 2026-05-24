@@ -938,6 +938,7 @@ import BEDC.Derived.CauchyConvergenceCriterionUp.WindowThreshold
 import BEDC.Derived.CauchyConvergenceModulusTailMonotonicityUp.TasteGate
 import BEDC.Derived.CauchyConvergenceModulusUp
 import BEDC.Derived.CauchyConvolutionUp
+import BEDC.Derived.CauchyCriterionEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyCriterionUp.BudgetSelectorTerminalRouteExhaustion
 import BEDC.Derived.CauchyCriterionUp.ClassifierStabilityScope
@@ -1246,6 +1247,7 @@ import BEDC.Derived.CauchyProductUp.SharedTailSelectorFactorization
 import BEDC.Derived.CauchyProductUp.SourceBudgetConsumerLock
 import BEDC.Derived.CauchyProductUp.SourceWindowSealConsumerExactness
 import BEDC.Derived.CauchyProductUp.SourceWindowTailAgreement
+import BEDC.Derived.CauchyProductUp.StreamSealObligation
 import BEDC.Derived.CauchyProductUp.StreamnameRegseqratSourceLock
 import BEDC.Derived.CauchyProductUp.TasteGate
 import BEDC.Derived.CauchyProductUp.WindowBudgetNameCertLedger
@@ -1941,6 +1943,7 @@ import BEDC.Derived.ContourIntegralSocketUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ContourReversalLedgerUp.TasteGate
 import BEDC.Derived.ContourSumWindowUp.TasteGate
+import BEDC.Derived.ContractionMappingUp.OrbitReadiness
 import BEDC.Derived.ContractionMappingUp.TasteGate
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
@@ -2948,6 +2951,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RadiusReadback
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.RealPhaseSourceExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.RealSourceNonchoice
+import BEDC.Derived.FiniteLebesgueNumberUp.RootCompactConsumerNonchoice
 import BEDC.Derived.FiniteLebesgueNumberUp.RootDyadicRadiusObligation
 import BEDC.Derived.FiniteLebesgueNumberUp.RootRadiusCoherencePackage
 import BEDC.Derived.FiniteLebesgueNumberUp.RootRadiusWindowConsumerExactness
@@ -4553,8 +4557,10 @@ import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.RealApartnessCompletionUp.TasteGate
 import BEDC.Derived.RealApartnessOrderBridgeUp.TasteGate
 import BEDC.Derived.RealApproximationEnvelopeUp
+import BEDC.Derived.RealArchimedeanPropertyUp.TasteGate
 import BEDC.Derived.RealBaireCylinderUp.TasteGate
 import BEDC.Derived.RealBallUp
+import BEDC.Derived.RealBolzanoUp.TasteGate
 import BEDC.Derived.RealBudgetTailMeetUp.TasteGate
 import BEDC.Derived.RealCauchyCompletionUp
 import BEDC.Derived.RealCauchyCompletionUp.BridgeHandoff
