@@ -1,0 +1,123 @@
+{
+  "version": "bio-reality-claims-v1",
+  "claims": [
+    {
+      "claim_id": "h0.R.cardinality.13",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "|R| = 13 (the set of codons reassigned in at least one alternative genetic code is exactly 13)",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "compute_R",
+      "history": []
+    },
+    {
+      "claim_id": "h0.R.motif.compression",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "R = CUN ∪ AGR ∪ UNA ∪ WWA ∪ UAR exactly",
+      "depends_on": [
+        "h0.R.cardinality.13"
+      ],
+      "status": "open",
+      "experiment_id": "check_motif_compression",
+      "history": []
+    },
+    {
+      "claim_id": "h0.R.punctured.cube",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "R = (WNA \\ ACA) ∪ CUN ∪ {UAG, AGG}; f-vector (13,16,4)",
+      "depends_on": [
+        "h0.R.cardinality.13"
+      ],
+      "status": "open",
+      "experiment_id": "check_punctured_cube",
+      "history": []
+    },
+    {
+      "claim_id": "h0.M.equals.WNR.CUN",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Med(R) = WNR ∪ CUN, |M| = 20",
+      "depends_on": [
+        "h0.R.cardinality.13"
+      ],
+      "status": "open",
+      "experiment_id": "check_M_equals_WNR_CUN",
+      "history": []
+    },
+    {
+      "claim_id": "h0.f3.saturation",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "∂_f3(M) = 0 (third-position wobble saturation)",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "open",
+      "experiment_id": "check_f3_saturation",
+      "history": []
+    },
+    {
+      "claim_id": "h0.quotient.geometry",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "M = π(M) × Q1_f3 with π(M) = WNR^♭ ∪ CU{Y,R}",
+      "depends_on": [
+        "h0.f3.saturation"
+      ],
+      "status": "open",
+      "experiment_id": "check_quotient_geometry",
+      "history": []
+    },
+    {
+      "claim_id": "h0.spectrum",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "λ(M) ≈ 0.675248 satisfies μ^6 - 12μ^4 + 26μ^2 - 9 = 0",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "open",
+      "experiment_id": "compute_spectrum",
+      "history": []
+    },
+    {
+      "claim_id": "h0.null.model.significance",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "|Med(S)| = 20 is significant vs uniform random 13-codon support",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "open",
+      "experiment_id": "null_model_uniform",
+      "history": []
+    },
+    {
+      "claim_id": "h1.leave.one.code.out",
+      "hypothesis_level": "H1",
+      "phase": 1,
+      "statement": "Leave-one-code-out: removed reassignment codons fall in M_-T or its 1-boundary",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "open",
+      "experiment_id": "leave_one_code_out",
+      "history": []
+    },
+    {
+      "claim_id": "h1.leave.one.codon.out",
+      "hypothesis_level": "H1",
+      "phase": 1,
+      "statement": "Leave-one-codon-out: structural anchors identified",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "open",
+      "experiment_id": "leave_one_codon_out",
+      "history": []
+    }
+  ]
+}

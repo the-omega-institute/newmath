@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 import tempfile
@@ -14,16 +15,18 @@ from typing import Any
 try:
     import agent_bus
     import bio_reality_loop
+    from experiments import runner as experiment_runner
     import signal_assimilator
     import vision_intake
-    from store import BioRealityPaths, BioRealityStore, read_jsonl, write_jsonl
+    from store import BioRealityPaths, BioRealityStore, append_jsonl, read_jsonl, write_jsonl
 except ModuleNotFoundError:  # pragma: no cover
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import agent_bus
     import bio_reality_loop
+    from experiments import runner as experiment_runner
     import signal_assimilator
     import vision_intake
-    from store import BioRealityPaths, BioRealityStore, read_jsonl, write_jsonl
+    from store import BioRealityPaths, BioRealityStore, append_jsonl, read_jsonl, write_jsonl
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -328,6 +331,178 @@ def run_gate_lane(store: BioRealityStore) -> dict[str, Any]:
     return {"lane": "bio-G", **summary}
 
 
+def _load_claims_document(path: Path) -> dict[str, Any]:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"version": "bio-reality-claims-v1", "claims": []}
+    if not isinstance(data, dict):
+        return {"version": "bio-reality-claims-v1", "claims": []}
+    claims = data.get("claims")
+    if not isinstance(claims, list):
+        data["claims"] = []
+    return data
+
+
+def _load_experiments_document(path: Path) -> dict[str, Any]:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"version": "bio-reality-experiments-v1", "experiments": []}
+    if not isinstance(data, dict):
+        return {"version": "bio-reality-experiments-v1", "experiments": []}
+    experiments = data.get("experiments")
+    if not isinstance(experiments, list):
+        data["experiments"] = []
+    return data
+
+
+def _history_entry(status: str, reason: str, **extra: Any) -> dict[str, Any]:
+    entry = {"ts": now_iso(), "status": status, "reason": reason}
+    entry.update(extra)
+    return entry
+
+
+def _claim_state_counts(claims: list[dict[str, Any]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for claim in claims:
+        status = str(claim.get("status") or "open")
+        counts[status] = counts.get(status, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _run_id(result: dict[str, Any]) -> str:
+    material = json.dumps(result, sort_keys=True, ensure_ascii=True)
+    return hashlib.sha256(material.encode("utf-8")).hexdigest()[:12]
+
+
+def _check_summary(checks: Any) -> dict[str, int]:
+    if not isinstance(checks, list):
+        return {"total": 0, "passed": 0, "failed": 0}
+    total = sum(1 for item in checks if isinstance(item, dict))
+    passed = sum(1 for item in checks if isinstance(item, dict) and item.get("passed") is True)
+    return {"total": total, "passed": passed, "failed": total - passed}
+
+
+def _missing_required_data(repo_root: Path, experiment: dict[str, Any]) -> list[str]:
+    required = experiment.get("required_data")
+    if not isinstance(required, list):
+        return []
+    missing: list[str] = []
+    for item in required:
+        if not isinstance(item, str) or not item:
+            continue
+        path = Path(item)
+        if path.is_absolute() or not (repo_root / path).exists():
+            missing.append(item)
+    return missing
+
+
+def _write_claims_document(path: Path, document: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(document, indent=2, ensure_ascii=False, sort_keys=False) + "\n", encoding="utf-8")
+
+
+def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
+    claims_document = _load_claims_document(store.paths.claims_registry)
+    experiments_document = _load_experiments_document(store.paths.experiments_registry)
+    claims = [item for item in claims_document.get("claims", []) if isinstance(item, dict)]
+    experiments = [item for item in experiments_document.get("experiments", []) if isinstance(item, dict)]
+    experiment_by_id = {
+        str(experiment.get("experiment_id") or ""): experiment
+        for experiment in experiments
+        if experiment.get("experiment_id")
+    }
+    claim_by_id = {
+        str(claim.get("claim_id") or ""): claim
+        for claim in claims
+        if claim.get("claim_id")
+    }
+    repo_root = SCRIPT_DIR.parent.parent
+    summary = {
+        "lane": "bio-X",
+        "executed": 0,
+        "passed_this_cycle": 0,
+        "failed_this_cycle": 0,
+        "needs_data_this_cycle": 0,
+        "error_this_cycle": 0,
+        "skipped_unmet_dep": 0,
+        "claim_states": {},
+    }
+
+    for claim in claims:
+        status = str(claim.get("status") or "open")
+        if status not in {"open", "needs_rerun"}:
+            continue
+        experiment_id = str(claim.get("experiment_id") or "")
+        experiment = experiment_by_id.get(experiment_id)
+        if experiment is None:
+            continue
+        dependencies = [str(item) for item in claim.get("depends_on", []) if isinstance(item, str)]
+        unmet = [dep for dep in dependencies if str(claim_by_id.get(dep, {}).get("status") or "") != "passed"]
+        if unmet:
+            history = claim.setdefault("history", [])
+            if isinstance(history, list):
+                history.append(_history_entry("skipped", "skipped due to unmet dependency", unmet_dependencies=unmet))
+            summary["skipped_unmet_dep"] += 1
+            continue
+        missing_data = _missing_required_data(repo_root, experiment)
+        if missing_data:
+            claim["status"] = "needs_data"
+            history = claim.setdefault("history", [])
+            if isinstance(history, list):
+                history.append(_history_entry("needs_data", "missing required_data", missing_data=missing_data))
+            result = {
+                "experiment_id": experiment_id,
+                "claim_id": str(claim.get("claim_id") or ""),
+                "started_at": now_iso(),
+                "completed_at": now_iso(),
+                "status": "needs_data",
+                "checks": [],
+                "result": {"missing_data": missing_data},
+                "stdout_tail": "",
+                "stderr_tail": "",
+                "returncode": None,
+            }
+            result["experiment_run_id"] = _run_id(result)
+            append_jsonl(store.paths.experiment_runs, [result])
+            summary["needs_data_this_cycle"] += 1
+            continue
+        timeout = int(experiment.get("timeout_seconds") or 300)
+        result = experiment_runner.run_experiment(experiment, timeout_seconds=timeout, repo_root=repo_root)
+        result["experiment_run_id"] = _run_id(result)
+        append_jsonl(store.paths.experiment_runs, [result])
+        summary["executed"] += 1
+        result_status = str(result.get("status") or "error")
+        if result_status == "passed":
+            claim["status"] = "passed"
+            summary["passed_this_cycle"] += 1
+        elif result_status == "failed":
+            claim["status"] = "failed"
+            summary["failed_this_cycle"] += 1
+        elif result_status == "needs_data":
+            claim["status"] = "needs_data"
+            summary["needs_data_this_cycle"] += 1
+        else:
+            claim["status"] = "error"
+            summary["error_this_cycle"] += 1
+        history = claim.setdefault("history", [])
+        if isinstance(history, list):
+            history.append(
+                _history_entry(
+                    str(claim.get("status") or "error"),
+                    "experiment result",
+                    experiment_run_id=result["experiment_run_id"],
+                    checks=_check_summary(result.get("checks")),
+                )
+            )
+
+    claims_document["claims"] = claims
+    _write_claims_document(store.paths.claims_registry, claims_document)
+    summary["claim_states"] = _claim_state_counts(claims)
+    return summary
+
+
 def run_agent_lane(store: BioRealityStore, *, execute_codex: bool = True, max_dispatch: int = 1) -> dict[str, Any]:
     return agent_bus.run_agent_lane(store, execute_codex=execute_codex, max_dispatch=max_dispatch)
 
@@ -415,6 +590,11 @@ def _temp_paths(base: Path) -> BioRealityPaths:
         dispatch_results=base / "dispatch_results.jsonl",
         hardening_targets=base / "hardening_targets.jsonl",
         lane_dashboard=base / "lane_dashboard.md",
+        claims_registry=base / "claims.json",
+        experiments_registry=base / "experiments.json",
+        experiment_runs=base / "experiment_runs.jsonl",
+        experiments_dir=base / "experiments",
+        data_dir=base / "data",
         vision_dir=base / "vision",
         vision_ledger=base / "vision" / "ledger" / "intake_evaluations.jsonl",
         paper_main=base / "paper" / "main.tex",
@@ -769,13 +949,63 @@ def self_test() -> int:
         if new_conjecture.get("evidence_basis") != ["bedc_coordinate"] or new_conjecture.get("reality_contact_refs") != []:
             print(json.dumps(new_conjecture, indent=2), file=sys.stderr)
             return 1
+
+        execute_paths = _temp_paths(base / "execute")
+        execute_paths.claims_registry.parent.mkdir(parents=True, exist_ok=True)
+        execute_paths.experiments_registry.parent.mkdir(parents=True, exist_ok=True)
+        execute_paths.claims_registry.write_text(
+            json.dumps(
+                {
+                    "version": "bio-reality-claims-v1",
+                    "claims": [
+                        {
+                            "claim_id": "self.claim",
+                            "hypothesis_level": "H0",
+                            "phase": 1,
+                            "statement": "self test claim",
+                            "depends_on": [],
+                            "status": "open",
+                            "experiment_id": "self_missing_script",
+                            "history": [],
+                        }
+                    ],
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        execute_paths.experiments_registry.write_text(
+            json.dumps(
+                {
+                    "version": "bio-reality-experiments-v1",
+                    "experiments": [
+                        {
+                            "experiment_id": "self_missing_script",
+                            "script_path": "tools/bio_reality/experiments/run_self_missing_script.py",
+                            "claim_id": "self.claim",
+                            "required_data": [],
+                            "timeout_seconds": 5,
+                            "acceptance": {"required_checks": []},
+                        }
+                    ],
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        execute_store = BioRealityStore(execute_paths)
+        execute_summary = run_execute_lane(execute_store)
+        updated_claims = json.loads(execute_paths.claims_registry.read_text(encoding="utf-8"))["claims"]
+        if execute_summary["error_this_cycle"] != 1 or updated_claims[0].get("status") != "error":
+            print(json.dumps({"summary": execute_summary, "claims": updated_claims}, indent=2), file=sys.stderr)
+            return 1
     print("[bio-reality-lanes] self-test ok")
     return 0
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run BioReality V/P/G/R/W/Q/A lanes")
-    parser.add_argument("--lane", choices=["vision", "packet", "gate", "agent", "writeback", "quality", "assimilate", "all"], default="all")
+    parser = argparse.ArgumentParser(description="Run BioReality V/P/G/X/R/W/Q/A lanes")
+    parser.add_argument("--lane", choices=["vision", "packet", "gate", "execute", "agent", "writeback", "quality", "assimilate", "all"], default="all")
     parser.add_argument("--plan-only", action="store_true")
     parser.add_argument("--max-dispatch", type=int, default=1)
     parser.add_argument("--conjectures", default=str(BioRealityPaths.conjectures))
@@ -829,6 +1059,8 @@ def main(argv: list[str] | None = None) -> int:
         summaries.append(run_packet_lane(store))
     if args.lane in {"gate", "all"}:
         summaries.append(run_gate_lane(store))
+    if args.lane in {"execute", "all"}:
+        summaries.append(run_execute_lane(store))
     if args.lane in {"agent", "all"}:
         summaries.append(run_agent_lane(store, execute_codex=not args.plan_only, max_dispatch=max(0, args.max_dispatch)))
     if args.lane in {"writeback", "all"}:

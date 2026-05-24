@@ -45,6 +45,15 @@ AGENTS = {
         ],
         "mission": "harden deterministic gates from recurring pass and failure reasons",
     },
+    "bio-experimentalist": {
+        "lane": "bio-R",
+        "writes": [
+            "tools/bio_reality/experiments/run_*.py",
+            "tools/bio_reality/data/*.json",
+            "tools/bio_reality/registries/experiments.json",
+        ],
+        "mission": "implement or repair BioReality experiment scripts that produce a single JSON result with checks and status",
+    },
 }
 
 
@@ -129,6 +138,32 @@ def build_events(store: BioRealityStore) -> list[dict[str, Any]]:
         issues = result.get("issues") if isinstance(result.get("issues"), list) else []
         reason = "; ".join(str(issue) for issue in issues[:3]) or "gate blocked"
         events.append(_event("gate_failure", "bio-G", packet_kind, packet_id, reason, result))
+    for result in read_jsonl(store.paths.experiment_runs)[-10:]:
+        status = str(result.get("status") or "")
+        experiment_id = str(result.get("experiment_id") or "")
+        claim_id = str(result.get("claim_id") or "")
+        if status in {"failed", "error"}:
+            events.append(
+                _event(
+                    "experiment_failed",
+                    "bio-X",
+                    "experiment",
+                    experiment_id,
+                    f"experiment {status}: {claim_id}",
+                    result,
+                )
+            )
+        elif status == "needs_data":
+            events.append(
+                _event(
+                    "data_contact_needed",
+                    "bio-X",
+                    "experiment",
+                    experiment_id,
+                    f"experiment needs data: {claim_id}",
+                    result,
+                )
+            )
     return _dedup(events, "event_id")
 
 
@@ -174,6 +209,10 @@ def plan_agent_tasks(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
             tasks.append(_task_for_event(event, "bio-gate-curator", "harden_vision_intake_or_dependencies", 80))
         elif kind == "gate_failure":
             tasks.append(_task_for_event(event, "bio-gate-curator", "harden_gate_or_schema", 95))
+        elif kind in {"experiment_failed", "experiment_error"}:
+            tasks.append(_task_for_event(event, "bio-experimentalist", "repair_experiment_script", 92))
+        elif kind == "data_contact_needed":
+            tasks.append(_task_for_event(event, "bio-experimentalist", "add_data_manifest", 92))
     tasks.sort(key=_status_sort)
     return _dedup(tasks, "task_id")
 
@@ -207,6 +246,13 @@ def merge_agent_tasks(existing: list[dict[str, Any]], planned: list[dict[str, An
 def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
     agent = AGENTS[agent_id]
     payload = json.dumps(event, ensure_ascii=False, sort_keys=True, indent=2)
+    extra_rules: list[str] = []
+    if agent_id == "bio-experimentalist":
+        extra_rules = [
+            "",
+            "Bio-experimentalist constraints:",
+            "You may only edit script files matching tools/bio_reality/experiments/run_*.py or data files under tools/bio_reality/data/. The script must end by printing a single-line JSON to stdout with fields experiment_id, claim_id, status, checks, result, started_at, completed_at. Python 3 stdlib only.",
+        ]
     return "\n".join(
         [
             "You are a BioReality automation agent inside the newmath repository.",
@@ -221,6 +267,7 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
             "- Make one minimal research-memory or gate-hardening change; do not broaden the project scope.",
             "- Run the relevant BioReality gates before reporting completion.",
             "- Do not commit and do not push remote refs; the supervisor/orchestrator owns commits.",
+            *extra_rules,
             "",
             "Allowed write paths:",
             json.dumps(agent["writes"], ensure_ascii=False, indent=2),
@@ -594,11 +641,27 @@ def self_test() -> int:
                 }
             ],
         )
+        write_jsonl(
+            paths.experiment_runs,
+            [
+                {
+                    "experiment_id": "self_experiment",
+                    "claim_id": "self.claim",
+                    "status": "failed",
+                    "checks": [{"name": "self_check", "passed": False}],
+                    "result": {},
+                }
+            ],
+        )
         store = BioRealityStore(paths)
         agent = run_agent_lane(store, execute_codex=False)
         quality = run_quality_lane(store)
-        if agent["events"] != 2 or agent["agent_tasks"] != 2:
+        if agent["events"] != 3 or agent["agent_tasks"] != 3:
             print(json.dumps(agent, indent=2), file=sys.stderr)
+            return 1
+        experimentalist_task = next((task for task in store.load_agent_tasks() if task.get("agent_id") == "bio-experimentalist"), {})
+        if experimentalist_task.get("action") != "repair_experiment_script":
+            print(json.dumps(store.load_agent_tasks(), indent=2), file=sys.stderr)
             return 1
         if quality["hardening_targets"] == 0:
             print(json.dumps(quality, indent=2), file=sys.stderr)
