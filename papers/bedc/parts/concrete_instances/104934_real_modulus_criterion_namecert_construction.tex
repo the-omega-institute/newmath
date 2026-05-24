@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\RealModulusCriterionUp$}
+\label{ch:concrete-instances-real-modulus-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RealModulusCriterionUp$ packet records the finite criterion by which an explicit Cauchy modulus makes a regular rational stream ready for a $\RealUp$ convergence read. It sits between the convergence schedule of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}, the sequence-limit consumer of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the regular rational names of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Real modulus criterion carrier]
+\label{def:real-modulus-criterion-carrier}
+A $\RealModulusCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(M,S,Q,W,D,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyConvergenceModulusUp$ row naming the explicit tail schedule.
+\item $S$ is the sequence-source row inspected by the modulus.
+\item $Q$ is the $\RegSeqRatUp$ regular rational readback exposed by the scheduled tails.
+\item $W$ is the $\StreamNameUp$ finite-window family used to read each tail comparison.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the modulus requests.
+\item $L$ is the $\RealSequenceLimitUp$ consumer row reached only after $M,S,Q,W,D$ have been displayed.
+\item $E$ is the $\RealUp$ convergence-readiness seal exported to real-name consumers.
+\item $H$ records componentwise $\hsame$ transport for the analytic rows and the structural rows.
+\item $C$ records displayed $\Cont$ replay from the tolerance request through the modulus, windows, regular readback, sequence-limit consumer, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\RealModulusCriterionUp$, $\CauchyConvergenceModulusUp$, $\RealSequenceLimitUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealModulusCriterionUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for quotient completion, selected representatives, countable choice, trichotomy, host sequence convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real modulus criterion NameCert obligations]
+\label{thm:real-modulus-criterion-namecert-obligations}
+The seed $\NameCert_{\RealModulusCriterionUp}$ surface for \autoref{def:real-modulus-criterion-carrier} consists exactly of carrier exposure for $R$, explicit modulus exposure through $M$, sequence-source exposure through $S$, regular rational readback through $Q$, finite window exposure through $W$, dyadic tolerance exposure through $D$, sequence-limit handoff through $L$, real convergence-readiness through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $R=(M,S,Q,W,D,L,E,H,C,P,N)$. The analytic route is finite: a tolerance request reads the modulus row $M$, the source row $S$, the regular rational row $Q$, the window row $W$, and the dyadic row $D$ before it reaches $L$ and $E$.
+
+The rows $H,C,P,N$ preserve and name that same route. Componentwise $\hsame$ transport keeps each analytic coordinate in its displayed sibling surface, while $\Cont$ replay records the order in which the consumer reads the modulus, windows, regular name, sequence-limit row, and real seal.
+
+No excluded object is a row of the carrier. Therefore the listed rows exhaust the seed NameCert obligations for the explicit real-modulus criterion.
+\end{proof}
+
+\begin{theorem}[Real modulus criterion completion handoff]
+\label{thm:real-modulus-criterion-completion-handoff}
+Every completion-facing consumer of an accepted $\RealModulusCriterionUp$ packet must pass through
+$$
+\CauchyConvergenceModulusUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealSequenceLimitUp,\ \RealUp
+$$
+in the displayed carrier order before treating the packet as convergence-ready for real-name use. The handoff supplies a finite criterion for explicit Cauchy-modulus convergence; it does not supply quotient completion, a selected limiting representative, countable choice, trichotomy, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The modulus row $M$ and dyadic ledger $D$ identify the tolerance request, while $W$ and $Q$ expose the finite tail windows and regular rational readback needed by the request.
+
+Next read the sequence-limit and real-seal rows. The row $L$ is reached only after the modulus, window, dyadic, and regular readback rows have been displayed, and $E$ is the resulting $\RealUp$ readiness boundary.
+
+Finally apply the structural rows. Transport, replay, provenance, and local naming can only preserve the displayed route, so a completion-facing consumer cannot bypass the criterion through quotient completion, representative selection, countable choice, trichotomy, host convergence, or ambient completeness.
+\end{proof}
+
+\closureat{RealModulusCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RealModulusCriterionUp}
+  \constructivestory{A $\RealModulusCriterionUp$ packet is generated from an explicit CauchyConvergenceModulus row, a sequence source, RegSeqRat readback, finite StreamName windows, DyadicRatCore tolerance rows, a RealSequenceLimit consumer row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-modulus-criterion-carrier}, \autoref{thm:real-modulus-criterion-namecert-obligations}, and \autoref{thm:real-modulus-criterion-completion-handoff} declare the finite explicit-modulus criterion connecting $\CauchyConvergenceModulusUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealSequenceLimitUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion, selected representatives, countable choice, trichotomy, host sequence convergence, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, explicit modulus exposure, sequence-limit handoff, real-seal nonescape, and completion-facing criterion readiness.}
+\end{closurestatus}
