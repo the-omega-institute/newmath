@@ -5127,6 +5127,7 @@ import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
+import BEDC.Derived.SequentialCompactUp.TasteGate
 import BEDC.Derived.SequentialCompactnessUp.TasteGate
 import BEDC.Derived.SequentialCompletionUp.TasteGate
 import BEDC.Derived.SequentialContinuityUp.TasteGate
