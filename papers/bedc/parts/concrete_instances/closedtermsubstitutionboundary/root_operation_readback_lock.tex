@@ -46,3 +46,45 @@ Use the root operation readback lock for the second stage. It routes $Q$ and $R$
 
 The final stage is the parent root $\NameCert$ handoff. The structural rows $H,C,P,N$ carry exactly the same finite packet to downstream consumers, so the root audit factorization has no extra host syntax, evaluator, compiler-state, or quotient coordinate.
 \end{proof}
+
+\begin{lemma}[Closed-term substitution boundary root depth-value bridge determinacy]
+\label{lem:closed-term-substitution-boundary-root-depth-value-bridge-determinacy}
+For an accepted $\ClosedTermSubstitutionBoundaryUp$ packet, every consumer-facing route, transport, readback, or handoff that uses the root depth-value operation boundary is determined by the finite displayed surface
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The determining rows are the source term row $T$, value row $V$, inspected depth row $d$, source and value closedness rows $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$, closed shift row $Q$, substitute-closed row $R$, ledger row $L$, audit row $A$, componentwise transport row $H$, displayed continuation row $C$, package provenance row $P$, and local $\NameCert$ row $N$. A consumer may use $Q$ or $R$ only through this surface, and any route, transport, readback, or handoff coordinate not listed in the surface is unavailable to the root depth-value bridge.
+\end{lemma}
+\begin{proof}
+Start with \autoref{thm:closed-term-substitution-boundary-root-depth-value-lock}. It fixes $T,V,d,C_{\mathsf{src}}$, and $C_{\mathsf{val}}$ before either operation row can be exported. Thus a consumer-facing bridge cannot start from $Q$ or $R$ alone; it must first pass through the displayed source, value, depth, and closedness rows of the accepted packet.
+
+Apply \autoref{thm:closed-term-substitution-boundary-root-operation-readback-lock}. Every root read of $Q$ or $R$ factors through the same finite route
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The readback condition ties the operation rows to the local classifier, the $\NameCert$ obligation surface, the ledger, the audit row, and the root $\NameCert$ handoff. Hence any displayed operation readback used by a consumer is already a readback of these named rows, not a separate host substitution operation.
+
+It remains to account for transports, continuations, provenance, and handoff. The same readback lock routes them through $H,C,P,N$, while the depth-value lock prevents the operation rows from appearing before $T,V,d,C_{\mathsf{src}}$, and $C_{\mathsf{val}}$ have been exposed. Therefore a consumer-facing transport is componentwise transport over the displayed packet, a continuation is replay over the displayed packet, provenance is the displayed package row, and handoff is the local $\NameCert$ row attached to that packet.
+
+No further bridge coordinate is present in either lock. The operation readback lock explicitly exports no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, or hidden compiler state, and the depth-value lock supplies only the listed carrier, classifier, local $\NameCert$ obligations, root audit totality, and root $\NameCert$ handoff. Consequently every admissible route, transport, readback, or handoff factors through the cited rows, while every unlisted bridge coordinate remains unavailable.
+\end{proof}
+
+\begin{corollary}[Closed-term substitution boundary root depth-value consumer determinacy]
+\label{cor:closed-term-substitution-boundary-root-depth-value-consumer-determinacy}
+For an accepted $\ClosedTermSubstitutionBoundaryUp$ packet whose displayed root depth-value rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+are fixed, every accepted consumer-facing use of the root depth-value operation boundary has the same public decision source. Its finite route is the displayed route above; its transport, readback, normal-form handoff, or exactness decision named by the chapter is read through $Q,R,L,A,H,C,P,N$ after $T,V,d,C_{\mathsf{src}}$, and $C_{\mathsf{val}}$ have been exposed. No accepted consumer may choose an alternate finite route, hidden normal-form coordinate, duplicate classifier source, host substitution semantics, subject-reduction theorem, host syntax quotient, hidden evaluator, or hidden compiler state.
+\end{corollary}
+\begin{proof}
+Begin with \autoref{thm:closed-term-substitution-boundary-root-depth-value-lock}. It fixes the source term row $T$, value row $V$, inspected depth row $d$, source closedness row $C_{\mathsf{src}}$, and value closedness row $C_{\mathsf{val}}$ before either operation row $Q$ or $R$ can be exported. Thus an accepted consumer cannot start its root operation use from a detached operation row, a second classifier source, or a hidden depth-value coordinate.
+
+Apply \autoref{lem:closed-term-substitution-boundary-root-depth-value-bridge-determinacy}. Every consumer-facing route, transport, readback, or handoff using the root depth-value operation boundary is determined by the single displayed surface
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The same lemma identifies $Q$ and $R$ as usable only through that surface and states that any route, transport, readback, or handoff coordinate not listed there is unavailable to the bridge.
+
+It follows that, once the displayed rows are fixed, there is no remaining choice point for a consumer-facing decision. A finite route must be the displayed route; a transport must be the componentwise row $H$ over that packet; a readback or normal-form handoff must pass through $Q,R,L,A$ and then through $C,P,N$; and an exactness decision named by the chapter must cite the same closedness, ledger, audit, provenance, and local naming rows. Any alternate finite route, hidden normal-form coordinate, duplicate classifier source, host substitution semantics, subject-reduction theorem, quotient syntax, hidden evaluator, or compiler state would be an unlisted coordinate. The bridge determinacy lemma makes such a coordinate unavailable, while the depth-value lock prevents it from being inserted before the operation rows are exported.
+\end{proof}
