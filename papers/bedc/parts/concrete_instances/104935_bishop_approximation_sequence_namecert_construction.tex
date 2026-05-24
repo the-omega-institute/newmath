@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\BishopApproximationSequenceUp$}
+\label{ch:concrete-instances-bishop-approximation-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive analysis, the $\BishopApproximationSequenceUp$ packet records a finite naming surface for approximation sequences whose visible observations are dyadic schedules, finite stream windows, and regular-rational readbacks. It sits between the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the convergence-modulus discipline of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}. The packet gives Real and Completion consumers a named approximation-sequence interface without adding quotient sequence equality, countable choice, trichotomy, a selected host limit, or ambient $\RealUp$ completeness.
+
+\begin{definition}[BishopApproximationSequence carrier]
+\label{def:bishop-approximation-sequence-carrier}
+A $\BishopApproximationSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,S,W,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and bracket row, storing the dyadic precision requests and the finite arithmetic witnesses used by the approximation schedule;
+\item $S$ is the $\StreamNameUp$ row, storing the finite sequence windows whose entries are inspected by the consumer;
+\item $W$ is the window-synchronization row that binds the dyadic tolerances in $D$ to the stream observations in $S$;
+\item $M$ is the $\CauchyConvergenceModulusUp$ row, storing the finite modulus witnesses used to compare later windows with earlier requested tolerances;
+\item $R$ is the $\RegSeqRatUp$ handoff row that repacks the accepted windows as regular rational readback data;
+\item $E$ is the $\RealUp$ seal row reached only after $D,S,W,M,R$ have been displayed;
+\item $H$ records the componentwise $\hsame$ transports for the dyadic row, stream row, window row, modulus row, regular handoff, real seal, continuation routes, provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ routes that replay tolerance reads, stream-window reads, modulus reads, regular-rational handoff, and real-seal readback;
+\item $P$ is the $\Pkg$ provenance over $\BishopApproximationSequenceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\CauchyConvergenceModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BishopApproximationSequenceUp}$ row.
+\end{enumerate}
+The accepted carrier stores no quotient sequence equality, no selected infinite subsequence, no host real equality test, no countable-choice functional, no trichotomy row, and no ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[BishopApproximationSequence NameCert obligations]
+\label{thm:bishop-approximation-sequence-namecert-obligations}
+For an accepted packet $A=(D,S,W,M,R,E,H,C,P,N)$, the local $\NameCert_{\BishopApproximationSequenceUp}$ obligations are exactly the following finite rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is the displayed packet with dyadic tolerances, finite stream windows, synchronized window data, convergence modulus, regular-rational handoff, real seal, transports, continuations, provenance, and local naming;
+\item dyadic-window coherence: every precision request in $D$ is attached to a displayed window in $S$ through the synchronization row $W$;
+\item modulus coverage: every accepted tolerance request reads a finite witness in $M$ before any regular-rational or real-name observation is exported;
+\item regular handoff stability: the $\RegSeqRatUp$ row $R$ reads only the synchronized windows and modulus witnesses carried by $D,S,W,M$;
+\item classifier transport: the componentwise transports in $H$ preserve the dyadic row, stream row, synchronization row, modulus row, regular handoff, real seal, continuation replay, provenance, and local naming row;
+\item ledger exhaustion: every Real or Completion consumer must pass through one of $D,S,W,M,R,E,H,C,P,N$ before reading any approximation-sequence observation.
+\end{enumerate}
+No obligation may call on quotient sequence equality, a selected host limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier row by row. Carrier admission is immediate from the displayed $\BHist$ packet, and dyadic-window coherence reads only the tolerance row $D$, stream row $S$, and synchronization row $W$.
+
+For modulus coverage, inspect a tolerance request in $D$. The row $M$ supplies the finite convergence witness attached to that request, and the route into $R$ is available only after the synchronized window has been displayed.
+
+Classifier transport and ledger exhaustion are structural. The transport row $H$ moves only the displayed coordinates, while $C$ replays only the displayed tolerance, window, modulus, regular handoff, and seal routes. Since the carrier contains no quotient equality, selected limit, choice functional, trichotomy row, host equality test, or completeness coordinate, none of those principles can enter the local obligations.
+\end{proof}
+
+\begin{theorem}[BishopApproximationSequence RegSeqRat handoff]
+\label{thm:bishop-approximation-sequence-regseqrat-handoff}
+Let $A=(D,S,W,M,R,E,H,C,P,N)$ be an accepted $\BishopApproximationSequenceUp$ packet. Every regular-rational read exported by $A$ factors through a displayed dyadic tolerance in $D$, a finite stream window in $S$, the synchronization row $W$, and a convergence-modulus witness in $M$ before the $\RegSeqRatUp$ handoff row $R$ is available. The route is stable under the transports in $H$ and the replay routes in $C$.
+\end{theorem}
+\begin{proof}
+Begin with a regular-rational consumer of the packet. The carrier makes $R$ the only regular-rational handoff coordinate, and $R$ is downstream of the dyadic, stream-window, synchronization, and modulus rows.
+
+Apply \autoref{thm:bishop-approximation-sequence-namecert-obligations}. Its dyadic-window coherence and modulus coverage rows force every tolerance request to pass through $D,S,W,M$ before a regular read is exposed.
+
+The transports in $H$ preserve each displayed coordinate, and the continuations in $C$ replay only the same route. Thus the regular-rational read cannot detach from the finite approximation schedule or use quotient sequence equality, countable choice, trichotomy, host equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[BishopApproximationSequence Real seal nonescape]
+\label{thm:bishop-approximation-sequence-real-seal-nonescape}
+Let $A=(D,S,W,M,R,E,H,C,P,N)$ be an accepted $\BishopApproximationSequenceUp$ packet. No $\RealUp$-facing consumer can bypass the dyadic tolerance row $D$, finite stream row $S$, synchronization row $W$, convergence-modulus row $M$, regular handoff $R$, terminal seal $E$, transports $H$, replays $C$, provenance $P$, and local name $N$ to obtain quotient sequence equality, a selected host limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier. The only terminal real-name coordinate is $E$, and it is displayed after the dyadic tolerance row, finite stream row, synchronization row, modulus row, and regular-rational handoff.
+
+Use \autoref{thm:bishop-approximation-sequence-regseqrat-handoff}. Every regular-rational approximation read has already passed through $D,S,W,M$ before reaching $R$, so the route into $E$ is a finite route through the named rows.
+
+The rows $H$ and $C$ can transport and replay only displayed coordinates, while $P$ and $N$ record the same package and local name. Because the carrier contains none of the excluded objects, the Real-facing seal cannot export quotient equality, selected limits, choice, trichotomy, host equality, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\BishopApproximationSequenceUp}
+  \constructivestory{A $\BishopApproximationSequenceUp$ packet is generated from dyadic tolerances, finite stream windows, a synchronization row, a convergence-modulus row, RegSeqRat readback, a RealUp seal, componentwise transport, displayed replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-approximation-sequence-carrier}, \autoref{thm:bishop-approximation-sequence-namecert-obligations}, \autoref{thm:bishop-approximation-sequence-regseqrat-handoff}, and \autoref{thm:bishop-approximation-sequence-real-seal-nonescape} present the finite approximation-sequence certificate surface for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient sequence equality, selected host limits, countable choice, trichotomy, host real equality, arbitrary least-upper-bound completeness, or a standard bridge.}
+  \upgradepath{Formal verification can encode carrier admission, dyadic-window coherence, modulus coverage, regular handoff stability, classifier transport, ledger exhaustion, and real-seal nonescape for the displayed packet.}
+\end{closurestatus}
