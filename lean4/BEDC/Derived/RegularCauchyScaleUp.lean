@@ -182,4 +182,38 @@ theorem RegularCauchyScaleCarrier_classifier_route_exhaustion [AskSetup] [Packag
       provenanceNamecertEndpoint,
       endpointPkg⟩
 
+theorem RegularCauchyScaleCarrier_scalar_classifier_stability_obligation
+    [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint scalarT sourceT windowT budgetT readbackT : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg →
+      hsame scalarT scalar →
+        hsame sourceT source →
+          hsame windowT window →
+            hsame budgetT budget →
+              hsame readbackT readback →
+                UnaryHistory scalarT ∧ UnaryHistory sourceT ∧ UnaryHistory windowT ∧
+                  UnaryHistory budgetT ∧ UnaryHistory readbackT ∧
+                    Cont scaledEndpoint budget readback ∧ Cont readback route provenance ∧
+                      Cont provenance namecert endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameScalar sameSource sameWindow sameBudget sameReadback
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, _scaledEndpointUnary, budgetUnary, readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, _scalarWindow,
+    _sourceWindow, _endpointsScaled, scaledBudgetReadback, readbackRouteProvenance,
+    provenanceNamecertEndpoint, _sameRowsAppend, endpointPkg⟩ := carrier
+  exact
+    ⟨unary_transport scalarUnary (hsame_symm sameScalar),
+      unary_transport sourceUnary (hsame_symm sameSource),
+      unary_transport windowUnary (hsame_symm sameWindow),
+      unary_transport budgetUnary (hsame_symm sameBudget),
+      unary_transport readbackUnary (hsame_symm sameReadback),
+      scaledBudgetReadback,
+      readbackRouteProvenance,
+      provenanceNamecertEndpoint,
+      endpointPkg⟩
+
 end BEDC.Derived.RegularCauchyScaleUp
