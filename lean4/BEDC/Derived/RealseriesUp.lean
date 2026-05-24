@@ -107,4 +107,58 @@ theorem RealSeries_uniform_cauchy_obligation [AskSetup] [PackageSetup]
       partialWindowTail, tailDyadicSeal, readbackDyadicThreshold, provenancePkg,
       uniformSealPkg⟩
 
+theorem RealSeries_cauchy_majorant_obligation [AskSetup] [PackageSetup]
+    {term «partial» window readback dyadic threshold transport replay provenance cert
+      majorant majorantSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSeriesRootCauchyProductSurface term «partial» window readback dyadic threshold
+        transport replay provenance cert bundle pkg →
+      Cont readback dyadic majorant →
+        Cont majorant threshold majorantSeal →
+          PkgSig bundle majorantSeal pkg →
+            UnaryHistory term ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
+              UnaryHistory threshold ∧ UnaryHistory majorant ∧
+                UnaryHistory majorantSeal ∧ Cont readback dyadic majorant ∧
+                  Cont majorant threshold majorantSeal ∧ Cont readback dyadic threshold ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle majorantSeal pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier readbackDyadicMajorant majorantThresholdSeal majorantSealPkg
+  obtain ⟨termUnary, _partialUnary, _windowUnary, readbackUnary, dyadicUnary,
+    thresholdUnary, _transportUnary, _replayUnary, _provenanceUnary, _certUnary,
+    readbackDyadicThreshold, provenancePkg⟩ := carrier
+  have majorantUnary : UnaryHistory majorant :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadicMajorant
+  have majorantSealUnary : UnaryHistory majorantSeal :=
+    unary_cont_closed majorantUnary thresholdUnary majorantThresholdSeal
+  exact
+    ⟨termUnary, readbackUnary, dyadicUnary, thresholdUnary, majorantUnary,
+      majorantSealUnary, readbackDyadicMajorant, majorantThresholdSeal,
+      readbackDyadicThreshold, provenancePkg, majorantSealPkg⟩
+
+theorem RealSeries_partial_sum_ledger_nonescape [AskSetup] [PackageSetup]
+    {term «partial» window readback dyadic threshold transport replay provenance cert
+      partialWindow ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSeriesRootCauchyProductSurface term «partial» window readback dyadic threshold
+        transport replay provenance cert bundle pkg →
+      Cont term «partial» partialWindow →
+        Cont partialWindow replay ledger →
+          PkgSig bundle ledger pkg →
+            UnaryHistory term ∧ UnaryHistory «partial» ∧ UnaryHistory partialWindow ∧
+              UnaryHistory replay ∧ UnaryHistory ledger ∧ Cont term «partial» partialWindow ∧
+                Cont partialWindow replay ledger ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle ledger pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier termPartialWindow partialWindowReplayLedger ledgerPkg
+  obtain ⟨termUnary, partialUnary, _windowUnary, _readbackUnary, _dyadicUnary,
+    _thresholdUnary, _transportUnary, replayUnary, _provenanceUnary, _certUnary,
+    _readbackDyadicThreshold, provenancePkg⟩ := carrier
+  have partialWindowUnary : UnaryHistory partialWindow :=
+    unary_cont_closed termUnary partialUnary termPartialWindow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed partialWindowUnary replayUnary partialWindowReplayLedger
+  exact
+    ⟨termUnary, partialUnary, partialWindowUnary, replayUnary, ledgerUnary,
+      termPartialWindow, partialWindowReplayLedger, provenancePkg, ledgerPkg⟩
+
 end BEDC.Derived.RealseriesUp
