@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyRealUp$}
+\label{ch:concrete-instances-regular-cauchy-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyRealUp$ packet presents a real number by regular Cauchy rational data with an explicit finite tolerance route before any quotient, selected limit, or ambient completeness principle is read. It sits on the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Cauchy-convergence handoff of \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the non-quotient regular Cauchy route used by L10 Real and Completion consumers; it does not assert that every Cauchy object has a chosen limit.
+
+\begin{definition}[RegularCauchyReal carrier]
+\label{def:regular-cauchy-real-carrier}
+A $\RegularCauchyRealUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,D,Q,K,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window schedule listing the rational observations opened for each displayed tolerance request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording dyadic error rows, comparison bounds, and late-window inequalities.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the scheduled stream windows and dyadic tolerance ledger.
+\item $K$ is the $\CauchyConvergenceCriterionUp$ handoff row, checking that the displayed regular readback satisfies the finite convergence criterion exposed to completion consumers.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $S,D,Q,K$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream schedule, dyadic ledger, regular readback, convergence handoff, Real seal, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a regular-Cauchy-real request through $S$, $D$, $Q$, $K$, and $E$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyRealUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyConvergenceCriterionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,Q,K,E,H,C,P,N$. The carrier has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, host real equality, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[RegularCauchyReal NameCert obligations]
+\label{thm:regular-cauchy-real-namecert-obligations}
+For every accepted $\RegularCauchyRealUp$ carrier
+$$
+R=(S,D,Q,K,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyRealUp}$ surface consists exactly of carrier admission, finite stream-window exposure, dyadic tolerance exactness, regular rational readback, Cauchy-convergence handoff, Real-seal routing, componentwise transport, displayed replay, provenance, local naming, and non-escape from the displayed rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-real-carrier}. The accepted packet exposes the stream schedule $S$, dyadic tolerance ledger $D$, regular readback $Q$, convergence handoff $K$, terminal Real seal $E$, and structural rows $H,C,P,N$.
+
+The obligation rows are then read in order. The finite windows of \autoref{ch:concrete-instances-streamname-namecert} supply the observations, the dyadic comparisons of \autoref{ch:concrete-instances-dyadicratcore-namecert} supply the tolerance ledger, and the readback surface of \autoref{ch:concrete-instances-regseqrat-namecert} packages them as regular rational data.
+
+The convergence and seal rows close the route without adding an ambient limit. The handoff through \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert} exposes only the displayed criterion row $K$, and the Real seal of \autoref{ch:concrete-instances-real-namecert} is reached only through $E$.
+
+Finally $H$ and $C$ transport and replay the same coordinates, while $P$ and $N$ record provenance and local naming. Since no additional coordinate is present, the certificate surface exports none of the excluded quotient, choice, completeness, host-equality, verification, or bridge data.
+\end{proof}
+
+\begin{theorem}[RegularCauchyReal Real seal route]
+\label{thm:regular-cauchy-real-seal-route}
+Every Real-facing read exported by an accepted $\RegularCauchyRealUp$ carrier factors through the finite route
+$$
+S,D,Q,K \longmapsto E
+$$
+before the terminal $\RealUp$ seal can be consumed. Thus a consumer receives scheduled stream windows, dyadic tolerance rows, regular rational readback, and the Cauchy-convergence handoff before any Real seal is visible.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $R=(S,D,Q,K,E,H,C,P,N)$. By \autoref{thm:regular-cauchy-real-namecert-obligations}, the only Real-facing row is $E$, and it is downstream of the displayed stream, dyadic, regular-readback, and convergence rows.
+
+The route cannot skip the finite observation stage because $S$ is the only coordinate containing opened stream windows. It cannot skip the tolerance stage because $D$ is the only coordinate containing dyadic comparison and late-window information.
+
+The regular readback and convergence handoff are also forced. The row $Q$ is the sole $\RegSeqRatUp$ readback, while $K$ is the sole $\CauchyConvergenceCriterionUp$ handoff available to a completion consumer.
+
+Transport, replay, provenance, and local naming preserve the same route. Since $H,C,P,N$ have no quotient, selected-limit, countable-choice, or ambient-completeness coordinate, every Real-facing read reaches $E$ only through the displayed route.
+\end{proof}
+
+\begin{theorem}[RegularCauchyReal Cauchy-criterion handoff]
+\label{thm:regular-cauchy-real-cauchy-criterion-handoff}
+Every completion-facing request for an accepted $\RegularCauchyRealUp$ carrier reads the $\CauchyConvergenceCriterionUp$ row $K$ only after the stream schedule $S$, dyadic tolerance ledger $D$, and regular rational readback $Q$ have been displayed. The handoff therefore supplies a finite criterion witness, not an ambient proof that an arbitrary Cauchy object has a chosen Real limit.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:regular-cauchy-real-carrier}. The row $K$ is listed after $S,D,Q$ and is defined as the convergence handoff for that displayed regular readback.
+
+The sibling routes determine the inputs to $K$. The schedule row $S$ gives the finite inspected windows, the dyadic ledger $D$ supplies the tolerance comparisons, and the regular rational row $Q$ packages those reads into the source expected by the convergence criterion.
+
+Thus a completion-facing consumer cannot read $K$ as a standalone completeness principle. The only accepted handoff is the displayed finite route through $S,D,Q,K$, transported by $H$, replayed by $C$, and named by $P,N$.
+\end{proof}
+
+\begin{theorem}[RegularCauchyReal non-escape]
+\label{thm:regular-cauchy-real-nonescape}
+An accepted $\RegularCauchyRealUp$ carrier exports no quotient stream equality, selected limit, countable-choice schedule, trichotomy principle, open-cover compactness proof, ambient $\RealUp$ completeness theorem, host real equality, Lean verification, or bridge credential. Every exported read is confined to $S,D,Q,K,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to enumerate the available coordinates. They are exactly the stream schedule, dyadic ledger, regular readback, convergence handoff, Real seal, transport, replay, provenance, and local naming rows.
+
+The obligation theorem identifies the NameCert surface with those same rows. Any proposed exported read must therefore be one of the displayed coordinates or a structural transport of them through $H$ and $C$.
+
+None of the displayed coordinates stores quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient Real completeness, host real equality, Lean verification, or bridge data. Hence no such datum can escape from the packet.
+\end{proof}
+
+\closureat{RegularCauchyRealUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyRealUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-real-carrier}, \autoref{thm:regular-cauchy-real-namecert-obligations}, \autoref{thm:regular-cauchy-real-seal-route}, \autoref{thm:regular-cauchy-real-cauchy-criterion-handoff}, and \autoref{thm:regular-cauchy-real-nonescape} seed the non-quotient regular Cauchy real-name packet over displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyConvergenceCriterionUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, stream-window exposure, dyadic tolerance exactness, regular rational readback, convergence handoff, Real-seal routing, transport stability, replay stability, provenance, local naming, and non-escape for BEDC.Derived.RegularCauchyRealUp.}
+  \constructivestory{A $\RegularCauchyRealUp$ packet is generated from finite $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ readback row, a $\CauchyConvergenceCriterionUp$ handoff, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
