@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyLimitOperatorUp$}
+\label{ch:concrete-instances-regular-cauchy-limit-operator-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real completion, the $\RegularCauchyLimitOperatorUp$ packet names the finite operator surface that turns a regular Cauchy family and its displayed modulus into a Real-facing limit seal. It sits after the tail-modulus handoff of \autoref{ch:concrete-instances-tail-modulus-limit-handoff-namecert} and beside the completion operator of \autoref{ch:concrete-instances-cauchycompletionoperator-namecert}; the originating proof route is the regular-Cauchy construction of \autoref{sec:real-completeness-regular-cauchy}. The packet gives Phase Real and Completion a single operator-level object over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, not another handoff-only certificate.
+
+\begin{definition}[RegularCauchyLimitOperator carrier]
+\label{def:regular-cauchy-limit-operator-carrier}
+A $\RegularCauchyLimitOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+L=(\mu,\tau,S,R,D,H_0,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\mu$ is the modulus-input row for the regular Cauchy family over $\RegSeqRatUp$.
+\item $\tau$ is the finite tail selector row that turns a requested tolerance into the shared tail threshold used by the diagonal read.
+\item $S$ is the $\StreamNameUp$ window family inspected at the selected threshold and at the diagonal representative.
+\item $R$ is the $\RegSeqRatUp$ readback row for the selected family member, the diagonal representative, and the comparison witnesses read by the operator.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording endpoint tolerances, the middle modulus leg, slack accounting, and the final requested bound.
+\item $H_0$ is the $\TailModulusLimitHandoffUp$ route imported from \autoref{ch:concrete-instances-tail-modulus-limit-handoff-namecert}.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $\mu,\tau,S,R,D,H_0$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus input, tail selector, windows, regular readbacks, dyadic ledger, handoff route, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a limit-operator request through $\mu,\tau,S,R,D,H_0,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyLimitOperatorUp$, $\TailModulusLimitHandoffUp$, $\CauchyCompletionOperatorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyLimitOperatorUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose operator read is exhausted by these rows. It has no coordinate for quotient streams, selected host limits, countable-choice schedules, trichotomy decisions, host completion operators, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RegularCauchyLimitOperator NameCert obligations]
+\label{thm:regular-cauchy-limit-operator-namecert-obligations}
+For every accepted $\RegularCauchyLimitOperatorUp$ carrier $L=(\mu,\tau,S,R,D,H_0,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyLimitOperatorUp}$ surface consists exactly of carrier admission for the modulus input, finite tail selector, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\TailModulusLimitHandoffUp$ route, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A completion-facing consumer must read $\mu,\tau,S,R,D,H_0$ before the Real seal row $E$ is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-limit-operator-carrier}. The rows $\mu$ and $\tau$ expose the constructive modulus request and the selected finite tail threshold.
+
+Read the finite analytic rows. The window row $S$, readback row $R$, and tolerance ledger $D$ supply the inspected $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ data used by the diagonal estimate.
+
+The handoff route $H_0$ imports the already displayed tail-modulus route of \autoref{ch:concrete-instances-tail-modulus-limit-handoff-namecert}. The Real seal $E$ is downstream of that route, and $H,C,P,N$ only transport, replay, source, and name the same finite packet.
+
+Since quotient streams, selected host limits, countable-choice schedules, trichotomy decisions, host completion operators, and ambient completeness are absent from the carrier inventory, they cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RegularCauchyLimitOperator diagonal Real seal]
+\label{thm:regular-cauchy-limit-operator-diagonal-real-seal}
+Every Real-completion consumer of an accepted $\RegularCauchyLimitOperatorUp$ packet receives the finite operator route
+$$
+\mu,\tau,S,R,D,H_0 \longmapsto E \longmapsto H,C,P,N .
+$$
+The route factors the diagonal regularity construction of \autoref{sec:real-completeness-regular-cauchy} through the tail-modulus handoff of \autoref{ch:concrete-instances-tail-modulus-limit-handoff-namecert} and the completion-facing operator discipline of \autoref{ch:concrete-instances-cauchycompletionoperator-namecert}. It exports a $\RealUp$ seal only as a displayed consequence of the modulus input, selected tail, finite windows, regular readback, dyadic tolerance ledger, and handoff route.
+\end{theorem}
+\begin{proof}
+Start with an accepted limit-operator packet. By \autoref{thm:regular-cauchy-limit-operator-namecert-obligations}, the consumer first reads the modulus input, the tail selector, the finite windows, the regular-rational readback, and the dyadic tolerance ledger.
+
+The tail-modulus row $H_0$ then packages those reads in the handoff form already isolated by \autoref{thm:tail-modulus-limit-handoff-diagonal-handoff}. This is the finite route consumed by the diagonal regularity argument before any terminal real name can be sealed.
+
+The Real row $E$ therefore has no independent host-limit coordinate. The structural rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and naming, so the exported diagonal seal is exhausted by the displayed packet.
+\end{proof}
+
+\closureat{RegularCauchyLimitOperatorUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyLimitOperatorUp}
+  \constructivestory{A $\RegularCauchyLimitOperatorUp$ packet is generated from a regular Cauchy modulus input, finite tail selector, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, TailModulusLimitHandoff route, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-operator-carrier}, \autoref{thm:regular-cauchy-limit-operator-namecert-obligations}, and \autoref{thm:regular-cauchy-limit-operator-diagonal-real-seal} seed the finite operator surface from regular Cauchy modulus data to a Real-facing diagonal seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected host limits, countable choice, trichotomy, host completion operators, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus-input exactness, finite tail selector coverage, StreamName window coverage, RegSeqRat readback, DyadicRatCore tolerance accounting, TailModulusLimitHandoff compatibility, Real seal nonescape, transport stability, replay stability, provenance exhaustion, and local naming for BEDC.Derived.RegularCauchyLimitOperatorUp.}
+\end{closurestatus}
