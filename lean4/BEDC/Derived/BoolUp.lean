@@ -594,4 +594,7 @@ theorem bool_history_name_certificate :
               exact carrierK
   }
 
+def BoolPublicEndpointConstructors : Prop :=
+  BoolEndpoint BEDC.FKernel.Mark.BMark.b0 = BEDC.FKernel.Hist.BHist.Empty ∧
+    BoolEndpoint BEDC.FKernel.Mark.BMark.b1 = BEDC.FKernel.Hist.BHist.e1 BEDC.FKernel.Hist.BHist.Empty
 end BEDC.Derived.BoolUp
