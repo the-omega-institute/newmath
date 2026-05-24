@@ -129,6 +129,32 @@ the obstruction, but it cannot convert the obstruction into the closed
 substitution premise demanded by the closed diamond route.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit closed-face decider boundary]
+\label{thm:metacic-confluence-audit-closed-face-decider-boundary}
+Any finite decider row for the closed substitution face of an accepted
+$\MetaCICConfluenceAuditPacketUp$ carrier may be consumed only through the rows
+$S,H,T,P,L$ together with the existing closed-face hypotheses. It may not be
+promoted to full substitution compatibility, subject reduction, global
+$\beta$-conversion decidability, or arbitrary closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:metacic-confluence-audit-packet-carrier}. The row $S$ is the
+substitution-boundary coordinate, while $H,T,P,L$ are the displayed transport,
+route replay, provenance, and local naming rows through which any finite
+closed-face decider must be read.
+
+Apply \autoref{thm:metacic-confluence-audit-packet-conditional-boundary} and
+\autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}. The
+first keeps the generic substitution input conditional, and the second confines
+the closed substitution face to the hypotheses $\mathsf{ClosedAt}\ 0\ a$ and
+$\mathsf{ClosedAt}\ 1\ b$.
+
+The nonescape reading of the carrier then prevents promotion beyond those rows.
+There is no coordinate for full substitution compatibility, subject reduction,
+global $\beta$-conversion decidability, or arbitrary closed Church--Rosser.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit packet subject-reduction separation]
 \label{thm:metacic-confluence-audit-packet-subject-reduction-separation}
 The subject-reduction separation row $R$ of an accepted

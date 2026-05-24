@@ -44,6 +44,22 @@ Classifier stability follows because the classifier is componentwise on the same
 Transport invariance is supplied by $H$: each transported accepted carrier keeps the same row roles. The Real-seal boundary is downstream from $E$, so no consumer can read $R$ without first passing through the finite comparison packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy uniqueness Real-seal obligations]
+\label{thm:regular-cauchy-uniqueness-seal-obligations}
+Every accepted $\RegularCauchyUniquenessUp$ packet that exposes a $\RealUp$ seal must display the paired $\RegSeqRatUp$ rows $X,Y$, the paired $\StreamNameUp$ windows $S,T$, one $\DyadicRatCoreUp$ tolerance ledger $D$, and one $\CauchySequenceEquivalenceUp$ comparison row $E$ before the seal row $R$ is available. The seal obligation is therefore the ordered finite route
+$$
+X,Y \longmapsto S,T,D \longmapsto E \longmapsto R ,
+$$
+preserved by $H,C,P,N$ and not by quotient stream equality, selected limits, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-uniqueness-carrier}. The projection exposes exactly the paired regular Cauchy rows, paired stream windows, dyadic tolerance ledger, comparison row, and terminal seal row.
+
+Use \autoref{thm:regular-cauchy-uniqueness-tolerance-exactness} to bind the comparison to the single row $D$. The windows $S,T$ and names $X,Y$ are opened at that same tolerance source before $E$ is read.
+
+Now use \autoref{thm:regular-cauchy-uniqueness-real-seal-nonescape}. It places every $\RealUp$-facing read downstream from $E$ and excludes quotient stream equality, selected limits, host real equality, countable choice, and ambient completeness from the seal route. The structural rows $H,C,P,N$ transport, replay, source, and name that same finite obligation surface.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy uniqueness tolerance exactness]
 \label{thm:regular-cauchy-uniqueness-tolerance-exactness}
 Every accepted comparison in a $\RegularCauchyUniquenessUp$ packet reads its tolerance data through the single displayed $\DyadicRatCoreUp$ row $D$. The paired $\StreamNameUp$ windows $S,T$ and paired $\RegSeqRatUp$ names $X,Y$ are opened at that row's radius and comparison budget, and the $\CauchySequenceEquivalenceUp$ row $E$ consumes no tolerance source outside $D$.
@@ -89,9 +105,9 @@ The provenance and naming rows $P,N$ attach the route to the local packet. Becau
 \begin{closurestatus}{\RegularCauchyUniquenessUp}
   \constructivestory{A $\RegularCauchyUniquenessUp$ packet is generated from paired $\RegSeqRatUp$ regular Cauchy names, finite $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ tolerance ledger, a $\CauchySequenceEquivalenceUp$ comparison row, a terminal $\RealUp$ seal, transport data, continuation replay, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter names the L10 regular-Cauchy uniqueness route from finite RegSeqRat equality data through StreamName and DyadicRatCore tolerances to the Real seal boundary.}
+  \scopeclosed{\autoref{def:regular-cauchy-uniqueness-carrier}, \autoref{thm:regular-cauchy-uniqueness-namecert-obligations}, \autoref{thm:regular-cauchy-uniqueness-seal-obligations}, \autoref{thm:regular-cauchy-uniqueness-tolerance-exactness}, \autoref{thm:regular-cauchy-uniqueness-transport-invariance}, and \autoref{thm:regular-cauchy-uniqueness-real-seal-nonescape} name the L10 regular-Cauchy uniqueness route from finite RegSeqRat equality data through StreamName and DyadicRatCore tolerances to the Real seal boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, ambient Real completeness, or a standard bridge.}
-  \upgradepath{Obligation closure requires the carrier surface, classifier stability, tolerance exactness, transport invariance, ledger visibility, and Real-seal nonescape rows for the displayed uniqueness packet.}
+  \upgradepath{Obligation closure requires checked carrier surface, classifier stability, Real-seal obligations, tolerance exactness, transport invariance, ledger visibility, and Real-seal nonescape rows for the displayed uniqueness packet.}
 \end{closurestatus}
