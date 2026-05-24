@@ -142,7 +142,7 @@ private theorem finiteBranchingCauchyTreeToEventFlow_injective
   intro heq
   have hread :
       finiteBranchingCauchyTreeFromEventFlow (finiteBranchingCauchyTreeToEventFlow x) =
-        finiteBranchingCauchyTreeFromEventFlow (finiteBranchingCauchyTreeToEventFlow y) :=
+      finiteBranchingCauchyTreeFromEventFlow (finiteBranchingCauchyTreeToEventFlow y) :=
     congrArg finiteBranchingCauchyTreeFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
