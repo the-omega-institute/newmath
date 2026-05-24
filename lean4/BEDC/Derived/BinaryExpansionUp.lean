@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -169,5 +171,53 @@ theorem BinaryExpansionPacket_prefix_tail_radius_monotonicity [AskSetup] [Packag
   exact
     ⟨windowsUnary, prefixUnary, extendedUnary, oldRadiusUnary, newRadiusUnary, sameExtended,
       windowsPrefixOld, windowsExtendedNew, provenancePkg, oldRadiusPkg, newRadiusPkg⟩
+
+theorem BinaryExpansionPacket_namecert_obligations [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg →
+      SemanticNameCert
+        (fun row : BHist => hsame row nameCert ∧ UnaryHistory row)
+        (fun _row : BHist =>
+          UnaryHistory digits ∧ UnaryHistory windows ∧ UnaryHistory approximation ∧
+            UnaryHistory regular ∧ UnaryHistory realSeal ∧ Cont windows digits approximation ∧
+              Cont approximation regular realSeal)
+        (fun _row : BHist =>
+          PkgSig bundle provenance pkg ∧ UnaryHistory provenance ∧ UnaryHistory nameCert)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, provenanceUnary, nameCertUnary, windowsDigitsApproximation,
+    approximationRegularRealSeal, _transportRouteProvenance, provenancePkg⟩ := packet
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro nameCert ⟨hsame_refl nameCert, nameCertUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact
+        ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+          windowsDigitsApproximation, approximationRegularRealSeal⟩
+    ledger_sound := by
+      intro _row _source
+      exact ⟨provenancePkg, provenanceUnary, nameCertUnary⟩
+  }
 
 end BEDC.Derived.BinaryExpansionUp
