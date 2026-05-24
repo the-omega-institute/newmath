@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\PhysicalInductionUp$}
+\label{ch:concrete-instances-physical-induction-namecert}
+\origin{ai}
+
+The $\PhysicalInductionUp$ packet realizes the open-continuation discipline of \autoref{sec:physical-induction-open-continuation} as a finite audit-ledger induction carrier. It sits beside the physical model audit of \autoref{ch:concrete-instances-physical-model-audit-namecert}, the ontic source surface of \autoref{ch:concrete-instances-onticstate-namecert}, the state-space model carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, and the observer-budget support packet of \autoref{ch:concrete-instances-observer-budget-support-namecert}. Those sibling rows supply audit comparison, reality-facing source, model-state presentation, and observer-bounded access; this packet binds an observation row to a hypothesis row, falsifier ledger, step transport row, and local naming row before any induction read is accepted.
+
+\begin{definition}[PhysicalInduction carrier]
+\label{def:physical-induction-carrier}
+A $\PhysicalInductionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(O,H,A,S,B,F,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the observation row, read through the $\OnticStateUp$ source and the $\ObserverBudgetSupportUp$ support boundary.
+\item $H$ is the hypothesis row, read through the $\StateSpaceModelUp$ model-state presentation and the displayed comparison bundle.
+\item $A$ is the $\PhysicalModelAuditUp$ row recording the accepted audit comparison between observation and hypothesis data.
+\item $S$ is the step row naming the finite transition from the current observed prefix to the next licensed prediction read.
+\item $B$ is the observer-budget row specifying which bounded observation support may inspect the step.
+\item $F$ is the falsifier ledger, naming finite observations, signature mismatches, or budget failures that defeat the proposed step.
+\item $T$ records componentwise $\hsame$ transport for observation, hypothesis, audit, step, budget, falsifier, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from observation and hypothesis rows through the audit row and into the finite step boundary.
+\item $P$ is the $\Pkg$ provenance over $\PhysicalInductionUp$, $\PhysicalModelAuditUp$, $\OnticStateUp$, $\StateSpaceModelUp$, $\ObserverBudgetSupportUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PhysicalInductionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a final induction oracle, total future fit, host physical truth, unbounded observation, detached model equality, or an induction step outside the displayed audit and falsifier ledger.
+\end{definition}
+
+\begin{theorem}[PhysicalInduction NameCert obligations]
+\label{thm:physical-induction-namecert-obligations}
+For every accepted $\PhysicalInductionUp$ carrier $I=(O,H,A,S,B,F,T,R,P,N)$, the local $\NameCert_{\PhysicalInductionUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the observation row, hypothesis row, physical-model audit row, finite step row, observer-budget row, falsifier ledger, transport, replay, provenance, and local naming row;
+\item observation exposure, requiring $O$ to be read through $\OnticStateUp$ and $\ObserverBudgetSupportUp$ before a hypothesis step is consumed;
+\item hypothesis and audit exposure, requiring $H$ and $A$ to display the state-space model row and audit comparison used by the proposed step;
+\item falsifier-ledger exposure, requiring $F$ to name the finite observations, signature mismatches, or support failures that defeat the step;
+\item step transport stability, requiring $T,R,P,N$ to preserve the same observation, hypothesis, audit, budget, and falsifier rows under accepted replay.
+\end{enumerate}
+No accepted physical-induction read may bypass any one of these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:physical-induction-carrier}. The accepted packet displays the observation, hypothesis, audit, step, observer-budget, falsifier, transport, replay, provenance, and local naming rows as its complete surface.
+
+The observation and hypothesis rows are read before the step row. The observation row is bounded by the ontic-source and observer-budget siblings, while the hypothesis row is bounded by the displayed state-space model presentation.
+
+The audit and falsifier rows are the decisive middle boundary. The audit row states which comparison licenses the step, and the falsifier ledger states which finite observations or support failures defeat it.
+
+Finally the structural rows $T,R,P,N$ transport, replay, source, and name the same packet. Since no further coordinate exists, an accepted induction read cannot detach the step from its observation, hypothesis, audit, budget, or falsifier ledger.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PhysicalInductionUp$ read must expose an observation row, hypothesis row, falsifier ledger, step transport row, and local NameCert row; a read omitting any one of these rows is outside the carrier.}
+
+\independenceWitness{physical-model-audit, ontic-state, state-space-model, observer-budget-support: none is bijective because $\PhysicalInductionUp$ binds observation, hypothesis, audit, observer budget, falsifier ledger, step transport, replay, provenance, and local NameCert rows in one packet. PhysicalModelAuditUp audits a comparison without isolating the induction step; OnticStateUp exposes the source without the hypothesis row; StateSpaceModelUp exposes model state without the falsifier ledger; ObserverBudgetSupportUp bounds access without licensing a hypothesis step.}
+
+The Lean follow-up must provide \texttt{Nontrivial PhysicalInductionUp} and \texttt{FieldFaithful PhysicalInductionUp} instances in \texttt{lean4/BEDC/Derived/PhysicalInductionUp/TasteGate.lean}.
+
+\closureat{PhysicalInductionUp}{seedStr}
+
+\begin{closurestatus}{\PhysicalInductionUp}
+  \constructivestory{A $\PhysicalInductionUp$ packet is generated from observation, hypothesis, physical-model audit, finite step, observer-budget, falsifier-ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:physical-induction-carrier} and \autoref{thm:physical-induction-namecert-obligations} seed physical induction as a finite observation-step NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not assert a final induction oracle, total future fit, host physical truth, unbounded observation, Lean verification, or bridge checking for $\PhysicalInductionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, observation exposure, hypothesis and audit exposure, falsifier-ledger exposure, step transport stability, nontriviality, and field faithfulness for BEDC.Derived.PhysicalInductionUp.}
+\end{closurestatus}
