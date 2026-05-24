@@ -130,6 +130,58 @@ The three parts of the read are therefore forced. A source-facing demand can onl
 It remains to inspect the excluded alternatives. Each excluded object named in the statement would require either an additional source coordinate, an alternate L10 face, or an additional support row beyond $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. The exactness theorem excludes such additions from every $\RealUp$-facing or Completion-facing route, and the pullback exhaustion theorem excludes them from the repacked finite spine. Hence every accepted local consumer is covered by the displayed finite rows, and every excluded alternative remains outside the accepted $\CauchyModulusRefinementUp$ packet.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement L10 face-status noncollapse]
+\label{thm:cauchy-modulus-refinement-l10-face-status-noncollapse}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+a $\RealUp$-facing or Completion-facing consumer cannot replace the four L10
+face rows
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+by a single aggregate closurestatus, formalstatus, or bridge-status row. The
+consumer must preserve the separate face-status reads determined by the L10
+window lattice, the root-window pullback, the face order, the support-row
+ledger, and downstream coverage. This theorem only prevents cross-face status
+aggregation; it does not upgrade the verification axis of any individual
+face.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_l10\_face\_status\_noncollapse}
+\begin{proof}
+First apply L10 window lattice exactness,
+\autoref{thm:cauchy-modulus-refinement-l10-window-lattice-exactness}. Every
+accepted $\RealUp$-facing or Completion-facing route through $R$ must pass
+through the source rows and then through the displayed L10 face surface before
+it reaches the support rows.
+
+Next apply root-window pullback exhaustion,
+\autoref{thm:cauchy-modulus-refinement-l10-root-window-pullback-exhaustion}.
+It identifies the consumer route with the finite spine
+$M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, so an aggregate status row outside that spine
+cannot be a hidden replacement for the face rows.
+
+Face-order rigidity,
+\autoref{thm:cauchy-modulus-refinement-l10-face-order-rigidity}, then keeps
+the downstream read ordered through $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$. A single aggregate row would erase that order
+and therefore would not be an accepted pullback of the packet.
+
+Support-row minimality,
+\autoref{thm:cauchy-modulus-refinement-l10-support-row-minimality}, fixes the
+remaining rows as $H,C,P,N$. These support rows transport, replay, source, and
+name the displayed packet; none of them stores a combined closurestatus,
+formalstatus, or bridge-status value for all four faces.
+
+Finally use downstream coverage,
+\autoref{lem:cauchy-modulus-refinement-l10-window-lattice-downstream-coverage}.
+Every accepted local consumer is already covered by the displayed source,
+face, and support rows. Hence the four face-status rows remain separate, and
+the theorem records only this noncollapse discipline, not a stronger
+verification claim for any face.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement formal target surface]
 \label{thm:cauchy-modulus-refinement-formal-target-surface}
 Every accepted $\CauchyModulusRefinementUp$ window-lattice consumer reaches the $\RealUp$ seal only through the displayed finite route
