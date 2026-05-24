@@ -225,6 +225,47 @@ Next use \autoref{thm:realseries-majorant-route} and \autoref{thm:realseries-uni
 Finally apply \autoref{thm:real-series-cauchy-consumer-obligation}. The downstream consumer receives a finite Cauchy surface and not a host infinite sum, selected limit, quotient equality, countable-choice selector, or ambient $\RealUp$ completeness witness.
 \end{proof}
 
+\begin{theorem}[RealSeries root series criterion surface]
+\label{thm:realseries-root-series-criterion-surface}
+Every $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, $\CauchyMajorantSeriesUp$, and $\CauchyProductUp$ consumer of an accepted $\RealSeriesUp$ packet reads the root criterion surface only through
+$$
+T,S,W,Q,D,M,E,H,C,P,N .
+$$
+Here $T$ is the term stream row, $S$ is the finite partial-sum window row, $W$ is the selected $\StreamNameUp$ window row, $Q$ is the $\RegSeqRatUp$ readback row, $D$ is the $\DyadicRatCoreUp$ tolerance ledger, $M$ is the shared tail threshold, $E$ is the $\RealUp$ endpoint seal, and $H,C,P,N$ are the transport, replay, provenance, and local naming rows. The surface exports no host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-series-carrier}. The rows $T,S,W,Q,D,M,E,H,C,P,N$ are already displayed as the root route, with the finite $\StreamNameUp$ windows and $\RegSeqRatUp$ readback visible before the endpoint seal.
+
+Route criterion, uniform, majorant, and product requests through \autoref{thm:realseries-root-cauchy-tail-budget}. The shared threshold row $M$ is consumed after $D$ and before $E$, so every endpoint-facing read reaches the same finite budget row.
+
+The support rows $H,C,P,N$ then preserve, replay, source, and name the displayed route. Since the accepted packet contains none of the excluded objects, no downstream criterion can export them.
+\end{proof}
+
+\begin{definition}[RealSeries root summability surface]
+\label{def:realseries-root-summability-surface}
+The root summability surface of an accepted $\RealSeriesUp$ packet is the finite $\BHist$ subpacket
+$$
+\mathsf{RootSum}(T,S,W,Q,D,M,E,H,C,P,N)
+$$
+whose rows are exactly the term stream, partial-sum window, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, shared Cauchy-tail threshold, $\RealUp$ endpoint seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RealSeriesUp}$ evidence. A consumer may cite this surface as summability evidence only by reading those rows in that order; it is not a host summation operator, a selected limiting value, quotient equality of streams, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RealSeries root product readiness surface]
+\label{thm:realseries-root-product-readiness-surface}
+Every $\CauchyProductUp$ consumer that asks an accepted $\RealSeriesUp$ packet for product-ready data receives the root summability surface of \autoref{def:realseries-root-summability-surface} and no larger analytic object. The handoff cites $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, $\CauchyMajorantSeriesUp$, and $\CauchyProductUp$ only through
+$$
+T,S,W,Q,D,M,E,H,C,P,N,
+$$
+with the shared threshold row $M$ fixed before endpoint sealing.
+\end{theorem}
+\begin{proof}
+Start from the root summability surface. It packages the finite term stream, partial-sum windows, selected stream windows, regular readback, dyadic ledger, threshold, endpoint, transport, replay, provenance, and naming rows in one subpacket.
+
+Apply \autoref{thm:realseries-root-series-criterion-surface}. The criterion-facing and uniform Cauchy consumers have already been routed through the same threshold row before $E$, so the product consumer cannot request a separate limit or completion coordinate.
+
+Finally use \autoref{thm:realseries-root-cauchy-tail-budget}. It includes the $\CauchyProductUp$ consumer among the downstream reads and concludes that no host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness is exported.
+\end{proof}
+
 \begin{theorem}[RealSeries uniform Cauchy series handoff]
 \label{thm:realseries-uniform-cauchy-series-handoff}
 Every $\UniformCauchySeriesUp$ consumer read exported by an accepted $\RealSeriesUp$ tail-majorant carrier factors through the finite route
