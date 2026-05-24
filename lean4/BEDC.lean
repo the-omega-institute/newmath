@@ -277,6 +277,7 @@ import BEDC.Derived.AuditTranscriptEnvelopeUp.TasteGate
 import BEDC.Derived.AuditWritingDisciplineUp.TasteGate
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceBudgetCover
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceBudgetStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptanceTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.AcceptedSignatureRoute
@@ -796,6 +797,7 @@ import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BrouwerBarInductionUp.TasteGate
+import BEDC.Derived.BrouwerContinuityPrincipleUp.TasteGate
 import BEDC.Derived.BrouwerOperationUp.TasteGate
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.BudgetedRealSealRouteUp.NameCertObligations
@@ -5254,6 +5256,7 @@ import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeparableMetricUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectorUp
 import BEDC.Derived.SeparatedCompletionUp
+import BEDC.Derived.SeparatedLimitUniquenessUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
