@@ -155,6 +155,40 @@ introduced at the terminal public boundary.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_real\_l10\_terminal\_window\_sufficiency}
 
+\begin{theorem}[CauchyCriterion finite-window terminal coverage]
+\label{thm:cauchycriterion-finite-window-terminal-coverage}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Any
+terminal CauchyCriterion consumer whose read reaches a $\RealUp$ seal must pass
+through the displayed finite-window route consisting of the Cauchy modulus row,
+the $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the $\RealUp$ seal,
+componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the
+local $\NameCert$ ledger carried by $M,W,Q,E,H,C,P,N$. No terminal read can
+replace that route by a quotient stream, hidden tail oracle, host real
+equality, selected limit, countable-choice row, ambient completeness principle,
+metric-completeness row, arithmetic package, order package, bridge row, or
+completion endpoint outside the displayed packet.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchy-criterion-finite-window-real-seal-handoff}.
+It places every accepted finite-window handoff on the route through the
+$\StreamNameUp$ window, $\RegSeqRatUp$ readback, dyadic tolerance ledger,
+$\RealUp$ seal, and $\CauchyLimitSealUp$ boundary, with $H,C,P,N$ supplying the
+visible transport, replay, provenance, and local naming rows.
+
+Next apply \autoref{thm:cauchy-criterion-limit-seal-route-stability}. Any
+displayed replay preserving $M,Q,T,W,E,H,C,P,N$ stays on the same route, so a
+terminal consumer cannot substitute a hidden stream source, off-route seal, or
+host equality coordinate.
+
+Finally use
+\autoref{thm:cauchycriterion-real-l10-terminal-window-sufficiency}. The Real
+L10 public-boundary read consumes exactly the displayed terminal-window
+surface and recovers the same selector rows. Combining the three cited routes
+therefore covers every terminal CauchyCriterion read that reaches a $\RealUp$
+seal, and the absent rows listed in the statement have no carrier coordinate
+from which they could be read.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion Real seal finite-route uniqueness]
 \label{thm:cauchy-criterion-real-seal-unique-finite-route}
 Let $K=(W,M,T,Q,E,H,C,P,N)$ and
@@ -226,6 +260,7 @@ hidden coordinate, a duplicate classifier source, a quotient stream, host real
 equality, a selected limit, countable choice, ambient completeness, a bridge
 row, or a completion endpoint outside the fixed rows.
 \end{corollary}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_finite\_window\_real\_seal\_handoff\_determinacy}
 \begin{proof}
 Take two accepted consumer-facing uses of the handoff after the rows
 $M,Q,T,W,E,H,C,P,N$ have been fixed. The needed transport comparison is the
