@@ -3746,6 +3746,7 @@ import BEDC.Derived.LocatedRealNestedIntervalsUp.TasteGate
 import BEDC.Derived.LocatedRealTailEnvelopeUp.TasteGate
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
+import BEDC.Derived.LocatedRegularizationUp.TasteGate
 import BEDC.Derived.LocatedSequenceModulusUp.TasteGate
 import BEDC.Derived.LocatedSpaceUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.Carrier
@@ -3951,6 +3952,7 @@ import BEDC.Derived.MetricCompletionReflectorUp
 import BEDC.Derived.MetricCompletionUniquenessUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.BranchCoverage
 import BEDC.Derived.MetricCompletionUp.BranchDeterminacy
+import BEDC.Derived.MetricCompletionUp.BranchExhaustion
 import BEDC.Derived.MetricCompletionUp.BranchReadback
 import BEDC.Derived.MetricCompletionUp.Compatibility
 import BEDC.Derived.MetricCompletionUp.HandoffRoutes
@@ -4579,6 +4581,7 @@ import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
 import BEDC.Derived.RadonMeasureUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
+import BEDC.Derived.RapidCauchyNameUp.TasteGate
 import BEDC.Derived.RatClassifierTransportSealUp.ClassifierHandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.HandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.NameCertObligations
