@@ -3895,6 +3895,7 @@ import BEDC.Derived.MetricUp.SOneEquationDistanceFactorization
 import BEDC.Derived.MetricUp.SOneEquationDistanceSymmetry
 import BEDC.Derived.MetricUp.SOnePositiveBoundaryEquivalence
 import BEDC.Derived.MetricUp.SOneRealAlgOrderConsumerFactorization
+import BEDC.Derived.MetricUp.SeedClosureSurface
 import BEDC.Derived.MetricUp.SourceSpecification
 import BEDC.Derived.MetricUp.StabilityCertificate
 import BEDC.Derived.MetricUp.StdBridge
