@@ -20,6 +20,14 @@ except ModuleNotFoundError:  # pragma: no cover
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from store import BioRealityPaths, BioRealityStore, read_jsonl, write_jsonl
 
+try:
+    from experiments.runner import load_claims_registry as runner_load_claims_registry
+except ModuleNotFoundError:  # pragma: no cover
+    try:
+        from .experiments.runner import load_claims_registry as runner_load_claims_registry
+    except ImportError:  # pragma: no cover
+        runner_load_claims_registry = None
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 EVENT_STATUSES = {"open", "consumed", "archived"}
@@ -164,6 +172,50 @@ def _event(event_kind: str, source: str, subject_kind: str, subject_id: str, rea
     }
 
 
+def _read_claims_registry(path: Path) -> dict[str, dict[str, Any]]:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    claims = data.get("claims") if isinstance(data, dict) else None
+    if not isinstance(claims, list):
+        return {}
+    return {
+        str(item.get("claim_id")): item
+        for item in claims
+        if isinstance(item, dict) and item.get("claim_id")
+    }
+
+
+def _load_claims_registry(store: BioRealityStore) -> dict[str, dict[str, Any]]:
+    default_path = (SCRIPT_DIR / "registries" / "claims.json").resolve()
+    configured_path = store.paths.claims_registry.resolve()
+    if runner_load_claims_registry is not None and configured_path == default_path:
+        claims = runner_load_claims_registry(SCRIPT_DIR.parent.parent)
+        if claims:
+            return claims
+    return _read_claims_registry(store.paths.claims_registry)
+
+
+def _claim_status_by_experiment(store: BioRealityStore) -> dict[str, str]:
+    statuses: dict[str, str] = {}
+    for claim in _load_claims_registry(store).values():
+        experiment_id = str(claim.get("experiment_id") or "")
+        if experiment_id:
+            statuses[experiment_id] = str(claim.get("status") or "")
+    return statuses
+
+
+def _latest_experiment_runs(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    latest_by_experiment: dict[str, dict[str, Any]] = {}
+    for record in sorted(records, key=lambda item: str(item.get("completed_at") or ""), reverse=True):
+        experiment_id = str(record.get("experiment_id") or "")
+        if not experiment_id or experiment_id in latest_by_experiment:
+            continue
+        latest_by_experiment[experiment_id] = record
+    return list(latest_by_experiment.values())
+
+
 def build_events(store: BioRealityStore) -> list[dict[str, Any]]:
     events: list[dict[str, Any]] = [_normalize_event(event) for event in store.load_events()]
     for task in read_jsonl(store.paths.deepening_tasks):
@@ -183,10 +235,15 @@ def build_events(store: BioRealityStore) -> list[dict[str, Any]]:
         issues = result.get("issues") if isinstance(result.get("issues"), list) else []
         reason = "; ".join(str(issue) for issue in issues[:3]) or "gate blocked"
         events.append(_event("gate_failure", "bio-G", packet_kind, packet_id, reason, result))
-    for result in read_jsonl(store.paths.experiment_runs)[-10:]:
+    claim_status_by_experiment = _claim_status_by_experiment(store)
+    for result in _latest_experiment_runs(read_jsonl(store.paths.experiment_runs)):
         status = str(result.get("status") or "")
         experiment_id = str(result.get("experiment_id") or "")
         claim_id = str(result.get("claim_id") or "")
+        claim_status = claim_status_by_experiment.get(experiment_id, "")
+        if claim_status == "passed":
+            # skipped event: claim already passed
+            continue
         if status in {"failed", "error"}:
             events.append(
                 _event(
@@ -323,6 +380,24 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
         extra_rules = [
             "",
             "Bio-experimentalist constraints:",
+            "",
+            "MANDATORY pre-edit self-check:",
+            "",
+            "Step 0a. Identify the target experiment script from the event's subject_id:",
+            "- subject_id is the experiment_id; find the matching script_path in tools/bio_reality/registries/experiments.json.",
+            "",
+            "Step 0b. Run the current script BEFORE making any edit:",
+            "- python3 <script_path>",
+            "- Parse the last non-empty stdout line as JSON.",
+            '- If the parsed JSON\'s "status" field equals "passed":',
+            "  - Do NOT edit any file.",
+            '  - Print "no-op: experiment <id> already passing under current claim acceptance".',
+            "  - Exit with code 0.",
+            "",
+            'Step 0c. Only proceed to repair if status != "passed".',
+            "",
+            'Step 0d. After repair, run the script again and confirm it now produces status="passed". If the failure is theoretically real and not a script bug, Do NOT fake passed: leave it failed and instead propose adding a new experiment with a different statistic; in this case write a notes file tools/bio_reality/state/proposed_experiments/<id>.md describing what new experiment should be added, but you yourself may not add it.',
+            "",
             "You may only edit script files matching tools/bio_reality/experiments/run_*.py or data files under tools/bio_reality/data/. The script must end by printing a single-line JSON to stdout with fields experiment_id, claim_id, status, checks, result, started_at, completed_at. Python 3 stdlib only.",
         ]
     return "\n".join(
@@ -690,6 +765,24 @@ def self_test() -> int:
             dispatch_results=base / "dispatch_results.jsonl",
             dispatch_results_archive=base / "dispatch_results.archive.jsonl",
             hardening_targets=base / "hardening_targets.jsonl",
+            claims_registry=base / "claims.json",
+            experiment_runs=base / "experiment_runs.jsonl",
+        )
+        paths.claims_registry.write_text(
+            json.dumps(
+                {
+                    "claims": [
+                        {
+                            "claim_id": "self.claim",
+                            "experiment_id": "self_experiment",
+                            "status": "failed",
+                        }
+                    ]
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            ),
+            encoding="utf-8",
         )
         write_jsonl(
             paths.deepening_tasks,
@@ -723,6 +816,7 @@ def self_test() -> int:
                     "status": "failed",
                     "checks": [{"name": "self_check", "passed": False}],
                     "result": {},
+                    "completed_at": "2026-05-25T00:00:00+00:00",
                 }
             ],
         )
@@ -761,6 +855,118 @@ def self_test() -> int:
         ):
             print(json.dumps(duplicate_events, indent=2), file=sys.stderr)
             return 1
+        filter_paths = BioRealityPaths(
+            root=SCRIPT_DIR,
+            gate_results=base / "filter_gate_results.jsonl",
+            deepening_tasks=base / "filter_deepening_tasks.jsonl",
+            events=base / "filter_events.jsonl",
+            agent_tasks=base / "filter_agent_tasks.jsonl",
+            agent_reviews=base / "filter_agent_reviews.jsonl",
+            agent_reviews_archive=base / "filter_agent_reviews.archive.jsonl",
+            dispatch_results=base / "filter_dispatch_results.jsonl",
+            dispatch_results_archive=base / "filter_dispatch_results.archive.jsonl",
+            hardening_targets=base / "filter_hardening_targets.jsonl",
+            claims_registry=base / "filter_claims.json",
+            experiment_runs=base / "filter_experiment_runs.jsonl",
+        )
+        filter_paths.claims_registry.write_text(
+            json.dumps(
+                {
+                    "claims": [
+                        {
+                            "claim_id": "h0.null.model.significance",
+                            "experiment_id": "null_model_uniform",
+                            "status": "failed",
+                        },
+                        {
+                            "claim_id": "h1.leave.one.codon.out",
+                            "experiment_id": "leave_one_codon_out",
+                            "status": "passed",
+                        },
+                    ]
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            ),
+            encoding="utf-8",
+        )
+        write_jsonl(
+            filter_paths.experiment_runs,
+            [
+                {
+                    "experiment_id": "leave_one_codon_out",
+                    "claim_id": "h1.leave.one.codon.out",
+                    "status": "failed",
+                    "completed_at": "2026-05-25T00:00:02+00:00",
+                },
+                {
+                    "experiment_id": "null_model_uniform",
+                    "claim_id": "h0.null.model.significance",
+                    "status": "failed",
+                    "completed_at": "2026-05-25T00:00:03+00:00",
+                },
+            ],
+        )
+        filtered_events = build_events(BioRealityStore(filter_paths))
+        filtered_experiment_failed = [
+            event
+            for event in filtered_events
+            if event.get("event_kind") == "experiment_failed"
+        ]
+        if len(filtered_experiment_failed) != 1 or filtered_experiment_failed[0].get("subject_id") != "null_model_uniform":
+            print(json.dumps(filtered_events, indent=2), file=sys.stderr)
+            return 1
+        latest_paths = BioRealityPaths(
+            root=SCRIPT_DIR,
+            gate_results=base / "latest_gate_results.jsonl",
+            deepening_tasks=base / "latest_deepening_tasks.jsonl",
+            events=base / "latest_events.jsonl",
+            agent_tasks=base / "latest_agent_tasks.jsonl",
+            agent_reviews=base / "latest_agent_reviews.jsonl",
+            agent_reviews_archive=base / "latest_agent_reviews.archive.jsonl",
+            dispatch_results=base / "latest_dispatch_results.jsonl",
+            dispatch_results_archive=base / "latest_dispatch_results.archive.jsonl",
+            hardening_targets=base / "latest_hardening_targets.jsonl",
+            claims_registry=base / "latest_claims.json",
+            experiment_runs=base / "latest_experiment_runs.jsonl",
+        )
+        latest_paths.claims_registry.write_text(
+            json.dumps(
+                {
+                    "claims": [
+                        {
+                            "claim_id": "h0.null.model.significance",
+                            "experiment_id": "null_model_uniform",
+                            "status": "failed",
+                        }
+                    ]
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            ),
+            encoding="utf-8",
+        )
+        write_jsonl(
+            latest_paths.experiment_runs,
+            [
+                {
+                    "experiment_id": "null_model_uniform",
+                    "claim_id": "h0.null.model.significance",
+                    "status": "failed",
+                    "completed_at": "2026-05-25T00:00:01+00:00",
+                },
+                {
+                    "experiment_id": "null_model_uniform",
+                    "claim_id": "h0.null.model.significance",
+                    "status": "passed",
+                    "completed_at": "2026-05-25T00:00:04+00:00",
+                },
+            ],
+        )
+        latest_events = build_events(BioRealityStore(latest_paths))
+        if any(event.get("event_kind") == "experiment_failed" for event in latest_events):
+            print(json.dumps(latest_events, indent=2), file=sys.stderr)
+            return 1
         priority_tasks = plan_agent_tasks(
             [
                 _event("vision_ready", "bio-V", "vision", "priority-vision", "ready", {}),
@@ -792,6 +998,11 @@ def self_test() -> int:
         if plan_agent_tasks([repeat_event], [in_flight]):
             print(json.dumps({"existing": in_flight, "event": repeat_event}, indent=2), file=sys.stderr)
             return 1
+        prompt = render_prompt(stable_event, "bio-experimentalist", "repair_experiment_script")
+        for required_text in ("MANDATORY pre-edit self-check", "Do NOT edit any file", "Do NOT fake passed"):
+            if required_text not in prompt:
+                print(json.dumps({"missing": required_text, "prompt": prompt}, indent=2), file=sys.stderr)
+                return 1
         experimentalist_task = next((task for task in store.load_agent_tasks() if task.get("agent_id") == "bio-experimentalist"), {})
         if experimentalist_task.get("action") != "repair_experiment_script":
             print(json.dumps(store.load_agent_tasks(), indent=2), file=sys.stderr)
