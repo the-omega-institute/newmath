@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-omega-institute.github.io/newmath/schemas/bio-reality/probe.schema.json",
+  "title": "BioReality probe packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "probe_id",
+    "conjecture_ref",
+    "probe_kind",
+    "derived_from",
+    "test_statement",
+    "support_condition",
+    "break_condition",
+    "required_contacts",
+    "forbidden_interpretations",
+    "null_reason"
+  ],
+  "properties": {
+    "probe_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+    },
+    "conjecture_ref": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+    },
+    "probe_kind": {
+      "type": "string",
+      "enum": [
+        "finite_enumeration",
+        "forbidden_pattern",
+        "closure_completion",
+        "spectral_concentration",
+        "counterexample_search",
+        "boundary_mismatch",
+        "known_special_case",
+        "cross_layer_consistency"
+      ]
+    },
+    "derived_from": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "bedc_coordinate",
+          "bedc_closure",
+          "bedc_spectrum",
+          "trigger_relation",
+          "rank_relation",
+          "homology_witness",
+          "external_reality_hint"
+        ]
+      }
+    },
+    "test_statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "break_condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_contacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+      }
+    },
+    "forbidden_interpretations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "null_reason": {
+      "type": "string"
+    }
+  }
+}
