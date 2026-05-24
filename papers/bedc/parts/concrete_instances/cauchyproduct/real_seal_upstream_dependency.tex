@@ -121,3 +121,21 @@ the same route for Real-seal and $\CauchyLimitSealUp$ consumers, with no host
 multiplication, quotient streams, selected limits, trichotomy, choice, or ambient
 completeness.
 \end{proof}
+
+\begin{lemma}[CauchyProduct Real seal selector minimal witness]
+\label{lem:cauchy-product-real-seal-selector-minimal-witness}
+For a completion-facing consumer of an accepted $\CauchyProductUp$ Real-seal packet, the local admission and consumption claim is witnessed by the single displayed product route
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+together with the shared $\FiniteObservationBudgetSelectorUp$ rows when the consumer asks for a selector. If a consumer presents a larger reading of the same Real-seal claim, then its accepted part factors through this displayed witness: the source admission uses only $X,Y,W_X,W_Y$, the budget and product admission uses only $M_X,M_Y,Q_X,Q_Y,P,L$, the classifier admission uses only $E$, and the seal consumption uses only $H,C,N$ with the displayed Real boundary. No unlisted quotient stream, selected product limit, host multiplication primitive, trichotomy row, independent real carrier, ambient choice object, or ambient completeness witness can serve as an additional admission coordinate.
+\end{lemma}
+\begin{proof}
+Start with the upstream dependency theorem \autoref{thm:cauchy-product-real-seal-upstream-dependency}. It states that every completion-facing Real-seal read first consumes the paired $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ observations, the product budget ledger, the $\RegSeqRatUp$ classifier row, and the $\RealUp$ seal surface. In coordinates this is exactly the displayed packet, with accepted observation-budget rows only when a budget consumer asks for them.
+
+Now apply the shared-selector Real-seal stability theorem \autoref{thm:cauchy-product-shared-selector-real-seal-associativity}. When two accepted product packets read their factor windows through the same $\FiniteObservationBudgetSelectorUp$ route and agree on the public window, radius, classifier, and Real-boundary rows, every multiplication-facing Real-seal consumer reads the same finite product-route surface together with the shared selector rows. Thus selector reuse does not create a second product seal surface; it only names the finite selector rows already attached to the displayed route.
+
+Combine the two readings by sorting the consumer-facing coordinates by their role in the displayed packet. The source part is forced to factor through $X,Y,W_X,W_Y$ by the upstream source admission. The budget and product part is forced to factor through $M_X,M_Y,Q_X,Q_Y,P,L$ before the classifier is visible. The classifier part is forced to factor through $E$, and the final seal handoff is carried by $H,C,N$ together with the Real boundary already listed by the two cited theorems. The shared selector rows may be consumed as witness rows for the common observation-budget route, but they do not add any unlisted analytic object.
+
+Therefore any larger accepted reading has the same consumer-facing content after projection to the displayed product route and the shared selector rows. Since both cited theorems explicitly exclude quotient streams, selected limits, host multiplication primitives, trichotomy rows, independent real carriers, ambient choice objects, and ambient completeness witnesses from the exported route, none of those objects can be used as an additional admission or consumption coordinate.
+\end{proof}

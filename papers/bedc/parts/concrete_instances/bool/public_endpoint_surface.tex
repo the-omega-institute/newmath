@@ -333,3 +333,35 @@ endpoint rows as absent/present tags, product sibling coordinates, and list
 finite-data siblings; none adds a primitive Boolean object or a host
 truth-table principle.
 \end{proof}
+
+\begin{lemma}[Bool public endpoint downstream coverage]
+\label{lem:bool-public-endpoint-downstream-coverage}
+Every accepted local consumer of the public Bool endpoint constructors is covered by the finite alternatives and ledger rows already displayed in this file. More precisely, after the consumer is reduced to its public endpoint readback and Bool certificate scope, its visible rows lie in the finite packet
+$$
+\begin{gathered}
+\mathsf{BoolEndpoint}(\bzero)=\emp,\quad
+\mathsf{BoolEndpoint}(\bone)=\Eone(\emp),\\
+v,w:\BMark,\quad e_v,e_w:\BHist,\\
+\bigl((v=\bzero \land e_v=\emp) \lor (v=\bone \land e_v=\Eone(\emp))\bigr),\quad
+\bigl((w=\bzero \land e_w=\emp) \lor (w=\bone \land e_w=\Eone(\emp))\bigr),\\
+\hsame(h,e_v),\quad \hsame(k,e_w),\quad \msame(v,w),\\
+\mathsf{BoolHistoryCarrier},\quad
+\mathsf{BoolHistoryClassifier},\quad
+\NameCert(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}),\\
+\SemanticNameCert(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
+\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}).
+\end{gathered}
+$$
+The alternatives outside this packet remain outside the Bool BEDC public surface: no host proposition, decidable predicate, eliminator, truth-table-completeness row, payload carrier, payload classifier, option-packaging row, separate source-side constructor carrier, result row, termination row, continuation row, external substrate row, or definitional-equality row is accepted as a downstream Bool endpoint constructor row.
+\end{lemma}
+\begin{proof}
+Let a local downstream consumer be accepted by the public Bool endpoint constructor surface. By \autoref{def:bool-public-endpoint-constructors}, the only public constructor alternatives available at the entry point are
+$\mathsf{BoolEndpoint}(\bzero)=\emp$ and
+$\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. Applying \autoref{thm:bool-public-constructor-case-readback} to the consumer read supplies a mark $v:\BMark$ and an endpoint-history witness $e_v:\BHist$ in one of those two displayed cases, together with the readback row $\hsame(h,e_v)$. If the consumer compares two accepted reads, the same argument supplies $w:\BMark$, $e_w:\BHist$, and $\hsame(k,e_w)$.
+
+The equivalence-completion boundary of \autoref{lem:bool-public-endpoint-equivalence-completion-boundary}, read with the explicit transport theorems \autoref{thm:bool-history-carrier-hsame-transport} and \autoref{thm:bool-history-classifier-hsame-transport}, then exhausts the possible downstream classifier data. For the carrier leg, \autoref{thm:bool-history-carrier-endpoint-coverage} gives the two endpoint witnesses displayed above, and \autoref{thm:bool-history-carrier-hsame-transport} is the transport citation that carries that endpoint witness along the readback row $\hsame(h,e_v)$ to the usable carrier row $\mathsf{BoolHistoryCarrier}(h)$. For the classifier leg, \autoref{thm:bool-source-qualified-classifier-readback-exactness} gives source-qualified marks, the two displayed constructor equations for $e_v$ and $e_w$, the two endpoint readback rows, and the mark comparison $\msame(v,w)$; \autoref{thm:bool-history-classifier-hsame-transport} is the transport citation for moving this classifier row along the endpoint readbacks. For the endpoint-agreement leg, \autoref{thm:bool-endpoint-bridge-exactness} reduces comparison of endpoint histories to the same mark comparison, with the endpoint-readback movement again governed by \autoref{thm:bool-history-classifier-hsame-transport}. Hence every accepted carrier, classifier, or agreement row used downstream is already one of the rows in the finite packet above.
+
+The certificate scope contributes only the named Bool certificate rows. By \autoref{cor:bool-certificate-scope}, the core $\NameCert$ over $\mathsf{BoolHistoryCarrier}$ and $\mathsf{BoolHistoryClassifier}$ and the public $\SemanticNameCert$ over the same carrier, pattern, ledger, and classifier roles are separate checked scopes, with $\BoolUp$ derived from mark and history sameness rather than primitive host truth. Thus a downstream consumer receives the carrier, classifier, core certificate, and public semantic certificate rows listed in the packet, and no additional Boolean object is introduced by the certificate citation.
+
+The exclusion clause is the one-way side of the same local boundary. \autoref{lem:bool-public-endpoint-equivalence-completion-boundary} records that forgetful projection and no-hidden-leakage directions do not reconstruct erased constructor-row names, endpoint-table names, or public-surface annotations, and do not turn absence of host data into further public constructor structure. Together with \autoref{thm:bool-public-surface-no-hidden-leakage}, \autoref{lem:bool-public-endpoint-bridge-cut-elimination-boundary}, and \autoref{lem:bool-public-endpoint-substrate-bisimulation-boundary}, this rules out host propositions, decidable predicates, eliminators, truth-table completeness, payload and option coordinates, separate source, result, termination, continuation, substrate, and definitional-equality rows. Therefore the accepted local downstream consumer is exhausted by the finite alternatives, readback rows, classifier row, and certificate ledger rows displayed in this file, while every excluded alternative remains outside the Bool BEDC public endpoint packet.
+\end{proof}

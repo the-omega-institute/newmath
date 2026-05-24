@@ -64,3 +64,21 @@ Use the Real seal product ledger for the final boundary. It sends the $\RealUp$-
 
 The excluded sources have no coordinate in the carrier row. Therefore the Real-facing product seal is exhausted by the displayed budgeted product route.
 \end{proof}
+
+\begin{lemma}[CauchyProduct root regular product downstream coverage]
+\label{lem:cauchy-product-root-regular-product-downstream-coverage}
+Every accepted local consumer downstream of the root regular product route of an accepted $\CauchyProductUp$ packet is exhausted by the finite alternatives, ledgers, and coverage rows displayed in this file. Concretely, the consumer can read only the carrier and classifier rows
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N,
+$$
+the $\RealUp$-facing product ledger through $L,N$, or the displayed $\RealObservationBudgetUp$ and $\RegSeqRatUp$ seal route attached to the same product inventory. Host multiplication, quotient streams, selected product limits, independent regular-sequence or real carriers, and ambient completeness witnesses remain outside the accepted BEDC packet.
+\end{lemma}
+\begin{proof}
+Start with the carrier row of \autoref{thm:cauchy-product-root-regular-product-carrier-row}. It displays the whole root regular product packet as one finite $\BHist$ inventory: the two $\RegularCauchyNameUp$ source rows, the paired $\StreamNameUp$ windows, the dyadic radius and observation rows, the product row, the $\RegSeqRatUp$ classifier, and the support rows $H,C,L,N$. Hence every local consumer first meets one of the listed carrier, window, dyadic, product, classifier, transport, continuation, ledger, or naming coordinates.
+
+The classifier alternatives are then fixed by \autoref{thm:cauchy-product-root-shared-window-product-classifier}. Any read of $E$ must pass through the paired windows, the dyadic rows, the product row $P$, and the displayed $\hsame$ and $\Cont$ route. Thus a downstream consumer cannot introduce a second classifier input, a host multiplication operation, a quotient-stream product, or a selected product limit at the classifier stage.
+
+For a seal-facing read, apply \autoref{thm:cauchy-product-root-real-seal-product-ledger}. The $\RealUp$ boundary consumes the local $\Pkg$ and $\NameCert$ ledger rows before the seal is visible, so the downstream route is still the same finite inventory with $L,N$ as the product ledger.
+
+Finally apply \autoref{thm:cauchy-product-root-regular-product-budget-seal-exhaustion}. It identifies every $\RealUp$-facing product consumer using the root regular product carrier with the displayed $\RealObservationBudgetUp$ and $\RegSeqRatUp$ seal route, and it excludes host multiplication, quotient streams, selected limits, an independent real carrier, and ambient completeness from the seal surface. Combining the carrier, classifier, ledger, and budget-seal rows accounts for all accepted local downstream reads, while the excluded alternatives occur in no coordinate of the accepted BEDC packet.
+\end{proof}

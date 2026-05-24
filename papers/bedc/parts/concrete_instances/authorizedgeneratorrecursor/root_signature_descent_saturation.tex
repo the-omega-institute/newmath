@@ -100,3 +100,23 @@ only the same aligned carrier, so no axiom row or hidden generator can be
 introduced by the output exposure.
 \end{proof}
 \leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorRootOutputNameCertSaturation}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root signature downstream coverage]
+\label{thm:authorized-generator-recursor-root-signature-downstream-coverage}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, every accepted local consumer downstream of a public root signature read is exhausted by the finite root rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+More precisely, such a consumer can only use the signature, eliminator, motive, branch, and descent alternatives $I,E,M,B,D$, the output and audit ledger rows $O,A,H,C,P,G,N$, or the coverage surface obtained by reading the displayed $\BHist$, componentwise $\hsame$, $\Cont$, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ rows together. A request for an unlisted constructor, extra branch, second recursion channel, detached audit route, axiom row, hidden generator, or off-packet naming certificate remains outside the accepted $\BEDC$ packet.
+\end{theorem}
+\begin{proof}
+Fix an accepted packet and a public root signature read. By \autoref{thm:authorized-generator-recursor-root-signature-row-totality}, the read exposes the full row family
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+as one local $\BHist$ packet with componentwise $\hsame$ transport, displayed $\Cont$ routes, and the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ surface. The same theorem rules out a partial public root read: no consumer can keep only a signature, branch, descent, audit, or output row while suppressing the remaining displayed rows.
+
+The possible downstream uses therefore have only the displayed coordinates available. The root signature side supplies $I,E,M,B,D$ as the accepted signature, emitted eliminator, checked motive, branch package, and structural-descent alternatives. The output side supplies $O,A,H,C,P,G,N$ as the output, audit provenance, transport, continuation, package provenance, boundary, and local naming ledger. The coverage surface is not a further coordinate; it is the simultaneous exposure of the displayed $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows forced by the root signature totality theorem.
+
+Apply \autoref{thm:authorized-generator-recursor-root-output-namecert-saturation} to the output-facing part of the same packet. Public output exposure is saturated by the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ surface over exactly the displayed rows, and cannot add an unlisted constructor, an extra branch, a second recursion channel, an axiom row, or a hidden generator outside the packet. Combining this saturation with root signature row totality leaves no coordinate for a detached audit route or off-packet naming certificate either: any such request would require either a partial root read or an output exposure beyond the saturated local NameCert surface. Hence every accepted local downstream consumer is exhausted by the finite alternatives, ledger rows, and coverage rows displayed above, while every excluded alternative remains outside the accepted $\BEDC$ packet.
+\end{proof}

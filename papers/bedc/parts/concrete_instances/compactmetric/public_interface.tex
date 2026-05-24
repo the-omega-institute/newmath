@@ -156,3 +156,73 @@ ledger rows. The transported rows again satisfy
 \autoref{def:completemetric-limit-witness}, so the complete-limit family is
 available as a separate $\CompactMetricUp$ obligation site.
 \end{proof}
+
+\begin{theorem}[Compact metric public downstream coverage]
+\label{thm:compactmetric-public-downstream-coverage}
+Let $X$ be a certified metric carrier equipped with
+$\mathsf{CompactMetricCertificate}(X)$. Every accepted local consumer of the
+public packet $\mathsf{CompactMetricPublic}(X)$ is exhausted by the following
+visible rows:
+\begin{enumerate}
+  \item the $\MetricSpaceUp$ carrier, classifier, and
+  $\mathsf{MetricDistanceWitness}$ rows;
+  \item for each positive $\RatUp$ tolerance history $\varepsilon$, the finite
+  $\ProbeBundle$ alternatives $\mathcal{P}_{\varepsilon}$, the
+  $\InBundle(p,\mathcal{P}_{\varepsilon})$ membership rows, the coverage rows
+  in $net_{\varepsilon}$, and the displayed $\RatUp$ comparison ledgers;
+  \item for each carried regular Cauchy $\StreamNameUp$ stream name $s$, the
+  modulus, limit history, threshold ledger, late-distance rows, and $\RatUp$
+  comparison rows of
+  $\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s)$.
+\end{enumerate}
+Consequently an open-cover compactness witness, finite-subcover selector,
+subsequence selector, or host-level compact-object predicate is not an
+accepted downstream alternative for the public compact-metric packet.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:compactmetric-public-interface}. The public packet has one
+metric field, one positive-tolerance finite-net selector, and one regular-Cauchy
+limit-witness selector. Thus a local consumer accepted by this packet must ask
+for a row through one of these three displayed selectors.
+
+The first selector is the inherited $\MetricSpaceUp$ field, so carrier,
+classifier, and distance requests are exhausted by the point-history classifier
+and the $\mathsf{MetricDistanceWitness}$ ledger rows. By
+\autoref{thm:compactmetric-public-interface-stability}, transport of this part
+is still the inherited metric transport; no independent carrier or distance
+package is introduced.
+
+For a positive $\RatUp$ tolerance history $\varepsilon$, apply
+\autoref{thm:compactmetric-net-family-coverage}. The selected finite-net row is
+$$
+\mathsf{TotallyBoundedProbeBundleNet}(X,\varepsilon,\mathcal{P}_{\varepsilon},net_{\varepsilon}).
+$$
+Hence the finite alternatives available to a downstream consumer are exactly
+the bundled probes in the closed $\ProbeBundle$ spine
+$\mathcal{P}_{\varepsilon}$, read through their
+$\InBundle(p,\mathcal{P}_{\varepsilon})$ membership rows. The same theorem
+identifies the coverage surface: every admitted source point is handled by a
+listed bundled center, a displayed metric-distance row in $net_{\varepsilon}$,
+and a displayed $\RatUp$ comparison ledger against $\varepsilon$. Stability of
+the public interface keeps this finite-net row under the same metric carrier
+classifier and the same rational-tolerance classifier, so transport does not
+create an additional alternative.
+
+For a carried regular Cauchy stream name $s$, the third public selector is the
+complete-limit row
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_s,\ell_s,L_s).
+$$
+By \autoref{thm:compactmetric-public-interface-stability}, its admissible
+transport is precisely the componentwise complete-metric stability row. Thus a
+limit consumer can read only the named modulus, limit history, threshold rows,
+late-distance witnesses, and rational comparison ledgers already displayed in
+that witness.
+
+These three cases exhaust the public packet. The defining export contains no
+fourth selector, and the two stability clauses cited above transport only the
+metric, finite-net, and limit-witness rows. Therefore open-cover compactness,
+finite-subcover selection, subsequence selection, and host-level compact-object
+predicates remain outside the accepted BEDC packet for
+$\mathsf{CompactMetricPublic}(X)$.
+\end{proof}

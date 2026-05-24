@@ -45,3 +45,26 @@ Next apply \autoref{thm:closed-term-substitution-boundary-root-audit-compiler-co
 
 Finally use \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. The downstream read may mention the sibling compiler chapter only after the packet has exposed the closed-boundary rows, so the compiler route is exhausted by the packet before the compiler citation is formed.
 \end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root downstream coverage]
+\label{thm:closed-term-substitution-boundary-root-downstream-coverage}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet, every consumer-facing use of the root operation surface is covered by the finite downstream alternatives
+$$
+\begin{gathered}
+\mathsf{operation}(Q,R),\qquad \mathsf{ledger}(L,A),\qquad \mathsf{transport}(H,C),\qquad \mathsf{provenance}(P,N),\\
+\mathsf{compiler\_citation}(\autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert})\ \mathsf{after}\ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+\end{gathered}
+$$
+Equivalently, any accepted local consumer of closed shift, substitute-closed readback, audit replay, or compiler-facing citation factors through the displayed surface of \autoref{def:closed-term-substitution-boundary-root-operation-surface}. Host substitution semantics, subject reduction, host syntax quotients, hidden evaluators, hidden compiler state, detached compiler correctness, and any operation coordinate outside
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+remain outside the $\ClosedTermSubstitutionBoundaryUp$ packet.
+\end{theorem}
+\begin{proof}
+First consider a direct operation consumer. By \autoref{thm:closed-term-substitution-boundary-root-operation-totality}, both root operation rows $Q$ and $R$ are exhausted by the finite surface of \autoref{def:closed-term-substitution-boundary-root-operation-surface}. Thus a consumer cannot obtain closed shift or substitute-closed readback from a host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or unlisted row.
+
+Next consider a ledger, audit, transport, provenance, or naming consumer. The totality theorem routes every audit-visible operation read through the same rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$, and \autoref{thm:closed-term-substitution-boundary-root-audit-totality} makes the audit side total over that finite route. The rows $L$ and $A$ record the ledger and audit boundary, while $H,C,P,N$ are only componentwise transport, displayed continuation, provenance, and local naming rows; none of them contains a coordinate for an external substitution source.
+
+Finally consider a downstream compiler-facing consumer. By \autoref{thm:closed-term-substitution-boundary-root-compiler-route-exhaustion}, every read that cites \autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert} first factors through the same root operation surface. By \autoref{thm:closed-term-substitution-boundary-root-audit-compiler-coherence}, this compiler route and the audit route cite one closed-boundary packet rather than two separate semantics. The non-escaping compiler condition of \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape} then keeps the sibling compiler citation downstream of the displayed packet, so the excluded alternatives remain outside the BEDC packet.
+\end{proof}

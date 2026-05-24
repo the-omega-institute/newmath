@@ -77,3 +77,19 @@ Next add value determinacy and source synchronization by \autoref{thm:closed-ter
 
 Finally apply \autoref{thm:closed-term-substitution-boundary-consumer-ledger-exhaustion} and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The downstream self-compilation consumer receives the finite NameCert package, and every excluded host semantic, evaluator, quotient, compiler-state, compiler-pass, or extra operation route lies outside the exported BEDC boundary.
 \end{proof}
+
+\begin{corollary}[Closed-term substitution boundary root closed determinacy]
+\label{cor:closed-term-substitution-boundary-root-closed-determinacy}
+For an accepted $\ClosedTermSubstitutionBoundaryUp$ root packet whose displayed rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+are fixed, every accepted downstream self-compilation use of the root closed boundary has the same public decision source. Its closed-value route is the route over $V,d,C_{\mathsf{val}}$, its shift and substitute-closed source is the synchronized route over $T,d,C_{\mathsf{src}}$, and its consumer-facing route, normal-form handoff, or exactness decision is read only through $Q,R,L,A,H,C,P,N$. Hence no accepted consumer may replace the displayed packet by an alternate finite route, a hidden normal-form coordinate, a duplicate classifier source, a host substitution semantics, a subject-reduction theorem, a host syntax quotient, a hidden evaluator, or hidden compiler state.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:closed-term-substitution-boundary-closed-value-route-determinacy}. It fixes the closed-value side before any operation read: once $V$, $d$, and $C_{\mathsf{val}}$ are the displayed rows of the accepted packet, a consumer can cite the substitute-closed boundary only through that finite packet route and not through a host value semantics or hidden evaluator.
+
+Apply \autoref{thm:closed-term-substitution-boundary-shift-substitution-source-synchronization}. It fixes the source side of the same root read: both $Q$ and $R$ are synchronized to $T,d,C_{\mathsf{src}}$, so the shift boundary and the substitute-closed boundary cannot be split across two classifier sources or two closedness witnesses.
+
+The remaining consumer surface is then forced by \autoref{thm:closed-term-substitution-boundary-root-operation-readback-lock} and \autoref{thm:closed-term-substitution-boundary-consumer-ledger-exhaustion}. Every root read of $Q$ or $R$ passes through the common ledger and audit rows and is then packaged by $H,C,P,N$. Therefore any accepted consumer-facing route, normal-form handoff, or exactness decision named by the chapter is a read of the same displayed packet. An alternate route, hidden normal-form coordinate, duplicate classifier source, host substitution semantics, subject-reduction theorem, quotient syntax, hidden evaluator, or compiler state would require a row outside the displayed packet, which the cited boundary rows do not export.
+\end{proof}

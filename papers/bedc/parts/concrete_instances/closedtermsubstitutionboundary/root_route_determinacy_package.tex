@@ -40,3 +40,19 @@ Next use \autoref{thm:closed-term-substitution-boundary-root-shift-substitution-
 
 Finally combine the ledger side with \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The ledger and audit rows block escape to host substitution semantics, hidden evaluator state, compiler state, or subject reduction. Therefore the remaining substitution-order route is exhausted by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
 \end{proof}
+
+\begin{corollary}[Closed-term substitution boundary route-determinacy strict obstruction]
+\label{cor:closed-term-substitution-boundary-route-determinacy-strict-obstruction}
+Let $S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N)$ be an accepted $\ClosedTermSubstitutionBoundaryUp$ packet. Any displayed failure, refusal, separation, or countermodel row used against a closed-term substitution boundary converse or reuse route is a strict local obstruction only to the named route that tries to read $Q$ or $R$ without the displayed packet rows and the continuation row $C$. It cannot be read as a global impossibility theorem, as a host substitution theorem, or as hidden external validation for a syntax quotient, evaluator, compiler-correctness theorem, or subject-reduction theorem.
+\end{corollary}
+\begin{proof}
+The available packet surface is fixed by \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. A consumer-facing closed-boundary read has only the displayed rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+Thus the route, transport, and readback inventory is the finite $\BHist$ packet together with componentwise $\hsame$ transport, the displayed $\Cont$ row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$.
+
+Apply \autoref{thm:closed-term-substitution-boundary-context-stack-nonescape}. It says that every recognizer, tuple, and formal-readiness route recovers only the listed packet rows and cannot add an open-term coordinate, host syntax quotient, hidden evaluator, compiler correctness theorem, or subject-reduction theorem to the context stack. Hence any consumer-facing use of a displayed failure, refusal, separation, or countermodel row must factor through the same finite inventory. If the proposed converse or reuse route asks for an unlisted coordinate, the route is rejected before it can reach $Q$ or $R$.
+
+Now use \autoref{thm:closed-term-substitution-boundary-route-determinacy}. When two downstream reads do agree on the displayed carrier rows and on $C$, the closed shift row $Q$ and substitute-closed row $R$ are already determined by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet. Therefore a displayed obstruction can block only the named attempt to bypass, reverse, or reuse that local route. It has no remaining target from which to assert an absolute impossibility, a host-level substitution semantics, or an external validation theorem outside the accepted $\ClosedTermSubstitutionBoundaryUp$ packet.
+\end{proof}
