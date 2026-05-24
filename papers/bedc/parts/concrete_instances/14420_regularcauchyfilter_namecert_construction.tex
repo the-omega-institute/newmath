@@ -75,6 +75,7 @@ $$
 $$
 Concretely, the consumer reads $B$, then $T$ and $D$, then the regular-rational row $R$, then the directed tail meet $M$, and only then the seal row $E$ with its transports, continuations, provenance, and local naming. No second Real-facing route is available inside the carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyFilterUp.RegularCauchyFilterCarrier\_real\_seal\_route}
 \begin{proof}
 Project the seal coordinate of \autoref{def:regular-cauchy-filter-carrier}. The row $E$ is not stored as a detached Real object; it is downstream from the Cauchy filterbase, the finite tail schedule, the dyadic tolerance ledger, the regular-rational readback, and the directed meet row.
 
@@ -169,6 +170,26 @@ Apply \autoref{thm:regular-cauchy-filter-tail-meet} to the requested windows. Th
 Apply \autoref{thm:regular-cauchy-filter-basis-factorization}. The rows $B,T,D,M,H,C,P,N$ determine the visible $\CauchyFilterBasisUp$ route, and downstream readback along that route reproduces the same $R$ and $E$.
 
 Now use \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}, and \autoref{thm:regular-cauchy-filter-branch-exhaustion}. These rows exhaust every accepted filter-to-regular-name consumer branch, so the excluded quotient, choice, hidden-tail, host-equality, and completeness coordinates are not available at the packet boundary.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFilter directed refinement normal form]
+\label{thm:regular-cauchy-filter-directed-refinement-normal-form}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. Every accepted carrier request for two tail windows in $T$ factors through a single displayed directed tail-meet row in $M$, then through the $\CauchyFilterBasisUp$ factorization over $B$, the $\StreamNameUp$ schedule $T$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the terminal $\RealUp$ seal $E$.
+
+Equivalently, the request has a normal form
+$$
+(B,T,D,M) \longmapsto \CauchyFilterBasisUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp ,
+$$
+with componentwise transport, replay, package provenance, and local naming supplied by $H,C,P,N$. The normal form exports no quotient filter, selected limit, hidden cofinal tail, countable-choice selector, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with two accepted tail windows in the schedule $T$. By \autoref{thm:regular-cauchy-filter-tail-meet}, the row $M$ names one later displayed base packet refining both windows inside the same Cauchy filterbase row $B$.
+
+Next pass through the basis factorization. \autoref{thm:regular-cauchy-filter-basis-factorization} identifies the displayed windows in $T$, the dyadic rows in $D$, and the meet handoff in $M$ as the $\CauchyFilterBasisUp$ route over $B$.
+
+Now read the branch in its displayed order. The branch-exhaustion theorem confines every consumer to $B,T,D,M,R,E,H,C,P,N$, while tail-window exactness keeps the accepted windows tied to the same regular readback $R$ and Real seal $E$.
+
+Finally use the Real seal route and the obligation-scope package. They force the downstream read through the listed StreamName, RegSeqRat, DyadicRatCore, and Real rows, and coordinate exhaustion rules out quotient filters, selected limits, hidden cofinal tails, choice selectors, host real equality, and ambient completeness.
 \end{proof}
 
 \closureat{RegularCauchyFilterUp}{seedStr}
