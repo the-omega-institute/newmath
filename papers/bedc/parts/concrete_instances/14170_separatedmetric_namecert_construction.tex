@@ -364,12 +364,54 @@ For a pure zero-distance route, \autoref{thm:separatedmetric-kernel-zero-distanc
 In both cases the support rows $H,C,P,N$ preserve and name the same finite route. Since no Real completeness, quotient equality, trichotomy, or representative-selection coordinate is present, the Real row remains a seal and not an escape principle.
 \end{proof}
 
+\begin{theorem}[SeparatedMetric public identity export]
+\label{thm:separatedmetric-public-identity-export}
+Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ carrier. Every public identity consumer that asks when two displayed points of $X$ are identified must read the metric-distance witness through $D$, the $\RealUp$ zero seal, and the separation classifier $Z$ before exposing an identity claim. The exported claim is exactly the zero-distance route of \autoref{thm:separatedmetric-kernel-zero-distance-obligation}; it carries no host equality, quotient equality, selected representative, trichotomy row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier $S$. The only identity-facing rows are the metric row $X$, the distance and zero-seal route $D$, the classifier $Z$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:separatedmetric-kernel-zero-distance-obligation}. It places the metric-distance witness before the $\RealUp$ zero row and places both before the separation classifier.
+
+Finally use \autoref{thm:separatedmetric-consumer-nonescape-scope}. The support rows transport, replay, source, and name the same route, so the public identity export cannot detach into host equality or a quotient principle.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric public completion uniqueness export]
+\label{thm:separatedmetric-public-completion-uniqueness-export}
+Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ carrier. Every public completion-uniqueness consumer comparing the completion rows $L_0$ and $L_1$ must first read the $\CauchySequenceEquivalenceUp$ route $E$ and then the zero-distance classifier route through $D,Z,H,C,P,N$. The export is the completion-equivalence boundary of \autoref{thm:separatedmetric-completion-equivalence-obligation}; it supplies no quotient completion equality, selected limit, host limit equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the completion rows $L_0$ and $L_1$ in the carrier. They are not public equality rows by themselves; they are complete-metric limit rows tied to the displayed route $E$.
+
+Apply \autoref{thm:separatedmetric-completion-equivalence-obligation}. It forces any comparison of $L_0$ and $L_1$ through $E$ before the route may read the zero-distance witness and separation classifier.
+
+Then use \autoref{thm:separatedmetric-completion-limit-equivalence-handoff} and \autoref{thm:separatedmetric-limit-route-scope}. These keep the completion comparison inside the finite Cauchy-equivalence and zero-distance handoff.
+
+The rows $H,C,P,N$ provide only transport, replay, provenance, and local naming. Therefore the public uniqueness export is exhausted by the displayed separated-metric route.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric public Real-seal nonescape export]
+\label{thm:separatedmetric-public-real-seal-nonescape-export}
+Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ carrier. Every public $\RealUp$-seal consumer of a zero-distance or completion-uniqueness route receives the seal only inside
+$$
+\MetricUp,\ \CompleteMetricUp,\ \CauchySequenceEquivalenceUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The exported Real-facing boundary is the nonescape route of \autoref{thm:separatedmetric-real-seal-obligation}; it does not provide Real completeness, quotient equality of real names, quotient equality of completion names, trichotomy, or representative selection.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:separatedmetric-real-seal-obligation}. It states that the $\RealUp$ row is only the displayed zero-distance seal inside the finite certificate route.
+
+For identity consumers, apply \autoref{thm:separatedmetric-public-identity-export}. For completion-uniqueness consumers, apply \autoref{thm:separatedmetric-public-completion-uniqueness-export}. These two exports account for the public zero-distance and completion-facing routes.
+
+Since the same support rows $H,C,P,N$ preserve both routes, no public consumer can reinterpret the Real seal as a stronger host-side principle.
+\end{proof}
+
 \begin{closurestatus}{\SeparatedMetricUp}
   \constructivestory{A $\SeparatedMetricUp$ packet is generated from a $\MetricUp$ carrier, a $\RealUp$-valued distance witness, a zero-distance separation row, two $\CompleteMetricUp$ Cauchy-limit rows for one regular Cauchy point name, a $\CauchySequenceEquivalenceUp$ route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:separatedmetric-carrier}, \autoref{def:separatedmetric-classifier}, \autoref{def:separatedmetric-zero-distance-carrier-row}, \autoref{def:separatedmetric-zero-distance-scope-row}, \autoref{thm:separatedmetric-completion-compatibility-scope}, \autoref{thm:separatedmetric-completion-limit-uniqueness-scope}, \autoref{thm:separatedmetric-real-zero-distance-nonescape}, \autoref{thm:separatedmetric-limit-uniqueness-ledger}, \autoref{thm:separatedmetric-consumer-nonescape-scope}, \autoref{thm:separatedmetric-zero-distance-namecert-readiness}, and \autoref{thm:separatedmetric-real-seal-boundary-obligations} scope the separated-metric carrier, classifier, zero-distance exactness, completion compatibility, limit uniqueness, consumer boundary, zero-distance transport, and ledger rows over $\MetricUp$, $\CompleteMetricUp$, $\CauchySequenceEquivalenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:separatedmetric-carrier}, \autoref{def:separatedmetric-classifier}, \autoref{def:separatedmetric-zero-distance-carrier-row}, \autoref{def:separatedmetric-zero-distance-scope-row}, \autoref{thm:separatedmetric-completion-compatibility-scope}, \autoref{thm:separatedmetric-completion-limit-uniqueness-scope}, \autoref{thm:separatedmetric-real-zero-distance-nonescape}, \autoref{thm:separatedmetric-limit-uniqueness-ledger}, \autoref{thm:separatedmetric-consumer-nonescape-scope}, \autoref{thm:separatedmetric-zero-distance-namecert-readiness}, \autoref{thm:separatedmetric-real-seal-boundary-obligations}, \autoref{thm:separatedmetric-public-identity-export}, \autoref{thm:separatedmetric-public-completion-uniqueness-export}, and \autoref{thm:separatedmetric-public-real-seal-nonescape-export} give the public separated-metric surface over $\MetricUp$, $\CompleteMetricUp$, $\CauchySequenceEquivalenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient metric spaces, host equality, trichotomy, open-cover compactness, $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Public closure requires a single exported separated-metric consumer theorem over the displayed finite carrier route.}
+  \upgradepath{Bridge closure requires a standard bridge for the three public exports: identity, completion uniqueness, and Real-seal nonescape.}
 \end{closurestatus}
