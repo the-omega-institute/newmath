@@ -349,6 +349,68 @@ theorem LipschitzMapCarrier_contraction_threshold_handoff [AskSetup] [PackageSet
     ⟨boundUnary, thresholdUnary, handoffUnary, graphBoundModulus, thresholdRoute,
       modulusRoutesProvenance, provenancePkg, handoffPkg⟩
 
+theorem LipschitzMapCarrier_contraction_threshold_certified_handoff [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert threshold handoff :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg ->
+      UnaryHistory threshold ->
+        Cont bound threshold handoff ->
+          PkgSig bundle handoff pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row handoff ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row bound ∨ hsame row threshold ∨ hsame row handoff)
+                (fun row : BHist => hsame row handoff ∧ PkgSig bundle handoff pkg)
+                hsame ∧
+              UnaryHistory bound ∧ UnaryHistory threshold ∧ UnaryHistory handoff ∧
+                Cont graph bound modulus ∧ Cont bound threshold handoff ∧
+                  Cont modulus routes provenance ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier thresholdUnary thresholdRoute handoffPkg
+  have handoffSurface :=
+    _root_.BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_contraction_threshold_handoff
+      carrier thresholdUnary thresholdRoute handoffPkg
+  obtain ⟨boundUnary, thresholdUnary', handoffUnary, graphBoundModulus, thresholdRoute',
+    modulusRoutesProvenance, provenancePkg, handoffPkg'⟩ := handoffSurface
+  have sourceAtHandoff : hsame handoff handoff ∧ UnaryHistory handoff :=
+    ⟨hsame_refl handoff, handoffUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row handoff ∧ UnaryHistory row)
+          (fun row : BHist => hsame row bound ∨ hsame row threshold ∨ hsame row handoff)
+          (fun row : BHist => hsame row handoff ∧ PkgSig bundle handoff pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro handoff sourceAtHandoff
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, handoffPkg'⟩
+  }
+  exact
+    ⟨cert, boundUnary, thresholdUnary', handoffUnary, graphBoundModulus, thresholdRoute',
+      modulusRoutesProvenance, provenancePkg, handoffPkg'⟩
+
 theorem LipschitzMapCarrier_contraction_threshold_factorization [AskSetup] [PackageSetup]
     {source target bound graph modulus transports routes provenance localCert threshold handoff
       completeRow consumer : BHist}
