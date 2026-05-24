@@ -815,6 +815,7 @@ import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CantorBendixsonUp.TasteGate
+import BEDC.Derived.CantorBernsteinUp.TasteGate
 import BEDC.Derived.CantorCompletenessUp.TasteGate
 import BEDC.Derived.CantorDiagonalRealUncountabilityUp.TasteGate
 import BEDC.Derived.CantorFanBarrierUp.TasteGate
@@ -1736,6 +1737,7 @@ import BEDC.Derived.CompilerTraceFaithfulnessUp
 import BEDC.Derived.CompilerTraceFaithfulnessUp.TasteGate
 import BEDC.Derived.CompleteArchimedeanFieldUp
 import BEDC.Derived.CompleteBaireSpaceUp.TasteGate
+import BEDC.Derived.CompleteMetricBaireSurfaceUp.TasteGate
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
@@ -2728,6 +2730,7 @@ import BEDC.Derived.DyadicStepFunctionUp.PublicRoute
 import BEDC.Derived.DyadicStepFunctionUp.RealSealPublicBoundary
 import BEDC.Derived.DyadicStepFunctionUp.RefinementLedgerScope
 import BEDC.Derived.DyadicStepFunctionUp.ScopeTransportPackage
+import BEDC.Derived.DyadicStepFunctionUp.ScopedObligationPackage
 import BEDC.Derived.DyadicStepFunctionUp.ScopedWindowPackage
 import BEDC.Derived.DyadicStepFunctionUp.TasteGate
 import BEDC.Derived.DyadicSubdivisionUp
@@ -3466,6 +3469,7 @@ import BEDC.Derived.HostDelegationSocketUp
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
 import BEDC.Derived.HurwitzApproximationUp.TasteGate
+import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HypothesisTestUp
@@ -4689,6 +4693,7 @@ import BEDC.Derived.RealCauchyModulusUp.FiniteModulusIndexInduction
 import BEDC.Derived.RealCauchyModulusUp.ObligationClosurePackage
 import BEDC.Derived.RealCauchyModulusUp.RootUnblockScope
 import BEDC.Derived.RealCauchyModulusUp.SealAdmission
+import BEDC.Derived.RealCauchyModulusUp.TailHandoff
 import BEDC.Derived.RealCauchyModulusUp.TasteGate
 import BEDC.Derived.RealCauchyModulusUp.ThresholdWindowTotality
 import BEDC.Derived.RealCauchyModulusUp.UniformTailExtraction
