@@ -33,6 +33,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RootCompactConsumerNonchoice
 import BEDC.Derived.FiniteLebesgueNumberUp.RootUnblockTerminalPackage
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadinessExitHandoff
+import BEDC.Derived.FiniteLebesgueNumberUp.TotalBoundedConsumerFactorization
 import BEDC.Derived.FiniteLebesgueNumberUp.SelectedTailBridgeLedger
 import BEDC.Derived.FiniteLebesgueNumberUp.SelectedTailModulusExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.TailRadiusAdmission
