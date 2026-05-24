@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\RealNullSequenceUp$}
+\label{ch:concrete-instances-real-null-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealNullSequenceUp$ packet records a displayed real-valued sequence whose finite convergence surface is tied to the zero $\RealUp$ row. It sits after the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the displayed sequence-limit interface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}. The packet gives later sequence-algebra and Cauchy-criterion consumers a finite zero-limit route without importing host sequence equality, quotient limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RealNullSequence carrier]
+\label{def:real-null-sequence-carrier}
+A $\RealNullSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(S,0,W,R,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is a displayed sequence of $\RealUp$ names, each read only through the finite packet rows made visible to this carrier.
+\item $0$ is the displayed zero $\RealUp$ row, supplied as the candidate limit and not as a host-level constant outside the packet.
+\item $W$ stores the $\StreamNameUp$ finite windows used to inspect sequence entries and the zero row at the requested tolerances.
+\item $R$ stores the $\RegSeqRatUp$ readback rows attached to those windows.
+\item $D$ stores the $\DyadicRatCoreUp$ tolerances, slack rows, and comparison budgets used by every scheduled read.
+\item $L$ is the $\RealSequenceLimitUp$ convergence classifier row, specialized to the displayed sequence $S$ and the zero row $0$.
+\item $H$ records componentwise $\hsame$ transport for sequence rows, zero row, windows, readbacks, tolerances, convergence classifier, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from sequence windows through regular rational readback, dyadic tolerance comparison, and the zero-limit classifier.
+\item $P$ is the $\Pkg$ provenance over $\RealNullSequenceUp$, $\RealSequenceLimitUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealNullSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,0,W,R,D,L,H,C,P,N$. It has no coordinate for host sequence equality, quotient limits, countable-choice schedules, trichotomy decisions, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealNullSequence NameCert obligations]
+\label{thm:real-null-sequence-namecert-obligations}
+For every accepted $\RealNullSequenceUp$ carrier $Z=(S,0,W,R,D,L,H,C,P,N)$, the local $\NameCert_{\RealNullSequenceUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed $\RealUp$ sequence row, zero $\RealUp$ row, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerances, $\RealSequenceLimitUp$ classifier, transport, replay, provenance, and local naming rows;
+\item zero-row exposure, requiring every accepted limit read to expose the displayed zero $\RealUp$ row before the sequence-limit classifier is consumed;
+\item finite-window convergence, requiring all convergence evidence to pass through the scheduled $W,R,D,L$ rows;
+\item transport and replay stability, requiring $\hsame$ transport and $\Cont$ replay to preserve the same sequence, zero, window, readback, tolerance, and classifier rows;
+\item refusal of host sequence equality, quotient limits, countable choice, trichotomy, and ambient completeness as packet coordinates.
+\end{enumerate}
+No zero-limit obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-null-sequence-carrier}. The accepted packet displays exactly the sequence row, zero row, finite windows, regular readbacks, dyadic tolerances, convergence classifier, transport, replay, provenance, and local name.
+
+The analytic read is then forced by the row order. The sequence row $S$ and zero row $0$ are inspected only through the scheduled windows $W$, readbacks $R$, and tolerance ledger $D$, and the convergence classifier $L$ is the only row that can certify approach to the displayed zero.
+
+Transport and replay stability follow from the structural rows $H$ and $C$. They preserve the same displayed rows componentwise and replay the same finite route before the local name is consumed.
+
+Finally inspect the carrier inventory. Since host sequence equality, quotient limits, countable choice, trichotomy, and ambient $\RealUp$ completeness are not coordinates of $Z$, none can become a local NameCert obligation.
+\end{proof}
+
+\closureat{RealNullSequenceUp}{seedStr}
+
+\begin{closurestatus}{\RealNullSequenceUp}
+  \constructivestory{A $\RealNullSequenceUp$ packet is generated from a displayed RealUp sequence, a zero RealUp row, finite StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, a RealSequenceLimit convergence classifier, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-null-sequence-carrier} and \autoref{thm:real-null-sequence-namecert-obligations} seed the finite zero-limit route for displayed real sequences.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close sequence algebra, Cauchy criteria, quotient limits, host sequence equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, zero-row exposure, finite-window convergence, transport stability, replay stability, and refusal rows for BEDC.Derived.RealNullSequenceUp.}
+\end{closurestatus}
