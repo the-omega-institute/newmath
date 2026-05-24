@@ -252,6 +252,32 @@ Apply \autoref{thm:realsequencelimit-regular-classifier-transport}. The classifi
 Finally use \autoref{thm:real-sequence-limit-cauchy-criterion-factorization}. The transported subsequence comparison reaches the sibling $\RealSequenceCauchyCriterionUp$ tail route before any $\RealUp$ seal is visible. Thus subsequence extraction stays inside the L10 finite-window route and cannot import host subsequence selection, countable choice, trichotomy, quotient limits, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RealSequenceLimit diagonal-window uniqueness]\label{thm:realsequencelimit-diagonal-window-uniqueness}
+Let $K=(S,L,W,D,E,H,C,P,N)$ be an accepted $\RealSequenceLimitUp$ packet. If two accepted limit reads use the same $\StreamNameUp$ schedule row $W$, the same $\RegSeqRatUp$ readback route, the same $\DyadicRatCoreUp$ tolerance ledger $D$, and the same terminal $\RealUp$ seal, then both reads must pass through the same finite diagonal window before the classifier row $E$ is consumed. The uniqueness is a finite-window route claim, not a quotient sequence equality, selected host limit, countable-choice schedule, trichotomy split, or ambient real-completeness assertion.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:real-sequence-limit-carrier}. The two candidate reads have no schedule coordinate beyond $W$ and no tolerance coordinate beyond $D$.
+
+Apply \autoref{thm:realsequencelimit-tail-window-transport}. Since both reads use the same scheduled $\StreamNameUp$ windows and the same $\RegSeqRatUp$ readback route, transport can only replay the comparison through the displayed window route already stored in the packet.
+
+Next use \autoref{thm:realsequencelimit-regular-classifier-transport}. The classifier row $E$ is reached only after the transported $\StreamNameUp/\RegSeqRatUp/\DyadicRatCoreUp$ route is displayed, so the two reads cannot choose separate classifier-facing windows.
+
+Finally, \autoref{thm:realsequencelimit-subsequence-tail-stability} rules out an alternate host subsequence selector, and \autoref{thm:real-sequence-limit-real-seal-nonescape} keeps the terminal $\RealUp$ seal downstream of the same finite route. Thus the classifier consumes one shared diagonal window.
+\end{proof}
+
+\begin{theorem}[RealSequenceLimit limit-modulus composition]\label{thm:realsequencelimit-limit-modulus-composition}
+For every accepted $\RealSequenceLimitUp$ packet $K=(S,L,W,D,E,H,C,P,N)$, composing the finite Cauchy-modulus extraction route with subsequence-tail stability yields a finite modulus route for every accepted subsequence limit read. The route passes through $D$, $W$, the $\RegSeqRatUp$ readback, the classifier row $E$, transport and replay through $H,C$, and the provenance and naming rows $P,N$ before the terminal $\RealUp$ seal is consumed; it does not use quotient sequence equality, ambient $\RealUp$ completeness, countable choice, or a selected host limit.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:realsequencelimit-cauchy-modulus-extraction}. A tolerance request first enters the dyadic ledger $D$, then the scheduled finite windows $W$, and then the classifier row $E$ before any threshold can be read.
+
+Apply \autoref{thm:realsequencelimit-subsequence-tail-stability}. A subsequence-facing limit read may reindex through displayed subwindows, but it receives no independent host selector and no separate countable-choice schedule.
+
+The regular readback and classifier transport are supplied by \autoref{thm:realsequencelimit-regular-classifier-transport}. They keep the composed route inside the same $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows after componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Finally, \autoref{thm:realsequencelimit-tail-window-transport} identifies the transported windows with the finite route already used by the limit packet. The resulting modulus route reaches $P,N$ and the terminal $\RealUp$ seal only after the finite composition has been displayed, so no quotient equality, ambient completeness, countable choice, or selected host limit enters the proof.
+\end{proof}
+
 \begin{closurestatus}{\RealSequenceLimitUp}
   \constructivestory{A $\RealSequenceLimitUp$ packet is generated from a displayed sequence of RealUp names, a candidate limit RealUp row, finite StreamName windows and RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a finite convergence classifier, componentwise transport, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
