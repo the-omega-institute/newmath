@@ -1,16 +1,31 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyModulusPullbackUp.TasteGate
+namespace BEDC.Derived.CauchyModulusPullbackUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CauchyModulusPullbackUp : Type where
-  | mk (S I K M D R E H C P N : BHist) : CauchyModulusPullbackUp
+  | mk
+      (source reindexed route modulus dyadic readback realSeal transport replay provenance name :
+        BHist) :
+      CauchyModulusPullbackUp
   deriving DecidableEq
 
 def cauchyModulusPullbackEncodeBHist : BHist → RawEvent
@@ -25,92 +40,97 @@ def cauchyModulusPullbackDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyModulusPullbackDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyModulusPullbackDecodeBHist tail)
 
-private theorem cauchyModulusPullbackDecode_encode_bhist :
-    ∀ h : BHist,
-      cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist h) = h := by
+private theorem CauchyModulusPullback_decode_encode :
+    ∀ h : BHist, cauchyModulusPullbackDecodeBHist
+      (cauchyModulusPullbackEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def cauchyModulusPullbackFields : CauchyModulusPullbackUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CauchyModulusPullbackUp.mk S I K M D R E H C P N => [S, I, K, M, D, R, E, H, C, P, N]
+  | CauchyModulusPullbackUp.mk source reindexed route modulus dyadic readback realSeal
+      transport replay provenance name =>
+      [source, reindexed, route, modulus, dyadic, readback, realSeal, transport, replay,
+        provenance, name]
 
 def cauchyModulusPullbackToEventFlow : CauchyModulusPullbackUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | CauchyModulusPullbackUp.mk S I K M D R E H C P N =>
-      [[BMark.b1, BMark.b0, BMark.b1, BMark.b0],
-        cauchyModulusPullbackEncodeBHist S,
-        cauchyModulusPullbackEncodeBHist I,
-        cauchyModulusPullbackEncodeBHist K,
-        cauchyModulusPullbackEncodeBHist M,
-        cauchyModulusPullbackEncodeBHist D,
-        cauchyModulusPullbackEncodeBHist R,
-        cauchyModulusPullbackEncodeBHist E,
-        cauchyModulusPullbackEncodeBHist H,
-        cauchyModulusPullbackEncodeBHist C,
-        cauchyModulusPullbackEncodeBHist P,
-        cauchyModulusPullbackEncodeBHist N]
+  | x => (cauchyModulusPullbackFields x).map cauchyModulusPullbackEncodeBHist
 
-def cauchyModulusPullbackFromEventFlow : EventFlow → Option CauchyModulusPullbackUp
+private def cauchyModulusPullbackEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [_tag, S, I, K, M, D, R, E, H, C, P, N] =>
-      some
-        (CauchyModulusPullbackUp.mk
-          (cauchyModulusPullbackDecodeBHist S)
-          (cauchyModulusPullbackDecodeBHist I)
-          (cauchyModulusPullbackDecodeBHist K)
-          (cauchyModulusPullbackDecodeBHist M)
-          (cauchyModulusPullbackDecodeBHist D)
-          (cauchyModulusPullbackDecodeBHist R)
-          (cauchyModulusPullbackDecodeBHist E)
-          (cauchyModulusPullbackDecodeBHist H)
-          (cauchyModulusPullbackDecodeBHist C)
-          (cauchyModulusPullbackDecodeBHist P)
-          (cauchyModulusPullbackDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => cauchyModulusPullbackEventAt index rest
 
-private theorem cauchyModulusPullback_round_trip :
-    ∀ x : CauchyModulusPullbackUp,
-      cauchyModulusPullbackFromEventFlow (cauchyModulusPullbackToEventFlow x) = some x := by
+def cauchyModulusPullbackFromEventFlow (ef : EventFlow) :
+    Option CauchyModulusPullbackUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
+  some
+    (CauchyModulusPullbackUp.mk
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 0 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 1 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 2 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 3 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 4 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 5 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 6 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 7 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 8 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 9 ef))
+      (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEventAt 10 ef)))
+
+private theorem CauchyModulusPullback_round_trip (x : CauchyModulusPullbackUp) :
+    cauchyModulusPullbackFromEventFlow (cauchyModulusPullbackToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   cases x with
-  | mk S I K M D R E H C P N =>
+  | mk source reindexed route modulus dyadic readback realSeal transport replay provenance name =>
       change
         some
           (CauchyModulusPullbackUp.mk
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist S))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist I))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist K))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist M))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist D))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist R))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist E))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist H))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist C))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist P))
-            (cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist N))) =
-          some (CauchyModulusPullbackUp.mk S I K M D R E H C P N)
-      rw [cauchyModulusPullbackDecode_encode_bhist S,
-        cauchyModulusPullbackDecode_encode_bhist I,
-        cauchyModulusPullbackDecode_encode_bhist K,
-        cauchyModulusPullbackDecode_encode_bhist M,
-        cauchyModulusPullbackDecode_encode_bhist D,
-        cauchyModulusPullbackDecode_encode_bhist R,
-        cauchyModulusPullbackDecode_encode_bhist E,
-        cauchyModulusPullbackDecode_encode_bhist H,
-        cauchyModulusPullbackDecode_encode_bhist C,
-        cauchyModulusPullbackDecode_encode_bhist P,
-        cauchyModulusPullbackDecode_encode_bhist N]
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist source))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist reindexed))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist route))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist modulus))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist dyadic))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist readback))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist realSeal))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist transport))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist replay))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist provenance))
+            (cauchyModulusPullbackDecodeBHist
+              (cauchyModulusPullbackEncodeBHist name))) =
+          some
+            (CauchyModulusPullbackUp.mk source reindexed route modulus dyadic readback realSeal
+              transport replay provenance name)
+      rw [CauchyModulusPullback_decode_encode source,
+        CauchyModulusPullback_decode_encode reindexed,
+        CauchyModulusPullback_decode_encode route,
+        CauchyModulusPullback_decode_encode modulus,
+        CauchyModulusPullback_decode_encode dyadic,
+        CauchyModulusPullback_decode_encode readback,
+        CauchyModulusPullback_decode_encode realSeal,
+        CauchyModulusPullback_decode_encode transport,
+        CauchyModulusPullback_decode_encode replay,
+        CauchyModulusPullback_decode_encode provenance,
+        CauchyModulusPullback_decode_encode name]
 
-private theorem cauchyModulusPullbackToEventFlow_injective {x y : CauchyModulusPullbackUp} :
+private theorem CauchyModulusPullback_toEventFlow_injective {x y : CauchyModulusPullbackUp} :
     cauchyModulusPullbackToEventFlow x = cauchyModulusPullbackToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -119,18 +139,20 @@ private theorem cauchyModulusPullbackToEventFlow_injective {x y : CauchyModulusP
         cauchyModulusPullbackFromEventFlow (cauchyModulusPullbackToEventFlow y) :=
     congrArg cauchyModulusPullbackFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (cauchyModulusPullback_round_trip x).symm
-      (Eq.trans hread (cauchyModulusPullback_round_trip y)))
+    (Eq.trans (CauchyModulusPullback_round_trip x).symm
+      (Eq.trans hread (CauchyModulusPullback_round_trip y)))
 
-private theorem cauchyModulusPullback_fields_faithful :
+private theorem CauchyModulusPullback_fields_faithful :
     ∀ x y : CauchyModulusPullbackUp,
       cauchyModulusPullbackFields x = cauchyModulusPullbackFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk S1 I1 K1 M1 D1 R1 E1 H1 C1 P1 N1 =>
+  | mk sourceX reindexedX routeX modulusX dyadicX readbackX realSealX transportX replayX
+      provenanceX nameX =>
       cases y with
-      | mk S2 I2 K2 M2 D2 R2 E2 H2 C2 P2 N2 =>
+      | mk sourceY reindexedY routeY modulusY dyadicY readbackY realSealY transportY replayY
+          provenanceY nameY =>
           cases hfields
           rfl
 
@@ -142,39 +164,156 @@ instance cauchyModulusPullbackBHistCarrier : BHistCarrier CauchyModulusPullbackU
 instance cauchyModulusPullbackChapterTasteGate :
     ChapterTasteGate CauchyModulusPullbackUp where
   -- BEDC touchpoint anchor: BHist BMark
-  round_trip := by
-    intro x
-    change cauchyModulusPullbackFromEventFlow (cauchyModulusPullbackToEventFlow x) = some x
-    exact cauchyModulusPullback_round_trip x
+  round_trip := CauchyModulusPullback_round_trip
   layer_separation := by
     intro x y hxy heq
-    exact hxy (cauchyModulusPullbackToEventFlow_injective heq)
+    exact hxy (CauchyModulusPullback_toEventFlow_injective heq)
 
 instance cauchyModulusPullbackFieldFaithful : FieldFaithful CauchyModulusPullbackUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := cauchyModulusPullbackFields
-  field_faithful := cauchyModulusPullback_fields_faithful
+  field_faithful := CauchyModulusPullback_fields_faithful
 
 def taste_gate : ChapterTasteGate CauchyModulusPullbackUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchyModulusPullbackChapterTasteGate
 
-theorem CauchyModulusPullbackTasteGate_single_carrier_alignment :
-    (forall h : BHist,
-        cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist h) = h) ∧
-      cauchyModulusPullbackFields
-          (CauchyModulusPullbackUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty) =
-        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-          BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
-      cauchyModulusPullbackToEventFlow
-          (CauchyModulusPullbackUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty) =
-        [[BMark.b1, BMark.b0, BMark.b1, BMark.b0], [], [], [], [], [], [], [], [], [], [],
-          []] := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
-  exact ⟨cauchyModulusPullbackDecode_encode_bhist, rfl, rfl⟩
+def CauchyModulusPullbackCarrier [AskSetup] [PackageSetup]
+    (source reindexed route modulus dyadic readback realSeal transport replay provenance name :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg PkgSig
+  UnaryHistory source ∧ UnaryHistory reindexed ∧ UnaryHistory route ∧
+    UnaryHistory modulus ∧ UnaryHistory dyadic ∧ UnaryHistory readback ∧
+      UnaryHistory realSeal ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+        UnaryHistory provenance ∧ UnaryHistory name ∧
+          Cont reindexed route transport ∧ Cont transport modulus replay ∧
+            Cont replay dyadic readback ∧ Cont readback realSeal provenance ∧
+              PkgSig bundle name pkg
 
-end BEDC.Derived.CauchyModulusPullbackUp.TasteGate
+theorem CauchyModulusPullbackCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source reindexed route modulus dyadic readback realSeal transport replay provenance name
+      pulledThreshold : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusPullbackCarrier source reindexed route modulus dyadic readback realSeal
+        transport replay provenance name bundle pkg →
+      Cont reindexed route pulledThreshold →
+        Cont pulledThreshold modulus dyadic →
+          PkgSig bundle name pkg →
+            UnaryHistory source ∧ UnaryHistory reindexed ∧ UnaryHistory route ∧
+              UnaryHistory modulus ∧ UnaryHistory dyadic ∧ UnaryHistory readback ∧
+                UnaryHistory realSeal ∧ UnaryHistory pulledThreshold ∧
+                  Cont reindexed route pulledThreshold ∧ Cont pulledThreshold modulus dyadic ∧
+                    PkgSig bundle name pkg ∧
+                      SemanticNameCert
+                        (fun row : BHist =>
+                          hsame row source ∨ hsame row reindexed ∨
+                            hsame row pulledThreshold ∨ hsame row realSeal)
+                        (fun row : BHist =>
+                          Cont reindexed route pulledThreshold ∧
+                            (hsame row source ∨ hsame row reindexed ∨
+                              hsame row pulledThreshold ∨ hsame row realSeal))
+                        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle name pkg)
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg PkgSig SemanticNameCert hsame
+  intro carrier routePull thresholdPull pkgSig
+  obtain ⟨sourceUnary, reindexedUnary, routeUnary, modulusUnary, dyadicUnary, readbackUnary,
+    sealUnary, _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, _carrierRoute,
+    _carrierReplay, _carrierReadback, _carrierSeal, _carrierPkg⟩ := carrier
+  have pulledUnary : UnaryHistory pulledThreshold :=
+    unary_cont_closed reindexedUnary routeUnary routePull
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row source ∨ hsame row reindexed ∨
+            hsame row pulledThreshold ∨ hsame row realSeal)
+        (fun row : BHist =>
+          Cont reindexed route pulledThreshold ∧
+            (hsame row source ∨ hsame row reindexed ∨
+              hsame row pulledThreshold ∨ hsame row realSeal))
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle name pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro source (Or.inl (hsame_refl source))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same sourceSpec
+          cases sourceSpec with
+          | inl sameSource =>
+              exact Or.inl (hsame_trans (hsame_symm same) sameSource)
+          | inr rest =>
+              cases rest with
+              | inl sameReindexed =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm same) sameReindexed))
+              | inr rest =>
+                  cases rest with
+                  | inl samePulled =>
+                      exact Or.inr
+                        (Or.inr (Or.inl (hsame_trans (hsame_symm same) samePulled)))
+                  | inr sameSeal =>
+                      exact Or.inr
+                        (Or.inr (Or.inr (hsame_trans (hsame_symm same) sameSeal)))
+      }
+      pattern_sound := by
+        intro _row sourceSpec
+        exact ⟨routePull, sourceSpec⟩
+      ledger_sound := by
+        intro row sourceSpec
+        have rowUnary : UnaryHistory row := by
+          cases sourceSpec with
+          | inl sameSource =>
+              exact unary_transport sourceUnary (hsame_symm sameSource)
+          | inr rest =>
+              cases rest with
+              | inl sameReindexed =>
+                  exact unary_transport reindexedUnary (hsame_symm sameReindexed)
+              | inr rest =>
+                  cases rest with
+                  | inl samePulled =>
+                      exact unary_transport pulledUnary (hsame_symm samePulled)
+                  | inr sameSeal =>
+                      exact unary_transport sealUnary (hsame_symm sameSeal)
+        exact ⟨rowUnary, pkgSig⟩
+    }
+  exact
+    ⟨sourceUnary, reindexedUnary, routeUnary, modulusUnary, dyadicUnary, readbackUnary,
+      sealUnary, pulledUnary, routePull, thresholdPull, pkgSig, cert⟩
+
+namespace TasteGate
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+theorem CauchyModulusPullbackTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate CauchyModulusPullbackUp) ∧
+      Nonempty (FieldFaithful CauchyModulusPullbackUp) ∧
+        (∀ h : BHist,
+          cauchyModulusPullbackDecodeBHist (cauchyModulusPullbackEncodeBHist h) = h) ∧
+          (∀ x : CauchyModulusPullbackUp,
+            cauchyModulusPullbackFromEventFlow (cauchyModulusPullbackToEventFlow x) =
+              some x) ∧
+            (∀ x y : CauchyModulusPullbackUp,
+              cauchyModulusPullbackToEventFlow x = cauchyModulusPullbackToEventFlow y →
+                x = y) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨⟨cauchyModulusPullbackChapterTasteGate⟩,
+      ⟨cauchyModulusPullbackFieldFaithful⟩,
+      CauchyModulusPullback_decode_encode,
+      CauchyModulusPullback_round_trip,
+      fun _ _ heq => CauchyModulusPullback_toEventFlow_injective heq⟩
+
+end TasteGate
+
+end BEDC.Derived.CauchyModulusPullbackUp
