@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCondensationRealSeriesUp$}
+\label{ch:concrete-instances-cauchy-condensation-real-series-namecert}
+\origin{human}
+
+Following Cauchy and Bishop--Bridges constructive analysis, the $\CauchyCondensationRealSeriesUp$ packet names the finite tail-comparison route for positive decreasing $\RealSeriesUp$ terms. It sits next to the real-series surface of \autoref{ch:concrete-instances-realseries-namecert}, the displayed limit interface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It refines the dyadic-block test packet of \autoref{ch:concrete-instances-cauchy-condensation-test-namecert} by making the $\RealSeriesUp$ tail carrier itself visible to Real and Completion consumers before any infinite sum or completed endpoint is read.
+
+\begin{definition}[CauchyCondensationRealSeries carrier]
+\label{def:cauchy-condensation-real-series-carrier}
+A $\CauchyCondensationRealSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,M,B,G,W,Q,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the positive decreasing $\RealSeriesUp$ source row. Its terms are admitted only through finite term windows, and its decreasing evidence is read as adjacent finite comparisons.
+\item $M$ is the monotone-tail ledger, recording positivity, decreasing transport, and the finite tail cut from which the comparison begins.
+\item $B$ is the dyadic block-window ledger. It lists the inspected powers of two, the associated block endpoints, and the finite intervals of original terms visible at each requested tolerance.
+\item $G$ is the condensed-term row, displaying the term $2^n a_{2^n}$ on the same dyadic indices as $B$ and tying it to the original $\RealSeriesUp$ term windows.
+\item $W$ is the $\StreamNameUp$ schedule used for the original terms, block endpoints, condensed terms, and partial-sum windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row for every displayed original term, condensed term, and block partial sum.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and block-comparison ledger. It records the finite inequalities that bound each inspected original tail block above and below by the matching condensed-term rows.
+\item $R$ is the $\RealSequenceLimitUp$ route for the partial-sum and condensed-partial-sum windows that the packet exposes to downstream limit consumers.
+\item $E$ is the $\RealUp$ seal row reached only after $A,M,B,G,W,Q,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, monotone-tail ledger, dyadic blocks, condensed terms, schedules, readbacks, tolerance ledger, limit route, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail request through the monotone ledger, dyadic blocks, condensed terms, stream schedules, regular readbacks, dyadic comparisons, limit route, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCondensationRealSeriesUp$, $\RealSeriesUp$, $\RealSequenceLimitUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCondensationRealSeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,M,B,G,W,Q,D,R,E,H,C,P,N$. It has no coordinate for host infinite sums, quotient real equality, countable choice, trichotomy, selected endpoints, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyCondensationRealSeries obligations]
+\label{thm:cauchy-condensation-real-series-obligations}
+For every accepted $\CauchyCondensationRealSeriesUp$ carrier $K=(A,M,B,G,W,Q,D,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyCondensationRealSeriesUp}$ surface consists exactly of carrier admission for the displayed thirteen-row packet; positive decreasing $\RealSeriesUp$ source exposure through $A$ and $M$; dyadic block-window coverage through $B$; condensed-term formation through $G$; $\StreamNameUp$ scheduling through $W$; $\RegSeqRatUp$ readback through $Q$; $\DyadicRatCoreUp$ block comparison through $D$; $\RealSequenceLimitUp$ partial-sum routing through $R$; $\RealUp$ sealing through $E$; componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-condensation-real-series-carrier}. The accepted packet exposes exactly the source, monotone-tail ledger, dyadic block windows, condensed terms, stream schedules, regular readbacks, dyadic comparison ledger, limit route, Real seal, and structural rows.
+
+The source obligations are finite. Positivity and decreasing behavior are read from $M$ only on the term windows selected by $W$, and the original term observations are read back through $Q$ before any block comparison is formed.
+
+The condensation obligations are carried by $B,G,D$. The dyadic ledger $B$ supplies the finite block endpoints, $G$ forms the corresponding condensed terms, and $D$ records the block inequalities that compare the original tail with the condensed tail on those displayed windows.
+
+The consumer route is then $R$ followed by $E$. The limit-facing row $R$ receives only the partial-sum and condensed-partial-sum windows already displayed, and the Real seal $E$ is reached only after that route has passed through the regular and dyadic ledgers.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since host infinite sums, quotient real equality, countable choice, trichotomy, selected endpoints, and ambient completeness are not coordinates of $K$, they cannot appear as local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CauchyCondensationRealSeries Cauchy route]
+\label{thm:cauchy-condensation-real-series-cauchy-route}
+Every Real or Completion consumer of an accepted $\CauchyCondensationRealSeriesUp$ packet factors its tail-comparison read through the finite route
+$$
+A,M\longmapsto B,G\longmapsto W,Q,D\longmapsto R\longmapsto E,H,C,P,N .
+$$
+Thus the original positive decreasing $\RealSeriesUp$ tail and the condensed tail are compared only by displayed dyadic block windows, scheduled stream reads, regular rational readbacks, and the $\RealSequenceLimitUp$ partial-sum route before any $\RealUp$ seal is visible.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. The source row $A$ and monotone ledger $M$ are the only rows from which a consumer can inspect the positive decreasing real-series tail.
+
+Read the dyadic block rows next. The ledger $B$ names the finite block windows, while $G$ names the condensed terms on the same dyadic indices. No consumer can read a condensed comparison without preserving both rows.
+
+Now pass through $W,Q,D$. The schedule $W$ fixes the finite term and partial-sum windows, $Q$ gives the regular rational readback for those windows, and $D$ records the dyadic inequalities that compare each displayed original block with its condensed row.
+
+The partial-sum route $R$ is therefore already a displayed $\RealSequenceLimitUp$ route before the seal $E$ is reached. The remaining rows $H,C,P,N$ preserve and name that same finite route, so the handoff supplies no host infinite sum, quotient real equality, countable-choice schedule, trichotomy split, selected endpoint, or ambient $\RealUp$ completeness theorem.
+\end{proof}
+
+\closureat{CauchyCondensationRealSeriesUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCondensationRealSeriesUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-condensation-real-series-carrier}, \autoref{thm:cauchy-condensation-real-series-obligations}, and \autoref{thm:cauchy-condensation-real-series-cauchy-route} seed the finite tail-comparison carrier for positive decreasing $\RealSeriesUp$ terms, dyadic block windows, condensed terms, finite schedules, regular readbacks, dyadic comparison ledgers, limit routing, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, quotient real equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier admission, monotone-tail exposure, dyadic block-window coverage, condensed-term formation, schedule and readback stability, dyadic comparison, limit routing, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCondensationRealSeriesUp.}
+  \constructivestory{A $\CauchyCondensationRealSeriesUp$ packet is generated from a positive decreasing RealSeries source row, a monotone-tail ledger, dyadic block windows, condensed terms, StreamName schedules, RegSeqRat readbacks, DyadicRatCore comparison rows, a RealSequenceLimit route, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

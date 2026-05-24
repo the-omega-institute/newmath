@@ -23,6 +23,7 @@ Finally apply \autoref{thm:cauchy-product-budget-product-consumer-boundary}. The
 \label{thm:cauchy-product-commuted-budget-route}
 Let $Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N)$ be an accepted $\CauchyProductUp$ packet whose two factor-window reads are accepted by the same finite observation-budget selector from \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}. If the packet is read after swapping $W_X$ with $W_Y$ and swapping the dyadic product inputs, then the same finite product-budget route reaches the $\RegSeqRatUp$ classifier row and the $\RealUp$ seal. The commuted route is preserved by componentwise $\StreamNameUp$ handoff, $\DyadicRatCoreUp$ product-row symmetry, $\RegSeqRatUp$ handoff, and $\RealUp$ seal non-escape; it does not claim host multiplication or completed-real commutativity.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_commuted\_budget\_route}
 \begin{proof}
 First expose the original finite route. The root source-window totality and \autoref{thm:cauchy-product-budget-selector-distributive-lock} bind both factor windows to the same displayed selector route before the product row is available.
 
@@ -83,4 +84,20 @@ Start from the shared selector route. By \autoref{thm:cauchy-product-budget-sele
 Now pass to the two downstream handoffs. The real-facing side is bounded by \autoref{thm:cauchy-product-real-budget-multiplication-boundary}, while the regular-sequence side is exhausted by \autoref{thm:cauchy-product-regseqrat-product-seal-coverage}. Both statements name the same stream-window, dyadic, selector, transport, continuation, provenance, and local $\NameCert$ rows.
 
 Composing these two readings gives the commutation claim. Whichever handoff a consumer cites first, the other handoff is reached only by replaying the same finite rows, so no unlisted host-level product, quotient equality, selected limit, order trichotomy, separate real carrier, or completeness principle can enter the route.
+\end{proof}
+
+\begin{theorem}[CauchyProduct RealSeries shared-selector handoff]
+\label{thm:cauchy-product-realseries-shared-selector-handoff}
+Let $Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N)$ be an accepted $\CauchyProductUp$ packet, and let $K=(T,S,W,Q,D,M,E_R,H_R,C_R,P_R,N_R)$ be an accepted $\RealSeriesUp$ packet. Suppose the product factor windows of $Z$ and the series tail windows of $K$ are consumed through the same finite observation-budget selector from \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}. Then the product-facing $\RealUp$ seal of $Z$ and the series endpoint seal of $K$ read the same $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, selector budget rows, $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before either handoff is exposed.
+
+The handoff is a finite shared-selector route. It excludes host multiplication, selected infinite sums, quotient stream equality, countable choice, detached real carriers, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the CauchyProduct side. The shared-selector commutation theorem \autoref{thm:cauchy-product-shared-selector-regseqrat-real-seal-commutation} places the product-facing regular handoff and real seal on one route through the stream windows, dyadic product rows, selector rows, transports, continuations, provenance, and local names.
+
+Now read the RealSeries side through \autoref{thm:real-series-cauchy-consumer-obligation} and \autoref{thm:realseries-cauchy-consumer-readiness}. These results make the finite-tail consumer surface visible only through partial-sum windows, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ tolerance ledger, the shared tail threshold, the endpoint seal, and the structural rows.
+
+The common selector hypothesis identifies the selector budget rows used by the product windows with the selector budget rows used by the series tail windows. Apply \autoref{thm:cauchy-product-budget-selector-distributive-lock} to lock the product windows to that selector, \autoref{thm:cauchy-product-regseqrat-product-seal-coverage} to keep the regular product handoff on the same route, and \autoref{thm:cauchy-product-real-budget-multiplication-boundary} to place the product seal after the same budget ledger.
+
+Finally use the RealSeries endpoint route \autoref{thm:realseries-regseqrat-endpoint-seal-route}. The endpoint seal of $K$ is downstream of the same finite tail windows, regular readback, dyadic ledger, threshold, transports, continuations, provenance, and local names. Since neither accepted packet contains host multiplication, an infinite-sum selector, quotient stream equality, countable choice, a detached real carrier, or ambient completeness data, the shared-selector handoff exposes none of those objects.
 \end{proof}

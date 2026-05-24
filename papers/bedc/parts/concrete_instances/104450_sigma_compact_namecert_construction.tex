@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\SigmaCompactUp$}
+\label{ch:concrete-instances-sigma-compact-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley, the $\SigmaCompactUp$ packet records a space by a displayed compact exhaustion rather than by an open-cover compactness principle or a choice-selected cover. It sits as an L10 neighbour of the local compactness certificate of \autoref{ch:concrete-instances-locallycompact-namecert}, the proper closed-ball compactness route of \autoref{ch:concrete-instances-propermetric-namecert}, the center-radius window of \autoref{ch:concrete-instances-metricclosedball-namecert}, the compact metric witness of \autoref{ch:concrete-instances-compactmetric-namecert}, and the stream-indexed naming surface of \autoref{ch:concrete-instances-streamname-namecert}. The packet is finite at every public read: a consumer sees a named exhaustion prefix, its compact rows, and the replay ledger that justifies the prefix, not a completed countable family supplied by an ambient host.
+
+\begin{definition}[SigmaCompact carrier]\label{def:sigma-compact-carrier}
+A $\SigmaCompactUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,E,K,B,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the metric or topological source row whose points and comparison data are already carried by finite BEDC histories.
+\item $E$ is a $\StreamNameUp$ exhaustion-prefix row. Its displayed entries name compact windows $E(0),\ldots,E(m)$ and a monotone inclusion ledger between consecutive entries.
+\item $K$ assigns a $\CompactMetricUp$ witness to each displayed exhaustion entry $E(i)$.
+\item $B$ is the optional $\MetricClosedBallUp$ boundary row for those entries that arise from center-radius metric windows.
+\item $L$ is the optional $\LocallyCompactUp$ support row, used only when a local compact neighbourhood certificate is the source of one displayed exhaustion window.
+\item $H$ records componentwise $\hsame$ transport for the source row, exhaustion prefix, compact witnesses, closed-ball boundary rows, local compact support rows, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite exhaustion request through $X,E,K,B,L,H$ and into a compactness, properness, completion, or stream consumer.
+\item $P$ is the $\Pkg$ provenance over $\SigmaCompactUp$, $\StreamNameUp$, $\CompactMetricUp$, $\MetricClosedBallUp$, $\LocallyCompactUp$, $\ProperMetricUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SigmaCompactUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these nine rows. It has no coordinate for open-cover compactness, countable choice, a host-selected exhaustion, quotient point equality, or an ambient locally compact or proper metric structure beyond the displayed handoff rows.
+\end{definition}
+
+\begin{theorem}[SigmaCompact NameCert obligations]\label{thm:sigma-compact-namecert-obligations}
+For every accepted $\SigmaCompactUp$ carrier $S=(X,E,K,B,L,H,C,P,N)$, the local $\NameCert_{\SigmaCompactUp}$ surface consists exactly of carrier admission, exhaustion-prefix indexing, compact witness transport for each displayed prefix entry, closed-ball boundary handoff when a row $B$ is present, locally compact support handoff when a row $L$ is present, provenance non-escape, and local naming for the rows $X,E,K,B,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sigma-compact-carrier}. Carrier admission reads the source row, the finite stream prefix, the compact witnesses attached to that prefix, the optional boundary and local compact rows, and the structural rows $H,C,P,N$.
+
+Exhaustion-prefix indexing is finite. Induct over the displayed list $E(0),\ldots,E(m)$. At each entry the compact witness is the corresponding row in $K$, and the inclusion into the next displayed window is one of the ledger entries already present in $E$.
+
+The handoff rows are exact. A closed-ball consumer can read $B$ only for entries that display a $\MetricClosedBallUp$ boundary, and a local compactness consumer can read $L$ only for entries that display the corresponding $\LocallyCompactUp$ support.
+
+Provenance and naming are exhausted by $P$ and $N$. Since the carrier has no coordinate for open covers, countable choice, host-selected exhaustions, quotient point equality, or ambient properness, none of those principles can occur in the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SigmaCompact proper metric exhaustion]\label{thm:sigma-compact-proper-metric-exhaustion}
+Every accepted $\ProperMetricUp$ packet that displays a finite radius-window prefix through $\StreamNameUp$ induces a $\SigmaCompactUp$ read over the same metric source by taking each shown window to its $\MetricClosedBallUp$ row and its attached $\CompactMetricUp$ witness. The induced read exports only
+$$
+X,E,K,B,L,H,C,P,N ,
+$$
+with $L$ empty unless a local compactness support row is displayed, and it does not export open-cover compactness, a completed countable exhaustion, selected centers outside the prefix, quotient equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the proper metric carrier of \autoref{thm:proper-metric-closed-ball-compactness}. For each displayed radius-window entry in the stream prefix, the proper metric packet already exposes a closed-ball row and a compact witness for that same row.
+
+Package the displayed prefix as $E$. The compact witnesses become $K$, the closed-ball rows become $B$, and the optional local compact support is copied into $L$ only when it is already shown. Componentwise transport and replay are inherited as $H$ and $C$.
+
+The resulting tuple has exactly the carrier form of \autoref{def:sigma-compact-carrier}. Its provenance names the proper metric source and the compact, closed-ball, local compact, and stream-name siblings, so a downstream consumer cannot extend the prefix, select hidden centers, or import an open-cover or choice principle.
+\end{proof}
+
+\closureat{SigmaCompactUp}{seedStr}
+
+\begin{closurestatus}{\SigmaCompactUp}
+  \constructivestory{A $\SigmaCompactUp$ packet is generated from a source row, a finite StreamName exhaustion prefix, CompactMetric witnesses for displayed entries, optional MetricClosedBall and LocallyCompact handoff rows, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sigma-compact-carrier}, \autoref{thm:sigma-compact-namecert-obligations}, and \autoref{thm:sigma-compact-proper-metric-exhaustion} seed the finite compact-exhaustion interface between local compactness, proper metric windows, compact metric witnesses, and stream-indexed names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, a completed countable exhaustion, countable choice, quotient point equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, exhaustion-prefix indexing, compact witness projection, proper metric handoff, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.SigmaCompactUp.}
+\end{closurestatus}
