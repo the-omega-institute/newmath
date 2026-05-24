@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceFreeRegularCauchyModulusUp$}
+\label{ch:concrete-instances-choice-free-regular-cauchy-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real analysis with explicit moduli, the $\ChoiceFreeRegularCauchyModulusUp$ packet records the finite L10 route by which a regular Cauchy modulus is read from displayed dyadic tolerances and regular rational windows before any Real or Completion consumer sees a seal. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the extraction discipline of \autoref{ch:concrete-instances-cauchymodulusextraction-namecert}. The packet exposes a modulus for displayed requests only; it is not countable choice, a quotient stream equality, a selected limit, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Choice-free regular Cauchy modulus carrier]
+\label{def:choice-free-regular-cauchy-modulus-carrier}
+A $\ChoiceFreeRegularCauchyModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,W,R,E,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, displaying the dyadic precision request, slack conversion, comparison cell, and local radius ledger consumed by the modulus read.
+\item $W$ is the $\StreamNameUp$ finite-window row, displaying exactly the source observations inspected for that tolerance request.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the windows in $W$, exposing the regular rational comparisons used by the modulus claim.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $D,W,R$ and the extracted modulus row have been displayed.
+\item $K$ is the local extraction row, read through the sibling $\CauchyModulusExtractionUp$ surface and recording the displayed unary threshold that serves the request.
+\item $H$ records componentwise $\hsame$ transport for the dyadic tolerance, window, readback, Real seal, extraction row, continuation route, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion tolerance request through $D,W,R,K,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\ChoiceFreeRegularCauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusExtractionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ChoiceFreeRegularCauchyModulusUp}$ row.
+\end{enumerate}
+The no-choice ledger is explicit: the carrier stores no countable-choice functional, no quotient stream representative, no selected limit, no trichotomy oracle, no host real equality test, and no ambient completion principle.
+\end{definition}
+
+\begin{theorem}[Choice-free regular Cauchy modulus obligations]
+\label{thm:choice-free-regular-cauchy-modulus-obligations}
+For every accepted $\ChoiceFreeRegularCauchyModulusUp$ packet
+$$
+M=(D,W,R,E,K,H,C,P,N),
+$$
+the local $\NameCert_{\ChoiceFreeRegularCauchyModulusUp}$ obligations are exactly the following finite rows:
+\begin{enumerate}
+\item carrier admission for the dyadic tolerance row, finite StreamName window, RegSeqRat readback, extracted modulus row, Real seal, transport, replay, provenance, and local naming data;
+\item dyadic tolerance visibility, requiring every modulus request to expose the precision, slack, comparison, and radius data in $D$ before $K$ is read;
+\item finite-window coverage, requiring the source observations used by $K$ to be the displayed windows in $W$;
+\item regular readback stability, requiring the comparison data exported to Real and Completion consumers to pass through the $\RegSeqRatUp$ row $R$ before the terminal seal $E$;
+\item extraction locality, requiring $K$ to be read through the sibling $\CauchyModulusExtractionUp$ surface over the same $D,W,R$ route;
+\item no-choice exhaustion, requiring every accepted consumer to read only $D,W,R,E,K,H,C,P,N$ and therefore to receive no countable choice, quotient stream equality, selected limit, trichotomy, host real equality, or ambient completeness coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:choice-free-regular-cauchy-modulus-carrier}. The packet displays the tolerance request, finite windows, regular rational readback, extraction row, Real seal, and structural rows as one finite $\BHist$ object.
+
+For a modulus request, the dyadic row $D$ is read first. It fixes the requested tolerance and the finite comparison budget available to the consumer. The StreamName row $W$ then fixes the inspected source windows, and $R$ records the regular rational readback from those windows.
+
+The extraction row $K$ is local to that route. It is not a choice functional over all future requests; it records the displayed threshold obtained from the visible $D,W,R$ rows through the $\CauchyModulusExtractionUp$ surface.
+
+Finally the seal row $E$ and the structural rows $H,C,P,N$ transport and replay the same route. Since the no-choice ledger lists every absent coordinate, no countable-choice functional, quotient stream equality, selected limit, trichotomy oracle, host equality test, or ambient completeness principle can be exported by the local NameCert surface.
+\end{proof}
+
+\closureat{ChoiceFreeRegularCauchyModulusUp}{seedStr}
+
+\begin{closurestatus}{\ChoiceFreeRegularCauchyModulusUp}
+  \constructivestory{A $\ChoiceFreeRegularCauchyModulusUp$ packet is generated from a DyadicRatCore tolerance row, StreamName finite windows, RegSeqRat readback, a CauchyModulusExtraction row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-free-regular-cauchy-modulus-carrier} and \autoref{thm:choice-free-regular-cauchy-modulus-obligations} seed the finite no-choice modulus route over dyadic tolerance, window, readback, extraction, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, countable choice, quotient stream equality, selected limits, trichotomy, host real equality, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance visibility, finite-window coverage, regular readback stability, extraction locality, no-choice exhaustion, transport, replay, provenance, and local naming for BEDC.Derived.ChoiceFreeRegularCauchyModulusUp.}
+\end{closurestatus}
