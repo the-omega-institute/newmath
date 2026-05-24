@@ -165,6 +165,57 @@ No second regular-name coordinate appears in the carrier. The rows $Q$ and $T$ a
 Therefore every completion-facing handoff reads $R$ as the unique $\RegSeqRatUp$ row generated from the finite filter-uniform data, before any precompletion or Real-consumer row is exposed.
 \end{proof}
 
+\begin{definition}[CauchySpace local filter carrier]
+\label{def:cauchyspace-local-filter-carrier}
+A $\CauchySpaceUp$ local filter carrier is a finite $\BHist$ subpacket
+$$
+L=(F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0)
+$$
+inside an accepted carrier $S=(F,U,R,Q,T,H,C,P,N)$ such that $F_0$ lists the local $\CauchyFilterUp$ requests, $F_1$ lists their finite meet and tail-stability witnesses, $U_0$ lists the matching $\UniformSpaceUp$ entourage requests, $R_0$ is the $\RegSeqRatUp$ readback row generated from those local requests, $T_0$ is the $\RealUp$ and $\UniformCompletionUp$ consumer handoff, $H_0$ records componentwise $\hsame$ transport for all displayed rows, $C_0$ records the $\Cont$ replay route, $P_0$ records $\Pkg$ provenance, and $N_0$ is the local $\NameCert_{\CauchySpaceUp}$ row.
+\end{definition}
+
+\begin{theorem}[CauchySpace RegSeqRat uniform obligation]
+\label{thm:cauchyspace-regseqrat-uniform-obligation}
+Let $L=(F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0)$ be a $\CauchySpaceUp$ local filter carrier. Every $\RegSeqRatUp$ readback exported by $R_0$ is generated only after the local $\CauchyFilterUp$ rows $F_0,F_1$ and the $\UniformSpaceUp$ row $U_0$ have been transported componentwise by $H_0$ and replayed through $C_0$. The route therefore exposes a regular rational Cauchy name from finite local-filter and uniform-entourage rows, not from quotient completion, selected representatives, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the local filter carrier. The rows $F_0$ and $F_1$ contain the finite filter requests, finite meets, and tail-stability data, while $U_0$ contains the matching uniform-entourage requests.
+
+Transport these rows by the corresponding components of $H_0$. Since $H_0$ is componentwise, it moves the local filter data and uniform data together without adding a second filter object or a second uniform-space object.
+
+Replay the transported route by $C_0$. The regular rational readback $R_0$ is reached only after this replay, so the resulting $\RegSeqRatUp$ row is generated from the displayed local Cauchy and uniform rows.
+
+The remaining rows $T_0,P_0,N_0$ consume, source, and name the same route. None stores a quotient completion, selected representative, choice schedule, host equality test, or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[CauchySpace completion handoff obligation]
+\label{thm:cauchyspace-completion-handoff-obligation}
+For every $\CauchySpaceUp$ local filter carrier $L=(F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0)$, every $\RealUp$ or $\UniformCompletionUp$ consumer named by $T_0$ receives the handoff
+$$
+F_0,F_1,U_0 \longmapsto R_0 \longmapsto T_0
+$$
+through the displayed $\hsame$ and $\Cont$ rows. The consumer receives no quotient-completion object, no selected Cauchy representative, no host real equality, no countable-choice selector, and no ambient completeness theorem from the Cauchy-space packet.
+\end{theorem}
+\begin{proof}
+Begin with the consumer row $T_0$. By \autoref{def:cauchyspace-local-filter-carrier}, $T_0$ is downstream of the local filter rows, the uniform row, and the regular rational readback row.
+
+Use \autoref{thm:cauchyspace-regseqrat-uniform-obligation} to obtain the generated $\RegSeqRatUp$ row $R_0$ from $F_0,F_1,U_0$ after componentwise transport and replay. This places $R_0$ between the local Cauchy-space data and any completion-facing consumer.
+
+The displayed route then passes to $T_0$ and is recorded by $P_0$ and $N_0$. Since the carrier inventory contains no quotient-completion row, selected representative, choice schedule, host equality, or ambient completeness row, the completion handoff remains the finite route shown above.
+\end{proof}
+
+\begin{theorem}[CauchySpace NameCert ledger]
+\label{thm:cauchyspace-namecert-ledger}
+The local $\NameCert_{\CauchySpaceUp}$ ledger for \autoref{def:cauchyspace-local-filter-carrier} consists of the finite $\BHist$ rows $F_0,F_1,U_0,R_0,T_0$, their componentwise $\hsame$ transports $H_0$, their $\Cont$ replay route $C_0$, and their $\Pkg$ provenance $P_0$. Any downstream $\CauchyFilterUp$, $\UniformSpaceUp$, $\RegSeqRatUp$, $\RealUp$, or $\UniformCompletionUp$ read must factor through this ledger before inspecting a completion-facing row.
+\end{theorem}
+\begin{proof}
+Project the local carrier and record its rows in order. The first block, $F_0,F_1,U_0$, is the local Cauchy-filter and uniform-entourage surface; the second block, $R_0,T_0$, is the regular-name and completion-consumer surface.
+
+The transport row $H_0$ and replay row $C_0$ bind the two blocks into one displayed route. Apply \autoref{thm:cauchyspace-regseqrat-uniform-obligation} for the regular-name handoff and \autoref{thm:cauchyspace-completion-handoff-obligation} for the completion handoff.
+
+Finally, $P_0$ and $N_0$ source and name exactly those rows. Thus the ledger contains every permitted read by the listed downstream packets and excludes any hidden quotient, selected representative, host equality, choice, or ambient completeness coordinate.
+\end{proof}
+
 \closureat{CauchySpaceUp}{seedStr}
 
 \begin{closurestatus}{\CauchySpaceUp}
