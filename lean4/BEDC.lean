@@ -2878,6 +2878,7 @@ import BEDC.Derived.FiniteKernelCategoryUp.Carrier
 import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
 import BEDC.Derived.FiniteLebesgueNumberUp
 import BEDC.Derived.FiniteLebesgueNumberUp.BridgePacketExactness
+import BEDC.Derived.FiniteLebesgueNumberUp.CompactConsumerNonchoiceBoundary
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactConsumerRadiusLedgerTotality
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousSourceAccountability
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
