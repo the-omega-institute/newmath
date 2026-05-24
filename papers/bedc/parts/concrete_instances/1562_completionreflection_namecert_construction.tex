@@ -198,6 +198,26 @@ Finally apply \autoref{thm:completionreflection-public-export}. Since the public
 \end{proof}
 \leanchecked{BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_real\_seal\_extension\_coherence}
 
+\begin{theorem}[CompletionReflection regular-source tail reflection]
+\label{thm:completionreflection-regular-source-tail-reflection}
+Let $R=(C,U,H,D,Q,A,S,T,K,P,N)$ be an accepted $\CompletionReflectionUp$ packet whose reflected completion read starts from a regular rational tail window. Then every such read factors through the displayed route
+$$
+\StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp \longrightarrow \RealCauchyCompletionUp \longrightarrow \CompletionUniversalPropertyUp \longrightarrow \HausdorffCompletionUp
+$$
+before it reaches the local $\NameCert_{\CompletionReflectionUp}$ row $N$. The factorization uses the carrier rows $C,D,Q,A,H$, the classifier transport rows $S$, the displayed $\Cont$ routes $T$, package provenance $K,P$, and the local naming row $N$.
+
+No reflected regular-source tail read may replace this route by quotient streams, selected host limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. By \autoref{thm:completionreflection-carrier-scope}, the only regular-source data visible to the packet are the diagonal reflection row $D$, the regular rational source row $Q$, the real-seal row $A$, the Hausdorff boundary row $H$, and the completion construction row $C$.
+
+Apply \autoref{thm:completion-reflection-namecert-obligations}. The local NameCert obligations read $Q$ through the same finite packet surface and route it through the completion construction, universal extension, Hausdorff separated boundary, diagonal reflection, real seal, transport, continuation, provenance, and naming rows.
+
+Next use \autoref{thm:completionreflection-classifier-scope}. Componentwise $\hsame$ transport preserves the regular-source, real-seal, completion-construction, universal-property, and Hausdorff-boundary rows, so the reflected tail read cannot branch into an unlisted completion surface.
+
+Finally apply \autoref{thm:completionreflection-public-export}. The exported packet exposes only $C,U,H,D,Q,A,S,T,K,P,N$, which realizes the displayed $\StreamNameUp$ to $\HausdorffCompletionUp$ route before the local $\NameCert_{\CompletionReflectionUp}$ row. Since quotient streams, selected host limits, host real equality, and ambient completeness are absent from that export, no regular-source tail reflection may read them.
+\end{proof}
+
 \begin{theorem}[CompletionReflection standard bridge boundary]
 \label{thm:completion-reflection-standard-bridge-boundary}
 Let $R=(C,U,H,D,Q,A,S,T,K,P,N)$ be an accepted $\CompletionReflectionUp$ packet. If the carrier row, classifier row, local $\NameCert$ obligations, real-seal boundary, extension-reflection row, consumer scope, provenance-route scope, and public export of $R$ are displayed, then $R$ induces a standard bridge boundary read only through the finite rows already named by this chapter: $\RegSeqRatUp$, $\RealUp$, the real-seal row, classifier row, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row.
