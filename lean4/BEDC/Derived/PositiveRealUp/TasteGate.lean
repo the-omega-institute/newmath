@@ -230,6 +230,29 @@ def PositiveRealCarrier (R A D W Q H C P N : BHist) : Prop :=
     UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
       UnaryHistory N
 
+theorem PositiveRealCarrier_multiplicative_radius_transport
+    {R1 A1 D1 W Q1 H1 C1 P1 N1 R2 A2 D2 Q2 H2 C2 P2 N2 radiusProduct
+      transportedRead : BHist} :
+    PositiveRealCarrier R1 A1 D1 W Q1 H1 C1 P1 N1 →
+      PositiveRealCarrier R2 A2 D2 W Q2 H2 C2 P2 N2 →
+        Cont D1 D2 radiusProduct →
+          Cont radiusProduct W transportedRead →
+            UnaryHistory radiusProduct ∧ UnaryHistory transportedRead ∧
+              Cont D1 D2 radiusProduct ∧ Cont radiusProduct W transportedRead ∧
+                hsame W W := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrierLeft carrierRight radiusRoute transportedRoute
+  obtain ⟨_realLeft, _apartLeft, radiusLeft, windowUnary, _readLeft, _handoffLeft,
+    _certLeft, _pkgLeft, _nameLeft⟩ := carrierLeft
+  obtain ⟨_realRight, _apartRight, radiusRight, _windowRight, _readRight, _handoffRight,
+    _certRight, _pkgRight, _nameRight⟩ := carrierRight
+  have productUnary : UnaryHistory radiusProduct :=
+    unary_cont_closed radiusLeft radiusRight radiusRoute
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed productUnary windowUnary transportedRoute
+  exact
+    ⟨productUnary, transportedUnary, radiusRoute, transportedRoute, hsame_refl W⟩
+
 theorem PositiveRealCarrier_apartness_handoff
     {R A D W Q H C P N apartnessRead : BHist} :
     PositiveRealCarrier R A D W Q H C P N ->

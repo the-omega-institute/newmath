@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalCompactnessUp$}
+\label{ch:concrete-instances-located-interval-compactness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedIntervalCompactnessUp$ packet records the finite-cover compactness step available for a displayed located real interval when the cover has already been reduced to explicit dyadic mesh data. It sits over the located endpoint surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the dyadic rational arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name rows of \autoref{ch:concrete-instances-real-namecert}, the finite-net compact metric surface of \autoref{ch:concrete-instances-compactmetric-namecert}, and the finite refinement route of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}. The packet names only endpoint rows, mesh cells, finite cover rows, refinement witnesses, compact-metric handoff, transport, replay, provenance, and local naming evidence; it is not a general Heine--Borel theorem and does not import arbitrary open-cover compactness.
+
+\begin{definition}[Located interval compactness carrier]
+\label{def:located-interval-compactness-carrier}
+A $\LocatedIntervalCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,E,M,F,W,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedIntervalUp$ source row, exposing the lower and upper endpoint names, rational cell ledger, dyadic endpoint refinements, finite endpoint windows, and the downstream $\RealUp$ seals.
+\item $E$ is the endpoint exposure row that records the two endpoint rows as the boundary read consumed by the finite mesh.
+\item $M$ is the $\DyadicRatCoreUp$ mesh row, listing a finite dyadic subdivision with the endpoint cells and mesh-step witnesses used by the interval packet.
+\item $F$ is the finite cover row, containing only displayed finite cover members indexed by the mesh cells.
+\item $W$ is the refinement witness row, pairing each mesh cell with a retained finite cover member and the displayed inclusion or overlap comparison.
+\item $K$ is the $\CompactMetricUp$ handoff row read after the mesh and finite cover rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the located interval, endpoint exposure, mesh, finite cover, refinement witness, compact-metric handoff, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from endpoint inspection through dyadic mesh construction, finite cover lookup, refinement witness replay, compact-metric handoff, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalCompactnessUp$, $\LocatedIntervalUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CompactMetricUp$, $\FiniteCoverRefinementUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalCompactnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary open cover, selected subcover functional, sequential compactness principle, countable choice, quotient real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located interval compactness carrier exposure]
+\label{thm:located-interval-compactness-carrier}
+For every accepted $\LocatedIntervalCompactnessUp$ packet
+$$
+I=(L,E,M,F,W,K,H,C,P,N),
+$$
+the local certificate exposes exactly the located endpoint rows, the dyadic mesh row, the finite cover row, the refinement witness, the compact-metric handoff, componentwise transport, displayed replay, provenance, and local NameCert rows. Every finite-cover compactness read factors through
+$$
+L\longmapsto E\longmapsto M\longmapsto F\longmapsto W\longmapsto K\longmapsto(H,C,P,N)
+$$
+before any compact-metric or completion-facing consumer can use the packet. The exported route contains no general open-cover compactness theorem, no sequential compactness principle, no choice selector, and no ambient $\RealUp$ completeness field.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-compactness-carrier}. The interval source is the row $L$, and the only endpoint-facing data available to the compactness route are the displayed endpoint rows named by $E$.
+
+The finite construction then proceeds by dyadic mesh induction over $M$. The base cell reads the endpoint exposure row and the corresponding finite cover entry in $F$. The induction step appends the next displayed dyadic cell, reads its cover member from the same finite cover row, and records the retained overlap or inclusion comparison in $W$.
+
+Apply the finite refinement route of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}. The witness row $W$ is the only refinement surface exported to the compact-metric handoff $K$, so a compact-facing consumer receives a finite mesh-and-cover comparison rather than an arbitrary open cover.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same displayed route. Since the carrier has no coordinate for a selected subcover functional, sequential compactness, countable choice, quotient real equality, or ambient $\RealUp$ completeness, none of those principles can be exported by the local certificate.
+\end{proof}
+
+\closureat{LocatedIntervalCompactnessUp}{seedStr}
+\begin{closurestatus}{\LocatedIntervalCompactnessUp}
+  \constructivestory{A $\LocatedIntervalCompactnessUp$ packet is generated from a LocatedIntervalUp endpoint row, an endpoint exposure row, a finite DyadicRatCoreUp mesh, finite cover rows, refinement witnesses, a CompactMetricUp handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-compactness-carrier} and \autoref{thm:located-interval-compactness-carrier} seed the finite located-interval compactness surface over endpoint rows, dyadic mesh rows, finite cover rows, refinement witnesses, compact-metric handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general Heine--Borel compactness, arbitrary open-cover compactness, sequential compactness, choice, quotient real equality, Lean verification, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic mesh induction, finite cover refinement, compact-metric handoff, transport, replay, provenance, and local naming for BEDC.Derived.LocatedIntervalCompactnessUp.}
+\end{closurestatus}
