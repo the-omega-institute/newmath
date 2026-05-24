@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\SuccessiveApproximationUp$}
+\label{ch:concrete-instances-successiveapproximation-namecert}
+\origin{human}
+
+Picard--Banach successive approximation reads an iterated approximation schedule through finite budgets before any completed limit claim is exposed. The $\SuccessiveApproximationUp$ packet sits on the L10 route from the convergence-modulus schedule of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}, the displayed limit handoff of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. It gives contraction, Picard, and fixed-point consumers a finite iteration-budget surface rather than a host limit, countable-choice schedule, quotient sequence equality, or ambient $\RealUp$ completeness principle.
+
+\begin{definition}[Successive approximation carrier]
+\label{def:successive-approximation-carrier}
+A $\SuccessiveApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,D,T,W,Q,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite iteration row, listing the inspected Picard approximants and the displayed application of the step operator at each row;
+\item $D$ is the $\DyadicRatCoreUp$ error-budget ledger attached to the inspected rows;
+\item $T$ is the finite tail schedule that records which iteration indices are compared at each displayed budget;
+\item $W$ is the $\StreamNameUp$ window row used to read each displayed approximant and its successor;
+\item $Q$ is the $\RegSeqRatUp$ readback row for the same windows and dyadic budgets;
+\item $L$ is the $\RealSequenceLimitUp$ handoff row, visible only after $I,D,T,W,Q$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport for iteration rows, budgets, tail schedules, windows, readbacks, and the limit handoff;
+\item $C$ records displayed $\Cont$ replay for consumers of the same finite schedule;
+\item $P$ is the $\Pkg$ provenance over $\SuccessiveApproximationUp$, $\CauchyConvergenceModulusUp$, $\RealSequenceLimitUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SuccessiveApproximationUp}$ row.
+\end{enumerate}
+The packet contains no host sequence limit, no countable-choice selector for tails, no quotient stream equality, no trichotomy split, and no ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Successive approximation NameCert obligations]
+\label{thm:successive-approximation-namecert-obligations}
+For every accepted $\SuccessiveApproximationUp$ carrier $K=(I,D,T,W,Q,L,H,C,P,N)$, the local $\NameCert_{\SuccessiveApproximationUp}$ surface consists exactly of carrier admission for the finite iteration rows, budget-classifier stability through $D,T,W,Q$, convergence-modulus handoff through $\CauchyConvergenceModulusUp$, $\RealSequenceLimitUp$ nonescape through $L$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, local naming through $N$, and refusal of host limits and countable choice. Every fixed-point, Picard, or contraction consumer receives only this displayed schedule before reading a terminal real-facing row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:successive-approximation-carrier}. The iteration row $I$, dyadic budget ledger $D$, tail schedule $T$, finite windows $W$, and regular rational readbacks $Q$ are the only approximation rows available to the packet.
+
+Use the sibling convergence route. The convergence-modulus schedule of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert} consumes the same dyadic budgets and tail rows, while \autoref{ch:concrete-instances-real-sequence-limit-namecert} accepts the resulting limit handoff only after $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks have been displayed.
+
+Finally read the structural rows $H,C,P,N$. They transport, replay, source, and name the same finite schedule, so the packet cannot export a host limit, countable-choice tail selector, quotient sequence equality, trichotomy decision, or ambient completeness witness.
+\end{proof}
+
+\falsifiablePrediction{Every fixed-point consumer of a SuccessiveApproximationUp packet reads a finite iteration budget before any RealSequenceLimitUp handoff is visible.}
+
+\independenceWitness{cauchy-convergence-modulus, real-sequence-limit, regseqrat, streamname, dyadicratcore: SuccessiveApproximationUp is not bijective to any listed sibling because it jointly carries iteration rows, dyadic error budgets, tail schedules, finite windows, readback, limit handoff, transport, replay, provenance, and local naming.}
+
+\closureat{SuccessiveApproximationUp}{seedStr}
+
+\begin{closurestatus}{\SuccessiveApproximationUp}
+  \constructivestory{A $\SuccessiveApproximationUp$ packet is generated from finite Picard iteration rows, dyadic error budgets, tail schedules, StreamName windows, RegSeqRat readbacks, a RealSequenceLimit handoff, transport, replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:successive-approximation-carrier} and \autoref{thm:successive-approximation-namecert-obligations} declare the finite Picard-style iteration-budget surface for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, host limits, countable choice, quotient sequence equality, fixed-point existence, contraction uniqueness, trichotomy, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget classifier stability, convergence-modulus handoff, RealSequenceLimit nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SuccessiveApproximationUp.}
+\end{closurestatus}
