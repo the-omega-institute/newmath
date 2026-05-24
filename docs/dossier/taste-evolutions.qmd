@@ -171,6 +171,8 @@ to case-by-case judgment.
 
 - 2026-05-24T18:15:20Z: `resolved` `add_downstream_user` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_namecert_obligation_certificate` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_namecert_obligation_certificate:e21c0c1b`). Rationale: The certificate is not a trivial wrapper: it constructs the local LipschitzMap SemanticNameCert surface and exports the carrier's unary, continuation, and package rows. I added a sibling completion-facing handoff theorem that explicitly consumes this certificate together with the common-bound completion route, so the local NameCert obligation now feeds a downstream completion consumer. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-05-24T20:57:20Z: `resolved` `add_downstream_user` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_contraction_threshold_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_contraction_threshold_handoff:e21c0c1b`). Rationale: The target carries real LipschitzMap BEDC content: it exposes the contraction-threshold route from the bound ledger through a handoff row, and the paper has a primary marker for it. It was isolated because the adjacent stronger threshold factorization reproved the same handoff surface instead of consuming it. I added a sibling downstream theorem, LipschitzMapCarrier_contraction_threshold_certified_handoff, which uses the flagged theorem directly and upgrades its output into a SemanticNameCert-certified handoff surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
