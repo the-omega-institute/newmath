@@ -1,0 +1,180 @@
+\chapter{A Concrete Naming Certificate for $\DyadicDensityRealEmbeddingComparisonUp$}
+\label{ch:concrete-instances-dyadic-density-real-embedding-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the
+$\DyadicDensityRealEmbeddingComparisonUp$ packet compares the dyadic-density
+route of \autoref{ch:concrete-instances-dyadic-density-real-namecert} with the
+constant dyadic real-name route of
+\autoref{ch:concrete-instances-dyadicembedding-namecert}. It keeps the
+comparison over the finite rows already exposed by
+$\DyadicRatCoreUp$, $\DyadicDensityRealUp$, $\DyadicEmbeddingUp$,
+$\RealDyadicEmbeddingUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+The packet is a naming certificate for route agreement at displayed windows,
+not a construction of host real equality, selected dense points, trichotomy,
+or completeness of $\RealUp$.
+
+\begin{definition}[Dyadic-density real embedding comparison carrier]
+\label{def:dyadic-density-real-embedding-comparison-carrier}
+A $\DyadicDensityRealEmbeddingComparisonUp$ carrier is a finite $\BHist$
+packet
+$$
+K=(D,E,E',S,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicDensityRealUp$ density-witness row whose dyadic
+source is read through the $\DyadicRatCoreUp$ tolerance ledger.
+\item $E$ is the $\DyadicEmbeddingUp$ constant-name route from the same
+dyadic source into a stream, a regular rational readback, and a real seal.
+\item $E'$ is the $\RealDyadicEmbeddingUp$ comparison row that records the
+Real-facing read of the embedded dyadic name at the displayed window.
+\item $S$ is the shared $\StreamNameUp$ finite-window row opened by both the
+density witness and the embedding route.
+\item $R$ is the shared $\RegSeqRatUp$ readback row attached to that window.
+\item $Q$ is the $\RealUp$ seal row consumed by the comparison.
+\item $H$ stores componentwise $\hsame$ transport for the density row,
+embedding rows, stream window, regular readback, real seal, continuation,
+provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from the dyadic source to the
+density witness, from the same source through the embedding route, and from
+the common window-readback pair to the $\RealUp$ seal.
+\item $P$ stores $\Pkg$ provenance for $\DyadicRatCoreUp$,
+$\DyadicDensityRealUp$, $\DyadicEmbeddingUp$, $\RealDyadicEmbeddingUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$,
+and $\NameCert$.
+\item $N$ is the local
+$\NameCert_{\DyadicDensityRealEmbeddingComparisonUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for host real equality, selected dense
+points, trichotomy, quotient stream equality, arbitrary limit choice, or
+ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Dyadic-density real embedding comparison NameCert obligations]
+\label{thm:dyadic-density-real-embedding-comparison-namecert-obligations}
+For every accepted $\DyadicDensityRealEmbeddingComparisonUp$ carrier
+$K=(D,E,E',S,R,Q,H,C,P,N)$, the local
+$\NameCert_{\DyadicDensityRealEmbeddingComparisonUp}$ surface consists of six
+finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the density, embedding, comparison, window,
+readback, real-seal, transport, continuation, provenance, and local naming
+rows;
+\item dyadic-source agreement, stating that the density row $D$ and the
+embedding row $E$ read the same $\DyadicRatCoreUp$ source row;
+\item window agreement, stating that the comparison opens the same
+$\StreamNameUp$ row $S$ for the density read and for the embedded constant
+name;
+\item readback agreement, stating that the shared $\RegSeqRatUp$ row $R$ is
+the only rational readback passed to the $\RealUp$ seal $Q$;
+\item Real-facing comparison, stating that the $\RealDyadicEmbeddingUp$ row
+$E'$ compares only the displayed density route with the displayed embedding
+route at the common finite window;
+\item non-escape, stating that host real equality, selected dense points,
+trichotomy, quotient stream equality, arbitrary limit choice, and ambient
+$\RealUp$ completeness are absent from the carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple lists exactly the density row,
+embedding rows, shared stream window, shared regular readback, real seal,
+transport, continuation, provenance, and local naming rows available to the
+classifier.
+
+Dyadic-source agreement is read from the common $\DyadicRatCoreUp$ source
+named by the density and embedding routes. The carrier has one source ledger
+for the comparison, so the embedded constant name cannot use a separate
+dyadic point.
+
+Window agreement and readback agreement follow from the shared rows $S$ and
+$R$. Both routes must open the same finite $\StreamNameUp$ window and pass the
+same $\RegSeqRatUp$ readback before the $\RealUp$ seal is consumed.
+
+The Real-facing comparison is therefore only the row $E'$. It records
+agreement of the two displayed routes at the common finite read, while the
+transport and continuation rows replay the same packet under componentwise
+$\hsame$.
+
+Finally inspect the carrier inventory. No row names host real equality,
+selected dense points, trichotomy, quotient stream equality, arbitrary limit
+choice, or ambient completeness, so the six rows exhaust the local NameCert
+surface.
+\end{proof}
+
+\begin{theorem}[Dyadic-density real embedding comparison route]
+\label{thm:dyadic-density-real-embedding-comparison-route}
+Every accepted $\DyadicDensityRealEmbeddingComparisonUp$ packet compares the
+density witness route and the constant dyadic embedding route only through the
+finite spine
+$$
+\DyadicRatCoreUp \longrightarrow
+(\DyadicDensityRealUp,\DyadicEmbeddingUp,\RealDyadicEmbeddingUp)
+\longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow
+\RealUp .
+$$
+The comparison is a route equality of displayed certificate rows at a common
+finite window; it does not import host real equality, selected dense points,
+trichotomy, quotient stream equality, arbitrary limit choice, or completeness
+of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet
+$K=(D,E,E',S,R,Q,H,C,P,N)$. The density route begins with the
+$\DyadicDensityRealUp$ row $D$, and the constant-name route begins with the
+$\DyadicEmbeddingUp$ row $E$ over the same dyadic source.
+
+The comparison row $E'$ is downstream of those two rows. It does not add a new
+source; it only records the Real-facing comparison after the shared
+$\StreamNameUp$ window $S$ and the shared $\RegSeqRatUp$ readback $R$ have
+been displayed.
+
+The real seal $Q$ is therefore reached through the same finite read on both
+sides. Componentwise transport $H$, continuation replay $C$, provenance $P$,
+and the local name $N$ preserve the packet as a finite BEDC certificate.
+
+Since the carrier provides no row for host real equality, selected dense
+points, trichotomy, quotient stream equality, arbitrary limit choice, or
+ambient completeness, no consumer can replace this finite comparison by an
+external real-equality or completeness argument.
+\end{proof}
+
+\begin{theorem}[Dyadic-density real embedding comparison non-escape]
+\label{thm:dyadic-density-real-embedding-comparison-nonescape}
+The dependency ledger of an accepted
+$\DyadicDensityRealEmbeddingComparisonUp$ carrier is exhausted by
+$\DyadicRatCoreUp$, $\DyadicDensityRealUp$, $\DyadicEmbeddingUp$,
+$\RealDyadicEmbeddingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No accepted comparison
+consumer may add host real equality, a selected dense point, trichotomy,
+quotient stream equality, arbitrary limit choice, or ambient $\RealUp$
+completeness as an implicit dependency.
+\end{theorem}
+\begin{proof}
+Project the package row $P$ and the local naming row $N$. They list exactly
+the finite dependency rows displayed in
+\autoref{def:dyadic-density-real-embedding-comparison-carrier}.
+
+Apply
+\autoref{thm:dyadic-density-real-embedding-comparison-namecert-obligations}
+for carrier admission, source agreement, window agreement, readback
+agreement, Real-facing comparison, and non-escape. Then use
+\autoref{thm:dyadic-density-real-embedding-comparison-route} to identify the
+only comparison spine consumed by downstream Real-facing readers.
+
+No coordinate remains that could carry an external equality test, a chosen
+dense point, a trichotomy decision, a quotient-stream equality proof, an
+arbitrary limit choice, or a completeness principle. Each such object would
+therefore be an off-packet dependency, not a row of the accepted comparison
+certificate.
+\end{proof}
+
+\begin{closurestatus}{\DyadicDensityRealEmbeddingComparisonUp}
+  \constructivestory{A $\DyadicDensityRealEmbeddingComparisonUp$ packet is generated from a DyadicDensityReal density row, a DyadicEmbedding constant-name route, a RealDyadicEmbedding comparison row, shared StreamName and RegSeqRat reads, a Real seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-density-real-embedding-comparison-carrier}, \autoref{thm:dyadic-density-real-embedding-comparison-namecert-obligations}, \autoref{thm:dyadic-density-real-embedding-comparison-route}, and \autoref{thm:dyadic-density-real-embedding-comparison-nonescape} seed the finite comparison packet over dyadic density and dyadic real embedding rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real equality, selected dense points, trichotomy, quotient stream equality, arbitrary limit choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source agreement, shared-window agreement, shared-readback agreement, Real-facing comparison, and non-escape for the same finite comparison packet.}
+\end{closurestatus}
