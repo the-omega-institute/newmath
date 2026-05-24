@@ -1477,6 +1477,7 @@ import BEDC.Derived.CertificateCompilerUp.RootLandingConsumerDeterminacy
 import BEDC.Derived.CertificateCompilerUp.RouteCategoryBoundary
 import BEDC.Derived.CertificateCompilerUp.RouteReplayScope
 import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
+import BEDC.Derived.CertificateCompilerUp.TargetEndpointConsumerDeterminacy
 import BEDC.Derived.CertificateCompilerUp.TripleCompositeAssociativity
 import BEDC.Derived.CertificateTruthBranchBoundaryUp
 import BEDC.Derived.CertificateTruthBranchBoundaryUp.TasteGate
@@ -2962,6 +2963,7 @@ import BEDC.Derived.FilterRefinementUp.TasteGate
 import BEDC.Derived.FilterUp
 import BEDC.Derived.FilteredCauchyCompletionUp.TasteGate
 import BEDC.Derived.FiniteBracketingIntervalUp.TasteGate
+import BEDC.Derived.FiniteBranchingCauchyTreeUp.TasteGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonNetUp.TasteGate
@@ -5628,6 +5630,7 @@ import BEDC.Derived.TheoryTransitionCertificateUp.NameCert
 import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
 import BEDC.Derived.ToeplitzLemmaUp.TasteGate
 import BEDC.Derived.TopGroupUp
