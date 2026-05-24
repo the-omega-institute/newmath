@@ -38,10 +38,12 @@ namespace BEDC.Derived.SecondCountableUp
 
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -231,5 +233,67 @@ theorem SecondCountableCarrier_namecert_obligations [AskSetup] [PackageSetup]
     exact source
   · intro _row source
     exact source
+
+theorem SecondCountableCarrier_metric_base_handoff [AskSetup] [PackageSetup]
+    {source topology metric base dyadic stream realSeal transport replay provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.SecondCountableUp source topology metric base dyadic stream realSeal transport
+        replay provenance localName bundle pkg ->
+      UnaryHistory metric ∧ UnaryHistory dyadic ∧ UnaryHistory stream ∧
+        UnaryHistory topology ∧ UnaryHistory realSeal ∧ Cont metric dyadic stream ∧
+          Cont stream topology realSeal ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier
+  cases carrier with
+  | intro _sourceUnary restTopology =>
+      cases restTopology with
+      | intro topologyUnary restMetric =>
+          cases restMetric with
+          | intro metricUnary restBase =>
+              cases restBase with
+              | intro _baseUnary restDyadic =>
+                  cases restDyadic with
+                  | intro dyadicUnary restStream =>
+                      cases restStream with
+                      | intro streamUnary restRealSeal =>
+                          cases restRealSeal with
+                          | intro realSealUnary restTransport =>
+                              cases restTransport with
+                              | intro _transportUnary restReplay =>
+                                  cases restReplay with
+                                  | intro _replayUnary restProvenance =>
+                                      cases restProvenance with
+                                      | intro _provenanceUnary restLocalName =>
+                                          cases restLocalName with
+                                          | intro _localNameUnary restSourceBase =>
+                                              cases restSourceBase with
+                                              | intro _sourceBaseCont restMetricDyadic =>
+                                                  cases restMetricDyadic with
+                                                  | intro metricDyadicCont restStreamTopology =>
+                                                      cases restStreamTopology with
+                                                      | intro streamTopologyCont restTransportReplay =>
+                                                          cases restTransportReplay with
+                                                          | intro _transportReplayCont restPkg =>
+                                                              cases restPkg with
+                                                              | intro provenancePkg localNamePkg =>
+                                                                  constructor
+                                                                  · exact metricUnary
+                                                                  · constructor
+                                                                    · exact dyadicUnary
+                                                                    · constructor
+                                                                      · exact streamUnary
+                                                                      · constructor
+                                                                        · exact topologyUnary
+                                                                        · constructor
+                                                                          · exact realSealUnary
+                                                                          · constructor
+                                                                            · exact metricDyadicCont
+                                                                            · constructor
+                                                                              · exact streamTopologyCont
+                                                                              · constructor
+                                                                                · exact provenancePkg
+                                                                                · exact localNamePkg
 
 end BEDC.Derived.SecondCountableUp
