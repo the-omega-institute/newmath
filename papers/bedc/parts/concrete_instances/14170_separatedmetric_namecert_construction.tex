@@ -454,6 +454,46 @@ For the zero-distance branch, apply \autoref{thm:separatedmetric-root-zero-dista
 Both branches reach the same classifier row $Z$ only after $D$ has been read and after $H,C,P,N$ have transported and named the displayed route. The carrier contains no independent Real-completeness or quotient-equality coordinate, so the Real seal remains a dependency boundary.
 \end{proof}
 
+\begin{theorem}[SeparatedMetric root classifier transport obligation]
+\label{thm:separatedmetric-root-classifier-transport-obligation}
+Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ carrier. The root classifier transport obligation has exactly the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface displayed by $H,C,P,N$: any transported classifier read must first expose the carrier row of \autoref{def:separatedmetric-carrier}, the zero-distance dependency of \autoref{thm:separatedmetric-root-zero-distance-dependency}, the completion-equivalence dependency of \autoref{thm:separatedmetric-root-completion-equivalence-dependency}, and the Real-seal dependency of \autoref{thm:separatedmetric-root-real-seal-dependency}.
+
+Consequently the classifier cannot be transported by host equality, quotient metric equality, selected completion representatives, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The classifier coordinate $Z$ is not a free equality row; it is downstream of the metric source $X$, the zero-distance row $D$, the completion route $E$ when completion rows are read, and the support rows $H,C,P,N$.
+
+Use \autoref{thm:separatedmetric-root-zero-distance-dependency} for the pure metric branch and \autoref{thm:separatedmetric-root-completion-equivalence-dependency} for the completion branch. Both branches pass through the same zero-distance classifier route before the separated classifier is exposed.
+
+Finally apply \autoref{thm:separatedmetric-root-real-seal-dependency}. Since the $\RealUp$ row remains a seal inside the displayed route, transport through $\hsame$ and replay through $\Cont$ can rename only the finite $\BHist$ rows already packaged by $P,N$.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric root completion readback obligation]
+\label{thm:separatedmetric-root-completion-readback-obligation}
+For every accepted $\SeparatedMetricUp$ carrier $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$, a completion-facing readback of the separated classifier must pass through the displayed $\CompleteMetricUp$ rows $L_0,L_1$, the $\CauchySequenceEquivalenceUp$ dependency $E$, the zero-distance dependency row, and the $\RealUp$ seal before $H,C,P,N$ name it as a $\BHist$ and $\NameCert$ obligation.
+
+The readback does not export quotient completion equality, a selected limit representative, host limit equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier inventory in \autoref{def:separatedmetric-carrier}. The only completion rows available to a consumer are $L_0,L_1$ and the displayed equivalence route $E$.
+
+Apply \autoref{thm:separatedmetric-root-completion-equivalence-dependency}. It forces completion-facing comparison through $E$ before the zero-distance and classifier rows can be read.
+
+Then use \autoref{thm:separatedmetric-root-classifier-transport-obligation}. The readback is transported only by $H$ and replayed only by $C$, while $P,N$ package the same route as a local NameCert row, so no completion quotient or selected representative is exposed.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric root Real-seal nonescape obligation]
+\label{thm:separatedmetric-root-real-seal-nonescape-obligation}
+Every Real-facing root obligation of an accepted $\SeparatedMetricUp$ carrier is exhausted by the finite route through the carrier, the zero-distance dependency row, the completion-equivalence dependency row when present, the $\RealUp$ seal, and the support surface $\BHist,\hsame,\Cont,\Pkg,\NameCert$. The Real seal is therefore a boundary row for the separated classifier, not a source of quotient real equality, quotient completion equality, trichotomy, selected representatives, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:separatedmetric-root-real-seal-dependency}. It places the Real row after the metric-distance witness in the zero-distance branch and after the completion-equivalence handoff in the completion branch.
+
+For the zero-distance route, apply \autoref{thm:separatedmetric-root-zero-distance-dependency}. For the completion route, apply \autoref{thm:separatedmetric-root-completion-readback-obligation}. These two rows cover the only classifier-facing branches present in \autoref{def:separatedmetric-carrier}.
+
+The rows $H,C,P,N$ then transport, replay, source, and name the same finite route. Since the carrier contains no coordinate for the excluded host principles, the Real seal cannot escape its displayed obligation boundary.
+\end{proof}
+
 \begin{theorem}[SeparatedMetric public identity export]
 \label{thm:separatedmetric-public-identity-export}
 Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ carrier. Every public identity consumer that asks when two displayed points of $X$ are identified must read the metric-distance witness through $D$, the $\RealUp$ zero seal, and the separation classifier $Z$ before exposing an identity claim. The exported claim is exactly the zero-distance route of \autoref{thm:separatedmetric-kernel-zero-distance-obligation}; it carries no host equality, quotient equality, selected representative, trichotomy row, or ambient completeness principle.
