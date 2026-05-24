@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\BishopCompletionCriterionUp$}
+\label{ch:concrete-instances-bishop-completion-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\BishopCompletionCriterionUp$ packet records the explicit criterion by which a displayed regular Cauchy route is allowed to enter a completion boundary without quotienting names or selecting limits. It sits between the modulus schedule of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the metric completion packet of \autoref{ch:concrete-instances-metriccompletion-namecert}, the uniform completion packet of \autoref{ch:concrete-instances-uniformcompletion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert criterion for completion consumers; it is not a quotient-completion construction, not a selected-representative principle, not countable choice, not open-cover compactness, and not an ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[Bishop completion criterion carrier]
+\label{def:bishop-completion-criterion-carrier}
+A $\BishopCompletionCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,W,R,K,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyConvergenceModulusUp$ row recording the explicit tail schedule inspected by the criterion.
+\item $W$ is the $\StreamNameUp$ finite-window row through which source observations are read at the displayed precision requests.
+\item $R$ is the $\RegSeqRatUp$ readback row extracted from the same windows and tolerance schedule.
+\item $K$ is the $\MetricCompletionUp$ handoff row reached after $M,W,R$ have been displayed.
+\item $U$ is the $\UniformCompletionUp$ handoff row reached by the same finite completion route.
+\item $E$ is the $\RealUp$ seal boundary for Real-facing consumers of the criterion.
+\item $H$ records componentwise $\hsame$ transport for the modulus schedule, stream windows, regular readback, metric and uniform completion handoffs, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through $M,W,R,K,U,E$.
+\item $P$ is the $\Pkg$ provenance over $\BishopCompletionCriterionUp$, $\CauchyConvergenceModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\MetricCompletionUp$, $\UniformCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCompletionCriterionUp}$ row naming the displayed criterion and its permitted consumer reads.
+\end{enumerate}
+The classifier compares accepted packets only through these rows and their replay paths. It has no coordinate for quotient limits, selected representatives, countable choice, open-cover compactness, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop completion criterion NameCert obligations]
+\label{thm:bishop-completion-criterion-namecert-obligations}
+For every accepted $\BishopCompletionCriterionUp$ carrier $B=(M,W,R,K,U,E,H,C,P,N)$, the local $\NameCert_{\BishopCompletionCriterionUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed modulus schedule, stream windows, regular rational readback, metric-completion handoff, uniform-completion handoff, Real seal, transport, continuation replay, provenance, and local naming row;
+\item explicit Cauchy-modulus exposure, requiring $M$ to be read before any completion boundary $K$ or $U$ is available;
+\item finite $\StreamNameUp$ and $\RegSeqRatUp$ readback, requiring every completion-facing observation to pass through $W$ and then $R$ at the displayed precision requests;
+\item completion-seal handoff, requiring $K$, $U$, and $E$ to remain downstream of $M,W,R$ and upstream only of the structural rows $H,C,P,N$;
+\item ledger non-escape, refusing quotient limits, selected representatives, countable choice, open-cover compactness, host real equality, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is tuple projection from \autoref{def:bishop-completion-criterion-carrier}. The accepted packet displays exactly $M,W,R,K,U,E,H,C,P,N$.
+
+The analytic route first reads the explicit modulus schedule $M$, then the finite windows $W$, and then the regular rational readback $R$. The completion rows $K$ and $U$ and the Real seal $E$ are downstream of that displayed route.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite criterion. Since quotient limits, selected representatives, countable choice, open-cover compactness, host real equality, and ambient $\RealUp$ completeness have no carrier row, none can be exported by the local NameCert surface.
+\end{proof}
+
+\closureat{BishopCompletionCriterionUp}{seedStr}
+
+\begin{closurestatus}{\BishopCompletionCriterionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-completion-criterion-carrier} and \autoref{thm:bishop-completion-criterion-namecert-obligations} seed the finite Bishop completion criterion route from explicit Cauchy moduli through StreamName, RegSeqRat, MetricCompletion, UniformCompletion, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient completion, selected limits, countable choice, open-cover compactness, host real equality, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, explicit modulus exposure, finite StreamName and RegSeqRat readback, completion-seal handoff, and ledger non-escape for BEDC.Derived.BishopCompletionCriterionUp.}
+  \constructivestory{A $\BishopCompletionCriterionUp$ packet is generated from a CauchyConvergenceModulus tail schedule, finite StreamName windows, RegSeqRat readback, MetricCompletion and UniformCompletion handoffs, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
