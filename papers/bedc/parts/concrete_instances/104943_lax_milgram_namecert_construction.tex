@@ -59,6 +59,24 @@ The Sobolev and Hilbert dependencies identify the domain surface, while the bili
 It remains to inspect the handoff. The row $S$ is available only as the variational response named by $B(S,v)=F(v)$ for displayed tests $v$. Since no other solution coordinate is present in the carrier, the listed selector, quotient, inverse, compactness, and ambient PDE objects cannot be exported.
 \end{proof}
 
+\begin{theorem}[Lax-Milgram energy-minimizer handoff]
+\label{thm:lax-milgram-energy-minimizer-handoff}
+An accepted $\LaxMilgramUp$ packet exposes its variational solution row as an energy-minimizer handoff only through the Hilbert/Sobolev domain row of \autoref{ch:concrete-instances-hilbert-namecert} and \autoref{ch:concrete-instances-sobolev-namecert}, the $\BilinFormUp$ coercive pairing row of \autoref{ch:concrete-instances-bilinform-namecert}, and the $\BoundedLinearOperatorUp$ functional row of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}. The handoff is the finite route
+$$
+H\longmapsto B\longmapsto F\longmapsto C\longmapsto S ,
+$$
+with $T,P,N$ preserving transport, replay, provenance, and local naming. It exports no selected inverse operator, no quotient representative of a solution class, and no ambient PDE existence theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lax-milgram-carrier}. The only domain coordinate is $H$, so an energy read starts from the Hilbert row and, for weak-form consumers, the Sobolev ledger named by the sibling chapters.
+
+The energy pairing is then forced through $B$ and $C$. The bilinear-form sibling supplies the coercive pairing row, while the constant ledger records the displayed boundedness and coercivity data. No inverse operator is stored in these rows.
+
+The forcing term is the row $F$ supplied through the bounded-linear-operator surface. The variational response row $S$ can therefore be read as an energy-minimizer handoff only after the domain, pairing, constant, and functional rows have been displayed.
+
+Finally $T,P,N$ transport, source, and name the same finite route. Since the carrier has no coordinate for a selected inverse operator, quotient representative, or ambient PDE existence theorem, none of those objects can be exported by the handoff.
+\end{proof}
+
 \closureat{LaxMilgramUp}{seedStr}
 
 \begin{closurestatus}{\LaxMilgramUp}
