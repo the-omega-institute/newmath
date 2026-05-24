@@ -179,6 +179,24 @@ Separated comparison is performed at $S$. The separated-limit uniqueness theorem
 Since no carrier coordinate stores quotient equality or a selected representative, the filter-net comparison is exhausted by the listed rows.
 \end{proof}
 
+\begin{theorem}[MetricCompletion source-branch readback]
+\label{thm:metric-completion-source-branch-readback}
+Every accepted $\MetricCompletionUp$ read factors through the common source metric row $X$, exactly one displayed Cauchy branch $F$ or $D$, the finite $\RegSeqRatUp$ or $\RealUp$ readback row $R$, the separatedness row $S$, and the structural rows $H,C,P,N$. In carrier notation the route is
+$$
+X,(F\ \text{or}\ D),R,S,H,C,P,N .
+$$
+The readback cannot be replaced by quotient completion equality, selected representatives, countable choice, open-cover compactness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-completion-carrier}. The visible source row is $X$, the only Cauchy evidence rows are the filter branch $F$ and the net branch $D$, and the only numerical readback coordinate is $R$.
+
+Use branch coverage from \autoref{thm:metric-completion-branch-coverage}. A completion-facing request must choose one of the displayed branches before it can read the finite $\RegSeqRatUp$ or $\RealUp$ row.
+
+Use filter-net compatibility from \autoref{thm:metric-completion-filter-net-compatibility}. It keeps the selected branch attached to the same source metric, the same readback row, the same separatedness row, and the same transport, replay, provenance, and naming route.
+
+Finally apply the finite-readback ledger non-escape theorem, \autoref{thm:metric-completion-finite-readback-ledger-nonescape}. Since quotient equality, selected representatives, countable choice, open-cover compactness, and ambient $\RealUp$ completeness have no coordinate in the packet, no source-branch readback can be replaced by any of those objects.
+\end{proof}
+
 \begin{theorem}[MetricCompletion filter-net branch exhaustion]
 \label{thm:metric-completion-filter-net-branch-exhaustion}
 For an accepted $\MetricCompletionUp$ carrier $M=(X,F,D,R,S,H,C,P,N)$, every completion-facing consumer reads exactly one of the displayed Cauchy evidence branches before readback: either the $\CauchyFilterUp$ branch $F$ or the $\CauchyNetUp$ branch $D$. The remaining rows $R,S,H,C,P,N$ can transport, replay, compare, package, and name the selected route, but they cannot introduce a third completion evidence route.
@@ -526,6 +544,48 @@ Next use separated-limit uniqueness, \autoref{thm:metric-completion-separated-li
 The uniform handoff theorem \autoref{thm:metric-completion-uniform-completion-handoff} then exports only the same branch, readback, separatedness, transport, replay, provenance, and naming rows. Downstream consumers therefore see the ledger already present in $M$.
 
 Since quotient completions, representative selectors, countable-choice schedules, open-cover compactness, ambient complete metric spaces, and $\RealUp$ completeness are absent from the carrier tuple, no root ledger read can escape to those objects.
+\end{proof}
+
+\begin{theorem}[MetricCompletion Cauchy-filter scope lock]
+\label{thm:metriccompletion-filter-scope-lock}
+For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$ whose selected branch is the $\CauchyFilterUp$ row $F$, every root-unblock read of the filter branch is confined to $\BHist$ provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, the package row $\Pkg$, and the local $\NameCert_{\MetricCompletionUp}$ ledger before it may cite \autoref{ch:concrete-instances-cauchyfilter-namecert}. The read exports no Cauchy-net conversion, quotient completion, selected representative, selected limit, host equality, countable-choice schedule, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{thm:metriccompletion-root-obligation-carrier}. On the filter branch, the only Cauchy evidence exposed to a root consumer is $F$ together with the history row carried by $P,N$.
+
+Transport is componentwise. The $\hsame$ rows in $H$ preserve the displayed metric source, the selected filter branch, the finite readback row $R$, and the separated comparison row $S$ without adding a branch conversion.
+
+Replay is likewise local. The $\Cont$ row $C$ routes the same request through $F$ and then through the finite readback and separatedness rows, after which the package and naming rows supply the ledger used by \autoref{ch:concrete-instances-cauchyfilter-namecert}.
+
+Since the tuple contains no coordinate for a net conversion, quotient carrier, representative selector, selected limit, host equality row, countable-choice schedule, or ambient completeness witness, the filter branch remains locked to that finite scope.
+\end{proof}
+
+\begin{theorem}[MetricCompletion Cauchy-net scope lock]
+\label{thm:metriccompletion-net-scope-lock}
+For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$ whose selected branch is the $\CauchyNetUp$ row $D$, every root-unblock read of the net branch is confined to $\BHist$ provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, the package row $\Pkg$, and the local $\NameCert_{\MetricCompletionUp}$ ledger before it may cite \autoref{ch:concrete-instances-cauchynet-namecert}. The read exports no filter selector, quotient completion, selected representative, selected limit, host equality, countable-choice schedule, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the root classifier obligation \autoref{thm:metriccompletion-root-obligation-classifier}. The net branch is compared by the displayed row $D$ and by the same finite readback, separatedness, transport, replay, package, and naming rows used by the packet.
+
+The $\hsame$ rows in $H$ move the net presentation componentwise. They do not choose a filter, a subnet, a limit representative, or a host equality witness.
+
+The $\Cont$ replay row $C$ then routes the accepted request through $D$, $R$, and $S$ before the ledger rows $P,N$ are opened. This is the only route available to the citation of \autoref{ch:concrete-instances-cauchynet-namecert}.
+
+Thus a root-unblock consumer can read the net branch only through the finite kernel surface already present in $M$. Filter selection, quotient completion, selected representatives, selected limits, countable-choice schedules, host equality, and ambient completeness remain outside the packet.
+\end{proof}
+
+\begin{theorem}[MetricCompletion Real-seal scope lock]
+\label{thm:metriccompletion-real-seal-scope-lock}
+Every $\RealUp$ or $\RegSeqRatUp$ handoff exported by an accepted $\MetricCompletionUp$ packet factors through the selected Cauchy branch, the finite readback row $R$, the separated comparison row $S$, and the structural rows $H,C,P,N$ before it may cite \autoref{ch:concrete-instances-regseqrat-namecert} or \autoref{ch:concrete-instances-real-namecert}. The handoff refuses quotient completion, quotient stream equality, selected representatives, selected limits, host equality, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metriccompletion-root-obligation-ledger}. It places every root ledger read after the selected Cauchy branch and before any downstream completion-facing endpoint.
+
+The finite readback row $R$ is the only numerical coordinate. If $R$ is a $\RegSeqRatUp$ row, the handoff cites \autoref{ch:concrete-instances-regseqrat-namecert}; if $R$ is a $\RealUp$ seal row, the handoff cites \autoref{ch:concrete-instances-real-namecert}.
+
+Separated comparison then passes through $S$, while $H,C,P,N$ preserve transport, replay, provenance, and local naming. None of these rows changes the finite readback into a quotient carrier or a selected representative.
+
+Consequently the Real-seal route is locked to the displayed branch and readback rows. Quotient completion, quotient stream equality, selected representatives, selected limits, host equality, countable choice, and ambient $\RealUp$ completeness are not exported.
 \end{proof}
 
 \begin{theorem}[MetricCompletion root carrier witness obligation]
