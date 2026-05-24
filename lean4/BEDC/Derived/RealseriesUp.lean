@@ -40,4 +40,32 @@ theorem RealSeriesRootProductTailBudget [AskSetup] [PackageSetup]
     ⟨partialUnary, windowUnary, budgetUnary, readbackUnary, dyadicUnary, thresholdUnary,
       partialWindowBudget, readbackDyadicThreshold, provenancePkg, budgetPkg⟩
 
+theorem RealSeries_uniform_cauchy_obligation [AskSetup] [PackageSetup]
+    {term «partial» window readback dyadic threshold transport replay provenance cert
+      uniformTail uniformSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSeriesRootCauchyProductSurface term «partial» window readback dyadic threshold
+        transport replay provenance cert bundle pkg →
+      Cont «partial» window uniformTail →
+        Cont uniformTail dyadic uniformSeal →
+          PkgSig bundle uniformSeal pkg →
+            UnaryHistory term ∧ UnaryHistory «partial» ∧ UnaryHistory window ∧
+              UnaryHistory uniformTail ∧ UnaryHistory dyadic ∧ UnaryHistory uniformSeal ∧
+                Cont «partial» window uniformTail ∧ Cont uniformTail dyadic uniformSeal ∧
+                  Cont readback dyadic threshold ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle uniformSeal pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier partialWindowTail tailDyadicSeal uniformSealPkg
+  obtain ⟨termUnary, partialUnary, windowUnary, readbackUnary, dyadicUnary,
+    _thresholdUnary, _transportUnary, _replayUnary, _provenanceUnary, _certUnary,
+    readbackDyadicThreshold, provenancePkg⟩ := carrier
+  have uniformTailUnary : UnaryHistory uniformTail :=
+    unary_cont_closed partialUnary windowUnary partialWindowTail
+  have uniformSealUnary : UnaryHistory uniformSeal :=
+    unary_cont_closed uniformTailUnary dyadicUnary tailDyadicSeal
+  exact
+    ⟨termUnary, partialUnary, windowUnary, uniformTailUnary, dyadicUnary, uniformSealUnary,
+      partialWindowTail, tailDyadicSeal, readbackDyadicThreshold, provenancePkg,
+      uniformSealPkg⟩
+
 end BEDC.Derived.RealseriesUp
