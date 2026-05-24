@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RealUniformTailComparisonUp$}
+\label{ch:concrete-instances-real-uniform-tail-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive real sequence/tail-modulus discipline, the $\RealUniformTailComparisonUp$ packet records a finite uniform comparison surface for two inspected real-sequence tails. It sits between the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window route of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the sequence-limit consumer of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, and the limsup-facing envelope of \autoref{ch:concrete-instances-limsup-namecert}. The packet supplies a named L10 boundary for consumers that compare two tails under one displayed tolerance budget; it does not choose a limit, quotient streams, decide trichotomy, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Real uniform tail comparison carrier]
+\label{def:real-uniform-tail-comparison-carrier}
+A $\RealUniformTailComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S_A,S_B,W_A,W_B,Q_A,Q_B,D,T,L,\Lambda,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_A$ and $S_B$ are the two real-sequence source rows whose tails are compared.
+\item $W_A$ and $W_B$ are the $\StreamNameUp$ finite-window rows exposed for the two inspected tails.
+\item $Q_A$ and $Q_B$ are the $\RegSeqRatUp$ regular rational readback rows attached to those windows.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger used by every comparison request.
+\item $T$ is the finite tail-budget row naming the common index floor and precision request.
+\item $L$ is the $\RealSequenceLimitUp$ consumer row that may read the comparison only after the windows, readbacks, ledger, and tail budget have been displayed.
+\item $\Lambda$ is the $\mathsf{Limsup}^{\uparrow}$ consumer row that may read the same comparison as an upper-tail envelope without selecting a subsequential limit.
+\item $H$ records componentwise $\hsame$ transport for the two source routes, the shared ledger, the tail budget, and the two consumer rows.
+\item $C$ records displayed $\Cont$ replay from a tail-comparison request through the windows, regular readbacks, dyadic ledger, tail budget, sequence-limit row, and limsup row.
+\item $P$ is the $\Pkg$ provenance over $\RealUniformTailComparisonUp$, $\RealUp$, $\RealSequenceLimitUp$, $\mathsf{Limsup}^{\uparrow}$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealUniformTailComparisonUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for quotient stream equality, a selected limiting representative, countable choice, trichotomy of real names, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real uniform tail comparison NameCert obligations]
+\label{thm:real-uniform-tail-comparison-namecert-obligations}
+The seed $\NameCert_{\RealUniformTailComparisonUp}$ surface for \autoref{def:real-uniform-tail-comparison-carrier} consists exactly of source exposure for $S_A,S_B$, finite-window exposure for $W_A,W_B$, regular readback exposure for $Q_A,Q_B$, shared dyadic tolerance exposure for $D$, common tail-budget exposure for $T$, sequence-limit handoff through $L$, limsup handoff through $\Lambda$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $U=(S_A,S_B,W_A,W_B,Q_A,Q_B,D,T,L,\Lambda,H,C,P,N)$. The comparison route is finite: a request reads the two source rows, the two StreamName windows, the two regular rational readbacks, the shared dyadic tolerance ledger, and the common tail budget before it reaches either consumer row.
+
+The structural rows preserve that same route. Componentwise $\hsame$ transport keeps the two tail presentations and the shared ledger in their displayed sibling surfaces, while $\Cont$ replay records the order in which the request reaches the sequence-limit and limsup consumers.
+
+No excluded object is a row of the carrier. Therefore the listed rows exhaust the seed NameCert obligations for the uniform tail-comparison packet.
+\end{proof}
+
+\begin{theorem}[Real uniform tail comparison RegSeqRat handoff]
+\label{thm:real-uniform-tail-comparison-regseqrat-handoff}
+Every $\RealSequenceLimitUp$ or $\mathsf{Limsup}^{\uparrow}$ consumer of an accepted $\RealUniformTailComparisonUp$ packet must read the two $\RegSeqRatUp$ rows $Q_A,Q_B$ through the displayed windows $W_A,W_B$ and the shared dyadic ledger $D$ before using the common tail budget $T$. The handoff exports a finite comparison of regular rational tails; it does not export quotient stream equality, a selected limit, countable choice, trichotomy, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The two regular rational readbacks $Q_A,Q_B$ are attached to the two finite window rows $W_A,W_B$, and both sides share the single dyadic tolerance ledger $D$.
+
+The common tail-budget row $T$ is displayed after those rows. Hence a sequence-limit or limsup consumer cannot inspect the comparison budget before the two regular rational tail presentations and their shared tolerance surface are available.
+
+The remaining rows $H,C,P,N$ transport, replay, package, and name this same finite route. They add no quotient stream, selected limit, choice operator, trichotomy decision, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Real uniform tail comparison real-seal boundary]
+\label{thm:real-uniform-tail-comparison-real-seal-boundary}
+Every real-facing read exported by an accepted $\RealUniformTailComparisonUp$ packet factors through the displayed source rows, StreamName windows, RegSeqRat readbacks, shared DyadicRatCore ledger, common tail budget, and the two consumer rows $L,\Lambda$ before any $\RealUp$ seal can be used downstream. The packet therefore supplies a boundary for tail comparison under a common tolerance budget, not a proof of selected convergence, quotient equality of streams, real trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The only real-facing rows named by the packet are reached through the displayed sequence-limit and limsup consumers. Those consumers are positioned after $S_A,S_B,W_A,W_B,Q_A,Q_B,D,T$ in the carrier.
+
+Transport and continuation replay preserve that order componentwise. Package provenance and local naming can expose the route, but they cannot insert a hidden real seal or a selected representative before the finite comparison rows.
+
+Thus every downstream $\RealUp$ read is bounded by the displayed tail-comparison route, and the stated nonclaims follow from the absence of the excluded coordinates in the carrier.
+\end{proof}
+
+\closureat{RealUniformTailComparisonUp}{seedStr}
+
+\begin{closurestatus}{\RealUniformTailComparisonUp}
+  \constructivestory{A $\RealUniformTailComparisonUp$ packet is generated from two real-sequence source rows, two StreamName finite-window rows, two RegSeqRat readbacks, one shared DyadicRatCore tolerance ledger, one common tail budget, RealSequenceLimit and Limsup consumer rows, componentwise transport, displayed continuation replay, package provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-uniform-tail-comparison-carrier}, \autoref{thm:real-uniform-tail-comparison-namecert-obligations}, \autoref{thm:real-uniform-tail-comparison-regseqrat-handoff}, and \autoref{thm:real-uniform-tail-comparison-real-seal-boundary} seed the finite L10 tail-comparison route over displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealSequenceLimitUp$, $\mathsf{Limsup}^{\uparrow}$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected limits, quotient streams, real trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, uniform tail-budget exposure, RegSeqRat handoff, real-seal boundary, and consumer nonescape for BEDC.Derived.RealUniformTailComparisonUp.}
+\end{closurestatus}
