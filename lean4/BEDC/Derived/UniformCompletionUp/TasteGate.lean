@@ -322,6 +322,102 @@ theorem UniformCompletion_universal_extension_uniqueness
         ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
           extensionRoute, replayRoute, ledgerRoute⟩
 
+theorem UniformCompletion_universal_ledger_nonescape {F D U E H C P N route : BHist} :
+    UniformCompletionCarrier N →
+      Cont U E route →
+        hsame route H →
+          UniformCompletionLedgerPolicy N ∧
+            UniformCompletionClassifier route H ∧ UniformCompletionCauchyFilterPattern N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro carrier _displayedRoute sameRoute
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    extensionRoute, replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact ⟨P0, N0, sameName, ledgerRoute⟩
+  · constructor
+    · exact sameRoute
+    · exact
+        ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+          extensionRoute, replayRoute, ledgerRoute⟩
+
+theorem UniformCompletion_real_regseqrat_handoff {F D U E H C P N realRead : BHist} :
+    UniformCompletionCarrier N →
+      Cont P realRead N →
+        hsame realRead P →
+          UniformCompletionCauchyFilterPattern N ∧
+            UniformCompletionLedgerPolicy N ∧
+              hsame (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist N)) N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro carrier _realRoute _sameRead
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    extensionRoute, replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact
+      ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+        extensionRoute, replayRoute, ledgerRoute⟩
+  · constructor
+    · exact ⟨P0, N0, sameName, ledgerRoute⟩
+    · exact uniformCompletionDecode_encode_bhist N
+
+theorem UniformCompletion_ledger_nonescape [AskSetup] [PackageSetup]
+    {F D U E H C P N ledgerRead extensionRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCompletionCarrier N →
+      Cont F D ledgerRead →
+        Cont U E extensionRead →
+          Cont ledgerRead extensionRead exportRead →
+            PkgSig bundle exportRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row exportRead ∧ UniformCompletionCarrier N)
+                  (fun row : BHist =>
+                    hsame row F ∨ hsame row D ∨ hsame row U ∨ hsame row E ∨
+                      hsame row exportRead)
+                  (fun row : BHist => hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+                  UniformCompletionClassifier ∧
+                UniformCompletionLedgerPolicy N ∧
+                  UniformCompletionCauchyFilterPattern N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle PkgSig SemanticNameCert
+  intro carrier ledgerRoute extensionRoute exportRoute exportPkg
+  have carrierPacket : UniformCompletionCarrier N := carrier
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    carrierExtensionRoute, replayRoute, carrierLedgerRoute⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exportRead ∧ UniformCompletionCarrier N)
+          (fun row : BHist =>
+            hsame row F ∨ hsame row D ∨ hsame row U ∨ hsame row E ∨
+              hsame row exportRead)
+          (fun row : BHist => hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+          UniformCompletionClassifier := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro exportRead ⟨hsame_refl exportRead, carrierPacket⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, exportPkg⟩
+    }
+  exact
+    ⟨cert,
+      ⟨P0, N0, sameName, carrierLedgerRoute⟩,
+      ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+        carrierExtensionRoute, replayRoute, carrierLedgerRoute⟩⟩
+
 def taste_gate : ChapterTasteGate UniformCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   BEDC.Derived.UniformCompletionUp.taste_gate
