@@ -485,4 +485,154 @@ theorem IntermediateValueCarrier_bisection_convergence_handoff [AskSetup] [Packa
           (And.intro bisectionLedgerRoute
             (And.intro convergenceRoute (And.intro consumerRoute consumerPkg)))))
 
+theorem IntermediateValueCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {locatedInterval endpointNegative endpointPositive continuousMap modulusBudget
+      bisectionLedger nestedWindow realSeal transports routes provenance localNameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntermediateValueCarrier locatedInterval endpointNegative endpointPositive continuousMap
+        modulusBudget bisectionLedger nestedWindow realSeal transports routes provenance
+        localNameCert bundle pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row locatedInterval ∨ hsame row endpointNegative ∨
+              hsame row endpointPositive ∨ hsame row continuousMap ∨
+                hsame row modulusBudget ∨ hsame row bisectionLedger ∨
+                  hsame row nestedWindow ∨ hsame row realSeal)
+          (fun row : BHist =>
+            hsame row locatedInterval ∨ hsame row endpointNegative ∨
+              hsame row endpointPositive ∨ hsame row continuousMap ∨
+                hsame row modulusBudget ∨ hsame row bisectionLedger ∨
+                  hsame row nestedWindow ∨ hsame row realSeal)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle localNameCert pkg ∧
+              (hsame row locatedInterval ∨ hsame row endpointNegative ∨
+                hsame row endpointPositive ∨ hsame row continuousMap ∨
+                  hsame row modulusBudget ∨ hsame row bisectionLedger ∨
+                    hsame row nestedWindow ∨ hsame row realSeal))
+          hsame ∧
+        UnaryHistory nestedWindow ∧ UnaryHistory realSeal ∧
+          Cont modulusBudget bisectionLedger nestedWindow ∧
+            Cont bisectionLedger nestedWindow realSeal ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle localNameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame SemanticNameCert UnaryHistory Cont
+  intro carrier
+  obtain ⟨_locatedUnary, _endpointNegativeUnary, _endpointPositiveUnary, _continuousUnary,
+    modulusUnary, bisectionUnary, _transportsUnary, _routesUnary, _provenanceUnary,
+    _localNameCertUnary, modulusBisectionNested, bisectionNestedReal, provenancePkg,
+    localNameCertPkg⟩ := carrier
+  have nestedUnary : UnaryHistory nestedWindow :=
+    unary_cont_closed modulusUnary bisectionUnary modulusBisectionNested
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed bisectionUnary nestedUnary bisectionNestedReal
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row locatedInterval ∨ hsame row endpointNegative ∨
+              hsame row endpointPositive ∨ hsame row continuousMap ∨
+                hsame row modulusBudget ∨ hsame row bisectionLedger ∨
+                  hsame row nestedWindow ∨ hsame row realSeal)
+          (fun row : BHist =>
+            hsame row locatedInterval ∨ hsame row endpointNegative ∨
+              hsame row endpointPositive ∨ hsame row continuousMap ∨
+                hsame row modulusBudget ∨ hsame row bisectionLedger ∨
+                  hsame row nestedWindow ∨ hsame row realSeal)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle localNameCert pkg ∧
+              (hsame row locatedInterval ∨ hsame row endpointNegative ∨
+                hsame row endpointPositive ∨ hsame row continuousMap ∨
+                  hsame row modulusBudget ∨ hsame row bisectionLedger ∨
+                    hsame row nestedWindow ∨ hsame row realSeal))
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro locatedInterval (Or.inl (hsame_refl locatedInterval))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        cases source with
+        | inl sameLocated =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameLocated)
+        | inr rest =>
+            cases rest with
+            | inl sameNegative =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameNegative))
+            | inr rest =>
+                cases rest with
+                | inl samePositive =>
+                    exact
+                      Or.inr
+                        (Or.inr
+                          (Or.inl (hsame_trans (hsame_symm sameRows) samePositive)))
+                | inr rest =>
+                    cases rest with
+                    | inl sameMap =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameMap))))
+                    | inr rest =>
+                        cases rest with
+                        | inl sameModulus =>
+                            exact
+                              Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inl
+                                        (hsame_trans (hsame_symm sameRows) sameModulus)))))
+                        | inr rest =>
+                            cases rest with
+                            | inl sameBisection =>
+                                exact
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inl
+                                              (hsame_trans (hsame_symm sameRows)
+                                                sameBisection))))))
+                            | inr rest =>
+                                cases rest with
+                                | inl sameNested =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inl
+                                                    (hsame_trans (hsame_symm sameRows)
+                                                      sameNested)))))))
+                                | inr sameReal =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (hsame_trans (hsame_symm sameRows)
+                                                      sameReal)))))))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, localNameCertPkg, source⟩
+  }
+  exact
+    ⟨cert, nestedUnary, realSealUnary, modulusBisectionNested, bisectionNestedReal,
+      provenancePkg, localNameCertPkg⟩
+
 end BEDC.Derived.IntermediateValueUp
