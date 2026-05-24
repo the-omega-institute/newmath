@@ -406,6 +406,42 @@ For identity consumers, apply \autoref{thm:separatedmetric-public-identity-expor
 Since the same support rows $H,C,P,N$ preserve both routes, no public consumer can reinterpret the Real seal as a stronger host-side principle.
 \end{proof}
 
+\begin{theorem}[SeparatedMetric zero-distance separation obligation]
+\label{thm:separatedmetric-zero-distance-separation-obligation}
+For every accepted $\SeparatedMetricUp$ carrier $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$, any bridge-facing zero-distance separation read must pass through the $\MetricUp$ carrier row $X$, the $\RealUp$-valued distance witness row $D$, and the separation classifier row $Z$ before the structural rows $H,C,P,N$ can expose it to a public consumer. The route is a finite projection from the displayed carrier; it is not host equality, quotient equality, trichotomy, representative selection, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project $S$ through \autoref{def:separatedmetric-carrier}. The only rows that can answer a zero-distance separation request are $X,D,Z$ and the structural rows attached to them.
+
+Apply \autoref{thm:separatedmetric-kernel-zero-distance-obligation}. It places the $\MetricUp$ distance witness before the $\RealUp$ zero-distance reading and places both before the separation classifier.
+
+The bridge-facing consumer then receives the transported and replayed route through $H,C,P,N$. Since no excluded host-side principle is a carrier row, the bridge surface remains a finite projection.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric completion uniqueness obligation]
+\label{thm:separatedmetric-completion-uniqueness-obligation}
+Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ carrier. Any bridge-facing completion-uniqueness read comparing the two $\CompleteMetricUp$ rows $L_0,L_1$ must first use the $\CauchySequenceEquivalenceUp$ route $E$, then the zero-distance route through $X,D,Z$, and finally the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the public completion uniqueness export of \autoref{thm:separatedmetric-public-completion-uniqueness-export}. It fixes $E$ as the required route from the two complete-metric limit rows to a common finite-window comparison.
+
+Use \autoref{thm:separatedmetric-completion-equivalence-obligation}. After $E$ is displayed, the comparison may read the metric-distance witness, the $\RealUp$ zero seal, and the separation row.
+
+The rows $H,C,P,N$ transport, replay, source, and name this same finite chain. Hence the bridge-facing uniqueness obligation exports no quotient completion equality, selected limit, host equality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric Real-seal nonescape obligation]
+\label{thm:separatedmetric-real-seal-nonescape-obligation}
+For an accepted $\SeparatedMetricUp$ carrier $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$, every bridge-facing $\RealUp$ seal read is confined to the displayed zero-distance or completion-uniqueness route through $\MetricUp$, $\CompleteMetricUp$, $\CauchySequenceEquivalenceUp$, $\RealUp$, $H,C,P,N$. It does not export $\RealUp$ completeness, quotient equality of real names, quotient equality of completion names, trichotomy, or representative selection.
+\end{theorem}
+\begin{proof}
+Apply the public Real-seal nonescape export of \autoref{thm:separatedmetric-public-real-seal-nonescape-export}. It already identifies the Real row as a zero-distance seal inside the finite separated-metric route.
+
+For the identity branch, use \autoref{thm:separatedmetric-zero-distance-separation-obligation}. For the completion branch, use \autoref{thm:separatedmetric-completion-uniqueness-obligation}. These two obligations exhaust the bridge-facing ways to reach the seal.
+
+The carrier contains no Real-completeness, quotient-equality, trichotomy, or representative-selection coordinate. Therefore the seal remains a nonescape boundary for both bridge-facing routes.
+\end{proof}
+
 \begin{theorem}[SeparatedMetric bridged-closure readiness]
 \label{thm:separatedmetric-bridged-closure-readiness}
 Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ carrier. Its bridge-facing public surface consists exactly of the $\MetricUp$ distance witness, the $\CompleteMetricUp$ limit rows, the $\CauchySequenceEquivalenceUp$ route, the $\RealUp$ zero seal, the separation classifier row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. This is the complete surface exported to a bridge consumer.
