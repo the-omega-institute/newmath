@@ -63,4 +63,18 @@ theorem LocatedSupremumCarrier_lower_approximation_cofinality [AskSetup] [Packag
     unary_cont_closed unaryApproximation unaryR sealRoute
   exact ⟨unaryApproximation, unarySeal, hLU, pkgSig⟩
 
+theorem LocatedSupremumCarrier_upper_bound_ledger_stability [AskSetup] [PackageSetup]
+    {L U A W R E H C P N transportedLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedSupremumCarrier L U A W R E H C P N bundle pkg →
+      hsame U transportedLedger →
+        UnaryHistory W ∧ hsame L transportedLedger ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory ProbeBundle PkgSig
+  intro carrier upperTransport
+  have hLU : hsame L U := carrier.right.right.right.left
+  have unaryW : UnaryHistory W := carrier.right.right.right.right.left
+  have pkgSig : PkgSig bundle P pkg :=
+    carrier.right.right.right.right.right.right.right.left
+  exact ⟨unaryW, hsame_trans hLU upperTransport, pkgSig⟩
+
 end BEDC.Derived.LocatedSupremumUp
