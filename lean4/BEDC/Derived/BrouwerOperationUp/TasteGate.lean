@@ -110,6 +110,17 @@ private theorem BrouwerOperationTasteGate_single_carrier_alignment_toEventFlow_i
       (BrouwerOperationTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (BrouwerOperationTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem BrouwerOperationTasteGate_single_carrier_alignment_fields_aux :
+    ∀ x y : BrouwerOperationUp, brouwerOperationFields x = brouwerOperationFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk T₁ O₁ M₁ W₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk T₂ O₂ M₂ W₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
 instance brouwerOperationBHistCarrier : BHistCarrier BrouwerOperationUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := brouwerOperationToEventFlow
@@ -124,6 +135,24 @@ instance brouwerOperationChapterTasteGate : ChapterTasteGate BrouwerOperationUp 
   layer_separation := by
     intro x y hxy heq
     exact hxy (BrouwerOperationTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+instance brouwerOperationFieldFaithful : FieldFaithful BrouwerOperationUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := brouwerOperationFields
+  field_faithful := by
+    intro x y hfields
+    exact BrouwerOperationTasteGate_single_carrier_alignment_fields_aux x y hfields
+
+instance brouwerOperationNontrivial : Nontrivial BrouwerOperationUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BrouwerOperationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BrouwerOperationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 def taste_gate : ChapterTasteGate BrouwerOperationUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -142,5 +171,35 @@ theorem BrouwerOperationTasteGate_single_carrier_alignment :
       BrouwerOperationTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => BrouwerOperationTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+namespace TasteGate
+
+theorem BrouwerOperationTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate BrouwerOperationUp) ∧
+      Nonempty (FieldFaithful BrouwerOperationUp) ∧
+        Nonempty (Nontrivial BrouwerOperationUp) ∧
+          (∀ h : BHist, brouwerOperationDecodeBHist (brouwerOperationEncodeBHist h) = h) ∧
+            (∀ x : BrouwerOperationUp,
+              brouwerOperationFromEventFlow (brouwerOperationToEventFlow x) = some x) ∧
+              (∀ x y : BrouwerOperationUp,
+                brouwerOperationToEventFlow x = brouwerOperationToEventFlow y → x = y) ∧
+                brouwerOperationEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  constructor
+  · exact ⟨brouwerOperationChapterTasteGate⟩
+  · constructor
+    · exact ⟨brouwerOperationFieldFaithful⟩
+    · constructor
+      · exact ⟨brouwerOperationNontrivial⟩
+      · constructor
+        · exact BrouwerOperationTasteGate_single_carrier_alignment_decode
+        · constructor
+          · exact BrouwerOperationTasteGate_single_carrier_alignment_round_trip
+          · constructor
+            · intro x y heq
+              exact BrouwerOperationTasteGate_single_carrier_alignment_toEventFlow_injective heq
+            · rfl
+
+end TasteGate
 
 end BEDC.Derived.BrouwerOperationUp
