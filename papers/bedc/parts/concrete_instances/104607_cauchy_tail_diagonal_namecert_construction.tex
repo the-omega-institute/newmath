@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailDiagonalUp$}
+\label{ch:concrete-instances-cauchy-tail-diagonal-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyTailDiagonalUp$ packet records the finite diagonal-tail handoff by which two regular rational tails are read through one selected diagonal window before a $\RealUp$ or completion-facing consumer inspects a seal. It sits between the diagonal extraction route of \autoref{ch:concrete-instances-regular-cauchy-diagonal-extraction-namecert}, the interleaving surface of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}, the finite tail seal of \autoref{ch:concrete-instances-finitetaildiagonalseal-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite handoff surface for Real and completion routes; it does not select an ambient limit, quotient stream, countable-choice schedule, trichotomy row, or ambient $\RealUp$ completeness witness.
+
+\begin{definition}[CauchyTailDiagonal carrier]\label{def:cauchy-tail-diagonal-carrier}
+A $\CauchyTailDiagonalUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,Y,\delta,W,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ tail rows whose late observations are to be compared.
+\item $\delta$ is the finite diagonal selector row, read through $\RegularCauchyDiagonalExtractionUp$ and synchronized with the $\RegularCauchyInterleavingUp$ handoff.
+\item $W$ is the $\StreamNameUp$ window family naming the inspected late indices for $X$, $Y$, and the diagonal row $\delta$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the paired tail requests, diagonal slack, and finite comparison budget.
+\item $E$ is the $\FiniteTailDiagonalSealUp$ and $\RealUp$ seal row, reachable only after $X,Y,\delta,W,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two tail rows, diagonal selector, window family, dyadic ledger, seal row, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from paired tail requests through the selected diagonal window, dyadic tolerance ledger, finite tail seal, and terminal real handoff.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailDiagonalUp$, $\RegularCauchyDiagonalExtractionUp$, $\RegularCauchyInterleavingUp$, $\FiniteTailDiagonalSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailDiagonalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,\delta,W,D,E,H,C,P,N$. It has no coordinate for quotient streams, selected limits, countable-choice selectors, host equality of real names, trichotomy, or ambient completion.
+\end{definition}
+
+\begin{theorem}[CauchyTailDiagonal NameCert obligations]\label{thm:cauchy-tail-diagonal-namecert-obligations}
+For every accepted $\CauchyTailDiagonalUp$ carrier $K=(X,Y,\delta,W,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyTailDiagonalUp}$ surface consists exactly of carrier admission for the ten displayed rows, paired $\RegSeqRatUp$ tail admission through $X,Y$, diagonal selector exactness through $\delta$, finite $\StreamNameUp$ window coverage through $W$, $\DyadicRatCoreUp$ tolerance accounting through $D$, finite tail seal handoff through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-tail-diagonal-carrier}. The only tail sources are $X$ and $Y$, and the only diagonal selector is the row $\delta$ displayed by the packet.
+
+Read the finite windows and tolerance ledger next. The row $W$ names exactly the late observations inspected by the two tails and the diagonal selector, while $D$ records the dyadic tolerances and slack needed by that finite comparison.
+
+The seal row $E$ is downstream of those rows. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so the local certificate has no remaining coordinate from which a quotient stream, selected limit, countable-choice selector, host real equality, trichotomy row, or ambient completion principle could be exported.
+\end{proof}
+
+\begin{theorem}[CauchyTailDiagonal Real handoff]\label{thm:cauchy-tail-diagonal-real-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\CauchyTailDiagonalUp$ carrier must read the finite route
+$$
+X,Y,\delta,W,D,E,H,C,P,N
+$$
+before any Cauchy-tail conclusion is exported. The handoff first displays the two $\RegSeqRatUp$ tails, then the diagonal selector governed by $\RegularCauchyDiagonalExtractionUp$ and $\RegularCauchyInterleavingUp$, then the selected $\StreamNameUp$ windows and $\DyadicRatCoreUp$ tolerance ledger, and only then the $\FiniteTailDiagonalSealUp$ and $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier and apply \autoref{thm:cauchy-tail-diagonal-namecert-obligations}. The consumer-facing data are exhausted by the displayed packet $X,Y,\delta,W,D,E,H,C,P,N$.
+
+Use the diagonal and interleaving coordinates in order. The selector row $\delta$ names the diagonal observations, and the interleaving handoff ensures that both tail rows are read on the same finite window family before the dyadic budget is consumed.
+
+Finally read the finite tail seal. Since $E$ is downstream of the paired tail rows, selected windows, and tolerance ledger, a Real or completion-facing consumer receives a finite diagonal-tail handoff rather than a quotient stream, selected limit, countable-choice schedule, host equality proof, trichotomy decision, or ambient completeness theorem.
+\end{proof}
+
+\closureat{CauchyTailDiagonalUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailDiagonalUp}
+  \constructivestory{A $\CauchyTailDiagonalUp$ packet is generated from two RegSeqRat tail rows, one finite diagonal selector, StreamName windows, a DyadicRatCore tolerance ledger, a FiniteTailDiagonalSeal and RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-diagonal-carrier}, \autoref{thm:cauchy-tail-diagonal-namecert-obligations}, and \autoref{thm:cauchy-tail-diagonal-real-handoff} seed the finite diagonal-tail handoff over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\FiniteTailDiagonalSealUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host equality of real names, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal selector exactness, paired tail window coverage, dyadic tolerance accounting, finite tail seal handoff, Real handoff, transport stability, replay stability, and provenance exhaustion for BEDC.Derived.CauchyTailDiagonalUp.}
+\end{closurestatus}

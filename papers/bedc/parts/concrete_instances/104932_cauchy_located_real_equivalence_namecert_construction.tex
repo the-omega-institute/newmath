@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CauchyLocatedRealEquivalenceUp$}
+\label{ch:concrete-instances-cauchy-located-real-equivalence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers, the $\CauchyLocatedRealEquivalenceUp$ packet names the finite comparison surface between a Cauchy presentation of the real line and a located lower-upper presentation. It sits between the Cauchy path of \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the located path of \autoref{ch:concrete-instances-locatedreal-namecert}, \autoref{ch:concrete-instances-locatedcut-namecert}, \autoref{ch:concrete-instances-lowerreal-namecert}, and \autoref{ch:concrete-instances-upperreal-namecert}. The packet compares finite observation windows only; it does not add quotient cuts, host real equality, countable choice, trichotomy, or an ambient completeness principle.
+
+\begin{definition}[Cauchy-located equivalence carrier]
+\label{def:cauchy-located-real-equivalence-carrier}
+A $\CauchyLocatedRealEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(C,L,U,W,R,D,E,H,Ct,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $C$ is the displayed $\RealUp$ Cauchy seal, read through the regular rational and stream-name surface of $\RegSeqRatUp$ and $\StreamNameUp$;
+\item $L$ is the located lower-observation row, read through $\LowerRealUp$ and the lower side of $\LocatedCutUp$;
+\item $U$ is the located upper-observation row, read through $\UpperRealUp$ and the upper side of $\LocatedCutUp$;
+\item $W$ is the shared finite-window ledger comparing Cauchy tails, dyadic tolerances, lower observations, and upper observations;
+\item $R$ records the regular-sequence readback from $C$ into the window ledger;
+\item $D$ records the dyadic-rational tolerance and endpoint rows consumed by $W$;
+\item $E$ records the two handoff routes: Cauchy data to located observations, and located observations back to a Cauchy seal;
+\item $H$ stores componentwise $\hsame$ transport for all displayed rows;
+\item $Ct$ stores the displayed $\Cont$ replay routes used by the two handoffs and by shared-window comparison;
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\LocatedRealUp$, $\LocatedCutUp$, $\LowerRealUp$, $\UpperRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyLocatedRealEquivalenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $C,L,U,W,R,D,E,H,Ct,P,N$. No coordinate stores quotient-cut equality, host real equality, selected limits, trichotomy, countable choice, or a global completeness theorem.
+\end{definition}
+
+\begin{theorem}[Cauchy-located equivalence NameCert obligations]
+\label{thm:cauchy-located-real-equivalence-namecert-obligations}
+For every accepted $\CauchyLocatedRealEquivalenceUp$ carrier $Q=(C,L,U,W,R,D,E,H,Ct,P,N)$, the local $\NameCert_{\CauchyLocatedRealEquivalenceUp}$ surface consists of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the Cauchy seal, lower and upper located observations, shared-window ledger, regular readback, dyadic tolerance row, handoff row, transport, continuation, provenance, and local naming row;
+\item Cauchy-to-located handoff, requiring reads from $C$ through $R,D,W,E,H,Ct$ before lower and upper observations are exported as $L,U$;
+\item located-to-Cauchy handoff, requiring compatible lower and upper observations in $L,U$ to pass through the same shared windows $W,D,E,H,Ct$ before the Cauchy seal $C$ is read;
+\item classifier stability under shared finite windows, requiring agreement on $W,R,D,E,H,Ct$ to preserve both directions of comparison;
+\item $\RealUp$-seal nonescape, excluding quotient cuts, host real equality, selected limits, trichotomy, countable choice, and ambient completeness from the exported comparison.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-located-real-equivalence-carrier}. The row list displays exactly the Cauchy seal, the lower and upper located observations, the shared-window ledger, the regular and dyadic readback rows, the handoff row, and the structural rows $H,Ct,P,N$.
+
+For the Cauchy-to-located handoff, read $C$ through the regular sequence row $R$ and the dyadic row $D$. The shared-window ledger $W$ is the only place where Cauchy tail information is compared with lower and upper observations, and $E$ records the finite route from that comparison to $L,U$.
+
+For the located-to-Cauchy handoff, begin with compatible reads in $L$ and $U$. The same ledger $W$ and dyadic row $D$ supply the finite tolerance comparison, while $E$ and $Ct$ replay the route back to the Cauchy seal $C$.
+
+Classifier stability is componentwise. Agreement on the shared-window, readback, tolerance, handoff, transport, and continuation rows preserves the two handoff routes because no other classifier coordinate is available.
+
+Finally, the provenance and naming rows mention only the listed sibling chapters and BEDC support rows. Since quotient cuts, host real equality, selected limits, trichotomy, countable choice, and ambient completeness are not coordinates of $Q$, the $\RealUp$ seal cannot export them through this packet.
+\end{proof}
+
+\begin{theorem}[Cauchy-located equivalence finite handoff]
+\label{thm:cauchy-located-real-equivalence-finite-handoff}
+Every accepted $\CauchyLocatedRealEquivalenceUp$ carrier $Q=(C,L,U,W,R,D,E,H,Ct,P,N)$ routes comparison between the Cauchy $\RealUp$ seal and the located $\LowerRealUp$-$\UpperRealUp$ observations through the finite surface
+$$
+C,L,U,W,R,D,E,H,Ct,P,N .
+$$
+The route may be consumed by $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\LocatedRealUp$, $\LocatedCutUp$, $\LowerRealUp$, and $\UpperRealUp$ readers, but it exports no quotient-cut equality, host real equality, selected limit, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier obligations. They force both directions of comparison to use $W,R,D,E,H,Ct$, so a consumer cannot jump directly from a Cauchy seal to a located cut or from a located cut to a Cauchy seal.
+
+The Cauchy siblings supply the source rows $C,R,D$, while the located siblings supply $L,U$ and their cut-facing reads. The handoff row $E$ is the only coordinate that compares the two sides, and the continuation row $Ct$ is the only replay route.
+
+Nonescape follows from the final obligation of \autoref{thm:cauchy-located-real-equivalence-namecert-obligations}. Since the forbidden data are absent from the carrier, the finite handoff cannot export them to either side of the comparison.
+\end{proof}
+
+\begin{closurestatus}{\CauchyLocatedRealEquivalenceUp}
+  \constructivestory{A $\CauchyLocatedRealEquivalenceUp$ packet is generated from a Cauchy $\RealUp$ seal, lower and upper located observations, shared finite windows, regular and dyadic readback rows, two handoff routes, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-located-real-equivalence-carrier}, \autoref{thm:cauchy-located-real-equivalence-namecert-obligations}, and \autoref{thm:cauchy-located-real-equivalence-finite-handoff} seed the finite comparison surface between Cauchy and located real presentations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient cuts, host real equality, selected limits, trichotomy, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, both handoff directions, shared-window classifier stability, and Real-seal nonescape for BEDC.Derived.CauchyLocatedRealEquivalenceUp.}
+\end{closurestatus}

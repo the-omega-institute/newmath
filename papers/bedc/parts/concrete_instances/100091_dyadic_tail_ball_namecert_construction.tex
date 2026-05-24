@@ -70,6 +70,24 @@ Only after this containment row has been replayed can the consumer inspect $R$. 
 Transport through $H$ and provenance through $P,N$ preserve the same ordered route. The excluded quotient, choice, host-equality, trichotomy, and completeness objects are absent from the carrier inventory, so no consumer read can export them.
 \end{proof}
 
+\begin{theorem}[DyadicTailBall late-window stability]
+\label{thm:dyadic-tail-ball-window-stability}
+Let $T=(B,D,F,R,H,C,P,N)$ and $T'=(B,D',F',R,H',C',P',N')$ be accepted $\DyadicTailBallUp$ packets sharing the same $\DyadicBallUp$ row $B$ and the same $\RealCauchyCriterionUp$ consumer row $R$. Suppose the second $\DyadicTailBoundUp$ row $D'$ refines the threshold and tolerance ledger of $D$ through the $\RegularCauchyTailFilterUp$ routes $F,F'$. Then every $\RealUp$-facing read available from $T$ is available from $T'$ through the same finite route
+$$
+\DyadicTailBoundUp \longmapsto \RegularCauchyTailFilterUp \longmapsto \DyadicBallUp \longmapsto \RealCauchyCriterionUp .
+$$
+The refinement exports no quotient stream, selected limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the two carriers. They share the dyadic ball row $B$ and the Real Cauchy criterion consumer row $R$, so the only public late-tail change is the replacement of $D,F$ by the refined pair $D',F'$.
+
+Use the refinement hypothesis to replay every late-tail request through $D'$ and $F'$. Because the refined threshold and tolerance ledger is served by the same regular Cauchy tail-filter route, each observation admitted by the first packet is still admitted before the shared containment ledger $B$ is read.
+
+The Real-facing consumer remains fixed. After $B$ receives the refined late-tail observations, the same row $R$ consumes the packet, so the public route has the same four stages as in \autoref{thm:dyadic-tail-ball-regular-cauchy-consumer-route}.
+
+Finally, replay $H',C',P',N'$ componentwise. These rows transport, continue, source, and name the refined packet without adding any coordinate for quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
+\end{proof}
+
 \begin{closurestatus}{\DyadicTailBallUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:dyadic-tail-ball-carrier}, \autoref{thm:dyadic-tail-ball-namecert-obligations}, and \autoref{thm:dyadic-tail-ball-regular-cauchy-consumer-route} seed the finite route from dyadic tail bounds through regular Cauchy late-tail filters into dyadic ball containment and the Real Cauchy criterion consumer.}

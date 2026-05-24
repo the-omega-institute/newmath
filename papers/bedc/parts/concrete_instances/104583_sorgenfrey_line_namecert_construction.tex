@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\SorgenfreyLineUp$}
+\label{ch:concrete-instances-sorgenfrey-line-namecert}
+\origin{human}
+
+Following Sorgenfrey and Kelley, the $\SorgenfreyLineUp$ packet records the lower-limit line as a finite naming certificate over the already named real and topology surfaces. It is a one-sided neighbourhood interface adjacent to the $\RealUp$ carrier of \autoref{ch:concrete-instances-real-namecert}, the local open-neighbourhood discipline of \autoref{ch:concrete-instances-topology-namecert}, and the stream readback route of \autoref{ch:concrete-instances-streamname-namecert}. The packet also reads lower-limit interval witnesses through the located interval surface of \autoref{ch:concrete-instances-located-real-interval-namecert} and regular rational approximation rows, but it does not identify the BEDC carrier with a host topology on the classical real line.
+
+\begin{definition}[SorgenfreyLine carrier]
+\label{def:sorgenfrey-line-carrier}
+A $\SorgenfreyLineUp$ carrier is a finite $\BHist$ packet
+$$
+S=(R,I,W,A,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the terminal $\RealUp$ source row for the point being observed.
+\item $I$ is a $\LocatedRealIntervalUp$ lower-limit interval row displaying half-open windows $[a,b)$ around the source point through located endpoint, radius, and bracket data.
+\item $W$ is the $\StreamNameUp$ window row that fixes the finite precision and finite list of lower-limit neighbourhood reads exposed to a consumer.
+\item $A$ is the $\RegSeqRatUp$ readback row repacking the rational endpoint observations of $I$ and $W$.
+\item $L$ is the lower-limit topology ledger saying that neighbourhood access is by displayed half-open interval windows and not by an arbitrary host-open predicate.
+\item $H$ records componentwise $\hsame$ transports for $R,I,W,A,L,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from the real source row to the located half-open interval row, from that row to the stream window, and from the window to the regular rational readback.
+\item $P$ is the $\Pkg$ provenance over $\SorgenfreyLineUp$, $\RealUp$, $\LocatedRealIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SorgenfreyLineUp}$ row.
+\end{enumerate}
+The carrier stores no host topological space, no quotient real presentation, no selected point of a neighbourhood basis, no choice functional, and no completeness coordinate for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[SorgenfreyLine NameCert obligations]
+\label{thm:sorgenfrey-line-namecert-obligations}
+For every accepted $\SorgenfreyLineUp$ carrier
+$$
+S=(R,I,W,A,L,H,C,P,N),
+$$
+the local $\NameCert_{\SorgenfreyLineUp}$ obligations are exactly the finite lower-limit rows displayed by the carrier:
+\begin{enumerate}
+\item real-source admission, requiring every point read to pass through the $\RealUp$ row $R$;
+\item half-open interval admission, requiring every neighbourhood read to expose the $\LocatedRealIntervalUp$ row $I$ as a lower-limit window $[a,b)$;
+\item stream-window exactness, requiring the finite precision and finite neighbourhood inspection route to be the row $W$;
+\item regular-rational readback, requiring endpoint and bracket observations to repack through $A$ before any downstream real-facing consumer reads them;
+\item topology-ledger exhaustion, requiring the topology-facing claim to use the ledger $L$ rather than an ambient open-set predicate;
+\item transport, replay, provenance, and local naming stability through $H,C,P,N$.
+\end{enumerate}
+These obligations do not assert host topology, quotient real equality, selected neighbourhood choices, countable choice, trichotomy, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only point row is $R$, the only lower-limit interval row is $I$, and the only finite observation schedule is the stream window $W$.
+
+The endpoint and bracket reads of the half-open window are then repacked by the regular rational row $A$. The ledger $L$ records that topology-facing access is by displayed lower-limit windows, so a consumer cannot replace the route by an arbitrary host-open predicate.
+
+The rows $H,C,P,N$ only transport, replay, source, and name the displayed route. Since the carrier has no coordinate for quotient reals, selected neighbourhood choices, countable choice, trichotomy, host topology, or real completeness, none of those principles can be part of the local NameCert obligations.
+\end{proof}
+
+\closureat{SorgenfreyLineUp}{seedStr}
+
+\begin{closurestatus}{\SorgenfreyLineUp}
+  \constructivestory{A $\SorgenfreyLineUp$ packet is generated from a RealUp source row, a LocatedRealIntervalUp lower-limit half-open interval row, a StreamName finite window, a RegSeqRat readback row, a lower-limit topology ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sorgenfrey-line-carrier} and \autoref{thm:sorgenfrey-line-namecert-obligations} seed the lower-limit neighbourhood surface over $\RealUp$, $\LocatedRealIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host topology, quotient real equality, selected neighbourhood bases, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, half-open interval admission, stream-window exactness, regular-rational readback, topology-ledger exhaustion, transport stability, replay stability, and non-escape for BEDC.Derived.SorgenfreyLineUp.}
+\end{closurestatus}
