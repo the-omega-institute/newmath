@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CommutativeCStarUp$}
+\label{ch:concrete-instances-commutative-cstar-namecert}
+\origin{human}
+
+Following Gelfand and Naimark, the $\CommutativeCStarUp$ packet records the finite algebraic source boundary by which a unital commutative C*-algebra can be handed to $\GelfandDualityUp$ before any spectrum, maximal ideal space, or Gelfand transform is public. It refines the root $\CStarAlgUp$ surface of \autoref{ch:concrete-instances-cstaralgebra-namecert} by adding unit and commutativity rows over the same $\BanachUp$ and $\RingUp$ dependency rows, and it keeps the topology-facing spectrum route of \autoref{ch:concrete-instances-gelfandduality-namecert} and \autoref{ch:concrete-instances-topology-namecert} outside the algebraic source certificate.
+
+\begin{definition}[Commutative CStar carrier]
+\label{def:commutative-cstar-carrier}
+A $\CommutativeCStarUp$ carrier is a finite $\BHist$ packet
+$$
+U=(A,B,R,I,M,E,Q,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the root $\CStarAlgUp$ row, carrying the Banach source, RingUp multiplication source, involution row, norm-square row, transport, replay, provenance, and local naming already required by \autoref{thm:cstaralgebra-namecert-obligation-surface}.
+\item $B$ is the consumed $\BanachUp$ row read from the same source history as $A$.
+\item $R$ is the consumed $\RingUp$ row read from the same source history as $A$.
+\item $I$ is the displayed unit row for the multiplication surface of $R$.
+\item $M$ is the commutativity classifier row, recording that every displayed multiplication comparison used by the packet is symmetric over the same finite carrier.
+\item $E$ is the involution compatibility row, requiring the displayed involution of $A$ to preserve the unit and commute with the displayed multiplication rows.
+\item $Q$ is the norm-square row, preserving the $C^*$ identity $\|a^*a\|=\|a\|^2$ on the displayed algebra rows.
+\item $L$ is the character-facing ledger. It lists the finite algebraic rows that a later character or evaluation consumer may inspect, but it does not supply characters, a spectrum, or a transform.
+\item $H$ records componentwise $\hsame$ transport for $A,B,R,I,M,E,Q,L$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the source route
+$$
+\CStarAlgUp,\BanachUp,\RingUp \longmapsto I,M,E,Q,L \longmapsto \CommutativeCStarUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CommutativeCStarUp$, $\CStarAlgUp$, $\BanachUp$, $\RingUp$, $\GelfandDualityUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CommutativeCStarUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. Its classifier compares accepted packets only through the root C*-algebra row, the shared Banach and RingUp dependency rows, the unit row, the commutativity classifier, involution compatibility, norm-square compatibility, the character-facing ledger, transport, replay, provenance, and local naming. It has no coordinate for a completed spectrum, maximal ideal space, compact Hausdorff carrier, Gelfand transform, host algebra equality, quotient completion, selected character, or choice.
+\end{definition}
+
+\begin{theorem}[Commutative CStar NameCert obligations]
+\label{thm:commutative-cstar-namecert-obligations}
+For every accepted $\CommutativeCStarUp$ carrier
+$$
+U=(A,B,R,I,M,E,Q,L,H,C,P,N),
+$$
+the local $\NameCert_{\CommutativeCStarUp}$ surface consists exactly of carrier admission, root CStarAlg source compatibility, Banach and RingUp source agreement, unit visibility, commutativity classifier stability, involution compatibility, norm-square compatibility, character-facing ledger visibility, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+
+A downstream consumer may inspect these algebraic rows as the unital commutative C*-source boundary. It receives no spectrum, no topology carrier, no Gelfand transform, no maximal ideal space, no host equality of algebras, no quotient completion, no selected character, and no choice principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:commutative-cstar-carrier}. The projection exposes the root CStarAlg row $A$, the shared Banach and RingUp rows $B,R$, the unit and commutativity rows $I,M$, the involution and norm-square rows $E,Q$, the character-facing ledger $L$, and the structural rows $H,C,P,N$.
+
+Source compatibility is inherited from the root certificate of \autoref{thm:cstaralgebra-namecert-obligation-surface} and the Banach--Ring boundary of \autoref{thm:cstaralgebra-banach-ring-source-boundary}. The present packet adds only the displayed unit and commutativity rows over that same finite source.
+
+Stability is componentwise. Transport through $H$ moves the root C*-algebra row, unit row, commutativity classifier, involution compatibility, norm-square row, and ledger entries together; replay through $C$ returns the same displayed algebraic source before any character-facing read is public.
+
+Finally $P$ and $N$ name only this finite surface. Since spectrum, topology carrier, Gelfand transform, maximal ideal space, host equality, quotient completion, selected characters, and choice have no coordinate in the carrier, they cannot be recovered from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Commutative CStar Gelfand source boundary]
+\label{thm:commutative-cstar-gelfand-source-boundary}
+Every $\GelfandDualityUp$ algebra-source read of an accepted $\CommutativeCStarUp$ packet factors through the same root CStarAlg row $A$, shared $\BanachUp$ row $B$, shared $\RingUp$ row $R$, unit row $I$, commutativity classifier $M$, involution row $E$, norm-square row $Q$, character-facing ledger $L$, and structural rows $H,C,P,N$.
+
+Consequently $\GelfandDualityUp$ can cite $\CommutativeCStarUp$ as its unital commutative C*-source boundary without treating the root $\CStarAlgUp$ chapter as already commutative and without importing spectrum, transform, maximal ideal, compact-Hausdorff, quotient, host-equality, selected-character, or choice data.
+\end{theorem}
+\begin{proof}
+Begin with a $\GelfandDualityUp$ algebra-source read. The root C*-algebra dependency is the row $A$, and \autoref{thm:cstaralgebra-unital-commutative-source-boundary} requires unit and commutativity rows to be displayed before that dependency can be consumed as a unital commutative source.
+
+The rows $I$ and $M$ supply exactly that added algebraic surface. The rows $E$ and $Q$ keep the involution and norm-square laws attached to the same Banach and RingUp dependencies $B,R$ already carried by $A$.
+
+The character-facing ledger $L$ is only a ledger of available algebraic rows. It prepares a later character or evaluation consumer to read the source, but it does not introduce a spectrum, a topological carrier, or a Gelfand transform.
+
+Transport, replay, provenance, and naming are then handled by $H,C,P,N$. Since these structural rows preserve only the displayed algebraic packet, the $\GelfandDualityUp$ source read remains the finite $\CommutativeCStarUp$ boundary and cannot collapse into host-level duality data.
+\end{proof}
+
+\closureat{CommutativeCStarUp}{seedStr}
+
+\begin{closurestatus}{\CommutativeCStarUp}
+  \constructivestory{A $\CommutativeCStarUp$ packet is generated from a root CStarAlgUp row, shared BanachUp and RingUp dependency rows, a unit row, a commutativity classifier, involution compatibility, norm-square compatibility, a character-facing algebraic ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:commutative-cstar-carrier}, \autoref{thm:commutative-cstar-namecert-obligations}, and \autoref{thm:commutative-cstar-gelfand-source-boundary} seed the finite unital commutative C*-source boundary over CStarAlgUp, BanachUp, RingUp, GelfandDualityUp, TopologyUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a completed spectrum, maximal ideal space, Gelfand transform, compact Hausdorff carrier, host algebra equality, quotient completion, selected character, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source compatibility, unit visibility, commutativity stability, involution and norm-square compatibility, character-ledger visibility, and Gelfand source non-escape for BEDC.Derived.CommutativeCStarUp.}
+\end{closurestatus}
