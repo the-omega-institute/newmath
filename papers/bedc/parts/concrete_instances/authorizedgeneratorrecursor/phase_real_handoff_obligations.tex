@@ -81,3 +81,25 @@ Next apply \autoref{thm:authorized-generator-recursor-phase-real-ledger-nonescap
 
 Close with \autoref{thm:authorized-generator-recursor-real-stream-route} and \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. Their route and consumer clauses allow downstream readback, but only as packet-preserving specialization; they do not introduce quotient stream equality, selected limits, host Real equality, ambient completeness, countable choice, or an external proof-production channel.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor Phase Real readiness strict obstruction]
+\label{cor:authorized-generator-recursor-phase-real-readiness-strict-obstruction}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Suppose a Phase Real consumer of $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or a completion-facing read displays a failure, refusal, separation, or countermodel row against a named converse, reuse, or readback route in the handoff surface of $R$. Then that row is a strict local obstruction: it blocks only the named route whose consumer-facing use tries to read, omit, replace, detach, or bypass one of the displayed packet coordinates
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Every permitted use factors through the finite $\BHist$ carrier and through the visible ledger rows $A,G,H,C,P,N$, with $H$ carrying componentwise $\hsame$, $C$ carrying displayed $\Cont$ replay, $P$ carrying package provenance, $G$ carrying the boundary ledger, and $N$ carrying the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row. The same displayed row cannot be reinterpreted as a global impossibility theorem, a host theorem about recursors or real completion, hidden external validation of the failed route, a selected real witness, a quotient stream equality, a completion object, a host completeness proof, or an off-packet proof-producing channel.
+\end{corollary}
+\begin{proof}
+Start with carrier readiness, \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness}. Any Phase Real handoff that reads $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ data must first admit the displayed finite route $I,E,M,B,D,O,A,H,C,P,G,N$. Thus a consumer-facing negative row can bear on the packet only after the carrier has been read, and its possible coordinates are already limited to the signature, emitted recursor, motive, branch, descent, output, audit, transport, continuation, provenance, boundary, and local naming rows.
+
+Apply ledger non-escape, \autoref{thm:authorized-generator-recursor-phase-real-ledger-nonescape}. The exported Phase Real ledger is exhausted by the audit row $A$, boundary row $G$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, package row $P$, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$. The same theorem also says that this is the only ledger surface visible to $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or completion-facing consumers.
+
+Now consider the displayed failure, refusal, separation, or countermodel row. If it is used against a named converse, reuse, or readback route, the first cited theorem forces the use to pass through the full finite carrier, and the second cited theorem forces its ledger component to remain on $A,G,H,C,P,N$. Hence the row can obstruct only the advertised route at the coordinate where that route asks to read, omit, replace, detach, or bypass one of the displayed rows.
+
+Any stronger reading asks for a coordinate that the two cited theorems do not export. A global impossibility theorem would require a theorem surface beyond the finite packet; a host theorem about recursors or real completion would require host choice, detached induction, host equality, or host completeness data; hidden external validation would require an external certificate route; a selected real witness, quotient stream equality, completion object, or proof-producing channel would require one of the off-packet objects excluded by the ledger non-escape clause. Since no such coordinate is visible from $R$, the obstruction remains strict and local to the named Phase Real route.
+\end{proof}
