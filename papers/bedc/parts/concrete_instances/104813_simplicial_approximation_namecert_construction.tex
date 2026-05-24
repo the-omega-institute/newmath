@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\SimplicialApproximationUp$}
+\label{ch:concrete-instances-simplicial-approximation-namecert}
+\origin{human}
+
+Following Brouwer, Alexander, and Spanier on the classical simplicial approximation theorem, the $\SimplicialApproximationUp$ packet records the finite combinatorial route by which a displayed continuous map is replaced by a simplicial map after a displayed subdivision. It sits beside the finite complex surface of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the polytope realization boundary of \autoref{ch:concrete-instances-polytope-namecert}, the graph and modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the Brouwer fixed-point route of \autoref{ch:concrete-instances-brouwer-fixed-point-namecert}, and the deformation ledger of \autoref{ch:concrete-instances-homotopy-namecert}. The packet names only the finite subdivision, vertex-image, star-containment, and handoff rows visible to BEDC consumers; it does not import host topology, open-cover compactness, quotient homotopy classes, or choice-selected approximating maps.
+
+\begin{definition}[Simplicial approximation carrier]
+\label{def:simplicial-approximation-carrier}
+A $\SimplicialApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(K,L,S,V,F,T,B,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the source $\SimplicialComplexUp$ row, including the finite simplex inventory, face relation, and dimension grading.
+\item $L$ is the target $\SimplicialComplexUp$ row, read through the same finite-complex surface.
+\item $S$ is the subdivision ledger for $K$, naming the subdivided complex, the face projection back to $K$, and the carried simplex-refinement relation.
+\item $V$ is the vertex-image ledger assigning each vertex of the subdivision to a vertex of $L$.
+\item $F$ is the $\ContinuousMapUp$ row for the displayed map from the polytope realization of $K$ to the polytope realization of $L$.
+\item $T$ is the $\PolytopeUp$ realization row, exposing the barycentric and face-containment data used to read stars and simplex interiors.
+\item $B$ is the finite star-containment ledger asserting that every subdivided simplex of $S$ is sent by $V$ into a target simplex whose open-star row contains the corresponding $F$-image window.
+\item $M$ is the Brouwer-facing handoff row, recording the finite approximation surface consumed by $\BrouwerFixedPointUp$ arguments that pass through a combinatorial subdivision.
+\item $H$ records the $\HomotopyUp$ handoff row witnessing that the simplicial map encoded by $V,B$ is homotopic to the displayed continuous map along the visible polytope and star rows.
+\item $C$ records componentwise $\Cont$ replay from $K,L,S,V,F,T,B,M,H$ through the local certificate rows.
+\item $P$ is the $\Pkg$ provenance over $\SimplicialApproximationUp$, $\SimplicialComplexUp$, $\PolytopeUp$, $\ContinuousMapUp$, $\BrouwerFixedPointUp$, $\HomotopyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SimplicialApproximationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an ambient topological space, an arbitrary open cover, a selected infinite subdivision process, a quotient homotopy class, or a host proof of compactness.
+\end{definition}
+
+\begin{theorem}[SimplicialApproximationUp NameCert obligations]
+\label{thm:simplicial-approximation-namecert-obligations}
+For every accepted $\SimplicialApproximationUp$ carrier
+$$
+A=(K,L,S,V,F,T,B,M,H,C,P,N),
+$$
+the local $\NameCert_{\SimplicialApproximationUp}$ surface consists exactly of source-complex admission, target-complex admission, subdivision admission, vertex-image admissibility, continuous-map readback, polytope realization readback, star-containment exactness, Brouwer-facing finite-topology handoff, Homotopy-facing deformation handoff, displayed continuation replay, package provenance, and local naming. No obligation is stored outside the rows of \autoref{def:simplicial-approximation-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier. The source and target finite topological data are exactly $K$ and $L$, while $S$ refines only the displayed source complex and cannot introduce a new ambient space.
+
+The map data are split into two finite ledgers. The continuous row $F$ supplies the BEDC-visible graph and modulus surface, and the vertex-image row $V$ supplies the candidate simplicial map. The polytope row $T$ is the only realization surface on which both can be compared.
+
+Star-containment exactness is therefore the boundary row $B$. It checks each subdivided simplex against a target simplex and records the finite containment needed by the classical simplicial approximation route.
+
+The remaining rows do not add new analytic content. The Brouwer handoff $M$, Homotopy handoff $H$, continuation replay $C$, provenance $P$, and local name $N$ expose where the finite approximation may be consumed. Since no other coordinate exists, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Simplicial approximation Brouwer handoff]
+\label{thm:simplicial-approximation-brouwer-handoff}
+Every $\BrouwerFixedPointUp$ or $\HomotopyUp$ consumer of an accepted $\SimplicialApproximationUp$ carrier receives only the finite route
+$$
+K,L,S,V,F,T,B \longmapsto M,H \longmapsto C,P,N .
+$$
+The route first exposes the source and target simplicial complexes, the displayed subdivision, the vertex-image ledger, the continuous-map row, the polytope realization row, and the star-containment ledger. Only then may a consumer read the Brouwer-facing finite-topology handoff or the Homotopy-facing deformation handoff.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $A=(K,L,S,V,F,T,B,M,H,C,P,N)$. By \autoref{thm:simplicial-approximation-namecert-obligations}, the consumer must read $K,L,S,V,F,T,B$ before any handoff row is visible.
+
+For a Brouwer-facing consumer, $M$ is the only row naming the finite approximation surface. It is already indexed by the displayed subdivision and star-containment ledger, so it cannot replace the finite route by an open-cover compactness argument or a selected host approximant.
+
+For a Homotopy-facing consumer, $H$ is the only deformation row. It relates the simplicial map encoded by $V,B$ to the continuous row $F$ through the visible polytope data $T$, rather than through a quotient of maps.
+
+Repacking through $C,P,N$ preserves exactly this finite route. Thus both downstream consumers see the same displayed subdivision, vertex, star, realization, and handoff rows, with no additional host-topology coordinate.
+\end{proof}
+
+\falsifiablePrediction{A $\SimplicialApproximationUp$ consumer that reaches a Brouwer fixed-point or homotopy conclusion without reading the subdivision row $S$, vertex-image row $V$, polytope realization row $T$, and star-containment row $B$ refutes the carrier surface.}
+
+\independenceWitness{simplicialcomplex, polytope, continuousmap, brouwer-fixed-point, homotopy: no listed sibling supplies the whole twelve-row packet $A=(K,L,S,V,F,T,B,M,H,C,P,N)$, because the siblings contribute finite complexes, realization data, continuous graph rows, fixed-point consumers, or deformation ledgers separately while this chapter binds them into one subdivision-and-star certificate.}
+
+\closureat{SimplicialApproximationUp}{seedStr}
+
+\begin{closurestatus}{\SimplicialApproximationUp}
+  \constructivestory{A $\SimplicialApproximationUp$ packet is generated from source and target SimplicialComplex rows, a subdivision ledger, a vertex-image ledger, a ContinuousMap row, a Polytope realization row, a star-containment ledger, BrouwerFixedPoint and Homotopy handoff rows, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:simplicial-approximation-carrier}, \autoref{thm:simplicial-approximation-namecert-obligations}, and \autoref{thm:simplicial-approximation-brouwer-handoff} seed the finite subdivision, vertex-image, star-containment, Brouwer handoff, and Homotopy handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host topology, open-cover compactness, quotient homotopy classes, selected infinite subdivision processes, general Brouwer fixed-point existence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subdivision stability, vertex-image admissibility, star-containment exactness, Brouwer handoff, Homotopy handoff, replay stability, provenance exhaustion, and local naming for BEDC.Derived.SimplicialApproximationUp.}
+\end{closurestatus}
