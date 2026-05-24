@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\RankNullityUp$}
+\label{ch:concrete-instances-rank-nullity-namecert}
+\origin{human}
+
+Following the standard finite-dimensional linear-algebra theorem over a field, the $\RankNullityUp$ packet records the BEDC surface at which a linear map decomposes its source ledger into kernel and image dimensions. It sits after the field carrier of \autoref{ch:concrete-instances-field-namecert}, the vector-space ledger of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map packet of \autoref{ch:concrete-instances-linearmap-namecert}, and the matrix presentation of \autoref{ch:concrete-instances-matrix-namecert}. The chapter names the rank-nullity certificate as finite NameCert data; it does not add basis choice, quotient-vector-space construction, or spectral structure.
+
+\begin{definition}[Rank-nullity carrier]
+\label{def:rank-nullity-carrier}
+A $\RankNullityUp$ carrier is a finite $\BHist$ packet
+$$
+R=(L,S,T,K,I,A,U,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LinearMapUp$ code row, recording the displayed map whose kernel and image ledgers are being read.
+\item $S$ is the finite $\VecSpaceUp$ source ledger over the displayed $\FieldUp$ row, including its finite dimension token.
+\item $T$ is the finite $\VecSpaceUp$ target ledger over the same field row, including the codomain dimension context used by the image row.
+\item $K$ is the kernel row, exposing exactly the source vectors whose $L$-readback reaches the zero row of $T$.
+\item $I$ is the image row, exposing exactly the target vectors reached by an $L$-readback from an accepted source row.
+\item $A$ is the rank row, naming the finite dimension token attached to $I$.
+\item $U$ is the nullity row, naming the finite dimension token attached to $K$.
+\item $M$ is the $\MatrixUp$ presentation row for the same map and the same finite source and target ledgers.
+\item $H$ stores componentwise $\hsame$ transport for the map, source, target, kernel, image, rank, nullity, matrix presentation, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a rank-nullity request through $L,S,T,K,I,A,U,M,H$ and back to the local certificate row.
+\item $P$ is the $\Pkg$ provenance over $\RankNullityUp$, $\LinearMapUp$, $\VecSpaceUp$, $\MatrixUp$, $\FieldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RankNullityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary non-singleton function extensionality, quotient dimensions, basis selection, spectral theory, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Rank-nullity NameCert obligations]
+\label{thm:rank-nullity-namecert-obligations}
+For every accepted $\RankNullityUp$ carrier
+$$
+R=(L,S,T,K,I,A,U,M,H,C,P,N),
+$$
+the local $\NameCert_{\RankNullityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the linear-map code, finite source ledger, finite target ledger, kernel row, image row, rank row, nullity row, matrix presentation, transport, replay, provenance, and local naming;
+\item map-source-target coherence, requiring $L$ to be read only against the finite $\VecSpaceUp$ ledgers $S,T$ over the displayed $\FieldUp$ row;
+\item kernel exactness, requiring $K$ to contain precisely the source rows mapped by $L$ to the zero row of $T$;
+\item image exactness, requiring $I$ to contain precisely the target rows reached by $L$ from an admitted source row in $S$;
+\item finite dimension accounting, requiring $A$ and $U$ to read the displayed dimension tokens of $I$ and $K$ and to satisfy the source-dimension ledger encoded by the packet;
+\item matrix compatibility, requiring $M$ to present the same $L,S,T$ route without adding an external basis-choice row;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed rank-nullity rows.
+\end{enumerate}
+No rank-nullity obligation is stored outside $R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rank-nullity-carrier}. The tuple lists the linear-map code, source and target vector-space ledgers, kernel, image, rank, nullity, matrix presentation, and the structural rows.
+
+The coherence, kernel, image, and matrix obligations are exactly the rows $L,S,T,K,I,M$. The source and target ledgers supply the finite vector-space context; the kernel and image rows are read only through the displayed map; and the matrix row is a presentation of the same route rather than an additional choice principle.
+
+The dimension obligation is stored in $A,U$ together with the finite source ledger $S$. Since $H,C,P,N$ only transport, replay, source, and name rows already present in the carrier, there is no remaining location for a quotient dimension, basis choice, spectral datum, or external function-extensionality witness.
+\end{proof}
+
+\begin{theorem}[Rank-nullity kernel-image ledger]
+\label{thm:rank-nullity-kernel-image-ledger}
+Every accepted $\RankNullityUp$ packet factors a finite-dimensional linear-map read through the displayed route
+$$
+\LinearMapUp \longrightarrow \VecSpaceUp_{\mathrm{src}} \times \VecSpaceUp_{\mathrm{tgt}} \longrightarrow (\ker,\operatorname{im}) \longrightarrow (\operatorname{rank},\operatorname{nullity}) \longrightarrow \MatrixUp .
+$$
+Along this route the rank row $A$ and nullity row $U$ account for the finite source-dimension token of $S$ by the kernel-image ledger, and every exported rank-nullity read preserves the same rows $L,S,T,K,I,A,U,M,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $R=(L,S,T,K,I,A,U,M,H,C,P,N)$. Projection exposes the map code, source and target ledgers, kernel and image rows, rank and nullity rows, matrix presentation, and structural rows.
+
+The rows $K$ and $I$ are the only kernel and image coordinates in the packet. Thus any consumer reading a kernel-image decomposition must use the $L$-route from $S$ to $T$ rather than a detached quotient or ambient function graph.
+
+The rows $A$ and $U$ then record the finite dimension accounting for $I$ and $K$. The matrix row $M$ presents the same map over the same finite ledgers, while $H,C,P,N$ preserve the row order under transport, replay, provenance, and local naming.
+
+Therefore the exported read is exactly the displayed kernel-image ledger and cannot export arbitrary non-singleton function extensionality, quotient dimensions, basis selection, spectral theory, Lean verification, or bridge checking.
+\end{proof}
+
+\closureat{RankNullityUp}{seedStr}
+\begin{closurestatus}{\RankNullityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rank-nullity-carrier}, \autoref{thm:rank-nullity-namecert-obligations}, and \autoref{thm:rank-nullity-kernel-image-ledger} seed the finite rank-nullity carrier over LinearMap, VecSpace, Matrix, and Field rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary non-singleton function extensionality, quotient dimensions, choice of bases, spectral theory, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, map-source-target coherence, kernel exactness, image exactness, finite dimension accounting, matrix compatibility, transport stability, and replay stability for BEDC.Derived.RankNullityUp.}
+  \constructivestory{A $\RankNullityUp$ packet is generated from a LinearMap code row, finite source and target VecSpace ledgers, kernel and image rows, rank and nullity rows, a Matrix presentation row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
