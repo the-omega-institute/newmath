@@ -34,6 +34,7 @@ import BEDC.Derived.AdjunctionUp.CompositionPasting
 import BEDC.Derived.AdjunctionUp.CompositionPastingEmptyReadback
 import BEDC.Derived.AdjunctionUp.PositiveTail
 import BEDC.Derived.AdjunctionUp.RightAdjointUniqueness
+import BEDC.Derived.AdjunctionUp.StdBridge
 import BEDC.Derived.AdjunctionUp.TriangleComponents
 import BEDC.Derived.AdjunctionUp.TriangleResults
 import BEDC.Derived.AdjunctionUp.TriangleSingleLegEmpty
@@ -391,6 +392,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditHandoffLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditLedgerExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditMembraneSourceRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditRouteExactness
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuthorizationBridgeDeterminacy
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuthorizationDownstreamSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuthorizationObligations
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBoundaryAuditExhaustion
