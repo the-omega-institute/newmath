@@ -1,13 +1,17 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NestedIntervalCompactnessUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -346,5 +350,28 @@ theorem NestedIntervalCompactnessCarrier_finite_intersection_window
   have unarySeal : UnaryHistory sealRead :=
     unary_cont_closed unaryE unaryH sealRoute
   exact ⟨unaryWindow, unaryE, unarySeal, readbackRoute⟩
+
+def NestedIntervalCompactnessCarrier [AskSetup] [PackageSetup]
+    (I L D W R E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  UnaryHistory I ∧ UnaryHistory L ∧ UnaryHistory D ∧ UnaryHistory W ∧
+    UnaryHistory R ∧ Cont I D W ∧ Cont W R E ∧ PkgSig bundle P pkg ∧ hsame H C ∧
+      hsame N N
+
+theorem NestedIntervalCompactnessCarrier_finite_prefix_monotonicity [AskSetup]
+    [PackageSetup]
+    {I L D W R E H C P N prefixRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalCompactnessCarrier I L D W R E H C P N bundle pkg →
+      Cont I D prefixRead →
+        UnaryHistory prefixRead ∧ hsame W (append I D) ∧ hsame E (append W R) ∧
+          PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro carrier prefixRoute
+  obtain ⟨iUnary, _lUnary, dUnary, _wUnary, _rUnary, intervalRoute, realSealRoute,
+    packageRead, _transportRoute, _nameRoute⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed iUnary dUnary prefixRoute
+  exact ⟨prefixUnary, intervalRoute, realSealRoute, packageRead⟩
 
 end BEDC.Derived.NestedIntervalCompactnessUp
