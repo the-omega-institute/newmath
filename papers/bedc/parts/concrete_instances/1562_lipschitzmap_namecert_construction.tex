@@ -54,6 +54,7 @@ The carrier accepts exactly those packets whose displayed graph reads and
 metric-distance rows are bounded by the ledger $B$ and whose modulus row $M$ is
 the finite uniform-modulus route induced by that same bound.
 \end{definition}
+\leanchecked{BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier\_semantic\_carrier\_package}
 
 \begin{definition}[LipschitzMap classifier]
 \label{def:lipschitz-map-classifier}
@@ -153,7 +154,7 @@ No consumer can obtain a Banach fixed-point conclusion, completeness witness,
 differentiability row, quotient of maps, selected representative, or host
 function extensionality from the Lipschitz ledger alone.
 \end{theorem}
-\leanchecked{BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier\_uniform\_modulus\_boundary}
+\leanchecked{BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier\_ledger\_nonescape}
 \begin{proof}
 Use the obligation surface of
 \autoref{thm:lipschitz-map-namecert-obligations}. It lists the carrier,
@@ -540,6 +541,22 @@ Apply ledger nonescape and the uniform-modulus handoff. The rational bound $B$ c
 Next use the complete-metric regular seal boundary. The completion-facing $\RegSeqRatUp$ source row and $\RealUp$ seal are read only after the shared Lipschitz ledger has passed through the sibling $\MetricSpaceUp$, $\ContinuousMapUp$, and $\UniformModulusUp$ rows.
 
 Finally apply \autoref{thm:lipschitz-map-bound-dependency-lock}. It excludes detaching the common bound into completeness, selected limits, quotient-map equality, host function extensionality, or differentiability, and leaves the displayed $\MetricSpaceUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RegSeqRatUp$, and $\RealUp$ rows as the only available completion route.
+\end{proof}
+
+\begin{theorem}[LipschitzMap separated-completion nonescape]
+\label{thm:lipschitz-map-separated-completion-nonescape}
+Let
+$$
+L=(X,Y,B,G,M,H,C,P,N)
+$$
+be an accepted $\LipschitzMapUp$ carrier. Every completion-facing consumer routed through $\CompleteMetricUp$, $\SeparatedMetricUp$, $\RealUp$, $\RegSeqRatUp$, and $\UniformModulusUp$ must read the rational Lipschitz-bound ledger $B$ and the separated zero-distance route before any completion identity claim is exposed. The consumer receives only the common-bound completion route, target-distance exactness, contraction-threshold factorization, and the public zero-distance route of $\SeparatedMetricUp$; it receives no ambient completeness theorem, selected limit, quotient completion equality, host function extensionality, differentiability, or detached real equality.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:lipschitz-map-common-bound-completion-route}. It places the graph row $G$, rational bound ledger $B$, source and target metric rows $X,Y$, induced modulus row $M$, $\RegSeqRatUp$ source row, and $\RealUp$ seal on one shared completion-facing route.
+
+Apply target-distance exactness and the contraction threshold factorization. The target-distance read is tied to $X,Y,B,G$, while contraction-facing consumers may use the bound only through the displayed threshold route and induced modulus row.
+
+Finally use the public separated-metric zero-distance route of \autoref{thm:separatedmetric-public-identity-export}. A completion identity claim can be exposed only after the separated zero-distance classifier has been read, so the Lipschitz packet cannot bypass $B$ or replace the separated route by quotient completion equality, selected limits, or host equality.
 \end{proof}
 
 \closureat{LipschitzMapUp}{seedStr}

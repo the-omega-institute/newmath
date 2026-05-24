@@ -36,8 +36,12 @@ end BEDC.Derived
 
 namespace BEDC.Derived.SecondCountableUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -192,5 +196,40 @@ theorem SecondCountableTasteGate_single_carrier_alignment :
   exact
     ⟨secondCountableDecodeEncode,
       ⟨⟨secondCountableBHistCarrier⟩, ⟨secondCountableChapterTasteGate⟩, rfl⟩⟩
+
+theorem SecondCountableCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source topology metric base dyadic stream realSeal transport replay provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.SecondCountableUp source topology metric base dyadic stream realSeal transport
+        replay provenance localName bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          BEDC.Derived.SecondCountableUp source topology metric base dyadic stream realSeal
+            transport replay provenance localName bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          BEDC.Derived.SecondCountableUp source topology metric base dyadic stream realSeal
+            transport replay provenance localName bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          BEDC.Derived.SecondCountableUp source topology metric base dyadic stream realSeal
+            transport replay provenance localName bundle pkg ∧ hsame row localName)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier
+  constructor
+  · constructor
+    · exact Exists.intro localName (And.intro carrier (hsame_refl localName))
+    · intro row _source
+      exact hsame_refl row
+    · intro row row' same
+      exact hsame_symm same
+    · intro row row' row'' sameRow sameRow'
+      exact hsame_trans sameRow sameRow'
+    · intro row row' sameRows sourceRow
+      exact And.intro carrier (hsame_trans (hsame_symm sameRows) sourceRow.right)
+  · intro _row source
+    exact source
+  · intro _row source
+    exact source
 
 end BEDC.Derived.SecondCountableUp

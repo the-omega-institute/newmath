@@ -59,6 +59,24 @@ Rows $N$ and $F$ keep the siblings separate. The closed-normal fragment and the 
 The ledger row $L$ records the audited closed substitution data that may be cited before the boundary is consumed. Finally $H,C,P,K$ transport, replay, source, and name exactly those rows. With no coordinate for the refused endpoint claims, the listed obligations exhaust the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-substitution premise preservation]
+\label{thm:metacic-residual-substitution-boundary-premise-preservation}
+Let $B=(R,S,A,J,N,F,L,H,C,P,K)$ be an accepted $\MetaCICResidualSubstitutionBoundaryUp$ carrier. Any consumer of $B$ that exports a parallel-diamond handoff or a closed Church--Rosser handoff must keep the substitution row $S$ visible as a premise through the route
+$$
+R,S,A,L \longmapsto J \longmapsto F,N \longmapsto H,P,K .
+$$
+Thus the consumer may export only a conditional handoff whose displayed route still contains $S$; it does not obtain $\mathsf{BetaParallelSubstitutionCompatibility}$ as a theorem of the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-substitution-boundary-carrier}. The rows $R,S,A,L$ are the only entry surface for the residual beta branches, the substitution-compatibility boundary, the application audit, and the substitution audit ledger.
+
+Apply \autoref{thm:metacic-residual-substitution-boundary-namecert-obligations}. Its substitution-boundary visibility clause requires $S$ to remain a named premise whenever the conditional join row $J$ is exported, while its ledger exactness clause keeps $L$ attached to the audited closed substitution rows.
+
+The sibling separation rows then route the handoff through the confluence audit packet $F$ and the closed-normal fragment $N$ without turning either sibling into a proof of $S$. The confluence audit map may consume the conditional route, but the visible premise row remains part of the exported packet.
+
+Finally $H,P,K$ transport, source, and name the same finite route. Since the carrier has no coordinate proving $\mathsf{BetaParallelSubstitutionCompatibility}$, a parallel-diamond or closed Church--Rosser consumer can receive only the premise-preserving handoff displayed above.
+\end{proof}
+
 \falsifiablePrediction{A packet lacking the residual-substitution row is rejected even if it carries closed-normal confluence rows.}
 
 \independenceWitness{metacicconfluenceauditpacket, metacicconfluencenormalfragment, metacicredexfrontier, closedsubstitutionboundary, substitutionboundaryaudit: the residual-substitution boundary carrier is not bijective to any sibling because it carries the dedicated premise row $S$ coupled to the conditional join row $J$ and the residual beta-branch row $R$.}
