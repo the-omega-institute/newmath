@@ -86,4 +86,24 @@ theorem MetricCompletionCarrier_semantic_name_certificate [AskSetup] [PackageSet
     }
   exact ⟨cert, sourceUnary, readbackUnary, replayRoute, provenancePkg⟩
 
+theorem MetricCompletionCarrier_filter_branch_handoff [AskSetup] [PackageSetup]
+    {source filterBranch netBranch readback separated transport replay provenance
+      localCert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricCompletionCarrier source filterBranch netBranch readback separated transport replay
+        provenance localCert bundle pkg →
+      Cont filterBranch readback endpoint →
+        UnaryHistory source ∧ UnaryHistory filterBranch ∧ UnaryHistory endpoint ∧
+          Cont filterBranch readback endpoint ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle PkgSig
+  intro carrier filterRoute
+  have sourceUnary : UnaryHistory source := carrier.left
+  have filterUnary : UnaryHistory filterBranch := carrier.right.left
+  have readbackUnary : UnaryHistory readback := carrier.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed filterUnary readbackUnary filterRoute
+  exact ⟨sourceUnary, filterUnary, endpointUnary, filterRoute, provenancePkg⟩
+
 end BEDC.Derived.MetricCompletionUp.NameCertObligations
