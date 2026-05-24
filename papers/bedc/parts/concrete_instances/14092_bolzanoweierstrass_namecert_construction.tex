@@ -157,6 +157,18 @@ At each inspected depth, use the retained-cell witness supplied by the finite tr
 Transport and replay by $H$ and $C$ preserve the same interval-net and sequence-window rows. Since no carrier coordinate contains an open cover, quotient stream equality, arbitrary subsequence choice, or ambient completeness, the dyadic-mesh witness exports none of those principles.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass bounded-window nonempty extraction]
+\label{thm:bolzano-weierstrass-bounded-window-nonempty-extraction}
+Let $B=(S,K,R,Q,E,H,C,P,N)$ be an accepted $\BolzanoWeierstrassUp$ carrier. Every retained dyadic cell selected from the finite interval net $K$ carries a nonempty bounded sequence-window row from $S$, and this row is the only source from which $R$ may append the next monotone-cofinal subsequence index. The extraction therefore passes through the finite interval-tree induction, retained-cell monotonicity, and dyadic-mesh subsequence witness before any selected window is handed to $Q$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bolzano-weierstrass-finite-interval-tree-induction}. At each inspected unary depth it supplies a retained cell together with a nonempty finite sequence-window row from $S$ and the corresponding monotone-cofinal reindexing row in $R$.
+
+Apply \autoref{thm:bolzano-weierstrass-retained-cell-monotonicity}. Later retained cells refine earlier retained cells through the same interval-net rows, and the later nonempty window is a continuation of the earlier bounded window before $R$ appends the next index.
+
+Finally apply \autoref{thm:bolzano-weierstrass-dyadic-mesh-subsequence-witness}. The witness records that the next subsequence index is attached to the retained dyadic cell and its displayed nonempty window from $S$. Since the carrier has no further source coordinate for subsequence indices, $R$ can append the next monotone-cofinal index only from that bounded window row.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass cluster Cauchy window]
 \label{thm:bolzano-weierstrass-cluster-cauchy-window}
 Let $B=(S,K,R,Q,E,H,C,P,N)$ be an accepted $\BolzanoWeierstrassUp$ carrier. The retained-cell nesting from $K$ yields the regular Cauchy window consumed by the $\RegSeqRatUp$ row $Q$: later retained cells refine earlier retained cells, their dyadic diameters follow the inspected unary depth, and the selected windows recorded by $R$ are exactly the finite windows read by $Q$.
