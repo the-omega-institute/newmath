@@ -374,4 +374,26 @@ theorem NestedIntervalCompactnessCarrier_finite_prefix_monotonicity [AskSetup]
     unary_cont_closed iUnary dUnary prefixRoute
   exact ⟨prefixUnary, intervalRoute, realSealRoute, packageRead⟩
 
+theorem NestedIntervalCompactnessCarrier_dyadic_mesh_exhaustion [AskSetup]
+    [PackageSetup]
+    {I L D W R E H C P N dyadicRead windowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalCompactnessCarrier I L D W R E H C P N bundle pkg →
+      Cont L D dyadicRead →
+        Cont dyadicRead W windowRead →
+          UnaryHistory dyadicRead ∧ UnaryHistory windowRead ∧ Cont L D dyadicRead ∧
+            Cont dyadicRead W windowRead ∧ hsame W (append I D) ∧
+              hsame E (append W R) ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  intro carrier dyadicRoute windowRoute
+  obtain ⟨_iUnary, lUnary, dUnary, wUnary, _rUnary, intervalRoute, realSealRoute,
+    packageRead, _transportRoute, _nameRoute⟩ := carrier
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed lUnary dUnary dyadicRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicUnary wUnary windowRoute
+  exact
+    ⟨dyadicUnary, windowUnary, dyadicRoute, windowRoute, intervalRoute, realSealRoute,
+      packageRead⟩
+
 end BEDC.Derived.NestedIntervalCompactnessUp
