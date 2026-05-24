@@ -43,6 +43,7 @@ import codex_track  # v2 codex track
 import board_spawn  # v2 BOARD spawn gate
 import board_archive
 import candidate_inbox
+import candidate_substance
 import logic_packet_gate
 from locks import file_lock
 
@@ -1414,6 +1415,34 @@ def release_oracle_pending(target: BedcTarget) -> None:
             pass
 
 
+def _write_weak_surface_skip(target: BedcTarget, reason: str) -> None:
+    state = {
+        "target_id": target.target_id,
+        "title": target.title,
+        "started_at": _now_iso(),
+        "completed_at": _now_iso(),
+        "stage1_verdict": "manual_block",
+        "failure_kind": "weak_surface_target",
+        "skip_reason": reason,
+        "pipeline_version": "v2",
+        "stage2": {},
+    }
+    lifecycle.annotate(state, attempts=int((load_cursor(target).get("attempts") or 1)))
+    write_text(STATE_DIR / f"{target.slug}.json", json.dumps(state, ensure_ascii=False, indent=2))
+    print(
+        f"[preflight] skip {target.target_id} ({target.title}): {reason}",
+        flush=True,
+    )
+
+
+def _maybe_skip_weak_surface_target(target: BedcTarget) -> bool:
+    reason = candidate_substance.board_target_rejection(target)
+    if not reason:
+        return False
+    _write_weak_surface_skip(target, reason)
+    return True
+
+
 STALE_CLAIM_MAX_AGE_SECONDS = 30 * 60
 
 
@@ -1421,7 +1450,11 @@ def _pid_alive(pid: int) -> bool:
     try:
         os.kill(pid, 0)
         return True
-    except (OSError, ProcessLookupError):
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    except OSError:
         return False
 
 
@@ -1534,6 +1567,8 @@ def claim_next_unfinished() -> BedcTarget | None:
             pending = oracle_pending_marker(t)
             if done or marker.exists() or pending.exists():
                 continue
+            if _maybe_skip_weak_surface_target(t):
+                continue
             marker.parent.mkdir(parents=True, exist_ok=True)
             marker.write_text(f"pid={os.getpid()} ts={_now_iso()}\n", encoding="utf-8")
             return t
@@ -1551,6 +1586,9 @@ def claim_next_for_oracle() -> BedcTarget | None:
             if in_progress_marker(t).exists():
                 continue
             if not oracle_pending_marker(t).exists():
+                continue
+            if _maybe_skip_weak_surface_target(t):
+                release_oracle_pending(t)
                 continue
             marker = in_progress_marker(t)
             marker.parent.mkdir(parents=True, exist_ok=True)

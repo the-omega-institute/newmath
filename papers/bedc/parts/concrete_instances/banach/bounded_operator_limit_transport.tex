@@ -148,3 +148,89 @@ transport obligation using only the existing Banach, CompleteMetricUp,
 StreamNameUp, RealUp, and NormUp certificate rows, with no additional
 parameter-transport schema.
 \end{proof}
+
+\begin{lemma}[Bounded linear operator limit comparison minimal witness]
+\label{lem:banach-bounded-linear-operator-limit-comparison-minimal-witness}
+Let $C,D$ be $\BanachUp$ candidates, let
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ be carried, and let
+$$
+\mathsf{CompleteMetricLimitWitness}(C,s,\mu,\ell,L)
+$$
+be a source limit witness for a regular Cauchy $\StreamNameUp$ stream $s$.
+For the comparison datum
+$$
+\mathsf{BanachBLOpLimit}(C,D,T,K,\Lambda,s,\mu,\ell,L,s_T,\mu_T,T(\ell),L_T)
+$$
+of \autoref{def:banach-bounded-linear-operator-limit-comparison}, the
+minimal consumer-facing witness is the displayed target component supplied by
+\autoref{thm:banach-bounded-linear-operator-limit-witness-transport}: the
+pointwise stream row $s_T(n)=T(s(n))$, the selected target endpoint $T(\ell)$,
+the transported modulus $\mu_T$, the late-distance ledger $L_T$, and the
+operator ledger $\Lambda$. Every accepted local admission, consumption,
+route, transport, or readback of the bounded-linear-operator limit comparison
+factors through these rows and through the rows listed by
+\autoref{thm:banach-bounded-linear-operator-limit-namecert-surface}. It cannot
+add an ambient limit selector, an off-ledger continuity principle, a quotient
+completion object, a compactness row, or any unlisted coordinate outside the
+same displayed packet.
+\end{lemma}
+\begin{proof}
+Unfold \autoref{def:banach-bounded-linear-operator-limit-comparison}. The
+comparison datum contains exactly the source complete-metric witness, the
+operator row with ledger $\Lambda$, the pointwise target stream, the displayed
+target endpoint $T(\ell)$, the target complete-metric witness, and the visible
+operator, norm, stream, limit, distance, and bound-comparison ledgers. Thus a
+consumer of the comparison datum has only these named fields available at the
+local packet boundary.
+
+Apply \autoref{thm:banach-bounded-linear-operator-limit-witness-transport} to
+the carried operator row and the source witness. The theorem constructs the
+target witness by first applying
+\autoref{thm:banach-bounded-linear-operator-cauchy-transport} to obtain the
+pointwise stream $s_T$ from the target endpoint rows in $\Lambda$, then reading
+$T(\ell)$ through the target endpoint row of the same operator ledger. For a
+requested positive target tolerance, its proof uses the $\RealUp$ bound row for
+$K$ to select the source tolerance, feeds that tolerance into the displayed
+source convergence modulus $\mu$, and applies
+\autoref{thm:banach-bounded-linear-operator-lipschitz} to each late pair
+$s(n),\ell$. The whole late-distance handoff is therefore the finite chain
+$$
+\mu
+\quad\longrightarrow\quad
+ d_C(s(n),\ell)
+\quad\longrightarrow\quad
+ K\cdot d_C(s(n),\ell)
+\quad\longrightarrow\quad
+ d_D(T(s(n)),T(\ell))
+\quad\longrightarrow\quad
+ L_T.
+$$
+No step in this chain asks for a target limit search: the endpoint is the
+named endpoint $T(\ell)$, and the tolerance selector is the one obtained from
+the displayed $K$-comparison rows.
+
+Now read the same package through
+\autoref{thm:banach-bounded-linear-operator-limit-namecert-surface}. Its
+carrier is the pair of source and target $\mathsf{CompleteMetricLimitWitness}$
+rows connected by $\Lambda$; its classifier is componentwise $\hsame$ transport
+of the source stream, source limit, target stream, target limit, bound row, and
+late-distance ledgers; its stability field is precisely the witness-transport
+theorem; and its exactness field is
+\autoref{thm:banach-bounded-linear-operator-limit-commutation}. Hence any
+consumer-facing use that claims to admit or consume the limit comparison must
+first project to the same source witness, $\Lambda$, $s_T$, $T(\ell)$,
+$\mu_T$, and $L_T$, and any replacement of representatives is mediated only by
+those componentwise classifier rows.
+
+Suppose a stronger reading attempted to add an independent target-limit
+selector, a host continuity theorem, a quotient completion object, a compactness
+row, or another coordinate not present in the displayed comparison datum. Such
+a coordinate is not a field of
+\autoref{def:banach-bounded-linear-operator-limit-comparison}, is not produced
+by \autoref{thm:banach-bounded-linear-operator-limit-witness-transport}, and
+is not part of the carrier, classifier, stability, exactness, or ledger fields
+listed by \autoref{thm:banach-bounded-linear-operator-limit-namecert-surface}.
+Therefore it cannot participate in an accepted local admission or consumption
+claim for this comparison. Every accepted use factors back to the displayed
+finite witness and selector rows, as claimed.
+\end{proof}
