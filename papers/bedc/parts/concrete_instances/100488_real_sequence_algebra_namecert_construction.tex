@@ -79,6 +79,44 @@ For a pointwise sum, the consumer reads the same source windows and regular read
 The output remains a $\RealUp$ seal named by $E$ and transported through $H,C,P,N$. Since the carrier has no host sequence equality, quotient stream, selected limit, trichotomy, ambient completeness, Lean verification, or bridge coordinate, the bounded consumer can obtain bounds only from the displayed bounded-sequence and regular-Cauchy rows.
 \end{proof}
 
+\begin{theorem}[Real sequence algebra operation-row exactness]\label{thm:real-sequence-algebra-operation-row-exactness}
+Every accepted $\RealSequenceAlgebraUp$ pointwise sum or bounded-product read
+factors through the two source $\RealUp$ sequence rows, the finite
+$\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, the
+$\DyadicRatCoreUp$ operation and error ledger, the operation row, the output
+$\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay,
+$\Pkg$ provenance, and the local $\NameCert_{\RealSequenceAlgebraUp}$ row.
+Thus the operation row is exact: it records the selected pointwise sum or
+bounded product together with its dyadic budget before any output seal or
+limit-law handoff is available.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier
+$A=(S_X,S_Y,W_X,W_Y,R_X,R_Y,D,O,E,H,C,P,N)$ of
+\autoref{def:real-sequence-algebra-carrier}. The two source sequence rows are
+$S_X,S_Y$, and the only finite observations of them are the windows
+$W_X,W_Y$ with readbacks $R_X,R_Y$.
+
+The dyadic operation and error ledger is $D$. For a pointwise sum it records
+the source and output tolerances; for a bounded product it also records the
+displayed bound data needed by the product budget.
+
+The operation row $O$ is downstream of those source and ledger rows. It
+therefore cannot expose a sum or bounded product read without first naming
+the two sources, their finite windows, their regular readbacks, and the
+dyadic tolerance accounting.
+
+Apply \autoref{thm:real-sequence-algebra-limit-consumer} and
+\autoref{thm:real-sequence-algebra-bounded-consumer}. The first confines
+limit-law consumers to the same route, and the second confines bounded
+consumers to the displayed bound and regular-Cauchy rows.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and locally name this
+same route. Since no carrier coordinate stores host sequence equality,
+quotient streams, trichotomy, or ambient $\RealUp$ completeness, the
+operation-row read is exactly the displayed finite ledger.
+\end{proof}
+
 \closureat{RealSequenceAlgebraUp}{seedStr}
 
 \begin{closurestatus}{\RealSequenceAlgebraUp}
