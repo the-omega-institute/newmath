@@ -128,6 +128,55 @@ Use \autoref{thm:contraction-mapping-picard-step-contraction} for adjacent Picar
 The Banach and complete-metric handoffs, \autoref{thm:contraction-mapping-banach-handoff} and \autoref{thm:contraction-mapping-complete-metric-handoff}, identify the consumer route. They require a separate $\CompleteMetricUp$ row and preserve the same finite $\MetricUp$, $\LipschitzMapUp$, and $\PicardContractionUp$ reads, so the exported tail-modulus row is readiness data rather than a selected endpoint.
 \end{proof}
 
+\begin{definition}[ContractionMapping regular-Cauchy modulus surface]
+\label{def:contraction-mapping-regular-cauchy-modulus-surface}
+For an accepted $\ContractionMappingUp$ carrier $K=(X,d,T,G,\lambda,M,I,H,C,P,N)$ and a finite Cauchy-orbit ledger $O=(x_0,\ell,B,R,W)$, the regular-Cauchy modulus surface is the displayed packet
+$$
+\Theta=(X,d,T,G,\lambda,M,I,O,Q,H,C,P,N)
+$$
+where $Q$ records the finite tail-bound thresholds extracted from $B,R,W$ and presents them to a $\RegSeqRatUp$-facing consumer. The surface is a route from contraction data to regular-Cauchy completion evidence. It is not a fixed-point selector, not a completed endpoint, not quotient equality of Picard streams, and not ambient completeness.
+\end{definition}
+
+\begin{theorem}[ContractionMapping tail-bound extraction]
+\label{thm:contraction-mapping-tail-bound-extraction}
+For every accepted $\ContractionMappingUp$ carrier $K$ and finite Cauchy-orbit ledger $O$, the tail-modulus readiness row of \autoref{thm:contraction-mapping-tail-modulus-readiness} determines a finite extraction row $Q$ whose entries are read only from the Picard-step contraction route, the Cauchy-orbit contractivity ledger, the rational bound powers, and the dyadic tail tolerance rows. No extraction step reads a selected fixed point or a completed limit.
+\end{theorem}
+\begin{proof}
+Project the carrier and the orbit ledger. The only contraction comparison is the Picard-step route of \autoref{thm:contraction-mapping-picard-step-contraction}, and the only iterated replay is the Cauchy-orbit contractivity statement of \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}.
+
+The finite bound-power row $B$ and tolerance row $R$ provide the threshold entries used by $Q$. The readiness theorem then identifies those entries as the tail-modulus row visible to completion consumers.
+
+Because the complete-metric handoff is still separate, the extraction has no coordinate for an endpoint, selected fixed point, host fixed-point equality, quotient stream equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[ContractionMapping regular-Cauchy modulus export]
+\label{thm:contraction-mapping-regular-cauchy-modulus-export}
+Every $\RegSeqRatUp$-facing completion consumer of a $\ContractionMappingUp$ packet may read the surface of \autoref{def:contraction-mapping-regular-cauchy-modulus-surface} only through the finite route
+$$
+X,d,T,G,\lambda,M,I,O,Q,H,C,P,N.
+$$
+The route exports a regular-Cauchy modulus for the Picard orbit by combining the stored contraction comparison, finite orbit ledger, tail-bound extraction row, and replay data; it does not export a selected fixed point.
+\end{theorem}
+\begin{proof}
+Begin with the tail-bound extraction theorem. It supplies $Q$ from the already displayed contraction route and finite orbit ledger.
+
+Next use \autoref{def:contraction-mapping-regular-cauchy-modulus-surface}. The surface appends $Q$ to the carrier and orbit rows, so a regular-Cauchy consumer sees exactly the metric, self-map, graph, bound, Picard, orbit, threshold, transport, replay, provenance, and local naming rows.
+
+The Banach handoff remains downstream. Thus the exported data is a modulus surface for a regular-Cauchy Picard name, not a fixed-point endpoint, completed orbit, quotient equality, host function equality, or completeness assertion.
+\end{proof}
+
+\begin{theorem}[ContractionMapping complete-metric regular-Cauchy handoff]
+\label{thm:contraction-mapping-complete-metric-regular-cauchy-handoff}
+Every $\CompleteMetricUp$ or $\BanachFixedPointUp$ consumer that uses a $\ContractionMappingUp$ carrier for completion evidence must first read the regular-Cauchy modulus export of \autoref{thm:contraction-mapping-regular-cauchy-modulus-export} and then supply its separate complete-metric row. The contraction packet contributes only the finite RegSeqRat-facing modulus route for the Picard orbit.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:contraction-mapping-complete-metric-handoff}. It keeps completeness outside the contraction packet while exposing the metric self-map, contraction comparison, induced modulus, and Picard route.
+
+Apply \autoref{thm:contraction-mapping-regular-cauchy-modulus-export}. It repacks the finite orbit ledger and extracted tail-bound row as the RegSeqRat-facing modulus surface needed by a completion consumer.
+
+Only after those rows are displayed can a $\CompleteMetricUp$ or $\BanachFixedPointUp$ packet use its own endpoint discipline. The contraction packet itself therefore exports regular-Cauchy completion evidence, not endpoint selection, host fixed-point equality, quotient map equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[ContractionMapping fixed-point readiness]
 \label{thm:contraction-mapping-fixed-point-readiness}
 Every $\BanachFixedPointUp$ consumer may read an accepted $\ContractionMappingUp$ packet only after the complete-metric row of \autoref{thm:contraction-mapping-complete-metric-handoff} and the finite tail-modulus route of \autoref{thm:contraction-mapping-tail-modulus-readiness} have both been displayed. This readiness condition exposes the contraction packet, Picard iterates, finite Cauchy ledger, rational bound powers, and complete-metric handoff, but it does not select a fixed point, a completed orbit endpoint, or a host equality proof.
@@ -145,7 +194,7 @@ Only after both rows are displayed may the consumer proceed to its own fixed-poi
 \begin{closurestatus}{\ContractionMappingUp}
   \constructivestory{A $\ContractionMappingUp$ packet is generated from a $\MetricUp$ carrier row, a metric-distance row, a self-map row, a graph row, a rational contraction-bound ledger below one, an induced modulus row, a one-step $\PicardContractionUp$ route, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:contraction-mapping-carrier}, \autoref{thm:contraction-mapping-namecert-obligations}, \autoref{thm:contraction-mapping-picard-step-contraction}, \autoref{def:contraction-mapping-cauchy-orbit-ledger}, \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}, \autoref{thm:contraction-mapping-banach-handoff}, \autoref{thm:contraction-mapping-complete-metric-handoff}, \autoref{thm:contraction-mapping-tail-modulus-readiness}, and \autoref{thm:contraction-mapping-fixed-point-readiness} bind the carrier, Picard-step contraction, finite orbit ledger, Banach handoff, complete-metric handoff, finite tail-modulus readiness, and fixed-point readiness obligation surface for the constructive self-map contraction packet.}
+  \scopeclosed{\autoref{def:contraction-mapping-carrier}, \autoref{thm:contraction-mapping-namecert-obligations}, \autoref{thm:contraction-mapping-picard-step-contraction}, \autoref{def:contraction-mapping-cauchy-orbit-ledger}, \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}, \autoref{thm:contraction-mapping-banach-handoff}, \autoref{thm:contraction-mapping-complete-metric-handoff}, \autoref{thm:contraction-mapping-tail-modulus-readiness}, \autoref{def:contraction-mapping-regular-cauchy-modulus-surface}, \autoref{thm:contraction-mapping-tail-bound-extraction}, \autoref{thm:contraction-mapping-regular-cauchy-modulus-export}, \autoref{thm:contraction-mapping-complete-metric-regular-cauchy-handoff}, and \autoref{thm:contraction-mapping-fixed-point-readiness} bind the carrier, Picard-step contraction, finite orbit ledger, Banach handoff, complete-metric handoff, finite tail-modulus readiness, regular-Cauchy modulus surface, and fixed-point readiness obligation surface for the constructive self-map contraction packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
