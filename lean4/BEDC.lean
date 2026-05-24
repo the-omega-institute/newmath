@@ -914,6 +914,7 @@ import BEDC.Derived.CauchyCompletionFunctorUp.RegseqRealEndofunctor
 import BEDC.Derived.CauchyCompletionFunctorUp.SelectorBudgetDeterminacy
 import BEDC.Derived.CauchyCompletionFunctorUp.TailBudgetCoherenceFactorization
 import BEDC.Derived.CauchyCompletionFunctorUp.TasteGate
+import BEDC.Derived.CauchyCompletionFunctorialityUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionMonadUp
@@ -1248,6 +1249,7 @@ import BEDC.Derived.CauchyProductUp.RootRealSealObligations
 import BEDC.Derived.CauchyProductUp.RootRealSealProductLedger
 import BEDC.Derived.CauchyProductUp.RootRegSeqRatClassifierLock
 import BEDC.Derived.CauchyProductUp.RootRegularProductBudgetSealExhaustion
+import BEDC.Derived.CauchyProductUp.RootRegularProductDownstreamCoverage
 import BEDC.Derived.CauchyProductUp.RootSealLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSelectorRealSealExhaustion
@@ -2944,6 +2946,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.FiniteRadiusNonchoice
 import BEDC.Derived.FiniteLebesgueNumberUp.L10PhaseConsumerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.L10SiblingRoute
 import BEDC.Derived.FiniteLebesgueNumberUp.L10SourceLock
+import BEDC.Derived.FiniteLebesgueNumberUp.LedgerTransport
 import BEDC.Derived.FiniteLebesgueNumberUp.ObligationCoverageRow
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhase
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseNonchoiceCover
