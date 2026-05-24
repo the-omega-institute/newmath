@@ -1,0 +1,13 @@
+\begin{theorem}[Bool finite-data sibling route]
+\label{thm:bool-finite-data-sibling-route}
+The $\BoolUp$ two-mark carrier is the finite endpoint consumed by the constructor-tag routes for $\OptionUp$, $\ProdUp$, $\SumUp$, and $\ListUp$. Every such sibling read factors through the displayed true/false endpoint rows, the local $\BHist$ carrier, componentwise $\hsame$ transport, visible $\Cont$ replay, $\Pkg$ provenance, and the $\NameCert_{\BoolUp}$ row before it can be used as an option tag, product projection flag, sum injection tag, or list constructor marker.
+
+In particular, the horizontal finite-data edge from \autoref{ch:concrete-instances-bool-namecert} to \autoref{ch:concrete-instances-option-namecert} is a carrier route, not a host-level case split outside the BEDC packet.
+\end{theorem}
+\begin{proof}
+Project the accepted $\BoolUp$ carrier. Its only data rows are the two displayed marks together with the transport, replay, provenance, and local naming rows.
+
+The sibling constructors consume those marks as finite tags. The $\OptionUp$ route reads one mark to distinguish absence from presence, while the $\ProdUp$, $\SumUp$, and $\ListUp$ routes use the same finite endpoint discipline for projection, injection, and constructor boundaries.
+
+Since every read is routed through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, no sibling obtains an external Boolean oracle or an unrecorded host case split.
+\end{proof}
