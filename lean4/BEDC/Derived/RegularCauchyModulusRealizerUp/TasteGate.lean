@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegularCauchyModulusRealizerUp.TasteGate
+namespace BEDC.Derived.RegularCauchyModulusRealizerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,7 +11,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RegularCauchyModulusRealizerUp : Type where
-  | mk (A M W D Q E H C P N : BHist) : RegularCauchyModulusRealizerUp
+  | mk
+      (request threshold window tolerance readback sealRow transport replay provenance
+        localName : BHist) :
+      RegularCauchyModulusRealizerUp
   deriving DecidableEq
 
 def regularCauchyModulusRealizerEncodeBHist : BHist → RawEvent
@@ -26,111 +29,205 @@ def regularCauchyModulusRealizerDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyModulusRealizerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyModulusRealizerDecodeBHist tail)
 
-private theorem RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode :
+private theorem regularCauchyModulusRealizerDecode_encode_bhist :
     ∀ h : BHist,
       regularCauchyModulusRealizerDecodeBHist
-        (regularCauchyModulusRealizerEncodeBHist h) = h := by
+          (regularCauchyModulusRealizerEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def regularCauchyModulusRealizerFields :
     RegularCauchyModulusRealizerUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyModulusRealizerUp.mk A M W D Q E H C P N =>
-      [A, M, W, D, Q, E, H, C, P, N]
+  | RegularCauchyModulusRealizerUp.mk request threshold window tolerance readback sealRow
+      transport replay provenance localName =>
+      [request, threshold, window, tolerance, readback, sealRow, transport, replay,
+        provenance, localName]
 
 def regularCauchyModulusRealizerToEventFlow :
     RegularCauchyModulusRealizerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (regularCauchyModulusRealizerFields x).map
-        regularCauchyModulusRealizerEncodeBHist
+  | RegularCauchyModulusRealizerUp.mk request threshold window tolerance readback sealRow
+      transport replay provenance localName =>
+      [[BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist request,
+        [BMark.b1, BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist threshold,
+        [BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist window,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist tolerance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist readback,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist sealRow,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist replay,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyModulusRealizerEncodeBHist localName]
 
-private def RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt :
-    Nat → EventFlow → RawEvent
+def regularCauchyModulusRealizerFromEventFlow :
+    EventFlow → Option RegularCauchyModulusRealizerUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt index rest
+  | [] => none
+  | _tagRequest :: restRequest =>
+      match restRequest with
+      | [] => none
+      | request :: restThresholdTag =>
+          match restThresholdTag with
+          | [] => none
+          | _tagThreshold :: restThreshold =>
+              match restThreshold with
+              | [] => none
+              | threshold :: restWindowTag =>
+                  match restWindowTag with
+                  | [] => none
+                  | _tagWindow :: restWindow =>
+                      match restWindow with
+                      | [] => none
+                      | window :: restToleranceTag =>
+                          match restToleranceTag with
+                          | [] => none
+                          | _tagTolerance :: restTolerance =>
+                              match restTolerance with
+                              | [] => none
+                              | tolerance :: restReadbackTag =>
+                                  match restReadbackTag with
+                                  | [] => none
+                                  | _tagReadback :: restReadback =>
+                                      match restReadback with
+                                      | [] => none
+                                      | readback :: restSealTag =>
+                                          match restSealTag with
+                                          | [] => none
+                                          | _tagSeal :: restSeal =>
+                                              match restSeal with
+                                              | [] => none
+                                              | sealRow :: restTransportTag =>
+                                                  match restTransportTag with
+                                                  | [] => none
+                                                  | _tagTransport :: restTransport =>
+                                                      match restTransport with
+                                                      | [] => none
+                                                      | transport :: restReplayTag =>
+                                                          match restReplayTag with
+                                                          | [] => none
+                                                          | _tagReplay :: restReplay =>
+                                                              match restReplay with
+                                                              | [] => none
+                                                              | replay :: restProvenanceTag =>
+                                                                  match restProvenanceTag with
+                                                                  | [] => none
+                                                                  | _tagProvenance ::
+                                                                      restProvenance =>
+                                                                      match restProvenance with
+                                                                      | [] => none
+                                                                      | provenance ::
+                                                                          restLocalNameTag =>
+                                                                          match
+                                                                            restLocalNameTag
+                                                                          with
+                                                                          | [] => none
+                                                                          | _tagLocalName ::
+                                                                              restLocalName =>
+                                                                              match
+                                                                                restLocalName
+                                                                              with
+                                                                              | [] => none
+                                                                              | localName :: rest =>
+                                                                                  match rest with
+                                                                                  | [] =>
+                                                                                      some
+                                                                                        (RegularCauchyModulusRealizerUp.mk
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            request)
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            threshold)
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            window)
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            tolerance)
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            readback)
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            sealRow)
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            transport)
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            replay)
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            provenance)
+                                                                                          (regularCauchyModulusRealizerDecodeBHist
+                                                                                            localName))
+                                                                                  | _ :: _ => none
 
-def regularCauchyModulusRealizerFromEventFlow
-    (ef : EventFlow) : Option RegularCauchyModulusRealizerUp :=
+private theorem regularCauchyModulusRealizer_round_trip :
+    ∀ x : RegularCauchyModulusRealizerUp,
+      regularCauchyModulusRealizerFromEventFlow
+          (regularCauchyModulusRealizerToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RegularCauchyModulusRealizerUp.mk
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 0 ef))
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 1 ef))
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 2 ef))
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 3 ef))
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 4 ef))
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 5 ef))
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 6 ef))
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 7 ef))
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 8 ef))
-      (regularCauchyModulusRealizerDecodeBHist
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_eventAt 9 ef)))
-
-private theorem RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_round_trip
-    (x : RegularCauchyModulusRealizerUp) :
-    regularCauchyModulusRealizerFromEventFlow
-        (regularCauchyModulusRealizerToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
-  | mk A M W D Q E H C P N =>
+  | mk request threshold window tolerance readback sealRow transport replay provenance
+      localName =>
       change
         some
-          (RegularCauchyModulusRealizerUp.mk
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist A))
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist M))
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist W))
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist D))
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist Q))
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist E))
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist H))
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist C))
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist P))
-            (regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist N))) =
-          some (RegularCauchyModulusRealizerUp.mk A M W D Q E H C P N)
-      rw [RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode A,
-        RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode M,
-        RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode W,
-        RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode D,
-        RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode Q,
-        RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode E,
-        RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode H,
-        RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode C,
-        RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode P,
-        RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode N]
+            (RegularCauchyModulusRealizerUp.mk
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist request))
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist threshold))
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist window))
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist tolerance))
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist readback))
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist sealRow))
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist transport))
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist replay))
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist provenance))
+              (regularCauchyModulusRealizerDecodeBHist
+                (regularCauchyModulusRealizerEncodeBHist localName))) =
+          some
+            (RegularCauchyModulusRealizerUp.mk request threshold window tolerance readback
+              sealRow transport replay provenance localName)
+      rw [regularCauchyModulusRealizerDecode_encode_bhist request,
+        regularCauchyModulusRealizerDecode_encode_bhist threshold,
+        regularCauchyModulusRealizerDecode_encode_bhist window,
+        regularCauchyModulusRealizerDecode_encode_bhist tolerance,
+        regularCauchyModulusRealizerDecode_encode_bhist readback,
+        regularCauchyModulusRealizerDecode_encode_bhist sealRow,
+        regularCauchyModulusRealizerDecode_encode_bhist transport,
+        regularCauchyModulusRealizerDecode_encode_bhist replay,
+        regularCauchyModulusRealizerDecode_encode_bhist provenance,
+        regularCauchyModulusRealizerDecode_encode_bhist localName]
 
-private theorem RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem regularCauchyModulusRealizerToEventFlow_injective
     {x y : RegularCauchyModulusRealizerUp} :
     regularCauchyModulusRealizerToEventFlow x =
-      regularCauchyModulusRealizerToEventFlow y → x = y := by
+        regularCauchyModulusRealizerToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -140,23 +237,8 @@ private theorem RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_t
           (regularCauchyModulusRealizerToEventFlow y) :=
     congrArg regularCauchyModulusRealizerFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : RegularCauchyModulusRealizerUp,
-      regularCauchyModulusRealizerFields x =
-        regularCauchyModulusRealizerFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk A₁ M₁ W₁ D₁ Q₁ E₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk A₂ M₂ W₂ D₂ Q₂ E₂ H₂ C₂ P₂ N₂ =>
-          cases hfields
-          rfl
+    (Eq.trans (regularCauchyModulusRealizer_round_trip x).symm
+      (Eq.trans hread (regularCauchyModulusRealizer_round_trip y)))
 
 instance regularCauchyModulusRealizerBHistCarrier :
     BHistCarrier RegularCauchyModulusRealizerUp where
@@ -171,50 +253,32 @@ instance regularCauchyModulusRealizerChapterTasteGate :
     intro x
     change
       regularCauchyModulusRealizerFromEventFlow
-          (regularCauchyModulusRealizerToEventFlow x) = some x
-    exact RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_round_trip x
+          (regularCauchyModulusRealizerToEventFlow x) =
+        some x
+    exact regularCauchyModulusRealizer_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance regularCauchyModulusRealizerFieldFaithful :
-    FieldFaithful RegularCauchyModulusRealizerUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := regularCauchyModulusRealizerFields
-  field_faithful :=
-    RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_fields_faithful
-
-instance regularCauchyModulusRealizerNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial RegularCauchyModulusRealizerUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨RegularCauchyModulusRealizerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      RegularCauchyModulusRealizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+    exact hxy (regularCauchyModulusRealizerToEventFlow_injective heq)
 
 theorem RegularCauchyModulusRealizerTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate RegularCauchyModulusRealizerUp) ∧
-      Nonempty (FieldFaithful RegularCauchyModulusRealizerUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial RegularCauchyModulusRealizerUp) ∧
-          (∀ h : BHist,
-            regularCauchyModulusRealizerDecodeBHist
-              (regularCauchyModulusRealizerEncodeBHist h) = h) ∧
-            (∀ x : RegularCauchyModulusRealizerUp,
-              regularCauchyModulusRealizerFromEventFlow
-                (regularCauchyModulusRealizerToEventFlow x) = some x) ∧
-              regularCauchyModulusRealizerEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+    (∀ h : BHist,
+        regularCauchyModulusRealizerDecodeBHist
+            (regularCauchyModulusRealizerEncodeBHist h) =
+          h) ∧
+      (∀ x : RegularCauchyModulusRealizerUp,
+        regularCauchyModulusRealizerFromEventFlow
+            (regularCauchyModulusRealizerToEventFlow x) =
+          some x) ∧
+        (∀ x y : RegularCauchyModulusRealizerUp,
+          regularCauchyModulusRealizerToEventFlow x =
+              regularCauchyModulusRealizerToEventFlow y →
+            x = y) ∧
+          regularCauchyModulusRealizerEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨⟨regularCauchyModulusRealizerChapterTasteGate⟩,
-      ⟨regularCauchyModulusRealizerFieldFaithful⟩,
-      ⟨regularCauchyModulusRealizerNontrivial⟩,
-      RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_decode_encode,
-      RegularCauchyModulusRealizerTasteGate_single_carrier_alignment_round_trip,
+    ⟨regularCauchyModulusRealizerDecode_encode_bhist,
+      regularCauchyModulusRealizer_round_trip,
+      (fun _ _ heq => regularCauchyModulusRealizerToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.RegularCauchyModulusRealizerUp.TasteGate
+end BEDC.Derived.RegularCauchyModulusRealizerUp
