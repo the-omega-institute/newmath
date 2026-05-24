@@ -83,6 +83,22 @@ The rows $R$ and $Q$ assemble the regular rational readback and the dyadic toler
 Since the carrier contains no quotient stream, countable-choice selector, host limit, trichotomy row, or ambient completeness theorem, the displayed route exhausts every real-facing diagonal-subsequence read.
 \end{proof}
 
+\begin{theorem}[Diagonal subsequence Cauchy-window extraction]
+\label{thm:diagonal-subsequence-cauchy-window-extraction}
+Every accepted $\DiagonalSubsequenceUp$ packet
+$$
+D=(S,W,J,R,Q,E,H,C,P,N)
+$$
+extracts each $\RegSeqRatUp$ readback window from the finite source window row $S$, diagonal ledger $W$, monotone selector row $J$, and $\DyadicRatCoreUp$ tolerance ledger $Q$. The terminal $\RealUp$ seal $E$ is downstream of that extracted Cauchy window and cannot be read from a quotient stream or from a countable-choice selector.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-subsequence-carrier}. The source windows $S$, diagonal ledger $W$, selector trace $J$, readback row $R$, tolerance ledger $Q$, and seal $E$ are the only analytic rows available to a real-facing diagonal-subsequence consumer.
+
+Use \autoref{thm:diagonal-subsequence-namecert-obligations}. Its readback exactness clause requires $R$ to be assembled only from the selected windows and tolerance entries recorded in $S,W,J,Q$.
+
+Now apply \autoref{thm:diagonal-subsequence-regular-readback-route}. The ordered route places $E$ after $S,W,J,R,Q$, so the terminal seal is reached only after the extracted Cauchy window has been displayed. Since the carrier has no quotient-stream or countable-choice coordinate, no consumer can bypass that finite extraction route.
+\end{proof}
+
 \closureat{DiagonalSubsequenceUp}{seedStr}
 
 \begin{closurestatus}{\DiagonalSubsequenceUp}
