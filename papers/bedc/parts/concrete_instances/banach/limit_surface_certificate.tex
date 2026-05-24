@@ -162,3 +162,56 @@ $\mathsf{CompleteMetricLimitWitness}$ row, so the carrier, classifier,
 stability, ledger, exactness, and bridge-facing fields of the Banach limit
 surface $\NameCert$ package are all accounted for.
 \end{proof}
+
+\begin{corollary}[Banach limit surface certificate determinacy]
+\label{cor:banach-limit-surface-certificate-determinacy}
+Let $X$ be a concrete Banach carrier and let $s$ be a regular Cauchy
+$\StreamNameUp$ stream over $X$. Fix a displayed Banach limit surface row
+$$
+\mathsf{BanachLimitSurface}_X(s,M,\ell,\Lambda).
+$$
+Every accepted consumer-facing use of this certificate factors through the
+same finite surface data: the carrier row $X$, the carried observations of
+$s$, the modulus history $M$, the carried limit history $\ell$, the displayed
+$\mathsf{BanachMetricWitness}_X$ distance rows in $\Lambda$, the attached
+$\RatUp$ comparison rows, and the consumed complete-metric row
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,M,\ell,\Lambda).
+$$
+If another accepted surface row for the same stream is displayed as
+$$
+\mathsf{BanachLimitSurface}_X(s,M',\ell',\Lambda'),
+$$
+then its endpoint normal form is classified with the fixed one by $\hsame$;
+in the singleton empty-history carrier the comparison is the singleton row
+$\rho_{\emp}(\ell,\ell')$. Hence the certificate has no alternate hidden
+coordinate, no anonymous metric classifier source, and no duplicate endpoint
+classifier beyond the rows named by
+\autoref{def:banach-limit-surface-certificate} and
+\autoref{thm:banach-limit-surface-uniqueness}.
+\end{corollary}
+\begin{proof}
+Unfold \autoref{def:banach-limit-surface-certificate}. The certificate is not
+an unstructured assertion of convergence. Its visible fields are exactly the
+Banach carrier, the stream observations, the modulus history, the limit
+history, the late-distance ledger, and the complete-metric row that consumes
+that ledger. Thus a consumer of the fixed row can project only those displayed
+coordinates.
+
+The distance side is also fixed by the same definition. Each late-distance
+entry is presented as a $\mathsf{BanachMetricWitness}_X$ row together with its
+$\RatUp$ comparison rows, and the complete-metric slot is the row
+$\mathsf{CompleteMetricLimitWitness}(X,s,M,\ell,\Lambda)$ fed by those same
+entries. Therefore the exactness decision available at the surface is precisely
+the decision that reads the displayed Banach metric rows as the displayed
+complete-metric witness rows they feed; an anonymous metric coordinate would
+not be a use of this certificate.
+
+Now compare any second accepted surface row for the same stream. Applying
+\autoref{thm:banach-limit-surface-uniqueness} to the two displayed rows gives
+that $\ell$ and $\ell'$ are classified by $\hsame$. In the singleton
+empty-history carrier, the same theorem reads this comparison as
+$\rho_{\emp}(\ell,\ell')$. Thus a competing endpoint normal form is already
+identified by the chapter's endpoint classifier, while the route and exactness
+readback remain the finite rows exposed by the certificate definition.
+\end{proof}

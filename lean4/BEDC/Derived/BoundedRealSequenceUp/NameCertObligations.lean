@@ -84,4 +84,45 @@ theorem BoundedRealSequenceCarrier_semantic_name_certificate [AskSetup] [Package
     }
   exact ⟨cert, sourceUnary, readbackUnary, realSealUnary, intervalRoute, provenancePkg⟩
 
+theorem BoundedRealSequenceObligation_closure_package [AskSetup] [PackageSetup]
+    {source windows readback realSeal interval transport replay provenance localCert
+      sealRead boundRead handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedRealSequenceCarrier source windows readback realSeal interval transport replay
+        provenance localCert bundle pkg →
+      Cont source windows readback →
+        Cont readback realSeal sealRead →
+          Cont sealRead interval boundRead →
+            Cont boundRead transport handoffRead →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row provenance ∧
+                      BoundedRealSequenceCarrier source windows readback realSeal interval
+                        transport replay provenance localCert bundle pkg)
+                  (fun row : BHist => hsame row provenance)
+                  (fun row : BHist => hsame row provenance ∧ PkgSig bundle provenance pkg)
+                  hsame ∧
+                UnaryHistory handoffRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory
+  intro carrier sourceWindow sealRoute boundRoute handoffRoute
+  obtain ⟨cert, sourceUnary, _readbackUnary, _realSealUnary, _intervalRoute,
+    provenancePkg⟩ :=
+    BoundedRealSequenceCarrier_semantic_name_certificate
+      (source := source) (windows := windows) (readback := readback) (realSeal := realSeal)
+      (interval := interval) (transport := transport) (replay := replay)
+      (provenance := provenance) (localCert := localCert) (bundle := bundle) (pkg := pkg)
+      carrier
+  obtain ⟨_sourceUnary, windowsUnary, _readbackUnary, realSealUnary, intervalUnary,
+    transportUnary, _replayUnary, _provenanceUnary, _localCertUnary, _intervalRoute,
+    _transportSame, _carrierProvenancePkg, _localCertPkg⟩ := carrier
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed sourceUnary windowsUnary sourceWindow
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary realSealUnary sealRoute
+  have boundUnary : UnaryHistory boundRead :=
+    unary_cont_closed sealUnary intervalUnary boundRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed boundUnary transportUnary handoffRoute
+  exact ⟨cert, handoffUnary, provenancePkg⟩
+
 end BEDC.Derived.BoundedRealSequenceUp.NameCertObligations

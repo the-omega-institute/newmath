@@ -45,6 +45,11 @@ include a one-sentence reason that codex can act on.
    `\upgradepath`. B does not write chapter-retirement or verification-axis
    blocks.
 
+6b. **Verification-axis prose**: forbid Lean-facing prose as generated paper
+   content: "Lean target", "Lean-target", `lean4/`, `BEDC.Derived...`,
+   `single_carrier_alignment`, `taste_gate`, "formal target", and
+   "formal readiness". This lane writes BEDC-native paper content only.
+
 7. **Parameter-transport echo**: flag statements that only say an abstract
    carrier/classifier equivalence transports all fields, or that repackage
    a source-equivalence theorem under a new name.
@@ -91,6 +96,7 @@ Return only one JSON object on stdout, no prose, no markdown fence:
     "sectioning": "pass" | "fail",
     "lean_markers": "pass" | "fail",
     "closurestatus": "pass" | "fail",
+    "verification_axis_prose": "pass" | "fail",
     "parameter_echo": "pass" | "fail",
     "iteration_vocab": "pass" | "fail",
     "cross_refs": "pass" | "fail",

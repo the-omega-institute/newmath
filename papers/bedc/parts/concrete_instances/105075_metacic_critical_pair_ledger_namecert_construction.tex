@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCriticalPairLedgerUp$}
+\label{ch:concrete-instances-metacic-critical-pair-ledger-namecert}
+\origin{ai}
+
+The $\MetaCICCriticalPairLedgerUp$ packet realizes a finite audit-map ledger for MetaCIC critical pairs. It reads the confluence critical-pair boundary of \autoref{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert}, the frontier critical-pair route of \autoref{ch:concrete-instances-metacic-frontier-critical-pair-namecert}, the frontier dependency matrix of \autoref{ch:concrete-instances-metacic-frontier-dependency-matrix-namecert}, the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, and the subject-reduction route classifier of \autoref{ch:concrete-instances-subject-reduction-route-classifier-namecert}. The packet stores critical-pair entries as a ledger of finite rows rather than as a global confluence theorem.
+
+\falsifiablePrediction{Every accepted $\MetaCICCriticalPairLedgerUp$ packet exposes a finite critical-pair table, local join ledger, bounded-checker handoff, route-separation row, audit-map replay row, provenance, and local naming before any confluence-facing consumer can read it.}
+
+\independenceWitness{metacic-confluence-critical-pair-boundary, metacic-frontier-critical-pair, metacic-frontier-dependency-matrix, bounded-normal-equality-checker, subject-reduction-route-classifier: these siblings respectively expose common-reduct boundary rows, frontier local-join rows, dependency accounting, bounded normal comparison, and typing-route separation; none is bijective with the packet that jointly records the ledger index, entry table, local joins, checker handoff, route refusal, audit replay, provenance, and local naming.}
+
+\begin{definition}[MetaCIC critical-pair ledger carrier]
+\label{def:metacic-critical-pair-ledger-carrier}
+A $\MetaCICCriticalPairLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,F,D,K,J,E,S,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\MetaCICConfluenceCriticalPairBoundaryUp$ source row.
+\item $F$ is the $\MetaCICFrontierCriticalPairUp$ frontier route row.
+\item $D$ is the $\MetaCICFrontierDependencyMatrixUp$ dependency-accounting row.
+\item $K$ is the ledger key row, indexing the finite critical-pair entries accepted by the packet.
+\item $J$ is the local-join ledger row, assigning displayed join candidates to the accepted ledger entries.
+\item $E$ is the $\BoundedNormalEqualityCheckerUp$ handoff row used only after $K$ and $J$ have been displayed.
+\item $S$ is the $\SubjectReductionRouteClassifierUp$ separation row, keeping typing discharge outside the critical-pair ledger.
+\item $A$ is the audit-map replay row, recording the finite readback path from an audit request through $B,F,D,K,J,E,S$.
+\item $H$ records componentwise $\hsame$ transport for all source, ledger, handoff, route-separation, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the ledger route.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCriticalPairLedgerUp$, $\MetaCICConfluenceCriticalPairBoundaryUp$, $\MetaCICFrontierCriticalPairUp$, $\MetaCICFrontierDependencyMatrixUp$, $\BoundedNormalEqualityCheckerUp$, $\SubjectReductionRouteClassifierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICCriticalPairLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for global confluence, arbitrary closed-term Church--Rosser, full parallel diamond, residual-substitution compatibility, unchecked subject-reduction discharge, or an audit-map read outside the finite ledger.
+\end{definition}
+
+\begin{theorem}[MetaCIC critical-pair ledger NameCert obligations]
+\label{thm:metacic-critical-pair-ledger-namecert-obligations}
+For every accepted $\MetaCICCriticalPairLedgerUp$ carrier
+$$
+L=(B,F,D,K,J,E,S,A,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICCriticalPairLedgerUp}$ surface consists exactly of carrier admission, critical-pair boundary compatibility, frontier route compatibility, dependency-accounting visibility, finite ledger-key display, local-join ledger display, bounded-checker handoff, subject-reduction route separation, audit-map replay, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+
+No obligation is stored outside those rows, and no consumer receives global confluence, arbitrary closed-term Church--Rosser, full parallel diamond, residual-substitution compatibility, unchecked subject-reduction discharge, or a hidden audit-map credential.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-critical-pair-ledger-carrier}. The projection exposes exactly $B,F,D,K,J,E,S,A,H,C,P,N$.
+
+Boundary and frontier compatibility are read first from $B$ and $F$. The dependency-accounting row $D$ then records which frontier and checker dependencies are visible before any ledger entry can be consumed.
+
+The ledger rows $K$ and $J$ are finite. A bounded-checker handoff through $E$ is available only after the entry key and local join have been displayed, and the route-separation row $S$ keeps subject-reduction discharge outside the ledger.
+
+The audit replay $A$ and structural rows $H,C,P,N$ transport, replay, source, and name only the displayed ledger route. Since the excluded confluence and typing claims have no carrier coordinate, the NameCert surface is exhausted by the stated rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-pair ledger audit route]
+\label{thm:metacic-critical-pair-ledger-audit-route}
+Every MetaCIC confluence audit-map read of an accepted $\MetaCICCriticalPairLedgerUp$ packet factors through the finite route
+$$
+B,F,D \longmapsto K,J \longmapsto E,S \longmapsto A,H,C,P,N .
+$$
+Thus the packet concretizes the audit-map critical-pair surface as a ledger of displayed rows, not as a proof of global confluence, arbitrary closed-term Church--Rosser, full parallel diamond, residual-substitution compatibility, or subject-reduction discharge.
+\end{theorem}
+\begin{proof}
+An audit-map consumer first reads the critical-pair boundary $B$, frontier route $F$, and dependency-accounting row $D$. These rows determine which finite critical-pair entries are in scope.
+
+The ledger key $K$ and local-join ledger $J$ are then read together. The bounded normal-equality checker $E$ receives only these displayed entries and join candidates.
+
+The route-separation row $S$ remains visible before the audit replay $A$ and structural rows package the read. Therefore the consumer receives a finite ledger route, while the excluded global confluence and subject-reduction claims remain outside the packet.
+\end{proof}
+
+\closureat{MetaCICCriticalPairLedgerUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCriticalPairLedgerUp}
+  \constructivestory{A $\MetaCICCriticalPairLedgerUp$ packet is generated from confluence critical-pair boundary rows, frontier critical-pair rows, dependency-accounting rows, finite ledger keys, local-join rows, bounded-checker handoffs, subject-reduction route separation, audit-map replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-critical-pair-ledger-carrier}, \autoref{thm:metacic-critical-pair-ledger-namecert-obligations}, \autoref{thm:metacic-critical-pair-ledger-audit-route}, the falsifiable prediction, and the independence witness seed the finite MetaCIC critical-pair ledger over boundary, frontier, dependency, checker, route-separation, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global confluence, arbitrary closed-term Church--Rosser, full parallel diamond, residual-substitution compatibility, unchecked subject-reduction discharge, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary compatibility, frontier compatibility, dependency visibility, ledger display, checker handoff, route separation, audit replay, and nonescape for BEDC.Derived.MetaCICCriticalPairLedgerUp.}
+\end{closurestatus}

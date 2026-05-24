@@ -40,3 +40,21 @@ Closed-substitution consumers are covered by the admission theorem above and by 
 
 Ground-compiler consumers are covered by ground compiler admission. Normalization consumers use the same public output row because NameCert obligation exhaustion leaves no extra classifier, stability, ledger, or non-escape obligation outside $Q$. Hence all three public consumer families factor through the readiness packet.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor readiness consumer determinacy]
+\label{cor:authorized-generator-recursor-readiness-consumer-determinacy}
+Fix the admitted local rows of an $\AuthorizedGeneratorRecursorUp$ readiness route
+$$
+Q=(U,J,K,O,L,H,C,P,N).
+$$
+Every accepted consumer-facing use of the public output that is admitted as a closed-substitution handoff, a normalization read, or a ground-compiler read is determined by those rows. More precisely, once the authorization row $U$, generator row $J$, ground-compiler recognition row $K$, refusal ledger $L$, componentwise transport row $H$, continuation replay row $C$, provenance row $P$, and local name row $N$ are fixed, the consumer must use the same finite readiness route, the same public normal-output row $O$, and the same admission-versus-$\mathsf{GAP}$ decision supplied by the chapter. There is no accepted alternate coordinate, duplicate classifier source, detached branch package, or hidden substitution channel from which a second consumer result can be read.
+\end{corollary}
+\begin{proof}
+Read the fixed readiness route through \autoref{def:authorized-generator-recursor-readiness-route}. The row $U$ packages the accepted signature, emitted eliminator, checked motive, complete branch package, and structural descent data; $J$ is the authorized recursor call; $K$ is the ground-compiler recognition row; $L$ is the refusal ledger; and $H,C,P,N$ are respectively the displayed transport, replay, provenance, and local naming rows. Thus the named consumer interface already exposes the finite route on which public output can be read.
+
+Let a consumer-facing use be accepted after these rows have been fixed. If it is a closed-substitution handoff, \autoref{thm:authorized-generator-recursor-closed-substitution-admission} requires it to retain the branch package $B$, structural descent row $D$, audit row $A$, boundary row $G$, and refusal ledger $L$. Since $B$ and $D$ are read through $U$, $G$ is read through $K$, $A$ is recorded by $L$, and the handoff also keeps the displayed transport, replay, provenance, and local naming rows, the consumer determines an accepted readiness route with the same $U,J,K,L,H,C,P,N$ as $Q$. A normalization or ground-compiler read has the same row support by \autoref{thm:authorized-generator-recursor-public-output-coverage}: it factors through the readiness packet rather than through a detached generator or off-packet substitution rule.
+
+Apply \autoref{thm:authorized-generator-recursor-readiness-determinacy} to $Q$ and to the readiness route just obtained from the accepted consumer use. The two routes agree on $U,J,K,L,H,C,P,N$, so they expose the same public output row $O$. Hence a normalizing consumer cannot choose a second normal-output row, and a ground-compiler or closed-substitution consumer cannot cite an alternate output coordinate after the displayed local rows have been fixed.
+
+It remains to identify the decision boundary. By \autoref{thm:authorized-generator-recursor-closed-substitution-admission}, a purported handoff omitting $B,D,A,G$, or $L$ remains $\mathsf{GAP}$-ledger content and is not admitted as a closed-substitution handoff. By the determinacy theorem, a purported handoff retaining the fixed rows but exposing a different output would have to be a second readiness route over the same $U,J,K,L,H,C,P,N$, which is impossible. Therefore every accepted consumer use makes the same finite-route, normal-output, and admission-versus-$\mathsf{GAP}$ decision named by the readiness packet, and every alternate coordinate or duplicate classifier source is rejected before it becomes a public consumer result.
+\end{proof}
