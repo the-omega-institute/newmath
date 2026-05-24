@@ -71,6 +71,20 @@ The soundness boundary $S$ is carried with both routes. It excludes the stronger
 The remaining rows $H,P,N$ only transport, source, and name the packet. Hence every public read remains inside the displayed finite surface.
 \end{proof}
 
+\begin{theorem}[CertificateMachine branch-refusal determinacy]
+\label{thm:certificate-machine-branch-refusal-determinacy}
+Let $M=(K,O,B,A,R,S,H,C,P,N)$ be an accepted $\CertificateMachineUp$ packet. Every refused branch of $M$ is determined by the finite kernel row $K$, the branch-refusal row $B$, the audit-replay row $A$, and the soundness-boundary row $S$. Before the refused branch can be consumed as a MetaCIC audit row, its read must pass through the accepted-kernel surface of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, the axiom-query ledger of \autoref{ch:concrete-instances-axiomqueryledger-namecert}, and the closed-generator audit surface of \autoref{ch:concrete-instances-closedgeneratoraudit-namecert}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:certificate-machine-carrier}. The refusal side has only the kernel row $K$, the branch-refusal row $B$, the audit replay row $A$, and the soundness boundary $S$ before the public result row can be read.
+
+Apply audit-replay non-escape, \autoref{thm:certificate-machine-audit-replay-nonescape}. A rejected branch reaches the public refusal surface only by the route $K,B,A,R$, with $S$ still visible as the boundary against host truth, unbounded execution, and external proof authority.
+
+The MetaCIC sibling lattice supplies the concrete audit route for those rows. Kernel admission is read through \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, proof-supply cleanliness through \autoref{ch:concrete-instances-axiomqueryledger-namecert}, and closed-generator replay through \autoref{ch:concrete-instances-closedgeneratoraudit-namecert}.
+
+Thus the refused branch is determined by the displayed finite rows of the same packet and by the named sibling ledgers. No separate kernel-only or host-execution route can consume it as a MetaCIC audit row.
+\end{proof}
+
 \falsifiablePrediction{Every $\CertificateMachineUp$ read factors through one finite certificate-kernel row, one accepted-observation row or one branch-refusal row, one audit-replay row, one replay-result row, one soundness-boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{kernelacceptancewitness, axiomqueryledger, inscriptionevent, observerfilter, closedgeneratoraudit: $\CertificateMachineUp$ is not bijective to any listed sibling because it jointly carries kernel admission, accepted observations, branch refusals, audit replay, result exposure, and soundness-boundary refusal as one finite machine packet.}
