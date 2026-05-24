@@ -2584,6 +2584,7 @@ import BEDC.Derived.DyadicExponentShiftUp.TasteGate
 import BEDC.Derived.DyadicFloorUp.TasteGate
 import BEDC.Derived.DyadicGeometricTailUp.TasteGate
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
+import BEDC.Derived.DyadicIntervalBasisUp.TasteGate
 import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
