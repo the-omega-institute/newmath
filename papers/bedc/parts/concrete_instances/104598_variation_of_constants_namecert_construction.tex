@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\VariationOfConstantsUp$}
+\label{ch:concrete-instances-variation-of-constants-namecert}
+\origin{human}
+
+Following Coddington--Levinson and Hartman on ordinary differential equations, the $\VariationOfConstantsUp$ packet records the finite inhomogeneous linear-ODE handoff by which a homogeneous local flow, a forcing row, and a Gronwall control row determine the displayed solution update without importing a host solution operator.
+
+The packet sits next to the ODE source surface of \autoref{ch:concrete-instances-ode-namecert}, the Picard--Lindelof existence route of \autoref{ch:concrete-instances-picard-lindelof-namecert}, the local-flow endpoint packet of \autoref{ch:concrete-instances-picard-lindelof-local-flow-namecert}, the Gronwall comparison surface of \autoref{ch:concrete-instances-gronwall-inequality-namecert}, and the real endpoint seal of \autoref{ch:concrete-instances-real-namecert}. It names the standard variation-of-constants route as a BEDC certificate over displayed rows rather than as an ambient formula in a function space.
+
+\begin{definition}[Variation-of-constants carrier]
+\label{def:variation-of-constants-carrier}
+A $\VariationOfConstantsUp$ carrier is a finite $\BHist$ packet
+$$
+V=(O,P,L,G,R,H,C,Q,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ inhomogeneous linear source row, displaying the time window, initial state row, coefficient row, forcing row, and endpoint request.
+\item $P$ is the $\PicardLindelofUp$ existence-and-uniqueness route read on the same local window.
+\item $L$ is the $\PicardLindelofLocalFlowUp$ homogeneous local-flow row, naming the propagator surface used before the forcing contribution is accumulated.
+\item $G$ is the $\GronwallInequalityUp$ comparison row that bounds the accumulated forcing and the difference between any two displayed variation-of-constants reads.
+\item $R$ is the $\RealUp$ endpoint and error-seal row for the finite observation of the homogeneous part, forcing integral ledger, and output state.
+\item $H$ stores componentwise $\hsame$ transport for the ODE source, Picard route, local-flow row, Gronwall row, real endpoint seal, replay row, provenance row, and local name.
+\item $C$ stores the displayed $\Cont$ replay from the ODE source through the Picard route, homogeneous flow row, forcing ledger, Gronwall comparison, and real endpoint seal.
+\item $Q$ is the $\Pkg$ provenance over $\VariationOfConstantsUp$, $\OdeUp$, $\PicardLindelofUp$, $\PicardLindelofLocalFlowUp$, $\GronwallInequalityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VariationOfConstantsUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed source, Picard route, homogeneous-flow row, forcing ledger as replayed by $C$, Gronwall comparison, real endpoint seal, transport, provenance, and local naming rows.
+\end{definition}
+
+\begin{theorem}[Variation-of-constants NameCert obligations]
+\label{thm:variation-of-constants-namecert-obligations}
+For the carrier of \autoref{def:variation-of-constants-carrier}, the local $\NameCert_{\VariationOfConstantsUp}$ surface consists exactly of carrier admission for $V=(O,P,L,G,R,H,C,Q,N)$, ODE source admission through $O$, Picard--Lindelof route visibility through $P$, homogeneous local-flow visibility through $L$, Gronwall comparison visibility through $G$, endpoint sealing through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $Q$, and local naming through $N$. The packet exports no host fundamental matrix, selected global solution curve, quotient path equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier. The fields $O,P,L,G,R,H,C,Q,N$ are the only available rows, so every local naming obligation must be read from those fields.
+
+The source and existence rows come first. The ODE row $O$ supplies the inhomogeneous linear problem, and $P$ records the Picard--Lindelof route on the same displayed window. The homogeneous row $L$ is therefore not a detached fundamental matrix; it is the local-flow packet already named by \autoref{ch:concrete-instances-picard-lindelof-local-flow-namecert}.
+
+The forcing contribution is read only by replay. The continuation row $C$ accumulates the forcing ledger after the homogeneous flow row has been displayed, and the comparison row $G$ bounds the accumulated read through the Gronwall surface of \autoref{ch:concrete-instances-gronwall-inequality-namecert}.
+
+Finally $R,H,Q,N$ seal, transport, source, and name the same finite route. Since no carrier coordinate stores a host solution operator, selected global curve, quotient path equality, choice schedule, or ambient completeness theorem, none of those objects can become a NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Variation-of-constants Picard--Gronwall handoff]
+\label{thm:variation-of-constants-picard-gronwall-handoff}
+Every accepted $\VariationOfConstantsUp$ carrier factors each inhomogeneous local-ODE read through the finite route
+$$
+\OdeUp \longmapsto \PicardLindelofUp \longmapsto \PicardLindelofLocalFlowUp \longmapsto \GronwallInequalityUp \longmapsto \RealUp .
+$$
+The Picard--Lindelof rows supply the displayed local-flow surface, the variation-of-constants replay reads the forcing ledger on that same surface, and the Gronwall row bounds the endpoint and comparison error before the $\RealUp$ seal is exposed.
+\end{theorem}
+\begin{proof}
+Begin with $O$ and $P$. They fix the ODE source row and the local Picard--Lindelof existence route on one displayed time window.
+
+Read the homogeneous local flow next. The row $L$ is consumed on the same window and supplies the propagator surface used by the forcing replay; no separate host fundamental matrix is opened.
+
+The forcing step is the continuation route $C$. It records how the forcing ledger is accumulated after $L$, and it sends the resulting comparison request to the Gronwall row $G$.
+
+The endpoint is sealed only after that comparison. The row $R$ gives the visible $\RealUp$ endpoint and error seal, while $H,Q,N$ keep transport, provenance, and local naming tied to the same packet. Hence an inhomogeneous local-ODE consumer sees exactly the Picard--Gronwall route above and cannot bypass it through a selected global solution curve or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\VariationOfConstantsUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:variation-of-constants-carrier}, \autoref{thm:variation-of-constants-namecert-obligations}, and \autoref{thm:variation-of-constants-picard-gronwall-handoff} seed the finite inhomogeneous ODE route over ODE source, Picard--Lindelof, local-flow, Gronwall, Real endpoint, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host fundamental matrices, global ODE existence, quotient path equality, selected solution curves, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Picard--Lindelof route visibility, local-flow visibility, forcing replay exactness, Gronwall comparison visibility, endpoint sealing, transport, replay, provenance, and local naming for BEDC.Derived.VariationOfConstantsUp.}
+  \constructivestory{A $\VariationOfConstantsUp$ packet is generated from one inhomogeneous Ode source row, one PicardLindelof route, one PicardLindelofLocalFlow homogeneous-flow row, one GronwallInequality comparison row, one Real endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
