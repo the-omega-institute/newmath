@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\LipschitzConstantUp$}
+\label{ch:concrete-instances-lipschitz-constant-namecert}
+\origin{human}
+
+Following Bishop and Bridges and standard metric-space analysis, a Lipschitz constant is useful in constructive arguments only when the constant, the source and target metrics, and the finite tolerance conversion route are displayed together. The $\LipschitzConstantUp$ packet names that surface as a finite L10 object. It refines the bound ledger already consumed by \autoref{ch:concrete-instances-lipschitzmap-namecert}, reads metric rows from \autoref{ch:concrete-instances-metric-namecert}, reads the displayed scalar through \autoref{ch:concrete-instances-real-namecert}, and hands the resulting modulus to \autoref{ch:concrete-instances-uniformmodulus-namecert}. Its downstream consumers include $\LipschitzMapUp$, $\RegularCauchyLipschitzMapUp$, $\UniformContinuityUp$, $\ContinuousMapUp$, and $\MetricCompletionUp$ surfaces; it is not a host real inequality, a quotient of maps, a differentiability claim, or an ambient completeness theorem.
+
+\begin{definition}[Lipschitz constant carrier]\label{def:lipschitz-constant-carrier}
+A $\LipschitzConstantUp$ carrier is a finite $\BHist$ packet
+$$
+(K,X,Y,D,F,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the displayed $\RealUp$ constant row, read as a nonnegative finite bound rather than as an ambient host scalar.
+\item $X$ is the source $\MetricUp$ row and $Y$ is the target $\MetricUp$ row.
+\item $D$ records the dyadic distance-comparison ledger: every source-distance tolerance request and every target-distance bound check is routed through displayed $\DyadicRatCoreUp$ comparisons.
+\item $F$ is the source $\LipschitzMapUp$ row whose graph and bound use the same $K,X,Y,D$ data.
+\item $M$ is the finite modulus handoff row into $\UniformModulusUp$ and $\UniformContinuityUp$, sending a requested target tolerance to a displayed source tolerance through $K$ and $D$.
+\item $H$ records componentwise $\hsame$ transport for the constant, metric rows, dyadic comparisons, source map, modulus handoff, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from any continuity, completion, or map consumer through $K,X,Y,D,F,M$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\LipschitzConstantUp$, $\RealUp$, $\MetricUp$, $\DyadicRatCoreUp$, $\LipschitzMapUp$, $\UniformModulusUp$, $\UniformContinuityUp$, $\ContinuousMapUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LipschitzConstantUp}$ row.
+\end{enumerate}
+The classifier accepts only packets with these ten rows. It has no coordinate for a detached host real bound, pointwise-only continuity, quotient map equality, differentiability, selected limits, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Lipschitz constant modulus handoff]\label{thm:lipschitz-constant-modulus-handoff}
+For every accepted $\LipschitzConstantUp$ carrier $(K,X,Y,D,F,M,H,C,P,N)$, every $\UniformContinuityUp$ or $\UniformModulusUp$ consumer that reads the constant must first read the displayed $\RealUp$ row $K$, the source and target $\MetricUp$ rows $X,Y$, the dyadic comparison ledger $D$, and the source $\LipschitzMapUp$ row $F$. The exported modulus row $M$ is therefore a finite handoff from Lipschitz control to uniform continuity, not an independent continuity principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lipschitz-constant-carrier}. The only constant row is $K$, and the only metric rows are $X$ and $Y$, so any consumer that mentions the bound must read those displayed rows.
+
+The dyadic comparison ledger $D$ supplies the tolerance arithmetic. It records how a target tolerance request is converted into a source-distance request under the displayed bound, so the request cannot bypass the finite $\DyadicRatCoreUp$ comparisons.
+
+The source map row $F$ attaches that arithmetic to a $\LipschitzMapUp$ packet. The modulus row $M$ is consumed only after $K,X,Y,D,F$ have been displayed, and $H$ and $C$ preserve the same route under transport and replay.
+
+Thus the uniform-continuity read is exactly the finite handoff named by $M$. No carrier coordinate supplies pointwise-only continuity, detached host estimates, quotient function equality, differentiability, selected limits, choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Lipschitz constant NameCert obligation surface]\label{thm:lipschitz-constant-namecert-obligation-surface}
+The local $\NameCert_{\LipschitzConstantUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed constant, source metric, target metric, dyadic comparison, source map, modulus, transport, continuation, provenance, and local naming rows;
+\item nonnegative-bound exposure, requiring $K$ to be read as the displayed $\RealUp$ constant before any target-distance estimate is consumed;
+\item dyadic comparison exactness, requiring all tolerance conversions to pass through $D$;
+\item modulus handoff, requiring the $\UniformContinuityUp$ and $\UniformModulusUp$ reads to pass through $K,X,Y,D,F,M$;
+\item ledger non-escape, excluding detached host constants, quotient map equality, differentiability, selected limits, countable choice, and ambient metric or real completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is immediate from \autoref{def:lipschitz-constant-carrier}; the packet exposes exactly the ten listed rows.
+
+The bound-exposure and dyadic-exactness obligations follow from the positions of $K$ and $D$. A distance estimate has no row to inspect except the displayed real constant and the dyadic comparison ledger attached to it.
+
+The handoff obligation is \autoref{thm:lipschitz-constant-modulus-handoff}. It routes every uniform-continuity or uniform-modulus consumer through the same finite rows before $M$ is exported.
+
+The refusal clause is an inventory check on the carrier. Since none of the displayed rows is a host constant, a quotient map, differentiability data, selected-limit data, choice data, or completeness evidence, the local NameCert exports none of those principles.
+\end{proof}
+
+\begin{theorem}[Lipschitz constant uniform continuity route]\label{thm:lipschitz-constant-uniform-continuity-route}
+Let $(K,X,Y,D,F,M,H,C,P,N)$ be an accepted $\LipschitzConstantUp$ carrier. Every $\ContinuousMapUp$, $\UniformContinuityUp$, $\RegularCauchyLipschitzMapUp$, or $\MetricCompletionUp$ consumer that uses the displayed Lipschitz constant factors through
+$$
+\RealUp,\ \MetricUp,\ \DyadicRatCoreUp,\ \LipschitzMapUp,\ \UniformModulusUp,\ \UniformContinuityUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+In particular, the constant cannot be consumed as a parameter echo detached from the finite modulus route.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and apply \autoref{thm:lipschitz-constant-namecert-obligation-surface}. Any consumer sees only the displayed constant, metric rows, dyadic comparisons, source map, modulus handoff, transport, replay, provenance, and naming rows.
+
+For $\ContinuousMapUp$ and $\UniformContinuityUp$ consumers, \autoref{thm:lipschitz-constant-modulus-handoff} forces the read through $K,X,Y,D,F,M$ before continuity information is exposed.
+
+For $\RegularCauchyLipschitzMapUp$ and $\MetricCompletionUp$ consumers, the same route is followed by the downstream regular-readback or completion-facing surface. The constant is still tied to the source map and dyadic tolerance ledger before any real or completion seal can be inspected.
+
+Therefore the displayed route is the only available consumer path. The packet offers no detached parameter copy, host real inequality, quotient map equality, selected limit, countable-choice schedule, differentiability row, or ambient completeness evidence.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LipschitzConstantUp$ consumer that reaches $\UniformContinuityUp$, $\ContinuousMapUp$, $\RegularCauchyLipschitzMapUp$, or $\MetricCompletionUp$ without first reading $K,X,Y,D,F,M$ refutes the carrier surface.}
+
+\independenceWitness{lipschitzmap, metric, real, uniformmodulus, uniformcontinuity: none is bijective to $\LipschitzConstantUp$ because this packet jointly carries the displayed constant, the two metric rows, dyadic tolerance comparisons, source map binding, modulus handoff, transport, replay, provenance, and local naming.}
+
+\closureat{LipschitzConstantUp}{seedStr}
+
+\begin{closurestatus}{\LipschitzConstantUp}
+  \origin{human}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lipschitz-constant-carrier}, \autoref{thm:lipschitz-constant-modulus-handoff}, \autoref{thm:lipschitz-constant-namecert-obligation-surface}, and \autoref{thm:lipschitz-constant-uniform-continuity-route} seed the finite Lipschitz-constant certificate over displayed Real, Metric, dyadic comparison, LipschitzMap, modulus, uniform-continuity, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim detached host constants, quotient map equality, differentiability, selected limits, countable choice, ambient metric completeness, Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nonnegative-bound exposure, dyadic comparison exactness, modulus handoff, and ledger non-escape for BEDC.Derived.LipschitzConstantUp.}
+  \constructivestory{A $\LipschitzConstantUp$ packet is generated from one displayed RealUp constant row, source and target MetricUp rows, a DyadicRatCore comparison ledger, a LipschitzMap source row, a UniformModulus and UniformContinuity handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+\end{closurestatus}

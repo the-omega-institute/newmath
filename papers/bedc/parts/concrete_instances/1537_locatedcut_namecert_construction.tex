@@ -345,6 +345,7 @@ Then apply \autoref{thm:located-cut-window-handoff-totality} and \autoref{thm:lo
 \label{thm:located-cut-obligation-scope-package}
 The $\LocatedCutUp$ scoped $\NameCert$ surface consists exactly of the carrier of \autoref{def:located-cut-carrier}, classifier transport, paired ledger coherence, located-window exactness, handoff totality, and seal-boundary exactness. This package binds the lower and upper dyadic ledgers, $\StreamNameUp$ window, $\RegSeqRatUp$ handoff, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows as the complete kernel scope for located-cut consumers.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedCutUp.LocatedCutCarrier\_obligation\_scope\_package}
 \begin{proof}
 Start with carrier habitation and classifier movement. The carrier is \autoref{def:located-cut-carrier}, and \autoref{thm:located-cut-classifier-transport} states that transport is componentwise over the finite rows named there.
 
@@ -395,6 +396,40 @@ Apply dyadic interval exhaustion and paired ledger coherence. These supply the l
 Use common-window refinement from \autoref{thm:located-cut-common-window-refinement}. It places the two endpoint witnesses in a common $\StreamNameUp$ window and routes that window to the same $\RegSeqRatUp$ handoff through the visible $\Cont$ rows.
 
 Finally apply seal-boundary exactness from \autoref{thm:located-cut-seal-boundary-exactness}. The $\RealUp$ seal consumes the displayed handoff with unchanged $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance, so the extracted interval witness cannot escape to quotient, supremum, host equality, ambient completeness, or choice data.
+\end{proof}
+
+\begin{theorem}[LocatedCut regular Cauchy bridge source]
+\label{thm:located-cut-regular-cauchy-bridge-source}
+For every accepted $\LocatedCutUp$ packet, the finite source used by the $\RegSeqRatUp$ bridge is exactly the displayed route
+$$
+(D^{-},D^{+}) \longrightarrow W \longrightarrow R .
+$$
+Here $D^{-}$ and $D^{+}$ are the lower and upper dyadic ledgers, $W$ is the $\StreamNameUp$ window row that reads a common located interval, and $R$ is the $\RegSeqRatUp$ handoff row. The bridge source retains the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\LocatedCutUp}$ provenance and exports no quotient cut, selected supremum, host equality, trichotomy, ambient completeness row, or classical choice datum.
+\end{theorem}
+\begin{proof}
+Begin with interval witness extraction from \autoref{thm:located-cut-interval-witness-extraction}. Every visible precision exposes a lower dyadic witness, an upper dyadic witness, and a common $\StreamNameUp$ window inside the accepted packet.
+
+Apply common-window refinement from \autoref{thm:located-cut-common-window-refinement}. The refinement keeps the two dyadic ledger entries attached to one window row $W$ under the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local naming provenance.
+
+Use window handoff totality from \autoref{thm:located-cut-window-handoff-totality}. The handoff to $\RegSeqRatUp$ is the row $R$, and it is reachable only after the displayed lower-upper dyadic pair and the common window have been read.
+
+The exclusions follow from \autoref{thm:located-cut-scoped-kernel-route}. The scoped route has no coordinate for quotient cuts, selected suprema, host equality, trichotomy, ambient completeness, or classical choice, so the regular Cauchy bridge source cannot export any of them.
+\end{proof}
+
+\begin{theorem}[LocatedCut Real seal bridge exactness]
+\label{thm:located-cut-real-seal-bridge-exactness}
+For every accepted $\LocatedCutUp$ packet, the exact bridge source for the $\RealUp$ seal is the finite route
+$$
+(D^{-},D^{+}) \longrightarrow W \longrightarrow R \longrightarrow S .
+$$
+The row $S$ is reached only after the lower and upper dyadic ledgers have been read through the common $\StreamNameUp$ window $W$ and passed to the $\RegSeqRatUp$ handoff $R$. Thus the Real seal route is exact over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\LocatedCutUp}$ provenance and excludes quotient cuts, selected suprema, host equality, trichotomy, ambient completeness, and choice.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:located-cut-regular-cauchy-bridge-source}. It supplies the concrete bridge source from $(D^{-},D^{+})$ through the common window $W$ to the regular Cauchy handoff $R$.
+
+Next apply the real seal factorization package of \autoref{thm:located-cut-real-seal-factorization-package}. The seal-facing read factors through the same finite dyadic ledger and window route before it reaches the $\RealUp$ seal row.
+
+Finally use seal-boundary exactness from \autoref{thm:located-cut-seal-boundary-exactness}. The seal row $S$ is terminal for this displayed route, so no later consumer can replace the route by a quotient cut, selected supremum, host equality, trichotomy, ambient completeness principle, or choice field.
 \end{proof}
 
 \closureat{LocatedCutUp}{seedStr}

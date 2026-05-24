@@ -4,6 +4,8 @@
 
 The $\SubstrateTraceInvariantUp$ packet realizes the cellular manifest and audit route of \autoref{ch:visions-cellular-automaton-substrate-reading} as finite NameCert data. It reads the substrate not as an unbounded physical claim but as a bounded manifest over cellular rules, trace windows, locality cells, continuation rows, audit classifiers, transport, replay, provenance, and local naming. The packet is BEDC-native: it packages the audit invariant that a displayed cellular trace remains accountable to its manifest rows before any downstream trust or universality reading is consumed.
 
+The manifest/audit invariant is consumed through the cellular trust substrate row of \autoref{ch:concrete-instances-cellulartrustsubstrate-namecert}, the trust manifest surface of \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, the bounded-universal-trace handoff of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}, and the certificate-machine acceptance surface of \autoref{ch:concrete-instances-certificate-machine-namecert}. These siblings can read the trace only after the manifest, audit classifier, bounded trace, locality, rule replay, transport, continuation, provenance, and local naming rows have been displayed.
+
 \begin{definition}[SubstrateTraceInvariant carrier]
 \label{def:substrate-trace-invariant-carrier}
 A $\SubstrateTraceInvariantUp$ carrier is a finite packet
@@ -67,6 +69,18 @@ First expose the local manifest route. By \autoref{thm:substrate-trace-invariant
 Next expose the handoff row. The row $U$ records the bounded downstream use of the trace; it does not create another trace, enlarge the window, or add an independent cellular substrate.
 
 Finally carry the route through $H,C,P,N$. Componentwise transport, continuation replay, provenance, and local naming preserve the same audited rows, so every downstream consumer receives the finite invariant rather than an unbounded substrate claim.
+\end{proof}
+
+\begin{theorem}[SubstrateTraceInvariant sibling-lattice route]
+\label{thm:substrate-trace-invariant-sibling-lattice-route}
+Every $\CertificateMachineUp$ or cellular trust substrate consumer of an accepted $\SubstrateTraceInvariantUp$ packet must first read the displayed manifest row, audit classifier, bounded trace, window check, locality-cell row, rule-application replay, bounded-universal-trace handoff, componentwise transport, continuation replay, provenance, and local $\NameCert$ row. Thus certificate-machine acceptance and refusal data, trust-substrate manifest reads, bounded trace consumers, and continuation consumers receive the trace only through the sibling lattice cited above, not through an unbounded cellular universe, a completed simulator, host trace equality, or a choice-selected infinite orbit.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier $S=(M,A,T,W,L,R,U,H,C,P,N)$. The manifest route theorem forces every trace read through $M,A,T,W,L,R$ before any downstream handoff is visible.
+
+The row $U$ is the only downstream handoff coordinate. It names the bounded-universal-trace, cellular trust, and continuation-facing use of the audited trace, while the opening dependency paragraph places the certificate-machine consumer after the same manifest and audit rows.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the displayed route. Since the carrier has no coordinate for an unbounded orbit, completed simulator, host trace equality, or selected infinite path, the sibling consumers can receive only the finite trace invariant.
 \end{proof}
 
 \falsifiablePrediction{Every accepted $\SubstrateTraceInvariantUp$ read factors through a manifest row, audit classifier, bounded trace, window consistency check, locality-cell row, rule-application row, bounded-universal-trace handoff, hsame transport, Cont replay, Pkg provenance, and NameCert row before any cellular trust or continuation consumer reads the trace.}
