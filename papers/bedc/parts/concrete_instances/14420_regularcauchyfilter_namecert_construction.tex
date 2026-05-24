@@ -75,6 +75,7 @@ $$
 $$
 Concretely, the consumer reads $B$, then $T$ and $D$, then the regular-rational row $R$, then the directed tail meet $M$, and only then the seal row $E$ with its transports, continuations, provenance, and local naming. No second Real-facing route is available inside the carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyFilterUp.RegularCauchyFilterCarrier\_real\_seal\_route}
 \begin{proof}
 Project the seal coordinate of \autoref{def:regular-cauchy-filter-carrier}. The row $E$ is not stored as a detached Real object; it is downstream from the Cauchy filterbase, the finite tail schedule, the dyadic tolerance ledger, the regular-rational readback, and the directed meet row.
 
@@ -155,12 +156,118 @@ Apply \autoref{thm:regular-cauchy-filter-basis-factorization}. The rows $B,T,D,M
 Apply \autoref{thm:regular-cauchy-filter-real-seal-route} and \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}. The Real-facing endpoint is reached only after the StreamName, DyadicRatCore, RegSeqRat, and Real seal rows have been displayed. Since the carrier has no coordinate for quotient filters, hidden tails, selected limits, countable choice, host real equality, or ambient completeness, no consumer branch can export any of them.
 \end{proof}
 
+\begin{theorem}[RegularCauchyFilter tail-window exactness]
+\label{thm:regular-cauchy-filter-tail-window-exactness}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. Each accepted tail window in the $\StreamNameUp$ schedule $T$, together with its $\DyadicRatCoreUp$ tolerance row in $D$, determines the same $\RegSeqRatUp$ readback row $R$ and the same $\RealUp$ seal $E$ through the displayed $\CauchyFilterBasisUp$ route over $B$.
+
+Equivalently, the finite tail-window read is exact at the packet boundary: the consumer may inspect the StreamName tail schedule, dyadic tolerance ledger, basis handoff, directed meet, regular readback, and Real seal rows, but it receives no quotient filter, selected limit, hidden cofinal tail, host real equality, countable-choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only tail-window schedule is $T$, the only dyadic tolerance ledger for those windows is $D$, and the only regular readback and Real seal rows are $R$ and $E$.
+
+Apply \autoref{thm:regular-cauchy-filter-tail-meet} to the requested windows. The meet row $M$ supplies the displayed later base packet inside the same source row $B$, so the tail read stays inside the finite Cauchy filterbase rather than passing to an unrecorded cofinal tail.
+
+Apply \autoref{thm:regular-cauchy-filter-basis-factorization}. The rows $B,T,D,M,H,C,P,N$ determine the visible $\CauchyFilterBasisUp$ route, and downstream readback along that route reproduces the same $R$ and $E$.
+
+Now use \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}, and \autoref{thm:regular-cauchy-filter-branch-exhaustion}. These rows exhaust every accepted filter-to-regular-name consumer branch, so the excluded quotient, choice, hidden-tail, host-equality, and completeness coordinates are not available at the packet boundary.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFilter directed refinement normal form]
+\label{thm:regular-cauchy-filter-directed-refinement-normal-form}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. Every accepted carrier request for two tail windows in $T$ factors through a single displayed directed tail-meet row in $M$, then through the $\CauchyFilterBasisUp$ factorization over $B$, the $\StreamNameUp$ schedule $T$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the terminal $\RealUp$ seal $E$.
+
+Equivalently, the request has a normal form
+$$
+(B,T,D,M) \longmapsto \CauchyFilterBasisUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp ,
+$$
+with componentwise transport, replay, package provenance, and local naming supplied by $H,C,P,N$. The normal form exports no quotient filter, selected limit, hidden cofinal tail, countable-choice selector, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with two accepted tail windows in the schedule $T$. By \autoref{thm:regular-cauchy-filter-tail-meet}, the row $M$ names one later displayed base packet refining both windows inside the same Cauchy filterbase row $B$.
+
+Next pass through the basis factorization. \autoref{thm:regular-cauchy-filter-basis-factorization} identifies the displayed windows in $T$, the dyadic rows in $D$, and the meet handoff in $M$ as the $\CauchyFilterBasisUp$ route over $B$.
+
+Now read the branch in its displayed order. The branch-exhaustion theorem confines every consumer to $B,T,D,M,R,E,H,C,P,N$, while tail-window exactness keeps the accepted windows tied to the same regular readback $R$ and Real seal $E$.
+
+Finally use the Real seal route and the obligation-scope package. They force the downstream read through the listed StreamName, RegSeqRat, DyadicRatCore, and Real rows, and coordinate exhaustion rules out quotient filters, selected limits, hidden cofinal tails, choice selectors, host real equality, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFilter finite-window pullback]
+\label{thm:regular-cauchy-filter-window-pullback}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. Every Real-facing finite tail-window read of $G$ pulls back to the displayed $\CauchyFilterBasisUp$ tail window in $T$, the matching $\DyadicRatCoreUp$ tolerance row in $D$, and the directed refinement row $M$ before the same $\RegSeqRatUp$ readback $R$ and terminal $\RealUp$ seal $E$ can be consumed. Thus the pullback route is
+$$
+(T,D,M) \longmapsto \CauchyFilterBasisUp \longmapsto R \longmapsto E
+$$
+inside the same source row $B$ and the same structural rows $H,C,P,N$, with no quotient filter, hidden cofinal tail, selected limit, countable-choice selector, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with tail-window exactness, \autoref{thm:regular-cauchy-filter-tail-window-exactness}. It ties each accepted window in $T$ and its dyadic tolerance row in $D$ to the same readback row $R$ and Real seal $E$.
+
+Use tail-basis exhaustion and branch exhaustion next. Theorems \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion} and \autoref{thm:regular-cauchy-filter-branch-exhaustion} force every consumer route to expose the CauchyFilter source $B$, the displayed window row $T$, the dyadic row $D$, the meet row $M$, and the structural rows.
+
+Now apply directed refinement normal form, \autoref{thm:regular-cauchy-filter-directed-refinement-normal-form}. The requested finite windows are pulled back to a single displayed refinement in $M$ before the basis route may be read as regular rational data.
+
+Finally use the Real seal route, \autoref{thm:regular-cauchy-filter-real-seal-route}. Since the seal is reached only after $B,T,D,M,R$ have been displayed and transported by $H,C,P,N$, the Real-facing read cannot bypass the finite-window pullback through quotient filters, hidden tails, selected limits, choice data, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFilter carrier-basis rows]
+\label{thm:regularcauchyfilter-carrier-basis}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. The rows $B,T,D,M,R,E,H,C,P,N$ decompose the packet into carrier admission, CauchyFilter source exposure, StreamName tail-window exposure, DyadicRatCore tolerance exactness, directed meet refinement, RegSeqRat readback, Real seal handoff, transport, replay, provenance, and local naming.
+
+Under this decomposition, the visible basis consumed by later readers is exactly the $\CauchyFilterBasisUp$ row determined by $B,T,D,M,H,C,P,N$. No reader may replace this basis by a quotient filter, hidden cofinal family, selected limit, countable-choice selector, host real equality, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $B$ is the source CauchyFilter packet, while $T$ lists the finite tail windows requested from that source.
+
+The tolerance and meet rows are $D$ and $M$. They attach dyadic bounds to the displayed windows and name the common directed refinements that make those windows a $\CauchyFilterBasisUp$ route over $B$.
+
+The readback and seal rows are downstream. The row $R$ records the regular rational readback, and $E$ is reached only after the basis route has been displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same rows. Because the listed coordinates exhaust the carrier, none of the excluded quotient, choice, host-equality, or completeness objects is available to a reader.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFilter tail stability]
+\label{thm:regularcauchyfilter-tail-stability}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. If two consumer requests read tail windows from $T$, then their common refinement is the displayed row in $M$ over the same CauchyFilter source $B$, and the resulting tail read remains in the same $\CauchyFilterBasisUp$ factorization with the same DyadicRatCore tolerance ledger $D$.
+
+Consequently the RegSeqRat readback $R$ and Real seal $E$ are stable under tail-window refinement. The stability is transported by $H$, replayed by $C$, sourced by $P$, and named by $N$, without quotienting filters, choosing limits, invoking countable choice, or appealing to $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with two displayed tail windows in $T$. Since they are carrier coordinates, both windows are already attached to the same source row $B$ and the same dyadic tolerance ledger $D$.
+
+The directed meet coordinate $M$ supplies the common refinement. This refinement is a finite displayed row over $B$, not an external cofinality or choice assertion.
+
+Read the basis factorization through the same rows. The refinement keeps the route inside $\CauchyFilterBasisUp$ and preserves the tolerance data in $D$ for the requested windows.
+
+The downstream rows are unchanged. The regular readback remains $R$, the real-facing seal remains $E$, and $H,C,P,N$ preserve the same packet. Therefore the excluded quotient, selected-limit, choice, and completeness principles cannot enter the tail-stability claim.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFilter ledger exhaustion]
+\label{thm:regularcauchyfilter-ledger}
+Every accepted $\RegularCauchyFilterUp$ consumer route is exhausted by the displayed ledger
+$$
+B,T,D,M,R,E,H,C,P,N .
+$$
+The ledger first exposes the finite CauchyFilter source $B$, then the StreamName tail windows $T$, then the DyadicRatCore tolerance rows $D$, then the directed meet row $M$, then the RegSeqRat readback $R$, and finally the Real seal $E$ with transport, replay, provenance, and naming rows $H,C,P,N$.
+
+Thus the packet exports no quotient filters, selected limits, countable-choice selectors, hidden cofinal tails, host real equality, or ambient $\RealUp$ completeness. Any Real-facing read must pass through the displayed ledger before the seal is visible.
+\end{theorem}
+\begin{proof}
+Read the consumer route from the carrier coordinates. The source of every route is $B$, and every requested tail window appears in $T$ with its tolerance data in $D$.
+
+The row $M$ supplies the only directed refinement data. Hence a consumer cannot bypass the displayed meet row by appealing to an unrecorded cofinal family.
+
+The regular and real-facing rows are $R$ and $E$. They are downstream from the source, tail-window, tolerance, and meet rows, and the structural rows $H,C,P,N$ only preserve that route.
+
+Since the ledger accounts for every coordinate of the carrier, no quotient filter, selected limit, countable-choice selector, hidden tail, host equality, or completeness coordinate remains to be exported.
+\end{proof}
+
 \closureat{RegularCauchyFilterUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyFilterUp}
   \constructivestory{A $\RegularCauchyFilterUp$ packet is generated from a displayed CauchyFilter finite-filterbase row, a RegSeqRat readback row, StreamName tail windows, a DyadicRatCore tolerance ledger, a directed tail-meet row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local NameCert naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-basis-factorization}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}, and \autoref{thm:regular-cauchy-filter-branch-exhaustion} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis factorization, the scoped obligation package, the tail-basis exhaustion route, the branch-exhaustion route, and the Real seal route.}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-basis-factorization}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}, \autoref{thm:regular-cauchy-filter-branch-exhaustion}, and \autoref{thm:regular-cauchy-filter-tail-window-exactness} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis factorization, the scoped obligation package, the tail-basis exhaustion route, the branch-exhaustion route, the tail-window exactness route, and the Real seal route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient filters, selected host limits, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}

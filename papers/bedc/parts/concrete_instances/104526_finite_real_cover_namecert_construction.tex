@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRealCoverUp$}
+\label{ch:concrete-instances-finite-real-cover-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley, the $\FiniteRealCoverUp$ packet records the finite ball-cover data used by metric and compact-metric arguments without importing arbitrary open-cover compactness or a choice-selected subcover. It sits over the $\MetricUp$ surface of \autoref{ch:concrete-instances-metric-namecert}, the $\RealUp$ distance seal of \autoref{ch:concrete-instances-real-namecert}, the dyadic radius arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the total-bounded witness interface of \autoref{ch:concrete-instances-totallybounded-namecert}, and the compact-metric consumer route of \autoref{ch:concrete-instances-compactmetric-namecert}. The packet names only finite ball rows, dyadic radii, coverage witnesses, refinement ledgers, componentwise transport, replay, provenance, and local naming evidence.
+
+\begin{definition}[Finite real cover carrier]
+\label{def:finite-real-cover-carrier}
+A $\FiniteRealCoverUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,R,D,B,W,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $M$ is the accepted $\MetricUp$ row whose distance observations are sealed through $\RealUp$;
+\item $R$ is a finite row of $\RealUp$ or metric source probes to be covered;
+\item $D$ is the $\DyadicRatCoreUp$ radius ledger, with each radius recorded as a positive dyadic tolerance;
+\item $B$ is the finite ball row assigning each listed center and dyadic radius to its displayed metric-distance witness;
+\item $W$ is the coverage witness row, pairing each inspected source probe in $R$ with an admitted ball in $B$ and its distance bound;
+\item $E$ is the refinement ledger, recording how a finer finite ball row reuses or refines the displayed centers, dyadic radii, and coverage witnesses;
+\item $H$ is the componentwise $\hsame$ transport row for the metric, probe, radius, ball, coverage, refinement, provenance, and local naming coordinates;
+\item $C$ is the displayed $\Cont$ replay route for metric distance reads, radius reads, coverage reads, and refinement reads;
+\item $P$ is the $\Pkg$ provenance over $\MetricUp$, $\RealUp$, $\DyadicRatCoreUp$, $\TotallyBoundedUp$, $\CompactMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteRealCoverUp}$ evidence.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary open cover, a host finite-subcover selection function, a powerset compactness theorem, a quotient real equality, or an ambient completeness object.
+\end{definition}
+
+\begin{definition}[Finite real cover classifier]
+\label{def:finite-real-cover-classifier}
+Two accepted $\FiniteRealCoverUp$ packets
+$$
+F=(M,R,D,B,W,E,H,C,P,N)
+$$
+and
+$$
+F'=(M',R',D',B',W',E',H',C',P',N')
+$$
+are classified together exactly when the stored $\hsame$ rows transport $M$ to $M'$, $R$ to $R'$, $D$ to $D'$, $B$ to $B'$, $W$ to $W'$, $E$ to $E'$, $P$ to $P'$, and $N$ to $N'$, and the displayed $\Cont$ rows replay the same metric-distance, dyadic-radius, coverage, and refinement route on both packets. The classifier does not compare host subsets, arbitrary cover families, selected subcovers, completed metric spaces, or quotient real representatives.
+\end{definition}
+
+\begin{theorem}[Finite real cover NameCert obligations]
+\label{thm:finite-real-cover-namecert-obligations}
+For the carrier of \autoref{def:finite-real-cover-carrier}, the local $\NameCert_{\FiniteRealCoverUp}$ surface consists exactly of carrier admission for $F=(M,R,D,B,W,E,H,C,P,N)$, classifier stability by \autoref{def:finite-real-cover-classifier}, metric-distance witness admission through $M$, dyadic radius admission through $D$, finite ball admission through $B$, coverage witness admission through $W$, refinement-ledger admission through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its rows display the metric source, inspected probes, dyadic radii, ball witnesses, coverage witnesses, refinement ledger, transport, replay, provenance, and local name as one finite packet.
+
+Use the classifier definition for stability. It compares only the displayed rows and transports them componentwise through $\hsame$, then replays the same route through $C$.
+
+The omitted open-cover, subcover-choice, quotient, and completeness objects are not coordinates of $F$. Coordinate exhaustion therefore leaves exactly the listed NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite real cover refinement stability]
+\label{thm:finite-real-cover-refinement-stability}
+Any accepted refinement read of a $\FiniteRealCoverUp$ packet must pass through the displayed refinement ledger $E$. If a finer packet refines $F$, the read transports the metric row $M$, dyadic radius ledger $D$, ball row $B$, and coverage row $W$ through the stored $\hsame$ entries and replays the same $\Cont$ route before the finer coverage witnesses are exposed. It cannot replace the ledger by a host cover refinement, arbitrary finite-subcover choice, completed metric compactness result, or quotient real equality.
+\end{theorem}
+\begin{proof}
+Start with a refinement-facing consumer. Carrier projection gives access only to the rows $M,R,D,B,W,E,H,C,P,N$.
+
+The refinement ledger $E$ is the only row whose role is to relate the displayed balls, dyadic radii, and coverage witnesses to a finer finite ball row. Transport through $H$ preserves those coordinates componentwise, and replay through $C$ preserves the metric and dyadic reads.
+
+Since no host refinement operation or subcover selector is stored in the packet, the accepted refinement remains the finite ledger route described above.
+\end{proof}
+
+\begin{theorem}[Finite real cover total-bounded handoff]
+\label{thm:finite-real-cover-total-bounded-handoff}
+Every $\TotallyBoundedUp$ or $\CompactMetricUp$ consumer citing an accepted $\FiniteRealCoverUp$ packet receives a finite handoff through
+$$
+M \longmapsto D \longmapsto B \longmapsto W \longmapsto E.
+$$
+The handoff supplies the metric-distance witness, dyadic tolerance, finite ball row, coverage witness, and refinement ledger needed by total-bounded and compact-metric reads. It supplies no general open-cover compactness theorem, no choice-selected subcover, no ambient powerset cover object, no independent complete-metric carrier, and no quotient real representative.
+\end{theorem}
+\begin{proof}
+Read the consumer through the carrier. The metric row $M$ gives the distance source, $D$ gives the dyadic tolerance budget, $B$ gives the finite ball witnesses, and $W$ gives the coverage witnesses.
+
+For refinement-sensitive consumers, apply refinement stability. The ledger $E$ keeps finer covers inside the same finite ball and dyadic-radius route before any total-bounded or compact-metric handoff is exported.
+
+The listed excluded objects are not stored in the carrier, classifier, transport, replay, provenance, or local NameCert rows. Therefore the total-bounded and compact-metric handoff is exhausted by the displayed finite route.
+\end{proof}
+
+\begin{closurestatus}{\FiniteRealCoverUp}
+  \constructivestory{A $\FiniteRealCoverUp$ packet is generated from a metric source row, Real-valued distance probes, dyadic radius rows, finite ball rows, coverage witnesses, a refinement ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, classifier, NameCert obligations, refinement stability, and total-bounded handoff for explicit metric ball covers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, choice-selected subcovers, hyperspace compactness, quotient real equality, or ambient metric completion.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, coverage-witness nonescape, refinement-ledger stability, and total-bounded handoff for BEDC.Derived.FiniteRealCoverUp.}
+\end{closurestatus}

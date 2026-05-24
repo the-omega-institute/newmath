@@ -6,6 +6,18 @@ The $\MetaCICOpenObligationLedgerUp$ packet realizes the inventory of \autoref{c
 
 As a concrete dependency edge, the ledger consumes \autoref{ch:concrete-instances-closed-normal-consistency-namecert} for the positive normal-form node and \autoref{ch:concrete-instances-substitutionauditmap-namecert} for the substitution-facing boundary rows; the local packet records only the remaining open obligation rows.
 
+\begin{theorem}[MetaCIC open obligation decidability endpoint row]
+\label{thm:metacic-open-obligation-decidability-endpoint-row}
+Any $\MetaCICOpenObligationLedgerUp$ consumer attempting to read a closed-term beta-conversion decision or a bounded normal-equality decision must expose a distinct decidability endpoint row. That row is not supplied by the closed-normal consistency row, substitution boundary row, subject-reduction discharge rows, confluence obstruction rows, componentwise transport, replay, provenance, or local naming.
+\end{theorem}
+\begin{proof}
+Project the ledger carrier. Its decidability coordinate is separate from the subject-reduction, confluence, normalization, typed-example, transport, replay, provenance, and local naming coordinates.
+
+Use the dependency edge to the closed-normal consistency and substitution audit map chapters. Those inputs identify positive normal-form content and substitution-facing boundary data, but neither edge supplies a decision procedure for closed beta conversion or bounded normal equality.
+
+Therefore a consumer that asks for such a decision must read the displayed decidability endpoint row itself. The obligation remains a finite endpoint row of the ledger rather than a consequence hidden inside normalization, substitution, transport, replay, provenance, or naming.
+\end{proof}
+
 \begin{definition}[MetaCIC open-obligation ledger carrier]
 \label{def:metacic-open-obligation-ledger-carrier}
 A $\MetaCICOpenObligationLedgerUp$ carrier is a finite $\BHist$ packet

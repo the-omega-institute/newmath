@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ClosedLamDomainSubjectReductionUp$}
+\label{ch:concrete-instances-closed-lam-domain-subject-reduction-namecert}
+\origin{ai}
+
+The $\ClosedLamDomainSubjectReductionUp$ packet realizes the lambda-domain branch of the closed MetaCIC subject-reduction frontier as a finite NameCert carrier. It sits beside the four-row discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the discharge ledger of \autoref{ch:concrete-instances-subjectreductiondischargeledger-namecert}, the beta-substitution packet of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, the closed substitution boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, the typed beta congruence trigger of \autoref{ch:concrete-instances-typedbetacongruencetrigger-namecert}, and the Pi-domain sibling of \autoref{ch:concrete-instances-closed-pi-domain-subject-reduction-namecert}. The packet names the lambda-domain obligation as displayed closed term data; it does not export an unconditional closed subject-reduction theorem.
+
+\begin{definition}[ClosedLamDomainSubjectReduction carrier]
+\label{def:closed-lam-domain-subject-reduction-carrier}
+A $\ClosedLamDomainSubjectReductionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(T,D,D',B,Y,Z,G,H,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the displayed closed lambda term row, naming the source term $\lambda D.\,B$ and its closed context boundary.
+\item $D$ is the original domain row inspected before the congruence step.
+\item $D'$ is the reduced domain row reached by the displayed beta step from $D$.
+\item $B$ is the body row, read under the binder induced by the displayed domain.
+\item $Y$ is the typing row, recording the source typing judgement for $\lambda D.\,B$ and the target typing judgement demanded for $\lambda D'.\,B$.
+\item $Z$ is the closedness row, requiring the lambda term, original domain, reduced domain, and body reads to remain inside the same closed MetaCIC boundary.
+\item $G$ is the beta-step and typed congruence row, consuming the displayed lambda-domain beta step and the trigger surface of \autoref{ch:concrete-instances-typedbetacongruencetrigger-namecert}.
+\item $H$ records componentwise $\hsame$ transport for $T,D,D',B,Y,Z,G,R,Q,N$.
+\item $R$ records displayed $\Cont$ replay from the source lambda term through the domain step, typing row, closedness row, and subject-reduction handoff.
+\item $Q$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, \autoref{ch:concrete-instances-subjectreductiondischargeledger-namecert}, \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, \autoref{ch:concrete-instances-typedbetacongruencetrigger-namecert}, \autoref{ch:concrete-instances-closed-pi-domain-subject-reduction-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ClosedLamDomainSubjectReductionUp}$ row.
+\end{enumerate}
+The classifier accepts only packets displaying the closed lambda term, both domain rows, the body row, the typing row, the closedness row, the lambda-domain beta step, transport, replay, provenance, and local naming. It has no coordinate for a blanket closed subject-reduction theorem, a host conversion rule, erased derivation semantics, quotient syntax equality, or an untracked binder context.
+\end{definition}
+
+\begin{theorem}[ClosedLamDomainSubjectReduction obligations]
+\label{thm:closed-lam-domain-subject-reduction-namecert-obligations}
+For every accepted $\ClosedLamDomainSubjectReductionUp$ carrier $L=(T,D,D',B,Y,Z,G,H,R,Q,N)$, the local $\NameCert_{\ClosedLamDomainSubjectReductionUp}$ surface consists exactly of carrier admission for the displayed closed lambda term, original domain, reduced domain, body row, typing row, closedness row, beta-step row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The lambda-domain preservation read is accepted only when $G$ displays the domain beta step and $Y,Z$ display the corresponding typing and closedness rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-lam-domain-subject-reduction-carrier}. The rows $T,D,D',B$ display the lambda term, the two domain readings, and the body read, while $Y$ and $Z$ display the typing and closedness boundaries attached to the same context.
+
+The beta-step row $G$ is then read as the lambda-domain congruence trigger. It is not interchangeable with the beta-substitution row, the application-argument row, or the Pi-domain row of the subject-reduction socket, because the target branch changes the displayed lambda domain while preserving the body under the induced binder.
+
+The structural rows $H,R,Q,N$ transport, replay, source, and name only that finite packet. Since no row stores a host conversion rule, erased derivation semantics, quotient syntax equality, or a closed subject-reduction theorem, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ClosedLamDomainSubjectReduction handoff]
+\label{thm:closed-lam-domain-subject-reduction-handoff}
+Every subject-reduction discharge ledger read that consumes the lambda-domain branch from an accepted $\ClosedLamDomainSubjectReductionUp$ packet factors through the displayed route
+$$
+\lambda D.\,B,\ D,\ D',\ B,\ Y,\ Z,\ G,\ H,\ R,\ Q,\ N .
+$$
+The handoff supplies the lambda-domain obligation row to the subject-reduction discharge socket and ledger; it does not supply the beta-substitution row, application-argument row, Pi-domain row, or an unconditional closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start with a subject-reduction consumer of the lambda-domain branch. The socket and ledger chapters, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} and \autoref{ch:concrete-instances-subjectreductiondischargeledger-namecert}, require a distinct lambda-domain row before the parameterised subject-reduction route can be read.
+
+The present carrier supplies that row only through $T,D,D',B,Y,Z,G$. These rows display the source lambda term, the original and reduced domains, the body, the typing judgement, the closedness boundary, and the beta-step trigger.
+
+Finally $H,R,Q,N$ preserve and name the same finite handoff. The beta-substitution preservation packet, closed substitution boundary, typed beta congruence trigger, and Pi-domain packet remain sibling inputs rather than hidden substitute proofs, so the handoff is exactly the lambda-domain row and nothing stronger.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\ClosedLamDomainSubjectReductionUp$ consumer reaching a subject-reduction conclusion without the displayed lambda-domain beta step and typing rows refutes the carrier.}
+
+\independenceWitness{ClosedPiDomainSubjectReduction, BetaSubstitutionPreservation, ClosedSubstitutionBoundary, and TypedBetaCongruenceTrigger are not bijective with $\ClosedLamDomainSubjectReductionUp$ because this packet jointly carries the closed lambda term, original domain, reduced domain, body row, typing row, closedness row, lambda-domain beta step, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate file for $\ClosedLamDomainSubjectReductionUp$ must provide explicit $\mathsf{Nontrivial}\ \ClosedLamDomainSubjectReductionUp$ and $\mathsf{FieldFaithful}\ \ClosedLamDomainSubjectReductionUp$ instances preserving $T,D,D',B,Y,Z,G,H,R,Q,N$ as distinct rows.
+
+\closureat{ClosedLamDomainSubjectReductionUp}{seedStr}
+
+\begin{closurestatus}{\ClosedLamDomainSubjectReductionUp}
+  \constructivestory{A $\ClosedLamDomainSubjectReductionUp$ packet is generated from a closed lambda term row, original domain row, reduced domain row, body row, typing row, closedness row, beta-step row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-lam-domain-subject-reduction-carrier}, \autoref{thm:closed-lam-domain-subject-reduction-namecert-obligations}, and \autoref{thm:closed-lam-domain-subject-reduction-handoff} seed the finite lambda-domain subject-reduction obligation packet for the closed MetaCIC discharge route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close beta-substitution preservation, application-argument stability, Pi-domain preservation, unconditional closed subject reduction, host conversion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lambda-domain beta-step exactness, typing-row exposure, closedness-row exposure, subject-reduction ledger handoff, and TasteGate field faithfulness for BEDC.Derived.ClosedLamDomainSubjectReductionUp.}
+\end{closurestatus}
