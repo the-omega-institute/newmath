@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\MedianClosureUp$}
+\label{ch:concrete-instances-median-closure-namecert}
+\origin{ai}
+
+The $\MedianClosureUp$ packet realizes the coordinatewise-majority closure surface of \autoref{def:philosophy-median-closure} and \autoref{thm:philosophy-reassignment-median-closure} as finite NameCert data. It records the reassigned support, the majority-saturation row, inactive-corner readback, f-vector ledger, and maximal-cell ledger for the $20$-codon $\mathrm{WNR}\cup\mathrm{CUN}$ carrier. It sits beside the sibling finite-structure packets in \autoref{ch:concrete-instances-helly-theorem-namecert}, \autoref{ch:concrete-instances-trie-namecert}, and \autoref{ch:concrete-instances-finset-namecert}, but is not bijective with them because it carries the coordinatewise-majority saturation row.
+
+\begin{definition}[MedianClosure carrier]
+\label{def:median-closure-carrier}
+A $\MedianClosureUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,M,I,F,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the reassigned support row, naming the $13$ codons of the source support $\mathcal{R}$.
+\item $M$ is the coordinatewise-majority saturation row, displaying exactly the $20$ codons of $\mathrm{WNR}\cup\mathrm{CUN}$ as the median closure of $S$.
+\item $I$ is the inactive-corner readback row, displaying the seven codons in $\operatorname{Med}(\mathcal{R})\setminus\mathcal{R}$ and the four codons in $\operatorname{Med}(\mathcal{R})\setminus\overline{\mathcal{R}}$.
+\item $F$ is the f-vector ledger for $K(\operatorname{Med}(\mathcal{R}))$, displaying $(20,38,26,8,1,0,\ldots)$.
+\item $X$ is the maximal-cell ledger, displaying the $\mathrm{WNR}$ $4$-cube, the $\mathrm{CUN}$ $2$-cube, and the listed bridge cells from the source vision.
+\item $H$ records componentwise $\hsame$ transport for support, median saturation, inactive-corner, f-vector, maximal-cell, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from support through coordinatewise-majority saturation, inactive-corner readback, f-vector ledger, maximal-cell ledger, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\MedianClosureUp$, $\HellyTheoremUp$, $\TrieUp$, $\FinSetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MedianClosureUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for the full $Q_{6}$ convex hull, no Helly theorem, no cubical homology package, no trie dictionary order, and no abstract finite-set equality outside the displayed codon rows.
+\end{definition}
+
+\begin{theorem}[MedianClosure NameCert obligations]
+\label{thm:median-closure-namecert-obligations}
+For every accepted $\MedianClosureUp$ carrier $Q=(S,M,I,F,X,H,C,P,N)$, the local $\NameCert_{\MedianClosureUp}$ surface consists exactly of support admission through $S$, coordinatewise-majority saturation through $M$, inactive-corner readback through $I$, f-vector exposure through $F$, maximal-cell exposure through $X$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:median-closure-carrier}. The support row, median-saturation row, inactive-corner row, f-vector ledger, maximal-cell ledger, and structural rows are explicit coordinates of the same finite $\BHist$ packet.
+
+The continuation row $C$ fixes the order of reads. A consumer first sees the reassigned support $S$, then the coordinatewise-majority saturation row $M$, and only then the inactive-corner, f-vector, and maximal-cell rows.
+
+Transport, provenance, and local naming preserve that same route. Since the carrier omits convex-hull completion, Helly theorem data, cubical homology, trie order, and abstract finite-set equality, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MedianClosure vision realization]
+\label{thm:median-closure-vision-realization}
+Every accepted $\MedianClosureUp$ packet realizes the median-closure claims of \autoref{def:philosophy-median-closure}, \autoref{thm:philosophy-reassignment-median-closure}, \autoref{cor:philosophy-median-inactive-corners}, \autoref{thm:philosophy-median-closure-f-vector}, and \autoref{thm:philosophy-median-closure-maximal-cells} as one finite NameCert surface. In particular, the displayed closure-size row rejects any carrier whose median-saturation row is not the $20$-codon set $\mathrm{WNR}\cup\mathrm{CUN}$.
+\end{theorem}
+\begin{proof}
+Read the support row $S$ and the median-saturation row $M$. By carrier admission, $M$ is the displayed coordinatewise-majority closure of the reassigned support and has the $20$ codons $\mathrm{WNR}\cup\mathrm{CUN}$.
+
+The inactive-corner row $I$ and f-vector row $F$ are downstream of $M$, so their readback is tied to the same displayed closure rather than to an independent finite set.
+
+The maximal-cell row $X$ uses that same closure to expose the $\mathrm{WNR}$ and $\mathrm{CUN}$ cells and their bridge cells. Therefore any carrier with a different median closure cannot satisfy the local NameCert route.
+\end{proof}
+
+\falsifiablePrediction{The $\MedianClosureUp$ closure-size row rejects any carrier whose displayed median closure is not the $20$-codon $\mathrm{WNR}\cup\mathrm{CUN}$ set.}
+
+\independenceWitness{helly_theorem, cubical finite-support chapters, trie, finset: none is bijective with $\MedianClosureUp$ because this carrier alone binds the coordinatewise-majority saturation row to the inactive-corner readback, f-vector ledger, and maximal-cell ledger.}
+
+\closureat{MedianClosureUp}{seedStr}
+
+\begin{closurestatus}{\MedianClosureUp}
+  \constructivestory{A $\MedianClosureUp$ packet is generated from the reassigned support row, coordinatewise-majority saturation, inactive-corner readback, f-vector ledger, maximal-cell ledger, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:median-closure-carrier}, \autoref{thm:median-closure-namecert-obligations}, and \autoref{thm:median-closure-vision-realization} seed the finite median-closure packet for the $20$-codon $\mathrm{WNR}\cup\mathrm{CUN}$ carrier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full $Q_{6}$ convex hull, Helly theorem content, cubical homology, trie ordering, abstract finite-set equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked support admission, majority saturation, inactive-corner readback, f-vector exposure, maximal-cell exposure, provenance, and ledger refusal for the same finite packet.}
+\end{closurestatus}
