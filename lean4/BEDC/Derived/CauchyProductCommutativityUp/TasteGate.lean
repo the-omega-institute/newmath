@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -6,6 +7,7 @@ namespace BEDC.Derived.CauchyProductCommutativityUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -338,5 +340,23 @@ theorem CauchyProductCommutativityTasteGate_single_carrier_alignment :
                     (cauchyProductCommutativityEncodeBHist_injective hQ)
                     (cauchyProductCommutativityEncodeBHist_injective hN)
       · rfl
+
+theorem CauchyProductCommutativity_window_swap
+    {Pxy Pyx Wx Wy Dxy Dyx Rxy Ryx Exy Eyx H C Q N replay : BHist} :
+    Cont H C replay →
+      cauchyProductCommutativityFields
+          (CauchyProductCommutativityUp.mk Pyx Pxy Wy Wx Dyx Dxy Ryx Rxy Eyx Exy H C Q N) =
+        [Pyx, Pxy, Wy, Wx, Dyx, Dxy, Ryx, Rxy, Eyx, Exy, H, C, Q, N] ∧
+          hsame
+            (cauchyProductCommutativityDecodeBHist
+              (cauchyProductCommutativityEncodeBHist H))
+            H ∧
+            Cont H C replay := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro replayRoute
+  exact
+    ⟨rfl,
+      cauchyProductCommutativity_decode_encode_bhist H,
+      replayRoute⟩
 
 end BEDC.Derived.CauchyProductCommutativityUp
