@@ -948,6 +948,7 @@ import BEDC.Derived.CauchyCriterionUp.CommonSelectorRefinement
 import BEDC.Derived.CauchyCriterionUp.CompleteMetricConsumerBoundary
 import BEDC.Derived.CauchyCriterionUp.CompletionBoundary
 import BEDC.Derived.CauchyCriterionUp.CompletionReadback
+import BEDC.Derived.CauchyCriterionUp.CompletionUniformFamilyDownstreamCoverage
 import BEDC.Derived.CauchyCriterionUp.CompletionUniformFamilyFactorization
 import BEDC.Derived.CauchyCriterionUp.DiagonalBudgetReadback
 import BEDC.Derived.CauchyCriterionUp.DiagonalSelectorTerminality
