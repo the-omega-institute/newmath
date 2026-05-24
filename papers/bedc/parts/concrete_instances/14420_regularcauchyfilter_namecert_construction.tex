@@ -263,6 +263,22 @@ The regular and real-facing rows are $R$ and $E$. They are downstream from the s
 Since the ledger accounts for every coordinate of the carrier, no quotient filter, selected limit, countable-choice selector, hidden tail, host equality, or completeness coordinate remains to be exported.
 \end{proof}
 
+\begin{theorem}[RegularCauchyFilter directed-tail closure]
+\label{thm:regular-cauchy-filter-directed-tail-closure}
+Let $G=(B,R,T,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterUp$ packet. Every finite family of tail windows displayed in $T$ is closed under the packet's directed meet row $M$: after finitely many displayed refinements, the family admits a single tail row over the same $\CauchyFilterUp$ source $B$ that refines every listed window, preserves the same $\DyadicRatCoreUp$ tolerance ledger $D$, and reaches the same $\RegSeqRatUp$ readback $R$ and $\RealUp$ seal $E$.
+
+The closure route is internal to $B,T,D,M,R,E,H,C,P,N$. It does not form quotient filters, select a host limit, use countable choice, import hidden cofinal tails, or appeal to ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite list of windows from $T$. The empty list and singleton list are immediate from carrier projection: the requested rows already lie inside the visible source row $B$ and carry their tolerance data through $D$.
+
+For the step, assume the previous subfamily has a displayed common tail row. Apply \autoref{thm:regular-cauchy-filter-tail-meet} to that row and the next listed window. The meet row $M$ supplies a later displayed base packet refining both, so the enlarged family remains inside the same finite Cauchy filterbase surface.
+
+Now use \autoref{thm:regular-cauchy-filter-basis-factorization}. The windows in $T$, the dyadic ledger $D$, and the iterated meet route through $M$ remain a $\CauchyFilterBasisUp$ factorization over $B$.
+
+Finally apply \autoref{thm:regularcauchyfilter-ledger}. The ledger exhaustion theorem keeps the downstream readback at the same $R$ and the same terminal seal $E$, with transport, replay, provenance, and local naming supplied by $H,C,P,N$. Since the induction only composes displayed meet rows, none of the excluded quotient, choice, hidden-tail, limit, or completeness principles is introduced.
+\end{proof}
+
 \closureat{RegularCauchyFilterUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyFilterUp}
