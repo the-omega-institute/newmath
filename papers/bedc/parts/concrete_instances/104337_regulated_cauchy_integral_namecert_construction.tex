@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedCauchyIntegralUp$}
+\label{ch:concrete-instances-regulated-cauchy-integral-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegulatedCauchyIntegralUp$ packet records regulated-integral values through displayed Cauchy windows. It reads the regulated-integral surface of \autoref{ch:concrete-instances-regulatedintegral-namecert}, the Riemann--Stieltjes sibling route of \autoref{ch:concrete-instances-riemannstieltjes-namecert}, the dyadic step rows of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names integral values by finite Cauchy-read obligations, not by host function equality, quotient streams, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regulated Cauchy integral carrier]
+\label{def:regulated-cauchy-integral-carrier}
+A $\RegulatedCauchyIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+K=(G,T,A,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the regulated integrand and regulated-integral row, read through $\RegulatedIntegralUp$ and carrying only the displayed finite integration data.
+\item $T$ is the tagged partition row, including the tags, cells, endpoint reads, and the sibling compatibility surface with $\RiemannStieltjesUp$ when an integrator row is present.
+\item $A$ is the $\DyadicStepFunctionUp$ approximation ledger used to compute the finite integral sums on the displayed partition.
+\item $W$ is the $\StreamNameUp$ Cauchy window schedule listing the precision windows actually requested by a consumer of the integral value.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the finite sums in $A$ through the requested windows in $W$.
+\item $E$ is the terminal $\RealUp$ seal reached only after $G,T,A,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the integrand, partition, step approximation, window schedule, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from regulated-integral reads to tagged partitions, from tagged partitions to dyadic step sums, from step sums to Cauchy windows, from windows to $\RegSeqRatUp$ readback, and from readback to the $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedCauchyIntegralUp$, $\RegulatedIntegralUp$, $\RiemannStieltjesUp$, $\DyadicStepFunctionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegulatedCauchyIntegralUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,T,A,W,R,E,H,C,P,N$. It has no coordinate for host function equality, quotient streams, selected limiting partitions, countable choice, or an ambient real-completeness principle.
+\end{definition}
+
+\begin{theorem}[Regulated Cauchy integral NameCert obligations]
+\label{thm:regulated-cauchy-integral-namecert-obligations}
+For every accepted $\RegulatedCauchyIntegralUp$ carrier $K=(G,T,A,W,R,E,H,C,P,N)$, the local $\NameCert_{\RegulatedCauchyIntegralUp}$ surface consists exactly of carrier admission, regulated-integral source exposure through $G$, tagged-partition exposure through $T$, dyadic step-sum exposure through $A$, Cauchy-window scheduling through $W$, $\RegSeqRatUp$ readback through $R$, $\RealUp$ sealing through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, local naming through $N$, and non-escape from host function equality, quotient streams, selected limiting partitions, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regulated-cauchy-integral-carrier}. The accepted packet exposes exactly the regulated-integral source, tagged partition, dyadic step approximation, Cauchy window schedule, regular readback, real seal, and structural rows.
+
+The integration read is finite. The row $G$ supplies the regulated-integral source, $T$ supplies the tagged partition data, and $A$ supplies the dyadic step sums visible at the requested tolerances.
+
+The Cauchy read is downstream. The row $W$ records the requested windows, $R$ records the regular rational readback from those windows, and $E$ is the only Real-facing seal. Since the excluded principles have no carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regulated Cauchy integral window readback exactness]
+\label{thm:regulated-cauchy-integral-window-readback-exactness}
+Let $K=(G,T,A,W,R,E,H,C,P,N)$ be an accepted $\RegulatedCauchyIntegralUp$ packet. Every displayed Cauchy window in $W$ reads the integral value through the same dyadic step approximation ledger $A$ over the same tagged partition $T$ and determines the same $\RegSeqRatUp$ row $R$. The readback is exact at the packet boundary: no consumer can replace the displayed window route by quotient stream equality, a host limiting partition, countable choice, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with a displayed window in $W$. The carrier gives no detached stream coordinate, so the window can be read only through the continuation route from $G$ to $T$ and from $T$ to $A$.
+
+The dyadic step ledger fixes the finite sum read. Componentwise transport through $H$ and replay through $C$ carry the same tagged cells, values, and tolerance rows into the regular rational readback coordinate $R$.
+
+Thus every accepted window reaches the same $R$ by the displayed route. The absent quotient, host-limit, choice, and host-equality coordinates cannot alter the readback at the packet boundary.
+\end{proof}
+
+\begin{theorem}[Regulated Cauchy integral Real seal non-escape]
+\label{thm:regulated-cauchy-integral-real-seal-nonescape}
+The $\RealUp$ seal of an accepted $\RegulatedCauchyIntegralUp$ carrier is available only as the endpoint of the route
+$$
+\RegulatedIntegralUp,\ \RiemannStieltjesUp,\ \DyadicStepFunctionUp,\ \StreamNameUp,\ \RegSeqRatUp \longmapsto \RealUp .
+$$
+Concretely, a Real-facing consumer must first read the regulated-integral source $G$, tagged partition $T$, dyadic step approximation $A$, Cauchy window schedule $W$, and regular readback $R$ before it can read $E$. The packet exports no host function equality, quotient stream, countable-choice selector, selected limiting partition, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the seal coordinate of \autoref{def:regulated-cauchy-integral-carrier}. The row $E$ is downstream from $G,T,A,W,R$ and is transported and replayed only by $H$ and $C$.
+
+Apply \autoref{thm:regulated-cauchy-integral-namecert-obligations}. It identifies the regulated-integral, partition, dyadic step, window, readback, seal, transport, replay, provenance, and naming rows as the complete local certificate surface.
+
+Apply \autoref{thm:regulated-cauchy-integral-window-readback-exactness}. The regular readback row is fixed by the displayed Cauchy windows over the same finite integration ledger. Therefore the Real seal cannot be reached through any omitted host or completion coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegulatedCauchyIntegralUp$ value read factors through a displayed $\RegulatedIntegralUp$ source, tagged partition, $\DyadicStepFunctionUp$ approximation, $\StreamNameUp$ Cauchy window schedule, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{regulatedintegral, riemannstieltjes, dyadicstepfunction, streamname, regseqrat, real: $\RegulatedCauchyIntegralUp$ is not bijective to any listed sibling because it binds regulated integral source data, tagged partitions, dyadic step approximations, Cauchy windows, regular rational readback, Real sealing, transport, replay, provenance, and local NameCert rows into one packet.}
+
+\closureat{RegulatedCauchyIntegralUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedCauchyIntegralUp}
+  \constructivestory{A $\RegulatedCauchyIntegralUp$ packet is generated from a regulated-integral source row, tagged partition row, dyadic step approximation ledger, Cauchy window schedule, RegSeqRat readback, Real seal, componentwise transport, displayed continuation replay, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-cauchy-integral-carrier}, \autoref{thm:regulated-cauchy-integral-namecert-obligations}, \autoref{thm:regulated-cauchy-integral-window-readback-exactness}, and \autoref{thm:regulated-cauchy-integral-real-seal-nonescape} seed the regulated-integral Cauchy-read boundary over tagged partitions, dyadic step approximations, StreamName windows, RegSeqRat readback, and Real seal data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, quotient stream completion, selected limiting partitions, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regulated-integral source exposure, tagged-partition exposure, dyadic step-sum exposure, Cauchy-window readback exactness, Real-seal non-escape, transport and replay stability, provenance non-escape, and TasteGate field faithfulness for BEDC.Derived.RegulatedCauchyIntegralUp.}
+\end{closurestatus}
