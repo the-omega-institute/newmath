@@ -211,4 +211,45 @@ theorem RegularCauchyScaleCarrier_real_scalar_non_escape [AskSetup] [PackageSetu
       endpointPkg,
       consumerPkg⟩
 
+theorem RegularCauchyScaleCarrier_window_budget [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint precision : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg ->
+      Cont window budget precision ->
+        PkgSig bundle precision pkg ->
+          UnaryHistory scalar ∧ UnaryHistory source ∧ UnaryHistory window ∧
+            UnaryHistory scalarEndpoint ∧ UnaryHistory sourceEndpoint ∧
+              UnaryHistory scaledEndpoint ∧ UnaryHistory budget ∧ UnaryHistory precision ∧
+                Cont scalar window scalarEndpoint ∧ Cont source window sourceEndpoint ∧
+                  Cont scalarEndpoint sourceEndpoint scaledEndpoint ∧
+                    Cont scaledEndpoint budget readback ∧ Cont window budget precision ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle precision pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier windowBudget precisionPkg
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, scalarEndpointUnary, sourceEndpointUnary,
+    scaledEndpointUnary, budgetUnary, _readbackUnary, _sameRowsUnary, _routeUnary,
+    _provenanceUnary, _namecertUnary, _endpointUnary, scalarWindow, sourceWindow,
+    endpointsScaled, scaledBudget, _readbackRoute, _provenanceNamecert, _sameRowsAppend,
+    endpointPkg⟩ := carrier
+  have precisionUnary : UnaryHistory precision :=
+    unary_cont_closed windowUnary budgetUnary windowBudget
+  exact
+    ⟨scalarUnary,
+      sourceUnary,
+      windowUnary,
+      scalarEndpointUnary,
+      sourceEndpointUnary,
+      scaledEndpointUnary,
+      budgetUnary,
+      precisionUnary,
+      scalarWindow,
+      sourceWindow,
+      endpointsScaled,
+      scaledBudget,
+      windowBudget,
+      endpointPkg,
+      precisionPkg⟩
+
 end BEDC.Derived.RegularCauchyScaleUp
