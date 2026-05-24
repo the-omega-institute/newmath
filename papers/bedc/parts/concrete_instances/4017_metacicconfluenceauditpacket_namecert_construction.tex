@@ -191,6 +191,19 @@ Use the conditional boundary and closed substitution boundary, \autoref{thm:meta
 Apply the subject-reduction separation and non-escape rows, \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation} and \autoref{thm:metacic-confluence-audit-packet-nonescape}. The first prevents fusion with the sibling subject-reduction packets, and the second exhausts every consumer read by $D,C,N,A_0,S,R,H,T,P,L$. Hence the packaged surface is obligation closure for the finite packet and not a stronger MetaCIC metatheorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit candidate-mediated SN boundary]\label{thm:metacic-confluence-audit-packet-candidate-mediated-sn-boundary}
+Any strong-normalization-facing consumer of an accepted $\MetaCICConfluenceAuditPacketUp$ carrier must pass through the displayed conditional-boundary rows $D,C$, the closed-substitution boundary row $S$, the subject-reduction separation row $R$, the nonescape route over $D,C,N,A_0,S,R,H,T,P,L$, and the obligation-closure package before it may read a candidate-mediated normalization claim. The read may use a candidate row only as finite audit data attached to that dependency chain; it does not prove global confluence, subject reduction, full substitution compatibility, or arbitrary strong normalization.
+\end{theorem}
+\begin{proof}
+First project the carrier rows. The conditional confluence surface is held by $D,C$, while $S$ records the closed-substitution boundary and $R$ records the subject-reduction separation.
+
+Apply \autoref{thm:metacic-confluence-audit-packet-conditional-boundary}, \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}, and \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation}. These rows give the finite dependency chain a consumer must read before any candidate-mediated normalization datum can be interpreted.
+
+Now apply \autoref{thm:metacic-confluence-audit-packet-nonescape} and \autoref{thm:metacic-confluence-audit-packet-obligation-closure-package}. The first confines the consumer to $D,C,N,A_0,S,R,H,T,P,L$, and the second packages those rows as the whole obligation surface of the packet.
+
+Thus a candidate-mediated normalization claim is only a row-facing read downstream of the displayed boundaries. Since the carrier has no coordinate for global confluence, subject reduction, full substitution compatibility, or arbitrary strong normalization, none of those principles is exported.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit obligation surface]
 \label{thm:metacic-confluence-audit-obligation-surface}
 For an accepted $\MetaCICConfluenceAuditPacketUp$ carrier
