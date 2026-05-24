@@ -175,3 +175,23 @@ Next use the Banach-to-ODE non-escape row. It routes ODE-facing consumer reads t
 
 Finally use the ratio-ledger non-expansion row. It keeps rate-facing and ratio-facing consumers inside the displayed Lipschitz and iterate ledger coordinates. Since $U$ only names which of the five consumer families is requested, composing the three checked rows gives the advertised handoff without adding any new analytic coordinate.
 \end{proof}
+
+\begin{theorem}[PicardContraction root source-window determinacy]
+\label{thm:picard-contraction-root-source-window-determinacy}
+For a root source-window packet
+$$
+R=(B,T,L,I,M,E,H,C,G,N,U),
+$$
+the request row $U$ determines only the downstream consumer family and never changes the source-window rows $B,T,L,I,M,E,H,C,G,N$. If two reads have the same $B,T,L,I,M,E,H,C,G,N$ rows and the same request family, then they have the same finite handoff surface for $\RegSeqRatUp$, $\RealUp$, $\OdeUp$, $\NewtonIterationUp$, or $\CauchyRateUp$.
+\end{theorem}
+\begin{proof}
+Use root source-window admission from \autoref{thm:picardcontraction-root-source-window-admission}. It fixes the carrier rows $B,T,L,I,M,E,H,C,G,N$ and reads $U$ only as a downstream request row.
+
+For $\CauchyRateUp$, $\RegSeqRatUp$, and $\RealUp$ requests, apply the modulus consumer lock of \autoref{thm:picardcontraction-root-modulus-consumer-lock}. The rate, rational-readback, and real-facing handoffs are forced through the displayed Lipschitz row, iterate ledger, modulus row, endpoint seal, transport, replay, provenance, and local name.
+
+For $\OdeUp$ and $\NewtonIterationUp$ requests, apply downstream handoff exhaustion from \autoref{thm:picardcontraction-root-downstream-handoff-exhaustion}. The two consumer families are projections of the same finite packet and do not introduce a second source window.
+
+Finally cite the checked handoff of \autoref{thm:picardcontraction-root-source-window-checked-handoff}. It excludes replacement of the finite handoff by fixed-point data, completed-orbit data, quotient stream equality, completion data, or selected-limit data.
+
+Thus two reads that agree on the source-window rows and the request family have no remaining coordinate on which their finite handoff surfaces can diverge.
+\end{proof}
