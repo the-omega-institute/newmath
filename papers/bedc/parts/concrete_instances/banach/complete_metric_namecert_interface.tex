@@ -109,3 +109,64 @@ Banach carrier is the singleton norm carrier, so
 two carried limit endpoints and their $\hsame$ relation into the classifier row
 $\rho_{\emp}(\ell_0,\ell_1)$.
 \end{proof}
+
+\begin{corollary}[Banach complete-metric interface determinacy]
+\label{cor:banach-complete-metric-interface-determinacy}
+In the singleton empty-history Banach carrier $C_{\emp}$ of
+\autoref{def:banach-singleton-empty-history-instance}, fix a stream name $s$ and
+fix a displayed Banach complete-metric interface row
+$$
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,M,\ell,L).
+$$
+Every accepted consumer-facing use of this row factors through the same visible
+interface data: the carrier row $C_{\emp}$, the stream observations of $s$, the
+modulus row $M$, the carried limit row $\ell$, the late-distance rows in $L$
+displayed as
+$$
+\mathsf{BanachMetricWitness}_{C_{\emp}}(s(n),\ell,d_{n,\varepsilon}),
+$$
+and the corresponding $\RatUp$ comparison rows. If a second accepted use for
+the same stream displays
+$$
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,M',\ell',L'),
+$$
+then its limit normal form is the same singleton endpoint, classified by
+$\rho_{\emp}(\ell,\ell')$. Thus the interface admits no alternate hidden metric
+coordinate, no anonymous distance classifier, and no duplicate endpoint
+classifier source beyond the rows named in
+\autoref{def:banach-complete-metric-namecert-interface} and
+\autoref{thm:banach-singleton-limit-namecert-uniqueness}.
+\end{corollary}
+\begin{proof}
+Unfold the interface of
+\autoref{def:banach-complete-metric-namecert-interface}. An accepted
+Banach-surface row is not merely a complete-metric row with an unspecified
+metric component. Its visible ledger consists of the carrier $C_{\emp}$, the
+stream observations of $s$, the modulus history, the carried limit history,
+the late-observation distance rows, and the $\RatUp$ comparison rows. The same
+definition requires every metric-distance component of the late ledger to be
+presented as a norm-induced Banach row
+$\mathsf{BanachMetricWitness}_{C_{\emp}}$ rather than as an anonymous metric
+row. Hence any consumer use of the fixed row must read exactly these displayed
+coordinates.
+
+For the singleton carrier, \autoref{def:banach-singleton-empty-history-instance}
+identifies the vector carrier with the empty-history singleton, the endpoint
+classifier with $\rho_{\emp}$, and the norm-induced metric distance with the
+constant RealUp zero row. Therefore each accepted distance entry in $L$ has the
+fixed Banach source
+$\mathsf{BanachMetricWitness}_{C_{\emp}}(s(n),\ell,d_{n,\varepsilon})$, and the
+only exactness decision available at the complete-metric slot is the one that
+keeps this norm-induced row at the Banach surface.
+
+Now compare any second accepted use for the same stream. Both displayed rows
+are Banach-surface complete-metric rows for $C_{\emp}$, so
+\autoref{thm:banach-singleton-limit-namecert-uniqueness} applies to them. It
+first gives $\hsame(\ell,\ell')$ and then reads that comparison as the
+singleton vector classifier $\rho_{\emp}(\ell,\ell')$. Thus an alleged alternate
+limit normal form is already classified by the same singleton endpoint row.
+Since the interface ledger has no additional carrier coordinate, no extra
+metric slot, and no classifier other than the displayed singleton classifier,
+every accepted consumer-facing use factors through the listed finite Banach
+route.
+\end{proof}

@@ -48,3 +48,25 @@ Apply the closed-substitution handoff. It shows that output consumers, including
 
 Finally use root host-boundary NameCert exhaustion. The boundary row exports no host equality, hidden evaluator state, subject-reduction theorem, or off-packet certificate, so the audit cover is exactly the packet-local $A,H,C,P,G,N$ surface.
 \end{proof}
+
+\begin{lemma}[AuthorizedGeneratorRecursor route totality local downstream coverage]
+\label{lem:authorized-generator-recursor-route-totality-local-downstream-coverage}
+Let $c$ be an accepted local downstream consumer of an accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N).
+$$
+Then the consumer-facing read made by $c$ is exhausted by the finite route, ledger, and coverage rows already displayed in $R$. More precisely, $c$ either reads a route alternative among the accepted signature row $I$, eliminator row $E$, motive row $M$, branch package $B$, descent row $D$, output row $O$, and audit row $A$, or it reads the downstream output ledger covered by $O,A,H,C,P,G,N$, where $H$ is the componentwise $\hsame$ transport, $C$ is the displayed $\Cont$ route, $P$ is the $\Pkg$ provenance, $G$ is the closed host-boundary row, and $N$ is the local $\NameCert$ row. Consequently a second eliminator, detached branch table, off-route descent proof, second output channel, unaudited output read, hidden audit packet, detached transport row, private continuation, off-packet provenance row, host equality, hidden evaluator state, unrestricted substitution theorem, subject-reduction theorem, off-packet generator certificate, or outside naming certificate has no accepted local consumer coordinate in the $\AuthorizedGeneratorRecursorUp$ packet.
+\end{lemma}
+\begin{proof}
+Fix an accepted local downstream consumer $c$ of the displayed carrier $R$. By \autoref{thm:authorized-generator-recursor-route-totality-lock}, every accepted recursor route factors through exactly the displayed rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+That theorem also rules out a second eliminator, branch table, descent proof, output channel, audit packet, transport row, continuation, provenance row, or naming certificate outside this finite surface. Thus the initial consumer-facing route of $c$ has no coordinate except the rows listed in $R$.
+
+Separate the read according to whether it reaches the generated output row. If $c$ reads a route coordinate before output exposure, the totality lock already places it among the route alternatives $I,E,M,B,D,O,A$ together with the attached transport, continuation, provenance, boundary, and naming rows. If $c$ reads the generated output row $O$, then \autoref{thm:authorized-generator-recursor-output-route-audit-cover} applies. It says that every generated output row is covered by the audit and provenance rows $A,H,C,P,G,N$ before any downstream consumer reads it, and that the output route cannot bypass audit, provenance, closed-boundary naming, or componentwise transport.
+
+The two cited theorems exhaust the downstream cases. The totality lock supplies the finite route surface and excludes any unlisted route coordinate. The audit-cover theorem supplies the output-facing ledger and keeps downstream output exposure behind $A,H,C,P,G,N$. Hence an accepted local consumer can only land on the displayed route alternatives, the displayed output ledger, or the displayed coverage rows of the same packet.
+
+It remains to check the excluded alternatives. A second eliminator, detached branch table, off-route descent proof, second output channel, hidden audit packet, detached transport row, private continuation, off-packet provenance row, or outside naming certificate would be a route coordinate outside $R$, contradicting \autoref{thm:authorized-generator-recursor-route-totality-lock}. An unaudited output read, host equality, hidden evaluator state, unrestricted substitution theorem, subject-reduction theorem, or off-packet generator certificate would be an output-facing bypass of the audit and boundary surface, contradicting \autoref{thm:authorized-generator-recursor-output-route-audit-cover}. Therefore every accepted local downstream consumer is covered by the finite rows already enumerated in $R$, and every excluded alternative remains outside the accepted $\AuthorizedGeneratorRecursorUp$ packet.
+\end{proof}

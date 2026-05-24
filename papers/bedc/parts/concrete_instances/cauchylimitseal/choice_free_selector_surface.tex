@@ -56,3 +56,29 @@ Now apply the seal-side boundaries: public route boundary, observation-budget pu
 The carrier inventory therefore exhausts the export. Since neither the selector packet nor the admitted CauchyLimitSeal packet contains any of the excluded rows, no downstream $\RealUp$ or completion consumer can recover one from the admitted selector surface.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_choice\_free\_selector\_nonescape}
+
+\begin{corollary}[CauchyLimitSeal choice-free selector admission strict obstruction]
+\label{cor:cauchy-limit-seal-choice-free-selector-admission-strict-obstruction}
+Let
+$$
+Q=(X,S,D,G,E,T,P,N)
+$$
+be an accepted $\CauchyLimitSealUp$ carrier. A local refusal of a proposed $\ChoiceFreeLimitScheduleUp$ row
+$$
+A=(E_A,M_A,W_A,D_A,R_A,S_A,H_A,C_A,P_A,N_A)
+$$
+or of a proposed $\LimitSelectorUp$ row
+$$
+K=(R_K,n_K,\mu_K,k_K,W_K,D_K,S_K,H_K,C_K,P_K,N_K)
+$$
+through $Q$ is strict in the following sense. It blocks only the attempted reuse of that row as an admitted selector surface for the public route packet of $Q$. Its scope is limited to the named coordinates: precision request, scheduled or selected finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. It does not supply a global impossibility theorem for choice-free schedules or finite selectors, does not assert host $\RealUp$ equality or ambient completeness, and does not validate an external route outside the displayed packet.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:cauchy-limit-seal-choice-free-selector-admission}, admission through $Q$ is available only when the proposed schedule or selector row lands on the public route packet $X,S,D,G,E,T,P,N$. In the schedule case this means that $E_A,M_A,W_A,D_A,R_A,S_A,H_A,C_A,P_A,N_A$ are read as the displayed request, schedule, window, ledger, handoff, seal, transport, replay, provenance, and naming rows of $Q$. In the selector case this means that $n_K,\mu_K,k_K,W_K,D_K,S_K,H_K,C_K,P_K,N_K$ first select one displayed finite window and then read the same ledger, handoff, seal, transport, replay, provenance, and naming rows of $Q$.
+
+Thus a refusal can only be a failure of that displayed factorization. If the proposed route changes the request, window, dyadic ledger, regular handoff, seal row, transport, replay, provenance, or local name, the row is outside the admission surface for this carrier. The refusal has no further coordinate to inspect, because the admission theorem has already identified every consumer-facing use with the finite packet just listed.
+
+Now apply \autoref{thm:cauchy-limit-seal-choice-free-selector-nonescape}. An admitted selector route exports no hidden limit choice, quotient stream equality, host real equality, ambient completeness datum, unbounded schedule, hidden family limit, or alternate seal. The same inventory controls the rejected route: the rejection is read against the finite packet whose admissible exports are exhausted by the theorem. Therefore the failure cannot be repacked as a host theorem, an ambient completeness principle, an external validation, or a global nonexistence statement about all choice-free schedules or selectors.
+
+The obstruction is consequently local and strict. It blocks exactly the named converse or reuse attempt through $Q$; every consumer-facing use that remains admissible must factor through the displayed rows of \autoref{thm:cauchy-limit-seal-choice-free-selector-admission}, and every unlisted coordinate is rejected by the non-escape boundary of \autoref{thm:cauchy-limit-seal-choice-free-selector-nonescape}.
+\end{proof}
