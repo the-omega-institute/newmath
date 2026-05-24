@@ -6018,6 +6018,7 @@ import BEDC.Derived.ZnormalUp.TotalHostRefusalPackage
 import BEDC.Derived.ZnormalUp.TotalHostTerminalCarrierAdmission
 import BEDC.Derived.ZnormalUp.TotalHostTerminalExposure
 import BEDC.Derived.ZnormalUp.TypedBoundaryExhaustion
+import BEDC.Derived.ZnormalUp.ZnormalConsumerNonescape
 import BEDC.DerivedIndexAnalysis
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
