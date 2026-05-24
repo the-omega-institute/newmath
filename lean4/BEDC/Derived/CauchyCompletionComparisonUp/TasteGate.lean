@@ -1,7 +1,7 @@
+import BEDC.Derived.CauchyCompletionComparisonUp.CarrierAlignment
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
-import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -13,144 +13,12 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
-open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
-open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
-inductive CauchyCompletionComparisonUp : Type where
-  | mk
-      (unit universal functorial metric regular stream dyadic realSeal transport replay
-        provenance name : BHist) :
-      CauchyCompletionComparisonUp
-  deriving DecidableEq
-
-def cauchyCompletionComparisonEncodeBHist : BHist → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: cauchyCompletionComparisonEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: cauchyCompletionComparisonEncodeBHist h
-
-def cauchyCompletionComparisonDecodeBHist : RawEvent → BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (cauchyCompletionComparisonDecodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (cauchyCompletionComparisonDecodeBHist tail)
-
-private theorem CauchyCompletionComparison_decode_encode :
-    ∀ h : BHist, cauchyCompletionComparisonDecodeBHist
-      (cauchyCompletionComparisonEncodeBHist h) = h := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro h
-  induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
-
-def cauchyCompletionComparisonFields : CauchyCompletionComparisonUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | CauchyCompletionComparisonUp.mk unit universal functorial metric regular stream dyadic
-      realSeal transport replay provenance name =>
-      [unit, universal, functorial, metric, regular, stream, dyadic, realSeal, transport,
-        replay, provenance, name]
-
-def cauchyCompletionComparisonToEventFlow : CauchyCompletionComparisonUp → EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | x => (cauchyCompletionComparisonFields x).map cauchyCompletionComparisonEncodeBHist
-
-private def cauchyCompletionComparisonEventAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyCompletionComparisonEventAt index rest
-
-def cauchyCompletionComparisonFromEventFlow (ef : EventFlow) :
-    Option CauchyCompletionComparisonUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (CauchyCompletionComparisonUp.mk
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 0 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 1 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 2 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 3 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 4 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 5 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 6 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 7 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 8 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 9 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 10 ef))
-      (cauchyCompletionComparisonDecodeBHist (cauchyCompletionComparisonEventAt 11 ef)))
-
-private theorem CauchyCompletionComparison_round_trip (x : CauchyCompletionComparisonUp) :
-    cauchyCompletionComparisonFromEventFlow
-      (cauchyCompletionComparisonToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases x with
-  | mk unit universal functorial metric regular stream dyadic realSeal transport replay
-      provenance name =>
-      change
-        some
-          (CauchyCompletionComparisonUp.mk
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist unit))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist universal))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist functorial))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist metric))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist regular))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist stream))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist dyadic))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist realSeal))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist transport))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist replay))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist provenance))
-            (cauchyCompletionComparisonDecodeBHist
-              (cauchyCompletionComparisonEncodeBHist name))) =
-          some
-            (CauchyCompletionComparisonUp.mk unit universal functorial metric regular stream
-              dyadic realSeal transport replay provenance name)
-      rw [CauchyCompletionComparison_decode_encode unit,
-        CauchyCompletionComparison_decode_encode universal,
-        CauchyCompletionComparison_decode_encode functorial,
-        CauchyCompletionComparison_decode_encode metric,
-        CauchyCompletionComparison_decode_encode regular,
-        CauchyCompletionComparison_decode_encode stream,
-        CauchyCompletionComparison_decode_encode dyadic,
-        CauchyCompletionComparison_decode_encode realSeal,
-        CauchyCompletionComparison_decode_encode transport,
-        CauchyCompletionComparison_decode_encode replay,
-        CauchyCompletionComparison_decode_encode provenance,
-        CauchyCompletionComparison_decode_encode name]
-
-private theorem CauchyCompletionComparison_toEventFlow_injective
-    {x y : CauchyCompletionComparisonUp} :
-    cauchyCompletionComparisonToEventFlow x = cauchyCompletionComparisonToEventFlow y →
-      x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      cauchyCompletionComparisonFromEventFlow (cauchyCompletionComparisonToEventFlow x) =
-        cauchyCompletionComparisonFromEventFlow (cauchyCompletionComparisonToEventFlow y) :=
-    congrArg cauchyCompletionComparisonFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (CauchyCompletionComparison_round_trip x).symm
-      (Eq.trans hread (CauchyCompletionComparison_round_trip y)))
-
-instance cauchyCompletionComparisonBHistCarrier :
-    BHistCarrier CauchyCompletionComparisonUp where
+instance cauchyCompletionComparisonBHistCarrier : BHistCarrier CauchyCompletionComparisonUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := cauchyCompletionComparisonToEventFlow
   fromEventFlow := cauchyCompletionComparisonFromEventFlow
@@ -158,10 +26,15 @@ instance cauchyCompletionComparisonBHistCarrier :
 instance cauchyCompletionComparisonChapterTasteGate :
     ChapterTasteGate CauchyCompletionComparisonUp where
   -- BEDC touchpoint anchor: BHist BMark
-  round_trip := CauchyCompletionComparison_round_trip
+  round_trip := by
+    intro x
+    change
+      cauchyCompletionComparisonFromEventFlow (cauchyCompletionComparisonToEventFlow x) =
+        some x
+    exact CauchyCompletionComparisonTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CauchyCompletionComparison_toEventFlow_injective heq)
+    exact hxy (CauchyCompletionComparisonTasteGate_single_carrier_alignment_injective heq)
 
 def CauchyCompletionComparisonCarrier [AskSetup] [PackageSetup]
     (unit universal functorial metric regular stream dyadic realSeal transport replay provenance name :
