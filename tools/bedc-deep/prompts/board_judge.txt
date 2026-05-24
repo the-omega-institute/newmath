@@ -80,16 +80,11 @@ For each candidate, run the following audit:
 
 8. **fit_score (0-10)**. How well does it land in the existing BEDC theory
    surface? 10 = directly fills a known gap; 7 = clearly belongs in scope;
-   4 = marginal; 0 = out of scope.  Treat this as a ranking/risk signal,
-   not by itself a hard reject, when the packet is BEDC-local, concrete,
-   non-duplicate, and has a safe landing.
+   4 = marginal; 0 = out of scope.
 
 9. **novelty (0-10)**. How distinct is it from all existing BOARD entries
    AND paper content combined? 10 = entirely new direction; 7 = new but
    in a known sub-area; 4 = adjacent to existing work; 0 = duplicate.
-   Hard-reject duplicates and already-covered results.  Otherwise use
-   novelty as a sorting/risk signal; weak-but-local candidates may still
-   enter as existing_chapter_obligation or existing_chapter_ledger_row.
 
 10. **maker/checker dual judgment**. For each candidate:
    - codex's evaluation (already present in candidate's source — codex
@@ -121,8 +116,9 @@ Acceptance guidance:
   local landing; is not marker-only, verification-axis, or external proof
   evidence; is expressible as a concrete implication/obligation; and carries
   a positive mathematical burden beyond "the displayed rows remain displayed".
-- fit_score and novelty are advisory risk signals.  Preserve them honestly,
-  but do not use them to rescue a generic candidate.
+- fit_score and novelty are advisory risk signals with a default intake floor
+  of fit_score at least 7 and novelty at least 6.  Preserve them honestly, but
+  do not use them to rescue a generic candidate.
 - If a candidate may need deep proof search, set or preserve
   `oracle_mode=proof_search` as an escalation hint only.  This does not skip
   Codex: every accepted BOARD target still goes through Codex deep reasoning
