@@ -1226,6 +1226,7 @@ import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSharedWindowProductClassifier
 import BEDC.Derived.CauchyProductUp.RootSourceWindowAdmission
 import BEDC.Derived.CauchyProductUp.RootUnblockCertificate
+import BEDC.Derived.CauchyProductUp.RootWindowFactorization
 import BEDC.Derived.CauchyProductUp.RootWindowObligations
 import BEDC.Derived.CauchyProductUp.RootWindowReadStability
 import BEDC.Derived.CauchyProductUp.RootWindowSealStability
@@ -4617,6 +4618,7 @@ import BEDC.Derived.RealSelectorComparisonUp.TasteGate
 import BEDC.Derived.RealSequenceAlgebraUp.TasteGate
 import BEDC.Derived.RealSequenceClusterPointUp.TasteGate
 import BEDC.Derived.RealSequenceLimitUp.ClassifierStability
+import BEDC.Derived.RealSequenceLimitUp.FiniteModulusNameCert
 import BEDC.Derived.RealSequenceLimitUp.ModulusExtraction
 import BEDC.Derived.RealSequenceLimitUp.ModulusRealUpHandoff
 import BEDC.Derived.RealSequenceLimitUp.NameCertObligations
