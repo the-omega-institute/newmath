@@ -553,13 +553,46 @@ The endpoint and separation surface is supplied by \autoref{thm:metric-completio
 Finally, \autoref{thm:metric-completion-uniform-completion-handoff}, \autoref{thm:metriccompletion-uniform-completion-handoff}, \autoref{thm:metriccompletion-root-obligation-carrier}, \autoref{thm:metriccompletion-root-obligation-classifier}, \autoref{thm:metriccompletion-root-obligation-ledger}, and \autoref{thm:metriccompletion-source-separated-scope} repack the same data as the root and uniform-completion boundary. Since each cited row is a projection or replay of the displayed carrier, the scoped package contains exactly the named BEDC objects and none of the excluded ambient or choice principles.
 \end{proof}
 
+\begin{definition}[MetricCompletion scoped readback scope]
+\label{def:metric-completion-scoped-readback-scope}
+For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$, the scoped readback scope is the displayed route
+$$
+\MetricUp \longmapsto (\CauchyFilterUp\ \text{or}\ \CauchyNetUp) \longmapsto (\RegSeqRatUp\ \text{or}\ \RealUp) \longmapsto \SeparatedMetricUp \longmapsto \UniformCompletionUp
+$$
+together with the carrier rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ that transport, replay, source, and name that route. A read belongs to this scope exactly when it exposes the same metric source row $X$, exactly one of the Cauchy branch rows $F$ or $D$, the corresponding readback row $R$, the separatedness row $S$, and the uniform-completion handoff through $H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[MetricCompletion uniform source lock]
+\label{thm:metric-completion-uniform-source-lock}
+Every $\UniformCompletionUp$ consumer of an accepted $\MetricCompletionUp$ packet must keep the same displayed $\MetricUp$ source row and the same chosen Cauchy branch. If the consumer reads through the $\CauchyFilterUp$ branch, all later finite readback, separatedness, transport, replay, provenance, and naming rows are read over $X,F,R,S,H,C,P,N$; if it reads through the $\CauchyNetUp$ branch, the corresponding rows are read over $X,D,R,S,H,C,P,N$. No uniform-completion read may switch between the two branches or replace $X$ by an ambient metric source.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:metric-completion-scoped-readback-scope}. A scoped read is admitted only after the displayed $\MetricUp$ row $X$ and exactly one Cauchy branch have been opened.
+
+The branch is fixed by the existing coverage and compatibility rows. Theorems \autoref{thm:metric-completion-branch-coverage}, \autoref{thm:metric-completion-filter-net-compatibility}, and \autoref{thm:metriccompletion-source-separated-scope} place finite readback after the selected branch and before separatedness or uniform completion.
+
+Finally apply \autoref{thm:metriccompletion-scoped-dependency-package}. Its package route carries the same $X,F,D,R,S,H,C,P,N$ rows through transport and replay, so a uniform-completion consumer has no coordinate from which to substitute a new metric source or cross from the chosen filter route to the net route.
+\end{proof}
+
+\begin{theorem}[MetricCompletion no ambient completion scope]
+\label{thm:metric-completion-no-ambient-completion-scope}
+No scoped read of an accepted $\MetricCompletionUp$ packet can introduce a quotient completion, selected representative, ambient complete metric space, open-cover compactness row, countable-choice schedule, or $\RealUp$ completeness theorem. Every completion-facing read is already exhausted by the scoped readback route of \autoref{def:metric-completion-scoped-readback-scope} and the source lock of \autoref{thm:metric-completion-uniform-source-lock}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:metric-completion-carrier}. Its visible coordinates are the metric source, filter branch, net branch, readback row, separatedness row, transport, continuation, provenance, and local name.
+
+The scoped readback definition repacks exactly those coordinates as the route through $\MetricUp$, a chosen Cauchy branch, finite readback, $\SeparatedMetricUp$, and $\UniformCompletionUp$. The source-lock theorem then prevents a consumer from replacing the displayed source or changing branches after the read has begun.
+
+The excluded objects are not fields of the carrier and are not introduced by the cited package rows. Therefore quotient completions, representatives, ambient complete spaces, open-cover compactness, countable-choice data, and $\RealUp$ completeness remain outside the scoped MetricCompletion surface.
+\end{proof}
+
 \begin{closurestatus}{\MetricCompletionUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metric-completion-carrier}, \autoref{def:metric-completion-classifier}, \autoref{thm:metric-completion-namecert-obligations}, \autoref{thm:metric-completion-cauchy-filter-handoff}, \autoref{thm:metriccompletion-cauchy-filter-net-seal}, \autoref{thm:metric-completion-separated-limit-uniqueness}, \autoref{thm:metriccompletion-separated-limit-uniqueness}, \autoref{thm:metric-completion-cauchy-net-handoff}, \autoref{thm:metric-completion-filter-net-branch-determinacy}, \autoref{thm:metric-completion-finite-readback-ledger-nonescape}, \autoref{thm:metric-completion-branch-coverage}, \autoref{thm:metric-completion-filter-net-compatibility}, \autoref{thm:metric-completion-uniform-completion-handoff}, \autoref{thm:metriccompletion-uniform-completion-handoff}, \autoref{thm:metriccompletion-root-obligation-carrier}, \autoref{thm:metriccompletion-root-obligation-classifier}, \autoref{thm:metriccompletion-root-obligation-ledger}, \autoref{thm:metriccompletion-source-separated-scope}, and \autoref{thm:metriccompletion-scoped-dependency-package} seed the finite L10 metric-completion interface over metric, Cauchy-filter, Cauchy-net, readback, separatedness, and uniform-completion rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:metric-completion-carrier}, \autoref{def:metric-completion-classifier}, \autoref{thm:metric-completion-namecert-obligations}, \autoref{thm:metriccompletion-scoped-dependency-package}, \autoref{def:metric-completion-scoped-readback-scope}, \autoref{thm:metric-completion-uniform-source-lock}, and \autoref{thm:metric-completion-no-ambient-completion-scope} bind the finite L10 metric-completion interface to the displayed Metric source, chosen Cauchy branch, readback, separatedness, uniform-completion, BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, selected representatives, ambient complete metric spaces, open-cover compactness, countable choice, or $\RealUp$ completeness.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, Cauchy-filter and Cauchy-net handoffs, finite readback compatibility, separated-limit uniqueness, and ledger non-escape for the same packet.}
+  \upgradepath{Public closure requires a public MetricCompletion export surface and checked Lean carrier alignment for the scoped readback package.}
   \constructivestory{The construction starts from a displayed metric source, routes cofinal evidence through CauchyFilter or CauchyNet rows, reads finite RegSeqRat or Real tolerance data when requested, and uses SeparatedMetric uniqueness only as a local zero-distance classifier route.}
 \end{closurestatus}
-\closureat{MetricCompletionUp}{obligationStr}[BEDC.Derived.MetricCompletionUp.TasteGate.MetricCompletionTasteGate\_single\_carrier\_alignment]
+\closureat{MetricCompletionUp}{scopedStr}[BEDC.Derived.MetricCompletionUp.TasteGate.MetricCompletionTasteGate\_single\_carrier\_alignment]
