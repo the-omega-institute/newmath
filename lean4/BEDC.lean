@@ -1195,6 +1195,7 @@ import BEDC.Derived.CauchyProductCommutativityUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductUp
+import BEDC.Derived.CauchyProductUp.BudgetRouteExactness
 import BEDC.Derived.CauchyProductUp.BudgetSelectorDistributiveLock
 import BEDC.Derived.CauchyProductUp.CommutedBudgetRoute
 import BEDC.Derived.CauchyProductUp.L10DependencyLattice
