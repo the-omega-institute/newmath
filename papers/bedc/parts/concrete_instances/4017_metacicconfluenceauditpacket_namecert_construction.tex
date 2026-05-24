@@ -179,6 +179,18 @@ there is no hidden confluence theorem, unrecorded substitution lemma, host
 quotient over reductions, or conversion into arbitrary closed Church--Rosser.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit packet obligation-closure package]
+\label{thm:metacic-confluence-audit-packet-obligation-closure-package}
+For an accepted $\MetaCICConfluenceAuditPacketUp$ carrier, the carrier row, conditional confluence boundary, closed substitution boundary, subject-reduction separation, and non-escape theorem form the whole obligation surface of the packet. The surface packages the conditional confluence rows and their obstruction boundary; it does not claim arbitrary closed Church--Rosser, unparameterized subject reduction, a proof of full substitution compatibility, or a hidden conversion from conditional bridges into unconditional endpoints.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-audit-packet-carrier} and the NameCert obligations of \autoref{thm:metacic-confluence-audit-packet-namecert-obligations}. They expose the conditional bridge rows, unconditional fragments, substitution-boundary row, subject-reduction separation row, transport, replay, provenance, and local naming.
+
+Use the conditional boundary and closed substitution boundary, \autoref{thm:metacic-confluence-audit-packet-conditional-boundary} and \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}. These keep the MetaCIC audit-map obstruction visible instead of turning it into full substitution compatibility or a closed parallel diamond.
+
+Apply the subject-reduction separation and non-escape rows, \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation} and \autoref{thm:metacic-confluence-audit-packet-nonescape}. The first prevents fusion with the sibling subject-reduction packets, and the second exhausts every consumer read by $D,C,N,A_0,S,R,H,T,P,L$. Hence the packaged surface is obligation closure for the finite packet and not a stronger MetaCIC metatheorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit obligation surface]
 \label{thm:metacic-confluence-audit-obligation-surface}
 For an accepted $\MetaCICConfluenceAuditPacketUp$ carrier
@@ -265,7 +277,7 @@ closed-term Church--Rosser, or a quotient over reductions.
 \begin{closurestatus}{\MetaCICConfluenceAuditPacketUp}
   \constructivestory{A $\MetaCICConfluenceAuditPacketUp$ packet is generated from conditional confluence bridges, unconditional closed-normal and atom fragments, a substitution-compatibility boundary row, a subject-reduction separation row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-confluence-audit-packet-carrier}, \autoref{thm:metacic-confluence-audit-packet-namecert-obligations}, \autoref{thm:metacic-confluence-audit-packet-conditional-boundary}, \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation}, and \autoref{thm:metacic-confluence-audit-packet-nonescape} bind the confluence audit-map boundary as a finite NameCert packet.}
+  \scopeclosed{\autoref{def:metacic-confluence-audit-packet-carrier}, \autoref{thm:metacic-confluence-audit-packet-namecert-obligations}, \autoref{thm:metacic-confluence-audit-packet-conditional-boundary}, \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}, \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation}, \autoref{thm:metacic-confluence-audit-packet-nonescape}, and \autoref{thm:metacic-confluence-audit-packet-obligation-closure-package} bind the confluence audit-map boundary as a finite NameCert obligation surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MetaCICConfluenceAuditPacketUp.MetaCICConfluenceAuditPacketTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
