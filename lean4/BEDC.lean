@@ -1233,6 +1233,7 @@ import BEDC.Derived.CauchyProductCommutativityUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductUp
+import BEDC.Derived.CauchyProductUp.BudgetProductSymmetricRoute
 import BEDC.Derived.CauchyProductUp.BudgetRouteExactness
 import BEDC.Derived.CauchyProductUp.BudgetRouteStrictObstruction
 import BEDC.Derived.CauchyProductUp.BudgetSelectorDistributiveLock
@@ -2725,6 +2726,7 @@ import BEDC.Derived.DyadicStepFunctionUp.RealSealPublicBoundary
 import BEDC.Derived.DyadicStepFunctionUp.RefinementLedgerScope
 import BEDC.Derived.DyadicStepFunctionUp.ScopeTransportPackage
 import BEDC.Derived.DyadicStepFunctionUp.ScopedWindowPackage
+import BEDC.Derived.DyadicStepFunctionUp.TasteGate
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicSubdivisionUp.TasteGate
 import BEDC.Derived.DyadicSupremumUp.TasteGate
@@ -2970,6 +2972,7 @@ import BEDC.Derived.FiniteBranchingCauchyTreeUp.TasteGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonNetUp.TasteGate
+import BEDC.Derived.FiniteEpsilonWitnessUp.TasteGate
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteErrorBudgetUp.StdBridge
 import BEDC.Derived.FiniteErrorBudgetUp.TasteGate
@@ -3605,6 +3608,7 @@ import BEDC.Derived.KnotUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
+import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionNaturalityUp
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
@@ -4386,6 +4390,7 @@ import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PdeUp.TasteGate
+import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PermutationUp.TasteGate
 import BEDC.Derived.PersistentHomUp
@@ -5155,6 +5160,7 @@ import BEDC.Derived.RegularCauchySumUp.ObligationSurface
 import BEDC.Derived.RegularCauchySumUp.RealSealRoute
 import BEDC.Derived.RegularCauchySumUp.SharedTailMeetHandoff
 import BEDC.Derived.RegularCauchySumUp.TailSelectorCompatibility
+import BEDC.Derived.RegularCauchySumUp.TasteGate
 import BEDC.Derived.RegularCauchySumUp.ZeroSourceConsumerRoute
 import BEDC.Derived.RegularCauchySumUp.ZeroSourceIdentityBoundary
 import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate
