@@ -1227,6 +1227,7 @@ import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSharedWindowProductClassifier
 import BEDC.Derived.CauchyProductUp.RootSourceWindowAdmission
 import BEDC.Derived.CauchyProductUp.RootUnblockCertificate
+import BEDC.Derived.CauchyProductUp.RootWindowFactorization
 import BEDC.Derived.CauchyProductUp.RootWindowObligations
 import BEDC.Derived.CauchyProductUp.RootWindowReadStability
 import BEDC.Derived.CauchyProductUp.RootWindowSealStability
@@ -1438,6 +1439,7 @@ import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalNetUp.FiniteMeshCoverage
+import BEDC.Derived.ClosedBoundedIntervalNetUp.PublicFiniteNetExport
 import BEDC.Derived.ClosedBoundedIntervalNetUp.RegSeqRatWindowExactness
 import BEDC.Derived.ClosedBoundedIntervalNetUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.HeineCantorRoute
@@ -2916,6 +2918,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRootUnblockPackage
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealSourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.PositiveRadiusCompactNetExport
 import BEDC.Derived.FiniteLebesgueNumberUp.PositiveRadiusTotality
+import BEDC.Derived.FiniteLebesgueNumberUp.PublicCompactUniformExport
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusClassifierStability
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumerDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusConsumers
@@ -4623,6 +4626,7 @@ import BEDC.Derived.RealSelectorComparisonUp.TasteGate
 import BEDC.Derived.RealSequenceAlgebraUp.TasteGate
 import BEDC.Derived.RealSequenceClusterPointUp.TasteGate
 import BEDC.Derived.RealSequenceLimitUp.ClassifierStability
+import BEDC.Derived.RealSequenceLimitUp.FiniteModulusNameCert
 import BEDC.Derived.RealSequenceLimitUp.ModulusExtraction
 import BEDC.Derived.RealSequenceLimitUp.ModulusRealUpHandoff
 import BEDC.Derived.RealSequenceLimitUp.NameCertObligations
