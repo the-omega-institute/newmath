@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
@@ -5,6 +6,7 @@ import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ClosedBoundedIntervalNetUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
@@ -367,5 +369,27 @@ theorem ClosedBoundedIntervalNetRealSeal_nonescape :
             coverage streamWindows regSeqReadback realSeal transport route provenance name)
           (Or.inr rfl)
   }
+
+theorem ClosedBoundedIntervalNetUnaryMeshMonotonicity
+    (x : ClosedBoundedIntervalNetUp) :
+    ∃ L M Q D Z F S R E H C P N meshStep rationalRefined dyadicRefined
+        coverageRefined : BHist,
+      x = ClosedBoundedIntervalNetUp.mk L M Q D Z F S R E H C P N ∧
+        closedBoundedIntervalNetFields x = [L, M, Q, D, Z, F, S, R, E, H, C, P, N] ∧
+          Cont M (BHist.e1 M) meshStep ∧
+            Cont Q meshStep rationalRefined ∧
+              Cont D meshStep dyadicRefined ∧
+                Cont rationalRefined dyadicRefined coverageRefined := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk L M Q D Z F S R E H C P N =>
+      exact
+        ⟨L, M, Q, D, Z, F, S, R, E, H, C, P, N,
+          append M (BHist.e1 M),
+          append Q (append M (BHist.e1 M)),
+          append D (append M (BHist.e1 M)),
+          append (append Q (append M (BHist.e1 M)))
+            (append D (append M (BHist.e1 M))),
+          rfl, rfl, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.ClosedBoundedIntervalNetUp
