@@ -2861,6 +2861,7 @@ import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Derived.FieldUp.TailFactor
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.TwoSidedEmptySolution
+import BEDC.Derived.FilterBaseUp.TasteGate
 import BEDC.Derived.FilterRefinementUp.CauchyPreservation
 import BEDC.Derived.FilterRefinementUp.TasteGate
 import BEDC.Derived.FilterUp
