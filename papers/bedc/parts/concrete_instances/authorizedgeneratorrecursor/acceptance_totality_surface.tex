@@ -44,3 +44,19 @@ Use \autoref{thm:authorized-generator-recursor-closed-substitution-gate}. Closed
 
 Finally apply \autoref{thm:authorized-generator-recursor-ground-compiler-authorization}. The ground-compiler consumer reads the same finite packet, so the audit ledger cannot import a recursion principle or substitution fact absent from $I,E,M,B,D,O,A,H,C,P,G,N$.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor acceptance obstruction locality]
+\label{cor:authorized-generator-recursor-acceptance-obstruction-locality}
+Let an accepted $\AuthorizedGeneratorRecursorUp$ packet be read through the acceptance-totality surface. Any displayed failure, refusal, separation, or countermodel row cited from the route
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+blocks only the named converse or reuse route whose read would detach $O$ from the displayed branch, descent, audit, transport, continuation, provenance, boundary, or local naming rows. The same row cannot be reinterpreted as a global impossibility result, a host theorem, or hidden external validation for a coordinate absent from the displayed packet.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:authorized-generator-recursor-acceptance-totality}, every accepted read begins from the finite packet $I,E,M,B,D,O,A,H,C,P,G,N$. Thus a consumer-facing obstruction has access only to the listed signature, emitted recursor, motive, branch, descent, output, audit, transport, continuation, provenance, boundary, and local $\NameCert$ coordinates.
+
+Apply \autoref{thm:authorized-generator-recursor-ledger-separation}. It says that audit-ledger reads of the same packet do not import host recursion, hidden generators, external axioms, unaudited dependencies, or closed-substitution facts beyond the displayed rows, and that every audit read factors through the branch, descent, output, transport, continuation, provenance, ground-boundary, and local $\NameCert$ rows. Therefore a cited separation or refusal row can obstruct only a read that asks for one of the excluded off-packet coordinates. Reading it as a global impossibility theorem, a host theorem, or an external validation certificate would require exactly the kind of unlisted coordinate that ledger separation rejects.
+
+It remains to check that the obstruction is strict for output reuse. By \autoref{thm:authorized-generator-recursor-output-stability}, every accepted output read of $O$ is stable only along the displayed $\hsame$ and $\Cont$ routes and cannot be separated from $B,D,A,P,G,N$. Hence a converse or reuse route that omits or replaces those rows is not another interpretation of the accepted output; it is the named failed route blocked at the displayed packet boundary. The obstruction therefore stays local to that coordinate and exports no additional impossibility, host-side theorem, or hidden validation principle.
+\end{proof}

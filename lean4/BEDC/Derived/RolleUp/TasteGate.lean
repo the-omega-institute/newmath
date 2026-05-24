@@ -243,4 +243,36 @@ theorem RolleUpTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark
   exact ⟨RolleUpTasteGate_single_carrier_alignment_decode_encode, rfl⟩
 
+namespace TasteGate
+
+theorem RolleTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate RolleUp) ∧
+      Nonempty (FieldFaithful RolleUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial RolleUp) ∧
+          (∀ h : BHist,
+            RolleUpTasteGate_single_carrier_alignment_decodeBHist
+                (RolleUpTasteGate_single_carrier_alignment_encodeBHist h) =
+              h) ∧
+            (∀ x : RolleUp,
+              RolleUpTasteGate_single_carrier_alignment_fromEventFlow
+                  (RolleUpTasteGate_single_carrier_alignment_toEventFlow x) =
+                some x) ∧
+              (∀ x y : RolleUp,
+                RolleUpTasteGate_single_carrier_alignment_toEventFlow x =
+                    RolleUpTasteGate_single_carrier_alignment_toEventFlow y →
+                  x = y) ∧
+                RolleUpTasteGate_single_carrier_alignment_encodeBHist BHist.Empty =
+                  ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨Nonempty.intro rolleUpChapterTasteGate,
+      Nonempty.intro rolleUpFieldFaithful,
+      Nonempty.intro rolleUpNontrivial,
+      RolleUpTasteGate_single_carrier_alignment_decode_encode,
+      RolleUpTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => RolleUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
+
+end TasteGate
+
 end BEDC.Derived.RolleUp

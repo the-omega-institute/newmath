@@ -53,6 +53,47 @@ Endpoint and containment admission are read before the Real seal. The rational a
 The structural rows close the naming surface. The componentwise $\hsame$ transports and displayed $\Cont$ routes preserve exactly the rows listed in the carrier, and the $\Pkg$ and $\NameCert$ rows name that finite route without adding any hidden selector, quotient equality, trichotomy, or completeness datum.
 \end{proof}
 
+\begin{definition}[Closed bounded interval finite-cover window]
+\label{def:closed-bounded-interval-finite-cover-window}
+For an accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ as in \autoref{def:closed-bounded-interval-carrier}, a finite-cover window is a finite $\BHist$ row
+$$
+W_I=(S_0,R_0,Q_0,D_0,E_0)
+$$
+whose $\StreamNameUp$ coordinate $S_0$ is a subwindow of the carried row $S$, whose $\RegSeqRatUp$ coordinate $R_0$ is read through $R$, whose rational and dyadic containment ledgers $Q_0,D_0$ are subledgers of $Q,D$, and whose endpoint seal $E_0$ is reached through the same $\RealUp$ row $E$. The window is admissible only when its lower-endpoint, upper-endpoint, endpoint-order, rational-containment, dyadic-containment, readback, and seal reads are all classifier-preserved by the carrier rows $H$ and $C$ of \autoref{def:closed-bounded-interval-classifier}.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval finite-cover nonescape]
+\label{thm:closed-bounded-interval-finite-cover-nonescape}
+Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier, and let $W_I=(S_0,R_0,Q_0,D_0,E_0)$ be a finite-cover window in the sense of \autoref{def:closed-bounded-interval-finite-cover-window}. Every finite-cover read exported to an interval-net, nested-window, or uniform-modulus consumer factors through
+$$
+L,U,O,Q_0,D_0,S_0,R_0,E_0,H,C,P,N .
+$$
+Consequently the read cannot escape to a host open cover, a selected subcover, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the finite-cover window. By definition, $S_0$ and $R_0$ are read through the carried $\StreamNameUp$ and $\RegSeqRatUp$ rows, while $Q_0$ and $D_0$ are subledgers of the rational and dyadic containment rows attached to the same endpoints.
+
+The endpoint route is fixed before the cover window is visible. The rows $L,U,O$ must be displayed before $Q_0,D_0,S_0,R_0$ can be read, and the terminal seal $E_0$ is reached only through the carried $\RealUp$ row $E$.
+
+The structural rows close the nonescape claim. Since $H$ and $C$ preserve exactly the carrier and window rows named above, and since $P,N$ only source and name that route, no exported finite-cover read contains a host open cover, selected subcover, quotient real equality, trichotomy, choice selector, or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval located endpoint readback]
+\label{thm:closed-bounded-interval-located-endpoint-readback}
+For an accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$, every endpoint-facing $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ readback of the lower or upper endpoint factors through the displayed route
+$$
+L,U,O \longmapsto S,R \longmapsto E \longmapsto H,C,P,N .
+$$
+The readback therefore preserves the endpoint-order row and the rational and dyadic containment ledgers of \autoref{def:closed-bounded-interval-carrier}; it does not replace the endpoints by host reals or by quotient representatives.
+\end{theorem}
+\begin{proof}
+Start with an endpoint-facing request. The carrier exposes lower and upper endpoint data only as $L$ and $U$, and the order row $O$ is carried before any rational, dyadic, stream, or regular-readback inspection.
+
+The finite readback rows are next. The $\StreamNameUp$ windows in $S$ and the $\RegSeqRatUp$ rows in $R$ inspect the displayed endpoint names and containment ledgers, and the $\RealUp$ seal $E$ is downstream of those finite windows.
+
+Finally apply the classifier of \autoref{def:closed-bounded-interval-classifier}. Its componentwise $\hsame$ rows and displayed $\Cont$ replay preserve the same endpoint, order, containment, window, readback, and seal coordinates, so the readback cannot be reinterpreted as a host-real endpoint or as a quotient representative outside the accepted packet.
+\end{proof}
+
 \begin{theorem}[Closed bounded interval endpoint-order transport]
 \label{thm:closed-bounded-interval-endpoint-order-transport}
 Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ and $I'=(L',U',O',Q',D',S',R',E',H',C',P',N')$ be accepted $\ClosedBoundedIntervalUp$ carriers classified together by \autoref{def:closed-bounded-interval-classifier}. Every containment read transported from $I$ to $I'$ carries the endpoint-order row $O$ to $O'$ before it transports the rational ledger $Q$ to $Q'$ or the dyadic ledger $D$ to $D'$. Consequently no consumer can preserve containment while dropping endpoint order or replacing it by a host-level comparison.

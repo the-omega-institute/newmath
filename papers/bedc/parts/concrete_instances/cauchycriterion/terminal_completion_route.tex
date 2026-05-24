@@ -77,3 +77,25 @@ limit-selection, uniqueness, completeness, or unrecorded completion data can be
 consumed downstream.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_mature\_downstream\_examples}
+
+\begin{lemma}[CauchyCriterion completion uniform-family downstream coverage]
+\label{lem:cauchycriterion-completion-uniform-family-downstream-coverage}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and let $U$ be an accepted singleton or fixed finite-family $\UniformCauchyCriterionUp$ packet with the same displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$ rows. Assume the shared window, shared modulus, dyadic tolerance, tail ledger, and real-seal rows are identified as in \autoref{thm:cauchycriterion-completion-uniform-family-factorization}.
+
+Every accepted local downstream consumer of the resulting completion uniform-family fact is exhausted by the finite alternatives
+$$
+M,Q,T,W,E,H,C,P,N,
+$$
+together with the displayed stream-name source, regular-rational readback, dyadic ledger, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Equivalently, any consumer-facing use factors through one of the displayed CauchyCriterion route rows, the singleton or fixed finite-family uniform ledger rows, or the terminal $\RegSeqRatUp$--$\RealUp$ completion route rows of \autoref{thm:cauchycriterion-terminal-regseqrat-real-completion-route}. A request for a quotient stream, selected limit, host real equality, uniqueness-of-limit theorem, ambient completeness principle, unrecorded completion object, independently chosen family limit, or unlisted coordinate is outside the BEDC packet.
+\end{lemma}
+\begin{proof}
+Start with \autoref{thm:cauchycriterion-completion-uniform-family-factorization}. It identifies the accepted CauchyCriterion packet and the accepted singleton or fixed finite-family uniform packet before any $\CompletionUp$ or $\RealCauchyCompletionUp$ consumer can read the seal. The common route is the finite path through $M,Q,T,W,E$, together with the shared stream-name source, regular-rational readback, dyadic ledger, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Now apply \autoref{thm:cauchycriterion-terminal-regseqrat-real-completion-route}. Any terminal Real-and-Completion consumer sharing the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\UniformCauchyCriterionUp$, and $\RealUp$ rows must factor through
+$$
+M,Q,T,W,E,H,C,P,N.
+$$
+That theorem also records that the route reads the stream-name source, regular-rational sequence row, dyadic tolerance core, Cauchy modulus schedule, uniform Cauchy criterion packet, and Real seal through the same visible support rows.
+
+These two cited routes cover the local consumer surface. A completion-facing consumer is first confined by the factorization theorem, and a terminal consumer that also asks for the regular-rational and real-completion handoff is confined by the terminal route theorem. Since both routes name the same finite rows and both explicitly withhold quotient streams, selected limits, host real equality, uniqueness data, ambient completeness, unrecorded completion objects, and independent family limits, any request for an unlisted coordinate is not an additional case. It is simply not a coordinate exported by the accepted BEDC packet.
+\end{proof}
