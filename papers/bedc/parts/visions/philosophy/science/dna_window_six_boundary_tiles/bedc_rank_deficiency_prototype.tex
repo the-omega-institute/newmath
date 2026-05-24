@@ -198,3 +198,105 @@ is the trigger/blocker criterion of
 restriction is the cannot-claim boundary of
 \autoref{thm:philosophy-boundary-tile-cannot-claim-boundary}.
 \end{proof}
+
+\begin{definition}[BEDC closure tower]
+\label{def:philosophy-bedc-closure-tower}
+The BEDC closure tower associated to the stop face is the chain
+$$
+\begin{gathered}
+  \mathrm{U}=00,\quad \mathrm{C}=01,\quad
+  \mathrm{A}=10,\quad \mathrm{G}=11,\\
+  \text{proper support in }\{f_{2},f_{3}\},\\
+  \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}
+  \subset \mathcal{R},\\
+  \mathsf{StopTrpFace}\subset \operatorname{Med}(\mathcal{R}),\\
+  M^{\star}=\mathrm{NNR}\cup\mathrm{CUY},\\
+  \text{proper support in }\{s_{1},f_{1},s_{2},f_{2}\}.
+\end{gathered}
+$$
+The first proper-support layer is the based local system obtained from
+the $(2,1)$ coverage-blocker algebra by adjoining the basepoint
+$00\leftrightarrow\varnothing$. The terminal layer is the $(4,2)$
+coverage-trigger algebra of
+\autoref{thm:philosophy-codon-case-coverage-trigger}.
+\end{definition}
+
+\begin{theorem}[BEDC-to-trigger prototype theorem]
+\label{thm:philosophy-bedc-to-trigger-prototype}
+The BEDC stop-face grammar is the based $(n,\ell)=(2,1)$ instance of the
+coverage-blocker law, while the post-$M^{\star}$ terminal trigger lattice
+is the $(n,\ell)=(4,2)$ instance. In both cases the non-triggering or
+legal condition is proper support, and the full-support state is the
+separated corner.
+\end{theorem}
+\begin{proof}
+For the local BEDC face, the non-base supports are
+$\{f_{2}\}$, $\{f_{3}\}$, and $\{f_{2},f_{3}\}$, with one lift. The
+proper-support part, together with the basepoint
+$\varnothing\leftrightarrow 00$, gives
+$\{00,01,10\}$, while the full support $\{f_{2},f_{3}\}$ gives the
+$11$ corner. This is \autoref{thm:philosophy-bedc-stop-rank-deficiency}.
+For the terminal codon system, the four support coordinates are
+$s_{1},f_{1},s_{2},f_{2}$ and the two lifts are the two $f_{3}$-family
+codons over the $Y$ side; this is
+\autoref{thm:philosophy-codon-case-coverage-trigger}. The full-trigger
+criterion is \autoref{cor:philosophy-trigger-rank-size}.
+\end{proof}
+
+\begin{corollary}[Topology of the BEDC closure tower]
+\label{cor:philosophy-bedc-closure-tower-topology}
+The blocker topology in the tower moves from
+$$
+  \mathcal{B}_{2,1}\simeq S^{0}
+$$
+at the local BEDC layer to
+$$
+  \mathcal{B}_{4,2}\simeq S^{2}
+$$
+at the terminal post-$M^{\star}$ layer.
+\end{corollary}
+\begin{proof}
+Apply the universal formula
+$\mathcal{B}_{n,\ell}\simeq S^{n-2}$ from
+\autoref{thm:philosophy-universal-blocker-topology}. The local stop-face
+layer has $n=2$ and $\ell=1$, while the terminal codon layer has
+$n=4$ and $\ell=2$ by
+\autoref{thm:philosophy-bedc-to-trigger-prototype}.
+\end{proof}
+
+\begin{theorem}[BEDC closure tower theorem]
+\label{thm:philosophy-bedc-closure-tower-theorem}
+The stop-tile BEDC reading, the reassignment support, the median closure,
+and the post-$M^{\star}$ trigger lattice form the closure tower
+$$
+\begin{gathered}
+  \mathrm{BEDC}_{2,1}
+  \longrightarrow
+  \mathrm{Stop}/\mathrm{Trp}\ X_{2}/11
+  \longrightarrow
+  \mathcal{R}
+  \longrightarrow
+  \operatorname{Med}(\mathcal{R})\\
+  \longrightarrow
+  M^{\star}
+  \longrightarrow
+  \mathrm{BEDC}_{4,2}.
+\end{gathered}
+$$
+Here $\mathrm{BEDC}_{2,1}$ denotes the based local proper-support grammar
+on the stop suffix coordinates, and $\mathrm{BEDC}_{4,2}$ denotes the
+post-$M^{\star}$ coverage-trigger algebra on
+$\{s_{1},f_{1},s_{2},f_{2}\}$ with two $f_{3}$ lifts.
+\end{theorem}
+\begin{proof}
+The local stop-tile realization is
+\autoref{thm:philosophy-stop-trp-boundary-tile} and
+\autoref{thm:philosophy-bedc-stop-rank-deficiency}. The inclusion of the
+stop seed in $\mathcal{R}$ and the recovery of the full
+$\mathsf{StopTrpFace}$ inside $\operatorname{Med}(\mathcal{R})$ are
+\autoref{thm:philosophy-bedc-l-shape-completion}. The post-$M^{\star}$
+terminal trigger algebra is the $(4,2)$ coverage-trigger instance by
+\autoref{thm:philosophy-codon-case-coverage-trigger}. The common
+proper-support law is
+\autoref{thm:philosophy-bedc-to-trigger-prototype}.
+\end{proof}

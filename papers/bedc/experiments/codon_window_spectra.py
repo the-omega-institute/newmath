@@ -3299,6 +3299,44 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 "in_median_closure": codon in median_set,
             }
         )
+    bedc_closure_tower_rows = (
+        {
+            "level": "two_axis_alphabet",
+            "object": "U=00,C=01,A=10,G=11",
+        },
+        {
+            "level": "local_legality",
+            "object": "proper support in {f2,f3}",
+            "n": 2,
+            "lift_count": 1,
+            "blocker_homotopy": "S^0",
+        },
+        {
+            "level": "stop_l_shape",
+            "object": tuple(
+                row["codon"] for row in bedc_rank_deficiency_rows if row["bedc_legal"]
+            ),
+        },
+        {
+            "level": "reassignment_support_seed",
+            "object": tuple(
+                row["codon"]
+                for row in bedc_rank_deficiency_rows
+                if row["in_reassignment_support"]
+            ),
+        },
+        {
+            "level": "median_completion",
+            "object": tuple(rna_label(codon) for codon in bedc_stop_square),
+        },
+        {
+            "level": "terminal_trigger_algebra",
+            "object": "proper support in {s1,f1,s2,f2}",
+            "n": 4,
+            "lift_count": 2,
+            "blocker_homotopy": "S^2",
+        },
+    )
     span_size_rows = [
         {
             "span_dimension": dimension,
@@ -5183,6 +5221,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "bedc_rank_deficiency_terminal_dimension": 4,
         "bedc_rank_deficiency_median_completion": tuple(rna_label(codon) for codon in bedc_stop_square),
         "bedc_rank_deficiency_principle": "proper support",
+        "bedc_closure_tower_rows": bedc_closure_tower_rows,
+        "bedc_closure_tower_endpoint_pairs": ((2, 1), (4, 2)),
+        "bedc_closure_tower_blocker_homotopies": ("S^0", "S^2"),
         "anchor_subcube_formula_verified": all(row["matches_formula"] for row in support_pattern_verification_rows),
         "span_size_rows": span_size_rows,
         "single_span_rows": single_span_rows,
@@ -8374,6 +8415,27 @@ def assert_expected(summary: dict[str, object]) -> None:
     assert antipodal["bedc_rank_deficiency_terminal_dimension"] == 4
     assert antipodal["bedc_rank_deficiency_median_completion"] == ("UAA", "UAG", "UGA", "UGG")
     assert antipodal["bedc_rank_deficiency_principle"] == "proper support"
+    assert [
+        (row["level"], row["object"])
+        for row in antipodal["bedc_closure_tower_rows"]
+    ] == [
+        ("two_axis_alphabet", "U=00,C=01,A=10,G=11"),
+        ("local_legality", "proper support in {f2,f3}"),
+        ("stop_l_shape", ("UAA", "UAG", "UGA")),
+        ("reassignment_support_seed", ("UAA", "UAG", "UGA")),
+        ("median_completion", ("UAA", "UAG", "UGA", "UGG")),
+        ("terminal_trigger_algebra", "proper support in {s1,f1,s2,f2}"),
+    ]
+    assert [
+        (row.get("n"), row.get("lift_count"), row.get("blocker_homotopy"))
+        for row in antipodal["bedc_closure_tower_rows"]
+        if "n" in row
+    ] == [
+        (2, 1, "S^0"),
+        (4, 2, "S^2"),
+    ]
+    assert antipodal["bedc_closure_tower_endpoint_pairs"] == ((2, 1), (4, 2))
+    assert antipodal["bedc_closure_tower_blocker_homotopies"] == ("S^0", "S^2")
     assert antipodal["anchor_subcube_formula_verified"] is True
     assert [
         (row["span_dimension"], row["closure_size"])
