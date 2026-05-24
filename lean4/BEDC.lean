@@ -1070,6 +1070,7 @@ import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.CauchyModulusMeetUp.StdBridge
 import BEDC.Derived.CauchyModulusMonotoneNormalizationUp.TasteGate
+import BEDC.Derived.CauchyModulusPullbackUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchyModulusRefinementUp.BHistSourceScope
 import BEDC.Derived.CauchyModulusRefinementUp.BridgeConsumerRouteExhaustion
