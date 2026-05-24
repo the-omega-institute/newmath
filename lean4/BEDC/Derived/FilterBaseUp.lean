@@ -256,4 +256,57 @@ theorem FilterBaseCarrier_refinement_stability [AskSetup] [PackageSetup]
     ⟨cert, refinementUnary, replayUnary, provenanceUnary, directedRefinementReplay,
       transportReplayProvenance, localNamePkg⟩
 
+theorem FilterBaseCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {index baseElement directed refinement transport replay provenance localName index'
+      baseElement' directed' refinement' transport' replay' provenance' localName' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FilterBaseCarrier index baseElement directed refinement transport replay provenance
+        localName bundle pkg ->
+      hsame index index' ->
+        hsame baseElement baseElement' ->
+          hsame refinement refinement' ->
+            hsame transport transport' ->
+              hsame localName localName' ->
+                Cont index' baseElement' directed' ->
+                  Cont directed' refinement' replay' ->
+                    Cont transport' replay' provenance' ->
+                      PkgSig bundle provenance' pkg ->
+                        PkgSig bundle localName' pkg ->
+                          FilterBaseCarrier index' baseElement' directed' refinement'
+                              transport' replay' provenance' localName' bundle pkg ∧
+                            hsame directed directed' ∧ hsame replay replay' ∧
+                              hsame provenance provenance' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame UnaryHistory Cont PkgSig
+  intro carrier sameIndex sameBase sameRefinement sameTransport sameLocalName
+    indexBaseDirected' directedRefinementReplay' transportReplayProvenance'
+    provenancePkg' localNamePkg'
+  obtain ⟨indexUnary, baseUnary, refinementUnary, transportUnary, localNameUnary,
+    indexBaseDirected, directedRefinementReplay, transportReplayProvenance,
+    _provenancePkg, _localNamePkg⟩ := carrier
+  have indexUnary' : UnaryHistory index' :=
+    unary_transport indexUnary sameIndex
+  have baseUnary' : UnaryHistory baseElement' :=
+    unary_transport baseUnary sameBase
+  have refinementUnary' : UnaryHistory refinement' :=
+    unary_transport refinementUnary sameRefinement
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have localNameUnary' : UnaryHistory localName' :=
+    unary_transport localNameUnary sameLocalName
+  have sameDirected : hsame directed directed' :=
+    cont_respects_hsame sameIndex sameBase indexBaseDirected indexBaseDirected'
+  have sameReplay : hsame replay replay' :=
+    cont_respects_hsame sameDirected sameRefinement directedRefinementReplay
+      directedRefinementReplay'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport sameReplay transportReplayProvenance
+      transportReplayProvenance'
+  have carrier' :
+      FilterBaseCarrier index' baseElement' directed' refinement' transport' replay'
+          provenance' localName' bundle pkg :=
+    ⟨indexUnary', baseUnary', refinementUnary', transportUnary', localNameUnary',
+      indexBaseDirected', directedRefinementReplay', transportReplayProvenance',
+      provenancePkg', localNamePkg'⟩
+  exact ⟨carrier', sameDirected, sameReplay, sameProvenance⟩
+
 end BEDC.Derived.FilterBaseUp
