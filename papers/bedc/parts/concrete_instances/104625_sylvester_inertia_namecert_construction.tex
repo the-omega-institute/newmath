@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SylvesterInertiaUp$}
+\label{ch:concrete-instances-sylvester-inertia-namecert}
+\origin{human}
+
+Following Sylvester's law of inertia and finite-dimensional quadratic-form theory, the $\SylvesterInertiaUp$ packet records congruence-invariant positive, negative, and null sign-count rows. It reads the field source of \autoref{ch:concrete-instances-field-namecert}, the matrix presentation of \autoref{ch:concrete-instances-matrix-namecert}, the bilinear form row of \autoref{ch:concrete-instances-bilinform-namecert}, and the inner-product substrate of \autoref{ch:concrete-instances-innerproduct-namecert}. The packet names finite inertia data as a displayed NameCert carrier; it does not assert analytic diagonalization, spectral theory, choice-selected bases, or completeness.
+
+\begin{definition}[Sylvester inertia carrier]
+\label{def:sylvester-inertia-carrier}
+A $\SylvesterInertiaUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,M,B,Q,D,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FieldUp$ source row over which the scalar signs and matrix entries are read.
+\item $M$ is the $\MatrixUp$ presentation row for the finite square coordinate table used by the form.
+\item $B$ is the $\BilinFormUp$ row naming the symmetric bilinear form carried by the matrix presentation.
+\item $Q$ is the quadratic-form row obtained by reading the diagonal values of $B$ on displayed coordinate vectors.
+\item $D$ is the finite diagonalization-witness row, recording the congruence table that exposes diagonal form entries without choosing an ambient basis outside the packet.
+\item $S$ is the sign-count ledger, listing the displayed positive, negative, and null diagonal entries as the inertia triple.
+\item $H$ records componentwise $\hsame$ transport for the field source, matrix presentation, bilinear form, quadratic form, diagonal witness, sign-count ledger, continuation replay, provenance, and local naming.
+\item $C$ records $\Cont$ replay from a finite congruence request through $F,M,B,Q,D$ into the sign-count ledger $S$.
+\item $P$ is the $\Pkg$ provenance over $\SylvesterInertiaUp$, $\FieldUp$, $\MatrixUp$, $\BilinFormUp$, $\InnerProductUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SylvesterInertiaUp}$ row naming the displayed inertia packet.
+\end{enumerate}
+The classifier compares accepted packets only through these rows and their replay paths. It has no coordinate for a spectral theorem, analytic diagonalization process, choice-selected basis, quotient form equality, or completeness principle.
+\end{definition}
+
+\begin{theorem}[Sylvester inertia NameCert obligations]
+\label{thm:sylvester-inertia-namecert-obligations}
+For every accepted $\SylvesterInertiaUp$ carrier $K=(F,M,B,Q,D,S,H,C,P,N)$, the local $\NameCert_{\SylvesterInertiaUp}$ surface consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the field source, matrix presentation, bilinear form, quadratic form, diagonal witness, sign-count ledger, transport, continuation replay, provenance, and local naming row;
+\item form coherence, requiring $M$, $B$, and $Q$ to describe the same displayed finite quadratic-form packet over $F$;
+\item diagonal witness exactness, requiring $D$ to expose only congruence steps whose source and target rows are recorded in $M,B,Q$;
+\item inertia ledger readback, requiring $S$ to count exactly the displayed positive, negative, and null diagonal entries exposed by $D$;
+\item non-escape, excluding spectral decomposition, analytic diagonalization, basis choice outside the packet, quotient form equality, and completeness arguments.
+\end{enumerate}
+No local NameCert obligation is stored outside those five rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sylvester-inertia-carrier}. Carrier admission exposes exactly $F,M,B,Q,D,S,H,C,P,N$.
+
+The form-coherence row binds the matrix table $M$, bilinear row $B$, and quadratic row $Q$ over the same field source $F$. The diagonal witness row $D$ is then readable only as a finite congruence ledger for that displayed form data.
+
+The sign-count ledger $S$ reads the diagonal entries exposed by $D$ and separates them into positive, negative, and null cells. Finally $H,C,P,N$ transport, replay, source, and name only that finite packet, so the excluded analytic and choice-based coordinates have no NameCert row.
+\end{proof}
+
+\begin{theorem}[Sylvester inertia congruence invariance]
+\label{thm:sylvester-inertia-congruence-invariance}
+If two accepted $\SylvesterInertiaUp$ packets are related by a displayed congruence replay through their rows $F,M,B,Q,D,H,C,P,N$, then they preserve the displayed sign-count ledger $S$. In particular, congruent accepted packets export the same positive, negative, and null inertia counts through $\NameCert_{\SylvesterInertiaUp}$.
+\end{theorem}
+\begin{proof}
+Begin with two accepted carriers and a displayed congruence replay between them. By \autoref{thm:sylvester-inertia-namecert-obligations}, the replay must pass through the field source, matrix presentation, bilinear form, quadratic form, and diagonal witness rows before the sign-count ledger is read.
+
+The diagonal witness exactness row forces the congruence table to expose the same diagonal-form cells on both sides of the accepted comparison. The inertia ledger readback row then counts those displayed cells as positive, negative, or null inside $S$.
+
+Because the carrier has no row for an external basis selector, analytic diagonalizer, quotient equality, or spectral argument, the exported comparison is exactly the componentwise ledger comparison. Thus the positive, negative, and null counts are preserved.
+\end{proof}
+
+\closureat{SylvesterInertiaUp}{seedStr}
+
+\begin{closurestatus}{\SylvesterInertiaUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sylvester-inertia-carrier}, \autoref{thm:sylvester-inertia-namecert-obligations}, and \autoref{thm:sylvester-inertia-congruence-invariance} seed the finite inertia carrier, five-row NameCert obligation surface, and congruence-invariant sign-count ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the spectral theorem, analytic diagonalization, choice-selected bases, quotient form equality, completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, form coherence, diagonal witness exactness, inertia ledger readback, and non-escape for the same finite Sylvester inertia packet.}
+  \constructivestory{A $\SylvesterInertiaUp$ packet is generated from a field source, matrix presentation, bilinear form, quadratic-form row, diagonalization witness, positive-negative-null sign-count ledger, componentwise transport, continuation replay, provenance, and local NameCert row.}
+\end{closurestatus}
