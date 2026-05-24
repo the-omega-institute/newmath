@@ -8,6 +8,8 @@ The $\ProofObligationGapUp$ packet realizes the MetaCIC subject-reduction obstru
 
 \independenceWitness{metaciccriticalpath, metacicconfluenceauditpacket, normalformconsistencyseal, bounded-normal-conversion-bridge: the gap packet is not bijective to these siblings because it jointly carries named obligations, obstruction/refusal rows, and downstream handoff routes rather than a positive confluence, normalization, or conversion endpoint.}
 
+The $\ProofObligationGapUp$ carrier is read after the MetaCIC critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} and before the bounded conversion boundary of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert} can consume an obstruction row.
+
 \begin{definition}[Proof-obligation gap carrier]
 \label{def:proof-obligation-gap-carrier}
 A $\ProofObligationGapUp$ carrier is a finite $\BHist$ packet
@@ -62,12 +64,24 @@ Replay through $C$ preserves that order. A downstream MetaCIC request must pass 
 The packet has no endpoint row for confluence, normalization, bounded conversion, closed subject reduction, or consistency sealing. Provenance and local naming therefore authenticate only the finite gap surface, not any positive theorem at those endpoints.
 \end{proof}
 
+\begin{theorem}[Proof-obligation gap MetaCIC sibling dependency]
+\label{thm:proof-obligation-gap-metacic-sibling-dependency}
+Every accepted $\ProofObligationGapUp$ packet consumed by a MetaCIC critical-path or bounded-normal-conversion consumer must cite the named obligation row before it can hand off to \autoref{ch:concrete-instances-metaciccriticalpath-namecert} or \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}. This sibling dependency is substantive: those consumers can read the finite gap only after obligation-first exposure and refusal exactness, not as positive confluence evidence, normalization evidence, bounded-conversion evidence, or a closed subject-reduction endpoint.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $G=(O,B,R,M,H,C,P,N)$. The named obligation row $O$ is displayed before the obstruction row $B$, the refusal row $R$, and the MetaCIC handoff row $M$.
+
+A critical-path consumer may therefore cite \autoref{ch:concrete-instances-metaciccriticalpath-namecert} only after reading $O$ together with the obstruction and refusal boundary. A bounded-normal-conversion consumer may likewise cite \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert} only after the same obligation-first exposure.
+
+The dependency is not a positive endpoint. The rows $B$ and $R$ record obstruction and refusal exactness, while $M,H,C,P,N$ preserve and name that finite gap surface. No row supplies confluence, normalization, bounded conversion, or closed subject reduction.
+\end{proof}
+
 \closureat{ProofObligationGapUp}{seedStr}
 
 \begin{closurestatus}{\ProofObligationGapUp}
   \constructivestory{A $\ProofObligationGapUp$ packet is generated from named MetaCIC obligation rows, obstruction rows, refusal rows, downstream MetaCIC handoff rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:proof-obligation-gap-carrier}, \autoref{thm:proof-obligation-gap-namecert-obligations}, and \autoref{thm:proof-obligation-gap-metacic-handoff} seed the finite proof-obligation gap surface for MetaCIC subject-reduction obstruction consumers.}
+  \scopeclosed{\autoref{def:proof-obligation-gap-carrier}, \autoref{thm:proof-obligation-gap-namecert-obligations}, \autoref{thm:proof-obligation-gap-metacic-handoff}, and \autoref{thm:proof-obligation-gap-metacic-sibling-dependency} seed the finite proof-obligation gap surface for MetaCIC subject-reduction obstruction consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close positive confluence, normalization, bounded conversion, closed subject reduction, consistency sealing, Lean verification, or bridge checking.}
