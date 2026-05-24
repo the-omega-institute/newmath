@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyShuffleUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -183,5 +185,19 @@ theorem RegularCauchyShuffleTasteGate_single_carrier_alignment :
       (fun _ _ heq =>
         RegularCauchyShuffleTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+theorem RegularCauchyShuffleEvenOddProjectionHandoff
+    (x : RegularCauchyShuffleUp) :
+    ∃ A B S E O D RA RB LA LB H C P N evenRead oddRead evenSeal oddSeal : BHist,
+      x = RegularCauchyShuffleUp.mk A B S E O D RA RB LA LB H C P N ∧
+        regularCauchyShuffleFields x = [A, B, S, E, O, D, RA, RB, LA, LB, H, C, P, N] ∧
+          Cont S E evenRead ∧ Cont evenRead RA evenSeal ∧ Cont S O oddRead ∧
+            Cont oddRead RB oddSeal := by
+  -- BEDC touchpoint anchor: BHist Cont append RegularCauchyShuffleUp
+  cases x with
+  | mk A B S E O D RA RB LA LB H C P N =>
+      exact
+        ⟨A, B, S, E, O, D, RA, RB, LA, LB, H, C, P, N, append S E, append S O,
+          append (append S E) RA, append (append S O) RB, rfl, rfl, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.RegularCauchyShuffleUp
