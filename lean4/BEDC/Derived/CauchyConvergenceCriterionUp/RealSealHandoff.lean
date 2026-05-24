@@ -64,4 +64,30 @@ theorem CauchyConvergenceCriterionCarrier_limit_seal_determinacy [AskSetup] [Pac
   cases sameSeal
   exact cont_deterministic sealCompletion sealPrimeCompletion
 
+theorem CauchyConvergenceCriterionCarrier_regular_seal_handoff [AskSetup] [PackageSetup]
+    {schedule modulus dyadic handoff sealRow transportRow route provenance localCert
+      regularRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyConvergenceCriterionCarrier schedule modulus dyadic handoff sealRow transportRow
+        route provenance localCert bundle pkg ->
+      Cont handoff route regularRead ->
+        PkgSig bundle regularRead pkg ->
+          UnaryHistory schedule /\ UnaryHistory modulus /\ UnaryHistory dyadic /\
+            UnaryHistory handoff /\ UnaryHistory regularRead /\
+              Cont schedule modulus dyadic /\ Cont dyadic handoff sealRow /\
+                Cont handoff route regularRead /\ PkgSig bundle provenance pkg /\
+                  PkgSig bundle regularRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier handoffRouteRegular regularPkg
+  obtain ⟨scheduleUnary, modulusUnary, dyadicUnary, handoffUnary, _sealUnary,
+    _transportUnary, routeUnary, _provenanceUnary, _localCertUnary, scheduleModulusDyadic,
+    dyadicHandoffSeal, _sealTransportRoute, _routeProvenanceLocal, _sameSealHandoff,
+    _sameSealProvenance, provenancePkg⟩ := carrier
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed handoffUnary routeUnary handoffRouteRegular
+  exact
+    ⟨scheduleUnary, modulusUnary, dyadicUnary, handoffUnary, regularUnary,
+      scheduleModulusDyadic, dyadicHandoffSeal, handoffRouteRegular, provenancePkg,
+      regularPkg⟩
+
 end BEDC.Derived.CauchyConvergenceCriterionUp
