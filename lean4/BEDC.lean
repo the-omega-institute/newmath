@@ -5345,6 +5345,7 @@ import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.StdBridge
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
+import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SubgroupUp
