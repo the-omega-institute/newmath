@@ -907,6 +907,7 @@ import BEDC.Derived.CauchyCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionAssociativityUp
 import BEDC.Derived.CauchyCompletionAssociativityUp.TasteGate
 import BEDC.Derived.CauchyCompletionContinuationUp.TasteGate
+import BEDC.Derived.CauchyCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionFunctorUp.FiniteApproximationRoute
 import BEDC.Derived.CauchyCompletionFunctorUp.RegseqRealEndofunctor
@@ -963,6 +964,7 @@ import BEDC.Derived.CauchyCriterionUp.FiniteRequestSectionReturn
 import BEDC.Derived.CauchyCriterionUp.FiniteSelectorExhaustion
 import BEDC.Derived.CauchyCriterionUp.FiniteWindowRealSealHandoff
 import BEDC.Derived.CauchyCriterionUp.FiniteWindowRealSealHandoffDeterminacy
+import BEDC.Derived.CauchyCriterionUp.FiniteWindowTerminalCoverage
 import BEDC.Derived.CauchyCriterionUp.FourFaceSelectorReadbackDeterminacy
 import BEDC.Derived.CauchyCriterionUp.LimitSealRouteStability
 import BEDC.Derived.CauchyCriterionUp.MatureDownstreamConsumers
@@ -4502,6 +4504,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamPackage
 import BEDC.Derived.QuotientSoundnessBoundaryUp.FormalTargetFrontier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
+import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelDependencyRoute
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.NameCertLedger
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameBridgeHandoff
@@ -5023,6 +5026,7 @@ import BEDC.Derived.RegularCauchyModulusNormalizerUp.SharedTailMeetDeterminacy
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.WitnessLedgerHandoff
 import BEDC.Derived.RegularCauchyModulusRealizerUp.TasteGate
+import BEDC.Derived.RegularCauchyModulusStabilityUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.BridgeRequestSurface
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.RootConsumerHandoff
