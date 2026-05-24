@@ -547,4 +547,37 @@ theorem FiniteLebesgueNumberRealPhaseCoverageExport [AskSetup] [PackageSetup]
     ⟨cert, dyadicUnary, streamUnary, regularUnary, realUnary, compactUnary,
       continuousUnary, uniformUnary⟩
 
+theorem FiniteLebesgueNumberRootWindowCoverTotality [AskSetup] [PackageSetup]
+    {cover window radius mesh transport route provenance nameRow windowRead coverCell
+      realRead compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+        bundle pkg ->
+      Cont window radius windowRead ->
+        Cont windowRead mesh coverCell ->
+          Cont coverCell route realRead ->
+            Cont realRead mesh compactRead ->
+              PkgSig bundle compactRead pkg ->
+                UnaryHistory windowRead ∧ UnaryHistory coverCell ∧
+                  UnaryHistory realRead ∧ UnaryHistory compactRead ∧
+                    Cont window radius windowRead ∧ Cont windowRead mesh coverCell ∧
+                      Cont coverCell route realRead ∧ Cont realRead mesh compactRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle compactRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier windowRadiusRead readMeshCell cellRouteReal realMeshCompact compactPkg
+  obtain ⟨_coverUnary, windowUnary, radiusUnary, meshUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameRowUnary, _coverWindowRadius, _radiusMeshRoute,
+    _routeNameProvenance, provenancePkg⟩ := carrier
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowUnary radiusUnary windowRadiusRead
+  have coverCellUnary : UnaryHistory coverCell :=
+    unary_cont_closed windowReadUnary meshUnary readMeshCell
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed coverCellUnary routeUnary cellRouteReal
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed realReadUnary meshUnary realMeshCompact
+  exact
+    ⟨windowReadUnary, coverCellUnary, realReadUnary, compactReadUnary, windowRadiusRead,
+      readMeshCell, cellRouteReal, realMeshCompact, provenancePkg, compactPkg⟩
+
 end BEDC.Derived.FiniteLebesgueNumberUp
