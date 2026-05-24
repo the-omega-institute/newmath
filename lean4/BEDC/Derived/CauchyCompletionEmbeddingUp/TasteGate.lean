@@ -192,27 +192,24 @@ instance cauchyCompletionEmbeddingNontrivial :
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate CauchyCompletionEmbeddingUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchyCompletionEmbeddingChapterTasteGate
+
 theorem CauchyCompletionEmbeddingTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate CauchyCompletionEmbeddingUp) ∧
-      Nonempty (FieldFaithful CauchyCompletionEmbeddingUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial CauchyCompletionEmbeddingUp) ∧
-          (∀ h : BHist,
-            cauchyCompletionEmbeddingDecodeBHist
-              (cauchyCompletionEmbeddingEncodeBHist h) = h) ∧
-            (∀ x : CauchyCompletionEmbeddingUp,
-              cauchyCompletionEmbeddingFromEventFlow
-                (cauchyCompletionEmbeddingToEventFlow x) = some x) ∧
-              (∀ x y : CauchyCompletionEmbeddingUp,
-                cauchyCompletionEmbeddingToEventFlow x =
-                    cauchyCompletionEmbeddingToEventFlow y ->
-                  x = y) ∧
-                cauchyCompletionEmbeddingEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist,
+      cauchyCompletionEmbeddingDecodeBHist
+        (cauchyCompletionEmbeddingEncodeBHist h) = h) ∧
+      (∀ x : CauchyCompletionEmbeddingUp,
+        cauchyCompletionEmbeddingFromEventFlow
+          (cauchyCompletionEmbeddingToEventFlow x) = some x) ∧
+        (∀ x y : CauchyCompletionEmbeddingUp,
+          cauchyCompletionEmbeddingToEventFlow x =
+            cauchyCompletionEmbeddingToEventFlow y → x = y) ∧
+          cauchyCompletionEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨⟨cauchyCompletionEmbeddingChapterTasteGate⟩,
-      ⟨cauchyCompletionEmbeddingFieldFaithful⟩,
-      ⟨cauchyCompletionEmbeddingNontrivial⟩,
-      CauchyCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode,
+    ⟨CauchyCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode,
       CauchyCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq =>
         CauchyCompletionEmbeddingTasteGate_single_carrier_alignment_toEventFlow_injective heq),
