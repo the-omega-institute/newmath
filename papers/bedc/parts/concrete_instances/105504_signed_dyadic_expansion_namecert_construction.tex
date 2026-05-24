@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\SignedDyadicExpansionUp$}
+\label{ch:concrete-instances-signed-dyadic-expansion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers presented by finite approximation data, the $\SignedDyadicExpansionUp$ packet records the finite signed dyadic prefix route before a prefix may be consumed as a regular rational name or sealed as a $\RealUp$ object. It sits between the binary expansion surface of \autoref{ch:concrete-instances-binaryexpansion-namecert}, the signed-digit stream interface of \autoref{ch:concrete-instances-signeddigitstream-namecert}, the signed dyadic normal form row of $\SignedDyadicNormalFormUp$, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite signed dyadic readback data; it is not a quotient stream, a selected infinite expansion, a uniqueness theorem for dual binary tails, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Signed dyadic expansion carrier]
+\label{def:signed-dyadic-expansion-carrier}
+A $\SignedDyadicExpansionUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,W,E,T,F,A,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sign row, recording whether the displayed prefix is read with positive, negative, or zero orientation before any numeric readback is opened.
+\item $W$ is the finite dyadic digit-prefix window, exposing the inspected binary cells and their request index as finite data.
+\item $E$ is the exponent and tail-radius ledger, recording the dyadic scale of the prefix and the displayed dyadic radius bounding the unseen tail.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance row consumed by the tail-radius ledger and by every readback request.
+\item $F$ is the $\SignedDyadicNormalFormUp$ row, normalizing the sign, exponent, and visible digit window without selecting an infinite expansion.
+\item $A$ is the $\StreamNameUp$ window row that identifies which finite prefix cells are inspected at each requested tolerance.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from $S,W,E,T,F,A$.
+\item $L$ is the terminal $\RealUp$ seal row reached only after the signed prefix, dyadic tolerance, normal-form, stream-window, and regular-rational rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the sign, digit window, exponent ledger, tail-radius ledger, normal form, stream window, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,W,E,T,F,A \longmapsto R \longmapsto L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\SignedDyadicExpansionUp$, $\BinaryExpansionUp$, $\SignedDigitStreamUp$, $\SignedDyadicNormalFormUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SignedDyadicExpansionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,E,T,F,A,R,L,H,C,P,N$. It has no coordinate for quotient stream equality, a selected infinite signed dyadic expansion, uniqueness at dual binary tails, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Signed dyadic expansion NameCert obligations]
+\label{thm:signed-dyadic-expansion-namecert-obligations}
+For every accepted $\SignedDyadicExpansionUp$ carrier
+$$
+X=(S,W,E,T,F,A,R,L,H,C,P,N),
+$$
+the local $\NameCert_{\SignedDyadicExpansionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the sign row, finite dyadic digit-prefix window, exponent and tail-radius ledger, dyadic tolerance row, signed dyadic normal form, stream window, regular rational handoff, real seal, transport, replay, provenance, and local name;
+\item sign-prefix coherence, requiring $S$ and $W$ to expose the same finite signed prefix before any rational readback is admitted;
+\item exponent and tail-radius visibility, requiring $E$ and $T$ to bound the unseen dyadic tail by a displayed dyadic tolerance;
+\item normal-form locality, requiring $F$ to normalize only the displayed sign, exponent, and digit-window rows;
+\item window exactness, requiring $A$ to select exactly the finite prefix cells consumed by the requested tolerance;
+\item handoff order, requiring the $\RegSeqRatUp$ row $R$ to consume $S,W,E,T,F,A$ before the terminal $\RealUp$ seal $L$ becomes available;
+\item componentwise transport, displayed replay, package provenance, and local naming for the same rows through $H,C,P,N$;
+\item refusal of quotient stream equality, selected infinite expansions, dual-tail uniqueness, trichotomy, countable choice, and ambient $\RealUp$ completeness as local certificate data.
+\end{enumerate}
+No signed dyadic expansion obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:signed-dyadic-expansion-carrier}. The accepted packet displays exactly the sign row, finite digit window, exponent and tail-radius ledger, dyadic tolerance row, signed normal form, stream window, regular readback, real seal, and structural rows.
+
+The prefix information is read first. The sign row $S$ and digit window $W$ determine the visible signed dyadic prefix, while $E$ and $T$ expose the dyadic scale and the tail-radius budget that bounds all unseen cells relevant to the request.
+
+The normal-form and window rows keep the readback local. The row $F$ normalizes only the displayed finite prefix data, and $A$ selects the finite cells consumed at the requested tolerance.
+
+The handoff is ordered through $R$ and $L$. A regular rational name may be read only after $S,W,E,T,F,A$ are displayed, and the $\RealUp$ seal is terminal over that regular rational row.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no row stores quotient stream equality, an infinite expansion selector, a dual-tail uniqueness decision, trichotomy, countable choice, or ambient completeness, none of those objects becomes a local obligation.
+\end{proof}
+
+\begin{theorem}[Signed dyadic expansion Real readback]
+\label{thm:signed-dyadic-expansion-real-readback}
+Every $\RealUp$ read exported by an accepted $\SignedDyadicExpansionUp$ carrier factors through the finite route
+$$
+S,W,E,T,F,A \longmapsto R \longmapsto L \longmapsto H,C,P,N .
+$$
+Thus a $\RegSeqRatUp$ or $\RealUp$ consumer receives the sign row, finite dyadic prefix window, exponent and tail-radius ledger, $\SignedDyadicNormalFormUp$ row, $\StreamNameUp$ window, and $\DyadicRatCoreUp$ tolerance row before the regular rational handoff and terminal real seal are available. The route exports no quotient stream, selected infinite expansion, dual-tail uniqueness theorem, trichotomy, countable-choice row, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for the terminal real-facing row. The accepted carrier exposes $L$ only after the signed prefix and tolerance route has been displayed.
+
+The request first opens $S,W,E,T,F,A$. These rows determine the visible sign, dyadic digit prefix, exponent, tail radius, normal form, and inspected window as finite BEDC data.
+
+The regular rational handoff $R$ is then read from that same finite route. Because the tail-radius bound is already displayed in $E$ and $T$, the handoff does not require a quotient stream or an infinite representative.
+
+The seal $L$ and structural rows $H,C,P,N$ package the readback for downstream consumers. The excluded coordinates are absent from the carrier, so every exported real read remains a finite signed dyadic expansion certificate.
+\end{proof}
+
+\closureat{SignedDyadicExpansionUp}{seedStr}
+
+\begin{closurestatus}{\SignedDyadicExpansionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-dyadic-expansion-carrier}, \autoref{thm:signed-dyadic-expansion-namecert-obligations}, and \autoref{thm:signed-dyadic-expansion-real-readback} seed the finite signed dyadic prefix route from sign and digit-window rows through DyadicRatCore tolerances, SignedDyadicNormalForm rows, StreamName windows, RegSeqRat handoff, Real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected infinite expansions, dual-tail uniqueness, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, sign-prefix coherence, exponent and tail-radius visibility, normal-form locality, window exactness, handoff order, transport, replay, provenance, and local naming for BEDC.Derived.SignedDyadicExpansionUp.}
+  \constructivestory{A $\SignedDyadicExpansionUp$ packet is generated from a sign row, finite dyadic digit-prefix window, exponent and tail-radius ledger, $\DyadicRatCoreUp$ tolerance row, $\SignedDyadicNormalFormUp$ row, $\StreamNameUp$ window row, $\RegSeqRatUp$ handoff, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
