@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MooreSmithCauchyNetFilterBridgeUp$}
+\label{ch:concrete-instances-moore-smith-cauchy-net-filter-bridge-namecert}
+\origin{human}
+
+Following Kelley, Moore--Smith, and Bourbaki, the $\MooreSmithCauchyNetFilterBridgeUp$ packet records the finite comparison surface between directed Cauchy nets and Cauchy filter bases before any completion-facing consumer reads a Real seal. It sits between the Cauchy-net carrier of \autoref{ch:concrete-instances-cauchynet-namecert}, the Cauchy-filter carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the Moore--Smith completion packet of \autoref{ch:concrete-instances-moore-smith-completion-namecert}, the uniform completion route of \autoref{ch:concrete-instances-uniformcompletion-namecert}, and the Real readback boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is finite BEDC data: directed index rows, tail rows, filter-base rows, cofinal comparison rows, completion handoff rows, readback rows, transport, replay, provenance, and a local NameCert. It does not import quotient completions, selected limits, countable choice, or an ambient completed space.
+
+\begin{definition}[Moore--Smith Cauchy-net/filter bridge carrier]
+\label{def:moore-smith-cauchy-net-filter-bridge-carrier}
+A $\MooreSmithCauchyNetFilterBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,T,F,K,U,M,S,R,Y,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DirectedSetUp$ index row naming the finite directed comparisons used by the net side;
+\item $T$ is the $\CauchyNetUp$ tail row, recording eventual containment tests over the directed index surface $D$;
+\item $F$ is the $\CauchyFilterUp$ base row, recording finite base refinements and Cauchy diameter tests;
+\item $K$ is the cofinal net-filter comparison row, displaying the finite route from directed tails to filter bases and back to cofinal tail data;
+\item $U$ is the $\UniformCompletionUp$ handoff row, read only after $D,T,F,K$ have been displayed;
+\item $M$ is the $\MetricCompletionUp$ comparison row for metric-facing completion consumers;
+\item $S$ is the $\StreamNameUp$ finite-window row used by completion-facing readback;
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to the same window and comparison data;
+\item $Y$ is the $\DyadicRatCoreUp$ dyadic comparison ledger used to bound the displayed tails, bases, and readbacks;
+\item $E$ is the $\RealUp$ seal row, reached only after the net, filter, cofinal, completion, and readback rows have been displayed;
+\item $H$ records componentwise $\hsame$ transport for all displayed rows;
+\item $C$ records displayed $\Cont$ replay from directed tails through filter bases, completion handoff, readback windows, and the Real seal;
+\item $P$ is the $\Pkg$ provenance over $\MooreSmithCauchyNetFilterBridgeUp$, $\DirectedSetUp$, $\CauchyNetUp$, $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\MooreSmithCauchyNetFilterBridgeUp}$ row.
+\end{enumerate}
+The public carrier exports the finite packet $B$ and no quotient completion, selected subnet, chosen filter limit, countable-choice schedule, or ambient completeness datum.
+\end{definition}
+
+\begin{theorem}[Moore--Smith Cauchy-net/filter bridge NameCert obligations]
+\label{thm:moore-smith-cauchy-net-filter-bridge-obligations}
+For the carrier of \autoref{def:moore-smith-cauchy-net-filter-bridge-carrier}, the local $\NameCert_{\MooreSmithCauchyNetFilterBridgeUp}$ surface consists exactly of carrier admission for $B=(D,T,F,K,U,M,S,R,Y,E,H,C,P,N)$; directed-index admission through $D$; Cauchy-net tail admission through $T$; Cauchy-filter base admission through $F$; cofinal comparison through $K$; uniform and metric completion handoff through $U$ and $M$; StreamName, RegSeqRat, DyadicRatCore, and Real readback through $S,R,Y,E$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $D,T,F,K$ expose the directed index surface, the Cauchy-net tails, the Cauchy-filter bases, and the cofinal comparison between them as visible coordinates of one finite packet.
+
+The completion and readback rows are downstream. The uniform and metric completion handoffs $U,M$ are read only after the net/filter comparison row is displayed, and the finite readback rows $S,R,Y,E$ attach the StreamName, RegSeqRat, dyadic, and Real-facing reads to the same displayed route.
+
+The structural rows exhaust the NameCert surface. Componentwise transport, displayed replay, provenance, and local naming are exactly $H,C,P,N$, so a consumer cannot obtain a quotient completion, selected subnet, chosen filter limit, countable-choice schedule, or ambient completion principle from the packet.
+\end{proof}
+
+\begin{theorem}[Moore--Smith Cauchy-net/filter bridge handoff]
+\label{thm:moore-smith-cauchy-net-filter-bridge-handoff}
+Every completion-facing consumer of an accepted $\MooreSmithCauchyNetFilterBridgeUp$ carrier factors through the displayed route
+$$
+D,T,F,K,U,M,S,R,Y,E,H,C,P,N
+$$
+before reading any $\RealUp$ seal. In particular, a consumer moving between \autoref{ch:concrete-instances-cauchynet-namecert}, \autoref{ch:concrete-instances-cauchyfilter-namecert}, \autoref{ch:concrete-instances-moore-smith-completion-namecert}, and \autoref{ch:concrete-instances-uniformcompletion-namecert} reads the cofinal net/filter rows before it can use the Real-facing readback of \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing request. Carrier admission forces the directed index row $D$, Cauchy-net tail row $T$, Cauchy-filter base row $F$, and cofinal comparison row $K$ to be visible before any completion handoff row appears.
+
+The handoff rows $U$ and $M$ then carry only the displayed comparison route. They do not identify completion classes, choose a subnet, or select a filter limit; they pass the finite net/filter comparison to uniform and metric completion consumers.
+
+Finally the readback rows $S,R,Y,E$ and the structural rows $H,C,P,N$ keep the Real seal downstream of the same displayed route. Since the packet has no coordinate for quotient completion, countable choice, selected limits, or ambient completeness, every completion-facing read factors through the named rows before it reaches $\RealUp$.
+\end{proof}
+
+\closureat{MooreSmithCauchyNetFilterBridgeUp}{seedStr}
+
+\begin{closurestatus}{\MooreSmithCauchyNetFilterBridgeUp}
+  \constructivestory{A $\MooreSmithCauchyNetFilterBridgeUp$ packet is generated from directed index data, Cauchy-net tail rows, Cauchy-filter base rows, a cofinal net-filter comparison, uniform and metric completion handoff rows, StreamName windows, RegSeqRat and DyadicRatCore readbacks, a RealUp seal, hsame transports, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:moore-smith-cauchy-net-filter-bridge-carrier}, \autoref{thm:moore-smith-cauchy-net-filter-bridge-obligations}, and \autoref{thm:moore-smith-cauchy-net-filter-bridge-handoff} bind the finite net/filter/cofinal route before uniform, metric, and Real readback consumers inspect the packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient completions, selected limits, countable choice, or ambient completed-space completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal comparison, completion handoff, transport stability, replay, provenance, and local naming for BEDC.Derived.MooreSmithCauchyNetFilterBridgeUp.}
+\end{closurestatus}
