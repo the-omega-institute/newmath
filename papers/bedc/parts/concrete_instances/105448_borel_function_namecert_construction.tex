@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\BorelFunctionUp$}
+\label{ch:concrete-instances-borel-function-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges on Borel maps between topological and real-facing spaces, the $\BorelFunctionUp$ packet records the finite pullback route by which a displayed source topology reads target Borel rows. It sits between the generated-set boundary of \autoref{ch:concrete-instances-borel-set-namecert}, the measurable-map preimage surface of \autoref{ch:concrete-instances-measurable-function-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the topology interface of \autoref{ch:concrete-instances-topology-namecert}. The packet names Borel pullback stability as a local BEDC certificate, not as a host inverse-image operation, quotient equality of functions, countable-choice enumeration of Borel codes, or ambient measure completion.
+
+\begin{definition}[BorelFunction carrier]
+\label{def:borel-function-carrier}
+A $\BorelFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,B,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source topology row read through $\TopologyUp$, including the finite open-neighbourhood data needed by the current source-side query.
+\item $B$ is the target $\BorelSetUp$ row whose generated-set boundary supplies the target event being pulled back.
+\item $R$ is the pullback ledger assigning the displayed target Borel row in $B$ to a displayed source Borel row over $X$.
+\item $Q$ is the $\RealUp$ readback row used when the target Borel query is real-facing; it is consumed only through the displayed Borel row and the pullback ledger.
+\item $H$ stores componentwise $\hsame$ transport for the source topology, target Borel row, pullback ledger, real readback, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a source query through the target Borel row, the pullback ledger, and the real-facing readback row.
+\item $P$ is the $\Pkg$ provenance over $\TopologyUp$, $\BorelSetUp$, $\MeasurableFunctionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BorelFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,B,R,Q,H,C,P,N$. It has no coordinate for host set preimages, quotient equality of functions, countable-choice selection of Borel codes, completed measure spaces, almost-everywhere equality, or an ambient function space.
+\end{definition}
+
+\begin{theorem}[BorelFunction NameCert obligations]
+\label{thm:borel-function-namecert-obligations}
+For the carrier of \autoref{def:borel-function-carrier}, the local $\NameCert_{\BorelFunctionUp}$ surface consists exactly of source-topology admission, target Borel-row admission, pullback-ledger exactness, real-facing readback through $\RealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Every accepted Borel-function consumer must read the source row $X$, the target Borel row $B$, and the pullback ledger $R$ before any $\BorelSetUp$, $\MeasurableFunctionUp$, $\RealUp$, or topology-facing sibling row is exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(X,B,R,Q,H,C,P,N)$. The rows $X$ and $B$ are the only source-topology and target-Borel coordinates, and the row $R$ is the only coordinate that relates them.
+
+Read a real-facing target query through $B$ and $Q$. The readback row $Q$ is downstream of the displayed Borel row, while the source-side result is named only by the pullback ledger $R$ over $X$.
+
+The structural rows add no host inverse-image operation. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same finite route, so the excluded quotient, choice, completion, almost-everywhere, and ambient function-space objects remain outside the packet.
+\end{proof}
+
+\begin{theorem}[BorelFunction pullback stability]
+\label{thm:borel-function-pullback-stability}
+Let $F=(X,B,R,Q,H,C,P,N)$ and
+$$
+F'=(X',B',R',Q',H',C',P',N')
+$$
+be accepted $\BorelFunctionUp$ carriers. If the source topology rows, target $\BorelSetUp$ rows, pullback ledgers, and real-facing readback rows agree componentwise through the displayed $\hsame$ transports, then every accepted source-side Borel read produced from $F$ is transported to the corresponding read produced from $F'$. The comparison uses only
+$$
+X,B,R,Q,H,C,P,N
+$$
+and
+$$
+X',B',R',Q',H',C',P',N' .
+$$
+It exports pullback stability as a finite certificate, not as host set preimage equality, quotient equality of functions, countable-choice enumeration, completed measure semantics, almost-everywhere equality, or ambient function equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:borel-function-namecert-obligations} to both carriers. Any accepted target Borel read first passes through the displayed target rows $B$ and $B'$, then through the pullback ledgers $R$ and $R'$.
+
+Use the componentwise transports. The hypotheses identify the source topology rows, target Borel rows, pullback ledgers, and real readback rows, while $H,C,P,N$ and $H',C',P',N'$ preserve, replay, source, and name those same routes.
+
+The transported consumer sees only the displayed coordinates. Since neither carrier contains a host inverse-image coordinate, quotient-function equality, choice-selected code sequence, completed measure, almost-everywhere class, or ambient function object, the stability claim is exactly the preservation of the finite pullback ledger.
+\end{proof}
+
+\falsifiablePrediction{A $\BorelFunctionUp$ consumer that obtains a host set preimage, a quotient equality of functions, a countable-choice enumeration of Borel codes, a completed measure, or an almost-everywhere representative without first reading the displayed pullback ledger $R$ refutes the carrier surface.}
+
+\independenceWitness{borelset, measurablefunction, real, topology: no listed sibling supplies the whole eight-row packet $F=(X,B,R,Q,H,C,P,N)$, because each sibling contributes only generated-set, measurable-map, real-readback, or source-topology data while this chapter binds the Borel pullback ledger with transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\BorelFunctionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:borel-function-carrier}, \autoref{thm:borel-function-namecert-obligations}, and \autoref{thm:borel-function-pullback-stability} seed the finite Borel-function pullback boundary over source topology, target Borel rows, real readback, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, almost-everywhere equality, quotient function spaces, countable-choice Borel codes, host set preimages, ambient function equality, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, pullback-ledger exactness, real-readback preservation, componentwise transport, and ledger-refusal proofs for BEDC.Derived.BorelFunctionUp.}
+  \constructivestory{A $\BorelFunctionUp$ packet is generated from a source topology row, a target BorelSet row, a pullback ledger, a RealUp readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
