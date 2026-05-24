@@ -70,6 +70,7 @@ Use \autoref{thm:real-sequence-limit-namecert-obligation-surface}. The convergen
 
 The $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ sibling surfaces named in the introduction supply only their displayed rows. Since $H$ transports those rows componentwise, $E$ cannot acquire a host sequence equality, quotient limit, choice-selected tail, trichotomy row, or ambient completeness witness.
 \end{proof}
+\leanchecked{BEDC.Derived.RealSequenceLimitUp.RealSequenceLimitClassifierStability}
 
 \begin{theorem}[RealSequenceLimit tail-window transport]\label{thm:realsequencelimit-tail-window-transport}
 Every consumer read of a $\RealSequenceLimitUp$ sequence-to-limit comparison factors through the finite tail-window schedule $W$ and the dyadic ledger $D$ before reaching the $\RealUp$ seal. The route is
@@ -109,6 +110,7 @@ The finite window route is fixed by \autoref{thm:realsequencelimit-tail-window-t
 
 Transport and replay do not add new routes. The rows $H$ and $C$ preserve the same componentwise schedule, while $P$ and $N$ record provenance and naming for that schedule. Thus refinement stays inside the displayed finite ledger and cannot introduce host sequence equality, quotient limits, choice, trichotomy, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.RealSequenceLimitUp.RealSequenceLimitTailRefinementLedger}
 
 \begin{theorem}[RealSequenceLimit limit uniqueness route]\label{thm:real-sequence-limit-limit-uniqueness-route}
 Let $(S,L,W,D,E,H,C,P,N)$ and $(S,L',W',D',E',H',C',P',N')$ be accepted $\RealSequenceLimitUp$ candidate-limit rows for the same displayed sequence row $S$. If their scheduled tail windows are compared through a common refinement of the displayed $\StreamNameUp/\RegSeqRatUp/\DyadicRatCoreUp$ route, then every equality-facing comparison between $L$ and $L'$ factors through $\RegularCauchyEquivalenceUp$ before either $\RealUp$ seal is read.
@@ -191,6 +193,7 @@ The carrier of \autoref{def:real-sequence-limit-modulus-carrier} packages the sa
 
 The transport and replay clauses are supplied by \autoref{thm:realsequencelimit-tail-window-transport}. The extraction clause is supplied by \autoref{thm:real-sequence-limit-modulus-extraction}. Together with the $\RealUp$ nonescape boundary of \autoref{thm:real-sequence-limit-real-seal-nonescape}, these rows force every Real-facing read to pass through the finite modulus packet and exclude all non-displayed modulus sources.
 \end{proof}
+\leanchecked{BEDC.Derived.RealSequenceLimitUp.ModulusRealUpHandoff.RealSequenceLimitModulusRealUp\_handoff}
 
 \begin{theorem}[RealSequenceLimit Real seal non-escape]\label{thm:real-sequence-limit-real-seal-nonescape}
 For an accepted $\RealSequenceLimitUp$ packet, every $\RealUp$-facing read of the candidate limit or of a sequence-to-limit comparison factors through the carrier, NameCert obligation surface, observation window route, Cauchy-modulus handoff, and limit uniqueness route before the real seal is consumed. The packet excludes host sequence equality, quotient limits, countable choice, trichotomy, and ambient $\RealUp$ completeness.
@@ -236,6 +239,20 @@ Use \autoref{thm:realsequencelimit-tail-window-transport} to keep the comparison
 Apply the sibling handoff \autoref{thm:real-sequence-cauchy-criterion-limit-cauchy-handoff}. It consumes the displayed $\RealSequenceLimitUp$ row and returns the Cauchy tail-window comparison through finite $\RegSeqRatUp$ and $\DyadicRatCoreUp$ data.
 
 Finally, \autoref{thm:real-sequence-limit-real-seal-nonescape} makes the $\RealUp$ seal terminal for this route. Thus the sequence-to-limit comparison reaches any Real-facing consumer only after passing through the finite Cauchy-criterion factorization, and it does not claim ambient completeness, quotient limits, countable choice, or trichotomy.
+\end{proof}
+
+\begin{theorem}[RealSequenceLimit regular Cauchy tail factorization]
+\label{thm:real-sequence-limit-regular-cauchy-tail-factorization}
+Every accepted $\RealSequenceLimitUp$ sequence-to-limit comparison factors through the displayed regular Cauchy tail route before the terminal $\RealUp$ seal is consumed. Concretely, the comparison reads the sequence and candidate limit rows through $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerances, the $\CauchyModulusUp$ threshold handoff, and the $\RealSequenceCauchyCriterionUp$ tail route, and only then reaches the Real-facing seal, transport, replay, provenance, and local naming rows. The route refuses host sequence equality, quotient limits, countable choice, trichotomy, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the observation-tail carrier \autoref{thm:realsequencelimit-observation-tail-carrier} and the tail-window transport theorem \autoref{thm:realsequencelimit-tail-window-transport}. Together they force every sequence and candidate-limit read through the scheduled $\StreamNameUp$ windows and the matching $\RegSeqRatUp$ readbacks before any consumer replay is available.
+
+Next apply \autoref{thm:real-sequence-limit-modulus-extraction} and \autoref{thm:real-sequence-limit-cauchy-modulus-handoff}. These theorems identify the dyadic tolerance row as a $\CauchyModulusUp$-compatible finite threshold route rather than as a host modulus function or a selected infinite tail.
+
+Use \autoref{thm:real-sequence-limit-cauchy-criterion-factorization}. It hands the scheduled comparison to the $\RealSequenceCauchyCriterionUp$ finite Cauchy tail-window surface before the terminal $\RealUp$ seal can be inspected.
+
+Finally apply \autoref{thm:real-sequence-limit-real-seal-nonescape}. The seal is terminal for the displayed route, so it cannot supply host sequence equality, quotient limits, countable choice, trichotomy, or ambient Real completeness.
 \end{proof}
 
 \begin{theorem}[RealSequenceLimit subsequence tail stability]
