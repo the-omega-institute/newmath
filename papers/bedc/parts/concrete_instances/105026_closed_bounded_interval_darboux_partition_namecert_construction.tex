@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ClosedBoundedIntervalDarbouxPartitionUp$}
+\label{ch:concrete-instances-closed-bounded-interval-darboux-partition-namecert}
+\origin{human}
+
+Following Riemann, Darboux, and Bishop--Bridges constructive analysis, the $\ClosedBoundedIntervalDarbouxPartitionUp$ packet records the finite partition surface needed to run Darboux and Riemann integration over one displayed closed bounded interval. It binds the base interval of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the located partition row of \autoref{ch:concrete-instances-located-real-interval-partition-namecert}, the finite Darboux-sum boundary of \autoref{ch:concrete-instances-darboux-sum-namecert}, the Darboux integration packet of \autoref{ch:concrete-instances-darbouxintegral-namecert}, and the tagged-mesh consumer of \autoref{ch:concrete-instances-riemannintegral-namecert}. The packet supplies a closed-interval-specific Darboux partition certificate; it is not an open-cover compactness theorem, a selected tag family, a quotient function-equality principle, a measure-completion object, or an ambient $\RealUp$ completeness assertion.
+
+\begin{definition}[Closed bounded interval Darboux partition carrier]
+\label{def:closed-bounded-interval-darboux-partition-carrier}
+A $\ClosedBoundedIntervalDarbouxPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,M,L,U,S,D,J,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the accepted $\ClosedBoundedIntervalUp$ row, carrying lower and upper located endpoints, endpoint order, rational and dyadic containment ledgers, finite windows, readbacks, and the terminal $\RealUp$ seal;
+\item $M$ is the $\LocatedRealIntervalPartitionUp$ row over the same interval endpoints, exposing the finite cell mesh, cell adjacency, dyadic refinement, rational-cell witnesses, and located endpoint readbacks;
+\item $L$ and $U$ are lower and upper Darboux bracket rows read through $\DarbouxSumUp$ over the cells of $M$;
+\item $S$ is the shared Darboux upper-lower sum surface, recording the finite lower sum, finite upper sum, and the visible gap ledger;
+\item $D$ is the $\DarbouxIntegralUp$ handoff row attached to the same interval, mesh, lower bracket, upper bracket, and gap ledger;
+\item $J$ is the $\RiemannIntegralUp$ consumer handoff row, read only after the Darboux row $D$ and the partition row $M$ have been displayed;
+\item $R$ is the $\RegSeqRatUp/\RealUp$ readback and seal row reached from the finite gap ledger;
+\item $H$ records componentwise $\hsame$ transport of the interval, partition, Darboux brackets, sum gap, Darboux handoff, Riemann handoff, and real-seal rows;
+\item $C$ records displayed $\Cont$ replay from interval endpoints to partition cells, from cells to Darboux sums, and from Darboux gap data to the integration handoff rows;
+\item $P$ is the $\Pkg$ provenance over $\ClosedBoundedIntervalDarbouxPartitionUp$, $\ClosedBoundedIntervalUp$, $\LocatedRealIntervalPartitionUp$, $\DarbouxSumUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClosedBoundedIntervalDarbouxPartitionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, selected tag families, quotient function equality, measure completion, or ambient $\RealUp$ completeness. Its public object is the finite closed-interval partition route from $I$ through $M,L,U,S,D,J,R,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval Darboux partition NameCert obligations]
+\label{thm:closed-bounded-interval-darboux-partition-namecert-obligations}
+For the carrier of \autoref{def:closed-bounded-interval-darboux-partition-carrier}, the local $\NameCert_{\ClosedBoundedIntervalDarbouxPartitionUp}$ surface consists exactly of carrier admission for $K=(I,M,L,U,S,D,J,R,H,C,P,N)$; source-interval exactness through $I$; located partition exactness through $M$; lower and upper Darboux bracket exposure through $L,U$; finite Darboux-sum exactness and gap visibility through $S$; Darboux handoff through $D$; Riemann handoff through $J$; $\RegSeqRatUp/\RealUp$ sealing through $R$; componentwise transport through $H$; continuation replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The interval row $I$ fixes the lower and upper located endpoints, endpoint order, containment ledgers, finite readbacks, and terminal real seal before any partition row can be consumed.
+
+Next read the located partition row $M$. Since $M$ is attached to the same endpoint and containment data, every Darboux cell and refinement read remains a finite closed-interval read rather than a host interval partition.
+
+The lower and upper bracket rows $L,U$ and the sum row $S$ are then inspected through the Darboux-sum surface. They record finite lower and upper sums over displayed cells, and the gap ledger is visible before either integration handoff row can be used.
+
+Finally the handoff rows $D,J,R$ and the structural rows $H,C,P,N$ preserve and name exactly this route. None of these rows contains open-cover compactness, a selected tag family, quotient function equality, measure completion, or ambient real completeness, so the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval Darboux partition refinement stability]
+\label{thm:closed-bounded-interval-darboux-partition-refinement-stability}
+Let $K=(I,M,L,U,S,D,J,R,H,C,P,N)$ and $K'=(I',M',L',U',S',D',J',R',H',C',P',N')$ be accepted $\ClosedBoundedIntervalDarbouxPartitionUp$ carriers classified together by componentwise $\hsame$ transport. If $M'$ is read as a displayed common refinement of $M$ over the transported closed bounded interval row, then the transported lower bracket, upper bracket, finite sum gap, Darboux handoff, Riemann handoff, and $\RegSeqRatUp/\RealUp$ seal are all read through the same finite refinement route.
+
+The refinement therefore preserves the Darboux partition certificate without adding selected tags, quotient equality of integrands, measure completion, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the source interval row. Componentwise transport carries $I$ to $I'$, including endpoint order, containment ledgers, finite windows, readbacks, and the real seal, before any refined cell can be read.
+
+Read the common refinement through $M'$. Its cells are located relative to the transported endpoints and containment ledgers, so each refined cell points back to the same closed bounded interval route.
+
+The Darboux bracket and sum rows transport next. The rows $L',U',S'$ compute lower and upper sums only from the displayed refined cells and carried values, hence the visible gap is preserved as a finite Darboux comparison.
+
+The integration handoff rows $D',J',R'$ are downstream of that comparison. Since $H'$ and $C'$ replay the same interval-to-partition-to-gap route and $P',N'$ only source and name it, refinement stability cannot introduce the excluded host-side objects.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval Darboux partition Riemann handoff]
+\label{thm:closed-bounded-interval-darboux-partition-riemann-handoff}
+Every accepted $\RiemannIntegralUp$ consumer of a $\ClosedBoundedIntervalDarbouxPartitionUp$ packet receives the closed interval only through $I$, the located partition only through $M$, the Darboux lower and upper bracket rows only through $L,U,S,D$, and the real-facing seal only through $R$. The handoff row $J$ may place a tagged-mesh consumer over that displayed partition route, but it does not supply an independent tag-selection family, quotient equality of integrands, measure completion, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:closed-bounded-interval-darboux-partition-namecert-obligations}. It makes the interval, partition, bracket, sum, gap, Darboux handoff, Riemann handoff, seal, transport, replay, provenance, and local naming rows the entire public surface.
+
+Apply \autoref{thm:closed-bounded-interval-darboux-partition-refinement-stability}. Any consumer-facing refinement of the partition must preserve the same endpoint, containment, cell, bracket, sum, and gap route before the handoff rows are read.
+
+Now compare with the Riemann handoff boundary of \autoref{thm:riemann-integral-real-seal-boundary}. The Riemann consumer may add its own tag-containment and finite-sum rows, but those rows sit downstream of the displayed closed-interval Darboux partition route.
+
+Thus $J$ is a consumer handoff for the finite route already named by $I,M,L,U,S,D,R,H,C,P,N$. It cannot export an independent selected tag family, quotient integrand equality, measure-completion object, open-cover compactness proof, or ambient real-completeness witness.
+\end{proof}
+
+\closureat{ClosedBoundedIntervalDarbouxPartitionUp}{seedStr}
+
+\begin{closurestatus}{\ClosedBoundedIntervalDarbouxPartitionUp}
+  \constructivestory{A $\ClosedBoundedIntervalDarbouxPartitionUp$ packet is generated from a closed bounded interval row, a located real interval partition row, lower and upper Darboux bracket rows, a finite Darboux-sum gap ledger, Darboux and Riemann integration handoff rows, a RegSeqRat/Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-bounded-interval-darboux-partition-carrier}, \autoref{thm:closed-bounded-interval-darboux-partition-namecert-obligations}, \autoref{thm:closed-bounded-interval-darboux-partition-refinement-stability}, and \autoref{thm:closed-bounded-interval-darboux-partition-riemann-handoff} seed the closed bounded interval Darboux partition boundary over $\ClosedBoundedIntervalUp$, $\LocatedRealIntervalPartitionUp$, $\DarbouxSumUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected tag families, quotient function equality, measure completion, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located partition exactness, Darboux bracket exposure, finite gap preservation, Riemann handoff, transport, replay, provenance, and ledger non-escape for BEDC.Derived.ClosedBoundedIntervalDarbouxPartitionUp.}
+\end{closurestatus}
