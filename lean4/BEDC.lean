@@ -1539,6 +1539,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootNamecertHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootUnblockObligationPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
@@ -3483,7 +3484,6 @@ import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.IntervalBisectionUp.TasteGate
 import BEDC.Derived.IntervalUp
-import BEDC.Derived.InverseMappingTheoremUp.TasteGate
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.TasteGate
 import BEDC.Derived.IsometricCompletionUp
