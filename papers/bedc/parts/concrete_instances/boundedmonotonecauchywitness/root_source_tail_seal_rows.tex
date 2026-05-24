@@ -221,3 +221,33 @@ Now compare the two consumer routes. Theorem~\ref{thm:bounded-monotone-cauchy-wi
 
 Finally apply root tail-budget exactness. Theorem~\ref{thm:bounded-monotone-cauchy-witness-root-tail-budget-exactness} identifies the root-source tail-seal read with the finite route through $\CauchyModulusExtractionUp$, $\CauchySealBudgetSynchronizerUp$, $\CauchyWitnessLedgerUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\CauchyLimitSealUp$. Since both consumers read the same carrier coordinates and the same row $Q$, there is no remaining coordinate from which they could fork into distinct terminal $\RealUp$ seals or any of the excluded completion mechanisms.
 \end{proof}
+
+\begin{corollary}[Bounded monotone Cauchy witness source-exhaust determinacy]
+\label{cor:bounded-monotone-cauchy-witness-source-exhaust-determinacy}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Once the displayed source rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ and structural rows $H,C,P,N$ are fixed, every accepted consumer-facing use of $W$ that asks for a convergence-seal route, a $\RealUp$-seal normal form, a criterion-ledger readback, a root-source tail-seal chain, or a grid comparison named by this chapter determines the same finite source-exhaust normal form:
+$$
+\MonotoneCauchyUp,\quad
+\RegularCauchyTailMeetUp,\quad
+\CauchyCriterionUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\CauchyLimitSealUp,\quad
+\RealUp,
+$$
+with terminal visible seal row $Q$ and with the same displayed tail-budget rows when the root-source tail-seal chain is requested. No accepted use preserving the cited local rows may introduce a hidden coordinate, a duplicate classifier source, a selected limit, quotient equality, host real equality, choice row, hidden tail oracle, ambient completeness object, open-cover compactness row, or alternate completion route as a competing normal form or exactness decision.
+\end{corollary}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_source\_exhaust\_determinacy}
+\begin{proof}
+Start with source-row exhaustion. By \autoref{thm:bounded-monotone-cauchy-witness-source-row-exhaustion}, every source-facing read of $W$ is one of $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Hence an accepted consumer use whose local rows are fixed has no second source socket from which to read a hidden coordinate or duplicate classifier source.
+
+Apply convergence-seal route determinacy. The theorem \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-determinacy} fixes the public convergence-seal route through $\MonotoneCauchyUp$, $\RegularCauchyTailMeetUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$. It also excludes routes that skip one of these rows or replace the route by selected limits, quotient equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or an alternate tail selector.
+
+The same fixed route controls the named consumer decisions. The $\RealUp$-seal normal form is exhausted by \autoref{thm:bounded-monotone-cauchy-witness-tail-real-seal-route-totality}, and \autoref{thm:bounded-monotone-cauchy-witness-tail-seal-row-determinacy} fixes the visible terminal row as $Q$ once the source, tail, seal, transport, continuation, provenance, and local naming rows are preserved. The criterion-ledger readback is exact by \autoref{thm:bounded-monotone-cauchy-witness-cauchy-ledger-readback-exactness}, and the root-source tail-seal chain is the finite budget route of \autoref{thm:bounded-monotone-cauchy-witness-root-tail-budget-exactness}. For paired convergence-seal and grid consumers, \autoref{thm:bounded-monotone-cauchy-witness-convergence-grid-fork-coherence} identifies the same visible $\RealUp$ seal row and the same finite dyadic, regular-sequence, and limit-seal passage.
+
+Therefore every accepted consumer-facing use that preserves the cited local rows factors through the displayed source-exhaust normal form and the corresponding exactness decision already named by the chapter. Any proposed competing use would require either an additional source coordinate, ruled out by source-row exhaustion, or an alternate public route, ruled out by convergence-seal route determinacy and the named readback and seal determinacy theorems.
+\end{proof}

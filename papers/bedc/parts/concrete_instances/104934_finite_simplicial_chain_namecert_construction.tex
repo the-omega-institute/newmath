@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSimplicialChainUp$}
+\label{ch:concrete-instances-finite-simplicial-chain-namecert}
+\origin{human}
+
+Following Eilenberg--Steenrod and the standard finite presentation of simplicial homology, the $\FiniteSimplicialChainUp$ packet records the BEDC route from a finite $\SimplicialComplexUp$ carrier to the chain groups and boundary rows consumed by $\HomologyUp$. It sits over the simplex inventory of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the finite enumeration surface of \autoref{ch:concrete-instances-finset-namecert}, and the additive carrier rows of \autoref{ch:concrete-instances-abgroup-namecert}; it supplies $\HomologyUp$ and $\PersistentHomUp$ with a displayed finite chain-complex source rather than an implicit classical complex.
+
+\begin{definition}[Finite simplicial chain carrier]
+\label{def:finite-simplicial-chain-carrier}
+A $\FiniteSimplicialChainUp$ carrier over a finite $\SimplicialComplexUp$ packet is a finite $\BHist$ tuple
+$$
+C=(K,F,A,G,B,Z,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the source $\SimplicialComplexUp$ row, including the finite simplex inventory, face relation, and dimension grading.
+\item $F$ is the $\FinSetUp$ enumeration row for oriented simplex generators in each displayed dimension.
+\item $A$ is the $\AbGroupUp$ row for finite integer combinations of oriented simplex generators, with addition and inverse read componentwise.
+\item $G$ is the grading row assigning each chain generator to its simplex dimension.
+\item $B$ is the boundary ledger sending an oriented $n$-simplex to the alternating finite face sum in dimension $n-1$.
+\item $Z$ is the square-zero cancellation ledger, pairing each codimension-two face occurrence with the opposite occurrence obtained by deleting the two vertices in the other order.
+\item $H$ records componentwise $\hsame$ transport for simplex inventories, generator enumerations, additive rows, grading rows, boundary rows, cancellation rows, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay from $K,F,A,G,B,Z,H$ to the chain-complex source read by $\HomologyUp$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteSimplicialChainUp$, $\SimplicialComplexUp$, $\FinSetUp$, $\AbGroupUp$, $\HomologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteSimplicialChainUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an infinite chain module, a host quotient group, a selected orientation convention outside $F$, an ambient topological realization, or a homology computation not routed through $B$ and $Z$.
+\end{definition}
+
+\begin{theorem}[Finite simplicial chain boundary square-zero]
+\label{thm:finite-simplicial-chain-boundary-square-zero}
+For every accepted $\FiniteSimplicialChainUp$ carrier $C=(K,F,A,G,B,Z,H,T,P,N)$, the displayed boundary row $B$ composes with itself to the zero row of the $\AbGroupUp$ chain carrier. Equivalently, every $\HomologyUp$ consumer receives a chain-complex source whose boundary-square obstruction is discharged by the finite cancellation ledger $Z$ before cycles and boundaries are compared.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-simplicial-chain-carrier}. The simplex source $K$ and finite generator enumeration $F$ make every boundary expansion a finite face list, and the additive row $A$ is the only group operation available for collecting those face terms.
+
+Apply the boundary ledger $B$ once to an oriented simplex. The result is the alternating sum of its displayed codimension-one faces. Applying $B$ again expands each face into codimension-two faces, still inside the finite enumeration supplied by $F$.
+
+The cancellation ledger $Z$ pairs the term obtained by deleting vertex $i$ and then vertex $j$ with the term obtained by deleting $j$ and then $i$. The two terms have the same codimension-two face row under $\hsame$ and opposite signs in the $\AbGroupUp$ carrier, so they add to the zero row.
+
+Since all codimension-two occurrences are exhausted by these pairs, the second boundary has no unpaired summand. The continuation, provenance, and local naming rows $T,P,N$ repack the same finite cancellation into the $\HomologyUp$ source surface, so no host chain module or external quotient argument is used.
+\end{proof}
+
+\falsifiablePrediction{A $\HomologyUp$ or $\PersistentHomUp$ consumer using $\FiniteSimplicialChainUp$ must display the source $\SimplicialComplexUp$ row, finite generator enumeration, additive chain carrier, boundary ledger, square-zero cancellation ledger, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{simplicialcomplex, finset, abgroup, homology: $\FiniteSimplicialChainUp$ is not bijective to any listed sibling because it jointly carries simplex inventory, oriented generator enumeration, additive chain rows, boundary rows, square-zero cancellation, Homology-facing replay, provenance, and local NameCert rows.}
+
+\closureat{FiniteSimplicialChainUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSimplicialChainUp}
+  \constructivestory{A $\FiniteSimplicialChainUp$ packet is generated from a finite SimplicialComplex row, FinSet generator enumeration, AbGroup additive chain rows, grading, a finite alternating boundary ledger, codimension-two cancellation pairs, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-simplicial-chain-carrier} and \autoref{thm:finite-simplicial-chain-boundary-square-zero} seed the finite simplicial chain carrier and its square-zero boundary route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close singular chains, infinite chain complexes, host quotient homology, selected geometric realization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite generator enumeration, additive chain stability, boundary exactness, square-zero cancellation, Homology handoff, replay stability, provenance exhaustion, and local naming for BEDC.Derived.FiniteSimplicialChainUp.}
+\end{closurestatus}

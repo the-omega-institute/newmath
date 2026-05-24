@@ -45,3 +45,27 @@ Apply the local $\NameCert$ obligations and ledger non-escape theorem, \autoref{
 
 Finally combine the source triad with the operation route from \autoref{thm:closed-term-substitution-boundary-source-triad} and \autoref{thm:closed-term-substitution-boundary-operation-route}. Every operation read already passes through the closedness witnesses, ledger, transports, continuation route, provenance, and local name, so the audit row covers the complete finite route and no external substitution or compiler fact is available.
 \end{proof}
+
+\begin{corollary}[Closed-term substitution boundary source triad strict obstruction]
+\label{cor:closed-term-substitution-boundary-source-triad-strict-obstruction}
+Let
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N)
+$$
+be an accepted $\ClosedTermSubstitutionBoundaryUp$ packet, and let $O$ be a displayed failure, refusal, separation, or countermodel row attached in the root-unblock source surface to a named consumer-facing converse or reuse attempt. If the named attempt asks to read the closed-term substitution boundary through the source, value, and depth admission triad, then $O$ is a strict local obstruction: it blocks only that named attempt at one of the displayed rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+or at the corresponding refusal to supply an unlisted coordinate. It does not imply a global impossibility statement, a host theorem, hidden external validation, host substitution semantics, subject reduction, unchecked compiler state, host equality, or a free-variable leak outside the accepted packet.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:closed-term-substitution-boundary-source-triad}, the rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$ form the complete admission triad before any shift row $Q$ or substitution row $R$ is consumed. Thus a consumer-facing converse or reuse attempt has no access to an operation row until the source term, value term, inspected depth, and both closedness witnesses have already been fixed.
+
+By \autoref{thm:closed-term-substitution-boundary-audit-nonescape}, every audit-visible consumer must replay the finite packet route
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,H,C,P,N,
+$$
+with the audit row $A$ excluding free-variable leaks, host equality, unchecked compiler state, subject reduction, and host substitution semantics from both the admission surface and the operation route. Hence any consumer-facing use of $O$ either factors through one of the displayed packet rows or asks for a coordinate that the packet does not export.
+
+If the named attempt factors through a displayed row, then the displayed row $O$ can obstruct only that requested converse or reuse read: the packet still exposes the remaining listed rows only through the same finite route. If the named attempt asks for an unlisted coordinate, then the obstruction is the local refusal of that coordinate, since the source triad and audit non-escape surface provide no projection to a host theorem, hidden external validation, global impossibility claim, unchecked compiler state, subject reduction theorem, host substitution semantics, host equality, or free-variable leak. Therefore $O$ has exactly strict local force against the named converse or reuse route and cannot be reinterpreted as any stronger external or global claim.
+\end{proof}

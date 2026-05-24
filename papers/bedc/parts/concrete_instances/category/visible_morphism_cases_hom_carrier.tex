@@ -319,3 +319,140 @@ branch, the exposed source tail supplies $s$, and the displayed hom-carrier is
 already the required visible-source carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_result\_visible\_source\_hom\_readback}
+
+\begin{theorem}[Category visible composite target bridge determinacy]
+\label{thm:category-visible-composite-target-bridge-determinacy}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then every
+consumer-facing route, transport, readback, or handoff for the visible
+composite target boundary factors through the following finite local surface:
+$$
+\begin{array}{ll}
+\text{result readback:} &
+\exists k,r.\;fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k)),
+\\[2mm]
+\text{source-target cases:} &
+\bigl(\HSame(a,\emp)\land
+\exists k,r.\;fg=\Eone(k)\land c=\Eone(r)\land
+\UnaryHistory(k)\land\UnaryHistory(r)\land
+\ContR(a,\Eone(k),\Eone(r))\bigr)
+\\
+&\vee
+\bigl(\exists s,k,r.\;a=\Eone(s)\land fg=\Eone(k)\land c=\Eone(r)\land
+\UnaryHistory(s)\land\UnaryHistory(k)\land\UnaryHistory(r)\land
+\ContR(\Eone(s),\Eone(k),\Eone(r))\bigr).
+\end{array}
+$$
+Consequently the bridge exports only the displayed result history, visible
+target history, visible hom-carrier readback, empty-source branch, and
+one-headed source-target branch. It exports no separate coordinate for a host
+composite target, an alternate composite morphism, a chosen external category
+morphism, or a consumer-side target not obtained from these rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:category-comp-nonempty-result-visible-hom-readback} to the
+three displayed hypotheses and the nonempty result premise. This gives the
+result readback row: histories $k,r$ with $fg=\Eone(k)$, $c=\Eone(r)$, and the
+visible composite hom-carrier
+$\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))$. Thus any consumer read of
+the nonempty composite target must first pass through the same visible result
+and target presentations.
+
+Apply \autoref{thm:category-hom-carrier-comp-result-nonempty-source-target-cases}
+to the same hypotheses. Its first branch is exactly the empty-source route,
+where the boundary continuation is displayed as
+$\ContR(a,\Eone(k),\Eone(r))$ together with the unary witnesses for the result
+and target payloads. Its second branch is exactly the visible source-target
+route, where $a=\Eone(s)$ and the boundary continuation descends to
+$\ContR(\Eone(s),\Eone(k),\Eone(r))$ with unary witnesses for all three
+payloads.
+
+The two cited rows account for every displayed consumer operation in the
+nonempty composite target boundary. Readback uses the first row, source or
+target transport uses the branch data in the second row, and any visible-source
+handoff is the second disjunct with the same $fg=\Eone(k)$ and $c=\Eone(r)$
+presentations. Since the hypotheses supply only the two hom-carrier rows, the
+single continuation ledger, and the nonempty result premise, and since the
+cited theorems expose exactly the coordinates listed above, no unlisted bridge
+coordinate can be projected from this local surface.
+\end{proof}
+
+\begin{corollary}[Category visible composite target consumer determinacy]
+\label{cor:category-visible-composite-target-consumer-determinacy}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, and if the
+result-readback and source-target rows displayed by
+\autoref{thm:category-visible-composite-target-bridge-determinacy} are fixed,
+then every accepted consumer-facing use of the visible composite target
+boundary chooses the same finite route, normal form, or exactness decision named
+by this chapter. The fixed surface is exactly
+$$
+\begin{array}{ll}
+\text{result readback:} &
+\exists k,r.\;fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k)),
+\\[2mm]
+\text{source-target cases:} &
+\bigl(\HSame(a,\emp)\land
+\exists k,r.\;fg=\Eone(k)\land c=\Eone(r)\land
+\UnaryHistory(k)\land\UnaryHistory(r)\land
+\ContR(a,\Eone(k),\Eone(r))\bigr)
+\\
+&\vee
+\bigl(\exists s,k,r.\;a=\Eone(s)\land fg=\Eone(k)\land c=\Eone(r)\land
+\UnaryHistory(s)\land\UnaryHistory(k)\land\UnaryHistory(r)\land
+\ContR(\Eone(s),\Eone(k),\Eone(r))\bigr).
+\end{array}
+$$
+Consequently two accepted consumers over those fixed rows cannot select
+different finite routes, different visible target normal forms, or different
+exactness decisions, and no accepted use can introduce an alternate hidden
+coordinate or duplicate classifier source for the composite target.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:category-visible-composite-target-bridge-determinacy} to the
+two displayed hom-carrier rows, the displayed continuation row, and the
+nonempty composite premise. Its determinacy statement says that every
+consumer-facing route, transport, readback, or handoff for the visible composite
+target boundary factors through the two-row local surface written above.
+
+The first row is the result-readback normal form: it presents the composite
+morphism as $fg=\Eone(k)$, the target as $c=\Eone(r)$, and the consumer-visible
+hom-carrier as $\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))$. Thus any
+accepted result readback has the same visible composite morphism coordinate,
+the same visible target coordinate, and the same hom-carrier readback route
+once that row is fixed.
+
+For source and target transport, apply
+\autoref{thm:category-hom-carrier-comp-result-nonempty-source-target-cases} to
+the same three structural rows and the same nonempty premise. Its first branch
+is exactly the empty-source boundary row, carrying $\HSame(a,\emp)$ together
+with $fg=\Eone(k)$, $c=\Eone(r)$, the two unary witnesses, and the boundary
+continuation $\ContR(a,\Eone(k),\Eone(r))$. Its second branch is exactly the
+one-headed source-target boundary row, carrying $a=\Eone(s)$ together with the
+same visible result and target presentations and the descended continuation
+$\ContR(\Eone(s),\Eone(k),\Eone(r))$. Hence every accepted source-target
+normal form or exactness decision is one of these two displayed branches.
+
+It remains to exclude competing consumer choices. The bridge determinacy theorem
+exports no separate coordinate for a host composite target, alternate composite
+morphism, chosen external category morphism, or consumer-side target outside
+these rows. The source-target theorem consumes only the displayed hom-carrier
+rows, the displayed continuation row, and the nonempty premise, and returns only
+the two listed branches. Therefore an alleged alternate hidden coordinate or
+duplicate classifier source is neither a component of the result-readback row
+nor a component of either source-target branch. It has no local factor through
+the accepted visible composite target surface, so it cannot determine a second
+finite route, normal form, or exactness decision for the fixed rows.
+\end{proof}

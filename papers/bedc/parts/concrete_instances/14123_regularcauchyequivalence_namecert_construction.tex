@@ -6,6 +6,8 @@ The $\RegularCauchyEquivalenceUp$ packet records the finite equality boundary fo
 
 The route is the Phase Real and Completion sibling boundary. It reads regular-name rows from \autoref{ch:concrete-instances-regseqrat-namecert}, finite schedules from \autoref{ch:concrete-instances-streamname-namecert}, dyadic tolerance data from \autoref{ch:concrete-instances-dyadicratcore-namecert}, zero-tail handoff data from \autoref{ch:concrete-instances-nullsequence-namecert}, the seal boundary from \autoref{ch:concrete-instances-real-namecert}, and the locatedness consumer interface from \autoref{ch:concrete-instances-locatedreal-namecert}. The chapter isolates the equivalence surface used between those rows so later completion and locatedness consumers can cite one visible NameCert packet.
 
+\closureat{RegularCauchyEquivalenceUp}{scopedStr}
+
 \begin{definition}[RegularCauchyEquivalence finite-window classifier]
 \label{def:regular-cauchy-equivalence-carrier}
 A $\RegularCauchyEquivalenceUp$ carrier is a finite $\BHist$ packet
@@ -91,12 +93,28 @@ Apply \autoref{thm:regular-cauchy-equivalence-namecert-obligations}. The NameCer
 The route to $\LocatedRealUp$ may read the same regular sources and seal rows used by \autoref{ch:concrete-instances-locatedreal-namecert}, but it does not gain an independent real equality or completion principle. Therefore every downstream read remains a nonquotient finite-window comparison over $X,Y,W,D,Z,R,E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[RegularCauchyEquivalence scoped primitive route]
+\label{thm:regular-cauchy-equivalence-scoped-primitive-route}
+Any completion-facing or locatedness-facing consumer of an accepted $\RegularCauchyEquivalenceUp$ packet must read exactly the tuple
+$$
+(X,Y,W,D,Z,R,E,H,C,P,N)
+$$
+through the $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\NullSequenceUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows named in \autoref{def:regular-cauchy-equivalence-carrier}. This scoped primitive route is the whole access path to the finite equivalence classifier; no quotient of streams, host real equality, selected limit, choice row, trichotomy row, or ambient completeness row is available.
+\end{theorem}
+\begin{proof}
+First apply refinement transport, \autoref{thm:regularcauchyequivalence-refinement-transport}. It keeps the two regular names, common window, dyadic ledger, null-tail handoff, real seals, classifier, transport, replay, provenance, and local name inside the same finite packet.
+
+Next use the real classifier boundary of \autoref{thm:regular-cauchy-equivalence-real-classifier-boundary}. It forces every seal-facing read through the regular-name, window, tolerance, and zero-tail rows before the $\RealUp$ seal rows can be inspected.
+
+Finally combine the NameCert obligation surface and sibling route, \autoref{thm:regular-cauchy-equivalence-namecert-obligations} and \autoref{thm:regular-cauchy-equivalence-sibling-route}. These theorems exhaust the consumer path by the displayed tuple, so the scoped primitive route contains exactly the listed BEDC rows and no hidden quotient, host equality, selected limit, choice, trichotomy, or completeness principle.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyEquivalenceUp}
   \constructivestory{A $\RegularCauchyEquivalenceUp$ packet is generated from two $\RegSeqRatUp$ source rows, a common $\StreamNameUp$ finite-window schedule, a $\DyadicRatCoreUp$ tolerance ledger, a $\NullSequenceUp$ zero-tail handoff row, $\RealUp$ seal rows, a finite equivalence classifier, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-equivalence-carrier}, \autoref{thm:regularcauchyequivalence-refinement-transport}, \autoref{thm:regular-cauchy-equivalence-real-classifier-boundary}, \autoref{thm:regular-cauchy-equivalence-namecert-obligations}, and \autoref{thm:regular-cauchy-equivalence-sibling-route} bind the finite-window equivalence surface between regular Cauchy names and real-seal consumers.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-equivalence-carrier}, \autoref{thm:regularcauchyequivalence-refinement-transport}, \autoref{thm:regular-cauchy-equivalence-real-classifier-boundary}, \autoref{thm:regular-cauchy-equivalence-namecert-obligations}, \autoref{thm:regular-cauchy-equivalence-sibling-route}, and \autoref{thm:regular-cauchy-equivalence-scoped-primitive-route} display the obligation surface over RegSeqRat, StreamName, DyadicRatCore, NullSequence, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a Lean theorem, a public completion quotient, host real equality, selected limits, countable choice, trichotomy, or ambient real completeness.}
-  \upgradepath{A later verification route can encode the carrier and prove the finite-window transport, seal-boundary, and nonquotient consumer rows.}
+  \upgradepath{Bridge closure requires a standard bridge theorem that exports the finite regular-Cauchy equivalence route without adding quotient stream equality, host real equality, selected limits, choice, trichotomy, or ambient completeness.}
 \end{closurestatus}

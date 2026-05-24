@@ -47,3 +47,41 @@ Next collect the operation side. By \autoref{thm:closed-term-substitution-bounda
 
 Finally combine these two rows with \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The downstream consumer receives one finite handoff packet over $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$, and no host substitution semantics, subject reduction theorem, hidden evaluator, hidden compiler state, or compiler-correctness object is added.
 \end{proof}
+
+\begin{lemma}[Closed-term substitution boundary root route bridge determinacy]
+\label{lem:closed-term-substitution-boundary-root-route-bridge-determinacy}
+For an accepted $\ClosedTermSubstitutionBoundaryUp$ packet, every consumer-facing bridge use of the root route $l$ is determined by the displayed finite packet
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+In particular, a route use, operation transport, closed-shift readback, substitute-closed readback, audit handoff, compiler-facing handoff, or root $\NameCert$ handoff factors through the carrier, classifier, local $\NameCert$ obligations, ledger non-escape row, consumer boundary, root audit totality row, root compiler non-escape row, and root $\NameCert$ handoff cited by \autoref{thm:closed-term-substitution-boundary-root-route-lock}, with $Q$ and $R$ exported only as in \autoref{thm:closed-term-substitution-boundary-root-operation-export-lock}. A bridge request for host substitution semantics, a subject-reduction theorem, a host syntax quotient, a hidden evaluator, hidden compiler state, or an operation coordinate outside the displayed packet is therefore unavailable to the consumer.
+\end{lemma}
+\begin{proof}
+Start with the route inventory supplied by \autoref{thm:closed-term-substitution-boundary-root-route-lock}. That theorem already lists the complete downstream self-compilation route: the accepted packet may expose the carrier, classifier, local naming obligations, ledger row, consumer boundary, audit row, compiler-facing row, and naming handoff, and all of them live on the single displayed tuple $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$. Thus a bridge use of root route $l$ has only the displayed finite coordinates before any consumer can read it.
+
+Now separate the possible consumer-facing uses. A pure route use reads the carrier and classifier rows. A transport use reads the componentwise $\hsame$ row $H$ and the displayed $\Cont$ row $C$. A readback of closed shift or substitute-closed data must pass through $Q$ or $R$ together with the closedness witnesses and ledger boundary. An audit or handoff use reads $L,A,H,C,P,N$ through the root audit, compiler non-escape, and root $\NameCert$ handoff rows. These are exactly the rows named by the route lock, so two bridge presentations that agree on this finite packet have no remaining coordinate on which their consumer-visible route could differ.
+
+It remains to rule out a detached operation bridge. Apply \autoref{thm:closed-term-substitution-boundary-root-operation-export-lock}. It says that the operation rows $Q$ and $R$ reach a root consumer only as rows of the same displayed packet and only after the carrier, local $\NameCert$ obligations, ledger non-escape, consumer boundary, root audit totality, root compiler non-escape, and root naming handoff have locked the export. Hence a consumer cannot replace the finite bridge route by host substitution semantics, subject reduction, a host syntax quotient, a hidden evaluator, hidden compiler state, an unregistered source/value convention, or any extra operation coordinate.
+
+Combining the route lock with the operation export lock gives determinacy. Every listed consumer-facing use factors through the same local rows, while every unlisted bridge coordinate has no projection from the accepted $\ClosedTermSubstitutionBoundaryUp$ packet and therefore remains unavailable.
+\end{proof}
+
+\begin{corollary}[Closed-term substitution boundary root route l determinacy]
+\label{cor:closed-term-substitution-boundary-root-route-l-determinacy}
+For an accepted $\ClosedTermSubstitutionBoundaryUp$ packet whose displayed local rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+are fixed, every accepted consumer-facing use of the root route $l$ has the same public decision source. Its finite route is the displayed route above, and any operation transport, closed-shift readback, substitute-closed readback, audit handoff, compiler-facing handoff, root $\NameCert$ handoff, normal-form handoff, or exactness decision named by the chapter is read only through the carrier, classifier, local $\NameCert$ obligations, ledger non-escape row, consumer boundary, root audit totality row, root compiler non-escape row, and root $\NameCert$ handoff. No accepted consumer may pick an alternate finite route, hidden normal-form coordinate, duplicate classifier source, host substitution semantics, subject-reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or additional operation coordinate.
+\end{corollary}
+\begin{proof}
+Start with \autoref{thm:closed-term-substitution-boundary-root-route-lock}. It fixes the only downstream self-compilation route available to a consumer of the accepted packet: the route must pass through the displayed carrier, classifier, local naming obligations, ledger row, consumer boundary, audit row, compiler-facing row, and naming handoff, all on the single tuple
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The same theorem excludes host substitution semantics, subject reduction, a host syntax quotient, hidden evaluator state, hidden compiler state, and any additional operation coordinate from the exported root route.
+
+Apply \autoref{lem:closed-term-substitution-boundary-root-route-bridge-determinacy}. It lists the consumer-facing bridge uses of the root route $l$: route use, operation transport, closed-shift readback, substitute-closed readback, audit handoff, compiler-facing handoff, and root $\NameCert$ handoff. Each of those uses factors through the same carrier, classifier, local $\NameCert$ obligations, ledger non-escape row, consumer boundary, root audit totality row, root compiler non-escape row, and root $\NameCert$ handoff cited by the route lock. The lemma also states that a bridge request for host substitution semantics, subject reduction, a host syntax quotient, hidden evaluator state, hidden compiler state, or an operation coordinate outside the displayed packet is unavailable to the consumer.
+
+The fixed-row determinacy follows from those two facts. Once the displayed rows are fixed, the route lock leaves no second packet from which a consumer could source a finite route, and the bridge determinacy lemma leaves no unlisted coordinate through which a consumer-facing use could vary. Thus a finite route must be the displayed route; a transport must be the componentwise row over that packet; a closed-shift or substitute-closed readback must pass through $Q$ or $R$ inside the same ledger and audit surface; and any normal-form handoff or exactness decision named by the chapter must be a handoff or decision read through $L,A,H,C,P,N$ and the local $\NameCert$ row. An alternate finite route, hidden normal-form coordinate, duplicate classifier source, or hidden host-side classifier would require a coordinate outside the accepted $\ClosedTermSubstitutionBoundaryUp$ packet, and the cited rows do not export such a coordinate.
+\end{proof}

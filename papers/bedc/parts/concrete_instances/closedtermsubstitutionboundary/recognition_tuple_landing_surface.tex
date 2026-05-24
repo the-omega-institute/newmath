@@ -47,3 +47,23 @@ Now compose the recognizer and tuple routes. By \autoref{thm:groundcompiler-reco
 
 Finally invoke \autoref{thm:closed-term-substitution-boundary-recognizer-landing-surface}. The recognizer side reaches the boundary only after acceptance, generated recognition, tuple-image landing, and readback of the displayed rows. Therefore no open-term coordinate, free-variable leak, host syntax quotient, unchecked evaluator, compiler correctness theorem, or ambient subject reduction escapes the combined route.
 \end{proof}
+
+\begin{corollary}[Closed-term substitution boundary recognizer strict local obstruction]
+\label{cor:closed-term-substitution-boundary-recognizer-strict-local-obstruction}
+Let $O$ be a displayed failure, refusal, separation, or countermodel row attached to a consumer-facing converse or reuse attempt for an accepted $\ClosedTermSubstitutionBoundaryUp$ packet. If the attempt is routed through the recognizer side, then $O$ is a strict local obstruction: it can block only the named read that asks for one of the displayed rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+through $\GroundCompilerRecognizerFlowUp$ acceptance, the generated recognizer row, the $\FiniteReflectionTupleUp$ tuple image, and the $\FiniteReflectionTupleUp$ readback row. The same row cannot be reinterpreted as a global impossibility statement, a host theorem, compiler correctness evidence, ambient subject reduction, or hidden external validation for any unlisted route.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:closed-term-substitution-boundary-recognizer-landing-surface}. Every recognizer-side consumer of the accepted packet first passes through $\GroundCompilerRecognizerFlowUp$ acceptance, the generated recognizer row, tuple-image landing, and tuple readback. Only after that route has recovered
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+may the closed-substitution consumer read the packet. Thus a consumer-facing converse or reuse attempt has no initial access point except the displayed finite route.
+
+Now apply \autoref{thm:closed-term-substitution-boundary-substitution-recognizer-nonescape}. The combined recognizer and finite-tuple route exports no open-term coordinate, free-variable leak, host syntax quotient, unchecked evaluator, compiler correctness theorem, or ambient subject reduction. Its public substitution read is exactly the recognizer-accepted tuple readback of the displayed rows.
+
+Therefore the obstruction row $O$ has only two possible relations to the attempted consumer read. If the attempt asks for one of the displayed coordinates through the accepted recognizer and tuple route, then $O$ blocks that named coordinate read and hence blocks that particular converse or reuse route. If the attempt asks for a global impossibility conclusion, host theorem, compiler correctness result, ambient subject-reduction theorem, hidden evaluator, external validation channel, or any other unlisted coordinate, the landing theorem supplies no readback coordinate for the request and the non-escape theorem explicitly excludes it from the exported packet. In neither case can $O$ be promoted beyond the named local obstruction.
+\end{proof}
