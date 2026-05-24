@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ForwardSocketLedgerUp$}
+\label{ch:concrete-instances-forward-socket-ledger-namecert}
+\origin{ai}
+
+The $\ForwardSocketLedgerUp$ packet realizes the forward-socket family boundary of \autoref{ch:visions-apophatic-fixed-point-and-inscription} as finite NameCert rows. It sits beside the supply-socket accounting of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the apophatic socket classifier of \autoref{ch:concrete-instances-apophaticsocket-namecert}, the far-end boundary packet of \autoref{ch:concrete-instances-apophaticfarendsocket-namecert}, and the local inscription carrier of \autoref{ch:concrete-instances-inscriptionpoint-namecert}. Its role is to make the forward read auditable before any consumer cites the apophatic far-end boundary.
+
+The dependency route consumed before the forward socket export passes through the supply ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert} and the far-end boundary of \autoref{ch:concrete-instances-apophaticfarendsocket-namecert}; the forward packet only exports after those ledger and far-end rows are visible.
+
+\begin{definition}[Forward socket ledger carrier]
+\label{def:forward-socket-ledger-carrier}
+A $\ForwardSocketLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,R,A,G,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the socket-kind row, recording which forward socket is being read and how it is classified among the accepted socket forms.
+\item $R$ is the requested supply-shape row, recording the requested external shape without supplying it as a kernel object.
+\item $A$ is the non-internalization marker, recording that the requested far-end supply is a boundary and not a generated state, record, rule, or $\BHist$ constructor.
+\item $G$ is the $\mathsf{GAP}$ ledger row, binding the refusal of internal supply to the visible socket-use and supply-ledger routes.
+\item $T$ is the apophatic far-end boundary row, naming the far end only as the common boundary read by the forward socket family.
+\item $H$ records componentwise $\hsame$ transport for $K,R,A,G,T$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay through socket kind, requested supply shape, non-internalization, $\mathsf{GAP}$ ledger, far-end boundary, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\ForwardSocketLedgerUp$, $\SupplySocketLedgerUp$, $\ApophaticSocketUp$, $\ApophaticFarEndSocketUp$, $\InscriptionPointUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ForwardSocketLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for $\mathsf{T}$ as a kernel object, no hidden requested-supply witness, no socket selector outside $K$, no object-level equality between the far end and a local state, and no host fixed-point principle.
+\end{definition}
+
+\begin{theorem}[Forward socket ledger NameCert obligations]
+\label{thm:forward-socket-ledger-namecert-obligations}
+For every accepted $\ForwardSocketLedgerUp$ carrier $F=(K,R,A,G,T,H,C,P,N)$, the local $\NameCert_{\ForwardSocketLedgerUp}$ surface consists exactly of socket-kind exposure through $K$; requested supply-shape exposure through $R$; non-internalization evidence through $A$; $\mathsf{GAP}$ ledger exposure through $G$; apophatic far-end boundary exposure through $T$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:forward-socket-ledger-carrier}. The tuple lists socket kind, requested supply shape, non-internalization, gap ledger, far-end boundary, transport, replay, provenance, and local naming as explicit rows.
+
+The socket can be read only after $K$ and $R$ expose its kind and requested shape. The rows $A$ and $G$ then mark the request as boundary supply rather than as an internal object.
+
+The far-end boundary row $T$ is downstream of those rows. Transport, replay, provenance, and naming through $H,C,P,N$ preserve the same finite route. Since no hidden selector, requested-supply witness, internal far-end object, or host fixed-point principle occurs in the carrier, these rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Forward socket ledger apophatic non-escape]
+\label{thm:forward-socket-ledger-apophatic-nonescape}
+Every accepted read of the apophatic far-end boundary through $\ForwardSocketLedgerUp$ must first expose $K,R,A,G,T,H,C,P,N$. It cannot cite the far end as an internal object, a generated state, a selected supply witness, a socket-family fixed point outside the ledger, or an equality between $\mathsf{T}$ and a local inscription point.
+\end{theorem}
+\begin{proof}
+Start with the rows $K$ and $R$. They identify the forward socket and its requested supply shape before any far-end boundary is available.
+
+The rows $A$ and $G$ are the non-internalization gate. They state that the requested supply remains a $\mathsf{GAP}$-ledgered boundary rather than a kernel-side value.
+
+Only then may $T$ be read as the apophatic far-end boundary, and $H,C,P,N$ only transport, replay, source, and name that same finite route. Thus any consumer that skips $K,R,A,G,T,H,C,P,N$ has no accepted route to the far end.
+\end{proof}
+
+\falsifiablePrediction{Every accepted read through $\ForwardSocketLedgerUp$ must expose socket kind, requested supply shape, non-internalization marker, $\mathsf{GAP}$ ledger, apophatic far-end boundary, transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before any consumer can cite the far-end boundary.}
+
+\independenceWitness{supplysocketledger, apophaticsocket, apophaticfarendsocket, inscriptionpoint: none is bijective with $\ForwardSocketLedgerUp$ because this carrier alone binds socket kind, requested supply shape, non-internalization, GAP ledger, far-end boundary, transport, replay, provenance, and local NameCert rows before a far-end read is accepted.}
+
+\closureat{ForwardSocketLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ForwardSocketLedgerUp}
+  \constructivestory{A $\ForwardSocketLedgerUp$ packet is generated from socket-kind exposure, requested supply-shape exposure, non-internalization evidence, a GAP ledger row, an apophatic far-end boundary row, componentwise transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:forward-socket-ledger-carrier}, \autoref{thm:forward-socket-ledger-namecert-obligations}, and \autoref{thm:forward-socket-ledger-apophatic-nonescape} seed the finite forward-socket ledger over $K,R,A,G,T,H,C,P,N$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not internalize $\mathsf{T}$, select a hidden supply witness, close a consciousness theorem, provide a host fixed-point theorem, claim object-level equality with a local inscription point, give Lean verification, or provide bridge checking.}
+  \upgradepath{Obligation closure requires checked socket-kind, requested-supply, non-internalization, GAP-ledger, far-end boundary, transport, replay, provenance, and local naming rows for BEDC.Derived.ForwardSocketLedgerUp.}
+\end{closurestatus}

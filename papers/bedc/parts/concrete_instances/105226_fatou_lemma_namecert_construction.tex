@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\FatouLemmaUp$}
+\label{ch:concrete-instances-fatou-lemma-namecert}
+\origin{human}
+
+Following Fatou and Lebesgue's convergence theory, the $\FatouLemmaUp$ packet records the finite lower-semicontinuity route from nonnegative measurable families to an integral lower-bound seal. It depends on the measure carrier of \autoref{ch:concrete-instances-measure-namecert}, the integral readback surface of \autoref{ch:concrete-instances-integral-namecert}, the regular rational tolerance interface of \autoref{ch:concrete-instances-regseqrat-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the dominated-convergence boundary of \autoref{ch:concrete-instances-dominated-convergence-namecert}. The packet is a lower-bound certificate only: it stores the rows needed to name Fatou's inequality inside BEDC, but it does not construct ambient measure completion, almost-everywhere quotient equality, quotient function equality, countable choice, or a full monotone convergence theorem.
+
+\begin{definition}[FatouLemma carrier]
+\label{def:fatou-lemma-carrier}
+A $\FatouLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,I,A,L,Q,R,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\MeasureUp$ row naming the finite measurable-domain data and the measurable-set ledger read by the functions below.
+\item $I$ is the $\IntegralUp$ readback row used for every lower-bound comparison in the packet.
+\item $A$ is the nonnegative family row: each displayed function in the sequence is admitted as a measurable nonnegative integrand over the same $M$.
+\item $L$ is the liminf window row, storing the finite tail windows whose lower envelope is consumed by the Fatou comparison.
+\item $Q$ is the $\RegSeqRatUp$ tolerance readback row for the tail-window lower bounds.
+\item $R$ is the $\RealUp$ lower-bound seal asserting that the named liminf integral is bounded above by the displayed lower limit of integral readbacks.
+\item $T$ records the transport from the family rows through the liminf windows to the integral and Real readbacks.
+\item $H$ records componentwise $\hsame$ transport for $M,I,A,L,Q,R,T$ and the structural rows below.
+\item $C$ records the displayed $\Cont$ replay from Measure source rows to integral reads, from nonnegative family rows to liminf windows, and from regular rational lower bounds to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\MeasureUp$, $\IntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FatouLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven rows. It has no coordinate for an ambient completed measure algebra, host almost-everywhere equality, quotient function equality, a countable-choice selector for tails, or a monotone-convergence theorem.
+\end{definition}
+
+\begin{theorem}[FatouLemma NameCert obligations]
+\label{thm:fatou-lemma-namecert-obligations}
+For every accepted $\FatouLemmaUp$ carrier $F=(M,I,A,L,Q,R,T,H,C,P,N)$, the local $\NameCert_{\FatouLemmaUp}$ surface consists exactly of Measure source exposure through $M$, Integral readback through $I$, nonnegative family admission through $A$, liminf window exposure through $L$, RegSeqRat tolerance readback through $Q$, Real lower-bound sealing through $R$, transport through $T,H$, continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Thus every accepted Fatou comparison is a finite lower-bound packet over the displayed rows. No obligation may be discharged by ambient measure completion, host almost-everywhere equality, quotient function equality, countable choice, or a monotone convergence theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fatou-lemma-carrier}. The rows $M,I,A,L,Q,R,T,H,C,P,N$ are the only coordinates visible to the local classifier.
+
+The analytic source rows are read first. The measure row $M$ supplies the measurable-domain data, the integral row $I$ supplies the readback surface, and the family row $A$ records nonnegativity for each displayed function.
+
+The lower-bound route is finite. The liminf window row $L$ lists the tail windows, the regular-rational row $Q$ records the tolerance readbacks for those windows, and the Real row $R$ seals the comparison after the same data has been transported and replayed through $T,H,C$.
+
+The package and local naming rows $P,N$ source exactly this route. Since the excluded completion, equality, quotient, choice, and monotone-convergence coordinates are absent from the carrier, they cannot discharge a NameCert obligation.
+\end{proof}
+
+\begin{theorem}[FatouLemma liminf handoff]
+\label{thm:fatou-lemma-liminf-handoff}
+Let $F=(M,I,A,L,Q,R,T,H,C,P,N)$ be an accepted $\FatouLemmaUp$ packet. Every liminf consumer factors through the finite route
+$$
+\MeasureUp \longmapsto \IntegralUp \longmapsto L \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Concretely, the consumer reads the Measure source row $M$, the Integral readback row $I$, the nonnegative family row $A$, the liminf windows in $L$, and the RegSeqRat tolerance row $Q$ before the lower-bound seal $R$ is visible.
+\end{theorem}
+\begin{proof}
+Begin with the displayed liminf window row. Because $L$ is part of the accepted carrier, each requested tail window is tied to the same Measure source $M$ and the same Integral readback $I$.
+
+Use the nonnegative family row $A$ to keep every tail comparison inside the displayed measurable family. The row $Q$ then records the regular rational tolerances used by those finite windows.
+
+Finally read the Real seal. The rows $T,H,C$ transport and replay the same lower-bound route into $R$, while $P,N$ package and name it. No external tail selector, quotient equality, or completion principle is available to replace this handoff.
+\end{proof}
+
+\begin{theorem}[FatouLemma dominated-convergence boundary]
+\label{thm:fatou-lemma-dominated-convergence-boundary}
+The $\FatouLemmaUp$ packet supplies the lower-bound side needed by the dominated-convergence route of \autoref{ch:concrete-instances-dominated-convergence-namecert}: it exposes the nonnegative family row, liminf window row, RegSeqRat tolerance readback, Integral readback, and Real lower-bound seal as finite NameCert data over the same Measure source.
+
+It does not export the domination majorant, almost-everywhere convergence quotient, two-sided limit equality, or global convergence conclusion of $\DominatedConvergenceUp$. Those remain obligations of the dominated-convergence packet, whose boundary also cites the human-known comparison tradition around $\TanneryTheoremUp$.
+\end{theorem}
+\begin{proof}
+Project the Fatou carrier and retain only the rows consumed by a dominated-convergence lower-bound reader: $M,I,A,L,Q,R,T,H,C,P,N$.
+
+Apply \autoref{thm:fatou-lemma-liminf-handoff}. The lower-bound read reaches the Real seal only after the Measure source, Integral readback, nonnegative family row, liminf windows, and regular rational tolerance row have all been displayed.
+
+The dominated-convergence packet has additional surface: domination data, convergence equality data, and a two-sided limit conclusion. Since none of those coordinates appears in \autoref{def:fatou-lemma-carrier}, this chapter supplies only the Fatou lower-bound boundary and not the full dominated-convergence theorem.
+\end{proof}
+
+\closureat{FatouLemmaUp}{seedStr}
+
+\begin{closurestatus}{\FatouLemmaUp}
+  \constructivestory{A $\FatouLemmaUp$ packet is generated from a Measure source row, an Integral readback row, a nonnegative family row, a liminf window row, RegSeqRat tolerance readback, a Real lower-bound seal, transport, continuation replay, package provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fatou-lemma-carrier}, \autoref{thm:fatou-lemma-namecert-obligations}, \autoref{thm:fatou-lemma-liminf-handoff}, and \autoref{thm:fatou-lemma-dominated-convergence-boundary} bind the finite lower-bound packet and its dominated-convergence boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient measure completion, host almost-everywhere equality, quotient function equality, countable choice, a full monotone convergence theorem, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Measure source exposure, Integral readback, nonnegative family admission, liminf window exposure, RegSeqRat tolerance readback, and Real lower-bound sealing for the same packet.}
+\end{closurestatus}

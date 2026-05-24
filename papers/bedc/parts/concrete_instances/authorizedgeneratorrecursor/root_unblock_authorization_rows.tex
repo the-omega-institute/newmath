@@ -95,3 +95,29 @@ Then apply root-unblock route totality. Every output-facing route has already pa
 
 It remains to exclude detached substitution. Boundary closure and the terminal reader nonescape theorem \autoref{thm:authorized-generator-recursor-terminal-reader-nonescape} keep closed-substitution, generator-normalization, and terminal output reads inside the same displayed packet. Hence the ledger has no coordinate from which to export hidden authorization or a substitution step outside the root-unblock packet.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor root source strict obstruction]
+\label{cor:authorized-generator-recursor-root-source-strict-obstruction}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ recursor route. Suppose a displayed failure, refusal, separation, or countermodel row is attached to a named converse, reuse, or readback route at the root-source surface of $R$. Then the row is a strict local obstruction: it blocks only the named route whose consumer-facing use tries to read the generator source, authorization token, boundary row, displayed $\Cont$ route, $\Pkg$ provenance, ledger row, componentwise $\hsame$ transport, or local $\NameCert$ row away from the displayed packet coordinates
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Every permitted consumer-facing use factors through the root-source exposure rows and then through the ledger-facing $\BHist$, $\Cont$, $\Pkg$, $\hsame$, and $\NameCert$ rows of the same packet. The same displayed row cannot be reinterpreted as a global impossibility theorem for recursors, a host theorem, hidden external validation of the failed route, an unlicensed generator, a host recursion oracle, a detached substitution step, a private authorization channel, or any obstruction to a consumer route that still factors through the displayed rows of $R$.
+\end{corollary}
+\begin{proof}
+Fix an accepted recursor route $R$. By \autoref{thm:authorized-generator-recursor-root-source}, the generator source, authorization token, boundary row, displayed $\Cont$ route, $\Pkg$ provenance, ledger row, and local $\NameCert$ row are exposed before a consumer may read the output, and they are exposed only inside the finite $\BHist$ packet
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Thus a consumer-facing use of the root source has no independent source coordinate, no authorization token outside the route, no boundary row outside $G$, no continuation route outside $C$, no provenance row outside $P$, and no local certificate outside $N$.
+
+Apply \autoref{thm:authorized-generator-recursor-ledger-nonescape} to the ledger side of the same route. Every ledger-facing read of generator source, authorization, boundary evidence, continuation replay, package provenance, componentwise $\hsame$ transport, or local naming data remains inside the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the packet. The ledger therefore exports no unlicensed generator, host recursion oracle, or hidden substitution step.
+
+Now consider the displayed failure, refusal, separation, or countermodel row. If it is attached to a named converse, reuse, or readback route, the first cited theorem forces the attempted consumer-facing use to pass through the root-source packet coordinates, while the second cited theorem forces its ledger component to remain on the displayed transport, continuation, provenance, boundary, and local-name rows. Hence the row can block only the local route at the coordinate where that route tries to read, omit, replace, detach, or bypass one of those displayed rows.
+
+Any stronger interpretation would require a coordinate not supplied by the packet. A global impossibility theorem would require a theorem surface beyond the finite root-source carrier; a host theorem would require host recursion or host evaluation data; hidden external validation would require an external certificate route; an unlicensed generator, host recursion oracle, detached substitution step, or private authorization channel would require exactly the exports ruled out by ledger nonescape. Since neither cited theorem exposes such a coordinate, the obstruction remains strict and local to the named converse, reuse, or readback route, and it does not block any consumer route that continues to factor through the displayed rows of $R$.
+\end{proof}

@@ -49,4 +49,24 @@ theorem LocatedCompactCarrier_namecert_obligations [AskSetup] [PackageSetup]
   · intro _row source
     exact source
 
+theorem LocatedCompactCarrier_totally_bounded_handoff [AskSetup] [PackageSetup]
+    {X L F A H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCompactCarrier X L F A H C P N bundle pkg ->
+      UnaryHistory L ∧ UnaryHistory F ∧ UnaryHistory A ∧ UnaryHistory C ∧ Cont L F C ∧
+        hsame H (append X A) ∧ PkgSig bundle P pkg ∧ hsame N (append C P) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame
+  intro carrier
+  have cUnary : UnaryHistory C :=
+    unary_cont_closed carrier.right.left carrier.right.right.left
+      carrier.right.right.right.right.left
+  exact
+    And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro cUnary
+            (And.intro carrier.right.right.right.right.left
+              (And.intro carrier.right.right.right.right.right.left
+                (And.intro carrier.right.right.right.right.right.right.left
+                  carrier.right.right.right.right.right.right.right))))))
+
 end BEDC.Derived.LocatedCompactUp

@@ -1,0 +1,753 @@
+\chapter{A Concrete Naming Certificate for $\RealSeriesUp$}
+\label{ch:concrete-instances-realseries-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealSeriesUp$ packet records the finite partial-sum and Cauchy-tail surface for a real-valued term stream. It sits after the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the displayed limit interface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the bounded Cauchy schedule of \autoref{ch:concrete-instances-cauchy-sequence-bounded-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names a series only through displayed finite sums and a shared tail threshold; it does not import host infinite sums, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real series carrier]\label{def:real-series-carrier}
+A $\RealSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,S,W,Q,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the real-valued term stream, read only through selected $\StreamNameUp$ windows and $\RegSeqRatUp$ rows for the displayed terms.
+\item $S$ is the partial-sum window row, listing the finite initial indices, their accumulated $\RealUp$ sum seals, and the adjacent difference reads induced by $T$.
+\item $W$ is the finite family of $\StreamNameUp$ windows used for the terms and for the displayed partial sums.
+\item $Q$ is the $\RegSeqRatUp$ readback row for every selected term and partial-sum window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that records finite addition errors, comparison radii, and tail-request tolerances.
+\item $M$ is the shared Cauchy-tail threshold row: one displayed threshold governs every partial-sum comparison requested by the packet.
+\item $E$ is the $\RealUp$ endpoint seal reached only after the term windows, partial-sum windows, regular readbacks, dyadic ledger, and shared tail threshold have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the term stream, partial-sum window, selected stream windows, regular readbacks, dyadic ledger, tail threshold, endpoint seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from term reads to partial sums, from partial sums to regular readback, from readback to the dyadic ledger, from the ledger to the shared tail threshold, and from that threshold to the endpoint seal.
+\item $P$ is the $\Pkg$ provenance over $\RealSeriesUp$, $\RealUp$, $\RealSequenceLimitUp$, $\CauchySequenceBoundedUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealSeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,S,W,Q,D,M,E,H,C,P,N$. It has no coordinate for a host infinite sum, selected sequence limit, quotient equality of real streams, countable-choice selector, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{definition}[RealSeries term carrier surface]
+\label{def:realseries-term-carrier-surface}
+The root term carrier surface of an accepted $\RealSeriesUp$ packet is the displayed finite route
+$$
+T,S,W,Q
+$$
+from \autoref{def:real-series-carrier}: $T$ is the real-valued term stream, $S$ is the finite partial-sum ledger, $W$ is the selected $\StreamNameUp$ window family, and $Q$ is the $\RegSeqRatUp$ readback row for the displayed term and partial-sum windows. This surface carries only named term observations and regular rational readback; it does not assert convergence outside the displayed Cauchy criterion rows.
+\end{definition}
+
+\begin{theorem}[Real series NameCert obligations]\label{thm:real-series-namecert-obligations}
+For every accepted $\RealSeriesUp$ carrier $K=(T,S,W,Q,D,M,E,H,C,P,N)$, the local $\NameCert_{\RealSeriesUp}$ surface consists exactly of carrier admission for the eleven displayed rows, term-stream access through $T$, partial-sum window coverage through $S$, selected $\StreamNameUp$ windows through $W$, $\RegSeqRatUp$ readback through $Q$, dyadic tolerance accounting through $D$, shared Cauchy-tail thresholding through $M$, $\RealUp$ endpoint sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealSeriesUp.RealSeriesUpTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:real-series-carrier}. The only term data available to the classifier are the stream row $T$, the partial-sum window row $S$, the selected stream windows $W$, the regular rational readback $Q$, the dyadic ledger $D$, and the shared tail threshold $M$.
+
+The endpoint seal is then read through $E$. This places every real-facing consumer behind the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and tail-threshold rows rather than behind an external infinite-sum predicate.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since no other coordinate is present, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy majorant obligation]
+\label{thm:realseries-cauchy-majorant-obligation}
+For every accepted $\RealSeriesUp$ carrier $K=(T,S,W,Q,D,M,E,H,C,P,N)$, any majorant or Cauchy-criterion read must pass through the dyadic tolerance ledger $D$, the shared tail threshold $M$, and the endpoint seal $E$ after the term, partial-sum, window, and readback rows $T,S,W,Q$ have been displayed. The route exports no host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealseriesUp.RealSeries\_cauchy\_majorant\_obligation}
+\begin{proof}
+Project the carrier of \autoref{def:real-series-carrier}. The rows $D,M,E$ are the only rows that record tolerance comparison, shared tail control, and the endpoint seal.
+
+Use \autoref{thm:real-series-namecert-obligations}. It places those rows behind $T,S,W,Q$ and before the structural rows $H,C,P,N$, so a majorant or Cauchy-criterion consumer receives a finite route.
+
+The excluded host-side objects are not coordinates of $K$. Hence a majorant read cannot leave $D,M,E$ for an external convergence principle.
+\end{proof}
+
+\begin{theorem}[RealSeries uniform Cauchy obligation]
+\label{thm:realseries-uniform-cauchy-obligation}
+Every $\UniformCauchySeriesUp$ consumer of an accepted $\RealSeriesUp$ carrier inspects only the finite rows $T,S,W,Q,D,M$ before any endpoint or structural row is read. Uniformity is therefore a displayed shared-tail route, not a family of externally selected thresholds.
+\end{theorem}
+\begin{proof}
+Read the rows $T,S,W,Q,D,M$ from the carrier. They expose the term stream, partial-sum windows, selected stream windows, regular readback, dyadic tolerances, and the shared threshold.
+
+Apply \autoref{thm:realseries-cauchy-majorant-obligation}. It forces Cauchy-style consumers through the same tolerance and threshold rows before $E$ can be consumed.
+
+Since the carrier has no countable-choice schedule or selected family of thresholds, the uniform Cauchy read is exhausted by the displayed finite route.
+\end{proof}
+\leanchecked{BEDC.Derived.RealseriesUp.RealSeries\_uniform\_cauchy\_obligation}
+
+\begin{theorem}[RealSeries RegSeqRat tail obligation]
+\label{thm:realseries-regseqrat-tail-obligation}
+For every accepted $\RealSeriesUp$ carrier $K=(T,S,W,Q,D,M,E,H,C,P,N)$, the $\RegSeqRatUp$ readback row $Q$ is required before any tail comparison can pass to the dyadic ledger $D$, the shared threshold $M$, or the terminal $\RealUp$ seal $E$. No Real endpoint seal may be inspected from a partial-sum row without this regular rational readback.
+\end{theorem}
+\begin{proof}
+Use the carrier order in \autoref{def:real-series-carrier}. The row $Q$ is the only regular rational readback for selected terms and partial-sum windows.
+
+The dyadic ledger $D$ compares displayed readbacks, the threshold row $M$ governs the tail after those comparisons, and the endpoint row $E$ is downstream of both. Thus $Q$ is mandatory before any Real endpoint seal.
+
+The structural rows $H,C,P,N$ preserve and name the same route. They do not add another readback row or a direct endpoint channel.
+\end{proof}
+\leanchecked{BEDC.Derived.RealseriesUp.RealSeriesRegSeqRatTailObligation}
+
+\begin{theorem}[RealSeries partial-sum ledger nonescape]
+\label{thm:realseries-partial-sum-ledger-nonescape}
+Every partial-sum read from an accepted $\RealSeriesUp$ packet is routed only through the finite term carrier surface of \autoref{def:realseries-term-carrier-surface} and the displayed continuation replay row $C$. The ledger may inspect $T,S,W,Q$ and may replay the carried term-to-sum route, but it cannot bypass those rows to a host infinite sum, selected limit, quotient equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealseriesUp.RealSeries\_partial\_sum\_ledger\_nonescape}
+\begin{proof}
+Project the carrier in \autoref{def:real-series-carrier}. The rows $T,S,W,Q$ are the only rows that expose terms, finite partial sums, selected windows, and regular rational readback.
+
+The continuation row $C$ replays the route from term reads to partial sums and from partial sums to regular readback. Because the carrier has no other partial-sum coordinate, a ledger read cannot leave this finite surface.
+
+The excluded host-side objects are not fields of the carrier. Hence partial-sum accounting remains inside the displayed term ledger and continuation replay.
+\end{proof}
+
+\begin{theorem}[Real series partial-sum window]\label{thm:real-series-partial-sum-window}
+Every accepted $\RealSeriesUp$ read factors each displayed finite series observation through
+$$
+T\longmapsto S\longmapsto W\longmapsto Q\longmapsto D
+$$
+together with $H,C,P,N$. The row $S$ records only finite partial sums and adjacent term contributions, and the row $D$ records only the dyadic tolerances needed to compare those displayed windows.
+\end{theorem}
+\begin{proof}
+Start with a requested series observation. By \autoref{def:real-series-carrier}, the request first reads the term stream row $T$ and then the finite partial-sum window row $S$.
+
+The selected windows $W$ and regular readbacks $Q$ expose the terms and partial sums visible to the packet. The dyadic ledger $D$ is the only row that compares those finite reads and records the corresponding addition and tolerance information.
+
+The rows $H,C,P,N$ preserve, replay, source, and name the same route. Therefore the observation remains a finite partial-sum window and exports no host infinite-sum object or quotient comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.RealseriesUp.RealSeriesPartialSumWindowRoute}
+
+\begin{theorem}[Real series nonescape boundary]\label{thm:real-series-nonescape-boundary}
+Every endpoint-facing read from an accepted $\RealSeriesUp$ carrier passes through the shared route
+$$
+T\longmapsto S\longmapsto W\longmapsto Q\longmapsto D\longmapsto M\longmapsto E
+$$
+together with $H,C,P,N$. Consequently a consumer may use the displayed interfaces of \autoref{ch:concrete-instances-real-sequence-limit-namecert} and \autoref{ch:concrete-instances-cauchy-sequence-bounded-namecert} for finite partial-sum and Cauchy-tail accounting, but it receives no host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-series-partial-sum-window} to place every visible series observation on the finite route through $T,S,W,Q,D$. The shared threshold row $M$ is then the only tail-control coordinate available to compare later partial sums.
+
+The endpoint row $E$ consumes this already displayed route. It is a $\RealUp$ seal for the packet endpoint, not a separate assertion that a host sequence of partial sums has been completed.
+
+Finally read the structural rows $H,C,P,N$. Because the carrier has no coordinate for host infinite sums, selected limits, quotient equality, countable choice, or ambient real completeness, none of those principles can escape through the endpoint-facing boundary.
+\end{proof}
+
+\begin{theorem}[Real series tail-threshold stability]\label{thm:real-series-tail-threshold-stability}
+Let $K=(T,S,W,Q,D,M,E,H,C,P,N)$ be an accepted $\RealSeriesUp$ carrier. If $K'=(T',S',W',Q',D',M',E',H',C',P',N')$ is obtained by componentwise $\hsame$ transport along the rows recorded in $H$, then the single shared Cauchy-tail threshold row is preserved as the comparison gate for later partial sums: every transported partial-sum comparison still factors through
+$$
+T,S,W,Q,D,M,H,C,P,N.
+$$
+In particular, no transported row may replace the threshold coordinate by a family of unrelated tail choices or by a host infinite-sum witness.
+\end{theorem}
+\begin{proof}
+Project the carrier inventory in \autoref{def:real-series-carrier}. The row $M$ is declared as the shared Cauchy-tail threshold, and the row $H$ stores componentwise $\hsame$ transport for the term stream, partial-sum window, selected windows, readbacks, ledger, threshold, endpoint, continuation, provenance, and local naming rows.
+
+Use \autoref{thm:real-series-partial-sum-window} to place every visible finite comparison through $T,S,W,Q,D$ before any tail control is read. Transporting the displayed rows componentwise changes only their names inside the same $\hsame$ class; it does not add a new coordinate to the classifier.
+
+The threshold coordinate available after transport is therefore still the transported instance of the single row $M$. The structural rows $C,P,N$ replay, source, and name that same route, so later partial-sum comparisons remain governed by the shared threshold surface.
+\end{proof}
+
+\begin{definition}[Real series shared-tail consumer surface]\label{def:real-series-shared-tail-consumer-surface}
+The shared-tail consumer surface of an accepted $\RealSeriesUp$ carrier is the finite row package
+$$
+(S,D,M,E,H,C,P,N),
+$$
+where $S$ is the partial-sum window row, $D$ is the dyadic tolerance ledger, $M$ is the shared Cauchy-tail threshold, $E$ is the endpoint $\RealUp$ seal, $H$ records componentwise $\hsame$ transport, $C$ records displayed $\Cont$ replay, $P$ records $\Pkg$ provenance, and $N$ records the local $\NameCert_{\RealSeriesUp}$ name. A consumer of this surface may inspect only those rows together with the term and readback rows already displayed in \autoref{def:real-series-carrier}; it receives no selected limit, quotient equality of partial-sum streams, countable-choice schedule, or ambient completeness witness.
+\end{definition}
+
+\begin{theorem}[Real series endpoint nonescape obligation]\label{thm:real-series-endpoint-nonescape-obligation}
+Every $\RealUp$ endpoint read through the row $E$ of an accepted $\RealSeriesUp$ carrier must first consume the finite partial-sum window, regular readback, dyadic ledger, and stabilized shared threshold. Its public handoff route is
+$$
+T\longmapsto S\longmapsto W\longmapsto Q\longmapsto D\longmapsto M\longmapsto E,
+$$
+together with $H,C,P,N$; it cannot bypass those rows by appealing directly to a selected limit, quotient equality of partial-sum streams, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-series-tail-threshold-stability} to fix the shared threshold row as the only tail-control surface stable under componentwise transport. This places any later endpoint request behind the same $M$ row that governs the partial-sum comparisons.
+
+Apply \autoref{thm:real-series-nonescape-boundary} to the endpoint-facing read. The theorem already forces the route through $T,S,W,Q,D,M,E$ and records that the endpoint seal exports no host infinite-sum or selected-limit principle.
+
+The handoff to $\RealUp$ is therefore a seal after the finite window, regular readback, dyadic ledger, and shared threshold have all been displayed. The rows $H,C,P,N$ preserve the same route and do not create an alternate endpoint channel.
+\end{proof}
+
+\begin{theorem}[Real series Cauchy consumer obligation]\label{thm:real-series-cauchy-consumer-obligation}
+The rows $S,D,M,E,H,C,P,N$ of an accepted $\RealSeriesUp$ carrier provide exactly the finite Cauchy surface required by downstream $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, and $\CauchyMajorantSeriesUp$ consumers: $S$ supplies displayed partial-sum windows, $D$ supplies dyadic comparison radii and finite addition errors, $M$ supplies the shared tail threshold, $E$ supplies the endpoint seal after that threshold, and $H,C,P,N$ transport, replay, source, and name the same route. This consumer obligation adds no host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Read $S,D,M,E,H,C,P,N$ from \autoref{def:real-series-shared-tail-consumer-surface}. The row $S$ is the only partial-sum window surface, $D$ is the only dyadic tolerance ledger, $M$ is the only shared tail-threshold row, and $E$ is the endpoint seal downstream of those rows.
+
+\autoref{thm:real-series-tail-threshold-stability} keeps the threshold common under componentwise transport, while \autoref{thm:real-series-endpoint-nonescape-obligation} ensures that endpoint access consumes the finite window, readback, ledger, and threshold before reaching $E$.
+
+Thus the downstream Cauchy-style consumers receive a finite criterion surface rather than a completed host sum. Since the classifier has no coordinate for selected limits, quotient equality, countable choice, or ambient real completeness, none of those principles is introduced by the readiness package.
+\end{proof}
+
+\begin{definition}[Real series tail-majorant carrier]
+\label{def:realseries-tail-majorant-carrier}
+A $\RealSeriesUp$ tail-majorant carrier is a finite $\BHist$ packet
+$$
+J=(W,R,T,B,U,G,H,C,P,N)
+$$
+whose rows are read only as follows:
+\begin{enumerate}
+\item $W$ is the finite $\StreamNameUp$ window family for the displayed tail indices and partial-sum comparison windows.
+\item $R$ is the $\RegSeqRatUp$ readback row for the terms, partial sums, and displayed majorant entries.
+\item $T$ is the tail-request ledger inherited from the $\RealSeriesUp$ carrier of \autoref{def:real-series-carrier}.
+\item $B$ is the displayed tail-majorant row, recording finite upper bounds for the requested tails.
+\item $U$ is the $\UniformCauchySeriesUp$ handoff row, read only through $W,R,T,B$.
+\item $G$ is the $\RealSeriesCauchyCriterionUp$ route row, exposing the same finite majorant data to Cauchy-criterion consumers.
+\item $H,C,P,N$ are componentwise transport, displayed replay, package provenance, and local naming rows for $W,R,T,B,U,G$.
+\end{enumerate}
+The classifier has no coordinate for a host infinite sum, an unbounded majorant family, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealSeries root-unblock obligation surface]
+\label{thm:realseries-namecert-obligation-surface}
+For an accepted $\RealSeriesUp$ carrier together with a tail-majorant carrier
+$$
+J=(W,R,T,B,U,G,H,C,P,N),
+$$
+the root-unblock $\NameCert_{\RealSeriesUp}$ surface consists exactly of finite $\BHist$ obligations for the displayed $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback row $R$, the inherited tail-request ledger $T$, the tail-majorant row $B$, the $\UniformCauchySeriesUp$ handoff $U$, the $\RealSeriesCauchyCriterionUp$ route $G$, and the structural rows $H,C,P,N$. No obligation is stored as a host infinite series, a selected limit, an unbounded majorant, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the two carriers. The base $\RealSeriesUp$ carrier supplies the finite term, partial-sum, tolerance, threshold, and $\RealUp$ endpoint rows; \autoref{def:realseries-tail-majorant-carrier} supplies only $W,R,T,B,U,G,H,C,P,N$.
+
+The root-unblock obligations are therefore the displayed finite rows that downstream consumers can actually read. The $\StreamNameUp$ windows and $\RegSeqRatUp$ readback row expose the terms, partial sums, and majorant entries; the tail ledger and majorant row expose the requested Cauchy bounds.
+
+The handoff rows $U$ and $G$ consume the same finite data for $\UniformCauchySeriesUp$ and $\RealSeriesCauchyCriterionUp$. The structural rows preserve and name that route, so no excluded host-side principle has an available coordinate.
+\end{proof}
+
+\begin{theorem}[RealSeries root tail window]
+\label{thm:realseries-root-tail-window}
+Every accepted $\RealSeriesUp$ root-unblock packet exposes its tail information through finite $\BHist$ windows before any $\RegSeqRatUp$ or $\RealUp$ seal is read. Concretely, a downstream consumer first reads the displayed $\RealSeriesUp$ term route, the $\StreamNameUp$ window rows, the partial-sum ledger, and the dyadic tolerance row carried by the local $\NameCert_{\RealSeriesUp}$ packet; only after those rows have been transported by $\hsame$, replayed by $\Cont$, and sourced by $\Pkg$ may the consumer inspect a regular rational readback or endpoint seal.
+\end{theorem}
+\begin{proof}
+Project the base carrier of \autoref{def:real-series-carrier}. The term stream $T$, partial-sum row $S$, selected windows $W$, and dyadic ledger $D$ are the first readable tail rows of the packet.
+
+The $\BHist$ route therefore exposes finite windows before completion-facing data. The $\StreamNameUp$ rows name the visible indices, and the local NameCert row records that these are the only windows a root-unblock consumer may use.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Thus $\RegSeqRatUp$ readback and the $\RealUp$ seal are downstream of the displayed finite tail windows, not sources of hidden tail choices.
+\end{proof}
+
+\begin{theorem}[RealSeries majorant route]
+\label{thm:realseries-majorant-route}
+Every comparison or majorant read from an accepted $\RealSeriesUp$ root-unblock packet factors through $\DyadicRatCoreUp$, $\RegSeqRatUp$, and the local $\NameCert_{\RealSeriesUp}$ rows before it reaches a Cauchy-facing consumer. The route reads dyadic tolerances and finite majorant data from the displayed ledger, then reads regular rational windows, and only then exposes the $\UniformCauchySeriesUp$, $\RealSeriesCauchyCriterionUp$, or $\CauchyMajorantSeriesUp$ handoff.
+\end{theorem}
+\begin{proof}
+Start with the tail-majorant carrier of \autoref{def:realseries-tail-majorant-carrier}. The rows $W,R,T,B$ record finite windows, regular readback, inherited tail requests, and displayed majorant bounds.
+
+The comparison side is supplied by the dyadic ledger in the base carrier and by the majorant row $B$ in the tail carrier. These rows are named locally by the $\NameCert_{\RealSeriesUp}$ surface before any downstream Cauchy-facing row can be inspected.
+
+Finally apply the handoff routes \autoref{thm:realseries-uniform-cauchy-series-handoff}, \autoref{thm:realseries-cauchy-criterion-route}, and \autoref{thm:realseries-cauchy-majorant-handoff}. Each route consumes the same dyadic, regular-readback, local-certificate, transport, replay, and provenance rows before exposing its consumer.
+\end{proof}
+
+\begin{theorem}[RealSeries uniform tail budget]
+\label{thm:realseries-uniform-tail-budget}
+Every uniform tail-budget consumer of an accepted $\RealSeriesUp$ packet receives a single displayed finite window schedule. The schedule is the common $\BHist$ route through $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerances, the shared tail threshold, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RealSeriesUp}$ rows; it is not a selected infinite sum, not a choice of infinitely many tail indices, and not an ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Read the root carrier budget in \autoref{thm:realseries-root-carrier-budget}. The finite rows $T,S,W,Q,D,M,E,H,C,P,N$ and the tail-majorant rows $W',R,T',B,U,G,H',C',P',N'$ are the only rows available to a uniform tail-budget consumer.
+
+Use \autoref{thm:realseries-uniform-cauchy-budget} to isolate the uniform route. It identifies the visible budget as a displayed finite tuple, so the consumer receives one schedule rather than a family selected outside the packet.
+
+The transport, replay, provenance, and local naming rows preserve that same schedule. Since neither carrier contains a host infinite sum, countable-choice row, selected limit, or ambient completeness primitive, no such object can be exported by the uniform budget.
+\end{proof}
+
+\begin{theorem}[RealSeries root Cauchy-tail budget]
+\label{thm:realseries-root-cauchy-tail-budget}
+Every $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, $\CauchyMajorantSeriesUp$, and $\CauchyProductUp$ consumer of an accepted $\RealSeriesUp$ packet must read the shared finite route
+$$
+T,S,W,Q,D,M,E,H,C,P,N
+$$
+before a Cauchy-tail conclusion is exported. The route exposes the term stream, partial-sum window, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, shared threshold, endpoint seal, transport, replay, provenance, and local $\NameCert_{\RealSeriesUp}$ row as one budget surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealseriesUp.RealSeriesRootCauchyTailBudget}
+\begin{proof}
+First apply \autoref{thm:realseries-root-tail-window}. It places every tail-facing read behind the finite term route, selected windows, partial-sum ledger, and dyadic tolerance row before any regular rational readback or endpoint seal can be inspected.
+
+Next use \autoref{thm:realseries-majorant-route} and \autoref{thm:realseries-uniform-tail-budget}. These results force majorant, uniform, criterion, and product-facing consumers to share the same displayed dyadic, regular-readback, threshold, transport, replay, provenance, and local naming rows.
+
+Finally apply \autoref{thm:real-series-cauchy-consumer-obligation}. The downstream consumer receives a finite Cauchy surface and not a host infinite sum, selected limit, quotient equality, countable-choice selector, or ambient $\RealUp$ completeness witness.
+\end{proof}
+
+\begin{theorem}[RealSeries root series criterion surface]
+\label{thm:realseries-root-series-criterion-surface}
+Every $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, $\CauchyMajorantSeriesUp$, and $\CauchyProductUp$ consumer of an accepted $\RealSeriesUp$ packet reads the root criterion surface only through
+$$
+T,S,W,Q,D,M,E,H,C,P,N .
+$$
+Here $T$ is the term stream row, $S$ is the finite partial-sum window row, $W$ is the selected $\StreamNameUp$ window row, $Q$ is the $\RegSeqRatUp$ readback row, $D$ is the $\DyadicRatCoreUp$ tolerance ledger, $M$ is the shared tail threshold, $E$ is the $\RealUp$ endpoint seal, and $H,C,P,N$ are the transport, replay, provenance, and local naming rows. The surface exports no host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-series-carrier}. The rows $T,S,W,Q,D,M,E,H,C,P,N$ are already displayed as the root route, with the finite $\StreamNameUp$ windows and $\RegSeqRatUp$ readback visible before the endpoint seal.
+
+Route criterion, uniform, majorant, and product requests through \autoref{thm:realseries-root-cauchy-tail-budget}. The shared threshold row $M$ is consumed after $D$ and before $E$, so every endpoint-facing read reaches the same finite budget row.
+
+The support rows $H,C,P,N$ then preserve, replay, source, and name the displayed route. Since the accepted packet contains none of the excluded objects, no downstream criterion can export them.
+\end{proof}
+
+\begin{definition}[RealSeries root summability surface]
+\label{def:realseries-root-summability-surface}
+The root summability surface of an accepted $\RealSeriesUp$ packet is the finite $\BHist$ subpacket
+$$
+\mathsf{RootSum}(T,S,W,Q,D,M,E,H,C,P,N)
+$$
+whose rows are exactly the term stream, partial-sum window, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, shared Cauchy-tail threshold, $\RealUp$ endpoint seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RealSeriesUp}$ evidence. A consumer may cite this surface as summability evidence only by reading those rows in that order; it is not a host summation operator, a selected limiting value, quotient equality of streams, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RealSeries root product readiness surface]
+\label{thm:realseries-root-product-readiness-surface}
+Every $\CauchyProductUp$ consumer that asks an accepted $\RealSeriesUp$ packet for product-ready data receives the root summability surface of \autoref{def:realseries-root-summability-surface} and no larger analytic object. The handoff cites $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, $\CauchyMajorantSeriesUp$, and $\CauchyProductUp$ only through
+$$
+T,S,W,Q,D,M,E,H,C,P,N,
+$$
+with the shared threshold row $M$ fixed before endpoint sealing.
+\end{theorem}
+\begin{proof}
+Start from the root summability surface. It packages the finite term stream, partial-sum windows, selected stream windows, regular readback, dyadic ledger, threshold, endpoint, transport, replay, provenance, and naming rows in one subpacket.
+
+Apply \autoref{thm:realseries-root-series-criterion-surface}. The criterion-facing and uniform Cauchy consumers have already been routed through the same threshold row before $E$, so the product consumer cannot request a separate limit or completion coordinate.
+
+Finally use \autoref{thm:realseries-root-cauchy-tail-budget}. It includes the $\CauchyProductUp$ consumer among the downstream reads and concludes that no host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness is exported.
+\end{proof}
+
+\begin{theorem}[RealSeries uniform Cauchy series handoff]
+\label{thm:realseries-uniform-cauchy-series-handoff}
+Every $\UniformCauchySeriesUp$ consumer read exported by an accepted $\RealSeriesUp$ tail-majorant carrier factors through the finite route
+$$
+W\longmapsto R\longmapsto T\longmapsto B\longmapsto U\longmapsto H,C,P,N .
+$$
+The route supplies $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a displayed tail-request ledger, and a finite tail-majorant row before the uniform Cauchy handoff is exposed. It does not supply a host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a $\UniformCauchySeriesUp$ consumer request. The request first reads $W$, so the visible indices and partial-sum comparisons remain inside finite $\StreamNameUp$ windows.
+
+The readback row $R$ then exposes the regular rational data for those windows, and $T$ records which tail comparisons are being requested. The majorant row $B$ is the only bound source for those requests.
+
+The handoff row $U$ is downstream of $W,R,T,B$. Transport, replay, provenance, and local naming by $H,C,P,N$ preserve that same route and do not add any host completion or selection coordinate.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy criterion handoff]
+\label{thm:realseries-cauchy-criterion-handoff}
+A downstream $\RealSeriesCauchyCriterionUp$ consumer of an accepted $\RealSeriesUp$ packet receives only the displayed rows named by the carrier and tail-majorant route: $\CauchyMajorantSeriesUp$, $\UniformCauchySeriesUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The handoff records the finite Cauchy surface needed by the criterion and does not claim convergence outside the displayed Cauchy criterion.
+\end{theorem}
+\begin{proof}
+Project the base carrier. The $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows are the only term-window, readback, and tolerance surfaces available before the shared threshold and endpoint rows.
+
+Project the tail-majorant route when a criterion consumer is present. The $\CauchyMajorantSeriesUp$ and $\UniformCauchySeriesUp$ rows are read as finite handoff rows, while $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ preserve, replay, source, and name the same displayed route.
+
+No carrier row supplies a host convergence predicate or selected limit. The $\RealSeriesCauchyCriterionUp$ consumer therefore receives exactly the finite BEDC rows listed in the statement.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy criterion route]
+\label{thm:realseries-cauchy-criterion-route}
+Every $\RealSeriesCauchyCriterionUp$ read exported by an accepted $\RealSeriesUp$ tail-majorant carrier factors through the finite route
+$$
+W\longmapsto R\longmapsto T\longmapsto B\longmapsto G\longmapsto H,C,P,N .
+$$
+Combined with the $\RealUp$ endpoint row of \autoref{def:real-series-carrier}, this route gives Cauchy-criterion consumers a finite partial-sum and tail-majorant surface rather than a completed host sum. The route does not claim convergence of all series, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the tail-majorant carrier. The windows $W$ and readback row $R$ expose only finite partial-sum and majorant observations, while $T$ and $B$ identify the displayed tail requests and their finite bounds.
+
+The criterion row $G$ consumes those rows as the $\RealSeriesCauchyCriterionUp$ route. It does not bypass the finite windows or create a separate convergence predicate.
+
+The endpoint boundary remains the $\RealUp$ row already named by \autoref{def:real-series-carrier}. Thus a criterion consumer receives a finite route to the endpoint-facing surface, with $H,C,P,N$ preserving the same data and no excluded host-side principle exported.
+\end{proof}
+
+\begin{theorem}[RealSeries root source carrier]
+\label{thm:realseries-root-source-carrier}
+The root-facing source surface of an accepted $\RealSeriesUp$ packet is the combined finite carrier
+$$
+K=(T,S,W,Q,D,M,E,H,C,P,N),\qquad J=(W',R,T',B,U,G,H',C',P',N')
+$$
+from \autoref{def:real-series-carrier} and \autoref{def:realseries-tail-majorant-carrier}. Its readable rows are exactly the real-valued term stream, finite partial-sum windows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerance ledger, shared tail threshold, $\RealUp$ endpoint seal, inherited tail-request ledger, displayed majorant row, $\UniformCauchySeriesUp$ handoff, $\RealSeriesCauchyCriterionUp$ route, and the structural transport, replay, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Project the base carrier $K$. It exposes the term row $T$, partial-sum row $S$, selected windows $W$, regular readback $Q$, dyadic ledger $D$, shared threshold $M$, endpoint seal $E$, and structural rows $H,C,P,N$.
+
+Project the tail-majorant carrier $J$. It adds only finite windows $W'$, readback $R$, inherited tail requests $T'$, majorant row $B$, uniform Cauchy handoff $U$, criterion route $G$, and structural rows $H',C',P',N'$.
+
+The combined source therefore has no host infinite sum, selected limit, quotient equality, countable-choice selector, or ambient completeness coordinate. Every root-facing consumer must read one of the displayed rows.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy majorant handoff]
+\label{thm:realseries-cauchy-majorant-handoff}
+Every $\CauchyMajorantSeriesUp$ obligation read from an accepted $\RealSeriesUp$ tail-majorant carrier factors through the finite route
+$$
+W',R,T',B\longmapsto U,G\longmapsto H',C',P',N' .
+$$
+The majorant row $B$ is the only source of tail bounds, and it is read together with $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, the inherited tail-request ledger, the $\UniformCauchySeriesUp$ handoff, and the $\RealSeriesCauchyCriterionUp$ route before any downstream series consumer may inspect the certificate.
+\end{theorem}
+\begin{proof}
+Read the tail-majorant carrier. The finite windows $W'$ determine which tail and partial-sum comparisons are visible, while $R$ supplies the regular-rational readback for those observations.
+
+The inherited ledger $T'$ states the requested tail bounds, and $B$ is the only displayed row that can answer them. Thus a Cauchy majorant consumer has no unbounded majorant family or external convergence theorem available.
+
+The handoff rows $U$ and $G$ consume the same $W',R,T',B$ surface. Transport, replay, provenance, and naming through $H',C',P',N'$ preserve that finite route for later uniform Cauchy and Cauchy-criterion consumers.
+\end{proof}
+
+\begin{theorem}[RealSeries root carrier budget]
+\label{thm:realseries-root-carrier-budget}
+The root-facing carrier budget of any accepted $\RealSeriesUp$ packet is exactly the displayed base rows
+$$
+T,S,W,Q,D,M,E,H,C,P,N
+$$
+of \autoref{def:real-series-carrier} together with the tail-majorant rows
+$$
+W',R,T',B,U,G,H',C',P',N'
+$$
+of \autoref{def:realseries-tail-majorant-carrier}. The budget is exhausted by the partial-sum window route of \autoref{thm:real-series-partial-sum-window}, the shared threshold route of \autoref{thm:real-series-tail-threshold-stability}, and the endpoint nonescape route of \autoref{thm:real-series-nonescape-boundary}; it contains no host infinite-sum coordinate, selected limit, quotient equality, countable-choice selector, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Project the base carrier. Its readable rows are exactly the term stream $T$, partial-sum windows $S$, selected windows $W$, regular readback $Q$, dyadic ledger $D$, shared threshold $M$, endpoint seal $E$, and structural rows $H,C,P,N$.
+
+Project the tail-majorant carrier. Its readable rows are exactly the windows $W'$, readback $R$, inherited tail ledger $T'$, majorant row $B$, uniform handoff $U$, Cauchy-criterion route $G$, and structural rows $H',C',P',N'$.
+
+The cited partial-sum, threshold-stability, and endpoint nonescape theorems show that every downstream read remains inside those two finite row lists. Since neither carrier has any other coordinate, the root-facing budget is exactly the displayed surface.
+\end{proof}
+
+\begin{theorem}[RealSeries tail-ledger majorant]
+\label{thm:realseries-tail-ledger-majorant}
+Every tail-majorant consumer of an accepted $\RealSeriesUp$ packet must read the displayed $\StreamNameUp$ windows $W'$, the $\RegSeqRatUp$ readback row $R$, the inherited tail-request ledger $T'$, and the finite majorant row $B$ before any $\UniformCauchySeriesUp$ or $\RealSeriesCauchyCriterionUp$ handoff. The handoff route is the one displayed in \autoref{def:realseries-tail-majorant-carrier}, \autoref{thm:realseries-uniform-cauchy-series-handoff}, and \autoref{thm:realseries-cauchy-criterion-route}.
+\end{theorem}
+\begin{proof}
+Start from a tail-majorant consumer request. The carrier definition exposes windows $W'$ before readback, so the requested tail and partial-sum comparisons are fixed as finite $\StreamNameUp$ observations.
+
+The row $R$ then supplies the regular-rational data, and the inherited ledger $T'$ records which tail comparisons are being asked for. The row $B$ is the only displayed majorant source for those requests.
+
+Only after these four rows have been read can the handoff rows $U$ and $G$ be inspected. The uniform Cauchy and Cauchy-criterion route theorems preserve that same route through $H',C',P',N'$ and add no external completion principle.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy criterion scope]
+\label{thm:realseries-cauchy-criterion-scope}
+Downstream $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, and $\CauchyMajorantSeriesUp$ consumers receive only the finite surface displayed by \autoref{def:real-series-carrier} and \autoref{def:realseries-tail-majorant-carrier}: finite term and partial-sum windows, regular readback, dyadic tolerance accounting, the shared threshold, the inherited tail ledger, the majorant row, handoff rows, componentwise transport, replay, provenance, and local naming. They receive no host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:realseries-root-carrier-budget} to place every root-facing read inside the two displayed finite carriers. This fixes the base series rows and the tail-majorant rows before any downstream Cauchy-style consumer is considered.
+
+Use \autoref{thm:realseries-tail-ledger-majorant} for the tail-facing route. It forces the windows, readback row, inherited ledger, and majorant row to be read before the uniform Cauchy and Cauchy-criterion handoffs.
+
+Use \autoref{thm:realseries-cauchy-majorant-handoff} for the majorant consumer. Together these routes exhaust the consumer surface, and the omitted host-side objects are absent from the carrier inventory.
+\end{proof}
+
+\begin{theorem}[RealSeries uniform Cauchy budget]
+\label{thm:realseries-uniform-cauchy-budget}
+For an accepted $\RealSeriesUp$ tail-majorant carrier $J=(W',R,T',B,U,G,H',C',P',N')$, the $\UniformCauchySeriesUp$ budget is exactly the displayed tuple $(W',R,T',B,U)$. It binds finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, tail requests, and Cauchy majorant bounds before the uniform Cauchy handoff is exposed, and it does not assert host convergence, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project $J$ and isolate the uniform Cauchy handoff row $U$. By \autoref{thm:realseries-uniform-cauchy-series-handoff}, $U$ is reached only after the finite windows, readback row, tail ledger, and majorant row have been displayed.
+
+The tuple $(W',R,T',B,U)$ is therefore the whole budget available to a uniform Cauchy consumer. The structural rows $H',C',P',N'$ can transport, replay, source, and name the same budget, but they cannot add a host-side convergence principle.
+\end{proof}
+
+\begin{theorem}[RealSeries root ledger exactness]
+\label{thm:realseries-root-ledger-exactness}
+The root ledger of an accepted $\RealSeriesUp$ packet is exact for the Cauchy majorant, uniform Cauchy, and Cauchy-criterion routes: the dyadic ledger $D$, shared threshold $M$, tail-request ledger $T'$, majorant row $B$, endpoint seal $E$, uniform handoff $U$, criterion row $G$, and structural rows $H,C,P,N,H',C',P',N'$ are the only rows that may witness tail exactness for downstream $\CauchySequenceBoundedUp$, $\RealSequenceLimitUp$, $\CauchyMajorantSeriesUp$, and $\UniformCauchySeriesUp$ consumers.
+\end{theorem}
+\begin{proof}
+Project the base carrier and read the endpoint-facing rows $D,M,E,H,C,P,N$. These rows account for dyadic tolerance, the shared Cauchy-tail threshold, and the terminal Real seal.
+
+Project the tail-majorant carrier and read $T',B,U,G,H',C',P',N'$. These rows account for tail requests, displayed majorant bounds, uniform Cauchy handoff, Cauchy-criterion routing, and the structural preservation of those routes.
+
+No other ledger row exists in either carrier. Hence downstream bounded-sequence, sequence-limit, majorant-series, and uniform-Cauchy consumers receive exactly the displayed finite ledger and cannot appeal to ambient real equality or completeness.
+\end{proof}
+
+\begin{theorem}[RealSeries uniform Cauchy threshold coherence]
+\label{thm:realseries-uniform-cauchy-threshold-coherence}
+For an accepted $\RealSeriesUp$ tail-majorant carrier
+$$
+J=(W',R,T',B,U,G,H',C',P',N'),
+$$
+any $\UniformCauchySeriesUp$ read through $U$ and any $\RealSeriesCauchyCriterionUp$ read through $G$ must use the same displayed $W',R,T'$, and $B$ rows. No route may replace the shared threshold and majorant data by an unrelated tail selector, host infinite series, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read $J$ through \autoref{def:realseries-tail-majorant-carrier}. The rows $W',R,T',B$ are the only displayed finite windows, regular readbacks, inherited tail requests, and majorant bounds available to either downstream handoff.
+
+Apply \autoref{thm:realseries-uniform-cauchy-budget} to the $\UniformCauchySeriesUp$ read. It identifies the uniform Cauchy budget as exactly $(W',R,T',B,U)$, so the handoff $U$ cannot choose a different window or threshold route.
+
+Apply \autoref{thm:realseries-cauchy-criterion-route} to the $\RealSeriesCauchyCriterionUp$ read. It routes $G$ through the same $W',R,T',B$ surface before structural transport, replay, provenance, and naming are inspected.
+
+The two consumer reads therefore share the same finite tuple. Since the carrier has no coordinate for a host infinite series, selected limit, quotient equality, countable-choice selector, or ambient real completeness, none of those objects can replace the displayed threshold data.
+\end{proof}
+
+\begin{theorem}[RealSeries majorant endpoint nonescape]
+\label{thm:realseries-majorant-endpoint-nonescape}
+Every endpoint-facing read that consumes $\CauchyMajorantSeriesUp$, $\UniformCauchySeriesUp$, or $\RealSeriesCauchyCriterionUp$ factors through the finite route
+$$
+W',R,T',B\longmapsto U,G\longmapsto H',C',P',N'
+$$
+before any $\RealUp$ endpoint seal from the base carrier may be cited. The route exports no host infinite sum, selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:realseries-cauchy-majorant-handoff} for the $\CauchyMajorantSeriesUp$ read. The majorant obligation first exposes the finite windows, regular readback, inherited tail ledger, and displayed majorant row $W',R,T',B$.
+
+Use \autoref{thm:realseries-uniform-cauchy-series-handoff} and \autoref{thm:realseries-cauchy-criterion-route} for the two downstream handoffs. Both routes consume the same finite majorant surface before the rows $U$ and $G$ are exposed.
+
+Finally apply \autoref{thm:realseries-root-ledger-exactness}. The endpoint seal from the base carrier is cited only after the dyadic ledger, shared threshold, tail-request ledger, majorant row, uniform handoff, criterion row, and structural rows have been read.
+
+Thus every endpoint-facing route factors through $W',R,T',B\longmapsto U,G\longmapsto H',C',P',N'$ before reaching the base $\RealUp$ seal. No excluded host-side principle has a carrier coordinate from which it could escape.
+\end{proof}
+
+\begin{theorem}[RealSeries shared majorant threshold coherence]
+\label{thm:realseries-shared-majorant-threshold-coherence}
+For an accepted $\RealSeriesUp$ tail-majorant carrier
+$$
+J=(W',R,T',B,U,G,H',C',P',N'),
+$$
+every $\UniformCauchySeriesUp$, $\RealSeriesCauchyCriterionUp$, and $\CauchyMajorantSeriesUp$ consumer reads the same displayed $W',R,T',B$ threshold surface before its handoff row. The consumer may route through $U$, $G$, or the majorant handoff, but it cannot substitute a different tail selector, majorant ledger, host infinite sum, selected limit, quotient equality, countable-choice witness, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Read $J$ through \autoref{def:realseries-tail-majorant-carrier}. The rows $W',R,T',B$ are the unique finite windows, regular readback, inherited tail-request ledger, and displayed majorant bounds in the accepted tail-majorant carrier.
+
+For the uniform route, apply \autoref{thm:realseries-uniform-cauchy-budget}. For the criterion route, apply \autoref{thm:realseries-cauchy-criterion-route}. For the majorant route, apply \autoref{thm:realseries-cauchy-majorant-handoff}. Each cited handoff consumes the same $W',R,T',B$ surface before exposing its consumer-specific row.
+
+The structural rows $H',C',P',N'$ transport, replay, source, and locally name that displayed surface. They do not create another threshold or another majorant source, so the three consumer routes remain coherent over the same finite BEDC rows.
+\end{proof}
+
+\begin{theorem}[RealSeries endpoint majorant factorization]
+\label{thm:realseries-endpoint-majorant-factorization}
+Let $I=(S,D,M,E,H,C,P,N)$ be an accepted $\RealSeriesUp$ carrier and let $J=(W',R,T',B,U,G,H',C',P',N')$ be an accepted tail-majorant carrier for the same displayed series route. The $\RealUp$ endpoint row $E$ of $I$ factors first through $S,D,M$ and then, whenever a majorant consumer is present, through the shared $W',R,T',B$ surface before any downstream endpoint-facing read may cite the seal.
+\end{theorem}
+\begin{proof}
+Project $I$ through \autoref{def:real-series-carrier}. The stream row $S$, dyadic ledger $D$, and shared threshold row $M$ are read before the endpoint seal $E$ is available.
+
+Now project $J$ through \autoref{def:realseries-tail-majorant-carrier}. The rows $W',R,T',B$ display the finite windows, regular readback, inherited tail requests, and majorant bounds that a majorant consumer must inspect.
+
+Use \autoref{thm:real-series-tail-threshold-stability} to identify the threshold side of the base route, and use \autoref{thm:realseries-cauchy-majorant-handoff} for the majorant side. The endpoint row cannot bypass either route because \autoref{thm:realseries-majorant-endpoint-nonescape} excludes host infinite sums, selected limits, quotient equality, countable choice, and ambient $\RealUp$ completeness from the carrier inventory.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy consumer readiness]
+\label{thm:realseries-cauchy-consumer-readiness}
+The shared threshold coherence of \autoref{thm:realseries-shared-majorant-threshold-coherence} and the endpoint factorization of \autoref{thm:realseries-endpoint-majorant-factorization} supply the finite Cauchy surface consumed by the downstream $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, and $\CauchyMajorantSeriesUp$ chapters. The ready surface consists exactly of the base $S,D,M,E$ route, the tail-majorant $W',R,T',B$ route, the consumer rows $U,G$, and the structural rows $H,C,P,N,H',C',P',N'$.
+\end{theorem}
+\begin{proof}
+The coherence theorem fixes the threshold and majorant rows shared by the three Cauchy consumers. Thus every consumer begins from the same $W',R,T',B$ surface rather than from a parameter chosen outside the packet.
+
+The endpoint-factorization theorem ties that surface back to the base $S,D,M,E$ route. Consequently a downstream endpoint read sees the real-series stream, dyadic ledger, shared threshold, endpoint seal, tail windows, regular readback, inherited tail requests, and displayed majorant bounds in one finite route.
+
+Apply \autoref{thm:realseries-root-ledger-exactness} to identify the remaining structural rows. These rows provide transport, continuation replay, provenance, and local naming for the same route, which is precisely the finite Cauchy surface needed by the realseriescauchycriterion, uniformcauchyseries, and cauchymajorantseries consumers.
+\end{proof}
+
+\begin{theorem}[RealSeries majorant-threshold readiness]
+\label{thm:realseries-majorant-threshold-readiness}
+Any $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, or $\CauchyMajorantSeriesUp$ consumer that treats an accepted $\RealSeriesUp$ endpoint as series-ready must first read the same finite tuple
+$$
+S,D,M,E,W',R,T',B,U,G,H,C,P,N,H',C',P',N' .
+$$
+Here $S,D,M,E$ are the base stream, dyadic ledger, shared threshold, and endpoint seal rows; $W',R,T',B$ are the majorant-window, regular-readback, inherited tail-request, and displayed bound rows; $U,G$ are the uniform and criterion-facing consumer rows; and $H,C,P,N,H',C',P',N'$ are the transport, replay, provenance, and local naming rows for the base and tail-majorant packets. No consumer may certify readiness by appealing to a host infinite sum, a selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realseries-shared-majorant-threshold-coherence}. It forces the $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, and $\CauchyMajorantSeriesUp$ routes to read the same $W',R,T',B$ threshold surface before their consumer-specific rows are visible.
+
+Next apply \autoref{thm:realseries-endpoint-majorant-factorization}. The endpoint seal $E$ is downstream of the base rows $S,D,M$ and, in the presence of a majorant consumer, downstream of the shared $W',R,T',B$ surface.
+
+Finally apply \autoref{thm:realseries-cauchy-consumer-readiness}. It attaches the rows $U,G$ and the structural rows $H,C,P,N,H',C',P',N'$ to the same finite route. Thus endpoint readiness is exactly the displayed tuple, with no coordinate for host infinite sums, selected limits, quotient equality, countable choice, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[RealSeries uniform majorant tail coherence]
+\label{thm:realseries-uniform-majorant-tail-coherence}
+Let
+$$
+K=(T,S,W,Q,D,M,E,H,C,P,N)
+$$
+be an accepted $\RealSeriesUp$ Cauchy-facing carrier whose uniform Cauchy tail and Cauchy majorant consumers are read through the same finite tail threshold. Then the $\UniformCauchySeriesUp$ handoff, the $\CauchyMajorantSeriesUp$ handoff, and the $\RealSeriesCauchyCriterionUp$ handoff agree on the displayed rows $T,S,W,Q,D,M,E,H,C,P,N$: $T$ supplies the term-stream row, $S$ supplies the finite partial-sum windows, $W$ supplies the selected $\StreamNameUp$ windows, $Q$ supplies $\RegSeqRatUp$ readback, $D$ supplies the $\DyadicRatCoreUp$ tolerance ledger, and $M$ supplies the shared Cauchy-tail threshold. No consumer may replace that threshold by a host infinite sum, a selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier to its base route. The rows $T,S,W,Q,D,M$ give the term stream, partial-sum windows, selected stream windows, regular readback, dyadic tolerance ledger, and common tail threshold before any endpoint row is visible.
+
+Apply \autoref{thm:realseries-uniform-cauchy-series-handoff} to the uniform consumer and \autoref{thm:realseries-cauchy-majorant-handoff} to the majorant consumer. Each handoff reads the same finite window and tolerance surface rather than choosing an external threshold.
+
+Finally use \autoref{thm:realseries-cauchy-criterion-route} and \autoref{thm:realseries-cauchy-consumer-readiness}. The criterion-facing route consumes the same threshold surface and the same structural rows $H,C,P,N$, so the three consumers are coherent over one finite Cauchy tail.
+\end{proof}
+
+\begin{theorem}[RealSeries RegSeqRat endpoint seal route]
+\label{thm:realseries-regseqrat-endpoint-seal-route}
+For an accepted $\RealSeriesUp$ carrier
+$$
+K=(T,S,W,Q,D,M,E,H,C,P,N),
+$$
+every endpoint-facing $\RealUp$ seal read factors through the selected $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the shared threshold $M$ before citing $E$. The route is then transported by $H$, replayed by $C$, sourced by $P$, and named by $N$; it exports no independent endpoint carrier, quotient real equality, selected limit, host infinite sum, countable-choice row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the endpoint side of the base carrier. By \autoref{thm:real-series-endpoint-nonescape-obligation}, the endpoint seal cannot be read without the finite partial-sum and threshold rows carried by the accepted packet.
+
+Next attach the readback route. The shared-threshold statement \autoref{thm:real-series-tail-threshold-stability} fixes $M$, and \autoref{thm:realseries-endpoint-majorant-factorization} ties the majorant-facing window surface back to the base endpoint row.
+
+The structural rows close the route. Transport, continuation replay, package provenance, and the local $\NameCert$ row preserve the same displayed route from $W,Q,D,M$ to $E$, so no separate real endpoint or host-level completeness object can be inserted.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy majorant threshold exhaustion]
+\label{thm:realseries-cauchy-majorant-threshold-exhaustion}
+Let
+$$
+K=(T,S,W,Q,D,M,E,H,C,P,N)
+$$
+be an accepted $\RealSeriesUp$ carrier and suppose a Cauchy majorant consumer reads it through the Cauchy-facing surface of \autoref{thm:realseries-cauchy-consumer-readiness}. Then the majorant consumer is exhausted by the rows $T,S,W,Q,D,M,E,H,C,P,N$ together with the already displayed tail-majorant rows of \autoref{def:realseries-tail-majorant-carrier}. In particular, every requested tail bound is answered through the shared threshold $M$, $\RegSeqRatUp$ readback, and the $\DyadicRatCoreUp$ tolerance ledger before the $\RealUp$ endpoint seal is cited.
+\end{theorem}
+\begin{proof}
+First read the majorant consumer through \autoref{thm:realseries-cauchy-majorant-handoff}. The handoff exposes finite tail windows, regular readback, inherited tail requests, and displayed majorant bounds; it does not add another threshold source.
+
+Next use \autoref{thm:realseries-uniform-majorant-tail-coherence}. The uniform Cauchy route, Cauchy criterion route, and majorant route all consume the same $T,S,W,Q,D,M$ surface, so a requested bound cannot escape to an external sequence or a choice principle.
+
+Finally apply \autoref{thm:realseries-regseqrat-endpoint-seal-route}. The endpoint seal $E$ is downstream of the shared readback and tolerance ledger, and the rows $H,C,P,N$ carry only transport, replay, provenance, and local naming. This exhausts the Cauchy majorant threshold route without importing quotient equality, selected limits, host infinite sums, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[RealSeries root tail majorant window]
+\label{thm:realseries-root-tail-majorant-window}
+Any root-unblock $\RealSeriesUp$ consumer reading a tail-majorant row factors through finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, the shared threshold $M$, and the endpoint seal $E$. In particular, a consumer of the accepted carrier
+$$
+K=(T,S,W,Q,D,M,E,H,C,P,N)
+$$
+may cite a tail-majorant row only after the finite window route of $W$, the regular readback route of $Q$, the dyadic tolerance ledger $D$, the shared threshold $M$, and the endpoint seal $E$ have all been retained in the same transported packet.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier in \autoref{def:real-series-carrier}. The displayed rows $T,S,W,Q,D,M,E,H,C,P,N$ are the only route available to a root-unblock consumer.
+
+Use the tail-majorant carrier of \autoref{def:realseries-tail-majorant-carrier}. Its majorant read is finite because it exposes windows and readback data before any Cauchy-facing consumer is served.
+
+Apply \autoref{thm:realseries-cauchy-consumer-readiness}. The readiness surface ties the downstream Cauchy criterion, uniform Cauchy, and majorant consumers to the same base route.
+
+Then apply \autoref{thm:realseries-uniform-majorant-tail-coherence} and \autoref{thm:realseries-cauchy-majorant-threshold-exhaustion}. These theorems identify the shared threshold $M$ and force every requested tail bound through $W,Q,D,M$ before the endpoint seal $E$ is cited.
+\end{proof}
+
+\begin{theorem}[RealSeries root tail threshold exhaustion]
+\label{thm:realseries-root-tail-threshold-exhaustion}
+All downstream $\RealSeriesCauchyCriterionUp$, $\UniformCauchySeriesUp$, and $\CauchyMajorantSeriesUp$ reads of an accepted $\RealSeriesUp$ root-unblock carrier are exhausted by the displayed rows
+$$
+T,S,W,Q,D,M,E,H,C,P,N.
+$$
+No such read may introduce host infinite sums, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness outside the finite carrier and the tail-majorant rows of \autoref{def:realseries-tail-majorant-carrier}.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:realseries-cauchy-consumer-readiness}. It identifies the downstream Cauchy criterion, uniform Cauchy, and majorant consumers as readers of the same finite surface rather than as independent sources of convergence data.
+
+Next use \autoref{thm:realseries-uniform-majorant-tail-coherence}. The three consumer routes agree on $T,S,W,Q,D,M,E,H,C,P,N$, with $W,Q,D,M$ carrying the finite window, regular readback, dyadic tolerance, and shared-threshold part of the route.
+
+Finally apply \autoref{thm:realseries-cauchy-majorant-threshold-exhaustion} together with \autoref{thm:realseries-root-tail-majorant-window}. The first exhausts the majorant request through the existing threshold surface, and the second locks root-unblock reads to the same finite windows and endpoint seal.
+
+The excluded host principles are absent from both displayed carriers. Since neither the base carrier nor the tail-majorant carrier has a coordinate for host infinite sums, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness, no downstream read can export one.
+\end{proof}
+
+\begin{definition}[RealSeries Dirichlet cancellation surface]
+\label{def:realseries-dirichlet-cancellation-surface}
+For an accepted $\RealSeriesUp$ carrier
+$$
+K=(T,S,W,Q,D,M,E,H,C,P,N),
+$$
+the Dirichlet cancellation surface is the finite row package
+$$
+\mathsf{DirCancel}(K)=(T,S,W,Q,D,M,E,H,C,P,N;\ A,B,V)
+$$
+where $A$ is a bounded partial-sum ledger for the displayed windows of $S$, $B$ is a monotone null coefficient ledger read through the same $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ readback $Q$, and $V$ is the finite Abel-difference variation ledger that compares adjacent coefficient rows inside the dyadic tolerance ledger $D$. The surface has no coordinate for a host infinite sum, selected series limit, quotient equality of partial-sum streams, countable choice over tail indices, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealSeries Dirichlet bounded-variation row]
+\label{thm:realseries-dirichlet-partial-sum-bounded-variation}
+Let $K=(T,S,W,Q,D,M,E,H,C,P,N)$ be an accepted $\RealSeriesUp$ carrier with a Dirichlet cancellation surface $\mathsf{DirCancel}(K)$. Every finite window comparison for the transformed tails factors through the bounded partial-sum ledger $A$, the monotone null coefficient ledger $B$, and the Abel-difference variation ledger $V$ before the shared threshold row $M$ may be read. Thus the only exported route is
+$$
+S \longmapsto A \longmapsto B \longmapsto V \longmapsto D \longmapsto M ,
+$$
+with $H,C,P,N$ transporting, replaying, sourcing, and naming the same finite route.
+\end{theorem}
+\begin{proof}
+Project the base carrier of \autoref{def:real-series-carrier} and the cancellation surface of \autoref{def:realseries-dirichlet-cancellation-surface}. The partial sums remain the displayed finite windows of $S$, while $A$ records the bound used by every cancellation request.
+
+Read the coefficient side through $B$ and $V$. The null and monotone information is stored as finite window data, and the Abel-difference ledger records only adjacent coefficient differences inside the dyadic tolerance row $D$.
+
+Finally use the shared threshold discipline of \autoref{thm:realseries-root-tail-threshold-exhaustion}. Since the route reaches $M$ only after $S,A,B,V,D$, no consumer can replace it by a host infinite sum, a selected limit, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[RealSeries Dirichlet tail cancellation]
+\label{thm:realseries-dirichlet-tail-cancellation}
+For an accepted $\RealSeriesUp$ carrier equipped with $\mathsf{DirCancel}(K)$, every tail request between displayed indices $m<n$ is answered by a finite Abel-summation window:
+$$
+(m,n,S) \longmapsto A \longmapsto (B,V) \longmapsto D \longmapsto M \longmapsto E .
+$$
+The endpoint seal $E$ is cited only after the bounded partial-sum ledger, monotone null coefficient ledger, Abel-difference variation ledger, dyadic tolerance accounting, and shared threshold have all been retained in the same transported packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:realseries-dirichlet-partial-sum-bounded-variation}. It gives the finite route from the partial-sum window through the bounded ledger, coefficient ledger, variation ledger, dyadic tolerance row, and shared threshold.
+
+Apply \autoref{thm:real-series-tail-threshold-stability}. The threshold row remains stable under componentwise $\hsame$ transport, so the same $m,n$ tail comparison is replayed through $H$ and $C$ rather than by choosing another tail selector.
+
+Use \autoref{thm:real-series-endpoint-nonescape-obligation} for the final endpoint step. The endpoint seal $E$ is downstream of the displayed threshold route, and no excluded host-side principle is a field of either the base carrier or the cancellation surface.
+\end{proof}
+
+\begin{theorem}[RealSeries Dirichlet Cauchy readiness]
+\label{thm:realseries-dirichlet-cauchy-readiness}
+The Dirichlet cancellation surface of an accepted $\RealSeriesUp$ carrier supplies exactly the Cauchy-ready route needed by downstream $\DirichletSeriesTestUp$, $\AbelDirichletComparisonUp$, and $\UniformCauchySeriesUp$ consumers:
+$$
+T,S,W,Q,A,B,V,D,M,E,H,C,P,N .
+$$
+The route records finite term access, partial-sum windows, stream windows, regular readback, bounded partial sums, monotone null coefficients, Abel finite differences, dyadic tolerance, shared threshold, endpoint sealing, transport, continuation replay, provenance, and local naming, and nothing stronger.
+\end{theorem}
+\begin{proof}
+First combine \autoref{def:realseries-dirichlet-cancellation-surface} with the base carrier of \autoref{def:real-series-carrier}. This lists all rows visible to a Dirichlet-style downstream consumer.
+
+Next apply \autoref{thm:realseries-dirichlet-tail-cancellation}. It shows that every requested tail comparison reaches the endpoint seal through a finite Abel-summation window and the shared threshold.
+
+The consumer boundary is then a row-exhaustion claim. The displayed tuple has no coordinate for host infinite sums, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness, so the downstream chapters receive only the Cauchy-ready finite certificate surface.
+\end{proof}
+
+\begin{theorem}[RealSeries Abel partial summation window]
+\label{thm:realseries-abel-partial-summation-window}
+For an accepted $\RealSeriesUp$ carrier equipped with $\mathsf{DirCancel}(K)$, every finite Abel partial-summation request is read through the displayed rows
+$$
+S,A,B,V,D,M,E .
+$$
+The row $S$ supplies the inspected term and partial-sum windows, $A$ supplies the bounded partial-sum ledger, $B$ supplies the monotone null coefficient ledger, $V$ supplies the adjacent Abel-difference ledger, $D$ supplies dyadic tolerance accounting, $M$ supplies the shared threshold, and $E$ supplies the endpoint seal after those rows have already been retained. No host infinite sum, selected limit, quotient equality, countable-choice selector, or ambient $\RealUp$ completeness row is exposed.
+\end{theorem}
+\begin{proof}
+Begin with the cancellation surface of \autoref{def:realseries-dirichlet-cancellation-surface}. It displays $A,B,V$ as the bounded partial-sum, coefficient, and Abel-difference rows over the same finite windows of $S$.
+
+Apply \autoref{thm:realseries-dirichlet-cauchy-readiness}. The readiness route keeps $T,S,W,Q,A,B,V,D,M,E,H,C,P,N$ in one finite packet, so the Abel window cannot be replaced by a host summation theorem.
+
+Finally restrict to the Abel-facing analytic rows. The support rows $H,C,P,N$ transport, replay, source, and name the same route, while the visible estimate itself is exhausted by $S,A,B,V,D,M,E$.
+\end{proof}
+
+\begin{theorem}[RealSeries Dirichlet uniform tail bound]
+\label{thm:realseries-dirichlet-uniform-tail-bound}
+For any accepted $\RealSeriesUp$ carrier with $\mathsf{DirCancel}(K)$, a downstream $\UniformCauchySeriesUp$, $\CauchyMajorantSeriesUp$, or $\DirichletSeriesTestUp$ consumer receives a uniform tail-bound route only through
+$$
+A,B,V,D,M,E,H,C,P,N .
+$$
+The common threshold row $M$ is readable only after the bounded partial-sum row $A$, coefficient row $B$, Abel-difference row $V$, and dyadic ledger $D$ have been fixed over displayed finite windows.
+\end{theorem}
+\begin{proof}
+Project the Dirichlet cancellation surface. The route to a tail estimate first names $A$ and $B$, then records the finite adjacent-difference budget in $V$.
+
+Use \autoref{thm:realseries-dirichlet-tail-cancellation}. It places every displayed tail request between $m<n$ on the finite chain from the partial-sum window through $A,B,V,D,M$ and only then to $E$.
+
+Use \autoref{thm:realseries-dirichlet-cauchy-readiness} for the consumer boundary. Uniform Cauchy, majorant, and Dirichlet-test consumers receive the same threshold row by continuation replay and provenance, not by selected tail indices, quotient equality, infinite sums, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RealSeries Cauchy-product finite window]
+\label{thm:realseries-cauchy-product-finite-window}
+Every $\CauchyProductUp$ consumer of an accepted $\RealSeriesUp$ carrier equipped with $\mathsf{DirCancel}(K)$ reads product-facing partial sums through finite windows only. The allowed handoff is
+$$
+S,A,B,V,D,M,E \longmapsto H,C,P,N ,
+$$
+where $S$ supplies the finite partial-sum windows and $A,B,V,D,M,E$ supply the cancellation, tolerance, threshold, and endpoint rows needed before any product window can be replayed.
+\end{theorem}
+\begin{proof}
+Read the RealSeries carrier of \autoref{def:real-series-carrier}. Product-facing access begins with the displayed partial-sum row $S$ and cannot introduce a second series object outside the local packet.
+
+Apply \autoref{def:realseries-dirichlet-cancellation-surface} and \autoref{thm:realseries-abel-partial-summation-window}. The cancellation data available to a product window is exactly $A,B,V,D,M,E$ over finite windows.
+
+Finally apply \autoref{thm:realseries-dirichlet-cauchy-readiness}. It exports the Cauchy-ready route to downstream consumers through $H,C,P,N$, so the $\CauchyProductUp$ handoff receives finite product windows rather than host infinite products, selected sums, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealSeriesUp$ endpoint-facing read factors through a real-valued term stream, finite partial-sum window, selected StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a shared Cauchy-tail threshold, a RealUp endpoint seal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{real, real-sequence-limit, cauchy-sequence-bounded, regseqrat, streamname, dyadicratcore: $\RealSeriesUp$ is not bijective to any listed sibling because it jointly carries term-stream access, finite partial-sum windows, selected stream windows, regular readback, dyadic tolerance accounting, shared tail thresholding, endpoint sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{RealSeriesUp}{seedStr}
+\closureat{RealSeriesUp}{obligationStr}
+
+\begin{closurestatus}{\RealSeriesUp}
+  \constructivestory{A $\RealSeriesUp$ packet is generated from a real-valued term stream, finite partial-sum windows, selected StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a shared Cauchy-tail threshold, a RealUp endpoint seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:real-series-carrier}, \autoref{thm:real-series-namecert-obligations}, \autoref{thm:real-series-partial-sum-window}, \autoref{thm:real-series-nonescape-boundary}, \autoref{thm:real-series-tail-threshold-stability}, \autoref{def:real-series-shared-tail-consumer-surface}, \autoref{thm:real-series-endpoint-nonescape-obligation}, and \autoref{thm:real-series-cauchy-consumer-obligation} bind the finite constructive real-series certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, selected limits, quotient equality, countable choice, ambient $\RealUp$ completeness, bridge checking, or Lean verification.}
+  \upgradepath{Scoped closure requires primitive scope binding for carrier admission, NameCert obligations, partial-sum window accounting, threshold stability, endpoint handoff, Cauchy-criterion readiness, and TasteGate field faithfulness for BEDC.Derived.RealSeriesUp.}
+\end{closurestatus}

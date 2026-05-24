@@ -8,9 +8,11 @@ Two upstream sources:
   prompt that surfaces extension / counterpart / sibling research directions.
 
 This module merges both lists, dedups against existing BOARD and paper
-coverage, then runs claude as a maker/checker judge (codex's existing
-fit/novelty are part of the candidate's source signal; claude is the
-final gate). Accepted candidates are atomically appended to BOARD.md.
+coverage, then runs a Codex maker/checker judge for candidates that cannot
+be admitted by deterministic local gates. Candidates that are promising but not yet
+executable are held in candidate_inbox for later refinement instead of being
+thrown away. Accepted candidates are atomically appended to local BOARD.md;
+the supervisor commit path keeps BOARD files local-only.
 
 Replaces the old Stage 1.5 single-source codex.discover_topics flow.
 """
@@ -18,11 +20,7 @@ Replaces the old Stage 1.5 single-source codex.discover_topics flow.
 from __future__ import annotations
 
 import json
-import os
 import re
-import shutil
-import subprocess
-import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -35,16 +33,15 @@ import codex_orchestrator
 import board_archive
 import board_context
 import candidate_inbox
+import candidate_substance
 import paper_index
 import logic_packet_gate
-import loning_assimilator
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "state" / "board_spawn_logs"
 LATEST_STATUS_PATH = SCRIPT_DIR / "state" / "board_spawn_latest.json"
 
-CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_JUDGE_TIMEOUT = 600
 
 DEFAULT_FIT_THRESHOLD = 7
@@ -92,6 +89,33 @@ LOGIC_PACKET_FIELDS = (
     "rate_modulus_surface",
     "oracle_mode",
 )
+DETERMINISTIC_FALLBACK_SOURCES = {
+    "plain_math_review",
+    "research_lane:burden_candidate_miner",
+    "research_lane:paper_gap_scanner",
+    "research_lane:candidate_inbox",
+}
+ANTI_PARAMETER_ECHO_RE = re.compile(
+    r"local obligation row projection|parameter[- ]echo|"
+    r"displayed namecert obligation surface.*(?:contains|records).*displayed|"
+    r"merely restates|tautological re[- ]projection|"
+    r"generic per[- ]seal projection",
+    re.IGNORECASE,
+)
+DETERMINISTIC_ALLOWED_LANDING = {
+    "existing_chapter_lemma",
+    "existing_chapter_obligation",
+    "existing_chapter_ledger_row",
+}
+DIRECT_CODEX_SOURCES = {
+    "automath_newmath_bridge",
+    "codex",
+    "plain_math_review",
+    "paper_review",
+    "research_lane:burden_candidate_miner",
+    "research_lane:paper_gap_scanner",
+    "research_lane:candidate_inbox",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -148,64 +172,6 @@ def _extract_json_object(text: str) -> Optional[dict]:
     return None
 
 
-def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
-    if os.environ.get("BEDC_DISABLE_CLAUDE"):
-        return (False, "claude disabled by BEDC_DISABLE_CLAUDE", -2)
-    if not CLAUDE_PATH or not Path(CLAUDE_PATH).exists():
-        return (False, f"claude CLI not found at {CLAUDE_PATH}", -1)
-    LOG_DIR.mkdir(parents=True, exist_ok=True)
-    ts = _now_tag()
-    (LOG_DIR / f"{log_tag}_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
-    cmd = [CLAUDE_PATH, "-p", "--dangerously-skip-permissions"]
-    env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
-    proc = subprocess.Popen(
-        cmd,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        cwd=str(REPO_ROOT),
-        env=env,
-        encoding="utf-8",
-        errors="replace",
-        start_new_session=True,
-    )
-    stdout = ""
-    stderr = ""
-    rc = -1
-    hard_killed = {"flag": False}
-    def _hard_kill() -> None:
-        hard_killed["flag"] = True
-        try:
-            os.killpg(proc.pid, 9)
-        except (ProcessLookupError, PermissionError):
-            pass
-    watchdog = threading.Timer(timeout + 60, _hard_kill)
-    watchdog.daemon = True
-    watchdog.start()
-    try:
-        stdout, stderr = proc.communicate(input=prompt, timeout=timeout + 30)
-        rc = proc.returncode
-    except subprocess.TimeoutExpired:
-        try:
-            os.killpg(proc.pid, 9)
-        except ProcessLookupError:
-            pass
-        try:
-            stdout, stderr = proc.communicate(timeout=10)
-        except subprocess.TimeoutExpired:
-            stdout = stdout or ""
-            stderr = stderr or ""
-        rc = -9
-    finally:
-        watchdog.cancel()
-    if hard_killed["flag"] and rc == 0:
-        rc = -9
-    (LOG_DIR / f"{log_tag}_{ts}.stdout.txt").write_text(stdout or "", encoding="utf-8")
-    (LOG_DIR / f"{log_tag}_{ts}.stderr.txt").write_text(stderr or "", encoding="utf-8")
-    return (rc == 0, stdout, rc)
-
-
 def _codex_json_fallback(
     prompt: str,
     *,
@@ -215,7 +181,7 @@ def _codex_json_fallback(
 ) -> tuple[bool, dict, str, str]:
     fallback_prompt = (
         f"{role_note}\n"
-        "Act as the independent fallback BOARD judge. Preserve the same "
+        "Act as the independent BOARD judge. Preserve the same "
         "fit/novelty thresholds, reject when uncertain, return only the JSON "
         "object requested by the original prompt, and do not edit files.\n\n"
         f"{prompt}"
@@ -223,13 +189,13 @@ def _codex_json_fallback(
     result = codex_orchestrator.codex_exec(
         fallback_prompt,
         timeout=timeout,
-        log_tag=f"{log_tag}_codex_fallback",
+        log_tag=f"{log_tag}_codex_gate",
     )
     if not result.ok:
         return (False, {}, result.raw_output, result.error or f"codex rc={result.rc}")
     parsed = result.parsed or _extract_json_object(result.raw_output) or {}
     if not parsed:
-        return (False, {}, result.raw_output, "codex fallback output was not JSON")
+        return (False, {}, result.raw_output, "codex gate output was not JSON")
     return (True, parsed, result.raw_output, "")
 
 
@@ -255,7 +221,7 @@ def _next_target_id(also_accepted: list[str]) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Judge: claude maker/checker on combined candidate list
+# Judge: Codex maker/checker on combined candidate list
 # ---------------------------------------------------------------------------
 
 
@@ -263,6 +229,7 @@ def _next_target_id(also_accepted: list[str]) -> str:
 class BoardSpawnResult:
     ok: bool
     accepted: list[dict] = field(default_factory=list)
+    held: list[dict] = field(default_factory=list)
     rejected: list[dict] = field(default_factory=list)
     appended_ids: list[str] = field(default_factory=list)
     error: str = ""
@@ -275,34 +242,18 @@ def classify_judge_error(error: str) -> str:
     if not low:
         return ""
 
-    claude_kind = "claude_unavailable"
-    if "organization does not have access to claude" in low:
-        claude_kind = "claude_access_denied"
-    elif "not logged in" in low or "please login again" in low:
-        claude_kind = "claude_not_logged_in"
-    elif "claude cli not found" in low:
-        claude_kind = "claude_cli_missing"
-    elif "claude disabled" in low:
-        claude_kind = "claude_disabled"
-    elif "claude judge rc=-9" in low or "timed out" in low:
-        claude_kind = "claude_timeout"
-    elif "claude judge output was not json" in low:
-        claude_kind = "claude_non_json"
-
     codex_kind = ""
-    if "codex fallback" in low:
-        codex_kind = "codex_fallback_failed"
+    if "codex" in low:
+        codex_kind = "codex_failed"
         if "failed to initialize in-process app-server client" in low:
             codex_kind = "codex_sandbox_init_failed"
         elif "operation not permitted" in low:
             codex_kind = "codex_operation_not_permitted"
         elif "output was not json" in low:
             codex_kind = "codex_non_json"
+        elif "codex exec rc=-9" in low or "timed out" in low:
+            codex_kind = "codex_timeout"
 
-    if "claude judge" in low or "claude returned" in low or "claude " in low:
-        if codex_kind:
-            return f"board_judge_unavailable:{claude_kind}+{codex_kind}"
-        return f"board_judge_unavailable:{claude_kind}"
     if codex_kind:
         return f"board_judge_unavailable:{codex_kind}"
     return "board_judge_failed"
@@ -332,6 +283,7 @@ def _write_latest_status(
         "oracle_alive": oracle_alive,
         "cheap_drop_count": cheap_drop_count,
         "accepted_count": len(result.accepted),
+        "held_count": len(result.held),
         "rejected_count": len(result.rejected),
         "appended_ids": result.appended_ids,
         "error_kind": result.error_kind,
@@ -348,19 +300,13 @@ def _judge_candidates(
     codex_candidates: list[dict],
     oracle_candidates: list[dict],
 ) -> tuple[list[dict], list[dict], str]:
-    """Run claude judge prompt; returns (accepted, rejected, error)."""
+    """Run Codex judge prompt; returns (accepted, rejected, error)."""
     if not codex_candidates and not oracle_candidates:
         return ([], [], "")
 
     template = (PROMPTS_DIR / "board_judge.txt").read_text(encoding="utf-8")
     board_content = board_context.build_board_prompt_context()
     paper_coverage_blob = paper_index.render_prompt_summary(max_chars=12000)
-    try:
-        loning_block = loning_assimilator.latest_prompt_block()
-    except Exception:
-        loning_block = ""
-    if loning_block:
-        template = template.rstrip() + "\n\n" + loning_block + "\n"
 
     codex_blob = json.dumps(codex_candidates, ensure_ascii=False, indent=2)
     oracle_blob = json.dumps(oracle_candidates, ensure_ascii=False, indent=2)
@@ -372,35 +318,20 @@ def _judge_candidates(
         oracle_candidates=_safe(oracle_blob),
     )
     log_tag = "board_judge"
-    ok, stdout, rc = _claude_exec(prompt, timeout=DEFAULT_JUDGE_TIMEOUT, log_tag=log_tag)
+    ok, parsed, stdout, error = _codex_json_fallback(
+        prompt,
+        timeout=DEFAULT_JUDGE_TIMEOUT,
+        log_tag=log_tag,
+        role_note=(
+            "Run the BEDC BOARD spawn judge as the primary Codex gate. "
+            "Use the prompt's maker/checker standard directly; there is no "
+            "external pre-screen in this pipeline."
+        ),
+    )
     if not ok:
-        fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
-            prompt,
-            timeout=DEFAULT_JUDGE_TIMEOUT,
-            log_tag=log_tag,
-            role_note=(
-                "Claude is unavailable for the BEDC BOARD spawn judge. "
-                "Interpret the original prompt's 'claude evaluation' as this "
-                "fallback gate's independent second-pass evaluation."
-            ),
-        )
-        if not fallback_ok:
-            return ([], [], f"claude judge rc={rc}: {stdout[:300]}; codex fallback: {fallback_error[:300]}")
-    else:
-        parsed = _extract_json_object(stdout)
+        return ([], [], f"codex judge failed: {error[:300]}")
     if not parsed:
-        fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
-            prompt,
-            timeout=DEFAULT_JUDGE_TIMEOUT,
-            log_tag=log_tag,
-            role_note=(
-                "Claude returned non-JSON for the BEDC BOARD spawn judge. "
-                "Interpret the original prompt's 'claude evaluation' as this "
-                "fallback gate's independent second-pass evaluation."
-            ),
-        )
-        if not fallback_ok:
-            return ([], [], f"claude judge output was not JSON; codex fallback: {fallback_error[:300]}")
+        return ([], [], "codex judge output was not JSON")
     accepted = parsed.get("accepted_candidates") or []
     rejected = parsed.get("rejected_candidates") or []
     return (accepted if isinstance(accepted, list) else [],
@@ -553,6 +484,158 @@ def _logic_packet_rejection(candidate: dict) -> str:
     return "logic_packet_gate:" + ";".join(result.reasons)
 
 
+def _substance_rejection(candidate: dict) -> str:
+    return candidate_substance.substance_rejection(candidate)
+
+
+def _deterministic_fallback_rejection(
+    candidate: dict,
+    *,
+    fit_threshold: int,
+    novelty_threshold: int,
+) -> str:
+    """Conservative BOARD intake when the Codex judge is unavailable.
+
+    This is deliberately narrower than the normal board_judge.  It only admits
+    deterministic supply lanes whose packets already survived candidate_inbox,
+    have BEDC-local landing files, complete logic metadata, and no obvious
+    anti-parameter-echo shape.  New chapters and external-source packets still
+    require the normal judge.
+    """
+    source = str(candidate.get("source") or "").strip()
+    if source not in DETERMINISTIC_FALLBACK_SOURCES:
+        return f"deterministic_fallback_source_requires_llm_judge:{source or 'unknown'}"
+    landing_kind = str(candidate.get("landing_kind") or "").strip()
+    if landing_kind not in DETERMINISTIC_ALLOWED_LANDING:
+        return f"deterministic_fallback_landing_requires_llm_judge:{landing_kind or 'missing'}"
+    text = " ".join(
+        str(candidate.get(key) or "")
+        for key in ("title", "claim", "concrete_claim", "rationale")
+    )
+    if EXTERNAL_SIGNAL_RE.search(text):
+        return "deterministic_fallback_external_signal_requires_llm_judge"
+    if ANTI_PARAMETER_ECHO_RE.search(text):
+        return "deterministic_fallback_anti_parameter_echo"
+    substance_rejection = _substance_rejection(candidate)
+    if substance_rejection:
+        return substance_rejection
+    inputs = candidate.get("local_inputs") or []
+    if not isinstance(inputs, list) or not inputs:
+        return "deterministic_fallback_missing_local_inputs"
+    for rel in inputs:
+        rel = str(rel or "").strip()
+        if not rel.startswith("papers/bedc/parts/"):
+            return f"deterministic_fallback_non_paper_input:{rel}"
+        if re.search(r"^papers/bedc/parts/(?:visions|conjectures)/", rel, re.I):
+            return f"deterministic_fallback_inspiration_only_input:{rel}"
+        if not (REPO_ROOT / rel).exists():
+            return f"deterministic_fallback_missing_input:{rel}"
+    landing_rejection = _post_judge_landing_rejection(candidate)
+    if landing_rejection:
+        return landing_rejection
+    logic_rejection = _logic_packet_rejection(candidate)
+    if logic_rejection:
+        return logic_rejection
+    try:
+        int(candidate.get("fit_score", 0))
+        int(candidate.get("novelty", 0))
+    except (TypeError, ValueError):
+        return "deterministic_fallback_non_int_score"
+    return ""
+
+
+def _deterministic_fallback_judge(
+    candidates: list[dict],
+    *,
+    fit_threshold: int,
+    novelty_threshold: int,
+) -> tuple[list[dict], list[dict]]:
+    accepted: list[dict] = []
+    rejected: list[dict] = []
+    for candidate in candidates:
+        reason = _deterministic_fallback_rejection(
+            candidate,
+            fit_threshold=fit_threshold,
+            novelty_threshold=novelty_threshold,
+        )
+        if reason:
+            rejected.append({**candidate, "reason": reason})
+            continue
+        accepted.append(
+            {
+                **candidate,
+                "source": str(candidate.get("source") or "deterministic_fallback"),
+                "rationale": (
+                    str(candidate.get("rationale") or "").strip()
+                    + " Deterministic BOARD fallback admitted this only after "
+                    "candidate_inbox, local-input, logic-packet, landing-kind, "
+                    "and anti-parameter-echo gates; final writeback gates still apply."
+                ).strip(),
+            }
+        )
+    return accepted, rejected
+
+
+def _direct_codex_rejection(candidate: dict) -> str:
+    """Local BOARD admission for pre-screened codex-lane packets."""
+    source = str(candidate.get("source") or "").strip()
+    if source not in DIRECT_CODEX_SOURCES:
+        return f"direct_codex_source_requires_judge:{source or 'unknown'}"
+    landing_kind = str(candidate.get("landing_kind") or "").strip()
+    if landing_kind not in DETERMINISTIC_ALLOWED_LANDING:
+        return f"direct_codex_landing_requires_judge:{landing_kind or 'missing'}"
+    landing_rejection = _post_judge_landing_rejection(candidate)
+    if landing_rejection:
+        return landing_rejection
+    logic_rejection = _logic_packet_rejection(candidate)
+    if logic_rejection:
+        return logic_rejection
+    text = " ".join(
+        str(candidate.get(key) or "")
+        for key in ("title", "claim", "concrete_claim", "rationale")
+    )
+    if ANTI_PARAMETER_ECHO_RE.search(text):
+        return "direct_codex_anti_parameter_echo"
+    substance_rejection = _substance_rejection(candidate)
+    if substance_rejection:
+        return substance_rejection
+    try:
+        int(candidate.get("fit_score", 0))
+        int(candidate.get("novelty", 0))
+    except (TypeError, ValueError):
+        return "non_int_score"
+    return ""
+
+
+def _direct_codex_admission(candidates: list[dict]) -> tuple[list[dict], list[dict], list[dict]]:
+    accepted: list[dict] = []
+    held_or_rejected: list[dict] = []
+    needs_judge: list[dict] = []
+    for candidate in candidates:
+        reason = _direct_codex_rejection(candidate)
+        if not reason:
+            accepted.append(
+                {
+                    **candidate,
+                    "rationale": (
+                        str(candidate.get("rationale") or "").strip()
+                        + " Local BOARD admission used the deterministic "
+                        "candidate inbox, landing, and logic-packet gates; "
+                        "codex execution and writeback gates remain decisive."
+                    ).strip(),
+                }
+            )
+            continue
+        if (
+            reason.startswith("direct_codex_source_requires_judge:")
+            or reason.startswith("direct_codex_landing_requires_judge:")
+        ):
+            needs_judge.append(candidate)
+            continue
+        held_or_rejected.append({**candidate, "reason": reason})
+    return accepted, held_or_rejected, needs_judge
+
+
 def _rejection_match_keys(candidate: dict) -> list[tuple[str, str]]:
     keys: list[tuple[str, str]] = []
     for field_name in ("candidate_id", "title"):
@@ -562,15 +645,15 @@ def _rejection_match_keys(candidate: dict) -> list[tuple[str, str]]:
     return keys
 
 
-def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> list[dict]:
-    """Preserve original candidate packet fields on judge rejections.
+def _hydrate_judge_items(items: list[dict], originals: list[dict]) -> list[dict]:
+    """Preserve original candidate packet fields on compact judge items.
 
-    The judge often returns a compact rejected_candidates item containing only
-    title/source/reason. Rejection telemetry is much more useful if the original
-    claim, inputs, and logic-packet fields remain visible in candidate_inbox.
+    The judge often returns compact accepted/rejected items containing only
+    title/source/reason. Later strict-out gates and inbox telemetry need the
+    original claim, inputs, and logic-packet fields to remain visible.
     """
-    if not rejected or not originals:
-        return rejected
+    if not items or not originals:
+        return items
     by_key: dict[tuple[str, str], dict] = {}
     for candidate in originals:
         if not isinstance(candidate, dict):
@@ -578,7 +661,7 @@ def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> li
         for key in _rejection_match_keys(candidate):
             by_key.setdefault(key, candidate)
     hydrated: list[dict] = []
-    for item in rejected:
+    for item in items:
         if not isinstance(item, dict):
             continue
         original = None
@@ -591,6 +674,10 @@ def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> li
         else:
             hydrated.append(item)
     return hydrated
+
+
+def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> list[dict]:
+    return _hydrate_judge_items(rejected, originals)
 
 
 def _atomic_append_to_board(blocks: list[str]) -> None:
@@ -640,40 +727,117 @@ def spawn_from_candidates(
     )
     codex_alive = codex_screen.accepted
     oracle_alive = oracle_screen.accepted
+    cheap_holds = codex_screen.held + oracle_screen.held
     cheap_drops = codex_screen.rejected + oracle_screen.rejected
 
     if not codex_alive and not oracle_alive:
         print(
             f"[board_spawn] all {len(codex_candidates) + len(oracle_candidates)} "
-            f"candidates dedup'd against existing BOARD titles",
+            f"candidates stopped before judge",
             flush=True,
         )
-        result = BoardSpawnResult(ok=True, rejected=cheap_drops)
+        result = BoardSpawnResult(ok=True, held=cheap_holds, rejected=cheap_drops)
+        candidate_inbox.record_rejections(cheap_drops + cheap_holds, mode="board_spawn")
         _write_latest_status(
             result=result,
             codex_input=codex_input,
             oracle_input=oracle_input,
             codex_alive=0,
             oracle_alive=0,
-            cheap_drop_count=len(cheap_drops),
+            cheap_drop_count=len(cheap_drops) + len(cheap_holds),
         )
         return result
 
-    # Step 2: claude judge (with codex+oracle source signals + paper coverage).
-    print(
-        f"[board_spawn] judging {len(codex_alive)} codex + {len(oracle_alive)} oracle candidates",
-        flush=True,
-    )
-    accepted, rejected, err = _judge_candidates(
-        codex_candidates=codex_alive,
-        oracle_candidates=oracle_alive,
-    )
-    rejected = _hydrate_judge_rejections(rejected, codex_alive + oracle_alive)
+    # Step 2: local admission for pre-screened codex candidates; judge only
+    # packets whose source or landing shape still requires a second pass.
+    direct_accepted, direct_stopped, codex_alive_for_judge = _direct_codex_admission(codex_alive)
+    if direct_accepted:
+        print(
+            f"[board_spawn] direct codex admission accepted={len(direct_accepted)} "
+            f"needs_judge={len(codex_alive_for_judge)}",
+            flush=True,
+        )
+    if not codex_alive_for_judge and not oracle_alive:
+        accepted = direct_accepted
+        rejected = direct_stopped
+        err = ""
+    else:
+        # Step 3: Codex judge (with source signals + paper coverage).
+        print(
+            f"[board_spawn] judging {len(codex_alive_for_judge)} codex + {len(oracle_alive)} oracle candidates",
+            flush=True,
+        )
+        accepted, rejected, err = _judge_candidates(
+            codex_candidates=codex_alive_for_judge,
+            oracle_candidates=oracle_alive,
+        )
+        accepted = _hydrate_judge_items(accepted, codex_alive_for_judge + oracle_alive)
+        accepted = direct_accepted + accepted
+        rejected = _hydrate_judge_rejections(rejected, codex_alive_for_judge + oracle_alive)
+        rejected = direct_stopped + rejected
     if err:
+        error_kind = classify_judge_error(err)
+        if error_kind.startswith("board_judge_unavailable"):
+            accepted, deterministic_rejected = _deterministic_fallback_judge(
+                codex_alive_for_judge + oracle_alive,
+                fit_threshold=fit_threshold,
+                novelty_threshold=novelty_threshold,
+            )
+            accepted = direct_accepted + accepted
+            deterministic_rejected = direct_stopped + deterministic_rejected
+            rejected = deterministic_rejected
+            if accepted:
+                print(
+                    "[board_spawn] Codex judge unavailable; using conservative "
+                    f"deterministic fallback accepted={len(accepted)} "
+                    f"rejected={len(rejected)}",
+                    flush=True,
+                )
+            else:
+                result = BoardSpawnResult(
+                    ok=True,
+                    error=err,
+                    error_kind=error_kind,
+                    held=cheap_holds + deterministic_rejected,
+                    rejected=cheap_drops,
+                )
+                _write_latest_status(
+                    result=result,
+                    codex_input=codex_input,
+                    oracle_input=oracle_input,
+                    codex_alive=len(codex_alive),
+                    oracle_alive=len(oracle_alive),
+                    cheap_drop_count=len(cheap_drops) + len(cheap_holds),
+                )
+                return result
+        else:
+            result = BoardSpawnResult(
+                ok=False,
+                error=err,
+                error_kind=error_kind,
+                held=cheap_holds,
+                rejected=cheap_drops + rejected,
+            )
+            _write_latest_status(
+                result=result,
+                codex_input=codex_input,
+                oracle_input=oracle_input,
+                codex_alive=len(codex_alive),
+                oracle_alive=len(oracle_alive),
+                cheap_drop_count=len(cheap_drops) + len(cheap_holds),
+            )
+            return result
+
+    if err and accepted:
+        # The deterministic fallback path above has already populated accepted
+        # and rejected.  Continue into the same defensive threshold/write path.
+        pass
+    elif err:
         result = BoardSpawnResult(
             ok=False,
             error=err,
             error_kind=classify_judge_error(err),
+            held=cheap_holds,
             rejected=cheap_drops + rejected,
         )
         _write_latest_status(
@@ -682,11 +846,16 @@ def spawn_from_candidates(
             oracle_input=oracle_input,
             codex_alive=len(codex_alive),
             oracle_alive=len(oracle_alive),
-            cheap_drop_count=len(cheap_drops),
+            cheap_drop_count=len(cheap_drops) + len(cheap_holds),
         )
         return result
 
-    # Step 3: enforce thresholds (judge may have already, double-check defensively).
+    # Step 3: enforce hard paper-boundary metadata only.
+    #
+    # Fit/novelty are ranking signals, not admission axioms.  Wide-in /
+    # strict-out means a BEDC-local, logic-packet-complete candidate may enter
+    # BOARD for codex execution even if its score is low; the later writeback
+    # and build gates decide whether anything becomes paper.
     final_accepted: list[dict] = []
     threshold_drops: list[dict] = []
     for c in accepted:
@@ -698,14 +867,15 @@ def spawn_from_candidates(
         if logic_rejection:
             threshold_drops.append({**c, "reason": logic_rejection})
             continue
+        substance_rejection = _substance_rejection(c)
+        if substance_rejection:
+            threshold_drops.append({**c, "reason": substance_rejection})
+            continue
         try:
-            fit = int(c.get("fit_score", 0))
-            nov = int(c.get("novelty", 0))
+            int(c.get("fit_score", 0))
+            int(c.get("novelty", 0))
         except (TypeError, ValueError):
             threshold_drops.append({**c, "reason": "non_int_score"})
-            continue
-        if fit < fit_threshold or nov < novelty_threshold:
-            threshold_drops.append({**c, "reason": f"below_threshold fit={fit} nov={nov}"})
             continue
         final_accepted.append(c)
 
@@ -723,15 +893,25 @@ def spawn_from_candidates(
             _atomic_append_to_board(blocks)
             candidate_inbox.record_board_promotions(final_accepted, appended_ids, mode="board_spawn")
 
+    post_judge_holds: list[dict] = []
+    post_judge_rejects: list[dict] = []
+    for item in rejected + threshold_drops:
+        reason = str(item.get("reason") or item.get("verdict_reason") or "")
+        if candidate_inbox.is_refinable_reason(reason):
+            post_judge_holds.append(item)
+        else:
+            post_judge_rejects.append(item)
+    all_held = cheap_holds + post_judge_holds
+    all_rejected = cheap_drops + post_judge_rejects
     print(
-        f"[board_spawn] accepted={len(final_accepted)} rejected={len(rejected) + len(threshold_drops) + len(cheap_drops)}",
+        f"[board_spawn] accepted={len(final_accepted)} held={len(all_held)} rejected={len(all_rejected)}",
         flush=True,
     )
-    all_rejected = cheap_drops + rejected + threshold_drops
-    candidate_inbox.record_rejections(all_rejected, mode="board_spawn")
+    candidate_inbox.record_rejections(all_held + all_rejected, mode="board_spawn")
     result = BoardSpawnResult(
         ok=True,
         accepted=final_accepted,
+        held=all_held,
         rejected=all_rejected,
         appended_ids=appended_ids,
     )
