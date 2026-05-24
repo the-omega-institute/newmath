@@ -18,6 +18,45 @@ def RealSeriesRootCauchyProductSurface [AskSetup] [PackageSetup]
       UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
         UnaryHistory cert ∧ Cont readback dyadic threshold ∧ PkgSig bundle provenance pkg
 
+theorem RealSeriesRootCauchyTailBudget [AskSetup] [PackageSetup]
+    {term «partial» window readback dyadic threshold transport replay provenance cert
+      productRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSeriesRootCauchyProductSurface term «partial» window readback dyadic threshold
+        transport replay provenance cert bundle pkg →
+      Cont threshold cert productRead →
+        PkgSig bundle productRead pkg →
+          UnaryHistory term ∧ UnaryHistory «partial» ∧ UnaryHistory window ∧
+            UnaryHistory readback ∧ UnaryHistory dyadic ∧ UnaryHistory threshold ∧
+              UnaryHistory productRead ∧ Cont readback dyadic threshold ∧
+                Cont threshold cert productRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle productRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier thresholdCertRead productReadPkg
+  obtain ⟨termUnary, partialUnary, windowUnary, readbackUnary, dyadicUnary,
+    thresholdUnary, _transportUnary, _replayUnary, _provenanceUnary, certUnary,
+    readbackDyadicThreshold, provenancePkg⟩ := carrier
+  have productReadUnary : UnaryHistory productRead :=
+    unary_cont_closed thresholdUnary certUnary thresholdCertRead
+  exact
+    ⟨termUnary, partialUnary, windowUnary, readbackUnary, dyadicUnary, thresholdUnary,
+      productReadUnary, readbackDyadicThreshold, thresholdCertRead, provenancePkg,
+      productReadPkg⟩
+
+theorem RealSeriesRootUnblockCarrier [AskSetup] [PackageSetup]
+    {term «partial» window readback dyadic threshold transport replay provenance cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSeriesRootCauchyProductSurface term «partial» window readback dyadic threshold
+        transport replay provenance cert bundle pkg →
+      UnaryHistory term ∧ UnaryHistory «partial» ∧ UnaryHistory window ∧
+        UnaryHistory readback ∧ UnaryHistory dyadic ∧ UnaryHistory threshold ∧
+          UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+            UnaryHistory cert ∧ Cont readback dyadic threshold ∧
+              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier
+  exact carrier
+
 theorem RealSeriesRootProductTailBudget [AskSetup] [PackageSetup]
     {term «partial» window readback dyadic threshold transport replay provenance cert budget : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

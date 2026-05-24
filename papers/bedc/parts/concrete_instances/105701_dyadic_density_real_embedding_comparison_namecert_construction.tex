@@ -139,6 +139,18 @@ ambient completeness, no consumer can replace this finite comparison by an
 external real-equality or completeness argument.
 \end{proof}
 
+\begin{theorem}[Dyadic-density real embedding comparison RegSeqRat modulus use]
+\label{thm:dyadic-density-real-embedding-comparison-regseqrat-modulus-use}
+Every accepted $\DyadicDensityRealEmbeddingComparisonUp$ packet reads the shared $\RegSeqRatUp$ row through the same finite modulus window before comparing the density witness route with the constant dyadic embedding route. In particular, for $K=(D,E,E',S,R,Q,H,C,P,N)$, the window row $S$ and readback row $R$ are consumed before the comparison row $E'$ can export agreement to the $\RealUp$ seal $Q$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $K=(D,E,E',S,R,Q,H,C,P,N)$. The carrier has one shared $\StreamNameUp$ row $S$ and one shared $\RegSeqRatUp$ readback row $R$ for the density witness route and the constant dyadic embedding route.
+
+Use the shared-window and readback agreement rows from \autoref{thm:dyadic-density-real-embedding-comparison-namecert-obligations}. They force both sides of the comparison to open the same finite window and to pass the same regular rational readback before the Real-facing comparison row is consumed.
+
+Apply \autoref{thm:dyadic-density-real-embedding-comparison-route} to identify the comparison spine ending in the $\RealUp$ seal $Q$. Since the carrier contains no row for host real equality, selected dense points, trichotomy, quotient stream equality, arbitrary limit choice, or ambient completeness, the shared $\RegSeqRatUp$ window cannot be replaced by any external Real-side principle.
+\end{proof}
+
 \begin{theorem}[Dyadic-density real embedding comparison non-escape]
 \label{thm:dyadic-density-real-embedding-comparison-nonescape}
 The dependency ledger of an accepted
