@@ -3106,6 +3106,7 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
 import BEDC.Derived.FinitePrefixLimitStabilityUp.StdBridge
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
+import BEDC.Derived.FiniteRealCoverUp.TasteGate
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.DyadicSealFactorization
 import BEDC.Derived.FiniteRealSectionUp.ObligationClosureCertificate
@@ -5220,6 +5221,7 @@ import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.RieszLemmaUp.TasteGate
+import BEDC.Derived.RieszMarkovUp.TasteGate
 import BEDC.Derived.RieszRepresentationUp.TasteGate
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.RingUp
@@ -5980,6 +5982,7 @@ import BEDC.Derived.VerifiedOutputHarnessUp.PublicAuditChain
 import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VietorisRipsComplexUp
+import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WeaklyCauchySequenceUp.TasteGate
 import BEDC.Derived.WeierstrassApproximationUp.TasteGate
