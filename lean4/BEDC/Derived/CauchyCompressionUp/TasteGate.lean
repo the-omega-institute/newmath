@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyCompressionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -161,5 +173,69 @@ theorem CauchyCompressionTasteGate_single_carrier_alignment :
       CauchyCompressionTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => CauchyCompressionTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+def CauchyCompressionCarrier [AskSetup] [PackageSetup]
+    (modulus windows tolerance readback fast sealRow transport replay provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory modulus ∧ UnaryHistory windows ∧ UnaryHistory tolerance ∧
+    UnaryHistory readback ∧ UnaryHistory fast ∧ UnaryHistory sealRow ∧
+      UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+        UnaryHistory name ∧ Cont modulus windows tolerance ∧
+          Cont tolerance readback fast ∧ Cont fast sealRow replay ∧
+            PkgSig bundle name pkg ∧ hsame name (append provenance sealRow)
+
+theorem CauchyCompressionCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {modulus windows tolerance readback fast sealRow transport replay provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompressionCarrier modulus windows tolerance readback fast sealRow transport replay
+        provenance name bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row name ∧ UnaryHistory row)
+          (fun row : BHist => hsame row name ∧ Cont fast sealRow replay)
+          (fun _row : BHist => PkgSig bundle name pkg ∧ hsame name (append provenance sealRow))
+          hsame ∧
+        UnaryHistory modulus ∧ UnaryHistory windows ∧ UnaryHistory tolerance ∧
+          UnaryHistory readback ∧ UnaryHistory fast ∧ UnaryHistory sealRow ∧
+            Cont modulus windows tolerance ∧ Cont tolerance readback fast ∧
+              Cont fast sealRow replay ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨modulusUnary, windowsUnary, toleranceUnary, readbackUnary, fastUnary, sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, nameUnary, modulusWindowsTolerance,
+    toleranceReadbackFast, fastSealReplay, namePkg, nameAppend⟩ := carrier
+  have sourceAtName :
+      (fun row : BHist => hsame row name ∧ UnaryHistory row) name :=
+    And.intro (hsame_refl name) nameUnary
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row name ∧ UnaryHistory row)
+          (fun row : BHist => hsame row name ∧ Cont fast sealRow replay)
+          (fun _row : BHist => PkgSig bundle name pkg ∧ hsame name (append provenance sealRow))
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro name sourceAtName
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact And.intro source.left fastSealReplay
+    ledger_sound := by
+      intro _row _source
+      exact And.intro namePkg nameAppend
+  }
+  exact
+    ⟨cert, modulusUnary, windowsUnary, toleranceUnary, readbackUnary, fastUnary, sealUnary,
+      modulusWindowsTolerance, toleranceReadbackFast, fastSealReplay, namePkg⟩
 
 end BEDC.Derived.CauchyCompressionUp
