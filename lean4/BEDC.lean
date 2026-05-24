@@ -1320,6 +1320,7 @@ import BEDC.Derived.CauchySealBudgetSynchronizerUp.StdBridge
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.CauchySealInterfaceUp.TasteGate
+import BEDC.Derived.CauchySequenceBoundedUp
 import BEDC.Derived.CauchySequenceBoundedUp.TasteGate
 import BEDC.Derived.CauchySequenceEquivalenceUp
 import BEDC.Derived.CauchySequenceEquivalenceUp.TasteGate
